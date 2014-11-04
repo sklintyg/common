@@ -245,9 +245,12 @@
         border-radius: 4px 4px 4px 4px;
     }
 
+    ul.padded-list {
+        padding-left: 16px;
+    }
+
     ul.padded-list > li {
         padding-bottom: 5px;
-        padding-left: 16px;
     }
 
     .cert-body .body-row .unfilled {
