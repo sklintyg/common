@@ -14,7 +14,7 @@
   <artifactId>integration-util</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>Intyg Common Integration Utility</name>
+  <name>Intyg Common (Integration Utility)</name>
 
   <properties>
     <common-support.version>1.0-SNAPSHOT</common-support.version>
