@@ -28,7 +28,6 @@ angular.module('common').directive('wcHeader',
                     });
 
                     $scope.menuDefs = [];
-
                     if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
                         $scope.menuDefs.push({
                             link: '/web/dashboard#/unhandled-qa',
@@ -108,6 +107,10 @@ angular.module('common').directive('wcHeader',
                             iid_Invoke('Logout');
                             $window.location = '/saml/logout/';
                         }
+                    };
+
+                    $scope.goToAbout = function() {
+                        $location.path('/webcert/about');
                     };
 
                     $scope.openChangeCareUnitDialog = function() {
