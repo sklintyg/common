@@ -110,7 +110,6 @@ angular.module('common').directive('wcHeader',
                     };
 
                     $scope.goToAbout = function() {
-                        //$location.path('/webcert/about');
 
                         $modal.open({
                             templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderAboutDialog.html',
