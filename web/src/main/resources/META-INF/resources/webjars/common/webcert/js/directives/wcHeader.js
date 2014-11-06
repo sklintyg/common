@@ -1,6 +1,6 @@
 angular.module('common').directive('wcHeader',
-    [ '$cookieStore', '$location', '$modal', '$window', 'common.featureService', 'common.messageService', 'common.statService', 'common.User',
-        function($cookieStore, $location, $modal, $window, featureService, messageService, statService, User) {
+    [ '$cookieStore', '$location', '$modal', '$window', '$anchorScroll', 'common.featureService', 'common.messageService', 'common.statService', 'common.User',
+        function($cookieStore, $location, $modal, $window, $anchorScroll, featureService, messageService, statService, User) {
             'use strict';
 
             return {
@@ -110,7 +110,21 @@ angular.module('common').directive('wcHeader',
                     };
 
                     $scope.goToAbout = function() {
-                        $location.path('/webcert/about');
+                        //$location.path('/webcert/about');
+
+                        $modal.open({
+                            templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderAboutDialog.html',
+                            controller: function($scope, $modalInstance) {
+
+                                $scope.close = function() {
+                                    $modalInstance.close();
+                                };
+
+                            },
+                            resolve: {
+                            }
+                        });
+
                     };
 
                     $scope.openChangeCareUnitDialog = function() {
