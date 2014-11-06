@@ -17,10 +17,6 @@
 
   <name>Intyg Common (Support)</name>
 
-  <properties>
-    <checkstyle.basedir>${project.basedir}/..</checkstyle.basedir>
-  </properties>
-
   <dependencies>
 
     <dependency>
