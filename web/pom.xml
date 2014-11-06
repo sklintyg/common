@@ -17,7 +17,6 @@
   <name>Intyg Common (Web)</name>
 
   <dependencies>
-
     <!-- Webjars -->
     <dependency>
       <groupId>org.webjars</groupId>
