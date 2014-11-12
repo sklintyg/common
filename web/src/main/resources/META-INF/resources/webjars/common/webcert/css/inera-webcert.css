@@ -561,6 +561,25 @@
         text-align: left;
     }
 
+    .modal-body h3 {
+        padding: 5px 0 5px 0;
+    }
+
+    .modal-body h4 {
+        padding: 5px 0 10px 0;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .modal-body h5 {
+        padding: 10px 0 5px 0;
+        font-size: 14px;
+    }
+
+    .panel-heading h4.panel-title {
+        padding: 0;
+    }
+
     /* tooltip */
     .tooltip {
         text-align: left;

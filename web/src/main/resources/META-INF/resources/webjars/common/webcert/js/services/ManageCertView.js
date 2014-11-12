@@ -3,9 +3,9 @@
  */
 angular.module('common').factory('common.ManageCertView',
     [ '$document', '$log', '$location', '$route', '$routeParams', '$timeout', '$window', 'common.CertificateService',
-        'common.dialogService', 'common.messageService', 'common.statService', 'common.User',
+        'common.dialogService', 'common.messageService', 'common.statService', 'common.User', 'common.featureService',
         function($document, $log, $location, $route, $routeParams, $timeout, $window, CertificateService, dialogService,
-            messageService, statService, User) {
+            messageService, statService, User, featureService) {
             'use strict';
 
             /**
@@ -97,7 +97,12 @@ angular.module('common').factory('common.ManageCertView',
                         CertificateService.discardDraft($routeParams.certificateId, intygsTyp, function() {
                             $scope.dialog.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
-                            $location.path('/unsigned');
+
+                            if (featureService.isFeatureActive("franJournalsystem")) {
+                                $window.location.reload();
+                            } else {
+                                $location.path('/unsigned');
+                            }
                             draftDeleteDialog.close();
                         }, function(error) {
                             $scope.dialog.acceptprogressdone = true;

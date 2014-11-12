@@ -29,7 +29,8 @@ angular.module('common').factory('common.featureService',
                 HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast',
                 KOPIERA_INTYG: 'kopieraIntyg',
                 MAKULERA_INTYG: 'makuleraIntyg',
-                SKICKA_INTYG: 'skickaIntyg'
+                SKICKA_INTYG: 'skickaIntyg',
+                FRAN_JOURNALSYSTEM: 'franJournalsystem'
             },
             isFeatureActive: _isFeatureActive
         };

@@ -1,6 +1,6 @@
 angular.module('common').directive('wcHeader',
-    [ '$cookieStore', '$location', '$modal', '$window', 'common.featureService', 'common.messageService', 'common.statService', 'common.User',
-        function($cookieStore, $location, $modal, $window, featureService, messageService, statService, User) {
+    [ '$cookieStore', '$location', '$modal', '$window', '$anchorScroll', 'common.featureService', 'common.messageService', 'common.statService', 'common.User',
+        function($cookieStore, $location, $modal, $window, $anchorScroll, featureService, messageService, statService, User) {
             'use strict';
 
             return {
@@ -28,7 +28,6 @@ angular.module('common').directive('wcHeader',
                     });
 
                     $scope.menuDefs = [];
-
                     if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
                         $scope.menuDefs.push({
                             link: '/web/dashboard#/unhandled-qa',
@@ -108,6 +107,23 @@ angular.module('common').directive('wcHeader',
                             iid_Invoke('Logout');
                             $window.location = '/saml/logout/';
                         }
+                    };
+
+                    $scope.goToAbout = function() {
+
+                        $modal.open({
+                            templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderAboutDialog.html',
+                            controller: function($scope, $modalInstance) {
+
+                                $scope.close = function() {
+                                    $modalInstance.close();
+                                };
+
+                            },
+                            resolve: {
+                            }
+                        });
+
                     };
 
                     $scope.openChangeCareUnitDialog = function() {
