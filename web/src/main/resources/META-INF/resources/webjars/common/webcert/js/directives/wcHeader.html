@@ -2,7 +2,7 @@
   <div class="header clearfix">
     <div class="headerbox">
       <span wc-feature-not-active feature="franJournalsystem" class="headerbox-logo pull-left">
-        <a href="/web/start"><img alt="Till startsidan" src="/img/webcert_logo.png" /></a></span>
+        <a id="webcertLogoLink" href="/web/start"><img alt="Till startsidan" src="/img/webcert_logo.png" /></a></span>
       <span wc-feature-active feature="franJournalsystem" class="headerbox-logo pull-left">
         <img alt="Till startsidan" src="/img/webcert_logo.png" /></span>
       <span class="headerbox-date pull-left">
@@ -21,12 +21,12 @@
                   <strong ng-switch-default>Vårdadministratör</strong>
                   </span>
         - <span class="logged-in">{{user.userContext.namn}}</span><br>
-        <a wc-feature-not-active feature="franJournalsystem" class="pull-right" ng-click="logout()" id="logoutLink">Logga ut</a>
-        <a wc-feature-active feature="franJournalsystem" class="pull-right" ng-click="goToAbout()" id="aboutLink">Om Webcert</a>
+        <a id="logoutLink" wc-feature-not-active feature="franJournalsystem" class="pull-right" ng-click="logout()">Logga ut</a>
+        <a id="aboutLink" wc-feature-active feature="franJournalsystem" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
       </div>
     </div>
   </div>
-  <div wc-feature-not-active feature="franJournalsystem" class="navbar navbar-default">
+  <div id="huvudmeny" wc-feature-not-active feature="franJournalsystem" class="navbar navbar-default">
     <div class="container-fluid">
       <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
               ng-click="navCollapsed = !navCollapsed">
