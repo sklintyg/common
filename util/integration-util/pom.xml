@@ -20,10 +20,12 @@
     <dependency>
       <groupId>se.inera.intyg.common</groupId>
       <artifactId>common-support</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>se.inera.intyg.common</groupId>
       <artifactId>logging-util</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
