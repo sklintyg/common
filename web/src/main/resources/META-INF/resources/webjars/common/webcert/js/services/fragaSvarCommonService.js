@@ -29,7 +29,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             var url = baseURL + '/webcert/web/user/certificate/' + qa.intygsReferens.intygsId + '/questions';
 
             var recipient = '';
-            var subject = 'En fraga-svar ska besvaras i Webcert.';
+            var subject = 'En fraga-svar ska besvaras i Webcert';
             if (qa.vardperson.enhetsnamn !== undefined) {
                 subject += ' på enhet ' + qa.vardperson.enhetsnamn;
                 if (qa.vardperson.vardgivarnamn !== undefined) {
@@ -37,7 +37,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 }
             }
 
-            var body = 'Klicka pa lanktexten for att besvara fraga-svar::\n' + url;
+            var body = 'Klicka pa lanktexten for att besvara fraga-svar:\n' + url;
             var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
                 encodeURIComponent(body);
             $log.debug(link);
