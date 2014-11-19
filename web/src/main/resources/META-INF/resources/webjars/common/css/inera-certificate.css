@@ -267,6 +267,10 @@
         font-size: 15px;
     }
 
+    .edit-form h4 {
+        font-size: 14px;
+    }
+
     .body-row-single h4.cert-field-number {
         padding: 10px 20px 0 20px;
     }
