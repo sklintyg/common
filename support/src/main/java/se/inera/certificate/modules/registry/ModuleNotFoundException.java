@@ -1,4 +1,4 @@
-package se.inera.certificate.integration.module.exception;
+package se.inera.certificate.modules.registry;
 
 public class ModuleNotFoundException extends Exception {
 
