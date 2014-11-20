@@ -6,25 +6,25 @@ angular.module('common').factory('common.intygNotifyService', ['$http', '$log', 
     function($http, $log, $modal, $window, $timeout, dialogService) {
         'use strict';
 
-        function _forwardIntyg(cert, intygId, intygType, updateState) {
+        function _forwardIntyg(certMeta, widgetState) {
             $timeout(function() {
-                _handleForwardedToggle(cert, function() {
-                    _onForwardedChange(cert, intygId, intygType, updateState)
+                _handleForwardedToggle(certMeta, function() {
+                    _onForwardedChange(certMeta, widgetState)
                 });
             }, 1000);
             // Launch mail client
-            $window.location = _buildNotifyDoctorMailToLink(cert);
+            $window.location = _buildNotifyDoctorMailToLink(certMeta.intygId, certMeta.intygType);
         }
 
-        function _onForwardedChange(cert, intygId, intygType, updateState) {
-            updateState.updateInProgress = true;
-            _setForwardedState(intygId, intygType, cert.vidarebefordrad, function(result) {
-                updateState.updateInProgress = false;
+        function _onForwardedChange(certMeta, widgetState) {
+            widgetState.vidarebefordraInProgress = true;
+            _setForwardedState(certMeta.intygId, certMeta.intygType, certMeta.vidarebefordrad, function(result) {
+                widgetState.vidarebefordraInProgress = false;
 
                 if (result !== null) {
-                    cert.vidarebefordrad = result.vidarebefordrad;
+                    certMeta.vidarebefordrad = result.vidarebefordrad;
                 } else {
-                    cert.vidarebefordrad = !cert.vidarebefordrad;
+                    certMeta.vidarebefordrad = !certMeta.vidarebefordrad;
                     dialogService.showErrorMessageDialog('Kunde inte markera/avmarkera intyget som ' +
                         'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
                         'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.');
@@ -35,9 +35,9 @@ angular.module('common').factory('common.intygNotifyService', ['$http', '$log', 
         /*
          * Toggle Forwarded state of a fragasvar entity with given id
          */
-        function _setForwardedState(id, intygType, isForwarded, callback) {
+        function _setForwardedState(intygId, intygType, isForwarded, callback) {
             $log.debug('_setForwardedState');
-            var restPath = '/api/intyg/' + intygType + '/' + id + '/vidarebefordra';
+            var restPath = '/api/intyg/' + intygType + '/' + intygId + '/vidarebefordra';
             $http.put(restPath, isForwarded.toString()).success(function(data) {
                 $log.debug('_setForwardedState data:' + data);
                 callback(data);
@@ -48,10 +48,10 @@ angular.module('common').factory('common.intygNotifyService', ['$http', '$log', 
             });
         }
 
-        function _buildNotifyDoctorMailToLink(cert) {
+        function _buildNotifyDoctorMailToLink(intygId, intygType) {
             var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                 ($window.location.port ? ':' + $window.location.port : '');
-            var url = baseURL + '/web/dashboard#/' + cert.intygType + '/edit/' + cert.intygId;
+            var url = baseURL + '/web/dashboard#/' + intygType + '/edit/' + intygId;
             var recipient = '';
             var subject = 'Du har blivit tilldelad ett ej signerat intyg i Webcert';
             var body = 'Klicka pa lanken for att ga till intyget:\n' + url;
@@ -76,12 +76,12 @@ angular.module('common').factory('common.intygNotifyService', ['$http', '$log', 
         function _handleForwardedToggle(draft, onYesCallback) {
             // Only ask about toggle if not already set AND not skipFlag cookie is
             // set
-            if (!draft.forwarded && !_isSkipForwardedCookieSet()) {
+            if (!draft.vidarebefordrad && !_isSkipForwardedCookieSet()) {
                 _showForwardedPreferenceDialog('markforward',
                     'Det verkar som att du har informerat den som ska signera utkastet. Vill du markera utkastet som vidarebefordrad?',
                     function() { // yes
                         $log.debug('yes');
-                        draft.forwarded = true;
+                        draft.vidarebefordrad = true;
                         if (onYesCallback) {
                             // let calling scope handle yes answer
                             onYesCallback(draft);
