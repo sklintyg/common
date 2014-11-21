@@ -89,6 +89,17 @@ public class SimpleIdValidatorBuilder {
 
         return this;
     }
+    
+    /**
+     * Adds support for a lesser strict validation of HSA id to the IdValidator.
+     *
+     * @return This builder, for method chaining.
+     */
+    public SimpleIdValidatorBuilder withSimpleHsaIdValidator() {
+        SimpleHsaIdValidator newValidator = new SimpleHsaIdValidator();
+        validator.registerValidator(newValidator);
+        return this;
+    }
 
     /**
      * Returns an instance of the {@link IdValidator} being built.

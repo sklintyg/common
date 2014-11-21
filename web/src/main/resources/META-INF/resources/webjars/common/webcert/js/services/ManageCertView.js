@@ -19,6 +19,8 @@ angular.module('common').factory('common.ManageCertView',
                     $scope.widgetState.doneLoading = true;
                     $scope.widgetState.activeErrorMessageKey = null;
                     $scope.cert = data.content;
+                    $scope.certMeta.intygId = data.content.id;
+                    $scope.certMeta.vidarebefordrad = data.vidarebefordrad;
                     $scope.isSigned = data.status === 'SIGNED';
                     $scope.isComplete = $scope.isSigned || data.status === 'DRAFT_COMPLETE';
                     if (onSuccess !== undefined) {
@@ -33,6 +35,7 @@ angular.module('common').factory('common.ManageCertView',
             /**
              * Save draft to webcert
              * @param $scope
+             * @param intygsTyp
              * @private
              */
             function _save($scope, intygsTyp) {
