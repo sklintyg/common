@@ -1,6 +1,8 @@
 angular.module('common').directive('wcHeader',
-    [ '$cookieStore', '$location', '$modal', '$window', '$anchorScroll', 'common.featureService', 'common.messageService', 'common.statService', 'common.User',
-        function($cookieStore, $location, $modal, $window, $anchorScroll, featureService, messageService, statService, User) {
+    ['$cookieStore', '$location', '$log', '$modal', '$window', '$anchorScroll', 'common.dialogService',
+        'common.featureService', 'common.messageService', 'common.statService', 'common.User',
+        function($cookieStore, $location, $log, $modal, $window, $anchorScroll, dialogService, featureService,
+            messageService, statService, User) {
             'use strict';
 
             return {
@@ -37,7 +39,7 @@ angular.module('common').directive('wcHeader',
                             statTooltip: 'not set',
                             getStat: function() {
                                 this.statTooltip = 'Vårdenheten har ' + $scope.stat.fragaSvarValdEnhet +
-                                    ' ej hanterade frågor och svar.';
+                                ' ej hanterade frågor och svar.';
                                 return $scope.stat.fragaSvarValdEnhet || '';
                             }
                         });
@@ -110,8 +112,9 @@ angular.module('common').directive('wcHeader',
                     };
 
                     $scope.goToAbout = function() {
+                        $window.dialogDoneLoading = false;
 
-                        $modal.open({
+                        var msgbox = $modal.open({
                             templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderAboutDialog.html',
                             controller: function($scope, $modalInstance) {
 
@@ -120,15 +123,18 @@ angular.module('common').directive('wcHeader',
                                 };
 
                             },
-                            resolve: {
-                            }
+                            resolve: {}
                         });
 
+                        dialogService.runOnDialogDoneLoading(msgbox, function() {
+                            $window.dialogDoneLoading = true;
+                        });
                     };
 
                     $scope.openChangeCareUnitDialog = function() {
+                        $window.dialogDoneLoading = false;
 
-                        $modal.open({
+                        var msgbox = $modal.open({
                             templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderCareUnitDialog.html',
                             controller: function($scope, $modalInstance, vardgivare) {
                                 $scope.vardgivare = vardgivare;
@@ -167,6 +173,10 @@ angular.module('common').directive('wcHeader',
                                     return angular.copy($scope.stat.vardgivare);
                                 }
                             }
+                        });
+
+                        dialogService.runOnDialogDoneLoading(msgbox, function() {
+                            $window.dialogDoneLoading = true;
                         });
                     };
                 },

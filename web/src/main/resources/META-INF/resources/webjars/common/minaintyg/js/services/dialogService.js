@@ -2,11 +2,12 @@
  * wcDialogService - Generic dialog service
  */
 angular.module('common').factory('common.dialogService',
-    function($modal, $window) {
+    function($modal, $timeout, $window) {
         'use strict';
 
         function _showErrorMessageDialog(message, callback) {
-            $window.doneLoading = false;
+            $window.dialogDoneLoading = false;
+
             var msgbox = $modal.open({
                 templateUrl: '/web/webjars/common/minaintyg/js/services/dialogServiceErrorTemplate.html',
                 controller: function($scope, $modalInstance, bodyText) {
@@ -20,11 +21,14 @@ angular.module('common').factory('common.dialogService',
             });
 
             msgbox.result.then(function(result) {
-                $window.doneLoading = true;
                 if (callback) {
                     callback(result);
                 }
             }, function() {
+            });
+
+            _runOnDialogDoneLoading(msgbox, function() {
+                $window.dialogDoneLoading = true;
             });
         }
 
@@ -51,7 +55,6 @@ angular.module('common').factory('common.dialogService',
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
          */
         function _showDialog(scope, options) {
-            $window.doneLoading = false;
 
             // Apply default dialog behaviour values
             scope.dialog = {
@@ -67,6 +70,8 @@ angular.module('common').factory('common.dialogService',
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
             }
+
+            $window.dialogDoneLoading = false;
 
             // setup options defaults if parameters aren't included
             options.bodyText = (options.bodyText === undefined) ? '' : options.bodyText;
@@ -192,11 +197,37 @@ angular.module('common').factory('common.dialogService',
             }, function() {
             });
 
+            _runOnDialogDoneLoading(msgbox, function() {
+                $window.dialogDoneLoading = true;
+            });
+
             return msgbox;
+        }
+
+        function _runOnDialogDoneLoading(modal, callback) {
+
+            modal.opened.then(function() {
+                function waitForModalToExistAndRunCallbackWhenTransitionIsDone() {
+                    var modalDialog = $('[modal-window]');
+                    if (modalDialog && modalDialog.hasClass('in')) {
+                        modalDialog.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd',
+                            callback);
+                    } else {
+                        $timeout(waitForModalToExistAndRunCallbackWhenTransitionIsDone, 100);
+                    }
+                }
+
+                $timeout(waitForModalToExistAndRunCallbackWhenTransitionIsDone);
+
+            }, function() {
+                // Failed to open the modal -> finished loading
+                callback();
+            });
         }
 
         // Return public API for the service
         return {
+            runOnDialogDoneLoading: _runOnDialogDoneLoading,
             showErrorMessageDialog: _showErrorMessageDialog,
             showDialog: _showDialog
         };
