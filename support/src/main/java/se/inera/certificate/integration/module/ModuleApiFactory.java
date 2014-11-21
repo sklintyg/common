@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import se.inera.certificate.integration.module.exception.ModuleNotFoundException;
 import se.inera.certificate.model.Utlatande;
 import se.inera.certificate.modules.support.ModuleEntryPoint;
+import se.inera.certificate.modules.support.api.ModuleContainerApi;
 
 /**
  * Factory which which serves {@link se.inera.certificate.modules.support.api.ModuleApi} implementations of the registered module types.
@@ -24,15 +25,20 @@ public class ModuleApiFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(ModuleApiFactory.class);
 
+    // TODO: Använd samma mekanism som WebCert, istället för Springs magi med en auto-wired lista
     @Autowired
     private List<ModuleEntryPoint> moduleEntryPoints;
 
+    @Autowired
+    private ModuleContainerApi moduleContainer;
+    
     private HashMap<String, ModuleEntryPoint> moduleApiMap = new HashMap<String, ModuleEntryPoint>();
 
     @PostConstruct
     private void initModulesList() {
         TreeSet<String> moduleIds = new TreeSet<>();
         for (ModuleEntryPoint entryPoint : moduleEntryPoints) {
+            entryPoint.getModuleApi().setModuleContainer(moduleContainer);
             moduleApiMap.put(entryPoint.getModuleId().toLowerCase(), entryPoint);
             moduleIds.add(entryPoint.getModuleId());
         }
