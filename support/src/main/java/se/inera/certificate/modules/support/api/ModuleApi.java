@@ -3,6 +3,7 @@ package se.inera.certificate.modules.support.api;
 import org.joda.time.LocalDateTime;
 
 import se.inera.certificate.modules.support.ApplicationOrigin;
+import se.inera.certificate.modules.support.api.dto.CertificateResponse;
 import se.inera.certificate.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.certificate.modules.support.api.dto.HoSPersonal;
 import se.inera.certificate.modules.support.api.dto.InternalModelHolder;
@@ -108,5 +109,24 @@ public interface ModuleApi {
      * @param logicalAddress
      *            Where to send the certificate.
      */
+    void registerCertificate(InternalModelHolder internalModel) throws ModuleException;
+
+    /**
+     * Send certificate to specified target.
+     * 
+     * @param internalModel
+     *            The internal model of the certificate to send.
+     * @param logicalAddress
+     *            Where to send the certificate.
+     */
     void sendCertificate(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
+
+    /**
+     * Get a certificate from intygstjansten.
+     * 
+     * @param certificateId
+     *            The certificate id.
+     * @return internal model of the certificate
+     */
+    CertificateResponse getCertificate(String certificateId) throws ModuleException;
 }

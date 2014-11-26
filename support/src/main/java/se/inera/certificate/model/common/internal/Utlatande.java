@@ -5,7 +5,7 @@ public class Utlatande {
     private String id;
     private String typ;
 
-    private IntygMetadata intygMetadata = new IntygMetadata();
+    private GrundData grundData = new GrundData();
 
     public String getId() {
         return id;
@@ -23,12 +23,12 @@ public class Utlatande {
         this.typ = typ;
     }
 
-    public IntygMetadata getIntygMetadata() {
-        return intygMetadata;
+    public GrundData getGrundData() {
+        return grundData;
     }
 
-    public void setIntygMetadata(IntygMetadata intygMetadata) {
-        this.intygMetadata = intygMetadata;
+    public void setGrundData(GrundData grundData) {
+        this.grundData = grundData;
     }
 
 }

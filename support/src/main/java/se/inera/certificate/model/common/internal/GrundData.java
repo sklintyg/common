@@ -2,7 +2,7 @@ package se.inera.certificate.model.common.internal;
 
 import org.joda.time.LocalDateTime;
 
-public class IntygMetadata {
+public class GrundData {
     private LocalDateTime signeringsdatum;
     private LocalDateTime skickatdatum;
     private HoSPersonal skapadAv;
