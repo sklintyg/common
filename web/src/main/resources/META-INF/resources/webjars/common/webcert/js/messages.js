@@ -51,7 +51,7 @@ var commonMessages = {
         'draft.saknar-uppgifter': 'Utkastet saknar uppgifter',
         'draft.onlydoctorscansign': 'Endast läkare får signera intyget. Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
         'draft.signingdoctor': 'Signerande läkare',
-        'draft.helptext.signingdoctor': 'Signerande läkare',
+        'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
 
         // wc-common-directives-resources
         'nav.label.loggedinas': 'Inloggad som:',
