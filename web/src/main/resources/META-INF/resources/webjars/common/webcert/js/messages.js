@@ -18,6 +18,8 @@ var commonMessages = {
         'common.delete': 'Radera',
         'common.sign.intyg': 'Signera intyget',
 
+        'common.alert.newpersonid': 'Patienten har ett nytt personnummer.',
+
         'common.date': 'Datum',
         'common.when': 'När?',
 
@@ -48,6 +50,8 @@ var commonMessages = {
         // intyg forms
         'draft.saknar-uppgifter': 'Utkastet saknar uppgifter',
         'draft.onlydoctorscansign': 'Endast läkare får signera intyget. Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
+        'draft.signingdoctor': 'Signerande läkare',
+        'draft.helptext.signingdoctor': 'Signerande läkare',
 
         // wc-common-directives-resources
         'nav.label.loggedinas': 'Inloggad som:',
