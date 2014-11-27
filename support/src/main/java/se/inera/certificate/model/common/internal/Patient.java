@@ -18,6 +18,8 @@
  */
 package se.inera.certificate.model.common.internal;
 
+import org.apache.commons.lang3.CharUtils;
+
 public class Patient {
 
     private String personId;
@@ -38,6 +40,18 @@ public class Patient {
 
     public Patient() {
 
+    }
+
+    private static final int SAMORDNING_MONTH_INDEX = 6;
+    private static final int SAMORDNING_MONTH_VALUE_MIN = 6;
+
+    public static boolean isSamordningsNummer(String personNr) {
+        char dateDigit = personNr.charAt(SAMORDNING_MONTH_INDEX);
+        return (CharUtils.toIntValue(dateDigit) >= SAMORDNING_MONTH_VALUE_MIN);
+    }
+
+    public boolean isSamordningsNummer() {
+        return isSamordningsNummer(personId);
     }
 
     public String getPersonId() {
