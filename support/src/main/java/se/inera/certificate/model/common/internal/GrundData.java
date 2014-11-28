@@ -4,7 +4,6 @@ import org.joda.time.LocalDateTime;
 
 public class GrundData {
     private LocalDateTime signeringsdatum;
-    private LocalDateTime skickatdatum;
     private HoSPersonal skapadAv;
     private Patient patient;
 
@@ -14,14 +13,6 @@ public class GrundData {
 
     public void setSigneringsdatum(LocalDateTime signeringsdatum) {
         this.signeringsdatum = signeringsdatum;
-    }
-
-    public LocalDateTime getSkickatdatum() {
-        return skickatdatum;
-    }
-
-    public void setSkickatdatum(LocalDateTime skickatdatum) {
-        this.skickatdatum = skickatdatum;
     }
 
     public HoSPersonal getSkapadAv() {
