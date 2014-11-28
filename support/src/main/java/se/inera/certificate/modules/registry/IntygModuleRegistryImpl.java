@@ -1,22 +1,21 @@
 package se.inera.certificate.modules.registry;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import se.inera.certificate.modules.support.ApplicationOrigin;
-import se.inera.certificate.modules.support.ModuleEntryPoint;
-import se.inera.certificate.modules.support.api.ModuleApi;
-import se.inera.certificate.modules.support.api.ModuleContainerApi;
-
-import javax.annotation.PostConstruct;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import se.inera.certificate.modules.support.ApplicationOrigin;
+import se.inera.certificate.modules.support.ModuleEntryPoint;
+import se.inera.certificate.modules.support.api.ModuleApi;
+import se.inera.certificate.modules.support.api.ModuleContainerApi;
 
 /*@Component*/
 public class IntygModuleRegistryImpl implements IntygModuleRegistry {
@@ -36,7 +35,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     private ApplicationOrigin origin;
 
-    @Autowired
+    @Autowired(required=false)
     private ModuleContainerApi moduleContainer;
     
     @PostConstruct
@@ -44,7 +43,9 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
         for (ModuleEntryPoint entryPoint : moduleEntryPoints) {
             moduleApiMap.put(entryPoint.getModuleId(), entryPoint);
-            entryPoint.getModuleApi().setModuleContainer(moduleContainer);
+            if (moduleContainer != null) {
+                entryPoint.getModuleApi().setModuleContainer(moduleContainer);
+            }
             IntygModule module = new IntygModule(entryPoint.getModuleId(), entryPoint.getModuleName(),
                     entryPoint.getModuleDescription(),
                     entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),
