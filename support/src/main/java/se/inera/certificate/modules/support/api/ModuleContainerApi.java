@@ -15,8 +15,8 @@ public interface ModuleContainerApi {
     public void certificateReceived(CertificateHolder certificate, boolean wireTapped) throws CertificateAlreadyExistsException, InvalidCertificateException;
 
     /**
-     * Get a certificate to the module container.
+     * Get a certificate from the module container.
      */
-    public CertificateHolder getCertificate(String certificateId, String personId) throws InvalidCertificateException, CertificateRevokedException;
+    public CertificateHolder getCertificate(String certificateId, String personId, boolean checkConsent) throws InvalidCertificateException;
 
 }
