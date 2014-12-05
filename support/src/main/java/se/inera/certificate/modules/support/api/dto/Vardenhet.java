@@ -24,14 +24,14 @@ public class Vardenhet {
     private final String arbetsplatskod;
 
     public Vardenhet(String hsaId, String namn, String postadress, String postnummer, String postort,
-                     String telefonnummer, String epost, String arbetsplatskod, Vardgivare vardgivare) {
+            String telefonnummer, String epost, String arbetsplatskod, Vardgivare vardgivare) {
         hasText(hsaId, "'hsaId' must not be empty");
         hasText(namn, "'namn' must not be empty");
         // TODO: these properties must be provided from HSA
-        //hasText(postadress, "'postadress' must not be empty");
-        //hasText(postnummer, "'postnummer' must not be empty");
-        //hasText(postort, "'postort' must not be empty");
-        //hasText(telefonnummer, "'telefonnummer' must not be empty");
+        // hasText(postadress, "'postadress' must not be empty");
+        // hasText(postnummer, "'postnummer' must not be empty");
+        // hasText(postort, "'postort' must not be empty");
+        // hasText(telefonnummer, "'telefonnummer' must not be empty");
         notNull(vardgivare, "'vardgivare' must not be null");
         this.hsaId = hsaId;
         this.namn = namn;

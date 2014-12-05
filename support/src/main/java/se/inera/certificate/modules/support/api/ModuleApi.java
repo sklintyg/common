@@ -8,7 +8,6 @@ import se.inera.certificate.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.certificate.modules.support.api.dto.HoSPersonal;
 import se.inera.certificate.modules.support.api.dto.InternalModelHolder;
 import se.inera.certificate.modules.support.api.dto.InternalModelResponse;
-import se.inera.certificate.modules.support.api.dto.Patient;
 import se.inera.certificate.modules.support.api.dto.PdfResponse;
 import se.inera.certificate.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.certificate.modules.support.api.exception.ModuleException;
@@ -65,10 +64,11 @@ public interface ModuleApi {
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
      * parameter.
-     * 
+     *
      * @param draftCertificateHolder
-     *            The id of the new internal model, the {@link HoSPersonal} and {@link Patient} data.
-     * 
+     *            The id of the new internal model, the {@link HoSPersonal} and
+     *            {@link se.inera.certificate.modules.support.api.dto.Patient} data.
+     *
      * @return A new instance of the internal model.
      */
     InternalModelResponse createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException;
@@ -78,7 +78,8 @@ public interface ModuleApi {
      * parameter and {@link InternalModelHolder} template.
      * 
      * @param draftCertificateHolder
-     *            The id of the new internal model, the {@link HoSPersonal} and {@link Patient} data.
+     *            The id of the new internal model, the {@link HoSPersonal} and
+     *            {@link se.inera.certificate.modules.support.api.dto.Patient} data.
      * @param template
      *            An internal model used as a template for the new internal model.
      * 

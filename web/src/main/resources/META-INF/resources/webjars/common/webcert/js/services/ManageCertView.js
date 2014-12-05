@@ -2,9 +2,9 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.ManageCertView',
-    [ '$document', '$log', '$location', '$route', '$routeParams', '$timeout', '$window', 'common.CertificateService',
+    [ '$rootScope', '$document', '$log', '$location', '$route', '$routeParams', '$timeout', '$window', 'common.CertificateService',
         'common.dialogService', 'common.messageService', 'common.statService', 'common.User', 'common.featureService',
-        function($document, $log, $location, $route, $routeParams, $timeout, $window, CertificateService, dialogService,
+        function($rootScope, $document, $log, $location, $route, $routeParams, $timeout, $window, CertificateService, dialogService,
             messageService, statService, User, featureService) {
             'use strict';
 
@@ -102,7 +102,7 @@ angular.module('common').factory('common.ManageCertView',
                             statService.refreshStat(); // Update statistics to reflect change
 
                             if (featureService.isFeatureActive("franJournalsystem")) {
-                                $window.location.reload();
+                                $rootScope.$broadcast('intyg.deleted', $routeParams.certificateId)
                             } else {
                                 $location.path('/unsigned');
                             }

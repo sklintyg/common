@@ -66,7 +66,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     @Override
     public ModuleApi getModuleApi(String id) throws ModuleNotFoundException {
-        ModuleEntryPoint api =  moduleApiMap.get(id);
+        ModuleEntryPoint api = moduleApiMap.get(id);
         if (api == null) {
             throw new ModuleNotFoundException("Could not find module " + id);
         }
@@ -75,13 +75,12 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     @Override
     public ModuleEntryPoint getModuleEntryPoint(String id) throws ModuleNotFoundException {
-        ModuleEntryPoint entryPoint =  moduleApiMap.get(id);
+        ModuleEntryPoint entryPoint = moduleApiMap.get(id);
         if (entryPoint == null) {
             throw new ModuleNotFoundException("Could not find module " + id);
         }
         return entryPoint;
     }
-
 
     @Override
     public IntygModule getIntygModule(String id) throws ModuleNotFoundException {
@@ -92,10 +91,14 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
     }
 
     @Override
-    public List<ModuleEntryPoint> getModuleEntryPoints() { return moduleEntryPoints; }
+    public List<ModuleEntryPoint> getModuleEntryPoints() {
+        return moduleEntryPoints;
+    }
 
     @Override
-    public boolean moduleExists(String moduleId) { return moduleApiMap.containsKey(moduleId); }
+    public boolean moduleExists(String moduleId) {
+        return moduleApiMap.containsKey(moduleId);
+    }
 
     public void setOrigin(ApplicationOrigin origin) {
         this.origin = origin;

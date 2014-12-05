@@ -5,7 +5,10 @@ import se.inera.certificate.model.common.internal.Patient;
 import se.inera.certificate.model.common.internal.Vardenhet;
 import se.inera.certificate.model.common.internal.Vardgivare;
 
-public class WebcertModelFactoryUtil {
+public final class WebcertModelFactoryUtil {
+
+    private WebcertModelFactoryUtil() {
+    }
 
     public static Patient convertPatientToEdit(se.inera.certificate.modules.support.api.dto.Patient patientInfo) {
         Patient patient = new Patient();
