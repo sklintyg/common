@@ -101,7 +101,7 @@ public class InternalLocalDateInterval {
             return false;
         }
         if (from.isValidDate() && tom.isValidDate()) {
-            return tom.asLocalDate().isAfter(from.asLocalDate());
+            return !tom.asLocalDate().isBefore(from.asLocalDate());
         } else {
             return false;
         }
