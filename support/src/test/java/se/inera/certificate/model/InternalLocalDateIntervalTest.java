@@ -52,6 +52,16 @@ public class InternalLocalDateIntervalTest {
     }
 
     @Test
+    public void testSingleDayIntervalIsValid() {
+        InternalDate fromString = new InternalDate("2011-01-01");
+        InternalDate tomString = fromString;
+
+        InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
+        assertTrue(interval.isValid());
+
+    }
+
+    @Test
     public void testInternalDateIntervalIsInvalid() {
         InternalDate fromString = new InternalDate("2011-02-01");
         InternalDate tomString = new InternalDate("2011-01-02");
