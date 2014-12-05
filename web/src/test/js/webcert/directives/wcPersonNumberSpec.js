@@ -48,7 +48,7 @@ describe('wcPersonNumber', function() {
             return (10 - sum) === parseInt(checkDigit, 10);
         }
     };
-    
+
     var createValidPersonnummer = function(dateStr) {
         // dateStr must be on the form yyyyMMdd
 
@@ -65,11 +65,10 @@ describe('wcPersonNumber', function() {
                 }
             }
         }
-        
-        console.log("ERROR: could not create a valid personnummer");
+
         return undefined;
-    }
-    
+    };
+
     // Pass
 
     it('should pass with a valid "personnummer" with format "yyyyMMdd-nnnn"', function() {
@@ -106,7 +105,7 @@ describe('wcPersonNumber', function() {
         expect($scope.model.test).toEqual('20121212-1212');
         expect($scope.form.$valid).toBeTruthy();
     });
-    
+
     it('should pass with a "personnummer" with an age of 125 years or less', function() {
         var pnr = createValidPersonnummer(moment().subtract('years', 125).format('YYYYMMDD'));
         $scope.form.test.$setViewValue(pnr);

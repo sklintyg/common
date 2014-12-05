@@ -2,9 +2,11 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.ManageCertView',
-    [ '$rootScope', '$document', '$log', '$location', '$route', '$routeParams', '$timeout', '$window', 'common.CertificateService',
+    ['$rootScope', '$document', '$log', '$location', '$route', '$routeParams', '$timeout', '$window',
+        'common.CertificateService',
         'common.dialogService', 'common.messageService', 'common.statService', 'common.User', 'common.featureService',
-        function($rootScope, $document, $log, $location, $route, $routeParams, $timeout, $window, CertificateService, dialogService,
+        function($rootScope, $document, $log, $location, $route, $routeParams, $timeout, $window, CertificateService,
+            dialogService,
             messageService, statService, User, featureService) {
             'use strict';
 
@@ -101,8 +103,8 @@ angular.module('common').factory('common.ManageCertView',
                             $scope.dialog.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
-                            if (featureService.isFeatureActive("franJournalsystem")) {
-                                $rootScope.$broadcast('intyg.deleted', $routeParams.certificateId)
+                            if (featureService.isFeatureActive('franJournalsystem')) {
+                                $rootScope.$broadcast('intyg.deleted', $routeParams.certificateId);
                             } else {
                                 $location.path('/unsigned');
                             }
@@ -225,7 +227,7 @@ angular.module('common').factory('common.ManageCertView',
                         } else if ('SIGNERAD' === ticket.status) {
                             _showIntygAfterSignering(intygsTyp, intygsId, dialog);
                         } else {
-                            _showSigneringsError($scope, { errorCode: 'SIGN_ERROR' });
+                            _showSigneringsError($scope, {errorCode: 'SIGN_ERROR'});
                         }
                     });
                 }
@@ -286,8 +288,8 @@ angular.module('common').factory('common.ManageCertView',
             function _printDraft(intygsId, intygsTyp) {
                 $window.print();
                 CertificateService.logPrint(intygsId, intygsTyp, function(data) {
-                        $log.debug('_logPrint, success: ' + data);
-                    });
+                    $log.debug('_logPrint, success: ' + data);
+                });
             }
 
 

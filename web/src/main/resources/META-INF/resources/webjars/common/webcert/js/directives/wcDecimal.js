@@ -30,9 +30,10 @@ angular.module('common').directive('wcDecimalNumber',
                     if (scope.wcDecimalMaxNumbers > 0) {
                         // Limits length to maxNumbers with optional decimal separator
                         var maxLength = scope.wcDecimalMaxNumbers;
-                        if (dec)
+                        if (dec) {
                             maxLength++;
-                        return filtered.length <= maxLength ? filtered : filtered.substring(0,maxLength);
+                        }
+                        return filtered.length <= maxLength ? filtered : filtered.substring(0, maxLength);
                     }
                     return filtered;
                 }
@@ -42,7 +43,7 @@ angular.module('common').directive('wcDecimalNumber',
                     var valForView = '';
                     var valForModel = null;
                     if (l > 0) {
-                        if (scope.wcDecimalMaxNumbers == 2) {
+                        if (scope.wcDecimalMaxNumbers === 2) {
                             if (l === 1) {
                                 if (value[0] === ',') {
                                     valForView = '0,0';
@@ -71,7 +72,7 @@ angular.module('common').directive('wcDecimalNumber',
                         }
                         else {
                             valForView = value.replace('.', ',');
-                            valForModel = valForView.replace(',','.');
+                            valForModel = valForView.replace(',', '.');
                         }
                     }
 
