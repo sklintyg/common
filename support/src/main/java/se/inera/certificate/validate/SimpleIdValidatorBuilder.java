@@ -22,8 +22,9 @@ public class SimpleIdValidatorBuilder {
     /**
      * Adds support for validation of 'personnummer' to the IdValidator.
      *
-     * @param strictSeparatorCheck <code>true</code> if strict validation of the separator ('-' or '+') should be performed,
-     *                             <code>false</code> otherwise.
+     * @param strictSeparatorCheck
+     *            <code>true</code> if strict validation of the separator ('-' or '+') should be performed,
+     *            <code>false</code> otherwise.
      * @return This builder, for method chaining.
      */
     public SimpleIdValidatorBuilder withPersonnummerValidator(boolean strictSeparatorCheck) {
@@ -33,9 +34,11 @@ public class SimpleIdValidatorBuilder {
     /**
      * Adds support for validation of 'personnummer' to the IdValidator.
      *
-     * @param referenceDate        The date that should represent today. Set to <code>null</code> if the current date should be used.
-     * @param strictSeparatorCheck <code>true</code> if strict validation of the separator ('-' or '+') should be performed,
-     *                             <code>false</code> otherwise.
+     * @param referenceDate
+     *            The date that should represent today. Set to <code>null</code> if the current date should be used.
+     * @param strictSeparatorCheck
+     *            <code>true</code> if strict validation of the separator ('-' or '+') should be performed,
+     *            <code>false</code> otherwise.
      * @return This builder, for method chaining.
      */
     public SimpleIdValidatorBuilder withPersonnummerValidator(LocalDate referenceDate, boolean strictSeparatorCheck) {
@@ -51,8 +54,9 @@ public class SimpleIdValidatorBuilder {
     /**
      * Adds support for validation of 'samordningsnummer' to the IdValidator.
      *
-     * @param strictSeparatorCheck <code>true</code> if strict validation of the separator ('-' or '+') should be performed,
-     *                             <code>false</code> otherwise.
+     * @param strictSeparatorCheck
+     *            <code>true</code> if strict validation of the separator ('-' or '+') should be performed,
+     *            <code>false</code> otherwise.
      * @return This builder, for method chaining.
      */
     public SimpleIdValidatorBuilder withSamordningsnummerValidator(boolean strictSeparatorCheck) {
@@ -62,9 +66,11 @@ public class SimpleIdValidatorBuilder {
     /**
      * Adds support for validation of 'samordningsnummer' to the IdValidator.
      *
-     * @param referenceDate        The date that should represent today. Set to <code>null</code> if the current date should be used.
-     * @param strictSeparatorCheck <code>true</code> if strict validation of the separator ('-' or '+') should be performed,
-     *                             <code>false</code> otherwise.
+     * @param referenceDate
+     *            The date that should represent today. Set to <code>null</code> if the current date should be used.
+     * @param strictSeparatorCheck
+     *            <code>true</code> if strict validation of the separator ('-' or '+') should be performed,
+     *            <code>false</code> otherwise.
      * @return This builder, for method chaining.
      */
     public SimpleIdValidatorBuilder withSamordningsnummerValidator(LocalDate referenceDate, boolean strictSeparatorCheck) {
@@ -89,7 +95,7 @@ public class SimpleIdValidatorBuilder {
 
         return this;
     }
-    
+
     /**
      * Adds support for a lesser strict validation of HSA id to the IdValidator.
      *

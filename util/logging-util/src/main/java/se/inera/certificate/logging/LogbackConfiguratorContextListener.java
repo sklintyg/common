@@ -1,28 +1,27 @@
 package se.inera.certificate.logging;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
+import ch.qos.logback.classic.BasicConfigurator;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.classic.util.ContextInitializer;
+import ch.qos.logback.core.joran.spi.JoranException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-import ch.qos.logback.classic.BasicConfigurator;
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.joran.JoranConfigurator;
-import ch.qos.logback.classic.util.ContextInitializer;
-import ch.qos.logback.core.joran.spi.JoranException;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import java.io.File;
+import java.io.IOException;
 
 public class LogbackConfiguratorContextListener implements ServletContextListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogbackConfiguratorContextListener.class);
 
     private static final String CLASSPATH = "classpath:";
+
     /**
      * initialize logback with external configuration file.
      */
@@ -78,10 +77,10 @@ public class LogbackConfiguratorContextListener implements ServletContextListene
     private String getConfigurationUri(ServletContextEvent servletContextEvent) {
         String defaultUri = CLASSPATH + "logback.xml";
         String logbackConfigParameter = servletContextEvent.getServletContext().getInitParameter("logbackConfigParameter");
-        if (logbackConfigParameter!= null && !logbackConfigParameter.isEmpty()) {
+        if (logbackConfigParameter != null && !logbackConfigParameter.isEmpty()) {
             return System.getProperty(logbackConfigParameter, defaultUri);
         } else {
-            return defaultUri;            
+            return defaultUri;
         }
     }
 

@@ -1,19 +1,20 @@
 package se.inera.certificate.modules.registry;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import se.inera.certificate.modules.support.ApplicationOrigin;
-import se.inera.certificate.modules.support.ModuleEntryPoint;
-import se.inera.certificate.modules.support.api.ModuleApi;
-
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import se.inera.certificate.modules.support.ApplicationOrigin;
+import se.inera.certificate.modules.support.ModuleEntryPoint;
+import se.inera.certificate.modules.support.api.ModuleApi;
 
 /*@Component*/
 public class IntygModuleRegistryImpl implements IntygModuleRegistry {
@@ -58,7 +59,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     @Override
     public ModuleApi getModuleApi(String id) throws ModuleNotFoundException {
-        ModuleEntryPoint api =  moduleApiMap.get(id);
+        ModuleEntryPoint api = moduleApiMap.get(id);
         if (api == null) {
             throw new ModuleNotFoundException("Could not find module " + id);
         }
@@ -67,13 +68,12 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     @Override
     public ModuleEntryPoint getModuleEntryPoint(String id) throws ModuleNotFoundException {
-        ModuleEntryPoint entryPoint =  moduleApiMap.get(id);
+        ModuleEntryPoint entryPoint = moduleApiMap.get(id);
         if (entryPoint == null) {
             throw new ModuleNotFoundException("Could not find module " + id);
         }
         return entryPoint;
     }
-
 
     @Override
     public IntygModule getIntygModule(String id) throws ModuleNotFoundException {
@@ -84,10 +84,14 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
     }
 
     @Override
-    public List<ModuleEntryPoint> getModuleEntryPoints() { return moduleEntryPoints; }
+    public List<ModuleEntryPoint> getModuleEntryPoints() {
+        return moduleEntryPoints;
+    }
 
     @Override
-    public boolean moduleExists(String moduleId) { return moduleApiMap.containsKey(moduleId); }
+    public boolean moduleExists(String moduleId) {
+        return moduleApiMap.containsKey(moduleId);
+    }
 
     public void setOrigin(ApplicationOrigin origin) {
         this.origin = origin;

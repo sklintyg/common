@@ -9,7 +9,10 @@ import se.inera.certificate.model.common.internal.Vardenhet;
 import se.inera.certificate.model.common.internal.Vardgivare;
 import se.inera.certificate.model.util.Strings;
 
-public class ExternalToInternalConverterUtil {
+public final class ExternalToInternalConverterUtil {
+
+    private ExternalToInternalConverterUtil() {
+    }
 
     private static Vardenhet convertToIntVardenhet(se.inera.certificate.model.Vardenhet extVardenhet)
             throws ConverterException {

@@ -1,10 +1,8 @@
 package se.inera.certificate.modules.support;
 
 import java.util.Map;
-import java.util.Set;
 
 import se.inera.certificate.modules.support.api.ModuleApi;
-import se.inera.certificate.modules.support.feature.ModuleFeature;
 
 /**
  * Defines the contract for modules so they can be discovered by an application.
@@ -42,10 +40,11 @@ public interface ModuleEntryPoint {
      * @return A module API implementation.
      */
     ModuleApi getModuleApi();
-    
+
     /**
-     * Returns a Map containing which {@code se.inera.certificate.modules.support.feature.ModuleFeature} that this module will support and what state these have.
-     * 
+     * Returns a Map containing which {@code se.inera.certificate.modules.support.feature.ModuleFeature} that this
+     * module will support and what state these have.
+     *
      * @return
      */
     Map<String, Boolean> getModuleFeatures();

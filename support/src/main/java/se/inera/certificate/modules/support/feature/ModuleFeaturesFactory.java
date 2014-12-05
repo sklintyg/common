@@ -9,12 +9,15 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-public class ModuleFeaturesFactory {
+public final class ModuleFeaturesFactory {
+
+    private ModuleFeaturesFactory() {
+    }
 
     public static Map<String, Boolean> getFeatures(String featurePropertiesFile) {
 
         Properties features = loadFeaturePropertiesFile(featurePropertiesFile);
-        
+
         Map<String, Boolean> moduleFeaturesMap = new HashMap<String, Boolean>();
 
         for (ModuleFeature feature : ModuleFeature.values()) {
@@ -40,5 +43,4 @@ public class ModuleFeaturesFactory {
             throw new IllegalArgumentException("Feature file not found");
         }
     }
-
 }

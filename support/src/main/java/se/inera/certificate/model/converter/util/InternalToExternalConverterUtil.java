@@ -1,6 +1,13 @@
 package se.inera.certificate.model.converter.util;
 
-import se.inera.certificate.model.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import se.inera.certificate.model.Id;
+import se.inera.certificate.model.Kod;
+import se.inera.certificate.model.Patient;
+import se.inera.certificate.model.Vardgivare;
 import se.inera.certificate.model.common.codes.CodeConverter;
 import se.inera.certificate.model.common.codes.CodeSystem;
 import se.inera.certificate.model.common.codes.HSpersonalKod;
@@ -8,13 +15,12 @@ import se.inera.certificate.model.common.codes.SpecialitetKod;
 import se.inera.certificate.model.common.external.HosPersonal;
 import se.inera.certificate.model.common.external.Vardenhet;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-public class InternalToExternalConverterUtil {
+public final class InternalToExternalConverterUtil {
 
     private static final String ARBETSPLATSKOD_ROOT = "1.2.752.29.4.71";
+
+    private InternalToExternalConverterUtil() {
+    }
 
     /**
      * Convert from internal to external Patient.
