@@ -267,7 +267,7 @@
 
     .body-row h4.cert-field-number {
         float: right;
-        /*padding: 10px 20px 0 20px;*/
+        padding: 0 0 0 10px;
         color: #008391;
         font-size: 15px;
     }
