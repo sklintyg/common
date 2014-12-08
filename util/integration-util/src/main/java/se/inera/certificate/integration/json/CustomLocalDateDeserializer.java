@@ -1,16 +1,14 @@
 package se.inera.certificate.integration.json;
 
-import java.io.IOException;
-
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
+import java.io.IOException;
 
 /**
  * This class is based on the LocalDateDeserializer class. It's content was copied
@@ -61,7 +59,7 @@ public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
      *            - Context that can be used to access information about this deserialization activity.
      * @return Deserializer value as LocalDate
      * @throws IOException
-     * @throws JsonProcessingException
+     * @throws com.fasterxml.jackson.core.JsonProcessingException
      */
     @Override
     @SuppressWarnings("incomplete-switch")
