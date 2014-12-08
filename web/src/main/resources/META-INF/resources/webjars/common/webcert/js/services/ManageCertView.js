@@ -239,6 +239,7 @@ angular.module('common').factory('common.ManageCertView',
                 if (dialog) {
                     dialog.close();
                 }
+                $location.replace();
                 $location.path('/intyg/' + intygsTyp + '/' + intygsId);
                 statService.refreshStat();
             }
