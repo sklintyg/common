@@ -60,7 +60,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             function _decorateSingleItemMeasure(qa) {
                 if (qa.status === 'CLOSED') {
                     qa.measureResKey = 'handled';
-                } else if (qa.status === 'ANSWERED' || qa.amne === 'MAKULERING' || qa.amne === 'PAMINNELSE') {
+                } else if (_isUnhandledForDecoration(qa)) {
                     qa.measureResKey = 'markhandled';
                 } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG') {
                     qa.measureResKey = 'komplettering';
@@ -74,6 +74,21 @@ angular.module('common').factory('common.fragaSvarCommonService',
                         $log.debug('warning: undefined status');
                     }
                 }
+            }
+
+            function _isUnhandledForDecoration(qa){
+                // only used for property lookup XX
+                if(!qa){
+                    return false;
+                }
+                return qa.status === 'ANSWERED' || qa.amne === 'MAKULERING' || qa.amne === 'PAMINNELSE';
+            }
+
+            function _isUnhandled(qa){
+                if(!qa){
+                    return false;
+                }
+                return qa.status === 'ANSWERED';
             }
 
             function _showVidarebefordradPreferenceDialog(title, bodyText, yesCallback, noCallback, noDontAskCallback,
@@ -167,6 +182,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 setVidareBefordradState: _setVidareBefordradState,
                 handleVidareBefodradToggle: _handleVidareBefodradToggle,
                 buildMailToLink: _buildMailToLink,
-                decorateSingleItemMeasure: _decorateSingleItemMeasure
+                decorateSingleItemMeasure: _decorateSingleItemMeasure,
+                isUnhandled: _isUnhandled
             };
         }]);
