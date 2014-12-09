@@ -250,6 +250,11 @@
         border-radius: 4px 4px 4px 4px;
     }
 
+    .cert-body .body-row .text.unfilled {
+        background-color: white;
+        border: 2px solid #e5e5e5;
+    }
+
     ul.padded-list {
         padding-left: 16px;
     }
