@@ -7,7 +7,6 @@ angular.module('common').factory('common.dialogService',
 
         function _showErrorMessageDialog(message, callback) {
             $window.dialogDoneLoading = false;
-            console.log('_showErrorDialog: $window.dialogDoneLoading = false');
 
             var msgbox = $modal.open({
                 templateUrl: '/web/webjars/common/webcert/js/services/dialogServiceErrorTemplate.html',
@@ -30,14 +29,11 @@ angular.module('common').factory('common.dialogService',
 
             _runOnDialogDoneLoading(msgbox, function() {
                 $window.dialogDoneLoading = true;
-                console.log('_showErrorDialog: $window.dialogDoneLoading = true');
             });
         }
 
         function _showMessageDialog(titleId, bodyText, callback) {
             $window.dialogDoneLoading = false;
-            console.log('_showMessageDialog: $window.dialogDoneLoading = false');
-            console.log('_showMessageDialog: ' + $window.doneLoading);
 
             var msgbox = $modal.open({
                 templateUrl: '/web/webjars/common/webcert/js/services/dialogServiceMessageTemplate.html',
@@ -63,7 +59,6 @@ angular.module('common').factory('common.dialogService',
 
             _runOnDialogDoneLoading(msgbox, function() {
                 $window.dialogDoneLoading = true;
-                console.log('_showMessageDialog: $window.dialogDoneLoading = true');
             });
         }
 
@@ -107,7 +102,6 @@ angular.module('common').factory('common.dialogService',
             }
 
             $window.dialogDoneLoading = false;
-            console.log('_showDialog: $window.dialogDoneLoading = false');
 
             // setup options defaults if parameters aren't included
             options.bodyText = (options.bodyText === undefined) ? '' : options.bodyText;
@@ -231,7 +225,6 @@ angular.module('common').factory('common.dialogService',
 
             _runOnDialogDoneLoading(msgbox, function() {
                 $window.dialogDoneLoading = true;
-                console.log('_showDialog: $window.dialogDoneLoading = true');
             });
 
             return msgbox;

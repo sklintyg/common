@@ -861,7 +861,7 @@
     }
 
     .webcert-col-single {
-        padding: 30px;
+        margin: 0 30px 30px 30px;
     }
 
     .webcert-col-shadow {

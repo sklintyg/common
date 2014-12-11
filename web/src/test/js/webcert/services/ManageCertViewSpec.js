@@ -15,7 +15,7 @@ describe('ManageCertView', function() {
             {}
         ]);
         $provide.value('$route', jasmine.createSpyObj('$route', [ 'reload' ]));
-        $provide.value('$location', jasmine.createSpyObj('$location', [ 'path' ]));
+        $provide.value('$location', jasmine.createSpyObj('$location', [ 'path', 'replace' ]));
         $provide.value('common.messageService',
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
         $provide.value('$routeParams', {});
