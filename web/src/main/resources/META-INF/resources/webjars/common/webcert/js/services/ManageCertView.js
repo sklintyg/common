@@ -40,18 +40,22 @@ angular.module('common').factory('common.ManageCertView',
              * @param intygsTyp
              * @private
              */
-            function _save($scope, intygsTyp) {
-                CertificateService.saveDraft($routeParams.certificateId, intygsTyp, $scope.cert,
+            function _save($scope, intygsTyp, autoSave) {
+                if (autoSave && CertificateService.isSaveDraftInProgress()) {
+                    return false;
+                }
+                $scope.certForm.$setPristine();
+                CertificateService.saveDraft($routeParams.certificateId, intygsTyp, $scope.cert, autoSave,
                     function(data) {
 
-                        $scope.certForm.$setPristine();
-
-                        $scope.validationMessagesGrouped = {};
-                        $scope.validationMessages = [];
+                        if (!autoSave) {
+                            $scope.validationMessagesGrouped = {};
+                            $scope.validationMessages = [];
+                        }
 
                         if (data.status === 'COMPLETE') {
                             $scope.isComplete = true;
-                        } else {
+                        } else if (!autoSave) {
                             $scope.isComplete = false;
                             $scope.validationMessages = data.messages;
 
@@ -71,10 +75,12 @@ angular.module('common').factory('common.ManageCertView',
                             });
                         }
                     }, function(error) {
+                        $scope.certForm.$setDirty();
                         // Show error message if save fails
                         $scope.widgetState.activeErrorMessageKey = checkSetError(error.errorCode);
                     }
                 );
+                return true;
             }
 
             /**
