@@ -1,4 +1,4 @@
-describe('CookieService', function() {
+describe('UserPreferencesService', function() {
     'use strict';
 
     var CookieService;
@@ -7,7 +7,7 @@ describe('CookieService', function() {
 
     });
 
-    beforeEach(angular.mock.inject(['common.CookieService',
+    beforeEach(angular.mock.inject(['common.UserPreferencesService',
         function(_CookieService) {
             CookieService = _CookieService;
         }
