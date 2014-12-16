@@ -30,5 +30,6 @@
     "/web/webjars/common/webcert/js/services/ManageCertView.js",
     "/web/webjars/common/webcert/js/services/messageService.js",
     "/web/webjars/common/webcert/js/services/statService.js",
-    "/web/webjars/common/webcert/js/services/User.js"
+    "/web/webjars/common/webcert/js/services/User.js",
+    "/web/webjars/common/webcert/js/services/UserPreferencesService.js"
 ]
