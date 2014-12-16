@@ -239,6 +239,7 @@
         padding: 10px 10px;
         vertical-align: middle;
         margin: 0;
+        cursor: pointer;
     }
 
     .cert-body .body-row .text {
