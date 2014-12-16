@@ -103,24 +103,22 @@ public interface ModuleApi {
     InternalModelResponse updateInternal(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException;
 
     /**
-     * Send certificate to specified target.
+     * Register certificate in Intygstjänsten.
      * 
      * @param internalModel
      *            The internal model of the certificate to send.
-     * @param logicalAddress
-     *            Where to send the certificate.
      */
     void registerCertificate(InternalModelHolder internalModel) throws ModuleException;
 
     /**
-     * Send certificate to specified target.
+     * Send certificate to specified recipient.
      * 
      * @param internalModel
      *            The internal model of the certificate to send.
-     * @param logicalAddress
+     * @param recipient
      *            Where to send the certificate.
      */
-    void sendCertificate(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
+    void sendCertificateToRecipient(InternalModelHolder internalModel, String recipient) throws ModuleException;
 
     /**
      * Get a certificate from intygstjansten.
