@@ -84,11 +84,19 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 return qa.status === 'ANSWERED' || qa.amne === 'MAKULERING' || qa.amne === 'PAMINNELSE';
             }
 
+            /**
+             * Kolla om status är inte lika med CLOSED.
+             * QACtrl.updateAsHandled sätta statusen till CLOSED så anta jag att alla
+             * fragaSvara som inte är status=CLOSED skulle tolkas som Ej Hanterad...
+             * @param qa
+             * @returns {boolean}
+             * @private
+             */
             function _isUnhandled(qa){
                 if(!qa){
                     return false;
                 }
-                return qa.status === 'ANSWERED';
+                return qa.status !== 'CLOSED';
             }
 
             function _showVidarebefordradPreferenceDialog(title, bodyText, yesCallback, noCallback, noDontAskCallback,
