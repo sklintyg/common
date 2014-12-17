@@ -1,7 +1,6 @@
 package se.inera.certificate.modules.support.api;
 
 import se.inera.certificate.integration.module.exception.CertificateAlreadyExistsException;
-import se.inera.certificate.integration.module.exception.CertificateRevokedException;
 import se.inera.certificate.integration.module.exception.InvalidCertificateException;
 
 /**
