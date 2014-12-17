@@ -48,6 +48,8 @@ angular.module('common').factory('common.ManageCertView',
                 CertificateService.saveDraft($routeParams.certificateId, intygsTyp, $scope.cert, autoSave,
                     function(data) {
 
+                        $scope.widgetState.saveErrorMessageKey = null;
+
                         if (!autoSave) {
                             $scope.validationMessagesGrouped = {};
                             $scope.validationMessages = [];
@@ -77,7 +79,7 @@ angular.module('common').factory('common.ManageCertView',
                     }, function(error) {
                         $scope.certForm.$setDirty();
                         // Show error message if save fails
-                        $scope.widgetState.activeErrorMessageKey = checkSetError(error.errorCode);
+                        $scope.widgetState.saveErrorMessageKey = checkSetErrorSave(error.errorCode);
                     }
                 );
                 return true;
@@ -142,6 +144,15 @@ angular.module('common').factory('common.ManageCertView',
                 var model = 'common.error.unknown';
                 if (errorCode !== undefined && errorCode !== null) {
                     model = ('common.error.' + errorCode).toLowerCase();
+                }
+
+                return model;
+            }
+
+            function checkSetErrorSave(errorCode) {
+                var model = 'common.error.save.unknown';
+                if (errorCode !== undefined && errorCode !== null) {
+                    model = ('common.error.save.' + errorCode).toLowerCase();
                 }
 
                 return model;
