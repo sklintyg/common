@@ -52,8 +52,8 @@ public interface ModuleApi {
     /**
      * Generates a PDF from the external model.
      * 
-     * @param externalModel
-     *            The external model to generate a PDF from.
+     * @param internalModel
+     *             The internal model to generate a PDF from.
      * @param applicationOrigin
      *            The context from which this method was called (i.e Webcert or MinaIntyg)
      * 
