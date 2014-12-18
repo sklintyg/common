@@ -48,6 +48,10 @@
         padding-bottom: 5px;
     }
 
+    .bottom-padding-tiny {
+        padding-bottom: 2px;
+    }
+
     .header-fix-top-expand {
         position: relative;
         top: -20px;
