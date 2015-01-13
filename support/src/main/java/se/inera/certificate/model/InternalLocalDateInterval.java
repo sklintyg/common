@@ -106,4 +106,19 @@ public class InternalLocalDateInterval {
             return false;
         }
     }
+
+    @JsonIgnore
+    @Override
+    public boolean equals(Object other) {
+        InternalLocalDateInterval otherInterval = (InternalLocalDateInterval) other;
+
+        if (!this.isValid() || !otherInterval.isValid()) {
+            return false;
+        }
+        if (this.fromAsLocalDate().equals(otherInterval.fromAsLocalDate()) && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
