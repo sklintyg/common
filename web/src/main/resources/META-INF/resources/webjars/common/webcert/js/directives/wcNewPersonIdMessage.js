@@ -11,6 +11,7 @@ angular.module('common').directive('wcNewPersonIdMessage',
             replace: true,
             controller: function($scope) {
                 $scope.show = false;
+                $scope.patientId = $routeParams.patientId;
 
                 $scope.$on('intyg.loaded', function(e, cert) {
                     // also make sure patient ids are valid and in the same format? shouldn't need to since the

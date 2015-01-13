@@ -18,7 +18,7 @@ var commonMessages = {
         'common.delete': 'Radera',
         'common.sign.intyg': 'Signera intyget',
 
-        'common.alert.newpersonid': 'Patienten har ett nytt personnummer.',
+        'common.alert.newpersonid': 'Patienten har ett nytt personnummer: ',
 
         'common.date': 'Datum',
         'common.when': 'När?',
