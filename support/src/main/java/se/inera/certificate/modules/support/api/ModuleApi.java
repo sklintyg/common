@@ -89,20 +89,6 @@ public interface ModuleApi {
             throws ModuleException;
 
     /**
-     * Returns an updated version of the internal model with new HoS person information.
-     * 
-     * @param internalModel
-     *            The internal model to use as a base.
-     * @param hosPerson
-     *            The HoS person to complement the model with.
-     * @param signingDate
-     *            The timestamp of the signing of the intyg.
-     * 
-     * @return A new internal model updated with the hosPerson info.
-     */
-    InternalModelResponse updateInternal(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException;
-
-    /**
      * Register certificate in Intygstjänsten.
      * 
      * @param internalModel
@@ -130,11 +116,40 @@ public interface ModuleApi {
     CertificateResponse getCertificate(String certificateId) throws ModuleException;
 
     /**
-     * Check if a there are changes between a models persisted and current states.
+     * Check whether there are changes between the current and persisted model states
+     *
      * @param persistedState
      * @param currentState
-     * @return true if there are changes, false if not.
-     * @throws ModuleException
+     * @return true if there are changes, false otherwise
+     * @throws ModuleException 
      */
     boolean isModelChanged(String persistedState, String currentState) throws ModuleException;
+
+    /**
+     * Returns an updated version of the internal model for saving, with new HoS person information.
+     * 
+     * @param internalModel
+     *            The internal model to use as a base.
+     * @param hosPerson
+     *            The HoS person to complement the model with.
+     *
+     * @return A new internal model updated with the hosPerson info.
+     * @throws ModuleException 
+     */
+    InternalModelResponse updateBeforeSave(InternalModelHolder internalModel, HoSPersonal hosPerson) throws ModuleException;
+
+    /**
+     * Returns an updated version of the internal model for signing, with new HoS person information.
+     * 
+     * @param internalModel
+     *            The internal model to use as a base.
+     * @param hosPerson
+     *            The HoS person to complement the model with.
+     * @param signingDate
+     *            The timestamp of the signing of the intyg.
+     * 
+     * @return A new internal model updated with the hosPerson info.
+     */
+    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)  throws ModuleException;
+
 }
