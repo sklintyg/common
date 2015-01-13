@@ -128,4 +128,13 @@ public interface ModuleApi {
      * @return internal model of the certificate
      */
     CertificateResponse getCertificate(String certificateId) throws ModuleException;
+
+    /**
+     * Check if a there are changes between a models persisted and current states.
+     * @param persistedState
+     * @param currentState
+     * @return true if there are changes, false if not.
+     * @throws ModuleException
+     */
+    boolean isModelChanged(String persistedState, String currentState) throws ModuleException;
 }
