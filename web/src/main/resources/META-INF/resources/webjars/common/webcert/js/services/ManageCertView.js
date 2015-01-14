@@ -222,7 +222,7 @@ angular.module('common').factory('common.ManageCertView',
                 });
             }
 
-            function _openNetIdPlugin(hash, onSuccess) {
+            function _openNetIdPlugin(hash, onSuccess, onError) {
                 iid_SetProperty('Base64', 'true');
                 iid_SetProperty('DataToBeSigned', hash);
                 iid_SetProperty('URLEncode', 'false');
@@ -231,7 +231,9 @@ angular.module('common').factory('common.ManageCertView',
                 if (resultCode === 0) {
                     onSuccess(iid_GetProperty('Signature'));
                 } else {
-                    $log.info('Signeringen avbröts med kod: ' + resultCode);
+                    var message = 'Signeringen avbröts med kod: ' + resultCode;
+                    $log.info(message);
+                    onError(message);
                 }
             }
 

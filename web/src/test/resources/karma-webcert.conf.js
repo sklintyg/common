@@ -39,7 +39,7 @@ module.exports = function(config) {
                 SRC_DIR + 'module.js',
 
             { pattern: SRC_DIR + '**/*' },
-            { pattern: TEST_DIR + '**/*Spec.js' }
+            { pattern: TEST_DIR + '**/ManageCertViewSpec.js' }
         ],
 
         // web server port

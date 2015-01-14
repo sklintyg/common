@@ -131,8 +131,8 @@ angular.module('common').factory('common.CertificateService',
             $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeraklient';
             $http.post(restPath).
-                success(function() {
-                    onSuccess();
+                success(function(ticket) {
+                    onSuccess(ticket);
                 }).
                 error(function(error) {
                     _handleError(onError, error);
