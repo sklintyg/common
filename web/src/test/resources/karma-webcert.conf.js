@@ -5,7 +5,7 @@ module.exports = function(config) {
     var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/webcert/js/';
     var TEST_DIR = 'src/test/js/webcert/';
     var WEBJAR_DIR = 'target/webjardependencies/';
-    var TEMPLATE_PATH = SRC_DIR + '**/*.html';
+    //var TEMPLATE_PATH = ;
 
     config.set({
 
@@ -17,29 +17,40 @@ module.exports = function(config) {
 
         // generate js files from html templates to expose them during testing.
         preprocessors: {
-            TEMPLATE_PATH: ['ng-html2js']
+            'src/main/resources/META-INF/resources/webjars/common/webcert/js/**/*.html': ['ng-html2js']
+        },
+
+        ngHtml2JsPreprocessor: {
+            // If your build process changes the path to your templates,
+            // use stripPrefix and prependPrefix to adjust it.
+            stripPrefix: 'src/main/resources/META-INF/resources/',
+            prependPrefix: '/web/',
+
+            // the name of the Angular module to create
+            moduleName: 'htmlTemplates'
         },
 
         // list of files / patterns to load in the browser
         files: [
 
             // Dependencies
-                WEBJAR_DIR + 'angularjs/angular.js',
-                WEBJAR_DIR + 'angularjs/angular-mocks.js',
-                WEBJAR_DIR + 'angularjs/1.2.27/angular-locale_sv-se.js',
-                WEBJAR_DIR + 'angularjs/angular-cookies.js',
-                WEBJAR_DIR + 'angularjs/angular-route.js',
-                WEBJAR_DIR + 'angularjs/angular-sanitize.js',
-                WEBJAR_DIR + 'angular-ui-bootstrap/ui-bootstrap-tpls.js',
-                WEBJAR_DIR + 'momentjs/moment.js',
+            WEBJAR_DIR + 'jquery/jquery.min.js',
+            WEBJAR_DIR + 'angularjs/angular.js',
+            WEBJAR_DIR + 'angularjs/angular-mocks.js',
+            WEBJAR_DIR + 'angularjs/1.2.27/angular-locale_sv-se.js',
+            WEBJAR_DIR + 'angularjs/angular-cookies.js',
+            WEBJAR_DIR + 'angularjs/angular-route.js',
+            WEBJAR_DIR + 'angularjs/angular-sanitize.js',
+            WEBJAR_DIR + 'angular-ui-bootstrap/ui-bootstrap-tpls.js',
+            WEBJAR_DIR + 'momentjs/moment.js',
 
 
             // Load these first
-                SRC_DIR + 'messages.js',
-                SRC_DIR + 'module.js',
+            SRC_DIR + 'messages.js',
+            SRC_DIR + 'module.js',
 
             { pattern: SRC_DIR + '**/*' },
-            { pattern: TEST_DIR + '**/*Spec.js' }
+            { pattern: TEST_DIR + '**/wcHeaderSpec.js' }
         ],
 
         // web server port
