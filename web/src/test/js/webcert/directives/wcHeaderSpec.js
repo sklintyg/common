@@ -4,6 +4,9 @@ describe('wcHeader', function() {
     var $scope;
     var element;
     var User;
+    var statService;
+    var featureService;
+    var $compile, $rootScope, $httpBackend;
 
     var testUserContext = {'hsaId':'eva','namn':'Eva Holgersson','lakare':true,'forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
         {'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
@@ -40,11 +43,35 @@ describe('wcHeader', function() {
         'totaltAntalVardenheter':6
     };
 
+    var testStatResponse = {
+        'fragaSvarValdEnhet':12,
+        'fragaSvarAndraEnheter':2,
+        'intygAndraEnheter':2,
+        'intygValdEnhet':10,
+        'vardgivare':[{'namn':'Landstinget Västmanland','id':'vastmanland','vardenheter':[
+            {'namn':'Vårdcentrum i Väst','id':'centrum-vast','fragaSvar':11,'intyg':0},
+            {'namn':'Vårdcentrum i Väst - Akuten','id':'akuten','fragaSvar':0,'intyg':0},
+            {'namn':'Vårdcentrum i Väst - Dialys','id':'dialys','fragaSvar':1,'intyg':0}]},
+            {'namn':'Landstinget Östergötland','id':'ostergotland','vardenheter':[
+                {'namn':'Linköpings Universitetssjukhus','id':'linkoping','fragaSvar':0,'intyg':0},
+                {'namn':'Linköpings Universitetssjukhus - Akuten','id':'lkpg-akuten','fragaSvar':0,'intyg':0},
+                {'namn':'Linköpings Universitetssjukhus - Ögonmottagningen','id':'lkpg-ogon','fragaSvar':0,'intyg':0}]}
+        ]};
+
+    function generateDirective($compile, $rootScope, $httpBackend) {
+        // The header directive will call the statService and expect a response which will be used for tests
+        $httpBackend.expectGET('/moduleapi/stat/').respond(200, testStatResponse);
+        element = angular.element('<div id="wcHeader" wc-header></div>');
+        $compile(element)($scope);
+        $scope.$digest();
+        $httpBackend.flush();
+    }
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.User', { userContext: testUserContext });
 
         var featureService = {
+            testDjupintegration: false,
             features: {
                 HANTERA_FRAGOR: 'hanteraFragor',
                 HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast',
@@ -53,103 +80,118 @@ describe('wcHeader', function() {
                 SKICKA_INTYG: 'skickaIntyg',
                 FRAN_JOURNALSYSTEM: 'franJournalsystem'
             },
-            isFeatureActive: function() {}
+            isFeatureActive: function(feature) {
+                if (this.testDjupintegration) {
+                    return true;
+                } else if (feature !== this.features.FRAN_JOURNALSYSTEM) {
+                    return true;
+                }
+
+                return false;
+            }
         };
         $provide.value('common.featureService', featureService); //jasmine.createSpyObj('common.featureService', ['isFeatureActive'])
     }));
     beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$httpBackend', 'common.User',
-        function($compile, $rootScope, $httpBackend, _User_) {
-        $scope = $rootScope.$new();
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$httpBackend', 'common.User', 'common.statService', 'common.featureService',
+        function(_$compile_, _$rootScope_, _$httpBackend_, _User_, _statService_, _featureService_) {
+        $scope = _$rootScope_.$new();
         User = _User_;
+        statService = _statService_;
+        featureService = _featureService_;
+        $compile = _$compile_;
+        $rootScope = _$rootScope_;
+        $httpBackend = _$httpBackend_;
 
-        $httpBackend.expectGET('/moduleapi/stat/').respond(200, {
-            'fragaSvarValdEnhet':12,
-            'fragaSvarAndraEnheter':0,
-            'intygAndraEnheter':0,
-            'intygValdEnhet':0,
-            'vardgivare':[{'namn':'Landstinget Västmanland','id':'vastmanland','vardenheter':[
-                {'namn':'Vårdcentrum i Väst','id':'centrum-vast','fragaSvar':11,'intyg':0},
-                {'namn':'Vårdcentrum i Väst - Akuten','id':'akuten','fragaSvar':0,'intyg':0},
-                {'namn':'Vårdcentrum i Väst - Dialys','id':'dialys','fragaSvar':1,'intyg':0}]},
-                {'namn':'Landstinget Östergötland','id':'ostergotland','vardenheter':[
-                    {'namn':'Linköpings Universitetssjukhus','id':'linkoping','fragaSvar':0,'intyg':0},
-                    {'namn':'Linköpings Universitetssjukhus - Akuten','id':'lkpg-akuten','fragaSvar':0,'intyg':0},
-                    {'namn':'Linköpings Universitetssjukhus - Ögonmottagningen','id':'lkpg-ogon','fragaSvar':0,'intyg':0}]}
-            ]});
-        element = angular.element('<div id="wcHeader" wc-header></div>');
-        $compile(element)($scope);
-        $scope.$digest();
-        $httpBackend.flush();
+        // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast from statService
+        spyOn($rootScope, '$broadcast').andCallThrough();
+        generateDirective($compile, $rootScope, $httpBackend);
     }]));
 
-    // Info and links
+    describe('header info and links', function() {
 
-    describe('info and links', function() {
-
-        beforeEach(function() {
-        });
-
-        //1
         it('should show the webcert logo with a link to the start page', function() {
             var logoLink = element.find('#webcertLogoLink');
             var href = logoLink.attr('href');
             expect(href).toBe('/web/start');
         });
 
-        //2
         it('should show the current date, the name of the selected vardgivare and the selected vardenhet', function() {
             var locationText = element.find('#location');
             var today = moment().format('YYYY-MM-DD');
             expect(locationText.html()).toBe(today + ' - ' + User.userContext.valdVardgivare.namn + ' - ' + User.userContext.valdVardenhet.namn);
         });
 
-        //3
-        xit('should show a byt vardenhet link if there are more than 1 vardenhet to choose from', function() {
+        it('should show a byt vardenhet link if there are more than 1 vardenhet to choose from', function() {
+            User.userContext.totaltAntalVardenheter = 6;
+            $scope.$digest();
+            var careUnitSelectionLink = element.find('#wc-care-unit-clinic-selector');
+            expect(careUnitSelectionLink.hasClass('ng-hide')).toBe(false);
         });
 
-        //4
-        xit('should show how many unhandled issues are present on other vardenheter', function() {
+        it('should show how many unhandled issues are present on other vardenheter', function() {
+            var unhandledIssuesSpan = element.find('#otherLocations');
+            expect(unhandledIssuesSpan.hasClass('ng-hide')).toBe(false);
+            expect(unhandledIssuesSpan.html()).toContain('4');
         });
 
-        //2
-        xit('should show name and role of the logged in user', function() {
+        it('should show name and role of the logged in user', function() {
+            var role = element.find('#logged-in-role').html();
+            var name = element.find('.logged-in').html();
 
+            expect(role).toContain('Läkare');
+            expect(name).toBe('Eva Holgersson');
         });
     });
 
     // Menu
 
     describe('info and links', function() {
-        //2
+
+        it('should show a logout button if not in djupintegration mode', function() {
+            var link = element.find('#logoutLink');
+            expect(link.length).toBe(1);
+        });
+
         xit('should generate a menu with choices fit for a doctor', function() {
         });
 
-        //2
         xit('should generate a menu with choices fit for an administrator', function() {
         });
 
-        //2
-        xit('should bubbles showing number of unhandled questions/answers and utkast on vardenhet', function() {
+        it('should bubbles showing number of unhandled questions/answers and utkast on vardenhet', function() {
+            var unsignedCerts = element.find('#stat-unitstat-unsigned-certs-count');
+            var unhandledQs = element.find('#stat-unitstat-unhandled-question-count');
+
+            expect(unsignedCerts.html()).toBe('10');
+            expect(unhandledQs.html()).toBe('12');
         });
     });
 
     // Djupintegration
 
-    describe('info and links', function() {
-        //3
-        xit('should hide elements of the header if coming from a djupintegrerat journalsystem', function() {
+    describe('djupintegration gui changes', function() {
+
+        beforeEach(function() {
+            featureService.testDjupintegration = true;
+            generateDirective($compile, $rootScope, $httpBackend);
         });
 
-        //3
-        xit('should show a logout button if not in djupintegration mode', function() {
+        it('should hide elements of the header if coming from a djupintegrerat journalsystem', function() {
+            var hiddenElement = element.find('#huvudmeny');
+            expect(hiddenElement.length).toBe(0);
+
+            hiddenElement = element.find('#webcertLogoLink');
+            expect(hiddenElement.length).toBe(0);
+
+            hiddenElement = element.find('#logoutLink');
+            expect(hiddenElement.length).toBe(0);
         });
 
-        //3
-        xit('should show a link to Om Webcert if in djupintegration mode', function() {
+        it('should show a link to Om Webcert if in djupintegration mode', function() {
+            var about = element.find('#aboutLink');
+            expect(about.length).toBe(1);
         });
     });
-
-    // Negatives
 
 });
