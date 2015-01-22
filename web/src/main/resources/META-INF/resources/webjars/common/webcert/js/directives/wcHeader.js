@@ -87,7 +87,7 @@ angular.module('common').directive('wcHeader',
                             };
 
                             if (User.userContext.lakare) {
-                                $scope.menuDefs.splice(0, 0, writeCertMenuDef);
+                                menu.splice(0, 0, writeCertMenuDef);
                             } else {
                                 menu.push(writeCertMenuDef);
                             }
