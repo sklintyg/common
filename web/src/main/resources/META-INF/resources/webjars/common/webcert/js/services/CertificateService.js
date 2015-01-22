@@ -128,9 +128,9 @@ angular.module('common').factory('common.CertificateService',
         }
 
         function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, onSuccess, onError) {
-            $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp);
+            $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeraklient';
-            $http.post(restPath).
+            $http.post(restPath, signatur).
                 success(function(ticket) {
                     onSuccess(ticket);
                 }).
