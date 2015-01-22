@@ -16,7 +16,6 @@ angular.module('common').directive('wcAutoSave', function($timeout) {
             var saveFunction = function() {
                 savePromise = null;
                 var result = $scope.$eval(expression);
-                console.log(result);
                 if (result) {
                     lastSave = (new Date()).getTime();
                 } else {
