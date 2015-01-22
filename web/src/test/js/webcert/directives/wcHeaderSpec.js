@@ -104,7 +104,7 @@ describe('wcHeader', function() {
         $httpBackend = _$httpBackend_;
 
         // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast from statService
-        spyOn($rootScope, '$broadcast').andCallThrough();
+        spyOn($rootScope, '$broadcast').and.callThrough();
         generateDirective($compile, $rootScope, $httpBackend);
     }]));
 

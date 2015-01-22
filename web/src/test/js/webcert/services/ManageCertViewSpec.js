@@ -159,8 +159,8 @@ describe('ManageCertView', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            iid_Invoke.andReturn(0);
-            iid_GetProperty.andReturn('4321dcba');
+            iid_Invoke.and.returnValue(0);
+            iid_GetProperty.and.returnValue('4321dcba');
 
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
                 respond(200, { id: biljettId, status: 'SIGNERAD' });
@@ -176,8 +176,8 @@ describe('ManageCertView', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            iid_Invoke.andReturn(0);
-            iid_GetProperty.andReturn('4321dcba');
+            iid_Invoke.and.returnValue(0);
+            iid_GetProperty.and.returnValue('4321dcba');
 
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
                 respond(200, { id: biljettId, status: 'BEARBETAD' });
@@ -210,7 +210,7 @@ describe('ManageCertView', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            iid_Invoke.andReturn(-1);
+            iid_Invoke.and.returnValue(-1);
 
             ManageCertView.signera($scope, 'fk7263');
             $httpBackend.flush();
