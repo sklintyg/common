@@ -33,9 +33,26 @@ angular.module('common').factory('common.DateUtilsService', function() {
         }
     }
 
+    /**
+     * Convert Date object dates to ISO dates.
+     * @param viewValue
+     * @returns {*}
+     */
+    function _convertDateToISOString(viewValue, format) {
+        if(format === undefined){
+            format = 'YYYY-MM-DD';
+        }
+        if (viewValue instanceof Date &&
+            moment(moment(viewValue).format(format), format, true).isValid()) {
+            viewValue = moment(viewValue).format(format);
+        }
+        return viewValue;
+    }
+
     return {
         isDate: _isDate,
-        toMoment: _toMoment
+        toMoment: _toMoment,
+        convertDateToISOString : _convertDateToISOString
     };
 
 });

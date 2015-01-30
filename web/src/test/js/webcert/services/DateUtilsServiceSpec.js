@@ -44,4 +44,22 @@ describe('DateUtilsService', function() {
 
     });
 
+    describe('#convertDateToISOString', function() {
+
+        it ('can convert a date to iso', function () {
+            var date = new Date(2015, 0, 5, 11, 33, 30, 0);
+            var result = DateUtilsService.convertDateToISOString(date);
+            var expected = "2015-01-05";
+            expect(expected).toBe(result);
+        });
+
+        it ('can convert a date with format YY M D', function () {
+            var date = new Date(2015, 0, 5, 11, 33, 30, 0);
+            var result = DateUtilsService.convertDateToISOString(date, "YY M D");
+            var expected = "15 1 5";
+            expect(expected).toBe(result);
+        });
+
+    });
+
 });
