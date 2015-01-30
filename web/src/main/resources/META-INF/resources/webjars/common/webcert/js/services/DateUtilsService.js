@@ -94,6 +94,40 @@ angular.module('common').factory('common.DateUtilsService', function() {
     }
 
     /**
+     * Checks to see if the date is older than a week.
+     * @param startMoment
+     * @returns {*}
+     * @private
+     */
+    function _olderThanAWeek( startMoment ){
+        if( startMoment === null ){
+            return;
+        }
+        var now = moment();
+        return startMoment.isBefore(now.subtract('days', 7));
+    }
+
+    /**
+     * Checks to see if the startDate is out of range.
+     * If months is not provided it defaults to 6.
+     * @param startMoment
+     * @param months
+     * @returns {*}
+     * @private
+     */
+    function _isDateOutOfRange(startMoment, months){
+        if (startMoment === null) {
+            return;
+        }
+        if(months === undefined){
+            months = 6;
+        }
+
+        var now = moment();
+        return startMoment.isAfter(now.add('months', months));
+    }
+
+    /**
      * Checks whether the two dates are within the specific month range.
      * If no month range is provided this will defaul to 6 months.
      * @param startMoment
@@ -119,7 +153,9 @@ angular.module('common').factory('common.DateUtilsService', function() {
         convertDateToISOString : _convertDateToISOString,
         convertDateStrict : _convertDateStrict,
         pushValidDate : _pushValidDate,
-        areDatesWithinMonthRange : _areDatesWithinMonthRange
+        areDatesWithinMonthRange : _areDatesWithinMonthRange,
+        olderThanAWeek :_olderThanAWeek,
+        isDateOutOfRange : _isDateOutOfRange
     };
 
 });

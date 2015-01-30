@@ -111,4 +111,52 @@ describe('DateUtilsService', function() {
 
     });
 
+    describe('#isDateOutOfRange', function() {
+
+        it ('can check that a date is out of range', function () {
+            var startMoment = moment();
+            // bump the date by 7 months
+            startMoment.add(7, 'months');
+
+            expect(DateUtilsService.isDateOutOfRange(startMoment)).toBeTruthy();
+        });
+
+        it ('can check that a date is within 6 months ', function () {
+            var startMoment = moment();
+            // bump the date by 7 months
+            startMoment.add(5, 'months');
+
+            expect(DateUtilsService.isDateOutOfRange(startMoment)).toBeFalsy();
+        });
+
+    });
+
+    describe('#isDateOutOfRange', function() {
+
+        it ('can check that a date is out of range', function () {
+            var startMoment = moment();
+            // bump the date by 7 months
+            startMoment.add(7, 'months');
+
+            expect(DateUtilsService.isDateOutOfRange(startMoment)).toBeTruthy();
+        });
+
+        it ('can check that a date is longer than 6 months and more than one week', function () {
+            var startMoment = moment();
+            // bump the date by 7 months
+            startMoment.add(7, 'months');
+
+            expect(DateUtilsService.olderThanAWeek(startMoment) || DateUtilsService.isDateOutOfRange(startMoment)).toBeTruthy();
+        });
+
+
+        it ('can check that a date is less than a week and less than 6 months from now', function () {
+            var startMoment = moment();
+            startMoment.add(3, 'days');
+
+            expect(DateUtilsService.olderThanAWeek(startMoment) || DateUtilsService.isDateOutOfRange(startMoment)).toBeFalsy();
+        });
+
+    });
+
 });
