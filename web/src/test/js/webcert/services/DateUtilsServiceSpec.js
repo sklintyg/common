@@ -74,4 +74,27 @@ describe('DateUtilsService', function() {
 
     });
 
+    describe('#pushValidDate', function() {
+
+        it ('can filter out invalid dates', function () {
+            var date = "222222222";
+            var list = [];
+            DateUtilsService.pushValidDate(list, date);
+            // only yyyy, mm and dd, should be able to test that secs is 0
+
+            expect(list.length).toBe(0);
+        });
+
+        it ('can push a valid dates', function () {
+            var date = "2015-01-05";
+            var list = [];
+            DateUtilsService.pushValidDate(list, date);
+
+            DateUtilsService.pushValidDate(list, date);
+            // only yyyy, mm and dd, should be able to test that secs is 0
+
+            expect(list.length).toBe(2);
+        });
+    });
+
 });

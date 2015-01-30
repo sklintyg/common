@@ -75,11 +75,30 @@ angular.module('common').factory('common.DateUtilsService', function() {
         return momentDate;
     }
 
+    /**
+     * adds a valid iso formatted date to the provided list
+     * @param list
+     * @param dateValue
+     * @private
+     */
+    function _pushValidDate(list, dateValue) {
+        if ((typeof dateValue === 'string' && dateValue.length === 10) || dateValue instanceof Date) {
+            var momentDate = this.toMoment(dateValue);
+            if (momentDate !== null && momentDate.isValid()) {
+                var formattedDate = moment(momentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD', true);
+                if (formattedDate.isValid()) {
+                    list.push(formattedDate);
+                }
+            }
+        }
+    }
+
     return {
         isDate: _isDate,
         toMoment: _toMoment,
         convertDateToISOString : _convertDateToISOString,
-        convertDateStrict : _convertDateStrict
+        convertDateStrict : _convertDateStrict,
+        pushValidDate : _pushValidDate
     };
 
 });
