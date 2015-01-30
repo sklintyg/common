@@ -97,4 +97,18 @@ describe('DateUtilsService', function() {
         });
     });
 
+    describe('#areDatesWithinMonthRange', function() {
+
+        it ('can check that dates are within month range', function () {
+            var startDate = new Date(2015, 0, 5, 11, 33, 30, 0);
+            var startMoment = DateUtilsService.toMoment(startDate);
+
+            var endDate = new Date(2015, 4, 4, 11, 33, 30, 0);
+            var endMoment = DateUtilsService.toMoment(endDate);
+
+            expect(DateUtilsService.areDatesWithinMonthRange(startMoment, endMoment)).toBeTruthy();
+        });
+
+    });
+
 });

@@ -93,12 +93,33 @@ angular.module('common').factory('common.DateUtilsService', function() {
         }
     }
 
+    /**
+     * Checks whether the two dates are within the specific month range.
+     * If no month range is provided this will defaul to 6 months.
+     * @param startMoment
+     * @param endMoment
+     * @param months
+     * @private
+     */
+    function _areDatesWithinMonthRange(startMoment, endMoment, months){
+        if (startMoment === null || endMoment === null) {
+            $scope.datesPeriodTooLong = false;
+            return;
+        }
+        if(months === undefined){
+            months = 6;
+        }
+
+        return (Math.abs(startMoment.diff(endMoment, 'months')) <= months);
+    }
+
     return {
         isDate: _isDate,
         toMoment: _toMoment,
         convertDateToISOString : _convertDateToISOString,
         convertDateStrict : _convertDateStrict,
-        pushValidDate : _pushValidDate
+        pushValidDate : _pushValidDate,
+        areDatesWithinMonthRange : _areDatesWithinMonthRange
     };
 
 });
