@@ -49,10 +49,37 @@ angular.module('common').factory('common.DateUtilsService', function() {
         return viewValue;
     }
 
+    /**
+     * Convert date from string to a strict moment date
+     * @param date
+     * @returns {*}
+     */
+    function _convertDateStrict(date) {
+
+        console.log("in _convertDateStrict");
+
+        if (typeof date === 'string' && date.length < 10) {
+            return null;
+        }
+
+        var momentDate = this.toMoment(date);
+        if (momentDate !== null) {
+            // Format date strictly to 'YYYY-MM-DD'.
+            momentDate = moment(momentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD', true).format('YYYY-MM-DD');
+            if (momentDate === 'invalid date') {
+                // We don't want to handle invalid dates at all
+                momentDate = null;
+            }
+        }
+
+        return momentDate;
+    }
+
     return {
         isDate: _isDate,
         toMoment: _toMoment,
-        convertDateToISOString : _convertDateToISOString
+        convertDateToISOString : _convertDateToISOString,
+        convertDateStrict : _convertDateStrict
     };
 
 });

@@ -62,4 +62,16 @@ describe('DateUtilsService', function() {
 
     });
 
+    describe('#convertDateStrict', function() {
+
+        it ('can convert a date strictly', function () {
+            var date = new Date(2015, 0, 5, 11, 33, 30, 0);
+            var result = DateUtilsService.convertDateStrict(date);
+            // only yyyy, mm and dd, should be able to test that secs is 0
+            var expected = "2015-01-05";
+            expect(result).toBe(expected);
+        });
+
+    });
+
 });
