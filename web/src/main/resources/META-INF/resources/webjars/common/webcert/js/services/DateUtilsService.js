@@ -137,14 +137,20 @@ angular.module('common').factory('common.DateUtilsService', function() {
      */
     function _areDatesWithinMonthRange(startMoment, endMoment, months){
         if (startMoment === null || endMoment === null) {
-            $scope.datesPeriodTooLong = false;
-            return;
+            return false;
         }
         if(months === undefined){
             months = 6;
         }
 
         return (Math.abs(startMoment.diff(endMoment, 'months')) <= months);
+    }
+
+    function _daysBetween(startMoment, endMoment){
+        if(!startMoment || !endMoment){
+            return false;
+        }
+        return endMoment.diff(startMoment, 'days') + 1;
     }
 
     return {
@@ -155,7 +161,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
         pushValidDate : _pushValidDate,
         areDatesWithinMonthRange : _areDatesWithinMonthRange,
         olderThanAWeek :_olderThanAWeek,
-        isDateOutOfRange : _isDateOutOfRange
+        isDateOutOfRange : _isDateOutOfRange,
+        daysBetween : _daysBetween
     };
 
 });

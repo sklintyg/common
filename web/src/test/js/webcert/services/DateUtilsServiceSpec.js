@@ -159,4 +159,23 @@ describe('DateUtilsService', function() {
 
     });
 
+    describe('#daysBetween', function() {
+
+        it ('can check that we can get days between two dates', function () {
+            var startDate = new Date(2015, 0, 5);
+            var startMoment = DateUtilsService.toMoment(startDate);
+
+            var endDate = new Date(2015, 4, 4);
+            var endMoment = DateUtilsService.toMoment(endDate);
+            var days = DateUtilsService.daysBetween(startMoment, endMoment);
+            expect(days).toBe(120);
+        });
+
+        it ('can check that we get false if we provide no dates', function () {
+            var days = DateUtilsService.daysBetween(null, null);
+            expect(days).toBeFalsy();
+        });
+
+    });
+
 });
