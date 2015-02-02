@@ -632,6 +632,10 @@
         margin: 0;
     }
 
+    .alert-dismissable .close {
+        right: -10px;
+    }
+
     /**
      Directive(s) css
     **/
