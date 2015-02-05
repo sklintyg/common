@@ -31,4 +31,13 @@ public enum Diagnoskodverk {
     public String getCodeSystemVersion() {
         return codeSystemVersion;
     }
+
+    public static Diagnoskodverk getEnumByCodeSystem(String oid) {
+        for (Diagnoskodverk kodverk : Diagnoskodverk.values()) {
+            if (kodverk.getCodeSystem().equals(oid)) {
+                return kodverk;
+            }
+        }
+        return null;
+    }
 }
