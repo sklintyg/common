@@ -190,12 +190,13 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             function _signeraKlient($scope, intygsTyp, intygsId) {
-                CertificateService.getSigneringshash(intygsId, intygsTyp, function(ticket) {
+                    $scope.signingWithSITHSInProgress = true;
+                    CertificateService.getSigneringshash(intygsId, intygsTyp, function(ticket) {
                     _openNetIdPlugin(ticket.hash, function(signatur) {
                         CertificateService.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, function(ticket) {
 
                             if (ticket.status === 'SIGNERAD') {
-                                _showIntygAfterSignering(intygsTyp, intygsId);
+                                _showIntygAfterSignering($scope, intygsTyp, intygsId);
                             } else {
                                 _waitForSigneringsstatusSigneradAndClose($scope, intygsTyp, intygsId, ticket);
                             }
@@ -223,6 +224,7 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             function _openNetIdPlugin(hash, onSuccess, onError) {
+
                 iid_SetProperty('Base64', 'true');
                 iid_SetProperty('DataToBeSigned', hash);
                 iid_SetProperty('URLEncode', 'false');
@@ -233,7 +235,7 @@ angular.module('common').factory('common.ManageCertView',
                 } else {
                     var message = 'Signeringen avbröts med kod: ' + resultCode;
                     $log.info(message);
-                    onError(message);
+                    onError({ errorCode: 'SIGN_NETID_ERROR'});
                 }
             }
 
@@ -244,9 +246,9 @@ angular.module('common').factory('common.ManageCertView',
                         if ('BEARBETAR' === ticket.status) {
                             $scope._timer = $timeout(getSigneringsstatus, 1000);
                         } else if ('SIGNERAD' === ticket.status) {
-                            _showIntygAfterSignering(intygsTyp, intygsId, dialog);
+                            _showIntygAfterSignering($scope, intygsTyp, intygsId, dialog);
                         } else {
-                            _showSigneringsError($scope, {errorCode: 'SIGN_ERROR'});
+                            _showSigneringsError($scope, {errorCode: 'SIGNERROR'});
                         }
                     });
                 }
@@ -254,32 +256,50 @@ angular.module('common').factory('common.ManageCertView',
                 getSigneringsstatus();
             }
 
-            function _showIntygAfterSignering(intygsTyp, intygsId, dialog) {
+            function _showIntygAfterSignering($scope, intygsTyp, intygsId, dialog) {
                 if (dialog) {
                     dialog.close();
                 }
+                $scope.signingWithSITHSInProgress = false;
+
                 $location.replace();
                 $location.path('/intyg/' + intygsTyp + '/' + intygsId);
                 statService.refreshStat();
+            }
+
+            function _setErrorMessageId(error) {
+                var messageId = '';
+
+                if (error === undefined) {
+                    $log.debug('_setErrorMessageId: Error is not defined.');
+                    messageId = 'common.error.signerror';
+                }
+                else {
+                    if (error.errorCode === 'DATA_NOT_FOUND') {
+                        messageId = 'common.error.certificatenotfound';
+                    } else if (error.errorCode === 'INVALID_STATE') {
+                        messageId = 'common.error.certificateinvalidstate';
+                    } else if (error.errorCode === 'SIGN_NETID_ERROR') {
+                        messageId = 'common.error.signerrornetid';
+                    } else if (error === '') {
+                        messageId = 'common.error.cantconnect';
+                    } else {
+                        messageId = 'common.error.signerror';
+                    }
+                }
+                return messageId;
             }
 
             function _showSigneringsError($scope, error) {
                 if ($scope.dialog) {
                     $scope.dialog.acceptprogressdone = true;
                     $scope.dialog.showerror = true;
-
-                    if (error.errorCode === 'DATA_NOT_FOUND') {
-                        $scope.dialog.errormessageid = 'common.error.certificatenotfound';
-                    } else if (error.errorCode === 'INVALID_STATE') {
-                        $scope.dialog.errormessageid = 'common.error.certificateinvalid';
-                    } else if (error === '') {
-                        $scope.dialog.errormessageid = 'common.error.cantconnect';
-                    } else {
-                        $scope.dialog.errormessageid = 'common.error.signerror';
-                    }
+                    $scope.dialog.errormessageid = _setErrorMessageId(error);
                 } else {
-                    var errorMessage = messageService.getProperty(error, null, error);
+                    var sithssignerrormessageid = _setErrorMessageId(error);
+                    var errorMessage = messageService.getProperty(sithssignerrormessageid, null, sithssignerrormessageid);
                     dialogService.showErrorMessageDialog(errorMessage);
+                    $scope.signingWithSITHSInProgress = false;
                 }
             }
 

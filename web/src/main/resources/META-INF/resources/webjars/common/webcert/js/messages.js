@@ -91,11 +91,13 @@ var commonMessages = {
         'info.loadingcertificate': 'Hämtar intyget...',
 
         // Common errors
-        'common.error.unknown': '<strong>Tekniskt fel</strong>',
-        'common.error.cantconnect': '<strong>Kunde inte kontakta servern</strong>',
-        'common.error.certificatenotfound': '<strong>Intyget finns inte</strong>',
-        'common.error.certificateinvalid': '<strong>Intyget är inte korrekt ifyllt</strong>',
+        'common.error.unknown': '<strong>Tekniskt fel.</strong>',
+        'common.error.cantconnect': '<strong>Kunde inte kontakta servern.</strong>',
+        'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',
+        'common.error.certificateinvalid': '<strong>Intyget är inte korrekt ifyllt.</strong>',
+        'common.error.certificateinvalidstate': '<strong>Intyget är inte ett utkast.</strong>Inga operationer kan utföras på det längre.',
         'common.error.signerror': '<strong>Intyget kunde inte signeras.</strong><br>Försök igen senare.',
+        'common.error.signerrornetid': '<strong>Intyget kunde inte signeras.</strong><br>Kunde inte kontakta Net iD-klienten. Försök igen senare eller kontakta din support.',
         'common.error.unknown_internal_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Försök igen senare.',
         'common.error.data_not_found': '<strong>Intyget kunde inte hittas.</strong><br>Intyget är borttaget eller så saknas behörighet.',
         'common.error.module_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Problem att kontakta intygsmodulen.',
