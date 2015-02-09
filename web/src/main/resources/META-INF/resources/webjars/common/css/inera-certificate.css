@@ -255,6 +255,11 @@
         border-radius: 4px 4px 4px 4px;
     }
 
+    .cert-body .body-row .text .divider {
+        border-bottom: 1px solid #999;
+    }
+
+
     .cert-body .body-row .text.unfilled {
         background-color: white;
         border: 2px solid #e5e5e5;

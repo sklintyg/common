@@ -12,7 +12,8 @@ public interface WebcertModuleService {
      * Validates a diagnosis code using the DiagnosService.
      *
      * @param codeFragment
+     * @param codeSystem
      * @return true if the code matches a diagnosis, false otherwise.
      */
-    boolean validateDiagnosisCode(String codeFragment);
+    boolean validateDiagnosisCode(String codeFragment, String codeSystem);
 }
