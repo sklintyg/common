@@ -102,10 +102,10 @@ public interface ModuleApi {
      * 
      * @param internalModel
      *            The internal model of the certificate to send.
-     * @param recipient
+     * @param logicalAddress
      *            Where to send the certificate.
      */
-    void sendCertificateToRecipient(InternalModelHolder internalModel, String recipient) throws ModuleException;
+    void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
 
     /**
      * Get a certificate from intygstjansten.
