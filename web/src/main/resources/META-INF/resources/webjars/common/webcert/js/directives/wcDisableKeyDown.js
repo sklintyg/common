@@ -13,7 +13,7 @@ angular.module('common').directive('wcDisableKeyDown',
             });
         }
         return {
-            restrict: 'A',
+            restrict: 'EA',
             scope: {
                 elements: '@wcDisableKeyDownElements',
                 doneLoading: '=wcDisableKeyDownDoneLoading'
