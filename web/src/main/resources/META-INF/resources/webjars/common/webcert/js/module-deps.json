@@ -34,5 +34,6 @@
     "/web/webjars/common/webcert/js/services/User.js",
     "/web/webjars/common/webcert/js/services/UserPreferencesService.js",
     "/web/webjars/common/webcert/js/services/DateUtilsService.js",
-    "/web/webjars/common/webcert/js/services/UtilsService.js"
+    "/web/webjars/common/webcert/js/services/UtilsService.js",
+    "/web/webjars/common/webcert/js/services/IntygCopyRequestModel.js"
 ]
