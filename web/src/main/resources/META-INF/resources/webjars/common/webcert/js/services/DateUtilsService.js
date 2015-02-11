@@ -143,7 +143,7 @@ angular.module('common').factory('common.DateUtilsService', function() {
             months = 6;
         }
 
-        return (Math.abs(startMoment.diff(endMoment, 'months')) <= months);
+        return (Math.abs(startMoment.diff(endMoment, 'months')) < months);
     }
 
     function _daysBetween(startMoment, endMoment){

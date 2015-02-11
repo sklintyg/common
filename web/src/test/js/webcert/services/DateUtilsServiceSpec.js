@@ -100,13 +100,41 @@ describe('DateUtilsService', function() {
     describe('#areDatesWithinMonthRange', function() {
 
         it ('can check that dates are within month range', function () {
-            var startDate = new Date(2015, 0, 5, 11, 33, 30, 0);
+            var startDate = new Date(2014, 11, 5, 11, 33, 30, 0);
             var startMoment = DateUtilsService.toMoment(startDate);
 
             var endDate = new Date(2015, 4, 4, 11, 33, 30, 0);
             var endMoment = DateUtilsService.toMoment(endDate);
 
             expect(DateUtilsService.areDatesWithinMonthRange(startMoment, endMoment)).toBeTruthy();
+        });
+        it ('can check that dates are within month range - edge case', function () {
+            var startDate = new Date(2014, 10, 5, 11, 33, 30, 0);
+            var startMoment = DateUtilsService.toMoment(startDate);
+
+            var endDate = new Date(2015, 4, 4, 11, 33, 30, 0);
+            var endMoment = DateUtilsService.toMoment(endDate);
+
+            expect(DateUtilsService.areDatesWithinMonthRange(startMoment, endMoment)).toBeTruthy();
+        });
+
+        it ('can check that dates are not within month range', function () {
+            var startDate = new Date(2015, 0, 5, 11, 33, 30, 0);
+            var startMoment = DateUtilsService.toMoment(startDate);
+
+            var endDate = new Date(2015, 8, 4, 11, 33, 30, 0);
+            var endMoment = DateUtilsService.toMoment(endDate);
+
+            expect(DateUtilsService.areDatesWithinMonthRange(startMoment, endMoment)).toBeFalsy();
+        });
+        it ('can check that dates are not within month range - edge case', function () {
+            var startDate = new Date(2014, 10, 5, 11, 33, 30, 0);
+            var startMoment = DateUtilsService.toMoment(startDate);
+
+            var endDate = new Date(2015, 4, 5, 11, 33, 30, 0);
+            var endMoment = DateUtilsService.toMoment(endDate);
+
+            expect(DateUtilsService.areDatesWithinMonthRange(startMoment, endMoment)).toBeFalsy();
         });
 
     });
