@@ -32,9 +32,9 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 var recipient = '';
                 var subject = 'En fraga-svar ska besvaras i Webcert';
                 if (qa.vardperson.enhetsnamn !== undefined) {
-                    subject += ' på enhet ' + qa.vardperson.enhetsnamn;
+                    subject += ' pa enhet ' + qa.vardperson.enhetsnamn;
                     if (qa.vardperson.vardgivarnamn !== undefined) {
-                        subject += ' för vårdgivare ' + qa.vardperson.vardgivarnamn;
+                        subject += ' for vardgivare ' + qa.vardperson.vardgivarnamn;
                     }
                 }
 
