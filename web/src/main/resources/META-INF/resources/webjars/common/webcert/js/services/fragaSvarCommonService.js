@@ -4,8 +4,8 @@
  * related to certificates. (As of this time, only fk7263 module)
  */
 angular.module('common').factory('common.fragaSvarCommonService',
-    ['$http', '$log', '$modal', '$window', 'common.dialogService',
-        function($http, $log, $modal, $window, dialogService) {
+    ['$http', '$log', '$modal', '$window', 'common.dialogService', 'common.LocationUtilsService', 'common.featureService',
+        function($http, $log, $modal, $window, dialogService, LocationUtilsService, featureService) {
             'use strict';
 
             /*
@@ -185,12 +185,61 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 }
             }
 
+            var QAdialog = null;
+            var QAdialogConfirmed = false;
+            function _checkQAonlyDialog($scope, $event, newUrl, currentUrl, unbindEvent) {
+                // Check if the user used the special qa-link to get here.
+                if (featureService.isFeatureActive('franJournalsystemQAOnly') &&
+                    !QAdialog &&
+                    !QAdialogConfirmed &&
+                    newUrl.indexOf('#/fragasvar/') === -1 &&
+                    newUrl.indexOf('#/unhandled-qa') === -1 &&
+                    newUrl.indexOf('#/webcert/about') === -1 &&
+                    newUrl.indexOf('#/support/about') === -1 &&
+                    newUrl.indexOf('#/certificates/about') === -1 &&
+                    newUrl.indexOf('#/faq/about') === -1 &&
+                    newUrl.indexOf('#/cookies/about') === -1) {
+
+                    $event.preventDefault();
+
+                    QAdialog = dialogService.showDialog($scope, {
+                        dialogId: 'qa-only-warning-dialog',
+                        titleId: 'label.qaonlywarning',
+                        bodyTextId: 'label.qaonlywarning.body',
+                        templateUrl: '/views/partials/qa-only-warning-dialog.html',
+                        button1click: function() {
+                            QAdialogConfirmed = true;
+                            // unbind the location change listener
+                            unbindEvent();
+                            LocationUtilsService.changeUrl(currentUrl, newUrl);
+                        },
+                        button1text: 'common.continue',
+                        button1id: 'button1continue-dialog',
+                        button2text: 'common.cancel',
+                        autoClose: true
+                    }).result.then(function() {
+                        QAdialog = null; // Dialog closed
+                    }, function() {
+                        QAdialog = null; // Dialog dismissed
+                    });
+
+                }
+                else {
+                    // unbind the location change listener
+                    unbindEvent();
+                    if ($event.defaultPrevented) {
+                        LocationUtilsService.changeUrl(currentUrl, newUrl);
+                    }
+                }
+            }
+
             // Return public API for the service
             return {
                 setVidareBefordradState: _setVidareBefordradState,
                 handleVidareBefodradToggle: _handleVidareBefodradToggle,
                 buildMailToLink: _buildMailToLink,
                 decorateSingleItemMeasure: _decorateSingleItemMeasure,
-                isUnhandled: _isUnhandled
+                isUnhandled: _isUnhandled,
+                checkQAonlyDialog: _checkQAonlyDialog
             };
         }]);
