@@ -93,8 +93,10 @@ public interface ModuleApi {
      * 
      * @param internalModel
      *            The internal model of the certificate to send.
+     * @param logicalAddress
+     *            Logical address of receiving system, i.e Intygstjansten
      */
-    void registerCertificate(InternalModelHolder internalModel) throws ModuleException;
+    void registerCertificate(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
 
     /**
      * Send certificate to specified recipient.
@@ -102,18 +104,20 @@ public interface ModuleApi {
      * @param internalModel
      *            The internal model of the certificate to send.
      * @param logicalAddress
-     *            Where to send the certificate.
+     *            The recipient's logical address
      */
     void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
 
     /**
-     * Get a certificate from intygstjansten.
+     * Fetch a certificate from Intygstjansten.
      * 
      * @param certificateId
      *            The certificate id.
+     * @param logicalAddress
+     *            Logical address of receiving system, i.e Intygstjansten
      * @return internal model of the certificate
      */
-    CertificateResponse getCertificate(String certificateId) throws ModuleException;
+    CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException;
 
     /**
      * Check whether there are changes between the current and persisted model states
