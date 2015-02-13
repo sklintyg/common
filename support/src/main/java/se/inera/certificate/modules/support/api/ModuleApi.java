@@ -4,7 +4,6 @@ import org.joda.time.LocalDateTime;
 
 import se.inera.certificate.modules.support.ApplicationOrigin;
 import se.inera.certificate.modules.support.api.dto.CertificateResponse;
-import se.inera.certificate.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.certificate.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.certificate.modules.support.api.dto.HoSPersonal;
 import se.inera.certificate.modules.support.api.dto.InternalModelHolder;
@@ -78,15 +77,15 @@ public interface ModuleApi {
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
      * parameter and {@link InternalModelHolder} template.
      * 
-     * @param draftCopyHolder
-     *            The id of the new internal model, the {@link HoSPersonal} and optional
+     * @param draftCertificateHolder
+     *            The id of the new internal model, the {@link HoSPersonal} and
      *            {@link se.inera.certificate.modules.support.api.dto.Patient} data.
      * @param template
      *            An internal model used as a template for the new internal model.
      * 
      * @return A new instance of the internal model.
      */
-    InternalModelResponse createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder template)
+    InternalModelResponse createNewInternalFromTemplate(CreateNewDraftHolder draftCertificateHolder, InternalModelHolder template)
             throws ModuleException;
 
     /**
@@ -94,8 +93,10 @@ public interface ModuleApi {
      * 
      * @param internalModel
      *            The internal model of the certificate to send.
+     * @param logicalAddress
+     *            Logical address of receiving system, i.e Intygstjansten
      */
-    void registerCertificate(InternalModelHolder internalModel) throws ModuleException;
+    void registerCertificate(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
 
     /**
      * Send certificate to specified recipient.
@@ -103,18 +104,20 @@ public interface ModuleApi {
      * @param internalModel
      *            The internal model of the certificate to send.
      * @param logicalAddress
-     *            Where to send the certificate.
+     *            The recipient's logical address
      */
     void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
 
     /**
-     * Get a certificate from intygstjansten.
+     * Fetch a certificate from Intygstjansten.
      * 
      * @param certificateId
      *            The certificate id.
+     * @param logicalAddress
+     *            Logical address of receiving system, i.e Intygstjansten
      * @return internal model of the certificate
      */
-    CertificateResponse getCertificate(String certificateId) throws ModuleException;
+    CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException;
 
     /**
      * Check whether there are changes between the current and persisted model states

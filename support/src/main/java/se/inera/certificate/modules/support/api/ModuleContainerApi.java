@@ -11,11 +11,11 @@ public interface ModuleContainerApi {
     /**
      * Signal the reception of a certificate to the module container.
      */
-    public void certificateReceived(CertificateHolder certificate, boolean wireTapped) throws CertificateAlreadyExistsException, InvalidCertificateException;
+    void certificateReceived(CertificateHolder certificate, boolean wireTapped) throws CertificateAlreadyExistsException, InvalidCertificateException;
 
     /**
      * Get a certificate from the module container.
      */
-    public CertificateHolder getCertificate(String certificateId, String personId, boolean checkConsent) throws InvalidCertificateException;
+    CertificateHolder getCertificate(String certificateId, String personId, boolean checkConsent) throws InvalidCertificateException;
 
 }
