@@ -2,6 +2,7 @@ package se.inera.certificate.modules.support.api;
 
 import org.joda.time.LocalDateTime;
 
+import se.inera.certificate.model.Status;
 import se.inera.certificate.modules.support.ApplicationOrigin;
 import se.inera.certificate.modules.support.api.dto.CertificateResponse;
 import se.inera.certificate.modules.support.api.dto.CreateDraftCopyHolder;
@@ -12,6 +13,8 @@ import se.inera.certificate.modules.support.api.dto.InternalModelResponse;
 import se.inera.certificate.modules.support.api.dto.PdfResponse;
 import se.inera.certificate.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.certificate.modules.support.api.exception.ModuleException;
+
+import java.util.List;
 
 /**
  * The module API defines methods that interact with one of the tree models that every module handles:
@@ -60,7 +63,7 @@ public interface ModuleApi {
      * 
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdf(InternalModelHolder internalModel, ApplicationOrigin applicationOrigin) throws ModuleException;
+    PdfResponse pdf(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
