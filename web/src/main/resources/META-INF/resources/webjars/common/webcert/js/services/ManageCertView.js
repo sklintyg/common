@@ -57,24 +57,26 @@ angular.module('common').factory('common.ManageCertView',
 
                         if (data.status === 'COMPLETE') {
                             $scope.isComplete = true;
-                        } else if (!autoSave) {
+                        } else {
                             $scope.isComplete = false;
-                            $scope.validationMessages = data.messages;
+                            if (!autoSave) {
+                                $scope.validationMessages = data.messages;
 
-                            angular.forEach(data.messages, function(message) {
-                                var field = message.field;
-                                var parts = field.split('.');
-                                var section;
-                                if (parts.length > 0) {
-                                    section = parts[0].toLowerCase();
+                                angular.forEach(data.messages, function(message) {
+                                    var field = message.field;
+                                    var parts = field.split('.');
+                                    var section;
+                                    if (parts.length > 0) {
+                                        section = parts[0].toLowerCase();
 
-                                    if ($scope.validationMessagesGrouped[section]) {
-                                        $scope.validationMessagesGrouped[section].push(message);
-                                    } else {
-                                        $scope.validationMessagesGrouped[section] = [message];
+                                        if ($scope.validationMessagesGrouped[section]) {
+                                            $scope.validationMessagesGrouped[section].push(message);
+                                        } else {
+                                            $scope.validationMessagesGrouped[section] = [message];
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     }, function(error) {
                         $scope.certForm.$setDirty();
