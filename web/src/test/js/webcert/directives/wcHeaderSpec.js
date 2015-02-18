@@ -57,7 +57,7 @@ describe('wcHeader', function() {
                 {'namn':'Linköpings Universitetssjukhus - Akuten','id':'lkpg-akuten','fragaSvar':0,'intyg':0},
                 {'namn':'Linköpings Universitetssjukhus - Ögonmottagningen','id':'lkpg-ogon','fragaSvar':0,'intyg':0}]}
         ]};
-/*
+
     function generateDirective($compile, $rootScope, $httpBackend) {
         // The header directive will call the statService and expect a response which will be used for tests
         $httpBackend.expectGET('/moduleapi/stat/').respond(200, testStatResponse);
@@ -66,8 +66,8 @@ describe('wcHeader', function() {
         $scope.$digest();
         $httpBackend.flush();
     }
-*/
-//    beforeEach(angular.mock.module('htmlTemplates')); // htmlTemplates fail again for some reason.. until this is fixed these tests cannot run.
+
+    beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.User', { userContext: testUserContext });
 
@@ -105,10 +105,10 @@ describe('wcHeader', function() {
 
         // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast from statService
         spyOn($rootScope, '$broadcast').and.callThrough();
-        //generateDirective($compile, $rootScope, $httpBackend);
+        generateDirective($compile, $rootScope, $httpBackend);
     }]));
 
-    xdescribe('header info and links', function() {
+    describe('header info and links', function() {
 
         it('should show the webcert logo with a link to the start page', function() {
             var logoLink = element.find('#webcertLogoLink');
@@ -146,7 +146,7 @@ describe('wcHeader', function() {
 
     // Menu
 
-    xdescribe('info and links', function() {
+    describe('info and links', function() {
 
         it('should show a logout button if not in djupintegration mode', function() {
             var link = element.find('#logoutLink');
@@ -170,7 +170,7 @@ describe('wcHeader', function() {
 
     // Djupintegration
 
-    xdescribe('djupintegration gui changes', function() {
+    describe('djupintegration gui changes', function() {
 
         beforeEach(function() {
             featureService.testDjupintegration = true;
