@@ -43,6 +43,10 @@ angular.module('common').directive('wcAutoSave', function($timeout) {
                     savePromise = $timeout(saveFunction, wait);
                 }
             });
+
+            $scope.$on('$destroy', function() {
+                $timeout.cancel(savePromise);
+            });
         }
     };
 });
