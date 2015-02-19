@@ -56,8 +56,6 @@ angular.module('common').factory('common.DateUtilsService', function() {
      */
     function _convertDateStrict(date) {
 
-        console.log("in _convertDateStrict");
-
         if (typeof date === 'string' && date.length < 10) {
             return null;
         }
