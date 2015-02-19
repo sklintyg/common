@@ -159,7 +159,7 @@ public interface ModuleApi {
      * 
      * @return A new internal model updated with the hosPerson info.
      */
-    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)  throws ModuleException;
+    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException;
     
     /**
      * Create a notification message based on the supplied model.
@@ -167,6 +167,6 @@ public interface ModuleApi {
      * @param notificationMessage
      * @return
      */
-    Object createNotification(NotificationMessage notificationMessage);
+    Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
     
 }
