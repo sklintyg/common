@@ -53,6 +53,7 @@ angular.module('common').directive('wcHeader',
                                 requiresDoctor: false,
                                 statNumberId: 'stat-unitstat-unhandled-question-count',
                                 statTooltip: 'not set',
+                                id: 'menu-unhandled-qa',
                                 getStat: function() {
                                     this.statTooltip = 'Vårdenheten har ' + $scope.stat.fragaSvarValdEnhet +
                                         ' ej hanterade frågor och svar.';
@@ -68,6 +69,7 @@ angular.module('common').directive('wcHeader',
                                 requiresDoctor: false,
                                 statNumberId: 'stat-unitstat-unsigned-certs-count',
                                 statTooltip: 'not set',
+                                id: 'menu-unsigned',
                                 getStat: function() {
                                     this.statTooltip =
                                         'Vårdenheten har ' + $scope.stat.intygValdEnhet + ' ej signerade utkast.';
@@ -81,6 +83,7 @@ angular.module('common').directive('wcHeader',
                                 link: '/web/dashboard#/create/index',
                                 label: 'Sök/skriv intyg',
                                 requiresDoctor: false,
+                                id: 'menu-skrivintyg',
                                 getStat: function() {
                                     return '';
                                 }

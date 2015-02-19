@@ -37,7 +37,7 @@
       <div class="navbar-collapse collapse" ng-class="!navCollapsed && 'in'">
         <ul class="nav navbar-nav">
           <li ng-class="{active: isActive(menu.link)}" ng-repeat="menu in menuDefs">
-            <a ng-href="{{menu.link}}" ng-show="(menu.requiresDoctor && isDoctor) || !menu.requiresDoctor">{{menu.label}}
+            <a ng-href="{{menu.link}}" ng-show="(menu.requiresDoctor && isDoctor) || !menu.requiresDoctor" id="{{menu.id}}">{{menu.label}}
               <span id="{{menu.statNumberId}}" ng-if="menu.getStat()>0" class="stat-circle stat-circle-active"
                     title="{{menu.statTooltip}}">{{menu.getStat()}}</span></a>
           </li>

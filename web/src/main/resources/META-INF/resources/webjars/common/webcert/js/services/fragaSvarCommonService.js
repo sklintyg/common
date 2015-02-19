@@ -77,26 +77,44 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function _isUnhandledForDecoration(qa){
-                // only used for property lookup XX
                 if(!qa){
                     return false;
                 }
                 return qa.status === 'ANSWERED' || qa.amne === 'MAKULERING' || qa.amne === 'PAMINNELSE';
             }
 
-            /**
-             * Kolla om status är inte lika med CLOSED.
-             * QACtrl.updateAsHandled sätta statusen till CLOSED så anta jag att alla
-             * fragaSvara som inte är status=CLOSED skulle tolkas som Ej Hanterad...
-             * @param qa
-             * @returns {boolean}
-             * @private
-             */
             function _isUnhandled(qa){
-                if(!qa){
+                if( (qa.status === 'PENDING_INTERNAL_ACTION' && qa.amne === 'PAMINNELSE')
+                    ||
+                    qa.status === 'ANSWERED'
+                ){
+                    return true;
+                } else {
+                    return false
+                }
+            }
+
+            function _getUnhandledQas(qas){
+                if(!qas || qas.length === 0){
                     return false;
                 }
-                return qa.status !== 'CLOSED';
+                var qasfiltered = [];
+                for (var i = 0, len = qas.length; i < len; i++) {
+                    var qa = qas[i];
+                    var isUnhandled = _isUnhandled(qa);
+                    var fromFk = _fromFk(qa);
+                    if(isUnhandled && fromFk){
+                        qasfiltered.push(qa);
+                    }
+                }
+                return qasfiltered;
+            }
+
+            function _fromFk(qa){
+                if(qa.frageStallare === 'FK'){
+                    return true;
+                }
+                return false;
             }
 
             function _showVidarebefordradPreferenceDialog(title, bodyText, yesCallback, noCallback, noDontAskCallback,
@@ -240,6 +258,8 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 buildMailToLink: _buildMailToLink,
                 decorateSingleItemMeasure: _decorateSingleItemMeasure,
                 isUnhandled: _isUnhandled,
-                checkQAonlyDialog: _checkQAonlyDialog
+                fromFk : _fromFk,
+                checkQAonlyDialog: _checkQAonlyDialog,
+                getUnhandledQas : _getUnhandledQas
             };
         }]);

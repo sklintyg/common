@@ -21,6 +21,29 @@ describe('fragaSvarCommonService', function() {
             expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
         });
 
+
+        it ('should be unhandled if qa.status === PENDING_INTERNAL_ACTION && qa.amne === PAMINNELSE', function () {
+            var qa = {status:'PENDING_INTERNAL_ACTION', amne : 'PAMINNELSE'};
+            expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
+        });
+
+
+        it ('should be unhandled if qa.status === PENDING_EXTERNAL_ACTION && qa.amne === MAKULERING', function () {
+            var qa = {status:'PENDING_EXTERNAL_ACTION', amne : 'MAKULERING'};
+            expect(fragaSvarCommonService.isUnhandled(qa)).toBeFalsy();
+        });
+
+        it ('should be unhandled if qa.status === ANSWERED && qa.amne === *', function () {
+            var qa = {status:'ANSWERED', amne : 'PAMINNELSE'};
+            expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
+        });
+
+
+        it ('should be unhandled if qa.status === PENDING_EXTERNAL_ACTION && qa.amne === MAKULERING', function () {
+            var qa = {status:'PENDING_EXTERNAL_ACTION', amne : 'AHHG'};
+            expect(fragaSvarCommonService.isUnhandled(qa)).toBeFalsy();
+        });
+
         it ('should be handled if qa.status != ANSWERED', function () {
             var qa = {status:'CLOSED'};
             expect(fragaSvarCommonService.isUnhandled(qa)).toBeFalsy();
