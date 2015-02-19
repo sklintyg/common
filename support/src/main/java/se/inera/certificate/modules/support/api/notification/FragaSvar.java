@@ -17,6 +17,16 @@ public class FragaSvar {
         this.antalHanteradeFragor = antalHanteradeFragor;
         this.antalHanteradeSvar = antalHanteradeSvar;
     }
+    
+    public static FragaSvar getEmpty() {
+        return new FragaSvar(0, 0, 0, 0);
+    }
+    
+    @Override
+    public String toString() {
+        return "antalFragor=" + antalFragor + ", antalSvar=" + antalSvar + ", antalHanteradeFragor=" + antalHanteradeFragor
+                + ", antalHanteradeSvar=" + antalHanteradeSvar;
+    }
 
     public int getAntalFragor() {
         return antalFragor;
