@@ -1,5 +1,6 @@
 package se.inera.certificate.modules.support.api.notification;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.joda.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
@@ -93,7 +94,7 @@ public class NotificationMessage {
         this.handelse = handelse;
     }
 
-    public void setUtkast(Object utkast) {
+    public void setUtkast(JsonNode utkast) {
         this.utkast = utkast;
     }
 
