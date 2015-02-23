@@ -32,10 +32,6 @@
       <groupId>org.webjars</groupId>
       <artifactId>momentjs</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>stacktrace</artifactId>
-    </dependency>
   </dependencies>
 
   <build>
@@ -85,13 +81,6 @@
                   <groupId>org.webjars</groupId>
                   <artifactId>momentjs</artifactId>
                   <version>${momentjs.version}</version>
-                  <type>jar</type>
-                  <overWrite>true</overWrite>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.webjars</groupId>
-                  <artifactId>stacktrace</artifactId>
-                  <version>${stacktrace.version}</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                 </artifactItem>

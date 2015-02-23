@@ -37,5 +37,6 @@
     "/web/webjars/common/webcert/js/services/DateUtilsService.js",
     "/web/webjars/common/webcert/js/services/UtilsService.js",
     "/web/webjars/common/webcert/js/services/IntygCopyRequestModel.js",
-    "/web/webjars/common/webcert/js/services/locationUtilsService.js"
+    "/web/webjars/common/webcert/js/services/locationUtilsService.js",
+    "/web/webjars/common/webcert/js/stacktrace.js"
 ]
