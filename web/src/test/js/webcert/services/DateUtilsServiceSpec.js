@@ -136,6 +136,20 @@ describe('DateUtilsService', function() {
 
             expect(DateUtilsService.areDatesWithinMonthRange(startMoment, endMoment)).toBeFalsy();
         });
+        it ('can check that invalid dates are considered within range', function () {
+
+            var startMomentInvalid = null;
+            var startDate = new Date(2014, 10, 5, 11, 33, 30, 0);
+            var startMoment = DateUtilsService.toMoment(startDate);
+
+            var endMomentInvalid = null;
+            var endDate = new Date(2015, 4, 5, 11, 33, 30, 0);
+            var endMoment = DateUtilsService.toMoment(endDate);
+
+            expect(DateUtilsService.areDatesWithinMonthRange(startMoment, endMomentInvalid)).toBeTruthy();
+            expect(DateUtilsService.areDatesWithinMonthRange(startMomentInvalid, endMoment)).toBeTruthy();
+            expect(DateUtilsService.areDatesWithinMonthRange(startMomentInvalid, endMomentInvalid)).toBeTruthy();
+        });
 
     });
 

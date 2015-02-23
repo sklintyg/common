@@ -135,7 +135,9 @@ angular.module('common').factory('common.DateUtilsService', function() {
      */
     function _areDatesWithinMonthRange(startMoment, endMoment, months){
         if (startMoment === null || endMoment === null) {
-            return false;
+            // Feels weird with true here but the truth is we need to consider this case "within range" since errors will
+            // popup in implementations using this saying months aren't in range otherwise.
+            return true;
         }
         if(months === undefined){
             months = 6;
