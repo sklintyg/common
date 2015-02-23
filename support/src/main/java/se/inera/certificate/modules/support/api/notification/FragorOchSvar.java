@@ -2,13 +2,13 @@ package se.inera.certificate.modules.support.api.notification;
 
 public class FragorOchSvar {
 
-    private final int antalFragor;
+    private int antalFragor;
 
-    private final int antalSvar;
+    private int antalSvar;
 
-    private final int antalHanteradeFragor;
+    private int antalHanteradeFragor;
 
-    private final int antalHanteradeSvar;
+    private int antalHanteradeSvar;
 
     public FragorOchSvar(int antalFragor, int antalSvar, int antalHanteradeFragor, int antalHanteradeSvar) {
         super();
@@ -17,6 +17,8 @@ public class FragorOchSvar {
         this.antalHanteradeFragor = antalHanteradeFragor;
         this.antalHanteradeSvar = antalHanteradeSvar;
     }
+
+    public FragorOchSvar() {}
     
     public static FragorOchSvar getEmpty() {
         return new FragorOchSvar(0, 0, 0, 0);
@@ -42,6 +44,22 @@ public class FragorOchSvar {
 
     public int getAntalHanteradeSvar() {
         return antalHanteradeSvar;
+    }
+
+    public void setAntalFragor(int antalFragor) {
+        this.antalFragor = antalFragor;
+    }
+
+    public void setAntalSvar(int antalSvar) {
+        this.antalSvar = antalSvar;
+    }
+
+    public void setAntalHanteradeFragor(int antalHanteradeFragor) {
+        this.antalHanteradeFragor = antalHanteradeFragor;
+    }
+
+    public void setAntalHanteradeSvar(int antalHanteradeSvar) {
+        this.antalHanteradeSvar = antalHanteradeSvar;
     }
 
 }

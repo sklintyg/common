@@ -9,20 +9,19 @@ import se.inera.certificate.modules.support.api.notification.HandelseType;
 
 public class NotificationMessage {
 
-    private final String intygsId;
+    private String intygsId;
     
-    private final String intygsTyp;
+    private String intygsTyp;
     
-    private final String logiskAdress;
+    private String logiskAdress;
 
-    private final LocalDateTime handelseTid;
+    private LocalDateTime handelseTid;
 
-    private final HandelseType handelse;
+    private HandelseType handelse;
 
-    @JsonRawValue
-    private final String utkast;
+    private Object utkast;
 
-    private final FragorOchSvar fragaSvar;
+    private FragorOchSvar fragaSvar;
 
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelseType handelse, String logiskAdress,
             String utkast, FragorOchSvar fragaSvar) {
@@ -34,6 +33,9 @@ public class NotificationMessage {
         this.logiskAdress = logiskAdress;
         this.utkast = utkast;
         this.fragaSvar = fragaSvar;
+    }
+
+    public NotificationMessage() {
     }
     
     @Override
@@ -62,12 +64,41 @@ public class NotificationMessage {
         return handelse;
     }
 
+    @JsonRawValue
     public String getUtkast() {
-        return utkast;
+        return utkast == null ? null : utkast.toString();
     }
 
     public FragorOchSvar getFragaSvar() {
         return fragaSvar;
+    }
+
+    public void setIntygsId(String intygsId) {
+        this.intygsId = intygsId;
+    }
+
+    public void setIntygsTyp(String intygsTyp) {
+        this.intygsTyp = intygsTyp;
+    }
+
+    public void setLogiskAdress(String logiskAdress) {
+        this.logiskAdress = logiskAdress;
+    }
+
+    public void setHandelseTid(LocalDateTime handelseTid) {
+        this.handelseTid = handelseTid;
+    }
+
+    public void setHandelse(HandelseType handelse) {
+        this.handelse = handelse;
+    }
+
+    public void setUtkast(Object utkast) {
+        this.utkast = utkast;
+    }
+
+    public void setFragaSvar(FragorOchSvar fragaSvar) {
+        this.fragaSvar = fragaSvar;
     }
 
 }
