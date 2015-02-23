@@ -2,7 +2,9 @@ package se.inera.certificate.modules.support.api.notification;
 
 import org.joda.time.LocalDateTime;
 
-import se.inera.certificate.modules.support.api.notification.FragaSvar;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+
+import se.inera.certificate.modules.support.api.notification.FragorOchSvar;
 import se.inera.certificate.modules.support.api.notification.HandelseType;
 
 public class NotificationMessage {
@@ -17,12 +19,13 @@ public class NotificationMessage {
 
     private final HandelseType handelse;
 
+    @JsonRawValue
     private final String utkast;
 
-    private final FragaSvar fragaSvar;
+    private final FragorOchSvar fragaSvar;
 
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelseType handelse, String logiskAdress,
-            String utkast, FragaSvar fragaSvar) {
+            String utkast, FragorOchSvar fragaSvar) {
         super();
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
@@ -31,6 +34,12 @@ public class NotificationMessage {
         this.logiskAdress = logiskAdress;
         this.utkast = utkast;
         this.fragaSvar = fragaSvar;
+    }
+    
+    @Override
+    public String toString() {
+        return "NotificationMessage [intygsId=" + intygsId + ", intygsTyp=" + intygsTyp + ", logiskAdress=" + logiskAdress + ", handelseTid="
+                + handelseTid + ", handelse=" + handelse + "]";
     }
 
     public String getIntygsId() {
@@ -57,7 +66,7 @@ public class NotificationMessage {
         return utkast;
     }
 
-    public FragaSvar getFragaSvar() {
+    public FragorOchSvar getFragaSvar() {
         return fragaSvar;
     }
 

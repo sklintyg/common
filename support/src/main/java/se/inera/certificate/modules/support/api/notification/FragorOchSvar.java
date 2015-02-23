@@ -1,6 +1,6 @@
 package se.inera.certificate.modules.support.api.notification;
 
-public class FragaSvar {
+public class FragorOchSvar {
 
     private final int antalFragor;
 
@@ -10,7 +10,7 @@ public class FragaSvar {
 
     private final int antalHanteradeSvar;
 
-    public FragaSvar(int antalFragor, int antalSvar, int antalHanteradeFragor, int antalHanteradeSvar) {
+    public FragorOchSvar(int antalFragor, int antalSvar, int antalHanteradeFragor, int antalHanteradeSvar) {
         super();
         this.antalFragor = antalFragor;
         this.antalSvar = antalSvar;
@@ -18,8 +18,8 @@ public class FragaSvar {
         this.antalHanteradeSvar = antalHanteradeSvar;
     }
     
-    public static FragaSvar getEmpty() {
-        return new FragaSvar(0, 0, 0, 0);
+    public static FragorOchSvar getEmpty() {
+        return new FragorOchSvar(0, 0, 0, 0);
     }
     
     @Override
