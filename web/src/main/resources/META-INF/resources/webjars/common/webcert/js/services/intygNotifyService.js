@@ -54,8 +54,8 @@ angular.module('common').factory('common.intygNotifyService',
                     ($window.location.port ? ':' + $window.location.port : '');
                 var url = baseURL + '/web/dashboard#/' + intygType + '/edit/' + intygId;
                 var recipient = '';
-                var subject = 'Du har blivit tilldelad ett ej signerat intyg i Webcert';
-                var body = 'Klicka pa lanken for att ga till intyget:\n' + url;
+                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert';
+                var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
                 var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
                     encodeURIComponent(body);
                 $log.debug(link);
@@ -73,7 +73,7 @@ angular.module('common').factory('common.intygNotifyService',
                 return document.cookie && document.cookie.indexOf('WCDontAskForForwardedToggle=1') !== -1;
             }
 
-            // This handles forwarding of Ej signerade utkast only
+            // This handles forwarding of utkast only
             function _handleForwardedToggle(draft, onYesCallback) {
                 // Only ask about toggle if not already set AND not skipFlag cookie is
                 // set
