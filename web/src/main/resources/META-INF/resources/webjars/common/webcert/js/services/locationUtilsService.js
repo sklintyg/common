@@ -5,13 +5,13 @@ angular.module('common').factory('common.LocationUtilsService',function($window,
     'use strict';
 
     function _getDomainAndPath(str) {
-        var pattern = /.*\/\/([^\/]+)([^#]*)#?(\/.*)/;
+        var pattern = /.*\/\/([^\/]+)([^#]*)#?(\/[^\?]*)\??(.*)/;
         pattern.lastindex = 0;
         var match = pattern.exec(str);
         return {
             domain:match[1],
-            path:match[2],
-            search:match[3]
+            path:match[3],
+            search:match[4]
         };
     }
 
@@ -24,8 +24,8 @@ angular.module('common').factory('common.LocationUtilsService',function($window,
         var oldUrlParsed = _getDomainAndPath(oldUrl);
         var newUrlParsed = _getDomainAndPath(newUrl);
         // An internal url has the same domain and contains a #/
-        if (oldUrlParsed.domain === newUrlParsed.domain && newUrlParsed.search) {
-            $location.path(newUrlParsed.search);
+        if (oldUrlParsed.domain === newUrlParsed.domain && newUrlParsed.path) {
+            $location.path(newUrlParsed.path);
         }
         else {
             $window.location.href = newUrl;
