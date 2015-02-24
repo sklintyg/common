@@ -20,19 +20,22 @@ public class NotificationMessage {
 
     private HandelseType handelse;
 
-    private Object utkast;
+    // The reason why this is an Object is that when serializing with @JsonRawValue (below), it works as intended even
+    // if this is a string. However, deserializing doesn't work without the deserialized json in this attribute being
+    // quoted. A String getter and an JsonNode setter, both working with an Object attribute, works.
+    private Object utkastJson;
 
     private FragorOchSvar fragaSvar;
 
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelseType handelse, String logiskAdress,
-            String utkast, FragorOchSvar fragaSvar) {
+            String utkastJson, FragorOchSvar fragaSvar) {
         super();
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
         this.handelseTid = handelseTid;
         this.handelse = handelse;
         this.logiskAdress = logiskAdress;
-        this.utkast = utkast;
+        this.utkastJson = utkastJson;
         this.fragaSvar = fragaSvar;
     }
 
@@ -67,7 +70,7 @@ public class NotificationMessage {
 
     @JsonRawValue
     public String getUtkast() {
-        return utkast == null ? null : utkast.toString();
+        return utkastJson == null ? null : utkastJson.toString();
     }
 
     public FragorOchSvar getFragaSvar() {
@@ -94,8 +97,8 @@ public class NotificationMessage {
         this.handelse = handelse;
     }
 
-    public void setUtkast(JsonNode utkast) {
-        this.utkast = utkast;
+    public void setUtkast(JsonNode utkastJson) {
+        this.utkastJson = utkastJson;
     }
 
     public void setFragaSvar(FragorOchSvar fragaSvar) {
