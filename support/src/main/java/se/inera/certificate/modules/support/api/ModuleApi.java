@@ -13,6 +13,7 @@ import se.inera.certificate.modules.support.api.dto.InternalModelResponse;
 import se.inera.certificate.modules.support.api.dto.PdfResponse;
 import se.inera.certificate.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.certificate.modules.support.api.exception.ModuleException;
+import se.inera.certificate.modules.support.api.notification.NotificationMessage;
 
 import java.util.List;
 
@@ -158,6 +159,14 @@ public interface ModuleApi {
      * 
      * @return A new internal model updated with the hosPerson info.
      */
-    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)  throws ModuleException;
-
+    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException;
+    
+    /**
+     * Create a notification message based on the supplied model.
+     * 
+     * @param notificationMessage
+     * @return
+     */
+    Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
+    
 }
