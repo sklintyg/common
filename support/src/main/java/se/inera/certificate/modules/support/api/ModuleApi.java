@@ -113,6 +113,21 @@ public interface ModuleApi {
     void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
 
     /**
+     * Send certificate to specified recipient.
+     *
+     * INFO: This method is only here to fix JIRA issue
+     * <a href="https://inera-certificate.atlassian.net/browse/WEBCERT-1442">WEBCERT-1442</a>
+     *
+     * @param internalModel
+     *            The internal model of the certificate to send.
+     * @param logicalAddress
+     *            The recipient's logical address
+     * @param recipientId
+     *            The recipient's identifier
+     */
+    void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress, String recipientId) throws ModuleException;
+
+    /**
      * Fetch a certificate from Intygstjansten.
      * 
      * @param certificateId
