@@ -144,7 +144,7 @@ public interface ModuleApi {
      * @param persistedState
      * @param currentState
      * @return true if there are changes, false otherwise
-     * @throws ModuleException 
+     * @throws ModuleException
      */
     boolean isModelChanged(String persistedState, String currentState) throws ModuleException;
 

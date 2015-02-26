@@ -1,6 +1,6 @@
 package se.inera.certificate.modules.service;
 
-import se.inera.certificate.codes.Diagnoskodverk;
+import se.inera.certificate.common.enumerations.Diagnoskodverk;
 
 /**
  * Interface for exposing Webcert services that can be used by modules.
