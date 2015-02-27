@@ -92,6 +92,7 @@ var commonMessages = {
 
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
+        'common.error.authorization_problem' : '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
         'common.error.cantconnect': '<strong>Kunde inte kontakta servern.</strong>',
         'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',
         'common.error.certificateinvalid': '<strong>Intyget är inte korrekt ifyllt.</strong>',
