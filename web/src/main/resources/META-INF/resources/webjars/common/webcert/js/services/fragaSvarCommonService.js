@@ -103,7 +103,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     var qa = qas[i];
                     var isUnhandled = _isUnhandled(qa);
                     var fromFk = _fromFk(qa);
-                    if(isUnhandled && fromFk){
+                    if(qa.status === 'ANSWERED' || (isUnhandled && fromFk) ){
                         qasfiltered.push(qa);
                     }
                 }

@@ -67,6 +67,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
             if (momentDate === 'invalid date') {
                 // We don't want to handle invalid dates at all
                 momentDate = null;
+            } else {
+                momentDate = this.toMoment(momentDate);
             }
         }
 
@@ -125,6 +127,23 @@ angular.module('common').factory('common.DateUtilsService', function() {
         return startMoment.isAfter(now.add('months', months));
     }
 
+    function _isBeforeOrEqual(moment1, moment2) {
+        return moment1.isBefore(moment2) || moment1.isSame(moment2, 'day');
+    };
+
+    function _isAfterOrEqual(moment1, moment2) {
+        return moment1.isAfter(moment2) || moment1.isSame(moment2, 'day');
+    };
+
+    function _isSame(moment1, moment2) {
+        if(moment1 && moment2 ){
+            return moment1.isSame(moment2, 'day');
+        } else {
+            return false;
+        }
+
+    };
+
     /**
      * Checks whether the two dates are within the specific month range.
      * If no month range is provided this will defaul to 6 months.
@@ -162,7 +181,10 @@ angular.module('common').factory('common.DateUtilsService', function() {
         areDatesWithinMonthRange : _areDatesWithinMonthRange,
         olderThanAWeek :_olderThanAWeek,
         isDateOutOfRange : _isDateOutOfRange,
-        daysBetween : _daysBetween
+        daysBetween : _daysBetween,
+        isAfterOrEqual : _isAfterOrEqual,
+        isBeforeOrEqual : _isBeforeOrEqual,
+        isSame : _isSame
     };
 
 });
