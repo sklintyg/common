@@ -226,19 +226,20 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             function _openNetIdPlugin(hash, onSuccess, onError) {
+                $timeout(function() {
+                    iid_SetProperty('Base64', 'true');
+                    iid_SetProperty('DataToBeSigned', hash);
+                    iid_SetProperty('URLEncode', 'false');
+                    var resultCode = iid_Invoke('Sign');
 
-                iid_SetProperty('Base64', 'true');
-                iid_SetProperty('DataToBeSigned', hash);
-                iid_SetProperty('URLEncode', 'false');
-                var resultCode = iid_Invoke('Sign');
-
-                if (resultCode === 0) {
-                    onSuccess(iid_GetProperty('Signature'));
-                } else {
-                    var message = 'Signeringen avbröts med kod: ' + resultCode;
-                    $log.info(message);
-                    onError({ errorCode: 'SIGN_NETID_ERROR'});
-                }
+                    if (resultCode === 0) {
+                        onSuccess(iid_GetProperty('Signature'));
+                    } else {
+                        var message = 'Signeringen avbröts med kod: ' + resultCode;
+                        $log.info(message);
+                        onError({ errorCode: 'SIGN_NETID_ERROR'});
+                    }
+                });
             }
 
             function _waitForSigneringsstatusSigneradAndClose($scope, intygsTyp, intygsId, ticket, dialog) {
