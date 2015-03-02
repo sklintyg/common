@@ -6,16 +6,20 @@ angular.module('common').directive('wcAutoSave', function($timeout) {
         link: function($scope, $element, $attrs, $ctrls) {
 
             var SAVE_DELAY = 1 * 1000; // Time to wait before autosaving after a user action.
-            var MIN_SAVE_DELTA = 10 * 1000; // Minimum time to wait between two autosaves.
+            var MIN_SAVE_DELTA = 5 * 1000; // Minimum time to wait between two autosaves.
 
             var form = $ctrls[0];
             var savePromise = null;
             var lastSave = null;
             var expression = $attrs.wcAutoSave || 'true';
 
+            var save = function() {
+                return $scope.$eval(expression);
+            }
+
             var saveFunction = function() {
                 savePromise = null;
-                var result = $scope.$eval(expression);
+                var result = save()
                 if (result) {
                     lastSave = (new Date()).getTime();
                 } else {
@@ -44,7 +48,11 @@ angular.module('common').directive('wcAutoSave', function($timeout) {
                 }
             });
 
+            // When leaving the view perform save if needed and cancel any outstanding save request.
             $scope.$on('$destroy', function() {
+                if (form.$dirty) {
+                    save();
+                }
                 $timeout.cancel(savePromise);
             });
         }

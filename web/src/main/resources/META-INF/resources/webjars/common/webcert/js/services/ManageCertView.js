@@ -45,21 +45,38 @@ angular.module('common').factory('common.ManageCertView',
                     return false;
                 }
                 $scope.certForm.$setPristine();
-                CertificateService.saveDraft($routeParams.certificateId, intygsTyp, $scope.cert, autoSave,
+                CertificateService.saveDraft($scope.certMeta.intygId, intygsTyp, $scope.cert, autoSave,
                     function(data) {
 
                         $scope.widgetState.saveErrorMessageKey = null;
 
-                        if (!autoSave) {
-                            $scope.validationMessagesGrouped = {};
-                            $scope.validationMessages = [];
-                        }
+                        $scope.validationMessagesGrouped = {};
+                        $scope.validationMessages = [];
 
                         if (data.status === 'COMPLETE') {
                             $scope.isComplete = true;
                         } else {
                             $scope.isComplete = false;
-                            if (!autoSave) {
+                            if (autoSave && !$scope.widgetState.showComplete) {
+                                $scope.validationMessages = data.messages.filter(function(message) {
+                                    return (message.type !== 'EMPTY');
+                                });
+                                angular.forEach($scope.validationMessages, function(message) {
+                                    var field = message.field;
+                                    var parts = field.split('.');
+                                    var section;
+                                    if (parts.length > 0) {
+                                        section = parts[0].toLowerCase();
+
+                                        if ($scope.validationMessagesGrouped[section]) {
+                                            $scope.validationMessagesGrouped[section].push(message);
+                                        } else {
+                                            $scope.validationMessagesGrouped[section] = [message];
+                                        }
+                                    }
+                                });
+                            }
+                            else {
                                 $scope.validationMessages = data.messages;
 
                                 angular.forEach(data.messages, function(message) {
