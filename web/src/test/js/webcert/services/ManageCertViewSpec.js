@@ -162,10 +162,13 @@ describe('ManageCertView', function() {
             iid_Invoke.and.returnValue(0);
             iid_GetProperty.and.returnValue('4321dcba');
 
+            ManageCertView.signera($scope, 'fk7263');
+
+            $httpBackend.flush();
+
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
                 respond(200, { id: biljettId, status: 'SIGNERAD' });
-
-            ManageCertView.signera($scope, 'fk7263');
+            $timeout.flush();
             $httpBackend.flush();
 
             expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
@@ -179,12 +182,14 @@ describe('ManageCertView', function() {
             iid_Invoke.and.returnValue(0);
             iid_GetProperty.and.returnValue('4321dcba');
 
+            ManageCertView.signera($scope, 'fk7263');
+            $httpBackend.flush();
+
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
                 respond(200, { id: biljettId, status: 'BEARBETAD' });
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
-
-            ManageCertView.signera($scope, 'fk7263');
+            $timeout.flush();
             $httpBackend.flush();
 
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
@@ -214,6 +219,7 @@ describe('ManageCertView', function() {
 
             ManageCertView.signera($scope, 'fk7263');
             $httpBackend.flush();
+            $timeout.flush();
 
             expect(dialogService.showErrorMessageDialog).toHaveBeenCalled();
         });
