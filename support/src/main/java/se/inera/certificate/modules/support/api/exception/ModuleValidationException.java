@@ -3,7 +3,7 @@ package se.inera.certificate.modules.support.api.exception;
 import java.util.Collections;
 import java.util.List;
 
-import se.inera.certificate.model.util.Strings;
+import se.inera.certificate.common.util.StringUtil;
 
 public class ModuleValidationException extends ModuleException {
 
@@ -12,7 +12,7 @@ public class ModuleValidationException extends ModuleException {
     private final List<String> validationEntries;
 
     public ModuleValidationException(List<String> validationEntries) {
-        super(Strings.join(",", validationEntries));
+        super(StringUtil.join(",", validationEntries));
         this.validationEntries = validationEntries;
     }
 
@@ -27,7 +27,7 @@ public class ModuleValidationException extends ModuleException {
     }
 
     public ModuleValidationException(List<String> validationEntries, Throwable cause) {
-        super(Strings.join(",", validationEntries), cause);
+        super(StringUtil.join(",", validationEntries), cause);
         this.validationEntries = validationEntries;
     }
 

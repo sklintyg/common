@@ -1,18 +1,17 @@
-package se.inera.certificate.model.util;
+package se.inera.certificate.common.util;
 
 import java.util.Arrays;
 import java.util.List;
 
-public final class Strings {
-    private Strings() {
+public final class StringUtil {
+
+    /** Hidden constructor */
+    private StringUtil() {
     }
 
+    /** Returns true if string is null or ahs length 0, otherwise false */
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.length() == 0;
-    }
-
-    public static boolean notNullOrEmpty(String string) {
-        return !isNullOrEmpty(string);
     }
 
     public static String emptyToNull(String string) {
@@ -26,7 +25,7 @@ public final class Strings {
     public static String join(String separator, List<String> parts) {
         StringBuilder result = new StringBuilder();
         for (String part: parts) {
-            if (notNullOrEmpty(part)) {
+            if (!isNullOrEmpty(part)) {
                 if (result.length() > 0) {
                     result.append(separator);
                 }
