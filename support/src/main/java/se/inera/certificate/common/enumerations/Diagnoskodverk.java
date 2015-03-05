@@ -7,7 +7,7 @@ public enum Diagnoskodverk {
 
     ICD_10_SE("1.2.752.116.1.1.1.1.3", "ICD-10", null),
 
-    KSH_97_P("1.2.752.116.1.3.1.4.1", "KSH97P", null);
+    KSH_97_P("1.2.752.116.1.3.1.4.1", "KSH97-P", null);
 
     private Diagnoskodverk(String codeSystem, String codeSystemName, String codeSystemVersion) {
         this.codeSystem = codeSystem;
