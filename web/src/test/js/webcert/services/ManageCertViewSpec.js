@@ -7,7 +7,7 @@ describe('ManageCertView', function() {
     var $document;
     var $httpBackend;
     var $location;
-    var $routeParams;
+    var $stateParams;
     var $timeout;
     var dialogService;
     var User;
@@ -20,20 +20,20 @@ describe('ManageCertView', function() {
         $provide.value('$location', jasmine.createSpyObj('$location', [ 'path', 'replace' ]));
         $provide.value('common.messageService',
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
-        $provide.value('$routeParams', {});
+        $provide.value('$stateParams', {});
         $provide.value('common.dialogService',
             jasmine.createSpyObj('common.dialogService', [ 'showDialog', 'showErrorMessageDialog' ]));
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
         $provide.value('common.User', { userContext: { authenticationScheme: null } });
     }));
 
-    beforeEach(angular.mock.inject(['common.ManageCertView', '$httpBackend', '$location', '$routeParams', '$timeout',
+    beforeEach(angular.mock.inject(['common.ManageCertView', '$httpBackend', '$location', '$stateParams', '$timeout',
         '$document', 'common.dialogService', 'common.User',
-        function(_ManageCertView_, _$httpBackend_, _$location_, _$routeParams_, _$timeout_, _$document_, _dialogService_, _User_) {
+        function(_ManageCertView_, _$httpBackend_, _$location_, _$stateParams_, _$timeout_, _$document_, _dialogService_, _User_) {
             ManageCertView = _ManageCertView_;
             $httpBackend = _$httpBackend_;
             $location = _$location_;
-            $routeParams = _$routeParams_;
+            $stateParams = _$stateParams_;
             $timeout = _$timeout_;
             $document = _$document_;
             dialogService = _dialogService_;
@@ -47,7 +47,7 @@ describe('ManageCertView', function() {
         beforeEach(function() {
             User.userContext.authenticationScheme = 'urn:inera:webcert:fake';
 
-            $routeParams.certificateId = intygId;
+            $stateParams.certificateId = intygId;
             $scope = { dialog: {} };
         });
 
@@ -146,7 +146,7 @@ describe('ManageCertView', function() {
 
             User.userContext.authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
 
-            $routeParams.certificateId = intygId;
+            $stateParams.certificateId = intygId;
             $scope = {};
         });
 

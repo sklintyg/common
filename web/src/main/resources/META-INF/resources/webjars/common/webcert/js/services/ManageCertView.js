@@ -2,10 +2,10 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.ManageCertView',
-    ['$rootScope', '$document', '$log', '$location', '$route', '$routeParams', '$timeout', '$window',
+    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window',
         'common.CertificateService',
         'common.dialogService', 'common.messageService', 'common.statService', 'common.User', 'common.featureService',
-        function($rootScope, $document, $log, $location, $route, $routeParams, $timeout, $window, CertificateService,
+        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, CertificateService,
             dialogService,
             messageService, statService, User, featureService) {
             'use strict';
@@ -17,7 +17,7 @@ angular.module('common').factory('common.ManageCertView',
              */
             function _load($scope, intygsTyp, onSuccess) {
                 $scope.widgetState.doneLoading = false;
-                CertificateService.getDraft($routeParams.certificateId, intygsTyp, function(data) {
+                CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
                     $scope.widgetState.doneLoading = true;
                     $scope.widgetState.activeErrorMessageKey = null;
                     $scope.cert = data.content;
@@ -126,12 +126,12 @@ angular.module('common').factory('common.ManageCertView',
                     button1click: function() {
                         $log.debug('delete draft ');
                         $scope.dialog.acceptprogressdone = false;
-                        CertificateService.discardDraft($routeParams.certificateId, intygsTyp, function() {
+                        CertificateService.discardDraft($stateParams.certificateId, intygsTyp, function() {
                             $scope.dialog.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
                             if (featureService.isFeatureActive('franJournalsystem')) {
-                                $rootScope.$broadcast('intyg.deleted', $routeParams.certificateId);
+                                $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
                             } else {
                                 $location.path('/unsigned');
                             }
@@ -179,9 +179,9 @@ angular.module('common').factory('common.ManageCertView',
 
             function signera($scope, intygsTyp) {
                 if (User.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
-                    return _signeraServer($scope, intygsTyp, $routeParams.certificateId);
+                    return _signeraServer($scope, intygsTyp, $stateParams.certificateId);
                 } else {
-                    return _signeraKlient($scope, intygsTyp, $routeParams.certificateId);
+                    return _signeraKlient($scope, intygsTyp, $stateParams.certificateId);
                 }
             }
 
