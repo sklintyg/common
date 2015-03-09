@@ -84,18 +84,19 @@ angular.module('common').factory('common.dialogService',
          button3visible: (optional) whether button 3 should be visible. default: true if button3text is specified, otherwise false
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
          */
-        function _showDialog(scope, options) {
+        function _showDialog(parentScope, options) {
 
-            if (scope.dialog === undefined) {
-                scope.dialog = {};
+            var dialogRequestModel = options.dialogRequestModel;
+            if (dialogRequestModel === undefined) {
+                dialogRequestModel = {};
             }
 
-            scope.dialog.errormessageid =
-                (scope.dialog.errormessageid ? scope.dialog.errormessageid : 'common.error.cantconnect');
-            scope.dialog.acceptprogressdone =
-                (scope.dialog.acceptprogressdone ? scope.dialog.acceptprogressdone : true);
-            scope.dialog.focus = (scope.dialog.focus ? scope.dialog.focus : false);
-            scope.dialog.showerror = (scope.dialog.showerror ? scope.dialog.showerror : false);
+            dialogRequestModel.errormessageid =
+                (dialogRequestModel.errormessageid ? dialogRequestModel.errormessageid : 'common.error.cantconnect');
+            dialogRequestModel.acceptprogressdone =
+                (dialogRequestModel.acceptprogressdone ? dialogRequestModel.acceptprogressdone : true);
+            dialogRequestModel.focus = (dialogRequestModel.focus ? dialogRequestModel.focus : false);
+            dialogRequestModel.showerror = (dialogRequestModel.showerror ? dialogRequestModel.showerror : false);
 
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
@@ -119,11 +120,12 @@ angular.module('common').factory('common.dialogService',
             options.model = (options.model === undefined) ? undefined : options.model;
 
             // Create controller to setup dialog
-            var DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId, bodyText,
+            var DialogInstanceCtrl = function($scope, $modalInstance, requestModel, contentModel, dialogId, titleId, bodyTextId, bodyText,
                 button1id, button2id, button3id, button1click, button2click, button3click, button3visible, button1text,
                 button2text, button3text, autoClose) {
 
-                $scope.model = model;
+                $scope.requestModel = requestModel;
+                $scope.contentModel = contentModel;
                 $scope.dialogId = dialogId;
                 $scope.titleId = titleId;
                 $scope.bodyTextId = bodyTextId;
@@ -161,11 +163,14 @@ angular.module('common').factory('common.dialogService',
 
             // Open dialog box using specified options, template and controller
             var msgbox = $modal.open({
-                scope: scope,
+                scope: parentScope,
                 templateUrl: options.templateUrl,
                 controller: DialogInstanceCtrl,
                 resolve: {
-                    model: function() {
+                    requestModel: function() {
+                        return dialogRequestModel;
+                    },
+                    contentModel: function() {
                         return options.model;
                     },
                     dialogId: function() {
