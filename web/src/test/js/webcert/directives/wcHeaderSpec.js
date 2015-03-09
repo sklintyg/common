@@ -152,13 +152,13 @@ describe('wcHeader', function() {
             var link = element.find('#logoutLink');
             expect(link.length).toBe(1);
         });
-
+/*
         xit('should generate a menu with choices fit for a doctor', function() {
         });
 
         xit('should generate a menu with choices fit for an administrator', function() {
         });
-
+*/
         it('should bubbles showing number of unhandled questions/answers and utkast on vardenhet', function() {
             var unsignedCerts = element.find('#stat-unitstat-unsigned-certs-count');
             var unhandledQs = element.find('#stat-unitstat-unhandled-question-count');

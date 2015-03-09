@@ -4,8 +4,8 @@
  * related to certificates. (As of this time, only fk7263 module)
  */
 angular.module('common').factory('common.fragaSvarCommonService',
-    ['$http', '$log', '$modal', '$window', 'common.dialogService', 'common.LocationUtilsService', 'common.featureService',
-        function($http, $log, $modal, $window, dialogService, LocationUtilsService, featureService) {
+    ['$http', '$log', '$modal', '$window', 'common.dialogService', 'common.LocationUtilsService', 'common.featureService', 'common.User',
+        function($http, $log, $modal, $window, dialogService, LocationUtilsService, featureService, User) {
             'use strict';
 
             /*
@@ -57,6 +57,23 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 return (document.cookie && document.cookie.indexOf('WCDontAskForVidareBefordradToggle=1') !== -1);
             }
 
+            function _decorateSingleItem(qa) {
+                if (qa.amne === 'PAMINNELSE') {
+                    // RE-020 Påminnelser is never
+                    // answerable
+                    qa.answerDisabled = true;
+                    qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
+                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !User.userContext.lakare) {
+                    // RE-005, RE-006
+                    qa.answerDisabled = true;
+                    qa.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
+                } else {
+                    qa.answerDisabled = false;
+                    qa.answerDisabledReason = undefined;
+                }
+                _decorateSingleItemMeasure(qa);
+            }
+
             function _decorateSingleItemMeasure(qa) {
                 if (qa.status === 'CLOSED') {
                     qa.measureResKey = 'handled';
@@ -84,13 +101,10 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function _isUnhandled(qa){
-                if( (qa.status === 'PENDING_INTERNAL_ACTION' && qa.amne === 'PAMINNELSE')
-                    ||
-                    qa.status === 'ANSWERED'
-                ){
+                if( (qa.status === 'PENDING_INTERNAL_ACTION' && qa.amne === 'PAMINNELSE') || qa.status === 'ANSWERED') {
                     return true;
                 } else {
-                    return false
+                    return false;
                 }
             }
 
@@ -257,6 +271,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 handleVidareBefodradToggle: _handleVidareBefodradToggle,
                 buildMailToLink: _buildMailToLink,
                 decorateSingleItemMeasure: _decorateSingleItemMeasure,
+                decorateSingleItem: _decorateSingleItem,
                 isUnhandled: _isUnhandled,
                 fromFk : _fromFk,
                 checkQAonlyDialog: _checkQAonlyDialog,
