@@ -42,6 +42,11 @@ public class CertificateHolder {
     private String careUnitName;
 
     /**
+     * Id of care unit.
+     */
+    private String careGiverId;
+
+    /**
      * Civic registration number for patient.
      */
     private String civicRegistrationNumber;
@@ -79,6 +84,11 @@ public class CertificateHolder {
      * (by revoking its consent or stops being a citizen).
      */
     private boolean deletedByCareGiver;
+
+    /**
+     * If this certificate was wireTapped.
+     */
+    private boolean wireTapped = false;
 
     /**
      * Certificate states.
@@ -146,6 +156,14 @@ public class CertificateHolder {
         this.careUnitName = careUnitName;
     }
 
+    public String getCareGiverId() {
+        return careGiverId;
+    }
+
+    public void setCareGiverId(String careGiverId) {
+        this.careGiverId = careGiverId;
+    }
+
     public String getCivicRegistrationNumber() {
         return civicRegistrationNumber;
     }
@@ -202,6 +220,14 @@ public class CertificateHolder {
         this.deletedByCareGiver = deletedByCareGiver;
     }
 
+    public boolean isWireTapped() {
+        return wireTapped;
+    }
+
+    public void setWireTapped(boolean wireTapped) {
+        this.wireTapped = wireTapped;
+    }
+
     public List<CertificateStateHolder> getCertificateStates() {
         return certificateStates;
     }
@@ -234,10 +260,12 @@ public class CertificateHolder {
         result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
         result = prime * result + ((careUnitId == null) ? 0 : careUnitId.hashCode());
         result = prime * result + ((careUnitName == null) ? 0 : careUnitName.hashCode());
+        result = prime * result + ((careGiverId == null) ? 0 : careGiverId.hashCode());
         result = prime * result + ((certificateStates == null) ? 0 : certificateStates.hashCode());
         result = prime * result + ((civicRegistrationNumber == null) ? 0 : civicRegistrationNumber.hashCode());
         result = prime * result + (deleted ? 1231 : 1237);
         result = prime * result + (deletedByCareGiver ? 1231 : 1237);
+        result = prime * result + (wireTapped ? 1231 : 1237);
         result = prime * result + ((document == null) ? 0 : document.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (revoked ? 1231 : 1237);
@@ -273,6 +301,11 @@ public class CertificateHolder {
                 return false;
         } else if (!careUnitName.equals(other.careUnitName))
             return false;
+        if (careGiverId == null) {
+            if (other.careGiverId != null)
+                return false;
+        } else if (!careGiverId.equals(other.careGiverId))
+            return false;
         if (certificateStates == null) {
             if (other.certificateStates != null)
                 return false;
@@ -286,6 +319,8 @@ public class CertificateHolder {
         if (deleted != other.deleted)
             return false;
         if (deletedByCareGiver != other.deletedByCareGiver)
+            return false;
+        if (wireTapped != other.wireTapped)
             return false;
         if (document == null) {
             if (other.document != null)
