@@ -2,12 +2,11 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.ManageCertView',
-    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window',
-        'common.CertificateService',
-        'common.dialogService', 'common.messageService', 'common.statService', 'common.User', 'common.featureService',
-        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, CertificateService,
-            dialogService,
-            messageService, statService, User, featureService) {
+    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
+        'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
+        'common.User', 'common.CertViewState',
+        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
+            CertificateService, dialogService, messageService, statService, User, CertViewState) {
             'use strict';
 
             /**
@@ -16,10 +15,10 @@ angular.module('common').factory('common.ManageCertView',
              * @private
              */
             function _load($scope, intygsTyp, onSuccess) {
-                $scope.widgetState.doneLoading = false;
+                $scope.viewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
-                    $scope.widgetState.doneLoading = true;
-                    $scope.widgetState.activeErrorMessageKey = null;
+                    $scope.viewState.doneLoading = true;
+                    $scope.viewState.activeErrorMessageKey = null;
                     $scope.cert = data.content;
                     $scope.certMeta.intygId = data.content.id;
                     $scope.certMeta.vidarebefordrad = data.vidarebefordrad;
@@ -29,149 +28,85 @@ angular.module('common').factory('common.ManageCertView',
                         onSuccess(data.content);
                     }
                 }, function(error) {
-                    $scope.widgetState.doneLoading = true;
-                    $scope.widgetState.activeErrorMessageKey = checkSetError(error.errorCode);
+                    $scope.viewState.doneLoading = true;
+                    $scope.viewState.activeErrorMessageKey = checkSetError(error.errorCode);
                 });
-            }
-
-            /**
-             * Save draft to webcert
-             * @param $scope
-             * @param intygsTyp
-             * @private
-             */
-            function _save($scope, intygsTyp, autoSave) {
-                if (autoSave && CertificateService.isSaveDraftInProgress()) {
-                    return false;
-                }
-                $scope.certForm.$setPristine();
-                CertificateService.saveDraft($scope.certMeta.intygId, intygsTyp, $scope.cert, autoSave,
-                    function(data) {
-
-                        $scope.widgetState.saveErrorMessageKey = null;
-
-                        $scope.validationMessagesGrouped = {};
-                        $scope.validationMessages = [];
-
-                        if (data.status === 'COMPLETE') {
-                            $scope.isComplete = true;
-                        } else {
-                            $scope.isComplete = false;
-                            if (autoSave && !$scope.widgetState.showComplete) {
-                                $scope.validationMessages = data.messages.filter(function(message) {
-                                    return (message.type !== 'EMPTY');
-                                });
-                                angular.forEach($scope.validationMessages, function(message) {
-                                    var field = message.field;
-                                    var parts = field.split('.');
-                                    var section;
-                                    if (parts.length > 0) {
-                                        section = parts[0].toLowerCase();
-
-                                        if ($scope.validationMessagesGrouped[section]) {
-                                            $scope.validationMessagesGrouped[section].push(message);
-                                        } else {
-                                            $scope.validationMessagesGrouped[section] = [message];
-                                        }
-                                    }
-                                });
-                            }
-                            else {
-                                $scope.validationMessages = data.messages;
-
-                                angular.forEach(data.messages, function(message) {
-                                    var field = message.field;
-                                    var parts = field.split('.');
-                                    var section;
-                                    if (parts.length > 0) {
-                                        section = parts[0].toLowerCase();
-
-                                        if ($scope.validationMessagesGrouped[section]) {
-                                            $scope.validationMessagesGrouped[section].push(message);
-                                        } else {
-                                            $scope.validationMessagesGrouped[section] = [message];
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }, function(error) {
-                        $scope.certForm.$setDirty();
-                        // Show error message if save fails
-                        $scope.widgetState.saveErrorMessageKey = checkSetErrorSave(error.errorCode);
-                    }
-                );
-                return true;
-            }
-
-            /**
-             * Discard a certificate draft
-             */
-            function _discard($scope, intygsTyp) {
-
-                var bodyText = 'När du raderar utkastet tas det bort från Webcert.';
-                $scope.dialog = {
-                    acceptprogressdone: false,
-                    errormessageid: 'Error',
-                    showerror: false
-                };
-
-                var draftDeleteDialog = {};
-                draftDeleteDialog = dialogService.showDialog($scope, {
-                    dialogId: 'confirm-draft-delete',
-                    titleId: 'common.modal.label.discard_draft',
-                    bodyText: bodyText,
-                    button1id: 'confirm-draft-delete-button',
-
-                    button1click: function() {
-                        $log.debug('delete draft ');
-                        $scope.dialog.acceptprogressdone = false;
-                        CertificateService.discardDraft($stateParams.certificateId, intygsTyp, function() {
-                            $scope.dialog.acceptprogressdone = true;
-                            statService.refreshStat(); // Update statistics to reflect change
-
-                            if (featureService.isFeatureActive('franJournalsystem')) {
-                                $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
-                            } else {
-                                $location.path('/unsigned');
-                            }
-                            draftDeleteDialog.close();
-                        }, function(error) {
-                            $scope.dialog.acceptprogressdone = true;
-                            if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
-                                statService.refreshStat(); // Update statistics to reflect change
-                                draftDeleteDialog.close();
-                                $location.path('/unsigned');
-                            } else {
-                                $scope.dialog.showerror = true;
-                                if (error === '') {
-                                    $scope.dialog.errormessageid = 'common.error.cantconnect';
-                                } else {
-                                    $scope.dialog.errormessageid =
-                                        ('error.message.' + error.errorCode).toLowerCase();
-                                }
-                            }
-                        });
-                    },
-                    button1text: 'common.delete',
-                    button2text: 'common.cancel',
-                    autoClose: false
-                });
-            }
-
-            function checkSetError(errorCode) {
-                var model = 'common.error.unknown';
-                if (errorCode !== undefined && errorCode !== null) {
-                    model = ('common.error.' + errorCode).toLowerCase();
-                }
-
-                return model;
             }
 
             function checkSetErrorSave(errorCode) {
                 var model = 'common.error.save.unknown';
                 if (errorCode !== undefined && errorCode !== null) {
                     model = ('common.error.save.' + errorCode).toLowerCase();
+                }
+
+                return model;
+            }
+
+            /**
+             * Action to save the certificate draft to the server.
+             */
+            function _save(autoSave) {
+                if (autoSave && CertificateService.isSaveDraftInProgress()) {
+                    return false;
+                }
+
+                var deferred = $q.defer();
+                $rootScope.$emit('saveRequest',deferred);
+                deferred.promise.then(function(saveIntygModel) {
+                    CertificateService.saveDraft(saveIntygModel.intygsId, saveIntygModel.intygsTyp, saveIntygModel.cert, autoSave,
+                        function(data) {
+
+                            var result = {};
+                            result.validationMessagesGrouped = {};
+                            result.validationMessages = [];
+
+                            if (data.status === 'COMPLETE') {
+                                CertViewState.viewState.intyg.isComplete = true;
+                            } else {
+                                CertViewState.viewState.intyg.isComplete = false;
+
+                                if (!CertViewState.viewState.showComplete) {
+                                    result.validationMessages = data.messages.filter(function(message) {
+                                        return (message.type !== 'EMPTY');
+                                    });
+                                }
+                                else {
+                                    result.validationMessages = data.messages;
+                                }
+
+                                angular.forEach(result.validationMessages, function(message) {
+                                    var field = message.field;
+                                    var parts = field.split('.');
+                                    var section;
+                                    if (parts.length > 0) {
+                                        section = parts[0].toLowerCase();
+
+                                        if (result.validationMessagesGrouped[section]) {
+                                            result.validationMessagesGrouped[section].push(message);
+                                        } else {
+                                            result.validationMessagesGrouped[section] = [message];
+                                        }
+                                    }
+                                });
+
+                                saveIntygModel.saveComplete.resolve(result);
+                            }
+                        }, function(error) {
+                            // Show error message if save fails
+                            var result = {
+                                errorMessageKey : checkSetErrorSave(error.errorCode)
+                            };
+                            saveIntygModel.saveComplete.reject(result);
+                        }
+                    );
+                });
+                return true;
+            };
+
+            function checkSetError(errorCode) {
+                var model = 'common.error.unknown';
+                if (errorCode !== undefined && errorCode !== null) {
+                    model = ('common.error.' + errorCode).toLowerCase();
                 }
 
                 return model;
@@ -357,7 +292,6 @@ angular.module('common').factory('common.ManageCertView',
             return {
                 load: _load,
                 save: _save,
-                discard: _discard,
                 signera: signera,
                 isRevoked: _isRevoked,
                 isSentToTarget: _isSentToTarget,
