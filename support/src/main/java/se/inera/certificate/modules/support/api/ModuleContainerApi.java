@@ -11,7 +11,7 @@ public interface ModuleContainerApi {
     /**
      * Signal the reception of a certificate to the module container.
      */
-    void certificateReceived(CertificateHolder certificate, boolean wireTapped) throws CertificateAlreadyExistsException, InvalidCertificateException;
+    void certificateReceived(CertificateHolder certificate) throws CertificateAlreadyExistsException, InvalidCertificateException;
 
     /**
      * Get a certificate from the module container.
