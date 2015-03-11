@@ -42,5 +42,5 @@
     "/web/webjars/common/webcert/js/services/locationUtilsService.js",
     "/web/webjars/common/webcert/js/stacktrace.js",
 
-    "/web/webjars/common/webcert/intyg-edit-header/intyg-edit-header.js"
+    "/web/webjars/common/webcert/intyg/edit/intyg-edit-header/intyg-edit-header.js"
 ]

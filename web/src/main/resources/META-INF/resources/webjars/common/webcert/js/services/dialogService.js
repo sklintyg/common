@@ -65,8 +65,6 @@ angular.module('common').factory('common.dialogService',
         /*
          showDialog parameters:
 
-         scope = parent scope
-
          options =
          dialogId: html id attribute of dialog
          titleId: message id of title text
@@ -84,19 +82,7 @@ angular.module('common').factory('common.dialogService',
          button3visible: (optional) whether button 3 should be visible. default: true if button3text is specified, otherwise false
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
          */
-        function _showDialog(parentScope, options) {
-
-            var dialogRequestModel = options.dialogRequestModel;
-            if (dialogRequestModel === undefined) {
-                dialogRequestModel = {};
-            }
-
-            dialogRequestModel.errormessageid =
-                (dialogRequestModel.errormessageid ? dialogRequestModel.errormessageid : 'common.error.cantconnect');
-            dialogRequestModel.acceptprogressdone =
-                (dialogRequestModel.acceptprogressdone ? dialogRequestModel.acceptprogressdone : true);
-            dialogRequestModel.focus = (dialogRequestModel.focus ? dialogRequestModel.focus : false);
-            dialogRequestModel.showerror = (dialogRequestModel.showerror ? dialogRequestModel.showerror : false);
+        function _showDialog(options) {
 
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
@@ -117,15 +103,22 @@ angular.module('common').factory('common.dialogService',
             options.autoClose = (options.autoClose === undefined) ? true : options.autoClose;
             options.templateUrl =
                 (options.templateUrl === undefined) ? '/views/partials/common-dialog.html' : options.templateUrl;
-            options.model = (options.model === undefined) ? undefined : options.model;
+            options.model = (options.model === undefined) ? {} : options.model;
+
+            // setup model defaults if parameters aren't included
+            options.model.errormessageid =
+                (options.model.errormessageid ? options.model.errormessageid : 'common.error.cantconnect');
+            options.model.acceptprogressdone =
+                (options.model.acceptprogressdone ? options.model.acceptprogressdone : true);
+            options.model.focus = (options.model.focus ? options.model.focus : false);
+            options.model.showerror = (options.model.showerror ? options.model.showerror : false);
 
             // Create controller to setup dialog
-            var DialogInstanceCtrl = function($scope, $modalInstance, requestModel, contentModel, dialogId, titleId, bodyTextId, bodyText,
+            var DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId, bodyText,
                 button1id, button2id, button3id, button1click, button2click, button3click, button3visible, button1text,
                 button2text, button3text, autoClose) {
 
-                $scope.requestModel = requestModel;
-                $scope.contentModel = contentModel;
+                $scope.model = model;
                 $scope.dialogId = dialogId;
                 $scope.titleId = titleId;
                 $scope.bodyTextId = bodyTextId;
@@ -163,14 +156,10 @@ angular.module('common').factory('common.dialogService',
 
             // Open dialog box using specified options, template and controller
             var msgbox = $modal.open({
-                scope: parentScope,
                 templateUrl: options.templateUrl,
                 controller: DialogInstanceCtrl,
                 resolve: {
-                    requestModel: function() {
-                        return dialogRequestModel;
-                    },
-                    contentModel: function() {
+                    model: function() {
                         return options.model;
                     },
                     dialogId: function() {
@@ -231,6 +220,8 @@ angular.module('common').factory('common.dialogService',
             _runOnDialogDoneLoading(msgbox, function() {
                 $window.dialogDoneLoading = true;
             });
+
+            msgbox.model = options.model;
 
             return msgbox;
         }

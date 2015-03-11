@@ -17,19 +17,19 @@ angular.module('common').factory('common.ManageCertView',
             function _load($scope, intygsTyp, onSuccess) {
                 $scope.viewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
-                    $scope.viewState.doneLoading = true;
-                    $scope.viewState.activeErrorMessageKey = null;
+                    CertViewState.viewState.doneLoading = true;
+                    CertViewState.viewState.activeErrorMessageKey = null;
                     $scope.cert = data.content;
                     $scope.certMeta.intygId = data.content.id;
                     $scope.certMeta.vidarebefordrad = data.vidarebefordrad;
                     $scope.isSigned = data.status === 'SIGNED';
-                    $scope.isComplete = $scope.isSigned || data.status === 'DRAFT_COMPLETE';
+                    CertViewState.viewState.intyg.isComplete = $scope.isSigned || data.status === 'DRAFT_COMPLETE';
                     if (onSuccess !== undefined) {
                         onSuccess(data.content);
                     }
                 }, function(error) {
-                    $scope.viewState.doneLoading = true;
-                    $scope.viewState.activeErrorMessageKey = checkSetError(error.errorCode);
+                    CertViewState.viewState.doneLoading = true;
+                    CertViewState.viewState.activeErrorMessageKey = checkSetError(error.errorCode);
                 });
             }
 
@@ -112,17 +112,18 @@ angular.module('common').factory('common.ManageCertView',
                 return model;
             }
 
-            function signera($scope, intygsTyp) {
+            function signera(intygsTyp) {
                 if (User.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
-                    return _signeraServer($scope, intygsTyp, $stateParams.certificateId);
+                    return _signeraServer(intygsTyp, $stateParams.certificateId);
                 } else {
-                    return _signeraKlient($scope, intygsTyp, $stateParams.certificateId);
+                    return _signeraKlient(intygsTyp, $stateParams.certificateId);
                 }
             }
 
-            function _signeraServer($scope, intygsTyp, intygsId) {
+            function _signeraServer(intygsTyp, intygsId) {
+                var signModel = {};
                 var bodyText = 'Är du säker på att du vill signera intyget?';
-                var confirmDialog = dialogService.showDialog($scope, {
+                var confirmDialog = dialogService.showDialog({
                     dialogId: 'confirm-sign',
                     titleId: 'common.modal.label.confirm_sign',
                     bodyText: bodyText,
@@ -130,50 +131,55 @@ angular.module('common').factory('common.ManageCertView',
                     button1id: 'confirm-signera-utkast-button',
 
                     button1click: function() {
-                        _confirmSignera($scope, intygsTyp, intygsId, confirmDialog);
+                        _confirmSignera(signModel, intygsTyp, intygsId, confirmDialog);
                     },
                     button1text: 'common.sign',
                     button2click: function() {
-                        if ($scope._timer) {
-                            $timeout.cancel($scope._timer);
+                        if (confirmDialog.model._timer) {
+                            $timeout.cancel(confirmDialog.model._timer);
                         }
-                        $scope.dialog.acceptprogressdone = true;
+                        confirmDialog.model.acceptprogressdone = true;
                     },
                     button2text: 'common.cancel'
                 });
+                signModel.dialog = confirmDialog;
+                return signModel;
             }
 
-            function _signeraKlient($scope, intygsTyp, intygsId) {
-                    $scope.signingWithSITHSInProgress = true;
-                    CertificateService.getSigneringshash(intygsId, intygsTyp, function(ticket) {
+            function _signeraKlient(intygsTyp, intygsId) {
+                var signModel = {
+                    signingWithSITHSInProgress : true
+                };
+                CertificateService.getSigneringshash(intygsId, intygsTyp, function(ticket) {
                     _openNetIdPlugin(ticket.hash, function(signatur) {
                         CertificateService.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, function(ticket) {
 
                             if (ticket.status === 'SIGNERAD') {
-                                _showIntygAfterSignering($scope, intygsTyp, intygsId);
+                                _showIntygAfterSignering(signModel, intygsTyp, intygsId);
                             } else {
-                                _waitForSigneringsstatusSigneradAndClose($scope, intygsTyp, intygsId, ticket);
+                                _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket);
                             }
 
                         }, function(error) {
-                            _showSigneringsError($scope, error);
+                            _showSigneringsError(signModel, error);
                         });
                     }, function(error) {
-                        _showSigneringsError($scope, error);
+                        _showSigneringsError(signModel, error);
                     });
                 }, function(error) {
-                    _showSigneringsError($scope, error);
+                    _showSigneringsError(signModel, error);
                 });
+                return signModel;
             }
 
-            function _confirmSignera($scope, intygsTyp, intygsId, confirmDialog) {
-                $scope.dialog.acceptprogressdone = false;
-                $scope.dialog.showerror = false;
+            function _confirmSignera(signModel, intygsTyp, intygsId, confirmDialog) {
+                confirmDialog.model.acceptprogressdone = false;
+                confirmDialog.model.showerror = false;
                 CertificateService.signeraUtkast(intygsId, intygsTyp, function(ticket) {
-                    _waitForSigneringsstatusSigneradAndClose($scope, intygsTyp, intygsId, ticket,
+                    _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket,
                         confirmDialog);
                 }, function(error) {
-                    _showSigneringsError($scope, error);
+                    _showSigneringsError(signModel, error);
                 });
             }
 
@@ -194,16 +200,16 @@ angular.module('common').factory('common.ManageCertView',
                 });
             }
 
-            function _waitForSigneringsstatusSigneradAndClose($scope, intygsTyp, intygsId, ticket, dialog) {
+            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, dialog) {
 
                 function getSigneringsstatus() {
                     CertificateService.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
                         if ('BEARBETAR' === ticket.status) {
-                            $scope._timer = $timeout(getSigneringsstatus, 1000);
+                            signModel._timer = $timeout(getSigneringsstatus, 1000);
                         } else if ('SIGNERAD' === ticket.status) {
-                            _showIntygAfterSignering($scope, intygsTyp, intygsId, dialog);
+                            _showIntygAfterSignering(signModel, intygsTyp, intygsId, dialog);
                         } else {
-                            _showSigneringsError($scope, {errorCode: 'SIGNERROR'});
+                            _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
                     });
                 }
@@ -211,11 +217,11 @@ angular.module('common').factory('common.ManageCertView',
                 getSigneringsstatus();
             }
 
-            function _showIntygAfterSignering($scope, intygsTyp, intygsId, dialog) {
+            function _showIntygAfterSignering(signModel, intygsTyp, intygsId, dialog) {
                 if (dialog) {
                     dialog.close();
                 }
-                $scope.signingWithSITHSInProgress = false;
+                signModel.signingWithSITHSInProgress = false;
 
                 $location.replace();
                 $location.path('/intyg/' + intygsTyp + '/' + intygsId);
@@ -245,16 +251,16 @@ angular.module('common').factory('common.ManageCertView',
                 return messageId;
             }
 
-            function _showSigneringsError($scope, error) {
-                if ($scope.dialog) {
-                    $scope.dialog.acceptprogressdone = true;
-                    $scope.dialog.showerror = true;
-                    $scope.dialog.errormessageid = _setErrorMessageId(error);
+            function _showSigneringsError(signModel, error) {
+                if (signModel.dialog) {
+                    signModel.dialog.model.acceptprogressdone = true;
+                    signModel.dialog.model.showerror = true;
+                    signModel.dialog.model.errormessageid = _setErrorMessageId(error);
                 } else {
                     var sithssignerrormessageid = _setErrorMessageId(error);
                     var errorMessage = messageService.getProperty(sithssignerrormessageid, null, sithssignerrormessageid);
                     dialogService.showErrorMessageDialog(errorMessage);
-                    $scope.signingWithSITHSInProgress = false;
+                    signModel.signingWithSITHSInProgress = false;
                 }
             }
 

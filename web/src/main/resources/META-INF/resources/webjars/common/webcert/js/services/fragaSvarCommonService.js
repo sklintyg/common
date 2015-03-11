@@ -220,7 +220,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
 
                     $event.preventDefault();
 
-                    QAdialog = dialogService.showDialog($scope, {
+                    QAdialog = dialogService.showDialog({
                         dialogId: 'qa-only-warning-dialog',
                         titleId: 'label.qaonlywarning',
                         bodyTextId: 'label.qaonlywarning.body',

@@ -39,25 +39,25 @@ angular.module('common').controller('common.IntygEditHeader',
              */
             $scope.discard = function() {
                 var bodyText = 'När du raderar utkastet tas det bort från Webcert.';
-                var dialogRequestModel = {
+                var dialogModel = {
                     acceptprogressdone: false,
                     errormessageid: 'Error',
                     showerror: false
                 };
 
                 var draftDeleteDialog = {};
-                draftDeleteDialog = dialogService.showDialog($scope, {
+                draftDeleteDialog = dialogService.showDialog({
                     dialogId: 'confirm-draft-delete',
                     titleId: 'common.modal.label.discard_draft',
                     bodyText: bodyText,
                     button1id: 'confirm-draft-delete-button',
-                    dialogRequestModel: dialogRequestModel,
+                    model: dialogModel,
 
                     button1click: function() {
                         $log.debug('delete draft ');
-                        dialogRequestModel.acceptprogressdone = false;
+                        dialogModel.acceptprogressdone = false;
                         CertificateService.discardDraft($stateParams.certificateId, intygsTyp, function() {
-                            dialogRequestModel.acceptprogressdone = true;
+                            dialogModel.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
                             if (featureService.isFeatureActive('franJournalsystem')) {
@@ -67,17 +67,17 @@ angular.module('common').controller('common.IntygEditHeader',
                             }
                             draftDeleteDialog.close();
                         }, function(error) {
-                            dialogRequestModel.acceptprogressdone = true;
+                            dialogModel.acceptprogressdone = true;
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
                                 statService.refreshStat(); // Update statistics to reflect change
                                 draftDeleteDialog.close();
                                 $location.path('/unsigned');
                             } else {
-                                dialogRequestModel.showerror = true;
+                                dialogModel.showerror = true;
                                 if (error === '') {
-                                    dialogRequestModel.errormessageid = 'common.error.cantconnect';
+                                    dialogModel.errormessageid = 'common.error.cantconnect';
                                 } else {
-                                    dialogRequestModel.errormessageid =
+                                    dialogModel.errormessageid =
                                         ('error.message.' + error.errorCode).toLowerCase();
                                 }
                             }
@@ -87,13 +87,6 @@ angular.module('common').controller('common.IntygEditHeader',
                     button2text: 'common.cancel',
                     autoClose: false
                 });
-            };
-
-            /**
-             * Action to sign the certificate draft and return to Webcert again.
-             */
-            $scope.sign = function() {
-                ManageCertView.signera($scope, intygsTyp);
             };
 
             /**
