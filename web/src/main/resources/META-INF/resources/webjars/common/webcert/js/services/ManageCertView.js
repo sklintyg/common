@@ -133,7 +133,7 @@ angular.module('common').factory('common.ManageCertView',
                             if (featureService.isFeatureActive('franJournalsystem')) {
                                 $rootScope.$broadcast('intyg.deleted', $routeParams.certificateId);
                             } else {
-                                $location.path('/unsigned');
+                                $window.history.back();
                             }
                             draftDeleteDialog.close();
                         }, function(error) {
@@ -141,7 +141,7 @@ angular.module('common').factory('common.ManageCertView',
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
                                 statService.refreshStat(); // Update statistics to reflect change
                                 draftDeleteDialog.close();
-                                $location.path('/unsigned');
+                                $window.history.back();
                             } else {
                                 $scope.dialog.showerror = true;
                                 if (error === '') {
