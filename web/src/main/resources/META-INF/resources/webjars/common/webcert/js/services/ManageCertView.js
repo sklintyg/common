@@ -283,7 +283,7 @@ angular.module('common').factory('common.ManageCertView',
                 $scope.signingWithSITHSInProgress = false;
 
                 $location.replace();
-                $location.path('/intyg/' + intygsTyp + '/' + intygsId);
+                $location.path('/intyg/' + intygsTyp + '/' + intygsId).search('signed', true);
                 statService.refreshStat();
             }
 

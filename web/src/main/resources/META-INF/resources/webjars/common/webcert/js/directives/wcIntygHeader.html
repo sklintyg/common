@@ -6,12 +6,15 @@
   <div id="cert-load-error" ng-show="widgetState.doneLoading && widgetState.activeErrorMessageKey"
        class="alert alert-danger alert-column print-hide">
 
-    <p>
-      <span message key="{{intygstyp}}.{{widgetState.activeErrorMessageKey}}"></span>
-    </p>
+    <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
+      <span message key="{{widgetState.activeErrorMessageKey}}"></span>
+    </span>
 
     <div
         ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
+      <p>
+        <span message key="{{widgetState.activeErrorMessageKey}}"></span>
+      </p>
       <p><strong>Intygsinformation</strong></p>
       <ul>
         <li>Patient: {{intygBackup.intyg.patientNamn}} ({{intygBackup.intyg.patientId.patientIdExtension}})</li>
