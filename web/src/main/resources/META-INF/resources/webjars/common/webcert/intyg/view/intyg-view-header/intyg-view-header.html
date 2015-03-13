@@ -1,4 +1,3 @@
-<div>
   <div wc-print-header title-id="{{intygstyp}}.label.certtitle" print-message-id="print.label.{{widgetState.printStatus}}"
        intygs-id="cert.id"></div>
 
@@ -35,37 +34,36 @@
             </button>
             <button id="downloadprint" type="submit" value="submit" class="btn btn-info" ng-click="print(cert)">Skriv ut
             </button>
-            <button id="copyBtn" class="btn btn-info" ng-if="!certProperties.isRevoked && !isQaOnly" ng-click="copy(cert)"
-                    wc-feature-active feature="kopieraIntyg" intygstyp="{{intygstyp}}"
-                    title="Kopiera intyg innebär att en kopia skapas av det befintliga intyget och med samma information.
+          <button id="copyBtn" class="btn btn-info" ng-if="!certProperties.isRevoked && !isQaOnly" ng-click="copy(cert)"
+                  wc-feature-active feature="kopieraIntyg" intygstyp="{{intygstyp}}"
+                  title="Kopiera intyg innebär att en kopia skapas av det befintliga intyget och med samma information.
 I de fall patienten har ändrat namn eller adress så uppdateras den informationen. Uppgifterna i intygsutkastet går att
 ändra innan det signeras. Kopiera intyg kan användas exempelvis vid förlängning av en sjukskrivning.">
-              Kopiera
-            </button>
-            <button id="makuleraBtn" class="btn btn-inverse" ng-if="!certProperties.isRevoked && !isQaOnly && user.lakare" ng-click="makulera(cert)"
-                    wc-feature-active feature="makuleraIntyg" intygstyp="{{intygstyp}}"
-                    wc-check-vardenhet vardenhet="{{cert.grundData.skapadAv.vardenhet.enhetsid}}"
-                    title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">
-              Makulera
-            </button>
-          </p>
-        </form>
-      </div>
+            Kopiera
+          </button>
+          <button id="makuleraBtn" class="btn btn-inverse" ng-if="!certProperties.isRevoked && !isQaOnly && user.lakare" ng-click="makulera(cert)"
+                  wc-feature-active feature="makuleraIntyg" intygstyp="{{intygstyp}}"
+                  wc-check-vardenhet vardenhet="{{cert.grundData.skapadAv.vardenhet.enhetsid}}"
+                  title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">
+            Makulera
+          </button>
+        </p>
+      </form>
+    </div>
 
-      <div id="cert-inline-error" ng-show="widgetState.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
-        <span message key="{{widgetState.inlineErrorMessageKey}}"></span>
-      </div>
+    <div id="cert-inline-error" ng-show="widgetState.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
+      <span message key="{{widgetState.inlineErrorMessageKey}}"></span>
+    </div>
 
-      <div wc-new-person-id-message></div>
+    <div wc-new-person-id-message></div>
 
-      <div class="alert alert-info alert-column" ng-if="!certProperties.isRevoked">
-        <strong>Status:</strong>
-        <span ng-if="certProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="fk7263.label.status.sent"></span>
-        <span ng-if="!certProperties.isSent" id="certificate-is-sent-to-it-message-text" message key="fk7263.label.status.signed"></span>
-      </div>
-      <div ng-if="certProperties.isRevoked" id="certificate-is-revoked-message-text" class="alert alert-warning"
-           style="margin-right: 20px; max-width: 530px;">Intyget är makulerat
-      </div>
+    <div class="alert alert-info alert-column" ng-if="!certProperties.isRevoked">
+      <strong>Status:</strong>
+      <span ng-if="certProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="fk7263.label.status.sent"></span>
+      <span ng-if="!certProperties.isSent" id="certificate-is-sent-to-it-message-text" message key="fk7263.label.status.signed"></span>
+    </div>
+    <div ng-if="certProperties.isRevoked" id="certificate-is-revoked-message-text" class="alert alert-warning"
+         style="margin-right: 20px; max-width: 530px;">Intyget är makulerat
     </div>
   </div>
 </div>

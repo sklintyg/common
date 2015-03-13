@@ -20,7 +20,6 @@
     "/web/webjars/common/webcert/js/directives/wcPersonNumber.js",
     "/web/webjars/common/webcert/js/directives/wcNewPersonIdMessage.js",
     "/web/webjars/common/webcert/js/directives/wcFieldSigningDoctor.js",
-    "/web/webjars/common/webcert/js/directives/wcIntygHeader.js",
     "/web/webjars/common/webcert/js/filters/BoolToTextFilter.js",
     "/web/webjars/common/webcert/js/services/CertificateService.js",
     "/web/webjars/common/webcert/js/services/CertViewState.js",
@@ -42,5 +41,6 @@
     "/web/webjars/common/webcert/js/services/locationUtilsService.js",
     "/web/webjars/common/webcert/js/stacktrace.js",
 
-    "/web/webjars/common/webcert/intyg/edit/intyg-edit-header/intyg-edit-header.js"
+    "/web/webjars/common/webcert/intyg/edit/intyg-edit-header/intyg-edit-header.js",
+    "/web/webjars/common/webcert/intyg/view/intyg-view-header/intyg-view-header.js"
 ]
