@@ -529,6 +529,53 @@
         margin-top: 0;
     }
 
+
+    .qa-list-section.ng-hide, .qa-list-section.ng-hide-add, .qa-list-section.ng-hide-remove {
+        -webkit-transition: linear all;
+        -moz-transition: linear all;
+        -ms-transition: linear all;
+        transition: linear all;
+    }
+
+    .qa-list-section.ng-hide-add.ng-hide-add-active
+    {
+        -webkit-animation: fadeIn 1s;
+        -moz-animation: fadeIn 1s;
+        -ms-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+    }
+
+    .qa-list-section.ng-hide-remove,
+    .qa-list-section.ng-hide-remove.ng-hide-remove-active {
+        -webkit-animation: fadeOut 1s;
+        -moz-animation: fadeOut 1s;
+        -ms-animation: fadeOut 1s;
+        animation: fadeOut 1s;
+    }
+
+    .qa-item {
+        -webkit-transition: color 0.6s, background-color 0.3s, all 0.6s;
+        -moz-transition: color 0.6s, background-color 0.3s, all 0.6s;
+        -ms-transition: color 0.6s, background-color 0.3s, all 0.6s;
+        transition: color 0.6s, background-color 0.3s, all 0.6s;
+    }
+    .qa-item.ng-enter, .qa-item.ng-move {
+        -webkit-animation: fadeIn 1s;
+        -moz-animation: fadeIn 1s;
+        -ms-animation: fadeIn 1s;
+        animation: fadeInLeft 1s;
+    }
+    .qa-item.ng-leave {
+        -webkit-animation: fadeOutLeft 1s;
+        -moz-animation: fadeOutLeft 1s;
+        -ms-animation: fadeOutLeft 1s;
+        animation: fadeOutLeft 1s;
+    }
+
+    /**
+        Table styles
+    */
+
     .table-padding-top {
         padding-top: 15px;
     }
