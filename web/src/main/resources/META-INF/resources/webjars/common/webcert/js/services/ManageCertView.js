@@ -4,9 +4,9 @@
 angular.module('common').factory('common.ManageCertView',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.User', 'common.CertViewState',
+        'common.User', 'common.CertViewState', 'common.domain.DraftModel',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            CertificateService, dialogService, messageService, statService, User, CertViewState) {
+            CertificateService, dialogService, messageService, statService, User, CertViewState, draftModel) {
             'use strict';
 
             /**
@@ -14,18 +14,16 @@ angular.module('common').factory('common.ManageCertView',
              * @param $scope
              * @private
              */
-            function _load($scope, intygsTyp, onSuccess) {
-                $scope.viewState.doneLoading = false;
+            function _load( intygsTyp, onSuccess) {
+                CertViewState.viewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
                     CertViewState.viewState.doneLoading = true;
                     CertViewState.viewState.activeErrorMessageKey = null;
-                    $scope.cert = data.content;
-                    $scope.certMeta.intygId = data.content.id;
-                    $scope.certMeta.vidarebefordrad = data.vidarebefordrad;
-                    $scope.isSigned = data.status === 'SIGNED';
-                    CertViewState.viewState.intyg.isComplete = $scope.isSigned || data.status === 'DRAFT_COMPLETE';
+
+                    draftModel.update(data);
+
                     if (onSuccess !== undefined) {
-                        onSuccess(data.content);
+                        onSuccess(draftModel);
                     }
                 }, function(error) {
                     CertViewState.viewState.doneLoading = true;

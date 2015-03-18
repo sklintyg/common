@@ -16,7 +16,10 @@ angular.module('common').factory('common.CertViewState',
             hsaInfoMissing: false,
             vidarebefordraInProgress: false,
             hospName: $stateParams.hospName,
-            deleted: false
+            deleted: false,
+            isSigned : false,
+            validationMessages : null,
+            validationMessagesGrouped : null
         };
 
         function _toggleShowComplete() {
