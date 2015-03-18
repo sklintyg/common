@@ -1,8 +1,8 @@
 /* global document */
 angular.module('common').directive('wcIntygHeader',
-    ['$log', '$routeParams', 'common.messageService', 'webcert.ManageCertificate', 'common.ManageCertView',
+    ['$rootScope', '$log', '$routeParams', 'common.messageService', 'webcert.ManageCertificate', 'common.ManageCertView',
      'common.IntygCopyRequestModel', 'common.User',
-        function($log, $routeParams, messageService, ManageCertificate, ManageCertView, IntygCopyRequestModel, User) {
+        function($rootScope, $log, $routeParams, messageService, ManageCertificate, ManageCertView, IntygCopyRequestModel, User) {
             'use strict';
             return {
                 restrict: 'A',
@@ -14,8 +14,16 @@ angular.module('common').directive('wcIntygHeader',
                     ManageCertificate.initSend($scope);
                     $scope.send = function(cert) {
                         cert.intygType = $routeParams.certificateType;
-                        ManageCertificate.send($scope, cert, 'FK', $scope.intygstyp+'.label.send', function() {
-                            $scope.$emit('loadCertificate');
+                        ManageCertificate.send($scope, cert, 'FK', $scope.intygstyp+'.label.send', function(status) {
+                            if (status === '"RESCHEDULED"') {
+                                // Intygstjansten is down, webcert will reschedule the send request later
+                                // We can not call loadCertificate since it will display an error
+                                $scope.certProperties.isSent = true;
+                                $rootScope.$emit('fk7263.ViewCertCtrl.load', $scope.cert, $scope.certProperties);
+                            }
+                            else {
+                                $scope.$emit('loadCertificate');
+                            }
                         });
                     };
 
