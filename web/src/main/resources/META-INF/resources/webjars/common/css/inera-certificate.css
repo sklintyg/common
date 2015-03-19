@@ -537,7 +537,7 @@
         -webkit-animation: fadeIn 1s;
         -moz-animation: fadeIn 1s;
         -ms-animation: fadeIn 1s;
-        animation: fadeInLeft 1s;
+        animation: fadeIn 1s;
     }
     .qa-item.ng-leave {
         -webkit-animation: fadeOut 1s;
