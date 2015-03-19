@@ -5,6 +5,8 @@ angular.module('common').factory('common.CertificateService',
     function($http, $log) {
         'use strict';
 
+        var saveDraftInProgress = false;
+
         function _handleError(callback, error) {
             if (callback) {
                 callback(error);
@@ -48,18 +50,28 @@ angular.module('common').factory('common.CertificateService',
         /**
          * Saves a certificate draft to the server.
          */
-        function _saveDraft(intygsId, intygsTyp, cert, onSuccess, onError) {
-            $log.debug('_saveDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp);
+        function _saveDraft(intygsId, intygsTyp, cert, autoSave, onSuccess, onError) {
+            $log.debug('_saveDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp + ' autoSave:' + autoSave);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId;
+            if (autoSave) {
+                restPath += '?autoSave=true';
+            }
+            saveDraftInProgress = true;
             $http.put(restPath, cert).
                 success(function(data) {
                     $log.debug('_saveDraft data: ' + data);
                     onSuccess(data);
+                    saveDraftInProgress = false;
                 }).
                 error(function(data, status) {
                     $log.error('error ' + status);
                     onError(data);
+                    saveDraftInProgress = false;
                 });
+        }
+
+        function _isSaveDraftInProgress() {
+            return saveDraftInProgress;
         }
 
         /**
@@ -116,11 +128,13 @@ angular.module('common').factory('common.CertificateService',
         }
 
         function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, onSuccess, onError) {
-            $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp);
+            $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeraklient';
-            $http.post(restPath).
-                success(function() {
-                    onSuccess();
+            $http.post(restPath, {
+                'signatur': signatur
+            }).
+                success(function(ticket) {
+                    onSuccess(ticket);
                 }).
                 error(function(error) {
                     _handleError(onError, error);
@@ -172,6 +186,7 @@ angular.module('common').factory('common.CertificateService',
             getCertificate: _getCertificate,
             getDraft: _getDraft,
             saveDraft: _saveDraft,
+            isSaveDraftInProgress: _isSaveDraftInProgress,
             discardDraft: _discardDraft,
             getSigneringshash: _getSigneringshash,
             getSigneringsstatus: _getSigneringsstatus,

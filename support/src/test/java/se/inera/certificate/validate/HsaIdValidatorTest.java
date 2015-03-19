@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.inera.certificate.model.util.Strings;
+import se.inera.certificate.common.util.StringUtil;
 
 public class HsaIdValidatorTest {
 
@@ -37,7 +37,7 @@ public class HsaIdValidatorTest {
     }
 
     private void assertListSize(int size, List<String> collection) {
-        String validationMessage = Strings.join(",", collection);
+        String validationMessage = StringUtil.join(",", collection);
         Assert.assertEquals(validationMessage, size, collection.size());
     }
 

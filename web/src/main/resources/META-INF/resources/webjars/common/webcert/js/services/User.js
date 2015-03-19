@@ -25,7 +25,7 @@ angular.module('common').factory('common.User',
             },
 
             /**
-             * returns valdVardenhet from user context
+             * returns a list of selectable vardenheter and mottagningar from user context
              * @returns valdVardenhet
              */
             getVardenhetSelectionList: function() {
@@ -35,14 +35,22 @@ angular.module('common').factory('common.User',
                 var vardgivareList = [];
 
                 angular.forEach(ucVardgivare, function(vardgivare, key1) {
+
                     this.push({ 'id': vardgivare.id, 'namn': vardgivare.namn, 'vardenheter': [] });
+
                     angular.forEach(vardgivare.vardenheter, function(vardenhet) {
+
                         this.push({ 'id': vardenhet.id, 'namn': vardenhet.namn });
+
                         angular.forEach(vardenhet.mottagningar, function(mottagning) {
+
                             mottagning.namn = vardenhet.namn + ' - ' + mottagning.namn;
                             this.push(mottagning);
+
                         }, vardgivareList[key1].vardenheter);
+
                     }, vardgivareList[key1].vardenheter);
+
                 }, vardgivareList);
 
                 return vardgivareList;

@@ -4,19 +4,15 @@ angular.module('common').directive('wcFeatureActive',
 
         return {
             restrict: 'A',
-            scope: {
-                feature: '@',
-                intygstyp: '@'
-            },
-            link: function(scope, element) {
+            link: function(scope, element, attrs) {
 
                 // Make sure that the attribute 'feature' is set.
-                if (scope.feature === undefined) {
+                if (attrs.feature === undefined) {
                     element.remove();
                     throw new Error('\'wcFeatureActive\' kräver att du har angett attributet \'feature\' för att fungera.');
                 }
 
-                if (!featureService.isFeatureActive(scope.feature, scope.intygstyp)) {
+                if (!featureService.isFeatureActive(attrs.feature, attrs.intygstyp)) {
                     element.remove();
                 }
             }

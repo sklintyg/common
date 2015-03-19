@@ -1,6 +1,8 @@
 angular.module('common').directive('wcHeader',
-    [ '$cookieStore', '$location', '$modal', '$window', '$anchorScroll', 'common.featureService', 'common.messageService', 'common.statService', 'common.User',
-        function($cookieStore, $location, $modal, $window, $anchorScroll, featureService, messageService, statService, User) {
+    ['$cookieStore', '$location', '$route', '$log', '$modal', '$window', '$anchorScroll', 'common.dialogService',
+        'common.featureService', 'common.messageService', 'common.statService', 'common.User',
+        function($cookieStore, $location, $route, $log, $modal, $window, $anchorScroll, dialogService, featureService,
+            messageService, statService, User) {
             'use strict';
 
             return {
@@ -10,11 +12,13 @@ angular.module('common').directive('wcHeader',
                     defaultActive: '@'
                 },
                 controller: function($scope) {
+
                     //Expose 'now' as a model property for the template to render as todays date
                     $scope.today = new Date();
                     $scope.user = User;
                     $scope.statService = statService;
                     $scope.statService.startPolling();
+                    $scope.menuDefs = [];
                     $scope.stat = {
                         fragaSvarValdEnhet: 0,
                         fragaSvarAndraEnheter: 0,
@@ -23,66 +27,90 @@ angular.module('common').directive('wcHeader',
                         vardgivare: []
                     };
 
+                    /**
+                     * Event listeners
+                     */
+
                     $scope.$on('wc-stat-update', function(event, message) {
                         $scope.stat = message;
                     });
 
-                    $scope.menuDefs = [];
-                    if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
-                        $scope.menuDefs.push({
-                            link: '/web/dashboard#/unhandled-qa',
-                            label: 'Frågor och svar',
-                            requiresDoctor: false,
-                            statNumberId: 'stat-unitstat-unhandled-question-count',
-                            statTooltip: 'not set',
-                            getStat: function() {
-                                this.statTooltip = 'Vårdenheten har ' + $scope.stat.fragaSvarValdEnhet +
-                                    ' ej hanterade frågor och svar.';
-                                return $scope.stat.fragaSvarValdEnhet || '';
-                            }
-                        });
+                    /**
+                     * Private functions
+                     */
+
+                    function directiveLoad() {
+                        $scope.menuDefs = buildMenu();
                     }
 
-                    if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
-                        $scope.menuDefs.push({
-                            link: '/web/dashboard#/unsigned',
-                            label: messageService.getProperty('dashboard.unsigned.title'),
-                            requiresDoctor: false,
-                            statNumberId: 'stat-unitstat-unsigned-certs-count',
-                            statTooltip: 'not set',
-                            getStat: function() {
-                                this.statTooltip =
-                                    'Vårdenheten har ' + $scope.stat.intygValdEnhet + ' ej signerade utkast.';
-                                return $scope.stat.intygValdEnhet || '';
-                            }
-                        });
-                    }
+                    function buildMenu() {
 
-                    if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
-                        var writeCertMenuDef = {
-                            link: '/web/dashboard#/create/index',
-                            label: 'Sök/skriv intyg',
+                        var menu = [];
+                        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
+                            menu.push({
+                                link: '/web/dashboard#/unhandled-qa',
+                                label: 'Frågor och svar',
+                                requiresDoctor: false,
+                                statNumberId: 'stat-unitstat-unhandled-question-count',
+                                statTooltip: 'not set',
+                                id: 'menu-unhandled-qa',
+                                getStat: function() {
+                                    this.statTooltip = 'Vårdenheten har ' + $scope.stat.fragaSvarValdEnhet +
+                                        ' ej hanterade frågor och svar.';
+                                    return $scope.stat.fragaSvarValdEnhet || '';
+                                }
+                            });
+                        }
+
+                        if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
+                            menu.push({
+                                link: '/web/dashboard#/unsigned',
+                                label: messageService.getProperty('dashboard.unsigned.title'),
+                                requiresDoctor: false,
+                                statNumberId: 'stat-unitstat-unsigned-certs-count',
+                                statTooltip: 'not set',
+                                id: 'menu-unsigned',
+                                getStat: function() {
+                                    this.statTooltip =
+                                        'Vårdenheten har ' + $scope.stat.intygValdEnhet + ' ej signerade utkast.';
+                                    return $scope.stat.intygValdEnhet || '';
+                                }
+                            });
+                        }
+
+                        if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
+                            var writeCertMenuDef = {
+                                link: '/web/dashboard#/create/index',
+                                label: 'Sök/skriv intyg',
+                                requiresDoctor: false,
+                                id: 'menu-skrivintyg',
+                                getStat: function() {
+                                    return '';
+                                }
+                            };
+
+                            if (User.userContext.lakare) {
+                                menu.splice(0, 0, writeCertMenuDef);
+                            } else {
+                                menu.push(writeCertMenuDef);
+                            }
+                        }
+
+                        menu.push({
+                            link: '/web/dashboard#/webcert/about',
+                            label: 'Om Webcert',
                             requiresDoctor: false,
                             getStat: function() {
                                 return '';
                             }
-                        };
+                        });
 
-                        if (User.userContext.lakare) {
-                            $scope.menuDefs.splice(0, 0, writeCertMenuDef);
-                        } else {
-                            $scope.menuDefs.push(writeCertMenuDef);
-                        }
+                        return menu;
                     }
 
-                    $scope.menuDefs.push({
-                        link: '/web/dashboard#/webcert/about',
-                        label: 'Om Webcert',
-                        requiresDoctor: false,
-                        getStat: function() {
-                            return '';
-                        }
-                    });
+                    /**
+                     * Exposed scope interaction functions
+                     */
 
                     $scope.isActive = function(page) {
                         if (!page) {
@@ -110,8 +138,9 @@ angular.module('common').directive('wcHeader',
                     };
 
                     $scope.goToAbout = function() {
+                        $window.dialogDoneLoading = false;
 
-                        $modal.open({
+                        var msgbox = $modal.open({
                             templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderAboutDialog.html',
                             controller: function($scope, $modalInstance) {
 
@@ -120,15 +149,18 @@ angular.module('common').directive('wcHeader',
                                 };
 
                             },
-                            resolve: {
-                            }
+                            resolve: {}
                         });
 
+                        dialogService.runOnDialogDoneLoading(msgbox, function() {
+                            $window.dialogDoneLoading = true;
+                        });
                     };
 
                     $scope.openChangeCareUnitDialog = function() {
+                        $window.dialogDoneLoading = false;
 
-                        $modal.open({
+                        var msgbox = $modal.open({
                             templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderCareUnitDialog.html',
                             controller: function($scope, $modalInstance, vardgivare) {
                                 $scope.vardgivare = vardgivare;
@@ -154,6 +186,7 @@ angular.module('common').directive('wcHeader',
                                         } else {
                                             $location.path('/unhandled-qa');
                                         }
+                                        $route.reload();
 
                                         $modalInstance.close();
                                     }, function() {
@@ -168,7 +201,13 @@ angular.module('common').directive('wcHeader',
                                 }
                             }
                         });
+
+                        dialogService.runOnDialogDoneLoading(msgbox, function() {
+                            $window.dialogDoneLoading = true;
+                        });
                     };
+
+                    directiveLoad();
                 },
                 templateUrl: '/web/webjars/common/webcert/js/directives/wcHeader.html'
             };

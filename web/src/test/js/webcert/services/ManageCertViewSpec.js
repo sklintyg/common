@@ -1,3 +1,5 @@
+var iid_GetProperty, iid_Invoke, iid_SetProperty;
+
 describe('ManageCertView', function() {
     'use strict';
 
@@ -15,7 +17,13 @@ describe('ManageCertView', function() {
             {}
         ]);
         $provide.value('$route', jasmine.createSpyObj('$route', [ 'reload' ]));
-        $provide.value('$location', jasmine.createSpyObj('$location', [ 'path' ]));
+
+        var location = {
+            path: function() { return { search: function() {} }; },
+            replace: function() {}
+        };
+
+        $provide.value('$location', location);
         $provide.value('common.messageService',
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
         $provide.value('$routeParams', {});
@@ -26,15 +34,18 @@ describe('ManageCertView', function() {
     }));
 
     beforeEach(angular.mock.inject(['common.ManageCertView', '$httpBackend', '$location', '$routeParams', '$timeout',
-        'common.dialogService', 'common.User',
-        function(_ManageCertView_, _$httpBackend_, _$location_, _$routeParams_, _$timeout_, _dialogService_, _User_) {
+        '$document', 'common.dialogService', 'common.User',
+        function(_ManageCertView_, _$httpBackend_, _$location_, _$routeParams_, _$timeout_, _$document_, _dialogService_, _User_) {
             ManageCertView = _ManageCertView_;
             $httpBackend = _$httpBackend_;
             $location = _$location_;
             $routeParams = _$routeParams_;
             $timeout = _$timeout_;
+            $document = _$document_;
             dialogService = _dialogService_;
             User = _User_;
+
+            spyOn($location, 'path').and.callFake(function() { return { search: function() {} }; });
         }]));
 
     describe('#signera server', function() {
@@ -132,17 +143,14 @@ describe('ManageCertView', function() {
         });
     });
 
-    xdescribe('#signera client', function() {
+    describe('#signera client', function() {
         var intygId = 123, biljettId = 12345;
-        var netIdSign, netIdGetProperty, $scope;
+        var $scope;
 
         beforeEach(function() {
-            netIdSign = jasmine.createSpy('invoke');
-            netIdGetProperty = jasmine.createSpy('iid_GetProperty');
-
-            $document[0].iID = jasmine.createSpyObj('iID', [ 'iid_SetProperty' ]);
-            $document[0].iID.Invoke = netIdSign;
-            $document[0].iID.GetProperty = netIdGetProperty;
+            iid_GetProperty = jasmine.createSpy('iid_GetProperty');
+            iid_Invoke = jasmine.createSpy('invoke');
+            iid_SetProperty = jasmine.createSpy('iid_SetProperty');
 
             User.userContext.authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
 
@@ -151,7 +159,6 @@ describe('ManageCertView', function() {
         });
 
         afterEach(function() {
-            $document[0] = {};
             User.userContext.authenticationScheme = null;
         });
 
@@ -160,13 +167,16 @@ describe('ManageCertView', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            netIdSign.andReturn(0);
-            netIdGetProperty.andReturn('4321dcba');
-
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient', { signatur: '4321dcba' }).
-                respond(200, { id: biljettId, status: 'SIGNERAD' });
+            iid_Invoke.and.returnValue(0);
+            iid_GetProperty.and.returnValue('4321dcba');
 
             ManageCertView.signera($scope, 'fk7263');
+
+            $httpBackend.flush();
+
+            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
+                respond(200, { id: biljettId, status: 'SIGNERAD' });
+            $timeout.flush();
             $httpBackend.flush();
 
             expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
@@ -177,15 +187,17 @@ describe('ManageCertView', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            netIdSign.andReturn(0);
-            netIdGetProperty.andReturn('4321dcba');
+            iid_Invoke.and.returnValue(0);
+            iid_GetProperty.and.returnValue('4321dcba');
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient', { signatur: '4321dcba' }).
+            ManageCertView.signera($scope, 'fk7263');
+            $httpBackend.flush();
+
+            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
                 respond(200, { id: biljettId, status: 'BEARBETAD' });
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
-
-            ManageCertView.signera($scope, 'fk7263');
+            $timeout.flush();
             $httpBackend.flush();
 
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
@@ -211,10 +223,11 @@ describe('ManageCertView', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            $document[0] = {};
+            iid_Invoke.and.returnValue(-1);
 
             ManageCertView.signera($scope, 'fk7263');
             $httpBackend.flush();
+            $timeout.flush();
 
             expect(dialogService.showErrorMessageDialog).toHaveBeenCalled();
         });

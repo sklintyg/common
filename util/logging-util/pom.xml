@@ -6,13 +6,12 @@
 
   <parent>
     <groupId>se.inera.intyg.common</groupId>
-    <artifactId>common-pom</artifactId>
-    <version>1.0.1</version>
+    <artifactId>common</artifactId>
+    <version>0-SNAPSHOT</version>
+    <relativePath>../../</relativePath>
   </parent>
 
-  <groupId>se.inera.intyg.common</groupId>
   <artifactId>logging-util</artifactId>
-  <version>0-SNAPSHOT</version>
 
   <name>Intyg Common (Logging Utility)</name>
 
