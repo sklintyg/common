@@ -17,10 +17,11 @@ angular.module('common').factory('common.ManageCertView',
             function _load( intygsTyp, onSuccess) {
                 CertViewState.viewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
-                    CertViewState.viewState.doneLoading = true;
-                    CertViewState.viewState.activeErrorMessageKey = null;
 
                     draftModel.update(data);
+
+                    CertViewState.viewState.doneLoading = true;
+                    CertViewState.viewState.activeErrorMessageKey = null;
 
                     if (onSuccess !== undefined) {
                         onSuccess(draftModel);
