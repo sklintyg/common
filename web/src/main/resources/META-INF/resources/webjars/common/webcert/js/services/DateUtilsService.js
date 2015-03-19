@@ -33,6 +33,10 @@ angular.module('common').factory('common.DateUtilsService', function() {
         }
     }
 
+    function _todayAsYYYYMMDD(){
+        return moment(new Date()).format('YYYY-MM-DD');
+    }
+
     /**
      * Convert Date object dates to ISO dates.
      * @param viewValue
@@ -184,7 +188,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
         daysBetween : _daysBetween,
         isAfterOrEqual : _isAfterOrEqual,
         isBeforeOrEqual : _isBeforeOrEqual,
-        isSame : _isSame
+        isSame : _isSame,
+        todayAsYYYYMMDD :_todayAsYYYYMMDD
     };
 
 });

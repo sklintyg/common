@@ -20,7 +20,6 @@ angular.module('common').factory('common.ManageCertView',
 
                     draftModel.update(data);
 
-                    CertViewState.viewState.doneLoading = true;
                     CertViewState.viewState.activeErrorMessageKey = null;
 
                     if (onSuccess !== undefined) {
