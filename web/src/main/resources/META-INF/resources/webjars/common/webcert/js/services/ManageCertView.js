@@ -49,9 +49,10 @@ angular.module('common').factory('common.ManageCertView',
                 }
 
                 var deferred = $q.defer();
-                $rootScope.$emit('saveRequest',deferred);
+                $rootScope.$emit('saveRequest', deferred);
                 deferred.promise.then(function(saveIntygModel) {
-                    CertificateService.saveDraft(saveIntygModel.intygsId, saveIntygModel.intygsTyp, saveIntygModel.cert, autoSave,
+                    CertificateService.saveDraft(saveIntygModel.intygsId, saveIntygModel.intygsTyp, saveIntygModel.cert,
+                        autoSave,
                         function(data) {
 
                             var result = {};
@@ -91,13 +92,14 @@ angular.module('common').factory('common.ManageCertView',
                         }, function(error) {
                             // Show error message if save fails
                             var result = {
-                                errorMessageKey : checkSetErrorSave(error.errorCode)
+                                errorMessageKey: checkSetErrorSave(error.errorCode)
                             };
                             saveIntygModel.saveComplete.reject(result);
                         }
                     );
                 });
                 return true;
+            }
 
             /**
              * Discard a certificate draft
