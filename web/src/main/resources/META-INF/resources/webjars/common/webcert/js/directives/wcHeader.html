@@ -6,21 +6,22 @@
       <span wc-feature-active feature="franJournalsystem" class="headerbox-logo pull-left">
         <img alt="Till startsidan" src="/img/webcert_logo.png" /></span>
       <span class="headerbox-date pull-left">
-                  <span id="location" class="location">{{today | date:"shortDate"}} - {{user.userContext.valdVardgivare.namn}} - {{user.userContext.valdVardenhet.namn}}</span><br>
+                  <span id="location" class="location">{{today | date:"shortDate"}} - {{user.valdVardgivare.namn}} - {{user.valdVardenhet.namn}}</span><br>
                   <span id="otherLocations" class="otherLocations" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
                       style="font-weight:bold">{{stat.intygAndraEnheter+stat.fragaSvarAndraEnheter}}</span> ej hanterade frågor och ej signerade utkast på andra vårdenheter.</span> <a
           wc-feature-not-active feature="franJournalsystem" id="wc-care-unit-clinic-selector" tabindex="0" href class="otherLocations"
-          ng-show="user.userContext.totaltAntalVardenheter > 1" data-ng-click="openChangeCareUnitDialog()">Byt
+          ng-show="user.totaltAntalVardenheter > 1" data-ng-click="openChangeCareUnitDialog()">Byt
+        vårdenhet</a>
         vårdenhet</a>
       </span>
     </div>
     <div class="headerbox-user pull-right">
-      <div class="headerbox-user-profile headerbox-avatar" ng-show="user.userContext.namn.length">
-        <span id="logged-in-role" ng-switch="user.userContext.lakare">
+      <div class="headerbox-user-profile headerbox-avatar" ng-show="user.namn.length">
+        <span id="logged-in-role" ng-switch="user.lakare">
                   <strong ng-switch-when="true">Läkare</strong>
                   <strong ng-switch-default>Vårdadministratör</strong>
                   </span>
-        - <span class="logged-in">{{user.userContext.namn}}</span><br>
+        - <span class="logged-in">{{user.namn}}</span><br>
         <a id="logoutLink" wc-feature-not-active feature="franJournalsystem" class="pull-right" ng-click="logout()">Logga ut</a>
         <a id="aboutLink" wc-feature-active feature="franJournalsystem" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
       </div>

@@ -39,6 +39,7 @@
     "/web/webjars/common/webcert/js/services/messageService.js",
     "/web/webjars/common/webcert/js/services/statService.js",
     "/web/webjars/common/webcert/js/services/User.js",
+    "/web/webjars/common/webcert/js/services/UserModel.js",
     "/web/webjars/common/webcert/js/services/UserPreferencesService.js",
     "/web/webjars/common/webcert/js/services/DateUtilsService.js",
     "/web/webjars/common/webcert/js/services/UtilsService.js",

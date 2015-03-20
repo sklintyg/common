@@ -4,8 +4,8 @@
  * related to certificates. (As of this time, only fk7263 module)
  */
 angular.module('common').factory('common.fragaSvarCommonService',
-    ['$http', '$log', '$modal', '$window', 'common.dialogService', 'common.LocationUtilsService', 'common.featureService', 'common.User',
-        function($http, $log, $modal, $window, dialogService, LocationUtilsService, featureService, User) {
+    ['$http', '$log', '$modal', '$window', 'common.dialogService', 'common.LocationUtilsService', 'common.featureService', 'common.UserModel',
+        function($http, $log, $modal, $window, dialogService, LocationUtilsService, featureService, UserModel) {
             'use strict';
 
             /*
@@ -63,7 +63,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !User.userContext.lakare) {
+                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.userContext.lakare) {
                     // RE-005, RE-006
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';

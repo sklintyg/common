@@ -1,27 +1,11 @@
 angular.module('common').factory('common.User',
-    function($http, $log) {
+    [ '$http', '$log', 'common.UserModel', function($http, $log, userModel) {
         'use strict';
 
         return {
 
-            reset: function() {
-                this.userContext = null;
-            },
-
-            getActiveFeatures: function() {
-                if (this.userContext) {
-                    return this.userContext.aktivaFunktioner;
-                } else {
-                    return null;
-                }
-            },
-
-            /**
-             * Set user context from api
-             * @param userContext
-             */
-            setUserContext: function(userContext) {
-                this.userContext = userContext;
+            getUserContext: function() {
+                return userModel.userContext;
             },
 
             /**
@@ -30,7 +14,7 @@ angular.module('common').factory('common.User',
              */
             getVardenhetSelectionList: function() {
 
-                var ucVardgivare = angular.copy(this.userContext.vardgivare);
+                var ucVardgivare = angular.copy(userModel.userContext.vardgivare);
 
                 var vardgivareList = [];
 
@@ -63,9 +47,9 @@ angular.module('common').factory('common.User',
             getVardenhetFilterList: function(vardenhet) {
                 if (!vardenhet) {
 
-                    if (this.userContext.valdVardenhet) {
+                    if (userModel.userContext.valdVardenhet) {
                         $log.debug('getVardenhetFilterList: using valdVardenhet');
-                        vardenhet = this.userContext.valdVardenhet;
+                        vardenhet = userModel.userContext.valdVardenhet;
                     } else {
                         $log.debug('getVardenhetFilterList: parameter vardenhet was omitted');
                         return [];
@@ -89,7 +73,7 @@ angular.module('common').factory('common.User',
              * @returns valdVardgivare
              */
             getValdVardgivare: function() {
-                return this.userContext.valdVardgivare;
+                return userModel.userContext.valdVardgivare;
             },
 
             /**
@@ -97,7 +81,7 @@ angular.module('common').factory('common.User',
              * @returns valdVardenhet
              */
             getValdVardenhet: function() {
-                return this.userContext.valdVardenhet;
+                return userModel.userContext.valdVardenhet;
             },
 
             /**
@@ -111,13 +95,12 @@ angular.module('common').factory('common.User',
 
                 var payload = vardenhet;
 
-                var self = this;
                 var restPath = '/api/anvandare/andraenhet';
                 $http.post(restPath, payload).success(function(data) {
                     $log.debug('got callback data: ' + data);
 
                     // Update user context
-                    self.setUserContext(data);
+                    userModel.setUserContext(data);
 
                     onSuccess(data);
                 }).error(function(data, status) {
@@ -126,4 +109,4 @@ angular.module('common').factory('common.User',
                 });
             }
         };
-    });
+    }]);

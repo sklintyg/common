@@ -33,7 +33,7 @@ angular.module('common').provider('common.http403ResponseInterceptor',
          * Mandatory provider $get function. here we can inject the dependencies the
          * actual implementation needs, in this case $q (and $window for redirection)
          */
-        this.$get = [ '$q', '$window', function($q, $window) {
+        this.$get = [ '$q', '$window', 'common.featureService', function($q, $window, featureService) {
             //Ref our config object
             var config = this.config;
             // Add our custom success/failure handlers to the promise chain..
@@ -44,7 +44,18 @@ angular.module('common').provider('common.http403ResponseInterceptor',
                 }, function(response) {
                     // for 403 responses - redirect browser to configured redirect url
                     if (response.status === 403) {
-                        $window.location.href = config.redirectUrl;
+                        var redirectUrl = config.redirectUrl;
+                        if (redirectUrl.indexOf('?') >= 0) {
+                            redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf('?'));
+                        }
+                        redirectUrl += '?reason=';
+                        if (featureService.isFeatureActive(featureService.features.FRAN_JOURNALSYSTEM)) {
+                            redirectUrl += 'timeout_integration';
+                        }
+                        else {
+                            redirectUrl += 'timeout';
+                        }
+                        $window.location.href = redirectUrl;
                     }
                     // signal rejection (arguably not meaningful here since we just
                     // issued a redirect)

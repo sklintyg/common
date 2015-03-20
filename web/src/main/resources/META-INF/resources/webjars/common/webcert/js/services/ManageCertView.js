@@ -41,7 +41,10 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             /**
-             * Action to save the certificate draft to the server.
+             * Save draft to webcert
+             * @param $scope
+             * @param intygsTyp
+             * @private
              */
             function _save(autoSave) {
                 if (autoSave && CertificateService.isSaveDraftInProgress()) {
@@ -351,6 +354,7 @@ angular.module('common').factory('common.ManageCertView',
             return {
                 load: _load,
                 save: _save,
+                discard: _discard,
                 signera: signera,
                 isRevoked: _isRevoked,
                 isSentToTarget: _isSentToTarget,

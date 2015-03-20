@@ -259,7 +259,6 @@
         border-bottom: 1px solid #999;
     }
 
-
     .cert-body .body-row .text.unfilled {
         background-color: white;
         border: 2px solid #e5e5e5;
@@ -432,46 +431,29 @@
         padding: 10px;
     }
 
-    /* ng-animate animations */
-    .fade-hide, .fade-show {
-
-        -webkit-transition: all cubic-bezier(0.350, 0.560, 0.650, 0.840) 0.5s;
-        -moz-transition: all cubic-bezier(0.350, 0.560, 0.650, 0.840) 0.5s;
-        -o-transition: all cubic-bezier(0.350, 0.560, 0.650, 0.840) 0.5s;
-        transition: all cubic-bezier(0.350, 0.560, 0.650, 0.840) 0.5s;
-
-        /*  -webkit-transition:all linear 0.5s;
-          -moz-transition:all linear 0.5s;
-          -o-transition:all linear 0.5s;
-          transition:all linear 0.5s;*/
-        position: relative;
+    .header-wrapper {
+        /*	max-height: 110px; does commenting out this break anything? */
+        overflow: hidden;
     }
 
-    .fade-hide {
+    /**************************************************
+     ng-animate animations
+    **************************************************/
+
+    /**
+        Fade out fields not desired when smittskydd is checked
+    */
+    .field-fade {
         opacity: 1;
-        max-width: 800px;
         left: 0;
     }
 
-    .fade-hide .fade-hide-active {
-        opacity: 0;
-        max-width: 500px;
-        left: 100px;
+    .field-fade.ng-hide-add, .fade.ng-hide-remove
+    {
+        display:block!important;
     }
 
-    .fade-show {
-        opacity: 0;
-        max-width: 500px;
-        left: 100px;
-    }
-
-    .fade-show .fade-show-active {
-        opacity: 1;
-        max-width: 800px;
-        left: 0;
-    }
-
-    .collapse-hide, .collapse-show {
+    .field-fade, .field-fade.ng-hide-add, .fade.ng-hide-remove {
         -webkit-transition: all ease-out 0.5s;
         -moz-transition: all ease-out 0.5s;
         -o-transition: all ease-out 0.5s;
@@ -479,55 +461,94 @@
         position: relative;
     }
 
-    .collapse-hide {
-        opacity: 1;
-        max-height: 800px;
-    }
-
-    .collapse-hide .collapse-hide-active {
-        opacity: 0.5;
-        max-height: 0;
-    }
-
-    .collapse-show {
+    .field-fade.ng-hide {
         opacity: 0;
-        max-height: 0;
+        left: -10px;
     }
 
-    .collapse-show.collapse-show-active {
-        opacity: 0.5;
-        max-height: 800px;
-    }
-
-    .header-wrapper {
-        /*	max-height: 110px; does commenting out this break anything? */
-        overflow: hidden;
-    }
-
-    .menucollapse-hide, .menucollapse-show {
-        -webkit-transition: all ease-out 0.3s;
-        -moz-transition: all ease-out 0.3s;
-        -o-transition: all ease-out 0.3s;
-        transition: all ease-out 0.3s;
+    /**
+        Intyg-edit menu header collapse animation
+    */
+    .menucollapse.ng-hide-add, .menucollapse.ng-hide-remove {
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
         position: relative;
-        margin-top: 0;
+        display:block!important;
     }
 
-    .menucollapse-hide {
-        margin-top: 0;
-    }
-
-    .menucollapse-hide.menucollapse-hide-active {
+    .menucollapse.ng-hide {
         margin-top: -100px;
     }
 
-    .menucollapse-show {
-        margin-top: -100px;
+    /**
+        QA list section animation
+    */
+/*
+    .qa-list-section {
+        opacity: 1;
+        left: 0;
+        position: relative;
+        display:block!important;
     }
 
-    .menucollapse-show.menucollapse-show-active {
-        margin-top: 0;
+    .qa-list-section, .qa-list-section.ng-hide-add, .qa-list-section.ng-hide-remove {
+        -webkit-transition: linear all;
+        -moz-transition: linear all;
+        -ms-transition: linear all;
+        transition: linear all;
     }
+
+    .qa-list-section.ng-hide-add, .qa-list-section.ng-hide-remove {
+        display:block!important;
+    }
+
+    .qa-list-section.ng-hide {
+        opacity: 0;
+        left: -10px;
+    }
+*/
+/*    .qa-list-section.ng-hide.ng-hide-add.ng-hide-add-active {
+        -webkit-animation: fadeIn 1s;
+        -moz-animation: fadeIn 1s;
+        -ms-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+    }
+
+    .qa-list-section.ng-hide-remove,
+    .qa-list-section.ng-hide-remove.ng-hide-remove-active {
+        -webkit-animation: fadeOut 1s;
+        -moz-animation: fadeOut 1s;
+        -ms-animation: fadeOut 1s;
+        animation: fadeOut 1s;
+    }
+*/
+    /**
+        QA list item animation
+    */
+    .qa-item {
+        -webkit-transition: color 0.6s, background-color 0.3s, all 0.6s;
+        -moz-transition: color 0.6s, background-color 0.3s, all 0.6s;
+        -ms-transition: color 0.6s, background-color 0.3s, all 0.6s;
+        transition: color 0.6s, background-color 0.3s, all 0.6s;
+    }
+    .qa-item.ng-enter, .qa-item.ng-move {
+        -webkit-animation: fadeIn 1s;
+        -moz-animation: fadeIn 1s;
+        -ms-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+    }
+    .qa-item.ng-leave {
+        -webkit-animation: fadeOut 1s;
+        -moz-animation: fadeOut 1s;
+        -ms-animation: fadeOut 1s;
+        animation: fadeOut 1s;
+    }
+
+    /**
+        Table styles
+    */
 
     .table-padding-top {
         padding-top: 15px;
