@@ -86,7 +86,6 @@ angular.module('common').factory('common.ManageCertView',
                                         }
                                     }
                                 });
-
                                 saveIntygModel.saveComplete.resolve(result);
                             }
                         }, function(error) {
@@ -99,7 +98,61 @@ angular.module('common').factory('common.ManageCertView',
                     );
                 });
                 return true;
-            };
+
+            /**
+             * Discard a certificate draft
+             */
+            function _discard($scope, intygsTyp) {
+
+                var bodyText = 'När du raderar utkastet tas det bort från Webcert.';
+                $scope.dialog = {
+                    acceptprogressdone: false,
+                    errormessageid: 'Error',
+                    showerror: false
+                };
+
+                var draftDeleteDialog = {};
+                draftDeleteDialog = dialogService.showDialog($scope, {
+                    dialogId: 'confirm-draft-delete',
+                    titleId: 'common.modal.label.discard_draft',
+                    bodyText: bodyText,
+                    button1id: 'confirm-draft-delete-button',
+
+                    button1click: function() {
+                        $log.debug('delete draft ');
+                        $scope.dialog.acceptprogressdone = false;
+                        CertificateService.discardDraft($routeParams.certificateId, intygsTyp, function() {
+                            $scope.dialog.acceptprogressdone = true;
+                            statService.refreshStat(); // Update statistics to reflect change
+
+                            if (featureService.isFeatureActive('franJournalsystem')) {
+                                $rootScope.$broadcast('intyg.deleted', $routeParams.certificateId);
+                            } else {
+                                $window.history.back();
+                            }
+                            draftDeleteDialog.close();
+                        }, function(error) {
+                            $scope.dialog.acceptprogressdone = true;
+                            if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
+                                statService.refreshStat(); // Update statistics to reflect change
+                                draftDeleteDialog.close();
+                                $window.history.back();
+                            } else {
+                                $scope.dialog.showerror = true;
+                                if (error === '') {
+                                    $scope.dialog.errormessageid = 'common.error.cantconnect';
+                                } else {
+                                    $scope.dialog.errormessageid =
+                                        ('error.message.' + error.errorCode).toLowerCase();
+                                }
+                            }
+                        });
+                    },
+                    button1text: 'common.delete',
+                    button2text: 'common.cancel',
+                    autoClose: false
+                });
+            }
 
             function checkSetError(errorCode) {
                 var model = 'common.error.unknown';
@@ -222,7 +275,7 @@ angular.module('common').factory('common.ManageCertView',
                 signModel.signingWithSITHSInProgress = false;
 
                 $location.replace();
-                $location.path('/intyg/' + intygsTyp + '/' + intygsId);
+                $location.path('/intyg/' + intygsTyp + '/' + intygsId).search('signed', true);
                 statService.refreshStat();
             }
 

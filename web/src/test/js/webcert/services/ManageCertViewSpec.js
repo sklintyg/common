@@ -17,7 +17,10 @@ describe('ManageCertView', function() {
             {}
         ]);
         $provide.value('$state', jasmine.createSpyObj('$state', [ 'reload' ]));
-        $provide.value('$location', jasmine.createSpyObj('$location', [ 'path', 'replace' ]));
+        var location = {
+            path: function() { return { search: function() {} }; },
+            replace: function() {}
+        };
         $provide.value('common.messageService',
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
         $provide.value('$stateParams', {});
@@ -38,6 +41,8 @@ describe('ManageCertView', function() {
             $document = _$document_;
             dialogService = _dialogService_;
             User = _User_;
+
+            spyOn($location, 'path').and.callFake(function() { return { search: function() {} }; });
         }]));
 
     describe('#signera server', function() {
