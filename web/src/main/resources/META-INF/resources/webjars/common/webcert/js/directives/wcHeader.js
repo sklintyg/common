@@ -1,8 +1,8 @@
 angular.module('common').directive('wcHeader',
     ['$cookieStore', '$location', '$route', '$log', '$modal', '$window', '$anchorScroll', 'common.dialogService',
-        'common.featureService', 'common.messageService', 'common.statService', 'common.User',
+        'common.featureService', 'common.messageService', 'common.statService', 'common.User', 'common.UserModel',
         function($cookieStore, $location, $route, $log, $modal, $window, $anchorScroll, dialogService, featureService,
-            messageService, statService, User) {
+            messageService, statService, User, UserModel) {
             'use strict';
 
             return {
@@ -15,7 +15,7 @@ angular.module('common').directive('wcHeader',
 
                     //Expose 'now' as a model property for the template to render as todays date
                     $scope.today = new Date();
-                    $scope.user = User;
+                    $scope.user = UserModel.userContext;
                     $scope.statService = statService;
                     $scope.statService.startPolling();
                     $scope.menuDefs = [];
@@ -89,7 +89,7 @@ angular.module('common').directive('wcHeader',
                                 }
                             };
 
-                            if (User.userContext.lakare) {
+                            if (UserModel.userContext.lakare) {
                                 menu.splice(0, 0, writeCertMenuDef);
                             } else {
                                 menu.push(writeCertMenuDef);
@@ -129,7 +129,7 @@ angular.module('common').directive('wcHeader',
                     };
 
                     $scope.logout = function() {
-                        if (User.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
+                        if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
                             $window.location = '/logout';
                         } else {
                             iid_Invoke('Logout');
@@ -181,7 +181,7 @@ angular.module('common').directive('wcHeader',
                                         // up on a page we aren't welcome anymore. Maybe we should make these
                                         // routes some kind of global configuration? No other choices are
                                         // relevant today though.
-                                        if (User.userContext.lakare === true) {
+                                        if (UserModel.userContext.lakare === true) {
                                             $location.path('/');
                                         } else {
                                             $location.path('/unhandled-qa');

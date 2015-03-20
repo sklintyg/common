@@ -1,5 +1,5 @@
 angular.module('common').factory('common.featureService',
-    [ '$rootScope', 'common.User', function($rootScope, User) {
+    [ 'common.UserModel', function(UserModel) {
         'use strict';
 
         function _isFeatureActive(feature, intygstyp) {
@@ -7,7 +7,7 @@ angular.module('common').factory('common.featureService',
                 return false;
             }
 
-            var activeFeatures = User.getActiveFeatures();
+            var activeFeatures = UserModel.getActiveFeatures();
             if (!activeFeatures || !activeFeatures.length) {
                 return false;
             }
