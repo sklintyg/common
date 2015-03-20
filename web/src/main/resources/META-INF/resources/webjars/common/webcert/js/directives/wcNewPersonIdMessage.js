@@ -16,7 +16,7 @@ angular.module('common').directive('wcNewPersonIdMessage',
                     // also make sure patient ids are valid and in the same format? shouldn't need to since the
                     // source is a journalsystem.
                     $scope.show = false;
-                    $scope.patientId = $routeParams.patientId;
+                    $scope.patientId = $stateParams.patientId;
                     if ($stateParams.patientId !== undefined && $stateParams.patientId !== '') {
                         if ($scope.cert && $scope.cert.grundData && $scope.cert.grundData.patient && $scope.cert.grundData.patient.personId !== $stateParams.patientId) {
                             $scope.show = true;

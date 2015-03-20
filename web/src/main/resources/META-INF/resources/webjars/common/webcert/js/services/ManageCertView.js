@@ -4,9 +4,9 @@
 angular.module('common').factory('common.ManageCertView',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.User', 'common.CertViewState', 'common.domain.DraftModel',
+        'common.UserModel', 'common.CertViewState', 'common.domain.DraftModel',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            CertificateService, dialogService, messageService, statService, User, CertViewState, draftModel) {
+            CertificateService, dialogService, messageService, statService, UserModel, CertViewState, draftModel) {
             'use strict';
 
             /**
@@ -126,12 +126,12 @@ angular.module('common').factory('common.ManageCertView',
                     button1click: function() {
                         $log.debug('delete draft ');
                         $scope.dialog.acceptprogressdone = false;
-                        CertificateService.discardDraft($routeParams.certificateId, intygsTyp, function() {
+                        CertificateService.discardDraft($stateParams.certificateId, intygsTyp, function() {
                             $scope.dialog.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
                             if (featureService.isFeatureActive('franJournalsystem')) {
-                                $rootScope.$broadcast('intyg.deleted', $routeParams.certificateId);
+                                $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
                             } else {
                                 $window.history.back();
                             }
@@ -169,7 +169,7 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             function signera(intygsTyp) {
-                if (User.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
+                if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
                     return _signeraServer(intygsTyp, $stateParams.certificateId);
                 } else {
                     return _signeraKlient(intygsTyp, $stateParams.certificateId);
