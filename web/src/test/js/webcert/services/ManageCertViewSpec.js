@@ -30,7 +30,7 @@ describe('ManageCertView', function() {
         $provide.value('common.dialogService',
             jasmine.createSpyObj('common.dialogService', [ 'showDialog', 'showErrorMessageDialog' ]));
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
-        $provide.value('common.User', { userContext: { authenticationScheme: null } });
+        $provide.value('common.UserModel', { userContext: { authenticationScheme: null } });
     }));
 
     beforeEach(angular.mock.inject(['common.ManageCertView', '$httpBackend', '$location', '$routeParams', '$timeout',
@@ -53,14 +53,14 @@ describe('ManageCertView', function() {
         var $scope;
 
         beforeEach(function() {
-            User.userContext.authenticationScheme = 'urn:inera:webcert:fake';
+            User.getUserContext().authenticationScheme = 'urn:inera:webcert:fake';
 
             $routeParams.certificateId = intygId;
             $scope = { dialog: {} };
         });
 
         afterEach(function() {
-            User.userContext.authenticationScheme = null;
+            User.getUserContext().authenticationScheme = null;
         });
 
         it('should open confirm dialog for fake login', function() {
@@ -152,14 +152,14 @@ describe('ManageCertView', function() {
             iid_Invoke = jasmine.createSpy('invoke');
             iid_SetProperty = jasmine.createSpy('iid_SetProperty');
 
-            User.userContext.authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
+            User.getUserContext().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
 
             $routeParams.certificateId = intygId;
             $scope = {};
         });
 
         afterEach(function() {
-            User.userContext.authenticationScheme = null;
+            User.getUserContext().authenticationScheme = null;
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful', function() {
