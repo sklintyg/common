@@ -60,7 +60,6 @@ angular.module('common').factory('common.ManageCertView',
 
                             if (data.status === 'COMPLETE') {
                                 CertViewState.viewState.intyg.isComplete = true;
-                                saveIntygModel.saveComplete.resolve(result);
                             } else {
                                 CertViewState.viewState.intyg.isComplete = false;
 
@@ -223,7 +222,7 @@ angular.module('common').factory('common.ManageCertView',
                 signModel.signingWithSITHSInProgress = false;
 
                 $location.replace();
-                $location.path('/intyg/' + intygsTyp + '/' + intygsId).search('signed', true);
+                $location.path('/intyg/' + intygsTyp + '/' + intygsId);
                 statService.refreshStat();
             }
 
