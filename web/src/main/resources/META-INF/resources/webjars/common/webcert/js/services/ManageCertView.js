@@ -60,6 +60,7 @@ angular.module('common').factory('common.ManageCertView',
 
                             if (data.status === 'COMPLETE') {
                                 CertViewState.viewState.intyg.isComplete = true;
+                                saveIntygModel.saveComplete.resolve(result);
                             } else {
                                 CertViewState.viewState.intyg.isComplete = false;
 
