@@ -9,8 +9,8 @@ angular.module('common').factory('common.domain.DraftModel',
          * Constructor, with class name
          */
         function DraftModel() {
-            this.vidarebefordrad;
-            this.status;
+            this.vidarebefordrad = undefined;
+            this.status = undefined;
         }
 
         DraftModel.prototype.update = function (data) {
