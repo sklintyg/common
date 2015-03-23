@@ -4,10 +4,9 @@
 angular.module('common').factory('common.ManageCertView',
     ['$rootScope', '$document', '$log', '$location', '$route', '$routeParams', '$timeout', '$window',
         'common.CertificateService',
-        'common.dialogService', 'common.messageService', 'common.statService', 'common.User', 'common.featureService',
+        'common.dialogService', 'common.messageService', 'common.statService', 'common.UserModel', 'common.featureService',
         function($rootScope, $document, $log, $location, $route, $routeParams, $timeout, $window, CertificateService,
-            dialogService,
-            messageService, statService, User, featureService) {
+            dialogService, messageService, statService, UserModel, featureService) {
             'use strict';
 
             /**
@@ -178,7 +177,7 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             function signera($scope, intygsTyp) {
-                if (User.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
+                if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
                     return _signeraServer($scope, intygsTyp, $routeParams.certificateId);
                 } else {
                     return _signeraKlient($scope, intygsTyp, $routeParams.certificateId);

@@ -69,7 +69,7 @@ describe('wcHeader', function() {
 
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('common.User', { userContext: testUserContext });
+        $provide.value('common.UserModel', { userContext: testUserContext });
 
         var featureService = {
             testDjupintegration: false,
@@ -119,11 +119,11 @@ describe('wcHeader', function() {
         it('should show the current date, the name of the selected vardgivare and the selected vardenhet', function() {
             var locationText = element.find('#location');
             var today = moment().format('YYYY-MM-DD');
-            expect(locationText.html()).toBe(today + ' - ' + User.userContext.valdVardgivare.namn + ' - ' + User.userContext.valdVardenhet.namn);
+            expect(locationText.html()).toBe(today + ' - ' + User.getUserContext().valdVardgivare.namn + ' - ' + User.getUserContext().valdVardenhet.namn);
         });
 
         it('should show a byt vardenhet link if there are more than 1 vardenhet to choose from', function() {
-            User.userContext.totaltAntalVardenheter = 6;
+            User.getUserContext().totaltAntalVardenheter = 6;
             $scope.$digest();
             var careUnitSelectionLink = element.find('#wc-care-unit-clinic-selector');
             expect(careUnitSelectionLink.hasClass('ng-hide')).toBe(false);
