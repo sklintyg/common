@@ -4,20 +4,20 @@
 </div>
 
 <div class="header-fix-top print-hide">
-  <div class="header-wrapper" ng-hide="viewState.collapsedHeader" ng-animate="'menucollapse'">
+  <div class="header-wrapper" ng-hide="viewState.common.collapsedHeader" ng-animate="'menucollapse'">
     <div id="wcHeader" wc-header default-active="index"></div>
   </div>
 
-  <div ng-hide="viewState.activeErrorMessageKey">
-    <div wc-spinner label="info.loadingdata" show-spinner="!viewState.doneLoading"
-         show-content="viewState.doneLoading">
+  <div ng-hide="viewState.common.activeErrorMessageKey">
+    <div wc-spinner label="info.loadingdata" show-spinner="!viewState.common.doneLoading"
+         show-content="viewState.common.doneLoading">
 
       <div class="header-fix-panel">
         <div class="header-fix-top-expand">
           <div class="header-fix-top-expand-wrapper">
             <button class="btn btn-link" ng-click="toggleHeader()"><span
-                ng-if="viewState.collapsedHeader">Visa</span><span
-                ng-if="!viewState.collapsedHeader">Dölj</span> meny
+                ng-if="viewState.common.collapsedHeader">Visa</span><span
+                ng-if="!viewState.common.collapsedHeader">Dölj</span> meny
             </button>
           </div>
         </div>
@@ -47,12 +47,12 @@
                   title="Skriver ut utkastet.">
             <span message key="{{certMeta.intygType}}.label.skriv-ut-utkast"></span>
           </button>
-          <button class="btn btn-default btn-secondary" ng-if="!viewState.showComplete" ng-disabled="viewState.intyg.isComplete"
+          <button class="btn btn-default btn-secondary" ng-if="!viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="toggleShowComplete()" id="showCompleteButton"
                   title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
             Visa vad som saknas
           </button>
-          <button class="btn btn-default btn-secondary" ng-if="viewState.showComplete" ng-disabled="viewState.intyg.isComplete"
+          <button class="btn btn-default btn-secondary" ng-if="viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="toggleShowComplete()"  id="hideCompleteButton"
                   title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
             Dölj vad som saknas
@@ -61,9 +61,9 @@
 
         <!-- Show save errors here to spare user from retyping everything for intermittent errors -->
         <div class="row">
-          <div ng-show="viewState.error.saveErrorMessageKey != null" class="col-md-7">
+          <div ng-show="viewState.common.error.saveErrorMessageKey != null" class="col-md-7">
             <div class="alert alert-danger">
-              <span message key="{{viewState.error.saveErrorMessageKey}}"></span>
+              <span message key="{{viewState.common.error.saveErrorMessageKey}}"></span>
             </div>
           </div>
         </div>
@@ -73,11 +73,11 @@
           <span message key="draft.status.signed"></span>
         </div>
         <!-- complete -->
-        <div ng-show="certForm.$pristine && viewState.intyg.isComplete && !isSigned">
+        <div ng-show="certForm.$pristine && viewState.common.intyg.isComplete && !isSigned">
           <span id="intyget-sparat-meddelande" message key="draft.status.draft_complete"></span>
         </div>
         <!-- incomplete -->
-        <div ng-show="certForm.$pristine && !viewState.intyg.isComplete">
+        <div ng-show="certForm.$pristine && !viewState.common.intyg.isComplete">
           <span id="intyget-ej-komplett-meddelande" message key="draft.status.draft_incomplete"></span>
         </div>
         <!-- form changed -->
@@ -89,9 +89,9 @@
 
 <!-- Total fail error messages -->
 <div id="error-panel" class="cert-error-panel"
-     ng-show="viewState.doneLoading && viewState.activeErrorMessageKey && !viewState.deleted">
+     ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey && !viewState.common.deleted">
   <div class="alert alert-danger">
-    <span message key="{{viewState.activeErrorMessageKey}}"></span>
+    <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
   </div>
 </div>
 

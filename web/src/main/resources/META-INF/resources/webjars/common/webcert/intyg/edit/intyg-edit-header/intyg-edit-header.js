@@ -1,9 +1,9 @@
 angular.module('common').controller('common.IntygEditHeader',
     ['$rootScope', '$scope', '$log', '$anchorScroll', '$state', '$stateParams', '$location', '$q',
         'common.messageService', 'common.ManageCertView', 'common.CertificateService', 'common.statService',
-        'common.featureService', 'common.dialogService', 'common.CertViewState',
+        'common.featureService', 'common.dialogService', 'common.IntygEditViewStateService',
         function($rootScope, $scope, $log, $anchorScroll, $state, $stateParams, $location, $q, messageService, ManageCertView,
-            CertificateService, statService, featureService, dialogService, CertViewState) {
+            CertificateService, statService, featureService, dialogService, CommonViewState) {
             'use strict';
 
             var intygsTyp = $state.current.views['header@fk7263-edit'].data.intygsTyp;
@@ -12,14 +12,14 @@ angular.module('common').controller('common.IntygEditHeader',
              * Toggle header part ('Dölj meny'-knapp)
              */
             $scope.toggleHeader = function() {
-                CertViewState.toggleCollapsedHeader();
+                CommonViewState.toggleCollapsedHeader();
             };
 
             /**
              * Toggle 'Visa vad som behöver kompletteras'
              */
             $scope.toggleShowComplete = function() {
-                if (CertViewState.toggleShowComplete()) {
+                if (CommonViewState.toggleShowComplete()) {
                     ManageCertView.save();
 
                     var old = $location.hash();

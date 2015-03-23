@@ -4,9 +4,9 @@
 angular.module('common').factory('common.ManageCertView',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.CertViewState', 'common.domain.DraftModel',
+        'common.UserModel', 'common.IntygEditViewStateService', 'common.domain.DraftModel',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            CertificateService, dialogService, messageService, statService, UserModel, CertViewState, draftModel) {
+            CertificateService, dialogService, messageService, statService, UserModel, CommonViewState, draftModel) {
             'use strict';
 
             /**
@@ -15,19 +15,19 @@ angular.module('common').factory('common.ManageCertView',
              * @private
              */
             function _load( intygsTyp, onSuccess) {
-                CertViewState.viewState.doneLoading = false;
+                CommonViewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
 
                     draftModel.update(data);
 
-                    CertViewState.viewState.activeErrorMessageKey = null;
+                    CommonViewState.activeErrorMessageKey = null;
 
                     if (onSuccess !== undefined) {
                         onSuccess(draftModel);
                     }
                 }, function(error) {
-                    CertViewState.viewState.doneLoading = true;
-                    CertViewState.viewState.activeErrorMessageKey = checkSetError(error.errorCode);
+                    CommonViewState.doneLoading = true;
+                    CommonViewState.activeErrorMessageKey = checkSetError(error.errorCode);
                 });
             }
 
@@ -63,11 +63,11 @@ angular.module('common').factory('common.ManageCertView',
                             result.validationMessages = [];
 
                             if (data.status === 'COMPLETE') {
-                                CertViewState.viewState.intyg.isComplete = true;
+                                CommonViewState.intyg.isComplete = true;
                             } else {
-                                CertViewState.viewState.intyg.isComplete = false;
+                                CommonViewState.intyg.isComplete = false;
 
-                                if (!CertViewState.viewState.showComplete) {
+                                if (!CommonViewState.showComplete) {
                                     result.validationMessages = data.messages.filter(function(message) {
                                         return (message.type !== 'EMPTY');
                                     });

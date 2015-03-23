@@ -26,7 +26,6 @@
     "/web/webjars/common/webcert/js/directives/wcFieldSigningDoctor.js",
     "/web/webjars/common/webcert/js/filters/BoolToTextFilter.js",
     "/web/webjars/common/webcert/js/services/CertificateService.js",
-    "/web/webjars/common/webcert/js/services/CertViewState.js",
     "/web/webjars/common/webcert/js/services/dialogService.js",
     "/web/webjars/common/webcert/js/services/fragaSvarCommonService.js",
     "/web/webjars/common/webcert/js/services/intygNotifyService.js",
@@ -48,6 +47,8 @@
     "/web/webjars/common/webcert/js/services/base-content.model.js",
     "/web/webjars/common/webcert/js/stacktrace.js",
 
+    "/web/webjars/common/webcert/intyg/edit/common-intyg-edit-viewstate.service.js",
     "/web/webjars/common/webcert/intyg/edit/intyg-edit-header/intyg-edit-header.js",
     "/web/webjars/common/webcert/intyg/view/intyg-view-header/intyg-view-header.js"
+
 ]
