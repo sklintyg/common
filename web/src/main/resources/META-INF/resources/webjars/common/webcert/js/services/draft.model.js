@@ -23,6 +23,22 @@ angular.module('common').factory('common.domain.DraftModel',
             }
         }
 
+        DraftModel.prototype.isSigned = function (){
+            if(this.status && this.status == 'SIGNED'){
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        DraftModel.prototype.isDraftComplete = function (){
+            if(this.status && this.status == 'DRAFT_COMPLETE'){
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         DraftModel.build = function() {
             return new DraftModel();
         };
