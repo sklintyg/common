@@ -64,6 +64,7 @@ angular.module('common').factory('common.ManageCertView',
 
                             if (data.status === 'COMPLETE') {
                                 CommonViewState.intyg.isComplete = true;
+                                saveIntygModel.saveComplete.resolve(result);
                             } else {
                                 CommonViewState.intyg.isComplete = false;
 
