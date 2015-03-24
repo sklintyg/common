@@ -20,14 +20,14 @@ angular.module('common').factory('common.ManageCertView',
 
                     draftModel.update(data);
 
-                    CommonViewState.activeErrorMessageKey = null;
+                    CommonViewState.error.activeErrorMessageKey = null;
 
                     if (onSuccess !== undefined) {
                         onSuccess(draftModel);
                     }
                 }, function(error) {
                     CommonViewState.doneLoading = true;
-                    CommonViewState.activeErrorMessageKey = checkSetError(error.errorCode);
+                    CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);
                 });
             }
 
