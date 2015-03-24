@@ -1,9 +1,9 @@
 angular.module('common').controller('common.IntygEditHeader',
-    ['$rootScope', '$scope', '$log', '$anchorScroll', '$state', '$stateParams', '$location', '$q',
+    ['$rootScope', '$scope', '$log', '$anchorScroll', '$state', '$stateParams', '$location', '$q', '$window',
         'common.messageService', 'common.ManageCertView', 'common.CertificateService', 'common.statService',
         'common.featureService', 'common.dialogService', 'common.IntygEditViewStateService',
-        function($rootScope, $scope, $log, $anchorScroll, $state, $stateParams, $location, $q, messageService, ManageCertView,
-            CertificateService, statService, featureService, dialogService, CommonViewState) {
+        function($rootScope, $scope, $log, $anchorScroll, $state, $stateParams, $location, $q, $window, messageService,
+            ManageCertView, CertificateService, statService, featureService, dialogService, CommonViewState) {
             'use strict';
 
             var intygsTyp = $state.current.views['header@fk7263-edit'].data.intygsTyp;
@@ -63,7 +63,7 @@ angular.module('common').controller('common.IntygEditHeader',
                             if (featureService.isFeatureActive('franJournalsystem')) {
                                 $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
                             } else {
-                                $location.path('/unsigned');
+                                $window.history.back();
                             }
                             draftDeleteDialog.close();
                         }, function(error) {
@@ -71,7 +71,7 @@ angular.module('common').controller('common.IntygEditHeader',
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
                                 statService.refreshStat(); // Update statistics to reflect change
                                 draftDeleteDialog.close();
-                                $location.path('/unsigned');
+                                $window.history.back();
                             } else {
                                 dialogModel.showerror = true;
                                 if (error === '') {
