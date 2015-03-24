@@ -4,7 +4,6 @@
     "/web/webjars/common/webcert/js/directives/wcAutoSave.js",
     "/web/webjars/common/webcert/js/directives/wcBack.js",
     "/web/webjars/common/webcert/js/directives/wcChangeCase.js",
-    "/web/webjars/common/webcert/js/directives/wcBack.js",
     "/web/webjars/common/webcert/js/directives/wcToUppercase.js",
     "/web/webjars/common/webcert/js/directives/wcCheckVardenhet.js",
     "/web/webjars/common/webcert/js/directives/wcDecimal.js",
