@@ -47,15 +47,24 @@ describe('ManageCertView', function() {
             spyOn($location, 'path').and.callFake(function() { return { search: function() {} }; });
         }]));
 
-    xdescribe('#signera server', function() {
+    describe('#signera server', function() {
         var intygId = 123, biljettId = 12345;
         var $scope;
+        var signModel;
 
         beforeEach(function() {
             User.getUserContext().authenticationScheme = 'urn:inera:webcert:fake';
 
             $stateParams.certificateId = intygId;
-            $scope = { dialog: {} };
+
+            signModel = {
+                dialog: {
+                    model: {
+                        acceptprogressdone: false
+                    }
+                },
+                signingWithSITHSInProgress: false
+            };
         });
 
         afterEach(function() {
@@ -66,20 +75,21 @@ describe('ManageCertView', function() {
 
             ManageCertView.signera($scope);
 
-            expect(dialogService.showDialog).toHaveBeenCalledWith($scope, jasmine.any(Object));
+            expect(dialogService.showDialog).toHaveBeenCalledWith(jasmine.any(Object));
         });
 
 
         it('should redirect to "visa intyg" if the request to sign was successful', function() {
 
             var confirmDialog = jasmine.createSpyObj('confirmDialog', [ 'close' ]);
+            confirmDialog.model = {};
 
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeraserver').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'SIGNERAD' });
 
-            ManageCertView.__test__.confirmSignera($scope, 'fk7263', intygId, confirmDialog);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, confirmDialog);
             $httpBackend.flush();
 
             expect(confirmDialog.close).toHaveBeenCalled();
@@ -89,13 +99,14 @@ describe('ManageCertView', function() {
         it('should redirect to "visa intyg" if the request to sign was successful, even if delayed', function() {
 
             var confirmDialog = jasmine.createSpyObj('confirmDialog', [ 'close' ]);
+            confirmDialog.model = {};
 
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeraserver').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
 
-            ManageCertView.__test__.confirmSignera($scope, 'fk7263', intygId, confirmDialog);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, confirmDialog);
             $httpBackend.flush();
 
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
@@ -110,39 +121,41 @@ describe('ManageCertView', function() {
         it('should show an error if the server refuses the request to sign', function() {
 
             var confirmDialog = jasmine.createSpyObj('confirmDialog', [ 'close' ]);
+            confirmDialog.model = {};
 
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeraserver').
                 respond(500, { errorCode: 'DATA_NOT_FOUND' });
 
-            ManageCertView.__test__.confirmSignera($scope, 'fk7263', intygId, confirmDialog);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, confirmDialog);
             $httpBackend.flush();
 
             expect(confirmDialog.close).not.toHaveBeenCalled();
             expect($location.path).not.toHaveBeenCalled();
-            expect($scope.dialog.acceptprogressdone).toBeTruthy();
-            expect($scope.dialog.showerror).toBeTruthy();
+            expect(signModel.dialog.model.acceptprogressdone).toBeTruthy();
+            expect(signModel.dialog.model.showerror).toBeTruthy();
         });
 
         it('should show an error if the server returns an unknown status', function() {
 
             var confirmDialog = jasmine.createSpyObj('confirmDialog', [ 'close' ]);
+            confirmDialog.model = {};
 
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeraserver').
                 respond(200, { id: biljettId, status: 'ERROR' });
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'ERROR' });
 
-            ManageCertView.__test__.confirmSignera($scope, 'fk7263', intygId, confirmDialog);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, confirmDialog);
             $httpBackend.flush();
 
             expect(confirmDialog.close).not.toHaveBeenCalled();
             expect($location.path).not.toHaveBeenCalled();
-            expect($scope.dialog.acceptprogressdone).toBeTruthy();
-            expect($scope.dialog.showerror).toBeTruthy();
+            expect(signModel.dialog.model.acceptprogressdone).toBeTruthy();
+            expect(signModel.dialog.model.showerror).toBeTruthy();
         });
     });
 
-    xdescribe('#signera client', function() {
+    describe('#signera client', function() {
         var intygId = 123, biljettId = 12345;
         var $scope;
 
@@ -169,7 +182,7 @@ describe('ManageCertView', function() {
             iid_Invoke.and.returnValue(0);
             iid_GetProperty.and.returnValue('4321dcba');
 
-            ManageCertView.signera($scope, 'fk7263');
+            ManageCertView.signera('fk7263');
 
             $httpBackend.flush();
 
@@ -189,7 +202,7 @@ describe('ManageCertView', function() {
             iid_Invoke.and.returnValue(0);
             iid_GetProperty.and.returnValue('4321dcba');
 
-            ManageCertView.signera($scope, 'fk7263');
+            ManageCertView.signera('fk7263');
             $httpBackend.flush();
 
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
@@ -211,7 +224,7 @@ describe('ManageCertView', function() {
 
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/signeringshash').respond(500);
 
-            ManageCertView.signera($scope, 'fk7263');
+            ManageCertView.signera('fk7263');
             $httpBackend.flush();
 
             expect(dialogService.showErrorMessageDialog).toHaveBeenCalled();
@@ -224,7 +237,7 @@ describe('ManageCertView', function() {
 
             iid_Invoke.and.returnValue(-1);
 
-            ManageCertView.signera($scope, 'fk7263');
+            ManageCertView.signera('fk7263');
             $httpBackend.flush();
             $timeout.flush();
 
