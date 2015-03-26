@@ -6,8 +6,6 @@ angular.module('common').controller('common.IntygEditHeader',
             ManageCertView, CertificateService, statService, featureService, dialogService, CommonViewState) {
             'use strict';
 
-            var intygsTyp = $state.current.views['header@fk7263-edit'].data.intygsTyp;
-
             /**
              * Toggle header part ('Dölj meny'-knapp)
              */
@@ -56,7 +54,7 @@ angular.module('common').controller('common.IntygEditHeader',
                     button1click: function() {
                         $log.debug('delete draft ');
                         dialogModel.acceptprogressdone = false;
-                        CertificateService.discardDraft($stateParams.certificateId, intygsTyp, function() {
+                        CertificateService.discardDraft($stateParams.certificateId, CommonViewState.intyg.typ, function() {
                             dialogModel.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
@@ -93,7 +91,7 @@ angular.module('common').controller('common.IntygEditHeader',
              * Print draft
              */
             $scope.print = function() {
-                ManageCertView.printDraft( $scope.cert.id, intygsTyp );
+                ManageCertView.printDraft( $scope.cert.id, CommonViewState.intyg.typ );
             };
         }
     ]

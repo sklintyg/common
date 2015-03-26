@@ -23,7 +23,13 @@ angular.module('common').factory('common.ManageCertView',
                     CommonViewState.error.activeErrorMessageKey = null;
 
                     if (onSuccess !== undefined) {
-                        onSuccess(draftModel);
+
+                        if (intygsTyp !== 'fk7263') {
+                            onSuccess(data.content);
+                        }
+                        else {
+                            onSuccess(draftModel);
+                        }
                     }
                 }, function(error) {
                     CommonViewState.doneLoading = true;

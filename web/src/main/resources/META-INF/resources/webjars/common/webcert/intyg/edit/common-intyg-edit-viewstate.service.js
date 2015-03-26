@@ -8,7 +8,8 @@ angular.module('common').factory('common.IntygEditViewStateService',
                 saveErrorMessageKey : null
             };
             this.intyg = {
-                isComplete : false
+                isComplete : false,
+                typ : undefined
             };
             this.doneLoading = false;
             this.showComplete = false;
