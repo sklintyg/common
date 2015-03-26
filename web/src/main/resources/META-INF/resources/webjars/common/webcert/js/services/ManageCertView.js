@@ -118,7 +118,7 @@ angular.module('common').factory('common.ManageCertView',
                 };
 
                 var draftDeleteDialog = {};
-                draftDeleteDialog = dialogService.showDialog($scope, {
+                draftDeleteDialog = dialogService.showDialog({
                     dialogId: 'confirm-draft-delete',
                     titleId: 'common.modal.label.discard_draft',
                     bodyText: bodyText,
