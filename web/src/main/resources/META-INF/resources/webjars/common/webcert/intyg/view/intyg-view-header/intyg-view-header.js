@@ -9,7 +9,7 @@ angular.module('common').controller('common.IntygViewHeader',
 
             $scope.send = function(cert) {
                 cert.intygType = $stateParams.certificateType;
-                ManageCertificate.send($scope, cert, 'FK', $scope.intygstyp+'.label.send', function() {
+                ManageCertificate.send( cert, 'FK', $scope.intygstyp+'.label.send', function() {
                     $scope.$emit('loadCertificate');
                 });
             };
@@ -20,7 +20,7 @@ angular.module('common').controller('common.IntygViewHeader',
                     personnummer: cert.grundData.patient.personId
                 });
                 cert.intygType = $stateParams.certificateType;
-                ManageCertificate.makulera($scope, cert, confirmationMessage, function() {
+                ManageCertificate.makulera( cert, confirmationMessage, function() {
                     $scope.$emit('loadCertificate');
                 });
             };

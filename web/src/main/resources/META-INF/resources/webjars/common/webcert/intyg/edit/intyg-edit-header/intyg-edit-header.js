@@ -61,6 +61,7 @@ angular.module('common').controller('common.IntygEditHeader',
                             if (featureService.isFeatureActive('franJournalsystem')) {
                                 $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
                             } else {
+                                $window.doneLoading = false;
                                 $window.history.back();
                             }
                             draftDeleteDialog.close();
