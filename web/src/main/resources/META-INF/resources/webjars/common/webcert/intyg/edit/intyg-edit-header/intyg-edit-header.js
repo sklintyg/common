@@ -60,11 +60,15 @@ angular.module('common').controller('common.IntygEditHeader',
 
                             if (featureService.isFeatureActive('franJournalsystem')) {
                                 $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
+                                draftDeleteDialog.close();
                             } else {
-                                $window.doneLoading = false;
-                                $window.history.back();
+                                var deferred = $q.defer();
+                                deferred.promise.then(function(){
+                                    $window.doneLoading = false;
+                                    $window.history.back();
+                                });
+                                draftDeleteDialog.close(deferred);
                             }
-                            draftDeleteDialog.close();
                         }, function(error) {
                             dialogModel.acceptprogressdone = true;
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
