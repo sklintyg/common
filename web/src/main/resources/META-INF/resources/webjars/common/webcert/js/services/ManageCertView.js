@@ -11,7 +11,8 @@ angular.module('common').factory('common.ManageCertView',
 
             /**
              * Load draft to webcert
-             * @param $scope
+             * @param intygsTyp
+             * @param onSuccess
              * @private
              */
             function _load( intygsTyp, onSuccess) {
@@ -48,8 +49,7 @@ angular.module('common').factory('common.ManageCertView',
 
             /**
              * Save draft to webcert
-             * @param $scope
-             * @param intygsTyp
+             * @param autoSave
              * @private
              */
             function _save(autoSave) {
@@ -109,61 +109,6 @@ angular.module('common').factory('common.ManageCertView',
                     );
                 });
                 return true;
-            }
-
-            /**
-             * Discard a certificate draft
-             */
-            function _discard($scope, intygsTyp) {
-
-                var bodyText = 'När du raderar utkastet tas det bort från Webcert.';
-                $scope.dialog = {
-                    acceptprogressdone: false,
-                    errormessageid: 'Error',
-                    showerror: false
-                };
-
-                var draftDeleteDialog = {};
-                draftDeleteDialog = dialogService.showDialog({
-                    dialogId: 'confirm-draft-delete',
-                    titleId: 'common.modal.label.discard_draft',
-                    bodyText: bodyText,
-                    button1id: 'confirm-draft-delete-button',
-
-                    button1click: function() {
-                        $log.debug('delete draft ');
-                        $scope.dialog.acceptprogressdone = false;
-                        CertificateService.discardDraft($stateParams.certificateId, intygsTyp, function() {
-                            $scope.dialog.acceptprogressdone = true;
-                            statService.refreshStat(); // Update statistics to reflect change
-
-                            if (featureService.isFeatureActive('franJournalsystem')) {
-                                $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
-                            } else {
-                                $window.history.back();
-                            }
-                            draftDeleteDialog.close();
-                        }, function(error) {
-                            $scope.dialog.acceptprogressdone = true;
-                            if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
-                                statService.refreshStat(); // Update statistics to reflect change
-                                draftDeleteDialog.close();
-                                $window.history.back();
-                            } else {
-                                $scope.dialog.showerror = true;
-                                if (error === '') {
-                                    $scope.dialog.errormessageid = 'common.error.cantconnect';
-                                } else {
-                                    $scope.dialog.errormessageid =
-                                        ('error.message.' + error.errorCode).toLowerCase();
-                                }
-                            }
-                        });
-                    },
-                    button1text: 'common.delete',
-                    button2text: 'common.cancel',
-                    autoClose: false
-                });
             }
 
             function checkSetError(errorCode) {
@@ -361,7 +306,6 @@ angular.module('common').factory('common.ManageCertView',
             return {
                 load: _load,
                 save: _save,
-                discard: _discard,
                 signera: signera,
                 isRevoked: _isRevoked,
                 isSentToTarget: _isSentToTarget,
