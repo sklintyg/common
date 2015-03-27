@@ -3,24 +3,24 @@
  * forwarding notifications of intyg to a doctor via mail.
  */
 angular.module('common').factory('common.intygNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService',
-        function($http, $log, $modal, $window, $timeout, dialogService) {
+    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService', 'common.IntygEditViewStateService',
+        function($http, $log, $modal, $window, $timeout, dialogService, CommonViewState) {
             'use strict';
 
-            function _forwardIntyg(certMeta, widgetState) {
+            function _forwardIntyg(certMeta) {
                 $timeout(function() {
                     _handleForwardedToggle(certMeta, function() {
-                        _onForwardedChange(certMeta, widgetState);
+                        _onForwardedChange(certMeta);
                     });
                 }, 1000);
                 // Launch mail client
                 $window.location = _buildNotifyDoctorMailToLink(certMeta.intygId, certMeta.intygType);
             }
 
-            function _onForwardedChange(certMeta, widgetState) {
-                widgetState.vidarebefordraInProgress = true;
+            function _onForwardedChange(certMeta) {
+                CommonViewState.vidarebefordraInProgress = true;
                 _setForwardedState(certMeta.intygId, certMeta.intygType, certMeta.vidarebefordrad, function(result) {
-                    widgetState.vidarebefordraInProgress = false;
+                    CommonViewState.vidarebefordraInProgress = false;
 
                     if (result !== null) {
                         certMeta.vidarebefordrad = result.vidarebefordrad;
