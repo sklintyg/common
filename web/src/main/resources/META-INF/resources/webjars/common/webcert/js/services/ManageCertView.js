@@ -26,7 +26,7 @@ angular.module('common').factory('common.ManageCertView',
                     if (onSuccess !== undefined) {
 
                         if (intygsTyp !== 'fk7263') {
-                            onSuccess(data.content);
+                            onSuccess(data);
                         }
                         else {
                             onSuccess(draftModel);
