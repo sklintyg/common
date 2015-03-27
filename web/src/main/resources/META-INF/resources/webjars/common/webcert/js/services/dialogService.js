@@ -213,6 +213,8 @@ angular.module('common').factory('common.dialogService',
             msgbox.result.then(function(result) {
                 if (options.callback) {
                     options.callback(result);
+                } else if(result && result.resolve !== undefined){
+                    result.resolve();
                 }
             }, function() {
             });
