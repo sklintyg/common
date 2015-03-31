@@ -595,7 +595,7 @@
         margin-top: 0;
     }
 
-    .edit-form input[type=checkbox] {
+    .edit-form .form-inline input[type=checkbox] {
         margin: -1px 0 0;
         vertical-align: middle;
     }
