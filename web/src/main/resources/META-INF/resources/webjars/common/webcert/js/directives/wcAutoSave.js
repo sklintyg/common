@@ -16,11 +16,11 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.ManageCert
 
                 var save = function() {
                     return ManageCertView.save(true);
-                }
+                };
 
                 var saveFunction = function() {
                     savePromise = null;
-                    var result = save()
+                    var result = save();
                     if (result) {
                         lastSave = (new Date()).getTime();
                     } else {
