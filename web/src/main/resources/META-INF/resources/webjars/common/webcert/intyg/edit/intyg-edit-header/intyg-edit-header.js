@@ -59,7 +59,8 @@ angular.module('common').controller('common.IntygEditHeader',
                             statService.refreshStat(); // Update statistics to reflect change
 
                             if (featureService.isFeatureActive('franJournalsystem')) {
-                                $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
+                                CommonViewState.deleted = true;
+                                CommonViewState.error.activeErrorMessageKey = 'error';
                                 draftDeleteDialog.close();
                             } else {
                                 var deferred = $q.defer();
