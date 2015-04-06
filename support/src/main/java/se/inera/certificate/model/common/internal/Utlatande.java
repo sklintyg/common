@@ -7,6 +7,9 @@ public class Utlatande {
 
     private GrundData grundData = new GrundData();
 
+
+    // Getter and setters
+
     public String getId() {
         return id;
     }
