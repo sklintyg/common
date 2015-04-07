@@ -59,7 +59,8 @@ angular.module('common').controller('common.IntygEditHeader',
                             statService.refreshStat(); // Update statistics to reflect change
 
                             if (featureService.isFeatureActive('franJournalsystem')) {
-                                $rootScope.$broadcast('intyg.deleted', $stateParams.certificateId);
+                                CommonViewState.deleted = true;
+                                CommonViewState.error.activeErrorMessageKey = 'error';
                                 draftDeleteDialog.close();
                             } else {
                                 var deferred = $q.defer();
@@ -81,7 +82,7 @@ angular.module('common').controller('common.IntygEditHeader',
                                     dialogModel.errormessageid = 'common.error.cantconnect';
                                 } else {
                                     dialogModel.errormessageid =
-                                        ('error.message.' + error.errorCode).toLowerCase();
+                                        ('common.error.' + error.errorCode).toLowerCase();
                                 }
                             }
                         });

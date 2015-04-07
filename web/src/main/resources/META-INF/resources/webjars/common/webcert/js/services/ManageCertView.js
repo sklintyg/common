@@ -58,7 +58,7 @@ angular.module('common').factory('common.ManageCertView',
                 }
 
                 var deferred = $q.defer();
-                $rootScope.$emit('saveRequest', deferred);
+                $rootScope.$broadcast('saveRequest', deferred);
                 deferred.promise.then(function(saveIntygModel) {
                     CertificateService.saveDraft(saveIntygModel.intygsId, saveIntygModel.intygsTyp, saveIntygModel.cert,
                         autoSave,

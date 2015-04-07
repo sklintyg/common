@@ -98,6 +98,7 @@ var commonMessages = {
         'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',
         'common.error.certificateinvalid': '<strong>Intyget är inte korrekt ifyllt.</strong>',
         'common.error.certificateinvalidstate': '<strong>Intyget är inte ett utkast.</strong>Inga operationer kan utföras på det längre.',
+        'common.error.invalid_state': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma utkast. Ladda om sidan och försök igen',
         'common.error.signerror': '<strong>Intyget kunde inte signeras.</strong><br>Försök igen senare.',
         'common.error.signerrornetid': '<strong>Intyget kunde inte signeras.</strong><br>Kunde inte kontakta Net iD-klienten. Försök igen senare eller kontakta din support.',
         'common.error.unknown_internal_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Försök igen senare.',
@@ -105,7 +106,8 @@ var commonMessages = {
         'common.error.module_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Problem att kontakta intygsmodulen.',
         'common.error.save.unknown': '<strong>Okänt fel.</strong> Det går för tillfället inte att spara ändringar.',
         'common.error.save.unknown_internal_problem': '<strong>Tappade anslutningen till servern.</strong><br>Det går för tillfället inte att spara ändringar.',
-        'common.error.signed_but_not_ready': '<strong>Intyget är nu signerat.</strong><br>Tyvärr kan inte intyget visas än då det behandlas. Prova att ladda om sidan lite senare. Om problemet kvarstår kontakta din lokala IT-avdelning.'
+        'common.error.signed_but_not_ready': '<strong>Intyget är nu signerat.</strong><br>Tyvärr kan inte intyget visas än då det behandlas. Prova att ladda om sidan lite senare. Om problemet kvarstår kontakta din lokala IT-avdelning.',
+        'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).'
     },
     'en': {
         'common.ok': 'OK',
