@@ -82,7 +82,7 @@ angular.module('common').controller('common.IntygEditHeader',
                                     dialogModel.errormessageid = 'common.error.cantconnect';
                                 } else {
                                     dialogModel.errormessageid =
-                                        ('error.message.' + error.errorCode).toLowerCase();
+                                        ('common.error.' + error.errorCode).toLowerCase();
                                 }
                             }
                         });
