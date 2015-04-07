@@ -1,48 +1,40 @@
 angular.module('common').factory('common.User',
-    function($http, $log) {
+    [ '$http', '$log', 'common.UserModel', function($http, $log, userModel) {
         'use strict';
 
         return {
 
-            reset: function() {
-                this.userContext = null;
-            },
-
-            getActiveFeatures: function() {
-                if (this.userContext) {
-                    return this.userContext.aktivaFunktioner;
-                } else {
-                    return null;
-                }
+            getUserContext: function() {
+                return userModel.userContext;
             },
 
             /**
-             * Set user context from api
-             * @param userContext
-             */
-            setUserContext: function(userContext) {
-                this.userContext = userContext;
-            },
-
-            /**
-             * returns valdVardenhet from user context
+             * returns a list of selectable vardenheter and mottagningar from user context
              * @returns valdVardenhet
              */
             getVardenhetSelectionList: function() {
 
-                var ucVardgivare = angular.copy(this.userContext.vardgivare);
+                var ucVardgivare = angular.copy(userModel.userContext.vardgivare);
 
                 var vardgivareList = [];
 
                 angular.forEach(ucVardgivare, function(vardgivare, key1) {
+
                     this.push({ 'id': vardgivare.id, 'namn': vardgivare.namn, 'vardenheter': [] });
+
                     angular.forEach(vardgivare.vardenheter, function(vardenhet) {
+
                         this.push({ 'id': vardenhet.id, 'namn': vardenhet.namn });
+
                         angular.forEach(vardenhet.mottagningar, function(mottagning) {
+
                             mottagning.namn = vardenhet.namn + ' - ' + mottagning.namn;
                             this.push(mottagning);
+
                         }, vardgivareList[key1].vardenheter);
+
                     }, vardgivareList[key1].vardenheter);
+
                 }, vardgivareList);
 
                 return vardgivareList;
@@ -55,9 +47,9 @@ angular.module('common').factory('common.User',
             getVardenhetFilterList: function(vardenhet) {
                 if (!vardenhet) {
 
-                    if (this.userContext.valdVardenhet) {
+                    if (userModel.userContext.valdVardenhet) {
                         $log.debug('getVardenhetFilterList: using valdVardenhet');
-                        vardenhet = this.userContext.valdVardenhet;
+                        vardenhet = userModel.userContext.valdVardenhet;
                     } else {
                         $log.debug('getVardenhetFilterList: parameter vardenhet was omitted');
                         return [];
@@ -81,7 +73,7 @@ angular.module('common').factory('common.User',
              * @returns valdVardgivare
              */
             getValdVardgivare: function() {
-                return this.userContext.valdVardgivare;
+                return userModel.userContext.valdVardgivare;
             },
 
             /**
@@ -89,7 +81,7 @@ angular.module('common').factory('common.User',
              * @returns valdVardenhet
              */
             getValdVardenhet: function() {
-                return this.userContext.valdVardenhet;
+                return userModel.userContext.valdVardenhet;
             },
 
             /**
@@ -103,13 +95,12 @@ angular.module('common').factory('common.User',
 
                 var payload = vardenhet;
 
-                var self = this;
                 var restPath = '/api/anvandare/andraenhet';
                 $http.post(restPath, payload).success(function(data) {
                     $log.debug('got callback data: ' + data);
 
                     // Update user context
-                    self.setUserContext(data);
+                    userModel.setUserContext(data);
 
                     onSuccess(data);
                 }).error(function(data, status) {
@@ -118,4 +109,4 @@ angular.module('common').factory('common.User',
                 });
             }
         };
-    });
+    }]);

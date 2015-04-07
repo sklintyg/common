@@ -8,7 +8,7 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.inera.certificate.model.util.Strings;
+import se.inera.certificate.common.util.StringUtil;
 
 /**
  * Test the {@link PersonnummerValidator}.
@@ -102,7 +102,7 @@ public class PersonnummerValidatorTest {
 	}
 
 	private void assertListSize(int size, List<String> collection) {
-		String validationMessage = Strings.join(",", collection);
+		String validationMessage = StringUtil.join(",", collection);
 		Assert.assertEquals(validationMessage, size, collection.size());
 	}
 }

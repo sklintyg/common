@@ -8,10 +8,14 @@ public class ValidationMessage {
 
     private final String message;
 
-    public ValidationMessage(String field, String message) {
+    private final ValidationMessageType type;
+
+    public ValidationMessage(String field, ValidationMessageType type, String message) {
         Assert.hasText(field, "'field' must not be empty");
+        Assert.notNull(type, "'type' must not be empty");
         Assert.hasText(message, "'message' must not be empty");
         this.field = field;
+        this.type = type;
         this.message = message;
     }
 
@@ -23,8 +27,12 @@ public class ValidationMessage {
         return message;
     }
 
+    public ValidationMessageType getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
-        return field + ":" + message;
+        return field + ":" + type.toString() + " " + message;
     }
 }

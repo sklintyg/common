@@ -13,6 +13,12 @@ public class Status {
 
     private LocalDateTime timestamp;
 
+    public Status(CertificateState type, String target, LocalDateTime timestamp) {
+        this.type = type;
+        this.target = target;
+        this.timestamp = timestamp;
+    }
+
     public CertificateState getType() {
         return type;
     }

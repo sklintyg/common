@@ -9,11 +9,11 @@ public enum ModuleFeature {
     SKICKA_INTYG("skickaIntyg");
 
     private String name;
-    
+
     private ModuleFeature(String name) {
         this.name = name;
     }
-    
+
     public String getName() {
         return name;
     }

@@ -4,27 +4,27 @@ package se.inera.certificate.model;
  * @author andreaskaltenbach
  */
 public enum CertificateState {
-    /** This code is unused */
+    /** This code is unused. */
     UNHANDLED,
 
-    /** The intyg is arhcived in Mina Intyg ('arkiverad') */
+    /** The intyg is arhcived in Mina Intyg ('arkiverad'). */
     DELETED,
 
-    /** The intyg is no longer archived in Mina Intyg */
+    /** The intyg is no longer archived in Mina Intyg. */
     RESTORED,
 
-    /** The intyg is 'makulerat' */
+    /** The intyg is 'makulerat'. */
     CANCELLED,
 
-    /** The intyg is sent to a recipient */
+    /** The intyg is sent to a recipient. */
     SENT,
 
-    /** The intyg was stored in Intygstjänsten */
+    /** The intyg was stored in Intygstjänsten. */
     RECEIVED,
 
-    /** This code is unused (except for some tests) */
+    /** This code is unused (except for some tests). */
     IN_PROGRESS,
 
-    /** This code is unused (except for some tests) */
+    /** This code is unused (except for some tests). */
     PROCESSED
 }

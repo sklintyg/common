@@ -1,10 +1,8 @@
 package se.inera.certificate.modules.support;
 
-import java.util.Map;
-import java.util.Set;
-
 import se.inera.certificate.modules.support.api.ModuleApi;
-import se.inera.certificate.modules.support.feature.ModuleFeature;
+
+import java.util.Map;
 
 /**
  * Defines the contract for modules so they can be discovered by an application.
@@ -29,12 +27,12 @@ public interface ModuleEntryPoint {
     String getModuleDescription();
 
     /**
-     * Returns the logical address of the default receiver of this module, or <code>null</code> if no default receiver
+     * Returns the identifier of the default recipient of this module, or <code>null</code> if no default recipient
      * is specified.
      *
-     * @return The logical address of the default receiver or <code>null</code> if none is specified.
+     * @return The identifier of the default recipient or <code>null</code> if none is specified.
      */
-    String getDefaultRecieverLogicalAddress();
+    String getDefaultRecipient();
 
     /**
      * Returns the module specific implementation of the module API.
@@ -42,10 +40,11 @@ public interface ModuleEntryPoint {
      * @return A module API implementation.
      */
     ModuleApi getModuleApi();
-    
+
     /**
-     * Returns a Map containing which {@code se.inera.certificate.modules.support.feature.ModuleFeature} that this module will support and what state these have.
-     * 
+     * Returns a Map containing which {@code se.inera.certificate.modules.support.feature.ModuleFeature} that this
+     * module will support and what state these have.
+     *
      * @return
      */
     Map<String, Boolean> getModuleFeatures();
