@@ -105,5 +105,13 @@
     /*    @page {
             margin: 0.5cm;
         }*/
+
+    .radio input[type=radio], .radio-inline input[type=radio], .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox] {
+        margin-left: -16px;
+    }
+    input[type=radio], input[type=checkbox] {
+        margin: 2px 0 0;
+        vertical-align: text-bottom;
+    }
 }
 
