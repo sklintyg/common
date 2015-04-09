@@ -8,9 +8,9 @@ angular.module('common').factory('common.domain.BaseContentModel',
         function BaseContentModel() {
         }
 
-        BaseContentModel.prototype.update = function (data) {
+        BaseContentModel.prototype.update = function ( data ) {
 
-        }
+        };
 
         return BaseContentModel;
 
