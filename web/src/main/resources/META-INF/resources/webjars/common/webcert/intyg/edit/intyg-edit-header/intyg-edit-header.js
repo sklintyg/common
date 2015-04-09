@@ -54,6 +54,10 @@ angular.module('common').controller('common.IntygEditHeader',
                     button1click: function() {
                         $log.debug('delete draft ');
                         dialogModel.acceptprogressdone = false;
+                        var back = function() {
+                            $window.doneLoading = true;
+                            $window.history.back();
+                        };
                         CertificateService.discardDraft($stateParams.certificateId, CommonViewState.intyg.typ, function() {
                             dialogModel.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
@@ -61,21 +65,15 @@ angular.module('common').controller('common.IntygEditHeader',
                             if (featureService.isFeatureActive('franJournalsystem')) {
                                 CommonViewState.deleted = true;
                                 CommonViewState.error.activeErrorMessageKey = 'error';
-                                draftDeleteDialog.close();
+                                draftDeleteDialog.close(back);
                             } else {
-                                var deferred = $q.defer();
-                                deferred.promise.then(function(){
-                                    $window.doneLoading = false;
-                                    $window.history.back();
-                                });
-                                draftDeleteDialog.close(deferred);
+                                draftDeleteDialog.close(back);
                             }
                         }, function(error) {
                             dialogModel.acceptprogressdone = true;
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
                                 statService.refreshStat(); // Update statistics to reflect change
-                                draftDeleteDialog.close();
-                                $window.history.back();
+                                draftDeleteDialog.close(back);
                             } else {
                                 dialogModel.showerror = true;
                                 if (error === '') {

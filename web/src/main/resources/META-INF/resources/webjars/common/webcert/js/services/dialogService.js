@@ -82,7 +82,7 @@ angular.module('common').factory('common.dialogService',
          button3visible: (optional) whether button 3 should be visible. default: true if button3text is specified, otherwise false
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
          */
-        function _showDialog(options) {
+        function _showDialog( options ) {
 
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
@@ -215,6 +215,9 @@ angular.module('common').factory('common.dialogService',
                     options.callback(result);
                 } else if(result && result.resolve !== undefined){
                     result.resolve();
+                } else if(typeof result === 'function'){
+                    //result();
+                    _runOnDialogDoneLoading(msgbox, result);
                 }
             }, function() {
             });
@@ -229,7 +232,6 @@ angular.module('common').factory('common.dialogService',
         }
 
         function _runOnDialogDoneLoading(modal, callback) {
-
             modal.opened.then(function() {
                 function waitForModalToExistAndRunCallbackWhenTransitionIsDone() {
                     var modalDialog = $('[modal-window]');
