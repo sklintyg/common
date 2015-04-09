@@ -9,7 +9,8 @@ angular.module('common').directive('wcDatePickerField',
                 targetModel: '=',
                 domId: '@',
                 invalid: '=',
-                onChange: '&'
+                onChange: '&',
+                maxDate: '@'
             },
             templateUrl: '/web/webjars/common/webcert/js/directives/wcDatePickerField.html',
             controller: function($scope) {
@@ -20,6 +21,12 @@ angular.module('common').directive('wcDatePickerField',
                     }
                 });
 */
+                if($scope.maxDate === undefined){
+                    $scope.maxDate = null;
+                } else {
+                    $scope.maxDate = '\'' + $scope.maxDate + '\'';
+                }
+
                 $scope.isOpen = false;
                 $scope.toggleOpen = function($event) {
                     $event.preventDefault();
