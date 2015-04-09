@@ -15,24 +15,22 @@ angular.module('common').factory('common.domain.DraftModel',
 
         DraftModel.prototype.update = function (data) {
             // refresh the model data
-            if(data === undefined) return;
+            if(data === undefined) {
+                return;
+            }
             this.vidarebefordrad = data.vidarebefordrad;
             this.status = data.status;
             if(this.content){
                 this.content.update(data.content);
             }
-        }
+        };
 
         DraftModel.prototype.isSigned = function (){
-            if(this.status && this.status == 'SIGNED'){
-                return true;
-            } else {
-                return false;
-            }
+            return !!(this.status && this.status === 'SIGNED');
         };
 
         DraftModel.prototype.isDraftComplete = function (){
-            if(this.status && this.status == 'DRAFT_COMPLETE'){
+            if(this.status && this.status === 'DRAFT_COMPLETE'){
                 return true;
             } else {
                 return false;

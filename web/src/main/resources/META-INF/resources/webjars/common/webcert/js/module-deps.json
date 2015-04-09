@@ -42,10 +42,9 @@
     "/web/webjars/common/webcert/js/services/UtilsService.js",
     "/web/webjars/common/webcert/js/services/IntygCopyRequestModel.js",
     "/web/webjars/common/webcert/js/services/locationUtilsService.js",
-    "/web/webjars/common/webcert/js/services/draft.model.js",
-    "/web/webjars/common/webcert/js/services/base-content.model.js",
     "/web/webjars/common/webcert/js/stacktrace.js",
-
+    "/web/webjars/common/webcert/js/models/base-content.model.js",
+    "/web/webjars/common/webcert/js/models/draft.model.js",
     "/web/webjars/common/webcert/intyg/edit/common-intyg-edit-viewstate.service.js",
     "/web/webjars/common/webcert/intyg/edit/intyg-edit-header/intyg-edit-header.js",
     "/web/webjars/common/webcert/intyg/view/intyg-view-header/intyg-view-header.js"
