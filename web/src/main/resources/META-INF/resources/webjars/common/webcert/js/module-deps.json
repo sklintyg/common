@@ -50,6 +50,7 @@
     "/web/webjars/common/webcert/js/models/skapadAv.model.js",
     "/web/webjars/common/webcert/js/models/vardenhet.model.js",
     "/web/webjars/common/webcert/intyg/edit/common-intyg-edit-viewstate.service.js",
+    "/web/webjars/common/webcert/intyg/view/common-intyg-viewstate.service.js",
     "/web/webjars/common/webcert/intyg/edit/intyg-edit-header/intyg-edit-header.js",
     "/web/webjars/common/webcert/intyg/view/intyg-view-header/intyg-view-header.js"
 

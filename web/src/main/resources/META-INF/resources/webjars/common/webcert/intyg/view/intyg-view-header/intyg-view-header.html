@@ -1,19 +1,19 @@
 <div>
-  <div wc-print-header title-id="{{intygstyp}}.label.certtitle" print-message-id="print.label.{{widgetState.printStatus}}"
+  <div wc-print-header title-id="{{intygstyp}}.label.certtitle" print-message-id="print.label.{{viewState.common.printStatus}}"
        intygs-id="cert.id"></div>
 
   <!-- error message -->
-  <div id="cert-load-error" ng-show="widgetState.doneLoading && widgetState.activeErrorMessageKey"
+  <div id="cert-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
        class="alert alert-danger alert-column print-hide">
 
     <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
-      <span message key="{{widgetState.activeErrorMessageKey}}"></span>
+      <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
     </span>
 
     <div
         ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
       <p>
-        <span message key="{{widgetState.activeErrorMessageKey}}"></span>
+        <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
       </p>
       <p><strong>Intygsinformation</strong></p>
       <ul>
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div ng-show="!widgetState.activeErrorMessageKey" id="intyg-vy-laddad">
+  <div ng-show="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
     <div class="print-hide">
       <div class="form-group buttonbar">
         <label class="control-label">{{cert.grundData.patient.fullstandigtNamn}} - {{cert.grundData.patient.personId}}</label>
@@ -55,8 +55,8 @@ I de fall patienten har ändrat namn eller adress så uppdateras den information
         </form>
       </div>
 
-      <div id="cert-inline-error" ng-show="widgetState.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
-        <span message key="{{widgetState.inlineErrorMessageKey}}"></span>
+      <div id="cert-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
+        <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>
       </div>
 
       <div wc-new-person-id-message></div>
