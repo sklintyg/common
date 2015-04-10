@@ -18,7 +18,7 @@ angular.module('common').controller('common.IntygEditHeader',
              */
             $scope.toggleShowComplete = function() {
                 if (CommonViewState.toggleShowComplete()) {
-                    ManageCertView.save();
+                    ManageCertView.save(false);
 
                     var old = $location.hash();
                     $location.hash('top');

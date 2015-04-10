@@ -22,6 +22,7 @@ angular.module('common').factory('common.ManageCertView',
                     draftModel.update(data);
 
                     CommonViewState.error.activeErrorMessageKey = null;
+                    CommonViewState.error.saveErrorMessageKey = null;
 
                     if (onSuccess !== undefined) {
                         onSuccess(draftModel);
@@ -56,7 +57,6 @@ angular.module('common').factory('common.ManageCertView',
                 $rootScope.$broadcast('saveRequest', deferred);
                 deferred.promise.then(function(saveIntygModel) {
                     CertificateService.saveDraft(saveIntygModel.intygsId, saveIntygModel.intygsTyp, saveIntygModel.cert,
-                        autoSave,
                         function(data) {
 
                             var result = {};

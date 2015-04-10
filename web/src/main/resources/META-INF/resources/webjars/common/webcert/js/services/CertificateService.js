@@ -50,12 +50,10 @@ angular.module('common').factory('common.CertificateService',
         /**
          * Saves a certificate draft to the server.
          */
-        function _saveDraft(intygsId, intygsTyp, cert, autoSave, onSuccess, onError) {
-            $log.debug('_saveDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp + ' autoSave:' + autoSave);
+        function _saveDraft(intygsId, intygsTyp, cert, onSuccess, onError) {
+            $log.debug('_saveDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId;
-            if (autoSave) {
-                restPath += '?autoSave=true';
-            }
+
             saveDraftInProgress = true;
             $http.put(restPath, cert).
                 success(function(data) {
