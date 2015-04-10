@@ -23,7 +23,7 @@ angular.module('common').service('common.IntygEditViewStateService',
             this.isSigned = false;
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;
-        }
+        };
 
         this.toggleShowComplete = function() {
             this.showComplete = !this.showComplete;
