@@ -4,7 +4,7 @@
  * TODO: rename this to utkastNotifyService. It has nothing to do with intyg.
  */
 angular.module('common').factory('common.intygNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService', 'common.IntygEditViewStateService',
+    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService', 'common.UtkastViewStateService',
         function($http, $log, $modal, $window, $timeout, dialogService, CommonViewState) {
             'use strict';
 

@@ -4,7 +4,7 @@
 angular.module('common').factory('common.ManageCertView',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.IntygEditViewStateService', 'common.Domain.DraftModel',
+        'common.UserModel', 'common.UtkastViewStateService', 'common.Domain.DraftModel',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
             CertificateService, dialogService, messageService, statService, UserModel, CommonViewState, draftModel) {
             'use strict';

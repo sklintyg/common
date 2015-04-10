@@ -1,7 +1,7 @@
-angular.module('common').controller('common.IntygEditHeader',
+angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$anchorScroll', '$state', '$stateParams', '$location', '$q', '$window',
         'common.messageService', 'common.ManageCertView', 'common.CertificateService', 'common.statService',
-        'common.featureService', 'common.dialogService', 'common.IntygEditViewStateService',
+        'common.featureService', 'common.dialogService', 'common.UtkastViewStateService',
         function($rootScope, $scope, $log, $anchorScroll, $state, $stateParams, $location, $q, $window, messageService,
             ManageCertView, CertificateService, statService, featureService, dialogService, CommonViewState) {
             'use strict';

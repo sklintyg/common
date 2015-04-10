@@ -1,4 +1,4 @@
-angular.module('common').service('common.IntygEditViewStateService',
+angular.module('common').service('common.UtkastViewStateService',
     function($stateParams) {
         'use strict';
 
