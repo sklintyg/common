@@ -45,8 +45,12 @@
     "/web/webjars/common/webcert/js/stacktrace.js",
     "/web/webjars/common/webcert/js/models/base-content.model.js",
     "/web/webjars/common/webcert/js/models/draft.model.js",
+    "/web/webjars/common/webcert/js/models/ModelAttr.js",
+    "/web/webjars/common/webcert/js/models/BaseModel.js",
+    "/web/webjars/common/webcert/js/models/BaseAtticModel.js",
+    "/web/webjars/common/webcert/js/models/attic.service.js",
     "/web/webjars/common/webcert/intyg/edit/common-intyg-edit-viewstate.service.js",
     "/web/webjars/common/webcert/intyg/edit/intyg-edit-header/intyg-edit-header.js",
-    "/web/webjars/common/webcert/intyg/view/intyg-view-header/intyg-view-header.js"
-
+    "/web/webjars/common/webcert/intyg/view/intyg-view-header/intyg-view-header.js",
+    "/web/webjars/common/webcert/js/utils/Class.js"
 ]
