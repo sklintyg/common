@@ -12,8 +12,10 @@ angular.module('common').factory('common.IntygEditViewStateService',
                 typ : undefined
             };
             this.doneLoading = false;
-            this.showComplete = false;
             this.collapsedHeader = false;
+
+            // TODO: should go into intyg
+            this.showComplete = false;
             this.hsaInfoMissing = false;
             this.vidarebefordraInProgress = false;
             this.hospName = $stateParams.hospName;

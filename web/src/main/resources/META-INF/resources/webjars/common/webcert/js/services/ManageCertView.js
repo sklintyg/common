@@ -4,7 +4,7 @@
 angular.module('common').factory('common.ManageCertView',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.IntygEditViewStateService', 'common.domain.DraftModel',
+        'common.UserModel', 'common.IntygEditViewStateService', 'common.Domain.DraftModel',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
             CertificateService, dialogService, messageService, statService, UserModel, CommonViewState, draftModel) {
             'use strict';
@@ -24,14 +24,9 @@ angular.module('common').factory('common.ManageCertView',
                     CommonViewState.error.activeErrorMessageKey = null;
 
                     if (onSuccess !== undefined) {
-
-                        if (intygsTyp !== 'fk7263') {
-                            onSuccess(data);
-                        }
-                        else {
-                            onSuccess(draftModel);
-                        }
+                        onSuccess(draftModel);
                     }
+
                 }, function(error) {
                     CommonViewState.doneLoading = true;
                     CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);

@@ -1,4 +1,4 @@
-angular.module('common').factory('common.domain.DraftModel',
+angular.module('common').factory('common.Domain.DraftModel',
     [ function(  ) {
         'use strict';
 
