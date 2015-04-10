@@ -1,8 +1,8 @@
-angular.module('common').factory('common.IntygEditViewStateService',
+angular.module('common').service('common.IntygEditViewStateService',
     function($stateParams) {
         'use strict';
 
-        function CommonViewState() {
+        this.reset = function() {
             this.error = {
                 activeErrorMessageKey : null,
                 saveErrorMessageKey : null
@@ -25,17 +25,15 @@ angular.module('common').factory('common.IntygEditViewStateService',
             this.validationMessagesGrouped  = null;
         }
 
-        CommonViewState.prototype.toggleShowComplete = function() {
+        this.toggleShowComplete = function() {
             this.showComplete = !this.showComplete;
             return this.showComplete;
         };
 
-        CommonViewState.prototype.toggleCollapsedHeader = function() {
+        this.toggleCollapsedHeader = function() {
             this.collapsedHeader = !this.collapsedHeader;
         };
 
-        var _viewState = new CommonViewState();
-
-        return _viewState;
+        this.reset();
     }
 );
