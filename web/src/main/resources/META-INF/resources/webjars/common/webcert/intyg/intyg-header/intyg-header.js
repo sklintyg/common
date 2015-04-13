@@ -1,7 +1,7 @@
 /* global document */
 angular.module('common').controller('common.IntygHeader',
     ['$scope', '$log', '$stateParams', 'common.messageService', 'webcert.ManageCertificate', 'common.ManageCertView',
-        'common.IntygCopyRequestModel', 'common.IntygViewStateService', 'common.User',
+        'common.IntygCopyRequestModel', 'common.User',
         function($scope, $log, $stateParams, messageService, ManageCertificate, ManageCertView, IntygCopyRequestModel, User) {
             'use strict';
 
