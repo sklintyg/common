@@ -3,14 +3,16 @@ angular.module('common').factory('common.Domain.DraftModel',
         'use strict';
 
         // the actual model
-        var _draftModel;
 
         /**
          * Constructor, with class name
          */
-        function DraftModel() {
+        function DraftModel(contentModel) {
             this.vidarebefordrad = undefined;
             this.status = undefined;
+            if(contentModel){
+                this.content = contentModel;
+            }
         }
 
         DraftModel.prototype.update = function (data) {
@@ -41,8 +43,6 @@ angular.module('common').factory('common.Domain.DraftModel',
             return new DraftModel();
         };
 
-        _draftModel = DraftModel.build();
-
-        return _draftModel;
+        return DraftModel;
 
     }]);
