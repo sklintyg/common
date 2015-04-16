@@ -4,9 +4,9 @@
 angular.module('common').factory('common.ManageCertView',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.UtkastViewStateService',
+        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            CertificateService, dialogService, messageService, statService, UserModel, CommonViewState) {
+            CertificateService, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus) {
             'use strict';
 
             /**
@@ -15,7 +15,7 @@ angular.module('common').factory('common.ManageCertView',
              * @param onSuccess
              * @private
              */
-            function _load( intygsTyp, onSuccess, model) {
+            function _load(intygsTyp, model) {
                 CommonViewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
 
@@ -26,8 +26,21 @@ angular.module('common').factory('common.ManageCertView',
                     CommonViewState.error.activeErrorMessageKey = null;
                     CommonViewState.error.saveErrorMessageKey = null;
 
-                    if (onSuccess !== undefined) {
-                        onSuccess(model);
+                    CommonViewState.isSigned = model.draftModel.isSigned();
+                    CommonViewState.intyg.isComplete = model.draftModel.isSigned() || model.draftModel.isDraftComplete();
+
+                    // check that the certs status is not signed
+                    if(model.draftModel.isSigned()){
+                        // just change straight to the intyg
+                        $location.url('/intyg/' + intygsTyp + '/' + model.id);
+                    }
+                    else {
+                        $timeout(function() {
+                            wcFocus('firstInput');
+                            $rootScope.$broadcast('intyg.loaded', model);
+                            $rootScope.$broadcast(intygsTyp + '.loaded', model);
+                            CommonViewState.doneLoading = true;
+                        }, 10);
                     }
 
                 }, function(error) {
