@@ -18,8 +18,9 @@ angular.module('common').directive('wcMaxlength',
             require: 'ngModel',
             link: function(scope, element, attrs, controller) {
 
-                var counterName = 'charsRemaining' + element[0].id;
+                var counterName = 'charsRemaining' + attrs.id;
                 counterName = counterName.replace('.', '');
+                counterName = counterName.replace('-', '');
                 scope[counterName] = attrs.maxlength;
 
                 var counter = angular.
