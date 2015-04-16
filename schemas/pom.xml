@@ -25,8 +25,17 @@
     <clinicalprocess-healthcond-certificate.version>0-SNAPSHOT</clinicalprocess-healthcond-certificate.version>
     <clinicalprocess-healthcond-certificate.version.range>(,1.1.0]</clinicalprocess-healthcond-certificate.version.range>
 
-    <intygstjansten-ts.version>0-SNAPSHOT</intygstjansten-ts.version>
-    <intygstjansten-ts.version.range>(,1.0.0]</intygstjansten-ts.version.range>
+    <insuranceprocess-healthreporting.version>0-SNAPSHOT</insuranceprocess-healthreporting.version>
+    <insuranceprocess-healthreporting.version.range>(,1.0.0]</insuranceprocess-healthreporting.version.range>
+
+    <intygstjansten-clinicalprocess-healthcond-certificate.version>0-SNAPSHOT</intygstjansten-clinicalprocess-healthcond-certificate.version>
+    <intygstjansten-clinicalprocess-healthcond-certificate.version.range>(,1.1.0]</intygstjansten-clinicalprocess-healthcond-certificate.version.range>
+
+    <intygstjansten-insuranceprocess-healthreporting.version>0-SNAPSHOT</intygstjansten-insuranceprocess-healthreporting.version>
+    <intygstjansten-insuranceprocess-healthreporting.version.range>(,1.0.0]</intygstjansten-insuranceprocess-healthreporting.version.range>
+
+    <intygstjansten-transportstyrelsen.version>0-SNAPSHOT</intygstjansten-transportstyrelsen.version>
+    <intygstjansten-transportstyrelsen.version.range>(,1.0.0]</intygstjansten-transportstyrelsen.version.range>
 
   </properties>
 
@@ -46,14 +55,29 @@
 
       <!-- Schemas -->
       <dependency>
-        <groupId>se.inera.intyg.schemas.clinicalprocess.healthcond.certificate.v1</groupId>
-        <artifactId>clinicalprocess-healthcond-certificate</artifactId>
+        <groupId>se.riv.clinicalprocess.healthcond.certificate</groupId>
+        <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
         <version>${clinicalprocess-healthcond-certificate.version}</version>
       </dependency>
       <dependency>
-        <groupId>se.inera.intyg.schemas.intygstjansten.ts</groupId>
-        <artifactId>intygstjansten-ts</artifactId>
-        <version>${intygstjansten-ts.version}</version>
+        <groupId>se.riv.insuranceprocess.healthreporting</groupId>
+        <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
+        <version>${insuranceprocess-healthreporting.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>se.inera.intyg.clinicalprocess.healthcond.certificate</groupId>
+        <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
+        <version>${intygstjansten-clinicalprocess-healthcond-certificate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>se.inera.intyg.insuranceprocess.healthreporting</groupId>
+        <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
+        <version>${intygstjansten-insuranceprocess-healthreporting.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>se.inera.intyg.transportstyrelsen</groupId>
+        <artifactId>transportstyrelsen-schemas</artifactId>
+        <version>${intygstjansten-transportstyrelsen.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -71,12 +95,24 @@
 
     <!-- Schemas -->
     <dependency>
-      <groupId>se.inera.intyg.schemas.clinicalprocess.healthcond.certificate.v1</groupId>
-      <artifactId>clinicalprocess-healthcond-certificate</artifactId>
+      <groupId>se.riv.clinicalprocess.healthcond.certificate</groupId>
+      <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
     </dependency>
     <dependency>
-      <groupId>se.inera.intyg.schemas.intygstjansten.ts</groupId>
-      <artifactId>intygstjansten-ts</artifactId>
+      <groupId>se.riv.insuranceprocess.healthreporting</groupId>
+      <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>se.inera.intyg.clinicalprocess.healthcond.certificate</groupId>
+      <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>se.inera.intyg.insuranceprocess.healthreporting</groupId>
+      <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>se.inera.intyg.transportstyrelsen</groupId>
+      <artifactId>transportstyrelsen-schemas</artifactId>
     </dependency>
 
     <!-- Date/Time -->
@@ -102,7 +138,10 @@
           <includeProperties>
             common.version,
             clinicalprocess-healthcond-certificate.version,
-            intygstjansten-ts.version
+            insuranceprocess-healthreporting.version,
+            intygstjansten-clinicalprocess-healthcond-certificate.version,
+            intygstjansten-insuranceprocess-healthreporting.version,
+            intygstjansten-transportstyrelsen.version
           </includeProperties>
           <properties>
             <property>
@@ -113,11 +152,23 @@
               <name>clinicalprocess-healthcond-certificate.version</name>
               <version>${clinicalprocess-healthcond-certificate.version.range}</version>
             </property>
+            <property>
+              <name>insuranceprocess-healthreporting.version</name>
+              <version>${insuranceprocess-healthreporting.version.range}</version>
+            </property>
+            <property>
+              <name>intygstjansten-clinicalprocess-healthcond-certificate.version</name>
+              <version>${intygstjansten-clinicalprocess-healthcond-certificate.version.range}</version>
+            </property>
+            <property>
+              <name>intygstjansten-insuranceprocess-healthreporting.version</name>
+              <version>${intygstjansten-insuranceprocess-healthreporting.version.range}</version>
+            </property>
+            <property>
+              <name>intygstjansten-transportstyrelsen.version</name>
+              <version>${intygstjansten-transportstyrelsen.version.range}</version>
+            </property>
           </properties>
-          <property>
-            <name>se.inera.intyg.schemas.intygstjansten.ts</name>
-            <version>intygstjansten-ts</version>
-          </property>
         </configuration>
       </plugin>
     </plugins>
