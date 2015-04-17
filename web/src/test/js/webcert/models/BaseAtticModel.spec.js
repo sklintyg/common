@@ -26,7 +26,57 @@ describe('common.domain.BaseAtticModel', function() {
             ModelAttr = _modelAttr_;
         }]));
 
-    describe('base attic model', function(){
+    describe('enums', function(){
+        it('can handle an array of objects ', function(){
+            
+            var modelDef = {
+                korkortstyp: new ModelAttr('korkortstyp',
+                    {defaultValue:
+                        [
+                            {'type': 'C1', 'selected': false},
+                            {'type': 'C1E', 'selected': false},
+                            {'type': 'C', 'selected': false}
+                        ]
+                    })
+            };
+
+            var model = new BaseAtticModel('model1', modelDef);
+            console.log('------------------------- enums');
+            console.log('--- model def');
+
+            console.log(JSON.stringify(model));
+
+            var content = {korkortstyp:[
+                {'type': 'C1', 'selected': 'stooges'},
+                {'type': 'C1E', 'selected': 'mc5'},
+                {'type': 'C', 'selected': 'deviants'}
+            ]};
+
+            console.log('--- after update');
+            model.update(content);
+            console.log(JSON.stringify(model));
+            expect(model.korkortstyp[0].selected).toBe('stooges');
+            expect(model.korkortstyp[1].selected).toBe('mc5');
+            expect(model.korkortstyp[2].selected).toBe('deviants');
+
+            console.log('--- after clear');
+            model.clear();
+            console.log(JSON.stringify(model));
+            expect(model.korkortstyp[0].selected).toBe(false);
+            expect(model.korkortstyp[1].selected).toBe(false);
+            expect(model.korkortstyp[2].selected).toBe(false);
+
+            console.log('--- after restore');
+            model.restoreFromAttic();
+            console.log(JSON.stringify(model));
+            expect(model.korkortstyp[0].selected).toBe('stooges');
+            expect(model.korkortstyp[1].selected).toBe('mc5');
+            expect(model.korkortstyp[2].selected).toBe('deviants');
+
+        });
+    });
+
+    xdescribe('base attic model', function(){
         describe('nested attic model', function() {
 
             var model;

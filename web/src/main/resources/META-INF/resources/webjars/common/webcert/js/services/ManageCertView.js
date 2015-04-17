@@ -15,30 +15,30 @@ angular.module('common').factory('common.ManageCertView',
              * @param onSuccess
              * @private
              */
-            function _load(intygsTyp, model) {
+            function _load(intygsTyp, draftModel) {
                 CommonViewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
 
-                    if(model && model.draftModel){
-                        model.draftModel.update(data);
+                    if(draftModel){
+                        draftModel.update(data);
                     }
 
                     CommonViewState.error.activeErrorMessageKey = null;
                     CommonViewState.error.saveErrorMessageKey = null;
 
-                    CommonViewState.isSigned = model.draftModel.isSigned();
-                    CommonViewState.intyg.isComplete = model.draftModel.isSigned() || model.draftModel.isDraftComplete();
+                    CommonViewState.isSigned = draftModel.isSigned();
+                    CommonViewState.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
 
                     // check that the certs status is not signed
-                    if(model.draftModel.isSigned()){
+                    if(draftModel.isSigned()){
                         // just change straight to the intyg
-                        $location.url('/intyg/' + intygsTyp + '/' + model.id);
+                        $location.url('/intyg/' + intygsTyp + '/' + draftModel.content.id);
                     }
                     else {
                         $timeout(function() {
                             wcFocus('firstInput');
-                            $rootScope.$broadcast('intyg.loaded', model);
-                            $rootScope.$broadcast(intygsTyp + '.loaded', model);
+                            $rootScope.$broadcast('intyg.loaded', draftModel.content);
+                            $rootScope.$broadcast(intygsTyp + '.loaded', draftModel.content);
                             CommonViewState.doneLoading = true;
                         }, 10);
                     }
