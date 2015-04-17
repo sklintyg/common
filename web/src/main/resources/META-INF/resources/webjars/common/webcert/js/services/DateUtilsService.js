@@ -4,7 +4,7 @@
  *
  * Created by stephenwhite on 25/01/15.
  */
-angular.module('common').factory('common.DateUtilsService', function() {
+angular.module('common').factory('common.DateUtilsService', function($filter) {
     'use strict';
 
    /**
@@ -176,6 +176,41 @@ angular.module('common').factory('common.DateUtilsService', function() {
         return endMoment.diff(startMoment, 'days') + 1;
     }
 
+    function _addDateParserFormatter(formElement) {
+        if (formElement.$parsers.length > 1) {
+            formElement.$parsers.shift();
+        }
+
+        formElement.$parsers.unshift(function (viewValue) {
+
+            viewValue = _convertDateToISOString(viewValue);
+
+            var transformedInput = viewValue;
+            if(_isDate(viewValue)){
+                transformedInput = $filter('date')(viewValue, 'yyyy-MM-dd', 'GMT+0100');
+            }
+
+            if (transformedInput !== viewValue) {
+                formElement.$setViewValue(transformedInput);
+                formElement.$render();
+            }
+
+            return transformedInput;
+        });
+
+        if (formElement.$formatters.length > 0) {
+            formElement.$formatters.shift();
+        }
+
+        formElement.$formatters.unshift(function (modelValue) {
+            if (modelValue) {
+                // convert date to iso
+                modelValue = _convertDateToISOString(modelValue);
+            }
+            return modelValue;
+        });
+    }
+
     return {
         isDate: _isDate,
         toMoment: _toMoment,
@@ -189,7 +224,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
         isAfterOrEqual : _isAfterOrEqual,
         isBeforeOrEqual : _isBeforeOrEqual,
         isSame : _isSame,
-        todayAsYYYYMMDD :_todayAsYYYYMMDD
+        todayAsYYYYMMDD :_todayAsYYYYMMDD,
+        addDateParserFormatter : _addDateParserFormatter
     };
 
 });
