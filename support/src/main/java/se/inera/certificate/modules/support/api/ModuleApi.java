@@ -173,5 +173,11 @@ public interface ModuleApi {
      * @return
      */
     Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
-    
+
+    /**
+     * Exposed for testing purposes
+     * @param jsonString
+     * @return an XML string
+     */
+    String marshall(String jsonString) throws ModuleException;
 }
