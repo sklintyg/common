@@ -17,15 +17,14 @@ angular.module('common').controller('common.IntygEditHeader',
              * Toggle 'Visa vad som behöver kompletteras'
              */
             $scope.toggleShowComplete = function() {
-                if (CommonViewState.toggleShowComplete()) {
-                    ManageCertView.save();
+                CommonViewState.toggleShowComplete();
+                ManageCertView.save();
 
-                    var old = $location.hash();
-                    $location.hash('top');
-                    $anchorScroll();
-                    // reset to old to keep any additional routing logic from kicking in
-                    $location.hash(old);
-                }
+                var old = $location.hash();
+                $location.hash('top');
+                $anchorScroll();
+                // reset to old to keep any additional routing logic from kicking in
+                $location.hash(old);
             };
 
             $scope.save = function() {

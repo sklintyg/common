@@ -26,7 +26,120 @@ describe('common.domain.BaseAtticModel', function() {
             ModelAttr = _modelAttr_;
         }]));
 
-    describe('#base attic model', function() {
+    describe('base attic model', function(){
+        describe('nested attic model', function() {
+
+            var model;
+
+            beforeEach(function() {
+
+
+
+
+
+            });
+
+            it('can update and restore from attic', function() {
+                var modelDef = {
+                    a: {
+                        aa: {aaa: false, aab: 'hi'},
+                        ab: false,
+                        ac : new ModelAttr('ac', {defaultValue:undefined,trans:true}),
+                        ad : 'fred'
+                    }
+                };
+
+                model = new BaseAtticModel('NestedModel', modelDef);
+
+                var content = {
+                    a:{
+                        aa: {aaa: 'update aaa', aab: 'update aab'},
+                        ab: true,
+                        ac : 'I am not undefined!',
+                        ad : 'barney'
+                    }
+                };
+
+                //console.log('---------------------------- update model');
+                model.update(content); // will do an update to attic
+
+                //console.log('attic model :' + JSON.stringify(model.atticModel));
+
+                //console.log('---------------------------- clear model');
+                model.clear();
+
+                expect(model.a.aa.aaa).toBe(false);
+                expect(model.a.ab).toBe(false);
+                expect(model.a.ac).toBe(undefined);
+                expect(model.a.ad).toBe('fred');
+
+
+                //console.log('---------------------------- restore from attic');
+                model.restoreFromAttic();
+
+                expect(model.a.aa.aaa).toBe('update aaa');
+                expect(model.a.ab).toBe(true);
+                expect(model.a.ac).toBe('I am not undefined!');
+                expect(model.a.ad).toBe('barney');
+            });
+
+            it('can update and restore specific object in the model from attic', function() {
+                var modelDef = {
+                    a: {
+                        aa: {aaa: false, aab: 'hi'},
+                        ab: {aba:false, abb:'yeah', abc: 'no way'},
+                        ac : {aca:false}
+                    }
+                };
+
+                model = new BaseAtticModel('NestedModel', modelDef);
+
+                var content = {
+                    a:{
+                        aa: {aaa: 'update aaa', aab: 'update aab'},
+                        ab: {aba:true, abb:'abbb', abc: 'yes way'},
+                        ac : {aca:true}
+                    }
+                };
+
+                //console.log('---------------------------- update model');
+                model.update(content); // will do an update to attic
+
+                //console.log('attic model :' + JSON.stringify(model.atticModel));
+
+                //console.log('---------------------------- clear model');
+                model.clear('a.aa');
+
+                expect(model.a.aa.aaa).toBe(false);
+                expect(model.a.aa.aab).toBe('hi');
+                expect(model.a.ab.aba).toBe(true);
+
+
+                //console.log('---------------------------- restore from attic');
+                model.restoreFromAttic('a.aa');
+
+                expect(model.a.aa.aaa).toBe('update aaa');
+                expect(model.a.aa.aab).toBe('update aab');
+                expect(model.a.ab.aba).toBe(true);
+
+                model.update({aba:'aba', abb:'abb', abc:'abc'}, 'a.ab');
+                expect(model.a.ab.aba).toBe('aba');
+                expect(model.a.ab.abb).toBe('abb');
+                expect(model.a.ab.abc).toBe('abc');
+                model.updateToAttic('a.ab');
+                model.clear('a.ab');
+                expect(model.a.ab.aba).toBe(false);
+                expect(model.a.ab.abb).toBe('yeah');
+                expect(model.a.ab.abc).toBe('no way');
+                model.restoreFromAttic('a.ab');
+                expect(model.a.ab.aba).toBe('aba');
+                expect(model.a.ab.abb).toBe('abb');
+                expect(model.a.ab.abc).toBe('abc');
+
+            });
+        });
+
+        describe('array props attic model', function() {
 
         var model;
 
@@ -91,7 +204,7 @@ describe('common.domain.BaseAtticModel', function() {
             // update
             model.prop1 = 'new value';
 
-            model.updateToAttic(model);
+            model.updateToAttic();
 
             expect(model.prop1).toBe('new value');
 
@@ -159,9 +272,9 @@ describe('common.domain.BaseAtticModel', function() {
 
                 var grundData = {somedata:'some grunddata'};
 
-                var IntygModel = BaseAtticModel.extend({
-                    init: function() {
-                        this._super('IntygModel', {
+                var IntygModel = BaseAtticModel._extend({
+                    init: function init() {
+                        init._super.call(this, 'IntygModel', {
 
                             form1: [new ModelAttr('avstangningSmittskydd', {defaultValue: false})],
 
@@ -214,15 +327,17 @@ describe('common.domain.BaseAtticModel', function() {
                         });
                     },
 
-                    update: function(content, parent) {
-                        if (parent) {
-                            parent.content = this;
-                        }
-                        this._super(content);
+                    update: function update(content) {
+                        //if (parent) {
+                        //    parent.content = this;
+                        //}
+                        update._super.call(this, content);
                     }
                 });
 
                 model = new IntygModel();
+                //console.log('model new : ' + JSON.stringify(model));
+
             });
 
 
@@ -231,6 +346,8 @@ describe('common.domain.BaseAtticModel', function() {
 
                 var content = {diagnosBeskrivning: 'diagnosBeskrivning', diagnosBeskrivning1: 'diagnosBeskrivning1'};
                 model.update(content);
+                //console.log('model after update : ' + JSON.stringify(model));
+
                 model.updateToAttic();
 
                 expect(model.isInAttic(model.properties.form2)).toBe(true);
@@ -277,6 +394,9 @@ describe('common.domain.BaseAtticModel', function() {
                 // --- check toSendModel
 
                 var send = model.toSendModel();
+
+                //console.log('model : ' + JSON.stringify(model));
+                //console.log('send : ' + JSON.stringify(send));
 
                 // check that send includes default values
                 expect(send.avstangningSmittskydd).toBe(false);
@@ -427,6 +547,8 @@ describe('common.domain.BaseAtticModel', function() {
 
         });
 
+
+    });
     });
 
 });

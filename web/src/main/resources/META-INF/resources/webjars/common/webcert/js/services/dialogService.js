@@ -217,7 +217,7 @@ angular.module('common').factory('common.dialogService',
                     result.resolve();
                 } else if(typeof result === 'function'){
                     //result();
-                    _runOnDialogDoneLoading(msgbox, result);
+                    _runOnDialogRemoved(msgbox, result);
                 }
             }, function() {
             });
@@ -229,6 +229,25 @@ angular.module('common').factory('common.dialogService',
             msgbox.model = options.model;
 
             return msgbox;
+        }
+
+        function _runOnDialogRemoved(modal, callback) {
+            modal.opened.then(function() {
+                function waitForModalToBeRemovedAndRunCallback() {
+                    var modalDialog = $('[modal-window]');
+                    if (modalDialog.length === 0) {
+                        callback();
+                    } else {
+                        $timeout(waitForModalToBeRemovedAndRunCallback, 100);
+                    }
+                }
+
+                $timeout(waitForModalToBeRemovedAndRunCallback);
+
+            }, function() {
+                // Failed to open the modal -> finished loading
+                callback();
+            });
         }
 
         function _runOnDialogDoneLoading(modal, callback) {

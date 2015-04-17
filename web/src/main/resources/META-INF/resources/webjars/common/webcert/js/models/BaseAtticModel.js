@@ -2,22 +2,22 @@ angular.module('common').factory('common.domain.BaseAtticModel',
     ['common.domain.ModelAttr', 'common.domain.BaseModel', 'common.domain.AtticService', function( ModelAttr, BaseModel, atticService) {
         'use strict';
 
-        var BaseAtticModel = BaseModel.extend({
-            init : function(name, properties){
-                this._super(name, properties);
-                atticService.addAtticModel(this);
+        var BaseAtticModel = BaseModel._extend({
+            init : function init (name, properties){
+                init._super.call(this, name, properties);
+                this.atticModel = atticService.addAtticModel(this);
             },
-            updateToAttic : function(properties){
+            updateToAttic : function updateToAttic(properties){
                 atticService.update(this, properties);
             },
-            restoreFromAttic : function(properties){
+            restoreFromAttic : function restoreFromAttic(properties){
                 atticService.restore(this, properties);
             },
-            isInAttic : function(properties){
+            isInAttic : function isInAttic(properties){
                 return atticService.isInAttic(this, properties);
             },
-            update : function(content, properties){
-                this._super(content, properties);
+            update : function update(content, properties){
+                update._super.call(this, content, properties);
                 if(this.updateCount === 1){
                     // update the attic
                     this.updateToAttic();
