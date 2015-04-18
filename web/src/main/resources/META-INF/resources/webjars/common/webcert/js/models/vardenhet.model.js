@@ -3,8 +3,6 @@ angular.module('common').factory(
     [ function() {
         'use strict';
 
-        var _vardenhetModel;
-
         /**
          * Constructor, with class name
          */
@@ -59,10 +57,9 @@ angular.module('common').factory(
             return new VardenhetModel();
         };
 
-        _vardenhetModel = VardenhetModel.build();
         /**
          * Return the constructor function VardenhetModel
          */
-        return _vardenhetModel;
+        return VardenhetModel;
 
     }]);

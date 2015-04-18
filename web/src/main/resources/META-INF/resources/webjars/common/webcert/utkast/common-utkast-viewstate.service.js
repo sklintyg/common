@@ -23,6 +23,9 @@ angular.module('common').service('common.UtkastViewStateService',
             this.isSigned = false;
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;
+
+            this.draftModel = undefined;
+            this.intygModel = undefined;
         };
 
         this.toggleShowComplete = function() {

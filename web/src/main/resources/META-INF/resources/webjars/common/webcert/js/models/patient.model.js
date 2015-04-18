@@ -2,7 +2,6 @@ angular.module('common').factory('common.Domain.PatientModel',
     [function() {
         'use strict';
 
-        var _patientModel;
         /**
          * Constructor, with class name
          */
@@ -37,10 +36,9 @@ angular.module('common').factory('common.Domain.PatientModel',
             return new PatientModel();
         };
 
-        _patientModel = PatientModel.build();
         /**
          * Return the constructor function PatientModel
          */
-        return _patientModel;
+        return PatientModel;
 
     }]);

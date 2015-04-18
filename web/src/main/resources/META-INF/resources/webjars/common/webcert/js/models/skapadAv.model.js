@@ -1,9 +1,7 @@
 angular.module('common').factory('common.Domain.SkapadAvModel',
     ['common.Domain.VardenhetModel',
-        function(vardenhetModel) {
+        function(VardenhetModel) {
             'use strict';
-
-            var _skapadAv;
 
             /**
              * Constructor, with class name
@@ -12,7 +10,7 @@ angular.module('common').factory('common.Domain.SkapadAvModel',
                 this.personId = undefined;
                 this.fullstandigtNamn = undefined;
                 this.forskrivarKod = undefined;
-                this.vardenhet = vardenhetModel;
+                this.vardenhet = VardenhetModel.build();
             }
 
             SkapadAv.prototype.update = function(skapadAv) {
@@ -30,10 +28,9 @@ angular.module('common').factory('common.Domain.SkapadAvModel',
                 return new SkapadAv();
             };
 
-            _skapadAv = SkapadAv.build();
             /**
              * Return the constructor function SkapadAv
              */
-            return _skapadAv;
+            return SkapadAv;
 
         }]);

@@ -1,16 +1,14 @@
 angular.module('common').factory('common.Domain.GrundDataModel',
     [ 'common.Domain.SkapadAvModel',
-        'common.Domain.PatientModel',  function(skapadAvModel, patientModel) {
+        'common.Domain.PatientModel',  function(SkapadAvModel, PatientModel) {
         'use strict';
-
-        var _grundData;
 
         /**
          * Constructor, with class name
          */
         function GrundDataModel() {
-            this.skapadAv = skapadAvModel;
-            this.patient = patientModel;
+            this.skapadAv = SkapadAvModel.build();
+            this.patient = PatientModel.build();
         }
 
         
@@ -28,11 +26,9 @@ angular.module('common').factory('common.Domain.GrundDataModel',
             return new GrundDataModel();
         };
 
-        _grundData = GrundDataModel.build();
-
         /**
          * Return the constructor function GrundDataModel
          */
-        return _grundData;
+        return GrundDataModel;
 
     }]);
