@@ -40,11 +40,17 @@ angular.module('common').factory('common.domain.AtticService',
                 return false;
             },
 
-            getProperties: function(model, properties) {
+            getProperties: function(model, properties, fromRestore) {
                 if(this.isString(properties)){
                     // work out the path
                     var cp = model._getPropertiesAndCurrent(properties);
-                    var am = this.atticModel._getPropertiesAndCurrent(properties);
+                    var am;
+                    if(fromRestore){
+                        am = {current:this._getAtticProp( properties)};
+                    } else {
+                        am = this.atticModel._getPropertiesAndCurrent(properties);
+                    }
+
                     cp.atticModel = am.current;
                     return cp;
                 } else if( properties !== undefined ){
@@ -55,6 +61,33 @@ angular.module('common').factory('common.domain.AtticService',
                     properties = model.properties;
                 }
                 return {props:properties,current:model, atticModel:this.atticModel};
+            },
+
+            _getAtticProp: function( propertyPath){
+
+                var atticProp = this.atticModel;
+                var i = propertyPath.lastIndexOf('.');
+                var nc;
+                var ps = this.atticModel.properties;
+                if(i > -1 ){
+                    var props = propertyPath.split('.');
+                    for(var j = 0; j<props.length; j++){
+                        var prop = props[j];
+                        ps = ps[prop];
+                        if(ps.property === undefined) {
+                            nc = atticProp[prop];
+                            if(nc){
+                                atticProp = nc;
+                            }
+                        }
+                    }
+                } else {
+                    nc = atticProp[propertyPath];
+                    if(nc){
+                        atticProp = nc;
+                    }
+                }
+                return atticProp;
             },
 
             update : function(model, properties) {
@@ -96,7 +129,7 @@ angular.module('common').factory('common.domain.AtticService',
 
             restore : function(model, properties) {
 
-                var cp = this.getProperties(model, properties);
+                var cp = this.getProperties(model, properties, true);
 
                 var thisRestore = this._restore;
                 this._restore(cp.current, cp.props, cp.atticModel, thisRestore);
@@ -107,7 +140,9 @@ angular.module('common').factory('common.domain.AtticService',
                 //console.log('++ model : ' + JSON.stringify(model));
                 //console.log('++ properties : ' + JSON.stringify(properties));
                 //console.log('++ atticModel : ' + JSON.stringify(atticModel));
-
+                if(properties instanceof ModelAttr){
+                    properties = [properties];
+                }
                 angular.forEach(properties, function(prop, key){
                     //console.log('++ key : ' + key + ', prop ' + JSON.stringify(prop));
 

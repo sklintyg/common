@@ -4,9 +4,9 @@
 angular.module('common').factory('common.ManageCertView',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.IntygEditViewStateService',
+        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            CertificateService, dialogService, messageService, statService, UserModel, CommonViewState) {
+            CertificateService, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus) {
             'use strict';
 
             /**
@@ -15,25 +15,34 @@ angular.module('common').factory('common.ManageCertView',
              * @param onSuccess
              * @private
              */
-            function _load( intygsTyp, onSuccess, model) {
+            function _load(intygsTyp, draftModel) {
                 CommonViewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
 
-                    if(model && model.draftModel){
-                        model.draftModel.update(data);
+                    if(draftModel){
+                        draftModel.update(data);
                     }
 
                     CommonViewState.error.activeErrorMessageKey = null;
+                    CommonViewState.error.saveErrorMessageKey = null;
 
-                    if (onSuccess !== undefined) {
+                    CommonViewState.isSigned = draftModel.isSigned();
+                    CommonViewState.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
 
-                        if (intygsTyp !== 'fk7263') {
-                            onSuccess(data);
-                        }
-                        else {
-                            onSuccess(model);
-                        }
+                    // check that the certs status is not signed
+                    if(draftModel.isSigned()){
+                        // just change straight to the intyg
+                        $location.url('/intyg/' + intygsTyp + '/' + draftModel.content.id);
                     }
+                    else {
+                        $timeout(function() {
+                            wcFocus('firstInput');
+                            $rootScope.$broadcast('intyg.loaded', draftModel.content);
+                            $rootScope.$broadcast(intygsTyp + '.loaded', draftModel.content);
+                            CommonViewState.doneLoading = true;
+                        }, 10);
+                    }
+
                 }, function(error) {
                     CommonViewState.doneLoading = true;
                     CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);
@@ -63,7 +72,6 @@ angular.module('common').factory('common.ManageCertView',
                 $rootScope.$broadcast('saveRequest', deferred);
                 deferred.promise.then(function(saveIntygModel) {
                     CertificateService.saveDraft(saveIntygModel.intygsId, saveIntygModel.intygsTyp, saveIntygModel.cert,
-                        autoSave,
                         function(data) {
 
                             var result = {};

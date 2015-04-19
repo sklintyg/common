@@ -1,8 +1,8 @@
-angular.module('common').factory('common.IntygEditViewStateService',
+angular.module('common').service('common.UtkastViewStateService',
     function($stateParams) {
         'use strict';
 
-        function CommonViewState() {
+        this.reset = function() {
             this.error = {
                 activeErrorMessageKey : null,
                 saveErrorMessageKey : null
@@ -12,8 +12,10 @@ angular.module('common').factory('common.IntygEditViewStateService',
                 typ : undefined
             };
             this.doneLoading = false;
-            this.showComplete = false;
             this.collapsedHeader = false;
+
+            // TODO: should go into intyg
+            this.showComplete = false;
             this.hsaInfoMissing = false;
             this.vidarebefordraInProgress = false;
             this.hospName = $stateParams.hospName;
@@ -21,19 +23,20 @@ angular.module('common').factory('common.IntygEditViewStateService',
             this.isSigned = false;
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;
-        }
 
-        CommonViewState.prototype.toggleShowComplete = function() {
+            this.draftModel = undefined;
+            this.intygModel = undefined;
+        };
+
+        this.toggleShowComplete = function() {
             this.showComplete = !this.showComplete;
             return this.showComplete;
         };
 
-        CommonViewState.prototype.toggleCollapsedHeader = function() {
+        this.toggleCollapsedHeader = function() {
             this.collapsedHeader = !this.collapsedHeader;
         };
 
-        var _viewState = new CommonViewState();
-
-        return _viewState;
+        this.reset();
     }
 );
