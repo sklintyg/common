@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import iso.v21090.dt.v1.II;
-
 import org.apache.commons.lang3.CharUtils;
 import org.joda.time.LocalDate;
 
@@ -27,15 +25,16 @@ import se.inera.certificate.model.common.internal.GrundData;
 import se.inera.certificate.model.common.internal.Utlatande;
 import se.inera.certificate.model.util.Iterables;
 import se.inera.certificate.modules.support.api.CertificateHolder;
-import se.inera.intyg.common.schemas.Constants;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
+import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
+import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
+import se.inera.intyg.common.schemas.Constants;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
-import se.inera.webcert.medcertqa.v1.LakarutlatandeEnkelType;
-import se.inera.webcert.medcertqa.v1.VardAdresseringsType;
+import iso.v21090.dt.v1.II;
 
 /**
  * @author andreaskaltenbach

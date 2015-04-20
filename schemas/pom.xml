@@ -53,7 +53,7 @@
         <version>${common.version}</version>
       </dependency>
 
-      <!-- Schemas -->
+      <!-- RIVTA Schemas -->
       <dependency>
         <groupId>se.riv.clinicalprocess.healthcond.certificate</groupId>
         <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
@@ -64,6 +64,8 @@
         <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
         <version>${insuranceprocess-healthreporting.version}</version>
       </dependency>
+
+      <!-- Intyg Schemas -->
       <dependency>
         <groupId>se.inera.intyg.clinicalprocess.healthcond.certificate</groupId>
         <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
@@ -93,7 +95,7 @@
       <artifactId>logging-util</artifactId>
     </dependency>
 
-    <!-- Schemas -->
+    <!-- RIVTA Schemas -->
     <dependency>
       <groupId>se.riv.clinicalprocess.healthcond.certificate</groupId>
       <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
@@ -102,6 +104,8 @@
       <groupId>se.riv.insuranceprocess.healthreporting</groupId>
       <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
     </dependency>
+
+    <!-- Intyg Schemas -->
     <dependency>
       <groupId>se.inera.intyg.clinicalprocess.healthcond.certificate</groupId>
       <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>

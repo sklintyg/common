@@ -1,8 +1,9 @@
 package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.utils;
 
-import se.inera.certificate.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
-import se.inera.certificate.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
-import se.inera.certificate.clinicalprocess.healthcond.certificate.v1.ResultType;
+import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
+import se.riv.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.v1.ResultType;
+
 
 /**
  * @author andreaskaltenbach

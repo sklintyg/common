@@ -20,10 +20,10 @@ package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.con
 
 import org.joda.time.LocalDate;
 
-import se.inera.certificate.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 import se.inera.certificate.model.util.Iterables;
 import se.inera.certificate.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.builder.ClinicalProcessCertificateMetaTypeBuilder;
+import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 
 /**
  * @author andreaskaltenbach

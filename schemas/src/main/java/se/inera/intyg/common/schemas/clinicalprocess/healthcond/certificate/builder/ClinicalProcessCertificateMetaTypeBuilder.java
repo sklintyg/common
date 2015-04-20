@@ -3,9 +3,10 @@ package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.bui
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
-import se.inera.certificate.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
-import se.inera.certificate.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
-import se.inera.certificate.clinicalprocess.healthcond.certificate.v1.StatusType;
+import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
+import se.riv.clinicalprocess.healthcond.certificate.v1.StatusType;
+import se.riv.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
+
 
 public class ClinicalProcessCertificateMetaTypeBuilder {
 

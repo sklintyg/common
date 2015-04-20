@@ -1,12 +1,13 @@
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.validator;
 
+import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
 import se.inera.intyg.common.schemas.Constants;
-import se.inera.webcert.medcertqa.v1.VardAdresseringsType;
 
 import java.util.List;
+
 
 /**
  * @author andreaskaltenbach
