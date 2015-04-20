@@ -18,32 +18,34 @@ angular.module('common').directive('wcMaxlength',
             require: 'ngModel',
             link: function(scope, element, attrs, controller) {
 
-                var counterName = 'charsRemaining' + attrs.id;
-                counterName = counterName.replace('.', '');
-                counterName = counterName.replace('-', '');
-                scope[counterName] = attrs.maxlength;
+                scope.$evalAsync(function() {
+                    var counterName = 'charsRemaining' + attrs.id;
+                    counterName = counterName.replace('.', '');
+                    counterName = counterName.replace('-', '');
+                    scope[counterName] = attrs.maxlength;
 
-                var counter = angular.
-                    element('<div class="counter">Tecken kvar: {{' + counterName + '}}</div>');
-                $compile(counter)(scope);
-                element.parent().append(counter);
+                    var counter = angular.
+                        element('<div class="counter">Tecken kvar: {{' + counterName + '}}</div>');
+                    $compile(counter)(scope);
+                    element.parent().append(counter);
 
-                function limitLength(text) {
-                    if (text === undefined) {
-                        return;
+                    function limitLength(text) {
+                        if (text === undefined) {
+                            return;
+                        }
+                        if (text.length > attrs.maxlength) {
+                            var transformedInput = text.substring(0, attrs.maxlength);
+                            controller.$setViewValue(transformedInput);
+                            controller.$render();
+                            return transformedInput;
+                        }
+                        scope[counterName] = attrs.maxlength - text.length;
+                        return text;
                     }
-                    if (text.length > attrs.maxlength) {
-                        var transformedInput = text.substring(0, attrs.maxlength);
-                        controller.$setViewValue(transformedInput);
-                        controller.$render();
-                        return transformedInput;
-                    }
-                    scope[counterName] = attrs.maxlength - text.length;
-                    return text;
-                }
 
-                controller.$formatters.unshift(limitLength);
-                controller.$parsers.unshift(limitLength);
+                    controller.$formatters.unshift(limitLength);
+                    controller.$parsers.unshift(limitLength);
+                });
             }
         };
     });

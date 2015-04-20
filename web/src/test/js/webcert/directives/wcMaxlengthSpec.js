@@ -30,7 +30,7 @@ describe('wcMaxlength', function() {
         $scope.$digest();
         expect(form.html()).toContain('Tecken kvar: 7'); // 20 - 13
     });
-    it('should limit model to limit', function() {
+    it('should limit model to set limit', function() {
         $scope.form.test.$setViewValue('this text is very long, extremely long even'); // 44 characters
         $scope.$digest();
         expect(form.html()).toContain('Tecken kvar: 0'); // 20 - 13
