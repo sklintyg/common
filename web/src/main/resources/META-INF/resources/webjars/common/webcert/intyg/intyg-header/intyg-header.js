@@ -1,15 +1,16 @@
 /* global document */
 angular.module('common').controller('common.IntygHeader',
     ['$scope', '$log', '$stateParams', 'common.messageService', 'webcert.ManageCertificate', 'common.ManageCertView',
-        'common.IntygCopyRequestModel', 'common.User',
-        function($scope, $log, $stateParams, messageService, ManageCertificate, ManageCertView, IntygCopyRequestModel, User) {
+        'common.IntygCopyRequestModel', 'common.User', 'common.IntygViewStateService',
+        function($scope, $log, $stateParams,
+            messageService, ManageCertificate, ManageCertView, IntygCopyRequestModel, User, CommonViewState) {
             'use strict';
 
             $scope.intygstyp = $stateParams.certificateType;
+            $scope.viewState = CommonViewState;
 
-            $scope.send = function(cert) {
-                cert.intygType = $stateParams.certificateType;
-                ManageCertificate.send( cert, 'FK', $scope.intygstyp+'.label.send', function() {
+            $scope.send = function() {
+                ManageCertificate.send($scope.cert.id, $stateParams.certificateType, CommonViewState.defaultRecipient, $scope.intygstyp+'.label.send', function() {
                     $scope.$emit('loadCertificate');
                 });
             };
@@ -44,7 +45,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.print = function(cert) {
-                if ($scope.certProperties.isRevoked) {
+                if (CommonViewState.intyg.isRevoked) {
                     ManageCertView.printDraft(cert.id, $stateParams.certificateType);
                 } else {
                     document.pdfForm.submit();
