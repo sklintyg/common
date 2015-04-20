@@ -211,6 +211,38 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
         });
     }
 
+    function _addStrictDateParser(formElement) {
+
+        function parseDateStrict(viewValue) {
+            if (!viewValue) {
+                formElement.$setValidity('date', true);
+                return null;
+            }
+            else if (_isDate(viewValue)) {
+                formElement.$setValidity('date', true);
+                return _convertDateToISOString(viewValue);
+            }
+            else if ((/[0-9]{8}/).test(viewValue)) {
+                // Allow date input without dashes
+                var checkDate = moment(viewValue, 'YYYYMMDD');
+                if (checkDate.isValid()) {
+                    viewValue = checkDate.format('YYYY-MM-DD');
+                    formElement.$setValidity('date', true);
+                    formElement.$setViewValue(viewValue);
+                    formElement.$render();
+                    return viewValue;
+                }
+            }
+            else {
+                formElement.$setValidity('date', false);
+                return undefined;
+            }
+        }
+
+        // Replace parsers with only this one
+        formElement.$parsers = [parseDateStrict];
+    }
+
     return {
         isDate: _isDate,
         toMoment: _toMoment,
@@ -225,7 +257,8 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
         isBeforeOrEqual : _isBeforeOrEqual,
         isSame : _isSame,
         todayAsYYYYMMDD :_todayAsYYYYMMDD,
-        addDateParserFormatter : _addDateParserFormatter
+        addDateParserFormatter : _addDateParserFormatter,
+        addStrictDateParser : _addStrictDateParser
     };
 
 });
