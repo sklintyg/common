@@ -90,7 +90,7 @@ angular.module('common').factory('common.ManageCertView',
                         }
                     });
 
-                    CertificateService.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.typ,
+                    CertificateService.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
                         intygState.viewState.intygModel.toSendModel(),
                         function(data) {
 
