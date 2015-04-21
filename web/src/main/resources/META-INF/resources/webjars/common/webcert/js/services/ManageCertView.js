@@ -63,61 +63,81 @@ angular.module('common').factory('common.ManageCertView',
              * @param autoSave
              * @private
              */
-            function _save(autoSave) {
-                if (autoSave && CertificateService.isSaveDraftInProgress()) {
+            function _save(extras) {
+                if (CertificateService.isSaveDraftInProgress()) {
                     return false;
                 }
 
                 var deferred = $q.defer();
                 $rootScope.$broadcast('saveRequest', deferred);
-                deferred.promise.then(function(saveIntygModel) {
-                    CertificateService.saveDraft(saveIntygModel.intygsId, saveIntygModel.intygsTyp, saveIntygModel.cert,
+
+                deferred.promise.then(function(intygState) {
+
+                    var saveComplete = $q.defer();
+                    saveComplete.promise.then(function(result) {
+                        // save success
+                        intygState.viewState.common.validationMessages = result.validationMessages;
+                        intygState.viewState.common.validationMessagesGrouped = result.validationMessagesGrouped;
+                        intygState.viewState.common.error.saveErrorMessageKey = null;
+
+                    }, function(result) {
+                        // save failed
+                        intygState.formFail();
+                        intygState.viewState.common.error.saveErrorMessageKey = result.errorMessageKey;
+                    }).finally(function(){
+                        if(extras && extras.destroy ){
+                            extras.destroy();
+                        }
+                    });
+
+                    CertificateService.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.typ,
+                        intygState.viewState.intygModel.toSendModel(),
                         function(data) {
 
-                            var result = {};
-                            result.validationMessagesGrouped = {};
-                            result.validationMessages = [];
+                                var result = {};
+                                result.validationMessagesGrouped = {};
+                                result.validationMessages = [];
 
-                            if (data.status === 'COMPLETE') {
-                                CommonViewState.intyg.isComplete = true;
-                                saveIntygModel.saveComplete.resolve(result);
-                            } else {
-                                CommonViewState.intyg.isComplete = false;
+                                if (data.status === 'COMPLETE') {
+                                    CommonViewState.intyg.isComplete = true;
+                                    saveComplete.resolve(result);
+                                } else {
+                                    CommonViewState.intyg.isComplete = false;
 
-                                if (!CommonViewState.showComplete) {
-                                    result.validationMessages = data.messages.filter(function(message) {
-                                        return (message.type !== 'EMPTY');
-                                    });
-                                }
-                                else {
-                                    result.validationMessages = data.messages;
-                                }
-
-                                angular.forEach(result.validationMessages, function(message) {
-                                    var field = message.field;
-                                    var parts = field.split('.');
-                                    var section;
-                                    if (parts.length > 0) {
-                                        section = parts[0].toLowerCase();
-
-                                        if (result.validationMessagesGrouped[section]) {
-                                            result.validationMessagesGrouped[section].push(message);
-                                        } else {
-                                            result.validationMessagesGrouped[section] = [message];
-                                        }
+                                    if (!CommonViewState.showComplete) {
+                                        result.validationMessages = data.messages.filter(function(message) {
+                                            return (message.type !== 'EMPTY');
+                                        });
                                     }
-                                });
-                                saveIntygModel.saveComplete.resolve(result);
+                                    else {
+                                        result.validationMessages = data.messages;
+                                    }
+
+                                    angular.forEach(result.validationMessages, function(message) {
+                                        var field = message.field;
+                                        var parts = field.split('.');
+                                        var section;
+                                        if (parts.length > 0) {
+                                            section = parts[0].toLowerCase();
+
+                                            if (result.validationMessagesGrouped[section]) {
+                                                result.validationMessagesGrouped[section].push(message);
+                                            } else {
+                                                result.validationMessagesGrouped[section] = [message];
+                                            }
+                                        }
+                                    });
+                                    saveComplete.resolve(result);
+                                }
+                            }, function(error) {
+                                // Show error message if save fails
+                                var result = {
+                                    errorMessageKey: checkSetErrorSave(error.errorCode)
+                                };
+                                saveComplete.reject(result);
                             }
-                        }, function(error) {
-                            // Show error message if save fails
-                            var result = {
-                                errorMessageKey: checkSetErrorSave(error.errorCode)
-                            };
-                            saveIntygModel.saveComplete.reject(result);
-                        }
-                    );
-                });
+                        );
+            });
                 return true;
             }
 
