@@ -23,9 +23,18 @@ angular.module('common').factory('common.domain.BaseModel',
                         }
                     } else if (prop instanceof ModelAttr) {
                         if(extras.key !== undefined){
-                            current[extras.key] = prop.defaultValue;
+                            if(extras.self.isObject(prop.defaultValue)){
+                                current[extras.key] = angular.copy(prop.defaultValue);
+                            } else {
+                                current[extras.key] = prop.defaultValue;
+                            }
+
                         } else {
-                            current[prop.property] = prop.defaultValue;
+                            if(extras.self.isObject(prop.defaultValue)){
+                                current[prop.property] = angular.copy(prop.defaultValue);
+                            } else {
+                                current[prop.property] = prop.defaultValue;
+                            }
                         }
                     } else if(extras && extras.key !== undefined && !extras.self.isNumber(extras.key)){
                         if(extras.self.isObject(prop)){

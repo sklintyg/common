@@ -159,7 +159,6 @@ describe('common.domain.BaseAtticModel', function() {
 
                 //console.log('---------------------------- clear model');
                 model.clear('a.aa');
-
                 expect(model.a.aa.aaa).toBe(false);
                 expect(model.a.aa.aab).toBe('hi');
                 expect(model.a.ab.aba).toBe(true);
@@ -171,6 +170,11 @@ describe('common.domain.BaseAtticModel', function() {
                 expect(model.a.aa.aaa).toBe('update aaa');
                 expect(model.a.aa.aab).toBe('update aab');
                 expect(model.a.ab.aba).toBe(true);
+
+                model.clear('a.aa');
+                expect(model.a.aa.aaa).toBe(false);
+                expect(model.a.aa.aab).toBe('hi');
+
 
                 model.update({aba:'aba', abb:'abb', abc:'abc'}, 'a.ab');
                 expect(model.a.ab.aba).toBe('aba');
