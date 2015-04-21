@@ -63,9 +63,10 @@ I de fall patienten har ändrat namn eller adress så uppdateras den information
 
       <div class="alert alert-info alert-column" ng-if="!viewState.intyg.isRevoked">
         <strong>Status:</strong>
-        <span ng-if="viewState.intyg.isSent" id="certificate-is-sent-to-recipient-message-text" message key="fk7263.label.status.sent"></span>
-        <span ng-if="!viewState.intyg.isSent" id="certificate-is-sent-to-it-message-text" message key="fk7263.label.status.signed"></span>
+        <span ng-if="certProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.sent"></span>
+        <span ng-if="!certProperties.isSent" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
       </div>
+
       <div ng-if="viewState.intyg.isRevoked" id="certificate-is-revoked-message-text" class="alert alert-warning"
            style="margin-right: 20px; max-width: 530px;">Intyget är makulerat
       </div>
