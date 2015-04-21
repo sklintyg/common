@@ -215,6 +215,8 @@ angular.module('common').factory('common.dialogService',
                     options.callback(result);
                 } else if(result && result.resolve !== undefined){
                     result.resolve();
+                } else if(result.direct) {
+                    result.direct();
                 } else if(typeof result === 'function'){
                     //result();
                     _runOnDialogRemoved(msgbox, result);
