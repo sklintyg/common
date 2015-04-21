@@ -8,6 +8,8 @@ angular.module('common').service('common.IntygViewStateService',
             this.inlineErrorMessageKey = null;
             this.showTemplate = true;
 
+            this.deleted = false;
+
             this.intyg = {
                 type: undefined,
                 defaultRecipient: undefined,

@@ -64,7 +64,7 @@ angular.module('common').controller('common.UtkastHeader',
                             if (featureService.isFeatureActive('franJournalsystem')) {
                                 CommonViewState.deleted = true;
                                 CommonViewState.error.activeErrorMessageKey = 'error';
-                                draftDeleteDialog.close({direct:back});
+                                draftDeleteDialog.close();
                             } else {
                                 draftDeleteDialog.close({direct:back});
                             }
