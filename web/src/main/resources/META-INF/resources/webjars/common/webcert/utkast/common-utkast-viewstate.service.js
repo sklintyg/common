@@ -9,7 +9,7 @@ angular.module('common').service('common.UtkastViewStateService',
             };
             this.intyg = {
                 isComplete : false,
-                typ : undefined
+                type : undefined
             };
             this.doneLoading = false;
             this.collapsedHeader = false;

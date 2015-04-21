@@ -57,7 +57,7 @@ angular.module('common').controller('common.UtkastHeader',
                             $window.doneLoading = true;
                             $window.history.back();
                         };
-                        CertificateService.discardDraft($stateParams.certificateId, CommonViewState.intyg.typ, function() {
+                        CertificateService.discardDraft($stateParams.certificateId, CommonViewState.intyg.type, function() {
                             dialogModel.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
@@ -94,7 +94,7 @@ angular.module('common').controller('common.UtkastHeader',
              * Print draft
              */
             $scope.print = function() {
-                ManageCertView.printDraft( $scope.cert.id, CommonViewState.intyg.typ );
+                ManageCertView.printDraft($scope.cert.id, CommonViewState.intyg.type);
             };
         }
     ]

@@ -9,7 +9,7 @@ angular.module('common').service('common.IntygViewStateService',
             this.showTemplate = true;
 
             this.intyg = {
-                typ: undefined,
+                type: undefined,
                 defaultRecipient: undefined,
                 isSent: false,
                 isRevoked: false,
