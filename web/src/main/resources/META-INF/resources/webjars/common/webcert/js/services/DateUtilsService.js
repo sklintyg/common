@@ -184,18 +184,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
         formElement.$parsers.unshift(function (viewValue) {
 
             viewValue = _convertDateToISOString(viewValue);
-
-            var transformedInput = viewValue;
-            if(_isDate(viewValue)){
-                transformedInput = $filter('date')(viewValue, 'yyyy-MM-dd', 'GMT+0100');
-            }
-
-            if (transformedInput !== viewValue) {
-                formElement.$setViewValue(transformedInput);
-                formElement.$render();
-            }
-
-            return transformedInput;
+            return viewValue;
         });
 
         if (formElement.$formatters.length > 0) {
