@@ -204,10 +204,10 @@ describe('DateUtilsService', function() {
     describe('#daysBetween', function() {
 
         it ('can check that we can get days between two dates', function () {
-            var startDate = new Date(2015, 0, 5);
+            var startDate = moment('2015-01-05');
             var startMoment = DateUtilsService.toMoment(startDate);
 
-            var endDate = new Date(2015, 4, 4);
+            var endDate = moment('2015-05-05');
             var endMoment = DateUtilsService.toMoment(endDate);
             var days = DateUtilsService.daysBetween(startMoment, endMoment);
             expect(days).toBe(120);
@@ -216,6 +216,17 @@ describe('DateUtilsService', function() {
         it ('can check that we get false if we provide no dates', function () {
             var days = DateUtilsService.daysBetween(null, null);
             expect(days).toBeFalsy();
+        });
+
+
+        it ('can check that we can get days between two dates, webcert-1721', function () {
+            var startDate = moment('2015-04-21');
+            var startMoment = DateUtilsService.toMoment(startDate);
+
+            var endDate = moment('2015-05-22');
+            var endMoment = DateUtilsService.toMoment(endDate);
+            var days = DateUtilsService.daysBetween(startMoment, endMoment);
+            expect(days).toBe(31);
         });
 
     });

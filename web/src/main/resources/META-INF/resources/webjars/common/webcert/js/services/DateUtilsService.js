@@ -173,7 +173,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
         if(!startMoment || !endMoment){
             return false;
         }
-        return endMoment.diff(startMoment, 'days') + 1;
+        return endMoment.diff(startMoment, 'days');
     }
 
     function _addDateParserFormatter(formElement) {
