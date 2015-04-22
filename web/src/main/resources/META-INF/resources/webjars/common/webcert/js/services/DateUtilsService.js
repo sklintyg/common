@@ -133,11 +133,11 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
 
     function _isBeforeOrEqual(moment1, moment2) {
         return moment1.isBefore(moment2) || moment1.isSame(moment2, 'day');
-    };
+    }
 
     function _isAfterOrEqual(moment1, moment2) {
         return moment1.isAfter(moment2) || moment1.isSame(moment2, 'day');
-    };
+    }
 
     function _isSame(moment1, moment2) {
         if(moment1 && moment2 ){
@@ -146,7 +146,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
             return false;
         }
 
-    };
+    }
 
     /**
      * Checks whether the two dates are within the specific month range.

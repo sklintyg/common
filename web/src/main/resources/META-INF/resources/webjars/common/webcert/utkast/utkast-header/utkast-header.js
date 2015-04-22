@@ -64,15 +64,15 @@ angular.module('common').controller('common.UtkastHeader',
                             if (featureService.isFeatureActive('franJournalsystem')) {
                                 CommonViewState.deleted = true;
                                 CommonViewState.error.activeErrorMessageKey = 'error';
-                                draftDeleteDialog.close(back);
+                                draftDeleteDialog.close();
                             } else {
-                                draftDeleteDialog.close(back);
+                                draftDeleteDialog.close({direct:back});
                             }
                         }, function(error) {
                             dialogModel.acceptprogressdone = true;
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
                                 statService.refreshStat(); // Update statistics to reflect change
-                                draftDeleteDialog.close(back);
+                                draftDeleteDialog.close({direct:back});
                             } else {
                                 dialogModel.showerror = true;
                                 if (error === '') {

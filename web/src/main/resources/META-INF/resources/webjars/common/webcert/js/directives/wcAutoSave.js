@@ -14,8 +14,8 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.ManageCert
                 var lastSave = null;
                 var expression = $attrs.wcAutoSave || 'true';
 
-                var save = function() {
-                    return ManageCertView.save(true);
+                var save = function(extras) {
+                    return ManageCertView.save(extras);
                 };
 
                 var saveFunction = function() {
@@ -52,7 +52,7 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.ManageCert
                 // When leaving the view perform save if needed and cancel any outstanding save request.
                 $scope.$on('$destroy', function() {
                     if (form.$dirty) {
-                        save();
+                        save({autoSave: true, destroy:$scope.destroyList});
                     }
                     $timeout.cancel(savePromise);
                 });

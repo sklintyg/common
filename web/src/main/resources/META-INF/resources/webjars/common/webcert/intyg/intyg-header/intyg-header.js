@@ -10,7 +10,8 @@ angular.module('common').controller('common.IntygHeader',
             $scope.viewState = CommonViewState;
 
             $scope.send = function() {
-                ManageCertificate.send($scope.cert.id, $stateParams.certificateType, CommonViewState.defaultRecipient, $scope.intygstyp+'.label.send', function() {
+                ManageCertificate.send($scope.cert.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
+                         $scope.intygstyp+'.label.send', $scope.intygstyp+'.label.send.body', function() {
                     $scope.$emit('loadCertificate');
                 });
             };
