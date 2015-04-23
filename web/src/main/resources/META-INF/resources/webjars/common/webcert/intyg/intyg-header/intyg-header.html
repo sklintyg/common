@@ -40,9 +40,7 @@
             </button>
             <button id="copyBtn" class="btn btn-info" ng-if="!viewState.intyg.isRevoked && !isQaOnly" ng-click="copy(cert)"
                     wc-feature-active feature="kopieraIntyg" intygstyp="{{intygstyp}}"
-                    title="Kopiera intyg innebär att en kopia skapas av det befintliga intyget och med samma information.
-I de fall patienten har ändrat namn eller adress så uppdateras den informationen. Uppgifterna i intygsutkastet går att
-ändra innan det signeras. Kopiera intyg kan användas exempelvis vid förlängning av en sjukskrivning.">
+                    title="{{copyBtnTooltipText}}">
               Kopiera
             </button>
             <button id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.intyg.isRevoked && !isQaOnly && user.lakare" ng-click="makulera(cert)"

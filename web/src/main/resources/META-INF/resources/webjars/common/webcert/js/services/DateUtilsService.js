@@ -173,42 +173,45 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
         if(!startMoment || !endMoment){
             return false;
         }
-        return endMoment.diff(startMoment, 'days') + 1;
+        return endMoment.diff(startMoment, 'days');
     }
 
     function _addDateParserFormatter(formElement) {
-        if (formElement.$parsers.length > 1) {
-            formElement.$parsers.shift();
-        }
 
-        formElement.$parsers.unshift(function (viewValue) {
-
+        function parseDateLoose(viewValue) {
             viewValue = _convertDateToISOString(viewValue);
-
-            var transformedInput = viewValue;
-            if(_isDate(viewValue)){
-                transformedInput = $filter('date')(viewValue, 'yyyy-MM-dd', 'GMT+0100');
+            if (_isDate(viewValue)) {
+                formElement.$setValidity('date', true);
+            }
+            else if ((/[0-9]{8}/).test(viewValue)) {
+                // Allow date input without dashes
+                var checkDate = moment(viewValue, 'YYYYMMDD');
+                if (checkDate.isValid()) {
+                    viewValue = checkDate.format('YYYY-MM-DD');
+                    formElement.$setValidity('date', true);
+                    formElement.$setViewValue(viewValue);
+                    formElement.$render();
+                    return viewValue;
+                }
+            }
+            else {
+                formElement.$setValidity('date', false);
+                return viewValue;
             }
 
-            if (transformedInput !== viewValue) {
-                formElement.$setViewValue(transformedInput);
-                formElement.$render();
-            }
-
-            return transformedInput;
-        });
-
-        if (formElement.$formatters.length > 0) {
-            formElement.$formatters.shift();
+            return viewValue;
         }
 
-        formElement.$formatters.unshift(function (modelValue) {
+        // Replace parsers with only this one
+        formElement.$parsers = [parseDateLoose];
+
+        formElement.$formatters = [function (modelValue) {
             if (modelValue) {
                 // convert date to iso
                 modelValue = _convertDateToISOString(modelValue);
             }
             return modelValue;
-        });
+        }];
     }
 
     function _addStrictDateParser(formElement) {

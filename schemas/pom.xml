@@ -25,14 +25,14 @@
     <rivta-clinicalprocess.version>0-SNAPSHOT</rivta-clinicalprocess.version>
     <rivta-clinicalprocess.version.range>(,1.1.0]</rivta-clinicalprocess.version.range>
 
-    <intyg-insuranceprocess.version>0-SNAPSHOT</intyg-insuranceprocess.version>
-    <intyg-insuranceprocess.version.range>(,1.0.0]</intyg-insuranceprocess.version.range>
+    <rivta-insuranceprocess.version>0-SNAPSHOT</rivta-insuranceprocess.version>
+    <rivta-insuranceprocess.version.range>(,1.1.0]</rivta-insuranceprocess.version.range>
 
-    <intygstjansten-rivta-clinicalprocess.version>0-SNAPSHOT</intygstjansten-rivta-clinicalprocess.version>
-    <intygstjansten-rivta-clinicalprocess.version.range>(,1.1.0]</intygstjansten-rivta-clinicalprocess.version.range>
+    <intyg-clinicalprocess.version>0-SNAPSHOT</intyg-clinicalprocess.version>
+    <intyg-clinicalprocess.version.range>(,1.1.0]</intyg-clinicalprocess.version.range>
 
     <intyg-insuranceprocess.version>0-SNAPSHOT</intyg-insuranceprocess.version>
-    <intyg-insuranceprocess.version.range>(,1.0.0]</intyg-insuranceprocess.version.range>
+    <intyg-insuranceprocess.version.range>(,1.1.0]</intyg-insuranceprocess.version.range>
 
     <intyg-transportstyrelsen.version>0-SNAPSHOT</intyg-transportstyrelsen.version>
     <intyg-transportstyrelsen.version.range>(,1.0.0]</intyg-transportstyrelsen.version.range>
@@ -62,14 +62,14 @@
       <dependency>
         <groupId>se.riv.insuranceprocess.healthreporting</groupId>
         <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
-        <version>${intyg-insuranceprocess.version}</version>
+        <version>${rivta-insuranceprocess.version}</version>
       </dependency>
 
       <!-- Intyg Schemas -->
       <dependency>
         <groupId>se.inera.intyg.clinicalprocess.healthcond.certificate</groupId>
         <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
-        <version>${intygstjansten-rivta-clinicalprocess.version}</version>
+        <version>${intyg-clinicalprocess.version}</version>
       </dependency>
       <dependency>
         <groupId>se.inera.intyg.insuranceprocess.healthreporting</groupId>
@@ -142,8 +142,8 @@
           <includeProperties>
             common.version,
             rivta-clinicalprocess.version,
-            intyg-insuranceprocess.version,
-            intygstjansten-rivta-clinicalprocess.version,
+            rivta-insuranceprocess.version,
+            intyg-clinicalprocess.version,
             intyg-insuranceprocess.version,
             intyg-transportstyrelsen.version
           </includeProperties>
@@ -157,12 +157,12 @@
               <version>${rivta-clinicalprocess.version.range}</version>
             </property>
             <property>
-              <name>intyg-insuranceprocess.version</name>
-              <version>${intyg-insuranceprocess.version.range}</version>
+              <name>rivta-insuranceprocess.version</name>
+              <version>${rivta-insuranceprocess.version.range}</version>
             </property>
             <property>
-              <name>intygstjansten-rivta-clinicalprocess.version</name>
-              <version>${intygstjansten-rivta-clinicalprocess.version.range}</version>
+              <name>intyg-clinicalprocess.version</name>
+              <version>${intyg-clinicalprocess.version.range}</version>
             </property>
             <property>
               <name>intyg-insuranceprocess.version</name>

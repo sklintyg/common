@@ -1,8 +1,8 @@
 angular.module('common').controller('common.UtkastHeader',
-    ['$rootScope', '$scope', '$log', '$anchorScroll', '$state', '$stateParams', '$location', '$q', '$window',
+    ['$rootScope', '$scope', '$log', '$anchorScroll', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
         'common.messageService', 'common.ManageCertView', 'common.CertificateService', 'common.statService',
         'common.featureService', 'common.dialogService', 'common.UtkastViewStateService',
-        function($rootScope, $scope, $log, $anchorScroll, $state, $stateParams, $location, $q, $window, messageService,
+        function($rootScope, $scope, $log, $anchorScroll, $state, $stateParams, $location, $q, $timeout, $window, messageService,
             ManageCertView, CertificateService, statService, featureService, dialogService, CommonViewState) {
             'use strict';
 
@@ -55,7 +55,10 @@ angular.module('common').controller('common.UtkastHeader',
                         dialogModel.acceptprogressdone = false;
                         var back = function() {
                             $window.doneLoading = true;
-                            $window.history.back();
+                            // IE9 inifinite digest workaround
+                            $timeout(function() {
+                                $window.history.back();
+                            });
                         };
                         CertificateService.discardDraft($stateParams.certificateId, CommonViewState.intyg.type, function() {
                             dialogModel.acceptprogressdone = true;
