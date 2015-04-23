@@ -14,9 +14,7 @@ angular.module('common').factory('common.domain.BaseAtticModel',
                 return atticService.isInAttic(this, properties);
             },
             restoreFromAttic : function restoreFromAttic(properties){
-                if (this.isInAttic(properties)) {
-                    atticService.restore(this, properties);
-                }
+                atticService.restore(this, properties);
             },
             update : function update(content, properties){
                 update._super.call(this, content, properties);
