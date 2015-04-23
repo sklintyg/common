@@ -8,6 +8,8 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.intygstyp = $stateParams.certificateType;
             $scope.viewState = CommonViewState;
+            $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
+
 
             $scope.send = function() {
                 ManageCertificate.send($scope.cert.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
@@ -34,7 +36,6 @@ angular.module('common').controller('common.IntygHeader',
                 }
 
                 var isOtherCareUnit = User.getValdVardenhet() !== cert.grundData.skapadAv.vardenhet.enhetsid;
-
                 ManageCertificate.copy($scope,
                     IntygCopyRequestModel.build({
                         intygId: cert.id,
