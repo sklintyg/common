@@ -10,11 +10,13 @@ angular.module('common').factory('common.domain.BaseAtticModel',
             updateToAttic : function updateToAttic(properties){
                 atticService.update(this, properties);
             },
-            restoreFromAttic : function restoreFromAttic(properties){
-                atticService.restore(this, properties);
-            },
             isInAttic : function isInAttic(properties){
                 return atticService.isInAttic(this, properties);
+            },
+            restoreFromAttic : function restoreFromAttic(properties){
+                if (this.isInAttic(properties)) {
+                    atticService.restore(this, properties);
+                }
             },
             update : function update(content, properties){
                 update._super.call(this, content, properties);

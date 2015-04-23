@@ -11,34 +11,26 @@ angular.module('common').factory('common.ManageCertView',
 
             /**
              * Load draft to webcert
-             * @param intygsTyp
-             * @param onSuccess
+             * @param viewState
              * @private
              */
-            function _load(intygsTyp, draftModel) {
+            function _load(viewState) {
+                var intygsTyp = viewState.common.intyg.type;
                 CommonViewState.doneLoading = false;
                 CertificateService.getDraft($stateParams.certificateId, intygsTyp, function(data) {
 
-                    if(draftModel){
-                        draftModel.update(data);
-                    }
-
-                    CommonViewState.error.activeErrorMessageKey = null;
-                    CommonViewState.error.saveErrorMessageKey = null;
-
-                    CommonViewState.isSigned = draftModel.isSigned();
-                    CommonViewState.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
+                    viewState.common.update(viewState.draftModel, data);
 
                     // check that the certs status is not signed
-                    if(draftModel.isSigned()){
+                    if(viewState.draftModel.isSigned()){
                         // just change straight to the intyg
-                        $location.url('/intyg/' + intygsTyp + '/' + draftModel.content.id);
+                        $location.url('/intyg/' + intygsTyp + '/' + viewState.draftModel.content.id);
                     }
                     else {
                         $timeout(function() {
                             wcFocus('firstInput');
-                            $rootScope.$broadcast('intyg.loaded', draftModel.content);
-                            $rootScope.$broadcast(intygsTyp + '.loaded', draftModel.content);
+                            $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
+                            $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
                             CommonViewState.doneLoading = true;
                         }, 10);
                     }
