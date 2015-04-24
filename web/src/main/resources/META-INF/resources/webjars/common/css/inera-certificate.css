@@ -579,6 +579,13 @@
         margin: 0;
     }
 
+    /* WEBCERT-1688 */
+    .table-form-subsection-border-top {
+        border-top: 1px solid darkgrey;
+        padding-top: 12px;
+        margin-top: 12px;
+    }
+
     input[type=text].small-decimal {
         width: 38px;
     }
