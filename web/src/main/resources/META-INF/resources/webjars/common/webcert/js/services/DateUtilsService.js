@@ -217,13 +217,16 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
     function _addStrictDateParser(formElement) {
 
         function parseDateStrict(viewValue) {
+
+            viewValue = _convertDateToISOString(viewValue);
+
             if (!viewValue) {
                 formElement.$setValidity('date', true);
                 return null;
             }
             else if (_isDate(viewValue)) {
                 formElement.$setValidity('date', true);
-                return _convertDateToISOString(viewValue);
+                return viewValue;
             }
             else if ((/[0-9]{8}/).test(viewValue)) {
                 // Allow date input without dashes
