@@ -218,8 +218,8 @@ angular.module('common').factory('common.dialogService',
                 } else if(result && result.direct) {
                     result.direct();
                 } else if(result && typeof result === 'function'){
-                    //result();
-                    _runOnDialogRemoved(msgbox, result);
+                    result();
+                    //_runOnDialogRemoved(msgbox, result);
                 }
             }, function() {
             });
