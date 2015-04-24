@@ -580,8 +580,7 @@
     }
 
     /* WEBCERT-1668 */
-    .table-form-subsection-border-top {
-        border-top: 1px solid darkgrey;
+    .table-form-subsection {
         padding-top: 12px;
         margin-top: 12px;
     }
