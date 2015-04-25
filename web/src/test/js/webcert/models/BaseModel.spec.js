@@ -48,14 +48,14 @@ describe('common.domain.BaseModel', function() {
 
         var print = function(model){
             var properties = model.properties;
-            //console.log('-------- properties :');
-            //console.log(JSON.stringify(model.properties));
-            //console.log('--------');
+            ////console.log('-------- properties :');
+            ////console.log(JSON.stringify(model.properties));
+            ////console.log('--------');
 
-            //console.log('-------- model :');
+            ////console.log('-------- model :');
             delete model.properties;
-            //console.log(JSON.stringify(model));
-            //console.log('--------');
+            ////console.log(JSON.stringify(model));
+            ////console.log('--------');
             model.properties = properties;
         }
 
@@ -99,10 +99,10 @@ describe('common.domain.BaseModel', function() {
                 };
 
                 model = new BaseModel('model1', modelDef);
-                console.log('------------------------- enums');
-                console.log('--- model def');
+                //console.log('------------------------- enums');
+                //console.log('--- model def');
 
-                console.log(JSON.stringify(model));
+                //console.log(JSON.stringify(model));
 
                 var content = {korkortstyp:[
                     {'type': 'C1', 'selected': 'stooges'},
@@ -110,16 +110,16 @@ describe('common.domain.BaseModel', function() {
                     {'type': 'C', 'selected': 'deviants'}
                 ]};
 
-                console.log('--- after update');
+                //console.log('--- after update');
                 model.update(content);
-                console.log(JSON.stringify(model));
+                //console.log(JSON.stringify(model));
                 expect(model.korkortstyp[0].selected).toBe('stooges');
                 expect(model.korkortstyp[1].selected).toBe('mc5');
                 expect(model.korkortstyp[2].selected).toBe('deviants');
 
-                console.log('--- after clear');
+                //console.log('--- after clear');
                 model.clear();
-                console.log(JSON.stringify(model));
+                //console.log(JSON.stringify(model));
                 expect(model.korkortstyp[0].selected).toBe(false);
                 expect(model.korkortstyp[1].selected).toBe(false);
                 expect(model.korkortstyp[2].selected).toBe(false);
@@ -145,9 +145,9 @@ describe('common.domain.BaseModel', function() {
                 model.a.aa.aab ='hiya aab';
                 model.a.ab ='hiya cp1';
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ clear a');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ clear a');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.clear('a');
 
                 expect(model.a.aa.aaa).toBe(false);
@@ -159,18 +159,18 @@ describe('common.domain.BaseModel', function() {
                 model.a.aa.aab ='hiya aab';
                 model.a.ab ='hiya cp1';
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ clear a.aa');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ clear a.aa');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.clear('a.aa');
 
                 expect(model.a.aa.aaa).toBe(false);
                 expect(model.a.aa.aab).toBe('hi');
                 expect(model.a.ab).toBe('hiya cp1');
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ clear a.ab');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ clear a.ab');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.clear('a.ab');
                 expect(model.a.aa.aaa).toBe(false);
                 expect(model.a.aa.aab).toBe('hi');
@@ -195,9 +195,9 @@ describe('common.domain.BaseModel', function() {
                 model.a.aa.aab ='hiya aab';
                 model.a.ab ='hiya cp1';
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ clear all');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ clear all');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.clear();
 
                 expect(model.a.aa.aaa).toBe(false);
@@ -231,9 +231,9 @@ describe('common.domain.BaseModel', function() {
                 model.b1 = 'hi b1';
                 model.b2 = 'hi b2';
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ clear all');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ clear all');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.clear();
 
                 expect(model.a.aa.aaa).toBe(false);
@@ -262,9 +262,9 @@ describe('common.domain.BaseModel', function() {
                 var content_a_aa = {aaa:'update aaa', aab:'update aab'};
 
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ update a.aa');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ update a.aa');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.update(content_a_aa, 'a.aa');
 
                 expect(model.a.aa.aaa).toBe('update aaa');
@@ -288,9 +288,9 @@ describe('common.domain.BaseModel', function() {
                     ab : 'u ab'
                 } };
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ update all');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ update all');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
 
                 model.update(content_a)
 
@@ -310,9 +310,9 @@ describe('common.domain.BaseModel', function() {
                 };
                 model = new BaseModel('model1', modelDef );
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ update a.aa.aaa');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ update a.aa.aaa');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.update('fred', 'a.aa.aaa');
 
                 expect(model.a.aa.aaa).toBe('fred');
@@ -338,7 +338,7 @@ describe('common.domain.BaseModel', function() {
                     }
 
                     ,update: function update(content, parent) {
-                        //console.log('update im');
+                        ////console.log('update im');
                         if (parent) {
                             parent.content = this;
                         }
@@ -347,16 +347,16 @@ describe('common.domain.BaseModel', function() {
                 });
                 model = new IntygModel();
 
-                //console.log('model :' + JSON.stringify(model));
+                ////console.log('model :' + JSON.stringify(model));
 
                 var content = {aa:'uaa', ab:'uab'};
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ update a bag');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ update a bag');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.update(content);
 
-                //console.log('model after update :' + JSON.stringify(model));
+                ////console.log('model after update :' + JSON.stringify(model));
 
                 expect(model.aa).toBe('uaa');
                 expect(model.ab).toBe('uab');
@@ -370,12 +370,12 @@ describe('common.domain.BaseModel', function() {
                 //
                 //content = {ba:'uba', bb:'ubb'};
                 //
-                ////console.log('+++++++++++++++++++++++++++++++++++');
-                ////console.log('++ update a bb bag');
-                ////console.log('+++++++++++++++++++++++++++++++++++');
+                //////console.log('+++++++++++++++++++++++++++++++++++');
+                //////console.log('++ update a bb bag');
+                //////console.log('+++++++++++++++++++++++++++++++++++');
                 //model.update(content, 'b');
                 //
-                ////console.log('model after update :' + JSON.stringify(model));
+                //////console.log('model after update :' + JSON.stringify(model));
                 //
                 //expect(model.aa).toBe('best');
                 //expect(model.ab).toBe(undefined);
@@ -411,9 +411,9 @@ describe('common.domain.BaseModel', function() {
 
                 model.update(content_a_aa, 'a.aa');
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ send all');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ send all');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
 
                 var send = model.toSendModel();
 
@@ -442,13 +442,13 @@ describe('common.domain.BaseModel', function() {
 
                 model.update(content_a_aa, 'a.aa');
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ send a.aa');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ send a.aa');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
 
                 var send = model.toSendModel( 'a.aa');
 
-                //console.log('send tm: ' + JSON.stringify(send));
+                ////console.log('send tm: ' + JSON.stringify(send));
                 expect(send.aaa).toBe('update aaa');
                 expect(send.aab).toBe('update aab');
 
@@ -468,13 +468,13 @@ describe('common.domain.BaseModel', function() {
 
                 model.update(content);
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ send all');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ send all');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
 
                 var send = model.toSendModel();
 
-                //console.log('send tm: ' + JSON.stringify(send));
+                ////console.log('send tm: ' + JSON.stringify(send));
                 expect(send.a).toBe('ua');
                 expect(send.ba).toBe('uba');
                 expect(send.bb).toBe('ubb');
@@ -495,24 +495,24 @@ describe('common.domain.BaseModel', function() {
 
                 model.update(content);
 
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ send all');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ send all');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
 
                 var send = model.toSendModel();
 
-                //console.log('send tm: ' + JSON.stringify(send));
+                ////console.log('send tm: ' + JSON.stringify(send));
                 expect(send.a).toBe('ua');
                 expect(send.ba).toBe('uba');
                 expect(send.bb).toBe('ubb');
 
                 // clear b array
-                //console.log('+++++++++++++++++++++++++++++++++++');
-                //console.log('++ clear b');
-                //console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
+                ////console.log('++ clear b');
+                ////console.log('+++++++++++++++++++++++++++++++++++');
                 model.clear('b');
                 send = model.toSendModel();
-                //console.log('send tm: ' + JSON.stringify(send));
+                ////console.log('send tm: ' + JSON.stringify(send));
                 expect(send.a).toBe('ua');
                 expect(send.ba).toBe(undefined);
                 expect(send.bb).toBe(undefined);

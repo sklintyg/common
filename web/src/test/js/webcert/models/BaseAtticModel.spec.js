@@ -41,10 +41,10 @@ describe('common.domain.BaseAtticModel', function() {
             };
 
             var model = new BaseAtticModel('model1', modelDef);
-            console.log('------------------------- enums');
-            console.log('--- model def');
+            //console.log('------------------------- enums');
+            //console.log('--- model def');
 
-            console.log(JSON.stringify(model));
+            //console.log(JSON.stringify(model));
 
             var content = {korkortstyp:[
                 {'type': 'C1', 'selected': 'stooges'},
@@ -52,23 +52,23 @@ describe('common.domain.BaseAtticModel', function() {
                 {'type': 'C', 'selected': 'deviants'}
             ]};
 
-            console.log('--- after update');
+            //console.log('--- after update');
             model.update(content);
-            console.log(JSON.stringify(model));
+            //console.log(JSON.stringify(model));
             expect(model.korkortstyp[0].selected).toBe('stooges');
             expect(model.korkortstyp[1].selected).toBe('mc5');
             expect(model.korkortstyp[2].selected).toBe('deviants');
 
-            console.log('--- after clear');
+            //console.log('--- after clear');
             model.clear();
-            console.log(JSON.stringify(model));
+            //console.log(JSON.stringify(model));
             expect(model.korkortstyp[0].selected).toBe(false);
             expect(model.korkortstyp[1].selected).toBe(false);
             expect(model.korkortstyp[2].selected).toBe(false);
 
-            console.log('--- after restore');
+            //console.log('--- after restore');
             model.restoreFromAttic();
-            console.log(JSON.stringify(model));
+            //console.log(JSON.stringify(model));
             expect(model.korkortstyp[0].selected).toBe('stooges');
             expect(model.korkortstyp[1].selected).toBe('mc5');
             expect(model.korkortstyp[2].selected).toBe('deviants');
