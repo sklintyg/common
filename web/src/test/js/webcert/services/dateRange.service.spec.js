@@ -162,14 +162,14 @@ describe('DateRangeService', function() {
                 now8 = moment(now7).add(1, 'days'),
                 now15 = moment(now8).add(6, 'days'),
                 now16 = moment(now15).add(6, 'days'),
-                now33 = moment(now26).add(6, 'days'),
+                now23 = moment(now16).add(6, 'days'),
 
                 nowString = now.format('YYYY-MM-DD'),
                 now7String = now7.format('YYYY-MM-DD'),
                 now8String = now8.format('YYYY-MM-DD'),
-                now25String = now25.format('YYYY-MM-DD'),
-                now26String = now26.format('YYYY-MM-DD'),
-                now33String = now33.format('YYYY-MM-DD');
+                now15String = now15.format('YYYY-MM-DD'),
+                now16String = now16.format('YYYY-MM-DD'),
+                now23String = now23.format('YYYY-MM-DD');
 
             fromTos.range1.check(true);
             expect(fromTos.daysBetween).toBe(7);
