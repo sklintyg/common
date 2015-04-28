@@ -16,83 +16,17 @@
 
   <name>Intyg Common (Schemas)</name>
 
-  <properties>
-    <!-- Common -->
-    <common.version>0-SNAPSHOT</common.version>
-    <common.version.range>(,2.2.0]</common.version.range>
-
-    <!-- Schemas -->
-    <rivta-clinicalprocess.version>0-SNAPSHOT</rivta-clinicalprocess.version>
-    <rivta-clinicalprocess.version.range>(,1.1.0]</rivta-clinicalprocess.version.range>
-
-    <rivta-insuranceprocess.version>0-SNAPSHOT</rivta-insuranceprocess.version>
-    <rivta-insuranceprocess.version.range>(,1.1.0]</rivta-insuranceprocess.version.range>
-
-    <intyg-clinicalprocess.version>0-SNAPSHOT</intyg-clinicalprocess.version>
-    <intyg-clinicalprocess.version.range>(,1.1.0]</intyg-clinicalprocess.version.range>
-
-    <intyg-insuranceprocess.version>0-SNAPSHOT</intyg-insuranceprocess.version>
-    <intyg-insuranceprocess.version.range>(,1.1.0]</intyg-insuranceprocess.version.range>
-
-    <intyg-transportstyrelsen.version>0-SNAPSHOT</intyg-transportstyrelsen.version>
-    <intyg-transportstyrelsen.version.range>(,1.0.0]</intyg-transportstyrelsen.version.range>
-
-  </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <!-- Common -->
-      <dependency>
-        <groupId>se.inera.intyg.common</groupId>
-        <artifactId>common-support</artifactId>
-        <version>${common.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>se.inera.intyg.common</groupId>
-        <artifactId>logging-util</artifactId>
-        <version>${common.version}</version>
-      </dependency>
-
-      <!-- RIVTA Schemas -->
-      <dependency>
-        <groupId>se.riv.clinicalprocess.healthcond.certificate</groupId>
-        <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
-        <version>${rivta-clinicalprocess.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>se.riv.insuranceprocess.healthreporting</groupId>
-        <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
-        <version>${rivta-insuranceprocess.version}</version>
-      </dependency>
-
-      <!-- Intyg Schemas -->
-      <dependency>
-        <groupId>se.inera.intyg.clinicalprocess.healthcond.certificate</groupId>
-        <artifactId>intyg-clinicalprocess-healthcond-certificate-schemas</artifactId>
-        <version>${intyg-clinicalprocess.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>se.inera.intyg.insuranceprocess.healthreporting</groupId>
-        <artifactId>intyg-insuranceprocess-healthreporting-schemas</artifactId>
-        <version>${intyg-insuranceprocess.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>se.inera.intyg.transportstyrelsen</groupId>
-        <artifactId>intyg-transportstyrelsen-schemas</artifactId>
-        <version>${intyg-transportstyrelsen.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
     <!-- Common -->
     <dependency>
-      <groupId>se.inera.intyg.common</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>common-support</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>se.inera.intyg.common</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>logging-util</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- RIVTA Schemas -->
@@ -133,49 +67,5 @@
     </dependency>
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-        <configuration>
-          <includeProperties>
-            common.version,
-            rivta-clinicalprocess.version,
-            rivta-insuranceprocess.version,
-            intyg-clinicalprocess.version,
-            intyg-insuranceprocess.version,
-            intyg-transportstyrelsen.version
-          </includeProperties>
-          <properties>
-            <property>
-              <name>common.version</name>
-              <version>${common.version.range}</version>
-            </property>
-            <property>
-              <name>rivta-clinicalprocess.version</name>
-              <version>${rivta-clinicalprocess.version.range}</version>
-            </property>
-            <property>
-              <name>rivta-insuranceprocess.version</name>
-              <version>${rivta-insuranceprocess.version.range}</version>
-            </property>
-            <property>
-              <name>intyg-clinicalprocess.version</name>
-              <version>${intyg-clinicalprocess.version.range}</version>
-            </property>
-            <property>
-              <name>intyg-insuranceprocess.version</name>
-              <version>${intyg-insuranceprocess.version.range}</version>
-            </property>
-            <property>
-              <name>intyg-transportstyrelsen.version</name>
-              <version>${intyg-transportstyrelsen.version.range}</version>
-            </property>
-          </properties>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
