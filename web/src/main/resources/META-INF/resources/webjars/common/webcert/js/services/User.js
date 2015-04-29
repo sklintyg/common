@@ -61,7 +61,6 @@ angular.module('common').factory('common.User',
                 units.push(vardenhetCopy);
 
                 angular.forEach(vardenhetCopy.mottagningar, function(mottagning) {
-                    mottagning.namn = vardenhet.namn + ' - ' + mottagning.namn;
                     this.push(mottagning);
                 }, units);
 

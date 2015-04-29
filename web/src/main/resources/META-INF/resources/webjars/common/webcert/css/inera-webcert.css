@@ -995,8 +995,17 @@
         color: #323232;
     }
 
+    .qa-unit-strong {
+        font-weight: bold;
+    }
+
+    .qa-unit-weak {
+        padding-left: 20px;
+    }
+
     .unit-table {
         margin: 0;
+        padding-bottom: 5px;
     }
 
     .unit-table button.selected {

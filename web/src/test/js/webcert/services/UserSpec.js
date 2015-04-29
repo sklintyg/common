@@ -110,12 +110,12 @@ describe('User', function() {
 
             var testFilterList = [
                 { id : 'centrum-vast', namn : 'Vårdcentrum i Väst', arbetsplatskod : '0000000', mottagningar : [
-                        { id : 'akuten', namn : 'Vårdcentrum i Väst - Akuten', arbetsplatskod : '0000000' },
-                        { id : 'dialys', namn : 'Vårdcentrum i Väst - Dialys', arbetsplatskod : '0000000' }
+                        { id : 'akuten', namn : 'Akuten', arbetsplatskod : '0000000' },
+                        { id : 'dialys', namn : 'Dialys', arbetsplatskod : '0000000' }
                     ]
                 },
-                { id : 'akuten', namn : 'Vårdcentrum i Väst - Akuten', arbetsplatskod : '0000000' },
-                { id : 'dialys', namn : 'Vårdcentrum i Väst - Dialys', arbetsplatskod : '0000000' }
+                { id : 'akuten', namn : 'Akuten', arbetsplatskod : '0000000' },
+                { id : 'dialys', namn : 'Dialys', arbetsplatskod : '0000000' }
             ];
             expect(User.getVardenhetFilterList(valdVardenhet)).toEqual(testFilterList);
         });

@@ -30,7 +30,6 @@ angular.module('common').directive('wcHeader',
                     /**
                      * Event listeners
                      */
-
                     $scope.$on('wc-stat-update', function(event, message) {
                         $scope.stat = message;
                     });
@@ -38,6 +37,66 @@ angular.module('common').directive('wcHeader',
                     /**
                      * Private functions
                      */
+
+                    /**
+                     * Finds the stat of the enhet or mottagning in the flat
+                     * structure returned from server
+                     */
+                    function findStats(vg, id) {
+                        for(var i = 0; i < $scope.stat.vardgivare.length; i++) {
+                            if (vg === $scope.stat.vardgivare[i].id) {
+                                var vardenheter = $scope.stat.vardgivare[i].vardenheter;
+                                for(var j = 0; j < vardenheter.length; j++) {
+                                    var vardenhet = vardenheter[j];
+                                    if (vardenhet.id === id) {
+                                        return {
+                                            intyg: vardenhet.intyg,
+                                            fragaSvar: vardenhet.fragaSvar
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                        return {
+                            intyg: 0,
+                            fragaSvar: 0
+                        };
+                    }
+
+                    /**
+                     * Finds the mottagningar at the vardgivare with id `vg` and
+                     * enhet with id `id`
+                     */
+                    function findMottagningar(vg, id) {
+                        var vgs = $scope.user.vardgivare;
+                        for (var i = 0; i < vgs.length; i++) {
+                            if (vgs[i].id === vg) {
+                                var enheter = vgs[i].vardenheter;
+                                for (var j = 0; j < enheter.length; j++) {
+                                    if (enheter[j].id === id) {
+                                        return enheter[j].mottagningar;
+                                    }
+                                }
+                            }
+                        }
+                        return undefined;
+                    }
+
+                    /**
+                     * Finds the total returned from `func` on all mottagningar
+                     * at the enhet specified by vg and id
+                     */
+                    function findAll(vg, id, func) {
+                        var total = 0;
+                        var mottagningar = findMottagningar(vg, id) || [];
+
+                        for (var i = 0; i < mottagningar.length; i++) {
+                            total = total + func(vg, mottagningar[i].id);
+                        }
+
+                        return total;
+                    }
+
 
                     function directiveLoad() {
                         $scope.menuDefs = buildMenu();
@@ -170,6 +229,39 @@ angular.module('common').directive('wcHeader',
                                     $modalInstance.close();
                                 };
 
+                                /******************
+                                 * Functions used by wcHeaderCareUnitDialog to
+                                 * present the data in a structured way
+                                 ******************/
+
+                                /**
+                                 * Toggles the value to show or hide the
+                                 * mottagningar connected to the vardenhet
+                                 */
+                                $scope.toggle = function(enhet) {
+                                    enhet.showMottagning = !enhet.showMottagning;
+                                };
+
+                                $scope.findIntyg = function(vg, id) {
+                                    return findStats(vg, id).intyg;
+                                };
+
+                                $scope.findFragaSvar = function(vg, id) {
+                                    return findStats(vg, id).fragaSvar;
+                                };
+
+                                $scope.findAllFragaSvar = function(vg, id) {
+                                    return findAll(vg, id, $scope.findFragaSvar);
+                                }
+
+                                $scope.findAllIntyg = function(vg, id) {
+                                    return findAll(vg, id, $scope.findIntyg);
+                                }
+
+                                /******************
+                                 * End of presentation functions
+                                 ******************/
+
                                 $scope.selectVardenhet = function(enhet) {
                                     $scope.error = false;
                                     User.setValdVardenhet(enhet, function() {
@@ -197,7 +289,7 @@ angular.module('common').directive('wcHeader',
                             },
                             resolve: {
                                 vardgivare: function() {
-                                    return angular.copy($scope.stat.vardgivare);
+                                    return angular.copy($scope.user.vardgivare);
                                 }
                             }
                         });
