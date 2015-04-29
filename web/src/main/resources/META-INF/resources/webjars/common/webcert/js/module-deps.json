@@ -43,6 +43,7 @@
     "/web/webjars/common/webcert/js/services/UtilsService.js",
     "/web/webjars/common/webcert/js/services/IntygCopyRequestModel.js",
     "/web/webjars/common/webcert/js/services/locationUtilsService.js",
+    "/web/webjars/common/webcert/js/services/anchorScrollService.js",
     "/web/webjars/common/webcert/js/stacktrace.js",
     "/web/webjars/common/webcert/js/models/base-content.model.js",
     "/web/webjars/common/webcert/js/models/draft.model.js",

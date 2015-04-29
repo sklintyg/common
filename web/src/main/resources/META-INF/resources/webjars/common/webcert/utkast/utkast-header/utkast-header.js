@@ -1,9 +1,9 @@
 angular.module('common').controller('common.UtkastHeader',
-    ['$rootScope', '$scope', '$log', '$anchorScroll', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
+    ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
         'common.messageService', 'common.ManageCertView', 'common.CertificateService', 'common.statService',
-        'common.featureService', 'common.dialogService', 'common.UtkastViewStateService',
-        function($rootScope, $scope, $log, $anchorScroll, $state, $stateParams, $location, $q, $timeout, $window, messageService,
-            ManageCertView, CertificateService, statService, featureService, dialogService, CommonViewState) {
+        'common.featureService', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
+        function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
+            ManageCertView, CertificateService, statService, featureService, dialogService, CommonViewState, anchorScrollService) {
             'use strict';
 
             /**
@@ -19,12 +19,7 @@ angular.module('common').controller('common.UtkastHeader',
             $scope.toggleShowComplete = function() {
                 CommonViewState.toggleShowComplete();
                 ManageCertView.save();
-
-                var old = $location.hash();
-                $location.hash('top');
-                $anchorScroll();
-                // reset to old to keep any additional routing logic from kicking in
-                $location.hash(old);
+                anchorScrollService.scrollTo('top');
             };
 
             $scope.save = function() {
