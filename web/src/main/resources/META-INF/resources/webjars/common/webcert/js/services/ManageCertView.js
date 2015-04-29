@@ -68,6 +68,7 @@ angular.module('common').factory('common.ManageCertView',
                     var saveComplete = $q.defer();
                     saveComplete.promise.then(function(result) {
                         // save success
+                        intygState.viewState.common.validationSections = result.validationSections;
                         intygState.viewState.common.validationMessages = result.validationMessages;
                         intygState.viewState.common.validationMessagesGrouped = result.validationMessagesGrouped;
                         intygState.viewState.common.error.saveErrorMessageKey = null;
@@ -89,6 +90,7 @@ angular.module('common').factory('common.ManageCertView',
                                 var result = {};
                                 result.validationMessagesGrouped = {};
                                 result.validationMessages = [];
+                                result.validationSections = [];
 
                                 if (data.status === 'COMPLETE') {
                                     CommonViewState.intyg.isComplete = true;
@@ -111,6 +113,9 @@ angular.module('common').factory('common.ManageCertView',
                                         var section;
                                         if (parts.length > 0) {
                                             section = parts[0].toLowerCase();
+                                            if(result.validationSections.indexOf(section) === -1){
+                                                result.validationSections.push(section);
+                                            }
 
                                             if (result.validationMessagesGrouped[section]) {
                                                 result.validationMessagesGrouped[section].push(message);

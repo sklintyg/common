@@ -21,6 +21,7 @@ angular.module('common').service('common.UtkastViewStateService',
             this.hospName = $stateParams.hospName;
             this.deleted = false;
             this.isSigned = false;
+            this.validationSections  = null;
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;
 
