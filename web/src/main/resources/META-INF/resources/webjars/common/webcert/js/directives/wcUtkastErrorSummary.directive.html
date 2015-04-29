@@ -2,6 +2,8 @@
      style="margin-right: 20px">
   <h3><span message key="draft.saknar-uppgifter"></span></h3>
   <ul>
-    <li ng-repeat="message in viewState.common.validationSections"><span message key="{{viewState.common.intyg.type}}.label.{{message}}"></span></li>
+    <li ng-repeat="message in viewState.common.validationSections">
+      <a href="" ng-click="scrollTo(message)"><span message key="{{viewState.common.intyg.type}}.label.{{message}}"></span></a></li>
+    </li>
   </ul>
 </div>
