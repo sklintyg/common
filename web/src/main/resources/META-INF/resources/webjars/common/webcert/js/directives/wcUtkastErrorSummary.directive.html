@@ -1,0 +1,7 @@
+<div id="visa-vad-som-saknas-lista" class="alert alert-danger" ng-show="viewState.common.showComplete && !viewState.common.intyg.isComplete"
+     style="margin-right: 20px">
+  <h3><span message key="draft.saknar-uppgifter"></span></h3>
+  <ul>
+    <li ng-repeat="message in viewState.common.validationSections"><span message key="{{viewState.common.intyg.type}}.label.{{message}}"></span></li>
+  </ul>
+</div>
