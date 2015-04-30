@@ -56,6 +56,7 @@ angular.module('common').factory('common.ManageCertView',
              * @private
              */
             function _save(extras) {
+                CommonViewState.setDoneLoading(false);
                 if (CertificateService.isSaveDraftInProgress()) {
                     return false;
                 }
@@ -66,6 +67,7 @@ angular.module('common').factory('common.ManageCertView',
                 deferred.promise.then(function(intygState) {
 
                     var saveComplete = $q.defer();
+
                     saveComplete.promise.then(function(result) {
                         // save success
                         intygState.viewState.common.validationMessages = result.validationMessages;
@@ -80,6 +82,7 @@ angular.module('common').factory('common.ManageCertView',
                         if(extras && extras.destroy ){
                             extras.destroy();
                         }
+                        CommonViewState.setDoneLoading(true);
                     });
 
                     CertificateService.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,

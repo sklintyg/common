@@ -1,5 +1,5 @@
 angular.module('common').service('common.UtkastViewStateService',
-    ['$stateParams', function($stateParams) {
+    ['$stateParams', '$window', function($stateParams, $window) {
         'use strict';
 
         this.reset = function() {
@@ -59,6 +59,13 @@ angular.module('common').service('common.UtkastViewStateService',
         this.toggleCollapsedHeader = function() {
             this.collapsedHeader = !this.collapsedHeader;
         };
+
+        this.setDoneLoading = function(val){
+            this.doneLoading = val;
+            $window.doneLoading = val;
+        };
+
+
 
         this.reset();
     }
