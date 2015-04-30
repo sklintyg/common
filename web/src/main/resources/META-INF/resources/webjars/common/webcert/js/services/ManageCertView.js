@@ -56,7 +56,6 @@ angular.module('common').factory('common.ManageCertView',
              * @private
              */
             function _save(extras) {
-                CommonViewState.setDoneLoading(false);
                 if (CertificateService.isSaveDraftInProgress()) {
                     return false;
                 }
@@ -82,7 +81,6 @@ angular.module('common').factory('common.ManageCertView',
                         if(extras && extras.destroy ){
                             extras.destroy();
                         }
-                        CommonViewState.setDoneLoading(true);
                     });
 
                     CertificateService.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
