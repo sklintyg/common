@@ -72,6 +72,7 @@ angular.module('common').factory('common.ManageCertView',
                         intygState.viewState.common.validationMessages = result.validationMessages;
                         intygState.viewState.common.validationMessagesGrouped = result.validationMessagesGrouped;
                         intygState.viewState.common.error.saveErrorMessageKey = null;
+                        intygState.viewState.draftModel.version = result.version;
 
                     }, function(result) {
                         // save failed
@@ -84,12 +85,13 @@ angular.module('common').factory('common.ManageCertView',
                     });
 
                     CertificateService.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
-                        intygState.viewState.intygModel.toSendModel(),
+                            intygState.viewState.draftModel.version, intygState.viewState.intygModel.toSendModel(),
                         function(data) {
 
                                 var result = {};
                                 result.validationMessagesGrouped = {};
                                 result.validationMessages = [];
+                                result.version = data.version;
 
                                 if (data.status === 'COMPLETE') {
                                     CommonViewState.intyg.isComplete = true;
@@ -143,15 +145,15 @@ angular.module('common').factory('common.ManageCertView',
                 return model;
             }
 
-            function signera(intygsTyp) {
+            function signera(intygsTyp, version) {
                 if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
-                    return _signeraServer(intygsTyp, $stateParams.certificateId);
+                    return _signeraServer(intygsTyp, $stateParams.certificateId, version);
                 } else {
-                    return _signeraKlient(intygsTyp, $stateParams.certificateId);
+                    return _signeraKlient(intygsTyp, $stateParams.certificateId, version);
                 }
             }
 
-            function _signeraServer(intygsTyp, intygsId) {
+            function _signeraServer(intygsTyp, intygsId, version) {
                 var signModel = {};
                 var bodyText = 'Är du säker på att du vill signera intyget?';
                 var confirmDialog = dialogService.showDialog({
@@ -162,7 +164,7 @@ angular.module('common').factory('common.ManageCertView',
                     button1id: 'confirm-signera-utkast-button',
 
                     button1click: function() {
-                        _confirmSignera(signModel, intygsTyp, intygsId, confirmDialog);
+                        _confirmSignera(signModel, intygsTyp, intygsId, version, confirmDialog);
                     },
                     button1text: 'common.sign',
                     button2click: function() {
@@ -177,11 +179,11 @@ angular.module('common').factory('common.ManageCertView',
                 return signModel;
             }
 
-            function _signeraKlient(intygsTyp, intygsId) {
+            function _signeraKlient(intygsTyp, intygsId, version) {
                 var signModel = {
                     signingWithSITHSInProgress : true
                 };
-                CertificateService.getSigneringshash(intygsId, intygsTyp, function(ticket) {
+                CertificateService.getSigneringshash(intygsId, intygsTyp, version, function(ticket) {
                     _openNetIdPlugin(ticket.hash, function(signatur) {
                         CertificateService.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, function(ticket) {
 
@@ -203,10 +205,10 @@ angular.module('common').factory('common.ManageCertView',
                 return signModel;
             }
 
-            function _confirmSignera(signModel, intygsTyp, intygsId, confirmDialog) {
+            function _confirmSignera(signModel, intygsTyp, intygsId, version, confirmDialog) {
                 confirmDialog.model.acceptprogressdone = false;
                 confirmDialog.model.showerror = false;
-                CertificateService.signeraUtkast(intygsId, intygsTyp, function(ticket) {
+                CertificateService.signeraUtkast(intygsId, intygsTyp, version, function(ticket) {
                     _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket,
                         confirmDialog);
                 }, function(error) {
