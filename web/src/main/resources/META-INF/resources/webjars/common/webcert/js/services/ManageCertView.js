@@ -22,6 +22,7 @@ angular.module('common').factory('common.ManageCertView',
                     $scope.cert = data.content;
                     $scope.certMeta.intygId = data.content.id;
                     $scope.certMeta.vidarebefordrad = data.vidarebefordrad;
+                    $scope.certMeta.version = data.version;
                     $scope.isSigned = data.status === 'SIGNED';
                     $scope.isComplete = $scope.isSigned || data.status === 'DRAFT_COMPLETE';
                     if (onSuccess !== undefined) {
@@ -44,13 +45,14 @@ angular.module('common').factory('common.ManageCertView',
                     return false;
                 }
                 $scope.certForm.$setPristine();
-                CertificateService.saveDraft($scope.certMeta.intygId, intygsTyp, $scope.cert, autoSave,
+                CertificateService.saveDraft($scope.certMeta.intygId, intygsTyp, $scope.cert, $scope.certMeta.version, autoSave,
                     function(data) {
 
                         $scope.widgetState.saveErrorMessageKey = null;
 
                         $scope.validationMessagesGrouped = {};
                         $scope.validationMessages = [];
+                        $scope.certMeta.version = data.version;
 
                         if (data.status === 'COMPLETE') {
                             $scope.isComplete = true;
@@ -125,7 +127,7 @@ angular.module('common').factory('common.ManageCertView',
                     button1click: function() {
                         $log.debug('delete draft ');
                         $scope.dialog.acceptprogressdone = false;
-                        CertificateService.discardDraft($routeParams.certificateId, intygsTyp, function() {
+                        CertificateService.discardDraft($routeParams.certificateId, intygsTyp, $scope.certMeta.version, function() {
                             $scope.dialog.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
@@ -178,9 +180,9 @@ angular.module('common').factory('common.ManageCertView',
 
             function signera($scope, intygsTyp) {
                 if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
-                    return _signeraServer($scope, intygsTyp, $routeParams.certificateId);
+                    return _signeraServer($scope, intygsTyp, $routeParams.certificateId, $scope.certMeta.version);
                 } else {
-                    return _signeraKlient($scope, intygsTyp, $routeParams.certificateId);
+                    return _signeraKlient($scope, intygsTyp, $routeParams.certificateId, $scope.certMeta.version);
                 }
             }
 
@@ -194,7 +196,7 @@ angular.module('common').factory('common.ManageCertView',
                     button1id: 'confirm-signera-utkast-button',
 
                     button1click: function() {
-                        _confirmSignera($scope, intygsTyp, intygsId, confirmDialog);
+                        _confirmSignera($scope, intygsTyp, intygsId, $scope.certMeta.version, confirmDialog);
                     },
                     button1text: 'common.sign',
                     button2click: function() {
@@ -209,7 +211,7 @@ angular.module('common').factory('common.ManageCertView',
 
             function _signeraKlient($scope, intygsTyp, intygsId) {
                     $scope.signingWithSITHSInProgress = true;
-                    CertificateService.getSigneringshash(intygsId, intygsTyp, function(ticket) {
+                    CertificateService.getSigneringshash(intygsId, intygsTyp, $scope.certMeta.version, function(ticket) {
                     _openNetIdPlugin(ticket.hash, function(signatur) {
                         CertificateService.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, function(ticket) {
 
@@ -233,7 +235,7 @@ angular.module('common').factory('common.ManageCertView',
             function _confirmSignera($scope, intygsTyp, intygsId, confirmDialog) {
                 $scope.dialog.acceptprogressdone = false;
                 $scope.dialog.showerror = false;
-                CertificateService.signeraUtkast(intygsId, intygsTyp, function(ticket) {
+                CertificateService.signeraUtkast(intygsId, intygsTyp, $scope.certMeta.version, function(ticket) {
                     _waitForSigneringsstatusSigneradAndClose($scope, intygsTyp, intygsId, ticket,
                         confirmDialog);
                 }, function(error) {
