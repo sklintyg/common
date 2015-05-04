@@ -30,8 +30,8 @@ angular.module('common').directive('wcAutoSave', function($timeout) {
 
             $scope.$watch(function() {
                 if (form.$dirty &&
-                    $scope.error.saveErrorCode !== 'CONCURRENT_MODIFICATION' &&
-                    $scope.error.saveErrorCode !== 'DATA_NOT_FOUND') {
+                    $scope.widgetState.error.saveErrorCode !== 'CONCURRENT_MODIFICATION' &&
+                    $scope.widgetState.error.saveErrorCode !== 'DATA_NOT_FOUND') {
                     var wait = SAVE_DELAY;
                     if (lastSave !== null) {
                         var lastSaveDelta = (new Date()).getTime() - lastSave;
