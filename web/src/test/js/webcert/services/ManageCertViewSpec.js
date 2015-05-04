@@ -260,5 +260,8 @@ describe('ManageCertView', function() {
 
             expect(dialogService.showErrorMessageDialog).toHaveBeenCalled();
         });
+
+        xit('should show concurrent_modification error if that code is received from the server', function() {
+        });
     });
 });

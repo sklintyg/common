@@ -275,6 +275,8 @@ angular.module('common').factory('common.ManageCertView',
                         messageId = 'common.error.certificateinvalidstate';
                     } else if (error.errorCode === 'SIGN_NETID_ERROR') {
                         messageId = 'common.error.signerrornetid';
+                    } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                        messageId = 'common.error.sign.concurrent_modification';
                     } else if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {
@@ -292,6 +294,11 @@ angular.module('common').factory('common.ManageCertView',
                 } else {
                     var sithssignerrormessageid = _setErrorMessageId(error);
                     var errorMessage = messageService.getProperty(sithssignerrormessageid, null, sithssignerrormessageid);
+
+                    // In the case of concurrent modification we should have the name of the other user in the message.
+                    if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                        errorMessage += error.message;
+                    }
                     dialogService.showErrorMessageDialog(errorMessage);
                     signModel.signingWithSITHSInProgress = false;
                 }
@@ -337,7 +344,9 @@ angular.module('common').factory('common.ManageCertView',
                 printDraft: _printDraft,
 
                 __test__: {
-                    confirmSignera: _confirmSignera
+                    confirmSignera: _confirmSignera,
+                    setErrorMessageId: _setErrorMessageId,
+                    showSigneringsError: _showSigneringsError
                 }
             };
         }]);
