@@ -66,6 +66,7 @@ angular.module('common').factory('common.ManageCertView',
                 deferred.promise.then(function(intygState) {
 
                     var saveComplete = $q.defer();
+
                     saveComplete.promise.then(function(result) {
                         // save success
                         intygState.viewState.common.validationSections = result.validationSections;

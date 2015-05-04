@@ -36,7 +36,7 @@ angular.module('common').controller('common.IntygHeader',
                 }
 
                 var isOtherCareUnit = User.getValdVardenhet() !== cert.grundData.skapadAv.vardenhet.enhetsid;
-                ManageCertificate.copy($scope,
+                ManageCertificate.copy($scope.viewState,
                     IntygCopyRequestModel.build({
                         intygId: cert.id,
                         intygType: $stateParams.certificateType,
