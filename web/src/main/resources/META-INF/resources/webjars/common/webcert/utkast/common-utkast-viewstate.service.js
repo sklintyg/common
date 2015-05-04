@@ -5,7 +5,8 @@ angular.module('common').service('common.UtkastViewStateService',
         this.reset = function() {
             this.error = {
                 activeErrorMessageKey : null,
-                saveErrorMessageKey : null
+                saveErrorMessage : null,
+                saveErrorCode : null
             };
             this.intyg = {
                 isComplete : false,
@@ -32,7 +33,8 @@ angular.module('common').service('common.UtkastViewStateService',
             if(draftModel){
                 draftModel.update(data);
                 this.error.activeErrorMessageKey = null;
-                this.error.saveErrorMessageKey = null;
+                this.error.saveErrorMessage = null;
+                this.error.saveErrorCode = null;
 
                 this.isSigned = draftModel.isSigned();
                 this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();

@@ -71,13 +71,15 @@ angular.module('common').factory('common.ManageCertView',
                         // save success
                         intygState.viewState.common.validationMessages = result.validationMessages;
                         intygState.viewState.common.validationMessagesGrouped = result.validationMessagesGrouped;
-                        intygState.viewState.common.error.saveErrorMessageKey = null;
+                        intygState.viewState.common.error.saveErrorMessage = null;
+                        intygState.viewState.common.error.saveErrorCode = null;
                         intygState.viewState.draftModel.version = result.version;
 
                     }, function(result) {
                         // save failed
                         intygState.formFail();
-                        intygState.viewState.common.error.saveErrorMessageKey = result.errorMessageKey;
+                        intygState.viewState.common.error.saveErrorMessage = result.errorMessage;
+                        intygState.viewState.common.error.saveErrorCode = result.errorCode;
                     }).finally(function(){
                         if(extras && extras.destroy ){
                             extras.destroy();
@@ -126,8 +128,19 @@ angular.module('common').factory('common.ManageCertView',
                                 }
                             }, function(error) {
                                 // Show error message if save fails
+
+                                var errorMessage;
+                                var variables = null;
+                                if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                                    // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                                    variables = {name: error.message};
+                                }
+                                var errorMessageId = checkSetErrorSave(error.errorCode);
+                                errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
+
                                 var result = {
-                                    errorMessageKey: checkSetErrorSave(error.errorCode)
+                                    errorMessage: errorMessage,
+                                    errorCode: error.errorCode
                                 };
                                 saveComplete.reject(result);
                             }
@@ -293,12 +306,14 @@ angular.module('common').factory('common.ManageCertView',
                     signModel.dialog.model.errormessageid = _setErrorMessageId(error);
                 } else {
                     var sithssignerrormessageid = _setErrorMessageId(error);
-                    var errorMessage = messageService.getProperty(sithssignerrormessageid, null, sithssignerrormessageid);
 
-                    // In the case of concurrent modification we should have the name of the other user in the message.
+                    var errorMessage;
+                    var variables = null;
                     if (error.errorCode === 'CONCURRENT_MODIFICATION') {
-                        errorMessage += error.message;
+                        // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                        variables = {name: error.message};
                     }
+                    errorMessage = messageService.getProperty(sithssignerrormessageid, variables, sithssignerrormessageid);
                     dialogService.showErrorMessageDialog(errorMessage);
                     signModel.signingWithSITHSInProgress = false;
                 }
