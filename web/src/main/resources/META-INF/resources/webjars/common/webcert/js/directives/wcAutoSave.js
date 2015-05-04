@@ -1,5 +1,5 @@
-angular.module('common').directive('wcAutoSave', ['$timeout', 'common.ManageCertView',
-    function($timeout, ManageCertView) {
+angular.module('common').directive('wcAutoSave', ['$timeout', 'common.ManageCertView', 'common.UtkastViewStateService',
+    function($timeout, ManageCertView, UtkastViewState) {
         'use strict';
 
         return {
@@ -30,7 +30,9 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.ManageCert
                 };
 
                 $scope.$watch(function() {
-                    if (form.$dirty) {
+                    if (form.$dirty &&
+                        UtkastViewState.error.saveErrorCode !== 'CONCURRENT_MODIFICATION' &&
+                        UtkastViewState.error.saveErrorCode !== 'DATA_NOT_FOUND') {
                         var wait = SAVE_DELAY;
                         if (lastSave !== null) {
                             var lastSaveDelta = (new Date()).getTime() - lastSave;
