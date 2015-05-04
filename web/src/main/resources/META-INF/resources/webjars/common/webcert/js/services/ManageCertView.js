@@ -45,6 +45,7 @@ angular.module('common').factory('common.ManageCertView',
                     return false;
                 }
                 $scope.certForm.$setPristine();
+                $scope.widgetState.error.reset();
                 CertificateService.saveDraft($scope.certMeta.intygId, intygsTyp, $scope.cert, $scope.certMeta.version, autoSave,
                     function(data) {
 
@@ -53,7 +54,7 @@ angular.module('common').factory('common.ManageCertView',
                         $scope.validationMessagesGrouped = {};
                         $scope.validationMessages = [];
                         $scope.certMeta.version = data.version;
-
+                        $scope.widgetState.error.reset();
                         if (data.status === 'COMPLETE') {
                             $scope.isComplete = true;
                         } else {
@@ -100,6 +101,18 @@ angular.module('common').factory('common.ManageCertView',
                         $scope.certForm.$setDirty();
                         // Show error message if save fails
                         $scope.widgetState.saveErrorMessageKey = checkSetErrorSave(error.errorCode);
+
+                        var errorMessage;
+                        var variables = null;
+                        if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                            // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                            variables = {name: error.message};
+                        }
+                        var errorMessageId = checkSetErrorSave(error.errorCode);
+                        errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
+
+                        $scope.widgetState.error.saveErrorMessage = errorMessage;
+                        $scope.widgetState.error.saveErrorCode = error.errorCode;
                     }
                 );
                 return true;
@@ -302,6 +315,8 @@ angular.module('common').factory('common.ManageCertView',
                         messageId = 'common.error.certificateinvalidstate';
                     } else if (error.errorCode === 'SIGN_NETID_ERROR') {
                         messageId = 'common.error.signerrornetid';
+                    } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                        messageId = 'common.error.sign.concurrent_modification';
                     } else if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {
@@ -318,7 +333,13 @@ angular.module('common').factory('common.ManageCertView',
                     $scope.dialog.errormessageid = _setErrorMessageId(error);
                 } else {
                     var sithssignerrormessageid = _setErrorMessageId(error);
-                    var errorMessage = messageService.getProperty(sithssignerrormessageid, null, sithssignerrormessageid);
+                    var errorMessage;
+                    var variables = null;
+                    if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                        // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                        variables = {name: error.message};
+                    }
+                    errorMessage = messageService.getProperty(sithssignerrormessageid, variables, sithssignerrormessageid);
                     dialogService.showErrorMessageDialog(errorMessage);
                     $scope.signingWithSITHSInProgress = false;
                 }
@@ -365,7 +386,9 @@ angular.module('common').factory('common.ManageCertView',
                 printDraft: _printDraft,
 
                 __test__: {
-                    confirmSignera: _confirmSignera
+                    confirmSignera: _confirmSignera,
+                    setErrorMessageId: _setErrorMessageId,
+                    showSigneringsError: _showSigneringsError
                 }
             };
         }]);
