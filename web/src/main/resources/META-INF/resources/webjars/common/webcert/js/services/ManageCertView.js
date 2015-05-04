@@ -168,27 +168,7 @@ angular.module('common').factory('common.ManageCertView',
 
             function _signeraServer(intygsTyp, intygsId, version) {
                 var signModel = {};
-                var bodyText = 'Är du säker på att du vill signera intyget?';
-                var confirmDialog = dialogService.showDialog({
-                    dialogId: 'confirm-sign',
-                    titleId: 'common.modal.label.confirm_sign',
-                    bodyText: bodyText,
-                    autoClose: false,
-                    button1id: 'confirm-signera-utkast-button',
-
-                    button1click: function() {
-                        _confirmSignera(signModel, intygsTyp, intygsId, version, confirmDialog);
-                    },
-                    button1text: 'common.sign',
-                    button2click: function() {
-                        if (confirmDialog.model._timer) {
-                            $timeout.cancel(confirmDialog.model._timer);
-                        }
-                        confirmDialog.model.acceptprogressdone = true;
-                    },
-                    button2text: 'common.cancel'
-                });
-                signModel.dialog = confirmDialog;
+                _confirmSignera(signModel, intygsTyp, intygsId, version);
                 return signModel;
             }
 
@@ -218,12 +198,9 @@ angular.module('common').factory('common.ManageCertView',
                 return signModel;
             }
 
-            function _confirmSignera(signModel, intygsTyp, intygsId, version, confirmDialog) {
-                confirmDialog.model.acceptprogressdone = false;
-                confirmDialog.model.showerror = false;
+            function _confirmSignera(signModel, intygsTyp, intygsId, version) {
                 CertificateService.signeraUtkast(intygsId, intygsTyp, version, function(ticket) {
-                    _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket,
-                        confirmDialog);
+                    _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket);
                 }, function(error) {
                     _showSigneringsError(signModel, error);
                 });
@@ -246,14 +223,14 @@ angular.module('common').factory('common.ManageCertView',
                 });
             }
 
-            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, dialog) {
+            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket) {
 
                 function getSigneringsstatus() {
                     CertificateService.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
                         if ('BEARBETAR' === ticket.status) {
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                         } else if ('SIGNERAD' === ticket.status) {
-                            _showIntygAfterSignering(signModel, intygsTyp, intygsId, dialog);
+                            _showIntygAfterSignering(signModel, intygsTyp, intygsId);
                         } else {
                             _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
@@ -263,10 +240,7 @@ angular.module('common').factory('common.ManageCertView',
                 getSigneringsstatus();
             }
 
-            function _showIntygAfterSignering(signModel, intygsTyp, intygsId, dialog) {
-                if (dialog) {
-                    dialog.close();
-                }
+            function _showIntygAfterSignering(signModel, intygsTyp, intygsId) {
                 signModel.signingWithSITHSInProgress = false;
 
                 $location.replace();
@@ -300,23 +274,17 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             function _showSigneringsError(signModel, error) {
-                if (signModel.dialog) {
-                    signModel.dialog.model.acceptprogressdone = true;
-                    signModel.dialog.model.showerror = true;
-                    signModel.dialog.model.errormessageid = _setErrorMessageId(error);
-                } else {
-                    var sithssignerrormessageid = _setErrorMessageId(error);
+                var sithssignerrormessageid = _setErrorMessageId(error);
 
-                    var errorMessage;
-                    var variables = null;
-                    if (error.errorCode === 'CONCURRENT_MODIFICATION') {
-                        // In the case of concurrent modification we should have the name of the user making trouble in the message.
-                        variables = {name: error.message};
-                    }
-                    errorMessage = messageService.getProperty(sithssignerrormessageid, variables, sithssignerrormessageid);
-                    dialogService.showErrorMessageDialog(errorMessage);
-                    signModel.signingWithSITHSInProgress = false;
+                var errorMessage;
+                var variables = null;
+                if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                    // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                    variables = {name: error.message};
                 }
+                errorMessage = messageService.getProperty(sithssignerrormessageid, variables, sithssignerrormessageid);
+                dialogService.showErrorMessageDialog(errorMessage);
+                signModel.signingWithSITHSInProgress = false;
             }
 
             function _isSentToTarget(statusArr, target) {
