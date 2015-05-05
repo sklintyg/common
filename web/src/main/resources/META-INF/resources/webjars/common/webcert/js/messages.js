@@ -50,7 +50,7 @@ var commonMessages = {
         'draft.status.changed': '<strong>Status:</strong> Utkastet är ändrat sedan det senast sparades',
 
         // intyg forms
-        'draft.saknar-uppgifter': 'Utkastet saknar uppgifter',
+        'draft.saknar-uppgifter': 'Utkastet saknar uppgifter i följande avsnitt:',
         'draft.onlydoctorscansign': 'Endast läkare får signera intyget.',
         'draft.signingdoctor': 'Signerande läkare',
         'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
