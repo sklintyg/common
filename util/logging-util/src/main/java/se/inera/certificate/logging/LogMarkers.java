@@ -10,4 +10,5 @@ public final class LogMarkers {
 
     public static final Marker VALIDATION = MarkerFactory.getMarker("Validation");
     public static final Marker MONITORING = MarkerFactory.getMarker("Monitoring");
+    public static final Marker HSA = MarkerFactory.getMarker("HSA");
 }
