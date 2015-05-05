@@ -8,6 +8,7 @@ angular.module('common').factory('common.Domain.DraftModel',
          * Constructor, with class name
          */
         function DraftModel(contentModel) {
+            this.version = undefined;
             this.vidarebefordrad = undefined;
             this.status = undefined;
             if(contentModel){
@@ -20,6 +21,7 @@ angular.module('common').factory('common.Domain.DraftModel',
             if(data === undefined) {
                 return;
             }
+            this.version = data.version;
             this.vidarebefordrad = data.vidarebefordrad;
             this.status = data.status;
             if(this.content){
