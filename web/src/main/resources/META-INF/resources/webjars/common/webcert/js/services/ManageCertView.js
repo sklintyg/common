@@ -140,12 +140,17 @@ angular.module('common').factory('common.ManageCertView',
                                     // In the case of concurrent modification we should have the name of the user making trouble in the message.
                                     variables = {name: error.message};
                                 }
-                                var errorMessageId = checkSetErrorSave(error.errorCode);
+
+                                var errorCode = error.errorCode;
+                                if (typeof errorCode === 'undefined') {
+                                    errorCode = 'unknown';
+                                }
+                                var errorMessageId = checkSetErrorSave(errorCode);
                                 errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
 
                                 var result = {
                                     errorMessage: errorMessage,
-                                    errorCode: error.errorCode
+                                    errorCode: errorCode
                                 };
                                 saveComplete.reject(result);
                             }
