@@ -56,7 +56,7 @@ describe('ManageCertView', function() {
             User.getUserContext().authenticationScheme = 'urn:inera:webcert:fake';
 
             $routeParams.certificateId = intygId;
-            $scope = { dialog: {} };
+            $scope = { dialog: {}, certMeta: {} };
         });
 
         afterEach(function() {

@@ -204,8 +204,9 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             function _signeraKlient($scope, intygsTyp, intygsId, version) {
-                    $scope.signingWithSITHSInProgress = true;
-                    CertificateService.getSigneringshash(intygsId, intygsTyp, version, function(ticket) {
+                $scope.signingWithSITHSInProgress = true;
+                CertificateService.getSigneringshash(intygsId, intygsTyp, version, function(ticket) {
+                    $scope.certMeta.version = ticket.version;
                     _openNetIdPlugin(ticket.hash, function(signatur) {
                         CertificateService.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, function(ticket) {
 
@@ -314,7 +315,7 @@ angular.module('common').factory('common.ManageCertView',
                     var sithssignerrormessageid = _setErrorMessageId(error);
                     var errorMessage;
                     var variables = null;
-                    if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                    if (error && error.errorCode === 'CONCURRENT_MODIFICATION') {
                         // In the case of concurrent modification we should have the name of the user making trouble in the message.
                         variables = {name: error.message};
                     }
