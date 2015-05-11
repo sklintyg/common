@@ -169,20 +169,21 @@ angular.module('common').factory('common.ManageCertView',
             }
 
             function signera(intygsTyp, version) {
+                var deferred = $q.defer();
                 if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
-                    return _signeraServer(intygsTyp, $stateParams.certificateId, version);
+                    return _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
-                    return _signeraKlient(intygsTyp, $stateParams.certificateId, version);
+                    return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                 }
             }
 
-            function _signeraServer(intygsTyp, intygsId, version) {
+            function _signeraServer(intygsTyp, intygsId, version, deferred) {
                 var signModel = {};
-                _confirmSignera(signModel, intygsTyp, intygsId, version);
-                return signModel;
+                _confirmSignera(signModel, intygsTyp, intygsId, version, deferred);
+                return deferred.promise;
             }
 
-            function _signeraKlient(intygsTyp, intygsId, version) {
+            function _signeraKlient(intygsTyp, intygsId, version, deferred) {
                 var signModel = {
                     signingWithSITHSInProgress : true
                 };
@@ -191,27 +192,32 @@ angular.module('common').factory('common.ManageCertView',
                         CertificateService.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, function(ticket) {
 
                             if (ticket.status === 'SIGNERAD') {
+                                deferred.resolve({newVersion : ticket.version});
                                 _showIntygAfterSignering(signModel, intygsTyp, intygsId);
                             } else {
-                                _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket);
+                                _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred);
                             }
 
                         }, function(error) {
+                            deferred.resolve({newVersion : ticket.version});
                             _showSigneringsError(signModel, error);
                         });
                     }, function(error) {
+                        deferred.resolve({newVersion : ticket.version});
                         _showSigneringsError(signModel, error);
                     });
                 }, function(error) {
+                    deferred.resolve({});
                     _showSigneringsError(signModel, error);
                 });
-                return signModel;
+                return deferred.promise;
             }
 
-            function _confirmSignera(signModel, intygsTyp, intygsId, version) {
+            function _confirmSignera(signModel, intygsTyp, intygsId, version, deferred) {
                 CertificateService.signeraUtkast(intygsId, intygsTyp, version, function(ticket) {
-                    _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket);
+                    _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred);
                 }, function(error) {
+                    deferred.resolve({});
                     _showSigneringsError(signModel, error);
                 });
             }
@@ -233,15 +239,17 @@ angular.module('common').factory('common.ManageCertView',
                 });
             }
 
-            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket) {
+            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred) {
 
                 function getSigneringsstatus() {
                     CertificateService.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
                         if ('BEARBETAR' === ticket.status) {
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                         } else if ('SIGNERAD' === ticket.status) {
+                            deferred.resolve({newVersion : ticket.version});
                             _showIntygAfterSignering(signModel, intygsTyp, intygsId);
                         } else {
+                            deferred.resolve({newVersion : ticket.version});
                             _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
                     });

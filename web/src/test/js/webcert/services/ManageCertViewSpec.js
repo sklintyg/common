@@ -6,6 +6,7 @@ describe('ManageCertView', function() {
     var ManageCertView;
     var $document;
     var $httpBackend;
+    var $q;
     var $location;
     var $stateParams;
     var $timeout;
@@ -36,12 +37,13 @@ describe('ManageCertView', function() {
         $provide.value('common.domain.DraftModel', {});
     }));
 
-    beforeEach(angular.mock.inject(['common.ManageCertView', '$httpBackend', '$location', '$stateParams', '$timeout',
+    beforeEach(angular.mock.inject(['common.ManageCertView', '$httpBackend', '$location', '$q', '$stateParams', '$timeout',
         '$document', 'common.dialogService', 'common.User',
-        function(_ManageCertView_, _$httpBackend_, _$location_, _$stateParams_, _$timeout_, _$document_,
+        function(_ManageCertView_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_, _$document_,
             _dialogService_, _User_) {
             ManageCertView = _ManageCertView_;
             $httpBackend = _$httpBackend_;
+            $q = _$q_;
             $location = _$location_;
             $stateParams = _$stateParams_;
             $timeout = _$timeout_;
@@ -86,7 +88,7 @@ describe('ManageCertView', function() {
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'SIGNERAD' });
 
-            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
             expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
@@ -99,7 +101,7 @@ describe('ManageCertView', function() {
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
 
-            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
@@ -115,7 +117,7 @@ describe('ManageCertView', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeraserver').
                 respond(500, { errorCode: 'DATA_NOT_FOUND' });
 
-            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
             expect($location.path).not.toHaveBeenCalled();
@@ -127,7 +129,7 @@ describe('ManageCertView', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeraserver').
                 respond(500, { errorCode: 'CONCURRENT_MODIFICATION' });
 
-            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
             expect($location.path).not.toHaveBeenCalled();
@@ -141,7 +143,7 @@ describe('ManageCertView', function() {
             $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'ERROR' });
 
-            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version);
+            ManageCertView.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
             expect($location.path).not.toHaveBeenCalled();
