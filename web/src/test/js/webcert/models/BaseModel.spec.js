@@ -82,7 +82,61 @@ describe('common.domain.BaseModel', function() {
             });
         };
 
-        describe('enums', function(){
+        describe('linked properties', function(){
+            it('link a number of properties to a single property', function(){
+
+                var modelDef = {
+                    strawberry : false,
+                    vanilla : false,
+                    chocolate : false,
+                    shake : new ModelAttr('shake', {
+                        linkedProperty : {
+                            props:['strawberry','vanilla','chocolate'],
+                            update:function(model, props){
+                                if(props.strawberry){
+                                    return 'strawberry';
+                                } else if(props.vanilla){
+                                    return 'vanilla';
+                                } else if(props.chocolate){
+                                    return 'chocolate';
+                                }
+                            },
+                            set : function(value){
+                                this.strawberry = value === 'strawberry';
+                                this.vanilla = value === 'vanilla';
+                                this.chocolate = value === 'chocolate';
+                            }
+                        }
+                    })
+
+                };
+
+                model = new BaseModel('model1', modelDef);
+                //console.log('------------------------- enums');
+                //console.log('--- model def');
+
+                //console.log(JSON.stringify(model));
+
+                var content = {
+                    strawberry : false,
+                    vanilla : true,
+                    chocolate : false};
+
+                //console.log('--- after update');
+                model.update(content);
+
+                //console.log(JSON.stringify(model));
+                expect(model.vanilla).toBeTruthy();
+                expect(model.shake).toBe('vanilla');
+
+                model.setshake('chocolate');
+                
+                expect(model.vanilla).toBeFalsy();
+                expect(model.chocolate).toBeTruthy();
+            });
+        });
+
+        xdescribe('enums', function(){
             it('can handle an array of objects ', function(){
 
                 var korkortstyp = new BaseModel('korkortstyp', {type:'ANNAT', selected:false});

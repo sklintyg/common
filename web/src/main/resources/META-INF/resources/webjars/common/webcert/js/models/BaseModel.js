@@ -36,6 +36,9 @@ angular.module('common').factory('common.domain.BaseModel',
                                 current[prop.property] = prop.defaultValue;
                             }
                         }
+                        if(prop.linkedProperty){
+                            current['set'+prop.property] = prop.linkedProperty.set;
+                        }
                     } else if(extras && extras.key !== undefined && !extras.self.isNumber(extras.key)){
                         if(extras.self.isObject(prop)){
                             //console.log('-- object prop: ' + extras.key);
@@ -240,7 +243,6 @@ angular.module('common').factory('common.domain.BaseModel',
                 if (content !== undefined) {
 
                     var updateProp = function updateProp(current, prop, extras){
-
                         //console.log('------------------------ update');
                         //console.log('-- current : ' + JSON.stringify(current));
                         //console.log('-- content : ' + JSON.stringify(extras.content));
@@ -250,13 +252,20 @@ angular.module('common').factory('common.domain.BaseModel',
                         //console.log('-- isMA ' + prop instanceof ModelAttr );
                         if (prop instanceof ModelAttr) {
                             //console.log('--- ma');
-                            if(extras.content && extras.content.hasOwnProperty(prop.property) && current.hasOwnProperty(prop.property)) {
+                            if( (extras.content && prop.linkedProperty) || ( extras.content && extras.content.hasOwnProperty(prop.property) && current.hasOwnProperty(prop.property) ) ) {
                                 if (prop.fromTransform !== undefined) {
                                     //console.log('---- update transform');
                                     current[prop.property] = prop.fromTransform(extras.content[prop.property]);
                                 } else if (extras.self.isModel(current[prop.property])) {
                                     //console.log('---- update child model');
                                     current[prop.property].update(extras.content[prop.property]);
+                                } else if(prop.linkedProperty){
+                                    var lps = {};
+                                    for(var i =0; i<prop.linkedProperty.props.length;i++){
+                                        var lp = prop.linkedProperty.props[i];
+                                        lps[lp] = current[lp];
+                                    }
+                                    current[prop.property] = prop.linkedProperty.update(extras.self, lps);
                                 } else {
                                     //console.log('---- update prop');
                                     current[prop.property] = extras.content[prop.property];

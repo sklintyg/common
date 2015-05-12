@@ -12,6 +12,7 @@ angular.module('common').factory('common.domain.ModelAttr',
                 this.trans = options.trans;
                 this.toTransform = options.toTransform;
                 this.fromTransform = options.fromTransform;
+                this.linkedProperty = options.linkedProperty;
             }
         };
 
