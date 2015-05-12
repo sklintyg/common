@@ -172,7 +172,7 @@ describe('ManageCertView', function() {
             User.getUserContext().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
 
             $routeParams.certificateId = intygId;
-            $scope = {};
+            $scope = { certMeta: {} };
         });
 
         afterEach(function() {
