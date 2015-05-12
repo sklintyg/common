@@ -12,10 +12,12 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.UtkastServ
                 var form = $ctrls[0];
                 var savePromise = null;
                 var lastSave = null;
-                var expression = $attrs.wcAutoSave || 'true';
 
                 var save = function(extras) {
-                    return UtkastService.save(extras);
+                    if (form.$dirty) {
+                        return UtkastService.save(extras);
+                    }
+                    return true;
                 };
 
                 var saveFunction = function() {

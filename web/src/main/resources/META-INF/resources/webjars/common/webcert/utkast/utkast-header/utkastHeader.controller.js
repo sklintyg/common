@@ -22,10 +22,6 @@ angular.module('common').controller('common.UtkastHeader',
                 anchorScrollService.scrollTo('top');
             };
 
-            $scope.save = function() {
-                UtkastService.save(false);
-            };
-
             /**
              * Action to discard the certificate draft and return to WebCert again.
              */
@@ -101,6 +97,29 @@ angular.module('common').controller('common.UtkastHeader',
             $scope.print = function() {
                 PrintService.printWebPage($scope.cert.id, CommonViewState.intyg.type);
             };
+
+            $window.onbeforeunload = function(event) {
+                if ($scope.certForm.$dirty) {
+                    // Trigger a save now. If the user responds with "Leave the page" we may not have time to save
+                    // before the page is closed. We could use an ajax request with async:false this will force the
+                    // browser to "hang" the page until the request is complete. But using async:false is deprecated
+                    // and will be removed in future browsers.
+                    UtkastService.save();
+                    var message = 'Om du väljer "Lämna sidan" kan ändringar försvinna. Om du väljer "Stanna kvar på sidan" autosparas ändringarna.';
+                    if (typeof event === 'undefined') {
+                        event = $window.event;
+                    }
+                    if (event) {
+                        event.returnValue = message;
+                    }
+                    return message;
+                }
+                return null;
+            };
+
+            $scope.$on('$destroy', function() {
+                $window.onbeforeunload = null;
+            });
         }
     ]
 );

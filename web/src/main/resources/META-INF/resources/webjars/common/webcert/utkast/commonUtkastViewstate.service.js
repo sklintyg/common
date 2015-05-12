@@ -14,6 +14,7 @@ angular.module('common').service('common.UtkastViewStateService',
             };
             this.doneLoading = false;
             this.collapsedHeader = false;
+            this.saving = false;
 
             // TODO: should go into intyg
             this.showComplete = false;

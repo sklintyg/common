@@ -42,6 +42,7 @@ var commonMessages = {
 
         // common intyg view messages
         'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
+        'common.label.saving': 'Sparar',
 
         // draft form status messages
         'draft.status.draft_incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',

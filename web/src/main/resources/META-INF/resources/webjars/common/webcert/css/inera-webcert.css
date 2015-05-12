@@ -676,6 +676,10 @@
         margin-top: 20px;
     }
 
+    .wc-spinner-inline, .wc-spinner-inline div, .wc-spinner-inline p {
+        display: inline;
+    }
+
     /**
      Form/validation
     **/

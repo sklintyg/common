@@ -60,6 +60,9 @@ angular.module('common').factory('common.UtkastService',
                     return false;
                 }
 
+                var saveStartTime = moment();
+                CommonViewState.saving = true;
+
                 var deferred = $q.defer();
                 $rootScope.$broadcast('saveRequest', deferred);
 
@@ -86,6 +89,14 @@ angular.module('common').factory('common.UtkastService',
                     saveCompletePromise.finally(function(){
                         if(extras && extras.destroy ){
                             extras.destroy();
+                        }
+                        var saveRequestDuration = moment().diff(saveStartTime);
+                        if (saveRequestDuration > 1000) {
+                            CommonViewState.saving = false;
+                        } else {
+                            $timeout(function() {
+                                CommonViewState.saving = false;
+                            }, 1000 - saveRequestDuration);
                         }
                     });
 
@@ -157,7 +168,7 @@ angular.module('common').factory('common.UtkastService',
                                 saveComplete.reject(result);
                             }
                         );
-            });
+                });
                 return true;
             }
 
