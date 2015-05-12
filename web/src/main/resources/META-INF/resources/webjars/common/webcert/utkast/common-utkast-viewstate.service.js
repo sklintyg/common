@@ -1,5 +1,5 @@
 angular.module('common').service('common.UtkastViewStateService',
-    ['$stateParams', '$window', function($stateParams, $window) {
+    ['$stateParams', '$window', '$timeout', function($stateParams, $window, $timeout) {
         'use strict';
 
         this.reset = function() {
@@ -25,6 +25,8 @@ angular.module('common').service('common.UtkastViewStateService',
             this.validationSections  = null;
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;
+
+            this.headerSize = {width:0, height: 250};
 
             this.draftModel = undefined;
             this.intygModel = undefined;
@@ -61,6 +63,16 @@ angular.module('common').service('common.UtkastViewStateService',
 
         this.toggleCollapsedHeader = function() {
             this.collapsedHeader = !this.collapsedHeader;
+
+            $rootScope.$broadcast('wcAnimationStart');
+/*            var collapsedHeader = this.collapsedHeader;
+            $timeout(function() {
+                if(collapsedHeader){
+                    this.headerSize.height -= 1;
+                } else {
+                    this.headerSize.height -= 1;
+                }
+            }, 500);*/
         };
 
         this.setDoneLoading = function(val){
