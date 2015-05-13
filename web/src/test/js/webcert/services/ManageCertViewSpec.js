@@ -34,6 +34,7 @@ describe('ManageCertView', function() {
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
         $provide.value('common.UserModel', { userContext: { authenticationScheme: null } });
         $provide.value('common.UtkastViewStateService', {});
+        $provide.value('common.utkastNotifyService', {});
         $provide.value('common.domain.DraftModel', {});
     }));
 
