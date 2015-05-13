@@ -1,5 +1,5 @@
 angular.module('common').service('common.UtkastViewStateService',
-    ['$stateParams', '$window', '$timeout', function($stateParams, $window, $timeout) {
+    ['$stateParams', '$window', function($stateParams, $window) {
         'use strict';
 
         this.reset = function() {
@@ -63,24 +63,12 @@ angular.module('common').service('common.UtkastViewStateService',
 
         this.toggleCollapsedHeader = function() {
             this.collapsedHeader = !this.collapsedHeader;
-
-            $rootScope.$broadcast('wcAnimationStart');
-/*            var collapsedHeader = this.collapsedHeader;
-            $timeout(function() {
-                if(collapsedHeader){
-                    this.headerSize.height -= 1;
-                } else {
-                    this.headerSize.height -= 1;
-                }
-            }, 500);*/
         };
 
         this.setDoneLoading = function(val){
             this.doneLoading = val;
             $window.doneLoading = val;
         };
-
-
 
         this.reset();
     }
