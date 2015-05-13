@@ -144,18 +144,24 @@ angular.module('common').factory('common.ManageCertView',
                             $scope.dialog.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
+                            draftDeleteDialog.close();
                             if (featureService.isFeatureActive('franJournalsystem')) {
                                 $rootScope.$broadcast('intyg.deleted', $routeParams.certificateId);
                             } else {
-                                $window.history.back();
+                                $timeout(function() {
+                                    $window.history.back();
+                                });
                             }
-                            draftDeleteDialog.close();
+
                         }, function(error) {
                             $scope.dialog.acceptprogressdone = true;
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
                                 statService.refreshStat(); // Update statistics to reflect change
                                 draftDeleteDialog.close();
-                                $window.history.back();
+                                $timeout(function() {
+                                    $window.history.back();
+                                });
+
                             } else {
                                 $scope.dialog.showerror = true;
                                 if (error === '') {
