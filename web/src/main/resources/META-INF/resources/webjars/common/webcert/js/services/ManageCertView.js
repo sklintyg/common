@@ -2,10 +2,10 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.ManageCertView',
-    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
+    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q', 'common.utkastNotifyService',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus',
-        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
+        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, utkastNotifyService,
             CertificateService, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus) {
             'use strict';
 
@@ -334,6 +334,38 @@ angular.module('common').factory('common.ManageCertView',
                 });
             }
 
+            function _notifyUtkast(intygId, intygType, vidarebefordrad, inProgress) {
+/*                var utkastNotifyRequest = {
+                    intygId: viewState.intygModel.id,
+                    intygType: viewState.common.intyg.type,
+                    vidarebefordrad: viewState.draftModel.vidarebefordrad,
+                    inProgress: viewState.common.vidarebefordraInProgress
+                };*/
+                var utkastNotifyRequest = {
+                    intygId: intygId,
+                    intygType: intygType,
+                    vidarebefordrad: vidarebefordrad,
+                    inProgress: inProgress
+                };
+                utkastNotifyService.notifyUtkast(utkastNotifyRequest);
+
+            }
+
+            function _onNotifyChange(intygId, intygType, vidarebefordrad, inProgress) {
+/*                var utkastNotifyRequest = {
+                    intygId: viewState.intygModel.id,
+                    intygType: viewState.common.intyg.type,
+                    vidarebefordrad: viewState.draftModel.vidarebefordrad,
+                    inProgress: viewState.common.vidarebefordraInProgress
+                };*/
+                var utkastNotifyRequest = {
+                    intygId: intygId,
+                    intygType: intygType,
+                    vidarebefordrad: vidarebefordrad,
+                    inProgress: inProgress
+                };
+                utkastNotifyService.onNotifyChange(utkastNotifyRequest);
+            }
 
             // Return public API for the service
             return {
@@ -343,6 +375,8 @@ angular.module('common').factory('common.ManageCertView',
                 isRevoked: _isRevoked,
                 isSentToTarget: _isSentToTarget,
                 printDraft: _printDraft,
+                notifyUtkast: _notifyUtkast,
+                onNotifyChange: _onNotifyChange,
 
                 __test__: {
                     confirmSignera: _confirmSignera,

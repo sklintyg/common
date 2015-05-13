@@ -30,7 +30,7 @@
     "/web/webjars/common/webcert/js/services/CertificateService.js",
     "/web/webjars/common/webcert/js/services/dialogService.js",
     "/web/webjars/common/webcert/js/services/fragaSvarCommonService.js",
-    "/web/webjars/common/webcert/js/services/intygNotifyService.js",
+    "/web/webjars/common/webcert/utkast/utkastNotify.service.js",
     "/web/webjars/common/webcert/js/services/errorLogService.js",
     "/web/webjars/common/webcert/js/services/featureService.js",
     "/web/webjars/common/webcert/js/services/http403ResponseInterceptor.js",

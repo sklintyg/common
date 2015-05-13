@@ -1,11 +1,10 @@
 /**
  * Utkast Notify Service Module - Functions related to
  * sending notifications of utkast to a doctor via mail.
- * TODO: rename this to utkastNotifyService. It has nothing to do with intyg.
  */
-angular.module('common').factory('common.intygNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService', 'common.UtkastViewStateService',
-        function($http, $log, $modal, $window, $timeout, dialogService, CommonViewState) {
+angular.module('common').factory('common.utkastNotifyService',
+    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService',
+        function($http, $log, $modal, $window, $timeout, dialogService) {
             'use strict';
 
             function _notifyUtkast(notifyRequest) {
@@ -19,9 +18,9 @@ angular.module('common').factory('common.intygNotifyService',
             }
 
             function _onNotifyChange(notifyRequest) {
-                CommonViewState.vidarebefordraInProgress = true;
+                notifyRequest.inProgress = true;
                 _setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.vidarebefordrad, function(result) {
-                    CommonViewState.vidarebefordraInProgress = false;
+                    notifyRequest.inProgress = false;
 
                     if (result !== null) {
                         notifyRequest.vidarebefordrad = result.vidarebefordrad;
@@ -156,10 +155,10 @@ angular.module('common').factory('common.intygNotifyService',
 
             // Return public API for the service
             return {
-                forwardIntyg: _notifyUtkast,
-                onForwardedChange: _onNotifyChange,
-                setForwardedState: _setNotifyState,
-                showForwardedPreferenceDialog: _showNotifyPreferenceDialog,
+                notifyUtkast: _notifyUtkast,
+                onNotifyChange: _onNotifyChange,
+                setNotifyState: _setNotifyState,
+                showNotifyPreferenceDialog: _showNotifyPreferenceDialog,
                 buildNotifyDoctorMailToLink: _buildNotifyDoctorMailToLink
             };
         }]);
