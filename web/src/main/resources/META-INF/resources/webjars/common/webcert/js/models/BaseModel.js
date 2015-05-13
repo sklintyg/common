@@ -37,7 +37,32 @@ angular.module('common').factory('common.domain.BaseModel',
                             }
                         }
                         if(prop.linkedProperty){
-                            current['set'+prop.property] = prop.linkedProperty.set;
+                            current['set' + prop.property] = prop.linkedProperty.set;
+                            // set up a compound observer for the linkedProperty
+
+                            var observers ={};
+                            var lps = {};
+                            for(var i = 0; i<prop.linkedProperty.props.length;i++){
+                                var lp = prop.linkedProperty.props[i];
+                                lps[lp] = undefined;
+                                var self;
+                                if(lp.indexOf('.') > 0){
+                                    self = extras.self;
+                                    //observer.addPath(extras.self, lp);
+                                } else {
+                                    self = current;
+                                    //observer.addPath(current, lp);
+                                }
+
+                                self.watch(lp, function (id, oldval, newval) {
+                                    console.log( 'o.' + id + ' changed from ' + oldval + ' to ' + newval );
+                                    lps[id] = newval;
+                                    self[prop.property] = prop.linkedProperty.update(self, lps);
+                                    return newval;
+                                });
+
+                            }
+
                         }
                     } else if(extras && extras.key !== undefined && !extras.self.isNumber(extras.key)){
                         if(extras.self.isObject(prop)){
@@ -260,12 +285,13 @@ angular.module('common').factory('common.domain.BaseModel',
                                     //console.log('---- update child model');
                                     current[prop.property].update(extras.content[prop.property]);
                                 } else if(prop.linkedProperty){
-                                    var lps = {};
-                                    for(var i =0; i<prop.linkedProperty.props.length;i++){
-                                        var lp = prop.linkedProperty.props[i];
-                                        lps[lp] = current[lp];
-                                    }
-                                    current[prop.property] = prop.linkedProperty.update(extras.self, lps);
+                                    // this should all move to the property setup
+                                    //var lps = {};
+                                    //for(var i =0; i<prop.linkedProperty.props.length;i++){
+                                    //    var lp = prop.linkedProperty.props[i];
+                                    //    lps[lp] = current[lp];
+                                    //}
+                                    //current[prop.property] = prop.linkedProperty.update(extras.self, lps);
                                 } else {
                                     //console.log('---- update prop');
                                     current[prop.property] = extras.content[prop.property];
