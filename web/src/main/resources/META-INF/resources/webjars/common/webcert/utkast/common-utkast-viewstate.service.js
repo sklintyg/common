@@ -26,6 +26,8 @@ angular.module('common').service('common.UtkastViewStateService',
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;
 
+            this.headerSize = {width:0, height: 250};
+
             this.draftModel = undefined;
             this.intygModel = undefined;
         };
@@ -67,8 +69,6 @@ angular.module('common').service('common.UtkastViewStateService',
             this.doneLoading = val;
             $window.doneLoading = val;
         };
-
-
 
         this.reset();
     }
