@@ -71,8 +71,15 @@ angular.module('common').controller('common.UtkastHeader',
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
                                 statService.refreshStat(); // Update statistics to reflect change
                                 draftDeleteDialog.close({direct:back});
+                            } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                                dialogModel.showerror = true;
+                                var errorMessageId = 'common.error.discard.concurrent_modification';
+                                // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                                dialogModel.errormessage = messageService.getProperty(errorMessageId, {name: error.message}, errorMessageId);
+                                dialogModel.errormessageid = '';
                             } else {
                                 dialogModel.showerror = true;
+                                dialogModel.errormessage = '';
                                 if (error === '') {
                                     dialogModel.errormessageid = 'common.error.cantconnect';
                                 } else {
