@@ -370,7 +370,8 @@ angular.module('common').factory('common.ManageCertView',
             function onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult) {
                 updateState.vidarebefordraInProgress = false;
                 if(vidarebefordradResult !== null) {
-                    utkast.vidarebefordrad = vidarebefordradResult;
+                    utkast.vidarebefordrad = vidarebefordradResult.vidarebefordrad;
+                    utkast.version = vidarebefordradResult.version;
                 }
             }
 

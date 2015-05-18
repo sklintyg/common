@@ -26,7 +26,10 @@ angular.module('common').factory('common.utkastNotifyService',
                 _setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.vidarebefordrad, function(result) {
 
                     if (result !== null) {
-                        deferred.resolve(result.vidarebefordrad);
+                        deferred.resolve({
+                            vidarebefordrad: result.vidarebefordrad,
+                            version: result.version
+                        });
                     } else {
                         deferred.reject();
                     }
