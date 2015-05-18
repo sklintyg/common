@@ -2,11 +2,11 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.ManageCertView',
-    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q', 'common.utkastNotifyService',
+    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.CertificateService', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus',
-        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, utkastNotifyService,
-            CertificateService, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus) {
+        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.utkastNotifyService',
+        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
+            CertificateService, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, utkastNotifyService) {
             'use strict';
 
             /**
@@ -336,37 +336,45 @@ angular.module('common').factory('common.ManageCertView',
                 });
             }
 
-            function _notifyUtkast(intygId, intygType, vidarebefordrad, inProgress) {
-/*                var utkastNotifyRequest = {
-                    intygId: viewState.intygModel.id,
-                    intygType: viewState.common.intyg.type,
-                    vidarebefordrad: viewState.draftModel.vidarebefordrad,
-                    inProgress: viewState.common.vidarebefordraInProgress
-                };*/
+            function _notifyUtkast(intygId, intygType, vidarebefordrad, updateState) {
+                updateState.notifieraInProgress = true;
                 var utkastNotifyRequest = {
                     intygId: intygId,
                     intygType: intygType,
-                    vidarebefordrad: vidarebefordrad,
-                    inProgress: inProgress
+                    vidarebefordrad: vidarebefordrad
                 };
-                utkastNotifyService.notifyUtkast(utkastNotifyRequest);
-
+                utkastNotifyService.notifyUtkast(utkastNotifyRequest).then(function(vidarebefordradResult) {
+                    updateState.notifieraInProgress = false;
+                    vidarebefordrad = vidarebefordradResult;
+                }, function() {
+                    onNotifyChangeFail(vidarebefordrad, updateState);
+                });
             }
 
-            function _onNotifyChange(intygId, intygType, vidarebefordrad, inProgress) {
-/*                var utkastNotifyRequest = {
-                    intygId: viewState.intygModel.id,
-                    intygType: viewState.common.intyg.type,
-                    vidarebefordrad: viewState.draftModel.vidarebefordrad,
-                    inProgress: viewState.common.vidarebefordraInProgress
-                };*/
+            function onNotifyChangeFail(vidarebefordrad, updateState) {
+                updateState.notifieraInProgress = false;
+                vidarebefordrad = !vidarebefordrad;
+                dialogService.showErrorMessageDialog('Kunde inte markera/avmarkera intyget som ' +
+                    'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
+                    'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.');
+            }
+
+            function _onNotifyChange(intygId, intygType, vidarebefordrad, updateState) {
+                updateState.notifieraInProgress = true;
+
                 var utkastNotifyRequest = {
                     intygId: intygId,
                     intygType: intygType,
-                    vidarebefordrad: vidarebefordrad,
-                    inProgress: inProgress
+                    vidarebefordrad: vidarebefordrad
                 };
-                utkastNotifyService.onNotifyChange(utkastNotifyRequest);
+
+                var deferred = $q.defer();
+                utkastNotifyService.onNotifyChange(utkastNotifyRequest, deferred).then(function(vidarebefordradResult) {
+                    updateState.notifieraInProgress = false;
+                    vidarebefordrad = vidarebefordradResult;
+                }, function() {
+                    onNotifyChangeFail(vidarebefordrad, updateState);
+                });
             }
 
             // Return public API for the service

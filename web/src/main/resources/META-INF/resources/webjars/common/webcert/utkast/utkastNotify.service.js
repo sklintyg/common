@@ -3,34 +3,33 @@
  * sending notifications of utkast to a doctor via mail.
  */
 angular.module('common').factory('common.utkastNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService',
-        function($http, $log, $modal, $window, $timeout, dialogService) {
+    ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.dialogService',
+        function($http, $log, $modal, $window, $timeout, $q, dialogService) {
             'use strict';
 
             function _notifyUtkast(notifyRequest) {
+                var deferred = $q.defer();
                 $timeout(function() {
                     _handleNotifyToggle(notifyRequest, function() {
-                        _onNotifyChange(notifyRequest);
+                        _onNotifyChange(notifyRequest, deferred);
                     });
                 }, 1000);
                 // Launch mail client
                 $window.location = _buildNotifyDoctorMailToLink(notifyRequest.intygId, notifyRequest.intygType);
+                return deferred.promise;
             }
 
-            function _onNotifyChange(notifyRequest) {
-                notifyRequest.inProgress = true;
+            function _onNotifyChange(notifyRequest, deferred) {
                 _setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.vidarebefordrad, function(result) {
-                    notifyRequest.inProgress = false;
 
                     if (result !== null) {
-                        notifyRequest.vidarebefordrad = result.vidarebefordrad;
+                        deferred.resolve(result.vidarebefordrad);
                     } else {
-                        notifyRequest.vidarebefordrad = !notifyRequest.vidarebefordrad;
-                        dialogService.showErrorMessageDialog('Kunde inte markera/avmarkera intyget som ' +
-                        'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
-                        'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.');
+                        deferred.reject();
                     }
                 });
+
+                return deferred.promise;
             }
 
             /*

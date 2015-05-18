@@ -18,7 +18,9 @@ angular.module('common').service('common.UtkastViewStateService',
             // TODO: should go into intyg
             this.showComplete = false;
             this.hsaInfoMissing = false;
-            this.vidarebefordraInProgress = false;
+            this.updateState = {
+                notifieraInProgress: false
+            };
             this.hospName = $stateParams.hospName;
             this.deleted = false;
             this.isSigned = false;
