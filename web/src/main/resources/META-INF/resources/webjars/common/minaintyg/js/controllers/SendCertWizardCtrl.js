@@ -9,9 +9,7 @@ angular.module('common').controller('common.SendCertWizardCtrl',
             $scope.module = params.module;
 
             // Initialize default recipient
-            if ($scope.selectedRecipientId === undefined) {
-                $scope.selectedRecipientId = params.defaultRecipient;
-            }
+            $scope.selectedRecipientId = params.defaultRecipient;
 
             $scope.sendingInProgress = false;
             // Get active certificate from rootscope (passed from previous controller)
