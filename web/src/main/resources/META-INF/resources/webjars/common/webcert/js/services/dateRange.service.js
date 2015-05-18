@@ -11,6 +11,7 @@ angular.module('common').factory('common.DateRangeService', function() {
     var interval = 1;
     var week = 6;
     var months = 6;
+    var minDaysRange = 6;
 
     var _updateDaysBetween = function(from, to){
         if(!from || !to){
@@ -26,6 +27,30 @@ angular.module('common').factory('common.DateRangeService', function() {
         }
     };
 
+    var _isMinDateOutOfRange = function(minMax, now) {
+        if(!minMax || !minMax.min || !minMax.max){
+            return false;
+        }
+        var min, max;
+        if(minMax.max.dateString !== undefined){
+            max = minMax.max.moment;
+        } else {
+            max = minMax.max;
+        }
+        if(minMax.min.dateString !== undefined){
+            min = minMax.min.moment;
+        } else {
+            min = minMax.min;
+        }
+        if(now === undefined){
+            now = moment(0,'HH');
+        } else {
+            now = moment(now);
+        }
+        //console.log('**** min : ' + min.format('YYYY-MM-DD') + ', now : ' + now.format('YYYY-MM-DD'));
+        return min.isAfter(now.add('days', minDaysRange));
+    };
+
     var _areDatesOutOfRange = function(min, now) {
         if(min === undefined){
             return false;
@@ -39,7 +64,7 @@ angular.module('common').factory('common.DateRangeService', function() {
             min = min.moment;
         }
         //console.log('**** min : ' + min.format('YYYY-MM-DD') + ', now : ' + now.format('YYYY-MM-DD'));
-        return min.isBefore(now.subtract('days', 7)) || min.isAfter(now.add('months', months));
+        return min.isBefore(now.subtract('days', 7));
     };
 
     var _areDatesPeriodTooLong = function(minMax) {
@@ -80,6 +105,7 @@ angular.module('common').factory('common.DateRangeService', function() {
         this.minMax = {min:undefined, max:undefined};
         this.dateRanges = [];
         this.totalCertDays = 0;
+        this.minDateOutOfRange = false;
         if(!startDate){
             startDate = -1;
         }
@@ -145,7 +171,10 @@ angular.module('common').factory('common.DateRangeService', function() {
             this.totalCertDays = 0;
         }
         this.datesPeriodTooLong = _areDatesPeriodTooLong(this.minMax);
-
+        //this.minDateOutOfRange = _isMinDateOutOfRange(this.minMax);
+        //if(this.minDateOutOfRange){
+        //    this.datesOutOfRange = this.minDateOutOfRange;
+        //}
     };
 
     // ------|    |------- start
@@ -222,18 +251,23 @@ angular.module('common').factory('common.DateRangeService', function() {
         var validDateUnits = [];
         for(var i=0; i<this.dateRanges.length; i++){
             var dateRange = this.dateRanges[i];
-            if(dateRange.valid){ //&& !dateRange.overlap){
+            //if(dateRange.valid){ //&& !dateRange.overlap){
+            if(dateRange.from && dateRange.from.valid){
                 validDateUnits.push(dateRange.from);
+            }
+            if(dateRange.to && dateRange.to.valid){
                 validDateUnits.push(dateRange.to);
             }
+            //}
         }
 
         //console.log('---------------- validDateUnits length : ' + validDateUnits.length);
 
         if(validDateUnits !== undefined && validDateUnits.length > 0){
             //console.log('-- before');
+            var du;
             for(i=0; i<validDateUnits.length; i++){
-                var du = validDateUnits[i];
+                du = validDateUnits[i];
                 //console.log('-- du : ' + du.dateString);
             }
 
@@ -245,7 +279,7 @@ angular.module('common').factory('common.DateRangeService', function() {
 
             //console.log('-- after');
             for(i=0; i<validDateUnits.length; i++){
-                var du = validDateUnits[i];
+                du = validDateUnits[i];
                 //console.log('-- du : ' + du.dateString);
             }
 
@@ -505,6 +539,7 @@ angular.module('common').factory('common.DateRangeService', function() {
                 this.longTime = this.moment.valueOf();
             } else {
                 this.momentString = 'invalid';
+                this.longTime = 0;
             }
         }
 
