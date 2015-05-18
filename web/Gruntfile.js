@@ -58,7 +58,7 @@ module.exports = function(grunt) {
                 src: [ 'Gruntfile.js', SRC_DIR + 'webjars/common/minaintyg/**/*.js', TEST_DIR + 'minaintyg/**/*.js' ]
             },
             webcert: {
-                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/common/webcert/**/*.js', TEST_DIR + 'webcert/**/*.js' ]
+                src: [ 'Gruntfile.js', SRC_DIR + '!webjars/common/webcert/**/vendor/*.js', SRC_DIR + 'webjars/common/webcert/**/*.js', TEST_DIR + 'webcert/**/*.js' ]
             }
         },
 

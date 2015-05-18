@@ -67,7 +67,7 @@ angular.module('common').factory('common.ManageCertView',
 
                     var saveComplete = $q.defer();
 
-                    saveComplete.promise.then(function(result) {
+                    var saveCompletePromise = saveComplete.promise.then(function(result) {
                         // save success
                         intygState.viewState.common.validationSections = result.validationSections;
                         intygState.viewState.common.validationMessages = result.validationMessages;
@@ -81,7 +81,9 @@ angular.module('common').factory('common.ManageCertView',
                         intygState.formFail();
                         intygState.viewState.common.error.saveErrorMessage = result.errorMessage;
                         intygState.viewState.common.error.saveErrorCode = result.errorCode;
-                    }).finally(function(){
+                    });
+
+                    saveCompletePromise.finally(function(){
                         if(extras && extras.destroy ){
                             extras.destroy();
                         }
