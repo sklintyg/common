@@ -1,5 +1,5 @@
 angular.module('common').factory('common.domain.BaseModel',
-    ['common.domain.ModelAttr', function( ModelAttr ) {
+    ['$log', 'common.domain.ModelAttr', function( $log, ModelAttr ) {
         'use strict';
 
         var BaseModel = Class._extend(
@@ -9,6 +9,9 @@ angular.module('common').factory('common.domain.BaseModel',
                 this.name = name;
                 this.properties = properties;
 
+                var setDefaultValue = function(current, prop){
+
+                }
                 // this gets executed once the property has been recursed
                 var initProp = function(current, prop, extras){
                     //console.log('------------------------ initProp');
@@ -22,13 +25,13 @@ angular.module('common').factory('common.domain.BaseModel',
                             current[prop.property] = prop;
                         }
                     } else if (prop instanceof ModelAttr) {
+                        var value = undefined;
                         if(extras.key !== undefined){
                             if(extras.self.isObject(prop.defaultValue)){
                                 current[extras.key] = angular.copy(prop.defaultValue);
                             } else {
                                 current[extras.key] = prop.defaultValue;
                             }
-
                         } else {
                             if(extras.self.isObject(prop.defaultValue)){
                                 current[prop.property] = angular.copy(prop.defaultValue);
@@ -36,17 +39,16 @@ angular.module('common').factory('common.domain.BaseModel',
                                 current[prop.property] = prop.defaultValue;
                             }
                         }
+
                         if(prop.linkedProperty){
                             current['set' + prop.property] = prop.linkedProperty.set;
-                            // set up a compound observer for the linkedProperty
 
-                            var observers ={};
                             var lps = {};
-                            for(var i = 0; i<prop.linkedProperty.props.length;i++){
+                            for (var i = 0; i < prop.linkedProperty.props.length; i++) {
                                 var lp = prop.linkedProperty.props[i];
-                                lps[lp] = undefined;
+
                                 var self;
-                                if(lp.indexOf('.') > 0){
+                                if (lp.indexOf('.') > 0) {
                                     self = extras.self;
                                     //observer.addPath(extras.self, lp);
                                 } else {
@@ -54,16 +56,21 @@ angular.module('common').factory('common.domain.BaseModel',
                                     //observer.addPath(current, lp);
                                 }
 
-                                self.watch(lp, function (id, oldval, newval) {
-                                    console.log( 'o.' + id + ' changed from ' + oldval + ' to ' + newval );
+                                lps[lp] = undefined;
+
+                                self.watch(lp, function(id, oldval, newval) {
+                                    //console.log( 'o.' + id + ' changed from ' + oldval + ' to ' + newval );
                                     lps[id] = newval;
                                     self[prop.property] = prop.linkedProperty.update(self, lps);
                                     return newval;
                                 });
 
+                                // trigger an update, if defaultValue has been set...
+                                //self[prop.property] = prop.linkedProperty.update(self, lps);
                             }
 
                         }
+
                     } else if(extras && extras.key !== undefined && !extras.self.isNumber(extras.key)){
                         if(extras.self.isObject(prop)){
                             //console.log('-- object prop: ' + extras.key);
@@ -285,13 +292,7 @@ angular.module('common').factory('common.domain.BaseModel',
                                     //console.log('---- update child model');
                                     current[prop.property].update(extras.content[prop.property]);
                                 } else if(prop.linkedProperty){
-                                    // this should all move to the property setup
-                                    //var lps = {};
-                                    //for(var i =0; i<prop.linkedProperty.props.length;i++){
-                                    //    var lp = prop.linkedProperty.props[i];
-                                    //    lps[lp] = current[lp];
-                                    //}
-                                    //current[prop.property] = prop.linkedProperty.update(extras.self, lps);
+                                    // this is now taken care of by watch
                                 } else {
                                     //console.log('---- update prop');
                                     current[prop.property] = extras.content[prop.property];

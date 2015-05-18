@@ -133,6 +133,10 @@ describe('common.domain.BaseModel', function() {
                 
                 expect(model.vanilla).toBeFalsy();
                 expect(model.chocolate).toBeTruthy();
+
+                model.strawberry = true;
+                expect(model.shake).toBe('strawberry');
+
             });
         });
 

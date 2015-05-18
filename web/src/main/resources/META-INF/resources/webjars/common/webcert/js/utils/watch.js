@@ -1,4 +1,5 @@
 // object.watch
+'use strict';
 
 var getProp = function(obj, prop) {
     if (obj === undefined || prop === undefined || prop.length === 0) {
@@ -34,7 +35,7 @@ var getThisAndProp = function(obj, prop) {
 };
 
 if (!Object.prototype.watch) {
-    Object.defineProperty(Object.prototype, "watch", {
+    Object.defineProperty(Object.prototype, 'watch', {
         enumerable: false,
         configurable: true,
         writable: false,
@@ -49,7 +50,7 @@ if (!Object.prototype.watch) {
                     handler.call(selfProp.self, selfProp.prop, oldVal, newval);
                     oldVal = newval;
                 } else {
-                    return false
+                    return false;
                 }
             };
 
@@ -70,15 +71,18 @@ if (!Object.prototype.watch) {
 }
 
 if (!Object.prototype.unwatch) {
-    Object.defineProperty(Object.prototype, "unwatch", {
+    Object.defineProperty(Object.prototype, 'unwatch', {
+
         enumerable: false,
         configurable: true,
         writable: false,
         value: function(prop) {
             var selfProp = getThisAndProp(this, prop);
-            var val = selfProp.self[selfProp.prop];
-            delete selfProp.self[selfProp.prop]; // remove accessors
-            selfProp.self[selfProp.prop] = val;
+            if(selfProp.self) {
+                var val = selfProp.self[selfProp.prop];
+                delete selfProp.self[selfProp.prop]; // remove accessors
+                selfProp.self[selfProp.prop] = val;
+            }
         }
     });
 }
