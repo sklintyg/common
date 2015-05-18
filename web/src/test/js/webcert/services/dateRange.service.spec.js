@@ -166,6 +166,17 @@ describe('DateRangeService', function() {
             expect(result).toBeTruthy();
         });
 
+        xit ('can validate that the lowest date is within 7 days of now', function () {
+            var fromTos = DateRangeService.FromTos.build(['range1']);
+            var now = moment();
+
+            now.add(8, 'days');
+            fromTos.range1.from.update(now);
+
+            expect(fromTos.datesOutOfRange).toBeTruthy();
+        });
+
+
     });
 
     describe('#create fromTos ( ranges )', function() {
@@ -251,10 +262,10 @@ describe('DateRangeService', function() {
             expect(fromTos.minMax.min.dateString).toBe(nowString);
             expect(fromTos.minMax.max.dateString).toBe(now7String);
 
-            // create a bad date ... this should invalidate min max
+            // create a bad date ... if only one valid date then this is set on both min and max
             fromTos.range1.from.update('bad date!');
-            expect(fromTos.minMax.min).toBeUndefined();
-            expect(fromTos.minMax.max).toBeUndefined();
+            expect(fromTos.minMax.min).toBe(fromTos.range1.to);
+            expect(fromTos.minMax.max).toBe(fromTos.range1.to);
             expect(fromTos.totalCertDays).toBe(0);
 
             // update with good value
