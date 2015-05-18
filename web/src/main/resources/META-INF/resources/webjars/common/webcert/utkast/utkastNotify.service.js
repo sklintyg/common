@@ -7,11 +7,14 @@ angular.module('common').factory('common.utkastNotifyService',
         function($http, $log, $modal, $window, $timeout, $q, dialogService) {
             'use strict';
 
-            function _notifyUtkast(notifyRequest) {
+            function _notifyUtkast(notifyRequest, updateState) {
                 var deferred = $q.defer();
                 $timeout(function() {
                     _handleNotifyToggle(notifyRequest, function() {
+                        updateState.vidarebefordraInProgress = true;
                         _onNotifyChange(notifyRequest, deferred);
+                    }, function() {
+                        deferred.resolve(null); // User didn't want to do anything or dialog wasn't even shown
                     });
                 }, 1000);
                 // Launch mail client
@@ -73,7 +76,7 @@ angular.module('common').factory('common.utkastNotifyService',
             }
 
             // This handles forwarding of utkast only
-            function _handleNotifyToggle(draft, onYesCallback) {
+            function _handleNotifyToggle(draft, onYesCallback, onRejectCallback) {
                 // Only ask about toggle if not already set AND not skipFlag cookie is
                 // set
                 if (!draft.vidarebefordrad && !_isSkipNotifyCookieSet()) {
@@ -90,13 +93,17 @@ angular.module('common').factory('common.utkastNotifyService',
                         function() { // no
                             $log.debug('no');
                             // Do nothing
+                            onRejectCallback();
                         },
                         function() {
                             $log.debug('no and dont ask');
                             // How can user reset this?
                             _setSkipNotifyCookie();
+                            onRejectCallback();
                         }
                     );
+                } else {
+                    onRejectCallback();
                 }
             }
 

@@ -336,45 +336,49 @@ angular.module('common').factory('common.ManageCertView',
                 });
             }
 
-            function _notifyUtkast(intygId, intygType, vidarebefordrad, updateState) {
-                updateState.notifieraInProgress = true;
+            function _notifyUtkast(intygId, intygType, utkast, updateState) {
                 var utkastNotifyRequest = {
                     intygId: intygId,
                     intygType: intygType,
-                    vidarebefordrad: vidarebefordrad
+                    vidarebefordrad: utkast.vidarebefordrad
                 };
-                utkastNotifyService.notifyUtkast(utkastNotifyRequest).then(function(vidarebefordradResult) {
-                    updateState.notifieraInProgress = false;
-                    vidarebefordrad = vidarebefordradResult;
+                utkastNotifyService.notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
+                    onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
                 }, function() {
-                    onNotifyChangeFail(vidarebefordrad, updateState);
+                    onNotifyChangeFail(utkast, updateState);
                 });
             }
 
-            function onNotifyChangeFail(vidarebefordrad, updateState) {
-                updateState.notifieraInProgress = false;
-                vidarebefordrad = !vidarebefordrad;
-                dialogService.showErrorMessageDialog('Kunde inte markera/avmarkera intyget som ' +
-                    'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
-                    'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.');
-            }
-
-            function _onNotifyChange(intygId, intygType, vidarebefordrad, updateState) {
-                updateState.notifieraInProgress = true;
+            function _onNotifyChange(intygId, intygType, utkast, updateState) {
+                updateState.vidarebefordraInProgress = true;
 
                 var utkastNotifyRequest = {
                     intygId: intygId,
                     intygType: intygType,
-                    vidarebefordrad: vidarebefordrad
+                    vidarebefordrad: utkast.vidarebefordrad
                 };
 
                 var deferred = $q.defer();
                 utkastNotifyService.onNotifyChange(utkastNotifyRequest, deferred).then(function(vidarebefordradResult) {
-                    updateState.notifieraInProgress = false;
-                    vidarebefordrad = vidarebefordradResult;
+                    onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
                 }, function() {
-                    onNotifyChangeFail(vidarebefordrad, updateState);
+                    utkast.vidarebefordrad = !utkast.vidarebefordrad;
+                    onNotifyChangeFail(utkast, updateState);
                 });
+            }
+
+            function onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult) {
+                updateState.vidarebefordraInProgress = false;
+                if(vidarebefordradResult !== null) {
+                    utkast.vidarebefordrad = vidarebefordradResult;
+                }
+            }
+
+            function onNotifyChangeFail(utkast, updateState) {
+                updateState.vidarebefordraInProgress = false;
+                dialogService.showErrorMessageDialog('Kunde inte markera/avmarkera intyget som ' +
+                    'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
+                    'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.');
             }
 
             // Return public API for the service
