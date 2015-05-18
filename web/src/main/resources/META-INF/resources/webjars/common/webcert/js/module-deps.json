@@ -30,7 +30,6 @@
     "/web/webjars/common/webcert/js/services/CertificateService.js",
     "/web/webjars/common/webcert/js/services/dialogService.js",
     "/web/webjars/common/webcert/js/services/fragaSvarCommonService.js",
-    "/web/webjars/common/webcert/utkast/utkastNotify.service.js",
     "/web/webjars/common/webcert/js/services/errorLogService.js",
     "/web/webjars/common/webcert/js/services/featureService.js",
     "/web/webjars/common/webcert/js/services/http403ResponseInterceptor.js",
@@ -61,7 +60,9 @@
     "/web/webjars/common/webcert/js/vendor/Class.js",
     "/web/webjars/common/webcert/js/utils/watch.js",
     "/web/webjars/common/webcert/utkast/common-utkast-viewstate.service.js",
-    "/web/webjars/common/webcert/intyg/common-intyg-viewstate.service.js",
+    "/web/webjars/common/webcert/utkast/utkastNotify.service.js",
     "/web/webjars/common/webcert/utkast/utkast-header/utkast-header.js",
+    "/web/webjars/common/webcert/utkast/utkast-footer/utkast-footer.js",
+    "/web/webjars/common/webcert/intyg/common-intyg-viewstate.service.js",
     "/web/webjars/common/webcert/intyg/intyg-header/intyg-header.js"
 ]
