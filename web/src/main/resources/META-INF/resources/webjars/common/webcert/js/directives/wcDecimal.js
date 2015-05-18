@@ -104,7 +104,7 @@ angular.module('common').directive('wcDecimalNumber',
                 elem.bind('blur', blurFormat);
                 ngModelCtrl.$parsers.push(decimalParse);
                 ngModelCtrl.$formatters.push(function(valFromModel) {
-                    if (!valFromModel) {
+                    if (typeof valFromModel === 'undefined' || valFromModel === null) {
                         return undefined;
                     }
                     var val = format(filter(valFromModel.toString()));
