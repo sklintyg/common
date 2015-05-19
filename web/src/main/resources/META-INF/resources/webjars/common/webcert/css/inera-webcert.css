@@ -1003,6 +1003,18 @@
         padding-left: 20px;
     }
 
+    .enhet-stat {
+        padding-top: 6px;
+    }
+
+    .mottagning-button {
+        margin-left: 12px;
+    }
+
+    .wc-pull-left {
+        float: left !important;
+    }
+
     .unit-table {
         margin: 0;
         padding-bottom: 5px;
