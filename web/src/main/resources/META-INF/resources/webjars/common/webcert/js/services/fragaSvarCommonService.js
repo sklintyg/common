@@ -156,7 +156,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 $window.dialogDoneLoading = false;
 
                 var msgbox = $modal.open({
-                    templateUrl: '/views/partials/preference-dialog.html',
+                    templateUrl: '/partials/preference-dialog.html',
                     controller: DialogInstanceCtrl,
                     resolve: {
                         title: function() {
@@ -238,7 +238,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                         dialogId: 'qa-only-warning-dialog',
                         titleId: 'label.qaonlywarning',
                         bodyTextId: 'label.qaonlywarning.body',
-                        templateUrl: '/views/partials/qa-only-warning-dialog.html',
+                        templateUrl: '/partials/qa-only-warning-dialog.html',
                         button1click: function() {
                             QAdialogConfirmed = true;
                             // unbind the location change listener
