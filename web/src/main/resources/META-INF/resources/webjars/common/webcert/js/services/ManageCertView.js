@@ -340,12 +340,13 @@ angular.module('common').factory('common.ManageCertView',
                 var utkastNotifyRequest = {
                     intygId: intygId,
                     intygType: intygType,
+                    intygVersion: utkast.version,
                     vidarebefordrad: utkast.vidarebefordrad
                 };
                 utkastNotifyService.notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
                     onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
-                }, function() {
-                    onNotifyChangeFail(utkast, updateState);
+                }, function(error) {
+                    onNotifyChangeFail(utkast, updateState, error);
                 });
             }
 
@@ -355,15 +356,16 @@ angular.module('common').factory('common.ManageCertView',
                 var utkastNotifyRequest = {
                     intygId: intygId,
                     intygType: intygType,
+                    intygVersion: utkast.version,
                     vidarebefordrad: utkast.vidarebefordrad
                 };
 
                 var deferred = $q.defer();
                 utkastNotifyService.onNotifyChange(utkastNotifyRequest, deferred).then(function(vidarebefordradResult) {
                     onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
-                }, function() {
+                }, function(error) {
                     utkast.vidarebefordrad = !utkast.vidarebefordrad;
-                    onNotifyChangeFail(utkast, updateState);
+                    onNotifyChangeFail(utkast, updateState, error);
                 });
             }
 
@@ -375,11 +377,18 @@ angular.module('common').factory('common.ManageCertView',
                 }
             }
 
-            function onNotifyChangeFail(utkast, updateState) {
+            function onNotifyChangeFail(utkast, updateState, error) {
                 updateState.vidarebefordraInProgress = false;
-                dialogService.showErrorMessageDialog('Kunde inte markera/avmarkera intyget som ' +
+                var errorMessage = 'Kunde inte markera/avmarkera intyget som ' +
                     'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
-                    'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.');
+                    'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.';
+
+                if (error && error.errorCode === 'CONCURRENT_MODIFICATION') {
+                    var errorMessageId = 'common.error.save.concurrent_modification';
+                    errorMessage = messageService.getProperty(errorMessageId, {name: error.message}, errorMessageId);
+                }
+
+                dialogService.showErrorMessageDialog(errorMessage);
             }
 
             // Return public API for the service

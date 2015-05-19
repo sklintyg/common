@@ -23,7 +23,8 @@ angular.module('common').factory('common.utkastNotifyService',
             }
 
             function _onNotifyChange(notifyRequest, deferred) {
-                _setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.vidarebefordrad, function(result) {
+                _setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.intygVersion,
+                    notifyRequest.vidarebefordrad, function(result) {
 
                     if (result !== null) {
                         deferred.resolve({
@@ -33,6 +34,8 @@ angular.module('common').factory('common.utkastNotifyService',
                     } else {
                         deferred.reject();
                     }
+                }, function(error) {
+                    deferred.reject(error);
                 });
 
                 return deferred.promise;
@@ -41,16 +44,15 @@ angular.module('common').factory('common.utkastNotifyService',
             /*
              * Toggle Notify state of a fragasvar entity with given id
              */
-            function _setNotifyState(intygId, intygType, isNotified, callback) {
+            function _setNotifyState(intygId, intygType, intygVersion, isNotified, callback,  errorCallback) {
                 $log.debug('_setNotifyState');
-                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/vidarebefordra';
+                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/vidarebefordra';
                 $http.put(restPath, isNotified.toString()).success(function(data) {
                     $log.debug('_setNotifyState data:' + data);
                     callback(data);
                 }).error(function(data, status) {
                     $log.error('error ' + status);
-                    // Let calling code handle the error of no data response
-                    callback(null);
+                    errorCallback(data);
                 });
             }
 
