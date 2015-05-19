@@ -4,8 +4,8 @@
  * TODO: rename this to utkastNotifyService. It has nothing to do with intyg.
  */
 angular.module('common').factory('common.intygNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService', 'common.UtkastViewStateService',
-        function($http, $log, $modal, $window, $timeout, dialogService, CommonViewState) {
+    ['$http', '$log', '$modal', '$window', '$timeout', 'common.dialogService', 'common.messageService', 'common.UtkastViewStateService',
+        function($http, $log, $modal, $window, $timeout, dialogService, messageService, CommonViewState) {
             'use strict';
 
             function _notifyUtkast(notifyRequest) {
@@ -20,33 +20,52 @@ angular.module('common').factory('common.intygNotifyService',
 
             function _onNotifyChange(notifyRequest) {
                 CommonViewState.vidarebefordraInProgress = true;
-                _setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.vidarebefordrad, function(result) {
+                _setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.intygVersion,
+                    notifyRequest.vidarebefordrad, function(result) {
                     CommonViewState.vidarebefordraInProgress = false;
 
                     if (result !== null) {
-                        notifyRequest.vidarebefordrad = result.vidarebefordrad;
+                        if (notifyRequest.updateFunc) {
+                            notifyRequest.updateFunc(result.vidarebefordrad, result.version);
+                        }
                     } else {
-                        notifyRequest.vidarebefordrad = !notifyRequest.vidarebefordrad;
+                        if (notifyRequest.updateFunc) {
+                            notifyRequest.updateFunc(!notifyRequest.vidarebefordrad);
+                        }
                         dialogService.showErrorMessageDialog('Kunde inte markera/avmarkera intyget som ' +
                         'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
                         'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.');
                     }
+                },
+                function(error) {
+                    if (notifyRequest.updateFunc) {
+                        notifyRequest.updateFunc(!notifyRequest.vidarebefordrad);
+                    }
+                    var errorMessage = 'Kunde inte markera/avmarkera intyget som ' +
+                        'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
+                        'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.';
+
+                    if (error && error.errorCode === 'CONCURRENT_MODIFICATION') {
+                        var errorMessageId = 'common.error.save.concurrent_modification';
+                        errorMessage = messageService.getProperty(errorMessageId, {name: error.message}, errorMessageId);
+                    }
+
+                    dialogService.showErrorMessageDialog(errorMessage);
                 });
             }
 
             /*
              * Toggle Notify state of a fragasvar entity with given id
              */
-            function _setNotifyState(intygId, intygType, isNotified, callback) {
+            function _setNotifyState(intygId, intygType, intygVersion, isNotified, callback, errorCallback) {
                 $log.debug('_setNotifyState');
-                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/vidarebefordra';
+                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/vidarebefordra';
                 $http.put(restPath, isNotified.toString()).success(function(data) {
                     $log.debug('_setNotifyState data:' + data);
                     callback(data);
                 }).error(function(data, status) {
                     $log.error('error ' + status);
-                    // Let calling code handle the error of no data response
-                    callback(null);
+                    errorCallback(data);
                 });
             }
 
