@@ -9,7 +9,7 @@ angular.module('common').factory('common.dialogService',
             $window.dialogDoneLoading = false;
 
             var msgbox = $modal.open({
-                templateUrl: '/web/webjars/common/webcert/js/services/dialogServiceErrorTemplate.html',
+                templateUrl: '/web/webjars/common/webcert/gui/dialog/dialogError.template.html',
                 controller: function($scope, $modalInstance, bodyText) {
                     $scope.bodyText = bodyText;
                 },
@@ -36,7 +36,7 @@ angular.module('common').factory('common.dialogService',
             $window.dialogDoneLoading = false;
 
             var msgbox = $modal.open({
-                templateUrl: '/web/webjars/common/webcert/js/services/dialogServiceMessageTemplate.html',
+                templateUrl: '/web/webjars/common/webcert/gui/dialog/dialogMessage.template.html',
                 controller: function($scope, $modalInstance, bodyText, titleId) {
                     $scope.bodyText = bodyText;
                     $scope.titleId = titleId;

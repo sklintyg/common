@@ -9,7 +9,7 @@ angular.module('common').directive('wcUtkastErrorSummary',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/js/directives/wcUtkastErrorSummary.directive.html',
+                templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastErrorSummary.directive.html',
                 scope: true,
                 controller: function($scope) {
 

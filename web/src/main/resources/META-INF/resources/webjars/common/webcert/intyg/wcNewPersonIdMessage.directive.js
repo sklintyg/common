@@ -28,6 +28,6 @@ angular.module('common').directive('wcNewPersonIdMessage',
                 updateShowFlag();
                 $scope.$watch('cert.grundData.patient.personId', updateShowFlag);
             },
-            templateUrl: '/web/webjars/common/webcert/js/directives/wcNewPersonIdMessage.html'
+            templateUrl: '/web/webjars/common/webcert/intyg/wcNewPersonIdMessage.directive.html'
         };
     });

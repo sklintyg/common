@@ -10,7 +10,7 @@ angular.module('common').directive('wcField',
                 restrict: 'A',
                 transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/js/directives/wcField.html',
+                templateUrl: '/web/webjars/common/webcert/utkast/wcField.directive.html',
                 scope: {
                     fieldLabel: '@',
                     fieldNumber: '@?',

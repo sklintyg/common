@@ -13,6 +13,6 @@ angular.module('common').directive('wcFieldSigningDoctor',
                     $scope.show = $stateParams.hospName !== undefined && $stateParams.hospName !== '';
                     $scope.hospName = $stateParams.hospName;
                 },
-                templateUrl: '/web/webjars/common/webcert/js/directives/wcFieldSigningDoctor.html'
+                templateUrl: '/web/webjars/common/webcert/utkast/wcFieldSigningDoctor.directive.html'
             };
         }]);

@@ -15,6 +15,6 @@ angular.module('common').directive('wcPrintHeader',
                     $scope.today = new Date();
                     $scope.user = User;
                 },
-                templateUrl: '/web/webjars/common/webcert/js/directives/wcPrintHeader.html'
+                templateUrl: '/web/webjars/common/webcert/gui/headers/wcPrintHeader.directive.html'
             };
         }]);

@@ -17,6 +17,6 @@ angular.module('common').directive('wcEnableTooltip',
                         return messageService.getProperty(key);
                     };
                 },
-                templateUrl: '/web/webjars/common/webcert/js/directives/wcEnableTooltip.html'
+                templateUrl: '/web/webjars/common/webcert/intyg/wcEnableTooltip.directive.html'
             };
         }]);

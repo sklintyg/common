@@ -12,7 +12,7 @@ angular.module('common').directive('wcDatePickerField',
                 onChange: '&',
                 maxDate: '@'
             },
-            templateUrl: '/web/webjars/common/webcert/js/directives/wcDatePickerField.html',
+            templateUrl: '/web/webjars/common/webcert/date/wcDatePickerField.directive.html',
             controller: function($scope) {
 /*
                 $scope.$watch('targetModel', function() {

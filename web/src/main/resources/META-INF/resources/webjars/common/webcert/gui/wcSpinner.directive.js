@@ -12,7 +12,7 @@ angular.module('common').directive('wcSpinner',
                 showContent: '=',
                 isHeader: '='
             },
-            templateUrl: '/web/webjars/common/webcert/js/directives/wcSpinner.html',
+            templateUrl: '/web/webjars/common/webcert/gui/wcSpinner.directive.html',
             link: {
                 pre : function (scope, element){
                     $window.rendered = false;

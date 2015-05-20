@@ -200,7 +200,7 @@ angular.module('common').directive('wcHeader',
                         $window.dialogDoneLoading = false;
 
                         var msgbox = $modal.open({
-                            templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderAboutDialog.html',
+                            templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderAboutDialog.template.html',
                             controller: function($scope, $modalInstance) {
 
                                 $scope.close = function() {
@@ -220,7 +220,7 @@ angular.module('common').directive('wcHeader',
                         $window.dialogDoneLoading = false;
 
                         var msgbox = $modal.open({
-                            templateUrl: '/web/webjars/common/webcert/js/directives/wcHeaderCareUnitDialog.html',
+                            templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderCareUnitDialog.template.html',
                             controller: function($scope, $modalInstance, vardgivare) {
                                 $scope.vardgivare = vardgivare;
                                 $scope.error = false;
@@ -301,6 +301,6 @@ angular.module('common').directive('wcHeader',
 
                     directiveLoad();
                 },
-                templateUrl: '/web/webjars/common/webcert/js/directives/wcHeader.html'
+                templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeader.directive.html'
             };
         }]);
