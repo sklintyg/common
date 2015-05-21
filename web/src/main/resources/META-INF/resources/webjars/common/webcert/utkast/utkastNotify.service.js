@@ -3,11 +3,67 @@
  * sending notifications of utkast to a doctor via mail.
  */
 angular.module('common').factory('common.utkastNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.dialogService',
-        function($http, $log, $modal, $window, $timeout, $q, dialogService) {
+    ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.utkastNotifyService', 'common.messageService',
+        'common.dialogService',
+        function($http, $log, $modal, $window, $timeout, $q, utkastNotifyService, messageService, dialogService) {
             'use strict';
 
-            function _notifyUtkast(notifyRequest, updateState) {
+            function _notifyUtkast(intygId, intygType, utkast, updateState) {
+                var utkastNotifyRequest = {
+                    intygId: intygId,
+                    intygType: intygType,
+                    intygVersion: utkast.version,
+                    vidarebefordrad: utkast.vidarebefordrad
+                };
+                notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
+                    onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
+                }, function(error) {
+                    onNotifyChangeFail(utkast, updateState, error);
+                });
+            }
+
+            function _onNotifyChange(intygId, intygType, utkast, updateState) {
+                updateState.vidarebefordraInProgress = true;
+
+                var utkastNotifyRequest = {
+                    intygId: intygId,
+                    intygType: intygType,
+                    intygVersion: utkast.version,
+                    vidarebefordrad: utkast.vidarebefordrad
+                };
+
+                var deferred = $q.defer();
+                onNotifyChange(utkastNotifyRequest, deferred).then(function(vidarebefordradResult) {
+                    onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
+                }, function(error) {
+                    utkast.vidarebefordrad = !utkast.vidarebefordrad;
+                    onNotifyChangeFail(utkast, updateState, error);
+                });
+            }
+
+            function onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult) {
+                updateState.vidarebefordraInProgress = false;
+                if(vidarebefordradResult !== null) {
+                    utkast.vidarebefordrad = vidarebefordradResult.vidarebefordrad;
+                    utkast.version = vidarebefordradResult.version;
+                }
+            }
+
+            function onNotifyChangeFail(utkast, updateState, error) {
+                updateState.vidarebefordraInProgress = false;
+                var errorMessage = 'Kunde inte markera/avmarkera intyget som ' +
+                    'vidarebefordrat. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
+                    'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.';
+
+                if (error && error.errorCode === 'CONCURRENT_MODIFICATION') {
+                    var errorMessageId = 'common.error.save.concurrent_modification';
+                    errorMessage = messageService.getProperty(errorMessageId, {name: error.message}, errorMessageId);
+                }
+
+                dialogService.showErrorMessageDialog(errorMessage);
+            }
+
+            function notifyUtkast(notifyRequest, updateState) {
                 var deferred = $q.defer();
                 $timeout(function() {
                     _handleNotifyToggle(notifyRequest, function() {
@@ -22,8 +78,8 @@ angular.module('common').factory('common.utkastNotifyService',
                 return deferred.promise;
             }
 
-            function _onNotifyChange(notifyRequest, deferred) {
-                _setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.intygVersion,
+            function onNotifyChange(notifyRequest, deferred) {
+                utkastNotifyService.setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.intygVersion,
                     notifyRequest.vidarebefordrad, function(result) {
 
                     if (result !== null) {
@@ -39,34 +95,6 @@ angular.module('common').factory('common.utkastNotifyService',
                 });
 
                 return deferred.promise;
-            }
-
-            /*
-             * Toggle Notify state of a fragasvar entity with given id
-             */
-            function _setNotifyState(intygId, intygType, intygVersion, isNotified, callback,  errorCallback) {
-                $log.debug('_setNotifyState');
-                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/vidarebefordra';
-                $http.put(restPath, isNotified.toString()).success(function(data) {
-                    $log.debug('_setNotifyState data:' + data);
-                    callback(data);
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
-                    errorCallback(data);
-                });
-            }
-
-            function _buildNotifyDoctorMailToLink(intygId, intygType) {
-                var baseURL = $window.location.protocol + '//' + $window.location.hostname +
-                    ($window.location.port ? ':' + $window.location.port : '');
-                var url = baseURL + '/web/dashboard#/' + intygType + '/edit/' + intygId;
-                var recipient = '';
-                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert';
-                var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
-                var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
-                    encodeURIComponent(body);
-                $log.debug(link);
-                return link;
             }
 
             function _setSkipNotifyCookie() {
@@ -164,11 +192,23 @@ angular.module('common').factory('common.utkastNotifyService',
                 });
             }
 
+            function _buildNotifyDoctorMailToLink(intygId, intygType) {
+                var baseURL = $window.location.protocol + '//' + $window.location.hostname +
+                    ($window.location.port ? ':' + $window.location.port : '');
+                var url = baseURL + '/web/dashboard#/' + intygType + '/edit/' + intygId;
+                var recipient = '';
+                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert';
+                var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
+                var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
+                    encodeURIComponent(body);
+                $log.debug(link);
+                return link;
+            }
+
             // Return public API for the service
             return {
                 notifyUtkast: _notifyUtkast,
                 onNotifyChange: _onNotifyChange,
-                setNotifyState: _setNotifyState,
                 showNotifyPreferenceDialog: _showNotifyPreferenceDialog,
                 buildNotifyDoctorMailToLink: _buildNotifyDoctorMailToLink
             };

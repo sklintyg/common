@@ -1,9 +1,9 @@
 angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
-        'common.messageService', 'common.ManageCertView', 'common.CertificateService', 'common.statService',
+        'common.messageService', 'common.PrintService', 'common.CertificateService', 'common.statService',
         'common.featureService', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
         function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
-            ManageCertView, CertificateService, statService, featureService, dialogService, CommonViewState, anchorScrollService) {
+            PrintService, CertificateService, statService, featureService, dialogService, CommonViewState, anchorScrollService) {
             'use strict';
 
             /**
@@ -99,7 +99,7 @@ angular.module('common').controller('common.UtkastHeader',
              * Print draft
              */
             $scope.print = function() {
-                ManageCertView.printDraft($scope.cert.id, CommonViewState.intyg.type);
+                PrintService.printWebPage($scope.cert.id, CommonViewState.intyg.type);
             };
         }
     ]

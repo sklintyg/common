@@ -1,9 +1,9 @@
 /* global document */
 angular.module('common').controller('common.IntygHeader',
-    ['$scope', '$log', '$stateParams', 'common.messageService', 'webcert.ManageCertificate', 'common.ManageCertView',
+    ['$scope', '$log', '$stateParams', 'common.messageService', 'webcert.ManageCertificate', 'common.PrintService',
         'common.IntygCopyRequestModel', 'common.User', 'common.IntygViewStateService',
         function($scope, $log, $stateParams,
-            messageService, ManageCertificate, ManageCertView, IntygCopyRequestModel, User, CommonViewState) {
+            messageService, ManageCertificate, PrintService, IntygCopyRequestModel, User, CommonViewState) {
             'use strict';
 
             $scope.intygstyp = $stateParams.certificateType;
@@ -48,7 +48,7 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.print = function(cert) {
                 if (CommonViewState.intyg.isRevoked) {
-                    ManageCertView.printDraft(cert.id, $stateParams.certificateType);
+                    PrintService.printWebPage(cert.id, $stateParams.certificateType);
                 } else {
                     document.pdfForm.submit();
                 }

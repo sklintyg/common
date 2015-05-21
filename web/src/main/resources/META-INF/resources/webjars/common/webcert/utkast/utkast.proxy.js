@@ -1,7 +1,7 @@
 /**
- * Common certificate management methods between certificate modules
+ * Common utkast proxy. All utkast-related REST-functions goes here.
  */
-angular.module('common').factory('common.CertificateService',
+angular.module('common').factory('common.UtkastProxy',
     function($http, $log) {
         'use strict';
 
@@ -13,21 +13,6 @@ angular.module('common').factory('common.CertificateService',
             } else {
                 $log.error(error);
             }
-        }
-
-        /*
-         * Load certificate details from the server.
-         */
-        function _getCertificate(intygsId, intygsTyp, onSuccess, onError) {
-            $log.debug('_getCertificate id:' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId;
-            $http.get(restPath).success(function(data) {
-                $log.debug('_getCertificate data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
-                onError(data);
-            });
         }
 
         /**
@@ -139,59 +124,15 @@ angular.module('common').factory('common.CertificateService',
                 });
         }
 
-        function _sendSigneratIntyg(intygsId, intygsTyp, recipientId, patientConsent, onSuccess, onError) {
-            $log.debug('_sendSigneratIntyg: ' + intygsId);
-            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/skicka';
-            $http.post(restPath, {'recipient': recipientId, 'patientConsent': patientConsent}).
-                success(function(data) {
-                    onSuccess(data);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
-                });
-        }
-
-        function _revokeSigneratIntyg(intygsId, intygsTyp, onSuccess, onError) {
-            $log.debug('_revokeSigneratIntyg: ' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkalla';
-            $http.post(restPath, {}).
-                success(function(data) {
-                    if (data === '"OK"') {
-                        onSuccess();
-                    } else {
-                        onError();
-                    }
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
-                });
-        }
-
-        function _logPrint(intygsId, intygsTyp, onSuccess, onError) {
-            $log.debug('_logPrint, intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/loggautskrift';
-            $http.post(restPath, intygsId).
-                success(function(data) {
-                    onSuccess(data);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
-                });
-        }
-
         // Return public API for the service
         return {
-            getCertificate: _getCertificate,
             getDraft: _getDraft,
             saveDraft: _saveDraft,
             isSaveDraftInProgress: _isSaveDraftInProgress,
             discardDraft: _discardDraft,
             getSigneringshash: _getSigneringshash,
             getSigneringsstatus: _getSigneringsstatus,
-            revokeSigneratIntyg: _revokeSigneratIntyg,
             signeraUtkast: _signeraUtkast,
-            signeraUtkastWithSignatur: _signeraUtkastWithSignatur,
-            sendSigneratIntyg: _sendSigneratIntyg,
-            logPrint: _logPrint
+            signeraUtkastWithSignatur: _signeraUtkastWithSignatur
         };
     });
