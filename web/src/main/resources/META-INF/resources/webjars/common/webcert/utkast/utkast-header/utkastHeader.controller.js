@@ -1,9 +1,9 @@
 angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
-        'common.messageService', 'common.PrintService', 'common.CertificateService', 'common.statService',
+        'common.messageService', 'common.PrintService', 'common.UtkastService', 'common.statService',
         'common.featureService', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
         function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
-            PrintService, CertificateService, statService, featureService, dialogService, CommonViewState, anchorScrollService) {
+            PrintService, UtkastService, statService, featureService, dialogService, CommonViewState, anchorScrollService) {
             'use strict';
 
             /**
@@ -18,12 +18,12 @@ angular.module('common').controller('common.UtkastHeader',
              */
             $scope.toggleShowComplete = function() {
                 CommonViewState.toggleShowComplete();
-                ManageCertView.save();
+                UtkastService.save();
                 anchorScrollService.scrollTo('top');
             };
 
             $scope.save = function() {
-                ManageCertView.save(false);
+                UtkastService.save(false);
             };
 
             /**
@@ -55,7 +55,7 @@ angular.module('common').controller('common.UtkastHeader',
                                 $window.history.back();
                             });
                         };
-                        CertificateService.discardDraft($stateParams.certificateId, CommonViewState.intyg.type, $scope.viewState.draftModel.version, function() {
+                        UtkastService.discardDraft($stateParams.certificateId, CommonViewState.intyg.type, $scope.viewState.draftModel.version, function() {
                             dialogModel.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 

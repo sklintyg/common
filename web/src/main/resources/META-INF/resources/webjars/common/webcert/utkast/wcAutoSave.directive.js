@@ -1,5 +1,5 @@
-angular.module('common').directive('wcAutoSave', ['$timeout', 'common.ManageCertView', 'common.UtkastViewStateService',
-    function($timeout, ManageCertView, UtkastViewState) {
+angular.module('common').directive('wcAutoSave', ['$timeout', 'common.UtkastService', 'common.UtkastViewStateService',
+    function($timeout, UtkastService, UtkastViewState) {
         'use strict';
 
         return {
@@ -15,7 +15,7 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.ManageCert
                 var expression = $attrs.wcAutoSave || 'true';
 
                 var save = function(extras) {
-                    return ManageCertView.save(extras);
+                    return UtkastService.save(extras);
                 };
 
                 var saveFunction = function() {
