@@ -3,9 +3,9 @@
  * sending notifications of utkast to a doctor via mail.
  */
 angular.module('common').factory('common.utkastNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.utkastNotifyService', 'common.messageService',
+    ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.utkastNotifyProxy', 'common.messageService',
         'common.dialogService',
-        function($http, $log, $modal, $window, $timeout, $q, utkastNotifyService, messageService, dialogService) {
+        function($http, $log, $modal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService) {
             'use strict';
 
             function _notifyUtkast(intygId, intygType, utkast, updateState) {
@@ -79,7 +79,7 @@ angular.module('common').factory('common.utkastNotifyService',
             }
 
             function onNotifyChange(notifyRequest, deferred) {
-                utkastNotifyService.setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.intygVersion,
+                utkastNotifyProxy.setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.intygVersion,
                     notifyRequest.vidarebefordrad, function(result) {
 
                     if (result !== null) {

@@ -1,9 +1,9 @@
 /* global document */
 angular.module('common').controller('common.IntygHeader',
-    ['$scope', '$log', '$stateParams', 'common.messageService', 'webcert.ManageCertificate', 'common.PrintService',
-        'common.IntygCopyRequestModel', 'common.User', 'common.IntygViewStateService',
+    ['$scope', '$log', '$stateParams', 'common.messageService', 'common.PrintService',
+        'common.IntygCopyRequestModel', 'common.User', 'common.IntygService', 'common.IntygViewStateService',
         function($scope, $log, $stateParams,
-            messageService, ManageCertificate, PrintService, IntygCopyRequestModel, User, CommonViewState) {
+            messageService, PrintService, IntygCopyRequestModel, User, IntygService, CommonViewState) {
             'use strict';
 
             $scope.intygstyp = $stateParams.certificateType;
@@ -12,7 +12,7 @@ angular.module('common').controller('common.IntygHeader',
 
 
             $scope.send = function() {
-                ManageCertificate.send($scope.cert.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
+                IntygService.send($scope.cert.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
                          $scope.intygstyp+'.label.send', $scope.intygstyp+'.label.send.body', function() {
                     $scope.$emit('loadCertificate');
                 });
@@ -24,7 +24,7 @@ angular.module('common').controller('common.IntygHeader',
                     personnummer: cert.grundData.patient.personId
                 });
                 cert.intygType = $stateParams.certificateType;
-                ManageCertificate.makulera( cert, confirmationMessage, function() {
+                IntygService.makulera( cert, confirmationMessage, function() {
                     $scope.$emit('loadCertificate');
                 });
             };
@@ -36,7 +36,7 @@ angular.module('common').controller('common.IntygHeader',
                 }
 
                 var isOtherCareUnit = User.getValdVardenhet() !== cert.grundData.skapadAv.vardenhet.enhetsid;
-                ManageCertificate.copy($scope.viewState,
+                IntygService.copy($scope.viewState,
                     IntygCopyRequestModel.build({
                         intygId: cert.id,
                         intygType: $stateParams.certificateType,

@@ -3,10 +3,10 @@
  */
 angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
-        'common.UtkastService', 'common.dialogService', 'common.messageService', 'common.statService',
+        'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            UtkastService, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus) {
+            UtkastProxy, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus) {
             'use strict';
 
             /**
@@ -17,7 +17,7 @@ angular.module('common').factory('common.UtkastService',
             function _load(viewState) {
                 var intygsTyp = viewState.common.intyg.type;
                 CommonViewState.doneLoading = false;
-                UtkastService.getUtkast($stateParams.certificateId, intygsTyp, function(data) {
+                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, function(data) {
 
                     viewState.common.update(viewState.draftModel, data);
 
@@ -56,7 +56,7 @@ angular.module('common').factory('common.UtkastService',
              * @private
              */
             function _save(extras) {
-                if (UtkastService.isSaveDraftInProgress()) {
+                if (UtkastProxy.isSaveDraftInProgress()) {
                     return false;
                 }
 
@@ -89,7 +89,7 @@ angular.module('common').factory('common.UtkastService',
                         }
                     });
 
-                    UtkastService.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
+                    UtkastProxy.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
                             intygState.viewState.draftModel.version, intygState.viewState.intygModel.toSendModel(),
                         function(data) {
 
