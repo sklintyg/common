@@ -9,7 +9,7 @@
                   <span id="location" class="location">{{today | date:"shortDate"}} - {{user.valdVardgivare.namn}} - {{user.valdVardenhet.namn}}</span><br>
                   <span id="otherLocations" class="otherLocations" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
                       style="font-weight:bold">{{stat.intygAndraEnheter+stat.fragaSvarAndraEnheter}}</span> ej hanterade frågor och ej signerade utkast på andra vårdenheter.</span> <a
-          wc-feature-not-active feature="franJournalsystem" id="wc-care-unit-clinic-selector" tabindex="0" href class="otherLocations"
+          wc-feature-not-active feature="franJournalsystem" id="wc-care-unit-clinic-selector-link" tabindex="0" href class="otherLocations"
           ng-show="user.totaltAntalVardenheter > 1" data-ng-click="openChangeCareUnitDialog()">Byt
         vårdenhet</a>
       </span>
