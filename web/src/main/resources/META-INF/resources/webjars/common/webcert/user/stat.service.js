@@ -1,9 +1,10 @@
 angular.module('common').factory('common.statService',
-    function($http, $log, $rootScope, $timeout) {
+    ['$http', '$log', '$rootScope', '$timeout', 'common.User', function($http, $log, $rootScope, $timeout, User) {
         'use strict';
 
         var timeOutPromise;
         var msPollingInterval = 60 * 1000;
+        var lastData = null;
 
         /*
          * stop regular polling of stats from server
@@ -22,6 +23,7 @@ angular.module('common').factory('common.statService',
             $log.debug('_getStat');
             $http.get('/moduleapi/stat/').success(function(data) {
                 $log.debug('_getStat success - data:' + data);
+                lastData = data;
                 $rootScope.$broadcast('wc-stat-update', data);
                 _stopPolling();
                 timeOutPromise = $timeout(_refreshStat, msPollingInterval);
@@ -30,6 +32,10 @@ angular.module('common').factory('common.statService',
                 _stopPolling();
                 timeOutPromise = $timeout(_refreshStat, msPollingInterval);
             });
+        }
+
+        function _getLatestData() {
+            return lastData;
         }
 
         /*
@@ -44,6 +50,7 @@ angular.module('common').factory('common.statService',
         return {
             startPolling: _startPolling,
             stopPolling: _stopPolling,
-            refreshStat: _refreshStat
+            refreshStat: _refreshStat,
+            getLatestData: _getLatestData
         };
-    });
+    }]);
