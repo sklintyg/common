@@ -56,7 +56,7 @@ angular.module('common').factory('common.UtkastService',
              * @private
              */
             function _save(extras) {
-                if (UtkastProxy.isSaveDraftInProgress()) {
+                if (UtkastProxy.isSaveUtkastInProgress()) {
                     return false;
                 }
 
@@ -89,7 +89,7 @@ angular.module('common').factory('common.UtkastService',
                         }
                     });
 
-                    UtkastProxy.saveDraft( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
+                    UtkastProxy.saveUtkast( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
                             intygState.viewState.draftModel.version, intygState.viewState.intygModel.toSendModel(),
                         function(data) {
 

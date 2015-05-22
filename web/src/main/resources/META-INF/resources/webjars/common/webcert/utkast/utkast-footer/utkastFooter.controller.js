@@ -1,6 +1,6 @@
 angular.module('common').controller('common.UtkastFooter',
-    ['$scope', 'common.UtkastService', 'common.UtkastNotifyService',
-        function($scope, UtkastService, UtkastNotifyService) {
+    ['$scope', 'common.UtkastSignService', 'common.UtkastNotifyService',
+        function($scope, UtkastSignService, UtkastNotifyService) {
             'use strict';
 
             var viewState = $scope.viewState;
@@ -22,7 +22,7 @@ angular.module('common').controller('common.UtkastFooter',
              * Action to sign the certificate draft and return to Webcert again.
              */
             $scope.sign = function() {
-                UtkastService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
+                UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
                     function(result) {
                         if (result.newVersion) {
                             viewState.draftModel.version = result.newVersion;

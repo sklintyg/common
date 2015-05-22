@@ -2,7 +2,7 @@
  * Utkast Notify Proxy Module - REST-Functions related to
  * sending notifications of utkast to a doctor via mail.
  */
-angular.module('common').factory('common.utkastNotifyProxy',
+angular.module('common').factory('common.UtkastNotifyProxy',
     ['$http', '$log',
         function($http, $log) {
             'use strict';

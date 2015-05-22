@@ -16,9 +16,9 @@ angular.module('common').factory('common.UtkastProxy',
         }
 
         /**
-         * Get a certificate draft with the specified id from the server.
+         * Get a utkast with the specified id from the server.
          */
-        function _getDraft(intygsId, intygsTyp, onSuccess, onError) {
+        function _getUtkast(intygsId, intygsTyp, onSuccess, onError) {
             $log.debug('_getDraft intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId;
             $http.get(restPath).
@@ -33,9 +33,9 @@ angular.module('common').factory('common.UtkastProxy',
         }
 
         /**
-         * Saves a certificate draft to the server.
+         * Saves a utkast to the server.
          */
-        function _saveDraft(intygsId, intygsTyp, version, cert, onSuccess, onError) {
+        function _saveUtkast(intygsId, intygsTyp, version, cert, onSuccess, onError) {
             $log.debug('_saveDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version;
 
@@ -53,14 +53,14 @@ angular.module('common').factory('common.UtkastProxy',
                 });
         }
 
-        function _isSaveDraftInProgress() {
+        function _isSaveUtkastInProgress() {
             return saveDraftInProgress;
         }
 
         /**
-         * Discards a certificate draft and removes it from the server.
+         * Discards a utkast and removes it from the server.
          */
-        function _discardDraft(intygsId, intygsTyp, version, onSuccess, onError) {
+        function _discardUtkast(intygsId, intygsTyp, version, onSuccess, onError) {
             $log.debug('_discardDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version;
             $http['delete'](restPath).
@@ -126,10 +126,10 @@ angular.module('common').factory('common.UtkastProxy',
 
         // Return public API for the service
         return {
-            getDraft: _getDraft,
-            saveDraft: _saveDraft,
-            isSaveDraftInProgress: _isSaveDraftInProgress,
-            discardDraft: _discardDraft,
+            getUtkast: _getUtkast,
+            saveUtkast: _saveUtkast,
+            isSaveUtkastInProgress: _isSaveUtkastInProgress,
+            discardUtkast: _discardUtkast,
             getSigneringshash: _getSigneringshash,
             getSigneringsstatus: _getSigneringsstatus,
             signeraUtkast: _signeraUtkast,

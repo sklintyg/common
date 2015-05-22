@@ -2,8 +2,8 @@
  * Utkast Notify Service Module - Functions related to
  * sending notifications of utkast to a doctor via mail.
  */
-angular.module('common').factory('common.utkastNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.utkastNotifyProxy', 'common.messageService',
+angular.module('common').factory('common.UtkastNotifyService',
+    ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.UtkastNotifyProxy', 'common.messageService',
         'common.dialogService',
         function($http, $log, $modal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService) {
             'use strict';
@@ -13,7 +13,7 @@ angular.module('common').factory('common.utkastNotifyService',
                     intygId: intygId,
                     intygType: intygType,
                     intygVersion: utkast.version,
-                    vidarebefordrad: utkast.vidarebefordrad
+                    vidarebefordradContainer: utkast
                 };
                 notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
                     onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
@@ -29,7 +29,7 @@ angular.module('common').factory('common.utkastNotifyService',
                     intygId: intygId,
                     intygType: intygType,
                     intygVersion: utkast.version,
-                    vidarebefordrad: utkast.vidarebefordrad
+                    vidarebefordradContainer: utkast
                 };
 
                 var deferred = $q.defer();
@@ -68,7 +68,7 @@ angular.module('common').factory('common.utkastNotifyService',
                 $timeout(function() {
                     _handleNotifyToggle(notifyRequest, function() {
                         updateState.vidarebefordraInProgress = true;
-                        _onNotifyChange(notifyRequest, deferred);
+                        onNotifyChange(notifyRequest, deferred);
                     }, function() {
                         deferred.resolve(null); // User didn't want to do anything or dialog wasn't even shown
                     });
@@ -80,7 +80,7 @@ angular.module('common').factory('common.utkastNotifyService',
 
             function onNotifyChange(notifyRequest, deferred) {
                 utkastNotifyProxy.setNotifyState(notifyRequest.intygId, notifyRequest.intygType, notifyRequest.intygVersion,
-                    notifyRequest.vidarebefordrad, function(result) {
+                    notifyRequest.vidarebefordradContainer.vidarebefordrad, function(result) {
 
                     if (result !== null) {
                         deferred.resolve({
@@ -112,12 +112,12 @@ angular.module('common').factory('common.utkastNotifyService',
             function _handleNotifyToggle(draft, onYesCallback, onRejectCallback) {
                 // Only ask about toggle if not already set AND not skipFlag cookie is
                 // set
-                if (!draft.vidarebefordrad && !_isSkipNotifyCookieSet()) {
+                if (!draft.vidarebefordradContainer.vidarebefordrad && !_isSkipNotifyCookieSet()) {
                     _showNotifyPreferenceDialog('markforward',
                         'Det verkar som att du har informerat den som ska signera utkastet. Vill du markera utkastet som vidarebefordrad?',
                         function() { // yes
                             $log.debug('yes');
-                            draft.vidarebefordrad = true;
+                            draft.vidarebefordradContainer.vidarebefordrad = true;
                             if (onYesCallback) {
                                 // let calling scope handle yes answer
                                 onYesCallback(draft);
