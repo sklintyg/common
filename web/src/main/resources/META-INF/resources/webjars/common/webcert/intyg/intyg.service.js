@@ -62,7 +62,7 @@ angular.module('common').factory('common.IntygService',
                     var copyDialog = dialogService.showDialog({
                         dialogId: 'copy-dialog',
                         titleId: 'label.copycert',
-                        templateUrl: '/partials/copy-dialog.html',
+                        templateUrl: '/app/partials/copy-dialog.html',
                         model: copyDialogModel,
                         button1click: function() {
                             $log.debug('copy cert from dialog' + intygCopyRequest);
@@ -156,7 +156,7 @@ angular.module('common').factory('common.IntygService',
                     dialogId: 'send-dialog',
                     titleId: titleId,
                     bodyTextId: bodyTextId,
-                    templateUrl: '/partials/send-dialog.html',
+                    templateUrl: '/app/partials/send-dialog.html',
                     model: dialogSendModel,
                     button1click: function() {
                         $log.debug('send intyg from dialog. id:' + intygId + ', intygType:' + intygType + ', recipientId:' + recipientId);
@@ -216,7 +216,7 @@ angular.module('common').factory('common.IntygService',
                 makuleraDialog = dialogService.showDialog({
                     dialogId: 'makulera-dialog',
                     titleId: 'label.makulera',
-                    templateUrl: '/partials/makulera-dialog.html',
+                    templateUrl: '/app/partials/makulera-dialog.html',
                     model: dialogMakuleraModel,
                     button1click: function() {
                         $log.debug('revoking cert from dialog' + cert);

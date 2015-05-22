@@ -163,7 +163,7 @@ angular.module('common').factory('common.UtkastNotifyService',
                 };
 
                 var msgbox = $modal.open({
-                    templateUrl: '/partials/preference-dialog.html',
+                    templateUrl: '/app/partials/preference-dialog.html',
                     controller: DialogInstanceCtrl,
                     resolve: {
                         title: function() {

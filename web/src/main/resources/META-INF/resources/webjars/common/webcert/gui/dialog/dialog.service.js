@@ -102,7 +102,7 @@ angular.module('common').factory('common.dialogService',
             options.button3id = (options.button3id === undefined) ? 'button3' + options.dialogId : options.button3id;
             options.autoClose = (options.autoClose === undefined) ? true : options.autoClose;
             options.templateUrl =
-                (options.templateUrl === undefined) ? '/partials/common-dialog.html' : options.templateUrl;
+                (options.templateUrl === undefined) ? '/app/partials/common-dialog.html' : options.templateUrl;
             options.model = (options.model === undefined) ? {} : options.model;
 
             // setup model defaults if parameters aren't included
