@@ -6,7 +6,7 @@ describe('wcHeader', function() {
     var User;
     var statService;
     var featureService;
-    var $compile, $rootScope, $httpBackend;
+    var $compile, $rootScope, $httpBackend, $controller, $templateCache;
 
     var testUserContext = {'hsaId':'eva','namn':'Eva Holgersson','lakare':true,'forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
         {'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
@@ -58,13 +58,16 @@ describe('wcHeader', function() {
                 {'namn':'Linköpings Universitetssjukhus - Ögonmottagningen','id':'lkpg-ogon','fragaSvar':0,'intyg':0}]}
         ]};
 
-    function generateDirective($compile, $rootScope, $httpBackend) {
+    function generateHeader($scope) {
         // The header directive will call the statService and expect a response which will be used for tests
         $httpBackend.expectGET('/moduleapi/stat/').respond(200, testStatResponse);
-        element = angular.element('<div id="wcHeader" wc-header></div>');
-        $compile(element)($scope);
-        $scope.$digest();
+        element = $compile($templateCache.get('/web/webjars/common/webcert/gui/headers/wcHeader.partial.html'))($scope);
+        $controller('common.wcHeaderController', {
+            $scope: $scope,
+            $element: element
+        });
         $httpBackend.flush();
+        $scope.$digest();
     }
 
     beforeEach(angular.mock.module('htmlTemplates'));
@@ -93,19 +96,21 @@ describe('wcHeader', function() {
         };
         $provide.value('common.featureService', featureService); //jasmine.createSpyObj('common.featureService', ['isFeatureActive'])
     }));
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$httpBackend', 'common.User', 'common.statService', 'common.featureService',
-        function(_$compile_, _$rootScope_, _$httpBackend_, _User_, _statService_, _featureService_) {
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache', 'common.User', 'common.statService', 'common.featureService',
+        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _User_, _statService_, _featureService_) {
         $scope = _$rootScope_.$new();
         User = _User_;
         statService = _statService_;
         featureService = _featureService_;
         $compile = _$compile_;
-        $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
+        $controller = _$controller_;
+        $templateCache = _$templateCache_;
 
         // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast from statService
         spyOn($rootScope, '$broadcast').and.callThrough();
-        generateDirective($compile, $rootScope, $httpBackend);
+        generateHeader($scope);
     }]));
 
     describe('header info and links', function() {
@@ -174,7 +179,7 @@ describe('wcHeader', function() {
 
         beforeEach(function() {
             featureService.testDjupintegration = true;
-            generateDirective($compile, $rootScope, $httpBackend);
+            generateHeader($scope);
         });
 
         it('should hide elements of the header if coming from a djupintegrerat journalsystem', function() {

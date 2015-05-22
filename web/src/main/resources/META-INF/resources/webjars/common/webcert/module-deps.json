@@ -3,7 +3,7 @@
     "/web/webjars/common/webcert/date/dateRange.service.js",
     "/web/webjars/common/webcert/date/dateUtils.service.js",
     "/web/webjars/common/webcert/gui/dialog/dialog.service.js",
-    "/web/webjars/common/webcert/gui/headers/wcHeader.directive.js",
+    "/web/webjars/common/webcert/gui/headers/wcHeader.controller.js",
     "/web/webjars/common/webcert/gui/headers/wcHeaderHeightSync.directive.js",
     "/web/webjars/common/webcert/gui/headers/wcPrintHeader.directive.js",
     "/web/webjars/common/webcert/gui/text/message.directive.js",
