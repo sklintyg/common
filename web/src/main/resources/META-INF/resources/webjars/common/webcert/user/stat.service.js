@@ -6,6 +6,8 @@ angular.module('common').factory('common.statService',
         var msPollingInterval = 60 * 1000;
         var lastData = null;
 
+        $rootScope.$on('$stateChangeSuccess',function() { _refreshStat(); });
+
         /*
          * stop regular polling of stats from server
          */
