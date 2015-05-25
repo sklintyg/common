@@ -56,6 +56,10 @@ var commonMessages = {
         'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
 
+        // Revoke status messages (type agnostic)
+        'cert.status.revoke.requested' : 'Begäran om makulering skickad till intygstjänsten',
+        'cert.status.revoke.confirmed' : 'Intyget är makulerat',
+
         // wc-common-directives-resources
         'nav.label.loggedinas': 'Inloggad som:',
 

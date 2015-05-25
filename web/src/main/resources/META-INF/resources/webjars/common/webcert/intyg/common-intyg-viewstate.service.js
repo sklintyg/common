@@ -7,7 +7,8 @@ angular.module('common').service('common.IntygViewStateService',
             this.activeErrorMessageKey = null;
             this.inlineErrorMessageKey = null;
             this.showTemplate = true;
-
+            this.isIntygOnSendQueue = false;
+            this.isIntygOnRevokeQueue = false;
             this.deleted = false;
 
             this.intyg = {

@@ -59,15 +59,20 @@
 
       <div wc-new-person-id-message></div>
 
-      <div class="alert alert-info alert-column" ng-if="!viewState.intyg.isRevoked">
+      <div class="alert alert-info alert-column" ng-if="!viewState.intyg.isRevoked && !viewState.isIntygOnRevokeQueue">
         <strong>Status:</strong>
-        <span ng-if="viewState.intyg.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.sent"></span>
-        <span ng-if="!viewState.intyg.isSent" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
+        <span ng-if="viewState.intyg.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
+        <span ng-if="!viewState.intyg.isSent && !viewState.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
+        <span ng-if="!viewState.intyg.isSent && viewState.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
       </div>
 
-      <div ng-if="viewState.intyg.isRevoked" id="certificate-is-revoked-message-text" class="alert alert-warning"
-           style="margin-right: 20px; max-width: 530px;">Intyget är makulerat
+      <div ng-if="viewState.intyg.isRevoked || viewState.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"
+           style="margin-right: 20px; max-width: 530px;">
+        <span ng-if="viewState.isIntygOnRevokeQueue" id="certificate-revoked-it-message-text" message key="cert.status.revoke.requested"></span>
+        <span ng-if="viewState.intyg.isRevoked && !viewState.isIntygOnRevokeQueue" id="certificate-revoked-on-queue-it-message-text" message key="cert.status.revoke.confirmed"></span>
       </div>
+
+
     </div>
   </div>
 </div>
