@@ -1,9 +1,10 @@
 /* global document */
 angular.module('common').controller('common.IntygHeader',
     ['$scope', '$log', '$stateParams', 'common.messageService', 'common.PrintService',
-        'common.IntygCopyRequestModel', 'common.User', 'common.IntygService', 'common.IntygViewStateService',
-        function($scope, $log, $stateParams,
-            messageService, PrintService, IntygCopyRequestModel, User, IntygService, CommonViewState) {
+    'common.IntygCopyRequestModel', 'common.User', 'common.IntygService',
+    'common.IntygViewStateService', 'common.statService',
+        function($scope, $log, $stateParams, messageService, PrintService, IntygCopyRequestModel,
+            User, IntygService, CommonViewState, statService) {
             'use strict';
 
             $scope.intygstyp = $stateParams.certificateType;
@@ -26,6 +27,7 @@ angular.module('common').controller('common.IntygHeader',
                 cert.intygType = $stateParams.certificateType;
                 IntygService.makulera( cert, confirmationMessage, function() {
                     $scope.$emit('loadCertificate');
+                    statService.refreshStat();
                 });
             };
 
