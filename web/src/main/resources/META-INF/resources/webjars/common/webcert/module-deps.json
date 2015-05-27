@@ -42,6 +42,7 @@
     "/web/webjars/common/webcert/utils/locationUtils.service.js",
     "/web/webjars/common/webcert/utils/utils.service.js",
     "/web/webjars/common/webcert/utils/print.service.js",
+    "/web/webjars/common/webcert/utils/personIdValidator.service.js",
     "/web/webjars/common/webcert/utkast/models/base-content.model.js",
     "/web/webjars/common/webcert/utkast/models/draft.model.js",
     "/web/webjars/common/webcert/utkast/models/grundData.model.js",

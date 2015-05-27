@@ -4,70 +4,22 @@ describe('wcPersonNumber', function() {
     beforeEach(angular.mock.module('common'));
 
     var $scope;
+    var personIdValidatorService;
 
     // Create a form to test the validation directive on.
-    beforeEach(angular.mock.inject(function($compile, $rootScope) {
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', 'common.PersonIdValidatorService', function($compile, $rootScope, _personIdValidatorService_) {
         $scope = $rootScope.$new();
         $scope.model = {
             test: null
         };
 
+        personIdValidatorService = _personIdValidatorService_;
+
         var el = angular
             .element('<form name="form"><input ng-model="model.test" name="test" wc-person-number></form>');
         $compile(el)($scope);
         $scope.$digest();
-    }));
-
-    var isCheckDigitValid = function(value) {
-
-        // Remove separator.
-        var cleanValue = value.replace(/[-+]/, '');
-
-        // Multiply each of the digits with 2,1,2,1,...
-        var digits = cleanValue.substring(0, cleanValue.length - 1).split('');
-        var multipliers = [2, 1, 2, 1, 2, 1, 2, 1, 2];
-        var digitsMultiplied = '';
-        for (var i = 0; i < digits.length; i++) {
-            digitsMultiplied += parseInt(digits[i], 10) * multipliers[i];
-        }
-
-        // Calculate the sum of all of the digits.
-        digits = digitsMultiplied.split('');
-        var sum = 0;
-        for (i = 0; i < digits.length; i++) {
-            sum += parseInt(digits[i], 10);
-        }
-        sum = sum % 10;
-
-        // Get the specified check digit.
-        var checkDigit = cleanValue.substring(cleanValue.length - 1);
-
-        if (sum === 0 && checkDigit === '0') {
-            return true;
-        } else {
-            return (10 - sum) === parseInt(checkDigit, 10);
-        }
-    };
-
-    var createValidPersonnummer = function(dateStr) {
-        // dateStr must be on the form yyyyMMdd
-
-        var PERSONNUMMER_REGEXP = /^(\d{2})?(\d{2})(\d{2})([0-3]\d)$/;
-        var SUFFIX = '121';
-
-        var parts = PERSONNUMMER_REGEXP.exec(dateStr);
-
-        if (parts) {
-            for (var i = 0; i < 10; i++) {
-                var pnr = parts[2] + parts[3] + parts[4] + '-' + SUFFIX + i;
-                if (isCheckDigitValid(pnr)) {
-                    return parts[1] + pnr;
-                }
-            }
-        }
-
-        return undefined;
-    };
+    }]));
 
     // Pass
 
@@ -103,16 +55,6 @@ describe('wcPersonNumber', function() {
         $scope.form.test.$setViewValue('1212121212');
 
         expect($scope.model.test).toEqual('20121212-1212');
-        expect($scope.form.$valid).toBeTruthy();
-    });
-
-    it('should pass with a "personnummer" with an age of 125 years or less', function() {
-        var pnr = createValidPersonnummer(moment().subtract('years', 125).format('YYYYMMDD'));
-        $scope.form.test.$setViewValue(pnr);
-        expect($scope.form.$valid).toBeTruthy();
-
-        pnr = createValidPersonnummer(moment().subtract('years', 124).format('YYYYMMDD'));
-        $scope.form.test.$setViewValue(pnr);
         expect($scope.form.$valid).toBeTruthy();
     });
 
@@ -155,14 +97,6 @@ describe('wcPersonNumber', function() {
 
     it('should fail if "personnummer" has invalid date', function() {
         $scope.form.test.$setViewValue('121212-1213');
-
-        expect($scope.model.test).toBeUndefined();
-        expect($scope.form.$valid).toBeFalsy();
-    });
-
-    it('should fail if "personnummer" with an age greater than 125 years', function() {
-        var pnr = createValidPersonnummer(moment().subtract('years', 126).format('YYYYMMDD'));
-        $scope.form.test.$setViewValue(pnr);
 
         expect($scope.model.test).toBeUndefined();
         expect($scope.form.$valid).toBeFalsy();
