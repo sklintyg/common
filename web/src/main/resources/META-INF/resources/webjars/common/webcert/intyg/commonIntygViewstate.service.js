@@ -28,7 +28,7 @@ angular.module('common').service('common.IntygViewStateService',
                 this.activeErrorMessageKey = 'common.error.could_not_load_cert_not_auth';
             } else {
                 if (signed) {
-                    this.activeErrorMessageKey = 'common.error.signed_but_not_ready';
+                    this.activeErrorMessageKey = 'common.error.sign.not_ready_yet';
                 } else {
                     this.activeErrorMessageKey = 'common.error.could_not_load_cert';
                 }

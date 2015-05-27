@@ -112,7 +112,7 @@ angular.module('common').factory('common.UtkastSignService',
 
                 if (error === undefined) {
                     $log.debug('_setErrorMessageId: Error is not defined.');
-                    messageId = 'common.error.signerror';
+                    messageId = 'common.error.sign.general';
                 }
                 else {
                     if (error.errorCode === 'DATA_NOT_FOUND') {
@@ -120,13 +120,13 @@ angular.module('common').factory('common.UtkastSignService',
                     } else if (error.errorCode === 'INVALID_STATE') {
                         messageId = 'common.error.certificateinvalidstate';
                     } else if (error.errorCode === 'SIGN_NETID_ERROR') {
-                        messageId = 'common.error.signerrornetid';
+                        messageId = 'common.error.sign.netid';
                     } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
                         messageId = 'common.error.sign.concurrent_modification';
                     } else if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {
-                        messageId = 'common.error.signerror';
+                        messageId = 'common.error.sign.general';
                     }
                 }
                 return messageId;
