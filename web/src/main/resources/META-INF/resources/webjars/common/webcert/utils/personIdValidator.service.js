@@ -183,7 +183,9 @@ angular.module('common').factory('common.PersonIdValidatorService',function() {
 
         if(result !== null) {
             // validatePersonnummer could process the id and result has the conclusion.
-            // undefined === invalid personnummer, number === valid personnummer
+            // result:
+            // undefined === invalid personnummer
+            // number === valid personnummer
             return result;
         } else {
             // Personnummer validation didn't apply (null), check if its a samordningsnummer instead.
@@ -191,7 +193,9 @@ angular.module('common').factory('common.PersonIdValidatorService',function() {
 
             if(result !== null) {
                 // validateSamordningsnummer could process the id and result has the conclusion.
-                // undefined === invalid samordningsnummer, number === valid samordningsnummer
+                // result:
+                // undefined === invalid samordningsnummer
+                // number === valid samordningsnummer
                 return result;
             }
         }
@@ -200,9 +204,14 @@ angular.module('common').factory('common.PersonIdValidatorService',function() {
         return undefined;
     }
 
+    function _validResult(result) {
+        return result !== null && result !== undefined;
+    }
+
     return {
         validate: _validate,
         validatePersonnummer: _validatePersonnummer,
-        validateSamordningsnummer: _validateSamordningsnummer
+        validateSamordningsnummer: _validateSamordningsnummer,
+        validResult: _validResult
     };
 });

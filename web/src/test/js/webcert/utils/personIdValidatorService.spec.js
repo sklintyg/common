@@ -1,4 +1,4 @@
-describe('wcPersonNumber', function() {
+describe('PersonIdValidatorService', function() {
     'use strict';
 
     beforeEach(angular.mock.module('common'));
@@ -128,6 +128,11 @@ describe('wcPersonNumber', function() {
         expect(result).toBeUndefined();
     });
 
+    it('should fail if "personnummer" is a samordningsnummer', function() {
+        var result = personIdValidatorService.validatePersonnummer('121272-1219');
+        expect(result).toBeNull();
+    });
+
     it('should fail if "personnummer" has invalid date', function() {
         var result = personIdValidatorService.validate('121232-1213');
         expect(result).toBeUndefined();
@@ -144,9 +149,19 @@ describe('wcPersonNumber', function() {
         expect(result).toBeUndefined();
     });
 
+    it('should fail with if "personnummer" has invalid characters', function() {
+        var result = personIdValidatorService.validate('"#¤&%(¤"#lakf');
+        expect(result).toBeUndefined();
+    });
+
     it('should fail if "samordningsnummer" has invalid check digit', function() {
         var result = personIdValidatorService.validate('121272-1213');
         expect(result).toBeUndefined();
+    });
+
+    it('should fail if "samordningsnummer" is a personnummer', function() {
+        var result = personIdValidatorService.validateSamordningsnummer('19121212-1212');
+        expect(result).toBeNull();
     });
 
     it('should fail with if "samordningsnummer" has invalid date', function() {
@@ -156,6 +171,11 @@ describe('wcPersonNumber', function() {
 
     it('should fail with if "samordningsnummer" has invalid characters', function() {
         var result = personIdValidatorService.validate('121272.1219');
+        expect(result).toBeUndefined();
+    });
+
+    it('should fail with if "samordningsnummer" has invalid characters', function() {
+        var result = personIdValidatorService.validate('¤"&%34n43m');
         expect(result).toBeUndefined();
     });
 });
