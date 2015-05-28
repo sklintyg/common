@@ -611,6 +611,7 @@
     .alert-danger {
         color: #A94442; /* WCAG AA compliant */
         background-image: none;
+        max-width: 600px;
     }
 
     .alert-danger a {
