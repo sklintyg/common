@@ -20,6 +20,8 @@ var commonMessages = {
 
         'common.alert.newpersonid': 'Patienten har ett nytt personnummer: <b>${person}</b>',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>',
+        'common.alert.sekretessmarkering': 'Patienten har en sekretessmarkering. Var vänlig hantera patientens uppgifter varsamt.',
+        'common.alert.sekretessmarkering.error': 'Misslyckades att slå up patienten i personuppgiftstjänsten. Observera att patienten kan ha sekretessmarkerade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',
 
         'common.date': 'Datum',
         'common.when': 'När?',

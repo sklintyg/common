@@ -2,8 +2,10 @@ angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
         'common.messageService', 'common.PrintService', 'common.UtkastService', 'common.UtkastProxy', 'common.statService',
         'common.featureService', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
+        'common.PatientProxy', 'common.PatientModel',
         function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
-            PrintService, UtkastService, UtkastProxy, statService, featureService, dialogService, CommonViewState, anchorScrollService) {
+            PrintService, UtkastService, UtkastProxy, statService, featureService, dialogService, CommonViewState,
+            anchorScrollService, PatientProxy, PatientModel) {
             'use strict';
 
             /**
@@ -119,6 +121,29 @@ angular.module('common').controller('common.UtkastHeader',
 
             $scope.$on('$destroy', function() {
                 $window.onbeforeunload = null;
+            });
+
+            /*
+             * Lookup patient to check for sekretessmarkering
+             */
+            $scope.$on('intyg.loaded', function(event, content) {
+
+                $scope.sekretessmarkering = false;
+                $scope.sekretessmarkeringError = false;
+
+                var onSuccess = function() {
+                    $scope.sekretessmarkering = PatientModel.sekretessmarkering;
+                };
+
+                var onNotFound = function() {
+                    $scope.sekretessmarkeringError = true;
+                };
+
+                var onError = function() {
+                    $scope.sekretessmarkeringError = true;
+                };
+
+                PatientProxy.getPatient(content.grundData.patient.personId, onSuccess, onNotFound, onError);
             });
         }
     ]

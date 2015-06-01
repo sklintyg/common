@@ -38,7 +38,7 @@
             </button>
             <button id="downloadprint" type="submit" value="submit" class="btn btn-info" ng-click="print(cert)">Skriv ut
             </button>
-            <button id="copyBtn" class="btn btn-info" ng-if="!viewState.intyg.isRevoked && !isQaOnly" ng-click="copy(cert)"
+            <button id="copyBtn" class="btn btn-info" ng-if="!viewState.intyg.isRevoked && !isQaOnly && !sekretessmarkering" ng-click="copy(cert)"
                     wc-feature-active feature="kopieraIntyg" intygstyp="{{intygstyp}}"
                     title="{{copyBtnTooltipText}}">
               Kopiera
@@ -51,6 +51,13 @@
             </button>
           </p>
         </form>
+      </div>
+
+      <div class="alert alert-warning" ng-show="sekretessmarkering">
+        <span message key="common.alert.sekretessmarkering"></span>
+      </div>
+      <div class="alert alert-warning" ng-show="sekretessmarkeringError">
+        <span message key="common.alert.sekretessmarkering.error"></span>
       </div>
 
       <div id="cert-inline-error" ng-show="viewState.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">

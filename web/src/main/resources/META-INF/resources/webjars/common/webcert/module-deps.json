@@ -32,6 +32,8 @@
     "/web/webjars/common/webcert/intyg/intygCopyRequest.model.js",
     "/web/webjars/common/webcert/intyg/wcEnableTooltip.directive.js",
     "/web/webjars/common/webcert/intyg/wcNewPersonIdMessage.directive.js",
+    "/web/webjars/common/webcert/patient/patient.model.js",
+    "/web/webjars/common/webcert/patient/patient.proxy.js",
     "/web/webjars/common/webcert/user/feature.service.js",
     "/web/webjars/common/webcert/user/stat.service.js",
     "/web/webjars/common/webcert/user/user.service.js",

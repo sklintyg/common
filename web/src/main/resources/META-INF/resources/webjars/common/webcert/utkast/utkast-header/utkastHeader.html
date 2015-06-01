@@ -57,6 +57,13 @@
           <div>{{view}}</div>
         </div>
 
+        <div class="alert alert-warning" ng-show="sekretessmarkering">
+          <span message key="common.alert.sekretessmarkering"></span>
+        </div>
+        <div class="alert alert-warning" ng-show="sekretessmarkeringError">
+          <span message key="common.alert.sekretessmarkering.error"></span>
+        </div>
+
         <!-- Show save errors here to spare user from retyping everything for intermittent errors -->
         <div class="row">
           <div ng-show="viewState.common.error.saveErrorCode != null" class="col-md-7">
