@@ -1,5 +1,5 @@
 angular.module('common').factory('common.statService',
-    ['$http', '$log', '$rootScope', '$timeout', 'common.User', function($http, $log, $rootScope, $timeout, User) {
+    ['$http', '$log', '$rootScope', '$interval', 'common.User', function($http, $log, $rootScope, $interval, User) {
         'use strict';
 
         var timeOutPromise;
@@ -13,7 +13,7 @@ angular.module('common').factory('common.statService',
          */
         function _stopPolling() {
             if (timeOutPromise) {
-                $timeout.cancel(timeOutPromise);
+                $interval.cancel(timeOutPromise);
                 $log.debug('statService -> Stop polling');
             }
         }
@@ -28,11 +28,11 @@ angular.module('common').factory('common.statService',
                 lastData = data;
                 $rootScope.$broadcast('wc-stat-update', data);
                 _stopPolling();
-                timeOutPromise = $timeout(_refreshStat, msPollingInterval);
+                timeOutPromise = $interval(_refreshStat, msPollingInterval);
             }).error(function(data, status) {
                 $log.error('_getStat error ' + status);
                 _stopPolling();
-                timeOutPromise = $timeout(_refreshStat, msPollingInterval);
+                timeOutPromise = $interval(_refreshStat, msPollingInterval);
             });
         }
 
