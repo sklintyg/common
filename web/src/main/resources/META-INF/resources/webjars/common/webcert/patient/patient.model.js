@@ -1,4 +1,4 @@
-angular.module('webcert').factory('common.PatientModel',
+angular.module('common').factory('common.PatientModel',
     [ '$log',
         function($log) {
             'use strict';

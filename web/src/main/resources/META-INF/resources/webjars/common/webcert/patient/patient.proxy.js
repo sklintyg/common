@@ -1,4 +1,4 @@
-angular.module('webcert').factory('common.PatientProxy',
+angular.module('common').factory('common.PatientProxy',
     [ '$http', '$stateParams', '$log', 'common.PatientModel',
         function($http, $stateParams, $log, PatientModel) {
             'use strict';
