@@ -35,7 +35,7 @@
         <div wc-new-person-id-message></div>
 
         <div class="form-group buttonbar">
-          <button class="btn btn-default btn-secondary" ng-disabled="viewState.common.intyg.isComplete"
+          <button class="btn btn-default btn-secondary" wc-feature-not-active feature="franJournalsystem" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="updatePatientData()" id="fetchPatientButton"
                   title="Hämta patientuppgifter från folkbokföringsregistret.">
             <img ng-show="viewState.common.fetchingPatientData" ng-src="/img/loader-small.gif"/> Hämta patientuppgifter

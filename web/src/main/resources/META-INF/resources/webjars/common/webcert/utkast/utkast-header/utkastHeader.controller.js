@@ -19,8 +19,20 @@ angular.module('common').controller('common.UtkastHeader',
                 $timeout(function() { // delay operation just a bit to make sure the animation is visible to the user
                     PatientProxy.getPatient($scope.cert.grundData.patient.personId, function(patientResult) {
                         CommonViewState.fetchingPatientData = false;
-                        $scope.cert.grundData.patient.fullstandigtNamn = (patientResult.fornamn ? patientResult.fornamn : '') +
-                            ' ' + (patientResult.mellannamn ? patientResult.mellannamn : '') + ' ' + (patientResult.efternamn ? patientResult.efternamn : '');
+                        $scope.cert.grundData.patient.fullstandigtNamn = (patientResult.fornamn ? patientResult.fornamn : '');
+
+                        if (angular.isString(patientResult.mellannamn)) {
+                            $scope.cert.grundData.patient.fullstandigtNamn += ' ' + patientResult.mellannamn;
+                        }
+
+                        if (angular.isString(patientResult.efternamn)) {
+                            $scope.cert.grundData.patient.fullstandigtNamn += ' ' + patientResult.efternamn;
+                        }
+
+                        $scope.cert.grundData.patient.postadress = patientResult.postadress;
+                        $scope.cert.grundData.patient.postnummer = patientResult.postnummer;
+                        $scope.cert.grundData.patient.postort = patientResult.postort;
+
                     }, function() { // not found
                         CommonViewState.fetchingPatientData = false;
                     }, function() { // error
