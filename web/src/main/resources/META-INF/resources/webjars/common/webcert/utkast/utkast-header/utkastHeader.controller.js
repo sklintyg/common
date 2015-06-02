@@ -2,11 +2,33 @@ angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
         'common.messageService', 'common.PrintService', 'common.UtkastService', 'common.UtkastProxy', 'common.statService',
         'common.featureService', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
-        'common.PatientProxy', 'common.PatientModel',
+        'common.PatientProxy',
         function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
             PrintService, UtkastService, UtkastProxy, statService, featureService, dialogService, CommonViewState,
-            anchorScrollService, PatientProxy, PatientModel) {
+            anchorScrollService, PatientProxy) {
             'use strict';
+
+            $scope.updatePatientData = function() {
+
+                if(!(angular.isObject($scope.cert) && angular.isObject($scope.cert.grundData) && angular.isObject($scope.cert.grundData.patient) && angular.isString($scope.cert.grundData.patient.personId))){
+                    $log.debug('Intygdata or patient data missing for lookup.');
+                    return;
+                }
+
+                CommonViewState.fetchingPatientData = true;
+                $timeout(function() { // delay operation just a bit to make sure the animation is visible to the user
+                    PatientProxy.getPatient($scope.cert.grundData.patient.personId, function(patientResult) {
+                        CommonViewState.fetchingPatientData = false;
+                        $scope.cert.grundData.patient.fullstandigtNamn = (patientResult.fornamn ? patientResult.fornamn : '') +
+                            ' ' + (patientResult.mellannamn ? patientResult.mellannamn : '') + ' ' + (patientResult.efternamn ? patientResult.efternamn : '');
+                    }, function() { // not found
+                        CommonViewState.fetchingPatientData = false;
+                    }, function() { // error
+                        CommonViewState.fetchingPatientData = false;
+                    });
+
+                }, 500);
+            };
 
             /**
              * Toggle header part ('Dölj meny'-knapp)
@@ -48,7 +70,7 @@ angular.module('common').controller('common.UtkastHeader',
                         dialogModel.acceptprogressdone = false;
                         var back = function() {
                             $window.doneLoading = true;
-                            // IE9 inifinite digest workaround
+                            // IE9 infinite digest workaround
                             $timeout(function() {
                                 $window.history.back();
                             });
@@ -121,29 +143,6 @@ angular.module('common').controller('common.UtkastHeader',
 
             $scope.$on('$destroy', function() {
                 $window.onbeforeunload = null;
-            });
-
-            /*
-             * Lookup patient to check for sekretessmarkering
-             */
-            $scope.$on('intyg.loaded', function(event, content) {
-
-                $scope.sekretessmarkering = false;
-                $scope.sekretessmarkeringError = false;
-
-                var onSuccess = function() {
-                    $scope.sekretessmarkering = PatientModel.sekretessmarkering;
-                };
-
-                var onNotFound = function() {
-                    $scope.sekretessmarkeringError = true;
-                };
-
-                var onError = function() {
-                    $scope.sekretessmarkeringError = true;
-                };
-
-                PatientProxy.getPatient(content.grundData.patient.personId, onSuccess, onNotFound, onError);
             });
         }
     ]

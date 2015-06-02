@@ -11,7 +11,7 @@ angular.module('webcert').factory('common.PatientProxy',
              * @param onError
              */
             function _getPatient(personnummer, onSuccess, onNotFound, onError) {
-                $log.debug('getNameAndAddress');
+                $log.debug('_getPatient');
 
                 var that = PatientModel;
                 that.personnummer = personnummer;
@@ -28,17 +28,17 @@ angular.module('webcert').factory('common.PatientProxy',
                         that.postadress = data.person.postadress;
                         that.postnummer = data.person.postnummer;
                         that.postort = data.person.postort;
-                        onSuccess();
+                        onSuccess(that);
                     } else if (data.status === 'ERROR') {
-                        $log.warn('PU-tjänsten kunde inte kontaktas, manuell inmatning krävs');
+                        $log.warn('PU-tjänsten kunde inte kontaktas.');
                         onError();
                     } else {
-                        $log.debug('Personen hittades inte i PU-tjänsten, manuell inmatning krävs');
+                        $log.debug('Personen hittades inte i PU-tjänsten.');
                         onNotFound();
                     }
 
                 }).error(function() {
-                    $log.warn('PU-tjänsten kunde inte kontaktas, manuell inmatning krävs');
+                    $log.warn('PU-tjänsten kunde inte kontaktas.');
                     onError();
                 });
             }

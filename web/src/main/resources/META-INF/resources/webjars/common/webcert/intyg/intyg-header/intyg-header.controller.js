@@ -2,9 +2,9 @@
 angular.module('common').controller('common.IntygHeader',
     ['$scope', '$log', '$stateParams', 'common.messageService', 'common.PrintService',
     'common.IntygCopyRequestModel', 'common.User', 'common.IntygService',
-    'common.IntygViewStateService', 'common.statService', 'common.PatientProxy', 'common.PatientModel',
+    'common.IntygViewStateService', 'common.statService',
         function($scope, $log, $stateParams, messageService, PrintService, IntygCopyRequestModel,
-            User, IntygService, CommonViewState, statService, PatientProxy, PatientModel) {
+            User, IntygService, CommonViewState, statService) {
             'use strict';
 
             $scope.intygstyp = $stateParams.certificateType;
@@ -55,29 +55,6 @@ angular.module('common').controller('common.IntygHeader',
                     document.pdfForm.submit();
                 }
             };
-
-            /*
-             * Lookup patient to check for sekretessmarkering
-             */
-            $scope.$on('intyg.loaded', function(event, content) {
-
-                $scope.sekretessmarkering = false;
-                $scope.sekretessmarkeringError = false;
-
-                var onSuccess = function() {
-                    $scope.sekretessmarkering = PatientModel.sekretessmarkering;
-                };
-
-                var onNotFound = function() {
-                    $scope.sekretessmarkeringError = true;
-                };
-
-                var onError = function() {
-                    $scope.sekretessmarkeringError = true;
-                };
-
-                PatientProxy.getPatient(content.grundData.patient.personId, onSuccess, onNotFound, onError);
-            });
         }
     ]
 );

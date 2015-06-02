@@ -53,12 +53,7 @@
         </form>
       </div>
 
-      <div class="alert alert-warning" ng-show="sekretessmarkering">
-        <span message key="common.alert.sekretessmarkering"></span>
-      </div>
-      <div class="alert alert-warning" ng-show="sekretessmarkeringError">
-        <span message key="common.alert.sekretessmarkering.error"></span>
-      </div>
+      <div wc-secrecy-mark-message></div>
 
       <div id="cert-inline-error" ng-show="viewState.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
         <span message key="{{viewState.inlineErrorMessageKey}}"></span>
