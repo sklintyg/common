@@ -1,5 +1,5 @@
 angular.module('common').service('common.UtkastViewStateService',
-    ['$stateParams', '$window', function($stateParams, $window) {
+    ['$stateParams', '$window', 'common.ViewStateService', function($stateParams, $window, commonViewStateService) {
         'use strict';
 
         this.reset = function() {
@@ -34,6 +34,9 @@ angular.module('common').service('common.UtkastViewStateService',
 
             this.draftModel = undefined;
             this.intygModel = undefined;
+
+            this.common = commonViewStateService;
+            this.common.reset();
         };
 
         this.update = function(draftModel, data) {

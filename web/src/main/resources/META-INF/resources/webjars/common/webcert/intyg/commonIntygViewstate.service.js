@@ -1,5 +1,5 @@
 angular.module('common').service('common.IntygViewStateService',
-    function($log) {
+    ['$log', 'common.ViewStateService', function($log, commonViewStateService) {
         'use strict';
 
         this.reset = function() {
@@ -18,6 +18,9 @@ angular.module('common').service('common.IntygViewStateService',
                 printStatus: 'notloaded', // used in intyg-header.html only and set in intyg view controllers: 'signed' or 'revoked'
                 newPatientId: false // FK only for now. Consider making specific viewState services for each intyg as with utkast
             };
+
+            this.common = commonViewStateService;
+            this.common.reset();
         };
 
         this.updateActiveError = function(error, signed) {
@@ -36,5 +39,5 @@ angular.module('common').service('common.IntygViewStateService',
         };
 
         this.reset();
-    }
+    }]
 );
