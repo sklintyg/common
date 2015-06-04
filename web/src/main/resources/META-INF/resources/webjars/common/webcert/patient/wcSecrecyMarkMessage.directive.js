@@ -2,8 +2,8 @@
  * Listen to intyg loaded event and present a message that the user is marked for secrecy (sekretessmarkerad) if he is.
  */
 angular.module('common').directive('wcSecrecyMarkMessage', [
-    'common.PatientProxy', 'common.ViewStateService',
-    function(PatientProxy, ViewStateService) {
+    'common.PatientProxy', 'common.ViewStateService', 'common.featureService',
+    function(PatientProxy, ViewStateService, featureService) {
         'use strict';
 
         return {
@@ -17,12 +17,6 @@ angular.module('common').directive('wcSecrecyMarkMessage', [
                 /*
                  * Lookup patient to check for sekretessmarkering
                  */
-                if ($scope.cert) {
-                    lookupPatient($scope.cert);
-                }
-                $scope.$on('intyg.loaded', function(event, content) {
-                    lookupPatient(content);
-                });
                 function lookupPatient(content) {
                     ViewStateService.sekretessmarkering = false;
                     ViewStateService.sekretessmarkeringError = false;
@@ -44,6 +38,14 @@ angular.module('common').directive('wcSecrecyMarkMessage', [
                     }
                 }
 
+                if (!featureService.isFeatureActive('franJournalsystem')) {
+                    if ($scope.cert) {
+                        lookupPatient($scope.cert);
+                    }
+                    $scope.$on('intyg.loaded', function(event, content) {
+                        lookupPatient(content);
+                    });
+                }
             },
             templateUrl: '/web/webjars/common/webcert/patient/wcSecrecyMarkMessage.directive.html'
         };
