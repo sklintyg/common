@@ -1,7 +1,7 @@
 angular.module('common').controller('common.SendCertWizardCtrl',
-    [ '$filter', '$location', '$rootScope', '$routeParams', '$scope', 'minaintyg.listCertService',
+    [ '$filter', '$location', '$rootScope', '$stateParams', '$scope', 'minaintyg.listCertService',
         'minaintyg.sendCertService',
-        function($filter, $location, $rootScope, $routeParams, $scope, listCertService, sendCertService) {
+        function($filter, $location, $rootScope, $stateParams, $scope, listCertService, sendCertService) {
             'use strict';
 
             // Get module and default recipient from querystring
@@ -9,9 +9,7 @@ angular.module('common').controller('common.SendCertWizardCtrl',
             $scope.module = params.module;
 
             // Initialize default recipient
-            if ($scope.selectedRecipientId === undefined) {
-                $scope.selectedRecipientId = params.defaultRecipient;
-            }
+            $scope.selectedRecipientId = params.defaultRecipient;
 
             $scope.sendingInProgress = false;
             // Get active certificate from rootscope (passed from previous controller)

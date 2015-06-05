@@ -1,7 +1,7 @@
 angular.module('common').directive('wcHeader',
-    ['$cookieStore', '$location', '$route', '$log', '$modal', '$window', '$anchorScroll', 'common.dialogService',
+    ['$cookieStore', '$location', '$state', '$log', '$modal', '$window', '$anchorScroll', 'common.dialogService',
         'common.featureService', 'common.messageService', 'common.statService', 'common.User', 'common.UserModel',
-        function($cookieStore, $location, $route, $log, $modal, $window, $anchorScroll, dialogService, featureService,
+        function($cookieStore, $location, $state, $log, $modal, $window, $anchorScroll, dialogService, featureService,
             messageService, statService, User, UserModel) {
             'use strict';
 
@@ -186,7 +186,7 @@ angular.module('common').directive('wcHeader',
                                         } else {
                                             $location.path('/unhandled-qa');
                                         }
-                                        $route.reload();
+                                        $state.reload();
 
                                         $modalInstance.close();
                                     }, function() {

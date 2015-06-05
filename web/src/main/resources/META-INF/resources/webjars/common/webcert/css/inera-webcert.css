@@ -613,6 +613,10 @@
         background-image: none;
     }
 
+    .alert-danger a {
+        color: #A94442;
+    }
+
     .alert-info {
         color: #306E8D; /* WCAG AA compliant */
         border: 1px solid #9cd7e3;

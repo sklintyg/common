@@ -1,17 +1,17 @@
 /**
- * Show signing doctor name if it exists in the routeParams.
+ * Show signing doctor name if it exists in the stateParams.
  * Broadcast a intyg.loaded event on rootscope when the intyg is loaded to update the message.
  */
 angular.module('common').directive('wcFieldSigningDoctor',
-    [ '$routeParams',
-        function($routeParams) {
+    [ '$stateParams',
+        function($stateParams) {
             'use strict';
 
             return {
                 restrict: 'A',
                 controller: function($scope) {
-                    $scope.show = $routeParams.hospName !== undefined && $routeParams.hospName !== '';
-                    $scope.hospName = $routeParams.hospName;
+                    $scope.show = $stateParams.hospName !== undefined && $stateParams.hospName !== '';
+                    $scope.hospName = $stateParams.hospName;
                 },
                 templateUrl: '/web/webjars/common/webcert/js/directives/wcFieldSigningDoctor.html'
             };

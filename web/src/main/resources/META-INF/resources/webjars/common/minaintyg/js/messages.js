@@ -4,6 +4,7 @@ var commonMessages = {
 
         'common.yes': 'Ja',
         'common.no': 'Nej',
+        'common.notset': 'Ej angivet',
         'common.yes.caps': 'JA',
         'common.no.caps': 'NEJ',
         'common.nodontask': 'Nej, fråga inte igen',

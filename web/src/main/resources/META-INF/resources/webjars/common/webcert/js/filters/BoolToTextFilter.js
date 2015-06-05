@@ -3,6 +3,6 @@ angular.module('common').filter('BoolToTextFilter',
         'use strict';
 
         return function(input) {
-            return input === true ? 'common.yes' : 'common.no';
+            return ((input === true) ? 'common.yes' : ((input === false) ? 'common.no' : 'common.notset'));
         };
     });

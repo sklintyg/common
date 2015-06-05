@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>common</artifactId>
+    <groupId>se.inera.intyg.common</groupId>
+    <version>0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>common-schemas</artifactId>
+
+  <name>Intyg Common (Schemas)</name>
+
+  <dependencies>
+    <!-- Common -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>common-support</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>logging-util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- RIVTA Schemas -->
+    <dependency>
+      <groupId>se.riv.clinicalprocess.healthcond.certificate</groupId>
+      <artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>se.riv.insuranceprocess.healthreporting</groupId>
+      <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
+    </dependency>
+
+    <!-- Intyg Schemas -->
+    <dependency>
+      <groupId>se.inera.intyg.clinicalprocess.healthcond.certificate</groupId>
+      <artifactId>intyg-clinicalprocess-healthcond-certificate-schemas</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>se.inera.intyg.insuranceprocess.healthreporting</groupId>
+      <artifactId>intyg-insuranceprocess-healthreporting-schemas</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>se.inera.intyg.transportstyrelsen</groupId>
+      <artifactId>intyg-transportstyrelsen-schemas</artifactId>
+    </dependency>
+
+    <!-- Date/Time -->
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
+
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+
+</project>

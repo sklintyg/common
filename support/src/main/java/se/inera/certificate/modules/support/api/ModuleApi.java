@@ -105,16 +105,6 @@ public interface ModuleApi {
 
     /**
      * Send certificate to specified recipient.
-     * 
-     * @param internalModel
-     *            The internal model of the certificate to send.
-     * @param logicalAddress
-     *            The recipient's logical address
-     */
-    void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
-
-    /**
-     * Send certificate to specified recipient.
      *
      * INFO: This method is only here to fix JIRA issue
      * <a href="https://inera-certificate.atlassian.net/browse/WEBCERT-1442">WEBCERT-1442</a>
@@ -183,5 +173,11 @@ public interface ModuleApi {
      * @return
      */
     Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
-    
+
+    /**
+     * Exposed for testing purposes
+     * @param jsonString
+     * @return an XML string
+     */
+    String marshall(String jsonString) throws ModuleException;
 }

@@ -39,7 +39,7 @@ module.exports = function(config) {
             WEBJAR_DIR + 'angularjs/angular-mocks.js',
             WEBJAR_DIR + 'angularjs/1.2.27/angular-locale_sv-se.js',
             WEBJAR_DIR + 'angularjs/angular-cookies.js',
-            WEBJAR_DIR + 'angularjs/angular-route.js',
+            WEBJAR_DIR + 'angular-ui-router/angular-ui-router.js',
             WEBJAR_DIR + 'angularjs/angular-sanitize.js',
             WEBJAR_DIR + 'angular-ui-bootstrap/ui-bootstrap-tpls.js',
             WEBJAR_DIR + 'momentjs/moment.js',
@@ -50,7 +50,8 @@ module.exports = function(config) {
             SRC_DIR + 'module.js',
 
             { pattern: SRC_DIR + '**/*' },
-            { pattern: TEST_DIR + '**/*Spec.js' }
+            { pattern: TEST_DIR + '**/*Spec.js' },
+            { pattern: TEST_DIR + '**/*.spec.js' }
         ],
 
         // web server port

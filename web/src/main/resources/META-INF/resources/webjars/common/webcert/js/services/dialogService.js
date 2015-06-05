@@ -65,8 +65,6 @@ angular.module('common').factory('common.dialogService',
         /*
          showDialog parameters:
 
-         scope = parent scope
-
          options =
          dialogId: html id attribute of dialog
          titleId: message id of title text
@@ -84,18 +82,7 @@ angular.module('common').factory('common.dialogService',
          button3visible: (optional) whether button 3 should be visible. default: true if button3text is specified, otherwise false
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
          */
-        function _showDialog(scope, options) {
-
-            if (scope.dialog === undefined) {
-                scope.dialog = {};
-            }
-
-            scope.dialog.errormessageid =
-                (scope.dialog.errormessageid ? scope.dialog.errormessageid : 'common.error.cantconnect');
-            scope.dialog.acceptprogressdone =
-                (scope.dialog.acceptprogressdone ? scope.dialog.acceptprogressdone : true);
-            scope.dialog.focus = (scope.dialog.focus ? scope.dialog.focus : false);
-            scope.dialog.showerror = (scope.dialog.showerror ? scope.dialog.showerror : false);
+        function _showDialog( options ) {
 
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
@@ -116,7 +103,15 @@ angular.module('common').factory('common.dialogService',
             options.autoClose = (options.autoClose === undefined) ? true : options.autoClose;
             options.templateUrl =
                 (options.templateUrl === undefined) ? '/views/partials/common-dialog.html' : options.templateUrl;
-            options.model = (options.model === undefined) ? undefined : options.model;
+            options.model = (options.model === undefined) ? {} : options.model;
+
+            // setup model defaults if parameters aren't included
+            options.model.errormessageid =
+                (options.model.errormessageid ? options.model.errormessageid : 'common.error.cantconnect');
+            options.model.acceptprogressdone =
+                (options.model.acceptprogressdone ? options.model.acceptprogressdone : true);
+            options.model.focus = (options.model.focus ? options.model.focus : false);
+            options.model.showerror = (options.model.showerror ? options.model.showerror : false);
 
             // Create controller to setup dialog
             var DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId, bodyText,
@@ -161,7 +156,6 @@ angular.module('common').factory('common.dialogService',
 
             // Open dialog box using specified options, template and controller
             var msgbox = $modal.open({
-                scope: scope,
                 templateUrl: options.templateUrl,
                 controller: DialogInstanceCtrl,
                 resolve: {
@@ -219,6 +213,13 @@ angular.module('common').factory('common.dialogService',
             msgbox.result.then(function(result) {
                 if (options.callback) {
                     options.callback(result);
+                } else if(result && result.resolve !== undefined){
+                    result.resolve();
+                } else if(result && result.direct) {
+                    result.direct();
+                } else if(result && typeof result === 'function'){
+                    result();
+                    //_runOnDialogRemoved(msgbox, result);
                 }
             }, function() {
             });
@@ -227,11 +228,31 @@ angular.module('common').factory('common.dialogService',
                 $window.dialogDoneLoading = true;
             });
 
+            msgbox.model = options.model;
+
             return msgbox;
         }
 
-        function _runOnDialogDoneLoading(modal, callback) {
+        function _runOnDialogRemoved(modal, callback) {
+            modal.opened.then(function() {
+                function waitForModalToBeRemovedAndRunCallback() {
+                    var modalDialog = $('[modal-window]');
+                    if (modalDialog.length === 0) {
+                        callback();
+                    } else {
+                        $timeout(waitForModalToBeRemovedAndRunCallback, 100);
+                    }
+                }
 
+                $timeout(waitForModalToBeRemovedAndRunCallback);
+
+            }, function() {
+                // Failed to open the modal -> finished loading
+                callback();
+            });
+        }
+
+        function _runOnDialogDoneLoading(modal, callback) {
             modal.opened.then(function() {
                 function waitForModalToExistAndRunCallbackWhenTransitionIsDone() {
                     var modalDialog = $('[modal-window]');
