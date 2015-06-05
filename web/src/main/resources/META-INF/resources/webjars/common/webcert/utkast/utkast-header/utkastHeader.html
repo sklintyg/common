@@ -66,7 +66,7 @@
 
         <!-- Show save errors here to spare user from retyping everything for intermittent errors -->
         <div class="row">
-          <div ng-show="viewState.common.error.saveErrorCode != null" class="col-md-7">
+          <div wc-show="viewState.common.error.saveErrorCode != null" class="col-md-7">
             <div class="alert alert-danger">
               <span ng-bind-html="viewState.common.error.saveErrorMessage"></span>
             </div>
@@ -74,19 +74,19 @@
         </div>
 
         <!-- Just in case -->
-        <div id="certificate-is-sent-to-it-message-text" ng-show="viewState.common.isSigned">
+        <div id="certificate-is-sent-to-it-message-text" wc-show="viewState.common.isSigned">
           <span message key="draft.status.signed"></span>
         </div>
         <!-- complete -->
-        <div ng-show="!viewState.common.saving && certForm.$pristine && viewState.common.intyg.isComplete && !viewState.common.isSigned">
+        <div wc-show="!viewState.common.saving && certForm.$pristine && viewState.common.intyg.isComplete && !viewState.common.isSigned">
           <span id="intyget-sparat-och-komplett-meddelande" message key="draft.status.draft_complete"></span>
         </div>
         <!-- incomplete -->
-        <div ng-show="!viewState.common.saving && certForm.$pristine && !viewState.common.intyg.isComplete">
+        <div wc-show="!viewState.common.saving && certForm.$pristine && !viewState.common.intyg.isComplete">
           <span id="intyget-sparat-och-ej-komplett-meddelande" message key="draft.status.draft_incomplete"></span>
         </div>
         <!-- form changed -->
-        <div ng-show="viewState.common.saving || certForm.$dirty"><span message key="draft.status.changed"></span></div>
+        <div wc-show="viewState.common.saving || certForm.$dirty"><span message key="draft.status.changed"></span></div>
       </div>
     </div>
   </div>
@@ -94,7 +94,7 @@
 
 <!-- Total fail error messages -->
 <div id="error-panel" class="cert-error-panel"
-     ng-show="viewState.common.doneLoading && viewState.common.error.activeErrorMessageKey && !viewState.common.deleted">
+     wc-show="viewState.common.doneLoading && viewState.common.error.activeErrorMessageKey && !viewState.common.deleted">
   <div class="alert alert-danger">
     <span message key="{{viewState.common.error.activeErrorMessageKey}}"></span>
   </div>
