@@ -38,7 +38,7 @@
           {{ findIntyg(vg.id, enhet.id) }} ({{ findAllIntyg(vg.id, enhet.id) }})
         </div>
       </div>
-      <div wc-show="enhet.showMottagning">
+      <div ng-show="enhet.showMottagning">
         <div class="row" ng-repeat="mottagning in enhet.mottagningar | orderBy:'namn'">
           <div class="col-xs-5 col-xs-offset-1">
             <button id="select-active-unit-{{mottagning.id}}-modal"
@@ -60,5 +60,5 @@
     </div>
     <hr />
   </div>
-  <div class="alert alert-danger" wc-show="error">Tekniskt fel. Kunde inte byta vårdenhet.</div>
+  <div class="alert alert-danger" ng-show="error">Tekniskt fel. Kunde inte byta vårdenhet.</div>
 </div>
