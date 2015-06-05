@@ -93,9 +93,11 @@ angular.module('common').factory('common.UtkastService',
                         var saveRequestDuration = moment().diff(saveStartTime);
                         if (saveRequestDuration > 1000) {
                             CommonViewState.saving = false;
+                            $window.saving = false;
                         } else {
                             $timeout(function() {
                                 CommonViewState.saving = false;
+                                $window.saving = false;
                             }, 1000 - saveRequestDuration);
                         }
                     });

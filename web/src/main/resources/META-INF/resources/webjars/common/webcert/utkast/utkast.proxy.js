@@ -2,7 +2,7 @@
  * Common utkast proxy. All utkast-related REST-functions goes here.
  */
 angular.module('common').factory('common.UtkastProxy',
-    function($http, $log) {
+    function($http, $log, $window) {
         'use strict';
 
         var saveDraftInProgress = false;
@@ -39,6 +39,7 @@ angular.module('common').factory('common.UtkastProxy',
             $log.debug('_saveDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version;
 
+            $window.saving = true;
             saveDraftInProgress = true;
             $http.put(restPath, cert).
                 success(function(data) {
@@ -49,6 +50,9 @@ angular.module('common').factory('common.UtkastProxy',
                 error(function(data, status) {
                     $log.error('error ' + status);
                     onError(data);
+                    saveDraftInProgress = false;
+                }).
+                finally(function(){
                     saveDraftInProgress = false;
                 });
         }
