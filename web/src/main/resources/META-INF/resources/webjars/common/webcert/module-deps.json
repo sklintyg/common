@@ -74,5 +74,6 @@
     "/web/webjars/common/webcert/vendor/stacktrace.js",
     "/web/webjars/common/webcert/vendor/watch.js",
     "/web/webjars/common/webcert/viewstate/commonViewstate.service.js",
-    "/web/webjars/common/webcert/messages.js"
+    "/web/webjars/common/webcert/messages.js",
+    "/web/webjars/common/webcert/templates.js"
 ]
