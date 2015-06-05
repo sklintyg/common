@@ -32,9 +32,6 @@ angular.module('common').service('common.UtkastViewStateService',
             this.today = new Date();
             this.today.setHours(0, 0, 0, 0); // reset time to increase comparison accuracy (using new Date() also sets time)
 
-            this.draftModel = undefined;
-            this.intygModel = undefined;
-
             this.common = commonViewStateService;
             this.common.reset();
         };
