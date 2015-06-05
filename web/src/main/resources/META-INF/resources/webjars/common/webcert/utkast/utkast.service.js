@@ -28,7 +28,7 @@ angular.module('common').factory('common.UtkastService',
                     }
                     else {
                         $timeout(function() {
-                            wcFocus('firstInput');
+                            wcFocus('focusFirstInput');
                             $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
                             $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
                             CommonViewState.doneLoading = true;

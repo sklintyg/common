@@ -3,7 +3,7 @@
        intygs-id="cert.id"></div>
 
   <!-- error message -->
-  <div id="cert-load-error" wc-show="viewState.doneLoading && viewState.activeErrorMessageKey"
+  <div id="cert-load-error" ng-show="viewState.doneLoading && viewState.activeErrorMessageKey"
        class="alert alert-danger alert-column print-hide">
 
     <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div wc-show="!viewState.activeErrorMessageKey" id="intyg-vy-laddad">
+  <div ng-show="!viewState.activeErrorMessageKey" id="intyg-vy-laddad">
     <div class="print-hide">
       <div class="form-group buttonbar">
         <label class="control-label">{{cert.grundData.patient.fullstandigtNamn}} - {{cert.grundData.patient.personId}}</label>
@@ -38,7 +38,7 @@
             </button>
             <button id="downloadprint" type="submit" value="submit" class="btn btn-info" ng-click="print(cert)">Skriv ut
             </button>
-            <button id="copyBtn" class="btn btn-info" ng-if="!viewState.intyg.isRevoked && !isQaOnly" ng-click="copy(cert)"
+            <button id="copyBtn" class="btn btn-info" ng-if="!viewState.intyg.isRevoked && !isQaOnly && !viewState.common.sekretessmarkering" ng-click="copy(cert)"
                     wc-feature-active feature="kopieraIntyg" intygstyp="{{intygstyp}}"
                     title="{{copyBtnTooltipText}}">
               Kopiera
@@ -53,7 +53,9 @@
         </form>
       </div>
 
-      <div id="cert-inline-error" wc-show="viewState.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
+      <div wc-secrecy-mark-message></div>
+
+      <div id="cert-inline-error" ng-show="viewState.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
         <span message key="{{viewState.inlineErrorMessageKey}}"></span>
       </div>
 

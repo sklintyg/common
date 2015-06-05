@@ -601,6 +601,7 @@
     /* Alerts */
     .alert {
         padding-right: 22px;
+        max-width: 600px;
     }
 
     .alert-warning {
@@ -611,7 +612,6 @@
     .alert-danger {
         color: #A94442; /* WCAG AA compliant */
         background-image: none;
-        max-width: 600px;
     }
 
     .alert-danger a {
@@ -626,7 +626,6 @@
 
     .alert-column {
         margin-right: 30px;
-        max-width: 570px;
     }
 
     .dialog-extra-panel {

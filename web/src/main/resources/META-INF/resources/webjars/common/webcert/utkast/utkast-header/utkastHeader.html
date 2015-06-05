@@ -35,6 +35,11 @@
         <div wc-new-person-id-message></div>
 
         <div class="form-group buttonbar">
+          <button class="btn btn-default btn-secondary" wc-feature-not-active feature="franJournalsystem" ng-disabled="viewState.common.intyg.isComplete"
+                  ng-click="updatePatientData()" id="fetchPatientButton"
+                  title="Hämta patientuppgifter från folkbokföringsregistret.">
+            <img ng-show="viewState.common.fetchingPatientData" ng-src="/img/loader-small.gif"/> Hämta patientuppgifter
+          </button>
           <button class="btn btn-default btn-secondary" ng-if="!viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="toggleShowComplete()" id="showCompleteButton"
                   title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
@@ -56,6 +61,8 @@
           <div wc-spinner label="common.label.saving" show-spinner="viewState.common.saving" class="wc-spinner-inline"></div>
           <div>{{view}}</div>
         </div>
+
+        <div wc-secrecy-mark-message></div>
 
         <!-- Show save errors here to spare user from retyping everything for intermittent errors -->
         <div class="row">
