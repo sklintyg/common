@@ -6,8 +6,8 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.UtkastServ
             require: ['^form'],
             link: function($scope, $element, $attrs, $ctrls) {
 
-                var SAVE_DELAY = 1 * 1000; // Time to wait before autosaving after a user action.
-                var MIN_SAVE_DELTA = 5 * 1000; // Minimum time to wait between two autosaves.
+                var SAVE_DELAY = 1 * 800; // Time to wait before autosaving after a user action.
+                var MIN_SAVE_DELTA = 3 * 1000; // Minimum time to wait between two autosaves.
 
                 var form = $ctrls[0];
                 var savePromise = null;
