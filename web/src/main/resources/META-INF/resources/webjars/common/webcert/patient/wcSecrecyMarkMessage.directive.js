@@ -39,8 +39,8 @@ angular.module('common').directive('wcSecrecyMarkMessage', [
                 }
 
                 if (!featureService.isFeatureActive('franJournalsystem')) {
-                    if ($scope.cert) {
-                        lookupPatient($scope.cert);
+                    if ($scope.viewState.intygModel) {
+                        lookupPatient($scope.viewState.intygModel);
                     }
                     $scope.$on('intyg.loaded', function(event, content) {
                         lookupPatient(content);

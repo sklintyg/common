@@ -1,6 +1,6 @@
 <div wc-print-header title-id="{{viewState.common.intyg.type}}.label.certtitle" print-message-id="print.label.draft" intygs-id="cert.id"></div>
 <div class="print-show">
-  <label class="control-label">{{cert.grundData.patient.fullstandigtNamn}} - {{cert.grundData.patient.personId}}</label>
+  <label class="control-label">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} - {{viewState.intygModel.grundData.patient.personId}}</label>
 </div>
 
 <div class="header-fix-top print-hide" wc-size-source="viewState.common.headerSize">
@@ -28,8 +28,8 @@
         </h1>
 
         <div class="inline-block">
-          <label class="control-label" id="patientNamnPersonnummer">{{cert.grundData.patient.fullstandigtNamn}} -
-            {{cert.grundData.patient.personId}}</label>
+          <label class="control-label" id="patientNamnPersonnummer">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} -
+            {{viewState.intygModel.grundData.patient.personId}}</label>
         </div>
 
         <div wc-new-person-id-message></div>

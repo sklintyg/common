@@ -31,9 +31,9 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                 var updateShowFlag = function() {
                     $scope.show = false;
                     if ($stateParams.patientId !== undefined && $stateParams.patientId !== '' &&
-                        $scope.cert && $scope.cert.grundData && $scope.cert.grundData.patient) {
+                        $scope.viewState.intygModel && $scope.viewState.intygModel.grundData && $scope.viewState.intygModel.grundData.patient) {
 
-                        var intygPersonnummer = $scope.cert.grundData.patient.personId;
+                        var intygPersonnummer = $scope.viewState.intygModel.grundData.patient.personId;
                         var alternatePatientSSn = $stateParams.patientId;
 
                         // 1. intygets personnummer validerar som personnummer
@@ -65,7 +65,7 @@ angular.module('common').directive('wcNewPersonIdMessage', [
 
                 // cert data may be loaded now, or it may be loaded later.
                 updateShowFlag();
-                $scope.$watch('cert.grundData.patient.personId', updateShowFlag);
+                $scope.$watch('viewState.intygModel.grundData.patient.personId', updateShowFlag);
             },
             templateUrl: '/web/webjars/common/webcert/intyg/wcNewPersonIdMessage.directive.html'
         };

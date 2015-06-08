@@ -32,7 +32,9 @@ describe('utkastHeader', function() {
     describe('#updatePatientData', function() {
 
         beforeEach(function() {
-            $scope.cert = angular.copy(testCert);
+            $scope.viewState = {
+                intygModel: angular.copy(testCert)
+            };
         });
 
         it('should update patient name and adress from pu-service', function() {
@@ -51,10 +53,10 @@ describe('utkastHeader', function() {
             $timeout.flush();
             $httpBackend.flush();
 
-            expect($scope.cert.grundData.patient.fullstandigtNamn).toBe('Kalle Karlsson');
-            expect($scope.cert.grundData.patient.postadress).toBe('Platsgatan 2');
-            expect($scope.cert.grundData.patient.postnummer).toBe('23456');
-            expect($scope.cert.grundData.patient.postort).toBe('Platsen');
+            expect($scope.viewState.intygModel.grundData.patient.fullstandigtNamn).toBe('Kalle Karlsson');
+            expect($scope.viewState.intygModel.grundData.patient.postadress).toBe('Platsgatan 2');
+            expect($scope.viewState.intygModel.grundData.patient.postnummer).toBe('23456');
+            expect($scope.viewState.intygModel.grundData.patient.postort).toBe('Platsen');
         });
 
     });

@@ -1,19 +1,19 @@
 <div>
-  <div wc-print-header title-id="{{intygstyp}}.label.certtitle" print-message-id="print.label.{{viewState.intyg.printStatus}}"
-       intygs-id="cert.id"></div>
+  <div wc-print-header title-id="{{intygstyp}}.label.certtitle" print-message-id="print.label.{{viewState.common.intyg.printStatus}}"
+       intygs-id="viewState.common.intygModel.id"></div>
 
   <!-- error message -->
-  <div id="cert-load-error" ng-show="viewState.doneLoading && viewState.activeErrorMessageKey"
+  <div id="cert-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
        class="alert alert-danger alert-column print-hide">
 
     <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
-      <span message key="{{viewState.activeErrorMessageKey}}"></span>
+      <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
     </span>
 
     <div
         ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
       <p>
-        <span message key="{{viewState.activeErrorMessageKey}}"></span>
+        <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
       </p>
       <p><strong>Intygsinformation</strong></p>
       <ul>
@@ -24,28 +24,28 @@
     </div>
   </div>
 
-  <div ng-show="!viewState.activeErrorMessageKey" id="intyg-vy-laddad">
+  <div ng-show="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
     <div class="print-hide">
       <div class="form-group buttonbar">
-        <label class="control-label">{{cert.grundData.patient.fullstandigtNamn}} - {{cert.grundData.patient.personId}}</label>
+        <label class="control-label">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} - {{viewState.intygModel.grundData.patient.personId}}</label>
 
         <form id="view-as-pdf" action="{{pdfUrl}}" method="get" target="_blank" name="pdfForm">
           <p class="btn-row">
-            <button id="sendBtn" class="btn btn-info" ng-if="!viewState.intyg.isSent && !viewState.intyg.isRevoked && !isQaOnly"
+            <button id="sendBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isSent && !viewState.common.intyg.isRevoked && !isQaOnly"
                     wc-feature-active feature="skickaIntyg" intygstyp="{{intygstyp}}"
-                    wc-check-vardenhet vardenhet="{{cert.grundData.skapadAv.vardenhet.enhetsid}}"
+                    wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                     ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
             </button>
-            <button id="downloadprint" type="submit" value="submit" class="btn btn-info" ng-click="print(cert)">Skriv ut
+            <button id="downloadprint" type="submit" value="submit" class="btn btn-info" ng-click="print(viewState.intygModel)">Skriv ut
             </button>
-            <button id="copyBtn" class="btn btn-info" ng-if="!viewState.intyg.isRevoked && !isQaOnly && !viewState.common.sekretessmarkering" ng-click="copy(cert)"
+            <button id="copyBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isRevoked && !isQaOnly && !viewState.common.common.sekretessmarkering" ng-click="copy(viewState.intygModel)"
                     wc-feature-active feature="kopieraIntyg" intygstyp="{{intygstyp}}"
                     title="{{copyBtnTooltipText}}">
               Kopiera
             </button>
-            <button id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.intyg.isRevoked && !isQaOnly && user.lakare" ng-click="makulera(cert)"
+            <button id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.common.intyg.isRevoked && !isQaOnly && user.lakare" ng-click="makulera(viewState.intygModel)"
                     wc-feature-active feature="makuleraIntyg" intygstyp="{{intygstyp}}"
-                    wc-check-vardenhet vardenhet="{{cert.grundData.skapadAv.vardenhet.enhetsid}}"
+                    wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                     title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">
               Makulera
             </button>
@@ -55,19 +55,19 @@
 
       <div wc-secrecy-mark-message></div>
 
-      <div id="cert-inline-error" ng-show="viewState.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
-        <span message key="{{viewState.inlineErrorMessageKey}}"></span>
+      <div id="cert-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
+        <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>
       </div>
 
       <div wc-new-person-id-message></div>
 
-      <div class="alert alert-info alert-column" ng-if="!viewState.intyg.isRevoked">
+      <div class="alert alert-info alert-column" ng-if="!viewState.common.intyg.isRevoked">
         <strong>Status:</strong>
-        <span ng-if="viewState.intyg.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.sent"></span>
-        <span ng-if="!viewState.intyg.isSent" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
+        <span ng-if="viewState.common.intyg.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.sent"></span>
+        <span ng-if="!viewState.common.intyg.isSent" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
       </div>
 
-      <div ng-if="viewState.intyg.isRevoked" id="certificate-is-revoked-message-text" class="alert alert-warning"
+      <div ng-if="viewState.common.intyg.isRevoked" id="certificate-is-revoked-message-text" class="alert alert-warning"
            style="margin-right: 20px; max-width: 530px;">Intyget är makulerat
       </div>
     </div>

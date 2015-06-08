@@ -8,12 +8,11 @@ angular.module('common').controller('common.IntygHeader',
             'use strict';
 
             $scope.intygstyp = $stateParams.certificateType;
-            $scope.viewState = CommonViewState;
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
 
 
             $scope.send = function() {
-                IntygService.send($scope.cert.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
+                IntygService.send($scope.viewState.intygModel.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
                          $scope.intygstyp+'.label.send', $scope.intygstyp+'.label.send.body', function() {
                     $scope.$emit('loadCertificate');
                 });
