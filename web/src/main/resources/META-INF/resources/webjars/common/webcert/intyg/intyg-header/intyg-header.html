@@ -31,7 +31,7 @@
 
         <form id="view-as-pdf" action="{{pdfUrl}}" method="get" target="_blank" name="pdfForm">
           <p class="btn-row">
-            <button id="sendBtn" class="btn btn-info" ng-if="!viewState.intyg.isSent && !viewState.intyg.isRevoked && !isQaOnly"
+            <button id="sendBtn" class="btn btn-info" ng-if="!viewState.intyg.isSent && !viewState.isIntygOnSendQueue && !viewState.intyg.isRevoked && !isQaOnly"
                     wc-feature-active feature="skickaIntyg" intygstyp="{{intygstyp}}"
                     wc-check-vardenhet vardenhet="{{cert.grundData.skapadAv.vardenhet.enhetsid}}"
                     ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
