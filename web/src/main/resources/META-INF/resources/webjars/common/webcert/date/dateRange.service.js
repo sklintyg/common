@@ -90,7 +90,7 @@ angular.module('common').factory('common.DateRangeService', function() {
             minMax.max.viewValid = false;
             minMax.min.viewValid = false;
         }
-        return (offset >= months);
+        return periodTooLong;
     };
 
     var _now = function(){

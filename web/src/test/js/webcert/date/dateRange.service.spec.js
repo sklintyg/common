@@ -486,6 +486,41 @@ describe('DateRangeService', function() {
 
         });
 
+        it ('can vallidate that the min and max dates are within 6 months', function () {
+            var fromTos = DateRangeService.FromTos.build(['range1', 'range2']);
+
+            var now7MonthsAheadString = moment().add(7, 'months').format('YYYY-MM-DD');
+
+            fromTos.range1.check(true);
+            fromTos.range2.check(true);
+
+            expect(fromTos.datesPeriodTooLong).toBeFalsy();
+
+            fromTos.range2.to.update(now7MonthsAheadString);
+
+            expect(fromTos.datesPeriodTooLong).toBeTruthy();
+
+            // take the date below 6 months
+            var now4MonthsAheadString = moment().add(4, 'months').format('YYYY-MM-DD');
+
+            fromTos.range2.to.update(now4MonthsAheadString);
+
+            expect(fromTos.datesPeriodTooLong).toBeFalsy();
+
+            // take the date below 6 months
+            var plus6minus1day = moment().add(6, 'months');
+            plus6minus1day.subtract(1, 'days')
+            fromTos.range2.to.update(plus6minus1day);
+
+            expect(fromTos.datesPeriodTooLong).toBeFalsy();
+
+            plus6minus1day.add(1, 'days')
+            fromTos.range2.to.update(plus6minus1day);
+
+            expect(fromTos.datesPeriodTooLong).toBeTruthy();
+
+
+        });
 
     });
 
