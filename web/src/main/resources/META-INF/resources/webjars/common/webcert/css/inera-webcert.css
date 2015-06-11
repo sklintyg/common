@@ -601,6 +601,7 @@
     /* Alerts */
     .alert {
         padding-right: 22px;
+        max-width: 600px;
     }
 
     .alert-warning {
@@ -625,7 +626,6 @@
 
     .alert-column {
         margin-right: 30px;
-        max-width: 570px;
     }
 
     .dialog-extra-panel {
@@ -674,6 +674,10 @@
         text-align: center;
         color: #64ABC0;
         margin-top: 20px;
+    }
+
+    .wc-spinner-inline, .wc-spinner-inline div, .wc-spinner-inline p {
+        display: inline;
     }
 
     /**
@@ -995,8 +999,29 @@
         color: #323232;
     }
 
+    .qa-unit-strong {
+        font-weight: bold;
+    }
+
+    .qa-unit-weak {
+        padding-left: 20px;
+    }
+
+    .enhet-stat {
+        padding-top: 6px;
+    }
+
+    .mottagning-button {
+        margin-left: 12px;
+    }
+
+    .wc-pull-left {
+        float: left !important;
+    }
+
     .unit-table {
         margin: 0;
+        padding-bottom: 5px;
     }
 
     .unit-table button.selected {
