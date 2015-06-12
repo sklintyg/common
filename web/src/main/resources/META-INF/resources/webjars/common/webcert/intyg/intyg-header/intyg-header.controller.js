@@ -15,9 +15,9 @@ angular.module('common').controller('common.IntygHeader',
                 IntygService.send($scope.viewState.intygModel.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
                          $scope.intygstyp+'.label.send', $scope.intygstyp+'.label.send.body', function() {
                         // TODO After a send request we shouldn't reload right away due to async reasons.
-                        // TODO We should consider just showing an info message stating 'Intyg has skickats till mottagaren'
-                    //$scope.$emit('loadCertificate');
-                        $scope.viewState.isIntygOnSendQueue = true;
+                        // TODO We show an info message stating 'Intyget has skickats till mottagaren'
+                        //$scope.$emit('loadCertificate');
+                        $scope.viewState.common.isIntygOnSendQueue = true;
                 });
             };
 
@@ -29,7 +29,7 @@ angular.module('common').controller('common.IntygHeader',
                 cert.intygType = $stateParams.certificateType;
                 IntygService.makulera( cert, confirmationMessage, function() {
                     //$scope.$emit('loadCertificate');
-                    $scope.viewState.isIntygOnRevokeQueue = true;
+                    $scope.viewState.common.isIntygOnRevokeQueue = true;
                 });
             };
 

@@ -31,19 +31,19 @@
 
         <form id="view-as-pdf" action="{{pdfUrl}}" method="get" target="_blank" name="pdfForm">
           <p class="btn-row">
-            <button id="sendBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isSent && !viewState.common.isIntygOnSendQueue && !viewState.common.intyg.isRevoked && !isQaOnly"
+            <button id="sendBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isSent && !viewState.common.isIntygOnSendQueue && !viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly"
                     wc-feature-active feature="skickaIntyg" intygstyp="{{intygstyp}}"
                     wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                     ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
             </button>
             <button id="downloadprint" type="submit" value="submit" class="btn btn-info" ng-click="print(viewState.intygModel)">Skriv ut
             </button>
-            <button id="copyBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isRevoked && !isQaOnly && !viewState.common.common.sekretessmarkering" ng-click="copy(viewState.intygModel)"
+            <button id="copyBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly && !viewState.common.common.sekretessmarkering" ng-click="copy(viewState.intygModel)"
                     wc-feature-active feature="kopieraIntyg" intygstyp="{{intygstyp}}"
                     title="{{copyBtnTooltipText}}">
               Kopiera
             </button>
-            <button id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.common.intyg.isRevoked && !isQaOnly && user.lakare" ng-click="makulera(viewState.intygModel)"
+            <button id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly && user.lakare" ng-click="makulera(viewState.intygModel)"
                     wc-feature-active feature="makuleraIntyg" intygstyp="{{intygstyp}}"
                     wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                     title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">
@@ -63,15 +63,15 @@
 
       <div class="alert alert-info alert-column" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue">
         <strong>Status:</strong>
-        <span ng-if="viewState.common.intyg.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.sent"></span>
+        <span ng-if="viewState.common.intyg.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
         <span ng-if="!viewState.common.intyg.isSent && !viewState.common.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
-        <span ng-if="!viewState.intyg.isSent && viewState.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
+        <span ng-if="!viewState.common.intyg.isSent && viewState.common.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
       </div>
 
       <div ng-if="viewState.common.intyg.isRevoked || viewState.common.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"
            style="margin-right: 20px; max-width: 530px;">
-        <span ng-if="viewState.isIntygOnRevokeQueue" id="certificate-revoked-it-message-text" message key="cert.status.revoke.requested"></span>
-        <span ng-if="viewState.intyg.isRevoked && !viewState.isIntygOnRevokeQueue" id="certificate-revoked-on-queue-it-message-text" message key="cert.status.revoke.confirmed"></span>
+        <span ng-if="viewState.common.isIntygOnRevokeQueue" id="certificate-revoked-it-message-text" message key="cert.status.revoke.requested"></span>
+        <span ng-if="viewState.common.intyg.isRevoked && (!viewState.common.isIntygOnRevokeQueue || viewState.common.isIntygOnRevokeQueue == 'undefined')" id="certificate-revoked-on-queue-it-message-text" message key="cert.status.revoke.confirmed"></span>
       </div>
 
 
