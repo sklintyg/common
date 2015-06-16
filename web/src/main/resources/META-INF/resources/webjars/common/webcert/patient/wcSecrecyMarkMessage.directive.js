@@ -9,7 +9,10 @@ angular.module('common').directive('wcSecrecyMarkMessage', [
         return {
             restrict: 'A',
             replace: true,
-            scope: true,
+            scope: {
+                personId: '=',
+                type: '@'
+            },
             controller: function($scope) {
 
                 $scope.viewstate = ViewStateService;
@@ -17,9 +20,13 @@ angular.module('common').directive('wcSecrecyMarkMessage', [
                 /*
                  * Lookup patient to check for sekretessmarkering
                  */
-                function lookupPatient(content) {
+                function lookupPatient(personId) {
                     ViewStateService.sekretessmarkering = false;
                     ViewStateService.sekretessmarkeringError = false;
+
+                    if (!personId) {
+                        return;
+                    }
 
                     var onSuccess = function(resultPatient) {
                         ViewStateService.sekretessmarkering = resultPatient.sekretessmarkering;
@@ -33,17 +40,12 @@ angular.module('common').directive('wcSecrecyMarkMessage', [
                         ViewStateService.sekretessmarkeringError = true;
                     };
 
-                    if (content.grundData && content.grundData.patient && content.grundData.patient.personId) {
-                        PatientProxy.getPatient(content.grundData.patient.personId, onSuccess, onNotFound, onError);
-                    }
+                    PatientProxy.getPatient(personId, onSuccess, onNotFound, onError);
                 }
 
                 if (!featureService.isFeatureActive('franJournalsystem')) {
-                    if ($scope.viewState.intygModel) {
-                        lookupPatient($scope.viewState.intygModel);
-                    }
-                    $scope.$on('intyg.loaded', function(event, content) {
-                        lookupPatient(content);
+                    $scope.$watch('personId', function() {
+                        lookupPatient($scope.personId);
                     });
                 }
             },

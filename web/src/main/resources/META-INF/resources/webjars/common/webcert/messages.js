@@ -20,8 +20,9 @@ var commonMessages = {
 
         'common.alert.newpersonid': 'Patienten har ett nytt personnummer: <b>${person}</b>',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>',
-        'common.alert.sekretessmarkering': 'Patienten har en sekretessmarkering. Var vänlig hantera patientens uppgifter varsamt.',
-        'common.alert.sekretessmarkering.error': 'Misslyckades att slå up patienten i personuppgiftstjänsten. Observera att patienten kan ha sekretessmarkerade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',
+        'common.alert.sekretessmarkering.utkast': 'Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var vänlig hantera dem varsamt.',
+        'common.alert.sekretessmarkering.intyg': '<p>Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var  vänlig hantera dem varsamt.</p>På grund av sekretessmarkeringen går det inte att kopiera intyget.',
+        'common.alert.sekretessmarkering.error': 'Misslyckades att slå up patienten i personuppgiftstjänsten. Observera att patienten kan ha skyddade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',
 
         'common.date': 'Datum',
         'common.when': 'När?',
