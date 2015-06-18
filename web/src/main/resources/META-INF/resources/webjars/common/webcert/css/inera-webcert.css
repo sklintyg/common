@@ -1019,6 +1019,10 @@
         float: left !important;
     }
 
+    .wc-wrap-text {
+        white-space: normal;
+    }
+
     .unit-table {
         margin: 0;
         padding-bottom: 5px;

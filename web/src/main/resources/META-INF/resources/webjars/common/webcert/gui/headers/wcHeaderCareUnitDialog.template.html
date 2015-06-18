@@ -12,7 +12,7 @@
     <div ng-repeat="enhet in vg.vardenheter | orderBy:'namn'">
       <div class="row">
         <div class="col-xs-1">
-          <button class="close wc-pull-left"
+          <button class="close wc-pull-left wc-wrap-text"
                id="expand-enhet-{{enhet.id}}"
                style="float:left;"
                ng-if="enhet.mottagningar.length > 0"
@@ -24,7 +24,7 @@
         </div>
         <div class="col-xs-5">
           <button id="select-active-unit-{{enhet.id}}-modal"
-                  class="btn btn-link"
+                  class="btn btn-link wc-wrap-text"
                   data-ng-click="selectVardenhet(enhet)">
             {{enhet.namn}}
           </button>
@@ -42,7 +42,7 @@
         <div class="row" ng-repeat="mottagning in enhet.mottagningar | orderBy:'namn'">
           <div class="col-xs-5 col-xs-offset-1">
             <button id="select-active-unit-{{mottagning.id}}-modal"
-                    class="btn btn-link mottagning-button"
+                    class="btn btn-link mottagning-button wc-wrap-text"
                     data-ng-click="selectVardenhet(mottagning)">
               {{mottagning.namn}}
             </button>
