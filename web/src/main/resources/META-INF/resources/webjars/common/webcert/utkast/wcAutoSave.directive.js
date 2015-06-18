@@ -1,5 +1,5 @@
-angular.module('common').directive('wcAutoSave', ['$timeout', 'common.UtkastService', 'common.UtkastViewStateService',
-    function($timeout, UtkastService, UtkastViewState) {
+angular.module('common').directive('wcAutoSave', ['$timeout', '$window', '$log', 'common.UtkastService', 'common.UtkastViewStateService',
+    function($timeout, $window, $log, UtkastService, UtkastViewState) {
         'use strict';
 
         return {
@@ -20,6 +20,8 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.UtkastServ
                     return true;
                 };
 
+                $window.save = UtkastService.save;
+
                 var saveFunction = function() {
                     savePromise = null;
                     var result = save();
@@ -31,8 +33,21 @@ angular.module('common').directive('wcAutoSave', ['$timeout', 'common.UtkastServ
                     }
                 };
 
+                $scope.$watch(
+                    function () {
+                        return $window.autoSave;
+                    }, function(n,o){
+                        $log.debug('autoSave changed from ' + o + ', to :' + n);
+                        if(n){
+                            $log.debug('Disabling auto save');
+                        } else {
+                            $log.debug('Enabling auto save');
+                        }
+                    }
+                );
+
                 $scope.$watch(function() {
-                    if (form.$dirty &&
+                    if ($window.autoSave && form.$dirty &&
                         UtkastViewState.error.saveErrorCode !== 'CONCURRENT_MODIFICATION' &&
                         UtkastViewState.error.saveErrorCode !== 'DATA_NOT_FOUND') {
                         var wait = SAVE_DELAY;
