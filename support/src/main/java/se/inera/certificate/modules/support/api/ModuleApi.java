@@ -55,7 +55,7 @@ public interface ModuleApi {
     ValidateDraftResponse validateDraft(InternalModelHolder internalModel) throws ModuleException;
 
     /**
-     * Generates a PDF from the external model.
+     * Generates a PDF from the internal model.
      * 
      * @param internalModel
      *             The internal model to generate a PDF from.
@@ -64,7 +64,7 @@ public interface ModuleApi {
      * 
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdf(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
+    PdfResponse pdf(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isEmployerCopy) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}

@@ -18,7 +18,7 @@ public class ModuleFeaturesFactoryTest {
     public void testFactory() {
         Map<String, Boolean> features = ModuleFeaturesFactory.getFeatures(TEST_FILE);
         assertNotNull(features);
-        assertEquals(5, features.size());
+        assertEquals(6, features.size());
         assertTrue(features.get(ModuleFeature.HANTERA_FRAGOR.getName()));
         assertFalse(features.get(ModuleFeature.MAKULERA_INTYG.getName()));
         assertFalse(features.get(ModuleFeature.SKICKA_INTYG.getName()));

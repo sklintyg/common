@@ -51,13 +51,13 @@ angular.module('common').controller('common.IntygHeader',
                     isOtherCareUnit);
             };
 
-            $scope.print = function(cert) {
+            $scope.print = function(cert, isEmployeeCopy) {
                 if (CommonViewState.intyg.isRevoked) {
                     //PrintService.printWebPage(cert.id, $stateParams.certificateType);
                     var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
                     PrintService.printWebPageWithCustomTitle(cert.id, $stateParams.certificateType, customHeader);
                 } else {
-                    document.pdfForm.submit();
+                    window.location = $scope.pdfUrl + '?employer=' + isEmployeeCopy;
                 }
             };
         }

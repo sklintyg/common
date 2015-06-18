@@ -36,8 +36,39 @@
                     wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                     ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
             </button>
-            <button id="downloadprint" type="submit" value="submit" class="btn btn-info" ng-click="print(viewState.intygModel)">Skriv ut
+            <button id="downloadprint"
+                    type="submit"
+                    value="submit"
+                    class="btn btn-info"
+                    wc-feature-not-active
+                    intygstyp="{{intygstyp}}"
+                    feature="arbetsgivarUtskrift"
+                    ng-click="print(viewState.intygModel, false)">
+              Skriv ut
             </button>
+            <div id="downloadprintemployer"
+                 style="display:inline;"
+                 wc-feature-active
+                 feature="arbetsgivarUtskrift"
+                 intygstyp="{{intygstyp}}">
+              <div class="btn-group"
+                   ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue">
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Skriv ut <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">Fullständigt intyg</a></li>
+                  <li><a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">Intyg till arbetsgivaren</a></li>
+                </ul>
+              </div>
+              <button type="submit"
+                      value="submit"
+                      class="btn btn-info"
+                      ng-if="viewState.common.intyg.isRevoked || viewState.common.isIntygOnRevokeQueue"
+                      ng-click="print(viewState.intygModel, false)">
+                Skriv ut
+              </button>
+            </div>
             <button wc-authority="PRIVILEGE_KOPIERA_INTYG"  role="!ROLE_LAKARE_UTHOPP"
                     id="copyBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering" ng-click="copy(viewState.intygModel)"
                     intygstyp="{{intygstyp}}"
@@ -51,7 +82,7 @@
                     title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">
               Makulera
             </button>
-          </p>
+          </div>
         </form>
       </div>
 
