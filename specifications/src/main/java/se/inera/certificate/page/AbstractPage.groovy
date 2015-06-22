@@ -24,4 +24,12 @@ abstract class AbstractPage extends Page {
         return button.@disabled == 'true';
     }
 
+    def elementForId(elementId){
+        return $("#" + elementId);
+    }
+
+    def elementForClass(classId){
+        return $("." + classId);
+    }
+
 }
