@@ -38,6 +38,10 @@
       <groupId>se.riv.insuranceprocess.healthreporting</groupId>
       <artifactId>insuranceprocess-healthreporting-schemas</artifactId>
     </dependency>
+    <dependency>
+      <groupId>se.inera.intyg.infrastructure.directory.privatepractitioner</groupId>
+      <artifactId>intyg-infrastructure-directory-privatepractitioner-schemas</artifactId>
+    </dependency>
 
     <!-- Intyg Schemas -->
     <dependency>
