@@ -36,7 +36,7 @@ describe('DateUtilsService', function() {
 
         it ('check that we can use moment to formate a date', function () {
             var date = new Date(2015, 0, 5, 11, 33, 30, 0);
-            var momentDate = DateUtilsService.toMoment(date);
+            var momentDate = moment(date);
             var expected = "2015 01 05";
             var result = momentDate.format("YYYY MM DD");
             expect(expected).toBe(result);
