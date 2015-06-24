@@ -37,8 +37,8 @@
         <div class="form-group buttonbar">
           <button class="btn btn-default btn-secondary" wc-feature-not-active feature="franJournalsystem" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="updatePatientData()" id="fetchPatientButton"
-                  title="Hämta patientuppgifter från folkbokföringsregistret.">
-            <img ng-show="viewState.common.fetchingPatientData" ng-src="/img/loader-small.gif"/> Hämta patientuppgifter
+                  title="Hämta personuppgifter från folkbokföringsregistret.">
+            <img ng-show="viewState.common.fetchingPatientData" ng-src="/img/loader-small.gif"/> Hämta personuppgifter
           </button>
           <button class="btn btn-default btn-secondary" ng-if="!viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="toggleShowComplete()" id="showCompleteButton"
