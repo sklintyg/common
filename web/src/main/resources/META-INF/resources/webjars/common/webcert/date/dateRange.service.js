@@ -325,7 +325,11 @@ angular.module('common').factory('common.DateRangeService', function($log) {
     };
 
     FromTo.prototype._addParser = function(formElement, dateUnit){
-        $log.debug('_addParser formElement:' + formElement + ",dateUnit" + dateUnit);
+        $log.debug('_addParser formElement');
+        $log.debug(formElement);
+        $log.debug('_addParser dateUnit');
+        $log.debug(dateUnit);
+
         if(formElement && dateUnit){
             $log.debug('--- end - pushing parser---');
             formElement.$parsers.push(function(modelValue){
