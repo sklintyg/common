@@ -4,7 +4,7 @@
  *
  * Created by stephenwhite on 25/01/15.
  */
-angular.module('common').factory('common.DateRangeService', function() {
+angular.module('common').factory('common.DateRangeService', function($log) {
     'use strict';
     // private vars
     var format = 'YYYY-MM-DD';
@@ -129,6 +129,8 @@ angular.module('common').factory('common.DateRangeService', function() {
     };
 
     FromTos.prototype.linkFormAndModel = function(form, model){
+
+        $log.debug('--- linkFormAndModel. ---');
         if(!this.names){
             return;
         }
@@ -141,6 +143,8 @@ angular.module('common').factory('common.DateRangeService', function() {
             var formTo = form[name+'tom'];
             fromTo.from.form = formFrom;
             fromTo.to.form = formTo;
+
+            $log.debug('--- addparsers. ---');
             fromTo._addParser(formFrom, fromTo.from, 'from');
             fromTo._addParser(formTo, fromTo.to, 'tom');
 
@@ -321,7 +325,9 @@ angular.module('common').factory('common.DateRangeService', function() {
     };
 
     FromTo.prototype._addParser = function(formElement, dateUnit){
+        $log.debug('_addParser formElement:' + formElement + ",dateUnit" + dateUnit);
         if(formElement && dateUnit){
+            $log.debug('--- end - pushing parser---');
             formElement.$parsers.push(function(modelValue){
 
                 if(!modelValue) {
