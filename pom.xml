@@ -12,15 +12,15 @@
 
   <groupId>se.inera.intyg.common</groupId>
   <artifactId>common</artifactId>
-  <version>2.2.0</version>
+  <version>2.2.1</version>
   <packaging>pom</packaging>
 
   <name>Intyg Common</name>
 
   <properties>
     <!-- Common -->
-    <common.version>0-SNAPSHOT</common.version>
-    <common.version.range>(,2.2.0]</common.version.range>
+    <common.version>2.2.1</common.version>
+    <common.version.range>(,2.2.1]</common.version.range>
 
     <!-- Schemas -->
     <rivta-clinicalprocess.version>1.0.RC3.0</rivta-clinicalprocess.version>
