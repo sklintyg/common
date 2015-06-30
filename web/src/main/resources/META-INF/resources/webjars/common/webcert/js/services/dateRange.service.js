@@ -130,8 +130,13 @@ angular.module('common').factory('common.DateRangeService', function($log) {
 
     FromTos.prototype.linkFormAndModel = function(form, model){
 
-        $log.debug('--- linkFormAndModel. ---');
+        $log.debug('--- linkFormAndModel. --- form:');
+        $log.debug(form);
+        $log.debug('model:');
+        $log.debug(model);
         if(!this.names){
+            $log.debug('this.names is not valid:');
+            $log.debug(this.names);
             return;
         }
         this.model = model;
@@ -139,12 +144,20 @@ angular.module('common').factory('common.DateRangeService', function($log) {
             var name = this.names[i];
             var fromTo = this[name];
 
+            $log.debug(name+'from');
+            $log.debug(name+'tom');
+
             var formFrom = form[name+'from'];
+            $log.debug('formFrom:');
+            $log.debug(formFrom);
             var formTo = form[name+'tom'];
+            $log.debug('formTo:');
+            $log.debug(formTo);
             fromTo.from.form = formFrom;
             fromTo.to.form = formTo;
 
             $log.debug('--- addparsers. ---');
+
             fromTo._addParser(formFrom, fromTo.from, 'from');
             fromTo._addParser(formTo, fromTo.to, 'tom');
 
@@ -334,6 +347,11 @@ angular.module('common').factory('common.DateRangeService', function($log) {
             $log.debug('--- end - pushing parser---');
             formElement.$parsers.push(function(modelValue){
 
+                $log.debug('--- Parser called --- modelvalue:');
+                $log.debug(modelValue);
+                $log.debug('$viewvalue:');
+                $log.debug(formElement.$viewValue);
+
                 if(!modelValue) {
                     modelValue = formElement.$viewValue;
                 }
@@ -346,6 +364,9 @@ angular.module('common').factory('common.DateRangeService', function($log) {
                 } else {
                     sdate = modelValue;
                 }
+
+                $log.debug('sdate:');
+                $log.debug(sdate);
                 dateUnit.update(sdate); // will trigger a fromTo.updateModel
                 if(!mdate.isValid()){
                     //return undefined;
@@ -354,8 +375,10 @@ angular.module('common').factory('common.DateRangeService', function($log) {
                 }
             });
 
+        } else {
+            $log.debug('formElement or dateUnit not available. cannot add parser or modelupdate.');
         }
-    }
+    };
 
     FromTo.prototype.updateModel = function(){
         if(!this.parent || !this.parent.model){
