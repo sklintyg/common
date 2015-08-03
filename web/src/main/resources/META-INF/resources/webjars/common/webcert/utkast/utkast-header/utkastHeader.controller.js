@@ -131,10 +131,13 @@ angular.module('common').controller('common.UtkastHeader',
             };
 
             /**
-             * Print draft
+             * Print draft. Supplies the PrintService with patient name and id as a customHeader string.
              */
             $scope.print = function() {
-                PrintService.printWebPage($scope.viewState.intygModel.id, CommonViewState.intyg.type);
+                var customHeader = $scope.viewState.intygModel.grundData.patient.fullstandigtNamn + ' - ' +
+                    $scope.viewState.intygModel.grundData.patient.personId;
+
+                PrintService.printWebPageWithCustomTitle($scope.viewState.intygModel.id, CommonViewState.intyg.type, customHeader);
             };
 
             $window.onbeforeunload = function(event) {
