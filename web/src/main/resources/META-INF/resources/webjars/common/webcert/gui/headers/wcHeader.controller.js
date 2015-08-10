@@ -151,6 +151,7 @@ angular.module('common').controller('common.wcHeaderController',
                     link: '/web/dashboard#/webcert/about',
                     label: 'Om Webcert',
                     requiresDoctor: false,
+                    id: 'menu-about',
                     getStat: function() {
                         return '';
                     }
