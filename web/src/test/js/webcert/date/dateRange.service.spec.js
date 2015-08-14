@@ -164,8 +164,7 @@ describe('DateRangeService', function() {
             expect(fromTo.to.viewValid).toBeFalsy();
             expect(fromTo.from.viewValid).toBeTruthy();
             expect(fromTo.viewValid).toBeFalsy();
-
-            expect(fromTo.to.moment.valid).toBeFalsy();
+            expect(fromTo.to.moment).toBeNull();
 
 
             fromTo.to.update('2015');
@@ -173,8 +172,7 @@ describe('DateRangeService', function() {
             expect(fromTo.to.viewValid).toBeFalsy();
             expect(fromTo.from.viewValid).toBeTruthy();
             expect(fromTo.viewValid).toBeFalsy();
-
-            expect(fromTo.to.moment.valid).toBeFalsy();
+            expect(fromTo.to.moment).toBeNull();
 
         });
 
