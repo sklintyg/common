@@ -12,7 +12,8 @@ angular.module('common').directive('wcDatePickerField',
                 invalid: '=',
                 onChange: '&',
                 maxDate: '@',
-                overrideRender: '='
+                overrideRender: '=',
+                addDateParser: '@'
             },
             templateUrl: '/web/webjars/common/webcert/date/wcDatePickerField.directive.html',
             require:'wcDatePickerField',
@@ -86,6 +87,15 @@ angular.module('common').directive('wcDatePickerField',
                             wcDatePickerField.datepickerPopupScope.date = ppdate;
                         }
                     };
+                }
+
+                if (scope.addDateParser) {
+                    if (scope.addDateParser === 'loose') {
+                        dateUtils.addDateParserFormatter(ngModel);
+                    }
+                    else {
+                        $log.error('unknown dateparser method ' + scope.addDateParser);
+                    }
                 }
             }
         };
