@@ -4,7 +4,7 @@
  *
  * Created by stephenwhite on 25/01/15.
  */
-angular.module('common').factory('common.DateRangeService', function($log) {
+angular.module('common').factory('common.DateRangeService', ['$log', 'common.DateUtilsService',  function($log, dateUtils) {
     'use strict';
     // private vars
     var format = 'YYYY-MM-DD';
@@ -19,8 +19,8 @@ angular.module('common').factory('common.DateRangeService', function($log) {
         }
         // calculate days between
         if(to.valid && from.valid){
-            //console.log('-- min : ' + from.dateString + ', max:' + to.dateString);
-            //console.log('-- db ' + db);
+            //$log.info('-- min : ' + from.dateString + ', max:' + to.dateString);
+            //$log.info('-- db ' + db);
             return to.moment.diff(from.moment, 'days') + 1;
         } else {
             return 0;
@@ -128,15 +128,15 @@ angular.module('common').factory('common.DateRangeService', function($log) {
         }
     };
 
-    FromTos.prototype.linkFormAndModel = function(form, model){
+    FromTos.prototype.linkFormAndModel = function(form, model, scope){
 
-        $log.debug('--- linkFormAndModel. --- form:');
-        $log.debug(form);
-        $log.debug('model:');
-        $log.debug(model);
+        //$log.info('--- linkFormAndModel. --- form:');
+        //$log.info(form);
+        //$log.info('model:');
+        //$log.info(model);
         if(!this.names){
-            $log.debug('this.names is not valid:');
-            $log.debug(this.names);
+            //$log.info('this.names is not valid:');
+            //$log.info(this.names);
             return;
         }
         this.model = model;
@@ -144,22 +144,20 @@ angular.module('common').factory('common.DateRangeService', function($log) {
             var name = this.names[i];
             var fromTo = this[name];
 
-            $log.debug(name+'from');
-            $log.debug(name+'tom');
+            //$log.info(name+'from');
+            //$log.info(name+'tom');
 
             var formFrom = form[name+'from'];
-            $log.debug('formFrom:');
-            $log.debug(formFrom);
+            //$log.info('formFrom:');
+            //$log.info(formFrom);
             var formTo = form[name+'tom'];
-            $log.debug('formTo:');
-            $log.debug(formTo);
+            //$log.info('formTo:');
+            //$log.info(formTo);
             fromTo.from.form = formFrom;
             fromTo.to.form = formTo;
-
-            $log.debug('--- addparsers. ---');
-
-            fromTo._addParser(formFrom, fromTo.from, 'from');
-            fromTo._addParser(formTo, fromTo.to, 'tom');
+            //$log.info('--- addparsers. ---');
+            fromTo._addParser(formFrom, fromTo.from, 'from', scope);
+            fromTo._addParser(formTo, fromTo.to, 'tom', scope);
 
             // set the initial values
             if(model[name]){
@@ -337,50 +335,55 @@ angular.module('common').factory('common.DateRangeService', function($log) {
 
     };
 
-    FromTo.prototype._addParser = function(formElement, dateUnit){
-        $log.debug('_addParser formElement');
-        $log.debug(formElement);
-        $log.debug('_addParser dateUnit');
-        $log.debug(dateUnit);
+    /**
+     * This will get called on user interaction and also on datepicker input.
+     * The date picker will provide a utc formatted date so we can moment it and then get a formatted string, which
+     * we can then pass into the dateunit.
+     * @param formElement
+     * @param dateUnit
+     * @private
+     */
+    FromTo.prototype._addParser = function(formElement, dateUnit, name, scope){
+        //$log.info('_addParser formElement');
+        //$log.info(formElement);
+        //$log.info('_addParser dateUnit');
+        //$log.info(dateUnit);
 
         if(formElement && dateUnit){
-            $log.debug('--- end - pushing parser---');
-            formElement.$parsers.push(function(modelValue){
+            formElement.$parsers.unshift(function(modelValue){
+                // here we should always go with the view value
+                // the date directive will convert the model value into a date object
+                // although we need to apply our own validation ...
 
-                $log.debug('--- Parser called --- modelvalue:');
-                $log.debug(modelValue);
-                $log.debug('$viewvalue:');
-                $log.debug(formElement.$viewValue);
+                var formValue = formElement.$viewValue;
+                // convert datepicker date
 
-                if(!modelValue) {
-                    modelValue = formElement.$viewValue;
+                // utc Thu Aug 13 2015 00:00:00 GMT+0200 (CEST)
+                if(formValue instanceof Date){
+                    // then the date is from the date picker
+                    var utcm = moment(formValue);
+                    // format the date to a YYYY-MM-DD
+                    formValue = utcm.format(format);
                 }
-
-                // convert to moment
-                var mdate = moment(modelValue);
-                var sdate;
-                if(mdate && mdate.isValid()){
-                    sdate = mdate.format(format);
-                } else {
-                    sdate = modelValue;
+                dateUnit.update(formValue); // will trigger a fromTo.updateModel
+                if(dateUnit.valid) {
+                    return formValue;
                 }
+                //return formValue;
+            });
 
-                $log.debug('sdate:');
-                $log.debug(sdate);
-                dateUnit.update(sdate); // will trigger a fromTo.updateModel
-                if(!mdate.isValid()){
-                    //return undefined;
-                } else {
-                    return sdate;
-                }
+            formElement.$formatters.push(function(value){
+               $log.info('----- dp formatter : ' + value);
+                return value;
             });
 
         } else {
-            $log.debug('formElement or dateUnit not available. cannot add parser or modelupdate.');
+            //$log.info('formElement or dateUnit not available. cannot add parser or modelupdate.');
         }
     };
 
     FromTo.prototype.updateModel = function(){
+        $log.info('update model ++++++++++++++++++++');
         if(!this.parent || !this.parent.model){
             return;
         }
@@ -396,6 +399,7 @@ angular.module('common').factory('common.DateRangeService', function($log) {
         this.parent.model[this.name].from = this.from.dateString;
         this.parent.model[this.name].tom = this.to.dateString;
 
+        $log.info('update model -------------------');
     };
 
     FromTo.prototype.createToFrom = function(startDate){
@@ -513,7 +517,7 @@ angular.module('common').factory('common.DateRangeService', function($log) {
     };
 
     FromTo.prototype.isEmpty = function(){
-        return !this.to || ! this.from || this.to.isEmpty() || this.from.isEmpty();
+        return (!this.to && !this.from) || (this.to.isEmpty() && this.from.isEmpty());
     }
 
     FromTo.build = function(name, startDate){
@@ -543,50 +547,68 @@ angular.module('common').factory('common.DateRangeService', function($log) {
     };
 
     DateUnit.prototype.update = function( dateString ){
-        //console.log('3');
+        $log.info('3 update +++++++++++++++++++++++');
+        $log.info('dateString : ' + dateString );
+
         this.outOfRange = false;
         if(dateString === this.dateString){
             this.dirty = false;
             return;
         }
-
-        if(dateString === undefined || dateString.length === 0){
+        if(dateString === null || dateString === undefined || dateString.length === 0){
             this.dateString = undefined;
             this.moment = undefined;
             this.dirty = true;
             this.valid = false;
+            this.empty = true;
         } else {
-            if(dateString.format !== undefined){
-                // must be a moment
-                this.dateString = dateString.format(format);
-                this.moment = dateString;
+            this.empty = false;
+            // before we even create the moment we must be sure that the date is in the correct format YYYY-MM-DD
+            if(dateUtils.dateReg.test(dateString)){
+                if (dateString.format !== undefined) {
+                    // must be a moment
+                    this.dateString = dateString.format(format);
+                    this.moment = dateString;
+                } else {
+                    this.dateString = dateString;
+                    this.moment = moment(dateString, format, true);
+                }
+                this.dirty = true;
+                this.valid = this.moment.isValid();
+
             } else {
+                this.valid = false;
                 this.dateString = dateString;
-                this.moment = moment(dateString, format);
             }
 
-            this.dirty = true;
-            this.valid = this.moment.isValid();
             if(this.valid){
                 this.momentString = this.moment.format(format);
                 this.longTime = this.moment.valueOf();
             } else {
                 this.momentString = 'invalid';
                 this.longTime = 0;
+                this.viewValid = false;
+                this.moment = null;
             }
         }
+
+        //$log.info('1 dateString : ' + dateString + ', ' + format + ', valid:' + this.valid + ', viewValid:' + this.viewValid);
 
         if(this.valid){
             this.outOfRange = _areDatesOutOfRange(this.moment);
         }
 
-        //console.log('3.1' + this.name + ', dateString ' + this.dateString);
+        ////$log.info('3.1' + this.name + ', dateString ' + this.dateString);
         if(this.fromTo){
-            //console.log('4');
+            ////$log.info('4');
             this.fromTo.updateOutOfRange(this.outOfRange);
             this.fromTo.updateDaysBetween();
             this.fromTo.updateModel();
         }
+
+        //$log.info('2 dateString : ' + dateString + ', ' + format + ', valid:' + this.valid + ', viewValid:' + this.viewValid);
+
+        $log.info('3 update ------------------------');
     };
 
     DateUnit.prototype.setValidity = function(){
@@ -594,9 +616,10 @@ angular.module('common').factory('common.DateRangeService', function($log) {
             this.viewValid = true;
             return;
         }
-        if(this.fromTo.isEmpty()){ // if dates are undefined then show no validation errors
+        if(this.fromTo.isEmpty() ){ // if dates are undefined then show no validation errors
             this.viewValid = true;
         } else {
+            $log.info('viewValid : ' + this.viewValid + ', outOfRange : ' + this.outOfRange + ', overlap : ' + this.overlap);
             if (!this.fromTo.valid || !this.valid || this.outOfRange) {
                 this.viewValid = false;
             } else {
@@ -630,4 +653,4 @@ angular.module('common').factory('common.DateRangeService', function($log) {
         FromTos : FromTos
     };
 
-});
+}]);
