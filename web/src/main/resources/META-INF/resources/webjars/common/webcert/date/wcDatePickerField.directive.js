@@ -57,7 +57,7 @@ angular.module('common').directive('wcDatePickerField',
         };
     })
     .directive('wcDatePickerFieldInput', ['$log', 'common.DateUtilsService',
-    function($log, dateUtils) {
+    function($log, dateUtils ) {
         'use strict';
         return {
             priority:10,
@@ -83,7 +83,6 @@ angular.module('common').directive('wcDatePickerField',
                         return ppdate;
                     }
                     ngModel.$render = function() {
-                        $log.info('in render!!' + ngModel.$viewValue);
                         //var date = ngModel.$viewValue ? dateFilter(ngModel.$viewValue, dateFormat) : '';
                         element.val(ngModel.$viewValue);
                         if (wcDatePickerField && wcDatePickerField.datepickerPopupScope) {
