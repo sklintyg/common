@@ -9,9 +9,13 @@ angular.module('common').factory('common.UtkastSignService',
             UtkastProxy, dialogService, messageService, statService, UserModel) {
             'use strict';
 
+            function _endsWith(str, suffix) {
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+
             function signera(intygsTyp, version) {
                 var deferred = $q.defer();
-                if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
+                if (_endsWith(UserModel.userContext.authenticationScheme, ':fake')) {
                     return _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
                     return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);

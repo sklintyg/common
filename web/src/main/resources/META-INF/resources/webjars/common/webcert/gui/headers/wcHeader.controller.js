@@ -180,8 +180,12 @@ angular.module('common').controller('common.wcHeaderController',
                 return page === currentRoute;
             };
 
+            function endsWith(str, suffix) {
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+
             $scope.logout = function() {
-                if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
+                if (endsWith(UserModel.userContext.authenticationScheme, ':fake')) {
                     $window.location = '/logout';
                 } else {
                     iid_Invoke('Logout');
