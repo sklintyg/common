@@ -17,8 +17,12 @@ angular.module('common').factory('common.UtkastSignService',
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.userContext.authenticationScheme, ':fake')) {
                     return _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else {
+                } else if (UserModel.userContext.authenticationMethod === 'NET_ID') {
                     return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
+                } else {
+                    // TODO BANK ID
+                    $log.info('Starting Bank ID signing...');
+                    return _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
                 }
             }
 
@@ -27,6 +31,45 @@ angular.module('common').factory('common.UtkastSignService',
                 _confirmSignera(signModel, intygsTyp, intygsId, version, deferred);
                 return deferred.promise;
             }
+
+            function _signeraServerUsingGrp(intygsTyp, intygsId, version, deferred) {
+                var signModel = {};
+                _confirmSigneraWithGrp(signModel, intygsTyp, intygsId, version, deferred);
+                return deferred.promise;
+            }
+
+            function _confirmSigneraWithGrp(signModel, intygsTyp, intygsId, version, deferred) {
+                UtkastProxy.signeraUtkastWithGrp(intygsId, intygsTyp, version, function(ticket) {
+
+                    var dialogSignModel ={
+                        acceptprogressdone: true,
+                        focus: false,
+                        errormessageid: 'common.error.sign.bankid',
+                        showerror: false
+                    };
+
+                    var bankIdSignDialog = dialogService.showDialog({
+                        dialogId: 'signera-bankid-dialog',
+                        title: 'sign',
+                        bodyTextId: 'common.modal.bankid.sign',
+                        templateUrl: '/app/partials/signera-bankid-dialog.html',
+                        model: dialogSignModel,
+                        autoClose: false
+                    });
+
+                    bankIdSignDialog.opened.then(function() {
+                        bankIdSignDialog.isOpen = true;
+                    }, function() {
+                        bankIdSignDialog.isOpen = false;
+                    });
+
+                    _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, bankIdSignDialog);
+                }, function(error) {
+                    deferred.resolve({});
+                    _showSigneringsError(signModel, error);
+                });
+            }
+
 
             function _signeraKlient(intygsTyp, intygsId, version, deferred) {
                 var signModel = {
@@ -84,17 +127,21 @@ angular.module('common').factory('common.UtkastSignService',
                 });
             }
 
-            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred) {
+            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, dialogHandle) {
 
                 function getSigneringsstatus() {
                     UtkastProxy.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
                         if ('BEARBETAR' === ticket.status) {
+                            // TODO: We _should_ change the text of the dialog (if active) once we have signed in BankID
+                            // TODO: and are waiting for the GRP collect to finish.
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                         } else if ('SIGNERAD' === ticket.status) {
                             deferred.resolve({newVersion : ticket.version});
+                            if (dialogHandle) dialogHandle.close();        // TODO this is a hack, fix.
                             _showIntygAfterSignering(signModel, intygsTyp, intygsId);
                         } else {
                             deferred.resolve({newVersion : ticket.version});
+                            if (dialogHandle) dialogHandle.close(); // TODO this is a hack, fix.
                             _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
                     });
