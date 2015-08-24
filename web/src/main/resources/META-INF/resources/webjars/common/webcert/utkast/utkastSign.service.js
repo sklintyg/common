@@ -137,11 +137,11 @@ angular.module('common').factory('common.UtkastSignService',
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                         } else if ('SIGNERAD' === ticket.status) {
                             deferred.resolve({newVersion : ticket.version});
-                            if (dialogHandle) dialogHandle.close();        // TODO this is a hack, fix.
+                            if (typeof dialogHandle !== 'undefined') dialogHandle.close();        // TODO this is a hack, fix.
                             _showIntygAfterSignering(signModel, intygsTyp, intygsId);
                         } else {
                             deferred.resolve({newVersion : ticket.version});
-                            if (dialogHandle) dialogHandle.close(); // TODO this is a hack, fix.
+                            if (typeof dialogHandle !== 'undefined') dialogHandle.close(); // TODO this is a hack, fix.
                             _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
                     });

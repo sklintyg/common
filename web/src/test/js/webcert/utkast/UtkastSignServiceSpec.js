@@ -152,6 +152,7 @@ describe('UtkastSignService', function() {
         });
     });
 
+    // TODO add a similar test for signera with BankID (which is a combination of client/server-side signing)
     describe('#signera client', function() {
         var intygId = 123, biljettId = 12345, version = 5;
         var $scope;
@@ -162,6 +163,7 @@ describe('UtkastSignService', function() {
             iid_SetProperty = jasmine.createSpy('iid_SetProperty');
 
             User.getUserContext().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
+            User.getUserContext().authenticationMethod = 'NET_ID';
 
             $stateParams.certificateId = intygId;
             $scope = {};
@@ -169,6 +171,7 @@ describe('UtkastSignService', function() {
 
         afterEach(function() {
             User.getUserContext().authenticationScheme = null;
+            User.getUserContext().authenticationMethod = null;
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful', function() {
