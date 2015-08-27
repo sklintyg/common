@@ -4,24 +4,37 @@
  */
 angular.module('common').factory('common.UtkastNotifyService',
     ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.UtkastNotifyProxy', 'common.messageService',
-        'common.dialogService',
-        function($http, $log, $modal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService) {
+        'common.dialogService', 'common.UtkastProxy',
+        function($http, $log, $modal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService, utkastProxy) {
             'use strict';
 
+            /**
+             * Performs an extra REST call to fetch the Utkast so we get hold of the enhets- and vardgivare names.
+             */
             function _notifyUtkast(intygId, intygType, utkast, updateState) {
-                var utkastNotifyRequest = {
-                    intygId: intygId,
-                    intygType: intygType,
-                    intygVersion: utkast.version,
-                    vidarebefordradContainer: utkast,
-                    enhetsNamn : utkast.enhetsNamn,
-                    vardgivareNamn : utkast.vardgivareNamn
-                };
-                notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
-                    onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
-                }, function(error) {
-                    onNotifyChangeFail(utkast, updateState, error);
-                });
+
+                // Fetch DraftModel to get hold of enhetsNamn and vardgivareNamn
+                utkastProxy.getUtkast(intygId, intygType, function(draft) {
+                        var utkastNotifyRequest = {
+                            intygId: intygId,
+                            intygType: intygType,
+                            intygVersion: utkast.version,
+                            vidarebefordradContainer: utkast,
+                            enhetsNamn : draft.enhetsNamn,
+                            vardgivareNamn : draft.vardgivareNamn
+                        };
+                        notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
+                            onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
+                        }, function(error) {
+                            onNotifyChangeFail(utkast, updateState, error);
+                        });
+                    },
+                    function() {
+                        var errorMessage = 'Kunde inte öppna e-postprogram för vidarebefordran av Utkast för signering. ' +
+                            'Utkastet kunde inte läsas upp. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
+                            'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.';
+                        dialogService.showErrorMessageDialog(errorMessage);
+                    });
             }
 
             function _onNotifyChange(intygId, intygType, utkast, updateState) {
