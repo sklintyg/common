@@ -13,7 +13,9 @@ angular.module('common').factory('common.UtkastNotifyService',
                     intygId: intygId,
                     intygType: intygType,
                     intygVersion: utkast.version,
-                    vidarebefordradContainer: utkast
+                    vidarebefordradContainer: utkast,
+                    enhetsNamn : utkast.enhetsNamn,
+                    vardgivareNamn : utkast.vardgivareNamn
                 };
                 notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
                     onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
@@ -74,7 +76,9 @@ angular.module('common').factory('common.UtkastNotifyService',
                     });
                 }, 1000);
                 // Launch mail client
-                $window.location = _buildNotifyDoctorMailToLink(notifyRequest.intygId, notifyRequest.intygType);
+                $window.location = _buildNotifyDoctorMailToLink(
+                    notifyRequest.intygId, notifyRequest.intygType,
+                    notifyRequest.enhetsNamn, notifyRequest.vardgivareNamn);
                 return deferred.promise;
             }
 
@@ -192,12 +196,12 @@ angular.module('common').factory('common.UtkastNotifyService',
                 });
             }
 
-            function _buildNotifyDoctorMailToLink(intygId, intygType) {
+            function _buildNotifyDoctorMailToLink(intygId, intygType, enhetsNamn, vardgivareNamn) {
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
                 var url = baseURL + '/web/dashboard#/' + intygType + '/edit/' + intygId;
                 var recipient = '';
-                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert';
+                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ' + enhetsNamn + ' for vardgivare ' + vardgivareNamn; //'Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ' + enhetsNamn;
                 var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
                 var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
                     encodeURIComponent(body);
