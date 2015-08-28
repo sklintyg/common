@@ -25,6 +25,8 @@
     "/web/webjars/common/webcert/gui/wcShow.directive.js",
     "/web/webjars/common/webcert/http-interceptor/http403ResponseInterceptor.service.js",
     "/web/webjars/common/webcert/http-interceptor/httpRequestInterceptorCacheBuster.service.js",
+    "/web/webjars/common/webcert/avtal/avtal.proxy.js",
+    "/web/webjars/common/webcert/avtal/avtal.model.js",
     "/web/webjars/common/webcert/intyg/intyg-header/intyg-header.controller.js",
     "/web/webjars/common/webcert/intyg/intyg.proxy.js",
     "/web/webjars/common/webcert/intyg/intyg.service.js",

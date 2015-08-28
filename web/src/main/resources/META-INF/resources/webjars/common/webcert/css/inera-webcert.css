@@ -553,6 +553,21 @@
     **/
 
     /* modal */
+    .modal .modal-container-terms {
+        height:100%;
+        width : 80%;
+    }
+
+    .modal .modal-body-terms {
+        max-height: 800%;
+        overflow-y: auto;
+    }
+
+    .modal-terms-size{
+        width:80%;
+        height:80%;
+    }
+
     .modal-header h3 {
         padding: 0;
     }

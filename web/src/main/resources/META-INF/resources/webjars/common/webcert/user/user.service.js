@@ -106,6 +106,28 @@ angular.module('common').factory('common.User',
                     $log.error('error ' + status);
                     onError(data);
                 });
+            },
+
+            /**
+             * Fetches the current user object from the current session.
+             */
+            initUser : function(onSuccess, onError){
+                var restPath = '/api/anvandare';
+                $http.get(restPath).success(function(data) {
+                    $log.debug('got callback data: ' + data);
+                    // Update user context
+                    userModel.setUser(data);
+                    if(onSuccess){
+                        onSuccess(data);
+                    }
+                }).error(function(data, status) {
+                    $log.error('error ' + status);
+                    if(onError) {
+                        onError(data);
+                    }
+                });
             }
+
+
         };
     }]);

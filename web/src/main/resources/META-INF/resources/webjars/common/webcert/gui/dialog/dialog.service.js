@@ -113,51 +113,60 @@ angular.module('common').factory('common.dialogService',
             options.model.focus = (options.model.focus ? options.model.focus : false);
             options.model.showerror = (options.model.showerror ? options.model.showerror : false);
 
-            // Create controller to setup dialog
-            var DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId, bodyText,
-                button1id, button2id, button3id, button1click, button2click, button3click, button3visible, button1text,
-                button2text, button3text, autoClose) {
+            var DialogInstanceCtrl;
 
-                $scope.model = model;
-                $scope.dialogId = dialogId;
-                $scope.titleId = titleId;
-                $scope.bodyTextId = bodyTextId;
-                $scope.bodyText = bodyText;
-                $scope.button1click = function(result) {
-                    button1click();
-                    if (autoClose) {
-                        $modalInstance.close(result);
-                    }
-                };
-                $scope.button2click = function() {
-                    if (button2click) {
-                        button2click();
-                    }
-                    $modalInstance.dismiss('button2 dismiss');
-                };
-                $scope.button3visible = button3visible;
-                if ($scope.button3visible !== undefined) {
-                    $scope.button3click = function() {
-                        if (button3click) {
-                            button3click();
+            if(options.controller){
+                DialogInstanceCtrl = options.controller;
+            } else {
+                // Create controller to setup dialog
+                DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId,
+                    bodyText,
+                    button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
+                    button1text,
+                    button2text, button3text, autoClose) {
+
+                    $scope.model = model;
+                    $scope.dialogId = dialogId;
+                    $scope.titleId = titleId;
+                    $scope.bodyTextId = bodyTextId;
+                    $scope.bodyText = bodyText;
+                    $scope.button1click = function(result) {
+                        button1click();
+                        if (autoClose) {
+                            $modalInstance.close(result);
                         }
-                        $modalInstance.dismiss('button3 dismiss');
                     };
-                } else {
-                    $scope.button3visible = false;
-                }
-                $scope.button1text = button1text;
-                $scope.button2text = button2text;
-                $scope.button3text = button3text;
-                $scope.button1id = button1id;
-                $scope.button2id = button2id;
-                $scope.button3id = button3id;
-            };
-
+                    $scope.button2click = function() {
+                        if (button2click) {
+                            button2click();
+                        }
+                        $modalInstance.dismiss('button2 dismiss');
+                    };
+                    $scope.button3visible = button3visible;
+                    if ($scope.button3visible !== undefined) {
+                        $scope.button3click = function() {
+                            if (button3click) {
+                                button3click();
+                            }
+                            $modalInstance.dismiss('button3 dismiss');
+                        };
+                    } else {
+                        $scope.button3visible = false;
+                    }
+                    $scope.button1text = button1text;
+                    $scope.button2text = button2text;
+                    $scope.button3text = button3text;
+                    $scope.button1id = button1id;
+                    $scope.button2id = button2id;
+                    $scope.button3id = button3id;
+                };
+            }
             // Open dialog box using specified options, template and controller
             var msgbox = $modal.open({
                 templateUrl: options.templateUrl,
                 controller: DialogInstanceCtrl,
+                size : options.size,
+                openedClass: options.openedClass,
                 resolve: {
                     model: function() {
                         return options.model;

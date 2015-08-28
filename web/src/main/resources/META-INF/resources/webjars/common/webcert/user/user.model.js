@@ -5,6 +5,7 @@ angular.module('common').factory('common.UserModel',
         return {
             reset: function() {
                 this.userContext = null;
+                this.user = null;
             },
 
             getActiveFeatures: function() {
@@ -21,6 +22,10 @@ angular.module('common').factory('common.UserModel',
              */
             setUserContext: function(userContext) {
                 this.userContext = userContext;
+            },
+
+            setUser : function(user){
+                this.user = user;
             }
         };
     }
