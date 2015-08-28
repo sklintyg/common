@@ -12,7 +12,7 @@ angular.module('common').factory('common.AvtalModel',
         function AvtalModel(avtal) {
             this.avtalText = avtal.avtalText;
             this.avtalVersion = avtal.avtalVersion;
-            this.versionDatum = avtal.versionDatum;
+            this.versionDatum = moment(avtal.versionDatum).format('YYYY-MM-DD');
         }
 
         AvtalModel.build = function(avtal) {
