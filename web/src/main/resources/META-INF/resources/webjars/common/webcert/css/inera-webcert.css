@@ -1109,4 +1109,8 @@
         position: absolute;
     }
 
+    .jsp .text-expander{
+        line-height: 2.5em;
+    }
+
 }
