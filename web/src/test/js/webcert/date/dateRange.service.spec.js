@@ -608,6 +608,7 @@ describe('DateRangeService', function() {
 
             expect(fromTos.datesPeriodTooLong).toBeTruthy();
 
+
         });
 
     });
