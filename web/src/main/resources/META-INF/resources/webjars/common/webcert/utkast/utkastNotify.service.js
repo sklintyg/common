@@ -214,12 +214,23 @@ angular.module('common').factory('common.UtkastNotifyService',
                     ($window.location.port ? ':' + $window.location.port : '');
                 var url = baseURL + '/web/dashboard#/' + intygType + '/edit/' + intygId;
                 var recipient = '';
-                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ' + enhetsNamn + ' for vardgivare ' + vardgivareNamn; //'Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ' + enhetsNamn;
+                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert pa enhet ' + _cleanNonAscii(enhetsNamn) + ' for vardgivare ' + _cleanNonAscii(vardgivareNamn); //'Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ' + enhetsNamn;
                 var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
                 var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
                     encodeURIComponent(body);
                 $log.debug(link);
                 return link;
+            }
+
+            function _cleanNonAscii(str) {
+                str = str.replace(/å/g, 'a');
+                str = str.replace(/Å/g, 'A');
+                str = str.replace(/ä/g, 'a');
+                str = str.replace(/Ä/g, 'A');
+                str = str.replace(/ö/g, 'o');
+                str = str.replace(/Ö/g, 'O');
+
+                return str;
             }
 
             // Return public API for the service
