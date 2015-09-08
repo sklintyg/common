@@ -1,5 +1,5 @@
 angular.module('common').factory('common.User',
-    [ '$http', '$log', 'common.UserModel', function($http, $log, userModel) {
+    [ '$http', '$log', 'common.UserModel', '$q', function($http, $log, userModel, $q) {
         'use strict';
 
         return {
@@ -111,7 +111,15 @@ angular.module('common').factory('common.User',
             /**
              * Fetches the current user object from the current session.
              */
+            userDef : undefined,
             initUser : function(onSuccess, onError){
+                var self = this;
+                if(self.userDef !== undefined){
+                    // just return the promise
+                    return self.userDef.promise;
+                }
+                // else create a new def
+                self.userDef = $q.defer();
                 var restPath = '/api/anvandare';
                 $http.get(restPath).success(function(data) {
                     $log.debug('got callback data: ' + data);
@@ -120,12 +128,15 @@ angular.module('common').factory('common.User',
                     if(onSuccess){
                         onSuccess(data);
                     }
+                    self.userDef.resolve();
                 }).error(function(data, status) {
                     $log.error('error ' + status);
                     if(onError) {
                         onError(data);
                     }
+                    self.userDef.resolve();
                 });
+                return self.userDef.promise;
             }
 
 
