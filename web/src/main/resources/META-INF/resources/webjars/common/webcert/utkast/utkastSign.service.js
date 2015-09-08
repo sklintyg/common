@@ -20,8 +20,6 @@ angular.module('common').factory('common.UtkastSignService',
                 } else if (UserModel.userContext.authenticationMethod === 'NET_ID') {
                     return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
-                    // TODO BANK ID
-                    $log.info('Starting Bank ID signing...');
                     return _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
                 }
             }
@@ -174,6 +172,8 @@ angular.module('common').factory('common.UtkastSignService',
                         messageId = 'common.error.sign.netid';
                     } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
                         messageId = 'common.error.sign.concurrent_modification';
+                    } else if (error.errorCode === 'AUTHORIZATION_PROBLEM') {
+                        messageId = 'common.error.sign.authorization';
                     } else if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {
