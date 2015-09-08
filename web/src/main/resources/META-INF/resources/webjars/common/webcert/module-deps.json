@@ -20,6 +20,7 @@
     "/web/webjars/common/webcert/gui/wcFocusOn.directive.js",
     "/web/webjars/common/webcert/gui/wcMaxLength.directive.js",
     "/web/webjars/common/webcert/gui/wcPersonNumber.directive.js",
+    "/web/webjars/common/webcert/gui/wcRole.directive.js",
     "/web/webjars/common/webcert/gui/wcSpinner.directive.js",
     "/web/webjars/common/webcert/gui/wcToUppercase.directive.js",
     "/web/webjars/common/webcert/gui/wcShow.directive.js",
