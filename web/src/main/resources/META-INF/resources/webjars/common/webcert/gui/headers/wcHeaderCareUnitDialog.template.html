@@ -6,8 +6,8 @@
   <div ng-repeat="vg in vardgivare | orderBy:'namn'">
     <div class="row">
       <div class="col-xs-5 col-xs-offset-1"><strong>{{vg.namn}}</strong></div>
-      <div class="col-xs-3" wc-feature-active feature="hanteraFragor"><strong>Ej hanterade frågor och svar</strong></div>
-      <div class="col-xs-3" wc-feature-active feature="hanteraIntygsutkast"><strong>Ej signerade utkast</strong></div>
+      <div class="col-xs-3" wc-authority feature="hanteraFragor"><strong>Ej hanterade frågor och svar</strong></div>
+      <div class="col-xs-3" wc-authority feature="hanteraIntygsutkast"><strong>Ej signerade utkast</strong></div>
     </div>
     <div ng-repeat="enhet in vg.vardenheter | orderBy:'namn'">
       <div class="row">

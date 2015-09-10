@@ -4,24 +4,15 @@ angular.module('common').factory('common.UserModel',
 
         return {
             reset: function() {
-                this.userContext = null;
                 this.user = null;
             },
 
             getActiveFeatures: function() {
-                if (this.userContext) {
-                    return this.userContext.aktivaFunktioner;
+                if (this.user) {
+                    return this.user.aktivaFunktioner;
                 } else {
                     return null;
                 }
-            },
-
-            /**
-             * Set user context from api
-             * @param userContext
-             */
-            setUserContext: function(userContext) {
-                this.userContext = userContext;
             },
 
             setUser : function(user){

@@ -4,8 +4,8 @@ angular.module('common').factory('common.User',
 
         return {
 
-            getUserContext: function() {
-                return userModel.userContext;
+            getUser: function() {
+                return userModel.user;
             },
 
             /**
@@ -14,7 +14,7 @@ angular.module('common').factory('common.User',
              */
             getVardenhetSelectionList: function() {
 
-                var ucVardgivare = angular.copy(userModel.userContext.vardgivare);
+                var ucVardgivare = angular.copy(userModel.user.vardgivare);
 
                 var vardgivareList = [];
 
@@ -47,9 +47,9 @@ angular.module('common').factory('common.User',
             getVardenhetFilterList: function(vardenhet) {
                 if (!vardenhet) {
 
-                    if (userModel.userContext.valdVardenhet) {
+                    if (userModel.user.valdVardenhet) {
                         $log.debug('getVardenhetFilterList: using valdVardenhet');
-                        vardenhet = userModel.userContext.valdVardenhet;
+                        vardenhet = userModel.user.valdVardenhet;
                     } else {
                         $log.debug('getVardenhetFilterList: parameter vardenhet was omitted');
                         return [];
@@ -72,7 +72,7 @@ angular.module('common').factory('common.User',
              * @returns valdVardgivare
              */
             getValdVardgivare: function() {
-                return userModel.userContext.valdVardgivare;
+                return userModel.user.valdVardgivare;
             },
 
             /**
@@ -80,7 +80,7 @@ angular.module('common').factory('common.User',
              * @returns valdVardenhet
              */
             getValdVardenhet: function() {
-                return userModel.userContext.valdVardenhet;
+                return userModel.user.valdVardenhet;
             },
 
             /**
@@ -99,46 +99,14 @@ angular.module('common').factory('common.User',
                     $log.debug('got callback data: ' + data);
 
                     // Update user context
-                    userModel.setUserContext(data);
+                    userModel.setUser(data);
 
                     onSuccess(data);
                 }).error(function(data, status) {
                     $log.error('error ' + status);
                     onError(data);
                 });
-            },
-
-            /**
-             * Fetches the current user object from the current session.
-             */
-            userDef : undefined,
-            initUser : function(onSuccess, onError){
-                var self = this;
-                if(self.userDef !== undefined){
-                    // just return the promise
-                    return self.userDef.promise;
-                }
-                // else create a new def
-                self.userDef = $q.defer();
-                var restPath = '/api/anvandare';
-                $http.get(restPath).success(function(data) {
-                    $log.debug('got callback data: ' + data);
-                    // Update user context
-                    userModel.setUser(data);
-                    if(onSuccess){
-                        onSuccess(data);
-                    }
-                    self.userDef.resolve();
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
-                    if(onError) {
-                        onError(data);
-                    }
-                    self.userDef.resolve();
-                });
-                return self.userDef.promise;
             }
-
 
         };
     }]);

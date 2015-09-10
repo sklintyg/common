@@ -50,36 +50,36 @@ describe('User', function() {
         }]));
 
     describe('#reset', function() {
-        it('should set userContext to null', function() {
-            UserModel.setUserContext(testUserContext);
+        it('should set user to null', function() {
+            UserModel.setUser(testUserContext);
             UserModel.reset();
-            expect(UserModel.userContext).toBeNull();
+            expect(UserModel.user).toBeNull();
         });
     });
 
     describe('#getActiveFeatures', function() {
         it('should return currently active features', function() {
-            UserModel.setUserContext(testUserContext);
+            UserModel.setUser(testUserContext);
             var activeFeatures = UserModel.getActiveFeatures();
             expect(activeFeatures).toContain('hanteraFragor');
             expect(activeFeatures).toContain('hanteraFragor.fk7263');
         });
     });
 
-    describe('#setUserContext', function() {
+    describe('#setUser', function() {
         it('should set currently active user context', function() {
-            UserModel.setUserContext(null);
-            expect(UserModel.userContext).toBeNull();
+            UserModel.setUser(null);
+            expect(UserModel.user).toBeNull();
 
-            UserModel.setUserContext(testUserContext);
-            expect(UserModel.userContext).toEqual(testUserContext);
+            UserModel.setUser(testUserContext);
+            expect(UserModel.user).toEqual(testUserContext);
         });
     });
 
     describe('#getVardenhetSelectionList', function() {
         it('should return a list of selectable vardenheter and mottagningar in the selected vardgivare', function() {
 
-            UserModel.setUserContext(testUserContext);
+            UserModel.setUser(testUserContext);
             var testSelectionList = [
                 { id: 'vastmanland', namn: 'Landstinget Västmanland', vardenheter: [
                         { id: 'centrum-vast', namn: 'Vårdcentrum i Väst' },
@@ -101,7 +101,7 @@ describe('User', function() {
     describe('#getVardenhetFilterList', function() {
         it('should return a list with the specified vardenhet and its mottagnigar', function() {
 
-            UserModel.setUserContext(testUserContext);
+            UserModel.setUser(testUserContext);
 
             var valdVardenhet = {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
                 {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},
@@ -123,7 +123,7 @@ describe('User', function() {
 
     describe('#getValdVardgivare', function() {
         it('should return valdVardgivare', function() {
-            UserModel.setUserContext(testUserContext);
+            UserModel.setUser(testUserContext);
             expect(User.getValdVardgivare()).toEqual({'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
                     {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
                             {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},

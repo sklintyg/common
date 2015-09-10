@@ -7,7 +7,7 @@ angular.module('common').controller('common.wcHeaderController',
 
             //Expose 'now' as a model property for the template to render as todays date
             $scope.today = new Date();
-            $scope.user = UserModel.userContext;
+            $scope.user = UserModel.user;
             $scope.statService = statService;
             $scope.statService.startPolling();
             $scope.menuDefs = [];
@@ -140,7 +140,7 @@ angular.module('common').controller('common.wcHeaderController',
                         }
                     };
 
-                    if (UserModel.userContext.lakare) {
+                    if (UserModel.user.lakare) {
                         menu.splice(0, 0, writeCertMenuDef);
                     } else {
                         menu.push(writeCertMenuDef);
@@ -185,7 +185,7 @@ angular.module('common').controller('common.wcHeaderController',
             }
 
             $scope.logout = function() {
-                if (endsWith(UserModel.userContext.authenticationScheme, ':fake')) {
+                if (endsWith(UserModel.user.authenticationScheme, ':fake')) {
                     $window.location = '/logout';
                 } else {
                     iid_Invoke('Logout');
@@ -270,7 +270,7 @@ angular.module('common').controller('common.wcHeaderController',
                                 // up on a page we aren't welcome anymore. Maybe we should make these
                                 // routes some kind of global configuration? No other choices are
                                 // relevant today though.
-                                if (UserModel.userContext.lakare === true) {
+                                if (UserModel.user.lakare === true) {
                                     $location.path('/');
                                 } else {
                                     $location.path('/unhandled-qa');

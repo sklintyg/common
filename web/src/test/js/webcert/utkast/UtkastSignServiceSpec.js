@@ -32,7 +32,7 @@ describe('UtkastSignService', function() {
         $provide.value('common.dialogService',
             jasmine.createSpyObj('common.dialogService', [ 'showDialog', 'showErrorMessageDialog' ]));
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
-        $provide.value('common.UserModel', { userContext: { authenticationScheme: null } });
+        $provide.value('common.UserModel', { user: { authenticationScheme: null } });
         $provide.value('common.UtkastViewStateService', {});
         $provide.value('common.utkastNotifyService', {});
         $provide.value('common.domain.DraftModel', {});
@@ -64,7 +64,7 @@ describe('UtkastSignService', function() {
         var signModel;
 
         beforeEach(function() {
-            User.getUserContext().authenticationScheme = 'urn:inera:webcert:fake';
+            User.getUser().authenticationScheme = 'urn:inera:webcert:fake';
 
             $stateParams.certificateId = intygId;
 
@@ -79,7 +79,7 @@ describe('UtkastSignService', function() {
         });
 
         afterEach(function() {
-            User.getUserContext().authenticationScheme = null;
+            User.getUser().authenticationScheme = null;
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful', function() {
@@ -162,16 +162,16 @@ describe('UtkastSignService', function() {
             iid_Invoke = jasmine.createSpy('invoke');
             iid_SetProperty = jasmine.createSpy('iid_SetProperty');
 
-            User.getUserContext().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
-            User.getUserContext().authenticationMethod = 'NET_ID';
+            User.getUser().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
+            User.getUser().authenticationMethod = 'NET_ID';
 
             $stateParams.certificateId = intygId;
             $scope = {};
         });
 
         afterEach(function() {
-            User.getUserContext().authenticationScheme = null;
-            User.getUserContext().authenticationMethod = null;
+            User.getUser().authenticationScheme = null;
+            User.getUser().authenticationMethod = null;
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful', function() {

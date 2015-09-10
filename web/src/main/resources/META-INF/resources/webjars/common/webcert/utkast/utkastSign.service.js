@@ -15,9 +15,9 @@ angular.module('common').factory('common.UtkastSignService',
 
             function signera(intygsTyp, version) {
                 var deferred = $q.defer();
-                if (_endsWith(UserModel.userContext.authenticationScheme, ':fake')) {
+                if (_endsWith(UserModel.user.authenticationScheme, ':fake')) {
                     return _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.userContext.authenticationMethod === 'NET_ID') {
+                } else if (UserModel.user.authenticationMethod === 'NET_ID') {
                     return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
                     // TODO BANK ID

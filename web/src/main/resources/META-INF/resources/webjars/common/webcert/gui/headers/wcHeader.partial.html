@@ -1,15 +1,15 @@
 <div>
   <div class="header clearfix">
     <div class="headerbox">
-      <span wc-feature-not-active feature="franJournalsystem" class="headerbox-logo pull-left">
+      <span wc-authority feature="!franJournalsystem" class="headerbox-logo pull-left">
         <a id="webcertLogoLink" href="/web/start"><img alt="Till startsidan" src="/img/webcert_logo.png" /></a></span>
-      <span wc-feature-active feature="franJournalsystem" class="headerbox-logo pull-left">
+      <span wc-authority feature="franJournalsystem" class="headerbox-logo pull-left">
         <img alt="Till startsidan" src="/img/webcert_logo.png" /></span>
       <span class="headerbox-date pull-left">
                   <span id="location" class="location">{{today | date:"shortDate"}} - {{user.valdVardgivare.namn}} - {{user.valdVardenhet.namn}}</span><br>
                   <span id="otherLocations" class="otherLocations" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
                       style="font-weight:bold">{{stat.intygAndraEnheter+stat.fragaSvarAndraEnheter}}</span> ej hanterade frågor och ej signerade utkast på andra vårdenheter.</span> <a
-          wc-feature-not-active feature="franJournalsystem" id="wc-care-unit-clinic-selector-link" tabindex="0" href class="otherLocations"
+          wc-authority feature="!franJournalsystem" id="wc-care-unit-clinic-selector-link" tabindex="0" href class="otherLocations"
           ng-show="user.totaltAntalVardenheter > 1" data-ng-click="openChangeCareUnitDialog()">Byt
         vårdenhet</a>
       </span>
@@ -21,12 +21,12 @@
                   <strong ng-switch-default>Vårdadministratör</strong>
                   </span>
         - <span class="logged-in">{{user.namn}}</span><br>
-        <a id="logoutLink" wc-feature-not-active feature="franJournalsystem" class="pull-right" ng-click="logout()">Logga ut</a>
-        <a id="aboutLink" wc-feature-active feature="franJournalsystem" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
+        <a id="logoutLink" wc-authority feature="!franJournalsystem" class="pull-right" ng-click="logout()">Logga ut</a>
+        <a id="aboutLink" wc-authority feature="franJournalsystem" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
       </div>
     </div>
   </div>
-  <div id="huvudmeny" wc-feature-not-active feature="franJournalsystem" class="navbar navbar-default">
+  <div id="huvudmeny" wc-authority feature="!franJournalsystem" class="navbar navbar-default">
     <div class="container-fluid">
       <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
               ng-click="navCollapsed = !navCollapsed">
