@@ -40,7 +40,6 @@
     "/web/webjars/common/webcert/patient/patient.proxy.js",
     "/web/webjars/common/webcert/patient/wcSecrecyMarkMessage.directive.js",
     "/web/webjars/common/webcert/user/feature.service.js",
-    "/web/webjars/common/webcert/user/privilege.service.js",
     "/web/webjars/common/webcert/user/stat.service.js",
     "/web/webjars/common/webcert/user/user.service.js",
     "/web/webjars/common/webcert/user/user.model.js",

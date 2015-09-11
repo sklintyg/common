@@ -1,27 +1,18 @@
 angular.module('common').directive('wcAuthority',
-    ['ngIfDirective', 'common.User', 'common.PrivilegeService', 'common.featureService',
-        function(ngIfDirective, userService, privilegeService, featureService) {
+    ['common.UserModel', 'common.featureService',
+        function(userModel, featureService) {
             'use strict';
-            var ngIf = ngIfDirective[0];
-
             return {
-                transclude: ngIf.transclude,
-                priority: ngIf.priority,
-                terminal: ngIf.terminal,
-                restrict: ngIf.restrict,
+                restrict: 'A',
                 link: function($scope, $element, $attr) {
-                    var selfArguments = arguments;
                     var authority = $attr.wcAuthority;
                     var feature = $attr.feature
-                    //var authority = $scope.$eval(value);
 
-
-                    // find the initial ng-if attribute
-                    var initialNgIf = $attr.ngIf, ifEvaluator;
+                    console.log('feature : ' + feature + ', authority : ' + authority);
 
                     var pres = true;
                     if (authority !== undefined && authority.length > 0) {
-                        pres = privilegeService.hasPrivilege(authority);
+                        pres = userModel.hasPrivilege(authority);
                     }
                     var fres = true;
                     if (feature !== undefined && feature.length > 0) {
@@ -34,19 +25,12 @@ angular.module('common').directive('wcAuthority',
                         }
                     }
 
-                    // if it exists, evaluates ngIf && ifAuthenticated
-                    if (initialNgIf) {
-                        ifEvaluator = function() {
-                            return $scope.$eval(initialNgIf) && pres && fres;
-                        };
-                    } else { // if there's no ng-if, process normally
-                        ifEvaluator = function() {
-                            return pres && fres;
-                        };
-                    }
-                    $attr.ngIf = ifEvaluator;
-                    ngIf.link.apply(ngIf, selfArguments);
+                    console.log('fres : ' + fres + ', pres : ' + pres + ', =' + !(pres && fres));
 
+                    if(!(pres && fres)){
+                        console.log('remove');
+                        $element.remove();
+                    }
                 }
             };
         }]);
