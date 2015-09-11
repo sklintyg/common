@@ -45,7 +45,7 @@
               Kopiera
             </button>
             <button wc-authority="PRIVILEGE_MAKULERA_INTYG" feature="makuleraIntyg"
-                    id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly && user.lakare" ng-click="makulera(viewState.intygModel)"
+                    id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly" ng-click="makulera(viewState.intygModel)"
                     intygstyp="{{intygstyp}}"
                     wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                     title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">

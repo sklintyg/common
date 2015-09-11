@@ -140,7 +140,7 @@ angular.module('common').controller('common.wcHeaderController',
                         }
                     };
 
-                    if (UserModel.user.lakare) {
+                    if (UserModel.user.isLakareOrPrivat) {
                         menu.splice(0, 0, writeCertMenuDef);
                     } else {
                         menu.push(writeCertMenuDef);
@@ -270,7 +270,7 @@ angular.module('common').controller('common.wcHeaderController',
                                 // up on a page we aren't welcome anymore. Maybe we should make these
                                 // routes some kind of global configuration? No other choices are
                                 // relevant today though.
-                                if (UserModel.user.lakare === true) {
+                                if (UserModel.user.isLakareOrPrivat) {
                                     $location.path('/');
                                 } else {
                                     $location.path('/unhandled-qa');

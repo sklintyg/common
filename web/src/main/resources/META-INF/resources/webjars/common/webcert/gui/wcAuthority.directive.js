@@ -6,9 +6,21 @@ angular.module('common').directive('wcAuthority',
                 restrict: 'A',
                 link: function($scope, $element, $attr) {
                     var authority = $attr.wcAuthority;
-                    var feature = $attr.feature
+                    var feature = $attr.feature;
+                    var role = $attr.role;
 
-                    console.log('feature : ' + feature + ', authority : ' + authority);
+                    //console.log('feature : ' + feature + ', authority : ' + authority);
+
+                    var rres = true;
+                    if(role !== undefined && role.length > 0){
+                        if (role.indexOf('!') === 0) {
+                            // we have a not
+                            role = role.slice(1);
+                            rres = !userModel.hasRole(role);
+                        } else {
+                            rres = userModel.hasRole(role);
+                        }
+                    }
 
                     var pres = true;
                     if (authority !== undefined && authority.length > 0) {
@@ -25,10 +37,10 @@ angular.module('common').directive('wcAuthority',
                         }
                     }
 
-                    console.log('fres : ' + fres + ', pres : ' + pres + ', =' + !(pres && fres));
+                    //console.log('fres : ' + fres + ', pres : ' + pres + ', =' + !(pres && fres));
 
-                    if(!(pres && fres)){
-                        console.log('remove');
+                    if(!(rres && pres && fres)){
+                        //console.log('remove');
                         $element.remove();
                     }
                 }

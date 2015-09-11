@@ -17,6 +17,10 @@ angular.module('common').factory('common.UserModel',
 
             setUser: function(user) {
                 this.user = user;
+                //setup lakare and privatLakare based on the new role enum
+                this.user.lakare = this.isLakare();
+                this.user.privatLakare = this.isPrivatLakare();
+                this.user.isLakareOrPrivat = this.user.lakare || this.user.privatLakare;
             },
 
             // these enums are just copies from the backend an ment as a reference for the client.

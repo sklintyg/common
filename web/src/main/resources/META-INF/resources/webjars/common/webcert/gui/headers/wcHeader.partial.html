@@ -17,7 +17,7 @@
     </div>
     <div class="headerbox-user pull-right">
       <div class="headerbox-user-profile headerbox-avatar" ng-show="user.namn.length">
-        <span id="logged-in-role" ng-switch="user.lakare">
+        <span id="logged-in-role" ng-switch="user.isLakareOrPrivat">
                   <strong ng-switch-when="true">Läkare</strong>
                   <strong ng-switch-default>Vårdadministratör</strong>
                   </span>

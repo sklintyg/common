@@ -2,7 +2,7 @@
 
   <h3><span message key="common.sign.intyg"></span></h3>
 
-  <div ng-if="!user.lakare">
+  <div ng-if="!user.isLakareOrPrivat">
     <div id="sign-requires-doctor-message-text" class="alert alert-info">
       <span message key="draft.onlydoctorscansign"></span>
     </div>
@@ -35,7 +35,7 @@
   <button id="signera-utkast-button" class="btn btn-success"
           wc-authority="PRIVILEGE_SIGNERA_INTYG"
           ng-disabled="!viewState.common.intyg.isComplete || certForm.$dirty || signingWithSITHSInProgress"
-          ng-click="sign()" ng-show="user.lakare"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif"/> <span message key="common.sign"></span>
+          ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif"/> <span message key="common.sign"></span>
   </button>
 
 </div>
