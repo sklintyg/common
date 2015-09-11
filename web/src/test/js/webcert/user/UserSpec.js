@@ -3,7 +3,7 @@ describe('User', function() {
 
     var $httpBackend;
     var User, UserModel;
-    var testUserContext = {'hsaId':'eva','namn':'Eva Holgersson','lakare':true,'forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
+    var testUser = {'hsaId':'eva','namn':'Eva Holgersson','lakare':true,'forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
             {'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
                     {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
                         {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},{'id':'dialys','namn':'Dialys','arbetsplatskod':'0000000'}
@@ -51,7 +51,7 @@ describe('User', function() {
 
     describe('#reset', function() {
         it('should set user to null', function() {
-            UserModel.setUser(testUserContext);
+            UserModel.setUser(testUser);
             UserModel.reset();
             expect(UserModel.user).toBeNull();
         });
@@ -59,7 +59,7 @@ describe('User', function() {
 
     describe('#getActiveFeatures', function() {
         it('should return currently active features', function() {
-            UserModel.setUser(testUserContext);
+            UserModel.setUser(testUser);
             var activeFeatures = UserModel.getActiveFeatures();
             expect(activeFeatures).toContain('hanteraFragor');
             expect(activeFeatures).toContain('hanteraFragor.fk7263');
@@ -71,15 +71,15 @@ describe('User', function() {
             UserModel.setUser(null);
             expect(UserModel.user).toBeNull();
 
-            UserModel.setUser(testUserContext);
-            expect(UserModel.user).toEqual(testUserContext);
+            UserModel.setUser(testUser);
+            expect(UserModel.user).toEqual(testUser);
         });
     });
 
     describe('#getVardenhetSelectionList', function() {
         it('should return a list of selectable vardenheter and mottagningar in the selected vardgivare', function() {
 
-            UserModel.setUser(testUserContext);
+            UserModel.setUser(testUser);
             var testSelectionList = [
                 { id: 'vastmanland', namn: 'Landstinget Västmanland', vardenheter: [
                         { id: 'centrum-vast', namn: 'Vårdcentrum i Väst' },
@@ -101,7 +101,7 @@ describe('User', function() {
     describe('#getVardenhetFilterList', function() {
         it('should return a list with the specified vardenhet and its mottagnigar', function() {
 
-            UserModel.setUser(testUserContext);
+            UserModel.setUser(testUser);
 
             var valdVardenhet = {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
                 {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},
@@ -123,7 +123,7 @@ describe('User', function() {
 
     describe('#getValdVardgivare', function() {
         it('should return valdVardgivare', function() {
-            UserModel.setUser(testUserContext);
+            UserModel.setUser(testUser);
             expect(User.getValdVardgivare()).toEqual({'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
                     {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
                             {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},
@@ -137,7 +137,7 @@ describe('User', function() {
 
     describe('#getValdVardenhet', function() {
         it('should return valdVardenhet', function() {
-            UserModel.setUserContext(testUserContext);
+            UserModel.setUser(testUser);
             expect(User.getValdVardenhet()).toEqual({'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
                     {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},
                     {'id':'dialys','namn':'Dialys','arbetsplatskod':'0000000'}
@@ -148,10 +148,10 @@ describe('User', function() {
 
     describe('#setValdVardenhet', function() {
 
-        var newUserContext;
+        var newUser;
 
         beforeEach(function() {
-            newUserContext = {'hsaId':'eva','namn':'Eva Holgersson','lakare':true,'forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
+            newUser = {'hsaId':'eva','namn':'Eva Holgersson','lakare':true,'forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
                 {'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
                     {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
                         {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},{'id':'dialys','namn':'Dialys','arbetsplatskod':'0000000'}
@@ -187,26 +187,26 @@ describe('User', function() {
 
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
-            $httpBackend.expectPOST('/api/anvandare/andraenhet').respond(200, newUserContext);
+            $httpBackend.expectPOST('/api/anvandare/andraenhet').respond(200, newUser);
 
-            UserModel.setUserContext(testUserContext);
+            UserModel.setUser(testUser);
             var valjVardenhet = {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'};
             User.setValdVardenhet(valjVardenhet, onSuccess, onError);
             $httpBackend.flush();
 
-            expect(onSuccess).toHaveBeenCalledWith(newUserContext);
+            expect(onSuccess).toHaveBeenCalledWith(newUser);
             expect(onError).not.toHaveBeenCalled();
             expect(User.getValdVardenhet()).toEqual(valjVardenhet);
         });
 
         it('should request to set a new vardenhet as selected and receive an error if backend responds 500', function() {
 
-            UserModel.setUserContext(testUserContext);
+            UserModel.setUser(testUser);
 
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
 
-            $httpBackend.expectPOST('/api/anvandare/andraenhet').respond(500, newUserContext);
+            $httpBackend.expectPOST('/api/anvandare/andraenhet').respond(500, newUser);
 
             var valjVardenhet = {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'};
             User.setValdVardenhet(valjVardenhet, onSuccess, onError);
