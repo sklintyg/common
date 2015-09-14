@@ -69,7 +69,7 @@ describe('User', function() {
     describe('#setUser', function() {
         it('should set currently active user context', function() {
             UserModel.setUser(null);
-            expect(UserModel.user).toBeNull();
+            expect(UserModel.user).toBeUndefined();
 
             UserModel.setUser(testUser);
             expect(UserModel.user).toEqual(testUser);
@@ -151,7 +151,7 @@ describe('User', function() {
         var newUser;
 
         beforeEach(function() {
-            newUser = {'hsaId':'eva','namn':'Eva Holgersson','lakare':true,'forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
+            newUser = {'hsaId':'eva','namn':'Eva Holgersson','forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
                 {'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
                     {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
                         {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},{'id':'dialys','namn':'Dialys','arbetsplatskod':'0000000'}
@@ -179,7 +179,8 @@ describe('User', function() {
                 ]
                 },
                 'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
-                'totaltAntalVardenheter':1
+                'totaltAntalVardenheter':1,
+                'lakare' : true, 'privatLakare' : false, 'isLakareOrPrivat' : true, 'roles' : {'ROLE_LAKARE': 'Läkare'}, role : 'Läkare'
             };
         });
 

@@ -17,12 +17,11 @@
     </div>
     <div class="headerbox-user pull-right">
       <div class="headerbox-user-profile headerbox-avatar" ng-show="user.namn.length">
-        <span id="logged-in-role" ng-switch="user.isLakareOrPrivat">
-                  <strong ng-switch-when="true">Läkare</strong>
-                  <strong ng-switch-default>Vårdadministratör</strong>
-                  </span>
+        <span id="logged-in-role">
+                  <strong >{{user.role}}</strong>
+        </span>
         - <span class="logged-in">{{user.namn}}</span><br>
-        <a id="editUserLink" class="pull-left">Ändra uppgifter</a>
+        <a id="editUserLink" wc-authority role="ROLE_PRIVATLAKARE" style="padding-right:30px" class="pull-left" ng-click="goToPrivatPortalen()">Ändra uppgifter</a>
         <a id="logoutLink" wc-authority feature="!franJournalsystem" class="pull-right" ng-click="logout()">Logga ut</a>
         <a id="aboutLink" wc-authority feature="franJournalsystem" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
       </div>

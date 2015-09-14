@@ -16,11 +16,14 @@ angular.module('common').factory('common.UserModel',
             },
 
             setUser: function(user) {
-                this.user = user;
-                //setup lakare and privatLakare based on the new role enum
-                this.user.lakare = this.isLakare();
-                this.user.privatLakare = this.isPrivatLakare();
-                this.user.isLakareOrPrivat = this.user.lakare || this.user.privatLakare;
+                if(user !== undefined && user !== null) {
+                    this.user = user;
+                    //setup lakare and privatLakare based on the new role enum
+                    this.user.lakare = this.isLakare();
+                    this.user.privatLakare = this.isPrivatLakare();
+                    this.user.isLakareOrPrivat = this.user.lakare || this.user.privatLakare;
+                    this.user.role = this.user.roles !== undefined ? this.roles.getRole(this.user.roles) : '';
+                }
             },
 
             // these enums are just copies from the backend an ment as a reference for the client.
@@ -40,13 +43,39 @@ angular.module('common').factory('common.UserModel',
                 ROLE_LAKARE_DJUPINTEGRERAD: 'Läkare - djupintegrerad',
                 ROLE_LAKARE_UTHOPP: 'Läkare - uthopp',
                 ROLE_PRIVATLAKARE: 'Privatläkare',
-                ROLE_TANDLAKARE: 'Tandläkare'
+                ROLE_TANDLAKARE: 'Tandläkare',
+                getRole: function(roles) {
+                    var rs = '';
+                    if (roles.ROLE_VARDADMINISTRATOR !== undefined) {
+                        rs += roles.ROLE_VARDADMINISTRATOR;
+                    }
+
+                    if (roles.ROLE_LAKARE !== undefined) {
+                        rs += roles.ROLE_LAKARE;
+                    }
+
+                    if (roles.ROLE_LAKARE_DJUPINTEGRERAD !== undefined) {
+                        rs += roles.ROLE_LAKARE_DJUPINTEGRERAD;
+                    }
+
+                    if (roles.ROLE_LAKARE_UTHOPP !== undefined) {
+                        rs += roles.ROLE_LAKARE_UTHOPP;
+                    }
+
+                    if (roles.ROLE_PRIVATLAKARE !== undefined) {
+                        rs += roles.ROLE_PRIVATLAKARE;
+                    }
+
+                    if (roles.ROLE_TANDLAKARE !== undefined) {
+                        rs += roles.ROLE_TANDLAKARE;
+                    }
+                    return rs;
+                }
             },
 
             hasRoles: function() {
                 return this.user !== undefined && this.user.roles !== undefined;
             },
-
 
             hasAuthorities: function() {
                 return this.user !== undefined && this.user.authorities !== undefined;
@@ -86,7 +115,11 @@ angular.module('common').factory('common.UserModel',
 
             isTandlakare: function _isTandlakare() {
                 return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE == undefined;
-            }
+            },
+
+            termsAccepted :false,
+            transitioning : false
+
         };
     }
 );

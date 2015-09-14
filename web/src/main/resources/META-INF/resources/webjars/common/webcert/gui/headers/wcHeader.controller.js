@@ -184,6 +184,15 @@ angular.module('common').controller('common.wcHeaderController',
                 return str.indexOf(suffix, str.length - suffix.length) !== -1;
             }
 
+            // privatportal link
+            $scope.privatPortalLink = $location.protocol() +'://'+ $location.host() + ':8090/';
+
+            $scope.goToPrivatPortalen = function(){
+                var link = $scope.privatPortalLink;
+                link += '?from=' + $location.path();
+                $window.location.href = link;
+            }
+
             $scope.logout = function() {
                 if (endsWith(UserModel.user.authenticationScheme, ':fake')) {
                     $window.location = '/logout';
@@ -290,6 +299,8 @@ angular.module('common').controller('common.wcHeaderController',
                         }
                     }
                 });
+
+
 
                 dialogService.runOnDialogDoneLoading(msgbox, function() {
                     $window.dialogDoneLoading = true;

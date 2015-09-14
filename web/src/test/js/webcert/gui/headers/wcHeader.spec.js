@@ -4,59 +4,91 @@ describe('wcHeader', function() {
     var $scope;
     var element;
     var User;
+    var UserModel;
     var statService;
     var featureService;
+    var authorityService;
     var $compile, $rootScope, $httpBackend, $controller, $templateCache;
 
-    var testUserContext = {'hsaId':'eva','namn':'Eva Holgersson','lakare':true,'forskrivarkod':'2481632','authenticationScheme':'urn:inera:webcert:fake','vardgivare':[
-        {'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
-            {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
-                {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},{'id':'dialys','namn':'Dialys','arbetsplatskod':'0000000'}
-            ]}
-        ]
-        },
-        {'id':'ostergotland','namn':'Landstinget Östergötland','vardenheter':[
-            {'id':'linkoping','namn':'Linköpings Universitetssjukhus','arbetsplatskod':'0000000','mottagningar':[
-                {'id':'lkpg-akuten','namn':'Akuten','arbetsplatskod':'0000000'},
-                {'id':'lkpg-ogon','namn':'Ögonmottagningen','arbetsplatskod':'0000000'}
-            ]}
-        ]
-        }
-    ],
-        'specialiseringar':['Kirurgi','Oftalmologi'],
-        'titel':'Leg. Ögonläkare',
-        'legitimeradeYrkesgrupper':['Läkare'],
-        'valdVardenhet':{'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
-            {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},
-            {'id':'dialys','namn':'Dialys','arbetsplatskod':'0000000'}
-        ]
-        },
-        'valdVardgivare':{'id':'vastmanland','namn':'Landstinget Västmanland','vardenheter':[
-            {'id':'centrum-vast','namn':'Vårdcentrum i Väst','arbetsplatskod':'0000000','mottagningar':[
-                {'id':'akuten','namn':'Akuten','arbetsplatskod':'0000000'},
-                {'id':'dialys','namn':'Dialys','arbetsplatskod':'0000000'}
+    var testUserContext = {
+        'hsaId': 'eva',
+        'namn': 'Eva Holgersson',
+        'lakare': true,
+        'forskrivarkod': '2481632',
+        'authenticationScheme': 'urn:inera:webcert:fake',
+        'vardgivare': [
+            {
+                'id': 'vastmanland', 'namn': 'Landstinget Västmanland', 'vardenheter': [
+                {
+                    'id': 'centrum-vast', 'namn': 'Vårdcentrum i Väst', 'arbetsplatskod': '0000000', 'mottagningar': [
+                    {'id': 'akuten', 'namn': 'Akuten', 'arbetsplatskod': '0000000'},
+                    {'id': 'dialys', 'namn': 'Dialys', 'arbetsplatskod': '0000000'}
+                ]
+                }
+            ]
+            },
+            {
+                'id': 'ostergotland', 'namn': 'Landstinget Östergötland', 'vardenheter': [
+                {
+                    'id': 'linkoping',
+                    'namn': 'Linköpings Universitetssjukhus',
+                    'arbetsplatskod': '0000000',
+                    'mottagningar': [
+                        {'id': 'lkpg-akuten', 'namn': 'Akuten', 'arbetsplatskod': '0000000'},
+                        {'id': 'lkpg-ogon', 'namn': 'Ögonmottagningen', 'arbetsplatskod': '0000000'}
+                    ]
+                }
             ]
             }
-        ]
+        ],
+        'specialiseringar': ['Kirurgi', 'Oftalmologi'],
+        'titel': 'Leg. Ögonläkare',
+        'legitimeradeYrkesgrupper': ['Läkare'],
+        'valdVardenhet': {
+            'id': 'centrum-vast', 'namn': 'Vårdcentrum i Väst', 'arbetsplatskod': '0000000', 'mottagningar': [
+                {'id': 'akuten', 'namn': 'Akuten', 'arbetsplatskod': '0000000'},
+                {'id': 'dialys', 'namn': 'Dialys', 'arbetsplatskod': '0000000'}
+            ]
         },
-        'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
-        'totaltAntalVardenheter':6
+        'valdVardgivare': {
+            'id': 'vastmanland', 'namn': 'Landstinget Västmanland', 'vardenheter': [
+                {
+                    'id': 'centrum-vast', 'namn': 'Vårdcentrum i Väst', 'arbetsplatskod': '0000000', 'mottagningar': [
+                    {'id': 'akuten', 'namn': 'Akuten', 'arbetsplatskod': '0000000'},
+                    {'id': 'dialys', 'namn': 'Dialys', 'arbetsplatskod': '0000000'}
+                ]
+                }
+            ]
+        },
+        'roles': {ROLE_LAKARE: 'Läkare'},
+        'aktivaFunktioner': ['hanteraFragor', 'hanteraFragor.fk7263'],
+        'totaltAntalVardenheter': 6
     };
 
     var testStatResponse = {
-        'fragaSvarValdEnhet':12,
-        'fragaSvarAndraEnheter':2,
-        'intygAndraEnheter':2,
-        'intygValdEnhet':10,
-        'vardgivare':[{'namn':'Landstinget Västmanland','id':'vastmanland','vardenheter':[
-            {'namn':'Vårdcentrum i Väst','id':'centrum-vast','fragaSvar':11,'intyg':0},
-            {'namn':'Vårdcentrum i Väst - Akuten','id':'akuten','fragaSvar':0,'intyg':0},
-            {'namn':'Vårdcentrum i Väst - Dialys','id':'dialys','fragaSvar':1,'intyg':0}]},
-            {'namn':'Landstinget Östergötland','id':'ostergotland','vardenheter':[
-                {'namn':'Linköpings Universitetssjukhus','id':'linkoping','fragaSvar':0,'intyg':0},
-                {'namn':'Linköpings Universitetssjukhus - Akuten','id':'lkpg-akuten','fragaSvar':0,'intyg':0},
-                {'namn':'Linköpings Universitetssjukhus - Ögonmottagningen','id':'lkpg-ogon','fragaSvar':0,'intyg':0}]}
-        ]};
+        'fragaSvarValdEnhet': 12,
+        'fragaSvarAndraEnheter': 2,
+        'intygAndraEnheter': 2,
+        'intygValdEnhet': 10,
+        'vardgivare': [{
+            'namn': 'Landstinget Västmanland', 'id': 'vastmanland', 'vardenheter': [
+                {'namn': 'Vårdcentrum i Väst', 'id': 'centrum-vast', 'fragaSvar': 11, 'intyg': 0},
+                {'namn': 'Vårdcentrum i Väst - Akuten', 'id': 'akuten', 'fragaSvar': 0, 'intyg': 0},
+                {'namn': 'Vårdcentrum i Väst - Dialys', 'id': 'dialys', 'fragaSvar': 1, 'intyg': 0}]
+        },
+            {
+                'namn': 'Landstinget Östergötland', 'id': 'ostergotland', 'vardenheter': [
+                {'namn': 'Linköpings Universitetssjukhus', 'id': 'linkoping', 'fragaSvar': 0, 'intyg': 0},
+                {'namn': 'Linköpings Universitetssjukhus - Akuten', 'id': 'lkpg-akuten', 'fragaSvar': 0, 'intyg': 0},
+                {
+                    'namn': 'Linköpings Universitetssjukhus - Ögonmottagningen',
+                    'id': 'lkpg-ogon',
+                    'fragaSvar': 0,
+                    'intyg': 0
+                }]
+            }
+        ]
+    };
 
     function generateHeader($scope) {
         // The header directive will call the statService and expect a response which will be used for tests
@@ -72,7 +104,7 @@ describe('wcHeader', function() {
 
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('common.UserModel', { user: testUserContext });
+        //$provide.value('common.UserModel', {user: testUserContext});
 
         var featureService = {
             testDjupintegration: false,
@@ -96,22 +128,29 @@ describe('wcHeader', function() {
         };
         $provide.value('common.featureService', featureService); //jasmine.createSpyObj('common.featureService', ['isFeatureActive'])
     }));
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache', 'common.User', 'common.statService', 'common.featureService',
-        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _User_, _statService_, _featureService_) {
-        $scope = _$rootScope_.$new();
-        User = _User_;
-        statService = _statService_;
-        featureService = _featureService_;
-        $compile = _$compile_;
-        $httpBackend = _$httpBackend_;
-        $rootScope = _$rootScope_;
-        $controller = _$controller_;
-        $templateCache = _$templateCache_;
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache',
+        'common.User','common.UserModel', 'common.statService', 'common.featureService', 'common.authorityService',
+        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _User_, _UserModel_, _statService_,
+            _featureService_, _authorityService_) {
+            $scope = _$rootScope_.$new();
+            User = _User_;
+            UserModel = _UserModel_;
+            UserModel.setUser(testUserContext);
 
-        // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast from statService
-        spyOn($rootScope, '$broadcast').and.callThrough();
-        generateHeader($scope);
-    }]));
+            statService = _statService_;
+            featureService = _featureService_;
+            authorityService = _authorityService_;
+            $compile = _$compile_;
+            $httpBackend = _$httpBackend_;
+            $rootScope = _$rootScope_;
+            $controller = _$controller_;
+            $templateCache = _$templateCache_;
+
+            // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast from statService
+            spyOn($rootScope, '$broadcast').and.callThrough();
+
+            generateHeader($scope);
+        }]));
 
     describe('header info and links', function() {
 
@@ -124,7 +163,8 @@ describe('wcHeader', function() {
         it('should show the current date, the name of the selected vardgivare and the selected vardenhet', function() {
             var locationText = element.find('#location');
             var today = moment().format('YYYY-MM-DD');
-            expect(locationText.html()).toBe(today + ' - ' + User.getUser().valdVardgivare.namn + ' - ' + User.getUser().valdVardenhet.namn);
+            expect(locationText.html()).toBe(today + ' - ' + User.getUser().valdVardgivare.namn + ' - ' +
+                User.getUser().valdVardenhet.namn);
         });
 
         it('should show a byt vardenhet link if there are more than 1 vardenhet to choose from', function() {
@@ -157,13 +197,13 @@ describe('wcHeader', function() {
             var link = element.find('#logoutLink');
             expect(link.length).toBe(1);
         });
-/*
-        xit('should generate a menu with choices fit for a doctor', function() {
-        });
+        /*
+         xit('should generate a menu with choices fit for a doctor', function() {
+         });
 
-        xit('should generate a menu with choices fit for an administrator', function() {
-        });
-*/
+         xit('should generate a menu with choices fit for an administrator', function() {
+         });
+         */
         it('should bubbles showing number of unhandled questions/answers and utkast on vardenhet', function() {
             var unsignedCerts = element.find('#stat-unitstat-unsigned-certs-count');
             var unhandledQs = element.find('#stat-unitstat-unhandled-question-count');
