@@ -63,7 +63,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.userContext.lakare) {
+                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.user.isLakareOrPrivat) {
                     // RE-005, RE-006
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';

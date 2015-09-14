@@ -21,7 +21,7 @@
             </button>
           </div>
         </div>
-        <a id="tillbakaButton" wc-feature-not-active feature="franJournalsystem" class="backlink-icon"
+        <a id="tillbakaButton" wc-authority feature="!franJournalsystem" class="backlink-icon"
            href wc-back title="Tillbaka till Skriv intyg"></a>
         <h1 style="display: inline-block; margin-right: 20px;">
           <span message key="{{viewState.common.intyg.type}}.label.certtitle"></span>
@@ -35,7 +35,7 @@
         <div wc-new-person-id-message></div>
 
         <div class="form-group buttonbar">
-          <button class="btn btn-default btn-secondary" wc-feature-not-active feature="franJournalsystem" ng-disabled="viewState.common.intyg.isComplete"
+          <button class="btn btn-default btn-secondary" wc-authority feature="!franJournalsystem" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="updatePatientData()" id="fetchPatientButton"
                   title="Hämta personuppgifter från folkbokföringsregistret.">
             <img ng-show="viewState.common.fetchingPatientData" ng-src="/img/loader-small.gif"/> Hämta personuppgifter
@@ -45,7 +45,8 @@
                   title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
             Visa vad som saknas
           </button>
-          <button class="btn btn-default btn-secondary" ng-if="viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
+          <button wc-authority="PRIVILEGE_SKRIVA_INTYG"
+              class="btn btn-default btn-secondary" ng-if="viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="toggleShowComplete()"  id="hideCompleteButton"
                   title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
             Dölj vad som saknas

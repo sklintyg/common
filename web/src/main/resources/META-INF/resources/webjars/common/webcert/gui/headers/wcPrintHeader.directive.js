@@ -13,7 +13,7 @@ angular.module('common').directive('wcPrintHeader',
                 },
                 controller: function($scope) {
                     $scope.today = new Date();
-                    $scope.user = User;
+                    $scope.user = User.user;
                 },
                 templateUrl: '/web/webjars/common/webcert/gui/headers/wcPrintHeader.directive.html'
             };

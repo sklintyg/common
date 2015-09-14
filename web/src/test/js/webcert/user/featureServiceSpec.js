@@ -26,28 +26,28 @@ describe('featureService', function() {
         });
 
         it ('should be false if the feature is not available', function () {
-            UserModel.userContext = {
+            UserModel.user = {
                 aktivaFunktioner : ['hanteraIntygsutkast']
             };
             expect(featureService.isFeatureActive('hanteraFragor')).toBeFalsy();
         });
 
         it ('should be true if the feature is available', function () {
-            UserModel.userContext = {
+            UserModel.user = {
                 aktivaFunktioner : ['hanteraIntygsutkast', 'hanteraFragor']
             };
             expect(featureService.isFeatureActive('hanteraFragor')).toBeTruthy();
         });
 
         it ('should be true if the feature is available in a module', function () {
-            UserModel.userContext = {
+            UserModel.user = {
                 aktivaFunktioner : ['hanteraIntygsutkast', 'hanteraFragor', 'hanteraFragor.fk7263']
             };
             expect(featureService.isFeatureActive('hanteraFragor', 'fk7263')).toBeTruthy();
         });
 
         it ('should be false if the feature is not available a module', function () {
-            UserModel.userContext = {
+            UserModel.user = {
                 aktivaFunktioner : ['hanteraIntygsutkast', 'hanteraFragor']
             };
             expect(featureService.isFeatureActive('hanteraFragor', 'fk7263')).toBeFalsy();
