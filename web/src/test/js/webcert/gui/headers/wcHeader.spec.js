@@ -218,7 +218,7 @@ describe('wcHeader', function() {
     describe('djupintegration gui changes', function() {
 
         beforeEach(function() {
-            featureService.testDjupintegration = true;
+            testUserContext.roles = {ROLE_LAKARE_DJUPINTEGRERAD:'Läkare - djupintegrerad'};
             generateHeader($scope);
         });
 

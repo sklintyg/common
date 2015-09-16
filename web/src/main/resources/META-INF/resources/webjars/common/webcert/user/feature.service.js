@@ -32,7 +32,8 @@ angular.module('common').factory('common.featureService',
                 SKICKA_INTYG: 'skickaIntyg',
                 FRAN_JOURNALSYSTEM: 'franJournalsystem',
                 FRAN_JOURNALSYSTEM_QA_ONLY: 'franJournalsystemQAOnly',
-                JS_LOGGNING: 'jsLoggning'
+                JS_LOGGNING: 'jsLoggning',
+                JS_MINIFIED: 'jsMinified'
             },
             isFeatureActive: _isFeatureActive
         };
