@@ -3,7 +3,7 @@
      style="width: {{modal.width}}; max-width: {{modal.maxWidth}}; min-width: {{modal.minWidth}}; height: {{modal.height}}; max-height: {{modal.maxHeight}}; min-height: {{modal.minHeight}}; ">
 
   <div class="modal-content"
-       style="height:{{modal.contentHeight}}; overflow-y:{{modal.contentOverflowY}}; min-height:{{modal.contentMinHeight}}">
+       style="min-height:{{modal.contentMinHeight}}">
 
     <div id="{{modal.dialogId}}" class="modal-header">
       <button class="close" ng-click="close()" ng-if="modal.showClose">×</button>
@@ -12,13 +12,12 @@
       </h3>
     </div>
 
-    <div class='modal-body-outer' style="overflow-y:{{modal.bodyOverflowY}}; height:76%">
-      <div class="modal-body modal-body-terms">
-        <!-- modalBody -->
-      </div>
+
+    <div class="modal-body">
+      <!-- modalBody -->
     </div>
 
-    <div class="modal-footer" style="bottom: 0;position: absolute;width: 100%;">
+    <div class="modal-footer" style="bottom: 0;width: 100%;">
       <div class="form-inline">
         <button ng-repeat="button in modal.buttons" id="{{button.id}}" class="btn {{button.className}}"
                 ng-click="modal.buttonAction($index)">

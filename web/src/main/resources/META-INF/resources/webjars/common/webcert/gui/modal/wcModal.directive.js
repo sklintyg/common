@@ -28,12 +28,16 @@ angular.module('common').directive('wcModal',
                     minHeight : $scope.options.minHeight,
                     contentHeight: $scope.options.contentHeight,
                     contentOverflowY : $scope.options.contentOverflowY,
-                    contentMinHeight : $scope.options.contentMinHeight,
+                    contentMinHeight : $scope.options.contentMinHeight === undefined ? '550px': $scope.options.contentMinHeight,
                     bodyOverflowY: $scope.options.bodyOverflowY,
                     templateUrl: $scope.options.templateUrl === undefined ? contentTemplate : $scope.options.templateUrl,
                     windowTemplateUrl: $scope.options.windowTemplateUrl === undefined ? windowTemplate : $scope.options.windowTemplateUrl,
                     showClose: $scope.options.showClose
                 };
+
+                if($scope.modal.bodyOverflowY !== undefined){
+                    $scope.modal.bodyOuterStyle = 'height: 76%;' + 'overflow-y: ' + $scope.options.bodyOverflowY + ';';
+                }
 
                 if($scope.options.buttons !== undefined && $scope.options.buttons.length > 0){
                     $scope.modal.buttons = [];
@@ -135,16 +139,23 @@ angular.module('common').directive('wcModal',
                     $timeout(function(){
                         var header = angular.element('.modal-header').outerHeight();
                         var footer = angular.element('.modal-footer').outerHeight();
-                        var modal = angular.element('.modal-content').height();
-                        var modalBody = modal - header - footer;
-                        angular.element('.modal-body-outer').height(modalBody);
+                        var modalcontent = angular.element('.modal-content').height();
+                        var modal = angular.element(document).height();
+
+                        var modalBody = modal - header - footer- 95;
+                        $log.info('header:' + header + ',footer:' + footer + ',modal:' + modal + ',modalcontent:' + modalcontent + ',modalBody:' + modalBody);
+
+                        angular.element('.modal-body').height(modalBody);
+                        angular.element('.modal-body').css('overflow-y', scope.modal.bodyOverflowY);
                     });
                 }
 
 
                 scope.templatePromise.then(function(){
+                    $log.info('bodyOuterStyle: ' + scope.modal.bodyOuterStyle);
                     scope.open();
                     if(scope.modal !== undefined && scope.modal.bodyOverflowY !== undefined){
+
                         modalBodyHeight();
                     }
                 });
