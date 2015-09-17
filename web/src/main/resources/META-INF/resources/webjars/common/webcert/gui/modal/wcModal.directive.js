@@ -28,7 +28,7 @@ angular.module('common').directive('wcModal',
                     minHeight : $scope.options.minHeight,
                     contentHeight: $scope.options.contentHeight,
                     contentOverflowY : $scope.options.contentOverflowY,
-                    contentMinHeight : $scope.options.contentMinHeight === undefined ? '550px': $scope.options.contentMinHeight,
+                    contentMinHeight : $scope.options.contentMinHeight,
                     bodyOverflowY: $scope.options.bodyOverflowY,
                     templateUrl: $scope.options.templateUrl === undefined ? contentTemplate : $scope.options.templateUrl,
                     windowTemplateUrl: $scope.options.windowTemplateUrl === undefined ? windowTemplate : $scope.options.windowTemplateUrl,
@@ -142,7 +142,7 @@ angular.module('common').directive('wcModal',
                         var modalcontent = angular.element('.modal-content').height();
                         var modal = angular.element(document).height();
 
-                        var modalBody = modal - header - footer- 95;
+                        var modalBody = modal - header - footer- 110;
                         $log.info('header:' + header + ',footer:' + footer + ',modal:' + modal + ',modalcontent:' + modalcontent + ',modalBody:' + modalBody);
 
                         angular.element('.modal-body').height(modalBody);
