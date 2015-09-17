@@ -24,6 +24,7 @@
     "/web/webjars/common/webcert/gui/wcSpinner.directive.js",
     "/web/webjars/common/webcert/gui/wcToUppercase.directive.js",
     "/web/webjars/common/webcert/gui/wcShow.directive.js",
+    "/web/webjars/common/webcert/gui/modal/wcModal.directive.js",
     "/web/webjars/common/webcert/http-interceptor/http403ResponseInterceptor.service.js",
     "/web/webjars/common/webcert/http-interceptor/httpRequestInterceptorCacheBuster.service.js",
     "/web/webjars/common/webcert/avtal/avtal.proxy.js",
