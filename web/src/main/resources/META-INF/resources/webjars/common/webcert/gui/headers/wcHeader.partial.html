@@ -7,7 +7,7 @@
         <img alt="Till startsidan" src="/img/webcert_logo.png" /></span>
       <span class="headerbox-date pull-left">
                   <span id="location" class="location">{{today | date:"shortDate"}} - {{user.valdVardgivare.namn}} - {{user.valdVardenhet.namn}}</span><br>
-                  <span id="otherLocations" class="otherLocations" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
+                  <span id="otherLocations" class="otherLocations" wc-authority role="!ROLE_LAKARE_DJUPINTEGRERAD" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
                       style="font-weight:bold">{{stat.intygAndraEnheter+stat.fragaSvarAndraEnheter}}</span> ej hanterade frågor och ej signerade utkast på andra vårdenheter.</span>
         <a
           wc-authority role="!ROLE_LAKARE_DJUPINTEGRERAD" id="wc-care-unit-clinic-selector-link" tabindex="0" href class="otherLocations"
