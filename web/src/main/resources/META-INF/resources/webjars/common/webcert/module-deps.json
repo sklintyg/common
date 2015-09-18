@@ -76,6 +76,8 @@
     "/web/webjars/common/webcert/utkast/wcUtkastErrorSummary.directive.js",
     "/web/webjars/common/webcert/utkast/utkastNotify.proxy.js",
     "/web/webjars/common/webcert/utkast/utkastNotify.service.js",
+    "/web/webjars/common/webcert/fmb/wcFmbHelpDisplay.directive.js",
+    "/web/webjars/common/webcert/fmb/wcAccordionGroup.directive.js",
     "/web/webjars/common/webcert/vendor/Class.js",
     "/web/webjars/common/webcert/vendor/stacktrace.js",
     "/web/webjars/common/webcert/vendor/watch.js",

@@ -17,6 +17,7 @@ angular.module('common').factory('common.UtkastService',
             function _load(viewState) {
                 var intygsTyp = viewState.common.intyg.type;
                 CommonViewState.doneLoading = false;
+                var def = $q.defer();
                 UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, function(data) {
 
                     viewState.common.update(viewState.draftModel, data);
@@ -35,10 +36,13 @@ angular.module('common').factory('common.UtkastService',
                         }, 10);
                     }
 
+                    def.resolve(viewState.intygModel);
+
                 }, function(error) {
                     CommonViewState.doneLoading = true;
                     CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);
                 });
+                return def.promise;
             }
 
             function checkSetErrorSave(errorCode) {

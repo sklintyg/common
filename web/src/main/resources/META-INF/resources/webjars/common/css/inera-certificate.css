@@ -135,6 +135,11 @@
         max-width: 800px
     }
 
+    /* Modifier of edit-form. A larger width form*/
+    .edit-form--lg {
+        max-width: 1600px
+    }
+
     .alert-block {
         display: inline-block;
     }
@@ -153,6 +158,11 @@
 
     .certificate {
         max-width: 800px;
+    }
+
+    /* Modifier of certificate. A larger width certificate*/
+    .certificate--lg {
+        max-width: 1600px;
     }
 
     .revoked-certificate {
@@ -620,5 +630,33 @@
     .cert-answer {
         font-weight: bold;
         white-space: pre-line;
+    }
+
+    /* A panel to be used instead of the regular bootstrap panels, panel-default etc.
+       Specifically targeting the FMB-accordion
+    */
+    .panel-fmb-info {
+        border-color: #dddddd;
+    }
+
+    .panel-fmb-info > .panel-heading {
+        color: #333333;
+        background-color: white;
+        border-color: white;
+        padding-bottom: 0px;
+    }
+
+    .panel-fmb-info > .panel-heading + .panel-collapse .panel-body {
+        border-top-color: white;
+        padding-top: 0px;
+    }
+
+    .panel-fmb-info > .panel-footer + .panel-collapse .panel-body {
+        border-bottom-color: #dddddd;
+        padding-top: 0px;
+    }
+
+    .margin-top-30 {
+        margin-top: 30px;
     }
 }

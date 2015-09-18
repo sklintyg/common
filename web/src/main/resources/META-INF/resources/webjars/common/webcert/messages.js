@@ -144,7 +144,15 @@ var commonMessages = {
         'common.error.save.data_not_found': '<strong>Okänt fel.</strong> Det går för tillfället inte att spara ändringar.',
         'common.error.save.concurrent_modification': '<strong>Kan inte spara utkastet. Utkastet har ändrats av en annan användare medan du arbetat på samma utkast.</strong><br>Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
         'common.error.save.unknown_internal_problem': '<strong>Tappade anslutningen till servern.</strong><br>Det går för tillfället inte att spara ändringar.',
-        'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).'
+        'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).',
+
+        // FMB texts
+        'fmb.falt2_spb': 'Symptom, prognos och behandling',
+        'fmb.falt2_general': 'Generell information',
+        'fmb.falt4': '',
+        'fmb.falt5': '',
+        'fmb.falt8b': ''
+
     },
     'en': {
         'common.ok': 'OK',
