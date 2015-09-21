@@ -39,15 +39,25 @@ angular.module('common').factory('common.UserModel',
 
             roles: {
                 ROLE_VARDADMINISTRATOR: 'Vårdadministratör',
+                ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD :'Vårdadministratör - djupintegrerad',
+                ROLE_VARDADMINISTRATOR_UTHOPP :'Vårdadministratör - uthopp',
                 ROLE_LAKARE: 'Läkare',
                 ROLE_LAKARE_DJUPINTEGRERAD: 'Läkare - djupintegrerad',
-                ROLE_LAKARE_UTHOPP: 'Läkare - uthopp',
+                ROLE_LAKARE_UTHOPP: 'Läkare - uthopp', // franJournalsystemQAOnly
                 ROLE_PRIVATLAKARE: 'Privatläkare',
                 ROLE_TANDLAKARE: 'Tandläkare',
                 getRole: function(roles) {
                     var rs = '';
                     if (roles.ROLE_VARDADMINISTRATOR !== undefined) {
                         rs += roles.ROLE_VARDADMINISTRATOR;
+                    }
+
+                    if (roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD !== undefined) {
+                        rs += roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD;
+                    }
+
+                    if (roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined) {
+                        rs += roles.ROLE_VARDADMINISTRATOR_UTHOPP;
                     }
 
                     if (roles.ROLE_LAKARE !== undefined) {

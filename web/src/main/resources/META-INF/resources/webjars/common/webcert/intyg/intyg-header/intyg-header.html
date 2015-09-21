@@ -31,21 +31,21 @@
 
         <form id="view-as-pdf" action="{{pdfUrl}}" method="get" target="_blank" name="pdfForm">
           <p class="btn-row">
-            <button id="sendBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isSent && !viewState.common.isIntygOnSendQueue && !viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly"
-                    wc-authority feature="skickaIntyg" intygstyp="{{intygstyp}}"
+            <button id="sendBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isSent && !viewState.common.isIntygOnSendQueue && !viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue"
+                    wc-authority feature="skickaIntyg" role="!ROLE_LAKARE_UTHOPP" intygstyp="{{intygstyp}}"
                     wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                     ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
             </button>
             <button id="downloadprint" type="submit" value="submit" class="btn btn-info" ng-click="print(viewState.intygModel)">Skriv ut
             </button>
-            <button wc-authority="PRIVILEGE_KOPIERA_INTYG" feature="kopieraIntyg"
-                    id="copyBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly && !viewState.common.common.sekretessmarkering" ng-click="copy(viewState.intygModel)"
+            <button wc-authority="PRIVILEGE_KOPIERA_INTYG"  role="!ROLE_LAKARE_UTHOPP"
+                    id="copyBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering" ng-click="copy(viewState.intygModel)"
                     intygstyp="{{intygstyp}}"
                     title="{{copyBtnTooltipText}}">
               Kopiera
             </button>
-            <button wc-authority="PRIVILEGE_MAKULERA_INTYG" feature="makuleraIntyg"
-                    id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly" ng-click="makulera(viewState.intygModel)"
+            <button wc-authority="PRIVILEGE_MAKULERA_INTYG"  role="!ROLE_LAKARE_UTHOPP"
+                    id="makuleraBtn" class="btn btn-inverse" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue" ng-click="makulera(viewState.intygModel)"
                     intygstyp="{{intygstyp}}"
                     wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                     title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">

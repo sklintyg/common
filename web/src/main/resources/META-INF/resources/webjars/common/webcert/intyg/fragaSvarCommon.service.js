@@ -221,7 +221,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             var QAdialogConfirmed = false;
             function _checkQAonlyDialog($scope, $event, newUrl, currentUrl, unbindEvent) {
                 // Check if the user used the special qa-link to get here.
-                if (featureService.isFeatureActive('franJournalsystemQAOnly') &&
+                if (UserModel.isLakareUthopp() &&
                     !QAdialog &&
                     !QAdialogConfirmed &&
                     newUrl.indexOf('#/fragasvar/') === -1 &&
