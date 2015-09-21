@@ -64,7 +64,19 @@ public interface ModuleApi {
      * 
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdf(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isEmployerCopy) throws ModuleException;
+    PdfResponse pdf(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
+
+    /**
+     * Generates a PDF suited for the employer from the internal model.
+     * 
+     * @param internalModel
+     *             The internal model to generate a PDF from.
+     * @param applicationOrigin
+     *            The context from which this method was called (i.e Webcert or MinaIntyg)
+     * 
+     * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
+     */
+    PdfResponse pdfEmployer(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}

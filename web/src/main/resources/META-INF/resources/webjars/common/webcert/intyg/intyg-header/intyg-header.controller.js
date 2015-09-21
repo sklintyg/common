@@ -56,8 +56,10 @@ angular.module('common').controller('common.IntygHeader',
                     //PrintService.printWebPage(cert.id, $stateParams.certificateType);
                     var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
                     PrintService.printWebPageWithCustomTitle(cert.id, $stateParams.certificateType, customHeader);
+                } else if (isEmployeeCopy) {
+                    window.open($scope.pdfUrl + "/arbetsgivarutskrift", '_blank');
                 } else {
-                    window.location = $scope.pdfUrl + '?employer=' + isEmployeeCopy;
+                    window.open($scope.pdfUrl, '_blank');
                 }
             };
         }
