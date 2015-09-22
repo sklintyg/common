@@ -1,10 +1,10 @@
 angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
         'common.messageService', 'common.PrintService', 'common.UtkastService', 'common.UtkastProxy', 'common.statService',
-        'common.featureService', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
+        'common.featureService', 'common.UserModel', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
         'common.PatientProxy',
         function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
-            PrintService, UtkastService, UtkastProxy, statService, featureService, dialogService, CommonViewState,
+            PrintService, UtkastService, UtkastProxy, statService, featureService, UserModel,  dialogService, CommonViewState,
             anchorScrollService, PatientProxy) {
             'use strict';
 
@@ -94,7 +94,7 @@ angular.module('common').controller('common.UtkastHeader',
                             dialogModel.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
-                            if (featureService.isFeatureActive('franJournalsystem')) {
+                            if (UserModel.isLakareDjupIntegrerad()) {
                                 CommonViewState.deleted = true;
                                 CommonViewState.error.activeErrorMessageKey = 'error';
                                 draftDeleteDialog.close();
