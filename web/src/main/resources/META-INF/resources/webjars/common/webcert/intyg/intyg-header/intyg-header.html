@@ -29,15 +29,9 @@
       <div class="form-group buttonbar">
         <label class="control-label">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} - {{viewState.intygModel.grundData.patient.personId}}</label>
         <div class="btn-row">
-          <button id="sendBtn"
-                  class="btn btn-info"
-                  ng-if="!viewState.common.intyg.isSent && !viewState.common.isIntygOnSendQueue && !viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue"
-                  wc-authority
-                  feature="skickaIntyg"
-                  role="!ROLE_LAKARE_UTHOPP"
-                  intygstyp="{{intygstyp}}"
-                  wc-check-vardenhet
-                  vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
+          <button id="sendBtn" class="btn btn-info" ng-if="!viewState.common.intyg.isSent && !viewState.common.isIntygOnSendQueue && !viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !isQaOnly"
+                  wc-authority feature="skickaIntyg" intygstyp="{{intygstyp}}"
+                  wc-check-vardenhet vardenhet="{{viewState.common.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                   ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
           </button>
           <button id="downloadprint"
