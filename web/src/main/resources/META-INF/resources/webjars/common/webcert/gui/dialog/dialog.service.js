@@ -2,7 +2,7 @@
  * wcDialogService - Generic dialog service
  */
 angular.module('common').factory('common.dialogService',
-    function($modal, $timeout, $window) {
+    function($modal, $timeout, $window, $rootScope) {
         'use strict';
 
         function _showErrorMessageDialog(message, callback) {
@@ -123,10 +123,11 @@ angular.module('common').factory('common.dialogService',
                     bodyText,
                     button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
                     button1text,
-                    button2text, button3text, autoClose) {
+                    button2text, button3text, autoClose, title) {
 
                     $scope.model = model;
                     $scope.dialogId = dialogId;
+                    $scope.title = title;
                     $scope.titleId = titleId;
                     $scope.bodyTextId = bodyTextId;
                     $scope.bodyText = bodyText;
@@ -161,8 +162,8 @@ angular.module('common').factory('common.dialogService',
                     $scope.button3id = button3id;
                 };
             }
-            // Open dialog box using specified options, template and controller
-            var msgbox = $modal.open({
+
+            var dialogOptions = {
                 templateUrl: options.templateUrl,
                 controller: DialogInstanceCtrl,
                 size : options.size,
@@ -173,6 +174,9 @@ angular.module('common').factory('common.dialogService',
                     },
                     dialogId: function() {
                         return angular.copy(options.dialogId);
+                    },
+                    title: function(){
+                      return options.title;
                     },
                     titleId: function() {
                         return angular.copy(options.titleId);
@@ -217,7 +221,15 @@ angular.module('common').factory('common.dialogService',
                         return angular.copy(options.autoClose);
                     }
                 }
-            });
+            }
+            if(options.model !== undefined){
+                var dscope = $rootScope.$new(true);
+                dscope.model = options.model;
+                dialogOptions.scope = dscope;
+            }
+
+            // Open dialog box using specified options, template and controller
+            var msgbox = $modal.open(dialogOptions);
 
             msgbox.result.then(function(result) {
                 if (options.callback) {
