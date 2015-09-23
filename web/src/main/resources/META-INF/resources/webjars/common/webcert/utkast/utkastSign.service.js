@@ -36,6 +36,7 @@ angular.module('common').factory('common.UtkastSignService',
                 return deferred.promise;
             }
 
+            // backid och mobilt id
             function _confirmSigneraWithGrp(signModel, intygsTyp, intygsId, version, deferred) {
                 UtkastProxy.signeraUtkastWithGrp(intygsId, intygsTyp, version, function(ticket) {
 
@@ -43,15 +44,19 @@ angular.module('common').factory('common.UtkastSignService',
                         acceptprogressdone: true,
                         focus: false,
                         errormessageid: 'common.error.sign.bankid',
-                        showerror: false
+                        showerror: false,
+                        bodyTextId: 'common.modal.bankid.sign',
+                        heading: 'common.heading.sign',
+                        label : {signing:'common.title.sign'},
+                        signState : ''
                     };
+
 
                     var bankIdSignDialog = dialogService.showDialog({
                         dialogId: 'signera-bankid-dialog',
-                        title: 'sign',
-                        bodyTextId: 'common.modal.bankid.sign',
                         templateUrl: '/app/partials/signera-bankid-dialog.html',
                         model: dialogSignModel,
+                        title: 'sign',
                         autoClose: false
                     });
 
@@ -69,6 +74,7 @@ angular.module('common').factory('common.UtkastSignService',
             }
 
 
+            // net id - telia och sits
             function _signeraKlient(intygsTyp, intygsId, version, deferred) {
                 var signModel = {
                     signingWithSITHSInProgress : true
@@ -99,6 +105,7 @@ angular.module('common').factory('common.UtkastSignService',
                 return deferred.promise;
             }
 
+            // fake inlognings signering?
             function _confirmSignera(signModel, intygsTyp, intygsId, version, deferred) {
                 UtkastProxy.signeraUtkast(intygsId, intygsTyp, version, function(ticket) {
                     _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred);
@@ -133,13 +140,36 @@ angular.module('common').factory('common.UtkastSignService',
                             // TODO: We _should_ change the text of the dialog (if active) once we have signed in BankID
                             // TODO: and are waiting for the GRP collect to finish.
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
+                            if(dialogHandle !== undefined){
+                                // change the status
+                                dialogHandle.model.bodyTextId = 'common.modal.bankid.sign';
+                                dialogHandle.model.signState = 'BEARBETAR';
+                            }
+                        } else if ('VANTA_SIGN' === ticket.status) {
+                            signModel._timer = $timeout(getSigneringsstatus, 1000);
+                            if(dialogHandle !== undefined){
+                                // change the status
+                                dialogHandle.model.bodyTextId = 'common.modal.bankid.signing';
+                                dialogHandle.model.signState = 'VANTA_SIGN';
+                            }
+                        } else if ('NO_CLIENT' === ticket.status) {
+                            signModel._timer = $timeout(getSigneringsstatus, 1000);
+                            if(dialogHandle !== undefined){
+                                // change the status
+                                dialogHandle.model.bodyTextId = 'common.modal.bankid.noclient';
+                                dialogHandle.model.signState = 'NO_CLIENT';
+                            }
                         } else if ('SIGNERAD' === ticket.status) {
                             deferred.resolve({newVersion : ticket.version});
-                            if (typeof dialogHandle !== 'undefined') dialogHandle.close();        // TODO this is a hack, fix.
+                            if (dialogHandle !== undefined){
+                                dialogHandle.model.bodyTextId = 'common.modal.bankid.signed';
+                                dialogHandle.model.signState = 'SIGNERAD';
+                                dialogHandle.close();
+                            }
                             _showIntygAfterSignering(signModel, intygsTyp, intygsId);
-                        } else {
+                        }  else {
                             deferred.resolve({newVersion : ticket.version});
-                            if (typeof dialogHandle !== 'undefined') dialogHandle.close(); // TODO this is a hack, fix.
+                            if (dialogHandle !== undefined) dialogHandle.close(); // TODO this is a hack, fix.
                             _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
                     });

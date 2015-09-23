@@ -38,11 +38,14 @@ var commonMessages = {
         'avtal.logout.label' : 'Logga ut',
 
         // labels for common modal dialogs
-        'common.title.sign' : 'Signera intyget med BankID',
+        'common.title.sign' : 'Signera intyget',
+        'common.heading.sign' : 'Signera med BankID',
         'common.modal.label.discard_draft' : 'Ta bort utkast',
         'common.modal.label.confirm_sign': 'Signera intyget',
-        'common.modal.bankid.sign': 'Öppna ditt program för BankID eller Mobilt BankID på din telefon',
-        'common.modal.bankid.signing': 'Intyget signeras av ditt BankID eller Mobila BankID, vänligen vänta...',
+        'common.modal.bankid.sign': 'Öppna ditt program för BankID på din dator eller Mobilt BankID på din telefon eller surfplatta.',
+        'common.modal.bankid.signing': 'Intyget signeras av ditt BankID eller Mobila BankID, vänligen vänta.',
+        'common.modal.bankid.noclient': 'BankID-programmet svarar inte. Kontrollera att det är startat och att du har internetanslutning.  Försök sedan igen.',
+        'common.modal.bankid.signed': 'Intyget har signerat av ditt BankID eller Mobila BankID',
 
         // cert status messages
         'cert.status.draft_incomplete': 'Utkast, uppgifter saknas',
