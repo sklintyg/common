@@ -204,6 +204,8 @@ angular.module('common').factory('common.UtkastSignService',
                         messageId = 'common.error.sign.concurrent_modification';
                     } else if (error.errorCode === 'AUTHORIZATION_PROBLEM') {
                         messageId = 'common.error.sign.authorization';
+                    } else if (error.errorCode === 'INDETERMINATE_IDENTITY') {
+                        messageId = 'common.error.sign.indeterminate.identity';
                     } else if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {
