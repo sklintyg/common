@@ -2,6 +2,36 @@ angular.module('common').factory('common.UserModel',
     function() {
         'use strict';
 
+        /**
+         * Does flatMap+distinct to extract unique intygsTyper from the array of roles.
+         * (Each role contains an array of authorizedIntygsTyper)
+         *
+         * @param roles
+         * @returns {Array}
+         * @private
+         */
+        function _getIntygsTyperFromRoles(roles) {
+            var intygsTyper = [];
+
+            for (var key in roles) {
+                if (roles.hasOwnProperty(key)) {
+                    var role = roles[key];
+                    if (role.authorizedIntygsTyper !== undefined) {
+                        for(var b = 0; b < role.authorizedIntygsTyper.length; b++) {
+                            var intygsTyp = role.authorizedIntygsTyper[b];
+
+                            if (intygsTyp !== undefined && intygsTyper.indexOf(intygsTyp) === -1) {
+                                intygsTyper.push(intygsTyp);
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            return intygsTyper;
+        }
+
         return {
             reset: function() {
                 this.user = null;
@@ -23,6 +53,7 @@ angular.module('common').factory('common.UserModel',
                     this.user.privatLakare = this.isPrivatLakare();
                     this.user.isLakareOrPrivat = this.user.lakare || this.user.privatLakare;
                     this.user.role = this.user.roles !== undefined ? this.roles.getRole(this.user.roles) : '';
+                    this.user.intygsTyper = this.user.roles !== undefined ? _getIntygsTyperFromRoles(this.user.roles) : [];
                 }
             },
 
@@ -49,35 +80,35 @@ angular.module('common').factory('common.UserModel',
                 getRole: function(roles) {
                     var rs = '';
                     if (roles.ROLE_VARDADMINISTRATOR !== undefined) {
-                        rs += roles.ROLE_VARDADMINISTRATOR;
+                        rs += roles.ROLE_VARDADMINISTRATOR.name;
                     }
 
                     if (roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD !== undefined) {
-                        rs += roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD;
+                        rs += roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD.name;
                     }
 
                     if (roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined) {
-                        rs += roles.ROLE_VARDADMINISTRATOR_UTHOPP;
+                        rs += roles.ROLE_VARDADMINISTRATOR_UTHOPP.name;
                     }
 
                     if (roles.ROLE_LAKARE !== undefined) {
-                        rs += roles.ROLE_LAKARE;
+                        rs += roles.ROLE_LAKARE.name;
                     }
 
                     if (roles.ROLE_LAKARE_DJUPINTEGRERAD !== undefined) {
-                        rs += roles.ROLE_LAKARE_DJUPINTEGRERAD;
+                        rs += roles.ROLE_LAKARE_DJUPINTEGRERAD.name;
                     }
 
                     if (roles.ROLE_LAKARE_UTHOPP !== undefined) {
-                        rs += roles.ROLE_LAKARE_UTHOPP;
+                        rs += roles.ROLE_LAKARE_UTHOPP.name;
                     }
 
                     if (roles.ROLE_PRIVATLAKARE !== undefined) {
-                        rs += roles.ROLE_PRIVATLAKARE;
+                        rs += roles.ROLE_PRIVATLAKARE.name;
                     }
 
                     if (roles.ROLE_TANDLAKARE !== undefined) {
-                        rs += roles.ROLE_TANDLAKARE;
+                        rs += roles.ROLE_TANDLAKARE.name;
                     }
                     return rs;
                 }
@@ -99,14 +130,16 @@ angular.module('common').factory('common.UserModel',
                 return this.hasRoles() && this.user.roles[role] !== undefined;
             },
 
+            hasIntygsTyp: function _hasIntygsTyp(intygsTyp) {
+                return this.user !== undefined && this.user.intygsTyper !== undefined ? this.user.intygsTyper.indexOf(intygsTyp) > -1 : false;
+            },
+
             isVardAdministrator: function _isVardAdministrator() {
                 return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR !== undefined;
-
             },
 
             isLakare: function _isLakare() {
                 return this.hasRoles() && this.user.roles.ROLE_LAKARE !== undefined;
-
             },
 
             isLakareDjupIntegrerad: function _isLakareDjupIntegrerad() {
@@ -124,7 +157,7 @@ angular.module('common').factory('common.UserModel',
             },
 
             isTandlakare: function _isTandlakare() {
-                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE == undefined;
+                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE !== undefined;
             },
 
             termsAccepted :false,
