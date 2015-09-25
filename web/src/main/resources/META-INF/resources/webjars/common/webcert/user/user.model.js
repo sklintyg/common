@@ -51,7 +51,8 @@ angular.module('common').factory('common.UserModel',
                     //setup lakare and privatLakare based on the new role enum
                     this.user.lakare = this.isLakare();
                     this.user.privatLakare = this.isPrivatLakare();
-                    this.user.isLakareOrPrivat = this.user.lakare || this.user.privatLakare;
+                    this.user.tandLakare = this.isTandlakare();
+                    this.user.isLakareOrPrivat = this.user.lakare || this.user.privatLakare || this.user.tandLakare;
                     this.user.role = this.user.roles !== undefined ? this.roles.getRole(this.user.roles) : '';
                     this.user.intygsTyper = this.user.roles !== undefined ? _getIntygsTyperFromRoles(this.user.roles) : [];
                 }

@@ -88,7 +88,7 @@ angular.module('common').factory('common.authorityService',
             if (intygstyp === undefined || intygstyp === '') {
                 return true;
             }
-            return userModel._hasIntygsTyp(intygstyp);
+            return userModel.hasIntygsTyp(intygstyp);
         };
 
         return {
