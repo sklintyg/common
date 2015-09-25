@@ -183,7 +183,7 @@ describe('User', function() {
                 },
                 'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
                 'totaltAntalVardenheter':1,
-                'lakare' : true, 'privatLakare' : false, 'isLakareOrPrivat' : true, 'roles' :
+                'lakare' : true, 'privatLakare' : false, 'tandLakare':false, 'isLakareOrPrivat' : true, 'roles' :
                     {'ROLE_LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}}, 'role' : 'Läkare',
                 'intygsTyper' : [ 'fk7263', 'ts-bas', 'ts-diabetes' ]
             };
