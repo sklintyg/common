@@ -39,13 +39,20 @@ var commonMessages = {
 
         // labels for common modal dialogs
         'common.title.sign' : 'Signera intyget',
-        'common.heading.sign' : 'Signera med BankID',
+
         'common.modal.label.discard_draft' : 'Ta bort utkast',
         'common.modal.label.confirm_sign': 'Signera intyget',
-        'common.modal.bankid.sign': 'Öppna ditt program för BankID på din dator eller Mobilt BankID på din telefon eller surfplatta.',
-        'common.modal.bankid.signing': 'Intyget signeras av ditt BankID eller Mobila BankID, vänligen vänta.',
-        'common.modal.bankid.noclient': 'BankID-programmet svarar inte. Kontrollera att det är startat och att du har internetanslutning.  Försök sedan igen.',
-        'common.modal.bankid.signed': 'Intyget har signerat av ditt BankID eller Mobila BankID',
+        'common.modal.bankid.heading' : 'Signera med BankID',
+        'common.modal.bankid.open': 'Öppna programmet för BankID på din dator.',
+        'common.modal.bankid.signing': 'Intyget signeras, vänligen vänta.',
+        'common.modal.bankid.noclient': 'BankID-programmet svarar inte. Kontrollera att programmet är startat och att du har internetanslutning.  Försök sedan igen.',
+        'common.modal.bankid.signed': 'Intyget är nu signerat.',
+
+        'common.modal.mbankid.heading' : 'Signera med Mobilt BankID',
+        'common.modal.mbankid.open': 'Öppna appen för Mobilt BankID på din telefon eller surfplatta.',
+        'common.modal.mbankid.signing': 'Intyget signeras, vänligen vänta.',
+        'common.modal.mbankid.noclient': 'BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
+        'common.modal.mbankid.signed': 'Intyget är nu signerat.',
 
         // cert status messages
         'cert.status.draft_incomplete': 'Utkast, uppgifter saknas',
