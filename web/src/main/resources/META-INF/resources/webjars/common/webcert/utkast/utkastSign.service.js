@@ -50,7 +50,7 @@ angular.module('common').factory('common.UtkastSignService',
                     };
 
 
-                    if(UserModel.authenticationMethod.MOBILT_BANK_ID !== undefined){
+                    if('MOBILT_BANK_ID' === UserModel.authenticationMethod){
                         dialogSignModel.bodyTextId ='common.modal.bankid.open';
                         dialogSignModel.heading = 'common.modal.bankid.heading';
                     } else {
@@ -148,7 +148,7 @@ angular.module('common').factory('common.UtkastSignService',
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                             if(dialogHandle !== undefined){
                                 // change the status
-                                if(UserModel.authenticationMethod.MOBILT_BANK_ID !== undefined){
+                                if('MOBILT_BANK_ID' === UserModel.authenticationMethod){
                                     dialogHandle.model.bodyTextId = 'common.modal.mbankid.open';
                                 } else {
                                     dialogHandle.model.bodyTextId = 'common.modal.bankid.open';
@@ -160,7 +160,7 @@ angular.module('common').factory('common.UtkastSignService',
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                             if(dialogHandle !== undefined){
                                 // change the status
-                                if(UserModel.authenticationMethod.MOBILT_BANK_ID !== undefined){
+                                if('MOBILT_BANK_ID' === UserModel.authenticationMethod){
                                     dialogHandle.model.bodyTextId = 'common.modal.mbankid.signing';
                                 } else {
                                     dialogHandle.model.bodyTextId = 'common.modal.bankid.signing';
@@ -171,7 +171,7 @@ angular.module('common').factory('common.UtkastSignService',
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                             if(dialogHandle !== undefined){
                                 // change the status
-                                if(UserModel.authenticationMethod.MOBILT_BANK_ID !== undefined){
+                                if('MOBILT_BANK_ID' === UserModel.authenticationMethod){
                                     dialogHandle.model.bodyTextId = 'common.modal.mbankid.noclient';
                                 } else {
                                     dialogHandle.model.bodyTextId = 'common.modal.bankid.noclient';
@@ -181,7 +181,7 @@ angular.module('common').factory('common.UtkastSignService',
                         } else if ('SIGNERAD' === ticket.status) {
                             deferred.resolve({newVersion : ticket.version});
                             if (dialogHandle !== undefined){
-                                if(UserModel.authenticationMethod.MOBILT_BANK_ID !== undefined){
+                                if('MOBILT_BANK_ID' === UserModel.authenticationMethod){
                                     dialogHandle.model.bodyTextId = 'common.modal.mbankid.signed';
                                 } else {
                                     dialogHandle.model.bodyTextId = 'common.modal.bankid.signed';
