@@ -51,7 +51,7 @@ var commonMessages = {
         'common.modal.mbankid.heading' : 'Signera med Mobilt BankID',
         'common.modal.mbankid.open': 'Öppna appen för Mobilt BankID på din telefon eller surfplatta.',
         'common.modal.mbankid.signing': 'Intyget signeras, vänligen vänta.',
-        'common.modal.mbankid.noclient': 'BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
+        'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
         'common.modal.mbankid.signed': 'Intyget är nu signerat.',
 
         // cert status messages
