@@ -13,11 +13,15 @@ angular.module('common').factory('common.UtkastSignService',
                 return str.indexOf(suffix, str.length - suffix.length) !== -1;
             }
 
+            /**
+             * Uses NET_ID for auth methods NET_ID and SITHS. Use fake for :fake authScheme.
+             * Uses BankID / GRP for everything else.
+             */
             function signera(intygsTyp, version) {
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake')) {
                     return _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.user.authenticationMethod === 'NET_ID') {
+                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
                     return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
                     return _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
