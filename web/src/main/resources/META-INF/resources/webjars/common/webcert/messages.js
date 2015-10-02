@@ -22,7 +22,7 @@ var commonMessages = {
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>',
         'common.alert.sekretessmarkering.utkast': 'Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var vänlig hantera dem varsamt.',
         'common.alert.sekretessmarkering.intyg': '<p>Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var  vänlig hantera dem varsamt.</p>På grund av sekretessmarkeringen går det inte att kopiera intyget.',
-        'common.alert.sekretessmarkering.error': 'Misslyckades att slå up patienten i personuppgiftstjänsten. Observera att patienten kan ha skyddade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',
+        'common.alert.sekretessmarkering.error': 'Misslyckades att slå upp patienten i personuppgiftstjänsten. Observera att patienten kan ha skyddade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',
 
         'common.date': 'Datum',
         'common.when': 'När?',
@@ -39,13 +39,20 @@ var commonMessages = {
 
         // labels for common modal dialogs
         'common.title.sign' : 'Signera intyget',
-        'common.heading.sign' : 'Signera med BankID',
+
         'common.modal.label.discard_draft' : 'Ta bort utkast',
         'common.modal.label.confirm_sign': 'Signera intyget',
-        'common.modal.bankid.sign': 'Öppna ditt program för BankID på din dator eller Mobilt BankID på din telefon eller surfplatta.',
-        'common.modal.bankid.signing': 'Intyget signeras av ditt BankID eller Mobila BankID, vänligen vänta.',
-        'common.modal.bankid.noclient': 'BankID-programmet svarar inte. Kontrollera att det är startat och att du har internetanslutning.  Försök sedan igen.',
-        'common.modal.bankid.signed': 'Intyget har signerat av ditt BankID eller Mobila BankID',
+        'common.modal.bankid.heading' : 'Signera med BankID',
+        'common.modal.bankid.open': 'Öppna programmet för BankID på din dator.',
+        'common.modal.bankid.signing': 'Intyget signeras, vänligen skriv in din kod.',
+        'common.modal.bankid.noclient': 'BankID-programmet svarar inte. Kontrollera att programmet är startat och att du har internetanslutning.  Försök sedan igen.',
+        'common.modal.bankid.signed': 'Intyget är nu signerat.',
+
+        'common.modal.mbankid.heading' : 'Signera med Mobilt BankID',
+        'common.modal.mbankid.open': 'Öppna appen för Mobilt BankID på din telefon eller surfplatta.',
+        'common.modal.mbankid.signing': 'Intyget signeras, vänligen skriv in din kod på din telefon eller surfplatta.',
+        'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
+        'common.modal.mbankid.signed': 'Intyget är nu signerat.',
 
         // cert status messages
         'cert.status.draft_incomplete': 'Utkast, uppgifter saknas',

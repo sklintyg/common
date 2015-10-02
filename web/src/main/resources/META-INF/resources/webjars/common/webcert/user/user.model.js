@@ -161,6 +161,11 @@ angular.module('common').factory('common.UserModel',
                 return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE !== undefined;
             },
 
+            authenticationMethod: function _authenticationMethod(authenticationMethod){
+              return this.user !== undefined && this.user.authenticationMethod !== undefined &&
+                  this.user.authenticationMethod === authenticationMethod;
+            },
+
             termsAccepted :false,
             transitioning : false
 

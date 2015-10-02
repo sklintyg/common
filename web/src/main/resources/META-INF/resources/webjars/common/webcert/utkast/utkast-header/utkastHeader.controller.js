@@ -156,7 +156,6 @@ angular.module('common').controller('common.UtkastHeader',
                     }
                     return message;
                 }
-                return null;
             };
 
             $scope.$on('$destroy', function() {

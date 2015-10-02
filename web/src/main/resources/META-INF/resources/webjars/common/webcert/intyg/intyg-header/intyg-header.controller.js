@@ -40,7 +40,7 @@ angular.module('common').controller('common.IntygHeader',
                     return;
                 }
 
-                var isOtherCareUnit = User.getValdVardenhet() !== cert.grundData.skapadAv.vardenhet.enhetsid;
+                var isOtherCareUnit = User.getValdVardenhet().id !== cert.grundData.skapadAv.vardenhet.enhetsid;
                 IntygService.copy($scope.viewState,
                     IntygCopyRequestModel.build({
                         intygId: cert.id,

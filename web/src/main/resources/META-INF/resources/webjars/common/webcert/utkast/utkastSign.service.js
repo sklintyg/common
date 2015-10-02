@@ -13,11 +13,15 @@ angular.module('common').factory('common.UtkastSignService',
                 return str.indexOf(suffix, str.length - suffix.length) !== -1;
             }
 
+            /**
+             * Uses NET_ID for auth methods NET_ID and SITHS. Use fake for :fake authScheme.
+             * Uses BankID / GRP for everything else.
+             */
             function signera(intygsTyp, version) {
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake')) {
                     return _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.user.authenticationMethod === 'NET_ID') {
+                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
                     return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
                     return _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
@@ -45,12 +49,18 @@ angular.module('common').factory('common.UtkastSignService',
                         focus: false,
                         errormessageid: 'common.error.sign.bankid',
                         showerror: false,
-                        bodyTextId: 'common.modal.bankid.sign',
-                        heading: 'common.heading.sign',
                         label : {signing:'common.title.sign'},
                         signState : ''
                     };
 
+
+                    if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                        dialogSignModel.bodyTextId ='common.modal.mbankid.open';
+                        dialogSignModel.heading = 'common.modal.mbankid.heading';
+                    } else {
+                        dialogSignModel.bodyTextId ='common.modal.bankid.open';
+                        dialogSignModel.heading = 'common.modal.bankid.heading';
+                    }
 
                     var bankIdSignDialog = dialogService.showDialog({
                         dialogId: 'signera-bankid-dialog',
@@ -142,27 +152,44 @@ angular.module('common').factory('common.UtkastSignService',
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                             if(dialogHandle !== undefined){
                                 // change the status
-                                dialogHandle.model.bodyTextId = 'common.modal.bankid.sign';
+                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.open';
+                                } else {
+                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.open';
+                                }
+
                                 dialogHandle.model.signState = 'BEARBETAR';
                             }
                         } else if ('VANTA_SIGN' === ticket.status) {
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                             if(dialogHandle !== undefined){
                                 // change the status
-                                dialogHandle.model.bodyTextId = 'common.modal.bankid.signing';
+                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.signing';
+                                } else {
+                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.signing';
+                                }
                                 dialogHandle.model.signState = 'VANTA_SIGN';
                             }
                         } else if ('NO_CLIENT' === ticket.status) {
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
                             if(dialogHandle !== undefined){
                                 // change the status
-                                dialogHandle.model.bodyTextId = 'common.modal.bankid.noclient';
+                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.noclient';
+                                } else {
+                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.noclient';
+                                }
                                 dialogHandle.model.signState = 'NO_CLIENT';
                             }
                         } else if ('SIGNERAD' === ticket.status) {
                             deferred.resolve({newVersion : ticket.version});
                             if (dialogHandle !== undefined){
-                                dialogHandle.model.bodyTextId = 'common.modal.bankid.signed';
+                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.signed';
+                                } else {
+                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.signed';
+                                }
                                 dialogHandle.model.signState = 'SIGNERAD';
                                 dialogHandle.close();
                             }
