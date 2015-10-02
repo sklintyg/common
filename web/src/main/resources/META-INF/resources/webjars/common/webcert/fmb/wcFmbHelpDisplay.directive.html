@@ -4,7 +4,7 @@
             <span class="soclink">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd
                 <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i>
             </span>
-        <h2 id="fmb_diagnos_heading_{{diagnosisCode}}">{{diagnosisCode}} - {{diagnosisDescription}}</h2>
+        <h2 id="fmb_diagnos_heading_{{diagnosisCode}}">{{diagnosisCode}}</h2>
         </accordion-heading>
         <div ng-repeat="item in helpTextContents">
             <h3 id="fmb_heading_{{item.heading}}"><span message key="{{'fmb.' + item.heading}}"></span></h3>

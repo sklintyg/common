@@ -24,38 +24,39 @@ describe("wcFmbHelpDisplay", function () {
     describe('correct headlines', function () {
         beforeEach(function() {
             setUpFMBData({
-                formData: [],
-                diagnosKod: 'J22',
-                diagnosBeskrivning: 'En slags diagnos'
+                formData: {},
+                diagnosKod: 'J22'
             });
         });
 
-        it('should have a headline set', function() {
-            //Expects
-            expect(element.find('h2').text()).toEqual('J22 - En slags diagnos');
+        it('should have a diagnosis headline set', function() {
+            expect(element.find('h2').text()).toEqual('J22');
         });
     });
 
-    /*
-    describe('template produces the right html', function () {
-        //beforeEach(function() {
-        //    setUpExchangeableViews(basicSetOfExchangeableViews);
-        //});
+    describe('text are set for forms', function () {
+        beforeEach(function() {
+            setUpFMBData({
+                formData: {FORM: [
+                    {heading: 'FALT2_SPB', text: 'Akut bronkit'},
+                    {heading: 'FALT2_GENERAL', list: ['BulletText1', 'BulletText2', 'BulletText3']}
+                ]},
+                diagnosKod: 'J22',
+            });
+        });
 
-        it('anchors have the right href, class and description', function () {
-            //Here I used jquery to find classes and what not since jqLite is really limited (ng 1.2)
-            //Be sure to include jquery before angular in your karma config
+        it('should create a section with text for formdata that is a text node', function() {
+            expect(element.find('section').first().text()).toEqual('Akut bronkit');
+        });
 
-            //Find the one that is supposed to be active
-            expect(element.find('.active').attr('href')).toEqual(basicSetOfExchangeableViews[0].state);
-            expect(element.find('.active').text().trim()).toEqual(basicSetOfExchangeableViews[0].description);
 
-            //Find the other one that is not active
-            expect(element.find('a').not('.active').attr('href')).toEqual(basicSetOfExchangeableViews[1].state);
-            expect(element.find('a').not('.active').text().trim()).toEqual(basicSetOfExchangeableViews[1].description);
+        it('should create a section with an unordered list for formdata that is a list node', function() {
+            expect(element.find('#fmb_bullet_FALT2_GENERAL_0').first().text()).toEqual('BulletText1');
+            expect(element.find('#fmb_bullet_FALT2_GENERAL_1').first().text()).toEqual('BulletText2');
+            expect(element.find('#fmb_bullet_FALT2_GENERAL_2').first().text()).toEqual('BulletText3');
         });
 
     });
-    */
+
 });
 
