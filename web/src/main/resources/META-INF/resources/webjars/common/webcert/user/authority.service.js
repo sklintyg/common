@@ -47,7 +47,7 @@ angular.module('common').factory('common.authorityService',
             } else {
                 return true;
             }
-        };
+        }
 
         function authorityCheck(authority){
             if (authority !== undefined && authority.length > 0) {
@@ -61,7 +61,7 @@ angular.module('common').factory('common.authorityService',
             } else {
                 return true;
             }
-        };
+        }
 
         function featureCheck(feature, intygstyp){
             if (feature !== undefined && feature.length > 0) {
@@ -75,7 +75,7 @@ angular.module('common').factory('common.authorityService',
             } else {
                 return true;
             }
-        };
+        }
 
         /**
          * Check if the current user's role has the global authorization for the specified intygstyp.
@@ -89,7 +89,7 @@ angular.module('common').factory('common.authorityService',
                 return true;
             }
             return userModel.hasIntygsTyp(intygstyp);
-        };
+        }
 
         return {
             isAuthorityActive: _isAuthorityActive

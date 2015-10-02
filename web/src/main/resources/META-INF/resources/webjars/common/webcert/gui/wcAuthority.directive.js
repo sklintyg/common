@@ -10,7 +10,7 @@ angular.module('common').directive('wcAuthority',
                         feature: $attr.feature,
                         role: $attr.role,
                         intygstyp: $attr.intygstyp
-                    }
+                    };
 
                     if (!authorityService.isAuthorityActive(options)) {
                         //console.log('remove');
