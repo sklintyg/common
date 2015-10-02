@@ -9,7 +9,10 @@ angular.module('common').factory('common.authorityService',
             var role = options.role;
 
 
-            return check(role, roleCheck) && check(authority, authorityCheck) && check(feature, featureCheck, intygstyp);
+            return  check(role, roleCheck) &&
+                    check(authority, authorityCheck) &&
+                    check(feature, featureCheck, intygstyp) &&
+                    check(intygstyp, intygsTypCheck);
         }
 
         function check(toCheck, fn, intygstyp){
@@ -72,6 +75,20 @@ angular.module('common').factory('common.authorityService',
             } else {
                 return true;
             }
+        };
+
+        /**
+         * Check if the current user's role has the global authorization for the specified intygstyp.
+         *
+         * If no intygstyp is specified, the check returns true.
+         *
+         * @param intygstyp
+         */
+        function intygsTypCheck(intygstyp) {
+            if (intygstyp === undefined || intygstyp === '') {
+                return true;
+            }
+            return userModel.hasIntygsTyp(intygstyp);
         };
 
         return {

@@ -60,7 +60,7 @@ describe('wcHeader', function() {
                 }
             ]
         },
-        'roles': {ROLE_LAKARE: 'Läkare'},
+        'roles' : {'ROLE_LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}},
         'aktivaFunktioner': ['hanteraFragor', 'hanteraFragor.fk7263'],
         'totaltAntalVardenheter': 6
     };
