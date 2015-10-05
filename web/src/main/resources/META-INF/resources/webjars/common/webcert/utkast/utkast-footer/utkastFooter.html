@@ -2,10 +2,11 @@
 
   <h3><span message key="common.sign.intyg"></span></h3>
 
-  <div ng-if="!user.isLakareOrPrivat">
-    <div id="sign-requires-doctor-message-text" class="alert alert-info">
-      <span message key="draft.onlydoctorscansign"></span>
-    </div>
+  <div id="sign-requires-doctor-message-text" wc-authority="!PRIVILEGE_SIGNERA_INTYG" class="alert alert-info">
+    <span message key="draft.onlydoctorscansign"></span>
+  </div>
+
+  <div wc-authority role="ROLE_LAKARE,ROLE_LAKARE_DJUPINTEGRERAD,ROLE_LAKARE_UTHOPP,ROLE_PRIVATLAKARE,ROLE_TANDLAKARE">
 
     <div wc-authority role="!ROLE_LAKARE_DJUPINTEGRERAD">
       <p>

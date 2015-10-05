@@ -72,11 +72,11 @@ angular.module('common').factory('common.UserModel',
 
             roles: {
                 ROLE_VARDADMINISTRATOR: 'Vårdadministratör',
-                ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD :'Vårdadministratör - djupintegrerad',
-                ROLE_VARDADMINISTRATOR_UTHOPP :'Vårdadministratör - uthopp',
+                ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD :'Vårdadministratör',
+                ROLE_VARDADMINISTRATOR_UTHOPP :'Vårdadministratör',
                 ROLE_LAKARE: 'Läkare',
-                ROLE_LAKARE_DJUPINTEGRERAD: 'Läkare - djupintegrerad',
-                ROLE_LAKARE_UTHOPP: 'Läkare - uthopp', // franJournalsystemQAOnly
+                ROLE_LAKARE_DJUPINTEGRERAD: 'Läkare',
+                ROLE_LAKARE_UTHOPP: 'Läkare', // franJournalsystemQAOnly
                 ROLE_PRIVATLAKARE: 'Privatläkare',
                 ROLE_TANDLAKARE: 'Tandläkare',
                 getRole: function(roles) {
