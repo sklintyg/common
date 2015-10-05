@@ -212,7 +212,7 @@ angular.module('common').factory('common.UtkastNotifyService',
             function _buildNotifyDoctorMailToLink(intygId, intygType, enhetsNamn, vardgivareNamn) {
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
-                var url = baseURL + '/web/dashboard#/' + intygType + '/edit/' + intygId;
+                var url = baseURL + '/web/maillink/intyg/' + intygType + '/' + intygId;
                 var recipient = '';
                 var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert pa enhet ' + _cleanNonAscii(enhetsNamn) + ' for vardgivare ' + _cleanNonAscii(vardgivareNamn); //'Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ' + enhetsNamn;
                 var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
