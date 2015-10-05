@@ -649,6 +649,7 @@
     .panel-fmb-info > .panel-heading + .panel-collapse .panel-body {
         border-top-color: white;
         padding-top: 0px;
+        padding-bottom: 0px;
     }
 
     .panel-fmb-info > .panel-footer + .panel-collapse .panel-body {
@@ -656,7 +657,56 @@
         padding-top: 0px;
     }
 
-    .margin-top-30 {
+    .panel-fmb-info-heading:hover {
+        cursor: pointer;
+    }
+
+    .fmb-accordion-head-img {
+        height: 35px;
+        width: auto;
+    }
+
+    .fmb-glyphicon:hover {
+        color: grey;
+    }
+
+    .fmb-diagnosis-headline {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 5px;
+        color: black;
+    }
+
+    .fmb-sub-headline {
+        padding-bottom: 0px;
+    }
+
+    .fmb-section {
+        padding-bottom: 10px;
+    }
+    
+    .fmb-ruler {
+        margin: 0px 0px 3px 0px;
+        border-top: 2px solid #dddddd;
+    }
+
+    .fmb-bullet-list {
+        padding-left: 20px;
+    }
+
+    .col-fmb-base-offset {
+        margin-top: 30px;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .col-md-fmb-offset {
+        margin-top: 50px;
+    }
+}
+@media (min-width: 1340px) {
+    .col-lg-fmb-offset {
         margin-top: 30px;
     }
 }
