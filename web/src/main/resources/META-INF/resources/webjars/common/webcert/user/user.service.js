@@ -1,5 +1,5 @@
 angular.module('common').factory('common.User',
-    [ '$http', '$log', 'common.UserModel', '$q', function($http, $log, userModel, $q) {
+    [ '$http', '$log', 'common.UserModel', '$q', function($http, $log, userModel) {
         'use strict';
 
         return {
