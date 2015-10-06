@@ -2,8 +2,8 @@
  * Listen to intyg loaded event and present a message that the user is marked for secrecy (sekretessmarkerad) if he is.
  */
 angular.module('common').directive('wcSecrecyMarkMessage', [
-    'common.PatientProxy', 'common.ViewStateService', 'common.featureService',
-    function(PatientProxy, ViewStateService, featureService) {
+    'common.PatientProxy', 'common.ViewStateService', 'common.authorityService',
+    function(PatientProxy, ViewStateService, authorityService) {
         'use strict';
 
         return {
@@ -43,7 +43,7 @@ angular.module('common').directive('wcSecrecyMarkMessage', [
                     PatientProxy.getPatient(personId, onSuccess, onNotFound, onError);
                 }
 
-                if (!featureService.isFeatureActive('franJournalsystem')) {
+                if (!authorityService.isAuthorityActive({role: 'ROLE_LAKARE_DJUPINTEGRERAD'})) {
                     $scope.$watch('personId', function() {
                         lookupPatient($scope.personId);
                     });
