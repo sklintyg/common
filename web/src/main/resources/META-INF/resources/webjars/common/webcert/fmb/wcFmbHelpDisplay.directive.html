@@ -1,10 +1,10 @@
-<accordion>
+I<accordion>
     <wc-accordion-group heading="Information från Socialstyrelsens försäkringsmedicinska beslutsstöd" is-open="status.open">
         <accordion-heading>
             <span class="soclink">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd
                 <i class="pull-right glyphicon" ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i>
             </span>
-        <h2 id="fmb_diagnos_heading_{{diagnosisCode}}">{{diagnosisCode}}</h2>
+        <h2 id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}}</h2>
         </accordion-heading>
         <div ng-repeat="item in helpTextContents">
             <h3 id="fmb_heading_{{item.heading}}"><span message key="{{'fmb.' + item.heading}}"></span></h3>
