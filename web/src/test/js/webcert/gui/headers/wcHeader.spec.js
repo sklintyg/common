@@ -60,6 +60,7 @@ describe('wcHeader', function() {
                 }
             ]
         },
+        'authorities': { 'PRIVILEGE_NAVIGERING':Object, 'PRIVILEGE_ATKOMST_ANDRA_ENHETER': Object },
         'roles' : {'ROLE_LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}},
         'aktivaFunktioner': ['hanteraFragor', 'hanteraFragor.fk7263'],
         'totaltAntalVardenheter': 6
@@ -75,7 +76,7 @@ describe('wcHeader', function() {
                 {'namn': 'Vårdcentrum i Väst', 'id': 'centrum-vast', 'fragaSvar': 11, 'intyg': 0},
                 {'namn': 'Vårdcentrum i Väst - Akuten', 'id': 'akuten', 'fragaSvar': 0, 'intyg': 0},
                 {'namn': 'Vårdcentrum i Väst - Dialys', 'id': 'dialys', 'fragaSvar': 1, 'intyg': 0}]
-        },
+            },
             {
                 'namn': 'Landstinget Östergötland', 'id': 'ostergotland', 'vardenheter': [
                 {'namn': 'Linköpings Universitetssjukhus', 'id': 'linkoping', 'fragaSvar': 0, 'intyg': 0},
@@ -118,8 +119,8 @@ describe('wcHeader', function() {
             isFeatureActive: function(feature) {
                 if (this.testDjupintegration) {
                     return true;
-                /*} else if (feature !== this.features.FRAN_JOURNALSYSTEM) {
-                    return true;*/
+                } else {
+                    return true;
                 }
 
                 return false;
@@ -176,7 +177,8 @@ describe('wcHeader', function() {
         it('should show how many unhandled issues are present on other vardenheter', function() {
             var unhandledIssuesSpan = element.find('#otherLocations');
             expect(unhandledIssuesSpan.hasClass('ng-hide')).toBe(false);
-            expect(unhandledIssuesSpan.html()).toContain('4');
+            var html = unhandledIssuesSpan.html();
+            expect(html).toContain('4');
         });
 
         it('should show name and role of the logged in user', function() {
@@ -217,7 +219,7 @@ describe('wcHeader', function() {
     describe('djupintegration gui changes', function() {
 
         beforeEach(function() {
-            //testUserContext.roles = {ROLE_LAKARE_DJUPINTEGRERAD:'Läkare - djupintegrerad'};
+            testUserContext.authorities = {};
             generateHeader($scope);
         });
 
