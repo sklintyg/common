@@ -148,8 +148,17 @@ angular.module('common').factory('common.UserModel',
                 return this.hasRoles() && this.user.roles.ROLE_LAKARE_DJUPINTEGRERAD !== undefined;
             },
 
+            isVardadministratorDjupIntegrerad: function _isVardadministratorDjupIntegrerad() {
+                return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD !== undefined;
+            },
+
             isLakareUthopp: function _isLakareUthopp() {
                 return this.hasRoles() && this.user.roles.ROLE_LAKARE_UTHOPP !== undefined;
+
+            },
+
+            isVardadministratorUthopp: function _isVardadministratorUthopp() {
+                return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined;
 
             },
 

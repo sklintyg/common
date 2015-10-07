@@ -217,11 +217,14 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 }
             }
 
+
             var QAdialog = null;
             var QAdialogConfirmed = false;
             function _checkQAonlyDialog($scope, $event, newUrl, currentUrl, unbindEvent) {
                 // Check if the user used the special qa-link to get here.
-                if (UserModel.isLakareUthopp() &&
+                // if (UserModel.isLakareUthopp() &&
+                if ((UserModel.isLakareUthopp() ||
+                     UserModel.isVardadministratorUthopp())  &&
                     !QAdialog &&
                     !QAdialogConfirmed &&
                     newUrl.indexOf('#/fragasvar/') === -1 &&
