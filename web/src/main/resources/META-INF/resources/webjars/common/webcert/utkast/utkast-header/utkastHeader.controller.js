@@ -2,10 +2,10 @@ angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
         'common.messageService', 'common.PrintService', 'common.UtkastService', 'common.UtkastProxy', 'common.statService',
         'common.featureService', 'common.UserModel', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
-        'common.PatientProxy',
+        'common.PatientProxy', 'common.authorityService',
         function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
             PrintService, UtkastService, UtkastProxy, statService, featureService, UserModel,  dialogService, CommonViewState,
-            anchorScrollService, PatientProxy) {
+            anchorScrollService, PatientProxy, authorityService) {
             'use strict';
 
             $scope.updatePatientData = function() {
@@ -94,7 +94,7 @@ angular.module('common').controller('common.UtkastHeader',
                             dialogModel.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
-                            if (UserModel.isLakareDjupIntegrerad()) {
+                            if (!authorityService.isAuthorityActive({authority: 'PRIVILEGE_NAVIGERING'})) {
                                 CommonViewState.deleted = true;
                                 CommonViewState.error.activeErrorMessageKey = 'error';
                                 draftDeleteDialog.close();

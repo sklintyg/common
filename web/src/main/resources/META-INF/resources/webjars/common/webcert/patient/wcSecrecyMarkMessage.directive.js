@@ -43,7 +43,7 @@ angular.module('common').directive('wcSecrecyMarkMessage', [
                     PatientProxy.getPatient(personId, onSuccess, onNotFound, onError);
                 }
 
-                if (!authorityService.isAuthorityActive({role: 'ROLE_LAKARE_DJUPINTEGRERAD'})) {
+                if (authorityService.isAuthorityActive({authority: 'PRIVILEGE_HANTERA_PERSONUPPGIFTER'})) {
                     $scope.$watch('personId', function() {
                         lookupPatient($scope.personId);
                     });

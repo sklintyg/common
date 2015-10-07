@@ -118,8 +118,8 @@ describe('wcHeader', function() {
             isFeatureActive: function(feature) {
                 if (this.testDjupintegration) {
                     return true;
-                } else if (feature !== this.features.FRAN_JOURNALSYSTEM) {
-                    return true;
+                /*} else if (feature !== this.features.FRAN_JOURNALSYSTEM) {
+                    return true;*/
                 }
 
                 return false;
@@ -217,7 +217,7 @@ describe('wcHeader', function() {
     describe('djupintegration gui changes', function() {
 
         beforeEach(function() {
-            testUserContext.roles = {ROLE_LAKARE_DJUPINTEGRERAD:'Läkare - djupintegrerad'};
+            //testUserContext.roles = {ROLE_LAKARE_DJUPINTEGRERAD:'Läkare - djupintegrerad'};
             generateHeader($scope);
         });
 
