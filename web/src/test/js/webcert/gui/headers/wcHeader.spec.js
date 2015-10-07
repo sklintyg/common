@@ -113,8 +113,7 @@ describe('wcHeader', function() {
                 HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast',
                 KOPIERA_INTYG: 'kopieraIntyg',
                 MAKULERA_INTYG: 'makuleraIntyg',
-                SKICKA_INTYG: 'skickaIntyg',
-                FRAN_JOURNALSYSTEM: 'franJournalsystem'
+                SKICKA_INTYG: 'skickaIntyg'
             },
             isFeatureActive: function(feature) {
                 if (this.testDjupintegration) {
