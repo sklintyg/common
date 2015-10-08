@@ -2,6 +2,7 @@ describe('wcHeader', function() {
     'use strict';
 
     var $scope;
+    var $window;
     var element;
     var User;
     var UserModel;
@@ -104,7 +105,7 @@ describe('wcHeader', function() {
 
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common', function($provide) {
-        //$provide.value('common.UserModel', {user: testUserContext});
+        // $provide.value('common.UserModel', {user: testUserContext});
 
         var featureService = {
             testDjupintegration: false,
@@ -126,11 +127,12 @@ describe('wcHeader', function() {
                 return false;
             }
         };
-        $provide.value('common.featureService', featureService); //jasmine.createSpyObj('common.featureService', ['isFeatureActive'])
+        $provide.value('common.featureService', featureService); // jasmine.createSpyObj('common.featureService',
+                                                                    // ['isFeatureActive'])
     }));
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache',
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache', '$window',
         'common.User','common.UserModel', 'common.statService', 'common.featureService', 'common.authorityService',
-        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _User_, _UserModel_, _statService_,
+        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _$window_, _User_, _UserModel_, _statService_,
             _featureService_, _authorityService_) {
             $scope = _$rootScope_.$new();
             User = _User_;
@@ -145,8 +147,13 @@ describe('wcHeader', function() {
             $rootScope = _$rootScope_;
             $controller = _$controller_;
             $templateCache = _$templateCache_;
+            $window = _$window_;
+            $window.MODULE_CONFIG = {
+                    PP_HOST: 'localhost:8090'
+            };
 
-            // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast from statService
+            // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast
+            // from statService
             spyOn($rootScope, '$broadcast').and.callThrough();
 
             generateHeader($scope);
@@ -198,11 +205,9 @@ describe('wcHeader', function() {
             expect(link.length).toBe(1);
         });
         /*
-         xit('should generate a menu with choices fit for a doctor', function() {
-         });
-
-         xit('should generate a menu with choices fit for an administrator', function() {
-         });
+         * xit('should generate a menu with choices fit for a doctor', function() { });
+         * 
+         * xit('should generate a menu with choices fit for an administrator', function() { });
          */
         it('should bubbles showing number of unhandled questions/answers and utkast on vardenhet', function() {
             var unsignedCerts = element.find('#stat-unitstat-unsigned-certs-count');
