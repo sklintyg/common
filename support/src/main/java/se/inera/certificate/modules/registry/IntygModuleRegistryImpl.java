@@ -17,7 +17,6 @@ import se.inera.certificate.modules.support.ModuleEntryPoint;
 import se.inera.certificate.modules.support.api.ModuleApi;
 import se.inera.certificate.modules.support.api.ModuleContainerApi;
 
-/*@Component*/
 public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     private static final Logger LOG = LoggerFactory.getLogger(IntygModuleRegistryImpl.class);
@@ -35,9 +34,9 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     private ApplicationOrigin origin;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
-    
+
     @PostConstruct
     public void initModulesList() {
 

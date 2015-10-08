@@ -23,7 +23,7 @@ import java.util.List;
  * <li>Transport model (XML-model that can be used to transmit an intyg between different parties)
  * <li>Internal model (JSON-model used to visualize an intyg in Mina Intyg and Webcert)
  * </ul>
- * 
+ *
  * There exists methods for converting between models, generate PDFs, interact with the internal model and extract meta
  * data.
  */
@@ -31,7 +31,7 @@ public interface ModuleApi {
 
     /**
      * Register the container for this module.
-     * 
+     *
      * @param moduleContainer
      *            The module container.
      */
@@ -39,41 +39,41 @@ public interface ModuleApi {
 
     /**
      * Get the container for this module.
-     * 
+     *
      * @return the module container.
      */
     ModuleContainerApi getModuleContainer();
 
     /**
      * Validates the internal model. The status (complete, incomplete) and a list of validation errors is returned.
-     * 
+     *
      * @param internalModel
      *            The internal model to validate.
-     * 
+     *
      * @return response The validation result.
      */
     ValidateDraftResponse validateDraft(InternalModelHolder internalModel) throws ModuleException;
 
     /**
      * Generates a PDF from the internal model.
-     * 
+     *
      * @param internalModel
-     *             The internal model to generate a PDF from.
+     *            The internal model to generate a PDF from.
      * @param applicationOrigin
      *            The context from which this method was called (i.e Webcert or MinaIntyg)
-     * 
+     *
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
     PdfResponse pdf(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
 
     /**
      * Generates a PDF suited for the employer from the internal model.
-     * 
+     *
      * @param internalModel
-     *             The internal model to generate a PDF from.
+     *            The internal model to generate a PDF from.
      * @param applicationOrigin
      *            The context from which this method was called (i.e Webcert or MinaIntyg)
-     * 
+     *
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
     PdfResponse pdfEmployer(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
@@ -107,7 +107,7 @@ public interface ModuleApi {
 
     /**
      * Register certificate in Intygstjänsten.
-     * 
+     *
      * @param internalModel
      *            The internal model of the certificate to send.
      * @param logicalAddress
@@ -132,7 +132,7 @@ public interface ModuleApi {
 
     /**
      * Fetch a certificate from Intygstjansten.
-     * 
+     *
      * @param certificateId
      *            The certificate id.
      * @param logicalAddress
@@ -142,7 +142,7 @@ public interface ModuleApi {
     CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException;
 
     /**
-     * Check whether there are changes between the current and persisted model states
+     * Check whether there are changes between the current and persisted model states.
      *
      * @param persistedState
      * @param currentState
@@ -153,41 +153,43 @@ public interface ModuleApi {
 
     /**
      * Returns an updated version of the internal model for saving, with new HoS person information.
-     * 
+     *
      * @param internalModel
      *            The internal model to use as a base.
      * @param hosPerson
      *            The HoS person to complement the model with.
      *
      * @return A new internal model updated with the hosPerson info.
-     * @throws ModuleException 
+     * @throws ModuleException
      */
     InternalModelResponse updateBeforeSave(InternalModelHolder internalModel, HoSPersonal hosPerson) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for signing, with new HoS person information.
-     * 
+     *
      * @param internalModel
      *            The internal model to use as a base.
      * @param hosPerson
      *            The HoS person to complement the model with.
      * @param signingDate
      *            The timestamp of the signing of the intyg.
-     * 
+     *
      * @return A new internal model updated with the hosPerson info.
      */
-    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException;
-    
+    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
+            throws ModuleException;
+
     /**
      * Create a notification message based on the supplied model.
-     * 
+     *
      * @param notificationMessage
      * @return
      */
     Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
 
     /**
-     * Exposed for testing purposes
+     * Exposed for testing purposes.
+     *
      * @param jsonString
      * @return an XML string
      */

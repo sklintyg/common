@@ -69,9 +69,13 @@ public class HoSPersonal {
         this.fullstandigtNamn = fullstandigtNamn;
     }
 
-    public String getForskrivarKod() { return forskrivarKod; }
+    public String getForskrivarKod() {
+        return forskrivarKod;
+    }
 
-    public void setForskrivarKod(String forskrivarKod) { this.forskrivarKod = forskrivarKod; }
+    public void setForskrivarKod(String forskrivarKod) {
+        this.forskrivarKod = forskrivarKod;
+    }
 
     public Vardenhet getVardenhet() {
         return vardenhet;

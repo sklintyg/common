@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class InternalLocalDateInterval {
 
-
     private InternalDate from;
     private InternalDate tom;
 
@@ -115,10 +114,6 @@ public class InternalLocalDateInterval {
         if (!this.isValid() || !otherInterval.isValid()) {
             return false;
         }
-        if (this.fromAsLocalDate().equals(otherInterval.fromAsLocalDate()) && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate())) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.fromAsLocalDate().equals(otherInterval.fromAsLocalDate()) && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate());
     }
 }

@@ -7,7 +7,7 @@ import se.inera.certificate.integration.module.exception.InvalidCertificateExcep
  * The module API defines methods that allows an module to invoke methods on the Module container.
  */
 public interface ModuleContainerApi {
-    
+
     /**
      * Signal the reception of a certificate to the module container.
      */
