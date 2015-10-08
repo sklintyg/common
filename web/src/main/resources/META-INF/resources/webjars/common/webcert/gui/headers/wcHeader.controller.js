@@ -184,7 +184,7 @@ angular.module('common').controller('common.wcHeaderController',
                 return str.indexOf(suffix, str.length - suffix.length) !== -1;
             }
 
-            $scope.privatPortalLink = $location.protocol() +'://'+ $window.MODULE_CONFIG.PP_HOST 
+            $scope.privatPortalLink = $window.MODULE_CONFIG.PP_HOST 
 
             $scope.goToPrivatPortalen = function(){
                 var link = $scope.privatPortalLink;
