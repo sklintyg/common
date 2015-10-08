@@ -11,6 +11,12 @@ angular.module('common').controller('common.IntygHeader',
             $scope.intygstyp = $stateParams.certificateType;
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
 
+            $scope.visaSkickaKnappen = function(){
+                return !$scope.viewState.common.intyg.isSent &&
+                  !$scope.viewState.common.isIntygOnSendQueue &&
+                  !$scope.viewState.common.intyg.isRevoked &&
+                  !$scope.viewState.common.isIntygOnRevokeQueue;
+            };
 
             $scope.send = function() {
                 IntygService.send($scope.viewState.intygModel.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
