@@ -67,7 +67,11 @@ angular.module('common').factory('common.UserModel',
                 PRIVILEGE_KOPIERA_INTYG: 'PRIVILEGE_KOPIERA_INTYG',
                 PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA: 'PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA',
                 PRIVILEGE_SKRIVA_INTYG: 'PRIVILEGE_SKRIVA_INTYG',
-                PRIVILEGE_FILTRERA_PA_LAKARE: 'PRIVILEGE_FILTRERA_PA_LAKARE'
+                PRIVILEGE_FILTRERA_PA_LAKARE: 'PRIVILEGE_FILTRERA_PA_LAKARE',
+                PRIVILEGE_ATKOMST_ANDRA_ENHETER: 'PRIVILEGE_ATKOMST_ANDRA_ENHETER',
+                PRIVILEGE_HANTERA_PERSONUPPGIFTER: 'PRIVILEGE_HANTERA_PERSONUPPGIFTER',
+                PRIVILEGE_HANTERA_MAILSVAR: 'PRIVILEGE_HANTERA_MAILSVAR',
+                PRIVILEGE_NAVIGERING: 'PRIVILEGE_NAVIGERING'
             },
 
             roles: {
@@ -134,6 +138,10 @@ angular.module('common').factory('common.UserModel',
 
             hasIntygsTyp: function _hasIntygsTyp(intygsTyp) {
                 return this.user !== undefined && this.user.intygsTyper !== undefined ? this.user.intygsTyper.indexOf(intygsTyp) > -1 : false;
+            },
+
+            isVardAdministratorUthopp: function _isVardAdministratorUthopp() {
+                return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined;
             },
 
             isVardAdministrator: function _isVardAdministrator() {

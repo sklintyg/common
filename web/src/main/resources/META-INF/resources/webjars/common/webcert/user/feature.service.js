@@ -31,7 +31,6 @@ angular.module('common').factory('common.featureService',
                 MAKULERA_INTYG: 'makuleraIntyg',
                 SKICKA_INTYG: 'skickaIntyg',
                 ARBETSGIVARUTSKRIFT: 'arbetsgivarUtskrift',
-                FRAN_JOURNALSYSTEM: 'franJournalsystem',
                 FRAN_JOURNALSYSTEM_QA_ONLY: 'franJournalsystemQAOnly',
                 JS_LOGGNING: 'jsLoggning',
                 JS_MINIFIED: 'jsMinified'
