@@ -140,6 +140,10 @@ angular.module('common').factory('common.UserModel',
                 return this.user !== undefined && this.user.intygsTyper !== undefined ? this.user.intygsTyper.indexOf(intygsTyp) > -1 : false;
             },
 
+            isVardAdministratorUthopp: function _isVardAdministratorUthopp() {
+                return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined;
+            },
+
             isVardAdministrator: function _isVardAdministrator() {
                 return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR !== undefined;
             },
