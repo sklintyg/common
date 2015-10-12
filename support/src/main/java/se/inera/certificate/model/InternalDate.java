@@ -1,5 +1,7 @@
 package se.inera.certificate.model;
 
+import java.util.Objects;
+
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -102,4 +104,27 @@ public class InternalDate {
         }
         return this.asLocalDate().isAfter(LocalDate.now());
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (getClass() != object.getClass()) {
+            return false;
+        }
+        final InternalDate that = (InternalDate) object;
+        return Objects.equals(this.date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.date);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toString(date);
+    }
+
 }
