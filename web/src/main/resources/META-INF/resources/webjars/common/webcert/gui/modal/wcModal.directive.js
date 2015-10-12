@@ -8,7 +8,7 @@ angular.module('common').directive('wcModal',
             scope :{
                 options:'='
             },
-            controller: function($scope, $element){
+            controller: function($scope/*, $element*/){
 
                 if($scope.options === undefined){
                     return;
@@ -54,11 +54,11 @@ angular.module('common').directive('wcModal',
                         $scope.modal[button.name] = button.clickFn;
                         $scope.modal.buttons.push(mb);
                     }
-                };
+                }
 
                 $scope.modal.buttonAction = function(index){
                     $scope.modal.buttons[index].clickFn();
-                }
+                };
 
                 $scope.open = function ()
                 {
@@ -96,15 +96,17 @@ angular.module('common').directive('wcModal',
                 };
 
                 $scope.close = function($event){
-                    if ($event)
+                    if ($event) {
                         $event.preventDefault();
+                    }
                     $scope.modalInstance.dismiss('cancel');
                 };
 
                 $scope.cancel = function ($event)
                 {
-                    if ($event)
+                    if ($event) {
                         $event.preventDefault();
+                    }
                     $scope.modalInstance.dismiss('cancel');
                 };
 
@@ -129,11 +131,8 @@ angular.module('common').directive('wcModal',
                         def.resolve();
                     });
                 });
-
-
-
             },
-            link: function(scope, element, attrs, ctrl) {
+            link: function(scope/*, element, attrs, ctrl*/) {
 
                 function modalBodyHeight(){
                     $timeout(function(){
@@ -143,7 +142,8 @@ angular.module('common').directive('wcModal',
                         var modal = angular.element(document).height();
 
                         var modalBody = modal - header - footer- 110;
-                        $log.info('header:' + header + ',footer:' + footer + ',modal:' + modal + ',modalcontent:' + modalcontent + ',modalBody:' + modalBody);
+                        $log.info('header:' + header + ',footer:' + footer +
+                            ',modal:' + modal + ',modalcontent:' + modalcontent + ',modalBody:' + modalBody);
 
                         angular.element('.modal-body').height(modalBody);
                         angular.element('.modal-body').css('overflow-y', scope.modal.bodyOverflowY);
@@ -168,7 +168,7 @@ angular.module('common').directive('wcModal',
                             'w': w.width()
                         };
                     };
-                    scope.$watch(scope.getWindowDimensions, function(newValue, oldValue) {
+                    scope.$watch(scope.getWindowDimensions, function(/*newValue, oldValue*/) {
                         modalBodyHeight();
                     }, true);
 
