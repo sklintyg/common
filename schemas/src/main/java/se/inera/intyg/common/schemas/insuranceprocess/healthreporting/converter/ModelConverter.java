@@ -71,7 +71,7 @@ public final class ModelConverter {
         enhetsId.setExtension(intygMetaData.getSkapadAv().getVardenhet().getEnhetsid());
         enhet.setEnhetsId(enhetsId);
         enhet.setEnhetsnamn(intygMetaData.getSkapadAv().getVardenhet().getEnhetsnamn());
-        
+
         if (intygMetaData.getSkapadAv().getVardenhet().getArbetsplatsKod() != null) {
             II arbetsplatsKod = new II();
             arbetsplatsKod.setRoot(Constants.ARBETSPLATS_KOD_OID);
@@ -100,7 +100,7 @@ public final class ModelConverter {
         vardAdresseringsType.setHosPersonal(hosPersonal);
         return vardAdresseringsType;
     }
-    
+
     public static LakarutlatandeEnkelType toLakarutlatandeEnkelType(Utlatande utlatande) {
         LakarutlatandeEnkelType lakarutlatande = new LakarutlatandeEnkelType();
 
@@ -121,7 +121,7 @@ public final class ModelConverter {
 
         return lakarutlatande;
     }
-    
+
     private static final int SAMORDNING_MONTH_INDEX = 6;
     private static final int SAMORDNING_MONTH_VALUE_MIN = 6;
 

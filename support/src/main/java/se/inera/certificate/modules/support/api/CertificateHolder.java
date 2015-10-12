@@ -255,6 +255,7 @@ public class CertificateHolder {
 
     @Override
     public int hashCode() {
+        // CHECKSTYLE:OFF MagicNumber
         final int prime = 31;
         int result = 1;
         result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
@@ -275,90 +276,124 @@ public class CertificateHolder {
         result = prime * result + ((validFromDate == null) ? 0 : validFromDate.hashCode());
         result = prime * result + ((validToDate == null) ? 0 : validToDate.hashCode());
         return result;
+        // CHECKSTYLE:ON MagicNumber
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         CertificateHolder other = (CertificateHolder) obj;
         if (additionalInfo == null) {
-            if (other.additionalInfo != null)
+            if (other.additionalInfo != null) {
                 return false;
-        } else if (!additionalInfo.equals(other.additionalInfo))
+            }
+        } else if (!additionalInfo.equals(other.additionalInfo)) {
             return false;
+        }
         if (careUnitId == null) {
-            if (other.careUnitId != null)
+            if (other.careUnitId != null) {
                 return false;
-        } else if (!careUnitId.equals(other.careUnitId))
+            }
+        } else if (!careUnitId.equals(other.careUnitId)) {
             return false;
+        }
         if (careUnitName == null) {
-            if (other.careUnitName != null)
+            if (other.careUnitName != null) {
                 return false;
-        } else if (!careUnitName.equals(other.careUnitName))
+            }
+        } else if (!careUnitName.equals(other.careUnitName)) {
             return false;
+        }
         if (careGiverId == null) {
-            if (other.careGiverId != null)
+            if (other.careGiverId != null) {
                 return false;
-        } else if (!careGiverId.equals(other.careGiverId))
+            }
+        } else if (!careGiverId.equals(other.careGiverId)) {
             return false;
+        }
         if (certificateStates == null) {
-            if (other.certificateStates != null)
+            if (other.certificateStates != null) {
                 return false;
-        } else if (!certificateStates.equals(other.certificateStates))
+            }
+        } else if (!certificateStates.equals(other.certificateStates)) {
             return false;
+        }
         if (civicRegistrationNumber == null) {
-            if (other.civicRegistrationNumber != null)
+            if (other.civicRegistrationNumber != null) {
                 return false;
-        } else if (!civicRegistrationNumber.equals(other.civicRegistrationNumber))
+            }
+        } else if (!civicRegistrationNumber.equals(other.civicRegistrationNumber)) {
             return false;
-        if (deleted != other.deleted)
+        }
+        if (deleted != other.deleted) {
             return false;
-        if (deletedByCareGiver != other.deletedByCareGiver)
+        }
+        if (deletedByCareGiver != other.deletedByCareGiver) {
             return false;
-        if (wireTapped != other.wireTapped)
+        }
+        if (wireTapped != other.wireTapped) {
             return false;
+        }
         if (document == null) {
-            if (other.document != null)
+            if (other.document != null) {
                 return false;
-        } else if (!document.equals(other.document))
+            }
+        } else if (!document.equals(other.document)) {
             return false;
+        }
         if (id == null) {
-            if (other.id != null)
+            if (other.id != null) {
                 return false;
-        } else if (!id.equals(other.id))
+            }
+        } else if (!id.equals(other.id)) {
             return false;
-        if (revoked != other.revoked)
+        }
+        if (revoked != other.revoked) {
             return false;
+        }
         if (signedDate == null) {
-            if (other.signedDate != null)
+            if (other.signedDate != null) {
                 return false;
-        } else if (!signedDate.equals(other.signedDate))
+            }
+        } else if (!signedDate.equals(other.signedDate)) {
             return false;
+        }
         if (signingDoctorName == null) {
-            if (other.signingDoctorName != null)
+            if (other.signingDoctorName != null) {
                 return false;
-        } else if (!signingDoctorName.equals(other.signingDoctorName))
+            }
+        } else if (!signingDoctorName.equals(other.signingDoctorName)) {
             return false;
+        }
         if (type == null) {
-            if (other.type != null)
+            if (other.type != null) {
                 return false;
-        } else if (!type.equals(other.type))
+            }
+        } else if (!type.equals(other.type)) {
             return false;
+        }
         if (validFromDate == null) {
-            if (other.validFromDate != null)
+            if (other.validFromDate != null) {
                 return false;
-        } else if (!validFromDate.equals(other.validFromDate))
+            }
+        } else if (!validFromDate.equals(other.validFromDate)) {
             return false;
+        }
         if (validToDate == null) {
-            if (other.validToDate != null)
+            if (other.validToDate != null) {
                 return false;
-        } else if (!validToDate.equals(other.validToDate))
+            }
+        } else if (!validToDate.equals(other.validToDate)) {
             return false;
+        }
         return true;
     }
 

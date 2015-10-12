@@ -109,6 +109,9 @@ public class InternalLocalDateInterval {
     @JsonIgnore
     @Override
     public boolean equals(Object other) {
+        if (!(other instanceof InternalLocalDateInterval)) {
+            return false;
+        }
         InternalLocalDateInterval otherInterval = (InternalLocalDateInterval) other;
 
         if (!this.isValid() || !otherInterval.isValid()) {

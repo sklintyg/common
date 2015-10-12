@@ -181,16 +181,11 @@ public interface ModuleApi {
 
     /**
      * Create a notification message based on the supplied model.
-     *
-     * @param notificationMessage
-     * @return
      */
     Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
 
     /**
      * Exposed for testing purposes.
-     *
-     * @param jsonString
      * @return an XML string
      */
     String marshall(String jsonString) throws ModuleException;

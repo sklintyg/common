@@ -27,7 +27,7 @@ public class CreateDraftCopyHolder {
     private final HoSPersonal skapadAv;
 
     private Patient patient;
-    
+
     private String newPersonnummer;
 
     public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv) {
@@ -64,8 +64,9 @@ public class CreateDraftCopyHolder {
     public boolean hasPatient() {
         return (this.patient != null);
     }
-    
+
     public boolean hasNewPersonnummer() {
         return (this.newPersonnummer != null);
     }
+
 }

@@ -11,7 +11,7 @@ public enum ModuleFeature {
 
     private String name;
 
-    private ModuleFeature(String name) {
+    ModuleFeature(String name) {
         this.name = name;
     }
 

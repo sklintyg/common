@@ -25,6 +25,7 @@ public interface WebcertModuleService {
      * Validates a diagnosis code using the DiagnosService.
      *
      * @param codeFragment
+     *              The code to validate
      * @param codeSystem
      *            Enum representing the code system the diagnosis belongs to
      * @return true if the code matches a diagnosis, false otherwise.
