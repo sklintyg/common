@@ -80,7 +80,7 @@ angular.module('common').factory('common.UserModel',
                 ROLE_VARDADMINISTRATOR_UTHOPP :'Vårdadministratör',
                 ROLE_LAKARE: 'Läkare',
                 ROLE_LAKARE_DJUPINTEGRERAD: 'Läkare',
-                ROLE_LAKARE_UTHOPP: 'Läkare', // franJournalsystemQAOnly
+                ROLE_LAKARE_UTHOPP: 'Läkare',
                 ROLE_PRIVATLAKARE: 'Privatläkare',
                 ROLE_TANDLAKARE: 'Tandläkare',
                 getRole: function(roles) {

@@ -14,8 +14,6 @@
     "/web/webjars/common/webcert/gui/wcCheckVardenhet.directive.js",
     "/web/webjars/common/webcert/gui/wcDetectAnimation.directive.js",
     "/web/webjars/common/webcert/gui/wcDisableKeyDown.directive.js",
-    "/web/webjars/common/webcert/gui/wcFeatureActive.directive.js",
-    "/web/webjars/common/webcert/gui/wcFeatureNotActive.directive.js",
     "/web/webjars/common/webcert/gui/wcFocusMe.directive.js",
     "/web/webjars/common/webcert/gui/wcFocusOn.directive.js",
     "/web/webjars/common/webcert/gui/wcMaxLength.directive.js",

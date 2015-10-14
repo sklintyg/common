@@ -37,15 +37,15 @@
           </button>
           <button id="downloadprint"
                   class="btn btn-info"
-                  wc-feature-not-active
+                  wc-authority
                   intygstyp="{{intygstyp}}"
-                  feature="arbetsgivarUtskrift"
+                  feature="!arbetsgivarUtskrift"
                   ng-click="print(viewState.intygModel, false)">
             Skriv ut
           </button>
           <div id="downloadprintemployer"
                style="display:inline;"
-               wc-feature-active
+               wc-authority
                feature="arbetsgivarUtskrift"
                intygstyp="{{intygstyp}}">
             <div class="btn-group"

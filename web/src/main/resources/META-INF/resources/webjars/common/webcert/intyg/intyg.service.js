@@ -1,6 +1,6 @@
 angular.module('common').factory('common.IntygService',
-    [ '$log', '$timeout', '$location', '$cookieStore', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.featureService',
-        function($log, $timeout, $location, $cookieStore, $stateParams, dialogService, IntygProxy, featureService) {
+    [ '$log', '$timeout', '$location', '$cookieStore', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService',
+        function($log, $timeout, $location, $cookieStore, $stateParams, dialogService, IntygProxy, authorityService) {
             'use strict';
 
             var _COPY_DIALOG_COOKIE = 'wc.dontShowCopyDialog';
@@ -56,7 +56,7 @@ angular.module('common').factory('common.IntygService',
 
                     copyDialogModel.otherCareUnit = isOtherCareUnit;
                     copyDialogModel.patientId = $stateParams.patientId;
-                    copyDialogModel.deepIntegration = featureService.isFeatureActive('franJournalsystem');
+                    copyDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'PRIVILEGE_HANTERA_PERSONUPPGIFTER'});
                     copyDialogModel.intygTyp = intygCopyRequest.intygType;
 
                     var copyDialog = dialogService.showDialog({
