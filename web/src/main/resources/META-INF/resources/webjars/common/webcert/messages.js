@@ -147,7 +147,7 @@ var commonMessages = {
         'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).',
 
         // FMB texts
-        'fmb.falt2_spb': 'Symptom, prognos och behandling',
+        'fmb.falt2_spb': 'Symtom, prognos och behandling',
         'fmb.falt2_general': 'Generell information',
         'fmb.falt4': '',
         'fmb.falt5': '',
