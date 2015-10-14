@@ -18,7 +18,7 @@ describe('IntygService', function() {
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
         $provide.value('$stateParams', {});
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
-        $provide.value('common.UserModel', { userContext: { authenticationScheme: null }, getActiveFeatures: function() {} });
+        $provide.value('common.UserModel', { userContext: { authenticationScheme: null }, getActiveFeatures: function() {}, hasPrivilege: function() {} });
         $provide.value('common.UtkastViewStateService', {});
         $provide.value('common.utkastNotifyService', {});
         $provide.value('common.domain.DraftModel', {});
