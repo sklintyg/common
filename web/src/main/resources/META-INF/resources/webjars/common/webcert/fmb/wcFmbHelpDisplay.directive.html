@@ -24,7 +24,7 @@
         <h2 id="fmb_diagnos_heading_{{relatedFormId}}" class="fmb-diagnosis-headline">{{diagnosisCode}}</h2>
         <hr class="fmb-ruler"/>
 
-        <div ng-repeat="item in helpTextContents">
+        <div ng-repeat="item in helpTextContents" ng-show="item.text || item.list">
             <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">
                 <span message key="{{'fmb.' + item.heading}}"></span>
             </h4>
