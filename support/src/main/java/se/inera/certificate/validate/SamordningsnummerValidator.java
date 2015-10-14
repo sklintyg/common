@@ -41,6 +41,7 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
      * Samordningsnummer have 60 added to the day. In order to calculate the birth day
      * of the citizen, this needs to be substracted.
      */
+    // CHECKSTYLE:OFF MagicNumber
     protected LocalDate getBirthDay(String personNummer) throws IllegalArgumentException {
         if (!isSamordningsNummer(personNummer)) {
             throw new IllegalArgumentException("personNummer " + personNummer + " is not a valid 'samordningsnummer");
@@ -52,4 +53,6 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
 
         return super.getBirthDay(sb.toString());
     }
+    // CHECKSTYLE:ON MagicNumber
+
 }

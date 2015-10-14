@@ -1,5 +1,6 @@
 package se.inera.certificate.model;
 
+import com.google.common.base.Objects;
 import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -119,4 +120,11 @@ public class InternalLocalDateInterval {
         }
         return this.fromAsLocalDate().equals(otherInterval.fromAsLocalDate()) && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate());
     }
+
+    @JsonIgnore
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(fromAsLocalDate(), tomAsLocalDate());
+    }
+
 }

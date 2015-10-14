@@ -23,6 +23,7 @@ public class Vardenhet {
 
     private final String arbetsplatskod;
 
+    // CHECKSTYLE:OFF ParameterNumber
     public Vardenhet(String hsaId, String namn, String postadress, String postnummer, String postort,
             String telefonnummer, String epost, String arbetsplatskod, Vardgivare vardgivare) {
         hasText(hsaId, "'hsaId' must not be empty");
@@ -43,6 +44,7 @@ public class Vardenhet {
         this.vardgivare = vardgivare;
         this.arbetsplatskod = arbetsplatskod;
     }
+    // CHECKSTYLE:OFF ParameterNumber
 
     public String getHsaId() {
         return hsaId;
