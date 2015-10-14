@@ -149,7 +149,8 @@ describe('wcHeader', function() {
             $templateCache = _$templateCache_;
             $window = _$window_;
             $window.MODULE_CONFIG = {
-                    PP_HOST: 'localhost:8090'
+                    PP_HOST: 'localhost:8090',
+                    DASHBOARD_URL: '/web/dashboard'
             };
 
             // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast
