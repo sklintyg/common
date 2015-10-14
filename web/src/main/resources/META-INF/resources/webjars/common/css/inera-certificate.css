@@ -719,6 +719,7 @@
 .navbar-default .navbar-nav>li>a:focus,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
-	background: #24a1af;
-	color:#fff;
+	background: #24a1af !important;
+	color:#fff !important;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)" !important;
 }
