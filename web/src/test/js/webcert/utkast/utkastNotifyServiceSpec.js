@@ -18,7 +18,7 @@ describe('UtkastNotifyService', function() {
 
     describe('#notificationEncoding', function() {
 
-        it ('should be unhandled if qa.status == ANSWERED', function () {
+        it ('should be unhandled if qa.status === ANSWERED', function () {
             var intygId = 'intyg-1';
             var intygType = 'fk7263';
             var enhetsNamn = 'Vårdenhet åäöÅÄÖ';

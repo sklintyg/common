@@ -16,7 +16,7 @@ describe('fragaSvarCommonService', function() {
 
     describe('#isUnhandled', function() {
 
-        it ('should be unhandled if qa.status == ANSWERED', function () {
+        it ('should be unhandled if qa.status === ANSWERED', function () {
             var qa = {status:'ANSWERED'};
             expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
         });
