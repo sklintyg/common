@@ -28,7 +28,7 @@ public class Vardenhet {
             String telefonnummer, String epost, String arbetsplatskod, Vardgivare vardgivare) {
         hasText(hsaId, "'hsaId' must not be empty");
         hasText(namn, "'namn' must not be empty");
-        // these properties must be provided from HSA
+        // these properties must be provided from HSA (handled by WEBCERT-2054)
         // hasText(postadress, "'postadress' must not be empty");
         // hasText(postnummer, "'postnummer' must not be empty");
         // hasText(postort, "'postort' must not be empty");
