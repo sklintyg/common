@@ -11,7 +11,7 @@ angular.module('common').directive('wcDisableKeyDown',
                     }
                 }
             });
-        }
+        };
         return {
             restrict: 'EA',
             scope: {
@@ -25,15 +25,15 @@ angular.module('common').directive('wcDisableKeyDown',
                     // postpone until the dom is rendered
                     scope.$watch('doneLoading', function(doneLoading) {
                         if (doneLoading) {
-                            var elements = scope.elements.split(",");
+                            var elements = scope.elements.split(',');
                             angular.forEach(elements, function(value) {
                                 removeEnter(elem.parents('form').find(value), scope, attrs);
-                            })
+                            });
                         }
                     });
 
                 }
 
             }
-        }
+        };
     });

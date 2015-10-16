@@ -27,7 +27,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
         }
     };
 
-    var _isMinDateOutOfRange = function(minMax, now) {
+    var _isMinDateOutOfRange = function(minMax, now) { // jshint ignore:line
         if(!minMax || !minMax.min || !minMax.max){
             return false;
         }
@@ -95,7 +95,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
 
     var _now = function(){
         return moment(0, 'HH');
-    }
+    };
 
     //-----------------------------------------------------------------------
     // --- FromTos
@@ -186,7 +186,9 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             this.totalCertDays = 0;
         }
         this.datesPeriodTooLong = _areDatesPeriodTooLong(this.minMax);
-        //this.minDateOutOfRange = _isMinDateOutOfRange(this.minMax);
+
+        // reason this is commented out?
+        // this.minDateOutOfRange = _isMinDateOutOfRange(this.minMax);
         //if(this.minDateOutOfRange){
         //    this.datesOutOfRange = this.minDateOutOfRange;
         //}
@@ -312,7 +314,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             var dateRange = this.dateRanges[i];
             dateRange.overlap = false;
         }
-    }
+    };
 
     FromTos.build = function(names, startDate){
         return new FromTos(names, startDate);
@@ -383,7 +385,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             });
 
         } else {
-            //$log.info('formElement or dateUnit not available. cannot add parser or modelupdate.');
+            $log.info('formElement or dateUnit not available. cannot add parser or modelupdate.');
         }
     };
 
@@ -523,11 +525,11 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
 
     FromTo.prototype.isEmpty = function(){
         return (!this.to && !this.from) || (this.to.isEmpty() && this.from.isEmpty());
-    }
+    };
 
     FromTo.build = function(name, startDate){
         return new FromTo(name, startDate);
-    }
+    };
 
     //-----------------------------------------------------------------------
     // --- single DateUnit
@@ -641,15 +643,15 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
                 this.fromTo.parent.max.viewValid = false;
             }
         }
-    }
+    };
 
     DateUnit.prototype.isEmpty = function(){
         return this.dateString === undefined;
-    }
+    };
 
     DateUnit.build = function( dateString, fromTo, name ){
         return new DateUnit(dateString, fromTo, name);
-    }
+    };
 
     // --- service methods
 

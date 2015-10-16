@@ -188,13 +188,13 @@ angular.module('common').controller('common.wcHeaderController',
                 var link = $window.MODULE_CONFIG.PP_HOST; 
                 link += '/#/?from=' + window.encodeURIComponent($window.MODULE_CONFIG.DASHBOARD_URL + '#' + $location.path());
                 $window.location.href = link;
-            }
+            };
 
             $scope.logout = function() {
                 if (endsWith(UserModel.user.authenticationScheme, ':fake')) {
                     $window.location = '/logout';
                 } else {
-                    iid_Invoke('Logout');
+                    iid_Invoke('Logout'); // jshint ignore:line
                     $window.location = '/saml/logout/';
                 }
             };
@@ -255,11 +255,11 @@ angular.module('common').controller('common.wcHeaderController',
 
                         $scope.findAllFragaSvar = function(vg, id) {
                             return findAll(vg, id, $scope.findFragaSvar);
-                        }
+                        };
 
                         $scope.findAllIntyg = function(vg, id) {
                             return findAll(vg, id, $scope.findIntyg);
-                        }
+                        };
 
                         /******************
                          * End of presentation functions

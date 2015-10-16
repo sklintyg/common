@@ -81,7 +81,7 @@ angular.module('common').directive('wcDatePickerField',
                             ppdate = new Date();
                         }
                         return ppdate;
-                    }
+                    };
                     ngModel.$render = function() {
                         //var date = ngModel.$viewValue ? dateFilter(ngModel.$viewValue, dateFormat) : '';
                         element.val(ngModel.$viewValue);
@@ -96,9 +96,9 @@ angular.module('common').directive('wcDatePickerField',
                     // it's the date, if the date is valid
                     // but first we need to remove the event listeners for ui-bootstrap-tpls.js datepicker
                     // this little monster listening can be found at ln 1519
-                    $._data(element[0], 'events')['input'].pop();
-                    $._data(element[0], 'events')['keyup'].pop();
-                    $._data(element[0], 'events')['change'].pop();
+                    $._data(element[0], 'events').input.pop();
+                    $._data(element[0], 'events').keyup.pop();
+                    $._data(element[0], 'events').change.pop();
                     //element.unbind('change keyup');
                     element.bind('input change keyup', function(e) {
                         wcDatePickerField.datepickerPopupScope.$apply(function() {

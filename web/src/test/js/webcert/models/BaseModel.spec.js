@@ -21,31 +21,22 @@ describe('common.domain.BaseModel', function() {
     describe('#base model', function() {
 
         var model;
-        var content;
         beforeEach(function(){
 
         });
-
+/*
         var isArray = function(val){
             return val !== undefined && val instanceof Array;
         };
 
         var isString = function(val){
             return val !== undefined && typeof val === 'string';
-        }
+        };
 
         var isObject = function(val){
             return val !== undefined && typeof val === 'object';
-        }
-
-        var isUndefined = function(val){
-            return val === undefined;
-        }
-
-        var isNumber = function(val){
-            return val !== undefined && typeof val === 'number';
-        }
-
+        };
+*/
         var print = function(model){
             var properties = model.properties;
             ////console.log('-------- properties :');
@@ -57,8 +48,8 @@ describe('common.domain.BaseModel', function() {
             ////console.log(JSON.stringify(model));
             ////console.log('--------');
             model.properties = properties;
-        }
-
+        };
+/*
         var checkProps = function checkProps(modelDef, model){
 
             angular.forEach(modelDef, function(val, key){
@@ -81,7 +72,7 @@ describe('common.domain.BaseModel', function() {
                 }
             });
         };
-
+*/
         describe('linked properties', function(){
             it('link a number of properties to a single property', function(){
 
@@ -142,8 +133,6 @@ describe('common.domain.BaseModel', function() {
 
         xdescribe('enums', function(){
             it('can handle an array of objects ', function(){
-
-                var korkortstyp = new BaseModel('korkortstyp', {type:'ANNAT', selected:false});
 
                 var modelDef = {
                     korkortstyp: new ModelAttr('korkortstyp',
@@ -317,13 +306,12 @@ describe('common.domain.BaseModel', function() {
                 };
                 model = new BaseModel('model1', modelDef );
 
-                var content_a_aa = {aaa:'update aaa', aab:'update aab'};
-
+                var contentApAa = {aaa:'update aaa', aab:'update aab'};
 
                 ////console.log('+++++++++++++++++++++++++++++++++++');
                 ////console.log('++ update a.aa');
                 ////console.log('+++++++++++++++++++++++++++++++++++');
-                model.update(content_a_aa, 'a.aa');
+                model.update(contentApAa, 'a.aa');
 
                 expect(model.a.aa.aaa).toBe('update aaa');
                 expect(model.a.aa.aab).toBe('update aab');
@@ -341,7 +329,7 @@ describe('common.domain.BaseModel', function() {
                 };
                 model = new BaseModel('model1', modelDef );
 
-                var content_a = { a: {
+                var contentA = { a: {
                     aa: { aaa: 'u aaa', aab: 'u aab'},
                     ab : 'u ab'
                 } };
@@ -350,7 +338,7 @@ describe('common.domain.BaseModel', function() {
                 ////console.log('++ update all');
                 ////console.log('+++++++++++++++++++++++++++++++++++');
 
-                model.update(content_a)
+                model.update(contentA);
 
                 expect(model.a.aa.aaa).toBe('u aaa');
                 expect(model.a.aa.aab).toBe('u aab');
@@ -393,9 +381,8 @@ describe('common.domain.BaseModel', function() {
                 var IntygModel = BaseAtticModel._extend({
                     init: function init(){
                         init._super.call(this, 'model1',modelDef);
-                    }
-
-                    ,update: function update(content, parent) {
+                    },
+                    update: function update(content, parent) {
                         ////console.log('update im');
                         if (parent) {
                             parent.content = this;
@@ -464,10 +451,10 @@ describe('common.domain.BaseModel', function() {
                 };
                 model = new BaseModel('model1', modelDef);
 
-                var content_a_aa = {aaa: 'update aaa', aab: 'update aab'};
+                var contentApAa = {aaa: 'update aaa', aab: 'update aab'};
 
 
-                model.update(content_a_aa, 'a.aa');
+                model.update(contentApAa, 'a.aa');
 
                 ////console.log('+++++++++++++++++++++++++++++++++++');
                 ////console.log('++ send all');
@@ -495,10 +482,8 @@ describe('common.domain.BaseModel', function() {
                 };
                 model = new BaseModel('model1', modelDef);
 
-                var content_a_aa = {aaa: 'update aaa', aab: 'update aab'};
-
-
-                model.update(content_a_aa, 'a.aa');
+                var contentApAa = {aaa: 'update aaa', aab: 'update aab'};
+                model.update(contentApAa, 'a.aa');
 
                 ////console.log('+++++++++++++++++++++++++++++++++++');
                 ////console.log('++ send a.aa');

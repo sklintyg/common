@@ -14,7 +14,7 @@ angular.module('common').directive( 'wcSizeTarget', ['common.UtkastViewStateServ
 }]);
 
 angular.module('common').directive('wcSizeSource', ['$rootScope', '$timeout', function($root, $timeout) {
-    'use strict'
+    'use strict';
     return {
         scope: {
             size: '=wcSizeSource'
@@ -39,7 +39,10 @@ angular.module('common').directive('wcSizeSource', ['$rootScope', '$timeout', fu
 
             // Add Element to Chain?
             var exists = false;
-            angular.forEach($root.ngSizeWatch, function(el, i) { if (el === element[0]) exists = i });
+            angular.forEach($root.ngSizeWatch, function(el, i) { if (el === element[0]) {
+                    exists = i;
+                }
+            });
 
             // Ok.
             if (exists === false) {

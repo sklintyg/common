@@ -46,13 +46,11 @@ angular.module('common').factory('common.UtkastProxy',
                     $log.debug('_saveDraft data: ' + data);
                     onSuccess(data);
                     saveDraftInProgress = false;
-                }).
-                error(function(data, status) {
+                }).error(function(data, status) {
                     $log.error('error ' + status);
                     onError(data);
                     saveDraftInProgress = false;
-                }).
-                finally(function(){
+                }).finally(function(){ // jshint ignore:line
                     saveDraftInProgress = false;
                 });
         }

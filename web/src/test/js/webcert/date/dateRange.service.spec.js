@@ -33,10 +33,9 @@ describe('DateRangeService', function() {
             expect(du.valid).toBeFalsy();
             expect(du.dirty).toBeTruthy();
             expect(du.dateString).toBe('hehe');
-
         });
 
-        it("can test if empty", function() {
+        it('can test if empty', function() {
             var du = DateRangeService.DateUnit.build('03-12-2015');
             expect(du.isEmpty()).toBeFalsy();
 
@@ -48,7 +47,6 @@ describe('DateRangeService', function() {
 
             du.update(undefined);
             expect(du.isEmpty()).toBeTruthy();
-
         });
 
         it('will create an invalid DateUnit', function(){
@@ -62,7 +60,6 @@ describe('DateRangeService', function() {
             expect(du.valid).toBeFalsy();
             expect(du.dirty).toBeTruthy();
             expect(du.dateString).toBe('hehe');
-
         });
 
         it('will create a valid date on update of an invalid DateUnit', function(){
@@ -598,17 +595,15 @@ describe('DateRangeService', function() {
 
             // take the date exactly below 6 months
             var plus6minus1day = moment('2015-01-01').add(6, 'months');
-            plus6minus1day.subtract(1, 'days')
+            plus6minus1day.subtract(1, 'days');
             fromTos.range2.to.update(plus6minus1day);
 
             expect(fromTos.datesPeriodTooLong).toBeFalsy();
 
-            plus6minus1day.add(1, 'days')
+            plus6minus1day.add(1, 'days');
             fromTos.range2.to.update(plus6minus1day);
 
             expect(fromTos.datesPeriodTooLong).toBeTruthy();
-
-
         });
 
     });

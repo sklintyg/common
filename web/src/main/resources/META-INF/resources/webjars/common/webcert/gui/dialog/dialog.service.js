@@ -221,7 +221,7 @@ angular.module('common').factory('common.dialogService',
                         return angular.copy(options.autoClose);
                     }
                 }
-            }
+            };
             if(options.model !== undefined){
                 var dscope = $rootScope.$new(true);
                 dscope.model = options.model;
@@ -253,7 +253,7 @@ angular.module('common').factory('common.dialogService',
 
             return msgbox;
         }
-
+        /* // unused atm
         function _runOnDialogRemoved(modal, callback) {
             modal.opened.then(function() {
                 function waitForModalToBeRemovedAndRunCallback() {
@@ -272,7 +272,7 @@ angular.module('common').factory('common.dialogService',
                 callback();
             });
         }
-
+*/
         function _runOnDialogDoneLoading(modal, callback) {
             modal.opened.then(function() {
                 function waitForModalToExistAndRunCallbackWhenTransitionIsDone() {

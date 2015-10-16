@@ -1,4 +1,4 @@
-var iid_GetProperty, iid_Invoke, iid_SetProperty;
+var iid_GetProperty, iid_Invoke, iid_SetProperty; // jshint ignore:line
 
 describe('UtkastSignService', function() {
     'use strict';
@@ -18,14 +18,6 @@ describe('UtkastSignService', function() {
             {}
         ]);
         $provide.value('$state', jasmine.createSpyObj('$state', [ 'reload' ]));
-        var location = {
-            path: function() {
-                return { search: function() {
-                } };
-            },
-            replace: function() {
-            }
-        };
         $provide.value('common.messageService',
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
         $provide.value('$stateParams', {});
@@ -60,7 +52,6 @@ describe('UtkastSignService', function() {
 
     describe('#signera server', function() {
         var intygId = 123, biljettId = 12345, version = 5;
-        var $scope;
         var signModel;
 
         beforeEach(function() {
@@ -158,9 +149,9 @@ describe('UtkastSignService', function() {
         var $scope;
 
         beforeEach(function() {
-            iid_GetProperty = jasmine.createSpy('iid_GetProperty');
-            iid_Invoke = jasmine.createSpy('invoke');
-            iid_SetProperty = jasmine.createSpy('iid_SetProperty');
+            iid_GetProperty = jasmine.createSpy('iid_GetProperty'); // jshint ignore:line
+            iid_Invoke = jasmine.createSpy('invoke'); // jshint ignore:line
+            iid_SetProperty = jasmine.createSpy('iid_SetProperty'); // jshint ignore:line
 
             User.getUser().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
             User.getUser().authenticationMethod = 'NET_ID';
@@ -179,8 +170,8 @@ describe('UtkastSignService', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            iid_Invoke.and.returnValue(0);
-            iid_GetProperty.and.returnValue('4321dcba');
+            iid_Invoke.and.returnValue(0); // jshint ignore:line
+            iid_GetProperty.and.returnValue('4321dcba'); // jshint ignore:line
 
             UtkastSignService.signera('fk7263', version);
 
@@ -199,8 +190,8 @@ describe('UtkastSignService', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            iid_Invoke.and.returnValue(0);
-            iid_GetProperty.and.returnValue('4321dcba');
+            iid_Invoke.and.returnValue(0); // jshint ignore:line
+            iid_GetProperty.and.returnValue('4321dcba'); // jshint ignore:line
 
             UtkastSignService.signera('fk7263', version);
             $httpBackend.flush();
@@ -236,7 +227,7 @@ describe('UtkastSignService', function() {
             $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
-            iid_Invoke.and.returnValue(-1);
+            iid_Invoke.and.returnValue(-1); // jshint ignore:line
 
             UtkastSignService.signera('fk7263', version);
             $httpBackend.flush();

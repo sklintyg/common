@@ -23,7 +23,7 @@ angular.module('common').factory('common.domain.AtticService',
                         }
                     }
                     return atticModel.hasOwnProperty(prop) && atticModel[prop] !== undefined;
-                }
+                };
 
                 for(var i = 0; i<cp.props.length; i++){
                     var prop = cp.props[i];
@@ -91,7 +91,7 @@ angular.module('common').factory('common.domain.AtticService',
             },
 
             update : function(model, properties) {
-                var atticModel = this.atticModel;
+                //var atticModel = this.atticModel;
 
                 var cp = this.getProperties(model, properties);
 

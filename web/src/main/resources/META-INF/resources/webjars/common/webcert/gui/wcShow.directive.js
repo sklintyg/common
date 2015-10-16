@@ -10,7 +10,7 @@ angular.module('common').directive('wcShow',
 
                     $animate[value ? 'removeClass' : 'addClass'](element, 'ng-hide');
 
-                    var id = element.attr('id');
+                    //var id = element.attr('id');
                     element.on('$animate:before', function() {
                         //$log.debug('------------ animate:before ' + id + ', saving:' + $window.saving + 'hasRegistered : ' + $window.hasRegistered);
                         $window.animations++;

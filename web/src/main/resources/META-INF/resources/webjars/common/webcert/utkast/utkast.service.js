@@ -90,7 +90,7 @@ angular.module('common').factory('common.UtkastService',
                         intygState.viewState.common.error.saveErrorCode = result.errorCode;
                     });
 
-                    saveCompletePromise.finally(function(){
+                    saveCompletePromise.finally(function(){ // jshint ignore:line
                         if(extras && extras.destroy ){
                             extras.destroy();
                         }

@@ -1,7 +1,9 @@
 /**
  * Created by stephenwhite on 21/09/15.
  */
+/*
 function getTestUser (role){
+    'use strict';
     return {
         'hsaId': 'eva',
         'namn': 'Eva Holgersson',
@@ -56,5 +58,4 @@ function getTestUser (role){
         'aktivaFunktioner': ['hanteraFragor', 'hanteraFragor.fk7263'],
         'totaltAntalVardenheter': 6
     };
-
-}
+}*/

@@ -8,13 +8,13 @@ angular.module('common').directive('wcToUppercase', function() {
 
             ngModel.$parsers.unshift(function(viewValue)
             {
-                var val = (viewValue || "").toUpperCase();
+                var val = (viewValue || '').toUpperCase();
                 element.val(val);
                 return val;
             });
             ngModel.$formatters.unshift(function()
             {
-                if(!ngModel.$modelValue) return;
+                if(!ngModel.$modelValue) { return; }
                 return ngModel.$modelValue.toUpperCase();
             });
 

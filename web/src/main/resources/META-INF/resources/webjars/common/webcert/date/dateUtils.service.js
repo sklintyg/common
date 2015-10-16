@@ -73,7 +73,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
             return null;
         }
 
-        var momentDate = this.toMoment(date);
+        var momentDate = _toMoment(date);
         if (momentDate !== null) {
             // Format date strictly to _format.
             momentDate = moment(momentDate.format(_format), _format, true).format(_format);
@@ -81,7 +81,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
                 // We don't want to handle invalid dates at all
                 momentDate = null;
             } else {
-                momentDate = this.toMoment(momentDate);
+                momentDate = _toMoment(momentDate);
             }
         }
 
@@ -96,7 +96,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
      */
     function _pushValidDate(list, dateValue) {
         if ((typeof dateValue === 'string' && dateValue.length === 10) || dateValue instanceof Date) {
-            var momentDate = this.toMoment(dateValue);
+            var momentDate = _toMoment(dateValue);
             if (momentDate !== null && momentDate.isValid()) {
                 var formattedDate = moment(momentDate.format(_format), _format, true);
                 if (formattedDate.isValid()) {

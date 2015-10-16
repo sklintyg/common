@@ -9,9 +9,6 @@ angular.module('common').factory('common.domain.BaseModel',
                 this.name = name;
                 this.properties = properties;
 
-                var setDefaultValue = function(current, prop){
-
-                }
                 // this gets executed once the property has been recursed
                 var initProp = function(current, prop, extras){
                     //console.log('------------------------ initProp');
@@ -25,7 +22,6 @@ angular.module('common').factory('common.domain.BaseModel',
                             current[prop.property] = prop;
                         }
                     } else if (prop instanceof ModelAttr) {
-                        var value = undefined;
                         if(extras.key !== undefined){
                             if(extras.self.isObject(prop.defaultValue)){
                                 current[extras.key] = angular.copy(prop.defaultValue);
@@ -63,7 +59,7 @@ angular.module('common').factory('common.domain.BaseModel',
                                     lps[id] = newval;
                                     self[prop.property] = prop.linkedProperty.update(self, lps);
                                     return newval;
-                                });
+                                }); // jshint ignore:line
 
                                 // trigger an update, if defaultValue has been set...
                                 //self[prop.property] = prop.linkedProperty.update(self, lps);
@@ -132,7 +128,7 @@ angular.module('common').factory('common.domain.BaseModel',
             },
 
             isModel : function(val){
-              return val != undefined && val.update !== undefined;
+              return val !== undefined && val.update !== undefined;
             },
 
             _recurse : function _recurse(currentSelf, props, propFn, extras){
@@ -291,8 +287,8 @@ angular.module('common').factory('common.domain.BaseModel',
                                 } else if (extras.self.isModel(current[prop.property])) {
                                     //console.log('---- update child model');
                                     current[prop.property].update(extras.content[prop.property]);
-                                } else if(prop.linkedProperty){
-                                    // this is now taken care of by watch
+                                /*} else if(prop.linkedProperty){
+                                    // this is now taken care of by watch*/
                                 } else {
                                     //console.log('---- update prop');
                                     current[prop.property] = extras.content[prop.property];
@@ -373,7 +369,7 @@ angular.module('common').factory('common.domain.BaseModel',
                             }
                         }
                     }
-                }
+                };
 
                 this._recurse(current, properties, toModelFn, {self:this, tm:toModel, ec:current, ep:properties});
 

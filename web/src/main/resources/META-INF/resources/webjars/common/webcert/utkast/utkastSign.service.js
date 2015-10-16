@@ -127,13 +127,13 @@ angular.module('common').factory('common.UtkastSignService',
 
             function _openNetIdPlugin(hash, onSuccess, onError) {
                 $timeout(function() {
-                    iid_SetProperty('Base64', 'true');
-                    iid_SetProperty('DataToBeSigned', hash);
-                    iid_SetProperty('URLEncode', 'false');
-                    var resultCode = iid_Invoke('Sign');
+                    iid_SetProperty('Base64', 'true'); // jshint ignore:line
+                    iid_SetProperty('DataToBeSigned', hash); // jshint ignore:line
+                    iid_SetProperty('URLEncode', 'false'); // jshint ignore:line
+                    var resultCode = iid_Invoke('Sign'); // jshint ignore:line
 
                     if (resultCode === 0) {
-                        onSuccess(iid_GetProperty('Signature'));
+                        onSuccess(iid_GetProperty('Signature')); // jshint ignore:line
                     } else {
                         var message = 'Signeringen avbröts med kod: ' + resultCode;
                         $log.info(message);
@@ -196,7 +196,9 @@ angular.module('common').factory('common.UtkastSignService',
                             _showIntygAfterSignering(signModel, intygsTyp, intygsId);
                         }  else {
                             deferred.resolve({newVersion : ticket.version});
-                            if (dialogHandle !== undefined) dialogHandle.close(); // TODO this is a hack, fix.
+                            if (dialogHandle !== undefined) {
+                                dialogHandle.close();
+                            } // TODO this is a hack, fix.
                             _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
                     });

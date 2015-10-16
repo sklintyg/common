@@ -1,4 +1,3 @@
-/* global document */
 angular.module('common').controller('common.IntygHeader',
     ['$scope', '$log', '$stateParams', 'common.messageService', 'common.PrintService',
     'common.IntygCopyRequestModel', 'common.User', 'common.UserModel', 'common.IntygService',
@@ -63,7 +62,7 @@ angular.module('common').controller('common.IntygHeader',
                     var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
                     PrintService.printWebPageWithCustomTitle(cert.id, $stateParams.certificateType, customHeader);
                 } else if (isEmployeeCopy) {
-                    window.open($scope.pdfUrl + "/arbetsgivarutskrift", '_blank');
+                    window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
                 } else {
                     window.open($scope.pdfUrl, '_blank');
                 }

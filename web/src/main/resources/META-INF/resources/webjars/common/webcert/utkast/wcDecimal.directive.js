@@ -82,11 +82,12 @@ angular.module('common').directive('wcDecimalNumber',
                     };
                 }
 
+                var blurValue = null;
                 function blurFormat() {
-                    var filtered = filter(this.value);
+                    var filtered = filter(blurValue);
                     var val = format(filtered);
-                    if (this.value !== val.valForView) {
-                        this.value = val.valForView;
+                    if (blurValue !== val.valForView) {
+                        blurValue = val.valForView;
                     }
                 }
 

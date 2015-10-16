@@ -53,8 +53,10 @@ angular.module('common').factory('common.dialogService',
          button3text: (optional) message id on button 3 text. default: No, don't ask
          button3visible: (optional) whether button 3 should be visible. default: true if button3text is specified, otherwise false
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
+
+         // jshint ignored until a larger refactoring is performed
          */
-        function _showDialog(scope, options) {
+        function _showDialog(scope, options) { // jshint ignore:line
 
             // Apply default dialog behaviour values
             scope.dialog = {

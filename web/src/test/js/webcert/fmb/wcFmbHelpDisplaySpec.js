@@ -1,4 +1,4 @@
-describe("wcFmbHelpDisplay", function () {
+describe('wcFmbHelpDisplay', function () {
     'use strict';
 
     beforeEach(angular.mock.module('common'));
@@ -41,7 +41,7 @@ describe("wcFmbHelpDisplay", function () {
                     {heading: 'FALT2_SPB', text: 'Akut bronkit'},
                     {heading: 'FALT2_GENERAL', list: ['BulletText1', 'BulletText2', 'BulletText3']}
                 ]},
-                diagnosKod: 'J22',
+                diagnosKod: 'J22'
             });
         });
 
