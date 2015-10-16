@@ -14,6 +14,13 @@
 
   <name>Intyg Common (Web)</name>
 
+  <properties>
+    <sonar.sources>src/main/resources/META-INF/resources/webjars/common</sonar.sources>
+    <sonar.tests>src/test/js</sonar.tests>
+    <sonar.javascript.lcov.reportPath>target/karma_coverage/merged_lcov.info</sonar.javascript.lcov.reportPath>
+    <sonar.exclusions>**/templates.js</sonar.exclusions>
+  </properties>
+
   <dependencies>
     <!-- Webjars -->
     <dependency>
@@ -179,6 +186,17 @@
             </goals>
             <configuration>
               <karmaConfPath>${project.basedir}/src/test/resources/karma-webcert.conf.ci.js</karmaConfPath>
+            </configuration>
+          </execution>
+          <!-- merges karma code coverage reports for wc and mi -->
+          <execution>
+            <id>grunt lcovMerge</id>
+            <goals>
+              <goal>grunt</goal>
+            </goals>
+            <phase>test</phase>
+            <configuration>
+              <arguments>lcovMerge</arguments>
             </configuration>
           </execution>
         </executions>
