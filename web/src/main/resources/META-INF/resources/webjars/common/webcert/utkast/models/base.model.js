@@ -287,9 +287,7 @@ angular.module('common').factory('common.domain.BaseModel',
                                 } else if (extras.self.isModel(current[prop.property])) {
                                     //console.log('---- update child model');
                                     current[prop.property].update(extras.content[prop.property]);
-                                /*} else if(prop.linkedProperty){
-                                    // this is now taken care of by watch*/
-                                } else {
+                                } else if(!prop.linkedProperty) { // jshint ignore:line
                                     //console.log('---- update prop');
                                     current[prop.property] = extras.content[prop.property];
                                 }

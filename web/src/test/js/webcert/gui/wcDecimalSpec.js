@@ -82,7 +82,7 @@ describe('wcDecimal', function() {
     });
 
     it('should pass with a model decimal number with format ",1"', function() {
-        $scope.model.test = '.1';
+        $scope.model.test = 0.1;
         $scope.$digest();
         expect($scope.form.test.$viewValue).toEqual('0,1');
     });

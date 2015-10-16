@@ -43,7 +43,7 @@ angular.module('common').directive('wcDecimalNumber',
                     var valForView = '';
                     var valForModel = null;
                     if (l > 0) {
-                        if (scope.wcDecimalMaxNumbers === 2) {
+                        if (scope.wcDecimalMaxNumbers === 2 || scope.wcDecimalMaxNumbers === '2') {
                             if (l === 1) {
                                 if (value[0] === ',') {
                                     valForView = '0,0';
