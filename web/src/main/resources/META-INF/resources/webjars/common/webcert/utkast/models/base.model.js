@@ -128,7 +128,7 @@ angular.module('common').factory('common.domain.BaseModel',
             },
 
             isModel : function(val){
-              return val !== undefined && val.update !== undefined;
+              return val !== undefined && val !== null && val.update !== undefined;
             },
 
             _recurse : function _recurse(currentSelf, props, propFn, extras){
