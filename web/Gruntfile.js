@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         jshint: {
             options: {
                 jshintrc: 'target/build-tools/jshint/.jshintrc',
-                force: false,
+                force: true,
                 ignores: ['**/templates.js', '**/vendor/*.js']
             },
             minaintyg: {
