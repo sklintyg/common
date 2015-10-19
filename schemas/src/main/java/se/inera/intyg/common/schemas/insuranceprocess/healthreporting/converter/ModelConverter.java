@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import org.apache.commons.lang3.CharUtils;
 import org.joda.time.LocalDate;
 
 import se.inera.certificate.model.common.internal.GrundData;
 import se.inera.certificate.model.common.internal.Utlatande;
 import se.inera.certificate.model.util.Iterables;
 import se.inera.certificate.modules.support.api.CertificateHolder;
+import se.inera.certificate.modules.support.api.dto.Personnummer;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
@@ -111,23 +111,15 @@ public final class ModelConverter {
         PatientType patient = new PatientType();
 
         II patientIdHolder = new II();
-        String personId = utlatande.getGrundData().getPatient().getPersonId();
-        patientIdHolder.setRoot(isSamordningsNummer(personId) ? Constants.SAMORDNING_ID_OID : Constants.PERSON_ID_OID);
-        patientIdHolder.setExtension(personId);
+        Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+        patientIdHolder.setRoot(personId.isSamordningsNummer() ? Constants.SAMORDNING_ID_OID : Constants.PERSON_ID_OID);
+        patientIdHolder.setExtension(personId.getPersonnummer());
         patient.setPersonId(patientIdHolder);
 
         patient.setFullstandigtNamn(utlatande.getGrundData().getPatient().getFullstandigtNamn());
         lakarutlatande.setPatient(patient);
 
         return lakarutlatande;
-    }
-
-    private static final int SAMORDNING_MONTH_INDEX = 6;
-    private static final int SAMORDNING_MONTH_VALUE_MIN = 6;
-
-    public static boolean isSamordningsNummer(String personNr) {
-        char dateDigit = personNr.charAt(SAMORDNING_MONTH_INDEX);
-        return (CharUtils.toIntValue(dateDigit) >= SAMORDNING_MONTH_VALUE_MIN);
     }
 
     private static LocalDate toLocalDate(Object date) {

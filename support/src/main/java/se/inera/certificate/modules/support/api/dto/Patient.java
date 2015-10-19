@@ -3,6 +3,7 @@ package se.inera.certificate.modules.support.api.dto;
 import org.apache.commons.lang3.StringUtils;
 
 import static org.springframework.util.Assert.hasText;
+import static org.springframework.util.Assert.notNull;
 
 public class Patient {
 
@@ -12,7 +13,7 @@ public class Patient {
 
     private final String efternamn;
 
-    private final String personnummer;
+    private final Personnummer personnummer;
 
     private final String postadress;
 
@@ -20,11 +21,12 @@ public class Patient {
 
     private final String postort;
 
-    public Patient(String fornamn, String mellannamn, String efternamn, String personnummer, String postadress, String postnummer,
+    public Patient(String fornamn, String mellannamn, String efternamn, Personnummer personnummer, String postadress, String postnummer,
             String postort) {
         hasText(fornamn, "'fornamn' must not be empty");
         hasText(efternamn, "'efternamn' must not be empty");
-        hasText(personnummer, "'personnummer' must not be empty");
+        notNull(personnummer, "'personnummer' must not be null");
+        hasText(personnummer.getPersonnummer(), "'personnummer' must not be empty");
         this.fornamn = fornamn;
         this.mellannamn = mellannamn;
         this.efternamn = efternamn;
@@ -32,6 +34,11 @@ public class Patient {
         this.postadress = postadress;
         this.postnummer = postnummer;
         this.postort = postort;
+    }
+
+    public Patient(String fornamn, String mellannamn, String efternamn, String personnummer, String postadress, String postnummer,
+            String postort) {
+        this(fornamn, mellannamn, efternamn, new Personnummer(personnummer), postadress, postnummer, postort);
     }
 
     public String getFornamn() {
@@ -46,7 +53,7 @@ public class Patient {
         return efternamn;
     }
 
-    public String getPersonnummer() {
+    public Personnummer getPersonnummer() {
         return personnummer;
     }
 

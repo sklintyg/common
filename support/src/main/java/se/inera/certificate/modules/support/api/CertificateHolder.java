@@ -3,6 +3,7 @@ package se.inera.certificate.modules.support.api;
 import java.util.List;
 
 import org.joda.time.LocalDateTime;
+import se.inera.certificate.modules.support.api.dto.Personnummer;
 
 public class CertificateHolder {
 
@@ -49,7 +50,7 @@ public class CertificateHolder {
     /**
      * Civic registration number for patient.
      */
-    private String civicRegistrationNumber;
+    private Personnummer civicRegistrationNumber;
 
     /**
      * Time this certificate was signed.
@@ -164,11 +165,11 @@ public class CertificateHolder {
         this.careGiverId = careGiverId;
     }
 
-    public String getCivicRegistrationNumber() {
+    public Personnummer getCivicRegistrationNumber() {
         return civicRegistrationNumber;
     }
 
-    public void setCivicRegistrationNumber(String civicRegistrationNumber) {
+    public void setCivicRegistrationNumber(Personnummer civicRegistrationNumber) {
         this.civicRegistrationNumber = civicRegistrationNumber;
     }
 
