@@ -852,20 +852,31 @@
     }
 
     .webcert-multicol {
-        background-color: #fff;
         float: left;
         margin: 0;
         overflow: hidden;
         width: 100%;
     }
 
-    .webcert-multicol-background {
+    .webcert-multicol-container {
         /* Equal height using http://matthewjamestaylor.com/blog/equal-height-columns-cross-browser-css-no-hacks */
         float: left;
         min-height: 832px;
         position: relative;
         width: 100%;
     }
+
+    /*Sets a background for our multicol and an override class for the tallest column in our
+    multicol setup. Use the specific webcert-multicol-background-* as the default background color for all the colors.
+    This gives the shortest of the columns the correct backgroundcolor on IE9.
+    Use the .webcert-col-tallest-* for the tallest of the columns to override the background color. And all this hassle just to cater for the needs of IE9. */
+	.webcert-multicol-background-grey, .webcert-col-tallest-grey {
+		background-color: #f2f2f2 !important;
+	}
+
+    .webcert-multicol-background-white, .webcert-col-tallest-white {
+		background-color: #fff !important;
+	}
 
     .webcert-col {
         padding: 30px 30px 30px 30px;
@@ -876,15 +887,14 @@
         padding: 30px 30px 20px 30px;
     }
 
+
     .webcert-col-secondary {
-        background-color: #f2f2f2;
         position: relative;
         padding: 0 15px 30px 30px;
     }
 
     @media (min-width: 768px) {
-        .webcert-multicol-background {
-            background-color: #f2f2f2;
+        .webcert-multicol-container {
             left: 50%;
         }
         .webcert-col-primary {
