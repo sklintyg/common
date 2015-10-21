@@ -29,15 +29,24 @@ public class Personnummer {
     }
 
     public String getPnrHash() {
-        return HashUtility.hash(pnr);
+        return HashUtility.hash(getNormalizedPnr());
+    }
+
+    /**
+     * Get the personnummer in a standardized format regardless of how it was entered.
+     */
+    private String getNormalizedPnr() {
+        return getPersonnummerWithoutDash(); //This is a simple start but will not fix all, e.g. 2 vs 4 digits year, - vs +, etc.
     }
 
     public boolean isSamordningsNummer() {
         return SamordningsnummerValidator.isSamordningsNummer(pnr);
     }
 
-    //Should pnr be with or without dash, maybe this method is not needed
     public String getPersonnummerWithoutDash() {
+        if (pnr == null) {
+            return null;
+        }
         return pnr.replace("-", "");
     }
 
@@ -50,16 +59,20 @@ public class Personnummer {
             return false;
         }
         Personnummer that = (Personnummer) o;
-        return Objects.equal(pnr, that.pnr);
+        return Objects.equal(getNormalizedPnr(), that.getNormalizedPnr());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(pnr);
+        return Objects.hashCode(getNormalizedPnr());
     }
 
     public static String getPnrHashSafe(Personnummer personnummer) {
         return personnummer == null ? HashUtility.hash(null) : personnummer.getPnrHash();
+    }
+
+    public static Personnummer empty() {
+        return new Personnummer(null);
     }
 
 }

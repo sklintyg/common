@@ -36,11 +36,6 @@ public class Patient {
         this.postort = postort;
     }
 
-    public Patient(String fornamn, String mellannamn, String efternamn, String personnummer, String postadress, String postnummer,
-            String postort) {
-        this(fornamn, mellannamn, efternamn, new Personnummer(personnummer), postadress, postnummer, postort);
-    }
-
     public String getFornamn() {
         return fornamn;
     }
