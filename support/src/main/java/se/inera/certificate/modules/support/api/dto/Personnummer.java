@@ -27,6 +27,7 @@ public class Personnummer {
      */
     @Override
     public String toString() {
+        assert false : "Don't use implicit toString. Use explicit getPnrHash or getPersonnummer instead.";
         return getPnrHash();
     }
 
