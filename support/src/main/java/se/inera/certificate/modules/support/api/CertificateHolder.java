@@ -249,7 +249,7 @@ public class CertificateHolder {
     public String toString() {
         return "CertificateHolder [id=" + id + ", document=" + document + ", originalCertificate=" + originalCertificate + ", type=" + type
                 + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
-                + ", civicRegistrationNumber=" + civicRegistrationNumber + ", signedDate=" + signedDate + ", validFromDate=" + validFromDate
+                + ", civicRegistrationNumber=" + civicRegistrationNumber.getPnrHash() + ", signedDate=" + signedDate + ", validFromDate=" + validFromDate
                 + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo + ", deleted=" + deleted + ", deletedByCareGiver="
                 + deletedByCareGiver + ", certificateStates=" + certificateStates + ", revoked=" + revoked + "]";
     }
