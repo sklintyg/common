@@ -26,10 +26,10 @@ angular.module('common').factory('common.dialogService',
                 }
             }, function() {
             });
-
+/*
             _runOnDialogDoneLoading(msgbox, function() {
                 $window.dialogDoneLoading = true;
-            });
+            });*/
         }
 
         function _showMessageDialog(titleId, bodyText, callback) {
@@ -56,10 +56,10 @@ angular.module('common').factory('common.dialogService',
                     callback(result);
                 }
             });
-
+/*
             _runOnDialogDoneLoading(msgbox, function() {
                 $window.dialogDoneLoading = true;
-            });
+            });*/
         }
 
         /*
@@ -244,10 +244,10 @@ angular.module('common').factory('common.dialogService',
                 }
             }, function() {
             });
-
+/*
             _runOnDialogDoneLoading(msgbox, function() {
                 $window.dialogDoneLoading = true;
-            });
+            });*/
 
             msgbox.model = options.model;
 
