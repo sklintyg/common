@@ -54,13 +54,9 @@ public class Personnummer {
             throw new InvalidPersonNummerException("Can not normalize null");
         }
         if (pnr.matches("[0-9]{8}[-+]?[0-9]{4}")) {
-            if (!pnr.startsWith(getCenturyFromYearAndSeparator(pnr.substring(2)))) {
-                throw new InvalidPersonNummerException("Wrong century");
-            }
             return pnr.replace("-", "").replace("+", "");
         }
         if (pnr.matches("[0-9]{6}[+-]?[0-9]{4}")) {
-
             return getCenturyFromYearAndSeparator(pnr) + pnr.replace("-", "").replace("+", "");
         }
         throw new InvalidPersonNummerException("Personnummer format not handled: " + pnr);

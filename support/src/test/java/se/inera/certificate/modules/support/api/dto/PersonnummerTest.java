@@ -243,22 +243,24 @@ public class PersonnummerTest {
         assertEquals(expected, normalizedPnr);
     }
 
-    @Test (expected = InvalidPersonNummerException.class)
+    @Test
     public void testGetNormalizedPnr4() throws Exception {
         //Given
-        final String pnr = "19600101+1111";
+        final String pnr = "600101+1111";
+        final String expected = "186001011111";
 
         //When
         final String normalizedPnr = new Personnummer(pnr).getNormalizedPnr();
 
-        //Then throw exception
+        //Then
+        assertEquals(expected, normalizedPnr);
     }
 
     @Test
     public void testGetNormalizedPnr5() throws Exception {
         //Given
-        final String pnr = "600101+1111";
-        final String expected = "186001011111";
+        final String pnr = "190101010101";
+        final String expected = "190101010101";
 
         //When
         final String normalizedPnr = new Personnummer(pnr).getNormalizedPnr();
