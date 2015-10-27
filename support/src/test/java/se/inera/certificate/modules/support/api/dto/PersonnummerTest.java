@@ -1,19 +1,22 @@
 package se.inera.certificate.modules.support.api.dto;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.springframework.util.ReflectionUtils;
-import se.inera.certificate.logging.HashUtility;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import se.inera.certificate.logging.HashUtility;
+import se.inera.certificate.modules.support.api.CertificateHolder;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PersonnummerTest {
 
@@ -267,6 +270,91 @@ public class PersonnummerTest {
 
         //Then
         assertEquals(expected, normalizedPnr);
+    }
+
+    @Test
+    public void testSerializeDeserializePersonnummerNull() throws Exception {
+        //Given
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final Personnummer originalPnr = new Personnummer(null);
+
+        //When
+        final String json = objectMapper.writeValueAsString(originalPnr);
+
+        //Then
+        assertEquals("null", json);
+
+        //When
+        final Personnummer personnummer = objectMapper.readValue(json, Personnummer.class);
+
+        //Then
+        assertEquals(originalPnr.getPersonnummer(), personnummer.getPersonnummer());
+    }
+
+    @Test
+    public void testSerializeDeserializePersonnummerEmpty() throws Exception {
+        //Given
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final Personnummer originalPnr = new Personnummer("");
+
+        //When
+        final String json = objectMapper.writeValueAsString(originalPnr);
+
+        //Then
+        assertEquals("\"\"", json);
+
+        //When
+        final Personnummer personnummer = objectMapper.readValue(json, Personnummer.class);
+
+        //Then
+        assertEquals(originalPnr.getPersonnummer(), personnummer.getPersonnummer());
+    }
+
+    @Test
+    public void testSerializePersonnummer() throws Exception {
+        //Given
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final Personnummer value = new Personnummer("1234");
+
+        //When
+        final String json = objectMapper.writeValueAsString(value);
+
+        //Then
+        assertEquals("\"1234\"", json);
+    }
+
+    @Test
+    public void testDeserializePersonnummer() throws Exception {
+        //Given
+        final ObjectMapper objectMapper = new ObjectMapper();
+
+        //When
+        final Personnummer personnummer = objectMapper.readValue("\"1234\"", Personnummer.class);
+
+        //Then
+        assertEquals("1234", personnummer.getPersonnummer());
+    }
+
+    @Test
+    public void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
+        //Given
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final Personnummer originalPnr = new Personnummer("191212121212");
+        final CertificateHolder complexType = new CertificateHolder();
+        complexType.setCivicRegistrationNumber(originalPnr);
+        complexType.setAdditionalInfo("test text");
+
+        //When
+        final String json = objectMapper.writeValueAsString(complexType);
+
+        //Then
+        assertTrue(json.contains("\"civicRegistrationNumber\":\"191212121212\""));
+
+        //When
+        final CertificateHolder patient = objectMapper.readValue(json, CertificateHolder.class);
+
+        //Then
+        assertEquals(originalPnr.getPersonnummer(), patient.getCivicRegistrationNumber().getPersonnummer());
     }
 
 }

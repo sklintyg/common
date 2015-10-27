@@ -6,8 +6,10 @@ import se.inera.certificate.logging.HashUtility;
 import se.inera.certificate.validate.SamordningsnummerValidator;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Objects;
 
+@JsonDeserialize(using = PersonnummerDeserializer.class)
 public class Personnummer {
 
     private final String pnr;
