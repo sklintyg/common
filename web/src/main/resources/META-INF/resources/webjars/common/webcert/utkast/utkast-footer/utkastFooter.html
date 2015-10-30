@@ -10,7 +10,7 @@
     <p>
       <span message key="draft.notifydoctor"></span>
     </p>
-    <div class="form-group">
+    <div class="form-group" wc-authority="PRIVILEGE_VIDAREBEFORDRA_UTKAST">
       <button id="vidarebefordraEjHanterad" class="btn"
               ng-class="{'btn-info': !viewState.draftModel.vidarebefordrad, 'btn-default btn-secondary' : viewState.draftModel.vidarebefordrad}"
               title="Skicka mejl med en länk till utkastet för att informera den läkare som ska signera det."
@@ -20,7 +20,7 @@
       </button>
     </div>
 
-    <div class="body-row">
+    <div class="body-row"  wc-authority="PRIVILEGE_VIDAREBEFORDRA_UTKAST">
       <label for="mark-as-vidarebefordrad">
         <input id="mark-as-vidarebefordrad" type="checkbox"
                ng-disabled="viewState.common.vidarebefordraInProgress" ng-model="viewState.draftModel.vidarebefordrad"
