@@ -186,7 +186,7 @@ angular.module('common').controller('common.wcHeaderController',
 
             $scope.goToPrivatPortalen = function(){
                 var link = $window.MODULE_CONFIG.PP_HOST; 
-                link += '/#/?from=' + window.encodeURIComponent($window.MODULE_CONFIG.DASHBOARD_URL + '#' + $location.path());
+                link += '?from=' + window.encodeURIComponent($window.MODULE_CONFIG.DASHBOARD_URL + '#' + $location.path());
                 $window.location.href = link;
             };
 
