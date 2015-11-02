@@ -17,8 +17,14 @@ angular.module('common').factory('common.UtilsService',function() {
         return (data !== undefined && data !== null && data === data && data !== '');
     }
 
+    function _isDefined(data) {
+        return (typeof(data) !== 'undefined' && data !== null )
+    }
+
     return {
-        isValidString: _isValidString
+        isValidString: _isValidString,
+        isDefined: _isDefined
     };
+
 
 });

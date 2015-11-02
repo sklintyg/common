@@ -4,7 +4,7 @@
   </h4> <!-- nbsp. ie8 -->
 
   <h3 class="title">
-    <span message key="{{fieldLabel}}"></span>
+    <span ng-if="fieldLabel != undefined" message key="{{fieldLabel}}"></span>
     <span ng-if="fieldHelpText != undefined" class="glyphicon glyphicon-question-sign" tooltip-trigger="mouseenter"
           tooltip-html-unsafe="{{getMessage(fieldHelpText)}}" tooltip-placement="{{placement}}"></span>
   </h3>

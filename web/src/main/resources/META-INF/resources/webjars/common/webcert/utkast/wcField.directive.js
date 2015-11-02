@@ -12,7 +12,7 @@ angular.module('common').directive('wcField',
                 replace: true,
                 templateUrl: '/web/webjars/common/webcert/utkast/wcField.directive.html',
                 scope: {
-                    fieldLabel: '@',
+                    fieldLabel: '@?',
                     fieldNumber: '@?',
                     fieldHelpText: '@',
                     fieldHasErrors: '=',
@@ -24,8 +24,14 @@ angular.module('common').directive('wcField',
                 },
                 controller: function($scope) {
 
+                    if ($scope.fieldLabel === null) {
+                    if ($scope.fieldLabel === null) {
+                        $scope.fieldLabel = undefined;
+                    }
+
                     if ($scope.fieldNumber === null) {
                         $scope.fieldNumber = undefined;
+                    }
                     }
 
                     if ($scope.fieldTooltipPlacement === undefined) {
