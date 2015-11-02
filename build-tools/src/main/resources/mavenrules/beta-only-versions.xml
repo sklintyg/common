@@ -5,6 +5,6 @@
 
   <ignoreVersions>
     <!-- Exclude all versions that doesn't include a -->
-    <ignoreVersion type="regex">[\.\d]+(-[^Bb]\d+)?</ignoreVersion>
+    <ignoreVersion type="regex">[\.\d]+(-[^Bb].+)?</ignoreVersion>
   </ignoreVersions>
 </ruleset>
