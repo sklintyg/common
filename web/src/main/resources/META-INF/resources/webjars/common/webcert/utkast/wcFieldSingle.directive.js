@@ -32,7 +32,7 @@ angular.module('common').directive('wcFieldSingle', ['common.messageService',
             },
             template: '<div class="body-row body-row-single clearfix">' +
                 '<h4 class="cert-field-number" ng-if="fieldNumber != undefined">' +
-                '<span message key="modules.label.field"></span>&nbsp;{{fieldNumber}}</h4>' + // nbsp is needed for ie8 to space falt and number
+                '<span message key="modules.label.field"></span> {{fieldNumber}}</h4>' +
                 '<span ng-transclude></span>' +
                 '<span ng-if="fieldHelpText != undefined" class="glyphicon glyphicon-question-sign" tooltip-trigger="mouseenter"' +
                 'tooltip-html-unsafe="{{getMessage(fieldHelpText)}}" tooltip-placement="{{placement}}"></span>' +
