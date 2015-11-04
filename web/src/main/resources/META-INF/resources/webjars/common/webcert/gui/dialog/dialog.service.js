@@ -83,6 +83,7 @@ angular.module('common').factory('common.dialogService',
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
          */
         function _showDialog( options ) {
+			var dialogOptions, msgbox;
 
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
@@ -90,7 +91,60 @@ angular.module('common').factory('common.dialogService',
 
             $window.dialogDoneLoading = false;
 
-            // setup options defaults if parameters aren't included
+			setOptionDefaults( options ); 
+
+			dialogOptions = createDialogOptions( options );
+
+            // Open dialog box using specified options, template and controller
+            msgbox = $modal.open( dialogOptions );
+
+            msgbox.result.then(function(result) {
+                if (options.callback) {
+                    options.callback(result);
+                } else if(result && result.resolve !== undefined){
+                    result.resolve();
+                } else if(result && result.direct) {
+                    result.direct();
+                } else if(result && typeof result === 'function'){
+                    result();
+                }
+            }, function() {
+            });
+
+            _runOnDialogDoneLoading(msgbox, function() {
+                $window.dialogDoneLoading = true;
+            });
+
+            msgbox.model = options.model;
+
+            return msgbox;
+        }
+
+		function createDialogOptions( options ) {
+
+            var dialogOptions = {
+                templateUrl: options.templateUrl,
+                controller: options.controller ? options.controller : DialogInstanceCtrl,
+                size : options.size,
+                openedClass: options.openedClass,
+                resolve: dialogCustomState( options )
+            };
+
+            if(options.model !== undefined){
+                var dscope = $rootScope.$new(true);
+                dscope.model = options.model;
+                dialogOptions.scope = dscope;
+            }
+
+			return dialogOptions;
+		}
+
+		function setOptionDefaults( options ) {
+			// Since we are dealing with ternary defaults checking here it is
+			// really difficult to avoid cyclomatic complexity so lets set a high number for it
+			/*jshint maxcomplexity:35*/
+
+			// setup options defaults if parameters aren't included
             options.bodyText = (options.bodyText === undefined) ? '' : options.bodyText;
             options.button1text = (options.button1text === undefined) ? 'common.ok' : options.button1text;
             options.button2text = (options.button2text === undefined) ? 'common.cancel' : options.button2text;
@@ -111,64 +165,11 @@ angular.module('common').factory('common.dialogService',
             options.model.acceptprogressdone =
                 (options.model.acceptprogressdone ? options.model.acceptprogressdone : true);
             options.model.focus = (options.model.focus ? options.model.focus : false);
-            options.model.showerror = (options.model.showerror ? options.model.showerror : false);
+            options.model.showerror = (options.model.showerror ? options.model.showerror : false);   
+		}
 
-            var DialogInstanceCtrl;
-
-            if(options.controller){
-                DialogInstanceCtrl = options.controller;
-            } else {
-                // Create controller to setup dialog
-                DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId,
-                    bodyText,
-                    button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
-                    button1text,
-                    button2text, button3text, autoClose, title) {
-
-                    $scope.model = model;
-                    $scope.dialogId = dialogId;
-                    $scope.title = title;
-                    $scope.titleId = titleId;
-                    $scope.bodyTextId = bodyTextId;
-                    $scope.bodyText = bodyText;
-                    $scope.button1click = function(result) {
-                        button1click();
-                        if (autoClose) {
-                            $modalInstance.close(result);
-                        }
-                    };
-                    $scope.button2click = function() {
-                        if (button2click) {
-                            button2click();
-                        }
-                        $modalInstance.dismiss('button2 dismiss');
-                    };
-                    $scope.button3visible = button3visible;
-                    if ($scope.button3visible !== undefined) {
-                        $scope.button3click = function() {
-                            if (button3click) {
-                                button3click();
-                            }
-                            $modalInstance.dismiss('button3 dismiss');
-                        };
-                    } else {
-                        $scope.button3visible = false;
-                    }
-                    $scope.button1text = button1text;
-                    $scope.button2text = button2text;
-                    $scope.button3text = button3text;
-                    $scope.button1id = button1id;
-                    $scope.button2id = button2id;
-                    $scope.button3id = button3id;
-                };
-            }
-
-            var dialogOptions = {
-                templateUrl: options.templateUrl,
-                controller: DialogInstanceCtrl,
-                size : options.size,
-                openedClass: options.openedClass,
-                resolve: {
+		function dialogCustomState( options ) {
+			return {
                     model: function() {
                         return options.model;
                     },
@@ -220,39 +221,50 @@ angular.module('common').factory('common.dialogService',
                     autoClose: function() {
                         return angular.copy(options.autoClose);
                     }
-                }
-            };
-            if(options.model !== undefined){
-                var dscope = $rootScope.$new(true);
-                dscope.model = options.model;
-                dialogOptions.scope = dscope;
-            }
+                };
+		}
+		var DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId,
+                    bodyText,
+                    button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
+                    button1text,
+                    button2text, button3text, autoClose, title) {
 
-            // Open dialog box using specified options, template and controller
-            var msgbox = $modal.open(dialogOptions);
-
-            msgbox.result.then(function(result) {
-                if (options.callback) {
-                    options.callback(result);
-                } else if(result && result.resolve !== undefined){
-                    result.resolve();
-                } else if(result && result.direct) {
-                    result.direct();
-                } else if(result && typeof result === 'function'){
-                    result();
-                    //_runOnDialogRemoved(msgbox, result);
-                }
-            }, function() {
-            });
-
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
-            });
-
-            msgbox.model = options.model;
-
-            return msgbox;
-        }
+                    $scope.model = model;
+                    $scope.dialogId = dialogId;
+                    $scope.title = title;
+					$scope.titleId = titleId;
+					$scope.bodyTextId = bodyTextId;
+					$scope.bodyText = bodyText;
+					$scope.button1click = function(result) {
+						button1click();
+						if(autoClose) {
+							$modalInstance.close(result);
+						}
+					};
+                    $scope.button2click = function() {
+                        if (button2click) {
+                            button2click();
+                        }
+                        $modalInstance.dismiss('button2 dismiss');
+                    };
+                    $scope.button3visible = button3visible;
+                    if ($scope.button3visible !== undefined) {
+                        $scope.button3click = function() {
+                            if (button3click) {
+                                button3click();
+                            }
+                            $modalInstance.dismiss('button3 dismiss');
+                        };
+                    } else {
+                        $scope.button3visible = false;
+                    }
+                    $scope.button1text = button1text;
+                    $scope.button2text = button2text;
+                    $scope.button3text = button3text;
+                    $scope.button1id = button1id;
+                    $scope.button2id = button2id;
+                    $scope.button3id = button3id;
+                };
         /* // unused atm
         function _runOnDialogRemoved(modal, callback) {
             modal.opened.then(function() {

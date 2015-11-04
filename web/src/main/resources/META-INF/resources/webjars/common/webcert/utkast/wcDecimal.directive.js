@@ -39,36 +39,12 @@ angular.module('common').directive('wcDecimalNumber',
                 }
 
                 function format(value) {
-                    var l = value.length;
-                    var valForView = '';
-                    var valForModel = null;
-                    if (l > 0) {
-                        if (scope.wcDecimalMaxNumbers === 2 || scope.wcDecimalMaxNumbers === '2') {
-                            if (l === 1) {
-                                if (value[0] === ',') {
-                                    valForView = '0,0';
-                                }
-                                else {
-                                    valForView = value[0] + ',0';
-                                }
-                            } else if (l === 2) {
-                                if (value[0] === ',') {
-                                    valForView = '0,' + value[1];
-                                } else if (value[1] === ',') {
-                                    valForView = value[0] + ',0';
-                                } else {
-                                    valForView = value[0] + ',' + value[1];
-                                }
-                            } else if (l === 3) {
-                                if (value[0] === ',') {
-                                    valForView = '0,' + value[1];
-                                } else if (value[1] === ',') {
-                                    valForView = value;
-                                } else {
-                                    valForView = value[0] + ',' + value[1];
-                                }
-                            }
-                            valForModel = Number(valForView[0] + '.' + valForView[2]);
+                    var length = value.length, valForView = '', valForModel = null;
+
+                    if (length > 0) {
+                        if (_isMaxTwoDecimals( scope )) {
+							valForView = _getValueForView( value );
+							valForModel = Number(valForView[0] + '.' + valForView[2]);
                         }
                         else {
                             valForView = value.replace('.', ',');
@@ -82,15 +58,49 @@ angular.module('common').directive('wcDecimalNumber',
                     };
                 }
 
-                /* jshint ignore:start */
-                function blurFormat() {
+				function _isMaxTwoDecimals( value ) {
+					if( value === 'undefined' ) {return false; }	
+					return value.wcDecimalMaxNumbers === 2 || value.wcDecimalMaxNumbers === '2';
+				}
+
+				function _getValueForView( value ) {
+					var valForView = '',
+                        length = value.length;
+
+					if (length === 1) {
+						if (value[0] === ',') {
+							valForView = '0,0';
+						}
+						else {
+							valForView = value[0] + ',0';
+						}
+					} else if (length === 2) {
+						if (value[0] === ',') {
+							valForView = '0,' + value[1];
+						} else if (value[1] === ',') {
+							valForView = value[0] + ',0';
+						} else {
+							valForView = value[0] + ',' + value[1];
+						}
+					} else if (length === 3) {
+						if (value[0] === ',') {
+							valForView = '0,' + value[1];
+						} else if (value[1] === ',') {
+							valForView = value;
+						} else {
+							valForView = value[0] + ',' + value[1];
+						}
+					}
+					return valForView;	
+				}
+
+                var blurFormat = function blurFormat() {
                     var filtered = filter(this.value);
                     var val = format(filtered);
                     if (this.value !== val.valForView) {
                         this.value = val.valForView;
                     }
-                }
-                /* jshint ignore:end */
+                };
 
                 function decimalParse(valFromView) {
                     var filtered = filter(valFromView);

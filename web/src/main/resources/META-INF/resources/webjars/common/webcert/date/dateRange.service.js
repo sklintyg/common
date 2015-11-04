@@ -213,30 +213,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
                     if(dateRange.name !== dateRange2.name && dateRange2.valid){
                         //$log.info('-- dr1 ' + dateRange.name + ', from:' + dateRange.from.dateString + ', to:' + dateRange.to.dateString );
                         //$log.info('-- dr2 ' + dateRange2.name + ', from:' + dateRange2.from.dateString+ ', to:' + dateRange2.to.dateString);
-                        var overlap = false;
-                        var sameTo = dateRange.to.moment.isSame(dateRange2.to.moment);
-                        var sameFrom = dateRange.from.moment.isSame(dateRange2.from.moment);
-                        var sameFromTo = dateRange.to.moment.isSame(dateRange2.from.moment);
-                        var sameToFrom = dateRange.from.moment.isSame(dateRange2.to.moment);
-                        //$log.info('------|    |-------');
-                        if(sameTo || sameFrom || sameFromTo || sameToFrom){
-                            overlap = true;
-                            //$log.info('------||    ||-------');
-                        } else if(dateRange2.from.moment.isBefore(dateRange.from.moment) &&
-                            (dateRange2.to.moment.isBefore(dateRange.to.moment) &&
-                            dateRange2.to.moment.isAfter(dateRange.from.moment) )
-                        ){
-                            //$log.info('----|    |--------- 1');
-                            overlap = true;
-                        } else if(dateRange2.from.moment.isAfter(dateRange.from.moment) &&
-                            dateRange2.from.moment.isBefore(dateRange.to.moment)){
-                            //$log.info('--------|    |----- 2');
-                            overlap = true;
-                        } else if(dateRange2.from.moment.isBefore(dateRange.from.moment) &&
-                            dateRange2.to.moment.isAfter(dateRange.to.moment) ){
-                            //$log.info('----|            |- 3');
-                            overlap = true;
-                        }
+                        var overlap = hasOverlap(dateRange, dateRange2);
                         if(!dateRange.overlap){
                             dateRange.overlap = overlap;
                         }
@@ -248,6 +225,35 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             }
         }
     };
+
+	var hasOverlap = function(dateRange, dateRange2) {
+		var overlap = false;
+		var sameTo = dateRange.to.moment.isSame(dateRange2.to.moment);
+		var sameFrom = dateRange.from.moment.isSame(dateRange2.from.moment);
+		var sameFromTo = dateRange.to.moment.isSame(dateRange2.from.moment);
+		var sameToFrom = dateRange.from.moment.isSame(dateRange2.to.moment);
+		//$log.info('------|    |-------');
+		if(sameTo || sameFrom || sameFromTo || sameToFrom){
+			overlap = true;
+			//$log.info('------||    ||-------');
+		} else if(dateRange2.from.moment.isBefore(dateRange.from.moment) &&
+			(dateRange2.to.moment.isBefore(dateRange.to.moment) &&
+				dateRange2.to.moment.isAfter(dateRange.from.moment) )
+		){
+			//$log.info('----|    |--------- 1');
+			overlap = true;
+		} else if(dateRange2.from.moment.isAfter(dateRange.from.moment) &&
+			dateRange2.from.moment.isBefore(dateRange.to.moment)){
+			//$log.info('--------|    |----- 2');
+			overlap = true;
+		} else if(dateRange2.from.moment.isBefore(dateRange.from.moment) &&
+			dateRange2.to.moment.isAfter(dateRange.to.moment) ){
+			//$log.info('----|            |- 3');
+			overlap = true;
+		}
+
+		return overlap;
+	};
 
     FromTos.prototype.setValidity = function() {
         //$log.info('--------------- ');
@@ -569,39 +575,10 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             this.empty = true;
         } else {
             this.empty = false;
-            // first check if dateString is in fact ... a date or a moment
-            if(dateString instanceof Date || dateString.format instanceof Function){
-                this.moment = dateUtils.toMomentStrict(dateString);
-                dateString = this.moment.format(format);
-            }
-            // before we even create the moment we must be sure that the date is in the correct format YYYY-MM-DD
-            if(dateUtils.dateReg.test(dateString)){
-                this.dateString = dateString;
-                this.moment = moment(dateString, format, true);
-                this.valid = this.moment.isValid();
-
-            } else {
-                this.valid = false;
-                this.dateString = dateString;
-            }
-
-            if(this.valid){
-                this.momentString = this.moment.format(format);
-                this.longTime = this.moment.valueOf();
-            } else {
-                this.momentString = 'invalid';
-                this.longTime = 0;
-                this.viewValid = false;
-                this.moment = null;
-            }
+			createAndValidateMomentOf( this, dateString );
         }
 
-        // dirty check
-        if(this.dateString !== oldDateString){
-            this.dirty = true;
-        } else {
-            this.dirty = false;
-        }
+		this.dirty = (this.dateString !== oldDateString) ? true : false;
 
         if(this.valid){
             this.outOfRange = _areDatesOutOfRange(this.moment);
@@ -619,6 +596,33 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
 
         //$log.info('3 update ------------------------');
     };
+
+	var createAndValidateMomentOf = function createAndValidateMomentOf( that, dateString ) {
+			// first check if dateString is in fact ... a date or a moment
+            if(dateString instanceof Date || dateString.format instanceof Function){
+                that.moment = dateUtils.toMomentStrict(dateString);
+                dateString = that.moment.format(format);
+            }
+            // before we even create the moment we must be sure that the date is in the correct format YYYY-MM-DD
+            if(dateUtils.dateReg.test(dateString)){
+                that.dateString = dateString;
+                that.moment = moment(dateString, format, true);
+                that.valid = that.moment.isValid();
+            } else {
+                that.valid = false;
+                that.dateString = dateString;
+            }
+
+            if(that.valid){
+                that.momentString = that.moment.format(format);
+                that.longTime = that.moment.valueOf();
+            } else {
+                that.momentString = 'invalid';
+                that.longTime = 0;
+                that.viewValid = false;
+                that.moment = null;
+            }
+	};
 
     DateUnit.prototype.setValidity = function(){
         if(!this.fromTo){
