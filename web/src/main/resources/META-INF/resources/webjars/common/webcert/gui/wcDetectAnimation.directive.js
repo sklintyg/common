@@ -1,5 +1,5 @@
 angular.module('common').directive('wcDetectAnimation',
-    function($window, $rootScope, $log) {
+    function($window, $rootScope, $animate, $log) {
         'use strict';
         return {
             restrict: 'EA',
@@ -41,11 +41,11 @@ angular.module('common').directive('wcDetectAnimation',
                     $window.animations[group].ids[id] = {rendered:false};
                 }
 
-                ////$log.info('--- add animation group : ' + group + ', id: ' + id + ', count :' + $window.animations[group].count);
+                $log.debug('--- add animation group : ' + group + ', id: ' + id + ', count :' + $window.animations[group].count);
 
-                var init = function(){
-                    element.on('$animate:before', function() {
-                        //$log.info('------------ id:'+id+', animate:before saving:' + $window.saving );
+                function detectAnimation(element, phase) {
+                    $log.debug('------------ id:'+id+', animate:' + phase + ' saving:' + $window.saving );
+                    if (phase === 'start') {
                         if($window.animations[group].startCount > $window.animations[group].count){
                             $window.animations[group].startCount = 0;
                         }
@@ -57,14 +57,13 @@ angular.module('common').directive('wcDetectAnimation',
                         $window.animations[group].rendered = false;
                         $window.animations[group].ids[id].rendered = false;
                         $rootScope.$broadcast('wcAnimationStart');
-                        //$log.info('++++ show g:'+group+' id:'+id + ', c:' + $window.animations[group].count );
-                        //$log.info('     startCount:' +$window.animations[group].startCount );
-                        //$log.info('     endCount:'+ $window.animations[group].endCount);
-                        //$log.info('     wr:' + $window.rendered + ', gr:' + $window.animations[group].rendered);
-                        //$log.info('     element ren:' + $window.animations[group].ids[id].rendered);
-                    });
-                    element.on('$animate:close', function() {
-                        ////$log.info('------------- id:'+id+', animate:close saving:' + $window.saving );
+                        $log.debug('++++ show g:'+group+' id:'+id + ', c:' + $window.animations[group].count );
+                        $log.debug('     startCount:' +$window.animations[group].startCount );
+                        $log.debug('     endCount:'+ $window.animations[group].endCount);
+                        $log.debug('     wr:' + $window.rendered + ', gr:' + $window.animations[group].rendered);
+                        $log.debug('     element ren:' + $window.animations[group].ids[id].rendered);
+                    }
+                    else if (phase === 'close') {
                         $window.animations[group].endCount --;
 
                         if($window.animations[group].endCount < 0 ){
@@ -79,13 +78,23 @@ angular.module('common').directive('wcDetectAnimation',
 
                         $window.animations[group].ids[id].rendered = true;
 
-                        //$log.info('---- close g:'+group+' id:'+id + ', c:' + $window.animations[group].count);
-                        //$log.info('     startCount: '+ $window.animations[group].startCount);
-                        //$log.info('     endCount:'+ $window.animations[group].endCount);
-                        //$log.info('     wr:' + $window.rendered + ', gr:' + $window.animations[group].rendered);
-                        //$log.info('     element ren:' + $window.animations[group].ids[id].rendered);
+                        $log.debug('---- close g:'+group+' id:'+id + ', c:' + $window.animations[group].count);
+                        $log.debug('     startCount: '+ $window.animations[group].startCount);
+                        $log.debug('     endCount:'+ $window.animations[group].endCount);
+                        $log.debug('     wr:' + $window.rendered + ', gr:' + $window.animations[group].rendered);
+                        $log.debug('     element ren:' + $window.animations[group].ids[id].rendered);
+                    }
+                    else {
+                        $log.error('Unknown animation phase:' + phase);
+                    }
+                }
 
-                    });
+                var init = function(){
+                    $animate.on('enter', element, detectAnimation);
+                    $animate.on('leave', element, detectAnimation);
+                    $animate.on('move', element, detectAnimation);
+                    $animate.on('addClass', element, detectAnimation);
+                    $animate.on('removeClass', element, detectAnimation);
                 };
 
                 init();

@@ -3,9 +3,9 @@
  * sending notifications of utkast to a doctor via mail.
  */
 angular.module('common').factory('common.UtkastNotifyService',
-    ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.UtkastNotifyProxy', 'common.messageService',
+    ['$http', '$log', '$uibModal', '$window', '$timeout', '$q', 'common.UtkastNotifyProxy', 'common.messageService',
         'common.dialogService', 'common.UtkastProxy',
-        function($http, $log, $modal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService, utkastProxy) {
+        function($http, $log, $uibModal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService, utkastProxy) {
             'use strict';
 
             /**
@@ -160,26 +160,26 @@ angular.module('common').factory('common.UtkastNotifyService',
             function _showNotifyPreferenceDialog(title, bodyText, yesCallback, noCallback, noDontAskCallback,
                 callback) {
 
-                var DialogInstanceCtrl = function($scope, $modalInstance, title, bodyText, yesCallback, noCallback,
+                var DialogInstanceCtrl = function($scope, $uibModalInstance, title, bodyText, yesCallback, noCallback,
                     noDontAskCallback) {
                     $scope.title = title;
                     $scope.bodyText = bodyText;
                     $scope.noDontAskVisible = noDontAskCallback !== undefined;
                     $scope.yes = function(result) {
                         yesCallback();
-                        $modalInstance.close(result);
+                        $uibModalInstance.close(result);
                     };
                     $scope.no = function() {
                         noCallback();
-                        $modalInstance.close('cancel');
+                        $uibModalInstance.close('cancel');
                     };
                     $scope.noDontAsk = function() {
                         noDontAskCallback();
-                        $modalInstance.close('cancel_dont_ask_again');
+                        $uibModalInstance.close('cancel_dont_ask_again');
                     };
                 };
 
-                var msgbox = $modal.open({
+                var msgbox = $uibModal.open({
                     templateUrl: '/app/partials/preference-dialog.html',
                     controller: DialogInstanceCtrl,
                     resolve: {

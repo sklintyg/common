@@ -2,15 +2,15 @@
  * wcDialogService - Generic dialog service
  */
 angular.module('common').factory('common.dialogService',
-    function($modal, $timeout, $window, $rootScope) {
+    function($uibModal, $timeout, $window, $rootScope) {
         'use strict';
 
         function _showErrorMessageDialog(message, callback) {
             $window.dialogDoneLoading = false;
 
-            var msgbox = $modal.open({
+            var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/gui/dialog/dialogError.template.html',
-                controller: function($scope, $modalInstance, bodyText) {
+                controller: function($scope, $uibModalInstance, bodyText) {
                     $scope.bodyText = bodyText;
                 },
                 resolve: {
@@ -35,9 +35,9 @@ angular.module('common').factory('common.dialogService',
         function _showMessageDialog(titleId, bodyText, callback) {
             $window.dialogDoneLoading = false;
 
-            var msgbox = $modal.open({
+            var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/gui/dialog/dialogMessage.template.html',
-                controller: function($scope, $modalInstance, bodyText, titleId) {
+                controller: function($scope, $uibModalInstance, bodyText, titleId) {
                     $scope.bodyText = bodyText;
                     $scope.titleId = titleId;
                 },
@@ -96,7 +96,7 @@ angular.module('common').factory('common.dialogService',
 			dialogOptions = createDialogOptions( options );
 
             // Open dialog box using specified options, template and controller
-            msgbox = $modal.open( dialogOptions );
+            msgbox = $uibModal.open( dialogOptions );
 
             msgbox.result.then(function(result) {
                 if (options.callback) {
@@ -223,7 +223,7 @@ angular.module('common').factory('common.dialogService',
                     }
                 };
 		}
-		var DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId,
+		var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId,
                     bodyText,
                     button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
                     button1text,
@@ -238,14 +238,14 @@ angular.module('common').factory('common.dialogService',
 					$scope.button1click = function(result) {
 						button1click();
 						if(autoClose) {
-							$modalInstance.close(result);
+							$uibModalInstance.close(result);
 						}
 					};
                     $scope.button2click = function() {
                         if (button2click) {
                             button2click();
                         }
-                        $modalInstance.dismiss('button2 dismiss');
+                        $uibModalInstance.dismiss('button2 dismiss');
                     };
                     $scope.button3visible = button3visible;
                     if ($scope.button3visible !== undefined) {
@@ -253,7 +253,7 @@ angular.module('common').factory('common.dialogService',
                             if (button3click) {
                                 button3click();
                             }
-                            $modalInstance.dismiss('button3 dismiss');
+                            $uibModalInstance.dismiss('button3 dismiss');
                         };
                     } else {
                         $scope.button3visible = false;
@@ -269,7 +269,7 @@ angular.module('common').factory('common.dialogService',
         function _runOnDialogRemoved(modal, callback) {
             modal.opened.then(function() {
                 function waitForModalToBeRemovedAndRunCallback() {
-                    var modalDialog = $('[modal-window]');
+                    var modalDialog = $('[uib-modal-window]');
                     if (modalDialog.length === 0) {
                         callback();
                     } else {
@@ -288,7 +288,7 @@ angular.module('common').factory('common.dialogService',
         function _runOnDialogDoneLoading(modal, callback) {
             modal.opened.then(function() {
                 function waitForModalToExistAndRunCallbackWhenTransitionIsDone() {
-                    var modalDialog = $('[modal-window]');
+                    var modalDialog = $('[uib-modal-window]');
                     if (modalDialog && modalDialog.hasClass('in')) {
                         modalDialog.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd',
                             callback);

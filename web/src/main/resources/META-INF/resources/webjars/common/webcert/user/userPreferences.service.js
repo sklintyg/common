@@ -6,18 +6,18 @@
  *
  * Created by stephenwhite on 12/12/14.
  */
-angular.module('common').factory('common.UserPreferencesService',['$cookieStore', function($cookieStore) {
+angular.module('common').factory('common.UserPreferencesService',['$cookies', function($cookies) {
     'use strict';
 
     var skipShowUnhandledDialog = 'skipShowUnhandledDialog';
     _setSkipShowUnhandledDialog(false);
 
     function _setSkipShowUnhandledDialog(value){
-        $cookieStore.put(skipShowUnhandledDialog, value);
+        $cookies.putObject(skipShowUnhandledDialog, value);
     }
 
     function _isSkipShowUnhandledDialogSet(){
-        return $cookieStore.get(skipShowUnhandledDialog);
+        return $cookies.getObject(skipShowUnhandledDialog);
     }
 
     return {

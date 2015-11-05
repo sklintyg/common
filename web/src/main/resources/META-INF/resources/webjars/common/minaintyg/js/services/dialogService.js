@@ -2,15 +2,15 @@
  * wcDialogService - Generic dialog service
  */
 angular.module('common').factory('common.dialogService',
-    function($modal, $timeout, $window) {
+    function($uibModal, $timeout, $window) {
         'use strict';
 
         function _showErrorMessageDialog(message, callback) {
             $window.dialogDoneLoading = false;
 
-            var msgbox = $modal.open({
+            var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/minaintyg/js/services/dialogServiceErrorTemplate.html',
-                controller: function($scope, $modalInstance, bodyText) {
+                controller: function($scope, $uibModalInstance, bodyText) {
                     $scope.bodyText = bodyText;
                 },
                 resolve: {
@@ -94,7 +94,7 @@ angular.module('common').factory('common.dialogService',
             options.model = (options.model === undefined) ? undefined : options.model;
 
             // Create controller to setup dialog
-            var DialogInstanceCtrl = function($scope, $modalInstance, model, dialogId, titleId, bodyTextId, bodyText,
+            var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId, bodyText,
                 button1id, button2id, button3id, button1click, button2click, button3click, button3visible, button1text,
                 button2text, button3text, autoClose) {
 
@@ -106,14 +106,14 @@ angular.module('common').factory('common.dialogService',
                 $scope.button1click = function(result) {
                     button1click();
                     if (autoClose) {
-                        $modalInstance.close(result);
+                        $uibModalInstance.close(result);
                     }
                 };
                 $scope.button2click = function() {
                     if (button2click) {
                         button2click();
                     }
-                    $modalInstance.dismiss('button2 dismiss');
+                    $uibModalInstance.dismiss('button2 dismiss');
                 };
                 $scope.button3visible = button3visible;
                 if ($scope.button3visible !== undefined) {
@@ -121,7 +121,7 @@ angular.module('common').factory('common.dialogService',
                         if (button3click) {
                             button3click();
                         }
-                        $modalInstance.dismiss('button3 dismiss');
+                        $uibModalInstance.dismiss('button3 dismiss');
                     };
                 } else {
                     $scope.button3visible = false;
@@ -135,7 +135,7 @@ angular.module('common').factory('common.dialogService',
             };
 
             // Open dialog box using specified options, template and controller
-            var msgbox = $modal.open({
+            var msgbox = $uibModal.open({
                 scope: scope,
                 templateUrl: options.templateUrl,
                 controller: DialogInstanceCtrl,
