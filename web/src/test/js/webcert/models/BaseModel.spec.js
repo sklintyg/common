@@ -174,7 +174,7 @@ describe('common.domain.BaseModel', function() {
             });
         });
 
-        xdescribe('clear', function(){
+        describe('clear', function(){
             it('can clear object ', function(){
 
                 var modelDef = {
@@ -295,7 +295,7 @@ describe('common.domain.BaseModel', function() {
             });
         });
 
-        xdescribe('update', function(){
+        describe('update', function(){
             it('can update specific object ', function(){
 
                 var modelDef = {
@@ -438,7 +438,7 @@ describe('common.domain.BaseModel', function() {
 
         });
 
-        xdescribe('to send', function() {
+        describe('to send', function() {
             it('can send object ', function() {
 
                 var modelDef = {

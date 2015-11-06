@@ -22,51 +22,8 @@ angular.module('common').factory('common.domain.BaseModel',
                             current[prop.property] = prop;
                         }
                     } else if (prop instanceof ModelAttr) {
-                        if(extras.key !== undefined){
-                            if(extras.self.isObject(prop.defaultValue)){
-                                current[extras.key] = angular.copy(prop.defaultValue);
-                            } else {
-                                current[extras.key] = prop.defaultValue;
-                            }
-                        } else {
-                            if(extras.self.isObject(prop.defaultValue)){
-                                current[prop.property] = angular.copy(prop.defaultValue);
-                            } else {
-                                current[prop.property] = prop.defaultValue;
-                            }
-                        }
-
-                        if(prop.linkedProperty){
-                            current['set' + prop.property] = prop.linkedProperty.set;
-
-                            var lps = {};
-                            for (var i = 0; i < prop.linkedProperty.props.length; i++) {
-                                var lp = prop.linkedProperty.props[i];
-
-                                var self;
-                                if (lp.indexOf('.') > 0) {
-                                    self = extras.self;
-                                    //observer.addPath(extras.self, lp);
-                                } else {
-                                    self = current;
-                                    //observer.addPath(current, lp);
-                                }
-
-                                lps[lp] = undefined;
-
-                                self.watch(lp, function(id, oldval, newval) {
-                                    //console.log( 'o.' + id + ' changed from ' + oldval + ' to ' + newval );
-                                    lps[id] = newval;
-                                    self[prop.property] = prop.linkedProperty.update(self, lps);
-                                    return newval;
-                                }); // jshint ignore:line
-
-                                // trigger an update, if defaultValue has been set...
-                                //self[prop.property] = prop.linkedProperty.update(self, lps);
-                            }
-
-                        }
-
+						_initModelAttrProp( extras, prop, current );
+                        
                     } else if(extras && extras.key !== undefined && !extras.self.isNumber(extras.key)){
                         if(extras.self.isObject(prop)){
                             //console.log('-- object prop: ' + extras.key);
@@ -270,48 +227,7 @@ angular.module('common').factory('common.domain.BaseModel',
 
                 if (content !== undefined) {
 
-                    var updateProp = function updateProp(current, prop, extras){
-                        //console.log('------------------------ update');
-                        //console.log('-- current : ' + JSON.stringify(current));
-                        //console.log('-- content : ' + JSON.stringify(extras.content));
-                        //console.log('-- ec : ' + JSON.stringify(extras.ec));
-                        //console.log('-- ep : ' + JSON.stringify(extras.ep));
-                        //console.log('-- prop '+ extras.key +' : ' + JSON.stringify(prop));
-                        //console.log('-- isMA ' + prop instanceof ModelAttr );
-                        if (prop instanceof ModelAttr) {
-                            //console.log('--- ma');
-                            if( (extras.content && prop.linkedProperty) || ( extras.content && extras.content.hasOwnProperty(prop.property) && current.hasOwnProperty(prop.property) ) ) {
-                                if (prop.fromTransform !== undefined) {
-                                    //console.log('---- update transform');
-                                    current[prop.property] = prop.fromTransform(extras.content[prop.property]);
-                                } else if (extras.self.isModel(current[prop.property])) {
-                                    //console.log('---- update child model');
-                                    current[prop.property].update(extras.content[prop.property]);
-                                } else if(!prop.linkedProperty) { // jshint ignore:line
-                                    //console.log('---- update prop');
-                                    current[prop.property] = extras.content[prop.property];
-                                }
-                            } else if(extras.content && propsSent ){ // single property just set it on the property
-                                //console.log('---- update single prop with : ' + extras.content);
-                                current[prop.property] = extras.content;
-                            }
-                        } else if(extras.self.isModel(prop)){
-                            //console.log('---- update child model');
-                            current[extras.key].update(extras.content[extras.key]);
-                        } else if(extras.self.isObject(prop)){
-                            //console.log('-- object');
-                            extras.content = extras.content[extras.key];
-                            return current[extras.key];
-
-                        } else {
-                            //console.log('--- prop');
-                            if (extras.content.hasOwnProperty(prop) && current.hasOwnProperty(prop)) {
-                                current[prop] = extras.content[prop];
-                            } else if(extras.content && propsSent ){
-                                current[prop] = extras.content;
-                            }
-                        }
-                    };
+                    var updateProp = _updateProp( propsSent );
 
                     this._recurse(current, properties, updateProp, {self:this,content:content, ec:current, ep:properties} );
 
@@ -414,6 +330,105 @@ angular.module('common').factory('common.domain.BaseModel',
                 return val !== undefined && typeof val === 'object';
             }
         });
+		
+		/* Initialize ModelAttr props, extracted from initModel due cyclomatic comlexity*/
+		function _initModelAttrProp( extras, prop, current ) {
+			if(extras.key !== undefined){
+				if(extras.self.isObject(prop.defaultValue)){
+					current[extras.key] = angular.copy(prop.defaultValue);
+				} else {
+					current[extras.key] = prop.defaultValue;
+				}
+			} else {
+				if(extras.self.isObject(prop.defaultValue)){
+					current[prop.property] = angular.copy(prop.defaultValue);
+				} else {
+					current[prop.property] = prop.defaultValue;
+				}
+			}
+
+			if(prop.linkedProperty){
+				current['set' + prop.property] = prop.linkedProperty.set;
+
+				var lps = {};
+				for (var i = 0; i < prop.linkedProperty.props.length; i++) {
+					var lp = prop.linkedProperty.props[i];
+
+					var self;
+					if (lp.indexOf('.') > 0) {
+						self = extras.self;
+						//observer.addPath(extras.self, lp);
+					} else {
+						self = current;
+						//observer.addPath(current, lp);
+					}
+
+					lps[lp] = undefined;
+
+					self.watch(lp, function(id, oldval, newval) {
+						//console.log( 'o.' + id + ' changed from ' + oldval + ' to ' + newval );
+						lps[id] = newval;
+						self[prop.property] = prop.linkedProperty.update(self, lps);
+						return newval;
+					}); // jshint ignore:line
+
+				// trigger an update, if defaultValue has been set...
+				//self[prop.property] = prop.linkedProperty.update(self, lps);
+				}
+			}
+		}
+
+		/* Update props, extracted due to cyclomatic comlexity,
+		* returns a function that is a closure over propsSent*/
+		function _updateProp( propsSent ){
+			//console.log('------------------------ update');
+			//console.log('-- current : ' + JSON.stringify(current));
+			//console.log('-- content : ' + JSON.stringify(extras.content));
+			//console.log('-- ec : ' + JSON.stringify(extras.ec));
+			//console.log('-- ep : ' + JSON.stringify(extras.ep));
+			//console.log('-- prop '+ extras.key +' : ' + JSON.stringify(prop));
+			//console.log('-- isMA ' + prop instanceof ModelAttr );
+			return function( current, prop, extras ) {
+					if (prop instanceof ModelAttr) {
+						_updateModelAttrProp( current, prop, extras, propsSent);
+					} else if(extras.self.isModel(prop)){
+						//console.log('---- update child model');
+						current[extras.key].update(extras.content[extras.key]);
+					} else if(extras.self.isObject(prop)){
+						//console.log('-- object');
+						extras.content = extras.content[extras.key];
+						return current[extras.key];
+					} else {
+						//console.log('--- prop');
+						if (extras.content.hasOwnProperty(prop) && current.hasOwnProperty(prop)) {
+							current[prop] = extras.content[prop];
+						} else if(extras.content && propsSent ){
+							current[prop] = extras.content;
+						}
+					}
+				};
+		}
+
+		function _updateModelAttrProp( current, prop, extras, propsSent ) {
+			//console.log('--- ma');
+			if( (extras.content && prop.linkedProperty) ||
+			   ( extras.content && extras.content.hasOwnProperty(prop.property) &&
+				current.hasOwnProperty(prop.property) ) ) {
+				if (prop.fromTransform !== undefined) {
+					//console.log('---- update transform');
+					current[prop.property] = prop.fromTransform(extras.content[prop.property]);
+				} else if (extras.self.isModel(current[prop.property])) {
+					//console.log('---- update child model');
+					current[prop.property].update(extras.content[prop.property]);
+				} else if(!prop.linkedProperty) { // jshint ignore:line
+					//console.log('---- update prop');
+					current[prop.property] = extras.content[prop.property];
+				}
+			} else if(extras.content && propsSent ){ // single property just set it on the property
+				//console.log('---- update single prop with : ' + extras.content);
+				current[prop.property] = extras.content;
+			}
+		}
 
         return BaseModel;
     }]);

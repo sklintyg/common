@@ -145,62 +145,54 @@ angular.module('common').factory('common.UtkastSignService',
             function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, dialogHandle) {
 
                 function getSigneringsstatus() {
-                    UtkastProxy.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
-                        if ('BEARBETAR' === ticket.status) {
-                            // TODO: We _should_ change the text of the dialog (if active) once we have signed in BankID
-                            // TODO: and are waiting for the GRP collect to finish.
-                            signModel._timer = $timeout(getSigneringsstatus, 1000);
-                            if(dialogHandle !== undefined){
-                                // change the status
-                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
-                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.open';
-                                } else {
-                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.open';
-                                }
+					//Define the signing statuses and their text values
+					var statuses = {'BEARBETAR': {
+							'mbankid': 'common.modal.mbankid.open',
+							'bankid': 'common.modal.bankid.open'},
+						'VANTA_SIGN': {
+							'mbankid': 'common.modal.mbankid.signing',
+							'bankid': 'common.modal.bankid.signing'},
+						'NO_CLIENT': {
+							'mbankid': 'common.modal.mbankid.noclient',
+							'bankid': 'common.modal.bankid.noclient'},
+						'SIGNERAD': {
+							'mbankid': 'common.modal.mbankid.signed',
+							'bankid': 'common.modal.bankid.signed'}
+					};
 
-                                dialogHandle.model.signState = 'BEARBETAR';
-                            }
-                        } else if ('VANTA_SIGN' === ticket.status) {
-                            signModel._timer = $timeout(getSigneringsstatus, 1000);
-                            if(dialogHandle !== undefined){
-                                // change the status
-                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
-                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.signing';
-                                } else {
-                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.signing';
-                                }
-                                dialogHandle.model.signState = 'VANTA_SIGN';
-                            }
-                        } else if ('NO_CLIENT' === ticket.status) {
-                            signModel._timer = $timeout(getSigneringsstatus, 1000);
-                            if(dialogHandle !== undefined){
-                                // change the status
-                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
-                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.noclient';
-                                } else {
-                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.noclient';
-                                }
-                                dialogHandle.model.signState = 'NO_CLIENT';
-                            }
-                        } else if ('SIGNERAD' === ticket.status) {
-                            deferred.resolve({newVersion : ticket.version});
-                            if (dialogHandle !== undefined){
-                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
-                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.signed';
-                                } else {
-                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.signed';
-                                }
-                                dialogHandle.model.signState = 'SIGNERAD';
-                                dialogHandle.close();
-                            }
-                            _showIntygAfterSignering(signModel, intygsTyp, intygsId);
-                        }  else {
-                            deferred.resolve({newVersion : ticket.version});
-                            if (dialogHandle !== undefined) {
-                                dialogHandle.close();
-                            } // TODO this is a hack, fix.
-                            _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
-                        }
+                    UtkastProxy.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
+						var hasDialogHandle = dialogHandle !== undefined,
+							signed = 'SIGNERAD' === ticket.status,
+							status;
+
+						if(statuses.hasOwnProperty(ticket.status)) {
+							status = statuses[ticket.status];
+
+							if(signed) {
+								deferred.resolve({newVersion : ticket.version});
+							} else {
+								signModel._timer = $timeout(getSigneringsstatus, 1000);
+							}
+
+							if(hasDialogHandle){
+								// change the status
+								dialogHandle.model.bodyTextId = UserModel.authenticationMethod('MOBILT_BANK_ID') ? status.mbankid : status.bankid; 
+								dialogHandle.model.signState = ticket.status;
+								if(signed) {
+									dialogHandle.close();
+								}
+							}
+
+							if(signed) {
+								_showIntygAfterSignering(signModel, intygsTyp, intygsId);
+							}
+						} else {
+							deferred.resolve({newVersion : ticket.version});
+							if (hasDialogHandle) {
+								dialogHandle.close();
+							} // TODO this is a hack, fix.
+							_showSigneringsError(signModel, {errorCode: 'SIGNERROR'});	
+						} 
                     });
                 }
 

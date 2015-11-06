@@ -76,7 +76,7 @@ describe('common.domain.BaseAtticModel', function() {
         });
     });
 
-    xdescribe('base attic model', function(){
+    describe('base attic model', function(){
         describe('nested attic model', function() {
 
             var model;
