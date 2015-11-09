@@ -27,30 +27,6 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
         }
     };
 
-    var _isMinDateOutOfRange = function(minMax, now) { // jshint ignore:line
-        if(!minMax || !minMax.min || !minMax.max){
-            return false;
-        }
-        var min, max;
-        if(minMax.max.dateString !== undefined){
-            max = minMax.max.moment;
-        } else {
-            max = minMax.max;
-        }
-        if(minMax.min.dateString !== undefined){
-            min = minMax.min.moment;
-        } else {
-            min = minMax.min;
-        }
-        if(now === undefined){
-            now = moment(0,'HH');
-        } else {
-            now = moment(now);
-        }
-        //$log.info('**** min : ' + min.format('YYYY-MM-DD') + ', now : ' + now.format('YYYY-MM-DD'));
-        return min.isAfter(now.add('days', minDaysRange));
-    };
-
     var _areDatesOutOfRange = function(min, now) {
         if(min === undefined){
             return false;

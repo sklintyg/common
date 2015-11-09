@@ -330,6 +330,39 @@ angular.module('common').factory('common.domain.BaseModel',
                 return val !== undefined && typeof val === 'object';
             }
         });
+
+        function _updateLinkedProperty(extras, prop, current) {
+            current['set' + prop.property] = prop.linkedProperty.set;
+
+            var lps = {};
+
+            function updateProp(self, lps, id, oldval, newval) {
+                //console.log( 'o.' + id + ' changed from ' + oldval + ' to ' + newval );
+                lps[id] = newval;
+                self[prop.property] = prop.linkedProperty.update(self, lps);
+                return newval;
+            }
+
+            for (var i = 0; i < prop.linkedProperty.props.length; i++) {
+                var lp = prop.linkedProperty.props[i];
+
+                var self;
+                if (lp.indexOf('.') > 0) {
+                    self = extras.self;
+                    //observer.addPath(extras.self, lp);
+                } else {
+                    self = current;
+                    //observer.addPath(current, lp);
+                }
+
+                lps[lp] = undefined;
+
+                self.watch(lp, angular.bind(self, updateProp, self, lps));
+
+                // trigger an update, if defaultValue has been set...
+                //self[prop.property] = prop.linkedProperty.update(self, lps);
+            }
+        }
 		
 		/* Initialize ModelAttr props, extracted from initModel due cyclomatic comlexity*/
 		function _initModelAttrProp( extras, prop, current ) {
@@ -348,34 +381,8 @@ angular.module('common').factory('common.domain.BaseModel',
 			}
 
 			if(prop.linkedProperty){
-				current['set' + prop.property] = prop.linkedProperty.set;
-
-				var lps = {};
-				for (var i = 0; i < prop.linkedProperty.props.length; i++) {
-					var lp = prop.linkedProperty.props[i];
-
-					var self;
-					if (lp.indexOf('.') > 0) {
-						self = extras.self;
-						//observer.addPath(extras.self, lp);
-					} else {
-						self = current;
-						//observer.addPath(current, lp);
-					}
-
-					lps[lp] = undefined;
-
-					self.watch(lp, function(id, oldval, newval) {
-						//console.log( 'o.' + id + ' changed from ' + oldval + ' to ' + newval );
-						lps[id] = newval;
-						self[prop.property] = prop.linkedProperty.update(self, lps);
-						return newval;
-					}); // jshint ignore:line
-
-				// trigger an update, if defaultValue has been set...
-				//self[prop.property] = prop.linkedProperty.update(self, lps);
-				}
-			}
+                _updateLinkedProperty(extras, prop, current);
+            }
 		}
 
 		/* Update props, extracted due to cyclomatic comlexity,
