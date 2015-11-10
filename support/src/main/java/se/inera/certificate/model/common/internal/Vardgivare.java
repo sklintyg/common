@@ -18,6 +18,8 @@
  */
 package se.inera.certificate.model.common.internal;
 
+import java.util.Objects;
+
 public class Vardgivare {
 
     private String vardgivarid;
@@ -26,6 +28,24 @@ public class Vardgivare {
 
     public Vardgivare() {
 
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (getClass() != object.getClass()) {
+            return false;
+        }
+        final Vardgivare that = (Vardgivare) object;
+        return Objects.equals(this.vardgivarid, that.vardgivarid) &&
+                Objects.equals(this.vardgivarnamn, that.vardgivarnamn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.vardgivarid, this.vardgivarnamn);
     }
 
     public String getVardgivarid() {

@@ -20,6 +20,7 @@ package se.inera.certificate.model.common.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HoSPersonal {
 
@@ -37,6 +38,29 @@ public class HoSPersonal {
 
     public HoSPersonal() {
 
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (getClass() != object.getClass()) {
+            return false;
+        }
+        final HoSPersonal that = (HoSPersonal) object;
+        return Objects.equals(this.personId, that.personId) &&
+                Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn) &&
+                Objects.equals(this.forskrivarKod, that.forskrivarKod) &&
+                Objects.deepEquals(this.befattningar, that.befattningar) &&
+                Objects.deepEquals(this.specialiteter, that.specialiteter) &&
+                Objects.equals(this.vardenhet, that.vardenhet);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.personId, this.fullstandigtNamn, this.forskrivarKod, this.befattningar, this.specialiteter);
     }
 
     public List<String> getSpecialiteter() {

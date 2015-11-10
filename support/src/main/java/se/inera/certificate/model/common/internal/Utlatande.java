@@ -2,13 +2,10 @@ package se.inera.certificate.model.common.internal;
 
 public class Utlatande {
 
-    private String id;
-    private String typ;
+    protected String id;
+    protected String typ;
 
-    private GrundData grundData = new GrundData();
-
-
-    // Getter and setters
+    protected GrundData grundData = new GrundData();
 
     public String getId() {
         return id;

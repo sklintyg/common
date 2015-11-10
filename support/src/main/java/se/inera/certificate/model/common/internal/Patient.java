@@ -20,6 +20,8 @@ package se.inera.certificate.model.common.internal;
 
 import se.inera.certificate.modules.support.api.dto.Personnummer;
 
+import java.util.Objects;
+
 public class Patient {
 
     private Personnummer personId;
@@ -40,6 +42,31 @@ public class Patient {
 
     public Patient() {
 
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (getClass() != object.getClass()) {
+            return false;
+        }
+        final Patient that = (Patient) object;
+        return Objects.equals(this.personId, that.personId) &&
+                Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn) &&
+                Objects.equals(this.fornamn, that.fornamn) &&
+                Objects.equals(this.mellannamn, that.mellannamn) &&
+                Objects.equals(this.efternamn, that.efternamn) &&
+                Objects.equals(this.postadress, that.postadress) &&
+                Objects.equals(this.postnummer, that.postnummer) &&
+                Objects.equals(this.postort, that.postort);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.personId, this.fullstandigtNamn, this.fornamn, this.mellannamn, this.efternamn,
+                this.postadress, this.postnummer, this.postort);
     }
 
     public boolean isSamordningsNummer() {
