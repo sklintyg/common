@@ -42,15 +42,31 @@ angular.module('common').factory(
             this.arbetsplatsKod = vardenhet.arbetsplatsKod;
         };
 
+        function isDefined(data) {
+            return typeof data !== 'undefined' && data !== '';
+        }
+
         VardenhetModel.prototype.isMissingInfo = function(){
-            return this.postadress === undefined ||
-                this.postnummer === undefined ||
-                this.postort === undefined ||
-                this.telefonnummer === undefined ||
-                this.postadress === '' ||
-                this.postnummer === '' ||
-                this.postort === '' ||
-                this.telefonnummer === '';
+
+            var props = [
+                'postadress',
+                'postnummer',
+                'postort',
+                'telefonnummer',
+                'postadress',
+                'postnummer',
+                'postort',
+                'telefonnummer'
+            ];
+
+            var missingInfo = false;
+            angular.foreach(props, function(prop) {
+                if(!isDefined(this[prop])) {
+                    missingInfo = true;
+                }
+            }, this);
+
+            return missingInfo;
         };
 
         VardenhetModel.build = function() {

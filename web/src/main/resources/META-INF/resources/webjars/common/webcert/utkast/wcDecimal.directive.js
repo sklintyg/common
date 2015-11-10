@@ -43,8 +43,8 @@ angular.module('common').directive('wcDecimalNumber',
 
                     if (length > 0) {
                         if (_isMaxTwoDecimals( scope )) {
-							valForView = _getValueForView( value );
-							valForModel = Number(valForView[0] + '.' + valForView[2]);
+                            valForView = _getValueForView( value );
+                            valForModel = Number(valForView[0] + '.' + valForView[2]);
                         }
                         else {
                             valForView = value.replace('.', ',');
@@ -58,41 +58,43 @@ angular.module('common').directive('wcDecimalNumber',
                     };
                 }
 
-				function _isMaxTwoDecimals( value ) {
-					if( value === 'undefined' ) {return false; }	
-					return value.wcDecimalMaxNumbers === 2 || value.wcDecimalMaxNumbers === '2';
-				}
+                function _isMaxTwoDecimals(value) {
+                    if(value === 'undefined') {
+                        return false;
+                    }
+                    return value.wcDecimalMaxNumbers === 2 || value.wcDecimalMaxNumbers === '2';
+                }
 
-				function _getValueForView( value ) {
-					var valForView = '',
+                function _getValueForView( value ) {
+                    var valForView = '',
                         length = value.length;
 
-					if (length === 1) {
-						if (value[0] === ',') {
-							valForView = '0,0';
-						}
-						else {
-							valForView = value[0] + ',0';
-						}
-					} else if (length === 2) {
-						if (value[0] === ',') {
-							valForView = '0,' + value[1];
-						} else if (value[1] === ',') {
-							valForView = value[0] + ',0';
-						} else {
-							valForView = value[0] + ',' + value[1];
-						}
-					} else if (length === 3) {
-						if (value[0] === ',') {
-							valForView = '0,' + value[1];
-						} else if (value[1] === ',') {
-							valForView = value;
-						} else {
-							valForView = value[0] + ',' + value[1];
-						}
-					}
-					return valForView;	
-				}
+                    if (length === 1) {
+                        if (value[0] === ',') {
+                            valForView = '0,0';
+                        }
+                        else {
+                            valForView = value[0] + ',0';
+                        }
+                    } else if (length === 2) {
+                        if (value[0] === ',') {
+                            valForView = '0,' + value[1];
+                        } else if (value[1] === ',') {
+                            valForView = value[0] + ',0';
+                        } else {
+                            valForView = value[0] + ',' + value[1];
+                        }
+                    } else if (length === 3) {
+                        if (value[0] === ',') {
+                            valForView = '0,' + value[1];
+                        } else if (value[1] === ',') {
+                            valForView = value;
+                        } else {
+                            valForView = value[0] + ',' + value[1];
+                        }
+                    }
+                    return valForView;
+                }
 
                 var blurFormat = function blurFormat() {
                     var filtered = filter(this.value);

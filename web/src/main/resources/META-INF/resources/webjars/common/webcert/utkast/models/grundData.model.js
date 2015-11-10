@@ -11,8 +11,6 @@ angular.module('common').factory('common.Domain.GrundDataModel',
             this.patient = PatientModel.build();
         }
 
-        
-
         GrundDataModel.prototype.update = function (grundData) {
             // refresh the model data
             if(grundData === undefined) {

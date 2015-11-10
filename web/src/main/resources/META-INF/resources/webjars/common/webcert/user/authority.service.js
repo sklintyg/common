@@ -15,18 +15,25 @@ angular.module('common').factory('common.authorityService',
                     check(intygstyp, intygsTypCheck);
         }
 
+        function checkEach(toCheck, fn, intygstyp) {
+            var result = true;
+            var array = toCheck.split(',');
+            for(var i = 0; i < array.length; i++){
+                result = fn(array[i].trim(), intygstyp);
+                if(!result){
+                    // as soon as we get a false result return it
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         function check(toCheck, fn, intygstyp){
             var res = true;
-            if(toCheck !== undefined && toCheck.length > 0){
+            if(toCheck !== undefined && toCheck.length > 0) {
                 if(toCheck.indexOf(',') > 0){
-                    var array = toCheck.split(',');
-                    for(var i=0; i<array.length; i++){
-                        res = fn(array[i].trim(), intygstyp);
-                        if(!res){
-                            // as soon as we get a false result return it
-                            return false;
-                        }
-                    }
+                    res = checkEach(toCheck, fn, intygstyp);
                 } else {
                     res = fn(toCheck);
                 }

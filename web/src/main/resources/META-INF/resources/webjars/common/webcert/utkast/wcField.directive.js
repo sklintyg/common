@@ -20,7 +20,9 @@ angular.module('common').directive('wcField',
                     filled: '@?'
                 },
                 compile: function(element, attrs){
-                    if (!attrs.filled) { attrs.filled = true; }
+                    if (!attrs.filled) {
+                        attrs.filled = true;
+                    }
                 },
                 controller: function($scope) {
 

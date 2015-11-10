@@ -18,13 +18,7 @@ angular.module('common').directive('wcDatePickerField',
             templateUrl: '/web/webjars/common/webcert/date/wcDatePickerField.directive.html',
             require:'wcDatePickerField',
             controller: function($scope) {
-/*
-                $scope.$watch('targetModel', function() {
-                    if ($scope.onChange) { MUST RENAME IF USED
-                        $scope.onChange();
-                    }
-                });
-*/
+
                 if($scope.format === undefined){
                     $scope.format = 'yyyy-MM-dd';
                 }
@@ -99,7 +93,6 @@ angular.module('common').directive('wcDatePickerField',
                     $._data(element[0], 'events').input.pop();
                     $._data(element[0], 'events').keyup.pop();
                     $._data(element[0], 'events').change.pop();
-                    //element.unbind('change keyup');
                     element.bind('input change keyup', function(e) {
                         wcDatePickerField.datepickerPopupScope.$apply(function() {
                             wcDatePickerField.datepickerPopupScope.date = getDate(ngModel.$viewValue);

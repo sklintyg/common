@@ -11,10 +11,6 @@ angular.module('common').factory('common.domain.BaseModel',
 
                 // this gets executed once the property has been recursed
                 var initProp = function(current, prop, extras){
-                    //console.log('------------------------ initProp');
-                    //console.log('-- ec : ' + JSON.stringify(extras.ec));
-                    //console.log('-- ep : ' + JSON.stringify(extras.ep));
-                    //console.log('-- prop '+ extras.key +' : ' + JSON.stringify(prop));
                     if (extras.self.isModel(prop)) {
                         if(extras.key !== undefined){
                             current[extras.key] = prop;
@@ -22,32 +18,25 @@ angular.module('common').factory('common.domain.BaseModel',
                             current[prop.property] = prop;
                         }
                     } else if (prop instanceof ModelAttr) {
-						_initModelAttrProp( extras, prop, current );
-                        
+                        _initModelAttrProp( extras, prop, current );
                     } else if(extras && extras.key !== undefined && !extras.self.isNumber(extras.key)){
                         if(extras.self.isObject(prop)){
-                            //console.log('-- object prop: ' + extras.key);
                             // set a new object on the current this then becomes the new current
                             current[extras.key] = {};
                             return current[extras.key];
                         } else {
-                            //console.log('setting prop: ' + extras.key);
                             if(extras.self.isFunction(prop)){
                                 current[extras.key] = prop(extras.key);
                             } else {
                                 current[extras.key] = prop; // prop is the default value, or an object
                             }
 
-                            //console.log('-- MA('+extras.key+') default value : ' + prop);
                             extras.ep[extras.key] = new ModelAttr(extras.key, {defaultValue:prop});
-
                         }
 
                     } else {
-                        //console.log('-- simple ' + prop + ':undefined, current: ' + JSON.stringify(current));
                         current[prop] = undefined;
                         var ma = new ModelAttr(prop, {defaultValue:undefined});
-                        //console.log('-- MA('+prop+') default value : undefined');
                         extras.ep[prop] = ma;
                     }
                     return current;
@@ -59,7 +48,7 @@ angular.module('common').factory('common.domain.BaseModel',
 
             },
 
-                // utils
+            // utils
             isArray : function(val){
                 return val !== undefined && val instanceof Array;
             },
@@ -76,7 +65,7 @@ angular.module('common').factory('common.domain.BaseModel',
                 return val !== undefined && typeof val === 'object' && !(val instanceof Date);
             },
 
-            isModelAttr : function(val){
+            isModelAttr : function isModelAttr(val){
                 return val instanceof ModelAttr;
             },
 
@@ -90,11 +79,34 @@ angular.module('common').factory('common.domain.BaseModel',
 
             _recurse : function _recurse(currentSelf, props, propFn, extras){
 
+                function keyIsString(key, val) {
+                    // case 1 property is an object the key is it's name ....
+                    if (extras.self.isObject(val) && !extras.self.isString(val)) {
+                        // recurse on the objects properties
+
+                        extras.key = key;
+                        extras.ec = propFn(currentSelf, val, extras);
+                        extras.key = undefined;
+
+                        if (!extras.self.isModelAttr(val) && !extras.self.isModel(val)) {
+                            // only recurse if it's a standard object or type
+                            // not if its a ModelAttr or another Model
+                            _recurse(extras.ec, val, propFn, extras);
+                        }
+
+                    } else {
+                        // case 2 property is a simple property
+                        // with a defaultValue ( undefined, boolean, string etc ..
+                        extras.key = key;
+                        propFn(currentSelf, val, extras);
+                        extras.key = undefined;
+                    }
+                }
+
                 if(extras.self.isModelAttr(props)){
                     propFn(currentSelf, props, extras);
                 } else {
                     angular.forEach(props, function(val, key) {
-                        //console.log('******************************************* recurs');
 
                         var epb = props;
                         var ecb = currentSelf;
@@ -105,50 +117,12 @@ angular.module('common').factory('common.domain.BaseModel',
                         extras.ec = currentSelf;
 
                         if (extras.self.isString(key) && !(extras.self.isArray(val))) {
-                            //console.log('********** key value');
-                            //console.log('** ec   ' + key + ', :' + JSON.stringify(extras.ec));
-                            //console.log('** ep   ' + key + ', :' + JSON.stringify(extras.ep));
-                            //console.log('** prop ' + key + ', :' + JSON.stringify(val));
-                            // case 1 property is an object the key is it's name ....
-                            if (extras.self.isObject(val) && !extras.self.isString(val)) {
-                                // recurse on the objects properties
-                                //console.log('** case1 isObject');
-
-                                extras.key = key;
-
-                                extras.ec = propFn(currentSelf, val, extras);
-
-                                extras.key = undefined;
-
-                                if (!extras.self.isModelAttr(val) && !extras.self.isModel(val)) {
-                                    // only recurse if it's a standard object or type
-                                    // not if its a ModelAttr or another Model
-                                    //console.log('wasnt ma about to recurse ...');
-                                    _recurse(extras.ec, val, propFn, extras);
-                                }
-
-
-                            } else {
-                                // case 2 property is a simple property
-                                // with a defaultValue ( undefined, boolean, string etc ..
-                                //console.log('** case2 isSimple prop');
-                                extras.key = key;
-                                propFn(currentSelf, val, extras);
-                                extras.key = undefined;
-                            }
-                        } else if (extras.self.isArray(val)) {
-                            //console.log('********** array');
-                            //console.log('** array : ' + JSON.stringify(val) + ', key:' + key);
-
-                            _recurse(currentSelf, val, propFn, extras);
-                        } else if (extras.self.isObject(val) && !extras.self.isModelAttr(val)) {
-                            //console.log('********** object');
-                            //console.log('** object : ' + JSON.stringify(val));
+                            keyIsString(key, val);
+                        } else if (extras.self.isArray(val) ||
+                            (extras.self.isObject(val) && !extras.self.isModelAttr(val))) {
 
                             _recurse(currentSelf, val, propFn, extras);
                         } else {
-                            //console.log('********** other');
-                            //console.log('** other : ' + JSON.stringify(val));
                             propFn(currentSelf, val, extras);
 
                         }
@@ -182,27 +156,17 @@ angular.module('common').factory('common.domain.BaseModel',
                 }
 
                 var clearFn = function(current, prop, extras){
-                    //console.log('------------------------ clear');
-                    //console.log('-- ec : ' + JSON.stringify(extras.ec));
-                    //console.log('-- ep : ' + JSON.stringify(extras.ep));
-                    //console.log('-- prop '+ extras.key +' : ' + JSON.stringify(prop));
-                    if(prop instanceof ModelAttr){
-                        //console.log('-- ma');
-                        if(current.hasOwnProperty(prop.property)){
-                            if(prop.defaultValue !== undefined){
-                                //console.log('-- defaultValue : ' + prop.defaultValue);
-                                current[prop.property] = prop.defaultValue;
-                            } else {
-                                current[prop.property] = undefined;
-                            }
-
+                    if(prop instanceof ModelAttr && current.hasOwnProperty(prop.property)){
+                        if(prop.defaultValue !== undefined){
+                            current[prop.property] = prop.defaultValue;
+                        } else {
+                            current[prop.property] = undefined;
                         }
-                    } if(extras.self.isObject(prop)){
-                        //console.log('-- object');
+                    }
+                    if(extras.self.isObject(prop)){
                         return current[extras.key];
                     } else {
                         if(current.hasOwnProperty(prop)){
-                            //console.log('-- undefined');
                             current[prop] = undefined;
                         }
                     }
@@ -211,7 +175,6 @@ angular.module('common').factory('common.domain.BaseModel',
             },
 
             update : function(content, properties) {
-                //console.log('update bm');
                 var propsSent = properties !== undefined ? true : false;
                 // refresh the model data
                 var current = this;
@@ -226,11 +189,8 @@ angular.module('common').factory('common.domain.BaseModel',
                 }
 
                 if (content !== undefined) {
-
                     var updateProp = _updateProp( propsSent );
-
                     this._recurse(current, properties, updateProp, {self:this,content:content, ec:current, ep:properties} );
-
                 }
 
                 this.updateCount ++;
@@ -249,13 +209,6 @@ angular.module('common').factory('common.domain.BaseModel',
                     current = pc.current;
                 }
                 var toModelFn = function(current, prop, extras){
-                    //console.log('------------------------ to model');
-                    //console.log('-- current : ' + JSON.stringify(current));
-                    //console.log('-- tm : ' + JSON.stringify(extras.tm));
-                    //console.log('-- ec : ' + JSON.stringify(extras.ec));
-                    //console.log('-- ep : ' + JSON.stringify(extras.ep));
-                    //console.log('-- prop '+ extras.key +' : ' + JSON.stringify(prop));
-
                     if(extras.self.isModelAttr(prop)){
                         if(current.hasOwnProperty(prop.property) && !prop.trans && current[prop.property] !== undefined){
                             extras.tm[prop.property] = current[prop.property];
@@ -270,17 +223,14 @@ angular.module('common').factory('common.domain.BaseModel',
                             }
                         }
                     } else if(extras.self.isObject(prop)){
-                        //console.log('-- object prop: ' + extras.key);
                         // set a new object on the current this then becomes the new current
                         extras.tm[extras.key] = {};
                         extras.tm = extras.tm[extras.key];
                         return current[extras.key];
 
                     } else {
-                        if(current.hasOwnProperty(prop)){
-                            if(current[prop] !== undefined) {
-                                extras.tm[prop] = current[prop];
-                            }
+                        if(current.hasOwnProperty(prop) && current[prop] !== undefined) {
+                            extras.tm[prop] = current[prop];
                         }
                     }
                 };
@@ -291,14 +241,11 @@ angular.module('common').factory('common.domain.BaseModel',
             },
 
             _getPropertiesAndCurrent: function(propertyPath){
-                var propsCurrent = {props:this.properties, current:this};
-                var i = propertyPath.lastIndexOf('.');
-                var nc;
-                if(i > -1 ){
-                    var props = propertyPath.split('.');
-                    for(var j = 0; j<props.length; j++){
+
+                function findPropsCurrent(baseModel, props, propsCurrent) {
+                    for(var j = 0; j < props.length; j++){
                         var prop = props[j];
-                        if(!this.isModelAttr(propsCurrent.props[prop])) {
+                        if(!baseModel.isModelAttr(propsCurrent.props[prop])) {
                             nc = propsCurrent.current[prop];
                             if(nc){
                                 propsCurrent.current = nc;
@@ -306,6 +253,14 @@ angular.module('common').factory('common.domain.BaseModel',
                         }
                         propsCurrent.props = propsCurrent.props[prop];
                     }
+                }
+
+                var propsCurrent = {props:this.properties, current:this};
+                var i = propertyPath.lastIndexOf('.');
+                var nc;
+                if(i > -1 ){
+                    var props = propertyPath.split('.');
+                    findPropsCurrent(this, props, propsCurrent);
                 } else {
                     nc = this[propertyPath];
                     if(nc){
@@ -337,7 +292,6 @@ angular.module('common').factory('common.domain.BaseModel',
             var lps = {};
 
             function updateProp(self, lps, id, oldval, newval) {
-                //console.log( 'o.' + id + ' changed from ' + oldval + ' to ' + newval );
                 lps[id] = newval;
                 self[prop.property] = prop.linkedProperty.update(self, lps);
                 return newval;
@@ -349,93 +303,73 @@ angular.module('common').factory('common.domain.BaseModel',
                 var self;
                 if (lp.indexOf('.') > 0) {
                     self = extras.self;
-                    //observer.addPath(extras.self, lp);
                 } else {
                     self = current;
-                    //observer.addPath(current, lp);
                 }
 
                 lps[lp] = undefined;
 
                 self.watch(lp, angular.bind(self, updateProp, self, lps));
-
-                // trigger an update, if defaultValue has been set...
-                //self[prop.property] = prop.linkedProperty.update(self, lps);
             }
         }
-		
-		/* Initialize ModelAttr props, extracted from initModel due cyclomatic comlexity*/
-		function _initModelAttrProp( extras, prop, current ) {
-			if(extras.key !== undefined){
-				if(extras.self.isObject(prop.defaultValue)){
-					current[extras.key] = angular.copy(prop.defaultValue);
-				} else {
-					current[extras.key] = prop.defaultValue;
-				}
-			} else {
-				if(extras.self.isObject(prop.defaultValue)){
-					current[prop.property] = angular.copy(prop.defaultValue);
-				} else {
-					current[prop.property] = prop.defaultValue;
-				}
-			}
 
-			if(prop.linkedProperty){
+        /* Initialize ModelAttr props, extracted from initModel due cyclomatic comlexity*/
+        function _initModelAttrProp( extras, prop, current ) {
+            if(extras.key !== undefined){
+                if(extras.self.isObject(prop.defaultValue)){
+                    current[extras.key] = angular.copy(prop.defaultValue);
+                } else {
+                    current[extras.key] = prop.defaultValue;
+                }
+            } else {
+                if(extras.self.isObject(prop.defaultValue)){
+                    current[prop.property] = angular.copy(prop.defaultValue);
+                } else {
+                    current[prop.property] = prop.defaultValue;
+                }
+            }
+
+            if(prop.linkedProperty){
                 _updateLinkedProperty(extras, prop, current);
             }
-		}
+        }
 
-		/* Update props, extracted due to cyclomatic comlexity,
-		* returns a function that is a closure over propsSent*/
-		function _updateProp( propsSent ){
-			//console.log('------------------------ update');
-			//console.log('-- current : ' + JSON.stringify(current));
-			//console.log('-- content : ' + JSON.stringify(extras.content));
-			//console.log('-- ec : ' + JSON.stringify(extras.ec));
-			//console.log('-- ep : ' + JSON.stringify(extras.ep));
-			//console.log('-- prop '+ extras.key +' : ' + JSON.stringify(prop));
-			//console.log('-- isMA ' + prop instanceof ModelAttr );
-			return function( current, prop, extras ) {
-					if (prop instanceof ModelAttr) {
-						_updateModelAttrProp( current, prop, extras, propsSent);
-					} else if(extras.self.isModel(prop)){
-						//console.log('---- update child model');
-						current[extras.key].update(extras.content[extras.key]);
-					} else if(extras.self.isObject(prop)){
-						//console.log('-- object');
-						extras.content = extras.content[extras.key];
-						return current[extras.key];
-					} else {
-						//console.log('--- prop');
-						if (extras.content.hasOwnProperty(prop) && current.hasOwnProperty(prop)) {
-							current[prop] = extras.content[prop];
-						} else if(extras.content && propsSent ){
-							current[prop] = extras.content;
-						}
-					}
-				};
-		}
+        /* Update props, extracted due to cyclomatic comlexity,
+        * returns a function that is a closure over propsSent*/
+        function _updateProp( propsSent ){
+            return function( current, prop, extras ) {
+                    if (prop instanceof ModelAttr) {
+                        _updateModelAttrProp( current, prop, extras, propsSent);
+                    } else if(extras.self.isModel(prop)){
+                        current[extras.key].update(extras.content[extras.key]);
+                    } else if(extras.self.isObject(prop)){
+                        extras.content = extras.content[extras.key];
+                        return current[extras.key];
+                    } else {
+                        if (extras.content.hasOwnProperty(prop) && current.hasOwnProperty(prop)) {
+                            current[prop] = extras.content[prop];
+                        } else if(extras.content && propsSent ){
+                            current[prop] = extras.content;
+                        }
+                    }
+                };
+        }
 
-		function _updateModelAttrProp( current, prop, extras, propsSent ) {
-			//console.log('--- ma');
-			if( (extras.content && prop.linkedProperty) ||
-			   ( extras.content && extras.content.hasOwnProperty(prop.property) &&
-				current.hasOwnProperty(prop.property) ) ) {
-				if (prop.fromTransform !== undefined) {
-					//console.log('---- update transform');
-					current[prop.property] = prop.fromTransform(extras.content[prop.property]);
-				} else if (extras.self.isModel(current[prop.property])) {
-					//console.log('---- update child model');
-					current[prop.property].update(extras.content[prop.property]);
-				} else if(!prop.linkedProperty) { // jshint ignore:line
-					//console.log('---- update prop');
-					current[prop.property] = extras.content[prop.property];
-				}
-			} else if(extras.content && propsSent ){ // single property just set it on the property
-				//console.log('---- update single prop with : ' + extras.content);
-				current[prop.property] = extras.content;
-			}
-		}
+        function _updateModelAttrProp( current, prop, extras, propsSent ) {
+            if(extras.content &&
+                (prop.linkedProperty ||
+                    (extras.content.hasOwnProperty(prop.property) && current.hasOwnProperty(prop.property)))) {
+                if (prop.fromTransform !== undefined) {
+                    current[prop.property] = prop.fromTransform(extras.content[prop.property]);
+                } else if (extras.self.isModel(current[prop.property])) {
+                    current[prop.property].update(extras.content[prop.property]);
+                } else if(!prop.linkedProperty) { // jshint ignore:line
+                    current[prop.property] = extras.content[prop.property];
+                }
+            } else if(extras.content && propsSent ){ // single property just set it on the property
+                current[prop.property] = extras.content;
+            }
+        }
 
         return BaseModel;
     }]);

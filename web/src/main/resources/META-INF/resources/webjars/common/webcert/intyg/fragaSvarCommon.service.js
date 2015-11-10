@@ -64,7 +64,6 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-               // } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.user.isLakareOrPrivat) {
                 } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.hasPrivilege(UserModel.privileges.PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA)) {
                     // RE-005, RE-006
                     qa.answerDisabled = true;
@@ -103,11 +102,10 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function _isUnhandled(qa){
-                if( (qa.status === 'PENDING_INTERNAL_ACTION' && qa.amne === 'PAMINNELSE') || qa.status === 'ANSWERED') {
-                    return true;
-                } else {
+                if(!qa){
                     return false;
                 }
+                return (qa.status === 'PENDING_INTERNAL_ACTION' && qa.amne === 'PAMINNELSE') || qa.status === 'ANSWERED';
             }
 
             function _getUnhandledQas(qas){
@@ -219,23 +217,50 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 }
             }
 
+            function isUthoppUser() {
+                return UserModel.isLakareUthopp() ||
+                        UserModel.isVardadministratorUthopp();
+            }
+
+            function isNavigatingAway(newUrl) {
+
+                // The following urls are where the uthopp users are supposed to be
+                var allowedNewUrls = [
+                    '#/fragasvar/',
+                    '#/unhandled-qa',
+                    '#/webcert/about',
+                    '#/support/about',
+                    '#/certificates/about',
+                    '#/faq/about',
+                    '#/cookies/about'
+                ];
+
+                // If its none of them we are navigating outside of where we should
+                var navigatingAway = true;
+                angular.foreach(allowedNewUrls, function(url) {
+                    if(newUrl.indexOf(url) === -1) {
+                        navigatingAway = false;
+                    }
+                });
+
+                return navigatingAway;
+            }
+
+            function isUthoppUserNavigatingAway(newUrl) {
+                return isUthoppUser() &&
+                    !isUthoppDialogOpen &&
+                    isNavigatingAway(newUrl);
+            }
 
             var QAdialog = null;
             var QAdialogConfirmed = false;
+            function isUthoppDialogOpen() {
+                return QAdialog || QAdialogConfirmed;
+            }
+
             function _checkQAonlyDialog($scope, $event, newUrl, currentUrl, unbindEvent) {
                 // Check if the user used the special qa-link to get here.
-                // if (UserModel.isLakareUthopp() &&
-                if ((UserModel.isLakareUthopp() ||
-                     UserModel.isVardadministratorUthopp())  &&
-                    !QAdialog &&
-                    !QAdialogConfirmed &&
-                    newUrl.indexOf('#/fragasvar/') === -1 &&
-                    newUrl.indexOf('#/unhandled-qa') === -1 &&
-                    newUrl.indexOf('#/webcert/about') === -1 &&
-                    newUrl.indexOf('#/support/about') === -1 &&
-                    newUrl.indexOf('#/certificates/about') === -1 &&
-                    newUrl.indexOf('#/faq/about') === -1 &&
-                    newUrl.indexOf('#/cookies/about') === -1) {
+                if (isUthoppUserNavigatingAway()) {
 
                     $event.preventDefault();
 

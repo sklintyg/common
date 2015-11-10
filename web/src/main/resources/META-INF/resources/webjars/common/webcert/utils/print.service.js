@@ -19,7 +19,7 @@ angular.module('common').factory('common.PrintService',
              *
              * Works OK with IE9, Chrome, Firefox and Safari.
              *
-             * TODO One could make a controller for the <head> and <title>    section, in the case we could bind an
+             * One could make a controller for the <head> and <title>    section, in the case we could bind an
              * expression to <title>{{applicationTitle}}</title> and then just use $rootScope.applicationTitle
              */
             function _printWebPageWithCustomTitle(intygsId, intygsTyp, customHeader) {

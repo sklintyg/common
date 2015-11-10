@@ -12,11 +12,8 @@ angular.module('common').service('common.UtkastViewStateService',
                 isComplete : false,
                 type : undefined
             };
-            this.doneLoading = false;
-            this.collapsedHeader = false;
-            this.saving = false;
 
-            // TODO: should go into intyg
+            // should go into intyg above
             this.showComplete = false;
             this.hsaInfoMissing = false;
             this.vidarebefordraInProgress = false;
@@ -27,8 +24,10 @@ angular.module('common').service('common.UtkastViewStateService',
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;
 
+            this.doneLoading = false;
+            this.collapsedHeader = false;
+            this.saving = false;
             this.headerSize = {width:0, height: 250};
-
             this.today = new Date();
             this.today.setHours(0, 0, 0, 0); // reset time to increase comparison accuracy (using new Date() also sets time)
 
