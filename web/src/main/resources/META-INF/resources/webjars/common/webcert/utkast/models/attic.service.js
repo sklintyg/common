@@ -81,6 +81,8 @@ angular.module('common').factory('common.domain.AtticService',
                             }
                         }
                     }
+
+                    return atticProp;
                 }
 
                 var atticProp = this.atticModel;
