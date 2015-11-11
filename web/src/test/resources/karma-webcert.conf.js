@@ -18,7 +18,14 @@ module.exports = function(config) {
         // generate js files from html templates to expose them during testing.
         preprocessors: {
             'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.html': ['ng-html2js'],
-            'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.js': ['coverage']
+            'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.js': ['coverage'],
+            'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.scss': ['scss']
+        },
+
+        scssPreprocessor: {
+          options: {
+            sourceMap: true
+          }
         },
 
         ngHtml2JsPreprocessor: {
@@ -90,7 +97,8 @@ module.exports = function(config) {
             'karma-firefox-launcher',
             'karma-phantomjs-launcher',
             'karma-mocha-reporter',
-            'karma-ng-html2js-preprocessor'
+            'karma-ng-html2js-preprocessor',
+            'karma-scss-preprocessor'
         ],
 
         reporters: [ 'progress' ]
