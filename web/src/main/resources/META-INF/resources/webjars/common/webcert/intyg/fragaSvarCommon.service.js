@@ -14,7 +14,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             function _setVidareBefordradState(fragaSvarId, intygsTyp, isVidareBefordrad, callback) {
                 $log.debug('_setVidareBefordradState');
                 var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/hanterad';
-                $http.put(restPath, isVidareBefordrad.toString()).success(function(data) {
+                $http.put(restPath, {'dispatched' : isVidareBefordrad}).success(function(data) {
                     $log.debug('_setVidareBefordradState data:' + data);
                     callback(data);
                 }).error(function(data, status) {
