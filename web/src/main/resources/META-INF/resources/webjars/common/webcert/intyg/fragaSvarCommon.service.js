@@ -260,7 +260,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
 
             function _checkQAonlyDialog($scope, $event, newUrl, currentUrl, unbindEvent) {
                 // Check if the user used the special qa-link to get here.
-                if (isUthoppUserNavigatingAway()) {
+                if (isUthoppUserNavigatingAway(newUrl)) {
 
                     $event.preventDefault();
 
