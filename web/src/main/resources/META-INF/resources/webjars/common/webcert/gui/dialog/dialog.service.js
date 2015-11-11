@@ -6,8 +6,6 @@ angular.module('common').factory('common.dialogService',
         'use strict';
 
         function _showErrorMessageDialog(message, callback) {
-            $window.dialogDoneLoading = false;
-
             var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/gui/dialog/dialogError.template.html',
                 controller: function($scope, $uibModalInstance, bodyText) {
@@ -26,15 +24,9 @@ angular.module('common').factory('common.dialogService',
                 }
             }, function() {
             });
-
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
-            });
         }
 
         function _showMessageDialog(titleId, bodyText, callback) {
-            $window.dialogDoneLoading = false;
-
             var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/gui/dialog/dialogMessage.template.html',
                 controller: function($scope, $uibModalInstance, bodyText, titleId) {
@@ -55,10 +47,6 @@ angular.module('common').factory('common.dialogService',
                 if (callback) {
                     callback(result);
                 }
-            });
-
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
             });
         }
 
@@ -89,8 +77,6 @@ angular.module('common').factory('common.dialogService',
                 throw 'dialogId must be specified';
             }
 
-            $window.dialogDoneLoading = false;
-
 			setOptionDefaults( options ); 
 
 			dialogOptions = createDialogOptions( options );
@@ -109,10 +95,6 @@ angular.module('common').factory('common.dialogService',
                     result();
                 }
             }, function() {
-            });
-
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
             });
 
             msgbox.model = options.model;
@@ -265,49 +247,9 @@ angular.module('common').factory('common.dialogService',
                     $scope.button2id = button2id;
                     $scope.button3id = button3id;
                 };
-        /* // unused atm
-        function _runOnDialogRemoved(modal, callback) {
-            modal.opened.then(function() {
-                function waitForModalToBeRemovedAndRunCallback() {
-                    var modalDialog = $('[uib-modal-window]');
-                    if (modalDialog.length === 0) {
-                        callback();
-                    } else {
-                        $timeout(waitForModalToBeRemovedAndRunCallback, 100);
-                    }
-                }
-
-                $timeout(waitForModalToBeRemovedAndRunCallback);
-
-            }, function() {
-                // Failed to open the modal -> finished loading
-                callback();
-            });
-        }
-*/
-        function _runOnDialogDoneLoading(modal, callback) {
-            modal.opened.then(function() {
-                function waitForModalToExistAndRunCallbackWhenTransitionIsDone() {
-                    var modalDialog = $('[uib-modal-window]');
-                    if (modalDialog && modalDialog.hasClass('in')) {
-                        modalDialog.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd',
-                            callback);
-                    } else {
-                        $timeout(waitForModalToExistAndRunCallbackWhenTransitionIsDone, 100);
-                    }
-                }
-
-                $timeout(waitForModalToExistAndRunCallbackWhenTransitionIsDone);
-
-            }, function() {
-                // Failed to open the modal -> finished loading
-                callback();
-            });
-        }
 
         // Return public API for the service
         return {
-            runOnDialogDoneLoading: _runOnDialogDoneLoading,
             showErrorMessageDialog: _showErrorMessageDialog,
             showMessageDialog: _showMessageDialog,
             showDialog: _showDialog

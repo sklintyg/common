@@ -6,8 +6,6 @@ angular.module('common').factory('common.dialogService',
         'use strict';
 
         function _showErrorMessageDialog(message, callback) {
-            $window.dialogDoneLoading = false;
-
             var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/minaintyg/js/services/dialogServiceErrorTemplate.html',
                 controller: function($scope, $uibModalInstance, bodyText) {
@@ -25,10 +23,6 @@ angular.module('common').factory('common.dialogService',
                     callback(result);
                 }
             }, function() {
-            });
-
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
             });
         }
 
@@ -72,8 +66,6 @@ angular.module('common').factory('common.dialogService',
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
             }
-
-            $window.dialogDoneLoading = false;
 
             // setup options defaults if parameters aren't included
             options.bodyText = (options.bodyText === undefined) ? '' : options.bodyText;
@@ -199,37 +191,11 @@ angular.module('common').factory('common.dialogService',
             }, function() {
             });
 
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
-            });
-
             return msgbox;
-        }
-
-        function _runOnDialogDoneLoading(modal, callback) {
-
-            modal.opened.then(function() {
-                function waitForModalToExistAndRunCallbackWhenTransitionIsDone() {
-                    var modalDialog = $('[modal-window]');
-                    if (modalDialog && modalDialog.hasClass('in')) {
-                        modalDialog.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd',
-                            callback);
-                    } else {
-                        $timeout(waitForModalToExistAndRunCallbackWhenTransitionIsDone, 100);
-                    }
-                }
-
-                $timeout(waitForModalToExistAndRunCallbackWhenTransitionIsDone);
-
-            }, function() {
-                // Failed to open the modal -> finished loading
-                callback();
-            });
         }
 
         // Return public API for the service
         return {
-            runOnDialogDoneLoading: _runOnDialogDoneLoading,
             showErrorMessageDialog: _showErrorMessageDialog,
             showDialog: _showDialog
         };
