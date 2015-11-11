@@ -218,8 +218,10 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function isUthoppUser() {
-                return UserModel.isLakareUthopp() ||
-                        UserModel.isVardadministratorUthopp();
+                var uthoppUser = UserModel.isLakareUthopp() ||
+                    UserModel.isVardadministratorUthopp();
+                $log.debug('Is uthopp user: ' + uthoppUser);
+                return uthoppUser;
             }
 
             function isNavigatingAway(newUrl) {
@@ -237,24 +239,26 @@ angular.module('common').factory('common.fragaSvarCommonService',
 
                 // If its none of them we are navigating outside of where we should
                 var navigatingAway = true;
-                angular.foreach(allowedNewUrls, function(url) {
-                    if(newUrl.indexOf(url) === -1) {
+                angular.forEach(allowedNewUrls, function(url) {
+                    if(newUrl.indexOf(url) !== -1) { // found
                         navigatingAway = false;
                     }
                 });
 
+                $log.debug('Navigating away: ' + navigatingAway);
                 return navigatingAway;
             }
 
             function isUthoppUserNavigatingAway(newUrl) {
                 return isUthoppUser() &&
-                    !isUthoppDialogOpen &&
+                    !isUthoppDialogOpen() &&
                     isNavigatingAway(newUrl);
             }
 
             var QAdialog = null;
             var QAdialogConfirmed = false;
             function isUthoppDialogOpen() {
+                $log.debug('Uthopp dialog already open. standard: ' + QAdialog + ', confirmed:' + QAdialogConfirmed);
                 return QAdialog || QAdialogConfirmed;
             }
 

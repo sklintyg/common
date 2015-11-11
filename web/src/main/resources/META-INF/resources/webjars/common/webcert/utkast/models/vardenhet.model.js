@@ -60,7 +60,7 @@ angular.module('common').factory(
             ];
 
             var missingInfo = false;
-            angular.foreach(props, function(prop) {
+            angular.forEach(props, function(prop) {
                 if(!isDefined(this[prop])) {
                     missingInfo = true;
                 }
