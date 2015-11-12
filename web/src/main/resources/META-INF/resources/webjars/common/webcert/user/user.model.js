@@ -86,6 +86,8 @@ angular.module('common').factory('common.UserModel',
                 ROLE_LAKARE_UTHOPP: 'Läkare',
                 ROLE_PRIVATLAKARE: 'Privatläkare',
                 ROLE_TANDLAKARE: 'Tandläkare',
+                ROLE_TANDLAKARE_DJUPINTEGRERAD: 'Tandläkare',
+                ROLE_TANDLAKARE_UTHOPP: 'Tandläkare',
                 getRole: function(roles) {
                     var rs = '';
                     if (roles.ROLE_VARDADMINISTRATOR !== undefined) {
@@ -119,6 +121,15 @@ angular.module('common').factory('common.UserModel',
                     if (roles.ROLE_TANDLAKARE !== undefined) {
                         rs += roles.ROLE_TANDLAKARE.name;
                     }
+
+                    if (roles.ROLE_TANDLAKARE_DJUPINTEGRERAD !== undefined) {
+                        rs += roles.ROLE_TANDLAKARE_DJUPINTEGRERAD.name;
+                    }
+
+                    if (roles.ROLE_TANDLAKARE_UTHOPP !== undefined) {
+                        rs += roles.ROLE_TANDLAKARE_UTHOPP.name;
+                    }
+
                     return rs;
                 }
             },
@@ -180,6 +191,14 @@ angular.module('common').factory('common.UserModel',
 
             isTandlakare: function _isTandlakare() {
                 return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE !== undefined;
+            },
+
+            isTandlakareDjupIntegrerad: function _isTandlakareDjupIntegrerad() {
+                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE_DJUPINTEGRERAD !== undefined;
+            },
+
+            isTandlakareUthopp: function _isTandlakareUthopp() {
+                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE_UTHOPP !== undefined;
             },
 
             authenticationMethod: function _authenticationMethod(authenticationMethod){
