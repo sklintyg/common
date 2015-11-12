@@ -30,23 +30,30 @@ angular.module('common').controller('common.wcHeaderController',
              * Private functions
              */
 
+
+            function findVardgivareById(vg) {
+                for (var i = 0; i < $scope.stat.vardgivare.length; i++) {
+                    if (vg === $scope.stat.vardgivare[i].id) {
+                        return $scope.stat.vardgivare[i];
+                    }
+                }
+                return null;
+            }
+
             /**
              * Finds the stat of the enhet or mottagning in the flat
              * structure returned from server
              */
             function findStats(vg, id) {
-                for (var i = 0; i < $scope.stat.vardgivare.length; i++) {
-                    if (vg === $scope.stat.vardgivare[i].id) {
-                        var vardenheter = $scope.stat.vardgivare[i].vardenheter;
-                        for (var j = 0; j < vardenheter.length; j++) {
-                            var vardenhet = vardenheter[j];
-                            if (vardenhet.id === id) {
-                                return {
-                                    intyg: vardenhet.intyg,
-                                    fragaSvar: vardenhet.fragaSvar
-                                };
-                            }
-                        }
+                var vardgivare = findVardgivareById(vg);
+                var vardenheter = vardgivare.vardenheter;
+                for (var j = 0; j < vardenheter.length; j++) {
+                    var vardenhet = vardenheter[j];
+                    if (vardenhet.id === id) {
+                        return {
+                            intyg: vardenhet.intyg,
+                            fragaSvar: vardenhet.fragaSvar
+                        };
                     }
                 }
                 return {
@@ -55,20 +62,28 @@ angular.module('common').controller('common.wcHeaderController',
                 };
             }
 
+
+            function findUserVardgivare(vgId) {
+                var vgs = $scope.user.vardgivare;
+                for (var i = 0; i < vgs.length; i++) {
+                    if (vgs[i].id === vgId) {
+                        return vgs[i];
+                    }
+                }
+
+                return null;
+            }
+
             /**
              * Finds the mottagningar at the vardgivare with id `vg` and
              * enhet with id `id`
              */
-            function findMottagningar(vg, id) {
-                var vgs = $scope.user.vardgivare;
-                for (var i = 0; i < vgs.length; i++) {
-                    if (vgs[i].id === vg) {
-                        var enheter = vgs[i].vardenheter;
-                        for (var j = 0; j < enheter.length; j++) {
-                            if (enheter[j].id === id) {
-                                return enheter[j].mottagningar;
-                            }
-                        }
+            function findMottagningar(vgId, id) {
+                var vardgivare = findUserVardgivare(vgId);
+                var enheter = vardgivare.vardenheter;
+                for (var j = 0; j < enheter.length; j++) {
+                    if (enheter[j].id === id) {
+                        return enheter[j].mottagningar;
                     }
                 }
                 return undefined;
@@ -170,10 +185,9 @@ angular.module('common').controller('common.wcHeaderController',
                 }
 
                 page = page.substr(page.lastIndexOf('/') + 1);
-                if ($state.current.data && angular.isString($state.current.data.defaultActive)) {
-                    if (page === $state.current.data.defaultActive) {
-                        return true;
-                    }
+                if (($state.current.data && angular.isString($state.current.data.defaultActive)) &&
+                    (page === $state.current.data.defaultActive)) {
+                    return true;
                 }
 
                 var currentRoute = $location.path().substr($location.path().lastIndexOf('/') + 1);
@@ -185,7 +199,7 @@ angular.module('common').controller('common.wcHeaderController',
             }
 
             $scope.goToPrivatPortalen = function(){
-                var link = $window.MODULE_CONFIG.PP_HOST; 
+                var link = $window.MODULE_CONFIG.PP_HOST;
                 link += '?from=' + window.encodeURIComponent($window.MODULE_CONFIG.DASHBOARD_URL + '#' + $location.path());
                 $window.location.href = link;
             };

@@ -145,54 +145,54 @@ angular.module('common').factory('common.UtkastSignService',
             function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, dialogHandle) {
 
                 function getSigneringsstatus() {
-					//Define the signing statuses and their text values
-					var statuses = {'BEARBETAR': {
-							'mbankid': 'common.modal.mbankid.open',
-							'bankid': 'common.modal.bankid.open'},
-						'VANTA_SIGN': {
-							'mbankid': 'common.modal.mbankid.signing',
-							'bankid': 'common.modal.bankid.signing'},
-						'NO_CLIENT': {
-							'mbankid': 'common.modal.mbankid.noclient',
-							'bankid': 'common.modal.bankid.noclient'},
-						'SIGNERAD': {
-							'mbankid': 'common.modal.mbankid.signed',
-							'bankid': 'common.modal.bankid.signed'}
-					};
+                    //Define the signing statuses and their text values
+                    var statuses = {'BEARBETAR': {
+                            'mbankid': 'common.modal.mbankid.open',
+                            'bankid': 'common.modal.bankid.open'},
+                        'VANTA_SIGN': {
+                            'mbankid': 'common.modal.mbankid.signing',
+                            'bankid': 'common.modal.bankid.signing'},
+                        'NO_CLIENT': {
+                            'mbankid': 'common.modal.mbankid.noclient',
+                            'bankid': 'common.modal.bankid.noclient'},
+                        'SIGNERAD': {
+                            'mbankid': 'common.modal.mbankid.signed',
+                            'bankid': 'common.modal.bankid.signed'}
+                    };
 
                     UtkastProxy.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
-						var hasDialogHandle = dialogHandle !== undefined,
-							signed = 'SIGNERAD' === ticket.status,
-							status;
+                        var hasDialogHandle = dialogHandle !== undefined,
+                            signed = 'SIGNERAD' === ticket.status,
+                            status;
 
-						if(statuses.hasOwnProperty(ticket.status)) {
-							status = statuses[ticket.status];
+                        if(statuses.hasOwnProperty(ticket.status)) {
+                            status = statuses[ticket.status];
 
-							if(signed) {
-								deferred.resolve({newVersion : ticket.version});
-							} else {
-								signModel._timer = $timeout(getSigneringsstatus, 1000);
-							}
+                            if(signed) {
+                                deferred.resolve({newVersion : ticket.version});
+                            } else {
+                                signModel._timer = $timeout(getSigneringsstatus, 1000);
+                            }
 
-							if(hasDialogHandle){
-								// change the status
-								dialogHandle.model.bodyTextId = UserModel.authenticationMethod('MOBILT_BANK_ID') ? status.mbankid : status.bankid; 
-								dialogHandle.model.signState = ticket.status;
-								if(signed) {
-									dialogHandle.close();
-								}
-							}
+                            if(hasDialogHandle){
+                                // change the status
+                                dialogHandle.model.bodyTextId = UserModel.authenticationMethod('MOBILT_BANK_ID') ? status.mbankid : status.bankid;
+                                dialogHandle.model.signState = ticket.status;
+                                if(signed) {
+                                    dialogHandle.close();
+                                }
+                            }
 
-							if(signed) {
-								_showIntygAfterSignering(signModel, intygsTyp, intygsId);
-							}
-						} else {
-							deferred.resolve({newVersion : ticket.version});
-							if (hasDialogHandle) {
-								dialogHandle.close();
-							} // TODO this is a hack, fix.
-							_showSigneringsError(signModel, {errorCode: 'SIGNERROR'});	
-						} 
+                            if(signed) {
+                                _showIntygAfterSignering(signModel, intygsTyp, intygsId);
+                            }
+                        } else {
+                            deferred.resolve({newVersion : ticket.version});
+                            if (hasDialogHandle) {
+                                dialogHandle.close();
+                            }
+                            _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
+                        }
                     });
                 }
 

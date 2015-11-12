@@ -20,9 +20,8 @@ angular.module('common').controller('common.IntygHeader',
             $scope.send = function() {
                 IntygService.send($scope.viewState.intygModel.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
                          $scope.intygstyp+'.label.send', $scope.intygstyp+'.label.send.body', function() {
-                        // TODO After a send request we shouldn't reload right away due to async reasons.
-                        // TODO We show an info message stating 'Intyget has skickats till mottagaren'
-                        //$scope.$emit('loadCertificate');
+                        // After a send request we shouldn't reload right away due to async reasons.
+                        // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
                         $scope.viewState.common.isIntygOnSendQueue = true;
                 });
             };
@@ -34,7 +33,6 @@ angular.module('common').controller('common.IntygHeader',
                 });
                 cert.intygType = $stateParams.certificateType;
                 IntygService.makulera( cert, confirmationMessage, function() {
-                    //$scope.$emit('loadCertificate');
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
                 });
             };
@@ -58,7 +56,6 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.print = function(cert, isEmployeeCopy) {
                 if (CommonViewState.intyg.isRevoked) {
-                    //PrintService.printWebPage(cert.id, $stateParams.certificateType);
                     var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
                     PrintService.printWebPageWithCustomTitle(cert.id, $stateParams.certificateType, customHeader);
                 } else if (isEmployeeCopy) {

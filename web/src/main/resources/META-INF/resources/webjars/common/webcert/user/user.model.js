@@ -2,6 +2,18 @@ angular.module('common').factory('common.UserModel',
     function() {
         'use strict';
 
+        function _fillIntygsTyperFromRole(role, intygsTyper) {
+            if (role.authorizedIntygsTyper !== undefined) {
+                for (var b = 0; b < role.authorizedIntygsTyper.length; b++) {
+                    var intygsTyp = role.authorizedIntygsTyper[b];
+
+                    if (intygsTyp !== undefined && intygsTyper.indexOf(intygsTyp) === -1) {
+                        intygsTyper.push(intygsTyp);
+                    }
+                }
+            }
+        }
+
         /**
          * Does flatMap+distinct to extract unique intygsTyper from the array of roles.
          * (Each role contains an array of authorizedIntygsTyper)
@@ -16,17 +28,8 @@ angular.module('common').factory('common.UserModel',
             for (var key in roles) {
                 if (roles.hasOwnProperty(key)) {
                     var role = roles[key];
-                    if (role.authorizedIntygsTyper !== undefined) {
-                        for(var b = 0; b < role.authorizedIntygsTyper.length; b++) {
-                            var intygsTyp = role.authorizedIntygsTyper[b];
-
-                            if (intygsTyp !== undefined && intygsTyper.indexOf(intygsTyp) === -1) {
-                                intygsTyper.push(intygsTyp);
-                            }
-                        }
-                    }
+                    _fillIntygsTyperFromRole(role, intygsTyper);
                 }
-
             }
 
             return intygsTyper;

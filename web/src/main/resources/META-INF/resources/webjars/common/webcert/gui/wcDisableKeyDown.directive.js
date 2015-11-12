@@ -4,11 +4,9 @@ angular.module('common').directive('wcDisableKeyDown',
         var removeEnter = function(element, scope, attrs){
             element.bind('keydown', function(event) {
                 var code = event.keyCode || event.which;
-                if (code === 13) {
-                    if (!event.shiftKey) {
-                        event.preventDefault();
-                        scope.$apply(attrs.enterSubmit);
-                    }
+                if (code === 13 && !event.shiftKey) {
+                    event.preventDefault();
+                    scope.$apply(attrs.enterSubmit);
                 }
             });
         };

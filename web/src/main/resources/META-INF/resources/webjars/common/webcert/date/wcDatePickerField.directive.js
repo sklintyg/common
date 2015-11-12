@@ -18,13 +18,7 @@ angular.module('common').directive('wcDatePickerField',
             templateUrl: '/web/webjars/common/webcert/date/wcDatePickerField.directive.html',
             require:'wcDatePickerField',
             controller: function($scope) {
-/*
-                $scope.$watch('targetModel', function() {
-                    if ($scope.onChange) { MUST RENAME IF USED
-                        $scope.onChange();
-                    }
-                });
-*/
+
                 if($scope.format === undefined){
                     $scope.format = 'yyyy-MM-dd';
                 }

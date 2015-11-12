@@ -30,15 +30,11 @@ angular.module('common').factory('common.Domain.DraftModel',
         };
 
         DraftModel.prototype.isSigned = function (){
-            return !!(this.status && this.status === 'SIGNED');
+            return (this.status && this.status === 'SIGNED');
         };
 
         DraftModel.prototype.isDraftComplete = function (){
-            if(this.status && this.status === 'DRAFT_COMPLETE'){
-                return true;
-            } else {
-                return false;
-            }
+            return (this.status && this.status === 'DRAFT_COMPLETE');
         };
 
         DraftModel.build = function() {

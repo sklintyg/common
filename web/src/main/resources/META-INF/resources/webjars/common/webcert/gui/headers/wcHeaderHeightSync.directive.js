@@ -85,9 +85,6 @@ angular.module('common').directive('wcSizeSource', ['$rootScope', '$timeout', fu
             }
 
             startSizeListener();
-
-            // Window Resize?
-            // angular.element(window).on('resize', handler);
         }
     };
 }]);

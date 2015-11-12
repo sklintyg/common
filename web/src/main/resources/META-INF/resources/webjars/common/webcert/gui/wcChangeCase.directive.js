@@ -14,7 +14,9 @@ angular.module('common').directive('wcToUppercase', function() {
             });
             ngModel.$formatters.unshift(function()
             {
-                if(!ngModel.$modelValue) { return; }
+                if(!ngModel.$modelValue) {
+                    return;
+                }
                 return ngModel.$modelValue.toUpperCase();
             });
 

@@ -71,7 +71,7 @@ angular.module('common').factory('common.dialogService',
          autoClose: whether dialog should close on button click. If false, use .close() on return value from showDialog to close dialog later
          */
         function _showDialog( options ) {
-			var dialogOptions, msgbox;
+            var dialogOptions, msgbox;
 
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
@@ -79,7 +79,7 @@ angular.module('common').factory('common.dialogService',
 
 			setOptionDefaults( options ); 
 
-			dialogOptions = createDialogOptions( options );
+            dialogOptions = createDialogOptions( options );
 
             // Open dialog box using specified options, template and controller
             msgbox = $uibModal.open( dialogOptions );
@@ -102,7 +102,50 @@ angular.module('common').factory('common.dialogService',
             return msgbox;
         }
 
-		function createDialogOptions( options ) {
+		var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId,
+                    bodyText,
+                    button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
+                    button1text,
+                    button2text, button3text, autoClose, title) {
+
+                    $scope.model = model;
+                    $scope.dialogId = dialogId;
+                    $scope.title = title;
+					$scope.titleId = titleId;
+					$scope.bodyTextId = bodyTextId;
+					$scope.bodyText = bodyText;
+					$scope.button1click = function(result) {
+						button1click();
+						if(autoClose) {
+							$uibModalInstance.close(result);
+						}
+					};
+                    $scope.button2click = function() {
+                        if (button2click) {
+                            button2click();
+                        }
+                        $uibModalInstance.dismiss('button2 dismiss');
+                    };
+                    $scope.button3visible = button3visible;
+                    if ($scope.button3visible !== undefined) {
+                        $scope.button3click = function() {
+                            if (button3click) {
+                                button3click();
+                            }
+                            $uibModalInstance.dismiss('button3 dismiss');
+                        };
+                    } else {
+                        $scope.button3visible = false;
+                    }
+                    $scope.button1text = button1text;
+                    $scope.button2text = button2text;
+                    $scope.button3text = button3text;
+                    $scope.button1id = button1id;
+                    $scope.button2id = button2id;
+                    $scope.button3id = button3id;
+                };
+
+        function createDialogOptions( options ) {
 
             var dialogOptions = {
                 templateUrl: options.templateUrl,
@@ -118,15 +161,15 @@ angular.module('common').factory('common.dialogService',
                 dialogOptions.scope = dscope;
             }
 
-			return dialogOptions;
-		}
+            return dialogOptions;
+        }
 
-		function setOptionDefaults( options ) {
-			// Since we are dealing with ternary defaults checking here it is
-			// really difficult to avoid cyclomatic complexity so lets set a high number for it
-			/*jshint maxcomplexity:35*/
+        function setOptionDefaults( options ) {
+            // Since we are dealing with ternary defaults checking here it is
+            // really difficult to avoid cyclomatic complexity so lets set a high number for it
+            /*jshint maxcomplexity:35*/
 
-			// setup options defaults if parameters aren't included
+            // setup options defaults if parameters aren't included
             options.bodyText = (options.bodyText === undefined) ? '' : options.bodyText;
             options.button1text = (options.button1text === undefined) ? 'common.ok' : options.button1text;
             options.button2text = (options.button2text === undefined) ? 'common.cancel' : options.button2text;
@@ -147,11 +190,11 @@ angular.module('common').factory('common.dialogService',
             options.model.acceptprogressdone =
                 (options.model.acceptprogressdone ? options.model.acceptprogressdone : true);
             options.model.focus = (options.model.focus ? options.model.focus : false);
-            options.model.showerror = (options.model.showerror ? options.model.showerror : false);   
-		}
+            options.model.showerror = (options.model.showerror ? options.model.showerror : false);
+        }
 
-		function dialogCustomState( options ) {
-			return {
+        function dialogCustomState( options ) {
+            return {
                     model: function() {
                         return options.model;
                     },
@@ -204,49 +247,7 @@ angular.module('common').factory('common.dialogService',
                         return angular.copy(options.autoClose);
                     }
                 };
-		}
-		var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId,
-                    bodyText,
-                    button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
-                    button1text,
-                    button2text, button3text, autoClose, title) {
-
-                    $scope.model = model;
-                    $scope.dialogId = dialogId;
-                    $scope.title = title;
-					$scope.titleId = titleId;
-					$scope.bodyTextId = bodyTextId;
-					$scope.bodyText = bodyText;
-					$scope.button1click = function(result) {
-						button1click();
-						if(autoClose) {
-							$uibModalInstance.close(result);
-						}
-					};
-                    $scope.button2click = function() {
-                        if (button2click) {
-                            button2click();
-                        }
-                        $uibModalInstance.dismiss('button2 dismiss');
-                    };
-                    $scope.button3visible = button3visible;
-                    if ($scope.button3visible !== undefined) {
-                        $scope.button3click = function() {
-                            if (button3click) {
-                                button3click();
-                            }
-                            $uibModalInstance.dismiss('button3 dismiss');
-                        };
-                    } else {
-                        $scope.button3visible = false;
-                    }
-                    $scope.button1text = button1text;
-                    $scope.button2text = button2text;
-                    $scope.button3text = button3text;
-                    $scope.button1id = button1id;
-                    $scope.button2id = button2id;
-                    $scope.button3id = button3id;
-                };
+        }
 
         // Return public API for the service
         return {
