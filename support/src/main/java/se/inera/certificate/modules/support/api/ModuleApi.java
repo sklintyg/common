@@ -189,4 +189,9 @@ public interface ModuleApi {
      * @return an XML string
      */
     String marshall(String jsonString) throws ModuleException;
+
+    /**
+     * Get all texts to populate a form for a particular version of this utkast.
+     */
+    String getQuestions(String version) throws ModuleException;
 }
