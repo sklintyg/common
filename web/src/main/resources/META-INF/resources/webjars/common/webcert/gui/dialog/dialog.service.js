@@ -2,15 +2,13 @@
  * wcDialogService - Generic dialog service
  */
 angular.module('common').factory('common.dialogService',
-    function($modal, $timeout, $window, $rootScope) {
+    function($uibModal, $timeout, $window, $rootScope) {
         'use strict';
 
         function _showErrorMessageDialog(message, callback) {
-            $window.dialogDoneLoading = false;
-
-            var msgbox = $modal.open({
+            var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/gui/dialog/dialogError.template.html',
-                controller: function($scope, $modalInstance, bodyText) {
+                controller: function($scope, $uibModalInstance, bodyText) {
                     $scope.bodyText = bodyText;
                 },
                 resolve: {
@@ -26,18 +24,12 @@ angular.module('common').factory('common.dialogService',
                 }
             }, function() {
             });
-
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
-            });
         }
 
         function _showMessageDialog(titleId, bodyText, callback) {
-            $window.dialogDoneLoading = false;
-
-            var msgbox = $modal.open({
+            var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/gui/dialog/dialogMessage.template.html',
-                controller: function($scope, $modalInstance, bodyText, titleId) {
+                controller: function($scope, $uibModalInstance, bodyText, titleId) {
                     $scope.bodyText = bodyText;
                     $scope.titleId = titleId;
                 },
@@ -55,10 +47,6 @@ angular.module('common').factory('common.dialogService',
                 if (callback) {
                     callback(result);
                 }
-            });
-
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
             });
         }
 
@@ -89,14 +77,12 @@ angular.module('common').factory('common.dialogService',
                 throw 'dialogId must be specified';
             }
 
-            $window.dialogDoneLoading = false;
-
-            setOptionDefaults( options );
+			setOptionDefaults( options ); 
 
             dialogOptions = createDialogOptions( options );
 
             // Open dialog box using specified options, template and controller
-            msgbox = $modal.open( dialogOptions );
+            msgbox = $uibModal.open( dialogOptions );
 
             msgbox.result.then(function(result) {
                 if (options.callback) {
@@ -111,56 +97,53 @@ angular.module('common').factory('common.dialogService',
             }, function() {
             });
 
-            _runOnDialogDoneLoading(msgbox, function() {
-                $window.dialogDoneLoading = true;
-            });
-
             msgbox.model = options.model;
 
             return msgbox;
         }
 
-        var DialogInstanceCtrl = function($scope, $modalInstance,
-            model, dialogId, titleId, bodyTextId, bodyText,
-            button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
-            button1text, button2text, button3text, autoClose, title) {
+		var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId,
+                    bodyText,
+                    button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
+                    button1text,
+                    button2text, button3text, autoClose, title) {
 
-            $scope.model = model;
-            $scope.dialogId = dialogId;
-            $scope.title = title;
-            $scope.titleId = titleId;
-            $scope.bodyTextId = bodyTextId;
-            $scope.bodyText = bodyText;
-            $scope.button1click = function(result) {
-                button1click();
-                if(autoClose) {
-                    $modalInstance.close(result);
-                }
-            };
-            $scope.button2click = function() {
-                if (button2click) {
-                    button2click();
-                }
-                $modalInstance.dismiss('button2 dismiss');
-            };
-            $scope.button3visible = button3visible;
-            if ($scope.button3visible !== undefined) {
-                $scope.button3click = function() {
-                    if (button3click) {
-                        button3click();
+                    $scope.model = model;
+                    $scope.dialogId = dialogId;
+                    $scope.title = title;
+					$scope.titleId = titleId;
+					$scope.bodyTextId = bodyTextId;
+					$scope.bodyText = bodyText;
+					$scope.button1click = function(result) {
+						button1click();
+						if(autoClose) {
+							$uibModalInstance.close(result);
+						}
+					};
+                    $scope.button2click = function() {
+                        if (button2click) {
+                            button2click();
+                        }
+                        $uibModalInstance.dismiss('button2 dismiss');
+                    };
+                    $scope.button3visible = button3visible;
+                    if ($scope.button3visible !== undefined) {
+                        $scope.button3click = function() {
+                            if (button3click) {
+                                button3click();
+                            }
+                            $uibModalInstance.dismiss('button3 dismiss');
+                        };
+                    } else {
+                        $scope.button3visible = false;
                     }
-                    $modalInstance.dismiss('button3 dismiss');
+                    $scope.button1text = button1text;
+                    $scope.button2text = button2text;
+                    $scope.button3text = button3text;
+                    $scope.button1id = button1id;
+                    $scope.button2id = button2id;
+                    $scope.button3id = button3id;
                 };
-            } else {
-                $scope.button3visible = false;
-            }
-            $scope.button1text = button1text;
-            $scope.button2text = button2text;
-            $scope.button3text = button3text;
-            $scope.button1id = button1id;
-            $scope.button2id = button2id;
-            $scope.button3id = button3id;
-        };
 
         function createDialogOptions( options ) {
 
@@ -266,29 +249,8 @@ angular.module('common').factory('common.dialogService',
                 };
         }
 
-        function _runOnDialogDoneLoading(modal, callback) {
-            modal.opened.then(function() {
-                function waitForModalToExistAndRunCallbackWhenTransitionIsDone() {
-                    var modalDialog = $('[modal-window]');
-                    if (modalDialog && modalDialog.hasClass('in')) {
-                        modalDialog.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd',
-                            callback);
-                    } else {
-                        $timeout(waitForModalToExistAndRunCallbackWhenTransitionIsDone, 100);
-                    }
-                }
-
-                $timeout(waitForModalToExistAndRunCallbackWhenTransitionIsDone);
-
-            }, function() {
-                // Failed to open the modal -> finished loading
-                callback();
-            });
-        }
-
         // Return public API for the service
         return {
-            runOnDialogDoneLoading: _runOnDialogDoneLoading,
             showErrorMessageDialog: _showErrorMessageDialog,
             showMessageDialog: _showMessageDialog,
             showDialog: _showDialog

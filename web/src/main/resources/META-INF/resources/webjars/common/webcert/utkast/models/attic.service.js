@@ -6,8 +6,7 @@ angular.module('common').factory('common.domain.AtticService',
         var AtticModel = Class._extend({
 
             init : function(model){
-                this.atticModel = {};
-                angular.copy(model, this.atticModel);
+                this.atticModel = angular.copy(model);
             },
 
             // attic functions

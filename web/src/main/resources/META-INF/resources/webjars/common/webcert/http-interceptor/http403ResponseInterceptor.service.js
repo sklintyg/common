@@ -38,31 +38,34 @@ angular.module('common').provider('common.http403ResponseInterceptor',
             var config = this.config;
             // Add our custom success/failure handlers to the promise chain..
             function interceptorImpl(promise) {
-                return promise.then(function(response) {
-                    // success - simply return response as-is..
-                    return response;
-                }, function(response) {
-                    // for 403 responses - redirect browser to configured redirect url
-                    if (response.status === 403) {
-                        var redirectUrl = config.redirectUrl;
-                        if (redirectUrl.indexOf('?') >= 0) {
-                            redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf('?'));
-                        }
-                        redirectUrl += '?reason=';
+                return {
+                    response: function (response) {
+                        // success - simply return response as-is..
+                        return response;
+                    },
+                    responseError: function (response) {
+                        // for 403 responses - redirect browser to configured redirect url
+                        if (response.status === 403) {
+                            var redirectUrl = config.redirectUrl;
+                            if (redirectUrl.indexOf('?') >= 0) {
+                                redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf('?'));
+                            }
+                            redirectUrl += '?reason=';
 
-                        // if we aren't allowed to navigate we are most likely djupintegrerade.
-                        if (!authorityService.isAuthorityActive({authority: 'PRIVILEGE_NAVIGERING'})) {
-                            redirectUrl += 'timeout_integration';
+                            // if we aren't allowed to navigate we are most likely djupintegrerade.
+                            if (!authorityService.isAuthorityActive({authority: 'PRIVILEGE_NAVIGERING'})) {
+                                redirectUrl += 'timeout_integration';
+                            }
+                            else {
+                                redirectUrl += 'timeout';
+                            }
+                            $window.location.href = redirectUrl;
                         }
-                        else {
-                            redirectUrl += 'timeout';
-                        }
-                        $window.location.href = redirectUrl;
+                        // signal rejection (arguably not meaningful here since we just
+                        // issued a redirect)
+                        return $q.reject(response);
                     }
-                    // signal rejection (arguably not meaningful here since we just
-                    // issued a redirect)
-                    return $q.reject(response);
-                });
+                };
             }
 
             return interceptorImpl;

@@ -1,7 +1,7 @@
 angular.module('common').controller('common.wcHeaderController',
-    ['$anchorScroll', '$cookieStore', '$location', '$log', '$modal', '$scope', '$state', '$window', 'common.dialogService',
+    ['$anchorScroll', '$cookies', '$location', '$log', '$uibModal', '$scope', '$state', '$window', 'common.dialogService',
         'common.featureService', 'common.messageService', 'common.statService', 'common.User', 'common.UserModel',
-        function($anchorScroll, $cookieStore, $location, $log, $modal, $scope, $state, $window, dialogService,
+        function($anchorScroll, $cookies, $location, $log, $uibModal, $scope, $state, $window, dialogService,
             featureService, messageService, statService, User, UserModel) {
             'use strict';
 
@@ -216,12 +216,12 @@ angular.module('common').controller('common.wcHeaderController',
             $scope.goToAbout = function() {
                 $window.dialogDoneLoading = false;
 
-                var msgbox = $modal.open({
+                var msgbox = $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderAboutDialog.template.html',
-                    controller: function($scope, $modalInstance) {
+                    controller: function($scope, $uibModalInstance) {
 
                         $scope.close = function() {
-                            $modalInstance.close();
+                            $uibModalInstance.close();
                         };
 
                     },
@@ -236,14 +236,14 @@ angular.module('common').controller('common.wcHeaderController',
             $scope.openChangeCareUnitDialog = function() {
                 $window.dialogDoneLoading = false;
 
-                var msgbox = $modal.open({
+                var msgbox = $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderCareUnitDialog.template.html',
-                    controller: function($scope, $modalInstance, vardgivare) {
+                    controller: function($scope, $uibModalInstance, vardgivare) {
                         $scope.vardgivare = vardgivare;
                         $scope.error = false;
 
                         $scope.close = function() {
-                            $modalInstance.close();
+                            $uibModalInstance.close();
                         };
 
                         /******************
@@ -284,7 +284,7 @@ angular.module('common').controller('common.wcHeaderController',
                             User.setValdVardenhet(enhet, function() {
                                 // Remove stored cookie for selected filter. We want to choose a new
                                 // filter after choosing another unit to work on
-                                $cookieStore.remove('enhetsId');
+                                $cookies.remove('enhetsId');
 
                                 // We updated the user context. Reroute to start page so as not to end
                                 // up on a page we aren't welcome anymore. Maybe we should make these
@@ -297,7 +297,7 @@ angular.module('common').controller('common.wcHeaderController',
                                 }
                                 $state.reload();
 
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             }, function() {
                                 $scope.error = true;
                             });

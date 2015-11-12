@@ -231,6 +231,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
                 }
             });
 
+            formElement.$formatters = [];
             formElement.$formatters.push(function(value){
                 return value;
             });

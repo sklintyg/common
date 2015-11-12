@@ -10,7 +10,7 @@ describe('IntygService', function() {
     var $timeout;
     var dialogService;
     var User;
-    var $cookieStore;
+    var $cookies;
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('$state', jasmine.createSpyObj('$state', [ 'reload' ]));
@@ -24,12 +24,12 @@ describe('IntygService', function() {
         $provide.value('common.domain.DraftModel', {});
     }));
 
-    beforeEach(angular.mock.inject(['common.IntygService', '$cookieStore', '$httpBackend', '$location', '$q', '$stateParams', '$timeout',
+    beforeEach(angular.mock.inject(['common.IntygService', '$cookies', '$httpBackend', '$location', '$q', '$stateParams', '$timeout',
         '$document', 'common.dialogService', 'common.User',
-        function(_IntygService_, _$cookieStore_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_, _$document_,
+        function(_IntygService_, _$cookies_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_, _$document_,
             _dialogService_, _User_) {
             IntygService = _IntygService_;
-            $cookieStore = _$cookieStore_;
+            $cookies = _$cookies_;
             $httpBackend = _$httpBackend_;
             $q = _$q_;
             $location = _$location_;
@@ -78,7 +78,7 @@ describe('IntygService', function() {
 
         it('should immediately request a utkast copy of cert if the copy cookie is set', function() {
 
-            $cookieStore.put(IntygService.COPY_DIALOG_COOKIE, true);
+            $cookies.putObject(IntygService.COPY_DIALOG_COOKIE, true);
 
             $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
@@ -89,12 +89,12 @@ describe('IntygService', function() {
             expect(dialogService.showDialog).not.toHaveBeenCalled();
             expect($location.path).toHaveBeenCalledWith('/fk7263/edit/nytt-utkast-id', true);
 
-            $cookieStore.remove(IntygService.COPY_DIALOG_COOKIE);
+            $cookies.remove(IntygService.COPY_DIALOG_COOKIE);
         });
 
         it('should show the copy dialog if the copy cookie is not set', function() {
 
-            $cookieStore.remove(IntygService.COPY_DIALOG_COOKIE);
+            $cookies.remove(IntygService.COPY_DIALOG_COOKIE);
             $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
