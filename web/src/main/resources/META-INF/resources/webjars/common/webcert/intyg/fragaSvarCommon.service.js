@@ -14,7 +14,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             function _setVidareBefordradState(fragaSvarId, intygsTyp, isVidareBefordrad, callback) {
                 $log.debug('_setVidareBefordradState');
                 var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/hanterad';
-                $http.put(restPath, isVidareBefordrad.toString()).success(function(data) {
+                $http.put(restPath, {'dispatched' : isVidareBefordrad}).success(function(data) {
                     $log.debug('_setVidareBefordradState data:' + data);
                     callback(data);
                 }).error(function(data, status) {
@@ -27,7 +27,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             function _buildMailToLink(qa) {
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
-                var certificateUrlPart = UserModel.isVardAdministratorUthopp() || UserModel.isLakareUthopp() ? 'certificate/' : 'basic-certificate/';
+                var certificateUrlPart = UserModel.isVardAdministratorUthopp() || UserModel.isLakareUthopp() || UserModel.isTandakareUthopp() ? 'certificate/' : 'basic-certificate/';
                 var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygsReferens.intygsId + '/questions';
 
                 var recipient = '';
@@ -64,7 +64,6 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-               // } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.user.isLakareOrPrivat) {
                 } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.hasPrivilege(UserModel.privileges.PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA)) {
                     // RE-005, RE-006
                     qa.answerDisabled = true;
@@ -103,11 +102,10 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function _isUnhandled(qa){
-                if( (qa.status === 'PENDING_INTERNAL_ACTION' && qa.amne === 'PAMINNELSE') || qa.status === 'ANSWERED') {
-                    return true;
-                } else {
+                if(!qa){
                     return false;
                 }
+                return (qa.status === 'PENDING_INTERNAL_ACTION' && qa.amne === 'PAMINNELSE') || qa.status === 'ANSWERED';
             }
 
             function _getUnhandledQas(qas){
@@ -219,23 +217,53 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 }
             }
 
+            function isUthoppUser() {
+                var uthoppUser = UserModel.isLakareUthopp() || UserModel.isTandlakareUthopp() || UserModel.isVardadministratorUthopp();
+                $log.debug('Is uthopp user: ' + uthoppUser);
+                return uthoppUser;
+            }
+
+            function isNavigatingAway(newUrl) {
+
+                // The following urls are where the uthopp users are supposed to be
+                var allowedNewUrls = [
+                    '#/fragasvar/',
+                    '#/unhandled-qa',
+                    '#/webcert/about',
+                    '#/support/about',
+                    '#/certificates/about',
+                    '#/faq/about',
+                    '#/cookies/about'
+                ];
+
+                // If its none of them we are navigating outside of where we should
+                var navigatingAway = true;
+                angular.forEach(allowedNewUrls, function(url) {
+                    if(newUrl.indexOf(url) !== -1) { // found
+                        navigatingAway = false;
+                    }
+                });
+
+                $log.debug('Navigating away: ' + navigatingAway);
+                return navigatingAway;
+            }
+
+            function isUthoppUserNavigatingAway(newUrl) {
+                return isUthoppUser() &&
+                    !isUthoppDialogOpen() &&
+                    isNavigatingAway(newUrl);
+            }
 
             var QAdialog = null;
             var QAdialogConfirmed = false;
+            function isUthoppDialogOpen() {
+                $log.debug('Uthopp dialog already open. standard: ' + QAdialog + ', confirmed:' + QAdialogConfirmed);
+                return QAdialog || QAdialogConfirmed;
+            }
+
             function _checkQAonlyDialog($scope, $event, newUrl, currentUrl, unbindEvent) {
                 // Check if the user used the special qa-link to get here.
-                // if (UserModel.isLakareUthopp() &&
-                if ((UserModel.isLakareUthopp() ||
-                     UserModel.isVardadministratorUthopp())  &&
-                    !QAdialog &&
-                    !QAdialogConfirmed &&
-                    newUrl.indexOf('#/fragasvar/') === -1 &&
-                    newUrl.indexOf('#/unhandled-qa') === -1 &&
-                    newUrl.indexOf('#/webcert/about') === -1 &&
-                    newUrl.indexOf('#/support/about') === -1 &&
-                    newUrl.indexOf('#/certificates/about') === -1 &&
-                    newUrl.indexOf('#/faq/about') === -1 &&
-                    newUrl.indexOf('#/cookies/about') === -1) {
+                if (isUthoppUserNavigatingAway(newUrl)) {
 
                     $event.preventDefault();
 
