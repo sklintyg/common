@@ -45,7 +45,7 @@ angular.module('common').factory('common.IntygProxy',
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkalla';
             $http.post(restPath, {}).
                 success(function(data) {
-                    if (data === '"OK"') {
+                    if (data === 'OK') {
                         onSuccess();
                     } else {
                         onError();

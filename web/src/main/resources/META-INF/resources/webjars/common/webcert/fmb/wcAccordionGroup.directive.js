@@ -3,9 +3,9 @@
  * so that we can have custom look for our fmb display
  */
 angular.module('common').directive('wcAccordionGroup',
-    function (accordionGroupDirective) {
+    function (uibAccordionGroupDirective) {
         'use strict';
 
-        return angular.extend({}, accordionGroupDirective[0], {templateUrl: '/web/webjars/common/webcert/fmb/wcAccordionGroup.template.html'});
+        return angular.extend({}, uibAccordionGroupDirective[0], {templateUrl: '/web/webjars/common/webcert/fmb/wcAccordionGroup.template.html'});
     });
 

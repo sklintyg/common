@@ -1,5 +1,5 @@
 angular.module('common').directive('wcModal',
-    ['$timeout','$window','$modal','$templateCache', '$http', '$q', '$log', function($timeout, $window, $modal, $templateCache, $http, $q, $log) {
+    ['$timeout','$window','$uibModal','$templateCache', '$http', '$q', '$log', function($timeout, $window, $uibModal, $templateCache, $http, $q, $log) {
         'use strict';
 
         return {
@@ -62,7 +62,7 @@ angular.module('common').directive('wcModal',
 
                 $scope.open = function ()
                 {
-                    $scope.modalInstance = $modal.open(
+                    $scope.modalInstance = $uibModal.open(
                         {
                             backdrop: 'static',
                             keyboard: false,

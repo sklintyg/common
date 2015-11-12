@@ -4,8 +4,8 @@
  * related to certificates. (As of this time, only fk7263 module)
  */
 angular.module('common').factory('common.fragaSvarCommonService',
-    ['$http', '$log', '$modal', '$window', 'common.dialogService', 'common.LocationUtilsService', 'common.featureService', 'common.UserModel',
-        function($http, $log, $modal, $window, dialogService, LocationUtilsService, featureService, UserModel) {
+    ['$http', '$log', '$uibModal', '$window', 'common.dialogService', 'common.LocationUtilsService', 'common.featureService', 'common.UserModel',
+        function($http, $log, $uibModal, $window, dialogService, LocationUtilsService, featureService, UserModel) {
             'use strict';
 
             /*
@@ -136,28 +136,28 @@ angular.module('common').factory('common.fragaSvarCommonService',
             function _showVidarebefordradPreferenceDialog(title, bodyText, yesCallback, noCallback, noDontAskCallback,
                 callback) {
 
-                var DialogInstanceCtrl = function($scope, $modalInstance, title, bodyText, yesCallback, noCallback,
+                var DialogInstanceCtrl = function($scope, $uibModalInstance, title, bodyText, yesCallback, noCallback,
                     noDontAskCallback) {
                     $scope.title = title;
                     $scope.bodyText = bodyText;
                     $scope.noDontAskVisible = noDontAskCallback !== undefined;
                     $scope.yes = function(result) {
                         yesCallback();
-                        $modalInstance.close(result);
+                        $uibModalInstance.close(result);
                     };
                     $scope.no = function() {
                         noCallback();
-                        $modalInstance.close('cancel');
+                        $uibModalInstance.close('cancel');
                     };
                     $scope.noDontAsk = function() {
                         noDontAskCallback();
-                        $modalInstance.close('cancel_dont_ask_again');
+                        $uibModalInstance.close('cancel_dont_ask_again');
                     };
                 };
 
                 $window.dialogDoneLoading = false;
 
-                var msgbox = $modal.open({
+                var msgbox = $uibModal.open({
                     templateUrl: '/app/partials/preference-dialog.html',
                     controller: DialogInstanceCtrl,
                     resolve: {
