@@ -168,11 +168,16 @@ describe('wcHeader', function() {
             expect(href).toBe('/web/start');
         });
 
-        it('should show the current date, the name of the selected vardgivare and the selected vardenhet', function() {
-            var locationText = element.find('#location');
+        it('should show the current date, the name of the selected vardgivare and the selected vardenhet for non private practitioner', function() {
+            var locationDateText = element.find('#wc-header-location-date');
             var today = moment().format('YYYY-MM-DD');
-            expect(locationText.html()).toBe(today + ' - ' + User.getUser().valdVardgivare.namn + ' - ' +
-                User.getUser().valdVardenhet.namn);
+            expect(locationDateText.html()).toBe(today);
+
+            var locationCareGiverText = element.find('#wc-header-location-care-giver');
+            expect(locationCareGiverText.html()).toBe(' - ' + User.getUser().valdVardgivare.namn);
+
+            var locationCareUnitText = element.find('#wc-header-location-care-unit');
+            expect(locationCareUnitText.html()).toBe(' - ' + User.getUser().valdVardenhet.namn);
         });
 
         it('should show a byt vardenhet link if there are more than 1 vardenhet to choose from', function() {
@@ -195,6 +200,38 @@ describe('wcHeader', function() {
 
             expect(role).toContain('Läkare');
             expect(name).toBe('Eva Holgersson');
+        });
+    });
+
+    describe('header info and links (for a private practitioner)', function() {
+        beforeEach(function() {
+            testUserContext.roles = {'ROLE_PRIVATLAKARE': {'name':'PrivatLäkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}};
+            generateHeader($scope);
+        });
+
+         it('should only show the current date and the name of the selected vardgivare for a private practitioner', function() {
+            var locationDateText = element.find('#wc-header-location-date');
+            var today = moment().format('YYYY-MM-DD');
+            expect(locationDateText.html()).toBe(today);
+
+            var locationCareGiverText = element.find('#wc-header-location-care-giver');
+            expect(locationCareGiverText.html()).toBe(' - ' + User.getUser().valdVardgivare.namn);
+
+            var locationCareUnitText = element.find('#wc-header-location-care-unit');
+            expect(locationCareUnitText.length).toBe(0);
+        });
+
+        it('should show name and role of the logged in user', function() {
+            var role = element.find('#logged-in-role').html();
+            var name = element.find('.logged-in').html();
+
+            expect(role).toContain('PrivatLäkare');
+            expect(name).toBe('Eva Holgersson');
+        });
+
+        it('should show link to PP', function() {
+            var editLink = element.find('#editUserLink');
+            expect(editLink.length).toBe(1);
         });
     });
 
