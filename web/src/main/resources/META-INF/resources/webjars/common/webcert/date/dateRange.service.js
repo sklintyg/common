@@ -205,7 +205,6 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
     FromTo.prototype._addParser = function(formElement, dateUnit, name, scope){
 
         if(formElement && dateUnit){
-            //formElement.$parsers = [];
             formElement.$parsers.unshift(function(modelValue){
                 // here we should always go with the view value
                 // the date directive will convert the model value into a date object

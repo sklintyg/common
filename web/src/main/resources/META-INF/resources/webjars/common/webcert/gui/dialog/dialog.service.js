@@ -77,9 +77,8 @@ angular.module('common').factory('common.dialogService',
                 throw 'dialogId must be specified';
             }
 
-			setOptionDefaults( options ); 
-
-            dialogOptions = createDialogOptions( options );
+            setOptionDefaults(options);
+            dialogOptions = createDialogOptions(options);
 
             // Open dialog box using specified options, template and controller
             msgbox = $uibModal.open( dialogOptions );
@@ -102,7 +101,7 @@ angular.module('common').factory('common.dialogService',
             return msgbox;
         }
 
-		var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId,
+        var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId,
                     bodyText,
                     button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
                     button1text,
@@ -111,15 +110,15 @@ angular.module('common').factory('common.dialogService',
                     $scope.model = model;
                     $scope.dialogId = dialogId;
                     $scope.title = title;
-					$scope.titleId = titleId;
-					$scope.bodyTextId = bodyTextId;
-					$scope.bodyText = bodyText;
-					$scope.button1click = function(result) {
-						button1click();
-						if(autoClose) {
-							$uibModalInstance.close(result);
-						}
-					};
+                    $scope.titleId = titleId;
+                    $scope.bodyTextId = bodyTextId;
+                    $scope.bodyText = bodyText;
+                    $scope.button1click = function(result) {
+                        button1click();
+                        if(autoClose) {
+                            $uibModalInstance.close(result);
+                        }
+                    };
                     $scope.button2click = function() {
                         if (button2click) {
                             button2click();
@@ -145,7 +144,7 @@ angular.module('common').factory('common.dialogService',
                     $scope.button3id = button3id;
                 };
 
-        function createDialogOptions( options ) {
+        function createDialogOptions(options) {
 
             var dialogOptions = {
                 templateUrl: options.templateUrl,
@@ -164,7 +163,7 @@ angular.module('common').factory('common.dialogService',
             return dialogOptions;
         }
 
-        function setOptionDefaults( options ) {
+        function setOptionDefaults(options) {
             // Since we are dealing with ternary defaults checking here it is
             // really difficult to avoid cyclomatic complexity so lets set a high number for it
             /*jshint maxcomplexity:35*/

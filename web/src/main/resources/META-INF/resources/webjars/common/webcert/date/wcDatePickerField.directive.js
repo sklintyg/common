@@ -77,7 +77,6 @@ angular.module('common').directive('wcDatePickerField',
                         return ppdate;
                     };
                     ngModel.$render = function() {
-                        //var date = ngModel.$viewValue ? dateFilter(ngModel.$viewValue, dateFormat) : '';
                         element.val(ngModel.$viewValue);
                         if (wcDatePickerField && wcDatePickerField.datepickerPopupScope) {
                             wcDatePickerField.datepickerPopupScope.date = getDate(ngModel.$viewValue);

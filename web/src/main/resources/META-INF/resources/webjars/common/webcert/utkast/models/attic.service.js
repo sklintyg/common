@@ -69,6 +69,11 @@ angular.module('common').factory('common.domain.AtticService',
 
             _getAtticProp: function( propertyPath){
 
+                var atticProp = this.atticModel;
+                var i = propertyPath.lastIndexOf('.');
+                var nc;
+                var ps = this.atticModel.properties;
+
                 function findAtticProp(atticProp, props) {
                     for(var j = 0; j < props.length; j++){
                         var prop = props[j];
@@ -84,10 +89,6 @@ angular.module('common').factory('common.domain.AtticService',
                     return atticProp;
                 }
 
-                var atticProp = this.atticModel;
-                var i = propertyPath.lastIndexOf('.');
-                var nc;
-                var ps = this.atticModel.properties;
                 if(i > -1 ){
                     var props = propertyPath.split('.');
                     atticProp = findAtticProp(atticProp, props);
@@ -97,6 +98,7 @@ angular.module('common').factory('common.domain.AtticService',
                         atticProp = nc;
                     }
                 }
+
                 return atticProp;
             },
 
