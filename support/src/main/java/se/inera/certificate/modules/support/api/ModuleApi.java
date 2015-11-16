@@ -3,6 +3,7 @@ package se.inera.certificate.modules.support.api;
 import org.joda.time.LocalDateTime;
 
 import se.inera.certificate.model.Status;
+import se.inera.certificate.model.common.internal.Utlatande;
 import se.inera.certificate.modules.support.ApplicationOrigin;
 import se.inera.certificate.modules.support.api.dto.CertificateResponse;
 import se.inera.certificate.modules.support.api.dto.CreateDraftCopyHolder;
@@ -194,4 +195,8 @@ public interface ModuleApi {
      * Get all texts to populate a form for a particular version of this utkast.
      */
     String getQuestions(String version) throws ModuleException;
+
+    /** Returns the particular sub class of Utlatande that this module handles. */
+    Class<? extends Utlatande> getImplementationClass();
+
 }
