@@ -24,9 +24,4 @@ public class ModuleFeaturesFactoryTest {
         assertFalse(features.get(ModuleFeature.SKICKA_INTYG.getName()));
     }
     
-    @Ignore
-    @Test(expected = IllegalArgumentException.class)
-    public void testFactoryWithNoFile() {
-        ModuleFeaturesFactory.getFeatures("");
-    }
 }
