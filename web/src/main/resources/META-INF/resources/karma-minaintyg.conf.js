@@ -2,8 +2,8 @@
 module.exports = function(config) {
     'use strict';
 
-    var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/minaintyg/js/';
-    var TEST_DIR = 'src/main/resources/META-INF/resources/webjars/common/minaintyg/js/';
+    var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/minaintyg/';
+    var TEST_DIR = SRC_DIR;
     var WEBJAR_DIR = 'target/webjardependencies/';
 
     config.set({

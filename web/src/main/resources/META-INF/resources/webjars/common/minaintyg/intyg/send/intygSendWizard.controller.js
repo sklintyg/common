@@ -1,7 +1,7 @@
 angular.module('common').controller('common.SendCertWizardCtrl',
-    [ '$filter', '$location', '$rootScope', '$stateParams', '$scope', 'minaintyg.listCertService',
-        'minaintyg.sendCertService',
-        function($filter, $location, $rootScope, $stateParams, $scope, listCertService, sendCertService) {
+    [ '$filter', '$location', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
+        'common.IntygSendService',
+        function($filter, $location, $rootScope, $stateParams, $scope, intygListService, intygSendService) {
             'use strict';
 
             // Get module and default recipient from querystring
@@ -27,7 +27,7 @@ angular.module('common').controller('common.SendCertWizardCtrl',
             $rootScope.selectedRecipientId = $scope.selectedRecipientId;
 
             $scope.recipientList = [];
-            sendCertService.getRecipients($scope.module, function(result) {
+            intygSendService.getRecipients($scope.module, function(result) {
                 if (result !== null && result.length > 0) {
                     for (var i = 0; i < result.length; ++i) {
                         $scope.recipientList[i] = {
@@ -61,10 +61,10 @@ angular.module('common').controller('common.SendCertWizardCtrl',
 
             $scope.confirmAndSend = function() {
                 $scope.sendingInProgress = true;
-                sendCertService.sendCertificate($scope.cert.id, $scope.selectedRecipientId, function(result) {
+                intygSendService.sendCertificate($scope.cert.id, $scope.selectedRecipientId, function(result) {
                     $scope.sendingInProgress = false;
                     if (result !== null && result.resultCode === 'sent') {
-                        listCertService.emptyCache();
+                        intygListService.emptyCache();
                         $location.path($scope.module + '/sent');
                     } else {
                         // show error view
