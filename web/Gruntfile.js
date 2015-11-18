@@ -28,6 +28,13 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
+        sasslint: {
+            options: {
+                //configFile: 'config/.sass-lint.yml' //For now we use the .sass-lint.yml that is packaged with sass-lint
+            },
+            target: [SRC_DIR + '**/*.scss']
+        },
+
         csslint: {
             options: {
                 csslintrc: '../build-tools/src/main/resources/csslint/.csslintrc',
