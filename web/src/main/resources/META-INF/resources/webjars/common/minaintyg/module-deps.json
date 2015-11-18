@@ -3,10 +3,13 @@
     "/web/webjars/common/minaintyg/gui/dialog/dialog.service.js",
     "/web/webjars/common/minaintyg/gui/text/message.directive.js",
     "/web/webjars/common/minaintyg/gui/text/message.service.js",
+    "/web/webjars/common/minaintyg/gui/miSpinner.directive.js",
+    "/web/webjars/common/minaintyg/gui/ngFocus.directive.js",
     "/web/webjars/common/minaintyg/http-interceptor/http403ResponseInterceptor.service.js",
     "/web/webjars/common/minaintyg/http-interceptor/httpRequestInterceptorCacheBuster.service.js",
     "/web/webjars/common/minaintyg/intyg/intyg.service.js",
     "/web/webjars/common/minaintyg/intyg/intygList.service.js",
+    "/web/webjars/common/minaintyg/intyg/miField.directive.js",
     "/web/webjars/common/minaintyg/intyg/send/intygSend.service.js",
     "/web/webjars/common/minaintyg/intyg/send/intygSendWizard.controller.js",
     "/web/webjars/common/minaintyg/utils/boolToText.filter.js"
