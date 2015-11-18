@@ -16,7 +16,6 @@
 
   <properties>
     <sonar.sources>src/main/resources/META-INF/resources/webjars/common</sonar.sources>
-    <sonar.tests>src/main/resources/META-INF/resources/webjars/common</sonar.tests>
     <sonar.javascript.lcov.reportPath>target/karma_coverage/merged_lcov.info</sonar.javascript.lcov.reportPath>
     <sonar.exclusions>**/templates.js,**/vendor/*</sonar.exclusions>
   </properties>
