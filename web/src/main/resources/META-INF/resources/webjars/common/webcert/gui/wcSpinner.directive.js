@@ -22,7 +22,6 @@ angular.module('common').directive('wcSpinner',
                         if (newVal !== oldVal && newVal && !scope.isHeader) {
                             $timeout(function(){
                                 $window.rendered = true;
-                                //console.log('#saknas-lista is visible:' + $('#visa-vad-som-saknas-lista').is(':visible'));
                             });
                         } else if(!newVal){
                             $window.rendered = false;

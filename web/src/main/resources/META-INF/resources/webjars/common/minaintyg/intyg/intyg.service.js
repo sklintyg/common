@@ -1,7 +1,7 @@
 /**
  * Common certificate management methods between certificate modules
  */
-angular.module('common').factory('common.certificateService',
+angular.module('common').factory('common.IntygService',
     function($http, $log) {
         'use strict';
 

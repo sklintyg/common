@@ -13,7 +13,6 @@ angular.module('common').directive('wcAuthority',
                     };
 
                     if (!authorityService.isAuthorityActive(options)) {
-                        //console.log('remove');
                         $element.remove();
                     }
                 }

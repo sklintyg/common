@@ -35,7 +35,8 @@ module.exports = function(config) {
                 'karma-junit-reporter',
                 'karma-phantomjs-launcher',
                 'karma-mocha-reporter',
-                'karma-ng-html2js-preprocessor'
+                'karma-ng-html2js-preprocessor',
+                'karma-scss-preprocessor'
             ];
             if (runCoverage) {
                 plugins.push('karma-coverage');

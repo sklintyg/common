@@ -1,6 +1,6 @@
 angular.module('common').factory('common.IntygService',
-    [ '$log', '$timeout', '$location', '$cookieStore', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService',
-        function($log, $timeout, $location, $cookieStore, $stateParams, dialogService, IntygProxy, authorityService) {
+    [ '$log', '$timeout', '$location', '$cookies', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService',
+        function($log, $timeout, $location, $cookies, $stateParams, dialogService, IntygProxy, authorityService) {
             'use strict';
 
             var _COPY_DIALOG_COOKIE = 'wc.dontShowCopyDialog';
@@ -34,11 +34,11 @@ angular.module('common').factory('common.IntygService',
                 // Create cookie and model representative
                 copyDialogModel.dontShowCopyInfo = false;
 
-                if($cookieStore.get(_COPY_DIALOG_COOKIE) === undefined) {
-                    $cookieStore.put(_COPY_DIALOG_COOKIE, copyDialogModel.dontShowCopyInfo);
+                if($cookies.getObject(_COPY_DIALOG_COOKIE) === undefined) {
+                    $cookies.putObject(_COPY_DIALOG_COOKIE, copyDialogModel.dontShowCopyInfo);
                 }
 
-                if ($cookieStore.get(_COPY_DIALOG_COOKIE)) {
+                if ($cookies.getObject(_COPY_DIALOG_COOKIE)) {
                     $log.debug('copy cert without dialog' + intygCopyRequest);
                     viewState.activeErrorMessageKey = null;
                     viewState.inlineErrorMessageKey = null;
@@ -67,7 +67,7 @@ angular.module('common').factory('common.IntygService',
                         button1click: function() {
                             $log.debug('copy cert from dialog' + intygCopyRequest);
                             if (copyDialogModel.dontShowCopyInfo) {
-                                $cookieStore.put(_COPY_DIALOG_COOKIE, copyDialogModel.dontShowCopyInfo);
+                                $cookies.putObject(_COPY_DIALOG_COOKIE, copyDialogModel.dontShowCopyInfo);
                             }
 
                             copyDialogModel.showerror = false;

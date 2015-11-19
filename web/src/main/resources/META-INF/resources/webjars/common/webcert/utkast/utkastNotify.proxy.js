@@ -13,7 +13,7 @@ angular.module('common').factory('common.UtkastNotifyProxy',
             function _setNotifyState(intygId, intygType, intygVersion, isNotified, callback,  errorCallback) {
                 $log.debug('_setNotifyState');
                 var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/vidarebefordra';
-                $http.put(restPath, isNotified.toString()).success(function(data) {
+                $http.put(restPath, {"notified": isNotified}).success(function(data) {
                     $log.debug('_setNotifyState data:' + data);
                     callback(data);
                 }).error(function(data, status) {

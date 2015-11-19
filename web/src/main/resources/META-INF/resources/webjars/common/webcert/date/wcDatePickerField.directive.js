@@ -18,13 +18,7 @@ angular.module('common').directive('wcDatePickerField',
             templateUrl: '/web/webjars/common/webcert/date/wcDatePickerField.directive.html',
             require:'wcDatePickerField',
             controller: function($scope) {
-/*
-                $scope.$watch('targetModel', function() {
-                    if ($scope.onChange) { MUST RENAME IF USED
-                        $scope.onChange();
-                    }
-                });
-*/
+
                 if($scope.format === undefined){
                     $scope.format = 'yyyy-MM-dd';
                 }
@@ -83,7 +77,6 @@ angular.module('common').directive('wcDatePickerField',
                         return ppdate;
                     };
                     ngModel.$render = function() {
-                        //var date = ngModel.$viewValue ? dateFilter(ngModel.$viewValue, dateFormat) : '';
                         element.val(ngModel.$viewValue);
                         if (wcDatePickerField && wcDatePickerField.datepickerPopupScope) {
                             wcDatePickerField.datepickerPopupScope.date = getDate(ngModel.$viewValue);
@@ -96,14 +89,11 @@ angular.module('common').directive('wcDatePickerField',
                     // it's the date, if the date is valid
                     // but first we need to remove the event listeners for ui-bootstrap-tpls.js datepicker
                     // this little monster listening can be found at ln 1519
-                    $._data(element[0], 'events').input.pop();
-                    $._data(element[0], 'events').keyup.pop();
-                    $._data(element[0], 'events').change.pop();
-                    //element.unbind('change keyup');
-                    element.bind('input change keyup', function(e) {
-                        wcDatePickerField.datepickerPopupScope.$apply(function() {
-                            wcDatePickerField.datepickerPopupScope.date = getDate(ngModel.$viewValue);
-                        });
+                    //
+                    // UPDATED for UI Bootstrap 0.14.3 now at row 2234
+                    ngModel.$viewChangeListeners.pop();
+                    ngModel.$viewChangeListeners.push(function() {
+                        wcDatePickerField.datepickerPopupScope.date = getDate(ngModel.$viewValue);
                     });
                 }
 

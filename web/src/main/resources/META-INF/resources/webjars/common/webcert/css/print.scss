@@ -1,0 +1,164 @@
+//fonts
+$font-0: 'Helvetica';
+$font-1: 'Arial';
+$font-2: 'sans-serif';
+
+
+@media print {
+  %radio-checkbox-common {
+    display: inline-block;
+    float: none;
+    margin: 0;
+  }
+
+  .print-show {
+    display: block;
+  }
+
+  .print-hide {
+    display: none;
+  }
+
+  .print-pagebreak-after {
+    page-break-after: always;
+  }
+
+  .print-heading-column-left {
+    float: left;
+    width: 50%;
+  }
+
+  .print-heading-column-right {
+    float: left;
+    text-align: right;
+    width: 50%;
+  }
+
+  .print-logo {
+    width: 150px;
+  }
+
+  .edit-form {
+    margin-top: 0;
+  }
+
+  .counter {
+    display: none;
+  }
+
+  #prognosis-counter {
+    display: none;
+  }
+
+  [wc-enable-tooltip] {
+    display: none;
+  }
+
+  .glyphicon {
+    display: none;
+  }
+
+  .soclink {
+    display: none;
+  }
+
+  #intygetbaseraspa {
+    button {
+      display: none;
+    }
+
+    input[type=text] {
+      width: 12em;
+    }
+  }
+
+  #cert-otherData-rehabWhen-date-toggle {
+    display: none;
+  }
+
+  .cert-field-number {
+    font-size: 14px;
+    padding-top: 20px;
+  }
+
+  body {
+    font-family: $font-0, $font-1, $font-2;
+    font-size: 12px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 14px;
+  }
+
+  h3 {
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  h4 {
+    font-size: 11px;
+  }
+
+  label {
+    font-weight: normal;
+  }
+
+  .radio {
+    @extend %radio-checkbox-common;
+
+    input[type=radio] {
+      margin-left: -16px;
+    }
+  }
+
+  .checkbox {
+    @extend %radio-checkbox-common;
+
+    input[type=checkbox] {
+      margin-left: -16px;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 5px;
+  }
+
+  .bottom-padding-small {
+    padding-bottom: 5px;
+  }
+
+  input[type=radio] {
+    margin: 2px 0 0;
+    vertical-align: text-bottom;
+  }
+
+  input[type=checkbox] {
+    margin: 2px 0 0;
+    vertical-align: text-bottom;
+  }
+
+  .arbetsformaga button {
+    display: none;
+  }
+
+  [wc-date-picker-field] input[type=text] {
+    width: 12em;
+  }
+
+  .form-inline .form-control {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .radio-inline input[type=radio] {
+    margin-left: -16px;
+  }
+
+  .checkbox-inline input[type=checkbox] {
+    margin-left: -16px;
+  }
+}

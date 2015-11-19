@@ -3,10 +3,10 @@
   <h3 id="omWebcertDialog">Om Webcert</h3>
 </div>
 <div class="modal-body" style="overflow-y: auto; max-height: 550px">
-  <div accordion close-others="true"
+  <div uib-accordion close-others="true"
        ng-init="open = { om: true, support: false, intyg: false, faq: false, kakor: false }">
-    <div accordion-group is-open="open.om">
-      <div accordion-heading>
+    <div uib-accordion-group is-open="open.om">
+      <div uib-accordion-heading>
         Om Webcert <i class="pull-right glyphicon"
                       ng-class="{'glyphicon-chevron-down': open.om, 'glyphicon-chevron-right': !open.om}"></i>
       </div>
@@ -91,8 +91,8 @@
         118 93 Stockholm<br>
       </p>
     </div>
-    <div accordion-group is-open="open.support">
-      <div accordion-heading>
+    <div uib-accordion-group is-open="open.support">
+      <div uib-accordion-heading>
         Support och kontaktinformation <i class="pull-right glyphicon"
                                           ng-class="{'glyphicon-chevron-down': open.om, 'glyphicon-chevron-right': !open.om}"></i>
       </div>
@@ -110,8 +110,8 @@
       </ul>
 
     </div>
-    <div accordion-group is-open="open.intyg">
-      <div accordion-heading>
+    <div uib-accordion-group is-open="open.intyg">
+      <div uib-accordion-heading>
         Intyg som stöds i Webcert <i class="pull-right glyphicon"
                                      ng-class="{'glyphicon-chevron-down': open.intyg, 'glyphicon-chevron-right': !open.intyg}"></i>
       </div>
@@ -121,8 +121,8 @@
         det framgå hur sjukdomen påverkar patientens arbetsförmåga och hur länge patienten behöver vara sjukskriven.</p>
 
     </div>
-    <div accordion-group is-open="open.faq">
-      <div accordion-heading>
+    <div uib-accordion-group is-open="open.faq">
+      <div uib-accordion-heading>
         Vanliga frågor <i class="pull-right glyphicon"
                           ng-class="{'glyphicon-chevron-down': open.faq, 'glyphicon-chevron-right': !open.faq}"></i>
       </div>
@@ -234,8 +234,8 @@
       </div>
 
     </div>
-    <div accordion-group is-open="open.kakor">
-      <div accordion-heading>
+    <div uib-accordion-group is-open="open.kakor">
+      <div uib-accordion-heading>
         Om kakor (cookies) <i class="pull-right glyphicon"
                               ng-class="{'glyphicon-chevron-down': open.kakor, 'glyphicon-chevron-right': !open.kakor}"></i>
       </div>

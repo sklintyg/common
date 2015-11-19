@@ -3,14 +3,14 @@ module.exports = function(config) {
     'use strict';
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/webcert/';
-    var TEST_DIR = 'src/test/js/webcert/';
+    var TEST_DIR = 'src/main/resources/META-INF/resources/webjars/common/webcert/';
     var WEBJAR_DIR = 'target/webjardependencies/';
     //var TEMPLATE_PATH = ;
 
     config.set({
 
         // base path, that will be used to resolve files and exclude
-        basePath: '../../../',
+        basePath: '../../../../../',
 
         // frameworks to use
         frameworks: [ 'jasmine' ],
@@ -18,7 +18,14 @@ module.exports = function(config) {
         // generate js files from html templates to expose them during testing.
         preprocessors: {
             'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.html': ['ng-html2js'],
-            'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.js': ['coverage']
+            'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.js': ['coverage'],
+            'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.scss': ['scss']
+        },
+
+        scssPreprocessor: {
+          options: {
+            sourceMap: true
+          }
         },
 
         ngHtml2JsPreprocessor: {
@@ -38,7 +45,7 @@ module.exports = function(config) {
             WEBJAR_DIR + 'jquery/jquery.min.js',
             WEBJAR_DIR + 'angularjs/angular.js',
             WEBJAR_DIR + 'angularjs/angular-mocks.js',
-            WEBJAR_DIR + 'angularjs/1.2.27/angular-locale_sv-se.js',
+            WEBJAR_DIR + 'angularjs/1.4.7/angular-locale_sv-se.js',
             WEBJAR_DIR + 'angularjs/angular-cookies.js',
             WEBJAR_DIR + 'angular-ui-router/angular-ui-router.js',
             WEBJAR_DIR + 'angularjs/angular-sanitize.js',
@@ -51,7 +58,6 @@ module.exports = function(config) {
             SRC_DIR + 'module.js',
 
             { pattern: SRC_DIR + '**/*' },
-            { pattern: TEST_DIR + '**/*Spec.js' },
             { pattern: TEST_DIR + '**/*.spec.js' }
         ],
 
@@ -90,7 +96,8 @@ module.exports = function(config) {
             'karma-firefox-launcher',
             'karma-phantomjs-launcher',
             'karma-mocha-reporter',
-            'karma-ng-html2js-preprocessor'
+            'karma-ng-html2js-preprocessor',
+            'karma-scss-preprocessor'
         ],
 
         reporters: [ 'progress' ]

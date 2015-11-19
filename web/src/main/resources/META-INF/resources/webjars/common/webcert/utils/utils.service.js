@@ -13,7 +13,7 @@ angular.module('common').factory('common.UtilsService',function() {
      * @returns {boolean}
      */
     function _isValidString(data) {
-        // data !== data from underscore.js: 'NaN' is the only value for which '===' is not reflexive.
+        // from underscore.js: 'NaN' is the only value for which '===' is not reflexive. (referring to data !== data)
         return (data !== undefined && data !== null && data === data && data !== '');
     }
 

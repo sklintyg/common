@@ -2,6 +2,18 @@ angular.module('common').factory('common.UserModel',
     function() {
         'use strict';
 
+        function _fillIntygsTyperFromRole(role, intygsTyper) {
+            if (role.authorizedIntygsTyper !== undefined) {
+                for (var b = 0; b < role.authorizedIntygsTyper.length; b++) {
+                    var intygsTyp = role.authorizedIntygsTyper[b];
+
+                    if (intygsTyp !== undefined && intygsTyper.indexOf(intygsTyp) === -1) {
+                        intygsTyper.push(intygsTyp);
+                    }
+                }
+            }
+        }
+
         /**
          * Does flatMap+distinct to extract unique intygsTyper from the array of roles.
          * (Each role contains an array of authorizedIntygsTyper)
@@ -16,17 +28,8 @@ angular.module('common').factory('common.UserModel',
             for (var key in roles) {
                 if (roles.hasOwnProperty(key)) {
                     var role = roles[key];
-                    if (role.authorizedIntygsTyper !== undefined) {
-                        for(var b = 0; b < role.authorizedIntygsTyper.length; b++) {
-                            var intygsTyp = role.authorizedIntygsTyper[b];
-
-                            if (intygsTyp !== undefined && intygsTyper.indexOf(intygsTyp) === -1) {
-                                intygsTyper.push(intygsTyp);
-                            }
-                        }
-                    }
+                    _fillIntygsTyperFromRole(role, intygsTyper);
                 }
-
             }
 
             return intygsTyper;
@@ -66,7 +69,6 @@ angular.module('common').factory('common.UserModel',
                 PRIVILEGE_MAKULERA_INTYG: 'PRIVILEGE_MAKULERA_INTYG',
                 PRIVILEGE_KOPIERA_INTYG: 'PRIVILEGE_KOPIERA_INTYG',
                 PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA: 'PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA',
-                PRIVILEGE_SKRIVA_INTYG: 'PRIVILEGE_SKRIVA_INTYG',
                 PRIVILEGE_FILTRERA_PA_LAKARE: 'PRIVILEGE_FILTRERA_PA_LAKARE',
                 PRIVILEGE_ATKOMST_ANDRA_ENHETER: 'PRIVILEGE_ATKOMST_ANDRA_ENHETER',
                 PRIVILEGE_HANTERA_PERSONUPPGIFTER: 'PRIVILEGE_HANTERA_PERSONUPPGIFTER',
@@ -83,6 +85,8 @@ angular.module('common').factory('common.UserModel',
                 ROLE_LAKARE_UTHOPP: 'Läkare',
                 ROLE_PRIVATLAKARE: 'Privatläkare',
                 ROLE_TANDLAKARE: 'Tandläkare',
+                ROLE_TANDLAKARE_DJUPINTEGRERAD: 'Tandläkare',
+                ROLE_TANDLAKARE_UTHOPP: 'Tandläkare',
                 getRole: function(roles) {
                     var rs = '';
                     if (roles.ROLE_VARDADMINISTRATOR !== undefined) {
@@ -116,6 +120,15 @@ angular.module('common').factory('common.UserModel',
                     if (roles.ROLE_TANDLAKARE !== undefined) {
                         rs += roles.ROLE_TANDLAKARE.name;
                     }
+
+                    if (roles.ROLE_TANDLAKARE_DJUPINTEGRERAD !== undefined) {
+                        rs += roles.ROLE_TANDLAKARE_DJUPINTEGRERAD.name;
+                    }
+
+                    if (roles.ROLE_TANDLAKARE_UTHOPP !== undefined) {
+                        rs += roles.ROLE_TANDLAKARE_UTHOPP.name;
+                    }
+
                     return rs;
                 }
             },
@@ -177,6 +190,14 @@ angular.module('common').factory('common.UserModel',
 
             isTandlakare: function _isTandlakare() {
                 return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE !== undefined;
+            },
+
+            isTandlakareDjupIntegrerad: function _isTandlakareDjupIntegrerad() {
+                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE_DJUPINTEGRERAD !== undefined;
+            },
+
+            isTandlakareUthopp: function _isTandlakareUthopp() {
+                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE_UTHOPP !== undefined;
             },
 
             authenticationMethod: function _authenticationMethod(authenticationMethod){

@@ -1,7 +1,7 @@
 angular.module('common').controller('common.wcHeaderController',
-    ['$anchorScroll', '$cookieStore', '$location', '$log', '$modal', '$scope', '$state', '$window', 'common.dialogService',
+    ['$anchorScroll', '$cookies', '$location', '$log', '$uibModal', '$scope', '$state', '$window', 'common.dialogService',
         'common.featureService', 'common.messageService', 'common.statService', 'common.User', 'common.UserModel',
-        function($anchorScroll, $cookieStore, $location, $log, $modal, $scope, $state, $window, dialogService,
+        function($anchorScroll, $cookies, $location, $log, $uibModal, $scope, $state, $window, dialogService,
             featureService, messageService, statService, User, UserModel) {
             'use strict';
 
@@ -30,23 +30,30 @@ angular.module('common').controller('common.wcHeaderController',
              * Private functions
              */
 
+
+            function findVardgivareById(vg) {
+                for (var i = 0; i < $scope.stat.vardgivare.length; i++) {
+                    if (vg === $scope.stat.vardgivare[i].id) {
+                        return $scope.stat.vardgivare[i];
+                    }
+                }
+                return null;
+            }
+
             /**
              * Finds the stat of the enhet or mottagning in the flat
              * structure returned from server
              */
             function findStats(vg, id) {
-                for (var i = 0; i < $scope.stat.vardgivare.length; i++) {
-                    if (vg === $scope.stat.vardgivare[i].id) {
-                        var vardenheter = $scope.stat.vardgivare[i].vardenheter;
-                        for (var j = 0; j < vardenheter.length; j++) {
-                            var vardenhet = vardenheter[j];
-                            if (vardenhet.id === id) {
-                                return {
-                                    intyg: vardenhet.intyg,
-                                    fragaSvar: vardenhet.fragaSvar
-                                };
-                            }
-                        }
+                var vardgivare = findVardgivareById(vg);
+                var vardenheter = vardgivare.vardenheter;
+                for (var j = 0; j < vardenheter.length; j++) {
+                    var vardenhet = vardenheter[j];
+                    if (vardenhet.id === id) {
+                        return {
+                            intyg: vardenhet.intyg,
+                            fragaSvar: vardenhet.fragaSvar
+                        };
                     }
                 }
                 return {
@@ -55,20 +62,28 @@ angular.module('common').controller('common.wcHeaderController',
                 };
             }
 
+
+            function findUserVardgivare(vgId) {
+                var vgs = $scope.user.vardgivare;
+                for (var i = 0; i < vgs.length; i++) {
+                    if (vgs[i].id === vgId) {
+                        return vgs[i];
+                    }
+                }
+
+                return null;
+            }
+
             /**
              * Finds the mottagningar at the vardgivare with id `vg` and
              * enhet with id `id`
              */
-            function findMottagningar(vg, id) {
-                var vgs = $scope.user.vardgivare;
-                for (var i = 0; i < vgs.length; i++) {
-                    if (vgs[i].id === vg) {
-                        var enheter = vgs[i].vardenheter;
-                        for (var j = 0; j < enheter.length; j++) {
-                            if (enheter[j].id === id) {
-                                return enheter[j].mottagningar;
-                            }
-                        }
+            function findMottagningar(vgId, id) {
+                var vardgivare = findUserVardgivare(vgId);
+                var enheter = vardgivare.vardenheter;
+                for (var j = 0; j < enheter.length; j++) {
+                    if (enheter[j].id === id) {
+                        return enheter[j].mottagningar;
                     }
                 }
                 return undefined;
@@ -170,10 +185,9 @@ angular.module('common').controller('common.wcHeaderController',
                 }
 
                 page = page.substr(page.lastIndexOf('/') + 1);
-                if ($state.current.data && angular.isString($state.current.data.defaultActive)) {
-                    if (page === $state.current.data.defaultActive) {
-                        return true;
-                    }
+                if (($state.current.data && angular.isString($state.current.data.defaultActive)) &&
+                    (page === $state.current.data.defaultActive)) {
+                    return true;
                 }
 
                 var currentRoute = $location.path().substr($location.path().lastIndexOf('/') + 1);
@@ -185,7 +199,7 @@ angular.module('common').controller('common.wcHeaderController',
             }
 
             $scope.goToPrivatPortalen = function(){
-                var link = $window.MODULE_CONFIG.PP_HOST; 
+                var link = $window.MODULE_CONFIG.PP_HOST;
                 link += '?from=' + window.encodeURIComponent($window.MODULE_CONFIG.DASHBOARD_URL + '#' + $location.path());
                 $window.location.href = link;
             };
@@ -202,12 +216,12 @@ angular.module('common').controller('common.wcHeaderController',
             $scope.goToAbout = function() {
                 $window.dialogDoneLoading = false;
 
-                var msgbox = $modal.open({
+                var msgbox = $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderAboutDialog.template.html',
-                    controller: function($scope, $modalInstance) {
+                    controller: function($scope, $uibModalInstance) {
 
                         $scope.close = function() {
-                            $modalInstance.close();
+                            $uibModalInstance.close();
                         };
 
                     },
@@ -222,14 +236,14 @@ angular.module('common').controller('common.wcHeaderController',
             $scope.openChangeCareUnitDialog = function() {
                 $window.dialogDoneLoading = false;
 
-                var msgbox = $modal.open({
+                var msgbox = $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderCareUnitDialog.template.html',
-                    controller: function($scope, $modalInstance, vardgivare) {
+                    controller: function($scope, $uibModalInstance, vardgivare) {
                         $scope.vardgivare = vardgivare;
                         $scope.error = false;
 
                         $scope.close = function() {
-                            $modalInstance.close();
+                            $uibModalInstance.close();
                         };
 
                         /******************
@@ -270,7 +284,7 @@ angular.module('common').controller('common.wcHeaderController',
                             User.setValdVardenhet(enhet, function() {
                                 // Remove stored cookie for selected filter. We want to choose a new
                                 // filter after choosing another unit to work on
-                                $cookieStore.remove('enhetsId');
+                                $cookies.remove('enhetsId');
 
                                 // We updated the user context. Reroute to start page so as not to end
                                 // up on a page we aren't welcome anymore. Maybe we should make these
@@ -283,7 +297,7 @@ angular.module('common').controller('common.wcHeaderController',
                                 }
                                 $state.reload();
 
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             }, function() {
                                 $scope.error = true;
                             });
