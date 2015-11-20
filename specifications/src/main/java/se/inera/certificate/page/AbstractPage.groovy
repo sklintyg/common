@@ -1,10 +1,15 @@
 package se.inera.certificate.page
 
+import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.support.ui.WebDriverWait
 import se.inera.certificate.spec.Browser
 import geb.Page
 
 import java.util.concurrent.TimeUnit
+
+import static org.openqa.selenium.By.id
 
 abstract class AbstractPage extends Page {
 
@@ -13,6 +18,7 @@ abstract class AbstractPage extends Page {
     }
 
     static boolean doneLoading() {
+        waitForAngularBootstrap();
         waitForAngularRequestsToFinish();
         true
     }
@@ -43,6 +49,13 @@ abstract class AbstractPage extends Page {
         return result;
     }
 
+    static protected void waitForAngularBootstrap(String root) {
+        Object result = waitForJavascriptCallback(NgClientSideScripts.TEST_FOR_ANGULAR_TESTABILITY, 10);
+        if (!result[0]) {
+            throw new RuntimeException(result[1].toString());
+        }
+    }
+
     static protected void waitForAngularRequestsToFinish(String root) {
         if (root == null) {
             root = "body"
@@ -53,10 +66,14 @@ abstract class AbstractPage extends Page {
         }
     }
 
-    static void scrollIntoView(elementId){
+    static void scrollIntoView(elementId, boolean waitUntilClickable = true) {
         def jqScrollToVisible = "jQuery(\'#" + elementId + "\')[0].scrollIntoView();var current=jQuery('body').scrollTop(); jQuery('body').scrollTop(current-400);"
         Browser.drive {
             js.exec(jqScrollToVisible)
+        }
+        if (waitUntilClickable) {
+            WebDriverWait wait = new WebDriverWait(Browser.getDriver(), 5);
+            wait.until(ExpectedConditions.elementToBeClickable(By.id(elementId)));
         }
     }
 

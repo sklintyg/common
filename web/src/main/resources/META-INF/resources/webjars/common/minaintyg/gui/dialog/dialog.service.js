@@ -7,7 +7,7 @@ angular.module('common').factory('common.dialogService',
 
         function _showErrorMessageDialog(message, callback) {
             var msgbox = $uibModal.open({
-                templateUrl: '/web/webjars/common/minaintyg/js/services/dialogServiceErrorTemplate.html',
+                templateUrl: '/web/webjars/common/minaintyg/gui/dialog/dialogError.template.html',
                 controller: function($scope, $uibModalInstance, bodyText) {
                     $scope.bodyText = bodyText;
                 },

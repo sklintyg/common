@@ -2,14 +2,14 @@
 module.exports = function(config) {
     'use strict';
 
-    var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/minaintyg/js/';
-    var TEST_DIR = 'src/test/js/minaintyg/';
+    var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/minaintyg/';
+    var TEST_DIR = SRC_DIR;
     var WEBJAR_DIR = 'target/webjardependencies/';
 
     config.set({
 
         // base path, that will be used to resolve files and exclude
-        basePath: '../../../',
+        basePath: '../../../../../',
 
         // frameworks to use
         frameworks: [ 'jasmine' ],
@@ -35,7 +35,7 @@ module.exports = function(config) {
                 SRC_DIR + 'module.js',
 
             { pattern: SRC_DIR + '**/*' },
-            { pattern: TEST_DIR + '**/*Spec.js' }
+            { pattern: TEST_DIR + '**/*.spec.js' }
         ],
 
         // web server port
