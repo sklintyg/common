@@ -117,16 +117,18 @@ public class SchemaValidatorBuilder {
 
             private BufferedInputStream inputStream;
 
-            public LSInputImpl(String publicId, String sysId, InputStream input) {
+            LSInputImpl(String publicId, String sysId, InputStream input) {
                 this.publicId = publicId;
                 this.systemId = sysId;
                 this.inputStream = new BufferedInputStream(input);
             }
 
+            @Override
             public String getPublicId() {
                 return publicId;
             }
 
+            @Override
             public void setPublicId(String publicId) {
                 this.publicId = publicId;
             }
@@ -185,10 +187,12 @@ public class SchemaValidatorBuilder {
             public void setStringData(String stringData) {
             }
 
+            @Override
             public String getSystemId() {
                 return systemId;
             }
 
+            @Override
             public void setSystemId(String systemId) {
                 this.systemId = systemId;
             }
