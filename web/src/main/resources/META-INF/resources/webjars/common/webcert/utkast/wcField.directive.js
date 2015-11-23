@@ -19,20 +19,17 @@ angular.module('common').directive('wcField',
                     fieldTooltipPlacement: '@',
                     filled: '@?'
                 },
+                compile: function(element, attrs){
+                    if (!attrs.filled) { attrs.filled = true; }
+                },
                 controller: function($scope) {
 
                     if ($scope.fieldLabel === null) {
-                        if ($scope.fieldLabel === null) {
-                            $scope.fieldLabel = undefined;
-                        }
+                        $scope.fieldLabel = undefined;
+                    }
 
-                        if ($scope.filled === undefined) {
-                            $scope.filled = true;
-                        }
-
-                        if ($scope.fieldNumber === null) {
-                            $scope.fieldNumber = undefined;
-                        }
+                    if ($scope.fieldNumber === null) {
+                        $scope.fieldNumber = undefined;
                     }
 
                     if ($scope.fieldTooltipPlacement === undefined) {
