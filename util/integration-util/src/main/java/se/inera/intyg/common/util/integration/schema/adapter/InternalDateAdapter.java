@@ -1,4 +1,4 @@
-package se.inera.certificate.schema.adapter;
+package se.inera.intyg.common.util.integration.schema.adapter;
 
 import java.text.DecimalFormat;
 

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.certificate.schema.adapter;
+package se.inera.intyg.common.util.integration.schema.adapter;
 
 import static org.junit.Assert.assertEquals;
 

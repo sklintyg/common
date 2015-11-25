@@ -1,4 +1,4 @@
-package se.inera.certificate.integration.json;
+package se.inera.intyg.common.util.integration.integration.json;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;

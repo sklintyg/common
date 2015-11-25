@@ -1,9 +1,9 @@
-package se.inera.certificate.integration.json;
+package se.inera.intyg.common.util.integration.integration.json;
 
 import java.io.IOException;
 
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.certificate.schema.adapter.InternalDateAdapter;
+import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

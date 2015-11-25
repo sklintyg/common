@@ -1,4 +1,4 @@
-package se.inera.certificate.integration.json;
+package se.inera.intyg.common.util.integration.integration.json;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
