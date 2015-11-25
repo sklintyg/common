@@ -1,4 +1,4 @@
-package se.inera.certificate.schema.adapter;
+package se.inera.intyg.common.util.integration.schema.adapter;
 
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Partial;
@@ -21,37 +21,37 @@ public class PartialAdapterTest {
 
     @Test
     public void testParseYear() {
-        Partial partial = se.inera.certificate.schema.adapter.PartialAdapter.parsePartial(YEAR);
+        Partial partial = se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter.parsePartial(YEAR);
         assertEquals(YEAR_PARTIAL, partial);
     }
 
     @Test
     public void testParseYearMonth() {
-        Partial partial = se.inera.certificate.schema.adapter.PartialAdapter.parsePartial(YEAR_MONTH);
+        Partial partial = se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter.parsePartial(YEAR_MONTH);
         assertEquals(YEAR_MONTH_PARTIAL, partial);
     }
 
     @Test
     public void testParseYearMonthDay() {
-        Partial partial = se.inera.certificate.schema.adapter.PartialAdapter.parsePartial(YEAR_MONTH_DAY);
+        Partial partial = se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter.parsePartial(YEAR_MONTH_DAY);
         assertEquals(YEAR_MONTH_DAY_PARTIAL, partial);
     }
 
     @Test
     public void testPrintYear() {
-        String date = se.inera.certificate.schema.adapter.PartialAdapter.printPartial(YEAR_PARTIAL);
+        String date = se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter.printPartial(YEAR_PARTIAL);
         assertEquals(YEAR, date);
     }
 
     @Test
     public void testPrintYearMonth() {
-        String date = se.inera.certificate.schema.adapter.PartialAdapter.printPartial(YEAR_MONTH_PARTIAL);
+        String date = se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter.printPartial(YEAR_MONTH_PARTIAL);
         assertEquals(YEAR_MONTH, date);
     }
 
     @Test
     public void testPrintYearMonthDay() {
-        String date = se.inera.certificate.schema.adapter.PartialAdapter.printPartial(YEAR_MONTH_DAY_PARTIAL);
+        String date = se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter.printPartial(YEAR_MONTH_DAY_PARTIAL);
         assertEquals(YEAR_MONTH_DAY, date);
     }
 }

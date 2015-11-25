@@ -1,11 +1,11 @@
-package se.inera.certificate.integration.json;
+package se.inera.intyg.common.util.integration.integration.json;
 
 import java.io.IOException;
 
 import org.joda.time.LocalDate;
 
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.certificate.schema.adapter.InternalDateAdapter;
+import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;

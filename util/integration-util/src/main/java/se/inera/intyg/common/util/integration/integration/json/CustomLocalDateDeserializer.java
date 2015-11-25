@@ -1,4 +1,4 @@
-package se.inera.certificate.integration.json;
+package se.inera.intyg.common.util.integration.integration.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
