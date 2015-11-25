@@ -1,4 +1,4 @@
-package se.inera.certificate.validate;
+package se.inera.intyg.common.support.validate;
 
 /**
  * @author andreaskaltenbach

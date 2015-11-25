@@ -1,4 +1,4 @@
-package se.inera.certificate.model.util;
+package se.inera.intyg.common.support.model.util;
 
 import java.util.Collection;
 import java.util.List;

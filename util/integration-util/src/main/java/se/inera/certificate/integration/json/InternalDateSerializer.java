@@ -2,7 +2,7 @@ package se.inera.certificate.integration.json;
 
 import java.io.IOException;
 
-import se.inera.certificate.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.certificate.schema.adapter.InternalDateAdapter;
 
 import com.fasterxml.jackson.core.JsonGenerator;

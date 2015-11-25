@@ -1,4 +1,4 @@
-package se.inera.certificate.modules.registry;
+package se.inera.intyg.common.support.modules.registry;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,10 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import se.inera.certificate.modules.support.ApplicationOrigin;
-import se.inera.certificate.modules.support.ModuleEntryPoint;
-import se.inera.certificate.modules.support.api.ModuleApi;
-import se.inera.certificate.modules.support.api.ModuleContainerApi;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
+import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 
 public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 

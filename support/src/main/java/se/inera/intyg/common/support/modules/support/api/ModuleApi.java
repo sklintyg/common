@@ -1,19 +1,19 @@
-package se.inera.certificate.modules.support.api;
+package se.inera.intyg.common.support.modules.support.api;
 
 import org.joda.time.LocalDateTime;
 
-import se.inera.certificate.model.Status;
-import se.inera.certificate.modules.support.ApplicationOrigin;
-import se.inera.certificate.modules.support.api.dto.CertificateResponse;
-import se.inera.certificate.modules.support.api.dto.CreateDraftCopyHolder;
-import se.inera.certificate.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.certificate.modules.support.api.dto.HoSPersonal;
-import se.inera.certificate.modules.support.api.dto.InternalModelHolder;
-import se.inera.certificate.modules.support.api.dto.InternalModelResponse;
-import se.inera.certificate.modules.support.api.dto.PdfResponse;
-import se.inera.certificate.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.certificate.modules.support.api.exception.ModuleException;
-import se.inera.certificate.modules.support.api.notification.NotificationMessage;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.HoSPersonal;
+import se.inera.intyg.common.support.modules.support.api.dto.InternalModelHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.InternalModelResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ public interface ModuleApi {
      *
      * @param draftCertificateHolder
      *            The id of the new internal model, the {@link HoSPersonal} and
-     *            {@link se.inera.certificate.modules.support.api.dto.Patient} data.
+     *            {@link se.inera.intyg.common.support.modules.support.api.dto.Patient} data.
      *
      * @return A new instance of the internal model.
      */
@@ -96,7 +96,7 @@ public interface ModuleApi {
      *
      * @param draftCopyHolder
      *            The id of the new internal model, the {@link HoSPersonal} and optional
-     *            {@link se.inera.certificate.modules.support.api.dto.Patient} data.
+     *            {@link se.inera.intyg.common.support.modules.support.api.dto.Patient} data.
      * @param template
      *            An internal model used as a template for the new internal model.
      *

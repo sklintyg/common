@@ -1,4 +1,4 @@
-package se.inera.certificate.validate;
+package se.inera.intyg.common.support.validate;
 
 import java.util.ArrayList;
 import java.util.List;

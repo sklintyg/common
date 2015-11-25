@@ -1,4 +1,4 @@
-package se.inera.certificate.common.util;
+package se.inera.intyg.common.support.common.util;
 
 import java.util.Arrays;
 import java.util.List;

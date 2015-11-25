@@ -1,4 +1,4 @@
-package se.inera.certificate.xml;
+package se.inera.intyg.common.support.xml;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

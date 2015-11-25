@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.certificate.model.converter.util;
+package se.inera.intyg.common.support.model.converter.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import org.joda.time.Partial;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import se.inera.certificate.model.PartialInterval;
+import se.inera.intyg.common.support.model.PartialInterval;
 
 /**
  * Utility for converting a joda-time Partial to String and vice versa.

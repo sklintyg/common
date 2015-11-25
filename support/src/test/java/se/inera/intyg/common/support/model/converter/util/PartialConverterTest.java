@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.certificate.model.converter.util;
+package se.inera.intyg.common.support.model.converter.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Partial;
 import org.junit.Test;
-import se.inera.certificate.model.converter.util.PartialConverter;
+import se.inera.intyg.common.support.model.converter.util.PartialConverter;
 
 public class PartialConverterTest {
 

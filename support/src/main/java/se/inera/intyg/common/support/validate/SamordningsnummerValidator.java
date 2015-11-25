@@ -1,4 +1,4 @@
-package se.inera.certificate.validate;
+package se.inera.intyg.common.support.validate;
 
 import org.apache.commons.lang3.CharUtils;
 import org.joda.time.LocalDate;

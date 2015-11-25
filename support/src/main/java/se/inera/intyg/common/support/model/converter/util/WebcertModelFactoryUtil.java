@@ -1,16 +1,16 @@
-package se.inera.certificate.model.converter.util;
+package se.inera.intyg.common.support.model.converter.util;
 
-import se.inera.certificate.model.common.internal.HoSPersonal;
-import se.inera.certificate.model.common.internal.Patient;
-import se.inera.certificate.model.common.internal.Vardenhet;
-import se.inera.certificate.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 
 public final class WebcertModelFactoryUtil {
 
     private WebcertModelFactoryUtil() {
     }
 
-    public static Patient convertPatientToEdit(se.inera.certificate.modules.support.api.dto.Patient patientInfo) {
+    public static Patient convertPatientToEdit(se.inera.intyg.common.support.modules.support.api.dto.Patient patientInfo) {
         Patient patient = new Patient();
         patient.setFornamn(patientInfo.getFornamn());
         patient.setMellannamn(patientInfo.getMellannamn());
@@ -24,7 +24,7 @@ public final class WebcertModelFactoryUtil {
         return patient;
     }
 
-    public static HoSPersonal convertHosPersonalToEdit(se.inera.certificate.modules.support.api.dto.HoSPersonal hosPers) {
+    public static HoSPersonal convertHosPersonalToEdit(se.inera.intyg.common.support.modules.support.api.dto.HoSPersonal hosPers) {
         HoSPersonal hosPersonal = new HoSPersonal();
 
         hosPersonal.setPersonId(hosPers.getHsaId());
@@ -44,7 +44,7 @@ public final class WebcertModelFactoryUtil {
         return hosPersonal;
     }
 
-    private static Vardenhet convertVardenhetToEdit(se.inera.certificate.modules.support.api.dto.Vardenhet vardenhetDto) {
+    private static Vardenhet convertVardenhetToEdit(se.inera.intyg.common.support.modules.support.api.dto.Vardenhet vardenhetDto) {
 
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setEnhetsid(vardenhetDto.getHsaId());
@@ -61,7 +61,7 @@ public final class WebcertModelFactoryUtil {
         return vardenhet;
     }
 
-    private static Vardgivare convertVardgivareToEdit(se.inera.certificate.modules.support.api.dto.Vardgivare vardgivareDto) {
+    private static Vardgivare convertVardgivareToEdit(se.inera.intyg.common.support.modules.support.api.dto.Vardgivare vardgivareDto) {
 
         Vardgivare vardgivare = new Vardgivare();
         vardgivare.setVardgivarid(vardgivareDto.getHsaId());

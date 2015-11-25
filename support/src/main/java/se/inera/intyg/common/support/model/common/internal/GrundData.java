@@ -1,4 +1,4 @@
-package se.inera.certificate.model.common.internal;
+package se.inera.intyg.common.support.model.common.internal;
 
 import org.joda.time.LocalDateTime;
 

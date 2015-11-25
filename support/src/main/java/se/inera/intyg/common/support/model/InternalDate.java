@@ -1,4 +1,4 @@
-package se.inera.certificate.model;
+package se.inera.intyg.common.support.model;
 
 import java.util.Objects;
 
@@ -30,7 +30,7 @@ public class InternalDate {
     }
 
     /**
-     * Constuct an {@link se.inera.certificate.model.InternalDate} from a String.
+     * Constuct an {@link se.inera.intyg.common.support.model.InternalDate} from a String.
      * @param date a String
      */
     public InternalDate(String date) {
@@ -38,7 +38,7 @@ public class InternalDate {
     }
 
     /**
-     * Constuct an {@link se.inera.certificate.model.InternalDate} from a {@link LocalDate},
+     * Constuct an {@link se.inera.intyg.common.support.model.InternalDate} from a {@link LocalDate},
      * primarily used when converting from external to internal model.
      * @param date a {@link LocalDate}
      * @throws {@link ModelException} if null is passed

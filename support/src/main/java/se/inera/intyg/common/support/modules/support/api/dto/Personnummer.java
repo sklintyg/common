@@ -1,9 +1,9 @@
-package se.inera.certificate.modules.support.api.dto;
+package se.inera.intyg.common.support.modules.support.api.dto;
 
 import java.util.Calendar;
 
 import se.inera.certificate.logging.HashUtility;
-import se.inera.certificate.validate.SamordningsnummerValidator;
+import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

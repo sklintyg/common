@@ -1,4 +1,4 @@
-package se.inera.certificate.common.enumerations;
+package se.inera.intyg.common.support.common.enumerations;
 
 public enum Diagnoskodverk {
 

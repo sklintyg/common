@@ -1,8 +1,8 @@
-package se.inera.certificate.modules.support.api;
+package se.inera.intyg.common.support.modules.support.api;
 
 import org.joda.time.LocalDateTime;
 
-import se.inera.certificate.model.CertificateState;
+import se.inera.intyg.common.support.model.CertificateState;
 
 public class CertificateStateHolder {
 
