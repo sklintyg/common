@@ -6,7 +6,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
-import se.inera.certificate.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalDate;
 
 public final class InternalDateAdapter {
 

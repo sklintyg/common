@@ -1,6 +1,6 @@
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import se.inera.certificate.modules.support.api.CertificateStateHolder;
+import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateStatusType;
 import se.inera.ifv.insuranceprocess.certificate.v1.StatusType;
 

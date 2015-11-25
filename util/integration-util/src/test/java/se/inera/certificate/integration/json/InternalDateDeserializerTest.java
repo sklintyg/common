@@ -11,7 +11,7 @@ import java.io.IOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import se.inera.certificate.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalDate;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;

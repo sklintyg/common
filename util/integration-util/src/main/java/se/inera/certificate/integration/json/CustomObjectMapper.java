@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Partial;
 
-import se.inera.certificate.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalDate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
