@@ -1,10 +1,10 @@
-package se.inera.certificate.integration.json;
+package se.inera.intyg.common.util.integration.integration.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.joda.time.Partial;
-import se.inera.certificate.schema.adapter.PartialAdapter;
+import se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter;
 
 import java.io.IOException;
 

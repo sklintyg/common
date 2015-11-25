@@ -1,4 +1,4 @@
-package se.inera.certificate.interceptor;
+package se.inera.intyg.common.util.integration.interceptor;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
