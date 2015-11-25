@@ -135,6 +135,17 @@ module.exports = function(grunt) {
         },
 
         ngtemplates : {
+            minaintyg: {
+                cwd: SRC_DIR,
+                src: ['webjars/common/minaintyg/**/*.html'],
+                dest: SRC_DIR + 'webjars/common/minaintyg/templates.js',
+                options: {
+                    module: 'common',
+                    url: function(url) {
+                        return '/web/' + url;
+                    }
+                }
+            },
             webcert: {
                 cwd: SRC_DIR,
                 src: ['webjars/common/webcert/**/*.html'],
