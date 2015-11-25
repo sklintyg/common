@@ -1,6 +1,6 @@
-package se.inera.certificate.modules.support;
+package se.inera.intyg.common.support.modules.support;
 
-import se.inera.certificate.modules.support.api.ModuleApi;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public interface ModuleEntryPoint {
     ModuleApi getModuleApi();
 
     /**
-     * Returns a Map containing which {@code se.inera.certificate.modules.support.feature.ModuleFeature} that this
+     * Returns a Map containing which {@code se.inera.intyg.common.support.modules.support.feature.ModuleFeature} that this
      * module will support and what state these have.
      *
      * @return

@@ -1,4 +1,4 @@
-package se.inera.certificate.modules.registry;
+package se.inera.intyg.common.support.modules.registry;
 
 public class IntygModule implements Comparable<IntygModule> {
 

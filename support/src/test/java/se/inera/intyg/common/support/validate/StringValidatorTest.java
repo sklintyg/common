@@ -1,4 +1,4 @@
-package se.inera.certificate.validate;
+package se.inera.intyg.common.support.validate;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;

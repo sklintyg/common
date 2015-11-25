@@ -1,4 +1,4 @@
-package se.inera.certificate.modules.support.api.exception;
+package se.inera.intyg.common.support.modules.support.api.exception;
 
 public class ModuleVersionUnsupportedException extends ModuleException {
 

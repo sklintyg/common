@@ -1,9 +1,9 @@
-package se.inera.certificate.modules.support.api.exception;
+package se.inera.intyg.common.support.modules.support.api.exception;
 
 import java.util.Collections;
 import java.util.List;
 
-import se.inera.certificate.common.util.StringUtil;
+import se.inera.intyg.common.support.common.util.StringUtil;
 
 public class ModuleValidationException extends ModuleException {
 

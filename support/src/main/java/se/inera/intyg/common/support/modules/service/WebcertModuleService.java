@@ -1,6 +1,6 @@
-package se.inera.certificate.modules.service;
+package se.inera.intyg.common.support.modules.service;
 
-import se.inera.certificate.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 
 /**
  * Interface for exposing Webcert services that can be used by modules.

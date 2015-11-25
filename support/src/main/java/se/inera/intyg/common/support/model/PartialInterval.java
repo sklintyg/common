@@ -1,4 +1,4 @@
-package se.inera.certificate.model;
+package se.inera.intyg.common.support.model;
 
 import org.joda.time.Partial;
 

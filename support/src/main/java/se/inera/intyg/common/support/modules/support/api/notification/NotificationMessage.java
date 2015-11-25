@@ -1,4 +1,4 @@
-package se.inera.certificate.modules.support.api.notification;
+package se.inera.intyg.common.support.modules.support.api.notification;
 
 import org.joda.time.LocalDateTime;
 

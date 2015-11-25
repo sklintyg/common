@@ -1,6 +1,6 @@
-package se.inera.certificate.integration.module.exception;
+package se.inera.intyg.common.support.integration.module.exception;
 
-import se.inera.certificate.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 
 /**
  * @author andreaskaltenbach

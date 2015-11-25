@@ -1,9 +1,9 @@
-package se.inera.certificate.modules.registry;
+package se.inera.intyg.common.support.modules.registry;
 
 import java.util.List;
 
-import se.inera.certificate.modules.support.ModuleEntryPoint;
-import se.inera.certificate.modules.support.api.ModuleApi;
+import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public interface IntygModuleRegistry {
 

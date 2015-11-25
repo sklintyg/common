@@ -1,4 +1,4 @@
-package se.inera.certificate.validate;
+package se.inera.intyg.common.support.validate;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.inera.certificate.common.util.StringUtil;
+import se.inera.intyg.common.support.common.util.StringUtil;
 
 /**
  * Test the {@link PersonnummerValidator}.

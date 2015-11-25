@@ -1,4 +1,4 @@
-package se.inera.certificate.modules.support.feature;
+package se.inera.intyg.common.support.modules.support.feature;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

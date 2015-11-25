@@ -1,8 +1,8 @@
 package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.converter;
 
-import se.inera.certificate.model.CertificateState;
-import se.inera.certificate.model.Status;
-import se.inera.certificate.modules.support.api.dto.CertificateMetaData;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
 

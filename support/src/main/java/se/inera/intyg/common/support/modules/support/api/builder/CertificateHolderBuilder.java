@@ -1,14 +1,14 @@
-package se.inera.certificate.modules.support.api.builder;
+package se.inera.intyg.common.support.modules.support.api.builder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDateTime;
 
-import se.inera.certificate.model.CertificateState;
-import se.inera.certificate.modules.support.api.CertificateHolder;
-import se.inera.certificate.modules.support.api.CertificateStateHolder;
-import se.inera.certificate.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
+import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 
 public class CertificateHolderBuilder {
 

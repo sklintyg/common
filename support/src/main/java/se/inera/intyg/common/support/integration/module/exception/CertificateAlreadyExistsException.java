@@ -1,4 +1,4 @@
-package se.inera.certificate.integration.module.exception;
+package se.inera.intyg.common.support.integration.module.exception;
 
 /**
  * @author andreaskaltenbach

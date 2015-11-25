@@ -1,4 +1,4 @@
-package se.inera.certificate.model;
+package se.inera.intyg.common.support.model;
 
 /**
  * @author andreaskaltenbach

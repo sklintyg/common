@@ -20,11 +20,11 @@ package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter
 
 import org.joda.time.LocalDate;
 
-import se.inera.certificate.model.common.internal.GrundData;
-import se.inera.certificate.model.common.internal.Utlatande;
-import se.inera.certificate.model.util.Iterables;
-import se.inera.certificate.modules.support.api.CertificateHolder;
-import se.inera.certificate.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.util.Iterables;
+import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;

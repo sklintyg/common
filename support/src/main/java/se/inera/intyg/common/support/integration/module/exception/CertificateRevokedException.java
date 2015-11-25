@@ -1,4 +1,4 @@
-package se.inera.certificate.integration.module.exception;
+package se.inera.intyg.common.support.integration.module.exception;
 
 /**
  * Exception thrown when performing an operation on a revoked certificate.

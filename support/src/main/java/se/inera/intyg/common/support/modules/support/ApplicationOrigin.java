@@ -1,4 +1,4 @@
-package se.inera.certificate.modules.support;
+package se.inera.intyg.common.support.modules.support;
 
 public enum ApplicationOrigin {
 

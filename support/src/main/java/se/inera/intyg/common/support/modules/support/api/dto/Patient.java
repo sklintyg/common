@@ -1,4 +1,4 @@
-package se.inera.certificate.modules.support.api.dto;
+package se.inera.intyg.common.support.modules.support.api.dto;
 
 import org.apache.commons.lang3.StringUtils;
 

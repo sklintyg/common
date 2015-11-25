@@ -1,4 +1,4 @@
-package se.inera.certificate.common.enumerations;
+package se.inera.intyg.common.support.common.enumerations;
 
 /**
 * Created by Magnus Ekstrand on 25/02/15.

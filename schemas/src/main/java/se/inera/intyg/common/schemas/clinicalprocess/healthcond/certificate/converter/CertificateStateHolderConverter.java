@@ -2,7 +2,7 @@ package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.con
 
 import se.riv.clinicalprocess.healthcond.certificate.v1.StatusType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
-import se.inera.certificate.modules.support.api.CertificateStateHolder;
+import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 
 import java.util.ArrayList;
 import java.util.Collections;

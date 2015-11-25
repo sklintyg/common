@@ -1,4 +1,4 @@
-package se.inera.certificate.modules.support.api.dto;
+package se.inera.intyg.common.support.modules.support.api.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.inera.certificate.logging.HashUtility;
-import se.inera.certificate.modules.support.api.CertificateHolder;
+import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,12 +22,12 @@ public class PersonnummerTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        ClassLoader.getSystemClassLoader().setClassAssertionStatus("se.inera.certificate.modules.support.api.dto.Personnummer", false);
+        ClassLoader.getSystemClassLoader().setClassAssertionStatus("se.inera.intyg.common.support.modules.support.api.dto.Personnummer", false);
     }
 
     @AfterClass
     public static void tearDown() throws Exception {
-        ClassLoader.getSystemClassLoader().setClassAssertionStatus("se.inera.certificate.modules.support.api.dto.Personnummer", true);
+        ClassLoader.getSystemClassLoader().setClassAssertionStatus("se.inera.intyg.common.support.modules.support.api.dto.Personnummer", true);
     }
 
     @Test
