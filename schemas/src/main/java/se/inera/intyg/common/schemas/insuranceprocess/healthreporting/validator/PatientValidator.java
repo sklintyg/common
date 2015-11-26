@@ -5,7 +5,7 @@ import static java.util.Arrays.asList;
 import com.google.common.base.Joiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.inera.certificate.logging.LogMarkers;
+import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
 import se.inera.intyg.common.schemas.Constants;
 

@@ -1,4 +1,4 @@
-package se.inera.certificate.logging;
+package se.inera.intyg.common.util.logging;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

@@ -1,4 +1,4 @@
-package se.inera.certificate.logging;
+package se.inera.intyg.common.util.logging;
 
 import org.junit.Assert;
 import org.junit.Test;

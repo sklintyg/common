@@ -9,7 +9,7 @@ import org.apache.cxf.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import se.inera.certificate.logging.LogMarkers;
+import se.inera.intyg.common.util.logging.LogMarkers;
 
 /**
  * CXF interceptor which turns SOAP faults into valid SOAP responses.
