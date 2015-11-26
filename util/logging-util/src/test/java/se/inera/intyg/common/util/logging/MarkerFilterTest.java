@@ -1,4 +1,4 @@
-package se.inera.certificate.logging;
+package se.inera.intyg.common.util.logging;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

@@ -2,7 +2,7 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import java.util.Calendar;
 
-import se.inera.certificate.logging.HashUtility;
+import se.inera.intyg.common.util.logging.HashUtility;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 
 import com.fasterxml.jackson.annotation.JsonValue;

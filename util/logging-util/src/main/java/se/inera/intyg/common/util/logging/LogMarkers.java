@@ -1,4 +1,4 @@
-package se.inera.certificate.logging;
+package se.inera.intyg.common.util.logging;
 
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
