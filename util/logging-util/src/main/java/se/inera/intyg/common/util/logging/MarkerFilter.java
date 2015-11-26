@@ -1,4 +1,4 @@
-package se.inera.certificate.logging;
+package se.inera.intyg.common.util.logging;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.filter.AbstractMatcherFilter;
