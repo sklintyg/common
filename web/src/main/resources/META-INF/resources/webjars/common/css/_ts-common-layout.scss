@@ -1,0 +1,44 @@
+/**
+Table styles pertaining to layout. Shared between the ts certificate modules.
+ */
+
+%table-padding-alignment {
+  padding: 0 5px 5px 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table-padding-top {
+  padding-top: 15px;
+}
+
+.table-form {
+  margin: 0;
+  > thead > tr {
+    > td {
+      @extend %table-padding-alignment;
+    }
+    > th {
+      @extend %table-padding-alignment;
+    }
+  }
+  > tbody > tr {
+    > td {
+      @extend %table-padding-alignment;
+      > input[type=radio] {
+        margin-top: 0;
+      }
+    }
+    > th {
+      @extend %table-padding-alignment;
+    }
+  }
+}
+
+.table .table-form {
+  background-color: transparent;
+}
+
+.table-form-radio > tbody > tr > td:last-child {
+  width: 100%;
+}

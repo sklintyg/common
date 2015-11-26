@@ -1,0 +1,89 @@
+/* These styles belong to the utkastHeader component and are imported into the inera-certificate.css*/
+$header-fix-top-expand-background-color: #74777f;
+$header-fix-top-btn-link-text-shadow-color: rgba(0, 0, 0, 0.75); 
+$header-fix-top-btn-link-color: #fff; 
+$header-fix-panel-box-shadow: #323232;
+$header-fix-panel-border-bottom-color: #999;
+$header-fix-panel-background-color: #fff;
+
+.header-fix-top {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 500;
+  h1 {
+    margin: 0 20px 0 0;
+    line-height: 29px;
+  }
+}
+
+.header-fix-top-expand {
+  position: relative;
+  top: -20px;
+  right: 30px;
+}
+
+.header-fix-top-expand-wrapper {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: $header-fix-top-expand-background-color;
+  text-align: center;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  -ms-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  .btn-link {
+    color: $header-fix-top-btn-link-color;
+    text-shadow: 0 1px 1px $header-fix-top-btn-link-text-shadow-color;
+    &:hover {
+      color: $header-fix-top-btn-link-color;
+      text-shadow: 0 1px 1px $header-fix-top-btn-link-text-shadow-color;
+    }
+  }
+}
+
+.header-fix-panel {
+  padding: 20px 0 10px 30px;
+  border-bottom: 1px solid $header-fix-panel-border-bottom-color;
+  background-color: $header-fix-panel-background-color;
+  -ms-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
+  -webkit-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
+  -moz-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
+  box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
+}
+
+.header-wrapper {
+  /*  max-height: 110px; does commenting out this break anything? */
+  overflow: hidden;
+}
+
+%transition {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  position: relative;
+  display: block!important;
+}
+
+.menucollapse {
+  &.ng-hide-add {
+    @extend %transition;
+  }
+  &.ng-hide-remove {
+    @extend %transition;
+  }
+  &.ng-hide {
+    margin-top: -100px;
+  }
+}
+
+.cert-error-panel {
+  margin-top: 100px;
+  max-width: 800px;
+  .alert-danger {
+    border: 1px solid $color_apple_blossom_approx;
+  }
+}
