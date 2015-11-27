@@ -21,8 +21,8 @@ angular.module('common').directive('wcField',
                 },
                 controller: function($scope) {
 
-                    if($scope.filled === undefined){
-                        $scope.filled = true;
+                    if ($scope.filled === undefined) {
+                        $scope.filled = 'true';
                     }
 
                     if ($scope.fieldNumber === null) {

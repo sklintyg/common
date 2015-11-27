@@ -1,11 +1,37 @@
 package se.inera.intyg.common.support.model.common.internal;
 
-public interface Utlatande {
+public class Utlatande {
 
-    String getId();
+    private String id;
+    private String typ;
 
-    String getTyp();
+    private GrundData grundData = new GrundData();
 
-    GrundData getGrundData();
+
+    // Getter and setters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTyp() {
+        return typ;
+    }
+
+    public void setTyp(String typ) {
+        this.typ = typ;
+    }
+
+    public GrundData getGrundData() {
+        return grundData;
+    }
+
+    public void setGrundData(GrundData grundData) {
+        this.grundData = grundData;
+    }
 
 }
