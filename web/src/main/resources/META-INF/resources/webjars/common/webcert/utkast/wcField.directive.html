@@ -9,7 +9,7 @@
           uib-tooltip-html="'{{getMessage(fieldHelpText)}}'" tooltip-placement="{{placement}}"></span>
   </h3>
 	<span class="text" ng-class="{unfilled: filled == 'false', fielderror: fieldHasErrors}">
-    <span class="cert-field-blank" ng-hide="filled"> <span message key="common.notset"></span></span>
-		<span ng-transclude ng-show="filled"></span>
+    <span class="cert-field-blank" ng-hide="filled == 'true'"> <span message key="common.notset"></span></span>
+		<span ng-transclude ng-show="filled == 'true'"></span>
   </span>
 </div>
