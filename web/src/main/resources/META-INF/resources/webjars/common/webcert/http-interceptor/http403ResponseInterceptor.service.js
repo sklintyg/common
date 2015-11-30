@@ -36,7 +36,7 @@ angular.module('common').provider('common.http403ResponseInterceptor',
         this.$get = ['$q', '$window', 'common.authorityService', function($q, $window, authorityService) {
             //Ref our config object
             var config = this.config;
-            // Add our interceptor implementation (accessing the config set during app config phase).
+            // Add our interceptor implementation (accessing the config set during app config phase)
             return {
                 responseError: function(response) {
                     // for 403 responses - redirect browser to configured redirect url
