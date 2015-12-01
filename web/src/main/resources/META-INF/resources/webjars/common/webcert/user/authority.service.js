@@ -28,7 +28,7 @@ angular.module('common').factory('common.authorityService',
                         }
                     }
                 } else {
-                    res = fn(toCheck);
+                    res = fn(toCheck, intygstyp);
                 }
             }
             return res;
