@@ -30,44 +30,38 @@ angular.module('common').provider('common.http403ResponseInterceptor',
         };
 
         /**
-         * Mandatory provider $get function. here we can inject the dependencies the
-         * actual implementation needs, in this case $q (and $window for redirection)
+         * Mandatory provider $get function. Here we can inject the dependencies the
+         * actual implementation needs.
          */
-        this.$get = [ '$q', '$window', 'common.authorityService', function($q, $window, authorityService) {
+        this.$get = ['$q', '$window', 'common.authorityService', function($q, $window, authorityService) {
             //Ref our config object
             var config = this.config;
-            // Add our custom success/failure handlers to the promise chain..
-            function interceptorImpl(promise) {
-                return {
-                    response: function (response) {
-                        // success - simply return response as-is..
-                        return response;
-                    },
-                    responseError: function (response) {
-                        // for 403 responses - redirect browser to configured redirect url
-                        if (response.status === 403) {
-                            var redirectUrl = config.redirectUrl;
-                            if (redirectUrl.indexOf('?') >= 0) {
-                                redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf('?'));
-                            }
-                            redirectUrl += '?reason=';
-
-                            // if we aren't allowed to navigate we are most likely djupintegrerade.
-                            if (!authorityService.isAuthorityActive({authority: 'PRIVILEGE_NAVIGERING'})) {
-                                redirectUrl += 'timeout_integration';
-                            }
-                            else {
-                                redirectUrl += 'timeout';
-                            }
-                            $window.location.href = redirectUrl;
+            // Add our interceptor implementation (accessing the config set during app config phase)
+            return {
+                responseError: function(response) {
+                    // for 403 responses - redirect browser to configured redirect url
+                    if (response.status === 403) {
+                        var redirectUrl = config.redirectUrl;
+                        if (redirectUrl.indexOf('?') >= 0) {
+                            redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf('?'));
                         }
-                        // signal rejection (arguably not meaningful here since we just
-                        // issued a redirect)
-                        return $q.reject(response);
-                    }
-                };
-            }
+                        redirectUrl += '?reason=';
 
-            return interceptorImpl;
+                        // if we aren't allowed to navigate we are most likely djupintegrerade.
+                        //TODO: use sessionType or something better than PRIVILEGE_NAVIGERING to determine
+                        //which redirectUrl to use.
+                        if (!authorityService.isAuthorityActive({authority: 'PRIVILEGE_NAVIGERING'})) {
+                            redirectUrl += 'timeout_integration';
+                        }
+                        else {
+                            redirectUrl += 'timeout';
+                        }
+                        $window.location.href = redirectUrl;
+                    }
+                    // signal rejection (arguably not meaningful here since we just
+                    // issued a redirect)
+                    return $q.reject(response);
+                }
+            };
         }];
     });

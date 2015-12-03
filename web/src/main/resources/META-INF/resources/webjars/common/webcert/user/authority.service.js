@@ -35,7 +35,7 @@ angular.module('common').factory('common.authorityService',
                 if(toCheck.indexOf(',') > 0){
                     res = checkEach(toCheck, fn, intygstyp);
                 } else {
-                    res = fn(toCheck);
+                    res = fn(toCheck, intygstyp);
                 }
             }
             return res;
