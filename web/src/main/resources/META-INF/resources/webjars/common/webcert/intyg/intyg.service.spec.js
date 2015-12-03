@@ -1,3 +1,5 @@
+/* globals readJSON */
+/* globals tv4 */
 describe('IntygService', function() {
     'use strict';
 
@@ -131,6 +133,39 @@ describe('IntygService', function() {
 
             expect(onSuccess).toHaveBeenCalledWith({'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'});
             expect(onError).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('send', function() {
+
+        it ('should request intyg send with valid json request', function() {
+
+            var data = function(data) {
+                data = JSON.parse(data);
+                var schema = readJSON('test/resources/jsonschema/webcert-send-intyg-request-schema.json');
+                return tv4.validate(data, schema);
+            };
+            data.toString = function() {
+                return tv4.error.toString();
+            };
+
+            $httpBackend.expectPOST('/moduleapi/intyg/intygsTyp/intygsId/skicka', data).respond(200);
+
+            spyOn(dialogService, 'showDialog').and.callFake(function(options) {
+                $timeout(function() {
+                    options.button1click();
+                });
+                return {
+                    opened: { then: function() {} },
+                    close: function() {}
+                };
+            });
+
+            IntygService.send('intygsId', 'intygsTyp', 'recipientId', 'titleId', 'bodyTextId', function() {});
+
+            $timeout.flush();
+
+            $httpBackend.flush();
         });
     });
 

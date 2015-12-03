@@ -23,6 +23,8 @@
     "karma-mocha-reporter": "^0.3.1",
     "karma-ng-html2js-preprocessor": "~0.1.2",
     "karma-phantomjs-launcher": "^0.1.4",
-    "karma-scss-preprocessor": "^1.0.1"
+    "karma-read-json": "^1.1.0",
+    "karma-scss-preprocessor": "^1.0.1",
+    "tv4": "^1.2.7"
   }
 }
