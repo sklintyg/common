@@ -17,6 +17,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -197,7 +198,7 @@ public interface ModuleApi {
      */
     String getQuestions(String version) throws ModuleException;
 
-    /** Returns the particular sub class of Utlatande that this module handles. */
-    Class<? extends Utlatande> getImplementationClass();
+    /** Returns an instance of the particular sub class of Utlatande that this module handles. */
+    Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
 
 }
