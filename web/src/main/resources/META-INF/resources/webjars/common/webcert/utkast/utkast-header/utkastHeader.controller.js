@@ -113,7 +113,7 @@ angular.module('common').controller('common.UtkastHeader',
                             dialogModel.acceptprogressdone = true;
                             statService.refreshStat(); // Update statistics to reflect change
 
-                            if (!authorityService.isAuthorityActive({authority: 'PRIVILEGE_NAVIGERING'})) {
+                            if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
                                 CommonViewState.deleted = true;
                                 CommonViewState.error.activeErrorMessageKey = 'error';
                                 draftDeleteDialog.close();

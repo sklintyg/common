@@ -43,11 +43,11 @@ describe('authorityService', function() {
         ],
         'aktivaFunktioner': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
         'authorities': {
-            'PRIVILEGE_NAVIGERING': {},
-            'PRIVILEGE_SIGNERA_INTYG': {}
+            'NAVIGERING': {},
+            'SIGNERA_INTYG': {}
         },
         'totaltAntalVardenheter': 6,
-        'roles': {'ROLE_LAKARE': {'name': 'Läkare', 'authorizedIntygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']}},
+        'roles': {'LAKARE': {'name': 'Läkare', 'authorizedIntygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']}},
         'role': 'Läkare',
         'intygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']
     };
@@ -88,7 +88,7 @@ describe('authorityService', function() {
         });
 
         it ('should be true when user have role', function () {
-            expect(authorityService.isAuthorityActive({role:'ROLE_LAKARE'})).toBeTruthy();
+            expect(authorityService.isAuthorityActive({role:'LAKARE'})).toBeTruthy();
         });
     });
 
@@ -99,7 +99,7 @@ describe('authorityService', function() {
         });
 
         it ('should be true when user have previledge', function () {
-            expect(authorityService.isAuthorityActive({authority:'PRIVILEGE_SIGNERA_INTYG'})).toBeTruthy();
+            expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG'})).toBeTruthy();
         });
     });
 
@@ -117,11 +117,11 @@ describe('authorityService', function() {
     describe('#AuthorityService - Combination checking', function() {
 
         it ('should be false when failing 1 criteria', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'ROLE_LAKARE', authority:'PRIVILEGE_SIGNERA_INTYG', intygstyp:'DUMMY_TYPE'})).toBeFalsy();
+            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'LAKARE', authority:'SIGNERA_INTYG', intygstyp:'DUMMY_TYPE'})).toBeFalsy();
         });
 
         it ('should be true when meeting all criteria', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'ROLE_LAKARE', authority:'PRIVILEGE_SIGNERA_INTYG', intygstyp:'fk7263'})).toBeTruthy();
+            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'LAKARE', authority:'SIGNERA_INTYG', intygstyp:'fk7263'})).toBeTruthy();
         });
     });
 });

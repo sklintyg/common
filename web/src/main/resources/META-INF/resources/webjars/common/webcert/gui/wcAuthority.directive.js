@@ -28,7 +28,8 @@ angular.module('common').directive('wcAuthority',
                         authority: $attr.wcAuthority,
                         feature: $attr.feature,
                         role: $attr.role,
-                        intygstyp: $attr.intygstyp
+                        intygstyp: $attr.intygstyp,
+                        requestOrigin: $attr.requestOrigin
                     };
 
                     if (!authorityService.isAuthorityActive(options)) {

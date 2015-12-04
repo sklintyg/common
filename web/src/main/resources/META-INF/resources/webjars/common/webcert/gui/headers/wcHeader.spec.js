@@ -80,10 +80,11 @@ describe('wcHeader', function() {
                 }
             ]
         },
-        'authorities': { 'PRIVILEGE_NAVIGERING':Object, 'PRIVILEGE_ATKOMST_ANDRA_ENHETER': Object },
-        'roles' : {'ROLE_LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}},
+        'authorities': { 'NAVIGERING':Object, 'ATKOMST_ANDRA_ENHETER': Object },
+        'roles' : {'LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}},
         'aktivaFunktioner': ['hanteraFragor', 'hanteraFragor.fk7263'],
-        'totaltAntalVardenheter': 6
+        'totaltAntalVardenheter': 6,
+        'requestOrigin': 'NORMAL'
     };
 
     var testStatResponse = {
@@ -149,6 +150,7 @@ describe('wcHeader', function() {
         $provide.value('common.featureService', featureService); // jasmine.createSpyObj('common.featureService',
                                                                     // ['isFeatureActive'])
     }));
+
     beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache', '$window',
         'common.User','common.UserModel', 'common.statService', 'common.featureService', 'common.authorityService',
         function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _$window_, _User_, _UserModel_, _statService_,
@@ -177,7 +179,8 @@ describe('wcHeader', function() {
             spyOn($rootScope, '$broadcast').and.callThrough();
 
             generateHeader($scope);
-        }]));
+        }])
+    );
 
     describe('header info and links', function() {
 
@@ -224,7 +227,7 @@ describe('wcHeader', function() {
 
     describe('header info and links (for a private practitioner)', function() {
         beforeEach(function() {
-            testUserContext.roles = {'ROLE_PRIVATLAKARE': {'name':'PrivatLäkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}};
+            testUserContext.roles = {'PRIVATLAKARE': {'name':'PrivatLäkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}};
             generateHeader($scope);
         });
 
@@ -282,6 +285,7 @@ describe('wcHeader', function() {
 
         beforeEach(function() {
             testUserContext.authorities = {};
+            testUserContext.requestOrigin = 'DJUPINTEGRATION';
             generateHeader($scope);
         });
 

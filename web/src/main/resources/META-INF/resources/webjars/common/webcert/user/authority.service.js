@@ -26,12 +26,14 @@ angular.module('common').factory('common.authorityService',
             var feature = options.feature;
             var intygstyp = options.intygstyp;
             var role = options.role;
+            var requestOrigin = options.requestOrigin;
 
 
             return  check(role, roleCheck) &&
                     check(authority, authorityCheck) &&
                     check(feature, featureCheck, intygstyp) &&
                     check(intygstyp, intygsTypCheck);
+                    check(requestOrigin, requestOriginCheck);
         }
 
         function checkEach(toCheck, fn, intygstyp) {
@@ -115,6 +117,27 @@ angular.module('common').factory('common.authorityService',
                 return true;
             }
             return userModel.hasIntygsTyp(intygstyp);
+        }
+
+        /**
+         * Check where the current user has its origin.
+         *
+         * If no requestOrigin is specified, the check returns false.
+         *
+         * @param requestOrigin
+         */
+        function requestOriginCheck(requestOrigin){
+            if (requestOrigin !== undefined && requestOrigin.length > 0) {
+                if (requestOrigin.indexOf('!') === 0) {
+                    // we have a not
+                    requestOrigin = requestOrigin.slice(1);
+                    return !userModel.hasRequestOrigin(requestOrigin);
+                } else {
+                    return userModel.hasRequestOrigin(requestOrigin);
+                }
+            } else {
+                return false;
+            }
         }
 
         return {
