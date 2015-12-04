@@ -51,7 +51,6 @@ angular.module('common').factory('common.UserModel',
             setUser: function(user) {
                 if(user !== undefined && user !== null) {
                     this.user = user;
-                    //setup lakare and privatLakare based on the new role enum
                     this.user.lakare = this.isLakare();
                     this.user.privatLakare = this.isPrivatLakare();
                     this.user.tandLakare = this.isTandlakare();
@@ -62,72 +61,78 @@ angular.module('common').factory('common.UserModel',
             },
 
             // these enums are just copies from the backend an ment as a reference for the client.
+            requestOrigins: {
+                NORMAL: 'NORMAL',
+                DJUPINTEGRATION: 'DJUPINTEGRATION',
+                UTHOPP: 'UTHOPP'
+            },
+
             privileges: {
-                PRIVILEGE_SIGNERA_INTYG: 'PRIVILEGE_SIGNERA_INTYG',
-                PRIVILEGE_VIDAREBEFORDRA_UTKAST: 'PRIVILEGE_VIDAREBEFORDRA_UTKAST',
-                PRIVILEGE_VIDAREBEFORDRA_FRAGASVAR: 'PRIVILEGE_VIDAREBEFORDRA_FRAGASVAR',
-                PRIVILEGE_MAKULERA_INTYG: 'PRIVILEGE_MAKULERA_INTYG',
-                PRIVILEGE_KOPIERA_INTYG: 'PRIVILEGE_KOPIERA_INTYG',
-                PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA: 'PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA',
-                PRIVILEGE_FILTRERA_PA_LAKARE: 'PRIVILEGE_FILTRERA_PA_LAKARE',
-                PRIVILEGE_ATKOMST_ANDRA_ENHETER: 'PRIVILEGE_ATKOMST_ANDRA_ENHETER',
-                PRIVILEGE_HANTERA_PERSONUPPGIFTER: 'PRIVILEGE_HANTERA_PERSONUPPGIFTER',
-                PRIVILEGE_HANTERA_MAILSVAR: 'PRIVILEGE_HANTERA_MAILSVAR',
-                PRIVILEGE_NAVIGERING: 'PRIVILEGE_NAVIGERING'
+                SIGNERA_INTYG: 'SIGNERA_INTYG',
+                VIDAREBEFORDRA_UTKAST: 'VIDAREBEFORDRA_UTKAST',
+                VIDAREBEFORDRA_FRAGASVAR: 'VIDAREBEFORDRA_FRAGASVAR',
+                MAKULERA_INTYG: 'MAKULERA_INTYG',
+                KOPIERA_INTYG: 'KOPIERA_INTYG',
+                BESVARA_KOMPLETTERINGSFRAGA: 'BESVARA_KOMPLETTERINGSFRAGA',
+                FILTRERA_PA_LAKARE: 'FILTRERA_PA_LAKARE',
+                ATKOMST_ANDRA_ENHETER: 'ATKOMST_ANDRA_ENHETER',
+                HANTERA_PERSONUPPGIFTER: 'HANTERA_PERSONUPPGIFTER',
+                HANTERA_MAILSVAR: 'HANTERA_MAILSVAR',
+                NAVIGERING: 'NAVIGERING'
             },
 
             roles: {
-                ROLE_VARDADMINISTRATOR: 'Vårdadministratör',
-                ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD :'Vårdadministratör',
-                ROLE_VARDADMINISTRATOR_UTHOPP :'Vårdadministratör',
-                ROLE_LAKARE: 'Läkare',
-                ROLE_LAKARE_DJUPINTEGRERAD: 'Läkare',
-                ROLE_LAKARE_UTHOPP: 'Läkare',
-                ROLE_PRIVATLAKARE: 'Privatläkare',
-                ROLE_TANDLAKARE: 'Tandläkare',
-                ROLE_TANDLAKARE_DJUPINTEGRERAD: 'Tandläkare',
-                ROLE_TANDLAKARE_UTHOPP: 'Tandläkare',
+                VARDADMINISTRATOR: 'Vårdadministratör',
+                //ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD :'Vårdadministratör',
+                //ROLE_VARDADMINISTRATOR_UTHOPP :'Vårdadministratör',
+                LAKARE: 'Läkare',
+                //ROLE_LAKARE_DJUPINTEGRERAD: 'Läkare',
+                //ROLE_LAKARE_UTHOPP: 'Läkare',
+                PRIVATLAKARE: 'Privatläkare',
+                TANDLAKARE: 'Tandläkare',
+                //ROLE_TANDLAKARE_DJUPINTEGRERAD: 'Tandläkare',
+                //ROLE_TANDLAKARE_UTHOPP: 'Tandläkare',
                 getRole: function(roles) {
                     var rs = '';
-                    if (roles.ROLE_VARDADMINISTRATOR !== undefined) {
-                        rs += roles.ROLE_VARDADMINISTRATOR.name;
+                    if (roles.VARDADMINISTRATOR !== undefined) {
+                        rs += roles.VARDADMINISTRATOR.name;
                     }
 
-                    if (roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD !== undefined) {
-                        rs += roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD.name;
+                    //if (roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD !== undefined) {
+                    //    rs += roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD.name;
+                    //}
+
+                    //if (roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined) {
+                    //    rs += roles.ROLE_VARDADMINISTRATOR_UTHOPP.name;
+                    //}
+
+                    if (roles.LAKARE !== undefined) {
+                        rs += roles.LAKARE.name;
                     }
 
-                    if (roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined) {
-                        rs += roles.ROLE_VARDADMINISTRATOR_UTHOPP.name;
+                    //if (roles.ROLE_LAKARE_DJUPINTEGRERAD !== undefined) {
+                    //    rs += roles.ROLE_LAKARE_DJUPINTEGRERAD.name;
+                    //}
+
+                    //if (roles.ROLE_LAKARE_UTHOPP !== undefined) {
+                    //    rs += roles.ROLE_LAKARE_UTHOPP.name;
+                    //}
+
+                    if (roles.PRIVATLAKARE !== undefined) {
+                        rs += roles.PRIVATLAKARE.name;
                     }
 
-                    if (roles.ROLE_LAKARE !== undefined) {
-                        rs += roles.ROLE_LAKARE.name;
+                    if (roles.TANDLAKARE !== undefined) {
+                        rs += roles.TANDLAKARE.name;
                     }
 
-                    if (roles.ROLE_LAKARE_DJUPINTEGRERAD !== undefined) {
-                        rs += roles.ROLE_LAKARE_DJUPINTEGRERAD.name;
-                    }
+                    //if (roles.ROLE_TANDLAKARE_DJUPINTEGRERAD !== undefined) {
+                    //    rs += roles.ROLE_TANDLAKARE_DJUPINTEGRERAD.name;
+                    //}
 
-                    if (roles.ROLE_LAKARE_UTHOPP !== undefined) {
-                        rs += roles.ROLE_LAKARE_UTHOPP.name;
-                    }
-
-                    if (roles.ROLE_PRIVATLAKARE !== undefined) {
-                        rs += roles.ROLE_PRIVATLAKARE.name;
-                    }
-
-                    if (roles.ROLE_TANDLAKARE !== undefined) {
-                        rs += roles.ROLE_TANDLAKARE.name;
-                    }
-
-                    if (roles.ROLE_TANDLAKARE_DJUPINTEGRERAD !== undefined) {
-                        rs += roles.ROLE_TANDLAKARE_DJUPINTEGRERAD.name;
-                    }
-
-                    if (roles.ROLE_TANDLAKARE_UTHOPP !== undefined) {
-                        rs += roles.ROLE_TANDLAKARE_UTHOPP.name;
-                    }
+                    //if (roles.ROLE_TANDLAKARE_UTHOPP !== undefined) {
+                    //    rs += roles.ROLE_TANDLAKARE_UTHOPP.name;
+                    //}
 
                     return rs;
                 }
@@ -153,56 +158,56 @@ angular.module('common').factory('common.UserModel',
                 return this.user !== undefined && this.user.intygsTyper !== undefined ? this.user.intygsTyper.indexOf(intygsTyp) > -1 : false;
             },
 
-            isVardAdministratorUthopp: function _isVardAdministratorUthopp() {
-                return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined;
+            hasRequestOrigin: function _hasRequestOrigin(requestOrigin) {
+                return this.user !== undefined && this.user.requestOrigin !== undefined ? this.user.requestOrigin === requestOrigin : false;
             },
 
+            //isVardAdministratorUthopp: function _isVardAdministratorUthopp() {
+            //    return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined;
+            //},
+
             isVardAdministrator: function _isVardAdministrator() {
-                return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR !== undefined;
+                return this.hasRoles() && this.user.roles.VARDADMINISTRATOR !== undefined;
             },
 
             isLakare: function _isLakare() {
-                return this.hasRoles() && this.user.roles.ROLE_LAKARE !== undefined;
+                return this.hasRoles() && this.user.roles.LAKARE !== undefined;
             },
 
-            isLakareDjupIntegrerad: function _isLakareDjupIntegrerad() {
-                return this.hasRoles() && this.user.roles.ROLE_LAKARE_DJUPINTEGRERAD !== undefined;
-            },
+            //isLakareDjupIntegrerad: function _isLakareDjupIntegrerad() {
+            //    return this.hasRoles() && this.user.roles.ROLE_LAKARE_DJUPINTEGRERAD !== undefined;
+            //},
 
-            isVardadministratorDjupIntegrerad: function _isVardadministratorDjupIntegrerad() {
-                return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD !== undefined;
-            },
+            //isVardadministratorDjupIntegrerad: function _isVardadministratorDjupIntegrerad() {
+            //    return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_DJUPINTEGRERAD !== undefined;
+            //},
 
-            isLakareUthopp: function _isLakareUthopp() {
-                return this.hasRoles() && this.user.roles.ROLE_LAKARE_UTHOPP !== undefined;
+            //isLakareUthopp: function _isLakareUthopp() {
+            //    return this.hasRoles() && this.user.roles.ROLE_LAKARE_UTHOPP !== undefined;
+            //},
 
-            },
-
-            isVardadministratorUthopp: function _isVardadministratorUthopp() {
-                return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined;
-
-            },
+            //isVardadministratorUthopp: function _isVardadministratorUthopp() {
+            //    return this.hasRoles() && this.user.roles.ROLE_VARDADMINISTRATOR_UTHOPP !== undefined;
+            //},
 
             isPrivatLakare: function _isPrivatLakare() {
-                return this.hasRoles() && this.user.roles.ROLE_PRIVATLAKARE !== undefined;
-
+                return this.hasRoles() && this.user.roles.PRIVATLAKARE !== undefined;
             },
 
             isTandlakare: function _isTandlakare() {
-                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE !== undefined;
+                return this.hasRoles() && this.user.roles.TANDLAKARE !== undefined;
             },
 
-            isTandlakareDjupIntegrerad: function _isTandlakareDjupIntegrerad() {
-                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE_DJUPINTEGRERAD !== undefined;
-            },
+            //isTandlakareDjupIntegrerad: function _isTandlakareDjupIntegrerad() {
+            //    return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE_DJUPINTEGRERAD !== undefined;
+            //},
 
-            isTandlakareUthopp: function _isTandlakareUthopp() {
-                return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE_UTHOPP !== undefined;
-            },
+            //isTandlakareUthopp: function _isTandlakareUthopp() {
+            //    return this.hasRoles() && this.user.roles.ROLE_TANDLAKARE_UTHOPP !== undefined;
+            //},
 
             authenticationMethod: function _authenticationMethod(authenticationMethod){
-              return this.user !== undefined && this.user.authenticationMethod !== undefined &&
-                  this.user.authenticationMethod === authenticationMethod;
+              return this.user !== undefined && this.user.authenticationMethod !== undefined && this.user.authenticationMethod === authenticationMethod;
             },
 
             termsAccepted :false,
