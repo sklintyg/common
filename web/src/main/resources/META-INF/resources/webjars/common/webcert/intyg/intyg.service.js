@@ -56,7 +56,7 @@ angular.module('common').factory('common.IntygService',
 
                     copyDialogModel.otherCareUnit = isOtherCareUnit;
                     copyDialogModel.patientId = $stateParams.patientId;
-                    copyDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'PRIVILEGE_HANTERA_PERSONUPPGIFTER'});
+                    copyDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                     copyDialogModel.intygTyp = intygCopyRequest.intygType;
 
                     var copyDialog = dialogService.showDialog({
