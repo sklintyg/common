@@ -156,8 +156,6 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     };
                 };
 
-                $window.dialogDoneLoading = false;
-
                 var msgbox = $uibModal.open({
                     templateUrl: '/app/partials/preference-dialog.html',
                     controller: DialogInstanceCtrl,
@@ -185,10 +183,6 @@ angular.module('common').factory('common.fragaSvarCommonService',
                         callback(result);
                     }
                 }, function() {
-                });
-
-                dialogService.runOnDialogDoneLoading(msgbox, function() {
-                    $window.dialogDoneLoading = true;
                 });
             }
 
