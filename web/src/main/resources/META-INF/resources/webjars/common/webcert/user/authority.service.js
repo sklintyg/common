@@ -3,18 +3,24 @@ angular.module('common').factory('common.authorityService',
         'use strict';
 
         function _isAuthorityActive(options) {
-            var authority = options.authority;
             var feature = options.feature;
-            var intygstyp = options.intygstyp;
             var role = options.role;
+            var authority = options.authority;
             var requestOrigin = options.requestOrigin;
+            var intygstyp = options.intygstyp;
 
+            var a = check(feature, featureCheck, intygstyp);
+            var b = check(role, roleCheck);
+            var c = check(authority, privilegeCheck, intygstyp);
+            var d = check(requestOrigin, requestOriginCheck, intygstyp);
 
-            return  check(role, roleCheck) &&
-                    check(authority, authorityCheck) &&
-                    check(feature, featureCheck, intygstyp) &&
-                    check(intygstyp, intygsTypCheck);
-                    check(requestOrigin, requestOriginCheck);
+            return a && b && c && d;
+/*
+            return  check(feature, featureCheck, intygstyp) &&
+                    check(role, roleCheck) &&
+                    check(authority, privilegeCheck, intygstyp) &&
+                    check(requestOrigin, requestOriginCheck, intygstyp);
+*/
         }
 
         function checkEach(toCheck, fn, intygstyp) {
@@ -40,12 +46,12 @@ angular.module('common').factory('common.authorityService',
                     res = fn(toCheck, intygstyp);
                 }
             }
+
             return res;
         }
 
         function roleCheck(role){
             if (role !== undefined && role.length > 0) {
-
                 if (role.indexOf('!') === 0) {
                     // we have a not
                     role = role.slice(1);
@@ -53,23 +59,23 @@ angular.module('common').factory('common.authorityService',
                 } else {
                     return userModel.hasRole(role);
                 }
-            } else {
-                return true;
             }
+
+            return true;
         }
 
-        function authorityCheck(authority){
-            if (authority !== undefined && authority.length > 0) {
-                if (authority.indexOf('!') === 0) {
+        function privilegeCheck(privilege, intygstyp) {
+            if (privilege !== undefined && privilege.length > 0) {
+                if (privilege.indexOf('!') === 0) {
                     // we have a not
-                    authority = authority.slice(1);
-                    return !userModel.hasPrivilege(authority);
+                    privilege = privilege.slice(1);
+                    return !userModel.hasPrivilege(privilege, intygstyp);
                 } else {
-                    return userModel.hasPrivilege(authority);
+                    return userModel.hasPrivilege(privilege, intygstyp);
                 }
-            } else {
-                return true;
             }
+
+            return true;
         }
 
         function featureCheck(feature, intygstyp){
@@ -81,44 +87,51 @@ angular.module('common').factory('common.authorityService',
                 } else {
                     return featureService.isFeatureActive(feature, intygstyp);
                 }
-            } else {
-                return true;
             }
+
+            return true;
         }
 
         /**
-         * Check if the current user's role has the global authorization for the specified intygstyp.
+         * Check if the current user has authorization for the specified intygstyp.
          *
          * If no intygstyp is specified, the check returns true.
          *
          * @param intygstyp
          */
+/*
         function intygsTypCheck(intygstyp) {
             if (intygstyp === undefined || intygstyp === '') {
                 return true;
             }
+
             return userModel.hasIntygsTyp(intygstyp);
+            //return userModel.hasIntygsTyp(intygstyp);
         }
+*/
 
         /**
-         * Check where the current user has its origin.
+         * Check the current user's origin.
          *
-         * If no requestOrigin is specified, the check returns false.
+         * 1. Om requestOrigin finns måste användaren ha den
+         * 2. Om intygstyp finns måste användaren's request origin stödja den
+         *    såvida inte användarens request origin har några begränsningar
          *
          * @param requestOrigin
+         * @param intygsTyp
          */
-        function requestOriginCheck(requestOrigin){
+        function requestOriginCheck(requestOrigin, intygsTyp){
             if (requestOrigin !== undefined && requestOrigin.length > 0) {
                 if (requestOrigin.indexOf('!') === 0) {
                     // we have a not
                     requestOrigin = requestOrigin.slice(1);
-                    return !userModel.hasRequestOrigin(requestOrigin);
+                    return !userModel.hasRequestOrigin(requestOrigin, intygsTyp);
                 } else {
-                    return userModel.hasRequestOrigin(requestOrigin);
+                    return userModel.hasRequestOrigin(requestOrigin, intygsTyp);
                 }
-            } else {
-                return false;
             }
+
+            return true;
         }
 
         return {
