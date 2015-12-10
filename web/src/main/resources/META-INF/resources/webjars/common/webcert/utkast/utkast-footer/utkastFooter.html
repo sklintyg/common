@@ -15,8 +15,7 @@
               ng-class="{'btn-info': !viewState.draftModel.vidarebefordrad, 'btn-default btn-secondary' : viewState.draftModel.vidarebefordrad}"
               title="Skicka mejl med en länk till utkastet för att informera den läkare som ska signera det."
               ng-click="vidarebefordraUtkast()">
-        <img ng-if="!viewState.draftModel.vidarebefordrad" src="/img/mail.png"> <img ng-if="viewState.draftModel.vidarebefordrad"
-                                                                                     src="/img/mail_dark.png">
+        <img ng-if="!viewState.draftModel.vidarebefordrad" src="/img/mail.png"> <img ng-if="viewState.draftModel.vidarebefordrad" src="/img/mail_dark.png">
       </button>
     </div>
 
