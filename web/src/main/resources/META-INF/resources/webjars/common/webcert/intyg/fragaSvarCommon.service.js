@@ -29,7 +29,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             function _buildMailToLink(qa) {
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
-                var certificateUrlPart = UserModel.isVardAdministratorUthopp() || UserModel.isLakareUthopp() || UserModel.isTandlakareUthopp() ? 'certificate/' : 'basic-certificate/';
+                var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
                 var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygsReferens.intygsId + '/questions';
 
                 var recipient = '';
@@ -215,7 +215,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function isUthoppUser() {
-                var uthoppUser = UserModel.isLakareUthopp() || UserModel.isTandlakareUthopp() || UserModel.isVardadministratorUthopp();
+                var uthoppUser = UserModel.isUthopp();
                 $log.debug('Is uthopp user: ' + uthoppUser);
                 return uthoppUser;
             }

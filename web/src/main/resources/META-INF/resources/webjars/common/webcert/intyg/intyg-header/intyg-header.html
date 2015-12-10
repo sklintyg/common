@@ -31,7 +31,7 @@
         <div class="btn-row">
           <button id="sendBtn" class="btn btn-info"
                   ng-if="visaSkickaKnappen()"
-                  wc-authority feature="skickaIntyg" requesOrigin="!UTHOPP" intygstyp="{{intygstyp}}"
+                  wc-authority feature="skickaIntyg" requestOrigin="!UTHOPP" intygstyp="{{intygstyp}}"
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
                   ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
           </button>
