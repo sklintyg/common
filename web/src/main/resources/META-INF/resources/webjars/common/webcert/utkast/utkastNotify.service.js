@@ -4,8 +4,9 @@
  */
 angular.module('common').factory('common.UtkastNotifyService',
     ['$http', '$log', '$uibModal', '$window', '$timeout', '$q', 'common.UtkastNotifyProxy', 'common.messageService',
-        'common.dialogService', 'common.UtkastProxy',
-        function($http, $log, $uibModal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService, utkastProxy) {
+        'common.dialogService', 'common.UtkastProxy', 'common.UtilsService',
+        function($http, $log, $uibModal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService,
+            utkastProxy, utilsService) {
             'use strict';
 
             /**
@@ -215,7 +216,8 @@ angular.module('common').factory('common.UtkastNotifyService',
                 var url = baseURL + '/web/maillink/intyg/' + intygType + '/' + intygId;
                 var recipient = '';
                 var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert pa enhet ' +
-                    _cleanNonAscii(enhetsNamn) + ' for vardgivare ' + _cleanNonAscii(vardgivareNamn);
+                    utilsService.replaceAccentedCharacters(enhetsNamn) + ' for vardgivare ' +
+                    utilsService.replaceAccentedCharacters(vardgivareNamn);
                 var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
                 var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
                     encodeURIComponent(body);
@@ -223,16 +225,7 @@ angular.module('common').factory('common.UtkastNotifyService',
                 return link;
             }
 
-            function _cleanNonAscii(str) {
-                str = str.replace(/å/g, 'a');
-                str = str.replace(/Å/g, 'A');
-                str = str.replace(/ä/g, 'a');
-                str = str.replace(/Ä/g, 'A');
-                str = str.replace(/ö/g, 'o');
-                str = str.replace(/Ö/g, 'O');
 
-                return str;
-            }
 
             // Return public API for the service
             return {

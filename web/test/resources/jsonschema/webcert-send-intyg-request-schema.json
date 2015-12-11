@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title" : "Webcert send intyg request",
+  "description" : "Defines the request to send intyg",
+  "id": "/",
+  "properties": {
+    "recipient": {
+      "id": "recipient",
+      "type": "string"
+    },
+    "patientConsent": {
+      "id": "patientConsent",
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "recipient",
+    "patientConsent"
+  ]
+}

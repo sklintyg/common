@@ -156,7 +156,7 @@ angular.module('common').factory('common.IntygService',
                     dialogId: 'send-dialog',
                     titleId: titleId,
                     bodyTextId: bodyTextId,
-                    templateUrl: '/app/partials/send-dialog.html',
+                    templateUrl: '/web/webjars/common/webcert/intyg/intyg.send.dialog.html',
                     model: dialogSendModel,
                     button1click: function() {
                         $log.debug('send intyg from dialog. id:' + intygId + ', intygType:' + intygType + ', recipientId:' + recipientId);

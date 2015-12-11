@@ -214,8 +214,6 @@ angular.module('common').controller('common.wcHeaderController',
             };
 
             $scope.goToAbout = function() {
-                $window.dialogDoneLoading = false;
-
                 var msgbox = $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderAboutDialog.template.html',
                     controller: function($scope, $uibModalInstance) {
@@ -227,15 +225,9 @@ angular.module('common').controller('common.wcHeaderController',
                     },
                     resolve: {}
                 });
-
-                dialogService.runOnDialogDoneLoading(msgbox, function() {
-                    $window.dialogDoneLoading = true;
-                });
             };
 
             $scope.openChangeCareUnitDialog = function() {
-                $window.dialogDoneLoading = false;
-
                 var msgbox = $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderCareUnitDialog.template.html',
                     controller: function($scope, $uibModalInstance, vardgivare) {
@@ -311,11 +303,6 @@ angular.module('common').controller('common.wcHeaderController',
                     }
                 });
 
-
-
-                dialogService.runOnDialogDoneLoading(msgbox, function() {
-                    $window.dialogDoneLoading = true;
-                });
             };
 
             directiveLoad();
