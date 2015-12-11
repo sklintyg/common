@@ -61,8 +61,8 @@ describe('wcHeader', function() {
                 }
             ]
         },
-        'authorities': { 'NAVIGERING':Object, 'ATKOMST_ANDRA_ENHETER': Object },
-        'roles' : {'LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}},
+        'authorities': { 'NAVIGERING':{}, 'ATKOMST_ANDRA_ENHETER': {} },
+        'roles' : {'LAKARE': {'name':'Läkare', 'desc': 'Läkare'}},
         'aktivaFunktioner': ['hanteraFragor', 'hanteraFragor.fk7263'],
         'totaltAntalVardenheter': 6,
         'requestOrigin': 'NORMAL'
@@ -208,7 +208,7 @@ describe('wcHeader', function() {
 
     describe('header info and links (for a private practitioner)', function() {
         beforeEach(function() {
-            testUserContext.roles = {'PRIVATLAKARE': {'name':'PrivatLäkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}};
+            testUserContext.roles = {'PRIVATLAKARE': {'name':'PrivatLäkare', 'desc': 'PrivatLäkare'}};
             generateHeader($scope);
         });
 

@@ -35,10 +35,11 @@ describe('User', function() {
             ]
         },
         'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
-        'totaltAntalVardenheter':6, 'roles' :
-            {'LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}},
-        'role' : 'Läkare',
-        'intygsTyper' : [ 'fk7263', 'ts-bas', 'ts-diabetes' ]
+        'totaltAntalVardenheter':6,
+        'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
+        'role': 'Läkare',
+        'intygsTyper' : [ 'fk7263', 'ts-bas', 'ts-diabetes' ],
+        'requestOrigin' : { 'name': 'NORMAL', 'intygstyper': []}
     };
 
     beforeEach(angular.mock.module('common', function($provide) {
@@ -183,10 +184,12 @@ describe('User', function() {
                 },
                 'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
                 'totaltAntalVardenheter':1,
-                'lakare' : true, 'privatLakare' : false, 'tandLakare':false, 'isLakareOrPrivat' : true, 'roles' :
-                    {'LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}}, 'role' : 'Läkare',
+                'lakare' : true, 'privatLakare' : false, 'tandLakare':false, 'isLakareOrPrivat' : true,
+                'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
+                'role': 'Läkare',
                 'intygsTyper' : [ 'fk7263', 'ts-bas', 'ts-diabetes' ],
-                'requestOrigin' : 'NORMAL'
+                'requestOrigin' : { 'name': 'NORMAL', 'intygstyper': []},
+                'origin': 'NORMAL'
             };
         });
 
@@ -224,33 +227,5 @@ describe('User', function() {
         });
     });
 
-    describe('#hasIntygsTyp', function() {
-        it('should return hasIntygsTyp as true', function() {
-            UserModel.setUser(testUser);
-            expect(UserModel.hasIntygsTyp('fk7263')).toBeTruthy();
-        });
-    });
 
-    describe('#hasNotIntygsTyp', function() {
-        it('should return hasIntygsTyp as false', function() {
-            UserModel.setUser(testUser);
-            expect(UserModel.hasIntygsTyp('unknown')).toBeFalsy();
-        });
-    });
-
-    describe('#canBuiltUserWithoutRoles', function() {
-        it('should return hasIntygsTyp as false', function() {
-
-            UserModel.setUser({});
-            expect(UserModel.hasIntygsTyp('unknown')).toBeFalsy();
-        });
-    });
-
-    describe('#canBuiltUserWithRoleHavingNoAuthorizedIntygsTyper', function() {
-        it('should return hasIntygsTyp as false', function() {
-
-            UserModel.setUser({'roles':{'name':'Test', 'authorizedIntygsTyper': []}});
-            expect(UserModel.hasIntygsTyp('unknown')).toBeFalsy();
-        });
-    });
 });

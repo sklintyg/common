@@ -25,10 +25,10 @@ describe('authorityService', function() {
         'aktivaFunktioner': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
         'authorities': {
             'NAVIGERING': {},
-            'SIGNERA_INTYG': {}
+            'SIGNERA_INTYG': {'intygstyper': ['fk7263']}
         },
         'totaltAntalVardenheter': 6,
-        'roles': {'LAKARE': {'name': 'Läkare', 'authorizedIntygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']}},
+        'roles': {'LAKARE': {'name': 'Läkare', 'desc': 'Läkare'}},
         'role': 'Läkare',
         'intygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']
     };
@@ -79,21 +79,16 @@ describe('authorityService', function() {
             expect(authorityService.isAuthorityActive({authority:'DUMMY_PREVILEDGE'})).toBeFalsy();
         });
 
-        it ('should be true when user have previledge', function () {
-            expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG'})).toBeTruthy();
+        it ('should be false when user only have base previledge', function () {
+            expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG', intygstyp:'ts-bas'})).toBeFalsy();
+        });
+
+
+        it ('should be true when user have both base AND intygstyp previledge', function () {
+            expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG', intygstyp:'fk7263'})).toBeTruthy();
         });
     });
 
-    describe('#AuthorityService - intygstyp checking', function() {
-
-        it ('should be false when user does not have intygstyp (via role)', function () {
-            expect(authorityService.isAuthorityActive({intygstyp:'DUMMY_TYPE'})).toBeFalsy();
-        });
-
-        it ('should be true when user does have intygstyp (via role)', function () {
-            expect(authorityService.isAuthorityActive({intygstyp:'fk7263'})).toBeTruthy();
-        });
-    });
 
     describe('#AuthorityService - Combination checking', function() {
 
