@@ -25,8 +25,15 @@ describe('authorityService', function() {
         'aktivaFunktioner': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
         'authorities': {
             'NAVIGERING': {},
-            'SIGNERA_INTYG': {'intygstyper': ['fk7263']}
+            'SIGNERA_INTYG': {'intygstyper': ['fk7263', 'ts-diabetes']},
+            'STYRD_AV_ORIGIN': {
+                'intygstyper': ['fk7263', 'ts-diabetes'],
+                'requestOrigins': [
+                    {'name': 'NORMAL', 'intygstyper': ['fk7263']}
+                ]
+            }
         },
+        'requestOrigin': {'name': 'NORMAL'},
         'totaltAntalVardenheter': 6,
         'roles': {'LAKARE': {'name': 'Läkare', 'desc': 'Läkare'}},
         'role': 'Läkare',
@@ -87,8 +94,34 @@ describe('authorityService', function() {
         it ('should be true when user have both base AND intygstyp previledge', function () {
             expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG', intygstyp:'fk7263'})).toBeTruthy();
         });
+
+        it('should be true when user have both base previledge AND correct requestOrigin', function() {
+            expect(authorityService.isAuthorityActive({authority: 'STYRD_AV_ORIGIN'})).toBeTruthy();
+        });
+
+        it('should be true when user have both base AND intygstyp previledge AND correct requestOrigin AND requestOrigin.intygstyp',
+            function() {
+                expect(authorityService.isAuthorityActive(
+                    {authority: 'STYRD_AV_ORIGIN', intygstyp: 'fk7263'})).toBeTruthy();
+            });
+
+        it('should be false when user have both base AND intygstyp previledge AND correct requestOrigin BUT not requestOrigin.intygstyp',
+            function() {
+                expect(authorityService.isAuthorityActive(
+                    {authority: 'STYRD_AV_ORIGIN', intygstyp: 'ts-diabetes'})).toBeFalsy();
+            });
     });
 
+    describe('#AuthorityService - requestOrigin checking', function() {
+
+        it('should be FALSE when user does not have requestOrigin', function() {
+            expect(authorityService.isAuthorityActive({requestOrigin: 'DUMMY_ORIGIN'})).toBeFalsy();
+        });
+
+        it('should be TRUE when user does have requestOrigin', function() {
+            expect(authorityService.isAuthorityActive({requestOrigin: 'NORMAL'})).toBeTruthy();
+        });
+    });
 
     describe('#AuthorityService - Combination checking', function() {
 
@@ -97,7 +130,13 @@ describe('authorityService', function() {
         });
 
         it ('should be true when meeting all criteria', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'LAKARE', authority:'SIGNERA_INTYG', intygstyp:'fk7263'})).toBeTruthy();
+            expect(authorityService.isAuthorityActive({
+                feature: 'arbetsgivarUtskrift',
+                role: 'LAKARE',
+                authority: 'SIGNERA_INTYG',
+                requestOrigin: 'NORMAL',
+                intygstyp: 'fk7263'
+            })).toBeTruthy();
         });
     });
 });

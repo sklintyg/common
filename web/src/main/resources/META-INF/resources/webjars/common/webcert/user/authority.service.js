@@ -12,7 +12,7 @@ angular.module('common').factory('common.authorityService',
             var a = check(feature, featureCheck, intygstyp);
             var b = check(role, roleCheck);
             var c = check(authority, privilegeCheck, intygstyp);
-            var d = check(requestOrigin, requestOriginCheck, intygstyp);
+            var d = check(requestOrigin, requestOriginCheck);
 
             return a && b && c && d;
 /*
@@ -120,14 +120,14 @@ angular.module('common').factory('common.authorityService',
          * @param requestOrigin
          * @param intygsTyp
          */
-        function requestOriginCheck(requestOrigin, intygsTyp){
+        function requestOriginCheck(requestOrigin) {
             if (requestOrigin !== undefined && requestOrigin.length > 0) {
                 if (requestOrigin.indexOf('!') === 0) {
                     // we have a not
                     requestOrigin = requestOrigin.slice(1);
-                    return !userModel.hasRequestOrigin(requestOrigin, intygsTyp);
+                    return !userModel.hasRequestOrigin(requestOrigin);
                 } else {
-                    return userModel.hasRequestOrigin(requestOrigin, intygsTyp);
+                    return userModel.hasRequestOrigin(requestOrigin);
                 }
             }
 

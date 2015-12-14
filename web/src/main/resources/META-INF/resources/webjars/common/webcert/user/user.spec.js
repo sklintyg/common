@@ -34,6 +34,16 @@ describe('User', function() {
                 }
             ]
         },
+        'authorities': {
+            'NAVIGERING': {},
+            'SIGNERA_INTYG': {'intygstyper': ['fk7263', 'ts-diabetes']},
+            'STYRD_AV_ORIGIN': {
+                'intygstyper': ['fk7263', 'ts-diabetes'],
+                'requestOrigins': [
+                    {'name': 'NORMAL', 'intygstyper': ['fk7263']}
+                ]
+            }
+        },
         'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
         'totaltAntalVardenheter':6,
         'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
@@ -69,6 +79,51 @@ describe('User', function() {
             expect(activeFeatures).toContain('hanteraFragor.fk7263');
         });
     });
+
+    describe('#hasPrivilege - without intygstyp', function() {
+        it('should return FALSE for non-matching previligie', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('DUMMY_PREVILEGIE')).toBeFalsy();
+        });
+
+        it('should return TRUE for matching previligie', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('SIGNERA_INTYG')).toBeTruthy();
+        });
+    });
+
+    describe('#hasPrivilege - with intygstyp', function() {
+        it('should return TRUE for matching previligie (with matching intygstyp)', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('SIGNERA_INTYG', 'fk7263')).toBeTruthy();
+        });
+
+        it('should return FALSE for matching previligie (with non-matching intygstyp)', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('SIGNERA_INTYG', 'ts-bas')).toBeFalsy();
+        });
+
+    });
+
+    describe('#hasPrivilege - with requestOrigin', function() {
+
+        it('should return TRUE for matching previligie and requestOrigin', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('STYRD_AV_ORIGIN')).toBeTruthy();
+        });
+
+        it('should return TRUE for matching previligie/ requestOrigin (with matching intygstyp)', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('STYRD_AV_ORIGIN', 'fk7263')).toBeTruthy();
+        });
+
+        it('should return FALSE for matching previligie / requestOrigin (with non-matching intygstyp)', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('STYRD_AV_ORIGIN', 'ts-bas')).toBeFalsy();
+        });
+
+    });
+
 
     describe('#setUser', function() {
         it('should set currently active user context', function() {
