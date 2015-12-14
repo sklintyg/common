@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>common</artifactId>
-  <version>2.4.0-RC5</version>
+  <version>0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Intyg Common</name>
@@ -23,16 +23,16 @@
     <rivta-itintegration-monitoring.version>1.0.0.0</rivta-itintegration-monitoring.version>
 
 
-    <intyg-clinicalprocess.version>1.0.0</intyg-clinicalprocess.version>
+    <intyg-clinicalprocess.version>0-SNAPSHOT</intyg-clinicalprocess.version>
     <intyg-clinicalprocess.version.range>(,1.0.0]</intyg-clinicalprocess.version.range>
 
-    <intyg-insuranceprocess.version>1.0.0</intyg-insuranceprocess.version>
+    <intyg-insuranceprocess.version>0-SNAPSHOT</intyg-insuranceprocess.version>
     <intyg-insuranceprocess.version.range>(,1.0.0]</intyg-insuranceprocess.version.range>
 
-    <intyg-transportstyrelsen.version>1.0.0</intyg-transportstyrelsen.version>
+    <intyg-transportstyrelsen.version>0-SNAPSHOT</intyg-transportstyrelsen.version>
     <intyg-transportstyrelsen.version.range>(,1.0.0]</intyg-transportstyrelsen.version.range>
 
-    <intyg-privatepractitioner.version>1.0.0</intyg-privatepractitioner.version>
+    <intyg-privatepractitioner.version>0-SNAPSHOT</intyg-privatepractitioner.version>
     <intyg-privatepractitioner.version.range>(,1.0.0]</intyg-privatepractitioner.version.range>
 
     <intyg-privatepractitioner-terms.version>0-SNAPSHOT</intyg-privatepractitioner-terms.version>
