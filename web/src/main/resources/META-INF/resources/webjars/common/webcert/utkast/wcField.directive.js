@@ -2,8 +2,8 @@
  * wcField directive. Used to abstract common layout for full-layout form fields in cert modules
  */
 angular.module('common').directive('wcField',
-    [ 'common.messageService',
-        function(messageService) {
+    [ 'common.messageService', 'common.dynamicLabelService',
+        function(messageService, dynamicMessageService) {
             'use strict';
 
             return {
@@ -13,8 +13,10 @@ angular.module('common').directive('wcField',
                 templateUrl: '/web/webjars/common/webcert/utkast/wcField.directive.html',
                 scope: {
                     fieldLabel: '@',
+                    fieldDynamicLabel: '@',
                     fieldNumber: '@?',
                     fieldHelpText: '@',
+                    fieldDynamicHelpText: '@',
                     fieldHasErrors: '=',
                     fieldTooltipPlacement: '@',
                     filled: '@?'
@@ -37,6 +39,10 @@ angular.module('common').directive('wcField',
 
                     $scope.getMessage = function(key) {
                         return messageService.getProperty(key);
+                    };
+
+                    $scope.getDynamicText = function(key) {
+                        return dynamicMessageService.getProperty(key);
                     };
                 }
             };

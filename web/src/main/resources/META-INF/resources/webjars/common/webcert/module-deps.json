@@ -8,6 +8,8 @@
     "/web/webjars/common/webcert/gui/headers/wcPrintHeader.directive.js",
     "/web/webjars/common/webcert/gui/text/message.directive.js",
     "/web/webjars/common/webcert/gui/text/message.service.js",
+    "/web/webjars/common/webcert/gui/text/label.directive.js",
+    "/web/webjars/common/webcert/gui/text/label.service.js",
     "/web/webjars/common/webcert/gui/anchorScroll.service.js",
     "/web/webjars/common/webcert/gui/wcBack.directive.js",
     "/web/webjars/common/webcert/gui/wcChangeCase.directive.js",
@@ -77,8 +79,10 @@
     "/web/webjars/common/webcert/fmb/wcAccordionGroup.directive.js",
     "/web/webjars/common/webcert/vendor/Class.js",
     "/web/webjars/common/webcert/vendor/stacktrace.js",
+    "/web/webjars/common/webcert/vendor/underscore.js",
     "/web/webjars/common/webcert/vendor/watch.js",
     "/web/webjars/common/webcert/viewstate/commonViewstate.service.js",
     "/web/webjars/common/webcert/messages.js",
+    "/web/webjars/common/webcert/label-data-mock.js",
     "/web/webjars/common/webcert/templates.js"
 ]
