@@ -9,18 +9,10 @@ angular.module('common').factory('common.authorityService',
             var requestOrigin = options.requestOrigin;
             var intygstyp = options.intygstyp;
 
-            var a = check(feature, featureCheck, intygstyp);
-            var b = check(role, roleCheck);
-            var c = check(authority, privilegeCheck, intygstyp);
-            var d = check(requestOrigin, requestOriginCheck);
-
-            return a && b && c && d;
-/*
             return  check(feature, featureCheck, intygstyp) &&
                     check(role, roleCheck) &&
                     check(authority, privilegeCheck, intygstyp) &&
-                    check(requestOrigin, requestOriginCheck, intygstyp);
-*/
+                    check(requestOrigin, requestOriginCheck);
         }
 
         function checkEach(toCheck, fn, intygstyp) {
@@ -91,24 +83,6 @@ angular.module('common').factory('common.authorityService',
 
             return true;
         }
-
-        /**
-         * Check if the current user has authorization for the specified intygstyp.
-         *
-         * If no intygstyp is specified, the check returns true.
-         *
-         * @param intygstyp
-         */
-/*
-        function intygsTypCheck(intygstyp) {
-            if (intygstyp === undefined || intygstyp === '') {
-                return true;
-            }
-
-            return userModel.hasIntygsTyp(intygstyp);
-            //return userModel.hasIntygsTyp(intygstyp);
-        }
-*/
 
         /**
          * Check the current user's origin.

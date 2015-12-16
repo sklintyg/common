@@ -9,7 +9,7 @@ angular.module('common').factory('common.UserModel',
 
             getActiveFeatures: function() {
                 if (this.user) {
-                    return this.user.aktivaFunktioner;
+                    return this.user.features;
                 } else {
                     return null;
                 }
@@ -23,7 +23,6 @@ angular.module('common').factory('common.UserModel',
                     this.user.tandLakare = this.isTandlakare();
                     this.user.isLakareOrPrivat = this.user.lakare || this.user.privatLakare || this.user.tandLakare;
                     this.user.role = this.user.roles !== undefined ? this.roles.getRole(this.user.roles) : '';
-                    this.user.origin = this.user.requestOrigin !== undefined ? this.user.requestOrigin.name : '';
                 }
             },
 
@@ -141,7 +140,7 @@ angular.module('common').factory('common.UserModel',
                     }
                 }
 
-                //If we get this far - the user is considered to have the previlegie
+                //If we get this far - the user is considered to have the privilege
                 return true;
             },
 

@@ -68,21 +68,21 @@
           </div>
           <button wc-authority="KOPIERA_INTYG"
                   requestOrigin="!UTHOPP"
+                  intygstyp="{{intygstyp}}"
                   id="copyBtn"
                   class="btn btn-info"
                   ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
                   ng-click="copy(viewState.intygModel)"
-                  intygstyp="{{intygstyp}}"
                   title="{{copyBtnTooltipText}}">
             Kopiera
           </button>
           <button wc-authority="MAKULERA_INTYG"
                   requestOrigin="!UTHOPP"
+                  intygstyp="{{intygstyp}}"
                   id="makuleraBtn"
                   class="btn btn-inverse"
                   ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue"
                   ng-click="makulera(viewState.intygModel)"
-                  intygstyp="{{intygstyp}}"
                   wc-check-vardenhet
                   vardenhet="{{viewState.enhetsId}}"
                   title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">
