@@ -42,7 +42,7 @@ angular.module('common').factory('common.UtilsService', function() {
 
     return {
         isValidString: _isValidString,
-        isDefined: _isDefined
+        isDefined: _isDefined,
         replaceAccentedCharacters: _replaceAccentedCharacters
     };
 
