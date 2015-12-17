@@ -2,6 +2,7 @@ describe('wcFmbHelpDisplay', function () {
     'use strict';
 
     beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('htmlTemplates'));
 
     var element, outerScope, innerScope;
 

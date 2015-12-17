@@ -19,12 +19,12 @@ module.exports = function(grunt) {
     var minaintyg = grunt.file.readJSON(SRC_DIR + 'webjars/common/minaintyg/module-deps.json').map(function(file) {
         return file.replace(/\/web\//g, SRC_DIR);
     });
-    minaintyg = [SRC_DIR + 'webjars/common/minaintyg/module.js'].concat(minaintyg);
+    minaintyg = [SRC_DIR + 'webjars/common/minaintyg/module.js', DEST_DIR + 'webjars/common/minaintyg/templates.js'].concat(minaintyg);
 
     var webcert = grunt.file.readJSON(SRC_DIR + 'webjars/common/webcert/module-deps.json').map(function(file) {
         return file.replace(/\/web\//g, SRC_DIR);
     });
-    webcert = [SRC_DIR + 'webjars/common/webcert/module.js'].concat(webcert);
+    webcert = [SRC_DIR + 'webjars/common/webcert/module.js', DEST_DIR + 'webjars/common/webcert/templates.js'].concat(webcert);
 
     grunt.initConfig({
 
@@ -138,7 +138,7 @@ module.exports = function(grunt) {
             minaintyg: {
                 cwd: SRC_DIR,
                 src: ['webjars/common/minaintyg/**/*.html'],
-                dest: SRC_DIR + 'webjars/common/minaintyg/templates.js',
+                dest: DEST_DIR + 'webjars/common/minaintyg/templates.js',
                 options: {
                     module: 'common',
                     url: function(url) {
@@ -149,7 +149,7 @@ module.exports = function(grunt) {
             webcert: {
                 cwd: SRC_DIR,
                 src: ['webjars/common/webcert/**/*.html'],
-                dest: SRC_DIR + 'webjars/common/webcert/templates.js',
+                dest: DEST_DIR + 'webjars/common/webcert/templates.js',
                 options: {
                     module: 'common',
                     url: function(url) {

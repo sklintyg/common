@@ -19,6 +19,12 @@
  */
 
 @media screen {
+  // Import partials
+  @import 'wc-header';
+  @import 'wc-vardenhet-selector';
+  @import 'wc-header-care-unit-dialog';
+  @import 'bootstrap-overrides';
+
   //colors
   $color_java_approx: #28b4c4;
   $white: #fff;
@@ -733,11 +739,4 @@
   .jsp .text-expander {
     line-height: 2.5em;
   }
-
-  // Import partials
-  @import 'wc-header';
-  @import 'wc-vardenhet-selector';
-  @import 'wc-header-care-unit-dialog';
-  @import 'bootstrap-overrides';
-
 }

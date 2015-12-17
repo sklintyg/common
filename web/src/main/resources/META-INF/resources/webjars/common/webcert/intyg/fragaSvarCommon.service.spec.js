@@ -63,20 +63,25 @@ describe('fragaSvarCommonService', function() {
             }
         ]));
 
-        var qa = {intygsReferens: {intygsId: 'testid'}, vardperson: {}};
+        var qa = {
+            intygsReferens: {intygsId: 'testid'},
+            vardperson: {enhetsnamn: 'Ängården', vardgivarnamn: 'Vårdgivare'}
+        };
 
         it('should be correct when user\'s request origin is uthopp', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
             userModelMock.isUthopp = function() { return true; };
             var link = fragaSvarCommonService.buildMailToLink(qa);
-            expect(link).toEqual('mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
+            expect(link).toEqual(
+                'mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20Angarden%20for%20vardgivare%20Vardgivare&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
                 $window.location.port + '%2Fwebcert%2Fweb%2Fuser%2Fcertificate%2Ftestid%2Fquestions');
         }]));
 
         it('should be correct when user\'s request origin is something else than uthopp', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
             userModelMock.isUthopp = function() { return false; };
             var link = fragaSvarCommonService.buildMailToLink(qa);
-            expect(link).toEqual('mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
-                $window.location.port + '%2Fwebcert%2Fweb%2Fuser%2Fbasic-certificate%2Ftestid%2Fquestions');
+            expect(link).toEqual(
+                'mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20Angarden%20for%20vardgivare%20Vardgivare&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
+                $window.location.port + '%2Fwebcert%2Fweb%2Fuser%2Fcertificate%2Ftestid%2Fquestions');
         }]));
 
     });
