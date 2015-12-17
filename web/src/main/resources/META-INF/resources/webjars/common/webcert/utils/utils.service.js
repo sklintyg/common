@@ -4,7 +4,7 @@
  *
  * Created by stephenwhite on 25/01/15.
  */
-angular.module('common').factory('common.UtilsService',function() {
+angular.module('common').factory('common.UtilsService', function() {
     'use strict';
 
     /**
@@ -21,10 +21,29 @@ angular.module('common').factory('common.UtilsService',function() {
         return (typeof(data) !== 'undefined' && data !== null )
     }
 
+    /**
+     * Replaces accented character in swedish to the (closest?) matching ascii variant.
+     *
+     * @param str
+     * @returns {String}
+     * @private
+     */
+    function _replaceAccentedCharacters(str) {
+        if (_isValidString(str)) {
+            str = str.replace(/å/g, 'a');
+            str = str.replace(/Å/g, 'A');
+            str = str.replace(/ä/g, 'a');
+            str = str.replace(/Ä/g, 'A');
+            str = str.replace(/ö/g, 'o');
+            str = str.replace(/Ö/g, 'O');
+        }
+        return str;
+    }
+
     return {
         isValidString: _isValidString,
         isDefined: _isDefined
+        replaceAccentedCharacters: _replaceAccentedCharacters
     };
-
 
 });

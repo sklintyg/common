@@ -33,7 +33,9 @@ public final class WebcertModelFactoryUtil {
 
         if (hosPers.getBefattning() != null) {
             hosPersonal.getBefattningar().add(hosPers.getBefattning());
-
+        }
+        if (hosPers.getSpecialiseringar() != null) {
+            hosPersonal.getSpecialiteter().addAll(hosPers.getSpecialiseringar());
         }
 
         if (hosPers.getVardenhet() != null) {

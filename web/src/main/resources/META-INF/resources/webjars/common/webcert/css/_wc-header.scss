@@ -1,0 +1,137 @@
+/* These styles belong to the wcHeader directive */
+
+/* Color variables */
+$header-color: #fff;
+$header-background-color: #212633;
+$header-anchor-color: #28b4c4;
+$headerbox-logo-border-color: #595c66;
+$navbar-border-top-color: #999;
+$navbar-border-bottom-color: #d4d4d4;
+$nav-border-color: #ddd;
+$navbar-collapse-border-left-color: #ddd;
+$stat-circle-background-color: #999;
+$stat-circle-color: #fff;
+$stat-circle-active-color: #fff;
+$stat-circle-active-background-color: #ff4565;
+$stat-circle-active-border-color: #ff4565;
+
+/* Urls variables */
+$url-avatar: url('/img/avatar.png');
+
+.header { 
+  background-color: $header-background-color;
+  padding: 5px 0 15px; /* don't change this setup. it's needed for IE8 flow on smaller screens to work */
+  color: $header-color;
+
+  a {
+    color: $header-anchor-color;
+    font-size: 13px;
+    line-height: 14px;
+  }
+}
+
+.headerbox {
+  padding: 0;
+}
+
+span {
+  &.headerbox-logo {
+    padding: 3px 20px 0 30px;
+    border-right: 1px solid $headerbox-logo-border-color;
+    display: block;
+    margin-top: 10px;
+  }
+  &.headerbox-date {
+    padding: 10px 0 0 30px;
+    line-height: 17px;
+    display: block;
+  }
+}
+
+div {
+  &.headerbox-user {
+    font-size: 13px;
+    line-height: 16px;
+    padding: 10px 30px 0 0;
+  }
+  &.headerbox-avatar {
+    padding-right: 30px;
+    background: $url-avatar no-repeat 100% 50%;
+    height: 34px;
+  }
+  &.headerbox-user-profile {
+    padding-right: 44px;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: left;
+  }
+}
+
+.header {
+  .otherLocations {
+    font-size: 12px;
+  }
+  span.location {
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+.navbar {
+  margin: 0;
+  min-height: 0;
+  padding: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border: 0;
+  border-top: 1px solid $navbar-border-top-color;
+  border-bottom: 1px solid $navbar-border-bottom-color;
+  .divider-vertical {
+    margin: 0;
+  }
+  .nav {
+    margin: 0;
+    white-space: nowrap;
+    > li {
+      border-right: 1px solid $nav-border-color;
+      /*  display: inline-block; */
+      /* Uncomment to lock menu items to one row (during 800x600 demos buttons won't be accessible otherwise) float: none;*/
+      position: relative;
+      &:first-child {
+        border-left: 1px solid $nav-border-color;
+      }
+      > a {
+        padding: 8px 20px 8px;
+      }
+    }
+  }
+}
+
+.navbar-collapse.in .nav > li {
+  border-left: 1px solid $navbar-collapse-border-left-color;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.stat-circle {
+  background-color: $stat-circle-background-color;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  color: $stat-circle-color;
+  padding: 0 6px 0 6px;
+  font-size: 10px;
+  font-weight: bold;
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  text-shadow: none;
+  z-index: 1000;
+}
+
+.stat-circle-active {
+  background-color: $stat-circle-active-background-color;
+  border-color: $stat-circle-active-border-color;
+  color: $stat-circle-active-color;
+}

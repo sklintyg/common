@@ -4,8 +4,10 @@
  * related to certificates. (As of this time, only fk7263 module)
  */
 angular.module('common').factory('common.fragaSvarCommonService',
-    ['$http', '$log', '$uibModal', '$window', 'common.dialogService', 'common.LocationUtilsService', 'common.featureService', 'common.UserModel',
-        function($http, $log, $uibModal, $window, dialogService, LocationUtilsService, featureService, UserModel) {
+    ['$http', '$log', '$uibModal', '$window', 'common.dialogService', 'common.LocationUtilsService',
+        'common.featureService', 'common.UserModel', 'common.UtilsService',
+        function($http, $log, $uibModal, $window, dialogService, LocationUtilsService, featureService, UserModel,
+            utilsService) {
             'use strict';
 
             /*
@@ -40,7 +42,8 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 }
 
                 var body = 'Klicka pa lanktexten for att besvara fraga-svar:\n' + url;
-                var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
+                var link = 'mailto:' + recipient + '?subject=' +
+                    encodeURIComponent(utilsService.replaceAccentedCharacters(subject)) + '&body=' +
                     encodeURIComponent(body);
                 $log.debug(link);
                 return link;
@@ -153,8 +156,6 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     };
                 };
 
-                $window.dialogDoneLoading = false;
-
                 var msgbox = $uibModal.open({
                     templateUrl: '/app/partials/preference-dialog.html',
                     controller: DialogInstanceCtrl,
@@ -182,10 +183,6 @@ angular.module('common').factory('common.fragaSvarCommonService',
                         callback(result);
                     }
                 }, function() {
-                });
-
-                dialogService.runOnDialogDoneLoading(msgbox, function() {
-                    $window.dialogDoneLoading = true;
                 });
             }
 

@@ -1,0 +1,124 @@
+/**
+Table styles pertaining to fråga svar.
+ */
+$qa-panel-background-color: #eaeaea;
+$qa-block-border-color: #d8d8d8;
+$qa-block-background-color: #fff;
+$qa-block-handled-background-color: #f5f5f5;
+$qa-block-head-color: #000;
+
+/**
+QA list item animation
+ */
+%fadein {
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+.qa-item {
+  -webkit-transition: color 0.6s, background-color 0.3s, all 0.6s;
+  -moz-transition: color 0.6s, background-color 0.3s, all 0.6s;
+  -ms-transition: color 0.6s, background-color 0.3s, all 0.6s;
+  transition: color 0.6s, background-color 0.3s, all 0.6s;
+  &.ng-enter {
+    @extend %fadein;
+  }
+  &.ng-move {
+    @extend %fadein;
+  }
+  &.ng-leave {
+    -webkit-animation: fadeOut 1s;
+    -moz-animation: fadeOut 1s;
+    -ms-animation: fadeOut 1s;
+    animation: fadeOut 1s;
+  }
+}
+
+.qa-column {
+  max-width: 600px;
+  padding-right: 20px;
+}
+
+.panel-container {
+  /* IE8 doesn't understand margin-bottom on elements added by scripting so place this around and use padding instead */
+  padding-bottom: 20px;
+}
+
+.qa-panel {
+  background-color: $qa-panel-background-color;
+  -webkit-border-radius: 8px 8px 8px 8px;
+  -moz-border-radius: 8px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+  padding: 20px;
+  max-width: 600px;
+  p {
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  label {
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  .form-group {
+    margin: 0;
+  }
+  h3 {
+    font-size: 13px;
+    margin: 0;
+    padding: 0 0 5px 0;
+    font-weight: normal;
+  }
+}
+
+.qa-block {
+  background-color: $qa-block-background-color;
+  border: 1px solid $qa-block-border-color;
+  -webkit-border-radius: 8px 8px 8px 8px;
+  -moz-border-radius: 8px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+}
+
+.qa-block-fk {
+  margin-left: 20px;
+}
+
+.qa-block-wc {
+  margin-right: 20px;
+}
+
+.qa-block-handled {
+  background-color: $qa-block-handled-background-color;
+}
+
+.qa-block-head {
+  margin: 0;
+  color: $qa-block-head-color;
+  font-size: 13px;
+  display: block;
+  padding: 10px 20px;
+  border-bottom: 1px solid $qa-block-border-color;
+  -webkit-border-radius: 8px 8px 0 0;
+  -moz-border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 0 0;
+  h3 {
+    font-size: 13px;
+    margin: 0;
+    font-weight: normal;
+  }
+}
+
+.qa-block-body {
+  display: block;
+  padding: 20px 20px;
+  white-space: pre-line;
+}
+
+.qa-sender {
+  font-weight: bold;
+}
+
+.qa-date {
+  font-weight: bold;
+}
