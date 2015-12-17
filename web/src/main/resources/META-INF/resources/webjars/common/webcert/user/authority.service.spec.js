@@ -22,7 +22,7 @@ describe('authorityService', function() {
             ]
             }
         ],
-        'aktivaFunktioner': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
+        'features': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
         'authorities': {
             'NAVIGERING': {},
             'SIGNERA_INTYG': {'intygstyper': ['fk7263', 'ts-diabetes']},
@@ -33,11 +33,10 @@ describe('authorityService', function() {
                 ]
             }
         },
-        'requestOrigin': {'name': 'NORMAL'},
+        'origin': 'NORMAL',
         'totaltAntalVardenheter': 6,
         'roles': {'LAKARE': {'name': 'Läkare', 'desc': 'Läkare'}},
-        'role': 'Läkare',
-        'intygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']
+        'role': 'Läkare'
     };
 
     beforeEach(angular.mock.module('common', function($provide) {

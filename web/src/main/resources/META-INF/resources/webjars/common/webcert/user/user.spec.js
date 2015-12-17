@@ -44,12 +44,11 @@ describe('User', function() {
                 ]
             }
         },
-        'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
+        'features':['hanteraFragor','hanteraFragor.fk7263'],
         'totaltAntalVardenheter':6,
         'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
         'role': 'Läkare',
-        'intygsTyper' : [ 'fk7263', 'ts-bas', 'ts-diabetes' ],
-        'requestOrigin' : { 'name': 'NORMAL', 'intygstyper': []}
+        'origin': 'NORMAL'
     };
 
     beforeEach(angular.mock.module('common', function($provide) {
@@ -237,13 +236,11 @@ describe('User', function() {
                     }
                 ]
                 },
-                'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
+                'features':['hanteraFragor','hanteraFragor.fk7263'],
                 'totaltAntalVardenheter':1,
                 'lakare' : true, 'privatLakare' : false, 'tandLakare':false, 'isLakareOrPrivat' : true,
                 'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
                 'role': 'Läkare',
-                'intygsTyper' : [ 'fk7263', 'ts-bas', 'ts-diabetes' ],
-                'requestOrigin' : { 'name': 'NORMAL', 'intygstyper': []},
                 'origin': 'NORMAL'
             };
         });

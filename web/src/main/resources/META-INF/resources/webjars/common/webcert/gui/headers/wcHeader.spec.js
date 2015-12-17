@@ -63,9 +63,9 @@ describe('wcHeader', function() {
         },
         'authorities': { 'NAVIGERING':{}, 'ATKOMST_ANDRA_ENHETER': {} },
         'roles' : {'LAKARE': {'name':'Läkare', 'desc': 'Läkare'}},
-        'aktivaFunktioner': ['hanteraFragor', 'hanteraFragor.fk7263'],
+        'features': ['hanteraFragor', 'hanteraFragor.fk7263'],
         'totaltAntalVardenheter': 6,
-        'requestOrigin': 'NORMAL'
+        'origin': 'NORMAL'
     };
 
     var testStatResponse = {
