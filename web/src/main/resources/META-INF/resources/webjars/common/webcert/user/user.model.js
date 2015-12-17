@@ -144,19 +144,16 @@ angular.module('common').factory('common.UserModel',
                 return true;
             },
 
-            hasRequestOrigin: function _hasRequestOrigin(requestOrigin, intygsTyp) {
-                if ( !(this.user !== undefined && this.user.requestOrigin !== undefined && this.user.requestOrigin !== requestOrigin) ) {
-                    return false;
+            hasRequestOrigin: function _hasRequestOrigin(requestOrigin) {
+                if (requestOrigin === undefined) {
+                    return true;
                 }
 
-                if (intygsTyp !== undefined) {
-                    var intygsTyper = this.user.requestOrigin.intygstyper;
-                    if (intygsTyper !== undefined && intygsTyper.length > 0 && intygsTyper.indexOf(intygsTyp) === -1) {
-                        return false;
-                    }
+                if (this.user !== undefined && this.user.origin !== undefined) {
+                    return requestOrigin === this.user.origin;
                 }
 
-                return true;
+                return false;
             },
 
             hasRole: function _hasRole(role) {

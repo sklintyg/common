@@ -35,7 +35,7 @@ describe('authorityService', function() {
         },
         'origin': 'NORMAL',
         'totaltAntalVardenheter': 6,
-        'roles': {'ROLE_LAKARE': {'name': 'Läkare', 'authorizedIntygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']}},
+        'roles': {'LAKARE': {'name': 'Läkare', 'desc': 'Läkare'}},
         'role': 'Läkare'
     };
 
