@@ -41,14 +41,14 @@ public class HoSPersonal {
 
     public List<String> getSpecialiteter() {
         if (specialiteter == null) {
-            specialiteter = new ArrayList<String>();
+            specialiteter = new ArrayList<>();
         }
         return specialiteter;
     }
 
     public List<String> getBefattningar() {
         if (befattningar == null) {
-            befattningar = new ArrayList<String>();
+            befattningar = new ArrayList<>();
         }
         return befattningar;
     }
