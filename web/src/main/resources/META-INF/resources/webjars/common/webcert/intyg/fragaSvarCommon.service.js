@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2015 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * Common Fragasvar Module - Common services and controllers related to
  * FragaSvar functionality to be used in webcert and modules handling Fraga/svar
@@ -29,7 +48,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             function _buildMailToLink(qa) {
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
-                var certificateUrlPart = UserModel.isVardAdministratorUthopp() || UserModel.isLakareUthopp() || UserModel.isTandlakareUthopp() ? 'certificate/' : 'basic-certificate/';
+                var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
                 var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygsReferens.intygsId + '/questions';
 
                 var recipient = '';
@@ -67,7 +86,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.hasPrivilege(UserModel.privileges.PRIVILEGE_BESVARA_KOMPLETTERINGSFRAGA)) {
+                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
                     // RE-005, RE-006
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
@@ -215,7 +234,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function isUthoppUser() {
-                var uthoppUser = UserModel.isLakareUthopp() || UserModel.isTandlakareUthopp() || UserModel.isVardadministratorUthopp();
+                var uthoppUser = UserModel.isUthopp();
                 $log.debug('Is uthopp user: ' + uthoppUser);
                 return uthoppUser;
             }

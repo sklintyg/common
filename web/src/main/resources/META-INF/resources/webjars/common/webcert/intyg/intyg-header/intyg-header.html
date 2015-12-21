@@ -31,7 +31,7 @@
         <div class="btn-row">
           <button id="sendBtn" class="btn btn-info"
                   ng-if="visaSkickaKnappen()"
-                  wc-authority feature="skickaIntyg" role="!ROLE_LAKARE_UTHOPP,!ROLE_VARDADMINSTRATOR_UTHOPP" intygstyp="{{intygstyp}}"
+                  wc-authority feature="skickaIntyg" requestOrigin="!UTHOPP" intygstyp="{{intygstyp}}"
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
                   ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
           </button>
@@ -66,23 +66,23 @@
               Skriv ut
             </button>
           </div>
-          <button wc-authority="PRIVILEGE_KOPIERA_INTYG"
-                  role="!ROLE_LAKARE_UTHOPP,!ROLE_VARDADMINSTRATOR_UTHOPP"
+          <button wc-authority="KOPIERA_INTYG"
+                  requestOrigin="!UTHOPP"
+                  intygstyp="{{intygstyp}}"
                   id="copyBtn"
                   class="btn btn-info"
                   ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
                   ng-click="copy(viewState.intygModel)"
-                  intygstyp="{{intygstyp}}"
                   title="{{copyBtnTooltipText}}">
             Kopiera
           </button>
-          <button wc-authority="PRIVILEGE_MAKULERA_INTYG"
-                  role="!ROLE_LAKARE_UTHOPP,!ROLE_VARDADMINSTRATOR_UTHOPP"
+          <button wc-authority="MAKULERA_INTYG"
+                  requestOrigin="!UTHOPP"
+                  intygstyp="{{intygstyp}}"
                   id="makuleraBtn"
                   class="btn btn-inverse"
                   ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue"
                   ng-click="makulera(viewState.intygModel)"
-                  intygstyp="{{intygstyp}}"
                   wc-check-vardenhet
                   vardenhet="{{viewState.enhetsId}}"
                   title="Makulera intyg innebär att intyget återtas. Vid behov kan intyget ersättas med ett nytt.">

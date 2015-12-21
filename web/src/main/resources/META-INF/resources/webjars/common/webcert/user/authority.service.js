@@ -1,18 +1,37 @@
+/*
+ * Copyright (C) 2015 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 angular.module('common').factory('common.authorityService',
     [ 'common.UserModel', 'common.featureService' , function(userModel, featureService) {
         'use strict';
 
         function _isAuthorityActive(options) {
-            var authority = options.authority;
             var feature = options.feature;
-            var intygstyp = options.intygstyp;
             var role = options.role;
+            var authority = options.authority;
+            var requestOrigin = options.requestOrigin;
+            var intygstyp = options.intygstyp;
 
-
-            return  check(role, roleCheck) &&
-                    check(authority, authorityCheck) &&
-                    check(feature, featureCheck, intygstyp) &&
-                    check(intygstyp, intygsTypCheck);
+            return  check(feature, featureCheck, intygstyp) &&
+                    check(role, roleCheck) &&
+                    check(authority, privilegeCheck, intygstyp) &&
+                    check(requestOrigin, requestOriginCheck);
         }
 
         function checkEach(toCheck, fn, intygstyp) {
@@ -38,12 +57,12 @@ angular.module('common').factory('common.authorityService',
                     res = fn(toCheck, intygstyp);
                 }
             }
+
             return res;
         }
 
         function roleCheck(role){
             if (role !== undefined && role.length > 0) {
-
                 if (role.indexOf('!') === 0) {
                     // we have a not
                     role = role.slice(1);
@@ -51,23 +70,23 @@ angular.module('common').factory('common.authorityService',
                 } else {
                     return userModel.hasRole(role);
                 }
-            } else {
-                return true;
             }
+
+            return true;
         }
 
-        function authorityCheck(authority){
-            if (authority !== undefined && authority.length > 0) {
-                if (authority.indexOf('!') === 0) {
+        function privilegeCheck(privilege, intygstyp) {
+            if (privilege !== undefined && privilege.length > 0) {
+                if (privilege.indexOf('!') === 0) {
                     // we have a not
-                    authority = authority.slice(1);
-                    return !userModel.hasPrivilege(authority);
+                    privilege = privilege.slice(1);
+                    return !userModel.hasPrivilege(privilege, intygstyp);
                 } else {
-                    return userModel.hasPrivilege(authority);
+                    return userModel.hasPrivilege(privilege, intygstyp);
                 }
-            } else {
-                return true;
             }
+
+            return true;
         }
 
         function featureCheck(feature, intygstyp){
@@ -79,23 +98,33 @@ angular.module('common').factory('common.authorityService',
                 } else {
                     return featureService.isFeatureActive(feature, intygstyp);
                 }
-            } else {
-                return true;
             }
+
+            return true;
         }
 
         /**
-         * Check if the current user's role has the global authorization for the specified intygstyp.
+         * Check the current user's origin.
          *
-         * If no intygstyp is specified, the check returns true.
+         * 1. Om requestOrigin finns måste användaren ha den
+         * 2. Om intygstyp finns måste användaren's request origin stödja den
+         *    såvida inte användarens request origin har några begränsningar
          *
-         * @param intygstyp
+         * @param requestOrigin
+         * @param intygsTyp
          */
-        function intygsTypCheck(intygstyp) {
-            if (intygstyp === undefined || intygstyp === '') {
-                return true;
+        function requestOriginCheck(requestOrigin) {
+            if (requestOrigin !== undefined && requestOrigin.length > 0) {
+                if (requestOrigin.indexOf('!') === 0) {
+                    // we have a not
+                    requestOrigin = requestOrigin.slice(1);
+                    return !userModel.hasRequestOrigin(requestOrigin);
+                } else {
+                    return userModel.hasRequestOrigin(requestOrigin);
+                }
             }
-            return userModel.hasIntygsTyp(intygstyp);
+
+            return true;
         }
 
         return {

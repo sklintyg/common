@@ -1,18 +1,18 @@
 <div>
   <div class="header clearfix">
     <div class="headerbox">
-      <span wc-authority="PRIVILEGE_NAVIGERING" class="headerbox-logo pull-left">
+      <span wc-authority="NAVIGERING" class="headerbox-logo pull-left">
         <a id="webcertLogoLink" href="/web/start"><img alt="Till startsidan" src="/img/webcert_logo.png" /></a></span>
-      <span wc-authority="!PRIVILEGE_NAVIGERING" class="headerbox-logo pull-left">
+      <span wc-authority="!NAVIGERING" class="headerbox-logo pull-left">
         <img alt="Till startsidan" src="/img/webcert_logo.png" /></span>
       <span class="headerbox-date pull-left">
                   <span id="wc-header-location-date" class="location">{{today | date:"shortDate"}}</span>
                   <span id="wc-header-location-care-giver" class="location"> - {{user.valdVardgivare.namn}}</span>
-                  <span id="wc-header-location-care-unit" class="location" wc-authority role="!ROLE_PRIVATLAKARE"> - {{user.valdVardenhet.namn}}</span><br>
-                  <span id="otherLocations" class="otherLocations" wc-authority="PRIVILEGE_ATKOMST_ANDRA_ENHETER" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
+                  <span id="wc-header-location-care-unit" class="location" wc-authority role="!PRIVATLAKARE"> - {{user.valdVardenhet.namn}}</span><br>
+                  <span id="otherLocations" class="otherLocations" wc-authority="ATKOMST_ANDRA_ENHETER" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
                       style="font-weight:bold">{{stat.intygAndraEnheter+stat.fragaSvarAndraEnheter}}</span> ej hanterade frågor och ej signerade utkast på andra vårdenheter.</span>
         <a
-          wc-authority="PRIVILEGE_ATKOMST_ANDRA_ENHETER" id="wc-care-unit-clinic-selector-link" tabindex="0" href class="otherLocations"
+          wc-authority="ATKOMST_ANDRA_ENHETER" id="wc-care-unit-clinic-selector-link" tabindex="0" href class="otherLocations"
           ng-show="user.totaltAntalVardenheter > 1" data-ng-click="openChangeCareUnitDialog()">Byt
         vårdenhet</a>
       </span>
@@ -23,16 +23,15 @@
           <strong>{{user.role}}</strong>
         </span>
         - <span class="logged-in">{{user.namn}}</span><br>
-        <a id="editUserLink" wc-authority role="ROLE_PRIVATLAKARE" style="padding-right:30px" class="pull-left" ng-click="goToPrivatPortalen()">Ändra uppgifter</a>
-        <a id="logoutLink" wc-authority="PRIVILEGE_NAVIGERING" class="pull-right" ng-click="logout()">Logga ut</a>
-        <a id="aboutLink" wc-authority="!PRIVILEGE_NAVIGERING" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
+        <a id="editUserLink" wc-authority role="PRIVATLAKARE" style="padding-right:30px" class="pull-left" ng-click="goToPrivatPortalen()">Ändra uppgifter</a>
+        <a id="logoutLink" wc-authority="NAVIGERING" class="pull-right" ng-click="logout()">Logga ut</a>
+        <a id="aboutLink" wc-authority="!NAVIGERING" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
       </div>
     </div>
   </div>
-  <div id="huvudmeny" wc-authority="PRIVILEGE_NAVIGERING" class="navbar navbar-default">
+  <div id="huvudmeny" wc-authority="NAVIGERING" class="navbar navbar-default">
     <div class="container-fluid">
-      <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
-              ng-click="navCollapsed = !navCollapsed">
+      <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>

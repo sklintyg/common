@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2015 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 describe('User', function() {
     'use strict';
 
@@ -34,11 +53,21 @@ describe('User', function() {
                 }
             ]
         },
-        'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
-        'totaltAntalVardenheter':6, 'roles' :
-            {'ROLE_LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}},
-        'role' : 'Läkare',
-        'intygsTyper' : [ 'fk7263', 'ts-bas', 'ts-diabetes' ]
+        'authorities': {
+            'NAVIGERING': {},
+            'SIGNERA_INTYG': {'intygstyper': ['fk7263', 'ts-diabetes']},
+            'STYRD_AV_ORIGIN': {
+                'intygstyper': ['fk7263', 'ts-diabetes'],
+                'requestOrigins': [
+                    {'name': 'NORMAL', 'intygstyper': ['fk7263']}
+                ]
+            }
+        },
+        'features':['hanteraFragor','hanteraFragor.fk7263'],
+        'totaltAntalVardenheter':6,
+        'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
+        'role': 'Läkare',
+        'origin': 'NORMAL'
     };
 
     beforeEach(angular.mock.module('common', function($provide) {
@@ -68,6 +97,51 @@ describe('User', function() {
             expect(activeFeatures).toContain('hanteraFragor.fk7263');
         });
     });
+
+    describe('#hasPrivilege - without intygstyp', function() {
+        it('should return FALSE for non-matching previligie', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('DUMMY_PREVILEGIE')).toBeFalsy();
+        });
+
+        it('should return TRUE for matching previligie', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('SIGNERA_INTYG')).toBeTruthy();
+        });
+    });
+
+    describe('#hasPrivilege - with intygstyp', function() {
+        it('should return TRUE for matching previligie (with matching intygstyp)', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('SIGNERA_INTYG', 'fk7263')).toBeTruthy();
+        });
+
+        it('should return FALSE for matching previligie (with non-matching intygstyp)', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('SIGNERA_INTYG', 'ts-bas')).toBeFalsy();
+        });
+
+    });
+
+    describe('#hasPrivilege - with requestOrigin', function() {
+
+        it('should return TRUE for matching previligie and requestOrigin', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('STYRD_AV_ORIGIN')).toBeTruthy();
+        });
+
+        it('should return TRUE for matching previligie/ requestOrigin (with matching intygstyp)', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('STYRD_AV_ORIGIN', 'fk7263')).toBeTruthy();
+        });
+
+        it('should return FALSE for matching previligie / requestOrigin (with non-matching intygstyp)', function() {
+            UserModel.setUser(testUser);
+            expect(UserModel.hasPrivilege('STYRD_AV_ORIGIN', 'ts-bas')).toBeFalsy();
+        });
+
+    });
+
 
     describe('#setUser', function() {
         it('should set currently active user context', function() {
@@ -181,11 +255,12 @@ describe('User', function() {
                     }
                 ]
                 },
-                'aktivaFunktioner':['hanteraFragor','hanteraFragor.fk7263'],
+                'features':['hanteraFragor','hanteraFragor.fk7263'],
                 'totaltAntalVardenheter':1,
-                'lakare' : true, 'privatLakare' : false, 'tandLakare':false, 'isLakareOrPrivat' : true, 'roles' :
-                    {'ROLE_LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}}, 'role' : 'Läkare',
-                'intygsTyper' : [ 'fk7263', 'ts-bas', 'ts-diabetes' ]
+                'lakare' : true, 'privatLakare' : false, 'tandLakare':false, 'isLakareOrPrivat' : true,
+                'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
+                'role': 'Läkare',
+                'origin': 'NORMAL'
             };
         });
 
@@ -223,33 +298,5 @@ describe('User', function() {
         });
     });
 
-    describe('#hasIntygsTyp', function() {
-        it('should return hasIntygsTyp as true', function() {
-            UserModel.setUser(testUser);
-            expect(UserModel.hasIntygsTyp('fk7263')).toBeTruthy();
-        });
-    });
 
-    describe('#hasNotIntygsTyp', function() {
-        it('should return hasIntygsTyp as false', function() {
-            UserModel.setUser(testUser);
-            expect(UserModel.hasIntygsTyp('unknown')).toBeFalsy();
-        });
-    });
-
-    describe('#canBuiltUserWithoutRoles', function() {
-        it('should return hasIntygsTyp as false', function() {
-
-            UserModel.setUser({});
-            expect(UserModel.hasIntygsTyp('unknown')).toBeFalsy();
-        });
-    });
-
-    describe('#canBuiltUserWithRoleHavingNoAuthorizedIntygsTyper', function() {
-        it('should return hasIntygsTyp as false', function() {
-
-            UserModel.setUser({'roles':{'name':'Test', 'authorizedIntygsTyper': []}});
-            expect(UserModel.hasIntygsTyp('unknown')).toBeFalsy();
-        });
-    });
 });

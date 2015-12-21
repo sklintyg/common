@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2015 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 describe('wcHeader', function() {
     'use strict';
 
@@ -61,10 +80,11 @@ describe('wcHeader', function() {
                 }
             ]
         },
-        'authorities': { 'PRIVILEGE_NAVIGERING':Object, 'PRIVILEGE_ATKOMST_ANDRA_ENHETER': Object },
-        'roles' : {'ROLE_LAKARE': {'name':'Läkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}},
-        'aktivaFunktioner': ['hanteraFragor', 'hanteraFragor.fk7263'],
-        'totaltAntalVardenheter': 6
+        'authorities': { 'NAVIGERING':{}, 'ATKOMST_ANDRA_ENHETER': {} },
+        'roles' : {'LAKARE': {'name':'Läkare', 'desc': 'Läkare'}},
+        'features': ['hanteraFragor', 'hanteraFragor.fk7263'],
+        'totaltAntalVardenheter': 6,
+        'origin': 'NORMAL'
     };
 
     var testStatResponse = {
@@ -130,6 +150,7 @@ describe('wcHeader', function() {
         $provide.value('common.featureService', featureService); // jasmine.createSpyObj('common.featureService',
                                                                     // ['isFeatureActive'])
     }));
+
     beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache', '$window',
         'common.User','common.UserModel', 'common.statService', 'common.featureService', 'common.authorityService',
         function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _$window_, _User_, _UserModel_, _statService_,
@@ -158,7 +179,8 @@ describe('wcHeader', function() {
             spyOn($rootScope, '$broadcast').and.callThrough();
 
             generateHeader($scope);
-        }]));
+        }])
+    );
 
     describe('header info and links', function() {
 
@@ -205,7 +227,7 @@ describe('wcHeader', function() {
 
     describe('header info and links (for a private practitioner)', function() {
         beforeEach(function() {
-            testUserContext.roles = {'ROLE_PRIVATLAKARE': {'name':'PrivatLäkare', 'authorizedIntygsTyper':['fk7263', 'ts-bas', 'ts-diabetes']}};
+            testUserContext.roles = {'PRIVATLAKARE': {'name':'PrivatLäkare', 'desc': 'PrivatLäkare'}};
             generateHeader($scope);
         });
 
@@ -263,6 +285,7 @@ describe('wcHeader', function() {
 
         beforeEach(function() {
             testUserContext.authorities = {};
+            testUserContext.requestOrigin = 'DJUPINTEGRATION';
             generateHeader($scope);
         });
 

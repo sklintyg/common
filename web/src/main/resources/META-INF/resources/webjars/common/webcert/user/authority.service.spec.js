@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2015 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 describe('authorityService', function() {
     'use strict';
 
@@ -22,15 +41,21 @@ describe('authorityService', function() {
             ]
             }
         ],
-        'aktivaFunktioner': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
+        'features': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
         'authorities': {
-            'PRIVILEGE_NAVIGERING': {},
-            'PRIVILEGE_SIGNERA_INTYG': {}
+            'NAVIGERING': {},
+            'SIGNERA_INTYG': {'intygstyper': ['fk7263', 'ts-diabetes']},
+            'STYRD_AV_ORIGIN': {
+                'intygstyper': ['fk7263', 'ts-diabetes'],
+                'requestOrigins': [
+                    {'name': 'NORMAL', 'intygstyper': ['fk7263']}
+                ]
+            }
         },
+        'origin': 'NORMAL',
         'totaltAntalVardenheter': 6,
-        'roles': {'ROLE_LAKARE': {'name': 'Läkare', 'authorizedIntygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']}},
-        'role': 'Läkare',
-        'intygsTyper': ['fk7263', 'ts-bas', 'ts-diabetes']
+        'roles': {'LAKARE': {'name': 'Läkare', 'desc': 'Läkare'}},
+        'role': 'Läkare'
     };
 
     beforeEach(angular.mock.module('common', function($provide) {
@@ -69,7 +94,7 @@ describe('authorityService', function() {
         });
 
         it ('should be true when user have role', function () {
-            expect(authorityService.isAuthorityActive({role:'ROLE_LAKARE'})).toBeTruthy();
+            expect(authorityService.isAuthorityActive({role:'LAKARE'})).toBeTruthy();
         });
     });
 
@@ -79,30 +104,57 @@ describe('authorityService', function() {
             expect(authorityService.isAuthorityActive({authority:'DUMMY_PREVILEDGE'})).toBeFalsy();
         });
 
-        it ('should be true when user have previledge', function () {
-            expect(authorityService.isAuthorityActive({authority:'PRIVILEGE_SIGNERA_INTYG'})).toBeTruthy();
+        it ('should be false when user only have base previledge', function () {
+            expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG', intygstyp:'ts-bas'})).toBeFalsy();
         });
+
+
+        it ('should be true when user have both base AND intygstyp previledge', function () {
+            expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG', intygstyp:'fk7263'})).toBeTruthy();
+        });
+
+        it('should be true when user have both base previledge AND correct requestOrigin', function() {
+            expect(authorityService.isAuthorityActive({authority: 'STYRD_AV_ORIGIN'})).toBeTruthy();
+        });
+
+        it('should be true when user have both base AND intygstyp previledge AND correct requestOrigin AND requestOrigin.intygstyp',
+            function() {
+                expect(authorityService.isAuthorityActive(
+                    {authority: 'STYRD_AV_ORIGIN', intygstyp: 'fk7263'})).toBeTruthy();
+            });
+
+        it('should be false when user have both base AND intygstyp previledge AND correct requestOrigin BUT not requestOrigin.intygstyp',
+            function() {
+                expect(authorityService.isAuthorityActive(
+                    {authority: 'STYRD_AV_ORIGIN', intygstyp: 'ts-diabetes'})).toBeFalsy();
+            });
     });
 
-    describe('#AuthorityService - intygstyp checking', function() {
+    describe('#AuthorityService - requestOrigin checking', function() {
 
-        it ('should be false when user does not have intygstyp (via role)', function () {
-            expect(authorityService.isAuthorityActive({intygstyp:'DUMMY_TYPE'})).toBeFalsy();
+        it('should be FALSE when user does not have requestOrigin', function() {
+            expect(authorityService.isAuthorityActive({requestOrigin: 'DUMMY_ORIGIN'})).toBeFalsy();
         });
 
-        it ('should be true when user does have intygstyp (via role)', function () {
-            expect(authorityService.isAuthorityActive({intygstyp:'fk7263'})).toBeTruthy();
+        it('should be TRUE when user does have requestOrigin', function() {
+            expect(authorityService.isAuthorityActive({requestOrigin: 'NORMAL'})).toBeTruthy();
         });
     });
 
     describe('#AuthorityService - Combination checking', function() {
 
         it ('should be false when failing 1 criteria', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'ROLE_LAKARE', authority:'PRIVILEGE_SIGNERA_INTYG', intygstyp:'DUMMY_TYPE'})).toBeFalsy();
+            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'LAKARE', authority:'SIGNERA_INTYG', intygstyp:'DUMMY_TYPE'})).toBeFalsy();
         });
 
         it ('should be true when meeting all criteria', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'ROLE_LAKARE', authority:'PRIVILEGE_SIGNERA_INTYG', intygstyp:'fk7263'})).toBeTruthy();
+            expect(authorityService.isAuthorityActive({
+                feature: 'arbetsgivarUtskrift',
+                role: 'LAKARE',
+                authority: 'SIGNERA_INTYG',
+                requestOrigin: 'NORMAL',
+                intygstyp: 'fk7263'
+            })).toBeTruthy();
         });
     });
 });
