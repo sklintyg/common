@@ -39,8 +39,8 @@ public class Vardgivare {
             return false;
         }
         final Vardgivare that = (Vardgivare) object;
-        return Objects.equals(this.vardgivarid, that.vardgivarid) &&
-                Objects.equals(this.vardgivarnamn, that.vardgivarnamn);
+        return Objects.equals(this.vardgivarid, that.vardgivarid)
+                && Objects.equals(this.vardgivarnamn, that.vardgivarnamn);
     }
 
     @Override

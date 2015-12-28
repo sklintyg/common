@@ -37,9 +37,9 @@ public class GrundData {
             return false;
         }
         final GrundData that = (GrundData) object;
-        return Objects.equals(this.signeringsdatum, that.signeringsdatum) &&
-                Objects.equals(this.skapadAv, that.skapadAv) &&
-                Objects.equals(this.patient, that.patient);
+        return Objects.equals(this.signeringsdatum, that.signeringsdatum)
+                && Objects.equals(this.skapadAv, that.skapadAv)
+                && Objects.equals(this.patient, that.patient);
     }
 
     @Override

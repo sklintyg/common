@@ -49,12 +49,12 @@ public class HoSPersonal {
             return false;
         }
         final HoSPersonal that = (HoSPersonal) object;
-        return Objects.equals(this.personId, that.personId) &&
-                Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn) &&
-                Objects.equals(this.forskrivarKod, that.forskrivarKod) &&
-                Objects.deepEquals(this.befattningar, that.befattningar) &&
-                Objects.deepEquals(this.specialiteter, that.specialiteter) &&
-                Objects.equals(this.vardenhet, that.vardenhet);
+        return Objects.equals(this.personId, that.personId)
+                && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
+                && Objects.equals(this.forskrivarKod, that.forskrivarKod)
+                && Objects.deepEquals(this.befattningar, that.befattningar)
+                && Objects.deepEquals(this.specialiteter, that.specialiteter)
+                && Objects.equals(this.vardenhet, that.vardenhet);
 
     }
 

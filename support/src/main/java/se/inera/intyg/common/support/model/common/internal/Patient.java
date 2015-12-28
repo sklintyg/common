@@ -53,14 +53,14 @@ public class Patient {
             return false;
         }
         final Patient that = (Patient) object;
-        return Objects.equals(this.personId, that.personId) &&
-                Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn) &&
-                Objects.equals(this.fornamn, that.fornamn) &&
-                Objects.equals(this.mellannamn, that.mellannamn) &&
-                Objects.equals(this.efternamn, that.efternamn) &&
-                Objects.equals(this.postadress, that.postadress) &&
-                Objects.equals(this.postnummer, that.postnummer) &&
-                Objects.equals(this.postort, that.postort);
+        return Objects.equals(this.personId, that.personId)
+                && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
+                && Objects.equals(this.fornamn, that.fornamn)
+                && Objects.equals(this.mellannamn, that.mellannamn)
+                && Objects.equals(this.efternamn, that.efternamn)
+                && Objects.equals(this.postadress, that.postadress)
+                && Objects.equals(this.postnummer, that.postnummer)
+                && Objects.equals(this.postort, that.postort);
     }
 
     @Override

@@ -53,15 +53,15 @@ public class Vardenhet {
             return false;
         }
         final Vardenhet that = (Vardenhet) object;
-        return Objects.equals(this.enhetsid, that.enhetsid) &&
-                Objects.equals(this.enhetsnamn, that.enhetsnamn) &&
-                Objects.equals(this.postadress, that.postadress) &&
-                Objects.equals(this.postnummer, that.postnummer) &&
-                Objects.equals(this.postort, that.postort) &&
-                Objects.equals(this.telefonnummer, that.telefonnummer) &&
-                Objects.equals(this.epost, that.epost) &&
-                Objects.equals(this.vardgivare, that.vardgivare) &&
-                Objects.equals(this.arbetsplatsKod, that.arbetsplatsKod);
+        return Objects.equals(this.enhetsid, that.enhetsid)
+                && Objects.equals(this.enhetsnamn, that.enhetsnamn)
+                && Objects.equals(this.postadress, that.postadress)
+                && Objects.equals(this.postnummer, that.postnummer)
+                && Objects.equals(this.postort, that.postort)
+                && Objects.equals(this.telefonnummer, that.telefonnummer)
+                && Objects.equals(this.epost, that.epost)
+                && Objects.equals(this.vardgivare, that.vardgivare)
+                && Objects.equals(this.arbetsplatsKod, that.arbetsplatsKod);
     }
 
     @Override
