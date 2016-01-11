@@ -90,7 +90,7 @@ module.exports = function(config) {
             'karma-jasmine',
             'karma-chrome-launcher',
             'karma-firefox-launcher',
-            'karma-phantomjs2-launcher',
+            'karma-phantomjs-launcher',
             'karma-mocha-reporter'
         ],
 
