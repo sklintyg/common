@@ -30,17 +30,14 @@ describe('messageService', function() {
 
             messageService = _messageService_;
             $rootScope = _$rootScope_;
-        }
-    ]));
-
-    describe('#getProperty', function() {
-
-        beforeEach(function() {
             messageService.addResources({
                 en: { correct: 'Correct', hello: 'Hello ${prefix} ${user}!', empty: '' },
                 sv: { correct: 'Rätt', hello: 'Hej ${prefix} ${user}!', empty: '' }
             });
-        });
+        }
+    ]));
+
+    describe('#getProperty', function() {
 
         it('should return the correct value if a language is specified', function() {
             var enMessage = messageService.getProperty('correct', null, null, 'en');
