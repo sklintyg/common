@@ -177,11 +177,11 @@
             </property>
             <property>
               <name>intyg-privatepractitioner.version</name>
-              <version>intyg-privatepractitioner.version.range</version>
+              <version>${intyg-privatepractitioner.version.range}</version>
             </property>
             <property>
               <name>intyg-privatepractitioner-terms.version</name>
-              <version>intyg-privatepractitioner-terms.version.range</version>
+              <version>${intyg-privatepractitioner-terms.version.range}</version>
             </property>
           </properties>
         </configuration>
