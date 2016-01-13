@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-lcov-merge');
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-angular-templates');
 
@@ -52,8 +53,9 @@ module.exports = function(grunt) {
 
         jshint: {
             options: {
-                jshintrc: '../target/build-tools/jshint/.jshintrc',
-                force: true
+                jshintrc: 'target/build-tools/jshint/.jshintrc',
+                force: true,
+                ignores: ['**/templates.js', '**/vendor/*.js']
             },
             minaintyg: {
                 src: [ 'Gruntfile.js', SRC_DIR + 'webjars/common/minaintyg/**/*.js', TEST_DIR + 'minaintyg/**/*.js' ]
@@ -114,6 +116,13 @@ module.exports = function(grunt) {
                     }
                 }
             }
+        },
+
+        lcovMerge: {
+            options: {
+                outputFile: 'target/karma_coverage/merged_lcov.info'
+            },
+            src: ['target/karma_coverage/webcert/*.info', 'target/karma_coverage/minaintyg/*.info']
         }
     });
 

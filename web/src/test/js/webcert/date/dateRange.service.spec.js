@@ -19,6 +19,36 @@ describe('DateRangeService', function() {
             expect(du.valid).toBeTruthy();
             expect(du.dateString).toBe('2015-01-01');
         });
+
+        it('will create a non swedish DateUnit, not YYYY-MM-DD', function(){
+            // english
+            var du = DateRangeService.DateUnit.build('03-12-2015');
+            expect(du.valid).toBeFalsy();
+            expect(du.viewValid).toBeFalsy();
+            expect(du.dirty).toBeFalsy();
+            expect(du.dateString).toBe('03-12-2015');
+
+            // update with new false value
+            du.update('hehe');
+            expect(du.valid).toBeFalsy();
+            expect(du.dirty).toBeTruthy();
+            expect(du.dateString).toBe('hehe');
+        });
+
+        it('can test if empty', function() {
+            var du = DateRangeService.DateUnit.build('03-12-2015');
+            expect(du.isEmpty()).toBeFalsy();
+
+            du.update('');
+            expect(du.isEmpty()).toBeTruthy();
+
+            du.update(null);
+            expect(du.isEmpty()).toBeTruthy();
+
+            du.update(undefined);
+            expect(du.isEmpty()).toBeTruthy();
+        });
+
         it('will create an invalid DateUnit', function(){
             var du = DateRangeService.DateUnit.build('asdfasdf');
             expect(du.valid).toBeFalsy();
@@ -30,7 +60,6 @@ describe('DateRangeService', function() {
             expect(du.valid).toBeFalsy();
             expect(du.dirty).toBeTruthy();
             expect(du.dateString).toBe('hehe');
-
         });
 
         it('will create a valid date on update of an invalid DateUnit', function(){
@@ -41,17 +70,17 @@ describe('DateRangeService', function() {
 
             // update with only year, should give us first month and first day
             du.update('2015');
-            expect(du.valid).toBeTruthy();
+            expect(du.valid).toBeFalsy();
             expect(du.dirty).toBeTruthy();
             expect(du.dateString).toBe('2015');
-            expect(du.momentString).toBe('2015-01-01');
+            expect(du.momentString).toBe('invalid');
 
             // update with year, month, should give us first day
             du.update('2015-02');
-            expect(du.valid).toBeTruthy();
+            expect(du.valid).toBeFalsy();
             expect(du.dirty).toBeTruthy();
             expect(du.dateString).toBe('2015-02');
-            expect(du.momentString).toBe('2015-02-01');
+            expect(du.momentString).toBe('invalid');
 
             // update with invalid date
             du.update('2015-55');
@@ -62,10 +91,10 @@ describe('DateRangeService', function() {
 
             // update with valid date
             du.update('2015-12');
-            expect(du.valid).toBeTruthy();
+            expect(du.valid).toBeFalsy();
             expect(du.dirty).toBeTruthy();
             expect(du.dateString).toBe('2015-12');
-            expect(du.momentString).toBe('2015-12-01');
+            expect(du.momentString).toBe('invalid');
 
         });
     });
@@ -86,6 +115,62 @@ describe('DateRangeService', function() {
             // update with a bad date
             fromTo.to.update('bad date');
             expect( fromTo.daysBetween).toBe(0);
+        });
+
+        it ('can check for emptiness', function () {
+            var fromTo = DateRangeService.FromTo.build('range1');
+            expect(fromTo.isEmpty()).toBeFalsy();
+
+            fromTo.to.update('');
+            expect(fromTo.isEmpty()).toBeFalsy();
+            expect(fromTo.to.isEmpty()).toBeTruthy();
+            expect(fromTo.from.isEmpty()).toBeFalsy();
+
+            fromTo.from.update('');
+            expect(fromTo.isEmpty()).toBeTruthy();
+            expect(fromTo.from.isEmpty()).toBeTruthy();
+
+        });
+
+        it ('can check for view validity', function () {
+            var fromTo = DateRangeService.FromTo.build('range1');
+            expect(fromTo.isEmpty()).toBeFalsy();
+            expect(fromTo.to.viewValid).toBeTruthy();
+            expect(fromTo.from.viewValid).toBeTruthy();
+
+
+            fromTo.to.update('23-255');
+            expect(fromTo.isEmpty()).toBeFalsy();
+            expect(fromTo.to.viewValid).toBeFalsy();
+            expect(fromTo.from.viewValid).toBeTruthy();
+            expect(fromTo.viewValid).toBeFalsy();
+
+
+        });
+
+
+        it ('make sure we only allow YYYY-MM-DD dates', function () {
+            var fromTo = DateRangeService.FromTo.build('range1');
+            expect(fromTo.isEmpty()).toBeFalsy();
+            expect(fromTo.to.viewValid).toBeTruthy();
+            expect(fromTo.from.viewValid).toBeTruthy();
+
+
+            fromTo.to.update('23-255');
+            expect(fromTo.isEmpty()).toBeFalsy();
+            expect(fromTo.to.viewValid).toBeFalsy();
+            expect(fromTo.from.viewValid).toBeTruthy();
+            expect(fromTo.viewValid).toBeFalsy();
+            expect(fromTo.to.moment).toBeNull();
+
+
+            fromTo.to.update('2015');
+            expect(fromTo.isEmpty()).toBeFalsy();
+            expect(fromTo.to.viewValid).toBeFalsy();
+            expect(fromTo.from.viewValid).toBeTruthy();
+            expect(fromTo.viewValid).toBeFalsy();
+            expect(fromTo.to.moment).toBeNull();
+
         });
 
     });
@@ -489,10 +574,11 @@ describe('DateRangeService', function() {
         it ('can vallidate that the min and max dates are within 6 months', function () {
             var fromTos = DateRangeService.FromTos.build(['range1', 'range2']);
 
-            var now7MonthsAheadString = moment().add(7, 'months').format('YYYY-MM-DD');
+            var now7MonthsAheadString = moment('2015-01-01').add(7, 'months').format('YYYY-MM-DD');
 
-            fromTos.range1.check(true);
-            fromTos.range2.check(true);
+            // simulate check with fixed dates
+            fromTos.range1.update({from:'2015-01-01', to:'2015-01-08'});
+            fromTos.range2.update({from:'2015-01-09', to:'2015-01-16'});
 
             expect(fromTos.datesPeriodTooLong).toBeFalsy();
 
@@ -501,25 +587,23 @@ describe('DateRangeService', function() {
             expect(fromTos.datesPeriodTooLong).toBeTruthy();
 
             // take the date below 6 months
-            var now4MonthsAheadString = moment().add(4, 'months').format('YYYY-MM-DD');
+            var now4MonthsAheadString = moment('2015-01-01').add(4, 'months').format('YYYY-MM-DD');
 
             fromTos.range2.to.update(now4MonthsAheadString);
 
             expect(fromTos.datesPeriodTooLong).toBeFalsy();
 
-            // take the date below 6 months
-            var plus6minus1day = moment().add(6, 'months');
-            plus6minus1day.subtract(1, 'days')
+            // take the date exactly below 6 months
+            var plus6minus1day = moment('2015-01-01').add(6, 'months');
+            plus6minus1day.subtract(1, 'days');
             fromTos.range2.to.update(plus6minus1day);
 
             expect(fromTos.datesPeriodTooLong).toBeFalsy();
 
-            plus6minus1day.add(1, 'days')
+            plus6minus1day.add(1, 'days');
             fromTos.range2.to.update(plus6minus1day);
 
             expect(fromTos.datesPeriodTooLong).toBeTruthy();
-
-
         });
 
     });

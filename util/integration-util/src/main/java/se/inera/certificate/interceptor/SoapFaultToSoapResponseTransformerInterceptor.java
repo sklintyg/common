@@ -31,7 +31,7 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
             TransformerFactory transformerFactory = (TransformerFactory) transformFactoryField.get(null);
             transformerFactory.setURIResolver(new ClasspathUriResolver());
             transformFactoryField.setAccessible(false);
-        } catch (NoSuchFieldException|IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException("Failed to set UriResolver for TransactionFactory", e);
         }
     }

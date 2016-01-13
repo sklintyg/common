@@ -102,9 +102,15 @@ public class Vardenhet {
         return vardgivare;
     }
 
-    public void setVardgivare(Vardgivare vardgivare) { this.vardgivare = vardgivare; }
+    public void setVardgivare(Vardgivare vardgivare) {
+        this.vardgivare = vardgivare;
+    }
 
-    public String getArbetsplatsKod() { return arbetsplatsKod; }
+    public String getArbetsplatsKod() {
+        return arbetsplatsKod;
+    }
 
-    public void setArbetsplatsKod(String arbetsplatsKod) { this.arbetsplatsKod = arbetsplatsKod; }
+    public void setArbetsplatsKod(String arbetsplatsKod) {
+        this.arbetsplatsKod = arbetsplatsKod;
+    }
 }

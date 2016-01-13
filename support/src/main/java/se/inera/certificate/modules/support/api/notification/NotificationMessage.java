@@ -1,19 +1,16 @@
 package se.inera.certificate.modules.support.api.notification;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.joda.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
-
-import se.inera.certificate.modules.support.api.notification.FragorOchSvar;
-import se.inera.certificate.modules.support.api.notification.HandelseType;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class NotificationMessage {
 
     private String intygsId;
-    
+
     private String intygsTyp;
-    
+
     private String logiskAdress;
 
     private LocalDateTime handelseTid;
@@ -41,7 +38,7 @@ public class NotificationMessage {
 
     public NotificationMessage() {
     }
-    
+
     @Override
     public String toString() {
         return "NotificationMessage [intygsId=" + intygsId + ", intygsTyp=" + intygsTyp + ", logiskAdress=" + logiskAdress + ", handelseTid="

@@ -5,11 +5,11 @@ import java.util.List;
 
 public final class StringUtil {
 
-    /** Hidden constructor */
+    /** Hidden constructor. */
     private StringUtil() {
     }
 
-    /** Returns true if string is null or ahs length 0, otherwise false */
+    /** Returns true if string is null or ahs length 0, otherwise false. */
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.length() == 0;
     }

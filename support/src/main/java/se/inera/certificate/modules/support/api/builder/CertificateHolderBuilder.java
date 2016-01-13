@@ -8,6 +8,7 @@ import org.joda.time.LocalDateTime;
 import se.inera.certificate.model.CertificateState;
 import se.inera.certificate.modules.support.api.CertificateHolder;
 import se.inera.certificate.modules.support.api.CertificateStateHolder;
+import se.inera.certificate.modules.support.api.dto.Personnummer;
 
 public class CertificateHolderBuilder {
 
@@ -28,7 +29,7 @@ public class CertificateHolderBuilder {
         return this;
     }
 
-    public CertificateHolderBuilder civicRegistrationNumber(String civicRegistrationNumber) {
+    public CertificateHolderBuilder civicRegistrationNumber(Personnummer civicRegistrationNumber) {
         certificate.setCivicRegistrationNumber(civicRegistrationNumber);
         return this;
     }

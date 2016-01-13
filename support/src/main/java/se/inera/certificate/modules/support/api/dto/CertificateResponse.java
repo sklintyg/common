@@ -35,5 +35,5 @@ public class CertificateResponse {
     public boolean isRevoked() {
         return revoked;
     }
-    
+
 }

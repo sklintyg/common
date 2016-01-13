@@ -1,15 +1,21 @@
-/* global document */
 angular.module('common').controller('common.IntygHeader',
     ['$scope', '$log', '$stateParams', 'common.messageService', 'common.PrintService',
-    'common.IntygCopyRequestModel', 'common.User', 'common.IntygService',
+    'common.IntygCopyRequestModel', 'common.User', 'common.UserModel', 'common.IntygService',
     'common.IntygViewStateService', 'common.statService',
         function($scope, $log, $stateParams, messageService, PrintService, IntygCopyRequestModel,
-            User, IntygService, CommonViewState, statService) {
+            User, UserModel, IntygService, CommonViewState, statService) {
             'use strict';
 
+            $scope.user = UserModel;
             $scope.intygstyp = $stateParams.certificateType;
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
 
+            $scope.visaSkickaKnappen = function(){
+                return !$scope.viewState.common.intyg.isSent &&
+                  !$scope.viewState.common.isIntygOnSendQueue &&
+                  !$scope.viewState.common.intyg.isRevoked &&
+                  !$scope.viewState.common.isIntygOnRevokeQueue;
+            };
 
             $scope.send = function() {
                 IntygService.send($scope.viewState.intygModel.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
@@ -39,7 +45,7 @@ angular.module('common').controller('common.IntygHeader',
                     return;
                 }
 
-                var isOtherCareUnit = User.getValdVardenhet() !== cert.grundData.skapadAv.vardenhet.enhetsid;
+                var isOtherCareUnit = User.getValdVardenhet().id !== cert.grundData.skapadAv.vardenhet.enhetsid;
                 IntygService.copy($scope.viewState,
                     IntygCopyRequestModel.build({
                         intygId: cert.id,
@@ -50,11 +56,15 @@ angular.module('common').controller('common.IntygHeader',
                     isOtherCareUnit);
             };
 
-            $scope.print = function(cert) {
+            $scope.print = function(cert, isEmployeeCopy) {
                 if (CommonViewState.intyg.isRevoked) {
-                    PrintService.printWebPage(cert.id, $stateParams.certificateType);
+                    //PrintService.printWebPage(cert.id, $stateParams.certificateType);
+                    var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
+                    PrintService.printWebPageWithCustomTitle(cert.id, $stateParams.certificateType, customHeader);
+                } else if (isEmployeeCopy) {
+                    window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
                 } else {
-                    document.pdfForm.submit();
+                    window.open($scope.pdfUrl, '_blank');
                 }
             };
         }

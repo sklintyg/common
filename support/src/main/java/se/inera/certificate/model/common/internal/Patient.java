@@ -18,11 +18,11 @@
  */
 package se.inera.certificate.model.common.internal;
 
-import se.inera.certificate.validate.SamordningsnummerValidator;
+import se.inera.certificate.modules.support.api.dto.Personnummer;
 
 public class Patient {
 
-    private String personId;
+    private Personnummer personId;
 
     private String fullstandigtNamn;
 
@@ -43,14 +43,17 @@ public class Patient {
     }
 
     public boolean isSamordningsNummer() {
-        return SamordningsnummerValidator.isSamordningsNummer(personId);
+        if (personId == null) {
+            throw new IllegalStateException("No person id has been set");
+        }
+        return personId.isSamordningsNummer();
     }
 
-    public String getPersonId() {
+    public Personnummer getPersonId() {
         return personId;
     }
 
-    public void setPersonId(String personId) {
+    public void setPersonId(Personnummer personId) {
         this.personId = personId;
     }
 

@@ -135,6 +135,11 @@
         max-width: 800px
     }
 
+    /* Modifier of edit-form. A larger width form*/
+    .edit-form--lg {
+        max-width: 1600px
+    }
+
     .alert-block {
         display: inline-block;
     }
@@ -153,6 +158,11 @@
 
     .certificate {
         max-width: 800px;
+    }
+
+    /* Modifier of certificate. A larger width certificate*/
+    .certificate--lg {
+        max-width: 1600px;
     }
 
     .revoked-certificate {
@@ -621,4 +631,95 @@
         font-weight: bold;
         white-space: pre-line;
     }
+
+    /* A panel to be used instead of the regular bootstrap panels, panel-default etc.
+       Specifically targeting the FMB-accordion
+    */
+    .panel-fmb-info {
+        border-color: #dddddd;
+    }
+
+    .panel-fmb-info > .panel-heading {
+        color: #333333;
+        background-color: white;
+        border-color: white;
+        padding-bottom: 0px;
+    }
+
+    .panel-fmb-info > .panel-heading + .panel-collapse .panel-body {
+        border-top-color: white;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .panel-fmb-info > .panel-footer + .panel-collapse .panel-body {
+        border-bottom-color: #dddddd;
+        padding-top: 0px;
+    }
+
+    .panel-fmb-info-heading:hover {
+        cursor: pointer;
+    }
+
+    .fmb-accordion-head-img {
+        height: 35px;
+        width: auto;
+    }
+
+    .fmb-glyphicon:hover {
+        color: grey;
+    }
+
+    .fmb-diagnosis-headline {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 5px;
+        color: black;
+    }
+
+    .fmb-sub-headline {
+        padding-bottom: 0px;
+    }
+
+    .fmb-section {
+        padding-bottom: 10px;
+    }
+    
+    .fmb-ruler {
+        margin: 0px 0px 3px 0px;
+        border-top: 2px solid #dddddd;
+    }
+
+    .fmb-bullet-list {
+        padding-left: 20px;
+    }
+
+    .col-fmb-base-offset {
+        margin-top: 30px;
+    }
+
+}
+
+/*Make the FMB-display a bit responsive*/
+@media (min-width: 992px) {
+    .col-md-fmb-offset {
+        margin-top: 50px;
+    }
+}
+
+@media (min-width: 1340px) {
+    .col-lg-fmb-offset {
+        margin-top: 30px;
+    }
+}
+
+/* Change the navbar styling */
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+	background: #24a1af !important;
+	color:#fff !important;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)" !important;
 }

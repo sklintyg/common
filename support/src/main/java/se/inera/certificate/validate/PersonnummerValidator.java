@@ -31,6 +31,10 @@ public class PersonnummerValidator implements RootValidator {
      * The regex pattern that the personnummer must conform to.
      */
     private static final Pattern PERSONNUMMER_PATTERN = Pattern.compile("(\\d{8})([+-])(\\d{3})(\\d)");
+    private static final int PERSONNUMMER_DATE_GROUP = 1;
+    private static final int PERSONNUMMER_SEPARATOR_GROUP = 2;
+    private static final int PERSONNUMMER_BIRTHNUMBER_GROUP = 3;
+    private static final int PERSONNUMMER_CHECKSUM_GROUP = 4;
 
     /**
      * This oldest citizen with a personnummer was born 1840-05-06.
@@ -69,10 +73,10 @@ public class PersonnummerValidator implements RootValidator {
             result.add(String.format("Could not parse the SSN '%s' (format should be 'yyyyMMdd-nnnn')", pnr));
             return result;
         }
-        String dateString = m.group(1);
-        String separator = m.group(2);
-        String nnn = m.group(3);
-        int mod10 = Integer.parseInt(m.group(4));
+        String dateString = m.group(PERSONNUMMER_DATE_GROUP);
+        String separator = m.group(PERSONNUMMER_SEPARATOR_GROUP);
+        String nnn = m.group(PERSONNUMMER_BIRTHNUMBER_GROUP);
+        int mod10 = Integer.parseInt(m.group(PERSONNUMMER_CHECKSUM_GROUP));
 
         LocalDate birthday = checkDate(pnr, dateString, result);
 

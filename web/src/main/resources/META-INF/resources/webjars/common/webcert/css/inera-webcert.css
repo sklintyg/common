@@ -485,6 +485,10 @@
         color: #28b4c4;
     }
 
+    .glyphicon.glyphicon-chevron-down {
+        top: 3px;
+    }
+
     .table {
         border-collapse: separate;
         border-spacing: 0 0;
@@ -553,6 +557,16 @@
     **/
 
     /* modal */
+    .modal .modal-container-terms {
+        height:100%;
+        width : 80%;
+    }
+
+    .modal-terms-size{
+        width:80%;
+        height:80%;
+    }
+
     .modal-header h3 {
         padding: 0;
     }
@@ -724,6 +738,17 @@
         margin-bottom: 10px;
     }
 
+    .graybox {
+        -webkit-border-radius: 5px 5px 5px 5px;
+        -moz-border-radius: 5px 5px 5px 5px;
+        -ms-border-radius: 5px 5px 5px 5px;
+        -o-border-radius: 5px 5px 5px 5px;
+        border-radius: 5px 5px 5px 5px;
+        background-color: #f5f5f5;
+        max-width: 800px;
+        padding: 15px 17px 15px 17px;
+    }
+
     .certlist {
         padding-bottom: 20px;
     }
@@ -827,20 +852,31 @@
     }
 
     .webcert-multicol {
-        background-color: #fff;
         float: left;
         margin: 0;
         overflow: hidden;
         width: 100%;
     }
 
-    .webcert-multicol-background {
+    .webcert-multicol-container {
         /* Equal height using http://matthewjamestaylor.com/blog/equal-height-columns-cross-browser-css-no-hacks */
         float: left;
         min-height: 832px;
         position: relative;
         width: 100%;
     }
+
+    /*Sets a background for our multicol and an override class for the tallest column in our
+    multicol setup. Use the specific webcert-multicol-background-* as the default background color for all the colors.
+    This gives the shortest of the columns the correct backgroundcolor on IE9.
+    Use the .webcert-col-tallest-* for the tallest of the columns to override the background color. And all this hassle just to cater for the needs of IE9. */
+	.webcert-multicol-background-grey, .webcert-col-tallest-grey {
+		background-color: #f2f2f2 !important;
+	}
+
+    .webcert-multicol-background-white, .webcert-col-tallest-white {
+		background-color: #fff !important;
+	}
 
     .webcert-col {
         padding: 30px 30px 30px 30px;
@@ -851,15 +887,14 @@
         padding: 30px 30px 20px 30px;
     }
 
+
     .webcert-col-secondary {
-        background-color: #f2f2f2;
         position: relative;
         padding: 0 15px 30px 30px;
     }
 
     @media (min-width: 768px) {
-        .webcert-multicol-background {
-            background-color: #f2f2f2;
+        .webcert-multicol-container {
             left: 50%;
         }
         .webcert-col-primary {
@@ -1092,6 +1127,15 @@
 
     .absolute {
         position: absolute;
+    }
+
+    .jsp .text-expander{
+        line-height: 2.5em;
+    }
+
+    .webcert-logo {
+        padding-top: 1.6em;
+        padding-right: 5em;
     }
 
 }

@@ -33,7 +33,7 @@ angular.module('common').provider('common.http403ResponseInterceptor',
          * Mandatory provider $get function. here we can inject the dependencies the
          * actual implementation needs, in this case $q (and $window for redirection)
          */
-        this.$get = [ '$q', '$window', 'common.featureService', function($q, $window, featureService) {
+        this.$get = [ '$q', '$window', 'common.authorityService', function($q, $window, authorityService) {
             //Ref our config object
             var config = this.config;
             // Add our custom success/failure handlers to the promise chain..
@@ -49,7 +49,9 @@ angular.module('common').provider('common.http403ResponseInterceptor',
                             redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf('?'));
                         }
                         redirectUrl += '?reason=';
-                        if (featureService.isFeatureActive(featureService.features.FRAN_JOURNALSYSTEM)) {
+
+                        // if we aren't allowed to navigate we are most likely djupintegrerade.
+                        if (!authorityService.isAuthorityActive({authority: 'PRIVILEGE_NAVIGERING'})) {
                             redirectUrl += 'timeout_integration';
                         }
                         else {

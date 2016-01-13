@@ -2,12 +2,13 @@ package se.inera.certificate.modules.support.api;
 
 import se.inera.certificate.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.certificate.integration.module.exception.InvalidCertificateException;
+import se.inera.certificate.modules.support.api.dto.Personnummer;
 
 /**
  * The module API defines methods that allows an module to invoke methods on the Module container.
  */
 public interface ModuleContainerApi {
-    
+
     /**
      * Signal the reception of a certificate to the module container.
      */
@@ -16,6 +17,6 @@ public interface ModuleContainerApi {
     /**
      * Get a certificate from the module container.
      */
-    CertificateHolder getCertificate(String certificateId, String personId, boolean checkConsent) throws InvalidCertificateException;
+    CertificateHolder getCertificate(String certificateId, Personnummer personId, boolean checkConsent) throws InvalidCertificateException;
 
 }

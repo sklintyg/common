@@ -14,6 +14,13 @@
 
   <name>Intyg Common (Web)</name>
 
+  <properties>
+    <sonar.sources>src/main/resources/META-INF/resources/webjars/common</sonar.sources>
+    <sonar.tests>src/test/js</sonar.tests>
+    <sonar.javascript.lcov.reportPath>target/karma_coverage/merged_lcov.info</sonar.javascript.lcov.reportPath>
+    <sonar.exclusions>**/templates.js,**/vendor/*</sonar.exclusions>
+  </properties>
+
   <dependencies>
     <!-- Webjars -->
     <dependency>
@@ -40,6 +47,13 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -137,6 +151,8 @@
             <configuration>
               <nodeVersion>${node.version}</nodeVersion>
               <npmVersion>${npm.version}</npmVersion>
+              <nodeDownloadRoot>https://build-inera.nordicmedtest.se/node/</nodeDownloadRoot>
+              <npmDownloadRoot>https://build-inera.nordicmedtest.se/node/npm/</npmDownloadRoot>
             </configuration>
           </execution>
           <execution>
@@ -160,7 +176,7 @@
               <goal>karma</goal>
             </goals>
             <configuration>
-              <karmaConfPath>${project.basedir}/src/test/resources/karma-minaintyg.conf.ci.js</karmaConfPath>
+              <karmaConfPath>${project.basedir}/src/test/resources/karma-minaintyg.conf.ci.js --skip-coverage=${skip-coverage}</karmaConfPath>
             </configuration>
           </execution>
           <execution>
@@ -169,7 +185,18 @@
               <goal>karma</goal>
             </goals>
             <configuration>
-              <karmaConfPath>${project.basedir}/src/test/resources/karma-webcert.conf.ci.js</karmaConfPath>
+              <karmaConfPath>${project.basedir}/src/test/resources/karma-webcert.conf.ci.js --skip-coverage=${skip-coverage}</karmaConfPath>
+            </configuration>
+          </execution>
+          <!-- merges karma code coverage reports for wc and mi -->
+          <execution>
+            <id>grunt lcovMerge</id>
+            <goals>
+              <goal>grunt</goal>
+            </goals>
+            <phase>test</phase>
+            <configuration>
+              <arguments>lcovMerge --force</arguments>
             </configuration>
           </execution>
         </executions>

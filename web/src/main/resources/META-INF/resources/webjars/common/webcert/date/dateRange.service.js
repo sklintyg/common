@@ -4,7 +4,7 @@
  *
  * Created by stephenwhite on 25/01/15.
  */
-angular.module('common').factory('common.DateRangeService', function() {
+angular.module('common').factory('common.DateRangeService', ['$log', 'common.DateUtilsService',  function($log, dateUtils) {
     'use strict';
     // private vars
     var format = 'YYYY-MM-DD';
@@ -19,15 +19,15 @@ angular.module('common').factory('common.DateRangeService', function() {
         }
         // calculate days between
         if(to.valid && from.valid){
-            //console.log('-- min : ' + from.dateString + ', max:' + to.dateString);
-            //console.log('-- db ' + db);
+            //$log.info('-- min : ' + from.dateString + ', max:' + to.dateString);
+            //$log.info('-- db ' + db);
             return to.moment.diff(from.moment, 'days') + 1;
         } else {
             return 0;
         }
     };
 
-    var _isMinDateOutOfRange = function(minMax, now) {
+    var _isMinDateOutOfRange = function(minMax, now) { // jshint ignore:line
         if(!minMax || !minMax.min || !minMax.max){
             return false;
         }
@@ -47,7 +47,7 @@ angular.module('common').factory('common.DateRangeService', function() {
         } else {
             now = moment(now);
         }
-        //console.log('**** min : ' + min.format('YYYY-MM-DD') + ', now : ' + now.format('YYYY-MM-DD'));
+        //$log.info('**** min : ' + min.format('YYYY-MM-DD') + ', now : ' + now.format('YYYY-MM-DD'));
         return min.isAfter(now.add('days', minDaysRange));
     };
 
@@ -63,7 +63,7 @@ angular.module('common').factory('common.DateRangeService', function() {
         if(min.dateString !== undefined){
             min = min.moment;
         }
-        //console.log('**** min : ' + min.format('YYYY-MM-DD') + ', now : ' + now.format('YYYY-MM-DD'));
+        //$log.info('**** min : ' + min.format('YYYY-MM-DD') + ', now : ' + now.format('YYYY-MM-DD'));
         return min.isBefore(now.subtract('days', 7));
     };
 
@@ -83,8 +83,8 @@ angular.module('common').factory('common.DateRangeService', function() {
             min = minMax.min;
         }
         var offset = Math.abs(max.diff(min, 'months'));
-        //console.log('**** offset : ' + offset);
-        //console.log('**** min : ' + min.format('YYYY-MM-DD') + ', max : ' + max.format('YYYY-MM-DD'));
+        //$log.info('**** offset : ' + offset);
+        //$log.info('**** min : ' + min.format('YYYY-MM-DD') + ', max : ' + max.format('YYYY-MM-DD'));
         var periodTooLong = (offset >= months);
         if(periodTooLong){
             minMax.max.viewValid = false;
@@ -95,7 +95,7 @@ angular.module('common').factory('common.DateRangeService', function() {
 
     var _now = function(){
         return moment(0, 'HH');
-    }
+    };
 
     //-----------------------------------------------------------------------
     // --- FromTos
@@ -128,8 +128,15 @@ angular.module('common').factory('common.DateRangeService', function() {
         }
     };
 
-    FromTos.prototype.linkFormAndModel = function(form, model){
+    FromTos.prototype.linkFormAndModel = function(form, model, scope){
+
+        //$log.info('--- linkFormAndModel. --- form:');
+        //$log.info(form);
+        //$log.info('model:');
+        //$log.info(model);
         if(!this.names){
+            //$log.info('this.names is not valid:');
+            //$log.info(this.names);
             return;
         }
         this.model = model;
@@ -137,12 +144,20 @@ angular.module('common').factory('common.DateRangeService', function() {
             var name = this.names[i];
             var fromTo = this[name];
 
+            //$log.info(name+'from');
+            //$log.info(name+'tom');
+
             var formFrom = form[name+'from'];
+            //$log.info('formFrom:');
+            //$log.info(formFrom);
             var formTo = form[name+'tom'];
+            //$log.info('formTo:');
+            //$log.info(formTo);
             fromTo.from.form = formFrom;
             fromTo.to.form = formTo;
-            fromTo._addParser(formFrom, fromTo.from, 'from');
-            fromTo._addParser(formTo, fromTo.to, 'tom');
+            //$log.info('--- addparsers. ---');
+            fromTo._addParser(formFrom, fromTo.from, 'from', scope);
+            fromTo._addParser(formTo, fromTo.to, 'tom', scope);
 
             // set the initial values
             if(model[name]){
@@ -152,7 +167,7 @@ angular.module('common').factory('common.DateRangeService', function() {
     };
 
     FromTos.prototype.rangeCheck = function(){
-        //console.log('---------- FromTos.rangeCheck');
+        //$log.info('---------- FromTos.rangeCheck');
         this.datesPeriodTooLong = false;
         this.updateMinMax();
         this.totalCertDays = 0;
@@ -171,7 +186,9 @@ angular.module('common').factory('common.DateRangeService', function() {
             this.totalCertDays = 0;
         }
         this.datesPeriodTooLong = _areDatesPeriodTooLong(this.minMax);
-        //this.minDateOutOfRange = _isMinDateOutOfRange(this.minMax);
+
+        // reason this is commented out?
+        // this.minDateOutOfRange = _isMinDateOutOfRange(this.minMax);
         //if(this.minDateOutOfRange){
         //    this.datesOutOfRange = this.minDateOutOfRange;
         //}
@@ -183,41 +200,41 @@ angular.module('common').factory('common.DateRangeService', function() {
     // ----|         |---- 3
     FromTos.prototype.checkOverlaps = function(){
         this.clearOverlaps();
-        //console.log('----------- check overlaps');
-        //console.log('------|    |-------');
+        //$log.info('----------- check overlaps');
+        //$log.info('------|    |-------');
         for(var i=0; i<this.dateRanges.length; i++){
             var dateRange = this.dateRanges[i];
             //dateRange.overlap = false;
-            //console.log('++++++ dr valid:' + dateRange.valid + ',' + dateRange.name + ', from:' + dateRange.from.dateString + ', to:' + dateRange.to.dateString );
+            //$log.info('++++++ dr valid:' + dateRange.valid + ',' + dateRange.name + ', from:' + dateRange.from.dateString + ', to:' + dateRange.to.dateString );
 
             if(dateRange.valid){
                 for(var j=i+1; j<this.dateRanges.length; j++){
                     var dateRange2 = this.dateRanges[j];
                     if(dateRange.name !== dateRange2.name && dateRange2.valid){
-                        //console.log('-- dr1 ' + dateRange.name + ', from:' + dateRange.from.dateString + ', to:' + dateRange.to.dateString );
-                        //console.log('-- dr2 ' + dateRange2.name + ', from:' + dateRange2.from.dateString+ ', to:' + dateRange2.to.dateString);
+                        //$log.info('-- dr1 ' + dateRange.name + ', from:' + dateRange.from.dateString + ', to:' + dateRange.to.dateString );
+                        //$log.info('-- dr2 ' + dateRange2.name + ', from:' + dateRange2.from.dateString+ ', to:' + dateRange2.to.dateString);
                         var overlap = false;
                         var sameTo = dateRange.to.moment.isSame(dateRange2.to.moment);
                         var sameFrom = dateRange.from.moment.isSame(dateRange2.from.moment);
                         var sameFromTo = dateRange.to.moment.isSame(dateRange2.from.moment);
                         var sameToFrom = dateRange.from.moment.isSame(dateRange2.to.moment);
-                        //console.log('------|    |-------');
+                        //$log.info('------|    |-------');
                         if(sameTo || sameFrom || sameFromTo || sameToFrom){
                             overlap = true;
-                            //console.log('------||    ||-------');
+                            //$log.info('------||    ||-------');
                         } else if(dateRange2.from.moment.isBefore(dateRange.from.moment) &&
                             (dateRange2.to.moment.isBefore(dateRange.to.moment) &&
                             dateRange2.to.moment.isAfter(dateRange.from.moment) )
                         ){
-                            //console.log('----|    |--------- 1');
+                            //$log.info('----|    |--------- 1');
                             overlap = true;
                         } else if(dateRange2.from.moment.isAfter(dateRange.from.moment) &&
                             dateRange2.from.moment.isBefore(dateRange.to.moment)){
-                            //console.log('--------|    |----- 2');
+                            //$log.info('--------|    |----- 2');
                             overlap = true;
                         } else if(dateRange2.from.moment.isBefore(dateRange.from.moment) &&
                             dateRange2.to.moment.isAfter(dateRange.to.moment) ){
-                            //console.log('----|            |- 3');
+                            //$log.info('----|            |- 3');
                             overlap = true;
                         }
                         if(!dateRange.overlap){
@@ -233,21 +250,21 @@ angular.module('common').factory('common.DateRangeService', function() {
     };
 
     FromTos.prototype.setValidity = function() {
-        //console.log('--------------- ');
-        //console.log('--- periodTooLong:'+this.datesPeriodTooLong+', datesOutOfRange:' + this.datesOutOfRange + ', totalCertDays:' + this.totalCertDays);
+        //$log.info('--------------- ');
+        //$log.info('--- periodTooLong:'+this.datesPeriodTooLong+', datesOutOfRange:' + this.datesOutOfRange + ', totalCertDays:' + this.totalCertDays);
         for(var i=0; i<this.dateRanges.length; i++){
             var dateRange = this.dateRanges[i];
             // set validity
             dateRange.to.setValidity();
             dateRange.from.setValidity();
-            //console.log('--- to<from:' + dateRange.valid);
-            //console.log('--- val from ' + dateRange.name + ', viewValid ' + dateRange.from.viewValid + ', outOfRange:' + dateRange.from.outOfRange + ', overlap:' + dateRange.overlap );
-            //console.log('--- val to ' + dateRange.name + ', viewValid ' + dateRange.to.viewValid + ', outOfRange:' + dateRange.to.outOfRange + ', overlap:' + dateRange.overlap);
+            //$log.info('--- to<from:' + dateRange.valid);
+            //$log.info('--- val from ' + dateRange.name + ', viewValid ' + dateRange.from.viewValid + ', outOfRange:' + dateRange.from.outOfRange + ', overlap:' + dateRange.overlap );
+            //$log.info('--- val to ' + dateRange.name + ', viewValid ' + dateRange.to.viewValid + ', outOfRange:' + dateRange.to.outOfRange + ', overlap:' + dateRange.overlap);
         }
     };
 
     FromTos.prototype.updateMinMax = function(){
-        //console.log('---------------- updateMinMax');
+        //$log.info('---------------- updateMinMax');
         var validDateUnits = [];
         for(var i=0; i<this.dateRanges.length; i++){
             var dateRange = this.dateRanges[i];
@@ -261,26 +278,26 @@ angular.module('common').factory('common.DateRangeService', function() {
             //}
         }
 
-        //console.log('---------------- validDateUnits length : ' + validDateUnits.length);
+        //$log.info('---------------- validDateUnits length : ' + validDateUnits.length);
 
         if(validDateUnits !== undefined && validDateUnits.length > 0){
-            //console.log('-- before');
+            //$log.info('-- before');
             var du;
             for(i=0; i<validDateUnits.length; i++){
                 du = validDateUnits[i];
-                //console.log('-- du : ' + du.dateString);
+                //$log.info('-- du : ' + du.dateString);
             }
 
             validDateUnits = validDateUnits.sort(function(a,b){
-                //console.log('-- sort du a: ' + a.dateString);
-                //console.log('-- sort du b: ' + b.dateString);
+                //$log.info('-- sort du a: ' + a.dateString);
+                //$log.info('-- sort du b: ' + b.dateString);
                 return a.longTime - b.longTime;
             });
 
-            //console.log('-- after');
+            //$log.info('-- after');
             for(i=0; i<validDateUnits.length; i++){
                 du = validDateUnits[i];
-                //console.log('-- du : ' + du.dateString);
+                //$log.info('-- du : ' + du.dateString);
             }
 
             this.minMax.min = validDateUnits[0];
@@ -292,12 +309,12 @@ angular.module('common').factory('common.DateRangeService', function() {
     };
 
     FromTos.prototype.clearOverlaps = function(){
-        //console.log('----------- clear overlaps');
+        //$log.info('----------- clear overlaps');
         for(var i=0; i<this.dateRanges.length; i++){
             var dateRange = this.dateRanges[i];
             dateRange.overlap = false;
         }
-    }
+    };
 
     FromTos.build = function(names, startDate){
         return new FromTos(names, startDate);
@@ -320,34 +337,60 @@ angular.module('common').factory('common.DateRangeService', function() {
 
     };
 
-    FromTo.prototype._addParser = function(formElement, dateUnit){
+    /**
+     * This will get called on user interaction and also on datepicker input.
+     * The date picker will provide a utc formatted date so we can moment it and then get a formatted string, which
+     * we can then pass into the dateunit.
+     * @param formElement
+     * @param dateUnit
+     * @private
+     */
+    FromTo.prototype._addParser = function(formElement, dateUnit, name, scope){
+        //$log.info('_addParser formElement');
+        //$log.info(formElement);
+        //$log.info('_addParser dateUnit');
+        //$log.info(dateUnit);
+
         if(formElement && dateUnit){
-            formElement.$parsers.push(function(modelValue){
+            //formElement.$parsers = [];
+            formElement.$parsers.unshift(function(modelValue){
+                // here we should always go with the view value
+                // the date directive will convert the model value into a date object
+                // although we need to apply our own validation ...
 
-                if(!modelValue) {
-                    modelValue = formElement.$viewValue;
-                }
+                var formValue = formElement.$viewValue;
+                // convert datepicker date
 
-                // convert to moment
-                var mdate = moment(modelValue);
-                var sdate;
-                if(mdate && mdate.isValid()){
-                    sdate = mdate.format(format);
-                } else {
-                    sdate = modelValue;
+                // utc Thu Aug 13 2015 00:00:00 GMT+0200 (CEST)
+                if(formValue instanceof Date){
+                    // then the date is from the date picker
+                    var utcm = moment(formValue);
+                    // format the date to a YYYY-MM-DD
+                    formValue = utcm.format(format);
                 }
-                dateUnit.update(sdate); // will trigger a fromTo.updateModel
-                if(!mdate.isValid()){
-                    //return undefined;
+                dateUnit.update(formValue); // will trigger a fromTo.updateModel
+                if(dateUnit.valid) {
+                    formElement.$setValidity('date', false);
+                    return formValue;
                 } else {
-                    return sdate;
+                    formElement.$setValidity('date', false);
+                    return undefined;
                 }
+                //return formValue;
             });
 
+            formElement.$formatters.push(function(value){
+               //$log.info('----- dp formatter : ' + value);
+                return value;
+            });
+
+        } else {
+            $log.info('formElement or dateUnit not available. cannot add parser or modelupdate.');
         }
-    }
+    };
 
     FromTo.prototype.updateModel = function(){
+        //$log.info('update model ++++++++++++++++++++');
         if(!this.parent || !this.parent.model){
             return;
         }
@@ -363,6 +406,7 @@ angular.module('common').factory('common.DateRangeService', function() {
         this.parent.model[this.name].from = this.from.dateString;
         this.parent.model[this.name].tom = this.to.dateString;
 
+        //$log.info('update model -------------------');
     };
 
     FromTo.prototype.createToFrom = function(startDate){
@@ -410,13 +454,13 @@ angular.module('common').factory('common.DateRangeService', function() {
                 this.update({from:nextStartDate, to:this.sevenDaysAhead(nextStartDate)});
             }
         } else {
-            //console.log('1');
+            //$log.info('1');
             this.update(undefined);
         }
     };
 
     FromTo.prototype.update = function( fromTo ){
-        //console.log('------------------- FromTo.update');
+        //$log.info('------------------- FromTo.update');
         this.outOfRange = false;
         if(this.parent){
             this.parent.datesOutOfRange = false;
@@ -432,7 +476,7 @@ angular.module('common').factory('common.DateRangeService', function() {
 
     // this is where the cascading updates happen
     FromTo.prototype.updateDaysBetween = function( ){
-        //console.log('---------- FromTo.updateDaysBetween');
+        //$log.info('---------- FromTo.updateDaysBetween');
         this.overlap = false;
         this.daysBetween = _updateDaysBetween(this.from, this.to);
         // set validity
@@ -456,9 +500,9 @@ angular.module('common').factory('common.DateRangeService', function() {
         }
 
         if(this.parent) {
-            //console.log('has parent');
+            //$log.info('has parent');
             //if(this.valid){
-            //console.log('+++++++ checkOverlaps : ' + this.name);
+            //$log.info('+++++++ checkOverlaps : ' + this.name);
             this.parent.checkOverlaps();
             //}
             this.parent.rangeCheck();
@@ -480,12 +524,12 @@ angular.module('common').factory('common.DateRangeService', function() {
     };
 
     FromTo.prototype.isEmpty = function(){
-        return !this.to || ! this.from || this.to.isEmpty() || this.from.isEmpty();
-    }
+        return (!this.to && !this.from) || (this.to.isEmpty() && this.from.isEmpty());
+    };
 
     FromTo.build = function(name, startDate){
         return new FromTo(name, startDate);
-    }
+    };
 
     //-----------------------------------------------------------------------
     // --- single DateUnit
@@ -510,50 +554,70 @@ angular.module('common').factory('common.DateRangeService', function() {
     };
 
     DateUnit.prototype.update = function( dateString ){
-        //console.log('3');
+        //$log.info('3 update +++++++++++++++++++++++');
+        //$log.info('dateString : ' + dateString );
+        var oldDateString = this.dateString;
         this.outOfRange = false;
         if(dateString === this.dateString){
             this.dirty = false;
             return;
         }
-
-        if(dateString === undefined || dateString.length === 0){
+        if(dateString === null || dateString === undefined || dateString.length === 0){
             this.dateString = undefined;
             this.moment = undefined;
-            this.dirty = true;
             this.valid = false;
+            this.empty = true;
         } else {
-            if(dateString.format !== undefined){
-                // must be a moment
-                this.dateString = dateString.format(format);
-                this.moment = dateString;
-            } else {
+            this.empty = false;
+            // first check if dateString is in fact ... a date or a moment
+            if(dateString instanceof Date || dateString.format instanceof Function){
+                this.moment = dateUtils.toMomentStrict(dateString);
+                dateString = this.moment.format(format);
+            }
+            // before we even create the moment we must be sure that the date is in the correct format YYYY-MM-DD
+            if(dateUtils.dateReg.test(dateString)){
                 this.dateString = dateString;
-                this.moment = moment(dateString, format);
+                this.moment = moment(dateString, format, true);
+                this.valid = this.moment.isValid();
+
+            } else {
+                this.valid = false;
+                this.dateString = dateString;
             }
 
-            this.dirty = true;
-            this.valid = this.moment.isValid();
             if(this.valid){
                 this.momentString = this.moment.format(format);
                 this.longTime = this.moment.valueOf();
             } else {
                 this.momentString = 'invalid';
                 this.longTime = 0;
+                this.viewValid = false;
+                this.moment = null;
             }
+        }
+
+        // dirty check
+        if(this.dateString !== oldDateString){
+            this.dirty = true;
+        } else {
+            this.dirty = false;
         }
 
         if(this.valid){
             this.outOfRange = _areDatesOutOfRange(this.moment);
         }
 
-        //console.log('3.1' + this.name + ', dateString ' + this.dateString);
+        //$log.info('3.1' + this.name + ', dateString ' + this.dateString);
         if(this.fromTo){
-            //console.log('4');
+            //$log.info('4');
             this.fromTo.updateOutOfRange(this.outOfRange);
             this.fromTo.updateDaysBetween();
             this.fromTo.updateModel();
         }
+
+        //$log.info('2 dateString : ' + dateString + ', ' + format + ', valid:' + this.valid + ', viewValid:' + this.viewValid);
+
+        //$log.info('3 update ------------------------');
     };
 
     DateUnit.prototype.setValidity = function(){
@@ -561,9 +625,10 @@ angular.module('common').factory('common.DateRangeService', function() {
             this.viewValid = true;
             return;
         }
-        if(this.fromTo.isEmpty()){ // if dates are undefined then show no validation errors
+        if(this.fromTo.isEmpty() ){ // if dates are undefined then show no validation errors
             this.viewValid = true;
         } else {
+            //$log.info('viewValid : ' + this.viewValid + ', outOfRange : ' + this.outOfRange + ', overlap : ' + this.overlap);
             if (!this.fromTo.valid || !this.valid || this.outOfRange) {
                 this.viewValid = false;
             } else {
@@ -578,15 +643,15 @@ angular.module('common').factory('common.DateRangeService', function() {
                 this.fromTo.parent.max.viewValid = false;
             }
         }
-    }
+    };
 
     DateUnit.prototype.isEmpty = function(){
         return this.dateString === undefined;
-    }
+    };
 
     DateUnit.build = function( dateString, fromTo, name ){
         return new DateUnit(dateString, fromTo, name);
-    }
+    };
 
     // --- service methods
 
@@ -597,4 +662,4 @@ angular.module('common').factory('common.DateRangeService', function() {
         FromTos : FromTos
     };
 
-});
+}]);

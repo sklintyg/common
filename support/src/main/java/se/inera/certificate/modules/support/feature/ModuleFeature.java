@@ -6,11 +6,12 @@ public enum ModuleFeature {
     HANTERA_INTYGSUTKAST("hanteraIntygsutkast"),
     KOPIERA_INTYG("kopieraIntyg"),
     MAKULERA_INTYG("makuleraIntyg"),
+    ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift"),
     SKICKA_INTYG("skickaIntyg");
 
     private String name;
 
-    private ModuleFeature(String name) {
+    ModuleFeature(String name) {
         this.name = name;
     }
 

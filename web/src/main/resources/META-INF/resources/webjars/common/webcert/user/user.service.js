@@ -1,11 +1,11 @@
 angular.module('common').factory('common.User',
-    [ '$http', '$log', 'common.UserModel', function($http, $log, userModel) {
+    [ '$http', '$log', 'common.UserModel', '$q', function($http, $log, userModel) {
         'use strict';
 
         return {
 
-            getUserContext: function() {
-                return userModel.userContext;
+            getUser: function() {
+                return userModel.user;
             },
 
             /**
@@ -14,7 +14,7 @@ angular.module('common').factory('common.User',
              */
             getVardenhetSelectionList: function() {
 
-                var ucVardgivare = angular.copy(userModel.userContext.vardgivare);
+                var ucVardgivare = angular.copy(userModel.user.vardgivare);
 
                 var vardgivareList = [];
 
@@ -47,9 +47,9 @@ angular.module('common').factory('common.User',
             getVardenhetFilterList: function(vardenhet) {
                 if (!vardenhet) {
 
-                    if (userModel.userContext.valdVardenhet) {
+                    if (userModel.user.valdVardenhet) {
                         $log.debug('getVardenhetFilterList: using valdVardenhet');
-                        vardenhet = userModel.userContext.valdVardenhet;
+                        vardenhet = userModel.user.valdVardenhet;
                     } else {
                         $log.debug('getVardenhetFilterList: parameter vardenhet was omitted');
                         return [];
@@ -72,7 +72,7 @@ angular.module('common').factory('common.User',
              * @returns valdVardgivare
              */
             getValdVardgivare: function() {
-                return userModel.userContext.valdVardgivare;
+                return userModel.user.valdVardgivare;
             },
 
             /**
@@ -80,7 +80,7 @@ angular.module('common').factory('common.User',
              * @returns valdVardenhet
              */
             getValdVardenhet: function() {
-                return userModel.userContext.valdVardenhet;
+                return userModel.user.valdVardenhet;
             },
 
             /**
@@ -99,7 +99,7 @@ angular.module('common').factory('common.User',
                     $log.debug('got callback data: ' + data);
 
                     // Update user context
-                    userModel.setUserContext(data);
+                    userModel.setUser(data);
 
                     onSuccess(data);
                 }).error(function(data, status) {
@@ -107,5 +107,6 @@ angular.module('common').factory('common.User',
                     onError(data);
                 });
             }
+
         };
     }]);

@@ -18,7 +18,7 @@ describe('IntygService', function() {
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
         $provide.value('$stateParams', {});
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
-        $provide.value('common.UserModel', { userContext: { authenticationScheme: null }, getActiveFeatures: function() {} });
+        $provide.value('common.UserModel', { userContext: { authenticationScheme: null }, getActiveFeatures: function() {}, hasPrivilege: function() {} });
         $provide.value('common.UtkastViewStateService', {});
         $provide.value('common.utkastNotifyService', {});
         $provide.value('common.domain.DraftModel', {});
@@ -58,7 +58,8 @@ describe('IntygService', function() {
                 }
             };
             cert = {
-                'intygId': 'intyg-1', 'source': 'IT', 'intygType': 'fk7263', 'status': 'SENT', 'lastUpdatedSigned': '2011-03-23T09:29:15.000', 'updatedSignedBy': 'Eva Holgersson', 'vidarebefordrad': false,
+                'intygId': 'intyg-1', 'source': 'IT', 'intygType': 'fk7263', 'status': 'SENT',
+                'lastUpdatedSigned': '2011-03-23T09:29:15.000', 'updatedSignedBy': 'Eva Holgersson', 'vidarebefordrad': false,
                 'grundData' : { 'patient' : { 'personId': '19121212-1212'}, 'skapadAv' : {'vardenhet' : {'enhetsid' : '1234'} } }
             };
 
@@ -111,7 +112,8 @@ describe('IntygService', function() {
         var cert;
         beforeEach(function() {
             cert = {
-                'intygId': 'intyg-1', 'source': 'IT', 'intygType': 'fk7263', 'status': 'SENT', 'lastUpdatedSigned': '2011-03-23T09:29:15.000', 'updatedSignedBy': 'Eva Holgersson', 'vidarebefordrad': false,
+                'intygId': 'intyg-1', 'source': 'IT', 'intygType': 'fk7263', 'status': 'SENT',
+                'lastUpdatedSigned': '2011-03-23T09:29:15.000', 'updatedSignedBy': 'Eva Holgersson', 'vidarebefordrad': false,
                 'grundData' : { 'patient' : { 'personId': '19121212-1212'}}
             };
         });

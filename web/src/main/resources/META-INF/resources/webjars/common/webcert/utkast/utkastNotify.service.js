@@ -4,21 +4,36 @@
  */
 angular.module('common').factory('common.UtkastNotifyService',
     ['$http', '$log', '$modal', '$window', '$timeout', '$q', 'common.UtkastNotifyProxy', 'common.messageService',
-        'common.dialogService',
-        function($http, $log, $modal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService) {
+        'common.dialogService', 'common.UtkastProxy',
+        function($http, $log, $modal, $window, $timeout, $q, utkastNotifyProxy, messageService, dialogService, utkastProxy) {
             'use strict';
 
+            /**
+             * Performs an extra REST call to fetch the Utkast so we get hold of the enhets- and vardgivare names.
+             */
             function _notifyUtkast(intygId, intygType, utkast, updateState) {
-                var utkastNotifyRequest = {
-                    intygId: intygId,
-                    intygType: intygType,
-                    intygVersion: utkast.version,
-                    vidarebefordradContainer: utkast
-                };
-                notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
-                    onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
-                }, function(error) {
-                    onNotifyChangeFail(utkast, updateState, error);
+
+                // Fetch DraftModel to get hold of enhetsNamn and vardgivareNamn
+                utkastProxy.getUtkast(intygId, intygType, function(draft) {
+                        var utkastNotifyRequest = {
+                            intygId: intygId,
+                            intygType: intygType,
+                            intygVersion: utkast.version,
+                            vidarebefordradContainer: utkast,
+                            enhetsNamn : draft.enhetsNamn,
+                            vardgivareNamn : draft.vardgivareNamn
+                        };
+                        notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
+                            onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
+                        }, function(error) {
+                            onNotifyChangeFail(utkast, updateState, error);
+                        });
+                },
+                function() {
+                    var errorMessage = 'Kunde inte öppna e-postprogram för vidarebefordran av Utkast för signering. ' +
+                        'Utkastet kunde inte läsas upp. Försök gärna igen för att se om felet är tillfälligt. Annars kan ' +
+                        'du kontakta supporten. Läs mer under Om webcert | Support och kontaktinformation.';
+                    dialogService.showErrorMessageDialog(errorMessage);
                 });
             }
 
@@ -74,7 +89,9 @@ angular.module('common').factory('common.UtkastNotifyService',
                     });
                 }, 1000);
                 // Launch mail client
-                $window.location = _buildNotifyDoctorMailToLink(notifyRequest.intygId, notifyRequest.intygType);
+                $window.location = _buildNotifyDoctorMailToLink(
+                    notifyRequest.intygId, notifyRequest.intygType,
+                    notifyRequest.enhetsNamn, notifyRequest.vardgivareNamn);
                 return deferred.promise;
             }
 
@@ -192,17 +209,29 @@ angular.module('common').factory('common.UtkastNotifyService',
                 });
             }
 
-            function _buildNotifyDoctorMailToLink(intygId, intygType) {
+            function _buildNotifyDoctorMailToLink(intygId, intygType, enhetsNamn, vardgivareNamn) {
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
-                var url = baseURL + '/web/dashboard#/' + intygType + '/edit/' + intygId;
+                var url = baseURL + '/web/maillink/intyg/' + intygType + '/' + intygId;
                 var recipient = '';
-                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert';
+                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert pa enhet ' +
+                    _cleanNonAscii(enhetsNamn) + ' for vardgivare ' + _cleanNonAscii(vardgivareNamn);
                 var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
                 var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
                     encodeURIComponent(body);
                 $log.debug(link);
                 return link;
+            }
+
+            function _cleanNonAscii(str) {
+                str = str.replace(/å/g, 'a');
+                str = str.replace(/Å/g, 'A');
+                str = str.replace(/ä/g, 'a');
+                str = str.replace(/Ä/g, 'A');
+                str = str.replace(/ö/g, 'o');
+                str = str.replace(/Ö/g, 'O');
+
+                return str;
             }
 
             // Return public API for the service

@@ -1,32 +1,35 @@
 <div>
   <div class="header clearfix">
     <div class="headerbox">
-      <span wc-feature-not-active feature="franJournalsystem" class="headerbox-logo pull-left">
+      <span wc-authority="PRIVILEGE_NAVIGERING" class="headerbox-logo pull-left">
         <a id="webcertLogoLink" href="/web/start"><img alt="Till startsidan" src="/img/webcert_logo.png" /></a></span>
-      <span wc-feature-active feature="franJournalsystem" class="headerbox-logo pull-left">
+      <span wc-authority="!PRIVILEGE_NAVIGERING" class="headerbox-logo pull-left">
         <img alt="Till startsidan" src="/img/webcert_logo.png" /></span>
       <span class="headerbox-date pull-left">
-                  <span id="location" class="location">{{today | date:"shortDate"}} - {{user.valdVardgivare.namn}} - {{user.valdVardenhet.namn}}</span><br>
-                  <span id="otherLocations" class="otherLocations" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
-                      style="font-weight:bold">{{stat.intygAndraEnheter+stat.fragaSvarAndraEnheter}}</span> ej hanterade frågor och ej signerade utkast på andra vårdenheter.</span> <a
-          wc-feature-not-active feature="franJournalsystem" id="wc-care-unit-clinic-selector-link" tabindex="0" href class="otherLocations"
+                  <span id="wc-header-location-date" class="location">{{today | date:"shortDate"}}</span>
+                  <span id="wc-header-location-care-giver" class="location"> - {{user.valdVardgivare.namn}}</span>
+                  <span id="wc-header-location-care-unit" class="location" wc-authority role="!ROLE_PRIVATLAKARE"> - {{user.valdVardenhet.namn}}</span><br>
+                  <span id="otherLocations" class="otherLocations" wc-authority="PRIVILEGE_ATKOMST_ANDRA_ENHETER" ng-show="(stat.intygAndraEnheter+stat.fragaSvarAndraEnheter) > 0"><span
+                      style="font-weight:bold">{{stat.intygAndraEnheter+stat.fragaSvarAndraEnheter}}</span> ej hanterade frågor och ej signerade utkast på andra vårdenheter.</span>
+        <a
+          wc-authority="PRIVILEGE_ATKOMST_ANDRA_ENHETER" id="wc-care-unit-clinic-selector-link" tabindex="0" href class="otherLocations"
           ng-show="user.totaltAntalVardenheter > 1" data-ng-click="openChangeCareUnitDialog()">Byt
         vårdenhet</a>
       </span>
     </div>
     <div class="headerbox-user pull-right">
       <div class="headerbox-user-profile headerbox-avatar" ng-show="user.namn.length">
-        <span id="logged-in-role" ng-switch="user.lakare">
-                  <strong ng-switch-when="true">Läkare</strong>
-                  <strong ng-switch-default>Vårdadministratör</strong>
-                  </span>
+        <span id="logged-in-role">
+          <strong>{{user.role}}</strong>
+        </span>
         - <span class="logged-in">{{user.namn}}</span><br>
-        <a id="logoutLink" wc-feature-not-active feature="franJournalsystem" class="pull-right" ng-click="logout()">Logga ut</a>
-        <a id="aboutLink" wc-feature-active feature="franJournalsystem" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
+        <a id="editUserLink" wc-authority role="ROLE_PRIVATLAKARE" style="padding-right:30px" class="pull-left" ng-click="goToPrivatPortalen()">Ändra uppgifter</a>
+        <a id="logoutLink" wc-authority="PRIVILEGE_NAVIGERING" class="pull-right" ng-click="logout()">Logga ut</a>
+        <a id="aboutLink" wc-authority="!PRIVILEGE_NAVIGERING" class="pull-right" ng-click="goToAbout()">Om Webcert</a>
       </div>
     </div>
   </div>
-  <div id="huvudmeny" wc-feature-not-active feature="franJournalsystem" class="navbar navbar-default">
+  <div id="huvudmeny" wc-authority="PRIVILEGE_NAVIGERING" class="navbar navbar-default">
     <div class="container-fluid">
       <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
               ng-click="navCollapsed = !navCollapsed">
@@ -47,4 +50,5 @@
     </div>
   </div>
   <div ui-view="headerExtra"></div>
+  <div ui-view="dialogs"></div>
 </div>

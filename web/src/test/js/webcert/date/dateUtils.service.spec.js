@@ -16,12 +16,12 @@ describe('DateUtilsService', function() {
     describe('#isDate', function() {
 
         it ('check that isDate on 2015-01-05 is true', function () {
-            var dateString = "2015-01-05";
+            var dateString = '2015-01-05';
             expect(DateUtilsService.isDate(dateString)).toBeTruthy();
         });
 
         it ('check that isDate on 2015-01-6666 is false', function () {
-            var dateString = "2015-01-666";
+            var dateString = '2015-01-666';
             expect(DateUtilsService.isDate(dateString)).toBeFalsy();
         });
 
@@ -37,8 +37,8 @@ describe('DateUtilsService', function() {
         it ('check that we can use moment to formate a date', function () {
             var date = new Date(2015, 0, 5, 11, 33, 30, 0);
             var momentDate = moment(date);
-            var expected = "2015 01 05";
-            var result = momentDate.format("YYYY MM DD");
+            var expected = '2015 01 05';
+            var result = momentDate.format('YYYY MM DD');
             expect(expected).toBe(result);
         });
 
@@ -49,14 +49,14 @@ describe('DateUtilsService', function() {
         it ('can convert a date to iso', function () {
             var date = new Date(2015, 0, 5, 11, 33, 30, 0);
             var result = DateUtilsService.convertDateToISOString(date);
-            var expected = "2015-01-05";
+            var expected = '2015-01-05';
             expect(expected).toBe(result);
         });
 
         it ('can convert a date with format YY M D', function () {
             var date = new Date(2015, 0, 5, 11, 33, 30, 0);
-            var result = DateUtilsService.convertDateToISOString(date, "YY M D");
-            var expected = "15 1 5";
+            var result = DateUtilsService.convertDateToISOString(date, 'YY M D');
+            var expected = '15 1 5';
             expect(expected).toBe(result);
         });
 
@@ -77,7 +77,7 @@ describe('DateUtilsService', function() {
     describe('#pushValidDate', function() {
 
         it ('can filter out invalid dates', function () {
-            var date = "222222222";
+            var date = '222222222';
             var list = [];
             DateUtilsService.pushValidDate(list, date);
             // only yyyy, mm and dd, should be able to test that secs is 0
@@ -86,7 +86,7 @@ describe('DateUtilsService', function() {
         });
 
         it ('can push a valid dates', function () {
-            var date = "2015-01-05";
+            var date = '2015-01-05';
             var list = [];
             DateUtilsService.pushValidDate(list, date);
 

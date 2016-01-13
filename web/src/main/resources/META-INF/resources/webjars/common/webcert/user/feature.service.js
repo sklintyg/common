@@ -30,9 +30,9 @@ angular.module('common').factory('common.featureService',
                 KOPIERA_INTYG: 'kopieraIntyg',
                 MAKULERA_INTYG: 'makuleraIntyg',
                 SKICKA_INTYG: 'skickaIntyg',
-                FRAN_JOURNALSYSTEM: 'franJournalsystem',
-                FRAN_JOURNALSYSTEM_QA_ONLY: 'franJournalsystemQAOnly',
-                JS_LOGGNING: 'jsLoggning'
+                ARBETSGIVARUTSKRIFT: 'arbetsgivarUtskrift',
+                JS_LOGGNING: 'jsLoggning',
+                JS_MINIFIED: 'jsMinified'
             },
             isFeatureActive: _isFeatureActive
         };

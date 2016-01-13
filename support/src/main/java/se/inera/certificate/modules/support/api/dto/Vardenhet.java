@@ -23,11 +23,12 @@ public class Vardenhet {
 
     private final String arbetsplatskod;
 
+    // CHECKSTYLE:OFF ParameterNumber
     public Vardenhet(String hsaId, String namn, String postadress, String postnummer, String postort,
             String telefonnummer, String epost, String arbetsplatskod, Vardgivare vardgivare) {
         hasText(hsaId, "'hsaId' must not be empty");
         hasText(namn, "'namn' must not be empty");
-        // TODO: these properties must be provided from HSA
+        // these properties must be provided from HSA (handled by WEBCERT-2054)
         // hasText(postadress, "'postadress' must not be empty");
         // hasText(postnummer, "'postnummer' must not be empty");
         // hasText(postort, "'postort' must not be empty");
@@ -43,6 +44,7 @@ public class Vardenhet {
         this.vardgivare = vardgivare;
         this.arbetsplatskod = arbetsplatskod;
     }
+    // CHECKSTYLE:OFF ParameterNumber
 
     public String getHsaId() {
         return hsaId;

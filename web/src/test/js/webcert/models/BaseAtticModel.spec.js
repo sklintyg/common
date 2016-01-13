@@ -247,7 +247,7 @@ describe('common.domain.BaseAtticModel', function() {
             // test without properties, this should just take all the properties
             // restore
             model.prop1 = 'prop1 new value';
-            model.prop2 = 'prop2 new value'
+            model.prop2 = 'prop2 new value';
 
             model.restoreFromAttic();
 
@@ -275,7 +275,7 @@ describe('common.domain.BaseAtticModel', function() {
             // model2
             // restore
             model.prop1 = 'prop1 new value';
-            model.prop2 = 'prop2 new value'
+            model.prop2 = 'prop2 new value';
 
             model.restoreFromAttic();
 
@@ -293,7 +293,7 @@ describe('common.domain.BaseAtticModel', function() {
             // model2
             // restore
             model2.prop1 = 'prop1 new value';
-            model2.prop2 = 'prop2 new value'
+            model2.prop2 = 'prop2 new value';
 
             model2.restoreFromAttic();
 

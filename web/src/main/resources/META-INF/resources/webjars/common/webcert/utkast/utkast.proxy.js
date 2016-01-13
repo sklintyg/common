@@ -46,13 +46,11 @@ angular.module('common').factory('common.UtkastProxy',
                     $log.debug('_saveDraft data: ' + data);
                     onSuccess(data);
                     saveDraftInProgress = false;
-                }).
-                error(function(data, status) {
+                }).error(function(data, status) {
                     $log.error('error ' + status);
                     onError(data);
                     saveDraftInProgress = false;
-                }).
-                finally(function(){
+                }).finally(function(){ // jshint ignore:line
                     saveDraftInProgress = false;
                 });
         }
@@ -114,6 +112,18 @@ angular.module('common').factory('common.UtkastProxy',
                 });
         }
 
+        function _signeraUtkastWithGrp(intygsId, intygsTyp, version, onSuccess, onError) {
+            $log.debug('_signeraUtkastWithGrp, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/grp/signeraserver';
+            $http.post(restPath).
+                success(function(data) {
+                    onSuccess(data);
+                }).
+                error(function(error) {
+                    _handleError(onError, error);
+                });
+        }
+
         function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, onSuccess, onError) {
             $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeraklient';
@@ -137,6 +147,7 @@ angular.module('common').factory('common.UtkastProxy',
             getSigneringshash: _getSigneringshash,
             getSigneringsstatus: _getSigneringsstatus,
             signeraUtkast: _signeraUtkast,
+            signeraUtkastWithGrp: _signeraUtkastWithGrp,
             signeraUtkastWithSignatur: _signeraUtkastWithSignatur
         };
     });

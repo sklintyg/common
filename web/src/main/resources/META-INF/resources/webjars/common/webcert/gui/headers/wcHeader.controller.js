@@ -7,7 +7,7 @@ angular.module('common').controller('common.wcHeaderController',
 
             //Expose 'now' as a model property for the template to render as todays date
             $scope.today = new Date();
-            $scope.user = UserModel.userContext;
+            $scope.user = UserModel.user;
             $scope.statService = statService;
             $scope.statService.startPolling();
             $scope.menuDefs = [];
@@ -140,7 +140,7 @@ angular.module('common').controller('common.wcHeaderController',
                         }
                     };
 
-                    if (UserModel.userContext.lakare) {
+                    if (UserModel.user.isLakareOrPrivat) {
                         menu.splice(0, 0, writeCertMenuDef);
                     } else {
                         menu.push(writeCertMenuDef);
@@ -151,6 +151,7 @@ angular.module('common').controller('common.wcHeaderController',
                     link: '/web/dashboard#/webcert/about',
                     label: 'Om Webcert',
                     requiresDoctor: false,
+                    id: 'menu-about',
                     getStat: function() {
                         return '';
                     }
@@ -179,11 +180,21 @@ angular.module('common').controller('common.wcHeaderController',
                 return page === currentRoute;
             };
 
+            function endsWith(str, suffix) {
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+
+            $scope.goToPrivatPortalen = function(){
+                var link = $window.MODULE_CONFIG.PP_HOST; 
+                link += '?from=' + window.encodeURIComponent($window.MODULE_CONFIG.DASHBOARD_URL + '#' + $location.path());
+                $window.location.href = link;
+            };
+
             $scope.logout = function() {
-                if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
+                if (endsWith(UserModel.user.authenticationScheme, ':fake')) {
                     $window.location = '/logout';
                 } else {
-                    iid_Invoke('Logout');
+                    iid_Invoke('Logout'); // jshint ignore:line
                     $window.location = '/saml/logout/';
                 }
             };
@@ -244,11 +255,11 @@ angular.module('common').controller('common.wcHeaderController',
 
                         $scope.findAllFragaSvar = function(vg, id) {
                             return findAll(vg, id, $scope.findFragaSvar);
-                        }
+                        };
 
                         $scope.findAllIntyg = function(vg, id) {
                             return findAll(vg, id, $scope.findIntyg);
-                        }
+                        };
 
                         /******************
                          * End of presentation functions
@@ -265,7 +276,7 @@ angular.module('common').controller('common.wcHeaderController',
                                 // up on a page we aren't welcome anymore. Maybe we should make these
                                 // routes some kind of global configuration? No other choices are
                                 // relevant today though.
-                                if (UserModel.userContext.lakare === true) {
+                                if (UserModel.user.isLakareOrPrivat) {
                                     $location.path('/');
                                 } else {
                                     $location.path('/unhandled-qa');
@@ -285,6 +296,8 @@ angular.module('common').controller('common.wcHeaderController',
                         }
                     }
                 });
+
+
 
                 dialogService.runOnDialogDoneLoading(msgbox, function() {
                     $window.dialogDoneLoading = true;

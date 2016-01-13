@@ -7,16 +7,15 @@
   <parent>
     <groupId>se.inera.intyg.common</groupId>
     <artifactId>common-pom</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.10</version>
   </parent>
 
   <!--
     This module has its own lifecycle and
     thus have a fixed versioning strategy
   -->
-  <groupId>se.inera.intyg.common</groupId>
   <artifactId>anonymisering</artifactId>
-  <version>2.1.1</version>
+  <version>2.1.3</version>
 
   <name>Intyg Common (Anonymisering)</name>
 
@@ -91,8 +90,8 @@
 
   <repositories>
     <repository>
-      <id>callista-release</id>
-      <url>https://repository-callistasoftware.forge.cloudbees.com/release/</url>
+      <id>inera-release</id>
+      <url>https://build.inera.nordicmedtest.se/nexus/content/repositories/releases/</url>
       <releases>
         <enabled>true</enabled>
       </releases>

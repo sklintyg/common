@@ -9,12 +9,22 @@ angular.module('common').factory('common.UtkastSignService',
             UtkastProxy, dialogService, messageService, statService, UserModel) {
             'use strict';
 
+            function _endsWith(str, suffix) {
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+
+            /**
+             * Uses NET_ID for auth methods NET_ID and SITHS. Use fake for :fake authScheme.
+             * Uses BankID / GRP for everything else.
+             */
             function signera(intygsTyp, version) {
                 var deferred = $q.defer();
-                if (UserModel.userContext.authenticationScheme === 'urn:inera:webcert:fake') {
+                if (_endsWith(UserModel.user.authenticationScheme, ':fake')) {
                     return _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else {
+                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
                     return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
+                } else {
+                    return _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
                 }
             }
 
@@ -24,6 +34,57 @@ angular.module('common').factory('common.UtkastSignService',
                 return deferred.promise;
             }
 
+            function _signeraServerUsingGrp(intygsTyp, intygsId, version, deferred) {
+                var signModel = {};
+                _confirmSigneraWithGrp(signModel, intygsTyp, intygsId, version, deferred);
+                return deferred.promise;
+            }
+
+            // backid och mobilt id
+            function _confirmSigneraWithGrp(signModel, intygsTyp, intygsId, version, deferred) {
+                UtkastProxy.signeraUtkastWithGrp(intygsId, intygsTyp, version, function(ticket) {
+
+                    var dialogSignModel ={
+                        acceptprogressdone: true,
+                        focus: false,
+                        errormessageid: 'common.error.sign.bankid',
+                        showerror: false,
+                        label : {signing:'common.title.sign'},
+                        signState : ''
+                    };
+
+
+                    if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                        dialogSignModel.bodyTextId ='common.modal.mbankid.open';
+                        dialogSignModel.heading = 'common.modal.mbankid.heading';
+                    } else {
+                        dialogSignModel.bodyTextId ='common.modal.bankid.open';
+                        dialogSignModel.heading = 'common.modal.bankid.heading';
+                    }
+
+                    var bankIdSignDialog = dialogService.showDialog({
+                        dialogId: 'signera-bankid-dialog',
+                        templateUrl: '/app/partials/signera-bankid-dialog.html',
+                        model: dialogSignModel,
+                        title: 'sign',
+                        autoClose: false
+                    });
+
+                    bankIdSignDialog.opened.then(function() {
+                        bankIdSignDialog.isOpen = true;
+                    }, function() {
+                        bankIdSignDialog.isOpen = false;
+                    });
+
+                    _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, bankIdSignDialog);
+                }, function(error) {
+                    deferred.resolve({});
+                    _showSigneringsError(signModel, error);
+                });
+            }
+
+
+            // net id - telia och sits
             function _signeraKlient(intygsTyp, intygsId, version, deferred) {
                 var signModel = {
                     signingWithSITHSInProgress : true
@@ -54,6 +115,7 @@ angular.module('common').factory('common.UtkastSignService',
                 return deferred.promise;
             }
 
+            // fake inlognings signering?
             function _confirmSignera(signModel, intygsTyp, intygsId, version, deferred) {
                 UtkastProxy.signeraUtkast(intygsId, intygsTyp, version, function(ticket) {
                     _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred);
@@ -65,13 +127,13 @@ angular.module('common').factory('common.UtkastSignService',
 
             function _openNetIdPlugin(hash, onSuccess, onError) {
                 $timeout(function() {
-                    iid_SetProperty('Base64', 'true');
-                    iid_SetProperty('DataToBeSigned', hash);
-                    iid_SetProperty('URLEncode', 'false');
-                    var resultCode = iid_Invoke('Sign');
+                    iid_SetProperty('Base64', 'true'); // jshint ignore:line
+                    iid_SetProperty('DataToBeSigned', hash); // jshint ignore:line
+                    iid_SetProperty('URLEncode', 'false'); // jshint ignore:line
+                    var resultCode = iid_Invoke('Sign'); // jshint ignore:line
 
                     if (resultCode === 0) {
-                        onSuccess(iid_GetProperty('Signature'));
+                        onSuccess(iid_GetProperty('Signature')); // jshint ignore:line
                     } else {
                         var message = 'Signeringen avbröts med kod: ' + resultCode;
                         $log.info(message);
@@ -80,17 +142,63 @@ angular.module('common').factory('common.UtkastSignService',
                 });
             }
 
-            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred) {
+            function _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, dialogHandle) {
 
                 function getSigneringsstatus() {
                     UtkastProxy.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
                         if ('BEARBETAR' === ticket.status) {
+                            // TODO: We _should_ change the text of the dialog (if active) once we have signed in BankID
+                            // TODO: and are waiting for the GRP collect to finish.
                             signModel._timer = $timeout(getSigneringsstatus, 1000);
+                            if(dialogHandle !== undefined){
+                                // change the status
+                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.open';
+                                } else {
+                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.open';
+                                }
+
+                                dialogHandle.model.signState = 'BEARBETAR';
+                            }
+                        } else if ('VANTA_SIGN' === ticket.status) {
+                            signModel._timer = $timeout(getSigneringsstatus, 1000);
+                            if(dialogHandle !== undefined){
+                                // change the status
+                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.signing';
+                                } else {
+                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.signing';
+                                }
+                                dialogHandle.model.signState = 'VANTA_SIGN';
+                            }
+                        } else if ('NO_CLIENT' === ticket.status) {
+                            signModel._timer = $timeout(getSigneringsstatus, 1000);
+                            if(dialogHandle !== undefined){
+                                // change the status
+                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.noclient';
+                                } else {
+                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.noclient';
+                                }
+                                dialogHandle.model.signState = 'NO_CLIENT';
+                            }
                         } else if ('SIGNERAD' === ticket.status) {
                             deferred.resolve({newVersion : ticket.version});
+                            if (dialogHandle !== undefined){
+                                if(UserModel.authenticationMethod('MOBILT_BANK_ID')){
+                                    dialogHandle.model.bodyTextId = 'common.modal.mbankid.signed';
+                                } else {
+                                    dialogHandle.model.bodyTextId = 'common.modal.bankid.signed';
+                                }
+                                dialogHandle.model.signState = 'SIGNERAD';
+                                dialogHandle.close();
+                            }
                             _showIntygAfterSignering(signModel, intygsTyp, intygsId);
-                        } else {
+                        }  else {
                             deferred.resolve({newVersion : ticket.version});
+                            if (dialogHandle !== undefined) {
+                                dialogHandle.close();
+                            } // TODO this is a hack, fix.
                             _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
                     });
@@ -123,6 +231,10 @@ angular.module('common').factory('common.UtkastSignService',
                         messageId = 'common.error.sign.netid';
                     } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
                         messageId = 'common.error.sign.concurrent_modification';
+                    } else if (error.errorCode === 'AUTHORIZATION_PROBLEM') {
+                        messageId = 'common.error.sign.authorization';
+                    } else if (error.errorCode === 'INDETERMINATE_IDENTITY') {
+                        messageId = 'common.error.sign.indeterminate.identity';
                     } else if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {

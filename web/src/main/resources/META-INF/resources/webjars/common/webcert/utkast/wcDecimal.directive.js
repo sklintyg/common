@@ -43,7 +43,7 @@ angular.module('common').directive('wcDecimalNumber',
                     var valForView = '';
                     var valForModel = null;
                     if (l > 0) {
-                        if (scope.wcDecimalMaxNumbers == 2) {
+                        if (scope.wcDecimalMaxNumbers === 2 || scope.wcDecimalMaxNumbers === '2') {
                             if (l === 1) {
                                 if (value[0] === ',') {
                                     valForView = '0,0';
@@ -82,6 +82,7 @@ angular.module('common').directive('wcDecimalNumber',
                     };
                 }
 
+                /* jshint ignore:start */
                 function blurFormat() {
                     var filtered = filter(this.value);
                     var val = format(filtered);
@@ -89,6 +90,7 @@ angular.module('common').directive('wcDecimalNumber',
                         this.value = val.valForView;
                     }
                 }
+                /* jshint ignore:end */
 
                 function decimalParse(valFromView) {
                     var filtered = filter(valFromView);

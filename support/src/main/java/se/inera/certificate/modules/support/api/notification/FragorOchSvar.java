@@ -18,12 +18,13 @@ public class FragorOchSvar {
         this.antalHanteradeSvar = antalHanteradeSvar;
     }
 
-    public FragorOchSvar() {}
-    
+    public FragorOchSvar() {
+    }
+
     public static FragorOchSvar getEmpty() {
         return new FragorOchSvar(0, 0, 0, 0);
     }
-    
+
     @Override
     public String toString() {
         return "antalFragor=" + antalFragor + ", antalSvar=" + antalSvar + ", antalHanteradeFragor=" + antalHanteradeFragor

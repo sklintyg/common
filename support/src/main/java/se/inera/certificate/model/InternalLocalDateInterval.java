@@ -1,5 +1,6 @@
 package se.inera.certificate.model;
 
+import com.google.common.base.Objects;
 import org.joda.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author erik
  */
 public class InternalLocalDateInterval {
-
 
     private InternalDate from;
     private InternalDate tom;
@@ -110,15 +110,21 @@ public class InternalLocalDateInterval {
     @JsonIgnore
     @Override
     public boolean equals(Object other) {
+        if (!(other instanceof InternalLocalDateInterval)) {
+            return false;
+        }
         InternalLocalDateInterval otherInterval = (InternalLocalDateInterval) other;
 
         if (!this.isValid() || !otherInterval.isValid()) {
             return false;
         }
-        if (this.fromAsLocalDate().equals(otherInterval.fromAsLocalDate()) && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate())) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.fromAsLocalDate().equals(otherInterval.fromAsLocalDate()) && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate());
     }
+
+    @JsonIgnore
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(fromAsLocalDate(), tomAsLocalDate());
+    }
+
 }

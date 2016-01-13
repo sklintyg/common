@@ -6,7 +6,8 @@
  */
 angular.module('common').factory('common.DateUtilsService', function($filter) {
     'use strict';
-
+    var _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
+    var _format = 'YYYY-MM-DD';
    /**
      * Does supplied date look like an iso date XXXX-XX-XX
      * @param date
@@ -17,7 +18,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
             return false;
         }
 
-        return moment(date, 'YYYY-MM-DD', true).isValid();
+        return moment(date, _format, true).isValid();
     }
 
     /**
@@ -33,8 +34,16 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
         }
     }
 
+    function _toMomentStrict(date) {
+        if (date) {
+            return moment(date, _format, true);
+        } else {
+            return null;
+        }
+    }
+
     function _todayAsYYYYMMDD(){
-        return moment(new Date()).format('YYYY-MM-DD');
+        return moment(new Date()).format(_format);
     }
 
     /**
@@ -44,7 +53,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
      */
     function _convertDateToISOString(viewValue, format) {
         if(format === undefined){
-            format = 'YYYY-MM-DD';
+            format = _format;
         }
         if (viewValue instanceof Date &&
             moment(moment(viewValue).format(format), format, true).isValid()) {
@@ -64,15 +73,15 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
             return null;
         }
 
-        var momentDate = this.toMoment(date);
+        var momentDate = _toMoment(date);
         if (momentDate !== null) {
-            // Format date strictly to 'YYYY-MM-DD'.
-            momentDate = moment(momentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD', true).format('YYYY-MM-DD');
+            // Format date strictly to _format.
+            momentDate = moment(momentDate.format(_format), _format, true).format(_format);
             if (momentDate === 'invalid date') {
                 // We don't want to handle invalid dates at all
                 momentDate = null;
             } else {
-                momentDate = this.toMoment(momentDate);
+                momentDate = _toMoment(momentDate);
             }
         }
 
@@ -87,9 +96,9 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
      */
     function _pushValidDate(list, dateValue) {
         if ((typeof dateValue === 'string' && dateValue.length === 10) || dateValue instanceof Date) {
-            var momentDate = this.toMoment(dateValue);
+            var momentDate = _toMoment(dateValue);
             if (momentDate !== null && momentDate.isValid()) {
-                var formattedDate = moment(momentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD', true);
+                var formattedDate = moment(momentDate.format(_format), _format, true);
                 if (formattedDate.isValid()) {
                     list.push(formattedDate);
                 }
@@ -187,7 +196,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
                 // Allow date input without dashes
                 var checkDate = moment(viewValue, 'YYYYMMDD');
                 if (checkDate.isValid()) {
-                    viewValue = checkDate.format('YYYY-MM-DD');
+                    viewValue = checkDate.format(_format);
                     formElement.$setValidity('date', true);
                     formElement.$setViewValue(viewValue);
                     formElement.$render();
@@ -232,7 +241,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
                 // Allow date input without dashes
                 var checkDate = moment(viewValue, 'YYYYMMDD');
                 if (checkDate.isValid()) {
-                    viewValue = checkDate.format('YYYY-MM-DD');
+                    viewValue = checkDate.format(_format);
                     formElement.$setValidity('date', true);
                     formElement.$setViewValue(viewValue);
                     formElement.$render();
@@ -252,6 +261,7 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
     return {
         isDate: _isDate,
         toMoment: _toMoment,
+        toMomentStrict: _toMomentStrict,
         convertDateToISOString : _convertDateToISOString,
         convertDateStrict : _convertDateStrict,
         pushValidDate : _pushValidDate,
@@ -264,7 +274,8 @@ angular.module('common').factory('common.DateUtilsService', function($filter) {
         isSame : _isSame,
         todayAsYYYYMMDD :_todayAsYYYYMMDD,
         addDateParserFormatter : _addDateParserFormatter,
-        addStrictDateParser : _addStrictDateParser
+        addStrictDateParser : _addStrictDateParser,
+        dateReg : _dateReg
     };
 
 });

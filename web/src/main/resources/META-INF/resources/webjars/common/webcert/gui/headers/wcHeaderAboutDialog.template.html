@@ -39,46 +39,51 @@
         SITHS-kortadministratör.</p>
 
       <h4>Användare</h4>
-      <p>Webcert har två typer av användare: läkare och vårdadministratörer (exempelvis läkarsekreterare). Behörighet
+      <p>Webcert har flera typer av användare: läkare, tandläkare och vårdadministratörer (exempelvis läkarsekreterare).
+        Behörighet
         för inloggning:</p>
       <ul>
         <li>Vårdadministratör ska ha medarbetaruppdraget "Vård och behandling" i HSA.</li>
-        <li>Läkare ska vara legitimerad läkare eller AT-läkare samt ha medarbetaruppdraget "Vård och behandling" i HSA.
+        <li>Tandläkare ska vara legitimerad tandläkare samt ha medarbetaruppdraget ”Vård och behandling” i HSA.</li>
+        <li>Läkare ska ha medarbetaruppdraget ”Vård och behandling” i HSA samt vara något av följande:
+          <ul>
+            <li>legitimerade läkare</li>
+            <li>AT-läkare</li>
+            <li>läkare inom och utanför EU/ESS/Schweiz som ännu inte har svensk läkarlegitimation, men som
+              är legitimerade i sitt hemland och som av vårdgivaren har tilldelats en gruppförskrivarkod och därmed har
+              ett särskilt förordnande att utöva läkaryrket.
+            </li>
+            <li>vikarierande examinerad läkare (examinerade AT-läkare som ännu inte fått sin legitimation och personer
+              som har tagit sin läkarexamen men ännu inte påbörjat AT-tjänstgöring) som av vårdgivaren har tilldelats en
+              gruppförskrivarkod och därmed har ett särskilt förordnande att utöva läkaryrket.
+            </li>
+          </ul>
         </li>
       </ul>
-      <p>Alla användare kan skapa, skriva och spara utkast. Endast läkare kan signera och skriva ut intyg samt besvara
-        frågor med ämnet "komplettering". Vårdadministratör kan via mejl notifiera läkare om att signera sparade
-        intyg.</p>
+      <p>Alla användare kan skapa, skriva och spara utkast. Endast läkare och tandläkare kan signera och makulera
+        intyg samt besvara frågor med ämnet "komplettering". Vårdadministratör kan via mejl notifiera läkare om att
+        signera sparade intyg.</p>
 
-      <h4>Funktioner och invånarens hantering</h4>
-      <p>Intyg som signeras i Webcert sparas även i webbtjänsten Mina intyg, där invånaren själv kan hantera sitt intyg.
-        Mina intyg nås via 1177 Vårdguidens e-tjänster. I Mina intyg kan invånaren skicka intyget vidare elektroniskt
-        till någon av de anslutna mottagarna, det går även att skriva ut intyget.</p>
-
-      <p>
-        Om patienten inte vill använda Mina intyg är det möjligt för läkaren att skicka vissa intygstyper elektroniskt
-        direkt från Webcert till mottagaren. Observera att patientens samtycke då krävs. </p>
-      <p>
-        Om intyget inte skickas på något av dessa sätt kan läkaren skriva ut en kopia på det signerade intyget från
-        Webcert och ge till patienten. </p>
-      <p>
-        För vissa intygstyper finns en elektronisk funktion för frågor och svar. Via funktionen kan läkaren och
-        Försäkringskassan kommunicera om ett utfärdat intyg. </p>
+      <h4>Invånarens intyg</h4>
+      <p>I samband med att intyget signeras görs det tillgängligt för invånaren i Mina intyg. I Mina intyg kan
+        invånaren skicka intyget vidare elektroniskt till någon av de anslutna mottagarna, eller skriva ut det. Mina
+        intyg nås via 1177 Vårdguidens e-tjänster www.1177.se</p>
+      <p>Om invånaren inte vill använda Mina intyg är det möjligt för läkaren att skicka intyget elektroniskt direkt
+        från Webcert till mottagaren. Observera att invånarens samtycke då krävs.</p>
+      <p>Läkaren kan också skriva ut det signerade intyget från Webcert och ge till patienten.</p>
+      <p>För Försäkringskassans intyg finns en elektronisk funktion för frågor och svar. Via funktionen kan läkaren
+        och Försäkringskassan kommunicera om ett signerat intyg.</p>
 
       <h4>Webbläsare som stöds</h4>
-      <p>
-        För att kunna använda Webcerts funktioner behöver du någon av följande webbläsare: </p>
-      <ul>
-        <li>Internet Explorer 8 eller efterföljande versioner.</li>
-      </ul>
-      <p>Du måste även ha JavaScript aktiverat i din webbläsare för att kunna använda Webcert.</p>
+      <p>För att kunna använda Webcerts funktioner behöver du Internet Explorer 9 eller efterföljande versioner.
+        Det går att använda andra webbläsare men då finns viss risk för att problem uppstår. Du måste även ha
+        JavaScript aktiverat i din webbläsare för att kunna använda Webcert. </p>
+
 
       <h4>Adress till vårdenheten</h4>
-      <p>
-        Intyg som utfärdas i Webcert innehåller adress- och kontaktinformation till den eller de vårdenheter du
-        arbetar för. För privatläkare hämtas dessa uppgifter från den information du lämnade vid registreringen. För
-        landstingsanställda läkare hämtas uppgifterna från HSA. Om du upptäcker att adress- och kontaktinformation är
-        fel, så kan informationen ändras antingen i "Mina uppgifter" eller i HSA.</p>
+      <p>Intyg som utfärdas i Webcert innehåller adress- och kontaktuppgifter till den vårdenhet du är inloggad på när
+        utkastet skapas. För landstingsanställda läkare hämtas uppgifterna från HSA.
+        Om du upptäcker att adress- och kontaktinformationen är fel, så kan du begära ändring i HSA-katalogen.</p>
 
       <h4>Ansvarig för Webcert:</h4>
       <p>Inera AB<br>
@@ -99,12 +104,8 @@
         <li>Frågor som gäller inloggning: kontakta din SITHS-kortadministratör.</li>
         <li>Tekniska frågor om Webcert: hanteras i första hand av den lokala IT-avdelningen. Om din lokala
           IT-avdelning inte kan hitta felet ska de kontakta <a href="http://www.inera.se/felanmalan" target="_blank">Ineras
-            Nationell kundservice</a>.
-          Frågor om ifyllnaden av intyg: i intyget finns hjälpfunktioner för stöd hur intyget ska fyllas i. Du kan
-          även gå till <a href="http://www.socialstyrelsen.se/riktlinjer/forsakringsmedicinsktbeslutsstod"
-                          target="_blank">Socialstyrelsens försäkringsmedicinska beslutsstöd</a> för hjälp med
-          bedömningar av
-          funktionsnedsättning och aktivitetsbegränsning.
+            Nationell kundservice</a>. Frågor om ifyllnaden av intyg: i intyget finns hjälpfunktioner för stöd hur
+          intyget ska fyllas i.
         </li>
       </ul>
 
@@ -126,30 +127,8 @@
                           ng-class="{'glyphicon-chevron-down': open.faq, 'glyphicon-chevron-right': !open.faq}"></i>
       </div>
 
-      <h3>
-        Inloggning </h3>
-      <h4>Varför kan jag inte logga in?</h4>
-      <p>
-        Kontrollera följande: </p>
-      <ul>
-        <li>Att SITHS-kortet (även kallat eTjänstekortet eller tjänstekortet) eller e-legitimationen sitter ordentligt
-          i kortläsaren.
-        </li>
-        <li>Att datorn är ansluten till internet.</li>
-        <li>Att du skrivit rätt webbadress.</li>
-        <li>Att NetiD är installerat på din PC. (Du kan se den som en ikon i menyfältet nere i högra hörnet).</li>
-        <li>Testa att högerklicka på NetiD-ikonen nere till höger. Välj att uppdatera e-legitimationsförflyttning
-          eller läs in kortet på nytt. Testa därefter att gå in i Webcert igen.
-        </li>
-        <li>Att du anger rätt kod när du försöker logga in. Observera att det finns två koder kopplade till ditt kort,
-          en legitimeringskod och en underskriftskod. Vid inloggning används legitimeringskoden.
-        </li>
-      </ul>
-      <p>
-        Om inget av ovanstående fungerar kontaktar du din SITHS-kortadministratör. </p>
 
-
-      <div wc-feature-active feature="hanteraIntygsutkast">
+      <div wc-authority feature="hanteraIntygsutkast">
         <h3>Skriva intyg</h3>
 
         <h4>Hur fungerar hjälpfunktionen?</h4>
@@ -158,50 +137,46 @@
           ifyllande av utkastet, inte teknisk hjälp.</p>
 
         <h4>Tangentbordsnavigering i Webcert</h4>
-        <p>I Webcert stöds navigering med hjälp av tangentbordet. Webcert följer den standard som finns för webbläsare
+        <p> Webcert stöds navigering med hjälp av tangentbordet. Webcert följer den standard som finns för webbläsare
           och du kan använda "Tab" för att hoppa mellan ifyllnadsrutor i ett intygsutkast. I de fall ett fält utgörs av
           val i form av radioknappar används tangentbordets piltangenter för att navigera mellan valen. För att markera
-          ett val i en kryssruta eller radioknapp använd "Mellansteg"-tangenten.</p>
+          ett val i en kryssruta eller radioknapp använd "Mellansslag"-tangenten.</p>
 
         <h4>Hur kan jag få hjälp med bedömningar av funktionsnedsättning och aktivitetsbegränsning?</h4>
-        <p>I fält 4 och 5 i läkarintyg FK 7263, där du ska göra en bedömning av patientens funktionsnedsättning och
-          aktivitetsbegränsning, finns en länk till <a
-              href="http://www.socialstyrelsen.se/riktlinjer/forsakringsmedicinsktbeslutsstod" target="_blank">Socialstyrelsens
-            försäkringsmedicinska beslutsstöd</a>. Via länken når
-          du en hjälpmanual för hur bedömningarna bör ske.</p>
+        <p>Socialstyrelsens försäkringsmedicinska beslutsstöd finns tillgängligt i Webcert och visas automatiskt bredvid
+          de fält som berörs när du anger huvuddiagnosen. Om du anger en diagnoskod som saknar beslutsstöd så visas
+          ingenting.</p>
 
         <h4>Hur använder jag mig av Socialstyrelsens försäkringsmedicinska beslutsstöd?</h4>
-        <p>Genom att trycka på ikonen för <a
-            href="http://www.socialstyrelsen.se/riktlinjer/forsakringsmedicinsktbeslutsstod" target="_blank">Socialstyrelsens
-          försäkringsmedicinska beslutsstöd</a>, som finns vid fält 4 och
-          5 i läkarintyg FK 7263, länkas du till Socialstyrelsens webbsida. Om diagnosen du har valt finns med i
-          beslutsstödet kopplas du direkt till denna information. Om diagnosen inte finns med kan du välja att själv
-          söka information om annan diagnos. Socialstyrelsens försäkringsmedicinska beslutsstöd är till hjälp för att
-          bedöma hur lång tid sjukskrivningen ska vara. Om sjukskrivningen omfattar längre tid än den som
-          rekommenderas ska det motiveras i intygets fält 9.</p>
+        <p>När du anger en diagnos i fältet för huvuddiagnos så gör Webcert en sökning i Socialstyrelsens
+          försäkringsmedicinska beslutsstöd för att kontrollera om den valda diagnosen finns med. Vid fälten 2, 4, 5
+          och 8b visas den information som berör respektive fält. Det försäkringsmedicinska beslutsstödet utgår endast
+          från huvuddiagnosen, och visas inte för eventuella underdiagnoser. Det är alltid den senaste versionen av
+          beslutsstödet som visas i Webcert, vilket innebär att om du öppnar ett sparat intygsutkast så kan
+          informationen
+          från beslutsstödet ha uppdaterats sedan intygsutkastet skapades. Det försäkringsmedicinska beslutstödet är
+          enbart synligt när du utfärdar intyget, det kommer inte skickas med till Försäkringskassan eller invånaren,
+          och inte heller synas på utskrifter. Socialstyrelsens försäkringsmedicinska beslutsstöd är till hjälp för att
+          bedöma sjukskrivningens längd. Om sjukskrivningen omfattar längre tid än den som rekommenderas ska det
+          motiveras i intygets fält 9.</p>
 
         <h4>Vad är skillnaden mellan ett intyg och ett utkast?</h4>
-        <p>
-          Ett intyg betraktas som ett utkast ända tills det signerats av en läkare, då övergår det till att bli ett
-          intyg.</p>
-        <p>
-          Du kan skriva i och spara ett utkast så många gånger du vill innan det signeras. Ett utkast går även att
-          radera och tas då bort från Webcert. </p>
-        <p>
-          I samband med att intyget signeras skickas det till Intygstjänsten och kan då nås av patienten via Mina
-          intyg. </p>
-        <p>
-          Ett intyg kan inte sparas om eller raderas, däremot kan ett intyg makuleras och återtas eller ersättas av ett
-          nytt intyg. </p>
+        <p>Ett utkast är inte signerat och behöver inte innehålla alla uppgifter som är obligatoriska vid signering.
+          Du kan spara och ändra i det så många gånger du vill. Ett utkast går även att radera och tas då bort från
+          Webcert.
+          Vid signering övergår utkastet till att bli ett intyg. I samband med att intyget signeras skickas det till
+          Intygstjänsten och kan då nås av patienten via Mina intyg. </p>
+        <p>Ett intyg kan inte sparas om eller raderas, däremot kan ett intyg makuleras och återtas eller ersättas av ett
+          nytt intyg.</p>
       </div>
 
 
-      <div wc-feature-active feature="hanteraIntygsutkast">
+      <div wc-authority feature="hanteraIntygsutkast">
 
         <h3>Spara intyg</h3>
         <h4>Varför går det inte att spara intygsutkastet?</h4>
-        <p>Intyget sparas automatiskt under utfärdandet. Om spara-knappen inte är tillgänglig betyder det att intyget
-          redan är sparat.</p>
+        <p>Intyget sparas hela tiden automatiskt under utfärdandet. Om du stänger webbläsaren innan intyget har hunnit
+          sparas får du en varning.</p>
 
         <h3>Skicka intyg</h3>
 
@@ -225,7 +200,7 @@
           Försäkringskassan.</p>
       </div>
 
-      <div wc-feature-active feature="hanteraFragor">
+      <div wc-authority feature="hanteraFragor">
         <h3>Fråga och svars-funktionen</h3>
 
         <h4>Hur ställer jag en fråga till Försäkringskassan?</h4>
@@ -254,7 +229,7 @@
 
         <h4>En fråga har besvarats via brev och ligger därmed kvar som obesvarad i Webcert. Hur tar jag bort
           frågan?</h4>
-        <p>Öppna intyget som frågan hör till. Klicka på knappen "markera som hanterad".</p>
+        <p>Öppna intyget som frågan hör till. Klicka på knappen "Markera som hanterad".</p>
 
       </div>
 

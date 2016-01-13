@@ -9,15 +9,15 @@ import se.inera.certificate.model.Status;
 
 public class CertificateMetaData {
 
-    protected String certificateId;
-    protected String certificateType;
-    protected LocalDate validFrom;
-    protected LocalDate validTo;
-    protected String issuerName;
-    protected String facilityName;
-    protected LocalDateTime signDate;
-    protected boolean available;
-    
+    private String certificateId;
+    private String certificateType;
+    private LocalDate validFrom;
+    private LocalDate validTo;
+    private String issuerName;
+    private String facilityName;
+    private LocalDateTime signDate;
+    private boolean available;
+
     public String getCertificateId() {
         return certificateId;
     }
@@ -78,7 +78,7 @@ public class CertificateMetaData {
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
-    protected List<Status> status;
-    protected String additionalInfo;
+    private List<Status> status;
+    private String additionalInfo;
 
 }

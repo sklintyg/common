@@ -1,14 +1,19 @@
 package se.inera.certificate.page
 
-import geb.Browser
+import se.inera.certificate.spec.Browser
 import geb.Page
 
 abstract class AbstractPage extends Page {
 
+    static content = {
+        modalBackdrop(required:false) {$('.modal-backdrop')}
+    }
+
     static boolean doneLoading() {
         boolean result
         Browser.drive {
-            result = js.doneLoading && js.dialogDoneLoading && js.rendered
+            println('js.doneLoading:'+js.doneLoading+', js.dialogDoneLoading:' + js.dialogDoneLoading)
+            result = js.doneLoading && js.dialogDoneLoading
         }
         result
     }
@@ -17,6 +22,12 @@ abstract class AbstractPage extends Page {
         def jqScrollToVisible = "jQuery(\'#" + elementId + "\')[0].scrollIntoView();var current=jQuery('body').scrollTop(); jQuery('body').scrollTop(current-400);"
         Browser.drive {
             js.exec(jqScrollToVisible)
+        }
+    }
+
+    def waitForModalBackdropToHide(){
+        waitFor() {
+            return !modalBackdrop.isDisplayed();
         }
     }
 
@@ -34,8 +45,8 @@ abstract class AbstractPage extends Page {
 
     // use inside content definitions to prevent wait success until the element is displayed
     // with the option element(wait:true){ displayed($('#element-id')) }
-    static displayed(elem) {
-        (elem?.displayed) ? elem : null
-    }
+    //static displayed(elem) {
+    //    (elem?.displayed) ? elem : null
+    //}
 
 }

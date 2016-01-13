@@ -7,10 +7,9 @@
   <parent>
     <groupId>se.inera.intyg.common</groupId>
     <artifactId>common-pom</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.14</version>
   </parent>
 
-  <groupId>se.inera.intyg.common</groupId>
   <artifactId>common</artifactId>
   <version>0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -18,10 +17,6 @@
   <name>Intyg Common</name>
 
   <properties>
-    <!-- Common -->
-    <common.version>0-SNAPSHOT</common.version>
-    <common.version.range>(,2.3.0]</common.version.range>
-
     <!-- Schemas -->
     <rivta-clinicalprocess.version>1.0.RC3.0</rivta-clinicalprocess.version>
     <rivta-insuranceprocess.version>3.1.0.0</rivta-insuranceprocess.version>
@@ -39,12 +34,18 @@
 
     <intyg-privatepractitioner.version>0-SNAPSHOT</intyg-privatepractitioner.version>
     <intyg-privatepractitioner.version.range>(,1.0.0]</intyg-privatepractitioner.version.range>
+
+    <intyg-privatepractitioner-terms.version>0-SNAPSHOT</intyg-privatepractitioner-terms.version>
+    <intyg-privatepractitioner-terms.version.range>(,1.0.0]</intyg-privatepractitioner-terms.version.range>
+
+    <skip-coverage>true</skip-coverage>
   </properties>
 
   <modules>
+    <module>util/logging-util</module>
     <module>support</module>
     <module>web</module>
-    <module>util/logging-util</module>
+
     <module>util/integration-util</module>
     <module>schemas</module>
     <module>specifications</module>
@@ -56,6 +57,12 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>logging-util</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
       <!-- RIVTA Schemas -->
       <dependency>
         <groupId>se.riv.clinicalprocess.healthcond.certificate</groupId>
@@ -100,6 +107,27 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+            <skip>${skip-coverage}</skip>
+        </configuration>
+        <executions>
+          <execution>
+            <id>prepare-unit-test-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-unit-test-report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <compilerId>groovy-eclipse-compiler</compilerId>
@@ -126,7 +154,9 @@
             common.version,
             intyg-clinicalprocess.version,
             intyg-insuranceprocess.version,
-            intyg-transportstyrelsen.version
+            intyg-transportstyrelsen.version,
+            intyg-privatepractitioner.version,
+            intyg-privatepractitioner-terms.version
           </includeProperties>
           <properties>
             <property>
@@ -145,6 +175,14 @@
               <name>intyg-transportstyrelsen.version</name>
               <version>${intyg-transportstyrelsen.version.range}</version>
             </property>
+            <property>
+              <name>intyg-privatepractitioner.version</name>
+              <version>intyg-privatepractitioner.version.range</version>
+            </property>
+            <property>
+              <name>intyg-privatepractitioner-terms.version</name>
+              <version>intyg-privatepractitioner-terms.version.range</version>
+            </property>
           </properties>
         </configuration>
       </plugin>
@@ -153,8 +191,8 @@
 
   <repositories>
     <repository>
-      <id>callista-release</id>
-      <url>http://repository-callistasoftware.forge.cloudbees.com/release/</url>
+      <id>inera-release</id>
+      <url>https://build-inera.nordicmedtest.se/nexus/content/repositories/releases/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -163,8 +201,18 @@
       </snapshots>
     </repository>
     <repository>
-      <id>callista-snapshot</id>
-      <url>http://repository-callistasoftware.forge.cloudbees.com/snapshot/</url>
+      <id>inera-nightly</id>
+      <url>https://build-inera.nordicmedtest.se/nexus/content/repositories/nightly/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>inera-snapshot</id>
+      <url>https://build-inera.nordicmedtest.se/nexus/content/repositories/snapshots/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -174,7 +222,7 @@
     </repository>
     <repository>
       <id>thirdparty</id>
-      <url>http://repository-callistasoftware.forge.cloudbees.com/3rdparty</url>
+      <url>https://build-inera.nordicmedtest.se/nexus/content/repositories/thirdparty/</url>
       <releases>
         <enabled>true</enabled>
       </releases>

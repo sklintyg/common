@@ -1,0 +1,40 @@
+<accordion>
+    <wc-accordion-group heading="Information från Socialstyrelsens försäkringsmedicinska beslutsstöd" is-open="status.open">
+        <accordion-heading>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="media">
+                        <div class="pull-left">
+                            <img class="media-object fmb-accordion-head-img" ng-src="/img/socialstyrelsen_logo.png"/>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Information från Socialstyrelsens försäkringsmedicinska
+                                beslutsstöd</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <span>
+                        <i class="pull-right glyphicon fmb-glyphicon" ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i>
+                    </span>
+                </div>
+            </div>
+        </accordion-heading>
+
+        <h2 id="fmb_diagnos_heading_{{relatedFormId}}" class="fmb-diagnosis-headline">{{diagnosisCode}}</h2>
+        <hr class="fmb-ruler"/>
+
+        <div ng-repeat="item in helpTextContents" ng-show="item.text || item.list">
+            <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">
+                <span message key="{{'fmb.' + item.heading}}"></span>
+            </h4>
+
+            <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.text">{{item.text}}</section>
+            <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.list">
+                <ul class="fmb-bullet-list" ng-repeat="bullet in item.list track by $index">
+                    <li id="fmb_bullet_{{item.heading}}_{{$index}}">{{bullet}}</li>
+                </ul>
+            </section>
+        </div>
+    </wc-accordion-group>
+</accordion>

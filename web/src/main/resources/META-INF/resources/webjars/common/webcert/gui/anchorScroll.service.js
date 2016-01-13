@@ -21,7 +21,7 @@ angular.module('common').factory('common.anchorScrollService', ['$location', 'sm
             duration: 500,
             easing: 'easeInOutQuart',
             offset: _calculateOffset(offset)
-        }
+        };
 
         smoothScrollService(elementToScrollTo, options);
 

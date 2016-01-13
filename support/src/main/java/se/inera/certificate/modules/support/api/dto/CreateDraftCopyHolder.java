@@ -27,8 +27,8 @@ public class CreateDraftCopyHolder {
     private final HoSPersonal skapadAv;
 
     private Patient patient;
-    
-    private String newPersonnummer;
+
+    private Personnummer newPersonnummer;
 
     public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv) {
         notNull(certificateId, "'certificateId' must not be null");
@@ -53,19 +53,20 @@ public class CreateDraftCopyHolder {
         this.patient = patient;
     }
 
-    public String getNewPersonnummer() {
+    public Personnummer getNewPersonnummer() {
         return newPersonnummer;
     }
 
-    public void setNewPersonnummer(String newPersonnummer) {
+    public void setNewPersonnummer(Personnummer newPersonnummer) {
         this.newPersonnummer = newPersonnummer;
     }
 
     public boolean hasPatient() {
         return (this.patient != null);
     }
-    
+
     public boolean hasNewPersonnummer() {
         return (this.newPersonnummer != null);
     }
+
 }

@@ -8,7 +8,7 @@ public enum TransportModelVersion {
 
     private final String namespace;
 
-    private TransportModelVersion(String namespace) {
+    TransportModelVersion(String namespace) {
         this.namespace = namespace;
     }
 
