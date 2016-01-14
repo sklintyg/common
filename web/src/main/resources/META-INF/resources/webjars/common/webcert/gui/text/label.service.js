@@ -38,7 +38,7 @@ angular.module('common').factory('common.dynamicLabelService',
             var match = _.findWhere(labelsList, { id: key } );
             var err
             if (match === null || match === undefined) {
-                err = '[Error object for help text not found for: "' + key + '"]';  // log error when missing complete object!
+                err = '[Missing optional Label: "' + key + '"]';  // log error when missing complete help object, help text or optional text?
                 return err;
             } else if (match.text === '' || match.text === undefined || match.text === null) {
                 err = '[Help text not found - have ID but not text for required id: "' + key + '"]';  // if for some reason we have an id and empty text, something is very wrong, return error string here as well.

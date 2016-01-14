@@ -37,7 +37,7 @@ angular.module('common').factory('common.UtilsService', function() {
     }
 
     function _isDefined(data) {
-        return (typeof(data) !== 'undefined' && data !== null )
+        return (typeof(data) !== 'undefined' && data !== null );
     }
 
     /**
