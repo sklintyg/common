@@ -23,9 +23,9 @@
 angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus',
+        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService', 'common.DynamicLabelProxy',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            UtkastProxy, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus) {
+            UtkastProxy, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, DynamicLabelProxy) {
             'use strict';
 
             /**
@@ -54,6 +54,17 @@ angular.module('common').factory('common.UtkastService',
                             CommonViewState.doneLoading = true;
                         }, 10);
                     }
+
+                    // TODOOOOO TAKE FROM UTKAST MODEL
+                    var version = "1.0";
+                    DynamicLabelProxy.getDynamicLabels(intygsTyp, version).then(
+                        function(data) {
+                            dynamicLabelService.addLabels(data);
+                            $log.debug(data);
+                        },
+                        function(error) {
+                            $log.debug("error:" + error);
+                        });
 
                     def.resolve(viewState.intygModel);
 
