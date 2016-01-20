@@ -13,6 +13,81 @@ describe('dynamicLabelService', function() {
         }
     ]));
 
+
+    describe('updateTillaggsfragorToModel', function() {
+
+        /* jshint maxlen: false, unused: false */
+        var dynamicLabelJson = {
+            'texter': {
+                'version': '1.0',
+                'text': []
+            },
+            'tillaggsfragor': [
+                {
+                    'id': 'DFR_9001.1.RBK',
+                    'text': 'Blah',
+                    'help': {
+                        'id': 'DFR_9001.1.HLP',
+                        'text': 'Hajplp'
+                    },
+                },
+                {
+                    'id': 'DFR_9003.1.RBK',
+                    'text': 'Blah',
+                    'help': {
+                        'id': 'DFR_9003.1.HLP',
+                        'text': 'Hajplp'
+                    }
+                },
+            ]
+        };
+
+        it('should add all fragor to model in order if model is empty', function()
+        {
+            var model = {
+                tillaggsfragor: []
+            }
+
+            dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+
+            expect(model.tillaggsfragor.length).toBe(2);
+            expect(model.tillaggsfragor[0].id).toBe('9001');
+            expect(model.tillaggsfragor[1].id).toBe('9003');
+        });
+
+        it('should only add missing fragor to model in order if model already has values (insert)', function()
+        {
+            var model = {
+                tillaggsfragor: [{
+                    id:'9003',
+                    svar:'yeehaw',
+                }]
+            }
+
+            dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+
+            expect(model.tillaggsfragor.length).toBe(2);
+            expect(model.tillaggsfragor[0].id).toBe('9001');
+            expect(model.tillaggsfragor[1].id).toBe('9003');
+        });
+
+        it('should only add missing fragor to model in order if model already has values (push)', function()
+        {
+            var model = {
+                tillaggsfragor: [{
+                    id:'9001',
+                    svar:'yeehaw',
+                }]
+            }
+
+            dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+
+            expect(model.tillaggsfragor.length).toBe(2);
+            expect(model.tillaggsfragor[0].id).toBe('9001');
+            expect(model.tillaggsfragor[1].id).toBe('9003');
+        });
+    });
+
     describe('#getProperty', function() {
         var testDataDynamicLabelInline = {
             'texter': {

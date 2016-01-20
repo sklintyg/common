@@ -15,6 +15,7 @@ angular.module('common').factory('common.dynamicLabelService',
         var _labelResources = null;
         var structureTypesEnum = { kategori: 'KAT', fraga: 'FRG', delFraga: 'DFR' };
         var structureTextTypesEnum = { rubrik: 'RBK', hjalp: 'HLP' };
+        var tillaggsFragor = null;
 
         function _getProperty(key, rootElement) {
 
@@ -69,6 +70,38 @@ angular.module('common').factory('common.dynamicLabelService',
         function _addLabels(labels) {
             _checkLabels();
             angular.extend(_labelResources.texter, labels.texter);
+
+            tillaggsFragor = labels.tillaggsfragor;
+        }
+
+        function _getTillaggsFragor() {
+            return tillaggsFragor;
+        }
+
+        function _convertTextIdToModelId(textObject)
+        {
+            return textObject.substr(4, 4);
+        }
+
+        function _updateTillaggsfragorToModel(tillaggsfragor, model) {
+            for (var i = 0; i < tillaggsfragor.length; i++) {
+                var modelFrageList = model.tillaggsfragor;
+                if (i >= modelFrageList.length) {
+                    var tillaggsfraga = {
+                        'id': _convertTextIdToModelId(tillaggsfragor[i].id),
+                        'svar': ''
+                    }
+                    modelFrageList.push(tillaggsfraga);
+                } else {
+                    var tillaggsfraga = {
+                        'id': _convertTextIdToModelId(tillaggsfragor[i].id),
+                        'svar': ''
+                    }
+                    if (modelFrageList[i].id != tillaggsfraga.id) {
+                        modelFrageList.splice(i, 0, tillaggsfraga);
+                    }
+                }
+            }
         }
 
         function _checkLabels() {
@@ -89,11 +122,12 @@ angular.module('common').factory('common.dynamicLabelService',
             return suffix === '' || string.slice(-suffix.length) === suffix;
         }
 
-
         return {
             checkLabels: _checkLabels,
+            updateTillaggsfragorToModel: _updateTillaggsfragorToModel,
             getProperty: _getProperty,
-            addLabels: _addLabels
+            addLabels: _addLabels,
+            getTillaggsFragor: _getTillaggsFragor
         };
     }
 ]);

@@ -58,19 +58,21 @@ angular.module('common').factory('common.UtkastService',
                     // TODOOOOO TAKE FROM UTKAST MODEL
                     var version = "1.0";
                     DynamicLabelProxy.getDynamicLabels(intygsTyp, version).then(
-                        function(data) {
-                            dynamicLabelService.addLabels(data);
-                            $log.debug(data);
+                        function(dynamicLabelJson) {
+                            $log.debug(dynamicLabelJson);
+                            dynamicLabelService.addLabels(dynamicLabelJson);
+                            dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, viewState.draftModel.content);
+                            def.resolve(viewState.intygModel);
                         },
                         function(error) {
                             $log.debug("error:" + error);
+                            def.reject(error);
                         });
-
-                    def.resolve(viewState.intygModel);
 
                 }, function(error) {
                     CommonViewState.doneLoading = true;
                     CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);
+                    def.reject(error);
                 });
                 return def.promise;
             }
