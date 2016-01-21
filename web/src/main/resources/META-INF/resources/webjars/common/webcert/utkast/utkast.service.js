@@ -23,9 +23,11 @@
 angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService', 'common.DynamicLabelProxy',
-        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            UtkastProxy, dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, DynamicLabelProxy) {
+        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
+        'common.DynamicLabelProxy',
+        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
+            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService,
+            DynamicLabelProxy) {
             'use strict';
 
             /**
@@ -42,32 +44,33 @@ angular.module('common').factory('common.UtkastService',
                     viewState.common.update(viewState.draftModel, data);
 
                     // check that the certs status is not signed
-                    if(viewState.draftModel.isSigned()){
+                    if (viewState.draftModel.isSigned()) {
                         // just change straight to the intyg
                         $location.url('/intyg/' + intygsTyp + '/' + viewState.draftModel.content.id);
                     }
                     else {
-                        $timeout(function() {
-                            wcFocus('focusFirstInput');
-                            $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
-                            $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
-                            CommonViewState.doneLoading = true;
-                        }, 10);
-                    }
+                        var version = "1.0";
+                        DynamicLabelProxy.getDynamicLabels(intygsTyp, version).then(
+                            function(dynamicLabelJson) {
+                                $log.debug(dynamicLabelJson);
+                                dynamicLabelService.addLabels(dynamicLabelJson);
+                                dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor,
+                                    viewState.draftModel.content);
 
-                    // TODOOOOO TAKE FROM UTKAST MODEL
-                    var version = "1.0";
-                    DynamicLabelProxy.getDynamicLabels(intygsTyp, version).then(
-                        function(dynamicLabelJson) {
-                            $log.debug(dynamicLabelJson);
-                            dynamicLabelService.addLabels(dynamicLabelJson);
-                            dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, viewState.draftModel.content);
-                            def.resolve(viewState.intygModel);
-                        },
-                        function(error) {
-                            $log.debug("error:" + error);
-                            def.reject(error);
-                        });
+                                $timeout(function() {
+                                    wcFocus('focusFirstInput');
+                                    $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
+                                    $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
+                                    CommonViewState.doneLoading = true;
+                                    def.resolve(viewState.intygModel);
+                                }, 10);
+                            },
+                            function(error) {
+                                $log.debug("error:" + error);
+                                CommonViewState.doneLoading = true;
+                                def.reject(error);
+                            });
+                    }
 
                 }, function(error) {
                     CommonViewState.doneLoading = true;
@@ -122,8 +125,8 @@ angular.module('common').factory('common.UtkastService',
                         intygState.viewState.common.error.saveErrorCode = result.errorCode;
                     });
 
-                    saveCompletePromise.finally(function(){ // jshint ignore:line
-                        if(extras && extras.destroy ){
+                    saveCompletePromise.finally(function() { // jshint ignore:line
+                        if (extras && extras.destroy) {
                             extras.destroy();
                         }
                         var saveRequestDuration = moment().diff(saveStartTime);
@@ -138,74 +141,74 @@ angular.module('common').factory('common.UtkastService',
                         }
                     });
 
-                    UtkastProxy.saveUtkast( intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
-                            intygState.viewState.draftModel.version, intygState.viewState.intygModel.toSendModel(),
+                    UtkastProxy.saveUtkast(intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
+                        intygState.viewState.draftModel.version, intygState.viewState.intygModel.toSendModel(),
                         function(data) {
 
-                                var result = {};
-                                result.validationMessagesGrouped = {};
-                                result.validationMessages = [];
-                                result.validationSections = [];
-                                result.version = data.version;
+                            var result = {};
+                            result.validationMessagesGrouped = {};
+                            result.validationMessages = [];
+                            result.validationSections = [];
+                            result.version = data.version;
 
-                                if (data.status === 'COMPLETE') {
-                                    CommonViewState.intyg.isComplete = true;
-                                    saveComplete.resolve(result);
-                                } else {
-                                    CommonViewState.intyg.isComplete = false;
+                            if (data.status === 'COMPLETE') {
+                                CommonViewState.intyg.isComplete = true;
+                                saveComplete.resolve(result);
+                            } else {
+                                CommonViewState.intyg.isComplete = false;
 
-                                    if (!CommonViewState.showComplete) {
-                                        result.validationMessages = data.messages.filter(function(message) {
-                                            return (message.type !== 'EMPTY');
-                                        });
-                                    }
-                                    else {
-                                        result.validationMessages = data.messages;
-                                    }
-
-                                    angular.forEach(result.validationMessages, function(message) {
-                                        var field = message.field;
-                                        var parts = field.split('.');
-                                        var section;
-                                        if (parts.length > 0) {
-                                            section = parts[0].toLowerCase();
-                                            if(result.validationSections.indexOf(section) === -1){
-                                                result.validationSections.push(section);
-                                            }
-
-                                            if (result.validationMessagesGrouped[section]) {
-                                                result.validationMessagesGrouped[section].push(message);
-                                            } else {
-                                                result.validationMessagesGrouped[section] = [message];
-                                            }
-                                        }
+                                if (!CommonViewState.showComplete) {
+                                    result.validationMessages = data.messages.filter(function(message) {
+                                        return (message.type !== 'EMPTY');
                                     });
-                                    saveComplete.resolve(result);
                                 }
-                            }, function(error) {
-                                // Show error message if save fails
-
-                                var errorMessage;
-                                var variables = null;
-                                if (error.errorCode === 'CONCURRENT_MODIFICATION') {
-                                    // In the case of concurrent modification we should have the name of the user making trouble in the message.
-                                    variables = {name: error.message};
+                                else {
+                                    result.validationMessages = data.messages;
                                 }
 
-                                var errorCode = error.errorCode;
-                                if (typeof errorCode === 'undefined') {
-                                    errorCode = 'unknown';
-                                }
-                                var errorMessageId = checkSetErrorSave(errorCode);
-                                errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
+                                angular.forEach(result.validationMessages, function(message) {
+                                    var field = message.field;
+                                    var parts = field.split('.');
+                                    var section;
+                                    if (parts.length > 0) {
+                                        section = parts[0].toLowerCase();
+                                        if (result.validationSections.indexOf(section) === -1) {
+                                            result.validationSections.push(section);
+                                        }
 
-                                var result = {
-                                    errorMessage: errorMessage,
-                                    errorCode: errorCode
-                                };
-                                saveComplete.reject(result);
+                                        if (result.validationMessagesGrouped[section]) {
+                                            result.validationMessagesGrouped[section].push(message);
+                                        } else {
+                                            result.validationMessagesGrouped[section] = [message];
+                                        }
+                                    }
+                                });
+                                saveComplete.resolve(result);
                             }
-                        );
+                        }, function(error) {
+                            // Show error message if save fails
+
+                            var errorMessage;
+                            var variables = null;
+                            if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                                // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                                variables = {name: error.message};
+                            }
+
+                            var errorCode = error.errorCode;
+                            if (typeof errorCode === 'undefined') {
+                                errorCode = 'unknown';
+                            }
+                            var errorMessageId = checkSetErrorSave(errorCode);
+                            errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
+
+                            var result = {
+                                errorMessage: errorMessage,
+                                errorCode: errorCode
+                            };
+                            saveComplete.reject(result);
+                        }
+                    );
                 });
                 return true;
             }
