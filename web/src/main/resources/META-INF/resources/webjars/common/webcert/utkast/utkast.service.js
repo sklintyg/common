@@ -49,13 +49,18 @@ angular.module('common').factory('common.UtkastService',
                         $location.url('/intyg/' + intygsTyp + '/' + viewState.draftModel.content.id);
                     }
                     else {
-                        var version = "1.0";
+                        var version = "0.9";
                         DynamicLabelProxy.getDynamicLabels(intygsTyp, version).then(
                             function(dynamicLabelJson) {
-                                $log.debug(dynamicLabelJson);
-                                dynamicLabelService.addLabels(dynamicLabelJson);
-                                dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor,
-                                    viewState.draftModel.content);
+                                if(dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined')
+                                {
+                                    $log.debug(dynamicLabelJson);
+                                    dynamicLabelService.addLabels(dynamicLabelJson);
+                                    dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor,
+                                        viewState.draftModel.content);
+                                } else {
+                                    $log.debug('No dynamic text for intygType: ' + intygsTyp);
+                                }
 
                                 $timeout(function() {
                                     wcFocus('focusFirstInput');

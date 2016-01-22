@@ -42,7 +42,7 @@ angular.module('common').factory('common.dynamicLabelService',
                     textFound = false;
                 }
 
-                if(!textFound)
+                if(!textFound && typeof tillaggsFragor !== 'undefined')
                 {
                     // Check if its a tillaggsfraga
                     for (var i = 0; i < tillaggsFragor.length; i++) {

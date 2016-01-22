@@ -19,31 +19,22 @@ describe('dynamicLabelService', function() {
         /* jshint maxlen: false, unused: false */
         var dynamicLabelJson = {
             'texter': {
-                'version': '1.0',
-                'text': []
             },
             'tillaggsfragor': [
                 {
-                    'id': 'DFR_9001.1.RBK',
+                    'id': '9001',
                     'text': 'Blah',
-                    'help': {
-                        'id': 'DFR_9001.1.HLP',
-                        'text': 'Hajplp'
-                    },
+                    'help': '9001',
                 },
                 {
-                    'id': 'DFR_9003.1.RBK',
+                    'id': '9003',
                     'text': 'Blah',
-                    'help': {
-                        'id': 'DFR_9003.1.HLP',
-                        'text': 'Hajplp'
-                    }
+                    'help': '9003',
                 },
             ]
         };
 
-        it('should add all fragor to model in order if model is empty', function()
-        {
+        it('should add all fragor to model in order if model is empty', function() {
             var model = {
                 tillaggsfragor: []
             }
@@ -55,13 +46,14 @@ describe('dynamicLabelService', function() {
             expect(model.tillaggsfragor[1].id).toBe('9003');
         });
 
-        it('should only add missing fragor to model in order if model already has values (insert)', function()
-        {
+        it('should only add missing fragor to model in order if model already has values (insert)', function() {
             var model = {
-                tillaggsfragor: [{
-                    id:'9003',
-                    svar:'yeehaw',
-                }]
+                tillaggsfragor: [
+                    {
+                        id: '9003',
+                        svar: 'yeehaw',
+                    }
+                ]
             }
 
             dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
@@ -71,13 +63,14 @@ describe('dynamicLabelService', function() {
             expect(model.tillaggsfragor[1].id).toBe('9003');
         });
 
-        it('should only add missing fragor to model in order if model already has values (push)', function()
-        {
+        it('should only add missing fragor to model in order if model already has values (push)', function() {
             var model = {
-                tillaggsfragor: [{
-                    id:'9001',
-                    svar:'yeehaw',
-                }]
+                tillaggsfragor: [
+                    {
+                        id: '9001',
+                        svar: 'yeehaw',
+                    }
+                ]
             }
 
             dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
@@ -91,43 +84,15 @@ describe('dynamicLabelService', function() {
     describe('#getProperty', function() {
         var testDataDynamicLabelInline = {
             'texter': {
-                'text':
-                    [
-                        {
-                            'id': 'KAT_2.RBK', // Kategori
-                            'text': '2. Intyg är baserat på'
-                        },
-                        {
-                            'id': 'KAT_2.HLP',
-                            'text': 'Om underlaget är baserat utifrån annan anledning, ange det under \'Övrigt\', se kategori 8.'
-                        },
-                        { 'id': 'FRG_10.RBK' }, // Fråga - Rubrik
-                        { 'id': 'FRG_10.HLP' }, // Fråga - Hjälptext
-                        { 'id': 'DFR_10.1.RBK' }, // Delfråga ...
-                        { 'id': 'DFR_10.2.HLP' }, // Delfråga ...
-                        {
-                            'id': 'KV_FKMU_0001.1', // ?? Svarsalt
-                            'text': 'Min undersökning av patienten'
-                        },
-                        {
-                            'id': 'KV_FKMU_0001.2',
-                            'text': 'Min telefonkontakt med patienten'
-                        },
-                        {
-                            'id': 'DFR_1.2.RBK',
-                            'text': 'Ange yrke och nuvarande arbetsuppgifter'
-                        },
-                    ],
-                'tillagg': {
-                    'tillaggsfraga': {
-                        'id': 'TFG_1',
-                        'text': [
-                            { 'id': 'TFG_1.RBK' },
-                            { 'id': 'TFG_1.HLP' }
-                        ]
-                    }
+                    'KAT_2.RBK': '2. Intyg är baserat på'
+            },
+            'tillaggsfragor': [
+                {
+                    'id': 'TFG_1',
+                    'text': 'TFG_1.RBK',
+                    'help': 'TFG_1.HLP'
                 }
-            }
+            ]
         };
 
         beforeEach(function() {
@@ -140,24 +105,6 @@ describe('dynamicLabelService', function() {
             expect(aProp).toEqual('2. Intyg är baserat på');
         });
 
-        it('should return a help text string when given id', function() {
-            var rootProp = 'texter';
-            var aProp = dynamicLabelService.getProperty('KAT_2.HLP', rootProp);
-            expect(aProp).toEqual('Om underlaget är baserat utifrån annan anledning, ange det under \'Övrigt\', se kategori 8.');
-        });
-
-        it('should return a partial question string when given id', function() {
-            var rootProp = 'texter';
-            var aProp = dynamicLabelService.getProperty('DFR_1.2.RBK', rootProp);
-            expect(aProp).toEqual('Ange yrke och nuvarande arbetsuppgifter');
-        });
-
-        it('should return a answer alternative string when given id', function() {
-            var rootProp = 'texter';
-            var aProp = dynamicLabelService.getProperty('KV_FKMU_0001.1', rootProp);
-            expect(aProp).toEqual('Min undersökning av patienten');
-        });
-
         it('required text type should return a Error string when id is missing', function() {
             var rootProp = 'texter';
             var aProp = dynamicLabelService.getProperty('KAT_999X.RBK', rootProp); // KAT_999X.RBK does not exist
@@ -168,37 +115,37 @@ describe('dynamicLabelService', function() {
         it('Optional text type shoud return a MISSING LABEL string when id is missing', function() {
             var rootProp = 'texter';
             var aProp = dynamicLabelService.getProperty('KAT_999X.HLP', rootProp);
-            expect(aProp).toContain('[Missing optional');
+            expect(aProp).toContain('missing required id');
             expect(aProp).toContain('KAT_999X.HLP');
         });
 
         /* it('should return an empty string if the message is an empty string', function() {
-            // todo
-        });
+         // todo
+         });
 
-        it('should return the correct value if a language is set in the root scope', function() {
-            // todo
-        });
+         it('should return the correct value if a language is set in the root scope', function() {
+         // todo
+         });
 
-        it('should return the correct value if a default language is set', function() {
-            // todo
-        });
+         it('should return the correct value if a default language is set', function() {
+         // todo
+         });
 
-        it('should return the default value if the key is not present in the resources', function() {
-            // todo
-        });
+         it('should return the default value if the key is not present in the resources', function() {
+         // todo
+         });
 
-        it('should return the missing key if the key is not present in the resources', function() {
-            // todo
-        });
+         it('should return the missing key if the key is not present in the resources', function() {
+         // todo
+         });
 
-        it('should return missing language if no language is set', function() {
-            // todo
-        });
+         it('should return missing language if no language is set', function() {
+         // todo
+         });
 
-        it('should return string with expanded string if variable available', function() {
-            // todo
-        }); */
+         it('should return string with expanded string if variable available', function() {
+         // todo
+         }); */
 
     });
 });
