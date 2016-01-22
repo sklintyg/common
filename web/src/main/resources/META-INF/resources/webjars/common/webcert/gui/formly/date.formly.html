@@ -4,7 +4,11 @@
                class="checkbox-inline"
                ng-model="formState[options.key].checked"
                value="true">
-        <span dynamic-label key="{{to.label}}"></span>
+        <span dynamic-label key="{{to.label}}.RBK"></span>
+        <span class="glyphicon glyphicon-question-sign"
+              uib-tooltip-html="'{{getDynamicText(to.label + '.HLP')}}'"
+              tooltip-trigger="mouseenter"
+              tooltip-placement="right"></span>
     </label>
     <span wc-date-picker-field target-model="model[options.key]"></span>
 </div>

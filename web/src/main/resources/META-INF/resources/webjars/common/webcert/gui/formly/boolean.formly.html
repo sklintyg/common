@@ -1,0 +1,14 @@
+<div class="form-group form-inline">
+    <label class="inline-block"><span dynamic-label key="{{to.label}}.RBK"></span></label>
+</div>
+
+<div class="form-group form-inline">
+    <label class="radio-inline">
+        <input id="{{options.key}}Yes" name="{{options.key}}" type="radio"
+               ng-value="true" ng-model="model[options.key]"/>Ja
+    </label>
+    <label class="radio-inline">
+        <input id="{{options.key}}No" name="{{options.key}}" type="radio"
+               ng-value="false" ng-model="model[options.key]"/>Nej
+    </label>
+</div>

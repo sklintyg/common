@@ -70,16 +70,14 @@ angular.module('common').run(function(formlyConfig) {
             $scope.onDiagnoseCodeSelect = function($index, $item) {
                 $scope.model[$scope.options.key][$index].diagnosBeskrivning = $item.beskrivning;
                 $scope.model[$scope.options.key][$index].diagnosKodSystem = formState.diagnosKodSystem;
-                $scope.form.$dirty = true;
-                $scope.form.$pristine = false;
+                $scope.form.$setDirty();
             };
 
             $scope.onDiagnoseDescriptionSelect = function($index, $item) {
                 $scope.model[$scope.options.key][$index].diagnosKod = $item.value;
                 $scope.model[$scope.options.key][$index].diagnosBeskrivning = $item.beskrivning;
                 $scope.model[$scope.options.key][$index].diagnosKodSystem = formState.diagnosKodSystem;
-                $scope.form.$dirty = true;
-                $scope.form.$pristine = false;
+                $scope.form.$setDirty();
             };
 
             $scope.onChangeKodverk = function() {

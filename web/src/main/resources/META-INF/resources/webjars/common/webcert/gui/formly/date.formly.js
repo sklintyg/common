@@ -4,7 +4,7 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'date',
         templateUrl: '/web/webjars/common/webcert/gui/formly/date.formly.html',
-        controller: ['$scope', 'common.DateUtilsService', function($scope, dateUtils) {
+        controller: ['$scope', 'common.DateUtilsService', 'common.dynamicLabelService', function($scope, dateUtils, dynamicLabelService) {
 
             $scope.$watch('model.' + $scope.options.key, function(newVal, oldVal) {
                 var formState = $scope.formState;
@@ -30,6 +30,10 @@ angular.module('common').run(function(formlyConfig) {
                 }
                 console.log(newVal, oldVal);
             });
+
+            $scope.getDynamicText = function(key) {
+                return dynamicLabelService.getProperty(key);
+            };
         }]
     });
 

@@ -3,7 +3,7 @@ angular.module('common').run(function(formlyConfig) {
 
     formlyConfig.setType({
         name: 'single-text',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/signleText.formly.html'
+        templateUrl: '/web/webjars/common/webcert/gui/formly/singleText.formly.html'
     });
 
 });
