@@ -1,0 +1,46 @@
+<div class="row bottom-padding-small">
+    <div class='col-xs-12'>
+        <div class='divider'>
+            <span message key="sjukersattning.label.valjkodverk"></span>
+            <label class="radio-inline">
+                <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
+                       ng-model="formState.diagnosKodSystem" checked="checked"
+                       ng-change="onChangeKodverk()">
+                <span message key="sjukersattning.label.diagnoskodverk.icd_10_se"></span>
+            </label>
+            <label class="radio-inline">
+                <input type="radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodSystem" value="KSH_97_P"
+                       ng-model="formState.diagnosKodSystem" ng-change="onChangeKodverk()">
+                <span message key="sjukersattning.label.diagnoskodverk.ksh_97_p"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="row bottom-padding-small" ng-repeat="diagnos in model[options.key]">
+    <div class='col-xs-3'>
+        <label class="control-label unbreakable">ICD-10-SE</label>
+        <input type="text" class="form-control" id="diagnoseCode" name="diagnose.code" value=""
+               class='diagnose-code col-xs-11 form-control' ng-model="diagnos.diagnosKod"
+               uib-typeahead="d.value as d.label for d in getDiagnoseCodes(formState.diagnosKodSystem, $viewValue) | limitTo:10"
+               typeahead-min-length="3" typeahead-on-select="onDiagnoseCodeSelect($index, $item)"
+               typeahead-template-url="/web/webjars/sjukersattning/webcert/views/utkast/form/form4.diagnoseTemplate.html"
+               wc-to-uppercase>
+    </div>
+    <div class='col-xs-9'>
+        <label class="control-label">Diagnos</label>
+        <input type="text" class="form-control maxwidth" id="diagnoseDescription"
+               class="col-xs-12 form-control" name="diagnose.description" value=""
+               ng-model= "diagnos.diagnosBeskrivning"
+               uib-typeahead="d.value as d.label for d in searchDiagnoseByDescription(formState.diagnosKodSystem, $viewValue)"
+               typeahead-on-select="onDiagnoseDescriptionSelect($index, $item)"
+               typeahead-template-url="/web/webjars/sjukersattning/webcert/views/utkast/form/form4.diagnoseTemplate.html"
+               typeahead-wait-ms="100">
+    </div>
+</div>
+
+<div class="row bottom-padding-small" ng-show="model[options.key].length < 3">
+    <div class="col-xs-12">
+        <a href ng-click="addDiagnos()">Lägg till övriga diagnoser </a>
+    </div>
+</div>

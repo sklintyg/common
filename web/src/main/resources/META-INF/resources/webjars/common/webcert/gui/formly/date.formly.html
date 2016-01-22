@@ -1,0 +1,10 @@
+<div class="form-group form-inline">
+    <label class="checkbox inline-block" style="min-width: 300px">
+        <input type="checkbox"
+               class="checkbox-inline"
+               ng-model="formState[options.key].checked"
+               value="true">
+        <span dynamic-label key="{{to.label}}"></span>
+    </label>
+    <span wc-date-picker-field target-model="model[options.key]"></span>
+</div>
