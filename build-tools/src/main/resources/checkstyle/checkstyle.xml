@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2015 Inera AB (http://www.inera.se)
+  ~ Copyright (C) 2016 Inera AB (http://www.inera.se)
   ~
   ~ This file is part of sklintyg (https://github.com/sklintyg).
   ~
@@ -46,7 +46,10 @@
     <module name="ParameterName"/>
     <module name="StaticVariableName"/>
     <module name="TypeName"/>
-    <module name="AvoidStarImport"/>
+    <module name="AvoidStarImport">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
@@ -131,7 +134,7 @@
     <property name="fileExtensions" value="java,js"/>
     <property name="header"
         value="/*\n
-* Copyright (C) 2015 Inera AB (http://www.inera.se)\n
+* Copyright (C) 2016 Inera AB (http://www.inera.se)\n
 *\n
 * This file is part of sklintyg (https://github.com/sklintyg).\n
 *\n

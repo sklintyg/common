@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Inera AB (http://www.inera.se)
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,6 +38,7 @@ describe('utkastHeader', function() {
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('smoothScroll', {});
+        $provide.value('networkConfig', {});
     }));
 
     beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', '$timeout',

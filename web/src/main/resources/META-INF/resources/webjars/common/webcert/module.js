@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Inera AB (http://www.inera.se)
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,10 +21,9 @@
 angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize' ]);
 
 // Inject language resources
-angular.module('common').run([ 'common.messageService', 'common.dynamicLabelService',
-    function(messageService, dynamicLabelService) {
+angular.module('common').run([ 'common.messageService',
+    function(messageService) {
         'use strict';
 
         messageService.addResources(commonMessages);
-        dynamicLabelService.addLabels(sjukersattningDynamicLabelsMock);
     }]);

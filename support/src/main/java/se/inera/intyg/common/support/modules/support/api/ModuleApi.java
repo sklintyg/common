@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Inera AB (http://www.inera.se)
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -211,11 +211,6 @@ public interface ModuleApi {
      * @return an XML string
      */
     String marshall(String jsonString) throws ModuleException;
-
-    /**
-     * Get all texts to populate a form for a particular version of this utkast.
-     */
-    String getQuestions(String version) throws ModuleException;
 
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
