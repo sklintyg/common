@@ -220,4 +220,6 @@ public interface ModuleApi {
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
 
+    String transformToStatisticsService(String inputXml) throws ModuleException;
+
 }
