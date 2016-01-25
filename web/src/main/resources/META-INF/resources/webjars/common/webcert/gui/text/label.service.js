@@ -17,19 +17,15 @@ angular.module('common').factory('common.dynamicLabelService',
             var structureTextTypesEnum = { rubrik: 'RBK', hjalp: 'HLP' };
             var tillaggsFragor = null;
 
-            function _getProperty(key, rootElement) {
-
-                if (rootElement === undefined || rootElement === null) {
-                    rootElement = 'texter';
-                }
-                var value = getRequiredTextByPropKey(key, rootElement); // get required text
+            function _getProperty(key) {
+                var value = getRequiredTextByPropKey(key); // get required text
                 return value;
             }
 
             // get prop req
-            function getRequiredTextByPropKey(key, rootElement) {
-                if (rootElement === undefined || rootElement === null) {
-                    return;
+            function getRequiredTextByPropKey(key) {
+                if (_labelResources == null) {
+                    return '';
                 }
 
                 var textFound = true;
@@ -114,5 +110,4 @@ angular.module('common').factory('common.dynamicLabelService',
                 getTillaggsFragor: _getTillaggsFragor
             };
         }
-    ])
-;
+    ]);
