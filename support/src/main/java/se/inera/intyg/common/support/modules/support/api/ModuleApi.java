@@ -212,11 +212,6 @@ public interface ModuleApi {
      */
     String marshall(String jsonString) throws ModuleException;
 
-    /**
-     * Get all texts to populate a form for a particular version of this utkast.
-     */
-    String getQuestions(String version) throws ModuleException;
-
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
 
