@@ -17,7 +17,7 @@ angular.module('common').factory('common.DynamicLabelProxy', [
                 promise.resolve(null);
             }
 
-            var restPath = '/api/utkast/questions/LISU/' + version;
+            var restPath = '/api/utkast/questions/LUSE/' + version;
             $http.get(restPath, {timeout: timeout}).success(function(data) {
                 $log.debug('registration - got data:');
                 $log.debug(data);
