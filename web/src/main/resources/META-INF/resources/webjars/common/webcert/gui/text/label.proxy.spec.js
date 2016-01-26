@@ -19,13 +19,13 @@ xdescribe('Proxy: DynamicLabelProxy', function() {
         $rootScope = _$rootScope_;
     }));
 
-    describe('getPrivatlakare', function() {
+    describe('getDynamicLabels', function() {
         it('should get the dynamiclabels for intystyp and version', function() {
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
             $httpBackend.expectGET('/api/text').respond(textResponse);
 
-            DynamicLabelProxy.getDynamicLabels('sjukersattning', '1.0').then(onSuccess, onError);
+            DynamicLabelProxy.getDynamicLabels('luse', '1.0').then(onSuccess, onError);
             $httpBackend.flush();
             // promises are resolved/dispatched only on next $digest cycle
             $rootScope.$apply();
