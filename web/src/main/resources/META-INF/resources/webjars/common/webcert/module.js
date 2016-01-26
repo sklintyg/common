@@ -18,7 +18,7 @@
  */
 
 /* global commonMessages */
-angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize' ]);
+angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'formly' ]);
 
 // Inject language resources
 angular.module('common').run([ 'common.messageService',

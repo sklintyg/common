@@ -4,19 +4,18 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
-        controller: ['$scope', '$log', 'sjukersattning.diagnosService', 'sjukersattning.EditCertCtrl.ViewStateService', function($scope, $log, diagnosService, viewState) {
+        controller: ['$scope', '$log', 'common.DiagnosProxy', function($scope, $log, diagnosProxy) {
 
             var formState = $scope.formState;
             formState.diagnosKodSystem = 'ICD_10_SE';
             $scope.$watch('model.' + $scope.options.key + '[0].diagnosKodSystem', function(newVal, oldVal) {
                 if (newVal) {
                     formState.diagnosKodSystem = newVal;
-                    console.log(formState.diagnosKodSystem);
                 }
             });
 
             $scope.getDiagnoseCodes = function(codeSystem, val) {
-                return diagnosService.searchByCode(codeSystem, val)
+                return diagnosProxy.searchByCode(codeSystem, val)
                     .then(function(response) {
                         if (response && response.data && response.data.resultat === 'OK') {
                             var result = response.data.diagnoser.map(function(item) {
@@ -42,7 +41,7 @@ angular.module('common').run(function(formlyConfig) {
             };
 
             $scope.searchDiagnoseByDescription = function(codeSystem, val) {
-                return diagnosService.searchByDescription(codeSystem, val)
+                return diagnosProxy.searchByDescription(codeSystem, val)
                     .then(function(response) {
                         if (response && response.data && response.data.resultat === 'OK') {
                             var result = response.data.diagnoser.map(function(item) {
