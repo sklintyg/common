@@ -1,0 +1,7 @@
+<div class="form-group form-inline">
+    <label style="min-width: 300px">
+        <span ng-if="to.label" dynamic-label key="{{to.label}}"></span>
+        <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
+    </label>
+    <input type="text" class="form-control" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
+</div>

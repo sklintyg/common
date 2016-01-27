@@ -86,7 +86,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
                     Element root = doc.getDocumentElement();
                     String version = root.getAttribute("version");
-                    String intygsTyp = root.getAttribute("typ");
+                    String intygsTyp = root.getAttribute("typ").toLowerCase();
                     LocalDate giltigFrom = getDate(root, "giltigFrom");
                     LocalDate giltigTo = getDate(root, "giltigTom");
                     SortedMap<String, String> texts = getTexter(root);

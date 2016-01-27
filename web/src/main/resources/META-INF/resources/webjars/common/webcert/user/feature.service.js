@@ -35,6 +35,7 @@ angular.module('common').factory('common.featureService',
                 return false;
             }
 
+
             if (intygstyp && activeFeatures.indexOf(feature + '.' + intygstyp) === -1) {
                 return false;
             }
