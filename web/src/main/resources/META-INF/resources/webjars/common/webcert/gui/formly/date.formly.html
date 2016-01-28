@@ -1,14 +1,15 @@
-<div class="form-group form-inline">
-    <label class="checkbox inline-block" style="min-width: 300px">
+<div class="form-group form-inline row">
+  <div class="col-md-6">
+    <label class="">
         <input type="checkbox"
-               class="checkbox-inline"
+               class=""
                ng-model="formState[options.key].checked"
                value="true">
         <span dynamic-label key="{{to.label}}.RBK"></span>
-        <span class="glyphicon glyphicon-question-sign"
-              uib-tooltip-html="'{{getDynamicText(to.label + '.HLP')}}'"
-              tooltip-trigger="mouseenter"
-              tooltip-placement="right"></span>
     </label>
+    <span wc-help-mark field-dynamic-help-text="{{to.label + '.HLP'}}"></span>
+  </div>
+  <div class="col-md-6">
     <span wc-date-picker-field target-model="model[options.key]"></span>
+  </div>
 </div>
