@@ -1,6 +1,16 @@
 <div wc-field
      field-dynamic-label="KAT_{{to.category}}.RBK"
      field-dynamic-help-text="KAT_{{to.category}}.HLP"
-     field-has-errors="viewState.common.validationMessagesGrouped.grundformu" class="field-fade">
+     field-has-errors="formState.viewState.common.validationMessagesGrouped[to.categoryName]" class="field-fade">
+
+    <div class="alert alert-danger" ng-if="formState.viewState.common.validationMessagesGrouped[to.categoryName]"
+         id="validationMessages_{{to.categoryName}}">
+        <ul>
+            <li ng-repeat="message in formState.viewState.common.validationMessagesGrouped[to.categoryName]">
+                <span message key="{{message.message}}"></span>
+            </li>
+        </ul>
+    </div>
+
     <formly-transclude></formly-transclude>
 </div>
