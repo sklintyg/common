@@ -1,19 +1,16 @@
-<div class="body-row clearfix">
-  <h4 class="cert-field-number" ng-if="fieldNumber != undefined">
-    <span message key="modules.label.field"></span> {{fieldNumber}}
-  </h4>
+<div class="intyg-block clearfix">
+  <div class="intyg-block__titlerow">
+    <h4 class="cert-field-number" ng-if="fieldNumber != undefined">
+      <span message key="modules.label.field"></span> {{fieldNumber}} </h4>
 
-  <h3 class="title">
-    <span ng-if="fieldLabel" message key="{{fieldLabel}}"></span>
-    <span ng-if="fieldHelpText" class="glyphicon glyphicon-question-sign" tooltip-trigger="mouseenter"
-          uib-tooltip-html="'{{getMessage(fieldHelpText)}}'" tooltip-placement="{{placement}}"></span>
-
-    <span ng-if="fieldDynamicLabel" dynamic-label key="{{ fieldDynamicLabel }}"></span>
-     <span ng-if="fieldDynamicHelpText" class="glyphicon glyphicon-question-sign" tooltip-trigger="mouseenter"
-           uib-tooltip-html="'{{getDynamicText(fieldDynamicHelpText)}}'" tooltip-placement="{{placement}}"></span>
-
-  </h3>
-	<span class="text" ng-class="{unfilled: filled == 'false', fielderror: fieldHasErrors}">
+    <h3 class="intyg-block__heading">
+      <span ng-if="fieldLabel" message key="{{fieldLabel}}"></span>
+      <span ng-if="fieldDynamicLabel" dynamic-label key="{{ fieldDynamicLabel }}"></span>
+    </h3>
+    <div class="inline-block" wc-help-mark field-help-text="{{fieldHelpText}}"
+         field-dynamic-help-text="{{fieldDynamicHelpText}}"></div>
+  </div>
+	<span class="intyg-block__content" ng-class="{unfilled: filled == 'false', fielderror: fieldHasErrors}">
     <span class="cert-field-blank" ng-hide="filled == 'true'"> <span message key="common.notset"></span></span>
 		<span ng-transclude ng-show="filled == 'true'"></span>
   </span>
