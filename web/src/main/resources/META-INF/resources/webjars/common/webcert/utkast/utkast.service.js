@@ -49,8 +49,7 @@ angular.module('common').factory('common.UtkastService',
                         $location.url('/intyg/' + intygsTyp + '/' + viewState.draftModel.content.id);
                     }
                     else {
-                        var version = "0.9";
-                        DynamicLabelProxy.getDynamicLabels(intygsTyp, version).then(
+                        DynamicLabelProxy.getDynamicLabels(intygsTyp, viewState.draftModel.content.textVersion).then(
                             function(dynamicLabelJson) {
                                 if(dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined')
                                 {
