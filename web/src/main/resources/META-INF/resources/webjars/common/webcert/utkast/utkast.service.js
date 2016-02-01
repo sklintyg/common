@@ -24,7 +24,6 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
-        'common.DynamicLabelProxy',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
             dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService,
             DynamicLabelProxy) {
@@ -49,31 +48,15 @@ angular.module('common').factory('common.UtkastService',
                         $location.url('/intyg/' + intygsTyp + '/' + viewState.draftModel.content.id);
                     }
                     else {
-                        DynamicLabelProxy.getDynamicLabels(intygsTyp, viewState.draftModel.content.textVersion).then(
-                            function(dynamicLabelJson) {
-                                if(dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined')
-                                {
-                                    $log.debug(dynamicLabelJson);
-                                    dynamicLabelService.addLabels(dynamicLabelJson);
-                                    dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor,
-                                        viewState.draftModel.content);
-                                } else {
-                                    $log.debug('No dynamic text for intygType: ' + intygsTyp);
-                                }
-
-                                $timeout(function() {
-                                    wcFocus('focusFirstInput');
-                                    $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
-                                    $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
-                                    CommonViewState.doneLoading = true;
-                                    def.resolve(viewState.intygModel);
-                                }, 10);
-                            },
-                            function(error) {
-                                $log.debug("error:" + error);
-                                CommonViewState.doneLoading = true;
-                                def.reject(error);
-                            });
+                        // updateDynamicLabels will update draftModel.content with Tillaggsfragor
+                        dynamicLabelService.updateDynamicLabels(intygsTyp, viewState.draftModel.content);
+                        $timeout(function() {
+                            wcFocus('focusFirstInput');
+                            $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
+                            $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
+                            CommonViewState.doneLoading = true;
+                            def.resolve(viewState.intygModel);
+                        }, 10);
                     }
 
                 }, function(error) {

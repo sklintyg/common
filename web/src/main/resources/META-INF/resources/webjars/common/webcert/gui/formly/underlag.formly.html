@@ -3,9 +3,9 @@
     <table>
         <tr class="underlagRow">
             <th></th>
-            <th><span dynamic-label key="DFR_4.1.RBK"></span></span></th>
-            <th><span dynamic-label key="DFR_4.2.RBK"></span></span></th>
-            <th><span dynamic-label key="DFR_4.3.RBK"></span></span></th>
+            <th><span dynamic-label key="{{to.typLabel}}.RBK"></span></span></th>
+            <th><span dynamic-label key="{{to.datumLabel}}.RBK"></span></span></th>
+            <th><span dynamic-label key="{{to.hamtasFranLabel}}.RBK"></span></span></th>
         </tr>
         <tr class="underlagRow" ng-repeat="underlag in model.underlag">
             <td><span class="glyphicon glyphicon-remove-sign deleteUnderlag" ng-click="removeUnderlag($index)"
