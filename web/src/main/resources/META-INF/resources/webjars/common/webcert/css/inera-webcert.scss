@@ -619,6 +619,28 @@
     padding-top: 10px;
     clear: both;
   }
+  /* for prototype purposes only - remove before production release */
+
+  select#intygType1, select#intygType2, select#intygType3 {
+    max-width: none;
+    width: auto;
+  }
+
+  .webcert-proto-area {
+    padding-right: 10px;
+    margin: -3px;
+  }
+
+  .webcert-proto-selected {
+    border: 1px solid $blaze_orange;
+    padding: 3px;
+  }
+
+  .proto-selector {
+    padding-top: 10px;
+    position: relative;
+    float: right;
+  }
 
   /* Commonly used */  
   .qa-table-section {
