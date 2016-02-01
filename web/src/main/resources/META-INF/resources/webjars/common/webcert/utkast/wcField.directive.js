@@ -22,7 +22,7 @@
  */
 angular.module('common').directive('wcField',
     [ 'common.messageService', 'common.dynamicLabelService',
-        function(messageService, dynamicMessageService) {
+        function(messageService, dynamicLabelService) {
             'use strict';
 
             return {
@@ -49,20 +49,6 @@ angular.module('common').directive('wcField',
                     if ($scope.fieldNumber === null) {
                         $scope.fieldNumber = undefined;
                     }
-
-                    if ($scope.fieldTooltipPlacement === undefined) {
-                        $scope.placement = 'right';
-                    } else {
-                        $scope.placement = $scope.fieldTooltipPlacement;
-                    }
-
-                    $scope.getMessage = function(key) {
-                        return messageService.getProperty(key);
-                    };
-
-                    $scope.getDynamicText = function(key) {
-                        return dynamicMessageService.getProperty(key);
-                    };
                 }
             };
         }]);

@@ -108,15 +108,13 @@ describe('dynamicLabelService', function() {
         it('required text type should return a Error string when id is missing', function() {
             var rootProp = 'texter';
             var aProp = dynamicLabelService.getProperty('KAT_999X.RBK', rootProp); // KAT_999X.RBK does not exist
-            expect(aProp).toContain('[MISSING TEXT ERROR');
-            expect(aProp).toContain('KAT_999X.RBK');
+            expect(aProp).toBeUndefined();
         });
 
         it('Optional text type shoud return a MISSING LABEL string when id is missing', function() {
             var rootProp = 'texter';
             var aProp = dynamicLabelService.getProperty('KAT_999X.HLP', rootProp);
-            expect(aProp).toContain('missing required id');
-            expect(aProp).toContain('KAT_999X.HLP');
+            expect(aProp).toBeUndefined();
         });
 
         /* it('should return an empty string if the message is an empty string', function() {

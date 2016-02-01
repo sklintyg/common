@@ -31,10 +31,10 @@ angular.module('common').factory('common.dynamicLabelService',
                 var textFound = true;
                 var text = _labelResources[key];
                 if (typeof text === 'undefined') {
-                    text = '[MISSING TEXT ERROR - missing required id: "' + key + '"]';
+                    $log.debug('[MISSING TEXT ERROR - missing required id: "' + key + '"]');
                     textFound = false;
                 } else if (text === '') {
-                    text = '[MISSING TEXT ERROR - have ID but not text for required id: "' + key + '"]';
+                    $log.debug('[MISSING TEXT ERROR - have ID but not text for required id: "' + key + '"]');
                     textFound = false;
                 }
 
@@ -64,7 +64,14 @@ angular.module('common').factory('common.dynamicLabelService',
             }
 
             function _convertTextIdToModelId(textObject) {
-                return textObject.substr(4, 4);
+                if(typeof textObject !== 'undefined' && textObject !== null)
+                    return textObject.substr(4, 4);
+                else
+                {
+                    $log.debug('invalid textobject:' + textObject);
+                }
+
+                return '';
             }
 
             function _updateTillaggsfragorToModel(tillaggsfragor, model) {
