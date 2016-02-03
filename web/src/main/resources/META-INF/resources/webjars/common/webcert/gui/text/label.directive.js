@@ -18,7 +18,7 @@ angular.module('common').directive('dynamicLabel',
                         scope.resultValue = result;
                     }
 
-                    scope.$on('intyg.loaded', function() {
+                    scope.$on('dynamicLabels.updated', function() {
                         updateText(attr['key']);
                     })
 

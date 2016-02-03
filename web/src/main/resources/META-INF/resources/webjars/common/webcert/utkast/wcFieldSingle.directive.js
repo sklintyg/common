@@ -49,7 +49,7 @@ angular.module('common').directive('wcFieldSingle', ['common.messageService',
                     return messageService.getProperty(key);
                 };
             },
-            template: '<div class="body-row body-row-single clearfix">' +
+            template: '<div class="intyg-block intyg-block-single clearfix">' +
                 '<h4 class="cert-field-number" ng-if="fieldNumber != undefined">' +
                 '<span message key="modules.label.field"></span> {{fieldNumber}}</h4>' +
                 '<span ng-transclude></span>' +

@@ -8,8 +8,8 @@
  * Usage: <dynamicLabel key="some.resource.key" [fallback="defaulttextifnokeyfound"]/>
  */
 angular.module('common').factory('common.dynamicLabelService',
-    [ '$log', '$rootScope',
-        function($log, $rootScope) {
+    [ '$log', '$rootScope', 'common.DynamicLabelProxy',
+        function($log, $rootScope, DynamicLabelProxy) {
             'use strict';
 
             var _labelResources = null;
@@ -109,12 +109,27 @@ angular.module('common').factory('common.dynamicLabelService',
                 return suffix === '' || string.slice(-suffix.length) === suffix;
             }
 
+            function _updateDynamicLabels(intygsTyp, model) {
+                DynamicLabelProxy.getDynamicLabels(intygsTyp, model.textVersion).then(
+                    function(dynamicLabelJson) {
+                        if (dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined') {
+                            $log.debug(dynamicLabelJson);
+                            _addLabels(dynamicLabelJson);
+                            _updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+                        } else {
+                            $log.debug('No dynamic text for intygType: ' + intygsTyp);
+                        }
+                        $rootScope.$broadcast('dynamicLabels.updated');
+                    },
+                    function(error) {
+                        $log.debug('error:' + error);
+                    });
+            }
             return {
                 checkLabels: _checkLabels,
-                updateTillaggsfragorToModel: _updateTillaggsfragorToModel,
                 getProperty: _getProperty,
-                addLabels: _addLabels,
-                getTillaggsFragor: _getTillaggsFragor
+                getTillaggsFragor: _getTillaggsFragor,
+                updateDynamicLabels: _updateDynamicLabels
             };
         }
     ]);

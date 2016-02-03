@@ -61,8 +61,8 @@ angular.module('common').directive('wcHelpMark',
 
                     // Either texts have already loaded and the function below will do the job
                     // or
-                    // texts failed to update first but they are updated on the intyg.loaded event sent when utkast AND texts have been loaded.
-                    $scope.$on('intyg.loaded', function() {
+                    // texts failed to update first but they are updated on the dynamicLabels.updated event sent when utkast AND texts have been loaded.
+                    $scope.$on('dynamicLabels.updated', function() {
                         $log.debug('updating from intyg.loaded message');
                         updateMessage();
                     });
