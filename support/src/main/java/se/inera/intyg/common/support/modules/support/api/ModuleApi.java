@@ -217,4 +217,6 @@ public interface ModuleApi {
     
     Utlatande getUtlatandeFromIntyg(Intyg intyg, String xml) throws Exception;
 
+    String transformToStatisticsService(String inputXml) throws ModuleException;
+
 }

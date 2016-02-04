@@ -2,11 +2,11 @@
 
   <h3><span message key="common.sign.intyg"></span></h3>
 
-  <div id="sign-requires-doctor-message-text" wc-authority="!SIGNERA_INTYG" class="alert alert-info">
+  <div id="sign-requires-doctor-message-text" wc-authority="!SIGNERA_INTYG" intygstyp="viewState.common.intyg.type" class="alert alert-info">
     <span message key="draft.onlydoctorscansign"></span>
   </div>
 
-  <div wc-authority="!SIGNERA_INTYG, VIDAREBEFORDRA_UTKAST">
+  <div wc-authority="!SIGNERA_INTYG, VIDAREBEFORDRA_UTKAST" intygstyp="viewState.common.intyg.type">
     <p>
       <span message key="draft.notifydoctor"></span>
     </p>
@@ -30,7 +30,7 @@
   </div>
 
   <button id="signera-utkast-button" class="btn btn-success"
-          wc-authority="SIGNERA_INTYG"
+          wc-authority="SIGNERA_INTYG" intygstyp="viewState.common.intyg.type"
           ng-disabled="!viewState.common.intyg.isComplete || certForm.$dirty || signingWithSITHSInProgress"
           ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif"/> <span message key="common.sign"></span>
   </button>

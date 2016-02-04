@@ -76,8 +76,13 @@
 		</dependency>
 
 		<dependency>
+<<<<<<< HEAD
 			<groupId>se.riv.clinicalprocess.healthcond.certificate</groupId>
 			<artifactId>clinicalprocess-healthcond-certificate-schemas</artifactId>
+=======
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+>>>>>>> develop
 		</dependency>
 
 		<!-- Test dependencies -->

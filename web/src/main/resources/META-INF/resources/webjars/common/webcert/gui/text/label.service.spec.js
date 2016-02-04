@@ -1,15 +1,21 @@
 describe('dynamicLabelService', function() {
     'use strict';
 
+    var dynamicLabelProxy;
     var dynamicLabelService;
     var $rootScope;
+    var $q;
 
-    beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('common', function($provide) {
+        $provide.value('networkConfig', {});
+    }));
 
-    beforeEach(angular.mock.inject(['common.dynamicLabelService', '$rootScope',
-        function(_dynamicLabelService_, _$rootScope_) {
+    beforeEach(angular.mock.inject(['common.DynamicLabelProxy', 'common.dynamicLabelService', '$rootScope', '$q',
+        function(_dynamicLabelProxy_, _dynamicLabelService_, _$rootScope_, _$q_) {
+            dynamicLabelProxy = _dynamicLabelProxy_;
             dynamicLabelService = _dynamicLabelService_;
             $rootScope = _$rootScope_;
+            $q = _$q_;
         }
     ]));
 
@@ -24,22 +30,32 @@ describe('dynamicLabelService', function() {
                 {
                     'id': '9001',
                     'text': 'Blah',
-                    'help': '9001',
+                    'help': '9001'
                 },
                 {
                     'id': '9003',
                     'text': 'Blah',
-                    'help': '9003',
-                },
+                    'help': '9003'
+                }
             ]
         };
+
+        beforeEach(function() {
+            spyOn(dynamicLabelProxy, 'getDynamicLabels').and.callFake(function() {
+                var promise = $q.defer();
+                promise.resolve(dynamicLabelJson);
+                return promise.promise;
+            });
+        });
 
         it('should add all fragor to model in order if model is empty', function() {
             var model = {
                 tillaggsfragor: []
-            }
+            };
 
-            dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+            dynamicLabelService.updateDynamicLabels('testtyp', model);
+
+            $rootScope.$apply();
 
             expect(model.tillaggsfragor.length).toBe(2);
             expect(model.tillaggsfragor[0].id).toBe('9001');
@@ -51,12 +67,14 @@ describe('dynamicLabelService', function() {
                 tillaggsfragor: [
                     {
                         id: '9003',
-                        svar: 'yeehaw',
+                        svar: 'yeehaw'
                     }
                 ]
-            }
+            };
 
-            dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+            dynamicLabelService.updateDynamicLabels('testtyp', model);
+
+            $rootScope.$apply();
 
             expect(model.tillaggsfragor.length).toBe(2);
             expect(model.tillaggsfragor[0].id).toBe('9001');
@@ -68,12 +86,14 @@ describe('dynamicLabelService', function() {
                 tillaggsfragor: [
                     {
                         id: '9001',
-                        svar: 'yeehaw',
+                        svar: 'yeehaw'
                     }
                 ]
-            }
+            };
 
-            dynamicLabelService.updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+            dynamicLabelService.updateDynamicLabels('testtyp', model);
+
+            $rootScope.$apply();
 
             expect(model.tillaggsfragor.length).toBe(2);
             expect(model.tillaggsfragor[0].id).toBe('9001');
@@ -96,7 +116,16 @@ describe('dynamicLabelService', function() {
         };
 
         beforeEach(function() {
-            dynamicLabelService.addLabels(testDataDynamicLabelInline);
+            spyOn(dynamicLabelProxy, 'getDynamicLabels').and.callFake(function() {
+                var promise = $q.defer();
+                promise.resolve(testDataDynamicLabelInline);
+                return promise.promise;
+            });
+            var model = {
+                tillaggsfragor: []
+            };
+            dynamicLabelService.updateDynamicLabels('testtyp', model);
+            $rootScope.$apply();
         });
 
         it('should return a question label string when given id', function() {
