@@ -16,14 +16,60 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/*
+ templateUrl: function(elem, attr){
+ return 'customer-'+attr.type+'.html';
+ } */
 angular.module('common').directive('wcPrototypeTemplate',
-    ['$log', '$rootScope',
-        function($log, $rootscope) {
+    ['$http', '$templateCache', '$compile',
+        function($http, $templateCache, $compile) {
             'use strict';
+
+            var templateLoader;
+
             return {
-                templateUrl: function(tElement, tAttrs) {
-                    return tAttrs.templateUrl;
+                restrict: 'E',
+                replace: true,
+                link: {
+
                 }
             };
         }]);
+
+/*
+ *
+ * // activity items can be of several types .. post-photo, status-change, etc. (think facebook activity stream)
+ App.directive('activityItem', ['$compile', '$http', '$templateCache', function($compile, $http, $templateCache) {
+ var templateText, templateLoader,
+ baseURL = 'partial/tpl/',
+ typeTemplateMapping = {
+ photo:    'photo-activity-item.html',
+ status: 'status-activity-item.html'
+ };
+
+ return {
+ restrict: 'E',
+ replace: true,
+ transclude: true,
+ scope: {
+ type: '@type', title: '=', authorName: '=', avatar: '=', timeAgo: '=',
+ statsLikes: '=', statsViews: '=' // some basic stats for your post
+ },
+ compile: function(tElement, tAttrs) {
+ var tplURL = baseURL + typeTemplateMapping[tAttrs.type];
+ templateLoader = $http.get(tplURL, {cache: $templateCache})
+ .success(function(html) {
+ tElement.html(html);
+ });
+
+ return function (scope, element, attrs) {
+ templateLoader.then(function (templateText) {
+ element.html($compile(tElement.html())(scope));
+ });
+ };
+ }
+ };
+ }])
+ */
 

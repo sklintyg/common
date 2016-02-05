@@ -633,13 +633,68 @@
 
   .webcert-proto-selected {
     border: 1px solid $blaze_orange;
-    padding: 3px;
+  }
+
+  .webcert-proto-unselected {
   }
 
   .proto-selector {
-    padding-top: 10px;
-    position: relative;
+    margin-top: -50px;
     float: right;
+  }
+
+  .proto-reset-spacing {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+    .wc-prototype-chooser-default{
+      min-height: 200px;
+    }
+    .wc-prototype-chooser-a{
+      min-height: 200px;
+    }
+    .wc-prototype-chooser-b{
+      min-height: 300px;
+    }
+    .wc-prototype-chooser-c{
+      min-height: 300px;
+    }
+
+  /* Proto animation */
+  .slide-animate-container {
+    position:relative;
+    overflow:hidden;
+  }
+
+  .slide-animate {
+    padding:10px;
+  }
+
+  .slide-animate.ng-enter, .slide-animate.ng-leave {
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    display:block;
+    padding:10px;
+  }
+
+  .slide-animate.ng-enter {
+    top:-200px;
+  }
+  .slide-animate.ng-enter.ng-enter-active {
+    top:0;
+  }
+
+  .slide-animate.ng-leave {
+    top:0;
+  }
+  .slide-animate.ng-leave.ng-leave-active {
+    top:400px;
   }
 
   /* Commonly used */  

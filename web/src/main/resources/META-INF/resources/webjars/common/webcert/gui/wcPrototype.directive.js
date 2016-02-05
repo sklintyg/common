@@ -31,12 +31,14 @@ angular.module('common').directive('wcPrototype',
     function($compile) {
         'use strict';
         return {
-            restrict: 'A',
+            restrict: 'E',
             scope: {
                 items: '=dropdownData',
                 doSelect: '&selectVal',
-                selectedItem: '=preselectedItem'
+                selectedItem: '=preselectedItem',
+                hasSelected: '=prototypeSelected'
             },
+            template: '<div class="webcert-proto-area" ng-class="{\'webcert-proto-selected\': hasSelected, \'webcert-proto-unselected\': !hasSelected  }"></div>',
             link: function(scope, element, attrs) {
                 var html = '<div class="form-group proto-selector">';
 
@@ -45,7 +47,7 @@ angular.module('common').directive('wcPrototype',
                     html +=
                         '<div class="btn-group"><button class="btn button-label btn-info">Action</button>' +
                         '<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                        '<span class="glyphicon glyphicon-random" aria-hidden="true"></span><span class="caret"></span><span class="sr-only">Byt gränssnitt</span>' +
+                        '<span class="glyphicon glyphicon-random" aria-hidden="true"></span><span class="caret"></span><span class="sr-only">Default</span>' +
                         '</button><span class="caret"></span></button>';
                     break;
                 default:
@@ -65,8 +67,8 @@ angular.module('common').directive('wcPrototype',
                     }
                 }
 
-                scope.selectVal = function (item) {
-                    switch (attrs.menuType) {
+                scope.selectVal = function(item) {
+                    switch (attrs.dropdownType) {
                     case 'button':
                         $('button.button-label', element).html(item.name);
                         break;
@@ -77,11 +79,15 @@ angular.module('common').directive('wcPrototype',
                     scope.doSelect({
                         selectedVal: item.id
                     });
+
+                    if (item.name === 'Default') {
+                        scope.hasSelected = false;
+                    } else {
+                        scope.hasSelected = true;
+                    }
                 };
-
+               // scope.selectVal(scope.bSelectedItem);
             }
-
-
         };
 
     });
