@@ -1,0 +1,31 @@
+<!-- New cert prototype A -->
+<div class="webcert-col-section qa-table-section chooser-prototype-a" class="wc-prototype-chooser-a">
+  <div class="form-group">
+    <label for="intygType1" class="control-label">Skriv nytt intyg</label>
+    <div ng-show="!sekretessmarkering">
+      <select id="intygType1" class="form-control" name="intygType" data-ng-model="current.selected"
+              data-ng-options="type.id as type.label for type in certTypes" wc-focus-me="focusFirstInput"></select>
+    </div>
+  </div>
+  <div class="alert alert-warning col-lg-7" ng-show="current.selected != 'default' && current.selected != undefined"
+       id="intygTypeWarning1">
+    <span message key='{{"certificatetypes.2016."+ intygType +".helptext"}}'></span>
+    <div class="clearfix"></div>
+  </div>
+  <div ng-show="!sekretessmarkering" ng-class="!sekretessmarkering ? 'form-group col-lg-7 proto-reset-spacing' : 'form-group'" id="fortsattBtn1">
+    <button id="intygTypeFortsatt1" class="btn btn-success" type="submit" ng-disabled="intygType == 'default'">Fortsätt
+    </button>
+  </div>
+  <div ng-if="sekretessmarkering" ng-class="!sekretessmarkering ? 'form-group col-lg-7 proto-reset-spacing' : 'form-group'">
+    <div class="alert alert-warning col-lg-7" id="sekretessmarkering1">
+      <span message key='label.createutkast.sekretessmarkering'></span>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <!-- error message -->
+  <div id="create-error1" ng-show="viewState.createErrorMessageKey" class="alert alert-danger">
+    <span message key="{{viewState.createErrorMessageKey}}"></span>
+  </div>
+
+</div>

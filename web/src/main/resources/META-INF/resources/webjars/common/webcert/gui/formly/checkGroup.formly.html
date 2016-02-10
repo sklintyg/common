@@ -1,0 +1,11 @@
+<div class="form-group form-inline">
+  <h3 dynamic-label key="{{to.label}}.RBK"><span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span></h3>
+
+  <div data-ng-repeat="choice in to.choices">
+    <label class="checkbox">
+      <input type="checkbox" class="" ng-model="formState[$scope.options.key].checked" value="{{choice}}">
+      <span dynamic-label key="{{to.code}}.{{choice}}.RBK"></span>
+    </label>
+    <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{choice}}.HLP"></span>
+  </div>
+</div>
