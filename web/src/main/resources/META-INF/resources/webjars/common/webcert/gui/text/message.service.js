@@ -59,10 +59,12 @@ angular.module('common').factory('common.messageService',
             _checkResources();
             var message = _messageResources[lang][key];
 
-            angular.forEach(variables, function(value, key) {
-                var regexp = new RegExp('\\$\\{' + key + '\\}', 'g');
-                message = message.replace(regexp, value);
-            });
+            if (message) {
+                angular.forEach(variables, function (value, key) {
+                    var regexp = new RegExp('\\$\\{' + key + '\\}', 'g');
+                    message = message.replace(regexp, value);
+                });
+            }
 
             return message;
         }
