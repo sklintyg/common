@@ -52,6 +52,10 @@ angular.module('common').factory('common.dynamicLabelService',
                 return text;
             }
 
+            function _clearLabels() {
+                _labelResources = {};
+            }
+
             function _addLabels(labels) {
                 _checkLabels();
                 angular.extend(_labelResources, labels.texter);
@@ -75,8 +79,8 @@ angular.module('common').factory('common.dynamicLabelService',
             }
 
             function _updateTillaggsfragorToModel(tillaggsfragor, model) {
+                var modelFrageList = model.tillaggsfragor;
                 for (var i = 0; i < tillaggsfragor.length; i++) {
-                    var modelFrageList = model.tillaggsfragor;
                     if (i >= modelFrageList.length) {
                         var tillaggsfraga = {
                             'id': tillaggsfragor[i].id,
@@ -91,6 +95,21 @@ angular.module('common').factory('common.dynamicLabelService',
                         if (modelFrageList[i].id != tillaggsfraga.id) {
                             modelFrageList.splice(i, 0, tillaggsfraga);
                         }
+                    }
+                }
+
+                var textHasFraga = function(id) {
+                    for (var i = 0; i < tillaggsfragor.length; i++) {
+                        if (tillaggsfragor[i].id === id) {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+                for(var j = 0; j < modelFrageList.length; j++) {
+                    if (!textHasFraga(modelFrageList[j].id)) {
+                        modelFrageList.splice(j, 1);
+                        j--;
                     }
                 }
             }
@@ -114,6 +133,7 @@ angular.module('common').factory('common.dynamicLabelService',
                     function(dynamicLabelJson) {
                         if (dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined') {
                             $log.debug(dynamicLabelJson);
+                            _clearLabels();
                             _addLabels(dynamicLabelJson);
                             _updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
                         } else {
