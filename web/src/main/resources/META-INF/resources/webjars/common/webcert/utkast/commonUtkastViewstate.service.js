@@ -39,6 +39,7 @@ angular.module('common').service('common.UtkastViewStateService',
             this.hospName = $stateParams.hospName;
             this.deleted = false;
             this.isSigned = false;
+            this.textVersionUpdated = false;
             this.validationSections  = null;
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;
@@ -63,6 +64,15 @@ angular.module('common').service('common.UtkastViewStateService',
 
                 this.isSigned = draftModel.isSigned();
                 this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
+
+                // Check if new text version is available
+                if (data.latestTextVersion &&
+                    data.latestTextVersion !== draftModel.content.textVersion) {
+                    // Update textversion to latest
+                    draftModel.content.textVersion = data.latestTextVersion;
+                    // Set flag to indicate text version has been updated
+                    this.textVersionUpdated = true;
+                }
 
                 // check if all info is available from HSA. If not, display the info message that someone needs to update it
                 this.hsaInfoMissing = false;
