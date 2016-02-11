@@ -18,8 +18,8 @@
  */
 
 angular.module('common').factory('common.IntygService',
-    [ '$log', '$timeout', '$location', '$cookies', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService',
-        function($log, $timeout, $location, $cookies, $stateParams, dialogService, IntygProxy, authorityService) {
+    [ '$log', '$timeout', '$cookies', '$state', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService',
+        function($log, $timeout, $cookies, $state, $stateParams, dialogService, IntygProxy, authorityService) {
             'use strict';
 
             var _COPY_DIALOG_COOKIE = 'wc.dontShowCopyDialog';
@@ -39,14 +39,8 @@ angular.module('common').factory('common.IntygService',
                 _initCopyDialog();
 
                 function goToDraft(type, intygId) {
-
-                    /**
-                     * IMPORTANT TIMEOUT. Since location doesn't change anything in the view, apply or digest is not called with just the call to location.path.
-                     * Therefore we need a call to angular timeout to force a digest and let angular change the path correctly.
-                     */
-                    $timeout(function() {
-                        // anything you want can go here and will safely be run on the next digest.
-                        $location.path('/' + type + '/edit/' + intygId, true);
+                    $state.go(type + '-edit', {
+                        certificateId: intygId
                     });
                 }
 

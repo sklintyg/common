@@ -26,7 +26,7 @@ describe('IntygService', function() {
     var $document;
     var $httpBackend;
     var $q;
-    var $location;
+    var $state;
     var $stateParams;
     var $timeout;
     var dialogService;
@@ -34,7 +34,6 @@ describe('IntygService', function() {
     var $cookies;
 
     beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('$state', jasmine.createSpyObj('$state', [ 'reload' ]));
         $provide.value('common.messageService',
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
         $provide.value('$stateParams', {});
@@ -45,15 +44,20 @@ describe('IntygService', function() {
         $provide.value('common.domain.DraftModel', {});
     }));
 
-    beforeEach(angular.mock.inject(['common.IntygService', '$cookies', '$httpBackend', '$location', '$q', '$stateParams', '$timeout',
+    angular.module('common').config(function($stateProvider){
+        $stateProvider.state('fk7263-edit', {
+        });
+    });
+
+    beforeEach(angular.mock.inject(['common.IntygService', '$cookies', '$httpBackend', '$q', '$state', '$stateParams', '$timeout',
         '$document', 'common.dialogService', 'common.User',
-        function(_IntygService_, _$cookies_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_, _$document_,
+        function(_IntygService_, _$cookies_, _$httpBackend_, _$q_, _$state_, _$stateParams_, _$timeout_, _$document_,
             _dialogService_, _User_) {
             IntygService = _IntygService_;
             $cookies = _$cookies_;
             $httpBackend = _$httpBackend_;
             $q = _$q_;
-            $location = _$location_;
+            $state = _$state_;
             $stateParams = _$stateParams_;
             $timeout = _$timeout_;
             $document = _$document_;
@@ -93,8 +97,7 @@ describe('IntygService', function() {
                 };
             });
 
-            spyOn($location, 'path').and.callThrough();
-
+            spyOn($state, 'go').and.callThrough();
         });
 
         it('should immediately request a utkast copy of cert if the copy cookie is set', function() {
@@ -108,7 +111,7 @@ describe('IntygService', function() {
             $httpBackend.flush();
             $timeout.flush();
             expect(dialogService.showDialog).not.toHaveBeenCalled();
-            expect($location.path).toHaveBeenCalledWith('/fk7263/edit/nytt-utkast-id', true);
+            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
 
             $cookies.remove(IntygService.COPY_DIALOG_COOKIE);
         });
