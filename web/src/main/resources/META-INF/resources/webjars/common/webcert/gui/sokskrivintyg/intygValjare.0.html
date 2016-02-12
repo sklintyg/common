@@ -9,7 +9,7 @@
     </div>
   </div>
   <div ng-show="!sekretessmarkering" ng-class="!sekretessmarkering ? 'form-group col-lg-7 proto-reset-spacing' : 'form-group'" id="fortsattBtn">
-    <button id="intygTypeFortsatt" class="btn btn-success" type="submit" ng-disabled="intygType == 'default'">Fortsätt
+    <button id="intygTypeFortsatt" class="btn btn-success" type="submit" ng-disabled="intygType == 'default' || current.selected == 'default'">Fortsätt
     </button>
   </div>
   <div ng-if="sekretessmarkering" ng-class="!sekretessmarkering ? 'form-group col-lg-7 proto-reset-spacing' : 'form-group'">

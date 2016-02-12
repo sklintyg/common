@@ -1,7 +1,9 @@
-<div wc-field
+<div wc-field ng-if="formState.viewState.prototypes.selected == to.prototypeName || !to.prototypeName"
      field-dynamic-label="KAT_{{to.category}}.RBK"
      field-dynamic-help-text="KAT_{{to.category}}.HLP"
-     field-has-errors="formState.viewState.common.validationMessagesGrouped[to.categoryName]" class="field-fade">
+     field-has-errors="formState.viewState.common.validationMessagesGrouped[to.categoryName]"
+     class="field-fade">
+
 
     <div class="alert alert-danger" ng-if="formState.viewState.common.validationMessagesGrouped[to.categoryName]"
          id="validationMessages_{{to.categoryName}}">
