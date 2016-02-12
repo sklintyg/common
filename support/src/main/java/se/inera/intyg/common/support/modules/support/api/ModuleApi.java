@@ -34,7 +34,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
-
+import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 
 import java.io.IOException;
 import java.util.List;
@@ -214,6 +214,8 @@ public interface ModuleApi {
 
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
+    
+    Utlatande getUtlatandeFromIntyg(Intyg intyg, String xml) throws Exception;
 
     String transformToStatisticsService(String inputXml) throws ModuleException;
 

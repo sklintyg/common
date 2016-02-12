@@ -48,14 +48,14 @@ angular.module('common').directive('wcHelpMark',
                         if(!ObjectHelper.isEmpty($scope.fieldDynamicHelpText)) {
                             $scope.text = dynamicLabelService.getProperty($scope.fieldDynamicHelpText);
                             $scope.showHelp = true;
-                            $log.debug('new help text dynamic:' + $scope.fieldDynamicHelpText + ', actual:' + $scope.text);
+                            //$log.debug('new help text dynamic:' + $scope.fieldDynamicHelpText + ', actual:' + $scope.text);
                         } else if(!ObjectHelper.isEmpty($scope.fieldHelpText)) {
                             $scope.text = messageService.getProperty($scope.fieldHelpText);
                             $scope.showHelp = true;
-                            $log.debug('new help text static:' + $scope.fieldHelpText + ', actual:' + $scope.text);
+                            //$log.debug('new help text static:' + $scope.fieldHelpText + ', actual:' + $scope.text);
                         } else {
                             $scope.showHelp = false;
-                            $log.debug('disable help');
+                            //$log.debug('disable help');
                         }
                     };
 
@@ -63,7 +63,7 @@ angular.module('common').directive('wcHelpMark',
                     // or
                     // texts failed to update first but they are updated on the dynamicLabels.updated event sent when utkast AND texts have been loaded.
                     $scope.$on('dynamicLabels.updated', function() {
-                        $log.debug('updating from intyg.loaded message');
+                        //$log.debug('updating from intyg.loaded message');
                         updateMessage();
                     });
 
