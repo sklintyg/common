@@ -1,0 +1,64 @@
+<!-- New cert prototype A -->
+<div class="webcert-col-section qa-table-section" class="wc-prototype-chooser-c">
+  <div class="form-group">
+    <label for="intygType3" class="control-label col-md-12 proto-reset-spacing">Skriv nytt intyg</label>
+
+    <div ng-show="!sekretessmarkering">
+      <select id="intygType3" class="form-control" name="intygType3" data-ng-model="current.group"
+              data-ng-options="rec.id as rec.label for rec in protoGroups" wc-focus-me="focusFirstInput"></select>
+    </div>
+  </div>
+
+  <div class="form-group">
+
+    <div ng-show="!sekretessmarkering && current.group == 'fk'"
+         data-ng-repeat="cert in protoCertTypes | filter: { type: 'fk'}">
+      <label>
+        <input name="currentActivity12" type="radio" value="{{cert.id}}" ng-model="current.selected" />
+        {{cert.label}}
+      </label>
+
+    </div>
+    <div ng-show="!sekretessmarkering && current.group == 'ts'"
+         data-ng-repeat="cert in protoCertTypes | filter: { type: 'ts'}">
+      <label>
+        <input name="currentActivity122" type="radio" value="{{cert.id}}" ng-model="current.selected" />
+        {{cert.label}}
+      </label>
+
+    </div>
+    <div ng-show="!sekretessmarkering && current.group == 'ss'"
+         data-ng-repeat="cert in protoCertTypes | filter: { type: 'ss'}">
+      <label>
+        <input name="currentActivity1212" type="radio" value="{{cert.id}}" ng-model="current.selected" />
+        {{cert.label}}
+      </label>
+
+    </div>
+
+  </div>
+
+  <div class="alert alert-warning col-lg-7" ng-show="current.selected != 'default' && current.selected != undefined"
+       id="intygTypeWarning3">
+    <span message key='{{"certificatetypes.2016."+ intygType +".helptext"}}'></span>
+  </div>
+
+  <div ng-show="!sekretessmarkering"
+       ng-class="!sekretessmarkering ? 'form-group col-lg-7 proto-reset-spacing' : 'form-group'" id="fortsattBtn3">
+    <button id="intygTypeFortsatt3" class="btn btn-success" type="submit" ng-disabled="intygType == 'default'">Fortsätt
+    </button>
+  </div>
+  <div ng-if="sekretessmarkering" class="form-group"
+       ng-class="sekretessmarkering ? 'form-group col-lg-7 proto-reset-spacing' : 'form-group'">
+    <div class="alert alert-warning" id="sekretessmarkering3">
+      <span message key='label.createutkast.sekretessmarkering'></span>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <!-- error message -->
+  <div id="create-error3" ng-show="viewState.createErrorMessageKey" class="alert alert-danger">
+    <span message key="{{viewState.createErrorMessageKey}}"></span>
+  </div>
+
+</div>

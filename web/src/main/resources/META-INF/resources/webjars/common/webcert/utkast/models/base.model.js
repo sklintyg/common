@@ -28,6 +28,8 @@ angular.module('common').factory('common.domain.BaseModel',
                 this.name = name;
                 this.properties = properties;
 
+                // NOTE: for modelAttr models key and value in object must be named the same ex: 'a': new ModelAttr('a' ...)
+
                 // this gets executed once the property has been recursed
                 var initProp = function(current, prop, extras){
                     if (extras.self.isModel(prop)) {
@@ -230,7 +232,10 @@ angular.module('common').factory('common.domain.BaseModel',
                 var toModelFn = function(current, prop, extras){
                     if(extras.self.isModelAttr(prop)){
                         if(current.hasOwnProperty(prop.property) && !prop.trans && current[prop.property] !== undefined){
-                            extras.tm[prop.property] = current[prop.property];
+                            if(typeof prop.toTransform !== 'undefined')
+                                extras.tm[prop.property] = prop.toTransform(current[prop.property]);
+                            else
+                                extras.tm[prop.property] = current[prop.property];
                         }
                     } else if(extras.self.isModel(prop)){
                         var child = current[extras.key];

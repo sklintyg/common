@@ -23,6 +23,7 @@ describe('common.domain.BaseModel', function() {
     var BaseModel;
     var BaseAtticModel;
     var ModelAttr;
+    var ModelTransform;
 
     beforeEach(angular.mock.module('common', function($provide) {
     }));
@@ -30,11 +31,12 @@ describe('common.domain.BaseModel', function() {
     // Get references to the object we want to test from the context.
 
     beforeEach(angular.mock.inject([
-        'common.domain.BaseModel', 'common.domain.BaseAtticModel', 'common.domain.ModelAttr',
-        function( _BaseModel_, _BaseAtticModel_,  _modelAttr_) {
+        'common.domain.BaseModel', 'common.domain.BaseAtticModel', 'common.domain.ModelAttr', 'common.domain.ModelTransformService',
+        function( _BaseModel_, _BaseAtticModel_,  _modelAttr_, _ModelTransform_) {
             BaseModel = _BaseModel_;
             BaseAtticModel = _BaseAtticModel_;
             ModelAttr = _modelAttr_;
+            ModelTransform = _ModelTransform_;
         }]));
 
     describe('#base model', function() {
@@ -454,6 +456,50 @@ describe('common.domain.BaseModel', function() {
                 //expect(model.cc).toBe(undefined);
             });
 
+            it('can update and send using transform to and from functions', function(){
+
+                var fromBackend = {
+                    a:[
+                        {val:1},
+                        {val:3},
+                        {val:5}
+                    ]
+                };
+
+                var modelDef = {
+                    'a': new ModelAttr('a',{
+                            defaultValue:[],
+                            toTransform: ModelTransform.toTypeTransform,
+                            fromTransform: ModelTransform.fromTypeTransform
+                        }),
+                };
+
+                var IntygModel = BaseAtticModel._extend({
+                    init: function init(){
+                        init._super.call(this, 'model1',modelDef);
+                    },
+                    update: function update(content, parent) {
+                        if (parent) {
+                            parent.content = this;
+                        }
+                        update._super.call(this, content);
+                    }
+                });
+                model = new IntygModel();
+
+                model.update(fromBackend);
+
+                expect(model.a[1]).toBeTruthy();
+                expect(model.a[2]).toBeFalsy();
+                expect(model.a[3]).toBeTruthy();
+                expect(model.a[4]).toBeFalsy();
+                expect(model.a[5]).toBeTruthy();
+
+                var send = model.toSendModel();
+                expect(send.a[0].val).toBe(1);
+                expect(send.a[1].val).toBe(3);
+                expect(send.a[2].val).toBe(5);
+            });
 
         });
 
