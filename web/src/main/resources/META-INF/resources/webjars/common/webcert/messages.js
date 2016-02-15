@@ -93,8 +93,6 @@ var commonMessages = {
         'draft.status.signed': '<strong>Status:</strong> Intyget är signerat.',
         'draft.status.changed': '<strong>Status:</strong> Utkastet är ändrat sedan det senast sparades',
 
-        'draft.textversion.confirm' : 'Jag är medveten om att texter för frågorna i intyget har uppdaterats',
-
         // intyg forms
         'draft.saknar-uppgifter': 'Utkastet saknar uppgifter i följande avsnitt:',
         'draft.onlydoctorscansign': 'Endast läkare får signera intyget.',

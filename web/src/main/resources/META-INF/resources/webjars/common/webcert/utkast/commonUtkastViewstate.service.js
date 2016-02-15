@@ -40,7 +40,6 @@ angular.module('common').service('common.UtkastViewStateService',
             this.deleted = false;
             this.isSigned = false;
             this.textVersionUpdated = false;
-            this.textVersionConfirmed = false;
             this.validationSections  = null;
             this.validationMessages  = null;
             this.validationMessagesGrouped  = null;

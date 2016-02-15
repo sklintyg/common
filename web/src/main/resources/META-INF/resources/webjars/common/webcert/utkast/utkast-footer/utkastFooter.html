@@ -30,14 +30,8 @@
   </div>
 
   <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
-      <div ng-if="viewState.common.textVersionUpdated">
-          <label for="text-version-confirmed">
-            <input id="text-version-confirmed" type="checkbox" ng-model="viewState.common.textVersionConfirmed">
-            <span message key="draft.textversion.confirm"></span>
-          </label>
-      </div>
       <button id="signera-utkast-button" class="btn btn-success"
-              ng-disabled="!viewState.common.intyg.isComplete || certForm.$dirty || signingWithSITHSInProgress || (viewState.common.textVersionUpdated && !viewState.common.textVersionConfirmed)"
+              ng-disabled="!viewState.common.intyg.isComplete || certForm.$dirty || signingWithSITHSInProgress"
               ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif"/> <span message key="common.sign"></span>
       </button>
   </div>
