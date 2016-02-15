@@ -18,9 +18,9 @@
  */
 
 angular.module('common').controller('common.wcHeaderController',
-    ['$anchorScroll', '$cookies', '$location', '$log', '$uibModal', '$scope', '$state', '$window', 'common.dialogService',
+    ['$rootScope','$anchorScroll', '$cookies', '$location', '$log', '$uibModal', '$scope', '$state', '$window', 'common.dialogService',
         'common.featureService', 'common.messageService', 'common.statService', 'common.User', 'common.UserModel',
-        function($anchorScroll, $cookies, $location, $log, $uibModal, $scope, $state, $window, dialogService,
+        function($rootScope, $anchorScroll, $cookies, $location, $log, $uibModal, $scope, $state, $window, dialogService,
             featureService, messageService, statService, User, UserModel) {
             'use strict';
 
@@ -36,6 +36,15 @@ angular.module('common').controller('common.wcHeaderController',
                 intygValdEnhet: 0,
                 intygAndraEnheter: 0,
                 vardgivare: []
+            };
+
+            $scope.setTestMode = function(){
+                $rootScope.testModeActive = !$rootScope.testModeActive;
+            }
+
+            $scope.testModeText = {
+                active: 'Avvaktivera testläge',
+                inactive: 'Aktivera testläge'
             };
 
             /**

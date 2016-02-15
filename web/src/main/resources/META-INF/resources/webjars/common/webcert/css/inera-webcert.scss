@@ -621,6 +621,9 @@
   }
   /* for prototype purposes only - remove before production release */
 
+  .test-mode-menuitem {
+    line-height: 22px!important;
+  }
   select#intygType1, select#intygType2, select#intygType3 {
     max-width: none;
     width: auto;
@@ -640,6 +643,10 @@
 
   .proto-selector {
     margin-top: -50px;
+    float: right;
+  }
+
+  .proto-selector-singleform {
     float: right;
   }
 
