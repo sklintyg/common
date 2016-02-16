@@ -1,5 +1,5 @@
-angular.module('luse').service('sjukersattning.QACtrl.Helper',
-    ['$log', '$timeout', 'sjukersattning.fragaSvarService', 'common.fragaSvarCommonService', '$window', 'common.statService',
+angular.module('common').service('common.fragaSvarHelper',
+    ['$log', '$timeout', 'common.fragaSvarService', 'common.fragaSvarCommonService', '$window', 'common.statService',
         function( $log, $timeout, fragaSvarService, fragaSvarCommonService, $window, statService) {
         'use strict';
 
@@ -43,9 +43,9 @@ angular.module('luse').service('sjukersattning.QACtrl.Helper',
                         angular.forEach(qas, function(qa) { //unused parameter , key
                             fragaSvarCommonService.decorateSingleItem(qa);
                             if(fromHandledDialog) {
-                                qa.proxyMessage = 'sjukersattning.fragasvar.marked.as.hanterad';
+                                qa.proxyMessage = 'common.fk.fragasvar.marked.as.hanterad';
                             } else {
-                                addListMessage(qas, qa, 'sjukersattning.fragasvar.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
+                                addListMessage(qas, qa, 'common.fk.fragasvar.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
                             }
                         });
                         statService.refreshStat();

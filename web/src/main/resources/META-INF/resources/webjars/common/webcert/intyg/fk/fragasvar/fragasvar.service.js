@@ -1,4 +1,4 @@
-angular.module('luse').factory('sjukersattning.fragaSvarService',
+angular.module('common').factory('common.fragaSvarService',
     function($http, $log) {
         'use strict';
 

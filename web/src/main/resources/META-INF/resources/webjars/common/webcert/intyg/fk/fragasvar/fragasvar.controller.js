@@ -1,10 +1,12 @@
-angular.module('luse').controller('sjukersattning.QACtrl',
-    [ '$log', '$rootScope', '$stateParams', '$scope', '$timeout', '$window', '$filter', 'common.dialogService',
-        'sjukersattning.fragaSvarService', 'common.fragaSvarCommonService', 'common.statService',
-        'common.UserModel', 'sjukersattning.QACtrl.Helper', 'common.IntygViewStateService',
-        function($log, $rootScope, $stateParams, $scope, $timeout, $window, $filter, dialogService, fragaSvarService,
+angular.module('common').controller('common.QACtrl',
+    [ '$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$window', '$filter', 'common.dialogService',
+        'common.fragaSvarService', 'common.fragaSvarCommonService', 'common.statService',
+        'common.UserModel', 'common.fragaSvarHelper', 'common.IntygViewStateService',
+        function($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter, dialogService, fragaSvarService,
             fragaSvarCommonService, statService, UserModel, qaHelper, CommonViewState) {
             'use strict';
+
+            var intygType = $state.current.data.intygType;
 
             // init state
             $scope.qaList = [];
@@ -34,7 +36,7 @@ angular.module('luse').controller('sjukersattning.QACtrl',
             };
 
             // Request loading of QA's for this certificate
-            fragaSvarService.getQAForCertificate($stateParams.certificateId, 'luse', function(result) {
+            fragaSvarService.getQAForCertificate($stateParams.certificateId, intygType, function(result) {
                 $log.debug('getQAForCertificate:success data:' + result);
                 $scope.widgetState.doneLoading = true;
                 $scope.widgetState.activeErrorMessageKey = null;
@@ -43,7 +45,8 @@ angular.module('luse').controller('sjukersattning.QACtrl',
 
                 // Tell viewcertctrl about the intyg in case cert load fails
                 if (result.length > 0) {
-                    $rootScope.$emit('sjukersattning.QACtrl.load', result[0].intygsReferens);
+                    // Verkar inte finnas någon lyssnare på detta event
+                    $rootScope.$emit('QACtrl.load', result[0].intygsReferens);
                 }
 
             }, function(errorData) {
@@ -59,7 +62,7 @@ angular.module('luse').controller('sjukersattning.QACtrl',
                 isRevoked: false
             };
 
-            var unbindFastEvent = $rootScope.$on('sjukersattning.ViewCertCtrl.load', function(event, cert, certProperties) {
+            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, cert, certProperties) {
                 $scope.cert = cert;
                 $scope.certProperties.isLoaded = true;
                 $scope.certProperties.isSent = certProperties.isSent;
@@ -94,7 +97,7 @@ angular.module('luse').controller('sjukersattning.QACtrl',
                 newQuestion.updateInProgress = true; // trigger local spinner
                 $scope.widgetState.sentMessage = false;
 
-                fragaSvarService.saveNewQuestion($stateParams.certificateId, 'luse', newQuestion,
+                fragaSvarService.saveNewQuestion($stateParams.certificateId, intygType, newQuestion,
                     function(result) {
                         $log.debug('Got saveNewQuestion result:' + result);
                         newQuestion.updateInProgress = false;

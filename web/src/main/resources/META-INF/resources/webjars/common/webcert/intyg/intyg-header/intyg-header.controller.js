@@ -18,15 +18,17 @@
  */
 
 angular.module('common').controller('common.IntygHeader',
-    ['$scope', '$log', '$stateParams', 'common.messageService', 'common.PrintService',
+    ['$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
     'common.IntygCopyRequestModel', 'common.User', 'common.UserModel', 'common.IntygService',
     'common.IntygViewStateService', 'common.statService',
-        function($scope, $log, $stateParams, messageService, PrintService, IntygCopyRequestModel,
+        function($scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
             User, UserModel, IntygService, CommonViewState, statService) {
             'use strict';
 
+            var intygType = $state.current.data.intygType;
+
             $scope.user = UserModel;
-            $scope.intygstyp = $stateParams.certificateType;
+            $scope.intygstyp = intygType;
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
 
             $scope.visaSkickaKnappen = function(){
@@ -37,8 +39,8 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.send = function() {
-                IntygService.send($scope.viewState.intygModel.id, $stateParams.certificateType, CommonViewState.defaultRecipient,
-                         $scope.intygstyp+'.label.send', $scope.intygstyp+'.label.send.body', function() {
+                IntygService.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
+                        intygType+'.label.send', intygType+'.label.send.body', function() {
                         // After a send request we shouldn't reload right away due to async reasons.
                         // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
                         $scope.viewState.common.isIntygOnSendQueue = true;
@@ -46,11 +48,11 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.makulera = function(cert) {
-                var confirmationMessage = messageService.getProperty($scope.intygstyp+'.label.makulera.confirmation', {
+                var confirmationMessage = messageService.getProperty(intygType+'.label.makulera.confirmation', {
                     namn: cert.grundData.patient.fullstandigtNamn,
                     personnummer: cert.grundData.patient.personId
                 });
-                cert.intygType = $stateParams.certificateType;
+                cert.intygType = intygType;
                 IntygService.makulera( cert, confirmationMessage, function() {
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
                 });
@@ -66,7 +68,7 @@ angular.module('common').controller('common.IntygHeader',
                 IntygService.copy($scope.viewState,
                     IntygCopyRequestModel.build({
                         intygId: cert.id,
-                        intygType: $stateParams.certificateType,
+                        intygType: intygType,
                         patientPersonnummer: cert.grundData.patient.personId,
                         nyttPatientPersonnummer: $stateParams.patientId
                     }),
@@ -76,7 +78,7 @@ angular.module('common').controller('common.IntygHeader',
             $scope.print = function(cert, isEmployeeCopy) {
                 if (CommonViewState.intyg.isRevoked) {
                     var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
-                    PrintService.printWebPageWithCustomTitle(cert.id, $stateParams.certificateType, customHeader);
+                    PrintService.printWebPageWithCustomTitle(cert.id, intygType, customHeader);
                 } else if (isEmployeeCopy) {
                     window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
                 } else {
