@@ -13,8 +13,8 @@
       <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{field}}.HLP"></span>
     </div>
     <div class="col-md-8">
-      från och med <span wc-date-picker-field target-model="model[options.key][$index].period.from"></span>
-      till och med <span wc-date-picker-field target-model="model[options.key][$index].period.tom"></span>
+      från och med <span wc-date-picker-field target-model="model[options.key][$index+1].period.from" add-date-parser="loose"></span>
+      till och med <span wc-date-picker-field target-model="model[options.key][$index+1].period.tom" add-date-parser="loose"></span>
     </div>
   </div>
 </div>
