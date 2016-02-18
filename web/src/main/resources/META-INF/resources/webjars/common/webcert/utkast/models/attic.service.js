@@ -18,7 +18,7 @@
  */
 
 angular.module('common').factory('common.domain.AtticService',
-    [ 'common.domain.ModelAttr', function( ModelAttr ) {
+    [ 'common.domain.ModelAttr', 'common.ObjectHelper', function( ModelAttr, ObjectHelper ) {
         'use strict';
 
 
@@ -133,7 +133,7 @@ angular.module('common').factory('common.domain.AtticService',
                 angular.forEach(properties, function(prop, key){
 
                     if(prop instanceof ModelAttr){
-                        if(atticModel.hasOwnProperty(prop.property) && this.hasOwnProperty(prop.property)){
+                        if(ObjectHelper.isDefined(atticModel) && atticModel.hasOwnProperty(prop.property) && this.hasOwnProperty(prop.property)){
                             atticModel[prop.property] = this[prop.property];
                         }
                     } else if( prop instanceof Array ){
@@ -141,7 +141,7 @@ angular.module('common').factory('common.domain.AtticService',
                     } else if(typeof prop === 'object'){
                         thisUpdate(model[key], properties[key], atticModel[key], thisUpdate);
                     } else {
-                        if (atticModel !== undefined && atticModel.hasOwnProperty(prop) && this.hasOwnProperty(prop)) {
+                        if (ObjectHelper.isDefined(atticModel) && atticModel.hasOwnProperty(prop) && this.hasOwnProperty(prop)) {
                             atticModel[prop] = this[prop];
                         }
                     }
