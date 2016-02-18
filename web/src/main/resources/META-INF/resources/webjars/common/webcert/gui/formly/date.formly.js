@@ -25,10 +25,8 @@ angular.module('common').run(function(formlyConfig) {
                     }
                 } else if (oldVal !== undefined) {
                     // Clear date if check is unchecked
-                    console.log($scope.model[$scope.options.key]);
                     $scope.model[$scope.options.key] = undefined;
                 }
-                console.log(newVal, oldVal);
             });
 
             $scope.getDynamicText = function(key) {
