@@ -1,8 +1,8 @@
 <div class="form-group form-inline">
-  <label class="">
-    <span ng-if="to.label" dynamic-label key="{{to.label}}"></span>
+  <label>
+    <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
     <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
   </label>
-  <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.help}}"></span>
+  <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
   <span ng-if="to.staticHelp" wc-help-mark field-help-text="{{to.staticHelp}}"></span>
 </div>

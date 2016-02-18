@@ -1,0 +1,23 @@
+<div class="form-group form-inline" ng-switch on="{{to.level}}">
+  <h1 ng-switch-when="1" class="wc-headline-1">
+      <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+      <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+  </h1>
+  <h2 ng-switch-when="2" class="wc-headline-2">
+    <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+    <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+  </h2>
+  <h3 ng-switch-when="3" class="wc-headline-3">
+    <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+    <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+  </h3>
+  <h4 ng-switch-when="4" class="wc-headline-4">
+    <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+    <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+  </h4>
+  <h5 ng-switch-default class="wc-headline-2">
+    <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+    <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+  </h5>
+</div>
+
