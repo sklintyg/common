@@ -32,6 +32,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.InternalModelHolder
 import se.inera.intyg.common.support.modules.support.api.dto.InternalModelResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
@@ -208,6 +209,7 @@ public interface ModuleApi {
 
     /**
      * Exposed for testing purposes.
+     *
      * @return an XML string
      */
     String marshall(String jsonString) throws ModuleException;
@@ -219,4 +221,6 @@ public interface ModuleApi {
 
     String transformToStatisticsService(String inputXml) throws ModuleException;
 
+    /** Perform module specific xml validation. */
+    ValidateXmlResponse validateXml(String inputXml) throws ModuleException;
 }
