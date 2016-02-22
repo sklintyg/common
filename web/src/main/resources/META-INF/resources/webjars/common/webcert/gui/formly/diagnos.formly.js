@@ -92,6 +92,11 @@ angular.module('common').run(function(formlyConfig) {
                 });
             };
 
+            $scope.removeDiagnos = function(index) {
+                $scope.model[$scope.options.key].splice(index, 1);
+                $scope.form.$setDirty();
+            };
+
             function resetDiagnoses(){
                 $scope.model[$scope.options.key].forEach(function(diagnos) {
                     diagnos.diagnosKodSystem = formState.diagnosKodSystem;

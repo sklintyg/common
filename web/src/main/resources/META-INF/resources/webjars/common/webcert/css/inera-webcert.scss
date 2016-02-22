@@ -843,3 +843,26 @@
     line-height: 2.5em;
   }
 }
+
+.deleteDiagnos {
+  cursor:pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.diagnosRow {
+  transition:.2s ease-out all;
+
+  &.ng-enter,
+  &.ng-leave.ng-leave-active {
+    height: 0px;
+    opacity: 0;
+    overflow:hidden;
+  }
+  &.ng-enter.ng-enter-active,
+  &.ng-leave {
+    height: 64px;
+    opacity: 1;
+    overflow:hidden;
+  }
+}

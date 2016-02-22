@@ -17,16 +17,19 @@
     </div>
 </div>
 
-<div class="row bottom-padding-small" ng-repeat="diagnos in model[options.key]">
+<div class="row bottom-padding-small diagnosRow" ng-repeat="diagnos in model[options.key]">
     <div class='col-xs-4'>
         <label class="control-label unbreakable"><span dynamic-label key="{{to.diagnosKodLabel}}.RBK"></span></label>
         <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.diagnosKodLabel}}.HLP"></span>
-        <input type="text" class="form-control" id="diagnoseCode" name="diagnose.code" value=""
-               class='diagnose-code col-xs-11 form-control' ng-model="diagnos.diagnosKod"
-               uib-typeahead="d.value as d.label for d in getDiagnoseCodes(formState.diagnosKodSystem, $viewValue) | limitTo:10"
-               typeahead-min-length="3" typeahead-on-select="onDiagnoseCodeSelect($index, $item)"
-               typeahead-template-url="/web/webjars/common/webcert/gui/formly/diagnos.formly.typeahead_template.html"
-               wc-to-uppercase>
+        <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-remove-sign deleteDiagnos" ng-click="removeDiagnos($index)" ng-show="model[options.key].length > 1"></span>
+            <input type="text" class="form-control" id="diagnoseCode" name="diagnose.code" value=""
+                   class='diagnose-code col-xs-11 form-control' ng-model="diagnos.diagnosKod"
+                   uib-typeahead="d.value as d.label for d in getDiagnoseCodes(formState.diagnosKodSystem, $viewValue) | limitTo:10"
+                   typeahead-min-length="3" typeahead-on-select="onDiagnoseCodeSelect($index, $item)"
+                   typeahead-template-url="/web/webjars/common/webcert/gui/formly/diagnos.formly.typeahead_template.html"
+                   wc-to-uppercase>
+        </div>
     </div>
     <div class='col-xs-8'>
         <label class="control-label"><span dynamic-label key="{{to.diagnosBeskrivningLabel}}.RBK"></span></label>
