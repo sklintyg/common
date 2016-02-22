@@ -86,7 +86,7 @@ angular.module('common').run(function(formlyConfig) {
 
             $scope.addDiagnos = function() {
                 $scope.model[$scope.options.key].push({
-                    diagnosKodSystem: undefined,
+                    diagnosKodSystem: formState.diagnosKodSystem,
                     diagnosKod : undefined,
                     diagnosBeskrivning : undefined
                 });
@@ -94,7 +94,7 @@ angular.module('common').run(function(formlyConfig) {
 
             function resetDiagnoses(){
                 $scope.model[$scope.options.key].forEach(function(diagnos) {
-                    diagnos.diagnosKodSystem = undefined;
+                    diagnos.diagnosKodSystem = formState.diagnosKodSystem;
                     diagnos.diagnosKod = undefined;
                     diagnos.diagnosBeskrivning = undefined;
                 });
