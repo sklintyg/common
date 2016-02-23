@@ -11,7 +11,7 @@
       <span message key="draft.notifydoctor"></span>
     </p>
     <div class="form-group">
-      <button id="vidarebefordraEjHanterad" class="btn"
+      <button type="button" id="vidarebefordraEjHanterad" class="btn"
               ng-class="{'btn-info': !viewState.draftModel.vidarebefordrad, 'btn-default btn-secondary' : viewState.draftModel.vidarebefordrad}"
               title="Skicka mejl med en länk till utkastet för att informera den läkare som ska signera det."
               ng-click="vidarebefordraUtkast()">
@@ -30,7 +30,7 @@
   </div>
 
   <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
-      <button id="signera-utkast-button" class="btn btn-success"
+      <button type="button" id="signera-utkast-button" class="btn btn-success"
               ng-disabled="!viewState.common.intyg.isComplete || certForm.$dirty || signingWithSITHSInProgress"
               ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif"/> <span message key="common.sign"></span>
       </button>

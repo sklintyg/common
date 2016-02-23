@@ -15,7 +15,7 @@
       <div class="header-fix-panel">
         <div class="header-fix-top-expand">
           <div class="header-fix-top-expand-wrapper">
-            <button class="btn btn-link" ng-click="toggleHeader()"><span
+            <button type="button" class="btn btn-link" ng-click="toggleHeader()"><span
                 ng-if="viewState.common.collapsedHeader">Visa</span><span
                 ng-if="!viewState.common.collapsedHeader">Dölj</span> meny
             </button>
@@ -35,27 +35,27 @@
         <div wc-new-person-id-message></div>
 
         <div class="form-group buttonbar">
-          <button class="btn btn-default btn-secondary" wc-authority="HANTERA_PERSONUPPGIFTER"
+          <button type="button" class="btn btn-default btn-secondary" wc-authority="HANTERA_PERSONUPPGIFTER"
                   ng-click="updatePatientData()" id="fetchPatientButton"
                   title="Hämta personuppgifter från folkbokföringsregistret.">
             <img ng-show="viewState.common.fetchingPatientData" ng-src="/img/loader-small.gif"/> Hämta personuppgifter
           </button>
-          <button class="btn btn-default btn-secondary" ng-if="!viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
+          <button type="button" class="btn btn-default btn-secondary" ng-if="!viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="toggleShowComplete()" id="showCompleteButton"
                   title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
             Visa vad som saknas
           </button>
-          <button
-              class="btn btn-default btn-secondary" ng-if="viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
+          <button type="button"
+            class="btn btn-default btn-secondary" ng-if="viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                   ng-click="toggleShowComplete()"  id="hideCompleteButton"
                   title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
             Dölj vad som saknas
           </button>
-          <button id="skriv-ut-utkast" class="btn btn-default btn-secondary" ng-if="!viewState.common.isSigned" ng-click="print()"
+          <button type="button" id="skriv-ut-utkast" class="btn btn-default btn-secondary" ng-if="!viewState.common.isSigned" ng-click="print()"
                   title="Skriver ut utkastet.">
             <span message key="{{viewState.common.intyg.type}}.label.skriv-ut-utkast"></span>
           </button>
-          <button id="ta-bort-utkast" class="btn btn-default btn-secondary" ng-if="!viewState.common.isSigned" ng-click="discard()"
+          <button type="button" id="ta-bort-utkast" class="btn btn-default btn-secondary" ng-if="!viewState.common.isSigned" ng-click="discard()"
                   title="Klicka på papperskorgen för att radera utkastet.">
             <i class="glyphicon glyphicon-trash"></i>
           </button>

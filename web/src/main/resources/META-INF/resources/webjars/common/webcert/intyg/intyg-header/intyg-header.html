@@ -29,13 +29,13 @@
       <div class="form-group buttonbar">
         <label class="control-label">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} - {{viewState.intygModel.grundData.patient.personId}}</label>
         <div class="btn-row">
-          <button id="sendBtn" class="btn btn-info"
+          <button type="button" id="sendBtn" class="btn btn-info"
                   ng-if="visaSkickaKnappen()"
                   wc-authority feature="skickaIntyg" requestOrigin="!UTHOPP" intygstyp="{{intygstyp}}"
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
                   ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
           </button>
-          <button id="downloadprint"
+          <button type="button" id="downloadprint"
                   class="btn btn-info"
                   wc-authority
                   intygstyp="{{intygstyp}}"
@@ -66,7 +66,8 @@
               Skriv ut
             </button>
           </div>
-          <button wc-authority="KOPIERA_INTYG"
+          <button type="button"
+                  wc-authority="KOPIERA_INTYG"
                   requestOrigin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   id="copyBtn"
@@ -76,7 +77,8 @@
                   title="{{copyBtnTooltipText}}">
             Kopiera
           </button>
-          <button wc-authority="MAKULERA_INTYG"
+          <button type="button"
+                  wc-authority="MAKULERA_INTYG"
                   requestOrigin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   id="makuleraBtn"
