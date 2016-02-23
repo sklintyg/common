@@ -139,6 +139,8 @@ var commonMessages = {
 
         'info.loadingcertificate': 'Hämtar intyget...',
 
+        'common.label.diagnoses.more_results': 'Det finns fler träffar än vad som kan visas i listan, förfina sökningen.',
+
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
         'common.error.authorization_problem' : '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
