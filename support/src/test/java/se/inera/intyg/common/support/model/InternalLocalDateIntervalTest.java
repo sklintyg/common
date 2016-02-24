@@ -112,4 +112,40 @@ public class InternalLocalDateIntervalTest {
         InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString2, tomString2);
         assertFalse(interval1.equals(interval2));
     }
+
+    @Test
+    public void testOverlaps() {
+
+        // Check that interval overlaps itself
+        InternalDate fromString = new InternalDate("2011-01-01");
+        InternalDate tomString = new InternalDate("2011-01-02");
+
+        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+        assertTrue(interval1.overlaps(interval2));
+
+        // Check that interval overlaps if end of first and start of second is the same
+        InternalDate fromString2 = new InternalDate("2011-01-02");
+        InternalDate tomString2 = new InternalDate("2011-01-03");
+        InternalLocalDateInterval interval3 = new InternalLocalDateInterval(fromString2, tomString2);
+        assertTrue(interval2.overlaps(interval3));
+
+        // Check that interval overlaps if start of second is between first
+        fromString = new InternalDate("2011-01-01");
+        tomString = new InternalDate("2011-01-03");
+        fromString2 = new InternalDate("2011-01-02");
+        tomString2 = new InternalDate("2011-01-04");
+        interval1 = new InternalLocalDateInterval(fromString, tomString);
+        interval2 = new InternalLocalDateInterval(fromString2, tomString2);
+        assertTrue(interval1.overlaps(interval2));
+
+        // Check that overlaps does not assert overlap if there is no overlap
+        fromString = new InternalDate("2011-01-01");
+        tomString = new InternalDate("2011-01-02");
+        fromString2 = new InternalDate("2011-01-03");
+        tomString2 = new InternalDate("2011-01-04");
+        interval1 = new InternalLocalDateInterval(fromString, tomString);
+        interval2 = new InternalLocalDateInterval(fromString2, tomString2);
+        assertFalse(interval1.overlaps(interval2));
+    }
 }

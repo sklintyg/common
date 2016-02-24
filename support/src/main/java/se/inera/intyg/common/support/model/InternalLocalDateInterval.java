@@ -127,6 +127,31 @@ public class InternalLocalDateInterval {
     }
 
     @JsonIgnore
+    public boolean overlaps(Object other) {
+        if (!(other instanceof InternalLocalDateInterval)) {
+            return false;
+        }
+        InternalLocalDateInterval otherInterval = (InternalLocalDateInterval) other;
+
+        if (!this.isValid() || !otherInterval.isValid()) {
+            return false;
+        }
+
+        // We overlap if intervals are equal
+        if (this.equals(otherInterval)) {
+            return true;
+        }
+
+        // We overlap if end and start dates are equal
+        if (this.fromAsLocalDate().equals(otherInterval.tomAsLocalDate()) || this.tomAsLocalDate().equals(otherInterval.fromAsLocalDate())) {
+            return true;
+        }
+
+        // We overlap if from1 < tom2 and tom1 > from2 http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
+        return this.fromAsLocalDate().isBefore(otherInterval.tomAsLocalDate()) && this.tomAsLocalDate().isAfter(otherInterval.fromAsLocalDate());
+    }
+
+    @JsonIgnore
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof InternalLocalDateInterval)) {
