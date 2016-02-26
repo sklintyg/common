@@ -1,8 +1,8 @@
 <div class="row">
   <div data-ng-repeat="grad in grader" ng-show="fieldModel[sjukskrivningView][grad] || fieldModel[sjukskrivningView][grad]">
     <div class="col-xs-3">
-      <span message
-            key="lisu.label.KV_FKMU_0003.{{fieldModel[sjukskrivningView][grad].sjukskrivningsgrad}}.RBK"></span>
+      <span dynamic-label
+            key="KV_FKMU_0003.{{fieldModel[sjukskrivningView][grad].sjukskrivningsgrad}}.RBK"></span>
     </div>
     <div class="col-xs-9">
       från och med <strong>{{fieldModel[sjukskrivningView][grad].period.from}}</strong> till och med <strong>{{fieldModel[sjukskrivningView][grad].period.tom}}</strong>

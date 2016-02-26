@@ -27,6 +27,7 @@ angular.module('common').directive('miField',
             replace: true,
             scope: {
                 fieldLabel: '@',
+                fieldDynamicLabel: '@',
                 filled: '=?'
             },
             templateUrl: '/web/webjars/common/minaintyg/intyg/miField.directive.html'

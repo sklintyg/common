@@ -21,7 +21,7 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.IntygService',
-    function($http, $log) {
+    ['$http', '$log', 'common.dynamicLabelService', function($http, $log, dynamicLabelService) {
         'use strict';
 
         /*
@@ -32,6 +32,7 @@ angular.module('common').factory('common.IntygService',
             var restPath = '/moduleapi/certificate/' + type + '/' + id;
             $http.get(restPath).success(function(data) {
                 $log.debug('_getCertificate data:' + data);
+                dynamicLabelService.updateDynamicLabels(type, data.utlatande);
                 onSuccess(data);
             }).error(function(data, status) {
                 $log.error('error ' + status);
@@ -44,4 +45,4 @@ angular.module('common').factory('common.IntygService',
         return {
             getCertificate: _getCertificate
         };
-    });
+    }]);
