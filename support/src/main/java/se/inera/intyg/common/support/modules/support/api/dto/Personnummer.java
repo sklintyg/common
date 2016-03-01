@@ -74,10 +74,10 @@ public class Personnummer {
         if (pnr == null) {
             throw new InvalidPersonNummerException("Can not normalize null");
         }
-        if (pnr.matches("[0-9]{8}[-+]?[0-9]{4}")) {
+        if (pnr.matches("^(19|20)[0-9]{6}[-+]?[0-9]{4}$")) {
             return pnr.replace("-", "").replace("+", "");
         }
-        if (pnr.matches("[0-9]{6}[+-]?[0-9]{4}")) {
+        if (pnr.matches("^[0-9]{6}[+-]?[0-9]{4}$")) {
             return getCenturyFromYearAndSeparator(pnr) + pnr.replace("-", "").replace("+", "");
         }
         throw new InvalidPersonNummerException("Personnummer format not handled: " + pnr);
