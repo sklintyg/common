@@ -36,6 +36,8 @@ public class NotificationMessage {
 
     private HandelseType handelse;
 
+    private NotificationVersion version;
+
     // The reason why this is an Object is that when serializing with @JsonRawValue (below), it works as intended even
     // if this is a string. However, deserializing doesn't work without the deserialized json in this attribute being
     // quoted. A String getter and an JsonNode setter, both working with an Object attribute, works.
@@ -43,8 +45,9 @@ public class NotificationMessage {
 
     private FragorOchSvar fragaSvar;
 
+    // CHECKSTYLE:OFF ParameterNumber
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelseType handelse, String logiskAdress,
-            String utkastJson, FragorOchSvar fragaSvar) {
+            String utkastJson, FragorOchSvar fragaSvar, NotificationVersion version) {
         super();
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
@@ -53,7 +56,9 @@ public class NotificationMessage {
         this.logiskAdress = logiskAdress;
         this.utkastJson = utkastJson;
         this.fragaSvar = fragaSvar;
+        this.version = version;
     }
+    // CHECKSTYLE:ON ParameterNumber
 
     public NotificationMessage() {
     }
@@ -61,7 +66,7 @@ public class NotificationMessage {
     @Override
     public String toString() {
         return "NotificationMessage [intygsId=" + intygsId + ", intygsTyp=" + intygsTyp + ", logiskAdress=" + logiskAdress + ", handelseTid="
-                + handelseTid + ", handelse=" + handelse + "]";
+                + handelseTid + ", handelse=" + handelse + ", version=" + version + "]";
     }
 
     public String getIntygsId() {
@@ -119,6 +124,14 @@ public class NotificationMessage {
 
     public void setFragaSvar(FragorOchSvar fragaSvar) {
         this.fragaSvar = fragaSvar;
+    }
+
+    public NotificationVersion getVersion() {
+        return version;
+    }
+
+    public void setVersion(NotificationVersion version) {
+        this.version = version;
     }
 
 }
