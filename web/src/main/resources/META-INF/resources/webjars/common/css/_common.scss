@@ -321,6 +321,29 @@ div.infobox {
 /* ng-animate animations */
 /* ------------------------------------- */
 
+.fold-slide-fade-animation {
+  overflow: hidden;
+  margin-left: 20px;
+  opacity: 1;
+}
+
+.fold-slide-fade-animation-hidden {
+  overflow: hidden;
+  margin-left: 0px;
+  opacity: 0;
+  height: 0;
+}
+
+.slide-fade-animation {
+  margin-left: 20px;
+  opacity: 1;
+}
+
+.slide-fade-animation-hidden {
+  margin-left: 0px;
+  opacity: 0;
+}
+
 /* Intyg-edit menu header collapse animation */
 %transition-with-ease-out {
   -webkit-transition: all ease-out 0.5s;

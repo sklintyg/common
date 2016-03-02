@@ -22,7 +22,7 @@ angular.module('common').animation('.fold-animation', ['$animateCss', '$log', fu
             }
 
             var animator = $animateCss(element, {
-                addClass: 'popin',
+                addClass: 'fold-slide-fade-animation',
                 easing: 'ease-out',
                 from: { height:'0px' },
                 to: { height: height + 'px' },
@@ -34,7 +34,7 @@ angular.module('common').animation('.fold-animation', ['$animateCss', '$log', fu
         leave: function(element, doneFn) {
             var height = element[0].offsetHeight;
             return $animateCss(element, {
-                addClass: 'popin-hidden',
+                addClass: 'fold-slide-fade-animation-hidden',
                 easing: 'ease-out',
                 from: { height: height + 'px' },
                 to: { height:'0px' },
