@@ -23,7 +23,7 @@
  *
  * Created by stephenwhite on 25/01/15.
  */
-angular.module('common').factory('common.DateUtilsService', function($filter) {
+angular.module('common').factory('common.DateUtilsService', function() {
     'use strict';
     var _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
     var _format = 'YYYY-MM-DD';

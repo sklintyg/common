@@ -5,7 +5,4 @@ angular.module('common').run(function(formlyConfig) {
         name: 'multi-text',
         templateUrl: '/web/webjars/common/webcert/gui/formly/multiText.formly.html'
     });
-
-    //formlyConfig.extras.defaultHideDirective = 'ng-show';
-
 });
