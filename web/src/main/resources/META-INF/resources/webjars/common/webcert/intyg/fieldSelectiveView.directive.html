@@ -2,7 +2,7 @@
   <div ng-if="show">
     <div ng-transclude></div>
   </div>
-  <div ng-if="!show" class="not-entered">
+  <div id="{{fieldSelectiveView.key}}" ng-if="!show" class="not-entered">
     Ej angivet
   </div>
 </div>

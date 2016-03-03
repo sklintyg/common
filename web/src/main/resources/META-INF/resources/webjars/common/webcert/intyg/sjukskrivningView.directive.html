@@ -2,11 +2,12 @@
   <div data-ng-repeat="grad in grader">
     <div ng-show="fieldModel[sjukskrivningView.key][grad] || fieldModel[sjukskrivningView.key][grad]">
       <div class="col-md-4">
-        <span dynamic-label
+        <span id="{{sjukskrivningView.key}}-{{grad}}-grad" dynamic-label
               key="{{sjukskrivningView.templateOptions.code}}.{{fieldModel[sjukskrivningView.key][grad].sjukskrivningsgrad}}.RBK"></span>
       </div>
       <div class="col-md-8">
-        från och med <strong>{{fieldModel[sjukskrivningView.key][grad].period.from}}</strong> till och med <strong>{{fieldModel[sjukskrivningView.key][grad].period.tom}}</strong>
+        från och med <strong><span id="{{sjukskrivningView.key}}-{{grad}}-from">{{fieldModel[sjukskrivningView.key][grad].period.from}}</span></strong>
+        till och med <strong><span id="{{sjukskrivningView.key}}-{{grad}}-tom">{{fieldModel[sjukskrivningView.key][grad].period.tom}}</span></strong>
       </div>
     </div>
   </div>

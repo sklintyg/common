@@ -31,6 +31,7 @@ angular.module('common').directive('defaultView',
             },
             templateUrl: '/web/webjars/common/webcert/intyg/defaultView.directive.html',
             link: function(scope, element, attrs) {
+                scope.id = scope.defaultView.key;
                 scope.$watch('fieldModel', function(model){
                     scope.value = ViewHelper.getNestedModelValue(model, scope.defaultView.key);
                 }, true);
