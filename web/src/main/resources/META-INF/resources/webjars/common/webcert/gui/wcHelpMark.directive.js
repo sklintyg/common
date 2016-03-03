@@ -47,7 +47,11 @@ angular.module('common').directive('wcHelpMark',
                     function updateMessage() {
                         if(!ObjectHelper.isEmpty($scope.fieldDynamicHelpText)) {
                             $scope.text = dynamicLabelService.getProperty($scope.fieldDynamicHelpText);
-                            $scope.showHelp = true;
+                            if($scope.text === ''){
+                                $scope.showHelp = false;
+                            } else{
+                                $scope.showHelp = true;
+                            }
                             //$log.debug('new help text dynamic:' + $scope.fieldDynamicHelpText + ', actual:' + $scope.text);
                         } else if(!ObjectHelper.isEmpty($scope.fieldHelpText)) {
                             $scope.text = messageService.getProperty($scope.fieldHelpText);

@@ -19,13 +19,11 @@ describe('dynamicLabelService', function() {
         }
     ]));
 
-
     describe('updateTillaggsfragorToModel', function() {
 
         /* jshint maxlen: false, unused: false */
         var dynamicLabelJson = {
-            'texter': {
-            },
+            'texter': {},
             'tillaggsfragor': [
                 {
                     'id': '9001',
@@ -104,7 +102,8 @@ describe('dynamicLabelService', function() {
     describe('#getProperty', function() {
         var testDataDynamicLabelInline = {
             'texter': {
-                    'KAT_2.RBK': '2. Intyg är baserat på'
+                'KAT_2.RBK': '2. Intyg är baserat på',
+                'KAT_2.HLP': 'Help text for - 2. Intyg är baserat på'
             },
             'tillaggsfragor': [
                 {
@@ -146,33 +145,36 @@ describe('dynamicLabelService', function() {
             expect(aProp).toBeUndefined();
         });
 
-        /* it('should return an empty string if the message is an empty string', function() {
-         // todo
-         });
+        it('should return an help string  when given id', function() {
+            var rootProp = 'texter';
+            var aProp = dynamicLabelService.getProperty('KAT_2.HLP', rootProp);
+            expect(aProp).toEqual('Help text for - 2. Intyg är baserat på');
+        });
+/*
+        it('should return the correct value if a language is set in the root scope', function() {
+            // todo
+        });
 
-         it('should return the correct value if a language is set in the root scope', function() {
-         // todo
-         });
+        it('should return the correct value if a default language is set', function() {
+            // todo
+        });
 
-         it('should return the correct value if a default language is set', function() {
-         // todo
-         });
+        it('should return the default value if the key is not present in the resources', function() {
+            // todo
+        });
 
-         it('should return the default value if the key is not present in the resources', function() {
-         // todo
-         });
+        it('should return the missing key if the key is not present in the resources', function() {
+            // todo
+        });
 
-         it('should return the missing key if the key is not present in the resources', function() {
-         // todo
-         });
+        it('should return missing language if no language is set', function() {
+            // todo
+        });
 
-         it('should return missing language if no language is set', function() {
-         // todo
-         });
+        it('should return string with expanded string if variable available', function() {
+            // todo
+        });*/
 
-         it('should return string with expanded string if variable available', function() {
-         // todo
-         }); */
 
     });
 });
