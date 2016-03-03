@@ -26,7 +26,8 @@ angular.module('common').animation('.fold-animation', ['$animateCss', '$log', fu
                 easing: 'ease-out',
                 from: { height:'0px' },
                 to: { height: height + 'px' },
-                duration: 0.3
+                duration: 0.3,
+                cleanupStyles: true
             });
 
             return animator;
