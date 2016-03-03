@@ -31,7 +31,7 @@
         <div class="btn-row">
           <button type="button" id="sendBtn" class="btn btn-info"
                   ng-if="visaSkickaKnappen()"
-                  wc-authority feature="skickaIntyg" requestOrigin="!UTHOPP" intygstyp="{{intygstyp}}"
+                  wc-authority feature="skickaIntyg" request-origin="!UTHOPP" intygstyp="{{intygstyp}}"
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
                   ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
           </button>
@@ -68,7 +68,7 @@
           </div>
           <button type="button"
                   wc-authority="KOPIERA_INTYG"
-                  requestOrigin="!UTHOPP"
+                  request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   id="copyBtn"
                   class="btn btn-info"
@@ -82,7 +82,7 @@
           </button>
           <button type="button"
                   wc-authority="MAKULERA_INTYG"
-                  requestOrigin="!UTHOPP"
+                  request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   id="makuleraBtn"
                   class="btn btn-inverse"
