@@ -54,12 +54,18 @@ angular.module('common').factory('common.domain.AtticService',
                     return false;
                 }
 
-                for(var i = 0; i<cp.props.length; i++){
-                    var prop = cp.props[i];
-                    if(hasProp(prop)) {
-                        return true;
+                if(cp.props instanceof ModelAttr) {
+                    return hasProp(cp.props);
+                } else {
+                    // Assuming array for now, add cases as needed.
+                    for(var i = 0; i<cp.props.length; i++){
+                        var prop = cp.props[i];
+                        if(hasProp(prop)) {
+                            return true;
+                        }
                     }
                 }
+
                 return false;
             },
 

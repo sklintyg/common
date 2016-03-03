@@ -10,25 +10,37 @@ angular.module('common').run(function(formlyConfig) {
                 id: null,
                 label: 'Ange underlag eller utredning'
             }];
-            if ($scope.to.underlagsTyper) {
-                $scope.to.underlagsTyper.forEach(function (underlagsTyp) {
-                    $scope.underlagOptions.push({
-                        'id': underlagsTyp,
-                        'label': dynamicLabelService.getProperty('KV_FKMU_0005.' + underlagsTyp + '.RBK')
+
+            function updateUnderlag() {
+                $scope.underlagOptions = [{
+                    id: null,
+                    label: 'Ange underlag eller utredning'
+                }];
+                if ($scope.to.underlagsTyper) {
+                    $scope.to.underlagsTyper.forEach(function (underlagsTyp) {
+                        $scope.underlagOptions.push({
+                            'id': underlagsTyp,
+                            'label': dynamicLabelService.getProperty('KV_FKMU_0005.' + underlagsTyp + '.RBK')
+                        });
                     });
-                });
+                }
+
+                $scope.createUnderlag = function() {
+                    $scope.model[$scope.options.key].push({ typ: null, datum: null, hamtasFran: null });
+                    $scope.form.$setDirty();
+                };
+
+                $scope.removeUnderlag = function(index) {
+                    $scope.model[$scope.options.key].splice(index, 1);
+                    $scope.form.$setDirty();
+                };
             }
 
-            $scope.createUnderlag = function() {
-                $scope.model[$scope.options.key].push({ typ: null, datum: null, hamtasFran: null });
-                $scope.form.$setDirty();
-            };
+            $scope.$on('dynamicLabels.updated', function() {
+                updateUnderlag();
+            });
 
-            $scope.removeUnderlag = function(index) {
-                $scope.model[$scope.options.key].splice(index, 1);
-                $scope.form.$setDirty();
-            };
-
+            updateUnderlag();
         }]
     });
 

@@ -19,8 +19,8 @@ angular.module('common').directive('dynamicLabel',
                     }
 
                     scope.$on('dynamicLabels.updated', function() {
-                        updateText(attr['key']);
-                    })
+                        updateText(attr.key);
+                    });
 
                     // observe changes to interpolated attribute
                     attr.$observe('key', updateText);
