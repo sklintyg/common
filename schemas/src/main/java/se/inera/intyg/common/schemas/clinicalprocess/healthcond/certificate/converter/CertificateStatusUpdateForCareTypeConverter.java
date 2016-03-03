@@ -39,6 +39,8 @@ public final class CertificateStatusUpdateForCareTypeConverter {
 
     private static final String PERSONNUMMER_ROOT = "1.2.752.129.2.1.3.1";
 
+    private static final String ARBETSPLATSKOD_ROOT = "1.2.752.29.4.71";
+
     private static final String HANDELSE_CODESYSTEM = "dfd7bbad-dbe5-4a2f-ba25-f7b9b2cc6b14";
 
     private static final String HANDELSE_CODESYSTEM_NAME = "KV_Händelse";
@@ -51,6 +53,7 @@ public final class CertificateStatusUpdateForCareTypeConverter {
         Intyg intyg = new Intyg();
 
         intyg.setTyp(typAvIntyg);
+        intyg.setVersion(source.getTextVersion());
         decorateWithIntygId(intyg, source);
         decorateWithSigneringsDatum(intyg, source);
         decorateWithPatient(intyg, source);
@@ -82,6 +85,12 @@ public final class CertificateStatusUpdateForCareTypeConverter {
 
         Patient patientType = new Patient();
         patientType.setPersonId(personId);
+        patientType.setFornamn(utlatandeSource.getGrundData().getPatient().getFornamn());
+        patientType.setEfternamn(utlatandeSource.getGrundData().getPatient().getEfternamn());
+        patientType.setMellannamn(utlatandeSource.getGrundData().getPatient().getMellannamn());
+        patientType.setPostadress(utlatandeSource.getGrundData().getPatient().getPostadress());
+        patientType.setPostnummer(utlatandeSource.getGrundData().getPatient().getPostnummer());
+        patientType.setPostort(utlatandeSource.getGrundData().getPatient().getPostort());
 
         intyg.setPatient(patientType);
     }
@@ -91,15 +100,32 @@ public final class CertificateStatusUpdateForCareTypeConverter {
 
         HosPersonal hoSPerson = new HosPersonal();
         hoSPerson.setFullstandigtNamn(vardpersonReferens.getFullstandigtNamn());
+        hoSPerson.setForskrivarkod(vardpersonReferens.getForskrivarKod());
 
         HsaId personHsaId = createHsaId(vardpersonReferens.getPersonId());
         hoSPerson.setPersonalId(personHsaId);
 
         Enhet vardEnhet = new Enhet();
         vardEnhet.setEnhetsnamn(vardpersonReferens.getVardenhet().getEnhetsnamn());
+        vardEnhet.setPostadress(vardpersonReferens.getVardenhet().getPostadress());
+        vardEnhet.setPostnummer(vardpersonReferens.getVardenhet().getPostnummer());
+        vardEnhet.setPostort(vardpersonReferens.getVardenhet().getPostort());
+        vardEnhet.setEpost(vardpersonReferens.getVardenhet().getEpost());
+        vardEnhet.setTelefonnummer(vardpersonReferens.getVardenhet().getTelefonnummer());
+
+        ArbetsplatsKod arbetsplatskod = new ArbetsplatsKod();
+        arbetsplatskod.setRoot(ARBETSPLATSKOD_ROOT);
+        arbetsplatskod.setExtension(vardpersonReferens.getVardenhet().getArbetsplatsKod());
+        vardEnhet.setArbetsplatskod(arbetsplatskod);
 
         HsaId vardEnhetHsaId = createHsaId(vardpersonReferens.getVardenhet().getEnhetsid());
         vardEnhet.setEnhetsId(vardEnhetHsaId);
+
+        Vardgivare vardgivare = new Vardgivare();
+        HsaId vardgivarHsaId = createHsaId(vardpersonReferens.getVardenhet().getVardgivare().getVardgivarid());
+        vardgivare.setVardgivareId(vardgivarHsaId);
+        vardgivare.setVardgivarnamn(vardpersonReferens.getVardenhet().getVardgivare().getVardgivarnamn());
+        vardEnhet.setVardgivare(vardgivare);
 
         hoSPerson.setEnhet(vardEnhet);
 

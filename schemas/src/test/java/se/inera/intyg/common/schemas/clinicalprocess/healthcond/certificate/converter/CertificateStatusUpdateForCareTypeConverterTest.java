@@ -40,6 +40,7 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
     @Test
     public void testConvert() throws Exception {
         final String intygsId = "intygsid";
+        final String textVersion = "textversion";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
         final String patientPersonId = "pid";
@@ -48,14 +49,29 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         final LocalDateTime signeringsdatum = LocalDateTime.now();
         final LocalDateTime handelsetid = LocalDateTime.now().minusDays(1);
         final HandelseType handelsetyp = HandelseType.INTYGSUTKAST_ANDRAT;
+        final String arbetsplatsKod = "arbetsplatsKod";
+        final String postadress = "postadress";
+        final String postNummer = "postNummer";
+        final String postOrt = "postOrt";
+        final String epost = "epost";
+        final String telefonNummer = "telefonNummer";
+        final String vardgivarid = "vardgivarid";
+        final String vardgivarNamn = "vardgivarNamn";
+        final String forskrivarKod = "forskrivarKod";
+        final String fornamn = "fornamn";
+        final String efternamn = "efternamn";
+        final String mellannamn = "mellannamn";
+        final String patientPostadress = "patientPostadress";
+        final String patientPostnummer = "patientPostnummer";
+        final String patientPostort = "patientPostort";
         final int antalFragor = 4;
         final int antalSvar = 3;
         final int antalHanteradeFragor = 2;
         final int antalHanteradeSvar = 1;
         FragorOchSvar FoS = new FragorOchSvar(antalFragor, antalSvar, antalHanteradeFragor, antalHanteradeSvar);
 
-        Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum);
+        Utlatande utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
+                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer, vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort);
 
         NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", FoS,
                 NotificationVersion.VERSION_2);
@@ -63,6 +79,7 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
 
         assertEquals(enhetsId, res.getIntyg().getIntygsId().getRoot());
         assertEquals(intygsId, res.getIntyg().getIntygsId().getExtension());
+        assertEquals(textVersion, res.getIntyg().getVersion());
         assertNotNull(res.getIntyg().getTyp());
         assertEquals(HandelsekodEnum.ANDRAT.value(), res.getHandelse().getHandelsekod().getCode());
         assertEquals(handelsetyp.toString(), res.getHandelse().getHandelsekod().getDisplayName());
@@ -83,14 +100,31 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         assertEquals(antalSvar, res.getFragorOchSvar().getAntalSvar());
         assertEquals(antalHanteradeFragor, res.getFragorOchSvar().getAntalHanteradeFragor());
         assertEquals(antalHanteradeSvar, res.getFragorOchSvar().getAntalHanteradeSvar());
+        assertNotNull(res.getIntyg().getSkapadAv().getEnhet().getArbetsplatskod().getRoot());
+        assertEquals(arbetsplatsKod, res.getIntyg().getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
+        assertEquals(postadress, res.getIntyg().getSkapadAv().getEnhet().getPostadress());
+        assertEquals(postNummer, res.getIntyg().getSkapadAv().getEnhet().getPostnummer());
+        assertEquals(postOrt, res.getIntyg().getSkapadAv().getEnhet().getPostort());
+        assertEquals(epost, res.getIntyg().getSkapadAv().getEnhet().getEpost());
+        assertEquals(telefonNummer, res.getIntyg().getSkapadAv().getEnhet().getTelefonnummer());
+        assertNotNull(res.getIntyg().getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getRoot());
+        assertEquals(vardgivarid, res.getIntyg().getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
+        assertEquals(vardgivarNamn, res.getIntyg().getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
+        assertEquals(forskrivarKod, res.getIntyg().getSkapadAv().getForskrivarkod());
+        assertEquals(fornamn, res.getIntyg().getPatient().getFornamn());
+        assertEquals(efternamn, res.getIntyg().getPatient().getEfternamn());
+        assertEquals(mellannamn, res.getIntyg().getPatient().getMellannamn());
+        assertEquals(patientPostadress, res.getIntyg().getPatient().getPostadress());
+        assertEquals(patientPostnummer, res.getIntyg().getPatient().getPostnummer());
+        assertEquals(patientPostort, res.getIntyg().getPatient().getPostort());
     }
 
     @Test
     public void testConvertNoSignDate() throws Exception {
         final String intygsId = "intygsid";
 
-        Utlatande utlatande = buildUtlatande(intygsId, "enhetsId", "enhetsnamn", "patientPersonId",
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", null);
+        Utlatande utlatande = buildUtlatande(intygsId, "textVersion", "enhetsId", "enhetsnamn", "patientPersonId",
+                "skapadAvFullstandigtNamn", "skapadAvPersonId", null, "arbetsplatsKod", "postadress", "postNummer", "postOrt", "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress", "patientPostnummer", "patientPostort");
 
         NotificationMessage msg = new NotificationMessage(intygsId, "luse", LocalDateTime.now(), HandelseType.INTYGSUTKAST_ANDRAT, "address",
                 "", FragorOchSvar.getEmpty(), NotificationVersion.VERSION_2);
@@ -154,22 +188,40 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         assertEquals(HandelsekodEnum.SKICKA, CertificateStatusUpdateForCareTypeConverter.convertToHandelsekod(HandelseType.INTYG_SKICKAT_FK));
     }
 
-    private Utlatande buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
-            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum) {
+    private Utlatande buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
+            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod, String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn, String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer, String patientPostort) {
         Utlatande utlatande = mock(Utlatande.class);
         when(utlatande.getId()).thenReturn(intygsId);
+        when(utlatande.getTextVersion()).thenReturn(textVersion);
         GrundData grundData = new GrundData();
         HoSPersonal skapadAv = new HoSPersonal();
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setEnhetsid(enhetsId);
         vardenhet.setEnhetsnamn(enhetsnamn);
+        vardenhet.setArbetsplatsKod(arbetsplatsKod);
+        vardenhet.setPostadress(postadress);
+        vardenhet.setPostnummer(postNummer);
+        vardenhet.setPostort(postOrt);
+        vardenhet.setEpost(epost);
+        vardenhet.setTelefonnummer(telefonNummer);
+        Vardgivare vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid(vardgivarid);
+        vardgivare.setVardgivarnamn(vardgivarNamn);
+        vardenhet.setVardgivare(vardgivare);
         skapadAv.setVardenhet(vardenhet);
         skapadAv.setFullstandigtNamn(skapadAvFullstandigtNamn);
         skapadAv.setPersonId(skapadAvPersonId);
+        skapadAv.setForskrivarKod(forskrivarKod);
         grundData.setSkapadAv(skapadAv);
         Patient patient = new Patient();
         Personnummer personId = new Personnummer(patientPersonId);
         patient.setPersonId(personId);
+        patient.setFornamn(fornamn);
+        patient.setEfternamn(efternamn);
+        patient.setMellannamn(mellannamn);
+        patient.setPostadress(patientPostadress);
+        patient.setPostnummer(patientPostnummer);
+        patient.setPostort(patientPostort);
         grundData.setPatient(patient);
         grundData.setSigneringsdatum(signeringsdatum);
         when(utlatande.getGrundData()).thenReturn(grundData);
