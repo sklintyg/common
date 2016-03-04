@@ -48,6 +48,7 @@ describe('dynamicLabelService', function() {
 
         it('should add all fragor to model in order if model is empty', function() {
             var model = {
+                textVersion: '1.0',
                 tillaggsfragor: []
             };
 
@@ -62,6 +63,7 @@ describe('dynamicLabelService', function() {
 
         it('should only add missing fragor to model in order if model already has values (insert)', function() {
             var model = {
+                textVersion: '1.0',
                 tillaggsfragor: [
                     {
                         id: '9003',
@@ -81,6 +83,7 @@ describe('dynamicLabelService', function() {
 
         it('should only add missing fragor to model in order if model already has values (push)', function() {
             var model = {
+                textVersion: '1.0',
                 tillaggsfragor: [
                     {
                         id: '9001',
@@ -121,6 +124,7 @@ describe('dynamicLabelService', function() {
                 return promise.promise;
             });
             var model = {
+                textVersion: '1.0',
                 tillaggsfragor: []
             };
             dynamicLabelService.updateDynamicLabels('testtyp', model);

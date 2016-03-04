@@ -75,6 +75,7 @@ describe('wcHelpMark', function() {
                 ]
             };
             var model = {
+                textVersion: '1.0',
                 tillaggsfragor: []
             };
 

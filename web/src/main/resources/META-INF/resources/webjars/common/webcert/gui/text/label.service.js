@@ -129,21 +129,23 @@ angular.module('common').factory('common.dynamicLabelService',
             }
 
             function _updateDynamicLabels(intygsTyp, model) {
-                DynamicLabelProxy.getDynamicLabels(intygsTyp, model.textVersion).then(
-                    function(dynamicLabelJson) {
-                        if (dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined') {
-                            $log.debug(dynamicLabelJson);
-                            _clearLabels();
-                            _addLabels(dynamicLabelJson);
-                            _updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
-                        } else {
-                            $log.debug('No dynamic text for intygType: ' + intygsTyp);
-                        }
-                        $rootScope.$broadcast('dynamicLabels.updated');
-                    },
-                    function(error) {
-                        $log.debug('error:' + error);
-                    });
+                if (model.textVersion) {
+                    DynamicLabelProxy.getDynamicLabels(intygsTyp, model.textVersion).then(
+                        function(dynamicLabelJson) {
+                            if (dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined') {
+                                $log.debug(dynamicLabelJson);
+                                _clearLabels();
+                                _addLabels(dynamicLabelJson);
+                                _updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+                            } else {
+                                $log.debug('No dynamic text for intygType: ' + intygsTyp);
+                            }
+                            $rootScope.$broadcast('dynamicLabels.updated');
+                        },
+                        function(error) {
+                            $log.debug('error:' + error);
+                        });
+                }
             }
             return {
                 checkLabels: _checkLabels,
