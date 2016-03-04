@@ -47,7 +47,9 @@ angular.module('common').directive('wcHelpMark',
                     function updateMessage() {
                         if(!ObjectHelper.isEmpty($scope.fieldDynamicHelpText)) {
                             $scope.text = dynamicLabelService.getProperty($scope.fieldDynamicHelpText);
-                            if($scope.text === ''){
+
+                            // if we have empty string or only extension, dont render the ? icon in GUI.
+                            if($scope.text === '' || $scope.text.split('.')[0] === ''){
                                 $scope.showHelp = false;
                             } else{
                                 $scope.showHelp = true;
