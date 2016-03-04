@@ -208,7 +208,12 @@
       @extend %content-footer-common;
       text-decoration: underline;
     }
-  } 
+  }
+
+  .utkast-footer {
+    margin-bottom: 100px;
+    margin-left: 15px;
+  }
 
   p {
     margin: 0;
@@ -353,6 +358,11 @@
     &.center {
       text-align: center;
     }
+  }
+
+  .big-checkbox {
+    width: 22px;
+    height: 22px;
   }
 
   /* Not used? */  
@@ -848,6 +858,13 @@
   cursor:pointer;
   background-color: transparent;
   border: none;
+}
+#diagnoseCode {
+  border-radius: 4px!important;
+}
+
+.valjkodverk {
+  margin-right: 15px;
 }
 
 .diagnosRow {

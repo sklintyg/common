@@ -173,17 +173,17 @@ a {
 }
 
 .intyg-block {
-  margin: 0 30px 25px 0;
-  -webkit-border-radius: 8px 8px 8px 8px;
-  -moz-border-radius: 8px 8px 8px 8px;
-  border-radius: 8px 8px 8px 8px;
+  margin: 0 30px 40px 0;
+  -webkit-border-radius: 6px 6px 6px 6px;
+  -moz-border-radius: 6px 6px 6px 6px;
+  border-radius: 6px 6px 6px 6px;
 
   input[wc-maxlength] {
     margin: 0;
   }
   h4 {
     font-size: 14px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
     &.cert-field-number {
       float: right;
       padding: 0 0 0 10px;
@@ -212,7 +212,7 @@ a {
   &__heading {
     margin: 0;
     color: $color_blue_chill_approx;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     padding-bottom: 0px;
     -webkit-border-radius: 4px 4px 4px 4px;
@@ -223,7 +223,8 @@ a {
     vertical-align: sub;
   }
   &__titlerow {
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+    padding-left: 20px;
   }
   .title-single {
     background: none;
@@ -239,7 +240,7 @@ a {
   }
   &__content {
     display: block;
-    padding: 20px 40px 15px 40px;
+    padding: 15px 20px 15px 20px;
     background-color: $mercury;
     -webkit-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
