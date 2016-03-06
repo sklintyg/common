@@ -39,6 +39,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The module API defines methods that interact with one of the tree models that every module handles:
@@ -223,4 +224,6 @@ public interface ModuleApi {
 
     /** Perform module specific xml validation. */
     ValidateXmlResponse validateXml(String inputXml) throws ModuleException;
+
+    Map<String, Object> getModuleSpecificArendeParameters(Utlatande utlatande);
 }
