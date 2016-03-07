@@ -1,0 +1,20 @@
+<span class="inline-block">
+  <span class="wc-datepicker-wrapper input-group">
+    <input id="{{domId}}"
+           name="{{domId}}"
+           type="text"
+           class="form-control"
+           ng-model="model[field][index].period[type]"
+           is-open="isOpen"
+           maxlength="10"
+           uib-datepicker-popup="{{format}}"
+           max-date="{{maxDate}}"
+           ng-model-options="{ allowInvalid: true }"
+           wc-date-period-field-input/>
+    <span class="input-group-btn">
+      <button type="button" id="{{domId}}-toggle" class="btn btn-default" ng-click="toggleOpen($event)" ng-disabled="isOpen">
+        <i class="glyphicon glyphicon-calendar"></i>
+      </button>
+    </span>
+  </span>
+</span>
