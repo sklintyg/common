@@ -19,14 +19,15 @@
 
 package se.inera.intyg.common.support.model.common.internal;
 
-import org.joda.time.LocalDateTime;
-
 import java.util.Objects;
+
+import org.joda.time.LocalDateTime;
 
 public class GrundData {
     private LocalDateTime signeringsdatum;
     private HoSPersonal skapadAv;
     private Patient patient;
+    private Relation relation;
 
     @Override
     public boolean equals(Object object) {
@@ -39,12 +40,13 @@ public class GrundData {
         final GrundData that = (GrundData) object;
         return Objects.equals(this.signeringsdatum, that.signeringsdatum)
                 && Objects.equals(this.skapadAv, that.skapadAv)
-                && Objects.equals(this.patient, that.patient);
+                && Objects.equals(this.patient, that.patient)
+                && Objects.equals(this.relation, that.relation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.signeringsdatum, this.skapadAv, this.patient);
+        return Objects.hash(this.signeringsdatum, this.skapadAv, this.patient, this.relation);
     }
 
     public LocalDateTime getSigneringsdatum() {
@@ -69,5 +71,13 @@ public class GrundData {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public Relation getRelation() {
+        return relation;
+    }
+
+    public void setRelation(Relation relation) {
+        this.relation = relation;
     }
 }
