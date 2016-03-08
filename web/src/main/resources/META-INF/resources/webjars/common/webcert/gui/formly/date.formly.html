@@ -5,9 +5,9 @@
                class="big-checkbox"
                ng-model="formState[options.key].checked"
                value="true">
-        <span dynamic-label key="{{to.label}}.RBK"></span>
+        <span dynamic-label ng-if="to.label" key="{{to.label}}.RBK"></span>
     </label>
-    <span wc-help-mark field-dynamic-help-text="{{to.label + '.HLP'}}"></span>
+    <span wc-help-mark ng-if="!to.disableHelp" field-dynamic-help-text="{{to.label + '.HLP'}}"></span>
   </div>
   <div class="col-md-6 no-space-left">
     <span wc-date-picker-field target-model="model[options.key]" add-date-parser="loose"></span>
