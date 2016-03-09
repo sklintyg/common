@@ -52,9 +52,8 @@ describe('wcHelpMark', function() {
 
         beforeEach(inject(function($compile, $rootScope, $httpBackend) {
             $scope = $rootScope.$new();
-            $scope.fieldDynamicHelpText = 'KAT_4.HLP';
             element =
-                angular.element('<div wc-help-mark field-dynamic-help-text={{fieldDynamicHelpText}} field-help-text={{fieldHelpText}}</div>');
+                angular.element('<div wc-help-mark field-dynamic-help-text="{{fieldDynamicHelpText}}" field-help-text="{{fieldHelpText}}"</div>');
             $compile(element)($scope);
 
         }));
@@ -89,45 +88,29 @@ describe('wcHelpMark', function() {
         }));
 
         it('should have applied HTML template', function() {
-            // var elemToTest = getCompiledElement();
-            $scope.fieldDynamicHelpText = 'KAT_4.HLP';
-            //$scope.fieldHelpText = 'KAT_4.HLP';
-
             expect(element.html()).not.toEqual('');
         });
 
-        it('should have element uib-popover-html in template', function() {
-            //var elemToTest = getCompiledElement();
-            $scope.fieldDynamicHelpText = 'KAT_4.HLP';
-            // $scope.fieldHelpText = 'KAT_4.HLP';
-
-            expect(element.find('uib-popover-html'));
-            expect(element.find('KAT_4.HLP'));
-        });
-
-
-        it('should have fieldHelpText defined on isolated scope', function() {
-            $scope.fieldDynamicHelpText = 'KAT_4.HLP';
-
-            $scope.$digest();
-            expect(element.scope().fieldDynamicHelpText).toBeDefined();
-            console.log('1:' + element.scope().fieldDynamicHelpText);
-        });
-
-        // Cant get this one to work...
         it('should have text of given ID from file on disk', function() {
-            $scope.fieldDynamicHelpText = 'KAT_32.HLP';
-
+            $scope.fieldDynamicHelpText = 'KAT_4.HLP';
             $scope.$digest();
+            $scope.$broadcast('dynamicLabels.updated');
             expect(element.isolateScope().text).toContain('Ange samtliga diagnoser');
-            console.log('1:' + element.isolateScope().fieldDynamicHelpText);
+            expect(element.isolateScope().showHelp).toBe(true);
         });
 
-        it('should have showHelp set to true when ID prop is provided', function() {
+        it('should handle missing label and hide help', function() {
+            $scope.fieldDynamicHelpText = '.HLP';
             $scope.$digest();
+            $scope.$broadcast('dynamicLabels.updated');
+            expect(element.isolateScope().showHelp).toBe(false);
+        });
 
-            expect(element.isolateScope().showHelp).toBe(true);
-            console.log('1:' + element.isolateScope().showHelp);
+        it('should handle missing label and hide help', function() {
+            $scope.fieldDynamicHelpText = undefined;
+            $scope.$digest();
+            $scope.$broadcast('dynamicLabels.updated');
+            expect(element.isolateScope().showHelp).toBe(false);
         });
 
     });
