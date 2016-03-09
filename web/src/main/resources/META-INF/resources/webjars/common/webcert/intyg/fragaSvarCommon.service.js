@@ -49,14 +49,14 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
                 var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
-                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygsReferens.intygsId + '/questions';
+                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygId + '/questions';
 
                 var recipient = '';
                 var subject = 'En fraga-svar ska besvaras i Webcert';
-                if (qa.vardperson.enhetsnamn !== undefined) {
-                    subject += ' pa enhet ' + qa.vardperson.enhetsnamn;
-                    if (qa.vardperson.vardgivarnamn !== undefined) {
-                        subject += ' for vardgivare ' + qa.vardperson.vardgivarnamn;
+                if (qa.enhetsnamn !== undefined) {
+                    subject += ' pa enhet ' + qa.enhetsnamn;
+                    if (qa.vardgivarnamn !== undefined) {
+                        subject += ' for vardgivare ' + qa.vardgivarnamn;
                     }
                 }
 
@@ -147,7 +147,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function _fromFk(qa){
-                if(qa.frageStallare === 'FK'){
+                if(qa.fragestallare === 'FK'){
                     return true;
                 }
                 return false;

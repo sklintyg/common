@@ -83,8 +83,9 @@ describe('fragaSvarCommonService', function() {
         ]));
 
         var qa = {
-            intygsReferens: {intygsId: 'testid'},
-            vardperson: {enhetsnamn: 'Ängården', vardgivarnamn: 'Vårdgivare'}
+            intygId: 'testid',
+            enhetsnamn: 'Ängården',
+            vardgivarnamn: 'Vårdgivare'
         };
 
         it('should be correct when user\'s request origin is uthopp', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
