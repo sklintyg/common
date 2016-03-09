@@ -86,4 +86,20 @@ describe('DatePeriodFieldHelper', function() {
         expect(overlap).toBeTruthy();
     });
 
+    it('can detect overlap with exactly same dates', function(){
+        var period1 = buildPeriod('20150410', '20150417');
+        var period2 = buildPeriod('20150410', '20150417');
+
+        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+        expect(overlap).toBeTruthy();
+    });
+
+    it('can detect overlap with same end date', function(){
+        var period1 = buildPeriod('20150410', '20150417');
+        var period2 = buildPeriod('20150415', '20150417');
+
+        var overlap = DatePeriodFieldHelper.hasOverlap(period1, period2);
+        expect(overlap).toBeTruthy();
+    });
+
 });
