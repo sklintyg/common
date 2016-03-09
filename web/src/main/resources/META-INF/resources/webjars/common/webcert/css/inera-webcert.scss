@@ -365,6 +365,12 @@
     height: 22px;
   }
 
+  .big-radio {
+    width: 22px;
+    height: 22px;
+    margin-top: 0 !important;
+  }
+
   /* Not used? */  
   .scrollable {
     overflow-x: auto;
@@ -385,20 +391,16 @@
   }
 
   input[type=radio] {
-    margin: 3px 0 0;
-    + label {
-      cursor: pointer;
-    }
+    margin-top: 3px;
+    cursor: pointer;
   }
 
   input[type=checkbox] {
-    margin: 3px 0 0;
-    + label {
-      cursor: pointer;
-    }
+    margin-top: 3px;
+    cursor: pointer;
   }
 
-  /* Commonly used */  
+  /* Commonly used */
   td.center {
     text-align: center;
   }

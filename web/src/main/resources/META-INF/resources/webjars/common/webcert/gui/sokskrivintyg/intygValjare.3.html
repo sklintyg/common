@@ -13,7 +13,7 @@
 
     <div ng-show="!sekretessmarkering && current.group == 'fk'"
          data-ng-repeat="cert in protoCertTypes | filter: { type: 'fk'}">
-      <label>
+      <label class="radio">
         <input name="currentActivity12" type="radio" value="{{cert.id}}" ng-model="current.selected" />
         {{cert.label}}
       </label>
@@ -21,7 +21,7 @@
     </div>
     <div ng-show="!sekretessmarkering && current.group == 'ts'"
          data-ng-repeat="cert in protoCertTypes | filter: { type: 'ts'}">
-      <label>
+      <label class="radio">
         <input name="currentActivity122" type="radio" value="{{cert.id}}" ng-model="current.selected" />
         {{cert.label}}
       </label>
@@ -29,7 +29,7 @@
     </div>
     <div ng-show="!sekretessmarkering && current.group == 'ss'"
          data-ng-repeat="cert in protoCertTypes | filter: { type: 'ss'}">
-      <label>
+      <label class="radio">
         <input name="currentActivity1212" type="radio" value="{{cert.id}}" ng-model="current.selected" />
         {{cert.label}}
       </label>

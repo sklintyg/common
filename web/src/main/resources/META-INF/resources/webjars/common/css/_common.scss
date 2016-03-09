@@ -427,7 +427,6 @@ label {
   }
 }
 
-
 /* Only used in wcField.directive.html */
 .fielderror {
   border: 2px solid $color_apple_blossom_approx;
@@ -473,4 +472,69 @@ input[type=text].small-decimal {
 
 .disabled {
   color: $gray;
+  cursor: not-allowed;
+}
+
+/* Formly underlag styles */
+.deleteUnderlag {
+  cursor: pointer;
+}
+
+.whitebg {
+  background: white;
+}
+
+.underlagRow > td, .underlagRow > th {
+  padding-right: 5px;
+  padding-bottom: 2px;
+}
+
+.indent-underlag {
+  padding-left: 1em;
+}
+
+.no-space-left {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.diagnos-question-divider {
+  border-top: 1px solid #ccc;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.funktionsnedsattning, .behandling {
+  padding-bottom: 20px;
+}
+
+.question-divider {
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+}
+
+input.ng-invalid-date {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 0, 0, 0.6);
+  border-color: #ff6600;
+}
+
+.not-entered {
+  font-style: italic;
+}
+
+.intyg-field {
+  margin-bottom: 10px;
+}
+
+.intyg-field label {
+  margin-bottom: 0px;
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+
+  .form-inline .radio input[type=radio], .form-inline .checkbox input[type=checkbox] {
+    vertical-align: bottom;
+  }
+
 }

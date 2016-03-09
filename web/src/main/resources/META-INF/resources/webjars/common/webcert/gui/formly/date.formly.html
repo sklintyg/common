@@ -1,6 +1,6 @@
 <div class="form-group form-inline row">
-  <div class="col-md-6 no-space-left">
-    <label class="">
+  <div class="col-md-6">
+    <label class="checkbox">
         <input type="checkbox"
                class="big-checkbox"
                ng-model="formState[options.key].checked"
@@ -9,7 +9,7 @@
     </label>
     <span wc-help-mark ng-if="!to.disableHelp" field-dynamic-help-text="{{to.label + '.HLP'}}"></span>
   </div>
-  <div class="col-md-6 no-space-left">
+  <div class="col-md-6">
     <span wc-date-picker-field target-model="model[options.key]" add-date-parser="loose"></span>
   </div>
 </div>
