@@ -48,10 +48,10 @@ angular.module('common').directive('wcHelpMark',
                         if(!ObjectHelper.isEmpty($scope.fieldDynamicHelpText)) {
                             $scope.text = dynamicLabelService.getProperty($scope.fieldDynamicHelpText);
 
-                            // if we have empty string or only extension, dont render the ? icon in GUI.
-                            if($scope.text === '' || $scope.text.split('.')[0] === ''){
+                            // if we have empty string, dont render the ? icon in GUI.
+                            if(ObjectHelper.isEmpty($scope.text)) {
                                 $scope.showHelp = false;
-                            } else{
+                            } else {
                                 $scope.showHelp = true;
                             }
                             //$log.debug('new help text dynamic:' + $scope.fieldDynamicHelpText + ', actual:' + $scope.text);
@@ -63,7 +63,7 @@ angular.module('common').directive('wcHelpMark',
                             $scope.showHelp = false;
                             //$log.debug('disable help');
                         }
-                    };
+                    }
 
                     // Either texts have already loaded and the function below will do the job
                     // or
