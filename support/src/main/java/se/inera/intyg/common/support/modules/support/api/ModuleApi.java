@@ -225,5 +225,6 @@ public interface ModuleApi {
     /** Perform module specific xml validation. */
     ValidateXmlResponse validateXml(String inputXml) throws ModuleException;
 
-    Map<String, Object> getModuleSpecificArendeParameters(Utlatande utlatande);
+    /** Get Arende parameters specific to module such as parameters belonging to a certain frage id. */
+    Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande);
 }
