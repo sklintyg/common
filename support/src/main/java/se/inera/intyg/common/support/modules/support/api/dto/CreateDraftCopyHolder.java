@@ -20,6 +20,8 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import static org.springframework.util.Assert.notNull;
 
+import se.inera.intyg.common.support.model.common.internal.Relation;
+
 public class CreateDraftCopyHolder {
 
     private final String certificateId;
@@ -30,12 +32,20 @@ public class CreateDraftCopyHolder {
 
     private Personnummer newPersonnummer;
 
+    private Relation relation;
+
+    public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv, Relation relation) {
+        this(certificateId, skapadAv);
+        this.relation = relation;
+    }
+
     public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv) {
         notNull(certificateId, "'certificateId' must not be null");
         notNull(skapadAv, "'skapadAv' must not be null");
         this.certificateId = certificateId;
         this.skapadAv = skapadAv;
     }
+
 
     public String getCertificateId() {
         return certificateId;
@@ -67,6 +77,14 @@ public class CreateDraftCopyHolder {
 
     public boolean hasNewPersonnummer() {
         return (this.newPersonnummer != null);
+    }
+
+    public Relation getRelation() {
+        return relation;
+    }
+
+    public void setRelation(Relation relation) {
+        this.relation = relation;
     }
 
 }
