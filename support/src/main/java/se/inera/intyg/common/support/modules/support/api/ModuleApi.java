@@ -227,4 +227,6 @@ public interface ModuleApi {
 
     /** Get Arende parameters specific to module such as parameters belonging to a certain frage id. */
     Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande);
+
+    String decorateUtlatande(String utlatandeJson) throws ModuleException;
 }

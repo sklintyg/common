@@ -50,4 +50,6 @@ public interface WebcertModuleService {
      * @return true if the code matches a diagnosis, false otherwise.
      */
     boolean validateDiagnosisCode(String codeFragment, Diagnoskodverk codeSystem);
+    
+    public String getDescriptionFromDiagnosKod(String code, String codeSystemStr);
 }
