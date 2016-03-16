@@ -44,12 +44,12 @@ public interface WebcertModuleService {
      * Validates a diagnosis code using the DiagnosService.
      *
      * @param codeFragment
-     *              The code to validate
+     *            The code to validate
      * @param codeSystem
      *            Enum representing the code system the diagnosis belongs to
      * @return true if the code matches a diagnosis, false otherwise.
      */
     boolean validateDiagnosisCode(String codeFragment, Diagnoskodverk codeSystem);
-    
-    public String getDescriptionFromDiagnosKod(String code, String codeSystemStr);
+
+    String getDescriptionFromDiagnosKod(String code, String codeSystemStr);
 }

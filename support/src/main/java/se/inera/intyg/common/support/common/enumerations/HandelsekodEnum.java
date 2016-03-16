@@ -26,26 +26,41 @@ import java.util.stream.Stream;
  */
 public enum HandelsekodEnum {
 
-    SKAPAT("SKAPAT"),
-    SIGNAT("SIGNAT"),
-    SKICKA("SKICKA"),
-    RADERA("RADERA"),
-    MAKULE("MAKULE"),
-    NYFRFM("NYFRFM"),
-    NYSVFM("NYSVFM"),
-    NYFRTM("NYFRTM"),
-    HANFRA("HANFRA"),
-    HANSVA("HANSVA"),
-    ANDRAT("ANDRAT");
+    SKAPAT("SKAPAT", "Intygsutkast skapas"),
+    SIGNAT("SIGNAT", "Intyg signerat"),
+    SKICKA("SKICKA", "Intyg skickat till mottagare"),
+    RADERA("RADERA", "Intygsutkast raderat"),
+    MAKULE("MAKULE", "Intyg makulerat"),
+    NYFRFM("NYFRFM", "Ny fråga från mottagare"),
+    NYSVFM("NYSVFM", "Nytt svar från mottagare"),
+    NYFRTM("NYFRTM", "Ny fråga till mottagare"),
+    HANFRA("HANFRA", "Hanterad fråga från mottagare"),
+    HANSVA("HANSVA", "Hanterat svar från mottagare"),
+    ANDRAT("ANDRAT", "Intygsutkast ändrat");
 
-    private String value;
+    private final String value;
+    private final String description;
 
-    HandelsekodEnum(String value) {
+    HandelsekodEnum(String value, String description) {
         this.value = value;
+        this.description = description;
     }
 
     public String value() {
         return value;
+    }
+
+    public String description() {
+        return description;
+    }
+
+    public static String getDescription(String code) {
+        for (HandelsekodEnum value : values()) {
+            if (code.equals(value.value)) {
+                return value.description;
+            }
+        }
+        return "";
     }
 
     public static HandelsekodEnum fromValue(String value) {

@@ -23,9 +23,7 @@ import java.util.stream.Stream;
 
 public enum RelationKod {
 
-    ERSATT("ERSATT", "Ersätter"),
-    KOMPLT("KOMPLT", "Kompletterar"),
-    FRLANG("FRLANG", "Förlänger");
+    ERSATT("ERSATT", "Ersätter"), KOMPLT("KOMPLT", "Kompletterar"), FRLANG("FRLANG", "Förlänger");
 
     private final String value;
     private final String klartext;
@@ -38,8 +36,8 @@ public enum RelationKod {
     public String value() {
         return value;
     }
-    
-    public String getKlartext(){
+
+    public String getKlartext() {
         return this.klartext;
     }
 

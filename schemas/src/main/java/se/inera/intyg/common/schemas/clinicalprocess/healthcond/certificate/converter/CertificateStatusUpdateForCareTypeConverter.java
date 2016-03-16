@@ -52,10 +52,10 @@ public final class CertificateStatusUpdateForCareTypeConverter {
         Handelsekod handelseKod = new Handelsekod();
         handelseKod.setCodeSystem(HANDELSE_CODESYSTEM);
         handelseKod.setCodeSystemName(HANDELSE_CODESYSTEM_NAME);
-        handelseKod.setDisplayName(notificationMessage.getHandelse().toString());
 
         HandelsekodEnum handelseValue = convertToHandelsekod(notificationMessage.getHandelse());
         handelseKod.setCode(handelseValue.value());
+        handelseKod.setDisplayName(HandelsekodEnum.getDescription(handelseValue.value()));
 
         Handelse handelseType = new Handelse();
         handelseType.setHandelsekod(handelseKod);
