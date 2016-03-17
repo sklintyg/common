@@ -209,34 +209,9 @@ angular.module('common').factory('common.UtkastService',
                 return model;
             }
 
-            function _loadRelations(intygsTyp, intygModel) {
-                var def = $q.defer();
-                if (intygModel.grundData.relation) {
-                    UtkastProxy.getUtkast(intygModel.grundData.relation.relationIntygsId, intygsTyp, function(data) {
-                        console.log(data);
-                        _loadRelations(intygsTyp, data.content).then(function(relatedIntygList){
-                            if (!relatedIntygList) {
-                                relatedIntygList = [];
-                            }
-                            relatedIntygList.push({
-                                id : data.content.id,
-                                status : data.status
-                            });
-                            def.resolve(relatedIntygList);
-                        });
-                    },function(error) {
-                        def.reject(error);
-                    });
-                } else {
-                    def.resolve();
-                }
-                return def.promise;
-            }
-
             // Return public API for the service
             return {
                 load: _load,
-                save: _save,
-                loadRelations: _loadRelations
+                save: _save
             };
         }]);

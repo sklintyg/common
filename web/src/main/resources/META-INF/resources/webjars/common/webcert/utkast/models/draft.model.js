@@ -41,6 +41,7 @@ angular.module('common').factory('common.Domain.DraftModel',
                 return;
             }
             this.version = data.version;
+            this.relations = data.relations;
             this.vidarebefordrad = data.vidarebefordrad;
             this.status = data.status;
             if(this.content){
