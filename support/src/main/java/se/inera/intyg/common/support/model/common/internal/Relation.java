@@ -29,6 +29,8 @@ public class Relation {
 
     private String relationIntygsId;
 
+    private String meddelandeId;
+
     @Override
     public boolean equals(Object object) {
         if (object == null) {
@@ -39,7 +41,8 @@ public class Relation {
         }
         final Relation that = (Relation) object;
         return Objects.equals(this.relationKod, that.relationKod)
-                && Objects.equals(this.relationIntygsId, that.relationIntygsId);
+                && Objects.equals(this.relationIntygsId, that.relationIntygsId)
+                && Objects.equals(this.meddelandeId, that.meddelandeId);
     }
 
     @Override
@@ -61,6 +64,14 @@ public class Relation {
 
     public void setRelationIntygsId(String relationIntygsId) {
         this.relationIntygsId = relationIntygsId;
+    }
+
+    public String getMeddelandeId() {
+        return meddelandeId;
+    }
+
+    public void setMeddelandeId(String meddelandeId) {
+        this.meddelandeId = meddelandeId;
     }
 
 }
