@@ -115,6 +115,7 @@ var commonMessages = {
         'qa.status.pending_external_action': 'Inväntar svar',
         'qa.status.answered': 'Besvarat',
         'qa.status.closed': 'Hanterat',
+        'qa.help.handled': 'Tidigare meddelanden är sådana som redan har besvarats eller hanterats på något sätt.',
 
         'qa.fragestallare.fk': 'Försäkringskassan',
         'qa.fragestallare.wc': 'Vårdenheten',
