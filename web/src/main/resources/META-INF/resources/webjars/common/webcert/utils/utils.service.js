@@ -41,6 +41,23 @@ angular.module('common').factory('common.UtilsService', function() {
     }
 
     /**
+     * Helper function used in an Angular watch callback to check if Anguar
+     * has resetted the value.
+     *
+     * Angular doesn't like having $viewValue of a model as undefined.
+     * It will set the $viewValue to the same value of the input node on
+     * every "change" event. Since many of our models are initialized as
+     * undefined this check is needed to not unnecessarily update our models.
+     *
+     * @param   {String} newVal New value from watch function
+     * @param   {String} oldVal Old value from watch function
+     * @returns {Boolean} Is reset by Angular change event
+     */
+    function _isResetByAngular (newVal, oldVal) {
+        return (newVal === '' && oldVal === undefined);
+    }
+
+    /**
      * Replaces accented character in swedish to the (closest?) matching ascii variant.
      *
      * @param str
@@ -62,6 +79,7 @@ angular.module('common').factory('common.UtilsService', function() {
     return {
         isValidString: _isValidString,
         isDefined: _isDefined,
+        isResetByAngular: _isResetByAngular,
         replaceAccentedCharacters: _replaceAccentedCharacters
     };
 
