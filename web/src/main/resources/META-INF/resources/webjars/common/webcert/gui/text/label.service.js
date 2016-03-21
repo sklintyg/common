@@ -13,8 +13,6 @@ angular.module('common').factory('common.dynamicLabelService',
             'use strict';
 
             var _labelResources = null;
-            var structureTypesEnum = { kategori: 'KAT', fraga: 'FRG', delFraga: 'DFR' };
-            var structureTextTypesEnum = { rubrik: 'RBK', hjalp: 'HLP' };
             var tillaggsFragor = null;
 
             function _getProperty(key) {
@@ -24,7 +22,7 @@ angular.module('common').factory('common.dynamicLabelService',
 
             // get prop req
             function getRequiredTextByPropKey(key) {
-                if (_labelResources == null) {
+                if (_labelResources === null) {
                     return '';
                 }
 
@@ -42,7 +40,7 @@ angular.module('common').factory('common.dynamicLabelService',
                 {
                     // Check if its a tillaggsfraga
                     for (var i = 0; i < tillaggsFragor.length; i++) {
-                        if (tillaggsFragor[i].id == _convertTextIdToModelId(key)) {
+                        if (tillaggsFragor[i].id === _convertTextIdToModelId(key)) {
                             text = tillaggsFragor[i].text;
                             break;
                         }
@@ -68,8 +66,9 @@ angular.module('common').factory('common.dynamicLabelService',
             }
 
             function _convertTextIdToModelId(textObject) {
-                if(typeof textObject !== 'undefined' && textObject !== null)
+                if(typeof textObject !== 'undefined' && textObject !== null) {
                     return textObject.substr(4, 4);
+                }
                 else
                 {
                     $log.debug('invalid textobject:' + textObject);
@@ -81,18 +80,19 @@ angular.module('common').factory('common.dynamicLabelService',
             function _updateTillaggsfragorToModel(tillaggsfragor, model) {
                 var modelFrageList = model.tillaggsfragor;
                 for (var i = 0; i < tillaggsfragor.length; i++) {
+                    var tillaggsfraga = null;
                     if (i >= modelFrageList.length) {
-                        var tillaggsfraga = {
+                        tillaggsfraga = {
                             'id': tillaggsfragor[i].id,
                             'svar': ''
-                        }
+                        };
                         modelFrageList.push(tillaggsfraga);
                     } else {
-                        var tillaggsfraga = {
+                        tillaggsfraga = {
                             'id': tillaggsfragor[i].id,
                             'svar': ''
-                        }
-                        if (modelFrageList[i].id != tillaggsfraga.id) {
+                        };
+                        if (modelFrageList[i].id !== tillaggsfraga.id) {
                             modelFrageList.splice(i, 0, tillaggsfraga);
                         }
                     }
@@ -118,14 +118,6 @@ angular.module('common').factory('common.dynamicLabelService',
                 if (_labelResources === null) { // extend to local storage here
                     _labelResources = {};
                 }
-            }
-
-            function stringStartsWith(string, prefix) {
-                return string.slice(0, prefix.length) === prefix;
-            }
-
-            function stringEndsWith(string, suffix) {
-                return suffix === '' || string.slice(-suffix.length) === suffix;
             }
 
             function _updateDynamicLabels(intygsTyp, model) {
