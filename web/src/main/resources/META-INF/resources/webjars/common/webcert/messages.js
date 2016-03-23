@@ -116,6 +116,7 @@ var commonMessages = {
         'qa.status.answered': 'Besvarat',
         'qa.status.closed': 'Hanterat',
         'qa.help.handled': 'Tidigare meddelanden är sådana som redan har besvarats eller hanterats på något sätt.',
+        'qa.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
 
         'qa.fragestallare.fk': 'Försäkringskassan',
         'qa.fragestallare.wc': 'Vårdenheten',
