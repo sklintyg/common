@@ -93,6 +93,7 @@ angular.module('common').factory('common.UtkastSignService',
                         bankIdSignDialog.isOpen = true;
                     }, function() {
                         bankIdSignDialog.isOpen = false;
+                        $timeout.cancel(signModel._timer);
                     });
 
                     _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, bankIdSignDialog);
