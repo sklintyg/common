@@ -246,6 +246,16 @@ angular.module('common').factory('common.UtkastSignService',
                         messageId = 'common.error.sign.authorization';
                     } else if (error.errorCode === 'INDETERMINATE_IDENTITY') {
                         messageId = 'common.error.sign.indeterminate.identity';
+                    } else if (error.errorCode === 'GRP_PROBLEM') {
+                        if (error.message === 'ALREADY_IN_PROGRESS') {
+                            messageId = 'common.error.sign.grp.already_in_progress';
+                        } else if (error.message === 'USER_CANCEL' || error.message === 'CANCELLED') {
+                            messageId = 'common.error.sign.grp.cancel';
+                        } else if (error.message === 'EXPIRED_TRANSACTION') {
+                            messageId = 'common.error.sign.grp.expired_transaction';
+                        } else {
+                            messageId = 'common.error.sign.general';
+                        }
                     } else if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {
