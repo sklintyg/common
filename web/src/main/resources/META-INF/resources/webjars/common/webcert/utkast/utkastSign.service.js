@@ -93,6 +93,7 @@ angular.module('common').factory('common.UtkastSignService',
                         bankIdSignDialog.isOpen = true;
                     }, function() {
                         bankIdSignDialog.isOpen = false;
+                        $timeout.cancel(signModel._timer);
                     });
 
                     _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, bankIdSignDialog);
@@ -204,18 +205,26 @@ angular.module('common').factory('common.UtkastSignService',
 
                             if(signed) {
                                 _showIntygAfterSignering(signModel, intygsTyp, intygsId);
+                                $timeout.cancel(signModel._timer);
                             }
                         } else {
                             deferred.resolve({newVersion : ticket.version});
                             if (hasDialogHandle) {
                                 dialogHandle.close();
                             }
+                            $timeout.cancel(signModel._timer);
                             _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
                         }
                     });
                 }
 
                 getSigneringsstatus();
+            }
+
+            function _closeSigningDialog(dialogHandle, signModel){
+                signModel._timer = $timeout(getSigneringsstatus, 1000);
+                dialogHandle.close();
+
             }
 
             function _showIntygAfterSignering(signModel, intygsTyp, intygsId) {
