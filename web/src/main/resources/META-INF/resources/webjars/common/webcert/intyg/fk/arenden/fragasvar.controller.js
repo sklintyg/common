@@ -90,7 +90,7 @@ angular.module('common').controller('common.QACtrl',
             };
 
             /**
-             * Functions bound to individual fragasvar entities's
+             * Functions bound to individual arenden entities's
              */
             $scope.sendQuestion = function (newQuestion) {
                 $log.debug('sendQuestion:' + newQuestion);

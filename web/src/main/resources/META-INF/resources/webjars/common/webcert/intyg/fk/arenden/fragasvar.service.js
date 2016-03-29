@@ -7,7 +7,7 @@ angular.module('common').factory('common.fragaSvarService',
          */
         function _getQAForCertificate(intygsId, intygsTyp, onSuccess, onError) {
             $log.debug('_getQAForCertificate: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
+            var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + intygsId;
             $http.get(restPath).success(function(data) {
                 $log.debug('got data:' + data);
                 onSuccess(data);
@@ -24,7 +24,7 @@ angular.module('common').factory('common.fragaSvarService',
         function _saveAnswer(fragaSvar, intygsTyp, onSuccess, onError) {
             $log.debug('_saveAnswer: fragaSvarId:' + fragaSvar.internReferens + ' intygsTyp: ' + intygsTyp);
 
-            var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvar.internReferens + '/besvara';
+            var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + fragaSvar.internReferens + '/besvara';
             $http.put(restPath, fragaSvar.svarsText).success(function(data) {
                 $log.debug('got data:' + data);
                 onSuccess(data);
@@ -39,7 +39,7 @@ angular.module('common').factory('common.fragaSvarService',
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
         function _closeAsHandled(fragaSvarId, intygsTyp, onSuccess, onError) {
-            var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/stang';
+            var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + fragaSvarId + '/stang';
             $http.get(restPath).success(function(data) {
                 $log.debug('got data:' + data);
                 onSuccess(data);
@@ -54,7 +54,7 @@ angular.module('common').factory('common.fragaSvarService',
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
         function _closeAllAsHandled(qas, onSuccess, onError) {
-            var restPath = '/moduleapi/fragasvar/stang';
+            var restPath = '/moduleapi/arenden/stang';
             var fs = [];
             angular.forEach(qas, function(qa, key) {
                 this.push({ intygsTyp : qa.intygsReferens.intygsTyp, fragaSvarId:qa.internReferens });
@@ -77,7 +77,7 @@ angular.module('common').factory('common.fragaSvarService',
         function _openAsUnhandled(fragaSvarId, intygsTyp, onSuccess, onError) {
             $log.debug('_openAsUnhandled: fragaSvarId:' + fragaSvarId + ' intygsTyp: ' + intygsTyp);
 
-            var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/oppna';
+            var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + fragaSvarId + '/oppna';
             $http.get(restPath).success(function(data) {
                 $log.debug('got data:' + data);
                 onSuccess(data);
@@ -97,7 +97,7 @@ angular.module('common').factory('common.fragaSvarService',
             payload.amne = question.chosenTopic.value;
             payload.frageText = question.frageText;
 
-            var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
+            var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + intygsId;
             $http.post(restPath, payload).success(function(data) {
                 $log.debug('got callback data:' + data);
                 onSuccess(data);

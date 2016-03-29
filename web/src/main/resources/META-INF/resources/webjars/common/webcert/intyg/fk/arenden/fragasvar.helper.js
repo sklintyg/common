@@ -43,9 +43,9 @@ angular.module('common').service('common.fragaSvarHelper',
                         angular.forEach(qas, function(qa) { //unused parameter , key
                             fragaSvarCommonService.decorateSingleItem(qa);
                             if(fromHandledDialog) {
-                                qa.proxyMessage = 'common.fk.fragasvar.marked.as.hanterad';
+                                qa.proxyMessage = 'common.fk.arenden.marked.as.hanterad';
                             } else {
-                                addListMessage(qas, qa, 'common.fk.fragasvar.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
+                                addListMessage(qas, qa, 'common.fk.arenden.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
                             }
                         });
                         statService.refreshStat();

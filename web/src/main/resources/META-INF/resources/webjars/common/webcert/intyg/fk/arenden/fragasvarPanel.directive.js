@@ -19,7 +19,7 @@ angular.module('common').directive('qaPanelsp',
                 restrict: 'A',
                 transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/fragasvar/fragasvarPanel.directive.html',
+                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/fragasvarPanel.directive.html',
                 scope: {
                     panelId: '@',
                     qa: '=',
@@ -70,7 +70,7 @@ angular.module('common').directive('qaPanelsp',
                             qa.activeErrorMessageKey = null;
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                addListMessage($scope.qaList, qa, 'common.fk.fragasvar.answer.is.sent');
+                                addListMessage($scope.qaList, qa, 'common.fk.arenden.answer.is.sent');
 
                                 // update real item
                                 angular.copy(result, qa);
@@ -110,7 +110,7 @@ angular.module('common').directive('qaPanelsp',
                                 if(qas) {
                                     angular.forEach(qas, function(qa) { //unused parameter , key
                                         fragaSvarCommonService.decorateSingleItem(qa);
-                                        //addListMessage(qas, qa, 'common.fk.fragasvar.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
+                                        //addListMessage(qas, qa, 'common.fk.arenden.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
                                     });
                                     statService.refreshStat();
                                 }
@@ -151,7 +151,7 @@ angular.module('common').directive('qaPanelsp',
                             qa.updateHandledStateInProgress = false;
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                addListMessage($scope.qaList, qa, 'common.fk.fragasvar.marked.as.hanterad');
+                                addListMessage($scope.qaList, qa, 'common.fk.arenden.marked.as.hanterad');
 
                                 angular.copy(result, qa);
                                 //$scope.activeQA = qa.internReferens;
@@ -183,7 +183,7 @@ angular.module('common').directive('qaPanelsp',
 
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                addListMessage($scope.qaList, qa, 'common.fk.fragasvar.marked.as.ohanterad');
+                                addListMessage($scope.qaList, qa, 'common.fk.arenden.marked.as.ohanterad');
 
                                 angular.copy(result, qa);
                                 //$scope.activeQA = qa.internReferens;
