@@ -1,89 +1,84 @@
 <div>
-  <div ng-if="qa.proxyMessage">
-    <div uib-alert type="info" close="dismissProxy(qa)">
-      <span message key="{{qa.proxyMessage}}"></span>
-    </div>
-  </div>
 
-  <div ng-class="{'panel-container': true, 'revoked-certificate' : certProperties.isRevoked}">
+  <div ng-class="{'panel-container': true, 'revoked-certificate' : intygProperties.isRevoked}">
 
-    <div class="qa-panel" id="qa{{panelId}}-{{qa.internReferens}}" ng-show="!qa.proxyMessage">
+    <div class="arende-panel" id="arende{{panelId}}-{{arende.fraga.internReferens}}" ng-show="!arende.proxyMessage">
 
-      <div ng-if="qa.status == 'CLOSED'">
+      <div ng-if="arende.fraga.status == 'CLOSED'">
         <h3 class="inline-block">
-          Ämne: <strong><span message key="qa.amne.{{qa.amne | lowercase}}"></span></strong><span
-            id="fkMeddelandeRubrik-{{qa.internReferens}}"
-            ng-show="qa.meddelandeRubrik"> - {{qa.meddelandeRubrik}}</span>
+          Ämne: <strong><span message key="arende.fraga.amne.{{arende.fraga.amne | lowercase}}"></span></strong><span
+            id="fkrubrik-{{arende.fraga.internReferens}}"
+            ng-show="arende.rubrik"> - {{arende.rubrik}}</span>
         </h3>
-        <label class="checkbox" ng-if="!certProperties.kompletteringOnly">
+        <label class="checkbox" ng-if="!intygProperties.kompletteringOnly">
           <input type="checkbox" ng-model="handledFunction" ng-model-options="{ getterSetter: true }">
           Hanterad
         </label>
       </div>
 
       <div class="row">
-        <div class="col-xs-9" ng-if="qa.status != 'CLOSED'">
-          <div class="status-header">
+        <div class="col-xs-9" ng-if="arende.fraga.status != 'CLOSED'">
+          <div class="fraga.status-header">
             <h3 class="inline-block">
-              Ämne: <strong><span message key="qa.amne.{{qa.amne | lowercase}}"></span></strong><span
-                id="fkMeddelandeRubrik-{{qa.internReferens}}"
-                ng-show="qa.meddelandeRubrik"> - {{qa.meddelandeRubrik}}</span>
+              Ämne: <strong><span message key="arende.fraga.amne.{{arende.fraga.amne | lowercase}}"></span></strong><span
+                id="fkrubrik-{{arende.fraga.internReferens}}"
+                ng-show="arende.rubrik"> - {{arende.rubrik}}</span>
             </h3>
-            <h3>
-              Åtgärd: <strong><span message key="qa.measure.{{qa.measureResKey}}"></span></strong>
-            </h3>
-            <h3 ng-show="qa.sistaDatumForSvar">
-              Svara senast: <strong>{{qa.sistaDatumForSvar}}</strong></h3>
-            <label class="checkbox" ng-if="!certProperties.kompletteringOnly">
+            <!--h3>
+              Åtgärd: <strong><span message key="arende.measure.{{arende.measureResKey}}"></span></strong>
+            </h3-->
+            <h3 ng-show="arende.sistaDatumForSvar">
+              Svara senast: <strong>{{arende.sistaDatumForSvar}}</strong></h3>
+            <label class="checkbox" ng-if="!intygProperties.kompletteringOnly">
               <input type="checkbox" ng-model="handledFunction" ng-model-options="{ getterSetter: true }">
               Hanterad
             </label>
           </div>
         </div>
       </div>
-      <div class="row" ng-if="!certProperties.kompletteringOnly">
+      <div class="row" ng-if="!intygProperties.kompletteringOnly">
         <div class="col-xs-9"></div>
-        <div wc-authority="VIDAREBEFORDRA_FRAGASVAR" class="col-xs-3 form-inline qa-panel__vidarebefordra-placement"
-             ng-show="!certProperties.isRevoked">
-          <!--  status header -->
+        <div wc-authority="VIDAREBEFORDRA_FRAGASVAR" class="col-xs-3 form-inline arende-panel__vidarebefordra-placement"
+             ng-show="!intygProperties.isRevoked">
+          <!--  fraga.status header -->
           <button type="button" id="{{panelId}}-vidarebefordraEjHanterad" class="btn pull-right"
-                  ng-class="{'btn-info': !qa.vidarebefordrad, 'btn-default btn-secondary' : qa.vidarebefordrad}"
+                  ng-class="{'btn-info': !arende.fraga.vidarebefordrad, 'btn-default btn-secondary' : arende.fraga.vidarebefordrad}"
                   title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
-                  ng-click="openMailDialog(qa)" ng-show="!certProperties.isRevoked">
-            <img ng-if="!qa.vidarebefordrad" src="/img/mail.png"> <img ng-if="qa.vidarebefordrad"
+                  ng-click="openMailDialog(arende)" ng-show="!intygProperties.isRevoked">
+            <img ng-if="!arende.fraga.vidarebefordrad" src="/img/mail.png"> <img ng-if="arende.fraga.vidarebefordrad"
                                                                        src="/img/mail_dark.png">
           </button>
-          <label for="{{panelId}}-mark-as-notified-{{qa.internReferens}}" class="checkbox-inline padding-top-small">
-            <input id="{{panelId}}-mark-as-notified-{{qa.internReferens}}" type="checkbox"
-                   ng-disabled="qa.forwardInProgress" ng-model="qa.vidarebefordrad"
-                   ng-change="onVidareBefordradChange(qa)" /> Vidarebefordrad</label> <span
-            ng-if="qa.forwardInProgress"> <img src="/img/ajax-loader-kit-16x16.gif"></span>
+          <label for="{{panelId}}-mark-as-notified-{{arende.fraga.internReferens}}" class="checkbox-inline padding-top-small">
+            <input id="{{panelId}}-mark-as-notified-{{arende.fraga.internReferens}}" type="checkbox"
+                   ng-disabled="arende.forwardInProgress" ng-model="arende.fraga.vidarebefordrad"
+                   ng-change="onVidareBefordradChange(arende)" /> Vidarebefordrad</label> <span
+            ng-if="arende.forwardInProgress"> <img src="/img/ajax-loader-kit-16x16.gif"></span>
         </div>
       </div>
 
       <!-- Frågan -->
       <div class="panel-container">
-        <div class="qa-block"
-             ng-class="{'qa-block-handled' : qa.status == 'ANSWERED', 'qa-block-fk' : (qa.frageStallare | lowercase) == 'fk', 'qa-block-wc' : (qa.frageStallare | lowercase) == 'wc'}">
-          <div class="qa-block-head clearfix">
-            <div class="pull-left" ng-switch="qa.frageStallare | lowercase">
-              Från: <span class="qa-sender" ng-switch-when="wc"
-                          id="{{panelId}}-question-fraga-vard-aktor-namn-{{qa.internReferens}}">{{qa.vardAktorNamn}}</span>
-              <span ng-switch-default message key="qa.fragestallare.{{qa.frageStallare | lowercase}}"></span>
-              <div id="{{panelId}}-fkKontakter-{{qa.internReferens}}" ng-repeat="kontakt in qa.externaKontakter">
+        <div class="arende-block"
+             ng-class="{'arende-block-handled' : arende.fraga.status == 'ANSWERED', 'arende-block-fk' : (arende.frageStallare | lowercase) == 'fk', 'arende-block-wc' : (arende.frageStallare | lowercase) == 'wc'}">
+          <div class="arende-block-head clearfix">
+            <div class="pull-left" ng-switch="arende.frageStallare | lowercase">
+              Från: <span class="arende-sender" ng-switch-when="wc"
+                          id="{{panelId}}-question-fraga-vard-aktor-namn-{{arende.fraga.internReferens}}">{{arende.vardAktorNamn}}</span>
+              <span ng-switch-default message key="arende.fragestallare.{{arende.frageStallare | lowercase}}"></span>
+              <div id="{{panelId}}-fkKontakter-{{arende.fraga.internReferens}}" ng-repeat="kontakt in arende.fraga.externaKontakter">
                 {{kontakt}}<br />
               </div>
             </div>
             <!-- Fraga fran fk eller wc? -->
-            <div class="pull-right" ng-switch="qa.frageStallare | lowercase">
-              <span ng-switch-when="wc">Skickat: </span> <span ng-switch-default>Mottaget: </span> <span class="qa-date"
-                                                                                                         id="{{panelId}}-qa-skickaddatum-{{qa.internReferens}}">{{qa.frageSkickadDatum | date:'short'}}</span>
+            <div class="pull-right" ng-switch="arende.frageStallare | lowercase">
+              <span ng-switch-when="wc">Skickat: </span> <span ng-switch-default>Mottaget: </span> <span class="arende-date"
+                                                                                                         id="{{panelId}}-arende-skickaddatum-{{arende.fraga.internReferens}}">{{arende.frageSkickadDatum | date:'short'}}</span>
             </div>
           </div>
 
-          <div class="qa-block-body" id="{{panelId}}-qa-fragetext-{{qa.internReferens}}">{{qa.frageText}}</div>
-          <div class="qa-block-body komplettera-block" id="{{panelId}}-fkKompletteringar-{{qa.internReferens}}"
-               ng-repeat="komplettering in qa.kompletteringar">
+          <div class="arende-block-body" id="{{panelId}}-arende-fragetext-{{arende.fraga.internReferens}}">{{arende.frageText}}</div>
+          <div class="arende-block-body komplettera-block" id="{{panelId}}-fkKompletteringar-{{arende.fraga.internReferens}}"
+               ng-repeat="komplettering in arende.fraga.kompletteringar">
             <strong><span>{{komplettering.falt}}</span></strong>
             <div>
               <span>{{komplettering.text}}</span>
@@ -93,90 +88,90 @@
       </div>
 
       <!-- error message occuring when inteacting with server for komplettering-->
-      <div id="internal-{{qa.internReferens}}-svarsText-load-error" ng-show="qa.activeErrorMessageKey"
+      <div id="internal-{{arende.fraga.internReferens}}-meddelande-load-error" ng-show="arende.activeErrorMessageKey"
            class="alert alert-danger">
-        <span message key="fk7263.error.{{qa.activeErrorMessageKey}}"></span>
+        <span message key="fk7263.error.{{arende.activeErrorMessageKey}}"></span>
       </div>
 
       <!-- Svara med nytt intyg button - only on komplettering -->
       <div class="buttonbar"
-           ng-show="!certProperties.kompletteringOnly && !qa.answerDisabled && !certProperties.isRevoked && qa.amne == 'KOMPLETTERING_AV_LAKARINTYG'">
+           ng-show="!intygProperties.kompletteringOnly && !arende.answerDisabled && !intygProperties.isRevoked && arende.fraga.amne == 'KOMPLT'">
         <button type="button" class="btn"
-                ng-class="{'btn-success': qa.status != 'CLOSED' && !cannotKomplettera, 'btn-default btn-secondary': qa.status == 'CLOSED' || cannotKomplettera}"
-                ng-click="answerWithIntyg(qa, cert)" ng-disabled="cannotKomplettera" wc-check-vardenhet
+                ng-class="{'btn-success': arende.fraga.status != 'CLOSED' && !cannotKomplettera, 'btn-default btn-secondary': arende.fraga.status == 'CLOSED' || cannotKomplettera}"
+                ng-click="answerWithIntyg(arende, intyg)" ng-disabled="cannotKomplettera" wc-check-vardenhet
                 vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
-                id="answerWithIntygBtn-{{qa.internReferens}}">
-          <img src="/img/loader-small-green.gif" ng-show="qa.updateInProgress"> Svara med nytt intyg
+                id="answerWithIntygBtn-{{arende.fraga.internReferens}}">
+          <img src="/img/loader-small-green.gif" ng-show="arende.updateInProgress"> Svara med nytt intyg
         </button>
-        <span ng-show="qa.status != 'CLOSED'">
-        <label for="{{panelId}}-cant-komplettera-{{qa.internReferens}}" class="checkbox-inline">
-          <input id="{{panelId}}-cant-komplettera-{{qa.internReferens}}" type="checkbox" ng-model="cannotKomplettera"
+        <span ng-show="arende.fraga.status != 'CLOSED'">
+        <label for="{{panelId}}-cant-komplettera-{{arende.fraga.internReferens}}" class="checkbox-inline">
+          <input id="{{panelId}}-cant-komplettera-{{arende.fraga.internReferens}}" type="checkbox" ng-model="cannotKomplettera"
                  ng-change="onCannotKomplettera()" /> Kan ej svara med nytt intyg</label>
         </span>
       </div>
 
       <!-- Svarsdelen -->
       <div
-          ng-if="certProperties.kompletteringOnly || (qa.amne == 'KOMPLETTERING_AV_LAKARINTYG' && cannotKomplettera) || (qa.amne != 'KOMPLETTERING_AV_LAKARINTYG')"
+          ng-if="intygProperties.kompletteringOnly || (arende.fraga.amne == 'KOMPLT' && cannotKomplettera) || (arende.fraga.amne != 'KOMPLT')"
           class="fold-animation">
-        <div class="panel-container" ng-show="qa.amne != 'PAMINNELSE'">
-          <div class="qa-block"
-               ng-class="{'qa-block-handled': qa.status == 'CLOSED', 'qa-block-fk' : (qa.frageStallare | lowercase) == 'wc', 'qa-block-wc' : (qa.frageStallare | lowercase) == 'fk'}"
-               ng-if="(qa.status == 'CLOSED' && qa.svarsText) || (qa.status == 'ANSWERED')">
+        <div class="panel-container" ng-show="arende.fraga.amne != 'PAMINNELSE'">
+          <div class="arende-block"
+               ng-class="{'arende-block-handled': arende.fraga.status == 'CLOSED', 'arende-block-fk' : (arende.frageStallare | lowercase) == 'wc', 'arende-block-wc' : (arende.frageStallare | lowercase) == 'fk'}"
+               ng-if="(arende.fraga.status == 'CLOSED' && arende.meddelande) || (arende.fraga.status == 'ANSWERED')">
 
             <!-- UNHANDLEDTYPE: frågan är redan BESVARAD -->
-            <!-- HANDLEDTYPE: frågan har en svarstext -->
-            <div class="qa-block-head clearfix">
-              <div class="pull-left" ng-switch="qa.frageStallare | lowercase">
+            <!-- HANDLEDTYPE: frågan har en meddelande -->
+            <div class="arende-block-head clearfix">
+              <div class="pull-left" ng-switch="arende.frageStallare | lowercase">
                 <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
                 Från: <span ng-switch-when="wc">
-                          <span class="qa-sender" message key="qa.fragestallare.fk"></span>
+                          <span class="arende-sender" message key="arende.fragestallare.fk"></span>
                         </span>
                 <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
-                <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{qa.internReferens}}"
-                      class="qa-sender">{{qa.vardAktorNamn}}</span>
+                <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arende.fraga.internReferens}}"
+                      class="arende-sender">{{arende.vardAktorNamn}}</span>
               </div>
-              <div class="pull-right" ng-switch="qa.frageStallare | lowercase">
+              <div class="pull-right" ng-switch="arende.frageStallare | lowercase">
                 <!-- motsatt villkor mot frågan -->
                 <span ng-switch-when="wc">Mottaget: </span> <span ng-switch-default>Skickat: </span> <span
-                  class="qa-date">{{qa.svarSkickadDatum | date:'short'}}</span>
+                  class="arende-date">{{arende.senasteHandelse | date:'short'}}</span>
               </div>
             </div>
-            <div id="{{panelId}}-{{qa.internReferens}}-svarsText" class="qa-block-body">{{qa.svarsText}}</div>
+            <div id="{{panelId}}-{{arende.fraga.internReferens}}-meddelande" class="arende-block-body">{{arende.meddelande}}</div>
           </div>
         </div>
 
         <!-- KNAPPAR HANTERADE FRÅGOR -->
         <!-- error message occuring when inteacting with server for this FragaSvar-->
         <!--  Oavsett hur frågan stänged skall man kunna 'öppna' den igen -->
-        <!--div ng-if="qa.status == 'CLOSED'">
-          <div id="{{panelId}}-{{qa.internReferens}}-svarsText-load-error" ng-show="qa.activeErrorMessageKey" class="alert alert-danger">
-            <span message key="fk7263.error.{{qa.activeErrorMessageKey}}"></span>
+        <!--div ng-if="arende.fraga.status == 'CLOSED'">
+          <div id="{{panelId}}-{{arende.fraga.internReferens}}-meddelande-load-error" ng-show="arende.activeErrorMessageKey" class="alert alert-danger">
+            <span message key="fk7263.error.{{arende.activeErrorMessageKey}}"></span>
           </div>
           <div class="form-group">
-            <div class="controls" ng-hide="qa.frageStallare!='WC' && qa.svarsText">
-              <button type="button" class="btn btn-default btn-secondary" ng-click="updateAsUnHandled(qa)"
+            <div class="controls" ng-hide="arende.frageStallare!='WC' && arende.meddelande">
+              <button type="button" class="btn btn-default btn-secondary" ng-click="updateAsUnHandled(arende)"
                       wc-check-vardenhet vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
-                      id="markAsUnhandledBtn-{{qa.internReferens}}" ng-disabled="qa.updateHandledStateInProgress">
-                <img src="/img/loader-small.gif" ng-show="qa.updateHandledStateInProgress"> Markera som ej hanterad
+                      id="markAsUnhandledBtn-{{arende.fraga.internReferens}}" ng-disabled="arende.updateHandledStateInProgress">
+                <img src="/img/loader-small.gif" ng-show="arende.updateHandledStateInProgress"> Markera som ej hanterad
               </button>
             </div>
           </div>
         </div-->
 
         <!-- KNAPPAR EJ HANTERADE FRÅGOR -->
-        <!-- TA BORT certProperties.kompletteringOnly NÄR "SVAR SOM FÖLJER MED" ÄR IMPLEMENTERAT -->
-        <div ng-if="!certProperties.kompletteringOnly && qa.status != 'CLOSED' && qa.amne != 'PAMINNELSE'">
-          <div class="form-group" ng-if="qa.status == 'PENDING_INTERNAL_ACTION'">
+        <!-- TA BORT intygProperties.kompletteringOnly NÄR "SVAR SOM FÖLJER MED" ÄR IMPLEMENTERAT -->
+        <div ng-if="!intygProperties.kompletteringOnly && arende.fraga.status != 'CLOSED' && arende.fraga.amne != 'PAMINNELSE'">
+          <div class="form-group" ng-if="arende.fraga.status == 'PENDING_INTERNAL_ACTION'">
             <!--  VÄNTAR på svar från Vårdenheten, men skall kunna klarmarkeras ändå?-->
 
             <!-- Rubrik: Svar -->
             <label class="control-label"
-                   ng-show="!qa.answerDisabled && !certProperties.isRevoked && !cannotKomplettera">Svar</label>
+                   ng-show="!arende.answerDisabled && !intygProperties.isRevoked && !cannotKomplettera">Svar</label>
 
             <!-- ELLER varningsruta komplettering -->
             <div class="alert alert-warning"
-                 ng-show="!qa.answerDisabled && !certProperties.isRevoked && cannotKomplettera">
+                 ng-show="!arende.answerDisabled && !intygProperties.isRevoked && cannotKomplettera">
               <strong>Viktigt!</strong> Konsekvensen av att skicka ett meddelande om att komplettering ej kan göras kan
               innebära att Försäkringskassans handläggare avslår ansökan om sjukpenning.<br>
               I det här meddelandet ska du inte skriva någon medicinsk information. Om du har behov av en dialog som
@@ -185,33 +180,33 @@
 
             <!-- ELLER inforuta komplettering EJ IMPLEMENTERAT
             <div class="alert alert-info"
-                 ng-show="certProperties.kompletteringOnly">
+                 ng-show="intygProperties.kompletteringOnly">
               Här kan du föra en dialog med Försäkringskassan om ett intyg. Medicinsk information ska endast skickas via signerade intyg. När du signerat och skickar intyget till Försäkringskassan följer ditt meddelande som du skrivit med.
             </div> -->
 
             <div class="controls">
               <div id="answerDisabledReasonPanel" class="alert alert-info"
-                   ng-show="qa.answerDisabled && qa.answerDisabledReason">
-                {{qa.answerDisabledReason}}
+                   ng-show="arende.answerDisabled && arende.answerDisabledReason">
+                {{arende.answerDisabledReason}}
               </div>
-              <div class="form-group" ng-show="!qa.answerDisabled && !certProperties.isRevoked">
+              <div class="form-group" ng-show="!arende.answerDisabled && !intygProperties.isRevoked">
                 <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
-                          class="form-control col-md-9 qa-block-wc" ng-model="qa.svarsText"
-                          id="answerText-{{qa.internReferens}}"></textarea>
+                          class="form-control col-md-9 arende-block-wc" ng-model="arende.meddelande"
+                          id="answerText-{{arende.fraga.internReferens}}"></textarea>
               </div>
-              <div class="webcert-top-padding-section">
+              <div class="webintyg-top-padding-section">
                 <!-- error message occuring when inteacting with server for this FragaSvar-->
-                <div id="internal-{{qa.internReferens}}-svarsText-load-error" ng-show="qa.activeErrorMessageKey"
+                <div id="internal-{{arende.fraga.internReferens}}-meddelande-load-error" ng-show="arende.activeErrorMessageKey"
                      class="alert alert-danger">
-                  <span message key="fk7263.error.{{qa.activeErrorMessageKey}}"></span>
+                  <span message key="fk7263.error.{{arende.activeErrorMessageKey}}"></span>
                 </div>
 
-                <button type="button" class="btn btn-success" ng-click="sendAnswer(qa)"
-                        ng-disabled="!qa.svarsText || qa.updateInProgress"
-                        ng-show="!qa.answerDisabled && !certProperties.isRevoked" wc-check-vardenhet
+                <button type="button" class="btn btn-success" ng-click="sendAnswer(arende)"
+                        ng-disabled="!arende.meddelande || arende.updateInProgress"
+                        ng-show="!arende.answerDisabled && !intygProperties.isRevoked" wc-check-vardenhet
                         vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
-                        id="sendAnswerBtn-{{qa.internReferens}}">
-                  <img src="/img/loader-small-green.gif" ng-show="qa.updateInProgress"> Skicka svar
+                        id="sendAnswerBtn-{{arende.fraga.internReferens}}">
+                  <img src="/img/loader-small-green.gif" ng-show="arende.updateInProgress"> Skicka svar
                 </button>
               </div>
             </div>

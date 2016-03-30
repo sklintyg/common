@@ -6,7 +6,7 @@ angular.module('common').controller('common.ArendeCtrl',
             /* fragaSvarCommonService, statService, UserModel, qaHelper*/ CommonViewState) {
             'use strict';
 
-            // Injecting the CommonViewState service so client-side only changes on the cert page (such as a send/revoke)
+            // Injecting the CommonViewState service so client-side only changes on the intyg page (such as a send/revoke)
             // can trigger GUI updates in the Q&A view.
             $scope.viewState = {
                 common: CommonViewState,
@@ -23,12 +23,12 @@ angular.module('common').controller('common.ArendeCtrl',
 
             // Request loading of arendes for this intyg
             ArendeProxy.getArenden($stateParams.certificateId, intygType, function(result) {
-                $log.debug('getArendeForCertificate:success data:' + result);
+                $log.debug('getArendeForintygificate:success data:' + result);
                 $scope.viewState.doneLoading = true;
                 $scope.viewState.activeErrorMessageKey = null;
                 $scope.arendeList = result;
 
-                // Tell viewcertctrl about the intyg in case cert load fails
+                // Tell viewintygctrl about the intyg in case intyg load fails
 /*                if (result.length > 0) {
                     // Verkar inte finnas någon lyssnare på detta event
                     $rootScope.$emit('ArendeCtrl.load.complete', result[0].intygsReferens);
@@ -38,6 +38,26 @@ angular.module('common').controller('common.ArendeCtrl',
                 $scope.viewState.doneLoading = true;
                 $scope.viewState.activeErrorMessageKey = errorData.errorCode;
             });
+
+            $scope.intyg = {};
+            $scope.intygProperties = {
+                isLoaded: false,
+                isSent: false,
+                isRevoked: false
+            };
+
+            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
+                $scope.intyg = intyg;
+                $scope.intygProperties.isLoaded = true;
+                $scope.intygProperties.isSent = intygProperties.isSent;
+                $scope.intygProperties.isRevoked = intygProperties.isRevoked;
+            });
+            $scope.$on('$destroy', unbindFastEvent);
+
+            
+            $scope.openArendenFilter = function(arende) {
+                return true;
+            };
 
 /*
 
@@ -54,21 +74,6 @@ angular.module('common').controller('common.ArendeCtrl',
                     fragaSvarCommonService.decorateSingleItem(qa);
                 });
             };
-
-            $scope.cert = {};
-            $scope.certProperties = {
-                isLoaded: false,
-                isSent: false,
-                isRevoked: false
-            };
-
-            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, cert, certProperties) {
-                $scope.cert = cert;
-                $scope.certProperties.isLoaded = true;
-                $scope.certProperties.isSent = certProperties.isSent;
-                $scope.certProperties.isRevoked = certProperties.isRevoked;
-            });
-            $scope.$on('$destroy', unbindFastEvent);
 
             $scope.openIssuesFilter = function(qa) {
                 return (qa.proxyMessage === undefined && qa.status !== 'CLOSED') ||

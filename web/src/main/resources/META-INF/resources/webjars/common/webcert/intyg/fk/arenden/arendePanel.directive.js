@@ -22,52 +22,51 @@
  */
 
 /**
- * qaPanel directive. Common directive for both unhandled and handled questions/answers
+ * arendePanel directive. Common directive for both unhandled and handled questions/answers
  */
-angular.module('fk7263').directive('qaPanel',
+angular.module('common').directive('arendePanel',
     [ '$window', '$log', '$timeout', '$state', '$stateParams',
-        'common.User', 'common.fragaSvarCommonService', 'fk7263.fragaSvarProxy',
-        'common.statService', 'common.dialogService', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
+        'common.User', 'common.ArendeProxy', 'common.statService', /* 'common.fragaSvarCommonService'
+        , 'common.dialogService',*/ 'common.ObjectHelper', 'common.IntygCopyRequestModel',
         function($window, $log, $timeout, $state, $stateParams,
-            User, fragaSvarCommonService, fragaSvarProxy, statService, dialogService, ObjectHelper, IntygCopyRequestModel) {
+            User, ArendeProxy, statService, /*fragaSvarCommonService, dialogService,*/ ObjectHelper, IntygCopyRequestModel) {
             'use strict';
 
             return {
                 restrict: 'A',
                 transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/fk7263/webcert/views/intyg/fragasvar/fragasvarPanel.directive.html',
+                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendePanel.directive.html',
                 scope: {
                     panelId: '@',
-                    qa: '=',
-                    qaList: '=',
-                    cert: '=',
-                    certProperties: '='
+                    arende: '=',
+                    arendeList: '=',
+                    intyg: '=',
+                    intygProperties: '='
                 },
                 controller: function($scope, $element, $attrs) {
 
                     $scope.cannotKomplettera = false;
-
+/*
                     //                    $scope.handledPanel = $attrs.type === 'handled';
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
                             if (newState) {
-                                $scope.updateAsHandled($scope.qa);
+                                $scope.updateAsHandled($scope.arende);
                             }
                             else {
-                                $scope.updateAsUnHandled($scope.qa);
+                                $scope.updateAsUnHandled($scope.arende);
                             }
                         }
                         else {
-                            return $scope.qa.status === 'CLOSED';
+                            return $scope.arende.status === 'CLOSED';
                         }
                     };
-                    /*
-                     function delayFindMessageAndAct(timeout, qaList, message, onFound) {
+                     function delayFindMessageAndAct(timeout, arendeList, message, onFound) {
                      $timeout(function() {
                      var i;
-                     for(i = 0; i < qaList.length; i++){
-                     if(qaList[i].internReferens === message.id && qaList[i].proxyMessage !== undefined) {
+                     for(i = 0; i < arendeList.length; i++){
+                     if(arendeList[i].internReferens === message.id && arendeList[i].proxyMessage !== undefined) {
                      onFound(i);
                      break;
                      }
@@ -77,55 +76,56 @@ angular.module('fk7263').directive('qaPanel',
                      $log.debug('Message not found:' + message.id);
                      }
                      */
-                    /*                    function addListMessage(qaList, qa, messageId) {
+                    /*                    function addListMessage(arendeList, arende, messageId) {
                      var messageProxy = {};
                      messageProxy.proxyMessage = messageId;
-                     messageProxy.id = qa.internReferens;
-                     messageProxy.internReferens = qa.internReferens;
-                     messageProxy.senasteHandelseDatum = qa.senasteHandelseDatum;
-                     messageProxy.messageStatus = qa.status;
-                     qaList.push(messageProxy);
+                     messageProxy.id = arende.internReferens;
+                     messageProxy.internReferens = arende.internReferens;
+                     messageProxy.senasteHandelseDatum = arende.senasteHandelseDatum;
+                     messageProxy.messageStatus = arende.status;
+                     arendeList.push(messageProxy);
 
-                     delayFindMessageAndAct(5000, qaList, messageProxy, function(index) {
-                     qaList[index].messageStatus = 'HIDDEN';
-                     delayFindMessageAndAct(2000, qaList, messageProxy, function(index) {
-                     qaList.splice(index, 1);
+                     delayFindMessageAndAct(5000, arendeList, messageProxy, function(index) {
+                     arendeList[index].messageStatus = 'HIDDEN';
+                     delayFindMessageAndAct(2000, arendeList, messageProxy, function(index) {
+                     arendeList.splice(index, 1);
                      });
                      });
                      }*/
 
-                    $scope.sendAnswer = function sendAnswer(qa) {
-                        qa.updateInProgress = true; // trigger local spinner
+                    /*
+                    $scope.sendAnswer = function sendAnswer(arende) {
+                        arende.updateInProgress = true; // trigger local spinner
 
-                        fragaSvarProxy.saveAnswer(qa, 'fk7263', function(result) {
+                        fragaSvarProxy.saveAnswer(arende, 'fk7263', function(result) {
                             $log.debug('Got saveAnswer result:' + result);
-                            qa.updateInProgress = false;
-                            qa.activeErrorMessageKey = null;
+                            arende.updateInProgress = false;
+                            arende.activeErrorMessageKey = null;
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.qaList, qa, 'fk7263.fragasvar.answer.is.sent');
+                                //addListMessage($scope.arendeList, arende, 'fk7263.fragasvar.answer.is.sent');
 
                                 // update real item
-                                angular.copy(result, qa);
+                                angular.copy(result, arende);
                                 statService.refreshStat();
                             }
                         }, function(errorData) {
                             // show error view
-                            qa.updateInProgress = false;
-                            qa.activeErrorMessageKey = errorData.errorCode;
+                            arende.updateInProgress = false;
+                            arende.activeErrorMessageKey = errorData.errorCode;
                         });
                     };
-
-                    $scope.answerWithIntyg = function(qa, cert) {
+*/
+                    $scope.answerWithIntyg = function(arende, cert) {
 
                         if(!ObjectHelper.isDefined(cert)) {
-                            qa.activeErrorMessageKey = 'komplettera-no-intyg';
+                            arende.activeErrorMessageKey = 'komplettera-no-intyg';
                             return;
                         }
 
-                        qa.updateInProgress = true; // trigger local spinner
-                        qa.activeErrorMessageKey = null;
-                        fragaSvarProxy.answerWithIntyg(qa, cert.typ,
+                        arende.updateInProgress = true; // trigger local spinner
+                        arende.activeErrorMessageKey = null;
+                        ArendeProxy.answerWithIntyg(arende, cert.typ,
                             IntygCopyRequestModel.build({
                                 intygId: cert.id,
                                 intygType: cert.typ,
@@ -133,8 +133,8 @@ angular.module('fk7263').directive('qaPanel',
                                 nyttPatientPersonnummer: $stateParams.patientId
                             }), function(result) {
 
-                                qa.updateInProgress = false;
-                                qa.activeErrorMessageKey = null;
+                                arende.updateInProgress = false;
+                                arende.activeErrorMessageKey = null;
                                 statService.refreshStat();
 
                                 function goToDraft(type, intygId) {
@@ -147,38 +147,38 @@ angular.module('fk7263').directive('qaPanel',
 
                             }, function(errorData) {
                                 // show error view
-                                qa.updateInProgress = false;
-                                qa.activeErrorMessageKey = errorData.errorCode;
+                                arende.updateInProgress = false;
+                                arende.activeErrorMessageKey = errorData.errorCode;
                             });
                     };
+/*
+                    $scope.onVidareBefordradChange = function(arende) {
+                        arende.forwardInProgress = true;
 
-                    $scope.onVidareBefordradChange = function(qa) {
-                        qa.forwardInProgress = true;
-
-                        fragaSvarCommonService.setVidareBefordradState(qa.internReferens, 'fk7263', qa.vidarebefordrad,
+                        fragaSvarCommonService.setVidareBefordradState(arende.internReferens, 'fk7263', arende.vidarebefordrad,
                             function(result) {
-                                qa.forwardInProgress = false;
+                                arende.forwardInProgress = false;
 
                                 if (result !== null) {
-                                    qa.vidarebefordrad = result.vidarebefordrad;
+                                    arende.vidarebefordrad = result.vidarebefordrad;
                                 } else {
-                                    qa.vidarebefordrad = !qa.vidarebefordrad;
+                                    arende.vidarebefordrad = !arende.vidarebefordrad;
                                     dialogService.showErrorMessageDialog('Kunde inte markera/avmarkera frågan som vidarebefordrad. ' +
                                         'Försök gärna igen för att se om felet är tillfälligt. Annars kan du kontakta supporten');
                                 }
                             });
                     };
 
-                    $scope.updateAnsweredAsHandled = function(deferred, unhandledQas){
-                        if(unhandledQas === undefined || unhandledQas.length === 0 ){
+                    $scope.updateAnsweredAsHandled = function(deferred, unhandledarendes){
+                        if(unhandledarendes === undefined || unhandledarendes.length === 0 ){
                             return;
                         }
-                        fragaSvarProxy.closeAllAsHandled(unhandledQas,
-                            function(qas){
-                                if(qas) {
-                                    angular.forEach(qas, function(qa) { //unused parameter , key
-                                        fragaSvarCommonService.decorateSingleItem(qa);
-                                        //addListMessage(qas, qa, 'fk7263.fragasvar.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
+                        fragaSvarProxy.closeAllAsHandled(unhandledarendes,
+                            function(arendes){
+                                if(arendes) {
+                                    angular.forEach(arendes, function(arende) { //unused parameter , key
+                                        fragaSvarCommonService.decorateSingleItem(arende);
+                                        //addListMessage(arendes, arende, 'fk7263.fragasvar.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
                                     });
                                     statService.refreshStat();
                                 }
@@ -195,33 +195,33 @@ angular.module('fk7263').directive('qaPanel',
                             });
                     };
 
-                    $scope.hasUnhandledQas = function(){
-                        if(!$scope.qaList || $scope.qaList.length === 0){
+                    $scope.hasUnhandledarendes = function(){
+                        if(!$scope.arendeList || $scope.arendeList.length === 0){
                             return false;
                         }
-                        for (var i = 0, len = $scope.qaList.length; i < len; i++) {
-                            var qa = $scope.qaList[i];
-                            var isUnhandled = fragaSvarCommonService.isUnhandled(qa);
-                            var fromFk = fragaSvarCommonService.fromFk(qa);
-                            if(qa.status === 'ANSWERED' || (isUnhandled && fromFk)){
+                        for (var i = 0, len = $scope.arendeList.length; i < len; i++) {
+                            var arende = $scope.arendeList[i];
+                            var isUnhandled = fragaSvarCommonService.isUnhandled(arende);
+                            var fromFk = fragaSvarCommonService.fromFk(arende);
+                            if(arende.status === 'ANSWERED' || (isUnhandled && fromFk)){
                                 return true;
                             }
                         }
                         return false;
                     };
 
-                    $scope.updateAsHandled = function(qa, deferred) {
-                        $log.debug('updateAsHandled:' + qa);
-                        qa.updateHandledStateInProgress = true;
+                    $scope.updateAsHandled = function(arende, deferred) {
+                        $log.debug('updateAsHandled:' + arende);
+                        arende.updateHandledStateInProgress = true;
 
-                        fragaSvarProxy.closeAsHandled(qa.internReferens, 'fk7263', function(result) {
-                            qa.activeErrorMessageKey = null;
-                            qa.updateHandledStateInProgress = false;
+                        fragaSvarProxy.closeAsHandled(arende.internReferens, 'fk7263', function(result) {
+                            arende.activeErrorMessageKey = null;
+                            arende.updateHandledStateInProgress = false;
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.qaList, qa, 'fk7263.fragasvar.marked.as.hanterad');
+                                //addListMessage($scope.arendeList, arende, 'fk7263.fragasvar.marked.as.hanterad');
 
-                                angular.copy(result, qa);
+                                angular.copy(result, arende);
                                 statService.refreshStat();
                             }
                             $window.doneLoading = true;
@@ -230,8 +230,8 @@ angular.module('fk7263').directive('qaPanel',
                             }
                         }, function(errorData) {
                             // show error view
-                            qa.updateHandledStateInProgress = false;
-                            qa.activeErrorMessageKey = errorData.errorCode;
+                            arende.updateHandledStateInProgress = false;
+                            arende.activeErrorMessageKey = errorData.errorCode;
                             $window.doneLoading = true;
                             if(deferred) {
                                 deferred.resolve();
@@ -239,60 +239,60 @@ angular.module('fk7263').directive('qaPanel',
                         });
                     };
 
-                    $scope.updateAsUnHandled = function(qa) {
-                        $log.debug('updateAsUnHandled:' + qa);
-                        qa.updateHandledStateInProgress = true; // trigger local
+                    $scope.updateAsUnHandled = function(arende) {
+                        $log.debug('updateAsUnHandled:' + arende);
+                        arende.updateHandledStateInProgress = true; // trigger local
 
-                        fragaSvarProxy.openAsUnhandled(qa.internReferens, 'fk7263', function(result) {
+                        fragaSvarProxy.openAsUnhandled(arende.internReferens, 'fk7263', function(result) {
                             $log.debug('Got openAsUnhandled result:' + result);
-                            qa.activeErrorMessageKey = null;
-                            qa.updateHandledStateInProgress = false;
+                            arende.activeErrorMessageKey = null;
+                            arende.updateHandledStateInProgress = false;
 
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.qaList, qa, 'fk7263.fragasvar.marked.as.ohanterad');
+                                //addListMessage($scope.arendeList, arende, 'fk7263.fragasvar.marked.as.ohanterad');
 
-                                angular.copy(result, qa);
+                                angular.copy(result, arende);
                                 statService.refreshStat();
                             }
                         }, function(errorData) {
                             // show error view
-                            qa.updateHandledStateInProgress = false;
-                            qa.activeErrorMessageKey = errorData.errorCode;
+                            arende.updateHandledStateInProgress = false;
+                            arende.activeErrorMessageKey = errorData.errorCode;
                         });
                     };
 
                     // Handle vidarebefordra dialog
-                    $scope.openMailDialog = function(qa) {
+                    $scope.openMailDialog = function(arende) {
                         // use timeout so that external mail client has a chance to start before showing dialog
                         $timeout(function() {
-                            fragaSvarCommonService.handleVidareBefodradToggle(qa, $scope.onVidareBefordradChange);
+                            fragaSvarCommonService.handleVidareBefodradToggle(arende, $scope.onVidareBefordradChange);
                         }, 1000);
                         // Launch mail client
-                        $window.location = fragaSvarCommonService.buildMailToLink(qa);
+                        $window.location = fragaSvarCommonService.buildMailToLink(arende);
                     };
 
-                    $scope.dismissProxy = function(qa) {
-                        if (qa === undefined) {
+                    $scope.dismissProxy = function(arende) {
+                        if (arende === undefined) {
                             $scope.widgetState.sentMessage = false;
                             return;
                         }
-                        for (var i = 0; i < $scope.qaList.length; i++) {
-                            if (qa.proxyMessage !== undefined && $scope.qaList[i].proxyMessage !== undefined &&
-                                qa.internReferens === $scope.qaList[i].internReferens)
+                        for (var i = 0; i < $scope.arendeList.length; i++) {
+                            if (arende.proxyMessage !== undefined && $scope.arendeList[i].proxyMessage !== undefined &&
+                                arende.internReferens === $scope.arendeList[i].internReferens)
                             {
-                                $scope.qaList.splice(i, 1);
+                                $scope.arendeList.splice(i, 1);
                                 return;
                             }
                         }
                     };
 
                     // listeners - interscope communication
-                    var unbindmarkAnsweredAsHandledEvent = $scope.$on('markAnsweredAsHandledEvent', function($event, deferred, unhandledQas) {
-                        $scope.updateAnsweredAsHandled(deferred, unhandledQas);
+                    var unbindmarkAnsweredAsHandledEvent = $scope.$on('markAnsweredAsHandledEvent', function($event, deferred, unhandledarendes) {
+                        $scope.updateAnsweredAsHandled(deferred, unhandledarendes);
                     });
                     $scope.$on('$destroy', unbindmarkAnsweredAsHandledEvent);
-
+*/
                 }
             };
         }]);
