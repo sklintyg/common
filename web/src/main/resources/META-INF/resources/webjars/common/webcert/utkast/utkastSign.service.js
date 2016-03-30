@@ -151,9 +151,9 @@ angular.module('common').factory('common.UtkastSignService',
                     iid_SetProperty('DataToBeSigned', hash); // jshint ignore:line
                     iid_SetProperty('URLEncode', 'false'); // jshint ignore:line
                     if (UserModel.user.authenticationMethod === 'NET_ID') {
-                        iid_SetProperty('Subject', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
+                        iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
                     } else if  (UserModel.user.authenticationMethod === 'SITHS') {
-                        iid_SetProperty('Subject', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
+                        iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
                     }
                     var resultCode = iid_Invoke('Sign'); // jshint ignore:line
 
