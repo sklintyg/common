@@ -93,7 +93,16 @@ angular.module('common').factory('common.UtkastSignService',
                         bankIdSignDialog.isOpen = true;
                     }, function() {
                         bankIdSignDialog.isOpen = false;
-                        $timeout.cancel(signModel._timer);
+                    });
+
+                    bankIdSignDialog.closed.then(function() {
+                        bankIdSignDialog.isOpen = false;
+                        if(signModel._timer !== undefined){
+                            $timeout.cancel(signModel._timer);
+                        }
+                    }, function(error) {
+                        $log.debug('Could not close Bank ID dialog for ticket request');
+                        $log.debug(error);
                     });
 
                     _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, bankIdSignDialog);
@@ -206,6 +215,7 @@ angular.module('common').factory('common.UtkastSignService',
                                 if(signed) {
                                     dialogHandle.close();
                                 }
+                                deferred.resolve({});
                             }
 
                             if(signed) {
