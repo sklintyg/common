@@ -1,13 +1,13 @@
-angular.module('common').factory('common.fragaSvarService',
+angular.module('common').factory('common.ArendeProxy',
     function($http, $log) {
         'use strict';
 
         /*
          * Load questions and answers data for a certificate
          */
-        function _getQAForCertificate(intygsId, intygsTyp, onSuccess, onError) {
-            $log.debug('_getQAForCertificate: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + intygsId;
+        function _getArenden(intygsId, intygsTyp, onSuccess, onError) {
+            $log.debug('_getArenden: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/moduleapi/arende/' + intygsId;
             $http.get(restPath).success(function(data) {
                 $log.debug('got data:' + data);
                 onSuccess(data);
@@ -21,7 +21,7 @@ angular.module('common').factory('common.fragaSvarService',
         /*
          * save new answer to a question
          */
-        function _saveAnswer(fragaSvar, intygsTyp, onSuccess, onError) {
+/*        function _saveAnswer(fragaSvar, intygsTyp, onSuccess, onError) {
             $log.debug('_saveAnswer: fragaSvarId:' + fragaSvar.internReferens + ' intygsTyp: ' + intygsTyp);
 
             var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + fragaSvar.internReferens + '/besvara';
@@ -38,7 +38,7 @@ angular.module('common').factory('common.fragaSvarService',
         /*
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
-        function _closeAsHandled(fragaSvarId, intygsTyp, onSuccess, onError) {
+/*        function _closeAsHandled(fragaSvarId, intygsTyp, onSuccess, onError) {
             var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + fragaSvarId + '/stang';
             $http.get(restPath).success(function(data) {
                 $log.debug('got data:' + data);
@@ -53,7 +53,7 @@ angular.module('common').factory('common.fragaSvarService',
         /*
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
-        function _closeAllAsHandled(qas, onSuccess, onError) {
+  /*      function _closeAllAsHandled(qas, onSuccess, onError) {
             var restPath = '/moduleapi/arenden/stang';
             var fs = [];
             angular.forEach(qas, function(qa, key) {
@@ -74,7 +74,7 @@ angular.module('common').factory('common.fragaSvarService',
          * update the handled status to unhandled ('ANSWERED or PENDING_EXTERNAL_ACTION depending if the question has an
          * answer set or not') of a QuestionAnswer
          */
-        function _openAsUnhandled(fragaSvarId, intygsTyp, onSuccess, onError) {
+    /*    function _openAsUnhandled(fragaSvarId, intygsTyp, onSuccess, onError) {
             $log.debug('_openAsUnhandled: fragaSvarId:' + fragaSvarId + ' intygsTyp: ' + intygsTyp);
 
             var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + fragaSvarId + '/oppna';
@@ -91,7 +91,7 @@ angular.module('common').factory('common.fragaSvarService',
         /*
          * save new question
          */
-        function _saveNewQuestion(intygsId, intygsTyp, question, onSuccess, onError) {
+      /*  function _saveNewQuestion(intygsId, intygsTyp, question, onSuccess, onError) {
             $log.debug('_saveNewQuestion: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var payload = {};
             payload.amne = question.chosenTopic.value;
@@ -107,15 +107,15 @@ angular.module('common').factory('common.fragaSvarService',
                 onError(data);
             });
         }
-
+*/
 
         // Return public API for the service
         return {
-            getQAForCertificate: _getQAForCertificate,
-            saveAnswer: _saveAnswer,
+            getArenden: _getArenden
+/*            saveAnswer: _saveAnswer,
             saveNewQuestion: _saveNewQuestion,
             closeAsHandled: _closeAsHandled,
             closeAllAsHandled: _closeAllAsHandled,
-            openAsUnhandled: _openAsUnhandled
+            openAsUnhandled: _openAsUnhandled*/
         };
     });

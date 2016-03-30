@@ -1,16 +1,15 @@
-angular.module('common').controller('common.QACtrl',
+angular.module('common').controller('common.ArendeCtrl',
     [ '$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$window', '$filter', 'common.dialogService',
-        'common.fragaSvarService', 'common.fragaSvarCommonService', 'common.statService',
-        'common.UserModel', 'common.fragaSvarHelper', 'common.IntygViewStateService',
-        function($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter, dialogService, fragaSvarService,
-            fragaSvarCommonService, statService, UserModel, qaHelper, CommonViewState) {
+        'common.ArendeProxy',/*, 'common.fragaSvarCommonService', 'common.statService',
+        'common.UserModel', 'common.fragaSvarHelper'*/ 'common.IntygViewStateService',
+        function($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter, dialogService, ArendeProxy,
+            /* fragaSvarCommonService, statService, UserModel, qaHelper*/ CommonViewState) {
             'use strict';
 
-            var intygType = $state.current.data.intygType;
-
-            // init state
-            $scope.qaList = [];
-            $scope.widgetState = {
+            // Injecting the CommonViewState service so client-side only changes on the cert page (such as a send/revoke)
+            // can trigger GUI updates in the Q&A view.
+            $scope.viewState = {
+                common: CommonViewState,
                 doneLoading: false,
                 activeErrorMessageKey: null,
                 newQuestionOpen: false,
@@ -19,9 +18,30 @@ angular.module('common').controller('common.QACtrl',
                 showTemplate: true
             };
 
-            // Injecting the CommonViewState service so client-side only changes on the cert page (such as a send/revoke)
-            // can trigger GUI updates in the Q&A view.
-            $scope.viewState = CommonViewState;
+            $scope.arendeList = [];
+            var intygType = $state.current.data.intygType;
+
+            // Request loading of arendes for this intyg
+            ArendeProxy.getArenden($stateParams.certificateId, intygType, function(result) {
+                $log.debug('getArendeForCertificate:success data:' + result);
+                $scope.viewState.doneLoading = true;
+                $scope.viewState.activeErrorMessageKey = null;
+                $scope.arendeList = result;
+
+                // Tell viewcertctrl about the intyg in case cert load fails
+/*                if (result.length > 0) {
+                    // Verkar inte finnas någon lyssnare på detta event
+                    $rootScope.$emit('ArendeCtrl.load.complete', result[0].intygsReferens);
+                }*/
+            }, function(errorData) {
+                // show error view
+                $scope.viewState.doneLoading = true;
+                $scope.viewState.activeErrorMessageKey = errorData.errorCode;
+            });
+
+/*
+
+            // init state
 
             $scope.dismissSentMessage = function() {
                 $scope.widgetState.sentMessage = false;
@@ -34,26 +54,6 @@ angular.module('common').controller('common.QACtrl',
                     fragaSvarCommonService.decorateSingleItem(qa);
                 });
             };
-
-            // Request loading of QA's for this certificate
-            fragaSvarService.getQAForCertificate($stateParams.certificateId, intygType, function(result) {
-                $log.debug('getQAForCertificate:success data:' + result);
-                $scope.widgetState.doneLoading = true;
-                $scope.widgetState.activeErrorMessageKey = null;
-                decorateWithGUIParameters(result);
-                $scope.qaList = result;
-
-                // Tell viewcertctrl about the intyg in case cert load fails
-                if (result.length > 0) {
-                    // Verkar inte finnas någon lyssnare på detta event
-                    $rootScope.$emit('QACtrl.load', result[0].intygsReferens);
-                }
-
-            }, function(errorData) {
-                // show error view
-                $scope.widgetState.doneLoading = true;
-                $scope.widgetState.activeErrorMessageKey = errorData.errorCode;
-            });
 
             $scope.cert = {};
             $scope.certProperties = {
@@ -89,9 +89,6 @@ angular.module('common').controller('common.QACtrl',
                 $scope.widgetState.focusQuestion = true;
             };
 
-            /**
-             * Functions bound to individual arenden entities's
-             */
             $scope.sendQuestion = function (newQuestion) {
                 $log.debug('sendQuestion:' + newQuestion);
                 newQuestion.updateInProgress = true; // trigger local spinner
@@ -175,5 +172,5 @@ angular.module('common').controller('common.QACtrl',
             });
 
             $scope.$on('$destroy', unbindHasUnhandledQasEvent);
-
+*/
         }]);
