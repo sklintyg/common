@@ -22,9 +22,9 @@ angular.module('common').factory('common.ArendeProxy',
          * answer komplettering with a new intyg (basically do a copy with a 'komplettering' relation to this intyg)
          */
         function _answerWithIntyg(arende, intygsTyp, intygCopyRequest, onSuccess, onError) {
-            $log.debug('_answerWithIntyg: arendeId:' + arende.internReferens + ' intygsTyp: ' + intygsTyp);
+            $log.debug('_answerWithIntyg: arendeId:' + arende.fraga.internReferens + ' intygsTyp: ' + intygsTyp);
 
-            var restPath = '/api/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/' + arende.internReferens + '/komplettera';
+            var restPath = '/api/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/' + arende.fraga.internReferens + '/komplettera';
             var payload = {};
             payload.patientPersonnummer = intygCopyRequest.patientPersonnummer;
             if (intygCopyRequest.nyttPatientPersonnummer) {
