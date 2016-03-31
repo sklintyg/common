@@ -72,11 +72,11 @@
             <!-- Fraga fran fk eller wc? -->
             <div class="pull-right" ng-switch="arende.frageStallare | lowercase">
               <span ng-switch-when="wc">Skickat: </span> <span ng-switch-default>Mottaget: </span> <span class="arende-date"
-                                                                                                         id="{{panelId}}-arende-skickaddatum-{{arende.fraga.internReferens}}">{{arende.frageSkickadDatum | date:'short'}}</span>
+                                                                                                         id="{{panelId}}-arende-skickaddatum-{{arende.fraga.internReferens}}">{{arende.fraga.timestamp | date:'short'}}</span>
             </div>
           </div>
 
-          <div class="arende-block-body" id="{{panelId}}-arende-fragetext-{{arende.fraga.internReferens}}">{{arende.frageText}}</div>
+          <div class="arende-block-body" id="{{panelId}}-arende-fragetext-{{arende.fraga.internReferens}}">{{arende.fraga.meddelande}}</div>
           <div class="arende-block-body komplettera-block" id="{{panelId}}-fkKompletteringar-{{arende.fraga.internReferens}}"
                ng-repeat="komplettering in arende.fraga.kompletteringar">
             <strong><span>{{komplettering.falt}}</span></strong>
@@ -117,7 +117,7 @@
         <div class="panel-container" ng-show="arende.fraga.amne != 'PAMINNELSE'">
           <div class="arende-block"
                ng-class="{'arende-block-handled': arende.fraga.status == 'CLOSED', 'arende-block-fk' : (arende.frageStallare | lowercase) == 'wc', 'arende-block-wc' : (arende.frageStallare | lowercase) == 'fk'}"
-               ng-if="(arende.fraga.status == 'CLOSED' && arende.meddelande) || (arende.fraga.status == 'ANSWERED')">
+               ng-if="(arende.fraga.status == 'CLOSED' && arende.fraga.meddelande) || (arende.fraga.status == 'ANSWERED')">
 
             <!-- UNHANDLEDTYPE: frågan är redan BESVARAD -->
             <!-- HANDLEDTYPE: frågan har en meddelande -->
@@ -134,10 +134,10 @@
               <div class="pull-right" ng-switch="arende.frageStallare | lowercase">
                 <!-- motsatt villkor mot frågan -->
                 <span ng-switch-when="wc">Mottaget: </span> <span ng-switch-default>Skickat: </span> <span
-                  class="arende-date">{{arende.senasteHandelse | date:'short'}}</span>
+                  class="arende-date">{{arende.fraga.timestamp | date:'short'}}</span>
               </div>
             </div>
-            <div id="{{panelId}}-{{arende.fraga.internReferens}}-meddelande" class="arende-block-body">{{arende.meddelande}}</div>
+            <div id="{{panelId}}-{{arende.fraga.internReferens}}-meddelande" class="arende-block-body">{{arende.fraga.meddelande}}</div>
           </div>
         </div>
 
@@ -149,7 +149,7 @@
             <span message key="fk7263.error.{{arende.activeErrorMessageKey}}"></span>
           </div>
           <div class="form-group">
-            <div class="controls" ng-hide="arende.frageStallare!='WC' && arende.meddelande">
+            <div class="controls" ng-hide="arende.frageStallare!='WC' && arende.fraga.meddelande">
               <button type="button" class="btn btn-default btn-secondary" ng-click="updateAsUnHandled(arende)"
                       wc-check-vardenhet vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                       id="markAsUnhandledBtn-{{arende.fraga.internReferens}}" ng-disabled="arende.updateHandledStateInProgress">
@@ -191,7 +191,7 @@
               </div>
               <div class="form-group" ng-show="!arende.answerDisabled && !intygProperties.isRevoked">
                 <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
-                          class="form-control col-md-9 arende-block-wc" ng-model="arende.meddelande"
+                          class="form-control col-md-9 arende-block-wc" ng-model="arende.fraga.meddelande"
                           id="answerText-{{arende.fraga.internReferens}}"></textarea>
               </div>
               <div class="webintyg-top-padding-section">
@@ -202,7 +202,7 @@
                 </div>
 
                 <button type="button" class="btn btn-success" ng-click="sendAnswer(arende)"
-                        ng-disabled="!arende.meddelande || arende.updateInProgress"
+                        ng-disabled="!arende.fraga.meddelande || arende.updateInProgress"
                         ng-show="!arende.answerDisabled && !intygProperties.isRevoked" wc-check-vardenhet
                         vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                         id="sendAnswerBtn-{{arende.fraga.internReferens}}">
