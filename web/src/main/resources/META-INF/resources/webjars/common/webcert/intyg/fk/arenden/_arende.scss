@@ -1,0 +1,176 @@
+/*
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.arende-block-body {
+  white-space: normal;
+
+  &.komplettera-block {
+    div {
+      span {
+        white-space: pre-line;
+      }
+    }
+  }
+}
+
+/*
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+Table styles pertaining to Arenden.
+ */
+$arende-panel-background-color: #eaeaea;
+$arende-block-border-color: #d8d8d8;
+$arende-block-background-color: #fff;
+$arende-block-handled-background-color: #f5f5f5;
+$arende-block-head-color: #000;
+
+/**
+arende list item animation
+ */
+%fadein {
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+.arende-item {
+  -webkit-transition: color 0.6s, background-color 0.3s, all 0.6s;
+  -moz-transition: color 0.6s, background-color 0.3s, all 0.6s;
+  -ms-transition: color 0.6s, background-color 0.3s, all 0.6s;
+  transition: color 0.6s, background-color 0.3s, all 0.6s;
+  &.ng-enter {
+    @extend %fadein;
+  }
+  &.ng-move {
+    @extend %fadein;
+  }
+  &.ng-leave {
+    -webkit-animation: fadeOut 1s;
+    -moz-animation: fadeOut 1s;
+    -ms-animation: fadeOut 1s;
+    animation: fadeOut 1s;
+  }
+}
+
+.arende-column {
+  max-width: 600px;
+  padding-right: 20px;
+}
+
+.panel-container {
+  /* IE8 doesn't understand margin-bottom on elements added by scripting so place this around and use padding instead */
+  padding-bottom: 20px;
+}
+
+.arende-panel {
+  background-color: $arende-panel-background-color;
+  -webkit-border-radius: 8px 8px 8px 8px;
+  -moz-border-radius: 8px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+  padding: 20px;
+  max-width: 600px;
+  p {
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  label {
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+
+  h3 {
+    font-size: 13px;
+    margin: 0;
+    padding: 0 0 5px 0;
+    font-weight: normal;
+  }
+}
+
+.arende-block {
+  background-color: $arende-block-background-color;
+  border: 1px solid $arende-block-border-color;
+  -webkit-border-radius: 8px 8px 8px 8px;
+  -moz-border-radius: 8px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+}
+
+.arende-block-fk {
+  margin-left: 20px;
+}
+
+.arende-block-wc {
+  margin-right: 20px;
+}
+
+.arende-block-handled {
+  background-color: $arende-block-handled-background-color;
+}
+
+.arende-block-head {
+  margin: 0;
+  color: $arende-block-head-color;
+  font-size: 13px;
+  display: block;
+  padding: 10px 20px;
+  border-bottom: 1px solid $arende-block-border-color;
+  -webkit-border-radius: 8px 8px 0 0;
+  -moz-border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 0 0;
+  h3 {
+    font-size: 13px;
+    margin: 0;
+    font-weight: normal;
+  }
+}
+
+.arende-block-body {
+  display: block;
+  padding: 20px 20px;
+  white-space: pre-line;
+}
+
+.arende-sender {
+  font-weight: bold;
+}
+
+.arende-date {
+  font-weight: bold;
+}
+
+.arende-panel__vidarebefordra-placement {
+  margin-top: -62px;
+}

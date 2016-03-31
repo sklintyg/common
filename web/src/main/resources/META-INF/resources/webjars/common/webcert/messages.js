@@ -134,6 +134,9 @@ var commonMessages = {
         'qa.measure.markhandled': 'Markera som hanterad',
         'qa.measure.handled': 'Ingen',
 
+        'arende.fraga.amne.komplt': 'Komplettering',
+        'arende.fraga.amne.ovrigt': 'Övrigt',
+
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
         'modules.label.blank': '- ej ifyllt',
