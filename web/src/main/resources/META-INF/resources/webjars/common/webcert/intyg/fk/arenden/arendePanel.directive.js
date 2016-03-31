@@ -116,20 +116,20 @@ angular.module('common').directive('arendePanel',
                         });
                     };
 */
-                    $scope.answerWithIntyg = function(arende, cert) {
+                    $scope.answerWithIntyg = function(arende, intyg) {
 
-                        if(!ObjectHelper.isDefined(cert)) {
+                        if(!ObjectHelper.isDefined(intyg)) {
                             arende.activeErrorMessageKey = 'komplettera-no-intyg';
                             return;
                         }
 
                         arende.updateInProgress = true; // trigger local spinner
                         arende.activeErrorMessageKey = null;
-                        ArendeProxy.answerWithIntyg(arende, cert.typ,
+                        ArendeProxy.answerWithIntyg(arende, intyg.typ,
                             IntygCopyRequestModel.build({
-                                intygId: cert.id,
-                                intygType: cert.typ,
-                                patientPersonnummer: cert.grundData.patient.personId,
+                                intygId: intyg.id,
+                                intygType: intyg.typ,
+                                patientPersonnummer: intyg.grundData.patient.personId,
                                 nyttPatientPersonnummer: $stateParams.patientId
                             }), function(result) {
 
@@ -143,7 +143,7 @@ angular.module('common').directive('arendePanel',
                                     });
                                 }
 
-                                goToDraft(cert.typ, result.intygsUtkastId);
+                                goToDraft(intyg.typ, result.intygsUtkastId);
 
                             }, function(errorData) {
                                 // show error view

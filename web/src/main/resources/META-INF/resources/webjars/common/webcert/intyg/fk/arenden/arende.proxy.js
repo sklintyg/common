@@ -135,7 +135,7 @@ angular.module('common').factory('common.ArendeProxy',
         // Return public API for the service
         return {
             getArenden: _getArenden,
-            _answerWithIntyg: _answerWithIntyg
+            answerWithIntyg: _answerWithIntyg
 /*            saveAnswer: _saveAnswer,
             saveNewQuestion: _saveNewQuestion,
             closeAsHandled: _closeAsHandled,
