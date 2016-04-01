@@ -45,12 +45,6 @@
               <span id="{{menu.statNumberId}}" ng-if="menu.getStat()>0" class="stat-circle stat-circle-active"
                     title="{{menu.statTooltip}}">{{menu.getStat()}}</span></a>
           </li>
-          <li>
-            <button type="button" class="btn btn-link pull-right test-mode-menuitem" ng-click="setTestMode();">
-              {{testModeActive ? testModeText.active : testModeText.inactive}}
-            </button>
-          </li>
-
         </ul>
       </div>
       <!-- /.navbar-collapse -->
