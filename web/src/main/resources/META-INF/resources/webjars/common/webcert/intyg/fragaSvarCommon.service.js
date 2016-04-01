@@ -147,7 +147,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function _fromFk(qa){
-                if(qa.fragestallare === 'FK'){
+                if(qa.frageStallare === 'FK'){
                     return true;
                 }
                 return false;
