@@ -53,8 +53,7 @@ angular.module('common').directive('wcFieldSingle', ['common.messageService',
                 '<h4 class="cert-field-number" ng-if="fieldNumber != undefined">' +
                 '<span message key="modules.label.field"></span> {{fieldNumber}}</h4>' +
                 '<span ng-transclude></span>' +
-                '<span ng-if="fieldHelpText != undefined" class="glyphicon glyphicon-question-sign" tooltip-trigger="mouseenter"' +
-                ' uib-tooltip-html="\'{{getMessage(fieldHelpText)}}\'" tooltip-placement="{{placement}}"></span>' +
+                '<span style="vertical-align: sub;" wc-help-mark field-help-text="{{fieldHelpText}}"></span>' +
                 '</div>'
         };
     }]);
