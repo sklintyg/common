@@ -23,6 +23,7 @@ import org.joda.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -218,7 +219,7 @@ public interface ModuleApi {
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
 
-    Utlatande getUtlatandeFromIntyg(Intyg intyg) throws Exception;
+    Utlatande getUtlatandeFromIntyg(Intyg intyg) throws ConverterException;
 
     String transformToStatisticsService(String inputXml) throws ModuleException;
 
