@@ -27,6 +27,7 @@ angular.module('common').factory('common.Domain.RelationModel',
         function Relation() {
             this.relationIntygsId = undefined;
             this.relationKod = undefined;
+            this.meddelandeId = undefined;
         }
 
         Relation.prototype.update = function(relation) {
@@ -36,6 +37,7 @@ angular.module('common').factory('common.Domain.RelationModel',
             }
             this.relationIntygsId = relation.relationIntygsId;
             this.relationKod = relation.relationKod;
+            this.meddelandeId = relation.meddelandeId;
         };
 
         Relation.build = function() {
