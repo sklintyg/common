@@ -26,21 +26,11 @@ import org.junit.Test;
 public class StatusKodTest {
 
     @Test
-    public void testFromString() {
-        assertEquals(StatusKod.CANCEL, StatusKod.fromString("CANCEL").get());
-        assertEquals(StatusKod.DELETE, StatusKod.fromString("DELETE").get());
-        assertEquals(StatusKod.RECEIV, StatusKod.fromString("RECEIV").get());
-        assertEquals(StatusKod.RESTOR, StatusKod.fromString("RESTOR").get());
-        assertEquals(StatusKod.SENTTO, StatusKod.fromString("SENTTO").get());
-        assertFalse(StatusKod.fromString("FINNS_EJ").isPresent());
-    }
-
-    @Test
     public void testToCertificateState() {
-        assertEquals(CertificateState.CANCELLED, StatusKod.CANCEL.toCertificateState().get());
-        assertEquals(CertificateState.DELETED, StatusKod.DELETE.toCertificateState().get());
-        assertEquals(CertificateState.RECEIVED, StatusKod.RECEIV.toCertificateState().get());
-        assertEquals(CertificateState.RESTORED, StatusKod.RESTOR.toCertificateState().get());
-        assertEquals(CertificateState.SENT, StatusKod.SENTTO.toCertificateState().get());
+        assertEquals(CertificateState.CANCELLED, StatusKod.CANCEL.toCertificateState());
+        assertEquals(CertificateState.DELETED, StatusKod.DELETE.toCertificateState());
+        assertEquals(CertificateState.RECEIVED, StatusKod.RECEIV.toCertificateState());
+        assertEquals(CertificateState.RESTORED, StatusKod.RESTOR.toCertificateState());
+        assertEquals(CertificateState.SENT, StatusKod.SENTTO.toCertificateState());
     }
 }

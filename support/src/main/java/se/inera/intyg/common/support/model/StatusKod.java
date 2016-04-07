@@ -19,9 +19,6 @@
 
 package se.inera.intyg.common.support.model;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
 public enum StatusKod {
 
     RECEIV("RECEIVED"),
@@ -40,24 +37,20 @@ public enum StatusKod {
         return displayName;
     }
 
-    public static Optional<StatusKod> fromString(String code) {
-        return Stream.of(StatusKod.values()).filter(s -> s.name().equals(code)).findFirst();
-    }
-
-    public Optional<CertificateState> toCertificateState() {
+    public CertificateState toCertificateState() {
         switch (this) {
         case RECEIV:
-            return Optional.of(CertificateState.RECEIVED);
+            return CertificateState.RECEIVED;
         case SENTTO:
-            return Optional.of(CertificateState.SENT);
+            return CertificateState.SENT;
         case CANCEL:
-            return Optional.of(CertificateState.CANCELLED);
+            return CertificateState.CANCELLED;
         case DELETE:
-            return Optional.of(CertificateState.DELETED);
+            return CertificateState.DELETED;
         case RESTOR:
-            return Optional.of(CertificateState.RESTORED);
+            return CertificateState.RESTORED;
         default:
-            return Optional.empty();
+            return null;
         }
     }
 }
