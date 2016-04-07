@@ -21,6 +21,8 @@ package se.inera.intyg.common.support.model.common.internal;
 
 import java.util.Objects;
 
+import org.joda.time.LocalDate;
+
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 
 public class Relation {
@@ -30,6 +32,8 @@ public class Relation {
     private String relationIntygsId;
 
     private String meddelandeId;
+    
+    private LocalDate sistaGiltighetsDatum;
 
     @Override
     public boolean equals(Object object) {
@@ -42,7 +46,8 @@ public class Relation {
         final Relation that = (Relation) object;
         return Objects.equals(this.relationKod, that.relationKod)
                 && Objects.equals(this.relationIntygsId, that.relationIntygsId)
-                && Objects.equals(this.meddelandeId, that.meddelandeId);
+                && Objects.equals(this.meddelandeId, that.meddelandeId)
+                && Objects.equals(this.sistaGiltighetsDatum, that.sistaGiltighetsDatum);
     }
 
     @Override
@@ -72,6 +77,14 @@ public class Relation {
 
     public void setMeddelandeId(String meddelandeId) {
         this.meddelandeId = meddelandeId;
+    }
+
+    public LocalDate getSistaGiltighetsDatum() {
+        return sistaGiltighetsDatum;
+    }
+
+    public void setSistaGiltighetsDatum(LocalDate sistaGiltighetsDatum) {
+        this.sistaGiltighetsDatum = sistaGiltighetsDatum;
     }
 
 }
