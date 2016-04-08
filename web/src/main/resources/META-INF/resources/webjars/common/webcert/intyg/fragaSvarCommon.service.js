@@ -86,7 +86,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
+                } else if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
                     // RE-005, RE-006
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
@@ -102,7 +102,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     qa.measureResKey = 'handled';
                 } else if (_isUnhandledForDecoration(qa)) {
                     qa.measureResKey = 'markhandled';
-                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG') {
+                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') {
                     qa.measureResKey = 'komplettering';
                 } else {
                     if (qa.status === 'PENDING_INTERNAL_ACTION') {

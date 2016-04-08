@@ -125,6 +125,7 @@ var commonMessages = {
         'qa.amne.kontakt': 'Kontakt',
         'qa.amne.avstamningsmote': 'Avstämningsmöte',
         'qa.amne.komplettering_av_lakarintyg': 'Komplettering av läkarintyg',
+        'qa.amne.komplt': 'Komplettering av läkarintyg',
         'qa.amne.makulering_av_lakarintyg': 'Makulering av läkarintyg',
         'qa.amne.ovrigt': 'Övrigt',
 
