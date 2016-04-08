@@ -129,6 +129,36 @@ describe('IntygService', function() {
             expect(dialogService.showDialog).toHaveBeenCalled();
 
         });
+
+        it('should immediately request a fornya utkast of cert if the fornya cookie is set', function() {
+
+            $cookies.putObject(IntygService.FORNYA_DIALOG_COOKIE, true);
+
+            $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/fornya/').respond(
+                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
+            );
+            IntygService.fornya($scope.viewState, cert);
+            $httpBackend.flush();
+            $timeout.flush();
+            expect(dialogService.showDialog).not.toHaveBeenCalled();
+            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
+
+            $cookies.remove(IntygService.FORNYA_DIALOG_COOKIE);
+        });
+
+        it('should show the fornya dialog if the copy cookie is not set', function() {
+
+            $cookies.remove(IntygService.FORNYA_DIALOG_COOKIE);
+            $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/fornya/').respond(
+                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
+            );
+            IntygService.fornya($scope.viewState, cert);
+            $httpBackend.flush();
+            $timeout.flush();
+
+            expect(dialogService.showDialog).toHaveBeenCalled();
+
+        });
     });
 
     describe('_createCopyDraft', function() {
