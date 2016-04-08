@@ -54,42 +54,43 @@ angular.module('common').factory('common.IntygService',
                 var requestData = options.requestData;
                 var requestFn = options.requestFn;
                 var viewState = options.viewState;
+                var closeDialog = options.closeDialog;
                 var dialogModel = options.dialogModel;
-                var dialogInstance = options.dialogInstance;
                 var dialogCookieKey = options.dialogCookieKey;
 
-                return function dialogButton1ClickInner () {
-                    $log.debug(requestType + ' cert from dialog' + requestData);
-                    if (dialogModel.dontShowInfo) {
-                        $cookies.putObject(dialogCookieKey, dialogModel.dontShowInfo);
+                $log.debug(requestType + ' cert from dialog' + requestData);
+                if (dialogModel.dontShowInfo) {
+                    $cookies.putObject(dialogCookieKey, dialogModel.dontShowInfo);
+                }
+
+                dialogModel.showerror = false;
+                dialogModel.acceptprogressdone = false;
+                requestFn(requestData, function(draftResponse) {
+                    dialogModel.acceptprogressdone = true;
+                    if(viewState && viewState.inlineErrorMessageKey) {
+                        viewState.inlineErrorMessageKey = null;
                     }
 
-                    dialogModel.showerror = false;
-                    dialogModel.acceptprogressdone = false;
-                    requestFn(requestData, function(draftResponse) {
-                        dialogModel.acceptprogressdone = true;
-                        if(viewState && viewState.inlineErrorMessageKey) {
-                            viewState.inlineErrorMessageKey = null;
-                        }
-                        var end = function() {
-                            goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
-                        };
-                        dialogInstance.close({direct:end});
+                    var end = function() {
+                        goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
+                    };
 
-                    }, function(errorCode) {
-                        if (errorCode === 'DATA_NOT_FOUND') {
-                            dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg.personidnotfound';
-                        }
-                        else {
-                            dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg';
-                        }
-                        dialogModel.acceptprogressdone = true;
-                        dialogModel.showerror = true;
-                    });
-                };
+                    closeDialog({direct:end});
+
+                }, function(errorCode) {
+                    if (errorCode === 'DATA_NOT_FOUND') {
+                        dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg.personidnotfound';
+                    }
+                    else {
+                        dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg';
+                    }
+                    dialogModel.acceptprogressdone = true;
+                    dialogModel.showerror = true;
+                });
             }
 
             function _copy(viewState, intygCopyRequest, isOtherCareUnit) {
+                var copyDialog;
                 // Create cookie and model representative
                 copyDialogModel.dontShowInfo = false;
 
@@ -117,20 +118,24 @@ angular.module('common').factory('common.IntygService',
                     copyDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                     copyDialogModel.intygTyp = intygCopyRequest.intygType;
 
-                    var copyDialog = dialogService.showDialog({
+                    copyDialog = dialogService.showDialog({
                         dialogId: 'copy-dialog',
                         titleId: 'label.copycert',
                         templateUrl: '/app/partials/copy-dialog.html',
                         model: copyDialogModel,
-                        button1click: dialogButton1Click({
-                            requestType: 'copy',
-                            requestData: intygCopyRequest,
-                            requestFn: _createCopyDraft,
-                            viewState: viewState,
-                            dialogModel: copyDialogModel,
-                            dialogInstance: copyDialog,
-                            dialogCookieKey: _COPY_DIALOG_COOKIE
-                        }),
+                        button1click: function () {
+                            dialogButton1Click({
+                                requestType: 'copy',
+                                requestData: intygCopyRequest,
+                                requestFn: _createCopyDraft,
+                                viewState: viewState,
+                                dialogModel: copyDialogModel,
+                                dialogCookieKey: _COPY_DIALOG_COOKIE,
+                                closeDialog: function (result) {
+                                    copyDialog.close(result);
+                                }
+                            });
+                        },
                         button1text: 'common.copy',
                         button2text: 'common.cancel',
                         autoClose: false
@@ -148,6 +153,7 @@ angular.module('common').factory('common.IntygService',
             }
 
             function _fornya(viewState, intygFornyaRequest, isOtherCareUnit) {
+                var fornyaDialog;
                 // Create cookie and model representative
                 fornyaDialogModel.dontShowFornyaInfo = false;
 
@@ -175,20 +181,24 @@ angular.module('common').factory('common.IntygService',
                     fornyaDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                     fornyaDialogModel.intygTyp = intygFornyaRequest.intygType;
 
-                    var fornyaDialog = dialogService.showDialog({
+                    fornyaDialog = dialogService.showDialog({
                         dialogId: 'fornya-dialog',
                         titleId: 'label.fornyacert',
                         templateUrl: '/app/partials/fornya-dialog.html',
                         model: fornyaDialogModel,
-                        button1click: dialogButton1Click({
-                            requestType: 'fornya',
-                            requestData: intygFornyaRequest,
-                            requestFn: _createFornyaDraft,
-                            viewState: viewState,
-                            dialogModel: fornyaDialogModel,
-                            dialogInstance: fornyaDialog,
-                            dialogCookieKey: _FORNYA_DIALOG_COOKIE
-                        }),
+                        button1click: function () {
+                            dialogButton1Click({
+                                requestType: 'fornya',
+                                requestData: intygFornyaRequest,
+                                requestFn: _createFornyaDraft,
+                                viewState: viewState,
+                                dialogModel: fornyaDialogModel,
+                                dialogCookieKey: _FORNYA_DIALOG_COOKIE,
+                                closeDialog: function (result) {
+                                    fornyaDialog.close(result);
+                                }
+                            });
+                        },
                         button1text: 'common.fornya',
                         button2text: 'common.cancel',
                         autoClose: false
