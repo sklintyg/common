@@ -230,5 +230,6 @@ public interface ModuleApi {
 
     String decorateUtlatande(String utlatandeJson) throws ModuleException;
 
-    InternalModelResponse createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder internalModelHolder) throws ModuleException;
+    InternalModelResponse createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder internalModelHolder)
+            throws ModuleException;
 }

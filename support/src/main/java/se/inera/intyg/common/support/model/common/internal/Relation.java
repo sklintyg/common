@@ -32,7 +32,7 @@ public class Relation {
     private String relationIntygsId;
 
     private String meddelandeId;
-    
+
     private LocalDate sistaGiltighetsDatum;
 
     @Override
