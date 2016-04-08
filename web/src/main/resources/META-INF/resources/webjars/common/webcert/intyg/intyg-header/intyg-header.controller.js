@@ -19,10 +19,10 @@
 
 angular.module('common').controller('common.IntygHeader',
     ['$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
-    'common.IntygCopyRequestModel', 'common.User', 'common.UserModel', 'common.IntygService',
-    'common.IntygViewStateService', 'common.statService',
+    'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
+    'common.IntygService', 'common.IntygViewStateService', 'common.statService',
         function($scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
-            User, UserModel, IntygService, CommonViewState, statService) {
+            IntygFornyaRequestModel, User, UserModel, IntygService, CommonViewState, statService) {
             'use strict';
 
             var intygType = $state.current.data.intygType;
@@ -30,6 +30,7 @@ angular.module('common').controller('common.IntygHeader',
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
+            $scope.fornyaBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.fornya.text');
 
             $scope.visaSkickaKnappen = function(){
                 return !$scope.viewState.common.intyg.isSent &&
@@ -56,6 +57,23 @@ angular.module('common').controller('common.IntygHeader',
                 IntygService.makulera( cert, confirmationMessage, function() {
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
                 });
+            };
+
+            $scope.fornya = function(cert) {
+                if (cert === undefined || cert.grundData === undefined) {
+                    $log.debug('cert or cert.grundData is undefined. Aborting fornya.');
+                    return;
+                }
+                var isOtherCareUnit = User.getValdVardenhet().id !== cert.grundData.skapadAv.vardenhet.enhetsid;
+                IntygService.fornya($scope.viewState,
+                    IntygFornyaRequestModel.build({
+                        intygId: cert.intygId,
+                        intygType: cert.intygType,
+                        patientPersonnummer: $scope.personnummer,
+                        nyttPatientPersonnummer: $stateParams.patientId
+                    }),
+                    isOtherCareUnit
+                );
             };
 
             $scope.copy = function(cert) {
