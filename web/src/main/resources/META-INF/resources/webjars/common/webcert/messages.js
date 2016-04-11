@@ -116,7 +116,7 @@ var commonMessages = {
         'qa.status.pending_external_action': 'Inväntar svar',
         'qa.status.answered': 'Besvarat',
         'qa.status.closed': 'Hanterat',
-        'qa.help.handled': 'Tidigare meddelanden är sådana som redan har besvarats eller hanterats på något sätt.',
+        'qa.help.handled': 'Tidigare frågor och svar är sådana som redan har besvarats eller hanterats på något sätt.',
         'qa.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
 
         'qa.fragestallare.fk': 'Försäkringskassan',
@@ -126,6 +126,7 @@ var commonMessages = {
         'qa.amne.kontakt': 'Kontakt',
         'qa.amne.avstamningsmote': 'Avstämningsmöte',
         'qa.amne.komplettering_av_lakarintyg': 'Komplettering av läkarintyg',
+        'qa.amne.komplt': 'Komplettering av läkarintyg',
         'qa.amne.makulering_av_lakarintyg': 'Makulering av läkarintyg',
         'qa.amne.ovrigt': 'Övrigt',
 
@@ -134,6 +135,9 @@ var commonMessages = {
         'qa.measure.komplettering': 'Komplettera',
         'qa.measure.markhandled': 'Markera som hanterad',
         'qa.measure.handled': 'Ingen',
+
+        'arende.fraga.amne.komplt': 'Komplettering',
+        'arende.fraga.amne.ovrigt': 'Övrigt',
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',

@@ -55,7 +55,9 @@
               </button>
               <ul class="dropdown-menu">
                 <li><a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">Fullständigt intyg</a></li>
-                <li><a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">Intyg till arbetsgivaren</a></li>
+                <li title="Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare">
+                  <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">Minimalt intyg</a>
+                </li>
               </ul>
             </div>
             <button type="submit"

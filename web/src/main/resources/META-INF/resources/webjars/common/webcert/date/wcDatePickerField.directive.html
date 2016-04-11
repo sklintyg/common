@@ -1,6 +1,7 @@
 <span class="inline-block">
   <span class="wc-datepicker-wrapper input-group">
     <input id="{{domId}}" name="{{domId}}" type="text" class="form-control" ng-class="{'text-invalid': invalid}" ng-model="targetModel" is-open="isOpen" maxlength="10"
+            wc-set-date-on-close
             uib-datepicker-popup="{{format}}"
             max-date="{{maxDate}}"
             ng-model-options="{ allowInvalid: true }"

@@ -17,20 +17,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.model;
+angular.module('common').animation('.cookie-banner-directive-slide-animation', function() {
+    'use strict';
+    return {
+        enter: function(element, done) {
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
-public class StatusKodTest {
-
-    @Test
-    public void testToCertificateState() {
-        assertEquals(CertificateState.CANCELLED, StatusKod.CANCEL.toCertificateState());
-        assertEquals(CertificateState.DELETED, StatusKod.DELETE.toCertificateState());
-        assertEquals(CertificateState.RECEIVED, StatusKod.RECEIV.toCertificateState());
-        assertEquals(CertificateState.RESTORED, StatusKod.RESTOR.toCertificateState());
-        assertEquals(CertificateState.SENT, StatusKod.SENTTO.toCertificateState());
-    }
-}
+            element.css({
+                opacity: 0,
+                top: '-80px'
+            }).animate({
+                opacity: 1,
+                top: '0px'
+            }, 500, done);
+        },
+        leave: function(element, done) {
+            element.css({
+                    opacity: 1,
+                    top: '0px'
+                })
+                .animate({
+                    opacity: 0,
+                    top: '-80px'
+                }, 500, done);
+        }
+    };
+});

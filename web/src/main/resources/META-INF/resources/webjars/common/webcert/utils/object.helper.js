@@ -9,6 +9,9 @@ angular.module('common').factory('common.ObjectHelper',
             isEmpty: function(value) {
                 return value === null || typeof value === 'undefined' || value === '';
             },
+            isFalsy: function(value) {
+                return value === null || typeof value === 'undefined' || value === '' || value === 'false' || value === false;
+            },
             returnJoinedArrayOrNull: function(value) {
                 return value !== null && value !== undefined ? value.join(', ') : null;
             },
