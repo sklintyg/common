@@ -546,8 +546,26 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
         }
     };
 
-    FromTos.prototype.updateMinMax = function(){
+    FromTos.prototype.updateMinMax = function(newMinMax){
         var validDateUnits = [];
+        var sevenDaysAhead;
+
+        if (newMinMax) {
+            if (newMinMax.min) {
+                this.minMax.min = new DateUnit(newMinMax.min, null, 'manualMinMaxMin');
+            } else {
+                throw new Error('DateRangeService#updateMinMax: expected "newMinMax" parameter to have "min" property but it was falsy.');
+            }
+            if (newMinMax.max) {
+                this.minMax.max = new DateUnit(newMinMax.max, null, 'manualMinMaxMax');
+            } else {
+                sevenDaysAhead = moment(newMinMax.min);
+                sevenDaysAhead.add(week, 'days');
+                this.minMax.max = new DateUnit(sevenDaysAhead.format('YYYY-MM-DD'), null, 'manualMinMaxMax');
+            }
+            return;
+        }
+
         for(var i=0; i<this.dateRanges.length; i++){
             var dateRange = this.dateRanges[i];
             if(dateRange.from && dateRange.from.valid){
