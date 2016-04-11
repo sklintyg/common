@@ -67,8 +67,8 @@ angular.module('common').controller('common.IntygHeader',
                 var isOtherCareUnit = User.getValdVardenhet().id !== cert.grundData.skapadAv.vardenhet.enhetsid;
                 IntygService.fornya($scope.viewState,
                     IntygFornyaRequestModel.build({
-                        intygId: cert.intygId,
-                        intygType: cert.intygType,
+                        intygId: cert.id,
+                        intygType: intygType,
                         patientPersonnummer: $scope.personnummer,
                         nyttPatientPersonnummer: $stateParams.patientId
                     }),
