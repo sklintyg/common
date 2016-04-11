@@ -59,38 +59,29 @@ angular.module('common').controller('common.IntygHeader',
                 });
             };
 
-            $scope.fornya = function(cert) {
+            function fornyaOrCopy (cert, intygServiceMethod, buildIntygRequestModel) {
                 if (cert === undefined || cert.grundData === undefined) {
                     $log.debug('cert or cert.grundData is undefined. Aborting fornya.');
                     return;
                 }
                 var isOtherCareUnit = User.getValdVardenhet().id !== cert.grundData.skapadAv.vardenhet.enhetsid;
-                IntygService.fornya($scope.viewState,
-                    IntygFornyaRequestModel.build({
-                        intygId: cert.id,
-                        intygType: intygType,
-                        patientPersonnummer: $scope.personnummer,
-                        nyttPatientPersonnummer: $stateParams.patientId
-                    }),
-                    isOtherCareUnit
-                );
-            };
-
-            $scope.copy = function(cert) {
-                if (cert === undefined || cert.grundData === undefined) {
-                    $log.debug('cert or cert.grundData is undefined. Aborting copy.');
-                    return;
-                }
-
-                var isOtherCareUnit = User.getValdVardenhet().id !== cert.grundData.skapadAv.vardenhet.enhetsid;
-                IntygService.copy($scope.viewState,
-                    IntygCopyRequestModel.build({
+                intygServiceMethod($scope.viewState,
+                    buildIntygRequestModel({
                         intygId: cert.id,
                         intygType: intygType,
                         patientPersonnummer: cert.grundData.patient.personId,
                         nyttPatientPersonnummer: $stateParams.patientId
                     }),
-                    isOtherCareUnit);
+                    isOtherCareUnit
+                );
+            }
+
+            $scope.fornya = function(cert) {
+                return fornyaOrCopy(cert, IntygService.fornya, IntygFornyaRequestModel.build);
+            };
+
+            $scope.copy = function(cert) {
+                return fornyaOrCopy(cert, IntygService.copy, IntygCopyRequestModel.build);
             };
 
             $scope.print = function(cert, isEmployeeCopy) {
