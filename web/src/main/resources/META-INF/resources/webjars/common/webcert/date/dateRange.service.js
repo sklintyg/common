@@ -548,7 +548,6 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
 
     FromTos.prototype.updateMinMax = function(newMinMax){
         var validDateUnits = [];
-        var sevenDaysAhead;
 
         if (newMinMax) {
             if (newMinMax.min) {
@@ -559,9 +558,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             if (newMinMax.max) {
                 this.minMax.max = new DateUnit(newMinMax.max, null, 'manualMinMaxMax');
             } else {
-                sevenDaysAhead = moment(newMinMax.min);
-                sevenDaysAhead.add(week, 'days');
-                this.minMax.max = new DateUnit(sevenDaysAhead.format('YYYY-MM-DD'), null, 'manualMinMaxMax');
+                this.minMax.max = new DateUnit(newMinMax.min, null, 'manualMinMaxMax');
             }
             return;
         }
