@@ -94,6 +94,14 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     qa.answerDisabled = false;
                     qa.answerDisabledReason = undefined;
                 }
+
+                if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
+                    qa.svaraMedNyttIntygDisabled = true;
+                    qa.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
+                } else {
+                    qa.svaraMedNyttIntygDisabled = false;
+                }
+
                 _decorateSingleItemMeasure(qa);
             }
 

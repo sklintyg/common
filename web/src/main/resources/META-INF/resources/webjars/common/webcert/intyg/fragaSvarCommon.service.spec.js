@@ -65,6 +65,79 @@ describe('fragaSvarCommonService', function() {
         });
     });
 
+    describe('decorateSingleItem', function() {
+        var fragaSvarCommonService;
+        /*var User = {
+            privileges: {
+                'BESVARA_KOMPLETTERINGSFRAGA': 'BESVARA_KOMPLETTERINGSFRAGA'
+            },
+            requestOrigins: {
+                'UTHOPP': 'UTHOPP'
+            },
+            hasPrivilege: function() { return true; },
+            hasRequestOrigin: function() { return true; },
+            user: {
+                origin: 'NORMAL'
+            }
+        };*/
+
+        var UserModel;
+
+        beforeEach(angular.mock.module('common'), function($provide){
+            //$provide.value('common.User', User);
+        });
+
+        beforeEach(angular.mock.inject(['common.fragaSvarCommonService', 'common.UserModel',
+            function(_fragaSvarCommonService_, _UserModel_) {
+                fragaSvarCommonService = _fragaSvarCommonService_;
+                UserModel = _UserModel_;
+            }
+        ]));
+
+        it ('should disable answer if amne is PAMINNELSE', function () {
+            var qa = {amne:'PAMINNELSE'};
+            fragaSvarCommonService.decorateSingleItem(qa);
+            expect(qa.answerDisabled).toBeTruthy();
+            expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
+        });
+
+        it ('should disable answer if it is a komplettering (new KOMPLT) and user does not have that permission', function () {
+
+            //spyOn(User, 'hasPrivilege').and.callFake(function() { return true; });
+            //spyOn(User, 'hasRequestOrigin').and.callFake(function() { return false; });
+
+            var qa = {amne:'KOMPLT'};
+            fragaSvarCommonService.decorateSingleItem(qa);
+            expect(qa.answerDisabled).toBeTruthy();
+            expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
+        });
+
+        it ('should disable answer if it is a komplettering (old KOMPLETTERING_AV_LAKARINTYG) and user does not have that permission', function () {
+
+            //spyOn(User, 'hasPrivilege').and.callFake(function() { return true; });
+            //spyOn(User, 'hasRequestOrigin').and.callFake(function() { return false; });
+
+            var qa = {amne:'KOMPLETTERING_AV_LAKARINTYG'};
+            fragaSvarCommonService.decorateSingleItem(qa);
+            expect(qa.answerDisabled).toBeTruthy();
+            expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
+        });
+
+        it ('should disable answer and show message about not svara med nytt intyg if user is coming from request origin UTHOPP', function () {
+
+            //spyOn(User, 'hasPrivilege').and.callFake(function() { return true; });
+            //spyOn(User, 'hasRequestOrigin').and.callFake(function() { return true; });
+
+            //User.user.origin = 'UTHOPP';
+            UserModel.setUser({origin: 'UTHOPP'});
+
+            var qa = {amne:'KOMPLETTERING_AV_LAKARINTYG'};
+            fragaSvarCommonService.decorateSingleItem(qa);
+            expect(qa.answerDisabled).toBeTruthy();
+            expect(qa.svaraMedNyttIntygDisabled).toBeTruthy();
+        });
+    });
+
     describe('Mail link', function() {
         var userModelMock = {}, $window;
 
