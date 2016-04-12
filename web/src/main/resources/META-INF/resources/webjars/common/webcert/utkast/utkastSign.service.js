@@ -99,10 +99,8 @@ angular.module('common').factory('common.UtkastSignService',
                         $log.debug('bankId modal close call successfull');
                     }, function(reason) {
                         bankIdSignDialog.isOpen = false;
-                        if(reason.terminateBankIdCall) {
-                            $timeout.cancel(signModel._timer);
-                            $log.debug('CANCEL BANKID SIGN-IN --- TIMEOUT CANCELLED');
-                        }
+                        $timeout.cancel(signModel._timer);
+                        $log.debug('BANKID SIGN Cancelled --- reason was ' + reason);
                     });
 
                     _waitForSigneringsstatusSigneradAndClose(signModel, intygsTyp, intygsId, ticket, deferred, bankIdSignDialog);
