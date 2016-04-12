@@ -83,6 +83,20 @@
             Kopiera
           </button>
           <button type="button"
+                  wc-authority="KOPIERA_INTYG"
+                  request-origin="!UTHOPP"
+                  intygstyp="{{intygstyp}}"
+                  id="fornyaBtn"
+                  class="btn btn-info"
+                  ng-if="intygstyp === 'fk7263' && !viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
+                  ng-click="fornya(viewState.intygModel)"
+                  uib-popover="{{fornyaBtnTooltipText}}"
+                  popover-trigger="mouseenter"
+                  popover-popup-delay="300"
+                  popover-append-to-body="true">
+            Förnya
+          </button>
+          <button type="button"
                   wc-authority="MAKULERA_INTYG"
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"

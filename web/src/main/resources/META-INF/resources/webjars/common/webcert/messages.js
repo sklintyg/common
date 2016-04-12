@@ -34,6 +34,7 @@ var commonMessages = {
         'common.sign': 'Signera',
         'common.send': 'Skicka',
         'common.copy': 'Kopiera',
+        'common.fornya': 'Förnya',
         'common.delete': 'Radera',
         'common.sign.intyg': 'Signera intyget',
 

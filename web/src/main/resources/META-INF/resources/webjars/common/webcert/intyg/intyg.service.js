@@ -23,38 +23,84 @@ angular.module('common').factory('common.IntygService',
             'use strict';
 
             var _COPY_DIALOG_COOKIE = 'wc.dontShowCopyDialog';
+            var _FORNYA_DIALOG_COOKIE = 'wc.dontShowFornyaDialog';
             var copyDialogModel = {
-                isOpen: false
+                isOpen: false,
+                dontShowInfo: null,
+                otherCareUnit: null,
+                patientId: null,
+                deepIntegration: null,
+                intygTyp: null,
+                showerror: null,
+                acceptprogressdone: null,
+                errormessageid: 'error.failedtocopyintyg'
             };
+            var fornyaDialogModel = angular.copy(copyDialogModel);
+            fornyaDialogModel.errormessageid = 'error.failedtofornyaintyg';
 
-            function _initCopyDialog() {
-                copyDialogModel = {
-                    isOpen: false,
-                    errormessageid: 'error.failedtocopyintyg'
-                };
+            function goToDraft(type, intygId) {
+                $state.go(type + '-edit', {
+                    certificateId: intygId
+                });
+            }
+
+            function resetViewStateErrorKeys (viewState) {
+                viewState.activeErrorMessageKey = null;
+                viewState.inlineErrorMessageKey = null;
+            }
+
+            function dialogButton1Click (options) {
+                var requestType = options.requestType;
+                var requestData = options.requestData;
+                var requestFn = options.requestFn;
+                var viewState = options.viewState;
+                var closeDialog = options.closeDialog;
+                var dialogModel = options.dialogModel;
+                var dialogCookieKey = options.dialogCookieKey;
+
+                $log.debug(requestType + ' cert from dialog' + requestData);
+                if (dialogModel.dontShowInfo) {
+                    $cookies.putObject(dialogCookieKey, dialogModel.dontShowInfo);
+                }
+
+                dialogModel.showerror = false;
+                dialogModel.acceptprogressdone = false;
+                requestFn(requestData, function(draftResponse) {
+                    dialogModel.acceptprogressdone = true;
+                    if(viewState && viewState.inlineErrorMessageKey) {
+                        viewState.inlineErrorMessageKey = null;
+                    }
+
+                    var end = function() {
+                        goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
+                    };
+
+                    closeDialog({direct:end});
+
+                }, function(errorCode) {
+                    if (errorCode === 'DATA_NOT_FOUND') {
+                        dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg.personidnotfound';
+                    }
+                    else {
+                        dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg';
+                    }
+                    dialogModel.acceptprogressdone = true;
+                    dialogModel.showerror = true;
+                });
             }
 
             function _copy(viewState, intygCopyRequest, isOtherCareUnit) {
-
-                _initCopyDialog();
-
-                function goToDraft(type, intygId) {
-                    $state.go(type + '-edit', {
-                        certificateId: intygId
-                    });
-                }
-
+                var copyDialog;
                 // Create cookie and model representative
-                copyDialogModel.dontShowCopyInfo = false;
+                copyDialogModel.dontShowInfo = false;
 
                 if($cookies.getObject(_COPY_DIALOG_COOKIE) === undefined) {
-                    $cookies.putObject(_COPY_DIALOG_COOKIE, copyDialogModel.dontShowCopyInfo);
+                    $cookies.putObject(_COPY_DIALOG_COOKIE, copyDialogModel.dontShowInfo);
                 }
 
                 if ($cookies.getObject(_COPY_DIALOG_COOKIE)) {
                     $log.debug('copy cert without dialog' + intygCopyRequest);
-                    viewState.activeErrorMessageKey = null;
-                    viewState.inlineErrorMessageKey = null;
+                    resetViewStateErrorKeys(viewState);
                     _createCopyDraft(intygCopyRequest, function(draftResponse) {
                         goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
                     }, function(errorCode) {
@@ -72,38 +118,22 @@ angular.module('common').factory('common.IntygService',
                     copyDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                     copyDialogModel.intygTyp = intygCopyRequest.intygType;
 
-                    var copyDialog = dialogService.showDialog({
+                    copyDialog = dialogService.showDialog({
                         dialogId: 'copy-dialog',
                         titleId: 'label.copycert',
                         templateUrl: '/app/partials/copy-dialog.html',
                         model: copyDialogModel,
-                        button1click: function() {
-                            $log.debug('copy cert from dialog' + intygCopyRequest);
-                            if (copyDialogModel.dontShowCopyInfo) {
-                                $cookies.putObject(_COPY_DIALOG_COOKIE, copyDialogModel.dontShowCopyInfo);
-                            }
-
-                            copyDialogModel.showerror = false;
-                            copyDialogModel.acceptprogressdone = false;
-                            _createCopyDraft(intygCopyRequest, function(draftResponse) {
-                                copyDialogModel.acceptprogressdone = true;
-                                if(viewState && viewState.inlineErrorMessageKey) {
-                                    viewState.inlineErrorMessageKey = null;
+                        button1click: function () {
+                            dialogButton1Click({
+                                requestType: 'copy',
+                                requestData: intygCopyRequest,
+                                requestFn: _createCopyDraft,
+                                viewState: viewState,
+                                dialogModel: copyDialogModel,
+                                dialogCookieKey: _COPY_DIALOG_COOKIE,
+                                closeDialog: function (result) {
+                                    copyDialog.close(result);
                                 }
-                                var end = function() {
-                                    goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
-                                };
-                                copyDialog.close({direct:end});
-
-                            }, function(errorCode) {
-                                if (errorCode === 'DATA_NOT_FOUND') {
-                                    copyDialogModel.errormessageid = 'error.failedtocopyintyg.personidnotfound';
-                                }
-                                else {
-                                    copyDialogModel.errormessageid = 'error.failedtocopyintyg';
-                                }
-                                copyDialogModel.acceptprogressdone = true;
-                                copyDialogModel.showerror = true;
                             });
                         },
                         button1text: 'common.copy',
@@ -120,6 +150,83 @@ angular.module('common').factory('common.IntygService',
                 }
 
                 return null;
+            }
+
+            function _fornya(viewState, intygFornyaRequest, isOtherCareUnit) {
+                var fornyaDialog;
+                // Create cookie and model representative
+                fornyaDialogModel.dontShowFornyaInfo = false;
+
+                if($cookies.getObject(_FORNYA_DIALOG_COOKIE) === undefined) {
+                    $cookies.putObject(_FORNYA_DIALOG_COOKIE, fornyaDialogModel.dontShowFornyaInfo);
+                }
+
+                if ($cookies.getObject(_FORNYA_DIALOG_COOKIE)) {
+                    $log.debug('copy cert without dialog' + intygFornyaRequest);
+                    resetViewStateErrorKeys(viewState);
+                    _createFornyaDraft(intygFornyaRequest, function(draftResponse) {
+                        goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
+                    }, function(errorCode) {
+                        if (errorCode === 'DATA_NOT_FOUND') {
+                            viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.personidnotfound';
+                        }
+                        else {
+                            viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg';
+                        }
+                    });
+                } else {
+
+                    fornyaDialogModel.otherCareUnit = isOtherCareUnit;
+                    fornyaDialogModel.patientId = $stateParams.patientId;
+                    fornyaDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
+                    fornyaDialogModel.intygTyp = intygFornyaRequest.intygType;
+
+                    fornyaDialog = dialogService.showDialog({
+                        dialogId: 'fornya-dialog',
+                        titleId: 'label.fornyacert',
+                        templateUrl: '/app/partials/fornya-dialog.html',
+                        model: fornyaDialogModel,
+                        button1click: function () {
+                            dialogButton1Click({
+                                requestType: 'fornya',
+                                requestData: intygFornyaRequest,
+                                requestFn: _createFornyaDraft,
+                                viewState: viewState,
+                                dialogModel: fornyaDialogModel,
+                                dialogCookieKey: _FORNYA_DIALOG_COOKIE,
+                                closeDialog: function (result) {
+                                    fornyaDialog.close(result);
+                                }
+                            });
+                        },
+                        button1text: 'common.fornya',
+                        button2text: 'common.cancel',
+                        autoClose: false
+                    });
+
+                    fornyaDialog.opened.then(function() {
+                        fornyaDialogModel.isOpen = true;
+                    }, function() {
+                        fornyaDialogModel.isOpen = false;
+                    });
+                    return fornyaDialog;
+                }
+
+                return null;
+            }
+
+            function _createFornyaDraft(intygFornyaRequest, onSuccess, onError) {
+                IntygProxy.fornyaIntyg(intygFornyaRequest, function(data) {
+                    $log.debug('Successfully requested fornyad draft');
+                    if(onSuccess) {
+                        onSuccess(data);
+                    }
+                }, function(error) {
+                    $log.debug('Create fornyad draft failed: ' + error.message);
+                    if (onError) {
+                        onError(error.errorCode);
+                    }
+                });
             }
 
             function _createCopyDraft(intygCopyRequest, onSuccess, onError) {
@@ -273,7 +380,9 @@ angular.module('common').factory('common.IntygService',
                 makulera: _makulera,
                 send: _send,
                 COPY_DIALOG_COOKIE: _COPY_DIALOG_COOKIE,
+                FORNYA_DIALOG_COOKIE: _FORNYA_DIALOG_COOKIE,
                 copy: _copy,
+                fornya: _fornya,
                 isRevoked: _isRevoked,
                 isSentToTarget: _isSentToTarget,
 

@@ -75,25 +75,46 @@ angular.module('common').factory('common.IntygProxy',
                 });
         }
 
-        function _copyIntyg(intygCopyRequest, onSuccess, onError) {
-            $log.debug('_copyIntyg ' + intygCopyRequest.intygType + ', ' + intygCopyRequest.intygId);
+        function _fornyaOrCopyIntyg (action) {
+            var restEndpoint;
 
-            var payload = {};
-            payload.patientPersonnummer = intygCopyRequest.patientPersonnummer;
-            if (intygCopyRequest.nyttPatientPersonnummer) {
-                payload.nyttPatientPersonnummer = intygCopyRequest.nyttPatientPersonnummer;
+            switch (action) {
+                case 'copy':
+                    restEndpoint = 'kopiera';
+                    break;
+                case 'fornya':
+                    restEndpoint = 'fornya';
+                    break;
+                default:
+                    throw new Error('common.IntygProxy#_fornyaOrCopyIntyg: Unknown action parameter', action);
             }
 
-            var restPath = '/api/intyg/' + intygCopyRequest.intygType + '/' + intygCopyRequest.intygId + '/kopiera/';
-            $http.post(restPath, payload).success(function(data) {
-                $log.debug('got callback data: ' + data);
-                onSuccess(data);
-                statService.refreshStat();
+            return function doFornyaOrCopyIntyg (intygCopyRequest, onSuccess, onError) {
+                $log.debug(action + ' intyg' + intygCopyRequest.intygType + ', ' + intygCopyRequest.intygId);
 
-            }).error(function(data, status) {
-                $log.error('error ' + status);
-                onError(data);
-            });
+                var payload = {};
+                payload.patientPersonnummer = intygCopyRequest.patientPersonnummer;
+                if (intygCopyRequest.nyttPatientPersonnummer) {
+                    payload.nyttPatientPersonnummer = intygCopyRequest.nyttPatientPersonnummer;
+                }
+
+                var restPath = '/api/intyg/' +
+                    intygCopyRequest.intygType +
+                    '/' +
+                    intygCopyRequest.intygId +
+                    '/' +
+                    restEndpoint +
+                    '/';
+                $http.post(restPath, payload).success(function(data) {
+                    $log.debug('got callback data: ' + data);
+                    onSuccess(data);
+                    statService.refreshStat();
+
+                }).error(function(data, status) {
+                    $log.error('error ' + status);
+                    onError(data);
+                });
+            };
         }
 
         function _logPrint(intygsId, intygsTyp, onSuccess, onError) {
@@ -113,7 +134,8 @@ angular.module('common').factory('common.IntygProxy',
             getIntyg: _getIntyg,
             makuleraIntyg: _makuleraIntyg,
             sendIntyg: _sendIntyg,
-            copyIntyg: _copyIntyg,
+            copyIntyg: _fornyaOrCopyIntyg('copy'),
+            fornyaIntyg: _fornyaOrCopyIntyg('fornya'),
             logPrint: _logPrint
         };
     }]);

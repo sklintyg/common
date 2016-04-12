@@ -230,4 +230,7 @@ public interface ModuleApi {
     Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande);
 
     String decorateUtlatande(String utlatandeJson) throws ModuleException;
+
+    InternalModelResponse createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder internalModelHolder)
+            throws ModuleException;
 }

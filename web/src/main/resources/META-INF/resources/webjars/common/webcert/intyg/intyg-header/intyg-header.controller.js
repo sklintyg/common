@@ -19,10 +19,10 @@
 
 angular.module('common').controller('common.IntygHeader',
     ['$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
-    'common.IntygCopyRequestModel', 'common.User', 'common.UserModel', 'common.IntygService',
-    'common.IntygViewStateService', 'common.statService',
+    'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
+    'common.IntygService', 'common.IntygViewStateService', 'common.statService',
         function($scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
-            User, UserModel, IntygService, CommonViewState, statService) {
+            IntygFornyaRequestModel, User, UserModel, IntygService, CommonViewState, statService) {
             'use strict';
 
             var intygType = $state.current.data.intygType;
@@ -30,6 +30,7 @@ angular.module('common').controller('common.IntygHeader',
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
+            $scope.fornyaBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.fornya.text');
 
             $scope.visaSkickaKnappen = function(){
                 return !$scope.viewState.common.intyg.isSent &&
@@ -58,21 +59,29 @@ angular.module('common').controller('common.IntygHeader',
                 });
             };
 
-            $scope.copy = function(cert) {
+            function fornyaOrCopy (cert, intygServiceMethod, buildIntygRequestModel) {
                 if (cert === undefined || cert.grundData === undefined) {
-                    $log.debug('cert or cert.grundData is undefined. Aborting copy.');
+                    $log.debug('cert or cert.grundData is undefined. Aborting fornya.');
                     return;
                 }
-
                 var isOtherCareUnit = User.getValdVardenhet().id !== cert.grundData.skapadAv.vardenhet.enhetsid;
-                IntygService.copy($scope.viewState,
-                    IntygCopyRequestModel.build({
+                intygServiceMethod($scope.viewState,
+                    buildIntygRequestModel({
                         intygId: cert.id,
                         intygType: intygType,
                         patientPersonnummer: cert.grundData.patient.personId,
                         nyttPatientPersonnummer: $stateParams.patientId
                     }),
-                    isOtherCareUnit);
+                    isOtherCareUnit
+                );
+            }
+
+            $scope.fornya = function(cert) {
+                return fornyaOrCopy(cert, IntygService.fornya, IntygFornyaRequestModel.build);
+            };
+
+            $scope.copy = function(cert) {
+                return fornyaOrCopy(cert, IntygService.copy, IntygCopyRequestModel.build);
             };
 
             $scope.print = function(cert, isEmployeeCopy) {
