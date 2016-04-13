@@ -49,6 +49,14 @@ angular.module('common').factory('common.IntygService',
                 viewState.inlineErrorMessageKey = null;
             }
 
+            function hideCopyDialogError () {
+                copyDialogModel.showerror = null;
+            }
+
+            function hideFornyaDialogError () {
+                fornyaDialogModel.showerror = null;
+            }
+
             function dialogButton1Click (options) {
                 var requestType = options.requestType;
                 var requestData = options.requestData;
@@ -146,6 +154,12 @@ angular.module('common').factory('common.IntygService',
                     }, function() {
                         copyDialogModel.isOpen = false;
                     });
+
+                    copyDialog.result.then(
+                        hideCopyDialogError,
+                        hideCopyDialogError
+                    );
+
                     return copyDialog;
                 }
 
@@ -209,6 +223,12 @@ angular.module('common').factory('common.IntygService',
                     }, function() {
                         fornyaDialogModel.isOpen = false;
                     });
+
+                    fornyaDialog.result.then(
+                        hideFornyaDialogError,
+                        hideFornyaDialogError
+                    );
+
                     return fornyaDialog;
                 }
 
