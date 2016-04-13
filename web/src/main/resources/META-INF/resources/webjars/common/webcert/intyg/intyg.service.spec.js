@@ -93,6 +93,7 @@ describe('IntygService', function() {
 
                 return {
                     opened: { then: function() {} },
+                    result: { then: function() {} },
                     close: function() {}
                 };
             });
