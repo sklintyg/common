@@ -5,11 +5,11 @@
          show-content="viewState.doneLoading">
 
       <div class="webcert-bottom-padding-section" ng-show="certProperties.isLoaded">
-        <!-- error message -->
-        <div id="arende-list-load-error" ng-show="viewState.doneLoading && viewState.activeErrorMessageKey"
-             class="alert alert-danger">
-          <span message key="common.fk.fragasvar.error.{{viewState.activeErrorMessageKey}}"></span>
-        </div>
+
+        <h2 class="col-head" ng-show="certProperties.kompletteringOnly">Kompletteringar<span wc-help-mark field-help-text="qa.help.kompletteringar"></span></h2>
+
+        <div arende-new-panel></div>
+
       </div>
 
       <div id="unhandledArendeCol" class="webcert-col-section arende-list-section" ng-show="(arendeList | filter:openArendenFilter).length > 0">
