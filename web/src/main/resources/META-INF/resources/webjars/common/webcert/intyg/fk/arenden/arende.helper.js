@@ -1,51 +1,65 @@
-angular.module('common').service('common.fragaSvarHelper',
-    ['$log', '$timeout', 'common.fragaSvarService', 'common.fragaSvarCommonService', '$window', 'common.statService',
-        function( $log, $timeout, fragaSvarService, fragaSvarCommonService, $window, statService) {
+angular.module('common').service('common.ArendeHelper',
+    ['$log', '$timeout', 'common.ArendeProxy', '$window', 'common.statService',
+        function( $log, $timeout, ArendeProxy, $window, statService) {
         'use strict';
 
-        function delayFindMessageAndAct(timeout, qaList, message, onFound) {
-            $timeout(function() {
-                var i;
-                for(i = 0; i < qaList.length; i++){
-                    if(qaList[i].id === message.id && qaList[i].proxyMessage !== undefined) {
-                        onFound(i);
-                        break;
+            this.updateArendeViewState = function(arende) {
+                if (arende.amne === 'PAMINNELSE') {
+                    // RE-020 Påminnelser is never
+                    // answerable
+                    arende.answerDisabled = true;
+                    arende.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
+                } else if ((arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || arende.amne === 'KOMPLT') && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
+                    // RE-005, RE-006
+                    arende.answerDisabled = true;
+                    arende.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
+                } else {
+                    arende.answerDisabled = false;
+                    arende.answerDisabledReason = undefined;
+                }
+
+                if ((arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || arende.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
+                    arende.svaraMedNyttIntygDisabled = true;
+                    arende.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
+                } else {
+                    arende.svaraMedNyttIntygDisabled = false;
+                }
+
+                _updateAtgardMessage(arende);
+            };
+
+            function _updateAtgardMessage(arende) {
+                if (arende.status === 'CLOSED') {
+                    arende.atgardMessageId = 'handled';
+                } else if (_isUnhandledForDecoration(arende)) {
+                    arende.atgardMessageId = 'markhandled';
+                } else if (arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || arende.amne === 'KOMPLT') {
+                    arende.atgardMessageId = 'komplettering';
+                } else {
+                    if (arende.status === 'PENDING_INTERNAL_ACTION') {
+                        arende.atgardMessageId = 'svarfranvarden';
+                    } else if (arende.status === 'PENDING_EXTERNAL_ACTION') {
+                        arende.atgardMessageId = 'svarfranfk';
+                    } else {
+                        arende.atgardMessageId = '';
+                        $log.debug('warning: undefined status');
                     }
                 }
-            }, timeout);
+            }
 
-            $log.debug('Message not found:' + message.id);
-        }
-
-        function addListMessage(qaList, qa, messageId) {
-            var messageProxy = {}; // = angular.copy(qa);
-            messageProxy.proxyMessage = messageId;
-            messageProxy.id = qa.id;
-            messageProxy.senasteHandelseDatum = qa.senasteHandelseDatum;
-            messageProxy.messageStatus = qa.status;
-            qaList.push(messageProxy);
-
-            delayFindMessageAndAct(5000, qaList, messageProxy, function(index) {
-                qaList[index].messageStatus = 'HIDDEN';
-                delayFindMessageAndAct(2000, qaList, messageProxy, function(index) {
-                    qaList.splice(index, 1);
-                });
-            });
-        }
-
-        this.updateAnsweredAsHandled = function(deferred, unhandledQas, fromHandledDialog){
-            if(unhandledQas === undefined || unhandledQas.length === 0 ){
+        this.updateAnsweredAsHandled = function(deferred, unhandledarendes, fromHandledDialog){
+            if(unhandledarendes === undefined || unhandledarendes.length === 0 ){
                 return;
             }
-            fragaSvarService.closeAllAsHandled(unhandledQas,
-                function(qas){
-                    if(qas) {
-                        angular.forEach(qas, function(qa) { //unused parameter , key
-                            fragaSvarCommonService.decorateSingleItem(qa);
+            fragaSvarService.closeAllAsHandled(unhandledarendes,
+                function(arendes){
+                    if(arendes) {
+                        angular.forEach(arendes, function(arende) { //unused parameter , key
+                            fragaSvarCommonService.decorateSingleItem(arende);
                             if(fromHandledDialog) {
-                                qa.proxyMessage = 'common.fk.arenden.marked.as.hanterad';
+                                arende.proxyMessage = 'common.fk.arenden.marked.as.hanterad';
                             } else {
-                                addListMessage(qas, qa, 'common.fk.arenden.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
+                                addListMessage(arendes, arende, 'common.fk.arenden.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
                             }
                         });
                         statService.refreshStat();
