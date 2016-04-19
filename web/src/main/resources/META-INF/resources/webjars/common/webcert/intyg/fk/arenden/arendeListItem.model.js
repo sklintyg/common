@@ -22,23 +22,75 @@
  */
 
 angular.module('common').factory('common.ArendeListItemModel',
-    [function() {
+    ['$log', function($log) {
         'use strict';
 
         /**
          * Constructor
          */
-        function ArendeListItemModel(data) {
+        function ArendeListItemModel(arendeModel) {
             this.answerDisabled = false;
             this.answerDisabledReason = '';
             this.svaraMedNyttIntygDisabled = false;
             this.svaraMedNyttIntygDisabledReason = '';
             this.atgardMessageId = '';
-            this.arende = {}; // ArendeModel from backend
+            this.arende = arendeModel; // ArendeModel from backend
+            this.updateArendeListItem();
         }
 
-        ArendeListItemModel.build = function(data) {
-            return new ArendeListItemModel(data);
+        ArendeListItemModel.build = function(arendeModel) {
+            return new ArendeListItemModel(arendeModel);
+        };
+
+        ArendeListItemModel.prototype.updateArendeListItem = function () {
+            this._updateListItemState();
+            this._updateAtgardMessage();
+        };
+
+        ArendeListItemModel.prototype._updateListItemState = function() {
+            if (this.arende.amne === 'PAMINNELSE') {
+                // RE-020 Påminnelser is never
+                // answerable
+                this.answerDisabled = true;
+                this.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
+            } else if ((this.arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.amne === 'KOMPLT') && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
+                // RE-005, RE-006
+                this.answerDisabled = true;
+                this.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
+            } else {
+                this.answerDisabled = false;
+                this.answerDisabledReason = undefined;
+            }
+
+            if ((this.arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
+                this.svaraMedNyttIntygDisabled = true;
+                this.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
+            } else {
+                this.svaraMedNyttIntygDisabled = false;
+            }
+        };
+
+        ArendeListItemModel.prototype._updateAtgardMessage = function() {
+            if (this.arende.status === 'CLOSED') {
+                this.atgardMessageId = 'handled';
+            } else if (this._isUnhandledForDecoration()) {
+                this.atgardMessageId = 'markhandled';
+            } else if (this.arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.amne === 'KOMPLT') {
+                this.atgardMessageId = 'komplettering';
+            } else {
+                if (this.arende.status === 'PENDING_INTERNAL_ACTION') {
+                    this.atgardMessageId = 'svarfranvarden';
+                } else if (this.status === 'PENDING_EXTERNAL_ACTION') {
+                    this.atgardMessageId = 'svarfranfk';
+                } else {
+                    this.atgardMessageId = '';
+                    $log.debug('warning: undefined status');
+                }
+            }
+        }
+
+        ArendeListItemModel.prototype._isUnhandledForDecoration = function(){
+            return this.arende.status === 'ANSWERED' || this.arende.amne === 'MAKULERING' || this.arende.amne === 'PAMINNELSE';
         };
 
         return ArendeListItemModel;

@@ -28,7 +28,7 @@ angular.module('common').factory('common.ArendeNewModel',
         /**
          * Constructor
          */
-        function ArendeNewModel() {
+        function ArendeNewModel(data) {
 
             // Topics are defined under RE-13
             this.topics = [
@@ -38,15 +38,15 @@ angular.module('common').factory('common.ArendeNewModel',
                 },
                 {
                     label: 'Arbetstidsförläggning',
-                    value: 'ARBETSTIDSFORLAGGNING'
+                    value: 'ARBTID'
                 },
                 {
                     label: 'Avstämningsmöte',
-                    value: 'AVSTAMNINGSMOTE'
+                    value: 'AVSTMN'
                 },
                 {
                     label: 'Kontakt',
-                    value: 'KONTAKT'
+                    value: 'KONTKT'
                 },
                 {
                     label: 'Övrigt',

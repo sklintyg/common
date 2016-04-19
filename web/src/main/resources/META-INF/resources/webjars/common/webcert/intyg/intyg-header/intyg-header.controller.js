@@ -33,9 +33,9 @@ angular.module('common').controller('common.IntygHeader',
             $scope.fornyaBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.fornya.text');
 
             $scope.visaSkickaKnappen = function(){
-                return !$scope.viewState.common.intyg.isSent &&
+                return !$scope.viewState.common.intygProperties.isSent &&
                   !$scope.viewState.common.isIntygOnSendQueue &&
-                  !$scope.viewState.common.intyg.isRevoked &&
+                  !$scope.viewState.common.intygProperties.isRevoked &&
                   !$scope.viewState.common.isIntygOnRevokeQueue;
             };
 
@@ -85,7 +85,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.print = function(cert, isEmployeeCopy) {
-                if (CommonViewState.intyg.isRevoked) {
+                if (CommonViewState.intygProperties.isRevoked) {
                     var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
                     PrintService.printWebPageWithCustomTitle(cert.id, intygType, customHeader);
                 } else if (isEmployeeCopy) {

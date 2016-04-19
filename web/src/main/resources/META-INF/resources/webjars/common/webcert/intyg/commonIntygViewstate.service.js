@@ -30,7 +30,7 @@ angular.module('common').service('common.IntygViewStateService',
             this.isIntygOnRevokeQueue = false;
             this.deleted = false;
 
-            this.intyg = {
+            this.intygProperties = {
                 type: undefined,
                 defaultRecipient: undefined,
                 isSent: false,
@@ -44,12 +44,18 @@ angular.module('common').service('common.IntygViewStateService',
         };
 
         this.updateIntygProperties = function(statuses) {
-            this.intyg.isSent = IntygService.isSentToTarget(statuses, 'FK');
-            this.intyg.isRevoked = IntygService.isRevoked(statuses);
-            if (this.intyg.isRevoked) {
-                this.intyg.printStatus = 'revoked';
+
+            var targetName = 'FKASSA';
+            if(this.intygProperties.type === 'fk7263') {
+                targetName = 'FK'; // Set legacy name for fk7263
+            }
+
+            this.intygProperties.isSent = IntygService.isSentToTarget(statuses, targetName);
+            this.intygProperties.isRevoked = IntygService.isRevoked(statuses);
+            if (this.intygProperties.isRevoked) {
+                this.intygProperties.printStatus = 'revoked';
             } else {
-                this.intyg.printStatus = 'signed';
+                this.intygProperties.printStatus = 'signed';
             }
         };
 

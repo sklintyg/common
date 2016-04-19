@@ -6,7 +6,7 @@
 
       <div ng-if="arende.fraga.status == 'CLOSED'">
         <h3 class="inline-block">
-          Ämne: <strong><span message key="arende.fraga.amne.{{arende.fraga.amne | lowercase}}"></span></strong><span
+          Ämne: <strong><span message key="common.arende.fraga.amne.{{arende.fraga.amne | lowercase}}"></span></strong><span
             id="fkrubrik-{{arende.fraga.internReferens}}"
             ng-show="arende.rubrik"> - {{arende.rubrik}}</span>
         </h3>
@@ -20,13 +20,13 @@
         <div class="col-xs-9" ng-if="arende.fraga.status != 'CLOSED'">
           <div class="fraga.status-header">
             <h3 class="inline-block">
-              Ämne: <strong><span message key="arende.fraga.amne.{{arende.fraga.amne | lowercase}}"></span></strong><span
+              Ämne: <strong><span message key="common.arende.fraga.amne.{{arende.fraga.amne | lowercase}}"></span></strong><span
                 id="fkrubrik-{{arende.fraga.internReferens}}"
                 ng-show="arende.rubrik"> - {{arende.rubrik}}</span>
             </h3>
-            <!--h3>
-              Åtgärd: <strong><span message key="arende.measure.{{arende.measureResKey}}"></span></strong>
-            </h3-->
+            <h3>
+              Åtgärd: <strong><span message key="common.arende.atgard.{{arende.atgardMessageId}}"></span></strong>
+            </h3>
             <h3 ng-show="arende.sistaDatumForSvar">
               Svara senast: <strong>{{arende.sistaDatumForSvar}}</strong></h3>
             <label class="checkbox" ng-if="!intygProperties.kompletteringOnly">
@@ -64,7 +64,7 @@
             <div class="pull-left" ng-switch="arende.frageStallare | lowercase">
               Från: <span class="arende-sender" ng-switch-when="wc"
                           id="{{panelId}}-question-fraga-vard-aktor-namn-{{arende.fraga.internReferens}}">{{arende.vardAktorNamn}}</span>
-              <span ng-switch-default message key="arende.fragestallare.{{arende.frageStallare | lowercase}}"></span>
+              <span ng-switch-default message key="common.arende.skapatav.{{arende.skapatAv | lowercase}}"></span>
               <div id="{{panelId}}-fkKontakter-{{arende.fraga.internReferens}}" ng-repeat="kontakt in arende.fraga.externaKontakter">
                 {{kontakt}}<br />
               </div>
@@ -90,7 +90,7 @@
       <!-- error message occuring when inteacting with server for komplettering-->
       <div id="internal-{{arende.fraga.internReferens}}-meddelande-load-error" ng-show="arende.activeErrorMessageKey"
            class="alert alert-danger">
-        <span message key="fk7263.error.{{arende.activeErrorMessageKey}}"></span>
+        <span message key="common.arende.komplettering.error.{{arende.activeErrorMessageKey}}"></span>
       </div>
 
       <!-- Svara med nytt intyg button - only on komplettering -->
@@ -125,7 +125,7 @@
               <div class="pull-left" ng-switch="arende.frageStallare | lowercase">
                 <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
                 Från: <span ng-switch-when="wc">
-                          <span class="arende-sender" message key="arende.fragestallare.fk"></span>
+                          <span class="arende-sender" message key="common.arende.skapatav.fk"></span>
                         </span>
                 <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
                 <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arende.fraga.internReferens}}"
@@ -146,7 +146,7 @@
         <!--  Oavsett hur frågan stänged skall man kunna 'öppna' den igen -->
         <!--div ng-if="arende.fraga.status == 'CLOSED'">
           <div id="{{panelId}}-{{arende.fraga.internReferens}}-meddelande-load-error" ng-show="arende.activeErrorMessageKey" class="alert alert-danger">
-            <span message key="fk7263.error.{{arende.activeErrorMessageKey}}"></span>
+            <span message key="common.arende.error.{{arende.activeErrorMessageKey}}"></span>
           </div>
           <div class="form-group">
             <div class="controls" ng-hide="arende.frageStallare!='WC' && arende.fraga.meddelande">
@@ -198,7 +198,7 @@
                 <!-- error message occuring when inteacting with server for this FragaSvar-->
                 <div id="internal-{{arende.fraga.internReferens}}-meddelande-load-error" ng-show="arende.activeErrorMessageKey"
                      class="alert alert-danger">
-                  <span message key="fk7263.error.{{arende.activeErrorMessageKey}}"></span>
+                  <span message key="common.arende.error.{{arende.activeErrorMessageKey}}"></span>
                 </div>
 
                 <button type="button" class="btn btn-success" ng-click="sendAnswer(arende)"

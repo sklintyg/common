@@ -26,6 +26,12 @@ angular.module('common').service('common.ArendeNewViewStateService',
             this.showSentMessage = false; // Shows info text that message has been sent to target
             this.focusQuestion = false; // True sets focus to question text via focus directive
             this.sendButtonToolTip = 'Skicka frågan';
+            this.isIntygOnSendQueue = false;
+            this.intygProperties = {
+                isLoaded: false,
+                isSent: false,
+                isRevoked: false
+            };
             return this;
         };
 

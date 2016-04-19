@@ -46,61 +46,89 @@ angular.module('common').directive('arendeNew',
 
                     // Create viewstate
                     var ArendeNewViewState = ArendeNewViewStateService.reset();
+                    ArendeNewViewState.intygProperties = $scope.intygProperties;
                     $scope.localViewState = ArendeNewViewState;
 
-                    // Create modelF
-                    var ArendeNewModel = ArendeNewModel.build();
-                    $scope.arendeNewModel = ArendeNewModel;
+                    // Create model
+                    var arendeNewModel = ArendeNewModel.build();
+                    $scope.arendeNewModel = arendeNewModel;
 
                     /**
                      * Exposed interactions
                      */
 
+                    function isNew() {
+                        var notKomplettering = !ArendeNewViewState.intygProperties.kompletteringOnly;
+                        var notRevoked = !ArendeNewViewState.intygProperties.isRevoked;
+                        var newArendeFormClosed = !ArendeNewViewState.arendeNewOpen;
+                        var intygSentOrArendenAvailable = (ArendeNewViewState.isIntygOnSendQueue ||
+                                                            ArendeNewViewState.intygProperties.isSent ||
+                                                            $scope.arendeList.length > 0);
+
+                        return notKomplettering && notRevoked && newArendeFormClosed && intygSentOrArendenAvailable;
+                    }
+
+                    function isNotSent() {
+                        var notSent = ArendeNewViewState.isIntygOnSendQueue === false &&
+                                        ArendeNewViewState.intygProperties.isSent === false;
+
+                        return notSent && ($scope.arendeList.length < 1);
+                    }
+
+                    function isNoArenden() {
+                        return ArendeNewViewState.intygProperties.isSent === undefined &&
+                            ($scope.arendeList.length < 1);
+                    }
+
                     $scope.getNewArendeState = function() {
                         var newArendeState = 'none';
-                        if(!intygProperties.kompletteringOnly && !intygProperties.isRevoked && !ArendeNewViewState.arendeNewOpen && (ArendeNewViewState.isIntygOnSendQueue || intygProperties.isSent || arendeList.length > 0)) {
+                        if(isNew()) {
                             newArendeState = 'new';
-                        } else if(ArendeNewViewState.isIntygOnSendQueue === false && intygProperties.isSent === false && (arendeList.length < 1)) {
+                        } else if(isNotSent()) {
                             newArendeState = 'not-sent';
-                        } else if(intygProperties.isSent === undefined && (arendeList.length < 1)) {
+                        } else if(isNoArenden()) {
                             newArendeState = 'no-arenden';
                         }
                         return newArendeState;
                     };
 
-                    $scope.toggleQuestionForm = function() {
+                    $scope.toggleArendeForm = function() {
                         ArendeNewViewState.arendeNewOpen = !ArendeNewViewState.arendeNewOpen;
                         if(ArendeNewViewState.arendeNewOpen) {
                             ArendeNewViewState.focusQuestion = true;
                         }
                         ArendeNewViewState.showSentMessage = false;
                     };
-                    
-                    $scope.sendNewArende = function () {
-                        $log.debug('sendQuestion:' + ArendeNewModel);
+
+                    $scope.dismissSentMessage = function() {
+                        ArendeNewViewState.showSentMessage = false;
+                    };
+
+                    $scope.sendNewArende = function() {
+
+                        $log.debug('sendQuestion:' + arendeNewModel);
                         ArendeNewViewState.updateInProgress = true; // trigger local spinner
                         ArendeNewViewState.showSentMessage = false; // reset sent message info box
 
-                        ArendeProxy.sendNewArende($stateParams.certificateId, intygType, ArendeNewModel,
+                        ArendeProxy.sendNewArende($stateParams.certificateId, ArendeNewViewState.intygProperties.intygType, arendeNewModel,
                             function(arendeModel) {
+                                
                                 $log.debug('Got saveNewQuestion result:' + arendeModel);
                                 ArendeNewViewState.updateInProgress = false;
                                 ArendeNewViewState.activeErrorMessageKey = null;
-                                if (arendeModel !== null) {
-                                    //$scope.activeQA = result.internReferens;
-                                    // close question form
-                                    // result is a new FragaSvar Instance: add it to our local repo
 
-                                    var arendeListItem = ArendeListItemModel.build();
-                                    arendeListItem.arende = arendeModel;
-                                    ArendeHelper.updateArendeListItem(arendeListItem);
-                                    $scope.arendeList.push(arendeListItem);
+                                if (arendeModel !== null) {
+
+                                    // add new arende to open list
+                                    $scope.arendeList.push(ArendeHelper.createArendeListItem(arendeModel));
 
                                     // close form
-                                    $scope.toggleQuestionForm();
+                                    $scope.toggleArendeForm();
+
+                                    // show message that arende is sent to server
                                     ArendeNewViewState.showSentMessage = true;
 
-                                    // update stats
+                                    // update stats (and bubbles on menu)
                                     statService.refreshStat();
                                 }
                             }, function(errorData) {
@@ -111,9 +139,9 @@ angular.module('common').directive('arendeNew',
                     };
 
                     $scope.isArendeValidForSubmit = function() {
-                        var validToSend = ArendeNewModel.chosenTopic.value &&
-                            !ObjectHelper.isEmpty(ArendeNewModel.frageText) &&
-                            !ArendeNewViewState.updateInProgress;
+                        var validToSend = arendeNewModel.chosenTopic.value &&
+                                            !ObjectHelper.isEmpty(arendeNewModel.frageText) &&
+                                            !ArendeNewViewState.updateInProgress;
 
                         ArendeNewViewState.sendButtonToolTip = 'Skicka frågan';
                         if (!validToSend) {
