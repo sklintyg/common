@@ -97,13 +97,13 @@ angular.module('common').directive('arendePanel',
                     $scope.sendAnswer = function sendAnswer(arende) {
                         arende.updateInProgress = true; // trigger local spinner
 
-                        fragaSvarProxy.saveAnswer(arende, 'fk7263', function(result) {
+                        fragaSvarProxy.saveAnswer(arende, 'luse', function(result) {
                             $log.debug('Got saveAnswer result:' + result);
                             arende.updateInProgress = false;
                             arende.activeErrorMessageKey = null;
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.arendeList, arende, 'fk7263.fragasvar.answer.is.sent');
+                                //addListMessage($scope.arendeList, arende, 'luse.fragasvar.answer.is.sent');
 
                                 // update real item
                                 angular.copy(result, arende);
@@ -155,7 +155,7 @@ angular.module('common').directive('arendePanel',
                     $scope.onVidareBefordradChange = function(arende) {
                         arende.forwardInProgress = true;
 
-                        fragaSvarCommonService.setVidareBefordradState(arende.internReferens, 'fk7263', arende.vidarebefordrad,
+                        fragaSvarCommonService.setVidareBefordradState(arende.internReferens, 'luse', arende.vidarebefordrad,
                             function(result) {
                                 arende.forwardInProgress = false;
 
@@ -178,7 +178,7 @@ angular.module('common').directive('arendePanel',
                                 if(arendes) {
                                     angular.forEach(arendes, function(arende) { //unused parameter , key
                                         fragaSvarCommonService.decorateSingleItem(arende);
-                                        //addListMessage(arendes, arende, 'fk7263.fragasvar.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
+                                        //addListMessage(arendes, arende, 'luse.fragasvar.marked.as.hanterad'); // TODOOOOOOOO TEST !!!!!!!!!!
                                     });
                                     statService.refreshStat();
                                 }
@@ -214,12 +214,12 @@ angular.module('common').directive('arendePanel',
                         $log.debug('updateAsHandled:' + arende);
                         arende.updateHandledStateInProgress = true;
 
-                        fragaSvarProxy.closeAsHandled(arende.internReferens, 'fk7263', function(result) {
+                        fragaSvarProxy.closeAsHandled(arende.internReferens, 'luse', function(result) {
                             arende.activeErrorMessageKey = null;
                             arende.updateHandledStateInProgress = false;
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.arendeList, arende, 'fk7263.fragasvar.marked.as.hanterad');
+                                //addListMessage($scope.arendeList, arende, 'luse.fragasvar.marked.as.hanterad');
 
                                 angular.copy(result, arende);
                                 statService.refreshStat();
@@ -243,14 +243,14 @@ angular.module('common').directive('arendePanel',
                         $log.debug('updateAsUnHandled:' + arende);
                         arende.updateHandledStateInProgress = true; // trigger local
 
-                        fragaSvarProxy.openAsUnhandled(arende.internReferens, 'fk7263', function(result) {
+                        fragaSvarProxy.openAsUnhandled(arende.internReferens, 'luse', function(result) {
                             $log.debug('Got openAsUnhandled result:' + result);
                             arende.activeErrorMessageKey = null;
                             arende.updateHandledStateInProgress = false;
 
                             if (result !== null) {
                                 fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.arendeList, arende, 'fk7263.fragasvar.marked.as.ohanterad');
+                                //addListMessage($scope.arendeList, arende, 'luse.fragasvar.marked.as.ohanterad');
 
                                 angular.copy(result, arende);
                                 statService.refreshStat();

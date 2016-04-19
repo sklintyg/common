@@ -30,7 +30,7 @@ describe('arendePanel', function() {
     var deferred;
 
     // Load the webcert module and mock away everything that is not necessary.
-    beforeEach(angular.mock.module('fk7263', function($provide) {
+    beforeEach(angular.mock.module('luse', function($provide) {
         $provide.value('common.dialogService', {});
         fragaSvarCommonService = jasmine.createSpyObj('common.fragaSvarCommonService', [ 'isUnhandled', 'fromFk', 'setVidareBefordradState' ]);
         $provide.value('common.fragaSvarCommonService', fragaSvarCommonService);
@@ -42,9 +42,9 @@ describe('arendePanel', function() {
         $provide.value('common.IntygCopyRequestModel', jasmine.createSpyObj('common.IntygCopyRequestModel',
             [ 'build']));
 
-        fragaSvarService = jasmine.createSpyObj('fk7263.fragaSvarProxy',
+        fragaSvarService = jasmine.createSpyObj('luse.fragaSvarProxy',
             [ 'getQAForCertificate', 'closeAsHandled', 'closeAllAsHandled', 'saveNewQuestion', 'saveAnswer']);
-        $provide.value('fk7263.fragaSvarProxy', fragaSvarService);
+        $provide.value('luse.fragaSvarProxy', fragaSvarService);
     }));
 
     beforeEach(angular.mock.module('htmlTemplates'));

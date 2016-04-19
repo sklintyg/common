@@ -1,42 +1,24 @@
 angular.module('common').controller('common.ArendeCtrl',
     [ '$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$window', '$filter', 'common.dialogService',
-        'common.ArendeProxy',/*, 'common.fragaSvarCommonService', 'common.statService',
-        'common.UserModel', 'common.fragaSvarHelper'*/ 'common.IntygViewStateService',
-        function($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter, dialogService, ArendeProxy,
-            /* fragaSvarCommonService, statService, UserModel, qaHelper*/ CommonViewState) {
+        'common.ArendeProxy', 'common.ArendenViewStateService',
+        function($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter, dialogService,
+                 ArendeProxy, ArendenViewState) {
             'use strict';
 
-            // Injecting the CommonViewState service so client-side only changes on the intyg page (such as a send/revoke)
-            // can trigger GUI updates in the Q&A view.
-            $scope.viewState = {
-                common: CommonViewState,
-                doneLoading: false,
-                activeErrorMessageKey: null,
-                newQuestionOpen: false,
-                sentMessage: false,
-                focusQuestion: false,
-                showTemplate: true
-            };
-
+            $scope.viewState = ArendenViewState;
             $scope.arendeList = [];
             var intygType = $state.current.data.intygType;
 
             // Request loading of arendes for this intyg
             ArendeProxy.getArenden($stateParams.certificateId, intygType, function(result) {
                 $log.debug('getArendeForintygificate:success data:' + result);
-                $scope.viewState.doneLoading = true;
-                $scope.viewState.activeErrorMessageKey = null;
+                ArendenViewState.doneLoading = true;
+                ArendenViewState.activeErrorMessageKey = null;
                 $scope.arendeList = result;
-
-                // Tell viewintygctrl about the intyg in case intyg load fails
-/*                if (result.length > 0) {
-                    // Verkar inte finnas någon lyssnare på detta event
-                    $rootScope.$emit('ArendeCtrl.load.complete', result[0].intygsReferens);
-                }*/
             }, function(errorData) {
                 // show error view
-                $scope.viewState.doneLoading = true;
-                $scope.viewState.activeErrorMessageKey = errorData.errorCode;
+                ArendenViewState.doneLoading = true;
+                ArendenViewState.activeErrorMessageKey = errorData.errorCode;
             });
 
             $scope.intyg = {};
@@ -53,12 +35,10 @@ angular.module('common').controller('common.ArendeCtrl',
                 $scope.intygProperties.isRevoked = intygProperties.isRevoked;
             });
             $scope.$on('$destroy', unbindFastEvent);
-
             
             $scope.openArendenFilter = function(arende) {
                 return true;
             };
-
 /*
 
             // init state
