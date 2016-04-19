@@ -39,7 +39,7 @@ angular.module('common').directive('arendePanel',
                 templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendePanel.directive.html',
                 scope: {
                     panelId: '@',
-                    arende: '=',
+                    arendeListItem: '=',
                     arendeList: '=',
                     intyg: '=',
                     intygProperties: '='
@@ -47,8 +47,7 @@ angular.module('common').directive('arendePanel',
                 controller: function($scope, $element, $attrs) {
 
                     $scope.cannotKomplettera = false;
-/*
-                    //                    $scope.handledPanel = $attrs.type === 'handled';
+
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
                             if (newState) {
@@ -62,60 +61,27 @@ angular.module('common').directive('arendePanel',
                             return $scope.arende.status === 'CLOSED';
                         }
                     };
-                     function delayFindMessageAndAct(timeout, arendeList, message, onFound) {
-                     $timeout(function() {
-                     var i;
-                     for(i = 0; i < arendeList.length; i++){
-                     if(arendeList[i].internReferens === message.id && arendeList[i].proxyMessage !== undefined) {
-                     onFound(i);
-                     break;
-                     }
-                     }
-                     }, timeout);
 
-                     $log.debug('Message not found:' + message.id);
-                     }
-                     */
-                    /*                    function addListMessage(arendeList, arende, messageId) {
-                     var messageProxy = {};
-                     messageProxy.proxyMessage = messageId;
-                     messageProxy.id = arende.internReferens;
-                     messageProxy.internReferens = arende.internReferens;
-                     messageProxy.senasteHandelseDatum = arende.senasteHandelseDatum;
-                     messageProxy.messageStatus = arende.status;
-                     arendeList.push(messageProxy);
+                    $scope.sendAnswer = function sendAnswer(arendeListItem) {
+                        arendeListItem.updateInProgress = true; // trigger local spinner
 
-                     delayFindMessageAndAct(5000, arendeList, messageProxy, function(index) {
-                     arendeList[index].messageStatus = 'HIDDEN';
-                     delayFindMessageAndAct(2000, arendeList, messageProxy, function(index) {
-                     arendeList.splice(index, 1);
-                     });
-                     });
-                     }*/
-
-                    /*
-                    $scope.sendAnswer = function sendAnswer(arende) {
-                        arende.updateInProgress = true; // trigger local spinner
-
-                        fragaSvarProxy.saveAnswer(arende, 'luse', function(result) {
+                        ArendeProxy.saveAnswer(arendeListItem.arende, 'luse', function(result) {
                             $log.debug('Got saveAnswer result:' + result);
-                            arende.updateInProgress = false;
-                            arende.activeErrorMessageKey = null;
+                            arendeListItem.updateInProgress = false;
+                            arendeListItem.activeErrorMessageKey = null;
                             if (result !== null) {
-                                fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.arendeList, arende, 'luse.fragasvar.answer.is.sent');
-
+                                ArendeHelper.updateArendeListItem(result);
                                 // update real item
-                                angular.copy(result, arende);
+                                angular.copy(result, arendeListItem);
                                 statService.refreshStat();
                             }
                         }, function(errorData) {
                             // show error view
-                            arende.updateInProgress = false;
-                            arende.activeErrorMessageKey = errorData.errorCode;
+                            arendeListItem.updateInProgress = false;
+                            arendeListItem.activeErrorMessageKey = errorData.errorCode;
                         });
                     };
-*/
+
                     $scope.answerWithIntyg = function(arende, intyg) {
 
                         if(!ObjectHelper.isDefined(intyg)) {

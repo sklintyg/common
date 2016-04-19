@@ -24,8 +24,8 @@
 
       <!-- list of open arenden -->
       <div id="unhandledArendeCol" class="webcert-col-section arende-list-section" ng-show="(arendeList | filter:openArendenFilter).length > 0">
-        <div ng-repeat="arende in arendeList | filter:openArendenFilter | orderBy:'senasteHandelseDatum':true" class="arende-item">
-          <div arende-panel panel-id="unhandled" arende="arende" arende-list="arendeList" intyg="intyg" intyg-properties="intygProperties"></div>
+        <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelseDatum':true" class="arende-item">
+          <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList" intyg="intyg" intyg-properties="intygProperties"></div>
         </div>
       </div>
 
