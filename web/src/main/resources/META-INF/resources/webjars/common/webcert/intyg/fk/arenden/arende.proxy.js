@@ -19,6 +19,27 @@ angular.module('common').factory('common.ArendeProxy',
         }
 
         /*
+         * save new question
+         */
+        function _sendNewArende(intygsId, intygsTyp, arende, onSuccess, onError) {
+            $log.debug('_saveNewQuestion: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var payload = {
+                amne: arende.chosenTopic.value,
+                meddelande: arende.frageText
+            };
+
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + intygsId;
+            $http.post(restPath, payload).success(function(data) {
+                $log.debug('got callback data:' + data);
+                onSuccess(data);
+            }).error(function(data, status) {
+                $log.error('error ' + status);
+                // Let calling code handle the error of no data response
+                onError(data);
+            });
+        }
+
+        /*
          * answer komplettering with a new intyg (basically do a copy with a 'komplettering' relation to this intyg)
          */
         function _answerWithIntyg(arende, intygsTyp, intygCopyRequest, onSuccess, onError) {
@@ -109,35 +130,14 @@ angular.module('common').factory('common.ArendeProxy',
                 // Let calling code handle the error of no data response
                 onError(data);
             });
-        }
-
-        /*
-         * save new question
-         */
-      /*  function _saveNewQuestion(intygsId, intygsTyp, question, onSuccess, onError) {
-            $log.debug('_saveNewQuestion: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var payload = {};
-            payload.amne = question.chosenTopic.value;
-            payload.frageText = question.frageText;
-
-            var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + intygsId;
-            $http.post(restPath, payload).success(function(data) {
-                $log.debug('got callback data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
-                // Let calling code handle the error of no data response
-                onError(data);
-            });
-        }
-*/
+        }*/
 
         // Return public API for the service
         return {
             getArenden: _getArenden,
-            answerWithIntyg: _answerWithIntyg
-/*            saveAnswer: _saveAnswer,
-            saveNewQuestion: _saveNewQuestion,
+            answerWithIntyg: _answerWithIntyg,
+            sendNewArende: _sendNewArende
+            /*            saveAnswer: _saveAnswer,
             closeAsHandled: _closeAsHandled,
             closeAllAsHandled: _closeAllAsHandled,
             openAsUnhandled: _openAsUnhandled*/

@@ -1,6 +1,7 @@
 <div>
 
   <!-- Arende button -->
+  {{getNewArendeState()}}
   <div ng-show="getNewArendeState() == 'new'"
        wc-check-vardenhet
        vardenhet="{{intyg.grundData.skapadAv.vardenhet.enhetsid}}">
@@ -46,18 +47,22 @@
     </div>
 
     <!-- error message occuring when inteacting with server for this FragaSvar-->
-    <div id="arendeNewModel-load-error" ng-show="arendeNewModel.activeErrorMessageKey" class="alert alert-danger">
-      <span message key="common.arende.error.{{arendeNewModel.activeErrorMessageKey}}"></span>
+    <div id="arendeNewModel-load-error" ng-show="localViewState.activeErrorMessageKey" class="alert alert-danger">
+      <span message key="common.arende.error.{{localViewState.activeErrorMessageKey}}"></span>
     </div>
 
     <!-- Form button group -->
     <div class="form-group">
-      <button type="button" class="btn btn-success" ng-click="sendArende(arendeNewModel)"
-              ng-disabled="!questionValidForSubmit(arendeNewModel)" title="{{arendeNewModel.sendButtonToolTip}}"
+
+      <!-- Skicka -->
+      <button type="button" class="btn btn-success" ng-click="sendNewArende()"
+              ng-disabled="!isArendeValidForSubmit()" title="{{localViewState.sendButtonToolTip}}"
               id="sendArendeBtn">
-        <img src="/img/loader-small-green.gif" ng-show="arendeNewModel.updateInProgress"> Skicka till
+        <img src="/img/loader-small-green.gif" ng-show="localViewState.updateInProgress"> Skicka till
         Försäkringskassan
       </button>
+
+      <!-- Avbryt -->
       <button type="button" class="btn btn-default btn-secondary" ng-click="toggleArendeForm()" id="cancelArendeBtn">Avbryt
         fråga
       </button>
