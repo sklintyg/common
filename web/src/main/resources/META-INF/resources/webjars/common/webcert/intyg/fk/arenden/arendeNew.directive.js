@@ -27,9 +27,10 @@
 angular.module('common').directive('arendeNew',
     [ '$window', '$log', '$timeout', '$state', '$stateParams',
         'common.User', 'common.statService', 'common.ObjectHelper',
-        'common.ArendeProxy', 'common.ArendeNewViewStateService', 'common.ArendeHelper',
+        'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper', 'common.ArendeListItemModel',
         function($window, $log, $timeout, $state, $stateParams,
-            User, statService, ObjectHelper, ArendeProxy, ArendeNewViewStateService, ArendeHelper) {
+            User, statService, ObjectHelper,
+                 ArendeProxy, ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel) {
             'use strict';
 
             return {
@@ -47,13 +48,25 @@ angular.module('common').directive('arendeNew',
                     var ArendeNewViewState = ArendeNewViewStateService.reset();
                     $scope.localViewState = ArendeNewViewState;
 
-                    // Create model
+                    // Create modelF
                     var ArendeNewModel = ArendeNewModel.build();
                     $scope.arendeNewModel = ArendeNewModel;
 
                     /**
                      * Exposed interactions
                      */
+
+                    $scope.getNewArendeState = function() {
+                        var newArendeState = 'none';
+                        if(!intygProperties.kompletteringOnly && !intygProperties.isRevoked && !ArendeNewViewState.arendeNewOpen && (ArendeNewViewState.isIntygOnSendQueue || intygProperties.isSent || arendeList.length > 0)) {
+                            newArendeState = 'new';
+                        } else if(ArendeNewViewState.isIntygOnSendQueue === false && intygProperties.isSent === false && (arendeList.length < 1)) {
+                            newArendeState = 'not-sent';
+                        } else if(intygProperties.isSent === undefined && (arendeList.length < 1)) {
+                            newArendeState = 'no-arenden';
+                        }
+                        return newArendeState;
+                    };
 
                     $scope.toggleQuestionForm = function() {
                         ArendeNewViewState.arendeNewOpen = !ArendeNewViewState.arendeNewOpen;
@@ -77,8 +90,11 @@ angular.module('common').directive('arendeNew',
                                     //$scope.activeQA = result.internReferens;
                                     // close question form
                                     // result is a new FragaSvar Instance: add it to our local repo
-                                    $scope.arendeList.push(arendeModel);
-                                    ArendeHelper.updateArendeViewState(arendeModel);
+
+                                    var arendeListItem = ArendeListItemModel.build();
+                                    arendeListItem.arende = arendeModel;
+                                    ArendeHelper.updateArendeListItem(arendeListItem);
+                                    $scope.arendeList.push(arendeListItem);
 
                                     // close form
                                     $scope.toggleQuestionForm();

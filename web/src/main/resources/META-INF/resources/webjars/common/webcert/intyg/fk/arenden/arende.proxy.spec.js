@@ -29,7 +29,7 @@ describe('FragaSvarService', function() {
     var testNewQuestionResponse = {'internReferens':13,'frageStallare':'WC','amne':'ARBETSTIDSFORLAGGNING',
         'frageText':'fdhfdh','frageSigneringsDatum':'2015-02-23T10:14:49.013','frageSkickadDatum':'2015-02-23T10:14:49.013',
         'senasteHandelse':'2015-02-23T10:14:49.013','vardAktorHsaId':'eva','vardAktorNamn':'Eva Holgersson',
-        'intygsReferens':{'intygsId':'intyg-2','intygsTyp':'fk7263','patientNamn':'Test Testorsson',
+        'intygsReferens':{'intygsId':'intyg-2','intygsTyp':'luse','patientNamn':'Test Testorsson',
             'signeringsDatum':'2012-12-23T21:00:00.000','patientId':{'patientIdRoot':'1.2.752.129.2.1.3.1',
                 'patientIdExtension':'19121212-1212'}},'vardperson':{'hsaId':'hans','namn':'Hans Njurgren','enhetsId':'dialys',
             'enhetsnamn':'Centrum Väst Mott','postadress':'Lasarettsvägen 13','postnummer':'721 61','postort':'Västerås',
@@ -40,7 +40,7 @@ describe('FragaSvarService', function() {
         'frageText':'Detta är ett konstigt ärende. vad menar Hr Doktor egentligen?','frageSigneringsDatum':'2012-12-23T21:00:00.000',
         'frageSkickadDatum':'2013-09-09T00:00:00.000','svarsText':'srhrshs','svarSigneringsDatum':'2015-02-23T13:11:15.790',
         'svarSkickadDatum':'2015-02-23T13:11:15.790','senasteHandelse':'2015-02-23T13:11:15.790','vardAktorHsaId':'eva',
-        'vardAktorNamn':'Eva Holgersson','intygsReferens':{'intygsId':'intyg-4-revoked','intygsTyp':'fk7263',
+        'vardAktorNamn':'Eva Holgersson','intygsReferens':{'intygsId':'intyg-4-revoked','intygsTyp':'luse',
             'patientNamn':'Test Testorsson','signeringsDatum':'2011-01-26T00:00:00.000',
             'patientId':{'patientIdRoot':'1.2.752.129.2.1.3.1','patientIdExtension':'19121212-1212'}},
         'vardperson':{'hsaId':'eva','namn':'Eva Rättare','forskrivarKod':'1234567','enhetsId':'centrum-vast',
@@ -49,11 +49,11 @@ describe('FragaSvarService', function() {
             'vardgivarnamn':'Landstinget Norrland'},'status':'CLOSED','vidarebefordrad':false,
         'senasteHandelseDatum':'2015-02-23T13:11:15.790'};
 
-    beforeEach(module('fk7263', function($provide) {
+    beforeEach(module('luse', function($provide) {
         $provide.value('common.User', {});
     }));
 
-    beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', 'fk7263.fragaSvarProxy',
+    beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', 'luse.fragaSvarProxy',
         function($controller, _$rootScope_, _$httpBackend_, _fragaSvarService_) {
 
             $httpBackend = _$httpBackend_;
@@ -68,7 +68,7 @@ describe('FragaSvarService', function() {
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
 
-            var intygsTyp = 'fk7263';
+            var intygsTyp = 'luse';
             var intygsId = 'intyg-1';
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
             $httpBackend.expectPOST(restPath).respond(200, testNewQuestionResponse);
@@ -93,7 +93,7 @@ describe('FragaSvarService', function() {
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
 
-            var intygsTyp = 'fk7263';
+            var intygsTyp = 'luse';
             var intygsId = 'intyg-1';
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId + '/besvara';
             $httpBackend.expectPUT(restPath).respond(200, testAnswerResponse);

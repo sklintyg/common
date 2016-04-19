@@ -31,7 +31,7 @@ describe('QACtrl', function() {
     var deferred;
     var ObjectHelper;
 
-    var testCert = { 'id': 'intyg-2', 'typ': 'fk7263', 'grundData': {'signeringsdatum': '2012-12-23T21:00:00.000',
+    var testCert = { 'id': 'intyg-2', 'typ': 'luse', 'grundData': {'signeringsdatum': '2012-12-23T21:00:00.000',
         'skapadAv': {'personId': 'hans', 'fullstandigtNamn': 'Hans Njurgren', 'vardenhet': {'enhetsid': 'dialys',
             'enhetsnamn': 'Centrum Väst Mott', 'postadress': 'Lasarettsvägen 13', 'postnummer': '721 61',
             'postort': 'Västerås', 'telefonnummer': '021-1818000', 'epost': 'centrum-vast@vardenhet.se',
@@ -62,7 +62,7 @@ describe('QACtrl', function() {
         'namnfortydligandeOchAdress': 'Hans Njurgren\nCentrum Väst Mott\nLasarettsvägen 13\n721 61 Västerås\n021-1818000' };
 
     // Load the webcert module and mock away everything that is not necessary.
-    beforeEach(angular.mock.module('fk7263', function($provide) {
+    beforeEach(angular.mock.module('luse', function($provide) {
         featureService = {
             features: {
                 HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast'
@@ -79,9 +79,9 @@ describe('QACtrl', function() {
 
         ObjectHelper = { isDefined: function() {} }; //jasmine.createSpyObj('common.ObjectHelper', [ 'isDefined']);
         $provide.value('common.ObjectHelper', ObjectHelper);
-        fragaSvarService = jasmine.createSpyObj('fk7263.fragaSvarProxy',
+        fragaSvarService = jasmine.createSpyObj('luse.fragaSvarProxy',
             [ 'getQAForCertificate', 'closeAsHandled', 'closeAllAsHandled', 'saveNewQuestion', 'saveAnswer']);
-        $provide.value('fk7263.fragaSvarProxy', fragaSvarService);
+        $provide.value('luse.fragaSvarProxy', fragaSvarService);
         $provide.value('common.IntygViewStateService', {});
         deferred = jasmine.createSpyObj('def', ['resolve']);
     }));
@@ -90,7 +90,7 @@ describe('QACtrl', function() {
         function($controller, _$rootScope_, _$q_, _$httpBackend_, _IntygService_) {
             $rootScope = _$rootScope_;
             $scope = $rootScope.$new();
-            $controller('fk7263.QACtrl',
+            $controller('luse.QACtrl',
                 { $scope: $scope, fragaSvarCommonService: fragaSvarCommonService, fragaSvarService: fragaSvarService });
             $q = _$q_;
             $httpBackend = _$httpBackend_;
@@ -115,7 +115,7 @@ describe('QACtrl', function() {
         it('on load fragasvar with intyg', function() {
 
             // kick off the window change event
-            $rootScope.$broadcast('fk7263.ViewCertCtrl.load', testCert, {
+            $rootScope.$broadcast('luse.ViewCertCtrl.load', testCert, {
                 isSent: true,
                 isRevoked: false
             });
@@ -135,7 +135,7 @@ describe('QACtrl', function() {
         it('on load fragasvar with utkast (forced parent intyg)', function() {
 
             // kick off the window change event
-            $rootScope.$broadcast('fk7263.ViewCertCtrl.load', testCert, {
+            $rootScope.$broadcast('luse.ViewCertCtrl.load', testCert, {
                 isSent: true,
                 isRevoked: false,
                 forceUseProvidedIntyg: true,
@@ -156,7 +156,7 @@ describe('QACtrl', function() {
         it('on load fragasvar with null', function() {
 
             // kick off the window change event
-            $rootScope.$broadcast('fk7263.ViewCertCtrl.load', null, null);
+            $rootScope.$broadcast('luse.ViewCertCtrl.load', null, null);
 
             // ------ act
             // promises are resolved/dispatched only on next $digest cycle
