@@ -136,8 +136,23 @@ var commonMessages = {
         'qa.measure.markhandled': 'Markera som hanterad',
         'qa.measure.handled': 'Ingen',
 
-        'arende.fraga.amne.komplt': 'Komplettering',
-        'arende.fraga.amne.ovrigt': 'Övrigt',
+        // Ärendehantering
+        'common.loading.existing.arenden': 'Laddar ärenden...',
+
+        'common.arende.fragestallare.wc': 'Vårdenheten',
+        'common.arende.fragestallare.fk': 'Försäkringskassan',
+
+        'common.arende.atgard.svarfranvarden': 'Svara',
+        'common.arende.atgard.svarfranfk': 'Invänta svar från Försäkringskassan',
+        'common.arende.atgard.komplettering': 'Komplettera',
+        'common.arende.atgard.markhandled': 'Markera som hanterad',
+        'common.arende.atgard.handled': 'Ingen',
+
+        'common.arende.fraga.amne.arbtid': 'Arbetstidsförläggning',
+        'common.arende.fraga.amne.avstmn': 'Avstämningsmöte',
+        'common.arende.fraga.amne.kontkt': 'Kontakt',
+        'common.arende.fraga.amne.komplt': 'Komplettering',
+        'common.arende.fraga.amne.ovrigt': 'Övrigt',
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',

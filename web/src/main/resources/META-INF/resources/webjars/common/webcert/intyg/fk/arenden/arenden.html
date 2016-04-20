@@ -1,7 +1,7 @@
 <div class="row weak-hidden" ng-class="{show: viewState.showTemplate}">
   <div class="col-md-12 arende-column">
 
-    <div wc-spinner label="common.fk.info.loading.existing.arenden" show-spinner="!viewState.doneLoading"
+    <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading"
          show-content="viewState.doneLoading">
 
       <div class="webcert-bottom-padding-section" ng-show="intygProperties.isLoaded">
@@ -17,14 +17,14 @@
         <!-- error message -->
         <div id="arende-list-load-error" ng-show="viewState.doneLoading && viewState.activeErrorMessageKey"
              class="alert alert-danger">
-          <span message key="common.fk.arende.error.{{viewState.activeErrorMessageKey}}"></span>
+          <span message key="common.arende.error.{{viewState.activeErrorMessageKey}}"></span>
         </div>
 
       </div>
 
       <!-- list of open arenden -->
       <div id="unhandledArendeCol" class="webcert-col-section arende-list-section" ng-show="(arendeList | filter:openArendenFilter).length > 0">
-        <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelseDatum':true" class="arende-item">
+        <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelse':true" class="arende-item">
           <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList" intyg="intyg" intyg-properties="intygProperties"></div>
         </div>
       </div>
