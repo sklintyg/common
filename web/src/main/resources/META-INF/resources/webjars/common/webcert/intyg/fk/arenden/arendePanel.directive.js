@@ -50,14 +50,14 @@ angular.module('common').directive('arendePanel',
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
                             if (newState) {
-                                $scope.updateAsHandled($scope.arende);
+                                $scope.updateAsHandled($scope.arendeListItem.arende);
                             }
                             else {
-                                $scope.updateAsUnHandled($scope.arende);
+                                $scope.updateAsUnHandled($scope.arendeListItem.arende);
                             }
                         }
                         else {
-                            return $scope.arende.fraga.status === 'CLOSED';
+                            return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
                         }
                     };
 
@@ -81,16 +81,16 @@ angular.module('common').directive('arendePanel',
                         });
                     };
 
-                    $scope.answerWithIntyg = function(arende, intyg) {
+                    $scope.answerWithIntyg = function(arendeListItem, intyg) {
 
                         if(!ObjectHelper.isDefined(intyg)) {
-                            arende.activeErrorMessageKey = 'komplettera-no-intyg';
+                            arendeListItem.activeErrorMessageKey = 'komplettera-no-intyg';
                             return;
                         }
 
-                        arende.updateInProgress = true; // trigger local spinner
-                        arende.activeErrorMessageKey = null;
-                        ArendeProxy.answerWithIntyg(arende, intyg.typ,
+                        arendeListItem.updateInProgress = true; // trigger local spinner
+                        arendeListItem.activeErrorMessageKey = null;
+                        ArendeProxy.answerWithIntyg(arendeListItem.arende, intyg.typ,
                             IntygCopyRequestModel.build({
                                 intygId: intyg.id,
                                 intygType: intyg.typ,
@@ -98,8 +98,8 @@ angular.module('common').directive('arendePanel',
                                 nyttPatientPersonnummer: $stateParams.patientId
                             }), function(result) {
 
-                                arende.updateInProgress = false;
-                                arende.activeErrorMessageKey = null;
+                                arendeListItem.updateInProgress = false;
+                                arendeListItem.activeErrorMessageKey = null;
                                 statService.refreshStat();
 
                                 function goToDraft(type, intygId) {
@@ -112,8 +112,8 @@ angular.module('common').directive('arendePanel',
 
                             }, function(errorData) {
                                 // show error view
-                                arende.updateInProgress = false;
-                                arende.activeErrorMessageKey = errorData.errorCode;
+                                arendeListItem.updateInProgress = false;
+                                arendeListItem.activeErrorMessageKey = errorData.errorCode;
                             });
                     };
 /*
