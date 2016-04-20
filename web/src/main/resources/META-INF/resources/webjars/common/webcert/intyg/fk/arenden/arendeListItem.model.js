@@ -48,12 +48,12 @@ angular.module('common').factory('common.ArendeListItemModel',
         };
 
         ArendeListItemModel.prototype._updateListItemState = function() {
-            if (this.arende.amne === 'PAMINNELSE') {
+            if (this.arende.fraga.amne === 'PAMINNELSE') {
                 // RE-020 Påminnelser is never
                 // answerable
                 this.answerDisabled = true;
                 this.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-            } else if ((this.arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.amne === 'KOMPLT') && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
+            } else if ((this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
                 // RE-005, RE-006
                 this.answerDisabled = true;
                 this.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
@@ -62,7 +62,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabledReason = undefined;
             }
 
-            if ((this.arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
+            if ((this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
                 this.svaraMedNyttIntygDisabled = true;
                 this.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
             } else {
@@ -71,16 +71,16 @@ angular.module('common').factory('common.ArendeListItemModel',
         };
 
         ArendeListItemModel.prototype._updateAtgardMessage = function() {
-            if (this.arende.status === 'CLOSED') {
+            if (this.arende.fraga.status === 'CLOSED') {
                 this.atgardMessageId = 'handled';
             } else if (this._isUnhandledForDecoration()) {
                 this.atgardMessageId = 'markhandled';
-            } else if (this.arende.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.amne === 'KOMPLT') {
+            } else if (this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') {
                 this.atgardMessageId = 'komplettering';
             } else {
-                if (this.arende.status === 'PENDING_INTERNAL_ACTION') {
+                if (this.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
                     this.atgardMessageId = 'svarfranvarden';
-                } else if (this.status === 'PENDING_EXTERNAL_ACTION') {
+                } else if (this.arende.fraga.status === 'PENDING_EXTERNAL_ACTION') {
                     this.atgardMessageId = 'svarfranfk';
                 } else {
                     this.atgardMessageId = '';
@@ -90,7 +90,7 @@ angular.module('common').factory('common.ArendeListItemModel',
         }
 
         ArendeListItemModel.prototype._isUnhandledForDecoration = function(){
-            return this.arende.status === 'ANSWERED' || this.arende.amne === 'MAKULERING' || this.arende.amne === 'PAMINNELSE';
+            return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || this.arende.fraga.amne === 'PAMINNELSE';
         };
 
         return ArendeListItemModel;

@@ -27,8 +27,8 @@
             <h3>
               Åtgärd: <strong><span message key="common.arende.atgard.{{arendeListItem.atgardMessageId}}"></span></strong>
             </h3>
-            <h3 ng-show="arendeListItem.arende.sistaDatumForSvar">
-              Svara senast: <strong>{{arendeListItem.arende.sistaDatumForSvar}}</strong></h3>
+            <h3 ng-show="arendeListItem.arende.fraga.sistaDatumForSvar">
+              Svara senast: <strong>{{arendeListItem.arende.fraga.sistaDatumForSvar}}</strong></h3>
             <label class="checkbox" ng-if="!intygProperties.kompletteringOnly">
               <input type="checkbox" ng-model="handledFunction" ng-model-options="{ getterSetter: true }">
               Hanterad
@@ -59,18 +59,18 @@
       <!-- Frågan -->
       <div class="panel-container">
         <div class="arende-block"
-             ng-class="{'arende-block-handled' : arendeListItem.arende.fraga.status == 'ANSWERED', 'arende-block-fk' : (arendeListItem.arende.frageStallare | lowercase) == 'fk', 'arende-block-wc' : (arendeListItem.arende.frageStallare | lowercase) == 'wc'}">
+             ng-class="{'arende-block-handled' : arendeListItem.arende.fraga.status == 'ANSWERED', 'arende-block-fk' : (arendeListItem.arende.fraga.frageStallare | lowercase) == 'fk', 'arende-block-wc' : (arendeListItem.arende.fraga.frageStallare | lowercase) == 'wc'}">
           <div class="arende-block-head clearfix">
-            <div class="pull-left" ng-switch="arendeListItem.arende.frageStallare | lowercase">
+            <div class="pull-left" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
               Från: <span class="arende-sender" ng-switch-when="wc"
-                          id="{{panelId}}-question-fraga-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.vardAktorNamn}}</span>
-              <span ng-switch-default message key="common.arende.skapatav.{{arendeListItem.arende.skapatAv | lowercase}}"></span>
+                          id="{{panelId}}-question-fraga-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.signeratAv}}</span>
+              <span ng-switch-default message key="common.arende.fragestallare.{{arendeListItem.arende.fraga.frageStallare | lowercase}}"></span>
               <div id="{{panelId}}-fkKontakter-{{arendeListItem.arende.fraga.internReferens}}" ng-repeat="kontakt in arendeListItem.arende.fraga.externaKontakter">
                 {{kontakt}}<br />
               </div>
             </div>
             <!-- Fraga fran fk eller wc? -->
-            <div class="pull-right" ng-switch="arendeListItem.arende.frageStallare | lowercase">
+            <div class="pull-right" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
               <span ng-switch-when="wc">Skickat: </span> <span ng-switch-default>Mottaget: </span> <span class="arende-date"
                                                                                                          id="{{panelId}}-arende-skickaddatum-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.timestamp | date:'short'}}</span>
             </div>
@@ -116,13 +116,13 @@
           class="fold-animation">
         <div class="panel-container" ng-show="arendeListItem.arende.fraga.amne != 'PAMINNELSE'">
           <div class="arende-block"
-               ng-class="{'arende-block-handled': arendeListItem.arende.fraga.status == 'CLOSED', 'arende-block-fk' : (arendeListItem.arende.frageStallare | lowercase) == 'wc', 'arende-block-wc' : (arendeListItem.arende.frageStallare | lowercase) == 'fk'}"
+               ng-class="{'arende-block-handled': arendeListItem.arende.fraga.status == 'CLOSED', 'arende-block-fk' : (arendeListItem.arende.fraga.frageStallare | lowercase) == 'wc', 'arende-block-wc' : (arendeListItem.arende.fraga.frageStallare | lowercase) == 'fk'}"
                ng-if="(arendeListItem.arende.fraga.status == 'CLOSED' && arendeListItem.arende.fraga.meddelande) || (arendeListItem.arende.fraga.status == 'ANSWERED')">
 
             <!-- UNHANDLEDTYPE: frågan är redan BESVARAD -->
             <!-- HANDLEDTYPE: frågan har en meddelande -->
             <div class="arende-block-head clearfix">
-              <div class="pull-left" ng-switch="arendeListItem.arende.frageStallare | lowercase">
+              <div class="pull-left" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
                 <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
                 Från: <span ng-switch-when="wc">
                           <span class="arende-sender" message key="common.arende.skapatav.fk"></span>
@@ -131,7 +131,7 @@
                 <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}"
                       class="arende-sender">{{arendeListItem.arende.vardAktorNamn}}</span>
               </div>
-              <div class="pull-right" ng-switch="arendeListItem.arende.frageStallare | lowercase">
+              <div class="pull-right" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
                 <!-- motsatt villkor mot frågan -->
                 <span ng-switch-when="wc">Mottaget: </span> <span ng-switch-default>Skickat: </span> <span
                   class="arende-date">{{arendeListItem.arende.fraga.timestamp | date:'short'}}</span>
@@ -149,7 +149,7 @@
             <span message key="common.arende.error.{{arendeListItem.activeErrorMessageKey}}"></span>
           </div>
           <div class="form-group">
-            <div class="controls" ng-hide="arendeListItem.arende.frageStallare!='WC' && arendeListItem.arende.fraga.meddelande">
+            <div class="controls" ng-hide="arendeListItem.arende.fraga.frageStallare!='WC' && arendeListItem.arende.fraga.meddelande">
               <button type="button" class="btn btn-default btn-secondary" ng-click="updateAsUnHandled(arendeListItem.arende)"
                       wc-check-vardenhet vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                       id="markAsUnhandledBtn-{{arendeListItem.arende.fraga.internReferens}}" ng-disabled="arendeListItem.updateHandledStateInProgress">

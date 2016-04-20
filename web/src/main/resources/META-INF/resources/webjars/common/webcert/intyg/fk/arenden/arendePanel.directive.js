@@ -26,10 +26,9 @@
  */
 angular.module('common').directive('arendePanel',
     [ '$window', '$log', '$timeout', '$state', '$stateParams',
-        'common.User', 'common.ArendeProxy', 'common.statService', /* 'common.fragaSvarCommonService'
-        , 'common.dialogService',*/ 'common.ObjectHelper', 'common.IntygCopyRequestModel',
+        'common.User', 'common.ArendeProxy', 'common.statService', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
         function($window, $log, $timeout, $state, $stateParams,
-            User, ArendeProxy, statService, /*fragaSvarCommonService, dialogService,*/ ObjectHelper, IntygCopyRequestModel) {
+            User, ArendeProxy, statService, ObjectHelper, IntygCopyRequestModel) {
             'use strict';
 
             return {
@@ -58,7 +57,7 @@ angular.module('common').directive('arendePanel',
                             }
                         }
                         else {
-                            return $scope.arende.status === 'CLOSED';
+                            return $scope.arende.fraga.status === 'CLOSED';
                         }
                     };
 
