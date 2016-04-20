@@ -61,7 +61,7 @@ angular.module('common').directive('arendeNew',
                         var notKomplettering = !ArendeNewViewState.intygProperties.kompletteringOnly;
                         var notRevoked = !ArendeNewViewState.intygProperties.isRevoked;
                         var newArendeFormClosed = !ArendeNewViewState.arendeNewOpen;
-                        var intygSentOrArendenAvailable = (ArendeNewViewState.isIntygOnSendQueue ||
+                        var intygSentOrArendenAvailable = ($scope.parentViewState.common.isIntygOnSendQueue ||
                                                             ArendeNewViewState.intygProperties.isSent ||
                                                             $scope.arendeList.length > 0);
 
@@ -69,7 +69,7 @@ angular.module('common').directive('arendeNew',
                     }
 
                     function isNotSent() {
-                        var notSent = ArendeNewViewState.isIntygOnSendQueue === false &&
+                        var notSent = $scope.parentViewState.common.isIntygOnSendQueue === false &&
                                         ArendeNewViewState.intygProperties.isSent === false;
 
                         return notSent && ($scope.arendeList.length < 1);
