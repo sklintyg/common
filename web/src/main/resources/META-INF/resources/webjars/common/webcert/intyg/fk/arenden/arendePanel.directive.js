@@ -50,16 +50,19 @@ angular.module('common').directive('arendePanel',
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
                             if (newState) {
-                                $scope.updateAsHandled($scope.arendeListItem.arende);
+//                                $scope.updateAsHandled($scope.arendeListItem.arende);
                             }
                             else {
-                                $scope.updateAsUnHandled($scope.arendeListItem.arende);
+//                                $scope.updateAsUnHandled($scope.arendeListItem.arende);
                             }
                         }
                         else {
                             return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
                         }
                     };
+/*
+                    /**
+                        * Svara på ärende från fk
 
                     $scope.sendAnswer = function sendAnswer(arendeListItem) {
                         arendeListItem.updateInProgress = true; // trigger local spinner
@@ -80,7 +83,12 @@ angular.module('common').directive('arendePanel',
                             arendeListItem.activeErrorMessageKey = errorData.errorCode;
                         });
                     };
-
+*/
+                    /**
+                     * Svara med nytt intyg
+                     * @param arendeListItem
+                     * @param intyg
+                     */
                     $scope.answerWithIntyg = function(arendeListItem, intyg) {
 
                         if(!ObjectHelper.isDefined(intyg)) {
@@ -235,21 +243,6 @@ angular.module('common').directive('arendePanel',
                         }, 1000);
                         // Launch mail client
                         $window.location = fragaSvarCommonService.buildMailToLink(arende);
-                    };
-
-                    $scope.dismissProxy = function(arende) {
-                        if (arende === undefined) {
-                            $scope.widgetState.sentMessage = false;
-                            return;
-                        }
-                        for (var i = 0; i < $scope.arendeList.length; i++) {
-                            if (arende.proxyMessage !== undefined && $scope.arendeList[i].proxyMessage !== undefined &&
-                                arende.internReferens === $scope.arendeList[i].internReferens)
-                            {
-                                $scope.arendeList.splice(i, 1);
-                                return;
-                            }
-                        }
                     };
 
                     // listeners - interscope communication
