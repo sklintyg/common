@@ -19,28 +19,20 @@
 
 package se.inera.intyg.common.support.modules.support.api;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import org.joda.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.HoSPersonal;
-import se.inera.intyg.common.support.modules.support.api.dto.InternalModelHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.InternalModelResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The module API defines methods that interact with one of the tree models that every module handles:
@@ -233,4 +225,6 @@ public interface ModuleApi {
 
     InternalModelResponse createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder internalModelHolder)
             throws ModuleException;
+
+    Intyg getIntygFromCertificateHolder(CertificateHolder certificateHolder) throws ModuleException;
 }

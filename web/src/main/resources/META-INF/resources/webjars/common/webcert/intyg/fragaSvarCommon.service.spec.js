@@ -129,7 +129,9 @@ describe('fragaSvarCommonService', function() {
         ]));
 
         var qa = {
-            intygId: 'testid',
+            intygsReferens: {
+                intygsId: 'testid'
+            },
             enhetsnamn: 'Ängården',
             vardgivarnamn: 'Vårdgivare'
         };
@@ -150,6 +152,24 @@ describe('fragaSvarCommonService', function() {
                 $window.location.port + '%2Fwebcert%2Fweb%2Fuser%2Fbasic-certificate%2Ftestid%2Fquestions');
         }]));
 
+        it('should create a link that leads back to the intyg', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
+            userModelMock.isUthopp = function() { return false; };
+            var link = fragaSvarCommonService.buildMailToLink(qa);
+            expect(link).not.toContain('undefined');
+        }]));
+
+        it('should create a link that leads back to the intyg', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
+            userModelMock.isUthopp = function() { return false; };
+
+            // Wrong format
+            var qaWrong = {
+                intygId: 'testid', // <-- tests wrong format
+                enhetsnamn: 'Ängården',
+                vardgivarnamn: 'Vårdgivare'
+            };
+            var link = fragaSvarCommonService.buildMailToLink(qaWrong);
+            expect(link).toContain('error');
+        }]));
     });
 
 });

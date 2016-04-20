@@ -49,7 +49,12 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
                 var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
-                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygId + '/questions';
+
+                if(typeof qa.intygsReferens === 'undefined' || typeof qa.intygsReferens.intygsId === 'undefined') {
+                    $log.error('Invalid intyg id. Cannot create vidarebefordra link');
+                    return 'error';
+                }
+                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygsReferens.intygsId + '/questions';
 
                 var recipient = '';
                 var subject = 'En fraga-svar ska besvaras i Webcert';
