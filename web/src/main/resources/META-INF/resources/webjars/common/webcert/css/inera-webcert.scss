@@ -899,6 +899,15 @@ Modular modifiers
   padding-top: 30px;
 }
 
+.relative-anchor {
+  position:relative;
+}
+
+.anchor-right {
+  position: absolute;
+  right: 0;
+}
+
 /*
 wc cookie banner css.
 (the extreme z-index is to make sure the banner is on top of any .stat-circle's)

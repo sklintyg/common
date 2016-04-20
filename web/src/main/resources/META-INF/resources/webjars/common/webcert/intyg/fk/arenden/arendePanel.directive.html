@@ -6,9 +6,9 @@
 
       <div ng-if="arendeListItem.arende.fraga.status == 'CLOSED'">
         <h3 class="inline-block">
-          Ämne: <strong><span message key="common.arende.fraga.amne.{{arendeListItem.arende.fraga.amne | lowercase}}"></span></strong><span
-            id="fkrubrik-{{arendeListItem.arende.fraga.internReferens}}"
-            ng-show="arendeListItem.arende.rubrik"> - {{arendeListItem.arende.rubrik}}</span>
+          Ämne: <strong><span message
+                              key="common.arende.fraga.amne.{{arendeListItem.arende.fraga.amne | lowercase}}"></span></strong><span
+            id="fkrubrik-{{arendeListItem.arende.fraga.internReferens}}" ng-show="arendeListItem.arende.rubrik"> - {{arendeListItem.arende.rubrik}}</span>
         </h3>
         <label class="checkbox" ng-if="!intygProperties.kompletteringOnly">
           <input type="checkbox" ng-model="handledFunction" ng-model-options="{ getterSetter: true }">
@@ -20,12 +20,13 @@
         <div class="col-xs-9" ng-if="arendeListItem.arende.fraga.status != 'CLOSED'">
           <div class="fraga.status-header">
             <h3 class="inline-block">
-              Ämne: <strong><span message key="common.arende.fraga.amne.{{arendeListItem.arende.fraga.amne | lowercase}}"></span></strong><span
-                id="fkrubrik-{{arendeListItem.arende.fraga.internReferens}}"
-                ng-show="arendeListItem.arende.rubrik"> - {{arendeListItem.arende.rubrik}}</span>
+              Ämne: <strong><span message
+                                  key="common.arende.fraga.amne.{{arendeListItem.arende.fraga.amne | lowercase}}"></span></strong><span
+                id="fkrubrik-{{arendeListItem.arende.fraga.internReferens}}" ng-show="arendeListItem.arende.rubrik"> - {{arendeListItem.arende.rubrik}}</span>
             </h3>
             <h3>
-              Åtgärd: <strong><span message key="common.arende.atgard.{{arendeListItem.atgardMessageId}}"></span></strong>
+              Åtgärd: <strong><span message
+                                    key="common.arende.atgard.{{arendeListItem.atgardMessageId}}"></span></strong>
             </h3>
             <h3 ng-show="arendeListItem.arende.fraga.sistaDatumForSvar">
               Svara senast: <strong>{{arendeListItem.arende.fraga.sistaDatumForSvar}}</strong></h3>
@@ -40,19 +41,25 @@
         <div class="col-xs-9"></div>
         <div wc-authority="VIDAREBEFORDRA_FRAGASVAR" class="col-xs-3 form-inline arende-panel__vidarebefordra-placement"
              ng-show="!intygProperties.isRevoked">
-          <!--  fraga.status header -->
-          <button type="button" id="{{panelId}}-vidarebefordraEjHanterad" class="btn pull-right"
-                  ng-class="{'btn-info': !arendeListItem.arende.fraga.vidarebefordrad, 'btn-default btn-secondary' : arendeListItem.arende.fraga.vidarebefordrad}"
-                  title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
-                  ng-click="openMailDialog(arendeListItem.arende)" ng-show="!intygProperties.isRevoked">
-            <img ng-if="!arendeListItem.arende.fraga.vidarebefordrad" src="/img/mail.png"> <img ng-if="arendeListItem.arende.fraga.vidarebefordrad"
-                                                                       src="/img/mail_dark.png">
-          </button>
-          <label for="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}" class="checkbox-inline padding-top-small">
-            <input id="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox"
-                   ng-disabled="arendeListItem.forwardInProgress" ng-model="arendeListItem.arende.fraga.vidarebefordrad"
-                   ng-change="onVidareBefordradChange(arendeListItem.arende)" /> Vidarebefordrad</label> <span
-            ng-if="arendeListItem.forwardInProgress"> <img src="/img/ajax-loader-kit-16x16.gif"></span>
+          <div>
+            <!--  fraga.status header -->
+            <button type="button" id="{{panelId}}-vidarebefordraEjHanterad" class="btn"
+                    ng-class="{'btn-info': !arendeListItem.arende.fraga.vidarebefordrad, 'btn-default btn-secondary' : arendeListItem.arende.fraga.vidarebefordrad}"
+                    title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
+                    ng-click="openMailDialog(arendeListItem.arende)" ng-show="!intygProperties.isRevoked">
+              <img ng-if="!arendeListItem.arende.fraga.vidarebefordrad" src="/img/mail.png"> <img
+                ng-if="arendeListItem.arende.fraga.vidarebefordrad" src="/img/mail_dark.png">
+            </button>
+          </div>
+          <div class="relative-anchor">
+            <label for="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}"
+                   class="checkbox-inline padding-top-small anchor-right">
+              <input id="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox"
+                     ng-disabled="arendeListItem.forwardInProgress"
+                     ng-model="arendeListItem.arende.fraga.vidarebefordrad"
+                     ng-change="onVidareBefordradChange(arendeListItem.arende)" /> Vidarebefordrad</label> <span
+              ng-if="arendeListItem.forwardInProgress"> <img src="/img/ajax-loader-kit-16x16.gif"></span>
+          </div>
         </div>
       </div>
 
@@ -64,20 +71,26 @@
             <div class="pull-left" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
               Från: <span class="arende-sender" ng-switch-when="wc"
                           id="{{panelId}}-question-fraga-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.signeratAv}}</span>
-              <span ng-switch-default message key="common.arende.fragestallare.{{arendeListItem.arende.fraga.frageStallare | lowercase}}"></span>
-              <div id="{{panelId}}-fkKontakter-{{arendeListItem.arende.fraga.internReferens}}" ng-repeat="kontakt in arendeListItem.arende.fraga.externaKontakter">
+              <span ng-switch-default message
+                    key="common.arende.fragestallare.{{arendeListItem.arende.fraga.frageStallare | lowercase}}"></span>
+              <div id="{{panelId}}-fkKontakter-{{arendeListItem.arende.fraga.internReferens}}"
+                   ng-repeat="kontakt in arendeListItem.arende.fraga.externaKontakter">
                 {{kontakt}}<br />
               </div>
             </div>
             <!-- Fraga fran fk eller wc? -->
             <div class="pull-right" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
-              <span ng-switch-when="wc">Skickat: </span> <span ng-switch-default>Mottaget: </span> <span class="arende-date"
-                                                                                                         id="{{panelId}}-arende-skickaddatum-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.timestamp | date:'short'}}</span>
+              <span ng-switch-when="wc">Skickat: </span> <span ng-switch-default>Mottaget: </span> <span
+                class="arende-date" id="{{panelId}}-arende-skickaddatum-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.timestamp | date:'short'}}</span>
             </div>
           </div>
 
-          <div class="arende-block-body" id="{{panelId}}-arende-fragetext-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.meddelande}}</div>
-          <div class="arende-block-body komplettera-block" id="{{panelId}}-fkKompletteringar-{{arendeListItem.arende.fraga.internReferens}}"
+          <div class="arende-block-body"
+               id="{{panelId}}-arende-fragetext-{{arendeListItem.arende.fraga.internReferens}}">
+            {{arendeListItem.arende.fraga.meddelande}}
+          </div>
+          <div class="arende-block-body komplettera-block"
+               id="{{panelId}}-fkKompletteringar-{{arendeListItem.arende.fraga.internReferens}}"
                ng-repeat="komplettering in arendeListItem.arende.fraga.kompletteringar">
             <strong><span>{{komplettering.falt}}</span></strong>
             <div>
@@ -88,8 +101,8 @@
       </div>
 
       <!-- error message occuring when inteacting with server for komplettering-->
-      <div id="internal-{{arendeListItem.arende.fraga.internReferens}}-meddelande-load-error" ng-show="arendeListItem.activeErrorMessageKey"
-           class="alert alert-danger">
+      <div id="internal-{{arendeListItem.arende.fraga.internReferens}}-meddelande-load-error"
+           ng-show="arendeListItem.activeErrorMessageKey" class="alert alert-danger">
         <span message key="common.arende.komplettering.error.{{arendeListItem.activeErrorMessageKey}}"></span>
       </div>
 
@@ -98,15 +111,16 @@
            ng-show="!intygProperties.kompletteringOnly && !arendeListItem.answerDisabled && !intygProperties.isRevoked && arendeListItem.arende.fraga.amne == 'KOMPLT'">
         <button type="button" class="btn"
                 ng-class="{'btn-success': arendeListItem.arende.fraga.status != 'CLOSED' && !cannotKomplettera, 'btn-default btn-secondary': arendeListItem.arende.fraga.status == 'CLOSED' || cannotKomplettera}"
-                ng-click="answerWithIntyg(arendeListItem.arende, intyg)" ng-disabled="cannotKomplettera" wc-check-vardenhet
-                vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
+                ng-click="answerWithIntyg(arendeListItem.arende, intyg)" ng-disabled="cannotKomplettera"
+                wc-check-vardenhet vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
                 id="answerWithIntygBtn-{{arendeListItem.arende.fraga.internReferens}}">
           <img src="/img/loader-small-green.gif" ng-show="arendeListItem.updateInProgress"> Svara med nytt intyg
         </button>
         <span ng-show="arendeListItem.arende.fraga.status != 'CLOSED'">
-        <label for="{{panelId}}-cant-komplettera-{{arendeListItem.arende.fraga.internReferens}}" class="checkbox-inline">
-          <input id="{{panelId}}-cant-komplettera-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox" ng-model="cannotKomplettera"
-                 ng-change="onCannotKomplettera()" /> Kan ej svara med nytt intyg</label>
+        <label for="{{panelId}}-cant-komplettera-{{arendeListItem.arende.fraga.internReferens}}"
+               class="checkbox-inline">
+          <input id="{{panelId}}-cant-komplettera-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox"
+                 ng-model="cannotKomplettera" ng-change="onCannotKomplettera()" /> Kan ej svara med nytt intyg</label>
         </span>
       </div>
 
@@ -128,7 +142,8 @@
                           <span class="arende-sender" message key="common.arende.skapatav.fk"></span>
                         </span>
                 <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
-                <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}"
+                <span ng-switch-default
+                      id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}"
                       class="arende-sender">{{arendeListItem.arende.vardAktorNamn}}</span>
               </div>
               <div class="pull-right" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
@@ -137,7 +152,9 @@
                   class="arende-date">{{arendeListItem.arende.fraga.timestamp | date:'short'}}</span>
               </div>
             </div>
-            <div id="{{panelId}}-{{arendeListItem.arende.fraga.internReferens}}-meddelande" class="arende-block-body">{{arendeListItem.arende.fraga.meddelande}}</div>
+            <div id="{{panelId}}-{{arendeListItem.arende.fraga.internReferens}}-meddelande" class="arende-block-body">
+              {{arendeListItem.arende.fraga.meddelande}}
+            </div>
           </div>
         </div>
 
@@ -161,7 +178,8 @@
 
         <!-- KNAPPAR EJ HANTERADE FRÅGOR -->
         <!-- TA BORT intygProperties.kompletteringOnly NÄR "SVAR SOM FÖLJER MED" ÄR IMPLEMENTERAT -->
-        <div ng-if="!intygProperties.kompletteringOnly && arendeListItem.arende.fraga.status != 'CLOSED' && arendeListItem.arende.fraga.amne != 'PAMINNELSE'">
+        <div
+            ng-if="!intygProperties.kompletteringOnly && arendeListItem.arende.fraga.status != 'CLOSED' && arendeListItem.arende.fraga.amne != 'PAMINNELSE'">
           <div class="form-group" ng-if="arendeListItem.arende.fraga.status == 'PENDING_INTERNAL_ACTION'">
             <!--  VÄNTAR på svar från Vårdenheten, men skall kunna klarmarkeras ändå?-->
 
@@ -191,13 +209,14 @@
               </div>
               <div class="form-group" ng-show="!arendeListItem.answerDisabled && !intygProperties.isRevoked">
                 <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
-                          class="form-control col-md-9 arende-block-wc" ng-model="arendeListItem.arende.fraga.meddelande"
+                          class="form-control col-md-9 arende-block-wc"
+                          ng-model="arendeListItem.arende.fraga.meddelande"
                           id="answerText-{{arendeListItem.arende.fraga.internReferens}}"></textarea>
               </div>
               <div class="webintyg-top-padding-section">
                 <!-- error message occuring when inteacting with server for this FragaSvar-->
-                <div id="internal-{{arendeListItem.arende.fraga.internReferens}}-meddelande-load-error" ng-show="arendeListItem.activeErrorMessageKey"
-                     class="alert alert-danger">
+                <div id="internal-{{arendeListItem.arende.fraga.internReferens}}-meddelande-load-error"
+                     ng-show="arendeListItem.activeErrorMessageKey" class="alert alert-danger">
                   <span message key="common.arende.error.{{arendeListItem.activeErrorMessageKey}}"></span>
                 </div>
 
