@@ -233,6 +233,10 @@ angular.module('common').factory('common.DateUtilsService', function() {
         // Replace parsers with only this one
         formElement.$parsers = [parseDateLoose];
 
+        _addDateFormatter(formElement);
+    }
+
+    function _addDateFormatter(formElement) {
         formElement.$formatters = [function (modelValue) {
             if (modelValue) {
                 // convert date to iso
@@ -275,6 +279,14 @@ angular.module('common').factory('common.DateUtilsService', function() {
 
         // Replace parsers with only this one
         formElement.$parsers = [parseDateStrict];
+
+        formElement.$formatters = [function (modelValue) {
+            if (modelValue) {
+                // convert date to iso
+                modelValue = _convertDateToISOString(modelValue);
+            }
+            return modelValue;
+        }];
     }
 
     return {
@@ -293,6 +305,7 @@ angular.module('common').factory('common.DateUtilsService', function() {
         isSame : _isSame,
         todayAsYYYYMMDD :_todayAsYYYYMMDD,
         addDateParserFormatter : _addDateParserFormatter,
+        addDateFormatter : _addDateFormatter,
         addStrictDateParser : _addStrictDateParser,
         dateReg : _dateReg
     };
