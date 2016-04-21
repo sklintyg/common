@@ -227,4 +227,6 @@ public interface ModuleApi {
             throws ModuleException;
 
     Intyg getIntygFromCertificateHolder(CertificateHolder certificateHolder) throws ModuleException;
+
+    String getAdditionalInfo(Intyg intyg) throws ModuleException;
 }

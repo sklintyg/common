@@ -23,12 +23,14 @@ angular.module('common').factory('common.IntygListService',
 
         // cached certificates response
         var cachedList = null;
+        var cachedArchiveList = null;
 
         var _selectedCertificate = null;
 
         function _emptyCache() {
             $log.debug('Clearing cache');
             cachedList = null;
+            cachedArchiveList = null;
         }
 
         function _getCertificates(callback) {
@@ -48,13 +50,28 @@ angular.module('common').factory('common.IntygListService',
             });
         }
 
+        function _getArchivedCertificates(callback) {
+            if (cachedArchiveList !== null) {
+                $log.debug('returning cached archive response');
+                callback(cachedArchiveList);
+                return;
+            }
+            $http.get('/api/certificates/archived').success(function(data) {
+                $log.debug('populating archive cache');
+                cachedArchiveList = data;
+                callback(cachedArchiveList);
+            }).error(function(data, status) {
+                $log.error('error ' + status);
+                //give calling code a chance to handle error
+                callback(null);
+            });
+        }
+
         function _archiveCertificate(item, callback) {
             $log.debug('Archiving ' + item.id);
 
             $http.put('/api/certificates/' + item.id + '/archive').success(function(data) {
-                //Kill the cache
-                cachedList = null;
-
+                _emptyCache();
                 callback(data, item);
             }).error(function(data, status) {
                 $log.error('error ' + status);
@@ -66,6 +83,7 @@ angular.module('common').factory('common.IntygListService',
         function _restoreCertificate(item, callback) {
             $log.debug('restoring ' + item.id);
             $http.put('/api/certificates/' + item.id + '/restore').success(function(data) {
+                _emptyCache();
                 callback(data, item);
             }).error(function(data, status) {
                 $log.error('error ' + status);
@@ -77,6 +95,7 @@ angular.module('common').factory('common.IntygListService',
         // Return public API for our service
         return {
             getCertificates: _getCertificates,
+            getArchivedCertificates: _getArchivedCertificates,
             archiveCertificate: _archiveCertificate,
             restoreCertificate: _restoreCertificate,
             selectedCertificate: _selectedCertificate,
