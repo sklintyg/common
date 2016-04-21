@@ -39,7 +39,7 @@ angular.module('common')
                 function () {
                     // Watch some properties which is related to uib-datepicker
                     return !!(
-                        isoScope.dateDisabled &&
+                        isoScope.datepickerOptions &&
                         isoScope.dateSelection &&
                         isoScope.close
                     );
