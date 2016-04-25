@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:lc="urn:riv:clinicalprocess:healthcond:certificate:ListCertificatesForCitizen:2:rivtabp21">
+                xmlns:lc="urn:riv:clinicalprocess:healthcond:certificate:ListCertificatesForCitizenResponder:2">
 
-  <xsl:include href="transform/general-certificate-transform.xslt"/>
+  <xsl:include href="transform/clinicalprocess-healthcond-certificate-2/general-transform.xslt"/>
 
   <xsl:template name="response">
      <lc:RegisterCertificateResponse>
