@@ -21,6 +21,7 @@ package se.inera.intyg.common.support.modules.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,11 +37,13 @@ import org.junit.Test;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 
 public class InternalConverterUtilTest {
 
@@ -122,6 +125,52 @@ public class InternalConverterUtilTest {
         assertNotNull(intyg.getRelation().get(0).getTyp().getCodeSystem());
         assertEquals(relationIntygsId, intyg.getRelation().get(0).getIntygsId().getExtension());
         assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
+    }
+
+    @Test
+    public void getMeddelandeReferensOfTypeTest() {
+        final RelationKod type = RelationKod.KOMPLT;
+        final String meddelandeId = "meddelandeId";
+        final String referensId = "referensId";
+        Utlatande utlatande = buildUtlatande(type, "relationIntygsId");
+        utlatande.getGrundData().getRelation().setMeddelandeId(meddelandeId);
+        utlatande.getGrundData().getRelation().setReferensId(referensId);
+        MeddelandeReferens result = InternalConverterUtil.getMeddelandeReferensOfType(utlatande, type);
+        assertNotNull(result);
+        assertEquals(meddelandeId, result.getMeddelandeId());
+        assertEquals(1, result.getReferensId().size());
+        assertEquals(referensId, result.getReferensId().get(0));
+    }
+
+    @Test
+    public void getMeddelandeReferensOfTypeReferensIdNullTest() {
+        final RelationKod type = RelationKod.KOMPLT;
+        final String meddelandeId = "meddelandeId";
+        Utlatande utlatande = buildUtlatande(type, "relationIntygsId");
+        utlatande.getGrundData().getRelation().setMeddelandeId(meddelandeId);
+        MeddelandeReferens result = InternalConverterUtil.getMeddelandeReferensOfType(utlatande, type);
+        assertNotNull(result);
+        assertEquals(meddelandeId, result.getMeddelandeId());
+        assertTrue(result.getReferensId().isEmpty());
+    }
+
+    @Test
+    public void getMeddelandeReferensOfTypeNoRelationTest() {
+        final RelationKod type = RelationKod.KOMPLT;
+        Utlatande utlatande = buildUtlatande(null, null);
+        MeddelandeReferens result = InternalConverterUtil.getMeddelandeReferensOfType(utlatande, type);
+        assertNull(result);
+    }
+
+    @Test
+    public void getMeddelandeReferensOfTypeWrongTypeTest() {
+        final String meddelandeId = "meddelandeId";
+        final String referensId = "referensId";
+        Utlatande utlatande = buildUtlatande(RelationKod.FRLANG, "relationIntygsId");
+        utlatande.getGrundData().getRelation().setMeddelandeId(meddelandeId);
+        utlatande.getGrundData().getRelation().setReferensId(referensId);
+        MeddelandeReferens result = InternalConverterUtil.getMeddelandeReferensOfType(utlatande, RelationKod.KOMPLT);
+        assertNull(result);
     }
 
     @Test

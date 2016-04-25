@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 
 import se.inera.intyg.common.support.common.enumerations.BefattningKod;
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
@@ -167,6 +168,19 @@ public final class InternalConverterUtil {
 
     private static String emptyStringIfNull(String s) {
         return s != null ? s : "";
+    }
+
+    public static MeddelandeReferens getMeddelandeReferensOfType(Utlatande utlatande, RelationKod type) {
+        if (utlatande.getGrundData().getRelation() == null || !type.equals(utlatande.getGrundData().getRelation().getRelationKod())) {
+            return null;
+        }
+
+        MeddelandeReferens mr = new MeddelandeReferens();
+        mr.setMeddelandeId(utlatande.getGrundData().getRelation().getMeddelandeId());
+        if (utlatande.getGrundData().getRelation().getReferensId() != null) {
+            mr.getReferensId().add(utlatande.getGrundData().getRelation().getReferensId());
+        }
+        return mr;
     }
 
     public static void addIfNotBlank(List<Svar> svars, String svarsId, String delsvarsId, String content) {
