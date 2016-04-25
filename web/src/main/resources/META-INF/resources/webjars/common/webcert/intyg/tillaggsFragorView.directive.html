@@ -1,0 +1,17 @@
+<div ng-show="tillaggsFragor.length>0">
+  <div wc-field field-dynamic-label="KAT_9999.RBK">
+    <div ng-repeat="tillaggsfraga in tillaggsFragor" class="intyg-field">
+      <div>
+        <label><span dynamic-label key="DFR_{{tillaggsfraga.id}}.1.RBK"></span></label>
+      </div>
+      <span id="tillaggsfraga-{{tillaggsfraga.id}}">
+        <div ng-if="tillaggsfraga.svar.length > 0">
+          {{tillaggsfraga.svar}}
+        </div>
+        <div ng-if="!tillaggsfraga.svar.length > 0" class="not-entered">
+          Ej angivet
+        </div>
+      </span>
+    </div>
+  </div>
+</div>
