@@ -1,9 +1,9 @@
 <div class="" ng-show="model.underlagFinns">
   <table class="form-group">
     <tr class="underlagRow">
-      <th><span dynamic-label key="{{to.typLabel}}.RBK"></span></span></th>
-      <th><span dynamic-label key="{{to.datumLabel}}.RBK"></span></span></th>
-      <th><span dynamic-label key="{{to.hamtasFranLabel}}.RBK"></span></span></th>
+      <th><span dynamic-label key="{{to.typLabel}}.RBK"></span> <span wc-help-mark field-dynamic-help-text="{{to.typLabel}}.HLP"></span></th>
+      <th><span dynamic-label key="{{to.datumLabel}}.RBK"></span> <span wc-help-mark field-dynamic-help-text="{{to.datumLabel}}.HLP"></span></th>
+      <th><span dynamic-label key="{{to.hamtasFranLabel}}.RBK"></span> <span wc-help-mark field-dynamic-help-text="{{to.hamtasFranLabel}}.HLP"></span></th>
       <th></th>
     </tr>
     <tr class="underlagRow" ng-repeat="underlag in model.underlag">
