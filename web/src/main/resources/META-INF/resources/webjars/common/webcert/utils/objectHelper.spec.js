@@ -23,6 +23,20 @@ describe('ObjectHelper', function() {
     beforeEach(angular.mock.module('common'));
 
     var objectHelper;
+    var testObject = {
+        simpleProp: 'simplePropValue',
+        nestedProp: {
+            nestedProp1: 'nestedProp1Value',
+            arrayObjectProp: [
+                {svar: 'svarA1'},
+                {svar: ['primitiveArrayValue']}
+            ]
+        },
+        arrayObjectProp: [
+            {svar: 'svar1'},
+            {svar: 'svar2'}
+        ]
+    }
 
     beforeEach(angular.mock.inject(['common.ObjectHelper', function(_objectHelper_) {
         objectHelper = _objectHelper_;
@@ -58,5 +72,51 @@ describe('ObjectHelper', function() {
         expect(result).toEqual(false);
     });
 
-    
+
+    it('should return false for undefined', function() {
+        expect(objectHelper.isDefined(undefined)).toEqual(false);
+    });
+
+    it('should return false for null', function() {
+        expect(objectHelper.isDefined(null)).toEqual(false);
+    });
+
+    it('should return true for empty string', function() {
+        expect(objectHelper.isDefined('')).toEqual(true);
+    });
+
+
+    it('should return true for null string', function() {
+        expect(objectHelper.isEmpty(null)).toEqual(true);
+        expect(objectHelper.isEmpty(undefined)).toEqual(true);
+    });
+    it('should return true for empty string', function() {
+        expect(objectHelper.isEmpty('')).toEqual(true);
+    });
+    it('should return true for empty string', function() {
+        expect(objectHelper.isEmpty('hello')).toEqual(false);
+    });
+
+
+    // deepGet tests
+    it('should should handle deepGet for undefined property', function() {
+        expect(objectHelper.deepGet(testObject, 'doesNotExist')).toEqual(undefined);
+    });
+
+    it('should should handle deepGet for simple property', function() {
+        expect(objectHelper.deepGet(testObject, 'simpleProp')).toEqual('simplePropValue');
+    });
+
+    it('should should handle deepGet for nested property', function() {
+        expect(objectHelper.deepGet(testObject, 'nestedProp.nestedProp1')).toEqual('nestedProp1Value');
+    });
+
+    it('should should handle deepGet for array property', function() {
+        expect(objectHelper.deepGet(testObject, 'arrayObjectProp[1].svar')).toEqual('svar2');
+    });
+
+    it('should should handle deepGet for primitive array property value', function() {
+        expect(objectHelper.deepGet(testObject, 'nestedProp.arrayObjectProp[1].svar[0]')).toEqual(
+            'primitiveArrayValue');
+    });
 });

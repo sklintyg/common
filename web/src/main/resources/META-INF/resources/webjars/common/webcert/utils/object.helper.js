@@ -1,6 +1,7 @@
 angular.module('common').factory('common.ObjectHelper',
-    function() {
+    ['$parse', function($parse) {
         'use strict';
+
 
         return {
             isDefined: function(value) {
@@ -21,15 +22,18 @@ angular.module('common').factory('common.ObjectHelper',
             /**
              * Deep get property from an object
              * @param  {Object} obj  Nested object to get values from
-             * @param  {String} path Path to nested value. Eg: 'x.y.0.z'
+             * @param  {String} path Path to nested value. Eg: 'x.y.[0].z'
              * @return {*} Value at object path
              */
             deepGet: function (obj, path) {
-                if (typeof path !== 'string') { return obj; }
-                return path.split('.').reduce(function (accum, cur) {
-                    return accum[cur];
-                }, obj);
+                //Create a getter function for the property path, using angular built-in $parse service to evaluate a nested property
+                var getNestedProperty = angular.isString(path) ? $parse(path) : function(item) {
+                    return item;
+                };
+                return getNestedProperty(obj);
             }
+
+
         };
-    }
+    }]
 );
