@@ -1,5 +1,5 @@
 <div>
-  <div wc-print-header title-id="{{intygstyp}}.label.certtitle" print-message-id="print.label.{{viewState.common.intyg.printStatus}}"
+  <div wc-print-header title-id="{{intygstyp}}.label.certtitle" print-message-id="print.label.{{viewState.common.intygProperties.printStatus}}"
        intygs-id="viewState.common.intygModel.id"></div>
 
   <!-- error message -->
@@ -49,7 +49,7 @@
                feature="arbetsgivarUtskrift"
                intygstyp="{{intygstyp}}">
             <div class="btn-group"
-                 ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue">
+                 ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
               <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Skriv ut <span class="caret"></span>
               </button>
@@ -63,7 +63,7 @@
             <button type="submit"
                     value="submit"
                     class="btn btn-info"
-                    ng-if="viewState.common.intyg.isRevoked || viewState.common.isIntygOnRevokeQueue"
+                    ng-if="viewState.common.intygProperties.isRevoked || viewState.common.isIntygOnRevokeQueue"
                     ng-click="print(viewState.intygModel, false)">
               Skriv ut
             </button>
@@ -74,7 +74,7 @@
                   intygstyp="{{intygstyp}}"
                   id="copyBtn"
                   class="btn btn-info"
-                  ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
+                  ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
                   ng-click="copy(viewState.intygModel)"
                   uib-popover="{{copyBtnTooltipText}}"
                   popover-trigger="mouseenter"
@@ -88,7 +88,7 @@
                   intygstyp="{{intygstyp}}"
                   id="fornyaBtn"
                   class="btn btn-info"
-                  ng-if="intygstyp === 'fk7263' && !viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
+                  ng-if="intygstyp === 'fk7263' && !viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
                   ng-click="fornya(viewState.intygModel)"
                   uib-popover="{{fornyaBtnTooltipText}}"
                   popover-trigger="mouseenter"
@@ -102,7 +102,7 @@
                   intygstyp="{{intygstyp}}"
                   id="makuleraBtn"
                   class="btn btn-inverse"
-                  ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue"
+                  ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue"
                   ng-click="makulera(viewState.intygModel)"
                   wc-check-vardenhet
                   vardenhet="{{viewState.enhetsId}}"
@@ -123,17 +123,17 @@
 
       <div wc-new-person-id-message></div>
 
-      <div class="alert alert-info alert-column" ng-if="!viewState.common.intyg.isRevoked && !viewState.common.isIntygOnRevokeQueue">
+      <div class="alert alert-info alert-column" ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
         <strong>Status:</strong>
-        <span ng-if="viewState.common.intyg.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
-        <span ng-if="!viewState.common.intyg.isSent && !viewState.common.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
-        <span ng-if="!viewState.common.intyg.isSent && viewState.common.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
+        <span ng-if="viewState.common.intygProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
+        <span ng-if="!viewState.common.intygProperties.isSent && !viewState.common.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
+        <span ng-if="!viewState.common.intygProperties.isSent && viewState.common.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
       </div>
 
-      <div ng-if="viewState.common.intyg.isRevoked || viewState.common.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"
+      <div ng-if="viewState.common.intygProperties.isRevoked || viewState.common.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"
            style="margin-right: 20px; max-width: 530px;">
         <span ng-if="viewState.common.isIntygOnRevokeQueue" id="certificate-revoked-it-message-text" message key="cert.status.revoke.requested"></span>
-        <span ng-if="viewState.common.intyg.isRevoked && (!viewState.common.isIntygOnRevokeQueue || viewState.common.isIntygOnRevokeQueue == 'undefined')" id="certificate-revoked-on-queue-it-message-text" message key="cert.status.revoke.confirmed"></span>
+        <span ng-if="viewState.common.intygProperties.isRevoked && (!viewState.common.isIntygOnRevokeQueue || viewState.common.isIntygOnRevokeQueue == 'undefined')" id="certificate-revoked-on-queue-it-message-text" message key="cert.status.revoke.confirmed"></span>
       </div>
 
 
