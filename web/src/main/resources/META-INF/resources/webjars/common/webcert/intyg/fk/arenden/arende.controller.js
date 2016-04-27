@@ -66,13 +66,15 @@ angular.module('common').controller('common.ArendeCtrl',
 
             // listeners - interscope communication
             var unbindmarkAnsweredAsHandledEvent = $scope.$on('markAnsweredAsHandledEvent', function ($event, deferred, unhandledQas) {
-                qaHelper.updateAnsweredAsHandled(deferred, unhandledQas, true);
+                //qaHelper.updateAnsweredAsHandled(deferred, unhandledQas, true);
+                deferred.resolve();
             });
 
             $scope.$on('$destroy', unbindmarkAnsweredAsHandledEvent);
 
             var unbindHasUnhandledQasEvent = $scope.$on('hasUnhandledQasEvent', function ($event, deferred) {
-                deferred.resolve(fragaSvarCommonService.getUnhandledQas($scope.qaList));
+                deferred.resolve([]);
+                //deferred.resolve(fragaSvarCommonService.getUnhandledQas($scope.qaList));
             });
 
             $scope.$on('$destroy', unbindHasUnhandledQasEvent);
