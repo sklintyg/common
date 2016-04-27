@@ -4,20 +4,20 @@
     <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading"
          show-content="viewState.doneLoading">
 
-      <div class="webcert-bottom-padding-section" ng-show="intygProperties.isLoaded">
+      <div class="webcert-bottom-padding-section" ng-show="viewState.intygProperties.isLoaded">
 
         <!-- Kompletteringar heading for utkast view -->
-        <h2 ng-show="intygProperties.kompletteringOnly"
+        <h2 ng-show="viewState.intygProperties.kompletteringOnly"
             class="col-head">Kompletteringar <span wc-help-mark field-help-text="arende.help.kompletteringar"></span>
         </h2>
 
         <!-- new arende form -->
-        <div arende-new arende-list="arendeList" parent-view-state="viewState" intyg-properties="intygProperties"></div>
+        <div arende-new arende-list="arendeList" parent-view-state="viewState"></div>
 
         <!-- error message -->
         <div id="arende-list-load-error" ng-show="viewState.doneLoading && viewState.activeErrorMessageKey"
              class="alert alert-danger">
-          <span message key="common.arende.error.{{viewState.activeErrorMessageKey}}"></span>
+          <span message key="common.error.{{viewState.activeErrorMessageKey}}"></span>
         </div>
 
       </div>
@@ -25,7 +25,7 @@
       <!-- list of open arenden -->
       <div id="unhandledArendeCol" class="webcert-col-section arende-list-section" ng-show="(arendeList | filter:openArendenFilter).length > 0">
         <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelse':true" class="arende-item">
-          <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList" intyg="intyg" intyg-properties="intygProperties"></div>
+          <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList"></div>
         </div>
       </div>
 

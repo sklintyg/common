@@ -39,9 +39,8 @@ angular.module('common').directive('arendePanel',
                 scope: {
                     panelId: '@',
                     arendeListItem: '=',
-                    arendeList: '=',
-                    intyg: '=',
-                    intygProperties: '='
+                    arendeList: '='//,
+                    //parentViewState: '='
                 },
                 controller: function($scope, $element, $attrs) {
 

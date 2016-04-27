@@ -7,15 +7,9 @@ angular.module('common').controller('common.ArendeCtrl',
                   ArendeProxy, ArendenViewState, ArendeHelper) {
             'use strict';
 
+            ArendenViewState.setIntygType($state.current.data.intygType);
             $scope.viewState = ArendenViewState;
             $scope.arendeList = [];
-            $scope.intyg = {};
-            $scope.intygProperties = {
-                isLoaded: false,
-                isSent: false,
-                isRevoked: false,
-                intygType: $state.current.data.intygType
-            };
 
             function fetchArenden(intygId, intygProperties) {
 
@@ -37,21 +31,20 @@ angular.module('common').controller('common.ArendeCtrl',
                 // IMPORTANT!! DON'T LET fetchArenden DEPEND ON THE INTYG LOAD EVENT (intyg) in this case!
                 // Messages needs to be loaded separately from the intyg as user should be able to see messages even if intyg didn't load.
                 // Used when coming from Intyg page.
-                $scope.intyg = intyg;
-                $scope.intygProperties.isLoaded = false;
-                $scope.intygProperties.isSent = false;
-                $scope.intygProperties.isRevoked = false;
+                ArendenViewState.intyg = intyg;
+                ArendenViewState.intygProperties.isLoaded = false;
+                ArendenViewState.intygProperties.isSent = false;
+                ArendenViewState.intygProperties.isRevoked = false;
+                if (ObjectHelper.isDefined(ArendenViewState.intyg) && ObjectHelper.isDefined(ArendenViewState.intygProperties)) {
 
-                if (ObjectHelper.isDefined(intyg) && ObjectHelper.isDefined(intygProperties)) {
-
-                    $scope.intygProperties = intygProperties;
-                    $scope.intygProperties.isLoaded = true;
+                    ArendenViewState.intygProperties = intygProperties;
+                    ArendenViewState.intygProperties.isLoaded = true;
                     var intygId = $stateParams.certificateId;
                     if (intygProperties.forceUseProvidedIntyg) {
                         // Used for utkast page. In this case we must use the id from cert because $stateParams.certificateId is the id of the utkast, not the parentIntyg
                         intygId = cert.id;
                     }
-                    fetchArenden(intygId, $scope.intygProperties);
+                    fetchArenden(intygId, ArendenViewState.intygProperties);
 
                 } else if (ObjectHelper.isDefined($stateParams.certificateId)) {
                     fetchArenden($stateParams.certificateId, null);

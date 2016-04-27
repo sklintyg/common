@@ -26,10 +26,22 @@ angular.module('common').service('common.ArendenViewStateService',
             this.activeErrorMessageKey = null;
             this.showTemplate = true;
 
+            this.intyg = {};
+            this.intygProperties = {
+                isLoaded: false,
+                isSent: false,
+                isRevoked: false,
+                type: undefined
+            };
+
             // Injecting the CommonViewState service so client-side only changes on the intyg page (such as a send/revoke)
             // can trigger GUI updates in the Q&A view.
             this.common = CommonViewState;
             return this;
+        };
+
+        this.setIntygType = function(type) {
+            this.intygProperties.type = type;
         };
 
         this.reset();

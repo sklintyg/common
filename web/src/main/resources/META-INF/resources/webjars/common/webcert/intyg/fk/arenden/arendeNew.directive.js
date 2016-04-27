@@ -39,14 +39,13 @@ angular.module('common').directive('arendeNew',
                 templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendeNew.directive.html',
                 scope: {
                     arendeList: '=',
-                    parentViewState: '=',
-                    intygProperties: '='
+                    parentViewState: '='
                 },
                 controller: function($scope, $element, $attrs) {
 
                     // Create viewstate
                     var ArendeNewViewState = ArendeNewViewStateService.reset();
-                    ArendeNewViewState.intygProperties = $scope.intygProperties;
+                    ArendeNewViewState.parentViewState = $scope.parentViewState;
                     $scope.localViewState = ArendeNewViewState;
 
                     // Create model
@@ -58,11 +57,11 @@ angular.module('common').directive('arendeNew',
                      */
 
                     function isNew() {
-                        var notKomplettering = !ArendeNewViewState.intygProperties.kompletteringOnly;
-                        var notRevoked = !ArendeNewViewState.intygProperties.isRevoked;
+                        var notKomplettering = !ArendeNewViewState.parentViewState.intygProperties.kompletteringOnly;
+                        var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
                         var newArendeFormClosed = !ArendeNewViewState.arendeNewOpen;
                         var intygSentOrArendenAvailable = ($scope.parentViewState.common.isIntygOnSendQueue ||
-                                                            ArendeNewViewState.intygProperties.isSent ||
+                                                            ArendeNewViewState.parentViewState.intygProperties.isSent ||
                                                             $scope.arendeList.length > 0);
 
                         return notKomplettering && notRevoked && newArendeFormClosed && intygSentOrArendenAvailable;
@@ -70,13 +69,13 @@ angular.module('common').directive('arendeNew',
 
                     function isNotSent() {
                         var notSent = $scope.parentViewState.common.isIntygOnSendQueue === false &&
-                                        ArendeNewViewState.intygProperties.isSent === false;
+                                        ArendeNewViewState.parentViewState.intygProperties.isSent === false;
 
                         return notSent && ($scope.arendeList.length < 1);
                     }
 
                     function isNoArenden() {
-                        return ArendeNewViewState.intygProperties.isSent === undefined &&
+                        return ArendeNewViewState.parentViewState.intygProperties.isSent === undefined &&
                             ($scope.arendeList.length < 1);
                     }
 
@@ -110,7 +109,7 @@ angular.module('common').directive('arendeNew',
                         ArendeNewViewState.updateInProgress = true; // trigger local spinner
                         ArendeNewViewState.showSentMessage = false; // reset sent message info box
 
-                        ArendeProxy.sendNewArende($stateParams.certificateId, ArendeNewViewState.intygProperties.intygType, arendeNewModel,
+                        ArendeProxy.sendNewArende($stateParams.certificateId, ArendeNewViewState.parentViewState.intygProperties.type, arendeNewModel,
                             function(arendeModel) {
                                 
                                 $log.debug('Got saveNewQuestion result:' + arendeModel);
