@@ -14,7 +14,7 @@ angular.module('common').controller('common.ArendeCtrl',
             function fetchArenden(intygId, intygProperties) {
 
                 // Request loading of arenden for this intyg
-                ArendeProxy.getArenden(intygId, intygProperties.intygType, function (result) {
+                ArendeProxy.getArenden(intygId, intygProperties.type, function (result) {
                     $log.debug('getArendeForintygificate:success data:' + result);
                     ArendenViewState.doneLoading = true;
                     ArendenViewState.activeErrorMessageKey = null;
