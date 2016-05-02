@@ -68,6 +68,7 @@ angular.module('common').directive('wcDatePeriodField',
         function(dateUtils) {
             'use strict';
             return {
+                priority: 1,
                 restrict: 'A',
                 require:['ngModel', '^wcDatePeriodField', '^wcDatePeriodValidator'],
                 link: function(scope, element, attrs, ctrls) {
