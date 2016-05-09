@@ -25,6 +25,7 @@ angular.module('common').service('common.ArendenViewStateService',
             this.doneLoading = false;
             this.activeErrorMessageKey = null;
             this.showTemplate = true;
+            this.showAllKompletteringarHandled = false;
 
             this.intyg = {};
             this.intygProperties = {
