@@ -7,8 +7,8 @@
       <div class="webcert-bottom-padding-section" ng-show="viewState.intygProperties.isLoaded">
 
         <!-- Kompletteringar heading for utkast view -->
-        <h2 ng-show="viewState.intygProperties.kompletteringOnly"
-            class="col-head">Kompletteringar <span wc-help-mark field-help-text="arende.help.kompletteringar"></span>
+        <h2 ng-show="viewState.intygProperties.kompletteringOnly" class="col-head">Kompletteringar <span wc-help-mark
+                                                                                                         field-help-text="arende.help.kompletteringar"></span>
         </h2>
 
         <!-- new arende form -->
@@ -22,14 +22,31 @@
 
       </div>
 
-      <!-- list of open arenden -->
-      <div id="unhandledArendeCol" class="webcert-col-section arende-list-section" ng-show="(arendeList | filter:openArendenFilter).length > 0">
-        <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelse':true" class="arende-item">
-          <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList"></div>
-        </div>
-      </div>
+      <div id="unhandledArendeCol" class="webcert-col-section arende-list-section" ng-show="arendeList.length > 0">
 
-      <!-- list of handled arenden -->
+        <div ng-show="viewState.showAllKompletteringarHandled" id="allKompletteringarHandled">
+          Alla kompletteringar är hanterade.
+        </div>
+
+        <!-- list of open arenden -->
+        <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelse':true"
+             class="arende-item">
+          <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList" parent-view-state="viewState"></div>
+        </div>
+
+        <!-- list of open arenden -->
+        <div ng-show="!intygProperties.kompletteringOnly">
+          <h2 class="col-head" ng-show="arendeListFiltered.length > 0">Tidigare frågor och svar <span wc-help-mark
+                                                                                                      field-help-text="arende.help.handled"></span>
+          </h2>
+          <div
+              ng-repeat="arendeListItem in arendeListFiltered = (arendeList | filter:closedArendenFilter | orderBy:'senasteHandelseDatum':true)"
+              class="arende-item">
+            <div arende-panel panel-id="handled" arende-list-item="arendeListItem" arende-list="arendeList" parent-view-state="viewState"></div>
+          </div>
+        </div>
+
+      </div>
 
     </div>
 

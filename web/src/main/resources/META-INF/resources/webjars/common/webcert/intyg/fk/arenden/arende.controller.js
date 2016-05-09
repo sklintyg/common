@@ -11,14 +11,55 @@ angular.module('common').controller('common.ArendeCtrl',
             $scope.viewState = ArendenViewState;
             $scope.arendeList = [];
 
-            function fetchArenden(intygId, intygProperties) {
+            // Load
 
-                // Request loading of arenden for this intyg
+            function filterKompletteringar(arendeList, intygProperties) {
+
+                var isAnyKompletteringarNotHandled = false;
+
+                // Filter out the komplettering the utkast was based on and only that one.
+                var filteredList = arendeList.filter(function(arendeListItem) {
+
+                    var isKompletteringFraga = arendeListItem.amne === 'KOMPLETTERING_AV_LAKARINTYG';
+
+                    // Check if this komplettering isn't handled. Used to show sign if there are no more unhandled kompletteringar
+                    if(!isAnyKompletteringarNotHandled){
+                        isAnyKompletteringarNotHandled = (isKompletteringFraga && arendeListItem.arende.fraga.status !== 'CLOSED');
+                    }
+
+                    // Filter out the komplettering the utkast was based on and only that one.
+                    return isKompletteringFraga && Number(arendeListItem.internReferens) === Number(ArendenViewState.intygProperties.meddelandeId);
+                });
+
+                // If there aren't any kompletteringar that aren't handled already, we can show the sign that all kompletteringar are handled.
+                ArendenViewState.showAllKompletteringarHandled = !isAnyKompletteringarNotHandled;
+                return filteredList;
+            }
+
+            this.filterKompletteringar = filterKompletteringar;
+
+
+            function fetchArenden(intygId, intygProperties) {
                 ArendeProxy.getArenden(intygId, intygProperties.type, function (result) {
                     $log.debug('getArendeForintygificate:success data:' + result);
                     ArendenViewState.doneLoading = true;
                     ArendenViewState.activeErrorMessageKey = null;
+                    ArendenViewState.showAllKompletteringarHandled = false;
+
+                    if(ObjectHelper.isDefined(intygProperties)){
+                        // If kompletteringsmode, only show kompletteringsissues
+                        if (intygProperties.kompletteringOnly) {
+                            result = filterKompletteringar(result, intygProperties);
+                        }
+                    }
+
                     $scope.arendeList = ArendeHelper.createListItemsFromArenden(result);
+
+                    // Tell viewcertctrl about the intyg in case cert load fails
+                    /*if (result.length > 0) {
+                        $rootScope.$emit('ViewCertCtrl.load', result[0].intygsReferens);
+                    }*/
+
                 }, function (errorData) {
                     // show error view
                     ArendenViewState.doneLoading = true;
@@ -52,23 +93,31 @@ angular.module('common').controller('common.ArendeCtrl',
             });
             $scope.$on('$destroy', unbindFastEvent);
 
-
-            $scope.openArendenFilter = function (arende) {
-                return true;
-            };
-
             // listeners - interscope communication
             var unbindmarkAnsweredAsHandledEvent = $scope.$on('markAnsweredAsHandledEvent', function ($event, deferred, unhandledQas) {
                 //qaHelper.updateAnsweredAsHandled(deferred, unhandledQas, true);
                 deferred.resolve();
             });
-
             $scope.$on('$destroy', unbindmarkAnsweredAsHandledEvent);
 
             var unbindHasUnhandledQasEvent = $scope.$on('hasUnhandledQasEvent', function ($event, deferred) {
                 deferred.resolve([]);
                 //deferred.resolve(fragaSvarCommonService.getUnhandledQas($scope.qaList));
             });
-
             $scope.$on('$destroy', unbindHasUnhandledQasEvent);
+
+
+            // Scope interactions
+
+            $scope.dismissSentMessage = function() {
+                $scope.viewState.sentMessage = false;
+            };
+
+            $scope.openArendenFilter = function (arendeListItem) {
+                return arendeListItem.arende.fraga.status !== 'CLOSED';
+            };
+
+            $scope.closedArendenFilter = function (arendeListItem) {
+                return arendeListItem.arende.fraga.status === 'CLOSED';
+            };
         }]);
