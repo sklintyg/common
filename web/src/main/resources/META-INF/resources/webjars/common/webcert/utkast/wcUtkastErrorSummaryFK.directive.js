@@ -21,8 +21,8 @@
  * wcField directive. Used to abstract common layout for full-layout form fields in cert modules
  */
 angular.module('common').directive('wcUtkastErrorSummaryFk',
-    [
-        function() {
+    ['common.dynamicLabelService', 'common.messageService', 'common.UtkastViewStateService',
+        function(dynamicLabelService, messageService, viewState) {
             'use strict';
 
             return {
@@ -31,13 +31,17 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
                 templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastErrorSummaryFK.directive.html',
                 scope: true,
                 controller: function($scope) {
-                    $scope.lookUp = function(category) {
+                    $scope.lookUpLabel = function(category) {
                         for(var i=0; i<$scope.categoryNames.length; i++) {
                             if (category === $scope.categoryNames[i]) {
+                                var result = dynamicLabelService.getProperty('KAT_' + i + '.RBK');
+                                if (result) {
+                                    return result;
+                                }
                                 return 'KAT_' + i + '.RBK';
                             }
                         }
-                        return category;
+                        return messageService.getProperty(viewState.intyg.type+'.label.'+category);
                     };
                 }
             };
