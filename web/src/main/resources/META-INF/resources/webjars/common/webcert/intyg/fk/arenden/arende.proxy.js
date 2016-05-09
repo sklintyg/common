@@ -116,32 +116,31 @@ angular.module('common').factory('common.ArendeProxy',
         /*
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
-        /*      function _closeAllAsHandled(qas, onSuccess, onError) {
-         var restPath = '/moduleapi/arenden/stang';
-         var fs = [];
-         angular.forEach(qas, function(qa, key) {
-         this.push({ intygsTyp : qa.intygsReferens.intygsTyp, arendeId:qa.internReferens });
-         }, fs);
+        function _closeAllAsHandled(arenden, onSuccess, onError) {
+            var restPath = '/moduleapi/arenden/stang';
+            var fs = [];
+            angular.forEach(arenden, function(arende, key) {
+                this.push({ intygsTyp: arende.fraga.intygTyp, arendeId: arende.internReferens });
+            }, fs);
 
-         $http.put(restPath, fs).success(function(data) {
-         $log.debug('got data:' + data);
-         onSuccess(data);
-         }).error(function(data, status) {
-         $log.error('error ' + status);
-         // Let calling code handle the error of no data response
-         onError(data);
-         });
-         }
-         */
+            $http.put(restPath, fs).success(function(data) {
+                $log.debug('got data:' + data);
+                onSuccess(data);
+            }).error(function(data, status) {
+                $log.error('error ' + status);
+                // Let calling code handle the error of no data response
+                onError(data);
+            });
+        }
+
         // Return public API for the service
         return {
             getArenden: _getArenden,
-            answerWithIntyg: _answerWithIntyg,
             sendNewArende: _sendNewArende,
+            saveAnswer: _saveAnswer,
+            answerWithIntyg: _answerWithIntyg,
             closeAsHandled: _closeAsHandled,
             openAsUnhandled: _openAsUnhandled,
-            saveAnswer: _saveAnswer
-            /* closeAllAsHandled: _closeAllAsHandled,
-             */
+            closeAllAsHandled: _closeAllAsHandled
         };
     });
