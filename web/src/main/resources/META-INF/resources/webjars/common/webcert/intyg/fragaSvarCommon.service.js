@@ -50,11 +50,23 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     ($window.location.port ? ':' + $window.location.port : '');
                 var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
 
+                // If qa.intygsReferens is undefined this could be because the
+                // new ArendeListItem is used and not the old FragaSvar database entity.
+                // This means we should first check if old version is defined
+                // and then check for new version. This can be removed when
+                // support for fk7263 is removed.
+                var intygsId;
                 if(typeof qa.intygsReferens === 'undefined' || typeof qa.intygsReferens.intygsId === 'undefined') {
-                    $log.error('Invalid intyg id. Cannot create vidarebefordra link');
-                    return 'error';
+                    if (typeof qa.intygId === 'undefined') {
+                        $log.error('Invalid intyg id. Cannot create vidarebefordra link');
+                        return 'error';
+                    }
+                    intygsId = qa.intygId;
                 }
-                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygsReferens.intygsId + '/questions';
+                else {
+                    intygsId = qa.intygsReferens.intygsId;
+                }
+                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + intygsId + '/questions';
 
                 var recipient = '';
                 var subject = 'En fraga-svar ska besvaras i Webcert';
