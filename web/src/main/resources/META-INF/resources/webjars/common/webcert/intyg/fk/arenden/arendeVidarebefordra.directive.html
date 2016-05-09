@@ -1,0 +1,25 @@
+<div class="row" ng-if="!parentViewState.intygProperties.kompletteringOnly">
+  <div class="col-xs-9"></div>
+  <div wc-authority="VIDAREBEFORDRA_FRAGASVAR" class="col-xs-3 form-inline arende-panel__vidarebefordra-placement"
+       ng-show="!parentViewState.intygProperties.isRevoked">
+    <div>
+      <!--  fraga.status header -->
+      <button type="button" id="{{panelId}}-vidarebefordraEjHanterad" class="btn"
+              ng-class="{'btn-info': !arendeListItem.arende.fraga.vidarebefordrad, 'btn-default btn-secondary' : arendeListItem.arende.fraga.vidarebefordrad}"
+              title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
+              ng-click="openMailDialog(arendeListItem.arende)" ng-show="!parentViewState.intygProperties.isRevoked">
+        <img ng-if="!arendeListItem.arende.fraga.vidarebefordrad" src="/img/mail.png"> <img
+          ng-if="arendeListItem.arende.fraga.vidarebefordrad" src="/img/mail_dark.png">
+      </button>
+    </div>
+    <div class="relative-anchor">
+      <label for="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}"
+             class="checkbox-inline padding-top-small anchor-right">
+        <input id="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox"
+               ng-disabled="arendeListItem.forwardInProgress"
+               ng-model="arendeListItem.arende.fraga.vidarebefordrad"
+               ng-change="onVidareBefordradChange(arendeListItem.arende)" /> Vidarebefordrad</label> <span
+        ng-if="arendeListItem.forwardInProgress"> <img src="/img/ajax-loader-kit-16x16.gif"></span>
+    </div>
+  </div>
+</div>

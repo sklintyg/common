@@ -22,7 +22,7 @@
  */
 
 angular.module('common').factory('common.ArendeListItemModel',
-    ['$log', function($log) {
+    ['$log', 'common.UserModel', function($log, UserModel) {
         'use strict';
 
         /**

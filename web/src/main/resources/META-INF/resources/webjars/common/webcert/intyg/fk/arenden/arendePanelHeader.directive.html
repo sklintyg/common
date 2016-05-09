@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-xs-9">
+    <div class="fraga.status-header">
+
+      <div arende-panel-header-amne arende-list-item="arendeListItem"></div>
+
+      <div ng-if="arendeListItem.arende.fraga.status != 'CLOSED'">
+        <h3>
+          Åtgärd: <strong><span message
+                                key="common.arende.atgard.{{arendeListItem.atgardMessageId}}"></span></strong>
+        </h3>
+        <h3 ng-show="arendeListItem.arende.fraga.sistaDatumForSvar">
+          Svara senast: <strong>{{arendeListItem.arende.fraga.sistaDatumForSvar}}</strong></h3>
+      </div>
+
+      <div arende-hantera arende-list-item="arendeListItem" parent-view-state="parentViewState"></div>
+
+    </div>
+  </div>
+</div>

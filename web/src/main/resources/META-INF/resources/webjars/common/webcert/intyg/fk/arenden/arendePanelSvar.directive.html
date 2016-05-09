@@ -1,0 +1,134 @@
+<div>
+  <!-- error message occuring when interacting with server for komplettering-->
+  <div id="internal-{{arendeListItem.arende.fraga.internReferens}}-meddelande-load-error"
+       ng-show="arendeListItem.activeErrorMessageKey" class="alert alert-danger">
+    <span message key="common.arende.komplettering.error.{{arendeListItem.activeErrorMessageKey}}"></span>
+  </div>
+
+  <!-- Svara med nytt intyg button - only on komplettering -->
+  <div class="buttonbar"
+       ng-show="!parentViewState.intygProperties.kompletteringOnly && !arendeListItem.answerDisabled && !parentViewState.intygProperties.isRevoked && arendeListItem.arende.fraga.amne == 'KOMPLT'">
+    <button type="button" class="btn"
+            ng-class="{'btn-success': arendeListItem.arende.fraga.status != 'CLOSED' && !cannotKomplettera, 'btn-default btn-secondary': arendeListItem.arende.fraga.status == 'CLOSED' || cannotKomplettera}"
+            ng-click="answerWithIntyg(arendeListItem.arende, intyg)" ng-disabled="cannotKomplettera" wc-check-vardenhet
+            vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
+            id="answerWithIntygBtn-{{arendeListItem.arende.fraga.internReferens}}">
+      <img src="/img/loader-small-green.gif" ng-show="arendeListItem.updateInProgress"> Svara med nytt intyg
+    </button>
+      <span ng-show="arendeListItem.arende.fraga.status != 'CLOSED'">
+      <label for="{{panelId}}-cant-komplettera-{{arendeListItem.arende.fraga.internReferens}}" class="checkbox-inline">
+        <input id="{{panelId}}-cant-komplettera-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox"
+               ng-model="cannotKomplettera" ng-change="onCannotKomplettera()" /> Kan ej svara med nytt intyg</label>
+      </span>
+  </div>
+
+  <!-- Svarsdelen -->
+  <div
+      ng-if="parentViewState.intygProperties.kompletteringOnly || (arendeListItem.arende.fraga.amne == 'KOMPLT' && cannotKomplettera) || (arendeListItem.arende.fraga.amne != 'KOMPLT')"
+      class="fold-animation">
+    <div class="panel-container" ng-show="arendeListItem.arende.fraga.amne != 'PAMINNELSE'">
+      <div class="arende-block"
+           ng-class="{'arende-block-handled': arendeListItem.arende.fraga.status == 'CLOSED', 'arende-block-fk' : (arendeListItem.arende.fraga.frageStallare | lowercase) == 'wc', 'arende-block-wc' : (arendeListItem.arende.fraga.frageStallare | lowercase) == 'fk'}"
+           ng-if="(arendeListItem.arende.fraga.status == 'CLOSED' && arendeListItem.arende.fraga.meddelande) || (arendeListItem.arende.fraga.status == 'ANSWERED')">
+
+        <!-- UNHANDLEDTYPE: frågan är redan BESVARAD -->
+        <!-- HANDLEDTYPE: frågan har en meddelande -->
+        <div class="arende-block-head clearfix">
+          <div class="pull-left" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
+            <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
+            Från: <span ng-switch-when="wc">
+                        <span class="arende-sender" message key="common.arende.fragestallare.fk"></span>
+                      </span>
+            <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
+              <span ng-switch-default
+                    id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}"
+                    class="arende-sender">{{arendeListItem.arende.fraga.vardaktorNamn}}</span>
+          </div>
+          <div class="pull-right" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
+            <!-- motsatt villkor mot frågan -->
+            <span ng-switch-when="wc">Mottaget: </span> <span ng-switch-default>Skickat: </span> <span
+              class="arende-date">{{arendeListItem.arende.fraga.timestamp | date:'short'}}</span>
+          </div>
+        </div>
+        <div id="{{panelId}}-{{arendeListItem.arende.fraga.internReferens}}-meddelande" class="arende-block-body">
+          {{arendeListItem.arende.fraga.meddelande}}
+        </div>
+      </div>
+    </div>
+
+    <!-- KNAPPAR HANTERADE FRÅGOR -->
+    <!-- error message occuring when inteacting with server for this FragaSvar-->
+    <!--  Oavsett hur frågan stänged skall man kunna 'öppna' den igen -->
+    <!--div ng-if="arendeListItem.arende.fraga.status == 'CLOSED'">
+      <div id="{{panelId}}-{{arendeListItem.arende.fraga.internReferens}}-meddelande-load-error" ng-show="arendeListItem.activeErrorMessageKey" class="alert alert-danger">
+        <span message key="common.error.{{arendeListItem.activeErrorMessageKey}}"></span>
+      </div>
+      <div class="form-group">
+        <div class="controls" ng-hide="arendeListItem.arende.fraga.frageStallare!='WC' && arendeListItem.arende.fraga.meddelande">
+          <button type="button" class="btn btn-default btn-secondary" ng-click="updateAsUnHandled(arendeListItem.arende)"
+                  wc-check-vardenhet vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
+                  id="markAsUnhandledBtn-{{arendeListItem.arende.fraga.internReferens}}" ng-disabled="arendeListItem.updateHandledStateInProgress">
+            <img src="/img/loader-small.gif" ng-show="arendeListItem.updateHandledStateInProgress"> Markera som ej hanterad
+          </button>
+        </div>
+      </div>
+    </div-->
+
+    <!-- KNAPPAR EJ HANTERADE FRÅGOR -->
+    <!-- TA BORT parentViewState.intygProperties.kompletteringOnly NÄR "SVAR SOM FÖLJER MED" ÄR IMPLEMENTERAT -->
+    <div
+        ng-if="!parentViewState.intygProperties.kompletteringOnly && arendeListItem.arende.fraga.status != 'CLOSED' && arendeListItem.arende.fraga.amne != 'PAMINNELSE'">
+      <div class="form-group" ng-if="arendeListItem.arende.fraga.status == 'PENDING_INTERNAL_ACTION'">
+        <!--  VÄNTAR på svar från Vårdenheten, men skall kunna klarmarkeras ändå?-->
+
+        <!-- Rubrik: Svar -->
+        <label class="control-label"
+               ng-show="!arendeListItem.answerDisabled && !parentViewState.intygProperties.isRevoked && !cannotKomplettera">Svar</label>
+
+        <!-- ELLER varningsruta komplettering -->
+        <div class="alert alert-warning"
+             ng-show="!arendeListItem.answerDisabled && !parentViewState.intygProperties.isRevoked && cannotKomplettera">
+          <strong>Viktigt!</strong> Konsekvensen av att skicka ett meddelande om att komplettering ej kan göras kan
+          innebära att Försäkringskassans handläggare avslår ansökan om sjukpenning.<br>
+          I det här meddelandet ska du inte skriva någon medicinsk information. Om du har behov av en dialog som
+          innehåller medicinsk information ska du svara med nytt intyg.
+        </div>
+
+        <!-- ELLER inforuta komplettering EJ IMPLEMENTERAT
+        <div class="alert alert-info"
+             ng-show="parentViewState.intygProperties.kompletteringOnly">
+          Här kan du föra en dialog med Försäkringskassan om ett intyg. Medicinsk information ska endast skickas via signerade intyg. När du signerat och skickar intyget till Försäkringskassan följer ditt meddelande som du skrivit med.
+        </div> -->
+
+        <div class="controls">
+          <div id="answerDisabledReasonPanel" class="alert alert-info"
+               ng-show="arendeListItem.answerDisabled && arendeListItem.answerDisabledReason">
+            {{arendeListItem.answerDisabledReason}}
+          </div>
+          <div class="form-group" ng-show="!arendeListItem.answerDisabled && !parentViewState.intygProperties.isRevoked">
+            <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
+                      class="form-control col-md-9 arende-block-wc" ng-model="arendeListItem.arende.fraga.meddelande"
+                      id="answerText-{{arendeListItem.arende.fraga.internReferens}}"></textarea>
+          </div>
+          <div class="webintyg-top-padding-section">
+            <!-- error message occuring when inteacting with server for this FragaSvar-->
+            <div id="internal-{{arendeListItem.arende.fraga.internReferens}}-meddelande-load-error"
+                 ng-show="arendeListItem.activeErrorMessageKey" class="alert alert-danger">
+              <span message key="common.error.{{arendeListItem.activeErrorMessageKey}}"></span>
+              <span message key="common.error.{{arendeListItem.activeErrorMessageKey}}"></span>
+            </div>
+
+            <button type="button" class="btn btn-success" ng-click="sendAnswer(arendeListItem.arende)"
+                    ng-disabled="!arendeListItem.arende.fraga.meddelande || arendeListItem.updateInProgress"
+                    ng-show="!arendeListItem.answerDisabled && !parentViewState.intygProperties.isRevoked" wc-check-vardenhet
+                    vardenhet="{{viewState.intygModel.grundData.skapadAv.vardenhet.enhetsid}}"
+                    id="sendAnswerBtn-{{arendeListItem.arende.fraga.internReferens}}">
+              <img src="/img/loader-small-green.gif" ng-show="arendeListItem.updateInProgress"> Skicka svar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
