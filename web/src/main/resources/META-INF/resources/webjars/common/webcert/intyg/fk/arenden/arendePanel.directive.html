@@ -70,7 +70,7 @@
           <div class="arende-block-head clearfix">
             <div class="pull-left" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
               Från: <span class="arende-sender" ng-switch-when="wc"
-                          id="{{panelId}}-question-fraga-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.signeratAv}}</span>
+                          id="{{panelId}}-question-fraga-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.vardaktorNamn}}</span>
               <span ng-switch-default message
                     key="common.arende.fragestallare.{{arendeListItem.arende.fraga.frageStallare | lowercase}}"></span>
               <div id="{{panelId}}-fkKontakter-{{arendeListItem.arende.fraga.internReferens}}"
@@ -139,12 +139,12 @@
               <div class="pull-left" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
                 <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
                 Från: <span ng-switch-when="wc">
-                          <span class="arende-sender" message key="common.arende.skapatav.fk"></span>
+                          <span class="arende-sender" message key="common.arende.fragestallare.fk"></span>
                         </span>
                 <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
                 <span ng-switch-default
                       id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}"
-                      class="arende-sender">{{arendeListItem.arende.vardAktorNamn}}</span>
+                      class="arende-sender">{{arendeListItem.arende.fraga.vardaktorNamn}}</span>
               </div>
               <div class="pull-right" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
                 <!-- motsatt villkor mot frågan -->
