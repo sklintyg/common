@@ -39,8 +39,8 @@ angular.module('common').directive('arendePanel',
                 scope: {
                     panelId: '@',
                     arendeListItem: '=',
-                    arendeList: '='//,
-                    //parentViewState: '='
+                    arendeList: '=',
+                    parentViewState: '='
                 },
                 controller: function($scope, $element, $attrs) {
 
@@ -49,15 +49,63 @@ angular.module('common').directive('arendePanel',
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
                             if (newState) {
-//                                $scope.updateAsHandled($scope.arendeListItem.arende);
+                                $scope.updateAsHandled($scope.arendeListItem);
                             }
                             else {
-//                                $scope.updateAsUnHandled($scope.arendeListItem.arende);
+                                $scope.updateAsUnhandled($scope.arendeListItem);
                             }
                         }
                         else {
                             return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
                         }
+                    };
+
+                    $scope.updateAsHandled = function(arendeListItem, deferred) {
+                        $log.debug('updateAsHandled:' + arendeListItem.arende);
+                        arendeListItem.updateHandledStateInProgress = true;
+
+                        ArendeProxy.closeAsHandled(arendeListItem.arende.fraga.internReferens, $scope.parentViewState.intygProperties.type, function(result) {
+                            arendeListItem.activeErrorMessageKey = null;
+                            arendeListItem.updateHandledStateInProgress = false;
+                            if (result !== null) {
+                                angular.copy(result, arendeListItem.arende);
+                                arendeListItem.updateArendeListItem();
+                                statService.refreshStat();
+                            }
+                            $window.doneLoading = true;
+                            if(deferred) {
+                                deferred.resolve();
+                            }
+                        }, function(errorData) {
+                            // show error view
+                            arendeListItem.updateHandledStateInProgress = false;
+                            arendeListItem.activeErrorMessageKey = errorData.errorCode;
+                            $window.doneLoading = true;
+                            if(deferred) {
+                                deferred.resolve();
+                            }
+                        });
+                    };
+
+                    $scope.updateAsUnhandled = function(arendeListItem) {
+                        $log.debug('updateAsUnHandled:' + arendeListItem);
+                        arendeListItem.updateHandledStateInProgress = true; // trigger local
+
+                        ArendeProxy.openAsUnhandled(arendeListItem.arende.fraga.internReferens, $scope.parentViewState.intygProperties.type, function(result) {
+                            $log.debug('Got openAsUnhandled result:' + result);
+                            arendeListItem.activeErrorMessageKey = null;
+                            arendeListItem.updateHandledStateInProgress = false;
+
+                            if (result !== null) {
+                                angular.copy(result, arendeListItem.arende);
+                                arendeListItem.updateArendeListItem();
+                                statService.refreshStat();
+                            }
+                        }, function(errorData) {
+                            // show error view
+                            arendeListItem.updateHandledStateInProgress = false;
+                            arendeListItem.activeErrorMessageKey = errorData.errorCode;
+                        });
                     };
 /*
                     /**
@@ -141,6 +189,21 @@ angular.module('common').directive('arendePanel',
                             });
                     };
 
+ $scope.hasUnhandledarendes = function(){
+ if(!$scope.arendeList || $scope.arendeList.length === 0){
+ return false;
+ }
+ for (var i = 0, len = $scope.arendeList.length; i < len; i++) {
+ var arende = $scope.arendeList[i];
+ var isUnhandled = fragaSvarCommonService.isUnhandled(arende);
+ var fromFk = fragaSvarCommonService.fromFk(arende);
+ if(arende.status === 'ANSWERED' || (isUnhandled && fromFk)){
+ return true;
+ }
+ }
+ return false;
+ };
+
                     $scope.updateAnsweredAsHandled = function(deferred, unhandledarendes){
                         if(unhandledarendes === undefined || unhandledarendes.length === 0 ){
                             return;
@@ -167,72 +230,7 @@ angular.module('common').directive('arendePanel',
                             });
                     };
 
-                    $scope.hasUnhandledarendes = function(){
-                        if(!$scope.arendeList || $scope.arendeList.length === 0){
-                            return false;
-                        }
-                        for (var i = 0, len = $scope.arendeList.length; i < len; i++) {
-                            var arende = $scope.arendeList[i];
-                            var isUnhandled = fragaSvarCommonService.isUnhandled(arende);
-                            var fromFk = fragaSvarCommonService.fromFk(arende);
-                            if(arende.status === 'ANSWERED' || (isUnhandled && fromFk)){
-                                return true;
-                            }
-                        }
-                        return false;
-                    };
 
-                    $scope.updateAsHandled = function(arende, deferred) {
-                        $log.debug('updateAsHandled:' + arende);
-                        arende.updateHandledStateInProgress = true;
-
-                        fragaSvarProxy.closeAsHandled(arende.internReferens, 'luse', function(result) {
-                            arende.activeErrorMessageKey = null;
-                            arende.updateHandledStateInProgress = false;
-                            if (result !== null) {
-                                fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.arendeList, arende, 'luse.fragasvar.marked.as.hanterad');
-
-                                angular.copy(result, arende);
-                                statService.refreshStat();
-                            }
-                            $window.doneLoading = true;
-                            if(deferred) {
-                                deferred.resolve();
-                            }
-                        }, function(errorData) {
-                            // show error view
-                            arende.updateHandledStateInProgress = false;
-                            arende.activeErrorMessageKey = errorData.errorCode;
-                            $window.doneLoading = true;
-                            if(deferred) {
-                                deferred.resolve();
-                            }
-                        });
-                    };
-
-                    $scope.updateAsUnHandled = function(arende) {
-                        $log.debug('updateAsUnHandled:' + arende);
-                        arende.updateHandledStateInProgress = true; // trigger local
-
-                        fragaSvarProxy.openAsUnhandled(arende.internReferens, 'luse', function(result) {
-                            $log.debug('Got openAsUnhandled result:' + result);
-                            arende.activeErrorMessageKey = null;
-                            arende.updateHandledStateInProgress = false;
-
-                            if (result !== null) {
-                                fragaSvarCommonService.decorateSingleItem(result);
-                                //addListMessage($scope.arendeList, arende, 'luse.fragasvar.marked.as.ohanterad');
-
-                                angular.copy(result, arende);
-                                statService.refreshStat();
-                            }
-                        }, function(errorData) {
-                            // show error view
-                            arende.updateHandledStateInProgress = false;
-                            arende.activeErrorMessageKey = errorData.errorCode;
-                        });
-                    };
 
                     // Handle vidarebefordra dialog
                     $scope.openMailDialog = function(arende) {
