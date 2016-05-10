@@ -38,7 +38,7 @@ public class Status {
         this.timestamp = timestamp;
     }
 
-    public Status(){
+    public Status() {
 
     }
 
