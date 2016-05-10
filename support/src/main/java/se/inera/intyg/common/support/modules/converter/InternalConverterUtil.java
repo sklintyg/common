@@ -31,6 +31,7 @@ import org.joda.time.LocalDate;
 import se.inera.intyg.common.support.common.enumerations.BefattningKod;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Patient;
@@ -65,7 +66,7 @@ public final class InternalConverterUtil {
     private static HosPersonal getSkapadAv(Utlatande source) {
         HoSPersonal sourceSkapadAv = source.getGrundData().getSkapadAv();
         HosPersonal skapadAv = new HosPersonal();
-        skapadAv.setPersonalId(anHsaId(sourceSkapadAv.getPersonId()));
+        skapadAv.setPersonalId(getHsaId(sourceSkapadAv.getPersonId()));
         skapadAv.setFullstandigtNamn(sourceSkapadAv.getFullstandigtNamn());
         skapadAv.setForskrivarkod(sourceSkapadAv.getForskrivarKod());
         skapadAv.setEnhet(getEnhet(sourceSkapadAv.getVardenhet()));
@@ -86,7 +87,7 @@ public final class InternalConverterUtil {
 
     private static Enhet getEnhet(Vardenhet sourceVardenhet) {
         Enhet vardenhet = new Enhet();
-        vardenhet.setEnhetsId(anHsaId(sourceVardenhet.getEnhetsid()));
+        vardenhet.setEnhetsId(getHsaId(sourceVardenhet.getEnhetsid()));
         vardenhet.setEnhetsnamn(sourceVardenhet.getEnhetsnamn());
         vardenhet.setPostnummer(sourceVardenhet.getPostnummer());
         vardenhet.setPostadress(sourceVardenhet.getPostadress());
@@ -98,7 +99,7 @@ public final class InternalConverterUtil {
         return vardenhet;
     }
 
-    private static ArbetsplatsKod getArbetsplatsKod(String sourceArbetsplatsKod) {
+    public static ArbetsplatsKod getArbetsplatsKod(String sourceArbetsplatsKod) {
         ArbetsplatsKod arbetsplatsKod = new ArbetsplatsKod();
         arbetsplatsKod.setRoot(ARBETSPLATSKOD_ROOT);
         arbetsplatsKod.setExtension(sourceArbetsplatsKod);
@@ -107,7 +108,7 @@ public final class InternalConverterUtil {
 
     private static Vardgivare getVardgivare(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceVardgivare) {
         Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivareId(anHsaId(sourceVardgivare.getVardgivarid()));
+        vardgivare.setVardgivareId(getHsaId(sourceVardgivare.getVardgivarid()));
         vardgivare.setVardgivarnamn(sourceVardgivare.getVardgivarnamn());
         return vardgivare;
     }
@@ -117,14 +118,18 @@ public final class InternalConverterUtil {
         patient.setEfternamn(sourcePatient.getEfternamn());
         patient.setFornamn(emptyStringIfNull(sourcePatient.getFornamn()));
         patient.setMellannamn(sourcePatient.getMellannamn());
-        PersonId personId = new PersonId();
-        personId.setRoot(PERSON_ID_ROOT);
-        personId.setExtension(sourcePatient.getPersonId().getPersonnummer().replaceAll("-", ""));
-        patient.setPersonId(personId);
+        patient.setPersonId(getPersonId(new Personnummer(sourcePatient.getPersonId().getPersonnummer())));
         patient.setPostadress(emptyStringIfNull(sourcePatient.getPostadress()));
         patient.setPostnummer(emptyStringIfNull(sourcePatient.getPostnummer()));
         patient.setPostort(emptyStringIfNull(sourcePatient.getPostort()));
         return patient;
+    }
+
+    public static PersonId getPersonId(Personnummer pnr) {
+        PersonId personId = new PersonId();
+        personId.setRoot(PERSON_ID_ROOT);
+        personId.setExtension(pnr.getPersonnummerWithoutDash());
+        return personId;
     }
 
     private static IntygId getIntygsId(Utlatande source) {
@@ -159,7 +164,7 @@ public final class InternalConverterUtil {
         intyg.getRelation().add(relation);
     }
 
-    private static HsaId anHsaId(String id) {
+    public static HsaId getHsaId(String id) {
         HsaId hsaId = new HsaId();
         hsaId.setRoot(HSA_ID_ROOT);
         hsaId.setExtension(id);
