@@ -38,6 +38,10 @@ public class Status {
         this.timestamp = timestamp;
     }
 
+    public Status(){
+
+    }
+
     public CertificateState getType() {
         return type;
     }
