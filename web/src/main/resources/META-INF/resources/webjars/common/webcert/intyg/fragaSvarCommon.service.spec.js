@@ -161,14 +161,14 @@ describe('fragaSvarCommonService', function() {
         it('should create a link that leads back to the intyg', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
             userModelMock.isUthopp = function() { return false; };
 
-            // Wrong format
+            // This is fine. Both are handled in 4.1
             var qaWrong = {
-                intygId: 'testid', // <-- tests wrong format
+                intygId: 'testid',
                 enhetsnamn: 'Ängården',
                 vardgivarnamn: 'Vårdgivare'
             };
             var link = fragaSvarCommonService.buildMailToLink(qaWrong);
-            expect(link).toContain('error');
+            expect(link).not.toContain('undefined');
         }]));
     });
 
