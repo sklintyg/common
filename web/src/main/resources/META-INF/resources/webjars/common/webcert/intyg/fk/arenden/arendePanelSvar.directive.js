@@ -43,28 +43,99 @@ angular.module('common').directive('arendePanelSvar',
                 },
                 controller: function($scope, $element, $attrs) {
 
-                    $scope.cannotKomplettera = false;
+                    function initArendeSvar() {
+                        return {
+                            cannotKomplettera: false
+                        };
+                    }
+
+                    function updateArendeSvar(ArendeSvar) {
+                        ArendeSvar.enhetsId = $scope.parentViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
+
+                        ArendeSvar.intygProperties = $scope.parentViewState.intygProperties;
+
+                        ArendeSvar.answerDisabled = $scope.arendeListItem.answerDisabled;
+                        ArendeSvar.answerDisabledReason = $scope.arendeListItem.answerDisabledReason;
+                        ArendeSvar.svaraMedNyttIntygDisabled = $scope.arendeListItem.svaraMedNyttIntygDisabled;
+                        ArendeSvar.svaraMedNyttIntygDisabledReason = $scope.arendeListItem.svaraMedNyttIntygDisabledReason;
+
+                        ArendeSvar.amne = $scope.arendeListItem.arende.fraga.amne;
+                        ArendeSvar.status = $scope.arendeListItem.arende.fraga.status;
+                        ArendeSvar.frageStallare = $scope.arendeListItem.fraga.frageStallare;
+                        ArendeSvar.vardAktorNamn = $scope.arendeListItem.fraga.vardAktorNamn;
+
+                        ArendeSvar.meddelande = $scope.arendeListItem.arende.svar.meddelande;
+                        ArendeSvar.internReferens = $scope.arendeListItem.arende.svar.internReferens;
+                        ArendeSvar.svarSkickadDatum = $scope.arendeListItem.arende.svar.svarSkickadDatum;
+                    }
+
+                    // For readability, keep a local struct with the values used from parent scope
+                    var ArendeSvar = initArendeSvar();
+                    updateArendeSvar(ArendeSvar);
+                    $scope.arendeSvar = ArendeSvar;
+
+                    /*$scope.$watch('[arendeListItem, parentViewState]', function(newVal, oldVal) {
+                        updateArendeSvar(ArendeSvar);
+                    });*/
+
+                    $scope.showAnswerPanel = function() {
+                        return ArendeSvar.intygProperties.kompletteringOnly ||
+                            (ArendeSvar.amne !== 'KOMPLT') ||
+                            (ArendeSvar.amne === 'KOMPLT' && (ArendeSvar.cannotKomplettera ||
+                                (ArendeSvar.meddelande && ArendeSvar.status === 'CLOSED')));
+                    };
+
+                    $scope.showAnswer = function() {
+                        return (ArendeSvar.status === 'CLOSED' && ArendeSvar.meddelande) || (ArendeSvar.status === 'ANSWERED');
+                    };
+
+                    $scope.showKompletteringButtons = function() {
+                        return !ArendeSvar.intygProperties.kompletteringOnly &&
+                            $scope.isAnswerAllowed() &&
+                            ArendeSvar.amne === 'KOMPLT';
+                    };
+
+                    $scope.showSvaraMedNyttIntygButton = function() {
+                        return !ArendeSvar.svaraMedNyttIntygDisabled && ArendeSvar.status !== 'CLOSED';
+                    };
+
+                    $scope.showRegularAnswer = function() {
+                        return $scope.isAnswerAllowed() && !ArendeSvar.cannotKomplettera;
+                    };
+
+                    $scope.showKompletteringWarning = function() {
+                        return $scope.isAnswerAllowed() && ArendeSvar.cannotKomplettera;
+                    };
+
+                    $scope.showButtonBar = function() {
+                        // VÄNTAR på svar från Vårdenheten och det är inte kompletteringsvy vi renderar
+                        return !ArendeSvar.intygProperties.kompletteringOnly && ArendeSvar.status === 'PENDING_INTERNAL_ACTION';
+                    };
+
+                    $scope.isAnswerAllowed = function() {
+                        return !ArendeSvar.answerDisabled && !ArendeSvar.intygProperties.isRevoked;
+                    };
 
                     /**
                      * Svara på ärende från fk
                      */
-                    $scope.sendAnswer = function sendAnswer(arendeListItem) {
-                        arendeListItem.updateInProgress = true; // trigger local spinner
+                    $scope.sendAnswer = function sendAnswer() {
+                        ArendeSvar.updateInProgress = true; // trigger local spinner
 
-                        ArendeProxy.saveAnswer(arendeListItem.arende, 'luse', function(result) {
+                        ArendeProxy.saveAnswer($scope.arendeListItem.arende, ArendeSvar.intygProperties.typ, function(result) {
                             $log.debug('Got saveAnswer result:' + result);
-                            arendeListItem.updateInProgress = false;
-                            arendeListItem.activeErrorMessageKey = null;
+                            ArendeSvar.updateInProgress = false;
+                            ArendeSvar.activeErrorMessageKey = null;
                             if (result !== null) {
                                 ArendeHelper.updateArendeListItem(result);
                                 // update real item
-                                angular.copy(result, arendeListItem);
+                                angular.copy(result, $scope.arendeListItem);
                                 statService.refreshStat();
                             }
                         }, function(errorData) {
                             // show error view
-                            arendeListItem.updateInProgress = false;
-                            arendeListItem.activeErrorMessageKey = errorData.errorCode;
+                            ArendeSvar.updateInProgress = false;
+                            ArendeSvar.activeErrorMessageKey = errorData.errorCode;
                         });
                     };
 
@@ -73,25 +144,25 @@ angular.module('common').directive('arendePanelSvar',
                      * @param arendeListItem
                      * @param intyg
                      */
-                    $scope.answerWithIntyg = function(arendeListItem, intyg) {
+                    $scope.answerWithIntyg = function() {
 
-                        if (!ObjectHelper.isDefined(intyg)) {
-                            arendeListItem.activeErrorMessageKey = 'komplettera-no-intyg';
+                        if (!ObjectHelper.isDefined(ArendeSvar.intygProperties)) {
+                            ArendeSvar.activeErrorMessageKey = 'komplettera-no-intyg';
                             return;
                         }
 
-                        arendeListItem.updateInProgress = true; // trigger local spinner
-                        arendeListItem.activeErrorMessageKey = null;
-                        ArendeProxy.answerWithIntyg(arendeListItem.arende, intyg.typ,
+                        ArendeSvar.updateInProgress = true; // trigger local spinner
+                        ArendeSvar.activeErrorMessageKey = null;
+                        ArendeProxy.answerWithIntyg($scope.arendeListItem.arende, ArendeSvar.intygProperties.typ,
                             IntygCopyRequestModel.build({
                                 intygId: intyg.id,
-                                intygType: intyg.typ,
+                                intygType: ArendeSvar.intygProperties.typ,
                                 patientPersonnummer: intyg.grundData.patient.personId,
                                 nyttPatientPersonnummer: $stateParams.patientId
                             }), function(result) {
 
-                                arendeListItem.updateInProgress = false;
-                                arendeListItem.activeErrorMessageKey = null;
+                                ArendeSvar.updateInProgress = false;
+                                ArendeSvar.activeErrorMessageKey = null;
                                 statService.refreshStat();
 
                                 function goToDraft(type, intygId) {
@@ -104,8 +175,8 @@ angular.module('common').directive('arendePanelSvar',
 
                             }, function(errorData) {
                                 // show error view
-                                arendeListItem.updateInProgress = false;
-                                arendeListItem.activeErrorMessageKey = errorData.errorCode;
+                                ArendeSvar.updateInProgress = false;
+                                ArendeSvar.activeErrorMessageKey = errorData.errorCode;
                             });
                     };
 

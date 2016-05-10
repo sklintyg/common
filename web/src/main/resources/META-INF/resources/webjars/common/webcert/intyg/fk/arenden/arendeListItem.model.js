@@ -87,7 +87,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                     $log.debug('warning: undefined status');
                 }
             }
-        }
+        };
 
         ArendeListItemModel.prototype._isUnhandledForDecoration = function(){
             return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || this.arende.fraga.amne === 'PAMINNELSE';

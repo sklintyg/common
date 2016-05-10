@@ -33,7 +33,8 @@ angular.module('common').directive('arendePanelHeader',
                 replace: true,
                 templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendePanelHeader.directive.html',
                 scope: {
-                    arendeListItem: '='
+                    arendeListItem: '=',
+                    parentViewState: '='
                 }
             };
         }]);
