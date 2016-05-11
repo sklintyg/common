@@ -46,6 +46,11 @@ public interface ModuleEntryPoint {
     String getModuleDescription();
 
     /**
+     * Returns a detailed description for the module, suitable for display in the GUI.
+     */
+    String getDetailedModuleDescription();
+
+    /**
      * Returns the identifier of the default recipient of this module, or <code>null</code> if no default recipient
      * is specified.
      *

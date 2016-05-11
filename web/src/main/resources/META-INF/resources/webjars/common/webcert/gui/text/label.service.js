@@ -137,6 +137,10 @@ angular.module('common').factory('common.dynamicLabelService',
                         function(error) {
                             $log.debug('error:' + error);
                         });
+                } else {
+                    //This intygstype does not use dynamic texts, so let's empty any cached labels
+                    _labelResources = null;
+                    $rootScope.$broadcast('dynamicLabels.updated');
                 }
             }
             return {
