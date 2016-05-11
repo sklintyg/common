@@ -37,6 +37,10 @@ angular.module('common').directive('wcDatePeriodField',
             require:'wcDatePeriodField',
             controller: function($scope) {
 
+                if ($scope.domId === undefined) {
+                    $scope.domId = $scope.field + '-' + $scope.index + '-' + $scope.type;
+                }
+
                 if($scope.format === undefined){
                     $scope.format = 'yyyy-MM-dd';
                 }
