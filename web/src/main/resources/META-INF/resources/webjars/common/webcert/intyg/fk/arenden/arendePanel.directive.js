@@ -26,9 +26,10 @@
  */
 angular.module('common').directive('arendePanel',
     [ '$window', '$log', '$timeout', '$state', '$stateParams',
-        'common.User', 'common.ArendeProxy', 'common.statService', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
-        function($window, $log, $timeout, $state, $stateParams,
-            User, ArendeProxy, statService, ObjectHelper, IntygCopyRequestModel) {
+        'common.User', 'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
+        'common.IntygCopyRequestModel',
+        function($window, $log, $timeout, $state, $stateParams, User, ArendeProxy, statService, ObjectHelper,
+            IntygCopyRequestModel) {
             'use strict';
 
             return {
@@ -41,26 +42,6 @@ angular.module('common').directive('arendePanel',
                     arendeListItem: '=',
                     arendeList: '=',
                     parentViewState: '='
-                },
-                controller: function($scope, $element, $attrs) {
-
-                    $scope.forwardInProgress = false;
-
-/*
- $scope.hasUnhandledarendes = function(){
- if(!$scope.arendeList || $scope.arendeList.length === 0){
- return false;
- }
- for (var i = 0, len = $scope.arendeList.length; i < len; i++) {
- var arende = $scope.arendeList[i];
- var isUnhandled = fragaSvarCommonService.isUnhandled(arende);
- var fromFk = fragaSvarCommonService.fromFk(arende);
- if(arende.status === 'ANSWERED' || (isUnhandled && fromFk)){
- return true;
- }
- }
- return false;
- };
-*/              }
+                }
             };
         }]);

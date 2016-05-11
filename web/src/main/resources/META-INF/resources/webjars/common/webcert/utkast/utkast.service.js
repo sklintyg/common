@@ -175,20 +175,22 @@ angular.module('common').factory('common.UtkastService',
                         }, function(error) {
                             // Show error message if save fails
 
+                            var errorCode;
                             var errorMessage;
-                            var variables = null;
-                            if (error.errorCode === 'CONCURRENT_MODIFICATION') {
-                                // In the case of concurrent modification we should have the name of the user making trouble in the message.
-                                variables = {name: error.message};
-                            }
+                            if (error) {
+                                var variables = null;
+                                if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                                    // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                                    variables = {name: error.message};
+                                }
 
-                            var errorCode = error.errorCode;
-                            if (typeof errorCode === 'undefined') {
-                                errorCode = 'unknown';
+                                errorCode = error.errorCode;
+                                if (typeof errorCode === 'undefined') {
+                                    errorCode = 'unknown';
+                                }
+                                var errorMessageId = checkSetErrorSave(errorCode);
+                                errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
                             }
-                            var errorMessageId = checkSetErrorSave(errorCode);
-                            errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
-
                             var result = {
                                 errorMessage: errorMessage,
                                 errorCode: errorCode

@@ -65,7 +65,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
                 entryPoint.getModuleApi().setModuleContainer(moduleContainer);
             }
             IntygModule module = new IntygModule(entryPoint.getModuleId(), entryPoint.getModuleName(),
-                    entryPoint.getModuleDescription(),
+                    entryPoint.getModuleDescription(), entryPoint.getDetailedModuleDescription(),
                     entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),
                     entryPoint.getModuleDependencyDefinitionPath(origin));
 

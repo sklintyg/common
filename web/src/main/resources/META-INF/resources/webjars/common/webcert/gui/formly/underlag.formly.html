@@ -8,15 +8,15 @@
     </tr>
     <tr class="underlagRow" ng-repeat="underlag in model.underlag">
       <td>
-        <select class="form-control" name="andraUnderlag" data-ng-model="underlag.typ"
+        <select class="form-control" name="andraUnderlag" id="underlag-{{$index}}-typ" data-ng-model="underlag.typ"
                 data-ng-options="item.id as item.label for item in underlagOptions"></select>
       </td>
       <td>
-        <span wc-date-picker-field target-model="underlag.datum" dom-id="{{ underlag.typ }}-Date"
+        <span wc-date-picker-field target-model="underlag.datum" dom-id="underlag-{{$index}}-datum"
               ng-model="underlag.datum" add-date-parser="loose"></span>
       </td>
       <td>
-        <input type="text" class="form-control input-full" ng-model="underlag.hamtasFran">
+        <input id="underlag-{{$index}}-hamtasFran" type="text" class="form-control input-full" ng-model="underlag.hamtasFran">
       </td>
       <td><button type="button" class="btn btn-default btn-secondary" ng-click="removeUnderlag($index)"
                 ng-show="model.underlag.length > 1"><span class="glyphicon glyphicon-remove"></span></button>
