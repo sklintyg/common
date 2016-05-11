@@ -1,6 +1,6 @@
 angular.module('common').service('common.ArendeHelper',
-    ['$log', '$timeout', 'common.ArendeProxy', '$window', 'common.statService', 'common.ArendeListItemModel',
-        function ($log, $timeout, ArendeProxy, $window, statService, ArendeListItemModel) {
+    ['$log', '$timeout', '$window', 'common.statService', 'common.ArendeListItemModel',
+        function ($log, $timeout, $window, statService, ArendeListItemModel) {
             'use strict';
 
             this.createListItemsFromArenden = function(arendeModelList) {
@@ -17,5 +17,5 @@ angular.module('common').service('common.ArendeHelper',
                 var arendeListItem = ArendeListItemModel.build(arendeModel);
                 return arendeListItem;
             };
-            
+
         }]);

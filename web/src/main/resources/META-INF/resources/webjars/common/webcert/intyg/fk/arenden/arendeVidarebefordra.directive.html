@@ -16,10 +16,10 @@
       <label for="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}"
              class="checkbox-inline padding-top-small anchor-right">
         <input id="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox"
-               ng-disabled="arendeListItem.forwardInProgress"
+               ng-disabled="forwardInProgress"
                ng-model="arendeListItem.arende.fraga.vidarebefordrad"
-               ng-change="onVidareBefordradChange(arendeListItem.arende)" /> Vidarebefordrad</label> <span
-        ng-if="arendeListItem.forwardInProgress"> <img src="/img/ajax-loader-kit-16x16.gif"></span>
+               ng-change="onVidarebefordradChange()" /> Vidarebefordrad</label> <span
+        ng-if="forwardInProgress"><img src="/img/ajax-loader-kit-16x16.gif"></span>
     </div>
   </div>
 </div>

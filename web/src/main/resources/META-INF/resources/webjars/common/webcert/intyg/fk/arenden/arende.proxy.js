@@ -66,11 +66,11 @@ angular.module('common').factory('common.ArendeProxy',
         /*
          * save new answer to a question
          */
-        function _saveAnswer(arende, intygsTyp, onSuccess, onError) {
-            $log.debug('_saveAnswer: arendeId:' + arende.svar.internReferens + ' intygsTyp: ' + intygsTyp);
+        function _saveAnswer(ArendeSvar, intygsTyp, onSuccess, onError) {
+            $log.debug('_saveAnswer: arendeId:' + ArendeSvar.fragaInternReferens + ' intygsTyp: ' + intygsTyp);
 
-            var restPath = '/moduleapi/arenden/' + intygsTyp + '/' + arende.svar.internReferens + '/besvara';
-            $http.put(restPath, arende.svar.svarsText).success(function(data) {
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + ArendeSvar.fragaInternReferens + '/besvara';
+            $http.put(restPath, ArendeSvar.meddelande).success(function(data) {
                 $log.debug('got data:' + data);
                 onSuccess(data);
             }).error(function(data, status) {
@@ -117,7 +117,7 @@ angular.module('common').factory('common.ArendeProxy',
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
         function _closeAllAsHandled(arenden, onSuccess, onError) {
-            var restPath = '/moduleapi/arenden/stang';
+            var restPath = '/moduleapi/arende/stang';
             var fs = [];
             angular.forEach(arenden, function(arende, key) {
                 this.push({ intygsTyp: arende.fraga.intygTyp, arendeId: arende.internReferens });
@@ -133,6 +133,22 @@ angular.module('common').factory('common.ArendeProxy',
             });
         }
 
+        /*
+         * Toggle vidarebefordrad state of a arende entity with given id
+         */
+        function _setVidarebefordradState(arendeReferens, intygsTyp, isVidareBefordrad, callback) {
+            $log.debug('_setVidareBefordradState');
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeReferens + '/vidarebefordrad';
+            $http.put(restPath, isVidareBefordrad).success(function(data) {
+                $log.debug('_setVidareBefordradState data:' + data);
+                callback(data);
+            }).error(function(data, status) {
+                $log.error('error ' + status);
+                // Let calling code handle the error of no data response
+                callback(null);
+            });
+        }
+
         // Return public API for the service
         return {
             getArenden: _getArenden,
@@ -141,6 +157,7 @@ angular.module('common').factory('common.ArendeProxy',
             answerWithIntyg: _answerWithIntyg,
             closeAsHandled: _closeAsHandled,
             openAsUnhandled: _openAsUnhandled,
-            closeAllAsHandled: _closeAllAsHandled
+            closeAllAsHandled: _closeAllAsHandled,
+            setVidarebefordradState: _setVidarebefordradState
         };
     });

@@ -25,8 +25,8 @@
  * arendeVidarebefordra directive. Component for Vidarebefordra button, checkbox and loading animation
  */
 angular.module('common').directive('arendeVidarebefordra',
-    [ '$window', '$log', '$timeout', 'common.ArendeHelper',
-        function($window, $log, $timeout, ArendeHelper) {
+    [ '$window', '$log', '$timeout', 'common.ArendeVidarebefordraHelper', 'common.ArendeProxy', 'common.dialogService',
+        function($window, $log, $timeout, ArendeVidarebefordraHelper, ArendeProxy, DialogService) {
             'use strict';
 
             return {
@@ -40,16 +40,38 @@ angular.module('common').directive('arendeVidarebefordra',
                 },
                 controller: function($scope, $element, $attrs) {
 
-                    // Handle vidarebefordra dialog
-                    $scope.openMailDialog = function(arende) {
+                    $scope.forwardInProgress = false;
+
+                    // NOTE: $parent is needed since ng-if for wc-authority in the templates
+                    // creates a new isolate scope and these functions won't be accessible if set directly on
+                    $scope.$parent.openMailDialog = function(arende) {
+                        // Handle vidarebefordra dialog
                         // use timeout so that external mail client has a chance to start before showing dialog
                         $timeout(function() {
-                            ArendeHelper.handleVidareBefodradToggle(arende, $scope.onVidareBefordradChange);
+                            ArendeVidarebefordraHelper.handleVidareBefodradToggle(arende,
+                                $scope.onVidareBefordradChange);
                         }, 1000);
                         // Launch mail client
-                        $window.location = ArendeHelper.buildMailToLink(arende);
+                        $window.location = ArendeVidarebefordraHelper.buildMailToLink(arende);
                     };
+                    $scope.$parent.onVidarebefordradChange = function() {
+                        $scope.forwardInProgress = true;
 
+                        ArendeProxy.setVidarebefordradState($scope.arendeListItem.arende.fraga.internReferens,
+                            $scope.parentViewState.intygProperties.type,
+                            $scope.arendeListItem.arende.fraga.vidarebefordrad,
+                            function(result) {
+                                $scope.forwardInProgress = false;
+                                if (result !== null) {
+                                    $scope.arendeListItem.arende.fraga.vidarebefordrad = result.vidarebefordrad;
+                                } else {
+                                    $scope.arendeListItem.arende.fraga.vidarebefordrad =
+                                        !$scope.arendeListItem.arende.fraga.vidarebefordrad;
+                                    DialogService.showErrorMessageDialog('Kunde inte markera/avmarkera frågan som vidarebefordrad. ' +
+                                        'Försök gärna igen för att se om felet är tillfälligt. Annars kan du kontakta supporten');
+                                }
+                            });
+                    };
                 }
             };
         }]);

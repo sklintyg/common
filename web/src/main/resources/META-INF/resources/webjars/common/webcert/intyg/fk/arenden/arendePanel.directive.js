@@ -44,6 +44,8 @@ angular.module('common').directive('arendePanel',
                 },
                 controller: function($scope, $element, $attrs) {
 
+                    $scope.forwardInProgress = false;
+
 /*
  $scope.hasUnhandledarendes = function(){
  if(!$scope.arendeList || $scope.arendeList.length === 0){

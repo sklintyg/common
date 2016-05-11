@@ -50,19 +50,32 @@ angular.module('common').directive('arendePanelSvar',
                     }
 
                     function updateArendeSvar(ArendeSvar) {
-                        ArendeSvar.enhetsId = $scope.parentViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
 
                         ArendeSvar.intygProperties = $scope.parentViewState.intygProperties;
 
+                        // From intyg
+                        ArendeSvar.enhetsId = $scope.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid;
+
+                        // From ArendeListItem
                         ArendeSvar.answerDisabled = $scope.arendeListItem.answerDisabled;
                         ArendeSvar.answerDisabledReason = $scope.arendeListItem.answerDisabledReason;
                         ArendeSvar.svaraMedNyttIntygDisabled = $scope.arendeListItem.svaraMedNyttIntygDisabled;
                         ArendeSvar.svaraMedNyttIntygDisabledReason = $scope.arendeListItem.svaraMedNyttIntygDisabledReason;
 
+                        // From fraga
                         ArendeSvar.amne = $scope.arendeListItem.arende.fraga.amne;
                         ArendeSvar.status = $scope.arendeListItem.arende.fraga.status;
-                        ArendeSvar.frageStallare = $scope.arendeListItem.fraga.frageStallare;
-                        ArendeSvar.vardAktorNamn = $scope.arendeListItem.fraga.vardAktorNamn;
+                        ArendeSvar.frageStallare = $scope.arendeListItem.arende.fraga.frageStallare;
+                        ArendeSvar.vardAktorNamn = $scope.arendeListItem.arende.fraga.vardAktorNamn;
+                        ArendeSvar.fragaInternReferens = $scope.arendeListItem.arende.fraga.internReferens;
+
+                        // From svar
+
+                        if(!ObjectHelper.isDefined($scope.arendeListItem.arende.svar)){
+                            $scope.arendeListItem.arende.svar = {
+                                meddelande: ''
+                            };
+                        }
 
                         ArendeSvar.meddelande = $scope.arendeListItem.arende.svar.meddelande;
                         ArendeSvar.internReferens = $scope.arendeListItem.arende.svar.internReferens;
@@ -122,14 +135,14 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.sendAnswer = function sendAnswer() {
                         ArendeSvar.updateInProgress = true; // trigger local spinner
 
-                        ArendeProxy.saveAnswer($scope.arendeListItem.arende, ArendeSvar.intygProperties.typ, function(result) {
+                        ArendeProxy.saveAnswer(ArendeSvar, ArendeSvar.intygProperties.type, function(result) {
                             $log.debug('Got saveAnswer result:' + result);
                             ArendeSvar.updateInProgress = false;
                             ArendeSvar.activeErrorMessageKey = null;
                             if (result !== null) {
-                                ArendeHelper.updateArendeListItem(result);
                                 // update real item
-                                angular.copy(result, $scope.arendeListItem);
+                                angular.copy(result, $scope.arendeListItem.arende);
+                                $scope.arendeListItem.updateArendeListItem(result);
                                 statService.refreshStat();
                             }
                         }, function(errorData) {
@@ -155,9 +168,9 @@ angular.module('common').directive('arendePanelSvar',
                         ArendeSvar.activeErrorMessageKey = null;
                         ArendeProxy.answerWithIntyg($scope.arendeListItem.arende, ArendeSvar.intygProperties.typ,
                             IntygCopyRequestModel.build({
-                                intygId: intyg.id,
+                                intygId: $scope.parentViewState.intyg.id,
                                 intygType: ArendeSvar.intygProperties.typ,
-                                patientPersonnummer: intyg.grundData.patient.personId,
+                                patientPersonnummer: $scope.parentViewState.intyg.grundData.patient.personId,
                                 nyttPatientPersonnummer: $stateParams.patientId
                             }), function(result) {
 
@@ -171,7 +184,7 @@ angular.module('common').directive('arendePanelSvar',
                                     });
                                 }
 
-                                goToDraft(intyg.typ, result.intygsUtkastId);
+                                goToDraft($scope.parentViewState.intyg.typ, result.intygsUtkastId);
 
                             }, function(errorData) {
                                 // show error view
