@@ -18,23 +18,24 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
+import iso.v21090.dt.v1.II;
+import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
+import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
+import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
+import se.inera.intyg.common.schemas.Constants;
+import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.util.Iterables;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
-import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
-import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
-import se.inera.intyg.common.schemas.Constants;
-import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
-import iso.v21090.dt.v1.II;
 
 /**
  * @author andreaskaltenbach
@@ -99,6 +100,32 @@ public final class ModelConverter {
 
         vardAdresseringsType.setHosPersonal(hosPersonal);
         return vardAdresseringsType;
+    }
+
+    public static RevokeType buildRevokeTypeFromUtlatande(Utlatande utlatande, String revokeMessage) {
+
+        // Lakarutlatande
+        LakarutlatandeEnkelType utlatandeType = toLakarutlatandeEnkelType(utlatande);
+
+        // Vardadress
+        VardAdresseringsType vardAdressType = toVardAdresseringsType(utlatande.getGrundData());
+
+        RevokeType revokeType = new RevokeType();
+        revokeType.setLakarutlatande(utlatandeType);
+        revokeType.setAdressVard(vardAdressType);
+        revokeType.setVardReferensId(buildVardReferensId(utlatande.getId(), LocalDateTime.now()));
+        revokeType.setAvsantTidpunkt(LocalDateTime.now());
+
+        if (revokeMessage != null) {
+            revokeType.setMeddelande(revokeMessage);
+        }
+
+        return revokeType;
+    }
+
+    public static String buildVardReferensId(String intygId, LocalDateTime ts) {
+        String time = ts.toString(ISODateTimeFormat.basicDateTime());
+        return StringUtils.join(new Object[] { "REVOKE", intygId, time }, "-");
     }
 
     public static LakarutlatandeEnkelType toLakarutlatandeEnkelType(Utlatande utlatande) {

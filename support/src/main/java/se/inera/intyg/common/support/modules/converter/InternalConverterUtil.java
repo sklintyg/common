@@ -57,27 +57,26 @@ public final class InternalConverterUtil {
         intyg.setVersion(getTextVersion(source));
         intyg.setSigneringstidpunkt(source.getGrundData().getSigneringsdatum());
         intyg.setSkickatTidpunkt(source.getGrundData().getSigneringsdatum());
-        intyg.setSkapadAv(getSkapadAv(source));
+        intyg.setSkapadAv(getSkapadAv(source.getGrundData().getSkapadAv()));
         intyg.setPatient(getPatient(source.getGrundData().getPatient()));
         decorateWithRelation(intyg, source);
         return intyg;
     }
 
-    private static HosPersonal getSkapadAv(Utlatande source) {
-        HoSPersonal sourceSkapadAv = source.getGrundData().getSkapadAv();
+    public static HosPersonal getSkapadAv(HoSPersonal hoSPersonal) {
         HosPersonal skapadAv = new HosPersonal();
-        skapadAv.setPersonalId(getHsaId(sourceSkapadAv.getPersonId()));
-        skapadAv.setFullstandigtNamn(sourceSkapadAv.getFullstandigtNamn());
-        skapadAv.setForskrivarkod(sourceSkapadAv.getForskrivarKod());
-        skapadAv.setEnhet(getEnhet(sourceSkapadAv.getVardenhet()));
-        for (String sourceBefattning : sourceSkapadAv.getBefattningar()) {
+        skapadAv.setPersonalId(getHsaId(hoSPersonal.getPersonId()));
+        skapadAv.setFullstandigtNamn(hoSPersonal.getFullstandigtNamn());
+        skapadAv.setForskrivarkod(hoSPersonal.getForskrivarKod());
+        skapadAv.setEnhet(getEnhet(hoSPersonal.getVardenhet()));
+        for (String sourceBefattning : hoSPersonal.getBefattningar()) {
             Befattning befattning = new Befattning();
             befattning.setCodeSystem(BEFATTNING_CODE_SYSTEM);
             befattning.setCode(sourceBefattning);
             befattning.setDisplayName(BefattningKod.getDisplayNameFromCode(sourceBefattning));
             skapadAv.getBefattning().add(befattning);
         }
-        for (String sourceKompetens : sourceSkapadAv.getSpecialiteter()) {
+        for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
             Specialistkompetens kompetens = new Specialistkompetens();
             kompetens.setCode(sourceKompetens);
             skapadAv.getSpecialistkompetens().add(kompetens);
@@ -132,7 +131,7 @@ public final class InternalConverterUtil {
         return personId;
     }
 
-    private static IntygId getIntygsId(Utlatande source) {
+    public static IntygId getIntygsId(Utlatande source) {
         IntygId intygId = new IntygId();
         intygId.setRoot(source.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
         intygId.setExtension(source.getId());

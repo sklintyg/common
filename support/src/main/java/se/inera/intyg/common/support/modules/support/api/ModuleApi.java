@@ -148,6 +148,16 @@ public interface ModuleApi {
     void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress, String recipientId) throws ModuleException;
 
     /**
+     * Sends the revoke request to Intygstjänsten.
+     *
+     * @param xmlBody
+     *            the request
+     * @param logicalAddress
+     *            Logical address of receiving system, i.e Intygstjansten
+     */
+    void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException;
+
+    /**
      * Fetch a certificate from Intygstjansten.
      *
      * @param certificateId
@@ -200,6 +210,17 @@ public interface ModuleApi {
      * Create a notification message based on the supplied model.
      */
     Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
+
+    /**
+     * Create a revoke request using the Utlatande and the HoSPersonal.
+     *
+     * @param utlatande the information regarding the certificate
+     * @param skapatAv the person who revoked
+     * @param meddelande voluntary message of why the certificate was revoked
+     * @return the XML request as a String
+     */
+    String createRevokeRequest(Utlatande utlatande, se.inera.intyg.common.support.model.common.internal.HoSPersonal skapatAv, String meddelande)
+            throws ModuleException;
 
     /**
      * Exposed for testing purposes.
