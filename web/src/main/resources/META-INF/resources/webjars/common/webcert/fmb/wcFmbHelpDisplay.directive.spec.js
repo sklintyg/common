@@ -58,8 +58,8 @@ describe('wcFmbHelpDisplay', function () {
         beforeEach(function() {
             setUpFMBData({
                 formData: {FORM: [
-                    {heading: 'FALT2_SPB', text: 'Akut bronkit'},
-                    {heading: 'FALT2_GENERAL', list: ['BulletText1', 'BulletText2', 'BulletText3']}
+                    {heading: 'SYMPTOM_PROGNOS_BEHANDLING', text: 'Akut bronkit'},
+                    {heading: 'GENERELL_INFO', list: ['BulletText1', 'BulletText2', 'BulletText3']}
                 ]},
                 diagnosKod: 'J22'
             });
@@ -71,9 +71,9 @@ describe('wcFmbHelpDisplay', function () {
 
 
         it('should create a section with an unordered list for formdata that is a list node', function() {
-            expect(element.find('#fmb_bullet_FALT2_GENERAL_0').first().text()).toEqual('BulletText1');
-            expect(element.find('#fmb_bullet_FALT2_GENERAL_1').first().text()).toEqual('BulletText2');
-            expect(element.find('#fmb_bullet_FALT2_GENERAL_2').first().text()).toEqual('BulletText3');
+            expect(element.find('#fmb_bullet_GENERELL_INFO_0').first().text()).toEqual('BulletText1');
+            expect(element.find('#fmb_bullet_GENERELL_INFO_1').first().text()).toEqual('BulletText2');
+            expect(element.find('#fmb_bullet_GENERELL_INFO_2').first().text()).toEqual('BulletText3');
         });
 
     });

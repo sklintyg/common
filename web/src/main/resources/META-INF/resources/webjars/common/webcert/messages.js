@@ -195,11 +195,11 @@ var commonMessages = {
         'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).',
 
         // FMB texts
-        'fmb.falt2_spb': 'Symtom, prognos och behandling',
-        'fmb.falt2_general': 'Generell information',
-        'fmb.falt4': '',
-        'fmb.falt5': '',
-        'fmb.falt8b': '',
+        'fmb.symptom_prognos_behandling': 'Symtom, prognos och behandling',
+        'fmb.generell_info': 'Generell information',
+        'fmb.funktionsnedsattning': '',
+        'fmb.aktivitetsbegransning': '',
+        'fmb.beslutsunderlag_textuellt': '',
 
         // Fragasvar för FK
         'common.fk.info.loading.existing.qa': 'Hämtar tidigare frågor och svar...',
