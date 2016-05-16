@@ -19,13 +19,13 @@
 
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
+import static se.inera.intyg.common.support.model.converter.util.CertificateStateHolderUtil.ARCHIVED_STATUSES;
+
+import java.util.*;
+
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateStatusType;
 import se.inera.ifv.insuranceprocess.certificate.v1.StatusType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 
 /**
  * @author andreaskaltenbach
@@ -42,7 +42,9 @@ public final class CertificateStateHolderConverter {
 
         List<CertificateStatusType> states = new ArrayList<>();
         for (CertificateStateHolder state : source) {
-            states.add(toCertificateStatusType(state));
+            if (!ARCHIVED_STATUSES.contains(state.getState())) {
+                states.add(toCertificateStatusType(state));
+            }
         }
         return states;
     }

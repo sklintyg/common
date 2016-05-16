@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
+import static se.inera.intyg.common.support.model.converter.util.CertificateStateHolderUtil.isArchived;
+
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -54,7 +56,7 @@ public final class ModelConverter {
                 .issuerName(source.getSigningDoctorName())
                 .facilityName(source.getCareUnitName())
                 .signDate(toLocalDate(source.getSignedDate()))
-                .available(source.isDeleted() ? "false" : "true");
+                .available(String.valueOf(!isArchived(source.getCertificateStates())));
 
         CertificateMetaType meta = builder.build();
 

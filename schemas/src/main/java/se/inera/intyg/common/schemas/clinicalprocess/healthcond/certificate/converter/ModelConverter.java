@@ -18,11 +18,13 @@
  */
 package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.converter;
 
+import static se.inera.intyg.common.support.model.converter.util.CertificateStateHolderUtil.isArchived;
+
 import org.joda.time.LocalDate;
 
+import se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.builder.ClinicalProcessCertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.model.util.Iterables;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
-import se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.builder.ClinicalProcessCertificateMetaTypeBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 
 /**
@@ -42,7 +44,7 @@ public final class ModelConverter {
                 .issuerName(source.getSigningDoctorName())
                 .facilityName(source.getCareUnitName())
                 .signDate(source.getSignedDate())
-                .available(source.isDeleted() ? "false" : "true")
+                .available(String.valueOf(!isArchived(source.getCertificateStates())))
                 .complemantaryInfo(source.getAdditionalInfo());
 
         CertificateMetaType meta = builder.build();
