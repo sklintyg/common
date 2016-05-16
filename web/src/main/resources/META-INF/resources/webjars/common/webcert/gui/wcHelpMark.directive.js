@@ -33,7 +33,7 @@ angular.module('common').directive('wcHelpMark',
                     fieldDynamicHelpText: '@',
                     fieldTooltipPlacement: '@'
                 },
-                controller: function($scope) {
+                link: function($scope, element, attr) {
 
                     $scope.text = '';
                     $scope.showHelp = false;
@@ -72,6 +72,8 @@ angular.module('common').directive('wcHelpMark',
                         //$log.debug('updating from intyg.loaded message');
                         updateMessage();
                     });
+
+                    attr.$observe('fieldDynamicHelpText', updateMessage);
 
                     updateMessage();
                 },
