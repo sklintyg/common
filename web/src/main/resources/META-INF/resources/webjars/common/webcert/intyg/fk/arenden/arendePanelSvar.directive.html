@@ -1,6 +1,6 @@
 <div>
   <!-- error message occuring when interacting with server for komplettering-->
-  <div id="internal-{{arendeSvar.internReferens}}-meddelande-load-error"
+  <div id="internal-{{arendeSvar.fragaInternReferens}}-meddelande-load-error"
        ng-show="arendeSvar.activeErrorMessageKey" class="alert alert-danger">
     <span message key="common.arende.komplettering.error.{{arendeSvar.activeErrorMessageKey}}"></span>
   </div>
@@ -18,12 +18,12 @@
              'btn-default btn-secondary': arendeSvar.status == 'CLOSED' || arendeSvar.cannotKomplettera}"
             ng-click="answerWithIntyg()" ng-disabled="arendeSvar.cannotKomplettera" wc-check-vardenhet
             vardenhet="{{arendeSvar.enhetsid}}"
-            id="answerWithIntygBtn-{{arendeSvar.internReferens}}">
+            id="answerWithIntygBtn-{{arendeSvar.fragaInternReferens}}">
       <img src="/img/loader-small-green.gif" ng-show="arendeSvar.updateInProgress"> Svara med nytt intyg
     </button>
         <span ng-show="arendeSvar.status != 'CLOSED'">
-        <label for="{{panelId}}-cant-komplettera-{{arendeSvar.internReferens}}" class="checkbox-inline">
-          <input id="{{panelId}}-cant-komplettera-{{arendeSvar.internReferens}}" type="checkbox" ng-model="arendeSvar.cannotKomplettera"
+        <label for="{{panelId}}-cant-komplettera-{{arendeSvar.fragaInternReferens}}" class="checkbox-inline">
+          <input id="{{panelId}}-cant-komplettera-{{arendeSvar.fragaInternReferens}}" type="checkbox" ng-model="arendeSvar.cannotKomplettera"
                  ng-change="onCannotKomplettera()" /> Kan ej svara med nytt intyg</label>
         </span>
   </div>
@@ -44,7 +44,7 @@
             <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
             Från: <span ng-switch-when="wc"><span class="arende-sender" message key="arende.fragestallare.fk"></span></span>
             <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
-            <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeSvar.internReferens}}" class="arende-sender">{{arendeSvar.vardAktorNamn}}</span>
+            <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeSvar.internReferens}}" class="arende-sender">{{arendeSvar.vardaktorNamn}}</span>
           </div>
           <div class="pull-right" ng-switch="arendeSvar.frageStallare | lowercase">
             <!-- motsatt villkor mot frågan -->
@@ -90,11 +90,11 @@
           <div class="form-group" ng-show="isAnswerAllowed()">
             <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
                       class="form-control col-md-9 arende-block-wc" ng-model="arendeSvar.meddelande"
-                      id="answerText-{{arendeSvar.internReferens}}"></textarea>
+                      id="answerText-{{arendeSvar.fragaInternReferens}}"></textarea>
           </div>
           <div class="webintyg-top-padding-section">
-            <!-- error message occuring when inteacting with server for this FragaSvar-->
-            <div id="internal-{{arendeSvar.internReferens}}-svarsText-load-error" ng-show="arendeSvar.activeErrorMessageKey"
+            <!-- error message occuring when interacting with server for this FragaSvar-->
+            <div id="internal-{{arendeSvar.fragaInternReferens}}-svarsText-load-error" ng-show="arendeSvar.activeErrorMessageKey"
                  class="alert alert-danger">
               <span message key="fk7263.error.{{arendeSvar.activeErrorMessageKey}}"></span>
             </div>
@@ -103,7 +103,7 @@
                     ng-disabled="!arendeSvar.meddelande || arendeSvar.updateInProgress"
                     ng-show="isAnswerAllowed()" wc-check-vardenhet
                     vardenhet="{{arendeSvar.enhetsId}}"
-                    id="sendAnswerBtn-{{arendeSvar.internReferens}}">
+                    id="sendAnswerBtn-{{arendeSvar.fragaInternReferens}}">
               <img src="/img/loader-small-green.gif" ng-show="arendeSvar.updateInProgress"> Skicka svar
             </button>
           </div>

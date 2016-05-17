@@ -66,7 +66,6 @@ angular.module('common').directive('arendePanelSvar',
                         ArendeSvar.amne = $scope.arendeListItem.arende.fraga.amne;
                         ArendeSvar.status = $scope.arendeListItem.arende.fraga.status;
                         ArendeSvar.frageStallare = $scope.arendeListItem.arende.fraga.frageStallare;
-                        ArendeSvar.vardAktorNamn = $scope.arendeListItem.arende.fraga.vardAktorNamn;
                         ArendeSvar.fragaInternReferens = $scope.arendeListItem.arende.fraga.internReferens;
 
                         // From svar
@@ -80,6 +79,7 @@ angular.module('common').directive('arendePanelSvar',
                         ArendeSvar.meddelande = $scope.arendeListItem.arende.svar.meddelande;
                         ArendeSvar.internReferens = $scope.arendeListItem.arende.svar.internReferens;
                         ArendeSvar.svarSkickadDatum = $scope.arendeListItem.arende.svar.svarSkickadDatum;
+                        ArendeSvar.vardaktorNamn = $scope.arendeListItem.arende.svar.vardaktorNamn;
                     }
 
                     // For readability, keep a local struct with the values used from parent scope
@@ -102,7 +102,7 @@ angular.module('common').directive('arendePanelSvar',
                         return (ArendeSvar.status === 'CLOSED' && ArendeSvar.meddelande) || (ArendeSvar.status === 'ANSWERED');
                     };
 
-                    $scope.showKompletteringButtons = function() {
+                    $scope.showKompletteringControls = function() {
                         return !ArendeSvar.intygProperties.kompletteringOnly &&
                             $scope.isAnswerAllowed() &&
                             ArendeSvar.amne === 'KOMPLT';
@@ -143,6 +143,7 @@ angular.module('common').directive('arendePanelSvar',
                                 // update real item
                                 angular.copy(result, $scope.arendeListItem.arende);
                                 $scope.arendeListItem.updateArendeListItem(result);
+                                updateArendeSvar($scope.arendeListItem);
                                 statService.refreshStat();
                             }
                         }, function(errorData) {
