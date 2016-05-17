@@ -62,8 +62,8 @@ angular.module('common').directive('arendeVidarebefordra',
                             $scope.arendeListItem.arende.fraga.vidarebefordrad,
                             function(result) {
                                 $scope.forwardInProgress = false;
-                                if (result !== null) {
-                                    $scope.arendeListItem.arende.fraga.vidarebefordrad = result.vidarebefordrad;
+                                if (result !== null && result.fraga) {
+                                    $scope.arendeListItem.arende.fraga.vidarebefordrad = result.fraga.vidarebefordrad;
                                 } else {
                                     $scope.arendeListItem.arende.fraga.vidarebefordrad =
                                         !$scope.arendeListItem.arende.fraga.vidarebefordrad;

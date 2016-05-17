@@ -27,14 +27,14 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                     ($window.location.port ? ':' + $window.location.port : '');
                 var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
 
-                if(typeof arende.fraga.intygsReferens === 'undefined' || typeof arende.fraga.intygsReferens.intygsId === 'undefined') {
+                if(typeof arende.fraga === 'undefined' || typeof arende.fraga.intygId === 'undefined') {
                     $log.error('Invalid intyg id. Cannot create vidarebefordra link');
                     return 'error';
                 }
-                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + arende.fraga.intygsReferens.intygsId + '/questions';
+                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + arende.fraga.intygId + '/questions';
 
                 var recipient = '';
-                var subject = 'En fraga-svar ska besvaras i Webcert';
+                var subject = 'Ett arende ska besvaras i Webcert';
                 if (arende.fraga.enhetsnamn !== undefined) {
                     subject += ' pa enhet ' + arende.fraga.enhetsnamn;
                     if (arende.fraga.vardgivarnamn !== undefined) {
@@ -42,7 +42,7 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                     }
                 }
 
-                var body = 'Klicka pa lanktexten for att besvara fraga-svar:\n' + url;
+                var body = 'Klicka pa lanktexten for att besvara arende:\n' + url;
                 var link = 'mailto:' + recipient + '?subject=' +
                     encodeURIComponent(UtilsService.replaceAccentedCharacters(subject)) + '&body=' +
                     encodeURIComponent(body);
