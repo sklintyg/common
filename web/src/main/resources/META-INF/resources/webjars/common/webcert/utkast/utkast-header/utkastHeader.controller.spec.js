@@ -38,7 +38,6 @@ describe('utkastHeader', function() {
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('smoothScroll', {});
-        $provide.value('networkConfig', {});
     }));
 
     beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', '$timeout',

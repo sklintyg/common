@@ -6,10 +6,6 @@ describe('dynamicLabelService', function() {
     var $rootScope;
     var $q;
 
-    beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('networkConfig', {});
-    }));
-
     beforeEach(angular.mock.inject(['common.DynamicLabelProxy', 'common.dynamicLabelService', '$rootScope', '$q',
         function(_dynamicLabelProxy_, _dynamicLabelService_, _$rootScope_, _$q_) {
             dynamicLabelProxy = _dynamicLabelProxy_;
