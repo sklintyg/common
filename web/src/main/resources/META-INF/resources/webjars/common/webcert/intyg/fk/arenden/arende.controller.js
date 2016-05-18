@@ -7,6 +7,7 @@ angular.module('common').controller('common.ArendeCtrl',
                   ArendeProxy, ArendenViewState, ArendeHelper) {
             'use strict';
 
+            ArendenViewState.reset();
             ArendenViewState.setIntygType($state.current.data.intygType);
             $scope.viewState = ArendenViewState;
             $scope.arendeList = [];
