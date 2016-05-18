@@ -25,9 +25,9 @@
 
   </table>
   <div>
-    <button type="button" ng-if="model.underlag.length < 10" href="" ng-click="createUnderlag()" class="btn btn-default btn-secondary"
+    <button type="button" ng-if="model.underlag.length < to.maxUnderlag" href="" ng-click="createUnderlag()" class="btn btn-default btn-secondary"
        ng-class="{ 'disabled': model.underlag[model.underlag.length - 1].typ === 0 || model.underlag[model.underlag.length - 1].datum === null }"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Lägg
       till ytterligare underlag</button>
-    <span ng-if="model.underlag.length === 10" message key="luse.validation.underlag.max-extra-underlag"></span><!-- kursivera -->
+    <span ng-if="model.underlag.length === to.maxUnderlag"><span message key="luse.validation.underlag.max-extra-underlag" param="to.maxUnderlag"></span></span><!-- kursivera -->
   </div>
 </div>

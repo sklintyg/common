@@ -6,6 +6,10 @@ angular.module('common').run(function(formlyConfig) {
         templateUrl: '/web/webjars/common/webcert/gui/formly/underlag.formly.html',
         controller: ['$scope', 'common.dynamicLabelService', function($scope, dynamicLabelService) {
 
+            if (!$scope.to.maxUnderlag) {
+                $scope.to.maxUnderlag = 10;
+            }
+
             $scope.underlagOptions = [{
                 id: null,
                 label: 'Ange underlag eller utredning'
