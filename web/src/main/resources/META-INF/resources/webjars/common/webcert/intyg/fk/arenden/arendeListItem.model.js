@@ -22,7 +22,8 @@
  */
 
 angular.module('common').factory('common.ArendeListItemModel',
-    ['$log', 'common.UserModel', function($log, UserModel) {
+    ['$log', 'common.UserModel', 'common.ObjectHelper',
+        function($log, UserModel, ObjectHelper) {
         'use strict';
 
         /**
@@ -35,6 +36,7 @@ angular.module('common').factory('common.ArendeListItemModel',
             this.svaraMedNyttIntygDisabledReason = '';
             this.atgardMessageId = '';
             this.arende = arendeModel; // ArendeModel from backend
+            this.kompletteringar = []; // this is created in updateArendeListItem since dynamic text ids needs to be created from arende.fraga.kompletteringar
             this.updateArendeListItem();
         }
 
@@ -45,6 +47,7 @@ angular.module('common').factory('common.ArendeListItemModel',
         ArendeListItemModel.prototype.updateArendeListItem = function () {
             this._updateListItemState();
             this._updateAtgardMessage();
+            this._updateKompletteringar();
         };
 
         ArendeListItemModel.prototype._updateListItemState = function() {
@@ -86,6 +89,59 @@ angular.module('common').factory('common.ArendeListItemModel',
                     this.atgardMessageId = '';
                     $log.debug('warning: undefined status');
                 }
+            }
+        };
+
+        function convertFragaToKatLUSE(frageId) {
+            switch(Number(frageId)) {
+            case 1: case 2:
+                return 1;
+            case 3: case 4:
+                return 2;
+            case 5:
+                return 3;
+            case 6: case 7:
+                return 4;
+            case 8: case 10: case 11: case 12: case 13: case 14:
+                return 5;
+                //case 15:
+                //case 16:
+            case 17:
+                return 6;
+            case 18: case 19: case 20: case 21:
+                return 7;
+            case 22: case 23:
+                return 8;
+                //case 24:
+            case 25:
+                return 9;
+            case 26:
+                return 10;
+            default:
+                return 9999;
+            }
+        }
+
+        ArendeListItemModel.prototype._updateKompletteringar = function() {
+            if (ObjectHelper.isDefined(this.arende.fraga.kompletteringar)) {
+                /*
+                 frageId:"1"
+                 instans:1
+                 jsonPropertyHandle:"undersokningAvPatienten"
+                 position:0
+                 text:"Fixa."
+                 */
+
+                this.kompletteringar = [];
+                angular.forEach(this.arende.fraga.kompletteringar, function(komplettering){
+
+                    var newKompletteringListItem = {
+                        katId: 'KAT_' + convertFragaToKatLUSE(komplettering.frageId) + '.RBK',
+                        frgId: 'FRG_' + komplettering.frageId + '.RBK',
+                        text: komplettering.text
+                    };
+                    this.push(newKompletteringListItem);
+                }, this.kompletteringar);
             }
         };
 

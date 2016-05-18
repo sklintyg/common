@@ -167,10 +167,10 @@ angular.module('common').directive('arendePanelSvar',
 
                         ArendeSvar.updateInProgress = true; // trigger local spinner
                         ArendeSvar.activeErrorMessageKey = null;
-                        ArendeProxy.answerWithIntyg($scope.arendeListItem.arende, ArendeSvar.intygProperties.typ,
+                        ArendeProxy.answerWithIntyg($scope.arendeListItem.arende, ArendeSvar.intygProperties.type,
                             IntygCopyRequestModel.build({
                                 intygId: $scope.parentViewState.intyg.id,
-                                intygType: ArendeSvar.intygProperties.typ,
+                                intygType: ArendeSvar.intygProperties.type,
                                 patientPersonnummer: $scope.parentViewState.intyg.grundData.patient.personId,
                                 nyttPatientPersonnummer: $stateParams.patientId
                             }), function(result) {
@@ -185,7 +185,7 @@ angular.module('common').directive('arendePanelSvar',
                                     });
                                 }
 
-                                goToDraft($scope.parentViewState.intyg.typ, result.intygsUtkastId);
+                                goToDraft(ArendeSvar.intygProperties.type, result.intygsUtkastId);
 
                             }, function(errorData) {
                                 // show error view
