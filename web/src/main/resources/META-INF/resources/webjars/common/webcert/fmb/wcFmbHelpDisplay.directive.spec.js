@@ -26,7 +26,7 @@ describe('wcFmbHelpDisplay', function () {
     var element, outerScope, innerScope;
 
     beforeEach(inject(function ($rootScope, $compile) {
-        element = angular.element('<wc-fmb-help-display diagnosis-code="fmb.diagnosKod" diagnosis-description="fmb.diagnosBeskrivning" help-text-contents="fmb.formData.FORM"></wc-fmb-help-display>');
+        element = angular.element('<wc-fmb-help-display related-form-id="SOMEFORM" diagnosis-code="fmb.diagnosKod" diagnosis-description="fmb.diagnosBeskrivning" help-text-contents="fmb.formData.FORM"></wc-fmb-help-display>');
         outerScope = $rootScope;
         $compile(element)(outerScope);
 
@@ -50,7 +50,7 @@ describe('wcFmbHelpDisplay', function () {
         });
 
         it('should have a diagnosis headline set', function() {
-            expect(element.find('h2').text()).toEqual('J22');
+            expect(element.find('#fmb_diagnos_heading_SOMEFORM').first().text()).toEqual('J22');
         });
     });
 

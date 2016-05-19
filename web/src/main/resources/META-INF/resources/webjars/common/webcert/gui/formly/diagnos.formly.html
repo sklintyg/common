@@ -23,7 +23,7 @@
         <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.diagnosKodLabel}}.HLP"></span>
         <div class="input-group">
             <span class="input-group-addon glyphicon glyphicon-remove-sign deleteDiagnos" ng-click="removeDiagnos($index)" ng-show="model[options.key].length > 1"></span>
-            <input type="text" class="form-control" id="diagnoseCode" name="diagnose.code" value=""
+            <input type="text" class="form-control" id="diagnoseCode" name="diagnose.code" value="" ng-blur="onBlurDiagnoseCodeField($index)"
                    class='diagnose-code col-xs-11 form-control' ng-model="diagnos.diagnosKod"
                    uib-typeahead="d.value as d.label for d in getDiagnoseCodes(formState.diagnosKodSystem, $viewValue) | limitTo:10"
                    typeahead-min-length="3" typeahead-on-select="onDiagnoseCodeSelect($index, $item)"

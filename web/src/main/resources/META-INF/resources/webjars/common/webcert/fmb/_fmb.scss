@@ -30,22 +30,48 @@ $fmb-panelcollapse-border-color: #fff;
 $fmb-diagnosis-color: #000;
 $fmb-glyphicon-hover-color: #808080;
 
+/* SIT type drafts needs a smaller fmb info panel to avoid overlapping fmb-panels, by wrapping the fmb directive with this class we can override the default heights */
+.sit-fmb-small {
+  .panel-fmb-info {
+    .panel-body {
+      max-height: 130px;
+    }
+  }
+}
+
+.sit-fmb-medium {
+  .panel-fmb-info {
+    .panel-body {
+      max-height: 180px;
+    }
+  }
+}
+
+.sit-fmb-large {
+  .panel-fmb-info {
+    .panel-body {
+      max-height: 400px;
+
+    }
+  }
+}
+
 .panel-fmb-info {
   border-color: $fmb-border-color;
 
   transition-property: width, max-height;
   transition-duration: 0.4s;
   position: absolute;
-  top: -10px;
   left: 101%;
-  width: 600px;
-  max-height: 400px;
+  width: 620px;
   overflow: hidden;
   z-index: 100;
 
+
   .panel-body {
-    width: 598px;
+    width: 615px;
     max-height: 334px;
+    padding: 5px 15px 15px 15px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -62,7 +88,7 @@ $fmb-glyphicon-hover-color: #808080;
   }
 
   > .panel-heading {
-    height: 55px;
+
     transition-property: background-color;
     transition-duration: 0.4s;
     background-color: $fmb-panelheading-background-color;
@@ -82,7 +108,7 @@ $fmb-glyphicon-hover-color: #808080;
 
   .fmb-panel-title {
     margin: 8px 20px 0px 50px;
-    width: 498px;
+    width: 520px;
   }
 
   .fmb-collapse-icon {
@@ -112,11 +138,6 @@ $fmb-glyphicon-hover-color: #808080;
 
 .fmb-section {
   padding-bottom: 10px;
-}
-
-.fmb-ruler {
-  margin: 0 0 3px 0;
-  border-top: 2px solid $fmb-border-color;
 }
 
 .fmb-bullet-list {
