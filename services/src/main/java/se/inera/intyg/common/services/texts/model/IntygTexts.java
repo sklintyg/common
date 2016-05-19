@@ -32,13 +32,14 @@ public final class IntygTexts {
     private static final String DELIMITER = "\\.";
     private final String version;
     private final String intygsTyp;
+    private final String pdfPath;
     private final LocalDate validFrom;
     private final LocalDate validTo;
     private final SortedMap<String, String> texter;
     private final List<Tillaggsfraga> tillaggsfragor;
 
     public IntygTexts(String version, String intygsTyp, LocalDate validFrom, LocalDate validTo, SortedMap<String, String> texts,
-            List<Tillaggsfraga> tillaggsfragor) {
+            List<Tillaggsfraga> tillaggsfragor, String pdfPath) {
 
         // Validate input
         validateVersion(version);
@@ -52,6 +53,7 @@ public final class IntygTexts {
         if (this.tillaggsfragor != null) {
             Collections.sort(this.tillaggsfragor);
         }
+        this.pdfPath = pdfPath;
     }
 
     private void validateVersion(String version) {
@@ -131,13 +133,13 @@ public final class IntygTexts {
         } else if (!intygsTyp.equals(other.intygsTyp)) {
             return false;
         }
-        if (version == null) {
-            if (other.version != null) {
-                return false;
-            }
-        } else if (!version.equals(other.version)) {
+        if (compareVersions(this, other) != 0) {
             return false;
         }
         return true;
+    }
+
+    public String getPdfPath() {
+        return pdfPath;
     }
 }

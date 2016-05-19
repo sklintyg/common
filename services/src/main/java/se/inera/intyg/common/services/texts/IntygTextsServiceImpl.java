@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 
@@ -53,6 +54,11 @@ public class IntygTextsServiceImpl implements IntygTextsService {
     @Override
     public String getLatestVersion(String intygsTyp) {
         return repo.getLatestVersion(intygsTyp);
+    }
+
+    @Override
+    public IntygTexts getIntygTextsPojo(String intygsTyp, String version) {
+        return repo.getTexts(intygsTyp, version);
     }
 
 }

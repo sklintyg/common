@@ -87,12 +87,13 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
                     Element root = doc.getDocumentElement();
                     String version = root.getAttribute("version");
                     String intygsTyp = root.getAttribute("typ").toLowerCase();
+                    String pdfPath = root.getAttribute("pdf");
                     LocalDate giltigFrom = getDate(root, "giltigFrom");
                     LocalDate giltigTo = getDate(root, "giltigTom");
                     SortedMap<String, String> texts = getTexter(root);
                     List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor(doc);
 
-                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor);
+                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, pdfPath);
                     if (!intygTexts.contains(newIntygTexts)) {
                         LOG.debug("Adding new version of {} with version name {}", intygsTyp, version);
                         intygTexts.add(newIntygTexts);
@@ -184,7 +185,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     @Override
     public IntygTexts getTexts(String intygsTyp, String version) {
         try {
-            IntygTexts wanted = new IntygTexts(version, intygsTyp, null, null, null, null);
+            IntygTexts wanted = new IntygTexts(version, intygsTyp, null, null, null, null, null);
             for (IntygTexts intygText : intygTexts) {
                 if (wanted.equals(intygText)) {
                     return intygText;
