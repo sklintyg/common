@@ -21,7 +21,7 @@ angular.module('common').controller('common.ArendeCtrl',
                 // Filter out the komplettering the utkast was based on and only that one.
                 var filteredList = arendeList.filter(function(arendeListItem) {
 
-                    var isKompletteringFraga = arendeListItem.amne === 'KOMPLETTERING_AV_LAKARINTYG';
+                    var isKompletteringFraga = arendeListItem.amne === 'KOMPLETTERING_AV_LAKARINTYG' || arendeListItem.amne === 'KOMPLT';
 
                     // Check if this komplettering isn't handled. Used to show sign if there are no more unhandled kompletteringar
                     if(!isAnyKompletteringarNotHandled){
