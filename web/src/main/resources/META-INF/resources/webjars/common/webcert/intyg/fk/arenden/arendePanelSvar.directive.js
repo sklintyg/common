@@ -27,9 +27,9 @@
 angular.module('common').directive('arendePanelSvar',
     [ '$window', '$log', '$state', '$stateParams',
         'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper',
-        'common.IntygCopyRequestModel',
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel',
         function($window, $log, $state, $stateParams, ArendeProxy, ArendeHelper, statService, ObjectHelper,
-            IntygCopyRequestModel) {
+            IntygCopyRequestModel, ArendeSvarModel) {
             'use strict';
 
             return {
@@ -43,53 +43,9 @@ angular.module('common').directive('arendePanelSvar',
                 },
                 controller: function($scope, $element, $attrs) {
 
-                    function initArendeSvar() {
-                        return {
-                            cannotKomplettera: false
-                        };
-                    }
-
-                    function updateArendeSvar(ArendeSvar) {
-
-                        ArendeSvar.intygProperties = $scope.parentViewState.intygProperties;
-
-                        // From intyg
-                        ArendeSvar.enhetsId = $scope.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid;
-
-                        // From fraga
-                        ArendeSvar.amne = $scope.arendeListItem.arende.fraga.amne;
-                        ArendeSvar.status = $scope.arendeListItem.arende.fraga.status;
-                        ArendeSvar.frageStallare = $scope.arendeListItem.arende.fraga.frageStallare;
-                        ArendeSvar.fragaInternReferens = $scope.arendeListItem.arende.fraga.internReferens;
-
-                        // From svar
-
-                        if(!ObjectHelper.isDefined($scope.arendeListItem.arende.svar)){
-                            $scope.arendeListItem.arende.svar = {
-                                meddelande: ''
-                            };
-                        }
-
-                        ArendeSvar.meddelande = $scope.arendeListItem.arende.svar.meddelande;
-                        ArendeSvar.internReferens = $scope.arendeListItem.arende.svar.internReferens;
-                        ArendeSvar.svarSkickadDatum = $scope.arendeListItem.arende.svar.svarSkickadDatum;
-                        ArendeSvar.vardaktorNamn = $scope.arendeListItem.arende.svar.vardaktorNamn;
-
-                        // From ArendeListItem
-                        ArendeSvar.answerDisabled = $scope.arendeListItem.answerDisabled;
-                        ArendeSvar.answerDisabledReason = $scope.arendeListItem.answerDisabledReason;
-                        ArendeSvar.svaraMedNyttIntygDisabled = $scope.arendeListItem.svaraMedNyttIntygDisabled;
-                        ArendeSvar.svaraMedNyttIntygDisabledReason = $scope.arendeListItem.svaraMedNyttIntygDisabledReason;
-                    }
-
                     // For readability, keep a local struct with the values used from parent scope
-                    var ArendeSvar = initArendeSvar();
-                    updateArendeSvar(ArendeSvar);
+                    var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
                     $scope.arendeSvar = ArendeSvar;
-
-                    /*$scope.$watch('[arendeListItem, parentViewState]', function(newVal, oldVal) {
-                        updateArendeSvar(ArendeSvar);
-                    });*/
 
                     $scope.showAnswerPanel = function() {
                         return ArendeSvar.intygProperties.kompletteringOnly ||
@@ -143,7 +99,7 @@ angular.module('common').directive('arendePanelSvar',
                                 // update real item
                                 angular.copy(result, $scope.arendeListItem.arende);
                                 $scope.arendeListItem.updateArendeListItem(result);
-                                updateArendeSvar($scope.arendeListItem);
+                                ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);
                                 statService.refreshStat();
                             }
                         }, function(errorData) {
