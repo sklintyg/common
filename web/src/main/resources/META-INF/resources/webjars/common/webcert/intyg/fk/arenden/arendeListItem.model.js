@@ -56,7 +56,9 @@ angular.module('common').factory('common.ArendeListItemModel',
                 // answerable
                 this.answerDisabled = true;
                 this.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-            } else if ((this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
+            } else if (this.arende.fraga.status !== 'CLOSED' &&
+                (this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') &&
+                !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
                 // RE-005, RE-006
                 this.answerDisabled = true;
                 this.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
@@ -65,7 +67,8 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabledReason = undefined;
             }
 
-            if ((this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
+            if ((this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') &&
+                UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
                 this.svaraMedNyttIntygDisabled = true;
                 this.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
             } else {

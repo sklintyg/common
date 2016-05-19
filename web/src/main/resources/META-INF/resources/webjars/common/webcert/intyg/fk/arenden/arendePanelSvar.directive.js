@@ -56,12 +56,6 @@ angular.module('common').directive('arendePanelSvar',
                         // From intyg
                         ArendeSvar.enhetsId = $scope.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid;
 
-                        // From ArendeListItem
-                        ArendeSvar.answerDisabled = $scope.arendeListItem.answerDisabled;
-                        ArendeSvar.answerDisabledReason = $scope.arendeListItem.answerDisabledReason;
-                        ArendeSvar.svaraMedNyttIntygDisabled = $scope.arendeListItem.svaraMedNyttIntygDisabled;
-                        ArendeSvar.svaraMedNyttIntygDisabledReason = $scope.arendeListItem.svaraMedNyttIntygDisabledReason;
-
                         // From fraga
                         ArendeSvar.amne = $scope.arendeListItem.arende.fraga.amne;
                         ArendeSvar.status = $scope.arendeListItem.arende.fraga.status;
@@ -80,6 +74,12 @@ angular.module('common').directive('arendePanelSvar',
                         ArendeSvar.internReferens = $scope.arendeListItem.arende.svar.internReferens;
                         ArendeSvar.svarSkickadDatum = $scope.arendeListItem.arende.svar.svarSkickadDatum;
                         ArendeSvar.vardaktorNamn = $scope.arendeListItem.arende.svar.vardaktorNamn;
+
+                        // From ArendeListItem
+                        ArendeSvar.answerDisabled = $scope.arendeListItem.answerDisabled;
+                        ArendeSvar.answerDisabledReason = $scope.arendeListItem.answerDisabledReason;
+                        ArendeSvar.svaraMedNyttIntygDisabled = $scope.arendeListItem.svaraMedNyttIntygDisabled;
+                        ArendeSvar.svaraMedNyttIntygDisabledReason = $scope.arendeListItem.svaraMedNyttIntygDisabledReason;
                     }
 
                     // For readability, keep a local struct with the values used from parent scope

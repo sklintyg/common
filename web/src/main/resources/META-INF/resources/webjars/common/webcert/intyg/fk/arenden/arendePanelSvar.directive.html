@@ -5,6 +5,11 @@
     <span message key="common.arende.komplettering.error.{{arendeSvar.activeErrorMessageKey}}"></span>
   </div>
 
+  <div id="answerDisabledReasonPanel" class="alert alert-info"
+       ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason != ''">
+    {{arendeSvar.answerDisabledReason}}
+  </div>
+
   <!-- Svara med nytt intyg button - only on komplettering -->
   <div class="buttonbar" ng-show="showKompletteringControls()">
 
@@ -52,7 +57,9 @@
               class="arende-date">{{arendeSvar.svarSkickadDatum | date:'short'}}</span>
           </div>
         </div>
-        <div id="{{panelId}}-{{arendeSvar.internReferens}}-meddelande" class="arende-block-body">{{arendeSvar.meddelande}}</div>
+        <div id="{{panelId}}-{{arendeSvar.internReferens}}-meddelande" class="arende-block-body">
+          {{arendeSvar.meddelande}}
+        </div>
       </div>
     </div>
 
@@ -61,6 +68,7 @@
 
     <!-- KNAPPAR EJ HANTERADE FRÅGOR -->
     <!-- TA BORT arendeSvar.intygProperties.kompletteringOnly NÄR "SVAR SOM FÖLJER MED" ÄR IMPLEMENTERAT -->
+
     <div ng-if="showButtonBar()">
 
       <div class="form-group">
@@ -83,10 +91,6 @@
         </div> -->
 
         <div class="controls">
-          <div id="answerDisabledReasonPanel" class="alert alert-info"
-               ng-show="arendeSvar.answerDisabled && arendeSvar.answerDisabledReason">
-            {{arendeSvar.answerDisabledReason}}
-          </div>
           <div class="form-group" ng-show="isAnswerAllowed()">
             <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
                       class="form-control col-md-9 arende-block-wc" ng-model="arendeSvar.meddelande"
