@@ -163,6 +163,14 @@ var commonMessages = {
 
         'common.label.diagnoses.more_results': 'Det finns fler träffar än vad som kan visas i listan, förfina sökningen.',
 
+        //common.sit.* messages are candidates for a fk-common messages.js
+        'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE:',
+        'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',
+        'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
+        'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
+        'common.sit.client-validation.underlag.max-extra-underlag': 'Du kan inte lägga till fler utredningar, max antal är %0st',
+
+
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
         'common.error.authorization_problem' : '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
