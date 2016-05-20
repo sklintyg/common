@@ -117,12 +117,12 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.answerWithIntyg = function() {
 
                         if (!ObjectHelper.isDefined(ArendeSvar.intygProperties)) {
-                            ArendeSvar.activeErrorMessageKey = 'komplettera-no-intyg';
+                            ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-intyg';
                             return;
                         }
 
                         ArendeSvar.updateInProgress = true; // trigger local spinner
-                        ArendeSvar.activeErrorMessageKey = null;
+                        ArendeSvar.activeKompletteringErrorMessageKey = null;
                         ArendeProxy.answerWithIntyg($scope.arendeListItem.arende, ArendeSvar.intygProperties.type,
                             IntygCopyRequestModel.build({
                                 intygId: $scope.parentViewState.intyg.id,
@@ -132,7 +132,7 @@ angular.module('common').directive('arendePanelSvar',
                             }), function(result) {
 
                                 ArendeSvar.updateInProgress = false;
-                                ArendeSvar.activeErrorMessageKey = null;
+                                ArendeSvar.activeKompletteringErrorMessageKey = null;
                                 statService.refreshStat();
 
                                 function goToDraft(type, intygId) {
@@ -146,7 +146,7 @@ angular.module('common').directive('arendePanelSvar',
                             }, function(errorData) {
                                 // show error view
                                 ArendeSvar.updateInProgress = false;
-                                ArendeSvar.activeErrorMessageKey = errorData.errorCode;
+                                ArendeSvar.activeKompletteringErrorMessageKey = errorData.errorCode;
                             });
                     };
 

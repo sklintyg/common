@@ -56,15 +56,15 @@ angular.module('common').controller('common.ArendeCtrl',
 
                     $scope.arendeList = ArendeHelper.createListItemsFromArenden(result);
 
-                    // Tell viewcertctrl about the intyg in case cert load fails
-                    /*if (result.length > 0) {
-                        $rootScope.$emit('ViewCertCtrl.load', result[0].intygsReferens);
-                    }*/
-
                 }, function (errorData) {
                     // show error view
                     ArendenViewState.doneLoading = true;
-                    ArendenViewState.activeErrorMessageKey = errorData.errorCode;
+
+                    if(ObjectHelper.isDefined(errorData.errorCode)){
+                        ArendenViewState.activeErrorMessageKey = errorData.errorCode;
+                    } else {
+                        ArendenViewState.activeErrorMessageKey = 'unknown';
+                    }
                 });
             }
 

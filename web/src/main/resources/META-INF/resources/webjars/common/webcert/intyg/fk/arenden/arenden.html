@@ -12,7 +12,7 @@
         </h2>
 
         <!-- new arende form -->
-        <div arende-new arende-list="arendeList" parent-view-state="viewState"></div>
+        <div ng-show="viewState.doneLoading && viewState.activeErrorMessageKey == null" arende-new arende-list="arendeList" parent-view-state="viewState"></div>
 
         <!-- error message -->
         <div id="arende-list-load-error" ng-show="viewState.doneLoading && viewState.activeErrorMessageKey"
