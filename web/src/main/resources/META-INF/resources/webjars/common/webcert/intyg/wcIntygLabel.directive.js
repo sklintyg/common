@@ -30,7 +30,6 @@ angular.module('common').directive('wcIntygLabel',
                 },
                 templateUrl: '/web/webjars/common/webcert/intyg/wcIntygLabel.directive.html',
                 link: function(scope, element, attrs) {
-$log.info(scope.wcIntygLabel);
                     if (typeof scope.wcIntygLabel !== 'string') {
                         $log.debug('wcIntygLabel argument is not a string');
                         return;
@@ -43,10 +42,8 @@ $log.info(scope.wcIntygLabel);
                             var frageId = 'FRG_' + questionIds[0];
                             scope.$on('dynamicLabels.updated', function() {
                                 if (dynamicLabelService.getProperty(frageId + '.RBK')) {
-$log.info('set text 4', frageId);
                                     scope.h4Label = frageId + '.RBK';
                                     if (!dynamicLabelService.getProperty(scope.wcIntygLabel + '.RBK')) {
-$log.info('clear text 5', scope.wcIntygLabel);
                                         scope.h5Label = null;
                                     }
                                 }
