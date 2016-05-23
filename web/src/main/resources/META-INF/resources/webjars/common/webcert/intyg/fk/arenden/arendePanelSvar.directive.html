@@ -13,7 +13,7 @@
   <!-- Svara med nytt intyg button - only on komplettering -->
   <div class="buttonbar" ng-show="showKompletteringControls()">
 
-    <div class="alert alert-warning" ng-if="arendeSvar.svaraMedNyttIntygDisabled == true">
+    <div id="komplettering-disabled-{{arendeSvar.fragaInternReferens}}" class="alert alert-warning" ng-if="arendeSvar.svaraMedNyttIntygDisabled == true">
       {{arendeSvar.svaraMedNyttIntygDisabledReason}}
     </div>
     <button type="button" class="btn" ng-if="showSvaraMedNyttIntygButton()" ng-class="{'btn-success': arendeSvar.status != 'CLOSED' && !arendeSvar.cannotKomplettera,
