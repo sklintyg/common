@@ -232,6 +232,9 @@ public interface ModuleApi {
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
 
+    /** Returns an instance of the particular sub class of Utlatande that this module handles. */
+    Utlatande getUtlatandeFromXml(String xml) throws ModuleException;
+
     Utlatande getUtlatandeFromIntyg(Intyg intyg) throws ConverterException;
 
     String transformToStatisticsService(String inputXml) throws ModuleException;
@@ -247,7 +250,7 @@ public interface ModuleApi {
     InternalModelResponse createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder internalModelHolder)
             throws ModuleException;
 
-    Intyg getIntygFromCertificateHolder(CertificateHolder certificateHolder) throws ModuleException;
+    Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException;
 
     String getAdditionalInfo(Intyg intyg) throws ModuleException;
 }
