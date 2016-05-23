@@ -138,14 +138,14 @@ public interface ModuleApi {
      * INFO: This method is only here to fix JIRA issue
      * <a href="https://inera-certificate.atlassian.net/browse/WEBCERT-1442">WEBCERT-1442</a>
      *
-     * @param internalModel
-     *            The internal model of the certificate to send.
+     * @param xmlBody
+     *            Xml representation of the certificate to send.
      * @param logicalAddress
      *            The recipient's logical address
      * @param recipientId
      *            The recipient's identifier
      */
-    void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress, String recipientId) throws ModuleException;
+    void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException;
 
     /**
      * Sends the revoke request to Intygstjänsten.
