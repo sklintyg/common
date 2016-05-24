@@ -1,0 +1,21 @@
+description = 'Intyg Common (Support)'
+
+dependencies {
+  compile project(':logging-util')
+
+  compile 'com.fasterxml.jackson.core:jackson-databind:2.4.4'
+  compile 'com.google.guava:guava:14.0.1'
+  compile 'joda-time:joda-time:2.2'
+  compile 'org.apache.commons:commons-lang3:3.1'
+  compile('org.springframework:spring-core:4.2.2.RELEASE') {
+    exclude(module: 'commons-logging')
+  }
+  compile 'org.slf4j:jcl-over-slf4j:1.7.5'
+  compile 'org.springframework:spring-beans:4.2.2.RELEASE'
+  compile 'org.springframework:spring-context:4.2.2.RELEASE'
+  compile 'se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:2.0.0-RC6'
+  compile 'net.sf.saxon:Saxon-HE:9.6.0-4'
+
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.mockito:mockito-core:1.9.0'
+}

@@ -1,0 +1,12 @@
+description = 'Intyg Common (Logging Utility)'
+
+dependencies {
+  compile 'ch.qos.logback:logback-classic:1.0.11'
+  compile 'org.springframework:spring-context:4.2.2.RELEASE'
+  compile 'commons-codec:commons-codec:1.10'
+
+  compileOnly 'javax.servlet:servlet-api:2.5'
+
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.mockito:mockito-core:1.9.0'
+}

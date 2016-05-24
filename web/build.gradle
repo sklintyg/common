@@ -1,0 +1,94 @@
+buildscript {
+  repositories {
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
+  }
+
+  dependencies {
+    classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
+    classpath 'com.moowork.gradle:gradle-grunt-plugin:0.12'
+  }
+}
+
+apply plugin: 'com.moowork.grunt'
+apply plugin: 'com.moowork.node'
+
+grunt {
+  colors = true
+}
+
+node {
+  version = '0.12.4'
+  download = true
+  distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
+}
+
+sourceSets {
+  main {
+    resources {
+      exclude '**/*.scss'
+      exclude '**/*.spec.js'
+      exclude '**/karma*.conf.js'
+      exclude '**/karma*.conf.ci.js'
+    }
+  }
+}
+
+// TODO: this list should not be required, copy dependencies whose group is org.webjars instead
+List webjars = [[group: 'org.webjars', name: 'angularjs', version: '1.4.10'],
+                [group: 'org.webjars', name: 'angular-ui-bootstrap', version: '0.12.1'],
+                [group: 'org.webjars', name: 'angular-ui-router', version: '0.2.15'],
+                [group: 'org.webjars', name: 'bootstrap', version: '3.1.1'],
+                [group: 'org.webjars', name: 'momentjs', version: '2.7.0']]
+
+
+task unzipWebjars(type: Copy) {
+    description 'Copies anything that is a webjar from the classpath and expands it so that we can use their static resources with karma'
+    into "$buildDir/webjars/"
+    from {
+        configurations.compile.filter{file ->
+            webjars.any{jar -> file.name.startsWith(jar.name) }
+        }.collect{zipTree(it)}
+    }
+}
+
+task moveJsFiles(dependsOn: unzipWebjars) << {
+  ant.copy(todir: "${buildDir}/webjars") {
+    fileset( dir: "${buildDir}/webjars/META-INF/resources/webjars/", includes: '**/*')
+    regexpmapper(from: '^(.*)[/\\].*[/\\](.*)$', to: "\1/\2")
+  }
+}
+
+task jsTests(type: NodeTask, dependsOn: [npmInstall, moveJsFiles]) {
+    script = file('node_modules/grunt-cli/bin/grunt')
+    args = ['test']
+}
+
+test.dependsOn(jsTests)
+
+task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
+    script = file('node_modules/grunt-cli/bin/grunt')
+    args = ['default']
+}
+
+jar.dependsOn(jsInclude)
+
+// TODO
+// if (project.hasProperty('rehabstod.useMinifiedJavaScript')) {
+//   war {
+//     webAppDirName = 'build/webapp'
+//   }
+//  war.dependsOn grunt_build
+// }
+// else {
+//   war.dependsOn grunt_build_no_minify
+// }
+
+dependencies {
+  compile 'org.webjars:angularjs:1.4.10'
+  compile 'org.webjars:angular-ui-bootstrap:1.3.2'
+  compile 'org.webjars:angular-ui-router:0.2.15'
+  compile 'org.webjars:bootstrap:3.1.1'
+  compile 'org.webjars:momentjs:2.7.0'
+}
