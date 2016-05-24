@@ -13,29 +13,29 @@ angular.module('common').factory('common.DynamicLabelProxy', [
             var promise = $q.defer();
 
             // Don't even bother with old intyg types
-            if (intygType === 'fk7263' || intygType === 'ts-bas' || intygType === 'ts-diabetes') {
+            if (intygType === 'fk7263') {
                 promise.resolve(null);
+            } else {
+                var restPath = '/api/utkast/questions/' + intygType + '/' + version;
+                $http.get(restPath, {timeout: timeout}).success(function(data) {
+                    $log.debug('registration - got data:');
+                    $log.debug(data);
+                    if (!ObjectHelper.isDefined(data)) {
+                        promise.reject({ errorCode: data, message: 'invalid data'});
+                    } else {
+                        //var data = sjukersattningDynamicLabelsMock;
+                        promise.resolve(data);
+                    }
+                }).error(function(data, status) {
+                    $log.error('error ' + status);
+                    // Let calling code handle the error of no data response
+                    if (data === null) {
+                        promise.reject({errorCode: data, message: 'no response'});
+                    } else {
+                        promise.reject(data);
+                    }
+                });
             }
-
-            var restPath = '/api/utkast/questions/' + intygType + '/' + version;
-            $http.get(restPath, {timeout: timeout}).success(function(data) {
-                $log.debug('registration - got data:');
-                $log.debug(data);
-                if (!ObjectHelper.isDefined(data)) {
-                    promise.reject({ errorCode: data, message: 'invalid data'});
-                } else {
-                    //var data = sjukersattningDynamicLabelsMock;
-                    promise.resolve(data);
-                }
-            }).error(function(data, status) {
-                $log.error('error ' + status);
-                // Let calling code handle the error of no data response
-                if (data === null) {
-                    promise.reject({errorCode: data, message: 'no response'});
-                } else {
-                    promise.reject(data);
-                }
-            });
 
             return promise.promise;
         }

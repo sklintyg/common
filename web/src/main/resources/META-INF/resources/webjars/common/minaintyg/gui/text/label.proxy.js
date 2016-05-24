@@ -13,7 +13,7 @@ angular.module('common').factory('common.DynamicLabelProxy', [
             var promise = $q.defer();
 
             // Don't even bother with old intyg types
-            if (intygType === 'fk7263' || intygType === 'ts-bas' || intygType === 'ts-diabetes') {
+            if (intygType === 'fk7263') {
                 promise.resolve(null);
             } else {
                 var restPath = '/api/certificates/questions/' + intygType + '/' + version;
