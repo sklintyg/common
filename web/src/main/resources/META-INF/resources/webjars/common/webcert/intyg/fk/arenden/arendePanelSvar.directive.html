@@ -5,7 +5,7 @@
     <span message key="common.arende.error.{{arendeSvar.activeKompletteringErrorMessageKey}}"></span>
   </div>
 
-  <div id="answerDisabledReasonPanel" class="alert alert-info"
+  <div id="answerDisabledReasonPanel-{{arendeSvar.fragaInternReferens}}" class="alert alert-info"
        ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason != ''">
     {{arendeSvar.answerDisabledReason}}
   </div>
