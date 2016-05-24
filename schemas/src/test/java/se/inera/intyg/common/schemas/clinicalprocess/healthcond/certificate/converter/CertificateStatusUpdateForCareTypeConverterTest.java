@@ -45,7 +45,7 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         FragorOchSvar FoS = new FragorOchSvar(antalFragor, antalSvar, antalHanteradeFragor, antalHanteradeSvar);
 
         NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", FoS,
-                NotificationVersion.VERSION_2);
+                SchemaVersion.VERSION_2);
         CertificateStatusUpdateForCareType res = CertificateStatusUpdateForCareTypeConverter.convert(msg, intyg);
 
         assertEquals(intyg, res.getIntyg());

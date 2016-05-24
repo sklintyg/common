@@ -31,7 +31,6 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 
 /**
@@ -205,11 +204,6 @@ public interface ModuleApi {
      */
     InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
             throws ModuleException;
-
-    /**
-     * Create a notification message based on the supplied model.
-     */
-    Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
 
     /**
      * Create a revoke request using the Utlatande and the HoSPersonal.

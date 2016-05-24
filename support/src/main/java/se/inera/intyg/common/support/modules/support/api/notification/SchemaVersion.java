@@ -22,12 +22,12 @@ package se.inera.intyg.common.support.modules.support.api.notification;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public enum NotificationVersion {
+public enum SchemaVersion {
     VERSION_1("V1"), VERSION_2("V2");
 
     private String version;
 
-    NotificationVersion(String version) {
+    SchemaVersion(String version) {
         this.version = version;
     }
 
@@ -35,7 +35,7 @@ public enum NotificationVersion {
         return version;
     }
 
-    public static Optional<NotificationVersion> fromString(String version) {
-        return Stream.of(NotificationVersion.values()).filter(s -> version.equals(s.getVersion())).findFirst();
+    public static Optional<SchemaVersion> fromString(String version) {
+        return Stream.of(SchemaVersion.values()).filter(s -> version.equals(s.getVersion())).findFirst();
     }
 }

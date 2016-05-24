@@ -36,7 +36,7 @@ public class NotificationMessage {
 
     private HandelseType handelse;
 
-    private NotificationVersion version;
+    private SchemaVersion version;
 
     // The reason why this is an Object is that when serializing with @JsonRawValue (below), it works as intended even
     // if this is a string. However, deserializing doesn't work without the deserialized json in this attribute being
@@ -47,7 +47,7 @@ public class NotificationMessage {
 
     // CHECKSTYLE:OFF ParameterNumber
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelseType handelse, String logiskAdress,
-            String utkastJson, FragorOchSvar fragaSvar, NotificationVersion version) {
+            String utkastJson, FragorOchSvar fragaSvar, SchemaVersion version) {
         super();
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
@@ -126,11 +126,11 @@ public class NotificationMessage {
         this.fragaSvar = fragaSvar;
     }
 
-    public NotificationVersion getVersion() {
+    public SchemaVersion getVersion() {
         return version;
     }
 
-    public void setVersion(NotificationVersion version) {
+    public void setVersion(SchemaVersion version) {
         this.version = version;
     }
 
