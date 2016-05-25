@@ -216,13 +216,6 @@ public interface ModuleApi {
     String createRevokeRequest(Utlatande utlatande, se.inera.intyg.common.support.model.common.internal.HoSPersonal skapatAv, String meddelande)
             throws ModuleException;
 
-    /**
-     * Exposed for testing purposes.
-     *
-     * @return an XML string
-     */
-    String marshall(String jsonString) throws ModuleException;
-
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
 
