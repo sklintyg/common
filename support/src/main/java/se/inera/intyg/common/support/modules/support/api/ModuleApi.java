@@ -67,7 +67,7 @@ public interface ModuleApi {
      *
      * @return response The validation result.
      */
-    ValidateDraftResponse validateDraft(InternalModelHolder internalModel) throws ModuleException;
+    ValidateDraftResponse validateDraft(String internalModel) throws ModuleException;
 
     /**
      * Generates a PDF from the internal model.
@@ -79,7 +79,7 @@ public interface ModuleApi {
      *
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdf(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
+    PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
 
     /**
      * Generates a PDF suited for the employer from the internal model.
@@ -91,7 +91,7 @@ public interface ModuleApi {
      *
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdfEmployer(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
+    PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
@@ -103,7 +103,7 @@ public interface ModuleApi {
      *
      * @return A new instance of the internal model.
      */
-    InternalModelResponse createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException;
+    String createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
@@ -117,7 +117,7 @@ public interface ModuleApi {
      *
      * @return A new instance of the internal model.
      */
-    InternalModelResponse createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder template)
+    String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String template)
             throws ModuleException;
 
     /**
@@ -128,7 +128,7 @@ public interface ModuleApi {
      * @param logicalAddress
      *            Logical address of receiving system, i.e Intygstjansten
      */
-    void registerCertificate(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
+    void registerCertificate(String internalModel, String logicalAddress) throws ModuleException;
 
     /**
      * Send certificate to specified recipient.
@@ -187,7 +187,7 @@ public interface ModuleApi {
      * @return A new internal model updated with the hosPerson info.
      * @throws ModuleException
      */
-    InternalModelResponse updateBeforeSave(InternalModelHolder internalModel, HoSPersonal hosPerson) throws ModuleException;
+    String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for signing, with new HoS person information.
@@ -201,7 +201,7 @@ public interface ModuleApi {
      *
      * @return A new internal model updated with the hosPerson info.
      */
-    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
+    String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
             throws ModuleException;
 
     /**
@@ -231,7 +231,7 @@ public interface ModuleApi {
 
     String decorateUtlatande(String utlatandeJson) throws ModuleException;
 
-    InternalModelResponse createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder internalModelHolder)
+    String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder)
             throws ModuleException;
 
     Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException;
