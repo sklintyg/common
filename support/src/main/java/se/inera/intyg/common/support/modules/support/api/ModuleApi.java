@@ -229,10 +229,7 @@ public interface ModuleApi {
     /** Get Arende parameters specific to module such as parameters belonging to a certain frage id. */
     Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande);
 
-    String decorateUtlatande(String utlatandeJson) throws ModuleException;
-
-    String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder)
-            throws ModuleException;
+    String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder) throws ModuleException;
 
     Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException;
 
