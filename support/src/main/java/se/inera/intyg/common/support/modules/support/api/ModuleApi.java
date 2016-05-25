@@ -27,7 +27,6 @@ import org.joda.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -221,8 +220,6 @@ public interface ModuleApi {
 
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromXml(String xml) throws ModuleException;
-
-    Utlatande getUtlatandeFromIntyg(Intyg intyg) throws ConverterException;
 
     String transformToStatisticsService(String inputXml) throws ModuleException;
 
