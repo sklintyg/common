@@ -23,10 +23,9 @@
       <img src="/img/loader-small-green.gif" ng-show="arendeSvar.updateInProgress"> Svara med nytt intyg
     </button>
         <span ng-show="arendeSvar.status != 'CLOSED'">
-        <label for="{{panelId}}-cant-komplettera-{{arendeSvar.fragaInternReferens}}" class="checkbox-inline">
-          <input id="{{panelId}}-cant-komplettera-{{arendeSvar.fragaInternReferens}}" type="checkbox"
-                 ng-model="arendeSvar.cannotKomplettera" ng-change="onCannotKomplettera()" /> Kan ej svara med nytt
-          intyg</label>
+        <label for="cant-komplettera-{{arendeSvar.fragaInternReferens}}" class="checkbox-inline">
+          <input id="cant-komplettera-{{arendeSvar.fragaInternReferens}}" type="checkbox"
+                 ng-model="arendeSvar.cannotKomplettera" ng-change="onCannotKomplettera()" /> Kan ej svara med nytt intyg</label>
         </span>
   </div>
 
