@@ -1,15 +1,4 @@
-buildscript {
-  repositories {
-    maven {
-      url 'https://plugins.gradle.org/m2/'
-    }
-  }
-
-  dependencies {
-    classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
-    classpath 'com.moowork.gradle:gradle-grunt-plugin:0.12'
-  }
-}
+description = 'Intyg Common (Web)'
 
 apply plugin: 'com.moowork.grunt'
 apply plugin: 'com.moowork.node'
@@ -40,8 +29,8 @@ List webjars = [[group: 'org.webjars', name: 'angularjs', version: '1.4.10'],
                 [group: 'org.webjars', name: 'angular-ui-bootstrap', version: '0.12.1'],
                 [group: 'org.webjars', name: 'angular-ui-router', version: '0.2.15'],
                 [group: 'org.webjars', name: 'bootstrap', version: '3.1.1'],
-                [group: 'org.webjars', name: 'momentjs', version: '2.7.0']]
-
+                [group: 'org.webjars', name: 'momentjs', version: '2.7.0'],
+                [group: 'org.webjars', name: 'jquery', version: '1.9.0']]
 
 task unzipWebjars(type: Copy) {
     description 'Copies anything that is a webjar from the classpath and expands it so that we can use their static resources with karma'
@@ -53,11 +42,12 @@ task unzipWebjars(type: Copy) {
     }
 }
 
-task moveJsFiles(dependsOn: unzipWebjars) << {
-  ant.copy(todir: "${buildDir}/webjars") {
-    fileset( dir: "${buildDir}/webjars/META-INF/resources/webjars/", includes: '**/*')
-    regexpmapper(from: '^(.*)[/\\].*[/\\](.*)$', to: "\1/\2")
+task moveJsFiles(type: Copy, dependsOn: unzipWebjars) {
+  from { "${buildDir}/webjars/META-INF/resources/webjars/" }
+  eachFile {details ->
+    details.path = details.path.replaceAll('([^/]+)/[^/]+(/.*)', { "${it[1]}${it[2]}" })
   }
+  into "${buildDir}/webjars"
 }
 
 task jsTests(type: NodeTask, dependsOn: [npmInstall, moveJsFiles]) {
@@ -91,4 +81,18 @@ dependencies {
   compile 'org.webjars:angular-ui-router:0.2.15'
   compile 'org.webjars:bootstrap:3.1.1'
   compile 'org.webjars:momentjs:2.7.0'
+  compile 'org.webjars:jquery:1.9.0'
+}
+
+buildscript {
+  repositories {
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
+  }
+
+  dependencies {
+    classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
+    classpath 'com.moowork.gradle:gradle-grunt-plugin:0.12'
+  }
 }
