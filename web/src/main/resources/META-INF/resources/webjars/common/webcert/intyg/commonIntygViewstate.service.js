@@ -48,10 +48,8 @@ angular.module('common').service('common.IntygViewStateService',
             var targetName = undefined;
             if(this.intygProperties.type === 'ts-bas' || this.intygProperties.type === 'ts-diabetes') {
                 targetName = 'TS';
-            } else if(this.intygProperties.type === 'fk7263') {
-                targetName = 'FK'; // Set legacy name for fk7263
             } else {
-                targetName = 'FKASSA';
+                targetName = 'FK';
             }
 
 

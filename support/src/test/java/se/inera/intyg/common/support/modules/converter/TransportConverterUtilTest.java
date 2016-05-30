@@ -2,6 +2,7 @@ package se.inera.intyg.common.support.modules.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,14 +10,20 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.joda.time.LocalDateTime;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import se.inera.intyg.common.support.common.enumerations.PartKod;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
+import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 
 public class TransportConverterUtilTest {
@@ -29,6 +36,45 @@ public class TransportConverterUtilTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+
+    @Test
+    public void testGetMetaData() {
+        final String intygId = "intygId";
+        final String intygstyp = "LUSE";
+        String skapadAvFullstandigtNamn = "skapad av namn";
+        String enhetsnamn = "enhetsnamn";
+        final LocalDateTime signeringstidpunkt = LocalDateTime.now().minusDays(1);
+        final LocalDateTime statustidpunkt = LocalDateTime.now();
+        Intyg intyg = new Intyg();
+        intyg.setIntygsId(new IntygId());
+        intyg.getIntygsId().setExtension(intygId);
+        intyg.setTyp(new TypAvIntyg());
+        intyg.getTyp().setCode(intygstyp);
+        intyg.setSkapadAv(new HosPersonal());
+        intyg.getSkapadAv().setFullstandigtNamn(skapadAvFullstandigtNamn);
+        intyg.getSkapadAv().setEnhet(new Enhet());
+        intyg.getSkapadAv().getEnhet().setEnhetsnamn(enhetsnamn);
+        intyg.setSigneringstidpunkt(signeringstidpunkt);
+        IntygsStatus status = new IntygsStatus();
+        status.setPart(new Part());
+        status.getPart().setCode(PartKod.FKASSA.name());
+        status.setStatus(new Statuskod());
+        status.getStatus().setCode(StatusKod.SENTTO.name());
+        status.setTidpunkt(statustidpunkt);
+        intyg.getStatus().add(status);
+
+        CertificateMetaData res = TransportConverterUtil.getMetaData(intyg);
+        assertNotNull(res);
+        assertEquals(intygId, res.getCertificateId());
+        assertEquals(intygstyp.toLowerCase(), res.getCertificateType());
+        assertEquals(skapadAvFullstandigtNamn, res.getIssuerName());
+        assertEquals(enhetsnamn, res.getFacilityName());
+        assertEquals(signeringstidpunkt, res.getSignDate());
+        assertEquals(1, res.getStatus().size());
+        assertEquals(CertificateState.SENT, res.getStatus().get(0).getType());
+        assertEquals("FK", res.getStatus().get(0).getTarget());
+        assertEquals(statustidpunkt, res.getStatus().get(0).getTimestamp());
+    }
 
     @Test
     public void testGetCVTypeContentSuccess() throws Exception {
