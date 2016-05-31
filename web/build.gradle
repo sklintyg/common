@@ -46,7 +46,7 @@ task moveJsFiles(type: Copy, dependsOn: unzipWebjars) {
   description 'Moves everything up one level, which gets rid of version directory (angular/1.2.4/* -> angular/)'
   from { "${buildDir}/webjars/META-INF/resources/webjars/" }
   eachFile {details ->
-    details.path = details.path.replaceAll('([^/]+)/[^/]+(/.*)', '$1$2')
+    details.path = details.path.replaceAll('([^/]+)/[0-9.]+(/.*)', '$1$2')
   }
   into "${buildDir}/webjars"
 }
