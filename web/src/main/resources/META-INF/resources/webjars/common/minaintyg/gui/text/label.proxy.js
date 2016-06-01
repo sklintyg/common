@@ -23,7 +23,6 @@ angular.module('common').factory('common.DynamicLabelProxy', [
                     if (!ObjectHelper.isDefined(data)) {
                         promise.reject({ errorCode: data, message: 'invalid data'});
                     } else {
-                        //var data = sjukersattningDynamicLabelsMock;
                         promise.resolve(data);
                     }
                 }).error(function(data, status) {
