@@ -43,7 +43,7 @@
     <module name="MemberName"/>
     <module name="MethodName"/>
     <module name="PackageName">
-      <property name="format" value="^se\.inera\.intyg(\.[a-z][a-z0-9]*)+$"/>
+      <property name="format" value="^se\.inera\.intyg(\.[a-z][_a-z0-9]*)+$"/>
     </module>
     <module name="ParameterName"/>
     <module name="StaticVariableName"/>
