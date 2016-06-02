@@ -49,10 +49,16 @@ angular.module('common').directive('arendeVidarebefordra',
                         // use timeout so that external mail client has a chance to start before showing dialog
                         $timeout(function() {
                             ArendeVidarebefordraHelper.handleVidareBefodradToggle(arende,
-                                $scope.onVidareBefordradChange);
+                                $scope.onVidarebefordradChange);
                         }, 1000);
+
                         // Launch mail client
-                        $window.location = ArendeVidarebefordraHelper.buildMailToLink(arende);
+                        var arendeMailModel = {
+                            intygId: arende.fraga.intygId,
+                            enhetsnamn: arende.fraga.enhetsnamn,
+                            vardgivarnamn: arende.fraga.vardgivarnamn
+                        };
+                        $window.location = ArendeVidarebefordraHelper.buildMailToLink(arendeMailModel);
                     };
                     $scope.$parent.onVidarebefordradChange = function() {
                         $scope.forwardInProgress = true;
