@@ -21,6 +21,7 @@ package se.inera.intyg.common.integration.hsa.services;
 
 import java.util.List;
 
+import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.riv.infrastructure.directory.v1.CommissionType;
 import se.riv.infrastructure.directory.v1.PersonInformationType;
 
@@ -28,5 +29,5 @@ public interface HsaPersonService {
 
     List<PersonInformationType> getHsaPersonInfo(String personHsaId);
 
-    List<CommissionType> checkIfPersonHasMIUsOnUnit(String hosPersonHsaId, final String unitHsaId);
+    List<CommissionType> checkIfPersonHasMIUsOnUnit(String hosPersonHsaId, final String unitHsaId) throws ExternalServiceCallException;
 }

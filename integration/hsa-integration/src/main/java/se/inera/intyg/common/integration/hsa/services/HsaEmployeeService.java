@@ -19,9 +19,11 @@
 
 package se.inera.intyg.common.integration.hsa.services;
 
-import se.riv.infrastructure.directory.employee.getemployeeincludingprotectedpersonresponder.v1.GetEmployeeIncludingProtectedPersonResponseType;
+import java.util.List;
 
 import javax.xml.ws.WebServiceException;
+
+import se.riv.infrastructure.directory.v1.PersonInformationType;
 
 /**
  * Created by Magnus Ekstrand on 27/05/15.
@@ -39,7 +41,7 @@ public interface HsaEmployeeService {
      *
      * @throws WebServiceException
      */
-    GetEmployeeIncludingProtectedPersonResponseType getEmployee(String personHsaId, String personalIdentityNumber) throws WebServiceException;
+    List<PersonInformationType> getEmployee(String personHsaId, String personalIdentityNumber) throws WebServiceException;
 
     /**
      * Returnerar information, som kontaktinformation samt legitimerad yrkesgrupp och specialitet, för sökt person.
@@ -53,6 +55,6 @@ public interface HsaEmployeeService {
      *
      * @throws WebServiceException
      */
-    GetEmployeeIncludingProtectedPersonResponseType getEmployee(String personHsaId, String personalIdentityNumber, String searchBase) throws WebServiceException;
+    List<PersonInformationType> getEmployee(String personHsaId, String personalIdentityNumber, String searchBase) throws WebServiceException;
 
 }
