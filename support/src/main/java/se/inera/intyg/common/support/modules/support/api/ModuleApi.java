@@ -45,21 +45,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 public interface ModuleApi {
 
     /**
-     * Register the container for this module.
-     *
-     * @param moduleContainer
-     *            The module container.
-     */
-    void setModuleContainer(ModuleContainerApi moduleContainer);
-
-    /**
-     * Get the container for this module.
-     *
-     * @return the module container.
-     */
-    ModuleContainerApi getModuleContainer();
-
-    /**
      * Validates the internal model. The status (complete, incomplete) and a list of validation errors is returned.
      *
      * @param internalModel

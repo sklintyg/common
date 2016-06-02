@@ -19,10 +19,14 @@
 
 package se.inera.intyg.common.support.model.converter.util;
 
+import org.joda.time.LocalDateTime;
+
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.support.api.dto.*;
 
 public final class WebcertModelFactoryUtil {
 
@@ -63,6 +67,57 @@ public final class WebcertModelFactoryUtil {
         }
 
         return hosPersonal;
+    }
+
+    public static void updateSkapadAv(Utlatande utlatande, se.inera.intyg.common.support.modules.support.api.dto.HoSPersonal hosPerson, LocalDateTime signeringsdatum) {
+        utlatande.getGrundData().getSkapadAv().setPersonId(hosPerson.getHsaId());
+        utlatande.getGrundData().getSkapadAv().setFullstandigtNamn(hosPerson.getNamn());
+        utlatande.getGrundData().getSkapadAv().setForskrivarKod(hosPerson.getForskrivarkod());
+        utlatande.getGrundData().setSigneringsdatum(signeringsdatum);
+    }
+
+    public static void populateGrunddataFromCreateDraftCopyHolder(GrundData grundData, CreateDraftCopyHolder copyData) throws ConverterException {
+        populateWithSkapadAv(grundData, copyData.getSkapadAv());
+        populateWithRelation(grundData, copyData.getRelation());
+
+        if (copyData.hasPatient()) {
+            populateWithPatientInfo(grundData, copyData.getPatient());
+        }
+
+        if (copyData.hasNewPersonnummer()) {
+            populateWithNewPersonnummer(grundData, copyData.getNewPersonnummer());
+        }
+    }
+
+    public static void populateGrunddataFromCreateNewDraftHolder(GrundData grundData, CreateNewDraftHolder newDraftData) throws ConverterException {
+        populateWithSkapadAv(grundData, newDraftData.getSkapadAv());
+        populateWithPatientInfo(grundData, newDraftData.getPatient());
+    }
+
+    private static void populateWithNewPersonnummer(GrundData grundData, Personnummer newPersonnummer) {
+        grundData.getPatient().setPersonId(newPersonnummer);
+    }
+
+    private static void populateWithPatientInfo(GrundData grundData, se.inera.intyg.common.support.modules.support.api.dto.Patient patient) throws ConverterException {
+        if (patient == null) {
+            throw new ConverterException("Got null while trying to populateWithPatientInfo");
+        }
+        grundData.setPatient(convertPatientToEdit(patient));
+    }
+
+    private static void populateWithSkapadAv(GrundData grundData, se.inera.intyg.common.support.modules.support.api.dto.HoSPersonal hoSPersonal) throws ConverterException {
+        if (hoSPersonal == null) {
+            throw new ConverterException("Got null while trying to populateWithSkapadAv");
+        }
+        grundData.setSkapadAv(convertHosPersonalToEdit(hoSPersonal));
+    }
+
+    private static void populateWithRelation(GrundData grundData, Relation relation) {
+        if (relation != null) {
+            grundData.setRelation(relation);
+        } else {
+            grundData.setRelation(null);
+        }
     }
 
     private static Vardenhet convertVardenhetToEdit(se.inera.intyg.common.support.modules.support.api.dto.Vardenhet vardenhetDto) {
