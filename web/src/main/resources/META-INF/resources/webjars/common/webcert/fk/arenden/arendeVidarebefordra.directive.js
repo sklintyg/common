@@ -25,8 +25,8 @@
  * arendeVidarebefordra directive. Component for Vidarebefordra button, checkbox and loading animation
  */
 angular.module('common').directive('arendeVidarebefordra',
-    [ '$window', '$log', '$timeout', 'common.ArendeVidarebefordraHelper', 'common.ArendeProxy', 'common.dialogService',
-        function($window, $log, $timeout, ArendeVidarebefordraHelper, ArendeProxy, DialogService) {
+    [ '$window', '$log', '$timeout', 'common.ArendeVidarebefordraHelper', 'common.ArendeProxy', 'common.dialogService', 'common.ObjectHelper',
+        function($window, $log, $timeout, ArendeVidarebefordraHelper, ArendeProxy, DialogService, ObjectHelper) {
             'use strict';
 
             return {
@@ -53,12 +53,16 @@ angular.module('common').directive('arendeVidarebefordra',
                         }, 1000);
 
                         // Launch mail client
-                        var arendeMailModel = {
-                            intygId: arende.fraga.intygId,
-                            enhetsnamn: arende.fraga.enhetsnamn,
-                            vardgivarnamn: arende.fraga.vardgivarnamn
-                        };
-                        $window.location = ArendeVidarebefordraHelper.buildMailToLink(arendeMailModel);
+                        if (ObjectHelper.isDefined(arende.fraga)) {
+                            var arendeMailModel = {
+                                intygId: arende.fraga.intygId,
+                                enhetsnamn: arende.fraga.enhetsnamn,
+                                vardgivarnamn: arende.fraga.vardgivarnamn
+                            };
+                            $window.location = ArendeVidarebefordraHelper.buildMailToLink(arendeMailModel);
+                        } else {
+                            $log.debug('openMailDialog - cant build mailto link. arande.fraga is not defined');
+                        }
                     };
                     $scope.$parent.onVidarebefordradChange = function() {
                         $scope.forwardInProgress = true;
