@@ -74,6 +74,14 @@ public final class WebcertModelFactoryUtil {
         utlatande.getGrundData().getSkapadAv().setFullstandigtNamn(hosPerson.getNamn());
         utlatande.getGrundData().getSkapadAv().setForskrivarKod(hosPerson.getForskrivarkod());
         utlatande.getGrundData().setSigneringsdatum(signeringsdatum);
+        utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
+        if (hosPerson.getBefattning() != null) {
+            utlatande.getGrundData().getSkapadAv().getBefattningar().add(hosPerson.getBefattning());
+        }
+        utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
+        if (hosPerson.getSpecialiseringar() != null) {
+            utlatande.getGrundData().getSkapadAv().getSpecialiteter().addAll(hosPerson.getSpecialiseringar());
+        }
     }
 
     public static void populateGrunddataFromCreateDraftCopyHolder(GrundData grundData, CreateDraftCopyHolder copyData) throws ConverterException {
