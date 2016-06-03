@@ -31,7 +31,7 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                     $log.error('Invalid intyg id. Cannot create vidarebefordra link');
                     return 'error';
                 }
-                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + arendeMailModel.intygId + '/questions';
+                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + '/' + arendeMailModel.intygType + '/' + arendeMailModel.intygId + '/questions';
 
                 var recipient = '';
                 var subject = 'Ett arende ska besvaras i Webcert';
@@ -53,13 +53,13 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
             this.handleVidareBefodradToggle = function (arende, onYesCallback) {
                 // Only ask about toggle if not already set AND not skipFlag cookie is
                 // set
-                if (!arende.fraga.vidarebefordrad && !_isSkipVidareBefodradCookieSet()) {
+                if (!arende.vidarebefordrad && !_isSkipVidareBefodradCookieSet()) {
                     this.showVidarebefordradPreferenceDialog(
                         'markforward',
                         'Det verkar som att du har informerat den som ska hantera ärendet. Vill du markera ärendet som vidarebefordrat?',
                         function() { // yes
                             $log.debug('yes');
-                            arende.fraga.vidarebefordrad = true;
+                            arende.vidarebefordrad = true;
                             if (onYesCallback) {
                                 // let calling scope handle yes answer
                                 onYesCallback(arende);

@@ -31,7 +31,7 @@ angular.module('common').directive('arendePanelHeader',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendePanelHeader.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanelHeader.directive.html',
                 scope: {
                     arendeListItem: '=',
                     parentViewState: '='

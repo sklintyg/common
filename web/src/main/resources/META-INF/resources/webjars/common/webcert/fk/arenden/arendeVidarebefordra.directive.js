@@ -32,7 +32,7 @@ angular.module('common').directive('arendeVidarebefordra',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendeVidarebefordra.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendeVidarebefordra.directive.html',
                 scope: {
                     panelId: '@',
                     arendeListItem: '=',
@@ -48,7 +48,7 @@ angular.module('common').directive('arendeVidarebefordra',
                         // Handle vidarebefordra dialog
                         // use timeout so that external mail client has a chance to start before showing dialog
                         $timeout(function() {
-                            ArendeVidarebefordraHelper.handleVidareBefodradToggle(arende,
+                            ArendeVidarebefordraHelper.handleVidareBefodradToggle(arende.fraga,
                                 $scope.onVidarebefordradChange);
                         }, 1000);
 
@@ -56,6 +56,7 @@ angular.module('common').directive('arendeVidarebefordra',
                         if (ObjectHelper.isDefined(arende.fraga)) {
                             var arendeMailModel = {
                                 intygId: arende.fraga.intygId,
+                                intygType: $scope.parentViewState.intygProperties.type,
                                 enhetsnamn: arende.fraga.enhetsnamn,
                                 vardgivarnamn: arende.fraga.vardgivarnamn
                             };

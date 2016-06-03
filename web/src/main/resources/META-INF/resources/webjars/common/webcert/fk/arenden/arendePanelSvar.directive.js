@@ -35,7 +35,7 @@ angular.module('common').directive('arendePanelSvar',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendePanelSvar.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanelSvar.directive.html',
                 scope: {
                     panelId: '@',
                     arendeListItem: '=',

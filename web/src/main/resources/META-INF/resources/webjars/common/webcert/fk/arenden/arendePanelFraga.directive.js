@@ -33,7 +33,7 @@ angular.module('common').directive('arendePanelFraga',
                 restrict: 'A',
                 transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendePanelFraga.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanelFraga.directive.html',
                 scope: {
                     panelId: '@',
                     arendeListItem: '='

@@ -32,7 +32,7 @@ angular.module('common').directive('arendeHantera',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendeHantera.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendeHantera.directive.html',
                 scope: {
                     arendeListItem: '=',
                     parentViewState: '='
