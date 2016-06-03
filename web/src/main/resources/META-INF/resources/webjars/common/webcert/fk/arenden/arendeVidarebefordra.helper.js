@@ -25,7 +25,7 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
             this.buildMailToLink = function(arendeMailModel) {
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
-                var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
+                var certificateUrlPart = UserModel.isUthopp() ? 'certificate' : 'basic-certificate';
 
                 if(typeof arendeMailModel.intygId === 'undefined') {
                     $log.error('Invalid intyg id. Cannot create vidarebefordra link');
