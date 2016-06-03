@@ -19,11 +19,7 @@
 
 package se.inera.intyg.common.support.modules.registry;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
@@ -34,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 
 public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
@@ -53,17 +48,11 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     private ApplicationOrigin origin;
 
-    @Autowired(required = false)
-    private ModuleContainerApi moduleContainer;
-
     @PostConstruct
     public void initModulesList() {
 
         for (ModuleEntryPoint entryPoint : moduleEntryPoints) {
             moduleApiMap.put(entryPoint.getModuleId(), entryPoint);
-            if (moduleContainer != null) {
-                entryPoint.getModuleApi().setModuleContainer(moduleContainer);
-            }
             IntygModule module = new IntygModule(entryPoint.getModuleId(), entryPoint.getModuleName(),
                     entryPoint.getModuleDescription(), entryPoint.getDetailedModuleDescription(),
                     entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),

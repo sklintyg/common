@@ -13,7 +13,7 @@ angular.module('common').factory('common.DynamicLabelProxy', [
             var promise = $q.defer();
 
             // Don't even bother with old intyg types
-            if (intygType === 'fk7263' || intygType === 'ts-bas' || intygType === 'ts-diabetes') {
+            if (intygType === 'fk7263') {
                 promise.resolve(null);
             } else {
                 var restPath = '/api/certificates/questions/' + intygType + '/' + version;
@@ -23,7 +23,6 @@ angular.module('common').factory('common.DynamicLabelProxy', [
                     if (!ObjectHelper.isDefined(data)) {
                         promise.reject({ errorCode: data, message: 'invalid data'});
                     } else {
-                        //var data = sjukersattningDynamicLabelsMock;
                         promise.resolve(data);
                     }
                 }).error(function(data, status) {

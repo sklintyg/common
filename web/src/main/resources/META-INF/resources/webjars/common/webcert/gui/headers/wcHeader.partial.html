@@ -18,11 +18,12 @@
       </span>
     </div>
     <div class="headerbox-user pull-right">
-      <div class="headerbox-user-profile headerbox-avatar" ng-show="user.namn.length">
-        <span id="logged-in-role">
-          <strong>{{user.role}}</strong>
-        </span>
-        - <span class="logged-in">{{user.namn}}</span><br>
+      <div class="headerbox-user-profile headerbox-avatar">
+        <div ng-show="user.namn.length">
+          <span id="logged-in-role">
+            <strong>{{user.role}}</strong>
+          </span> - <span class="logged-in">{{user.namn}}</span>
+        </div>
         <a id="editUserLink" wc-authority role="PRIVATLAKARE" style="padding-right:30px" class="pull-left"
            ng-click="goToPrivatPortalen()">Ändra uppgifter</a>
         <a href="" id="logoutLink" wc-authority="NAVIGERING" class="pull-right" ng-click="logout()">Logga ut</a>

@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -29,20 +30,17 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Relation;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.StatusKod;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.Befattning;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v2.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 
 public final class TransportConverterUtil {
@@ -165,6 +163,32 @@ public final class TransportConverterUtil {
             grundData.setRelation(getRelation(source));
         }
         return grundData;
+    }
+
+    public static CertificateMetaData getMetaData(Intyg source) {
+        CertificateMetaData metaData = new CertificateMetaData();
+        metaData.setCertificateId(source.getIntygsId().getExtension());
+        metaData.setCertificateType(source.getTyp().getCode().toLowerCase());
+        metaData.setIssuerName(source.getSkapadAv().getFullstandigtNamn());
+        metaData.setFacilityName(source.getSkapadAv().getEnhet().getEnhetsnamn());
+        metaData.setSignDate(source.getSigneringstidpunkt());
+        metaData.setStatus(getStatusList(source.getStatus()));
+        return metaData;
+    }
+
+    public static List<Status> getStatusList(List<IntygsStatus> certificateStatuses) {
+        List<Status> statuses = new ArrayList<>(certificateStatuses.size());
+        for (IntygsStatus certificateStatus : certificateStatuses) {
+            statuses.add(getStatus(certificateStatus));
+        }
+        return statuses;
+    }
+
+    public static Status getStatus(IntygsStatus certificateStatus) {
+        return new Status(
+                StatusKod.valueOf(certificateStatus.getStatus().getCode()).toCertificateState(),
+                PartKod.valueOf(certificateStatus.getPart().getCode()).getValue(),
+                certificateStatus.getTidpunkt());
     }
 
     private static HoSPersonal getSkapadAv(Intyg source) {

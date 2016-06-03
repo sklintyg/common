@@ -27,11 +27,9 @@ import org.joda.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 
 /**
@@ -47,21 +45,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 public interface ModuleApi {
 
     /**
-     * Register the container for this module.
-     *
-     * @param moduleContainer
-     *            The module container.
-     */
-    void setModuleContainer(ModuleContainerApi moduleContainer);
-
-    /**
-     * Get the container for this module.
-     *
-     * @return the module container.
-     */
-    ModuleContainerApi getModuleContainer();
-
-    /**
      * Validates the internal model. The status (complete, incomplete) and a list of validation errors is returned.
      *
      * @param internalModel
@@ -69,7 +52,7 @@ public interface ModuleApi {
      *
      * @return response The validation result.
      */
-    ValidateDraftResponse validateDraft(InternalModelHolder internalModel) throws ModuleException;
+    ValidateDraftResponse validateDraft(String internalModel) throws ModuleException;
 
     /**
      * Generates a PDF from the internal model.
@@ -81,7 +64,7 @@ public interface ModuleApi {
      *
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdf(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
+    PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
 
     /**
      * Generates a PDF suited for the employer from the internal model.
@@ -93,7 +76,7 @@ public interface ModuleApi {
      *
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdfEmployer(InternalModelHolder internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
+    PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
@@ -105,7 +88,7 @@ public interface ModuleApi {
      *
      * @return A new instance of the internal model.
      */
-    InternalModelResponse createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException;
+    String createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
@@ -119,7 +102,7 @@ public interface ModuleApi {
      *
      * @return A new instance of the internal model.
      */
-    InternalModelResponse createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder template)
+    String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String template)
             throws ModuleException;
 
     /**
@@ -130,7 +113,7 @@ public interface ModuleApi {
      * @param logicalAddress
      *            Logical address of receiving system, i.e Intygstjansten
      */
-    void registerCertificate(InternalModelHolder internalModel, String logicalAddress) throws ModuleException;
+    void registerCertificate(String internalModel, String logicalAddress) throws ModuleException;
 
     /**
      * Send certificate to specified recipient.
@@ -138,14 +121,14 @@ public interface ModuleApi {
      * INFO: This method is only here to fix JIRA issue
      * <a href="https://inera-certificate.atlassian.net/browse/WEBCERT-1442">WEBCERT-1442</a>
      *
-     * @param internalModel
-     *            The internal model of the certificate to send.
+     * @param xmlBody
+     *            Xml representation of the certificate to send.
      * @param logicalAddress
      *            The recipient's logical address
      * @param recipientId
      *            The recipient's identifier
      */
-    void sendCertificateToRecipient(InternalModelHolder internalModel, String logicalAddress, String recipientId) throws ModuleException;
+    void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException;
 
     /**
      * Sends the revoke request to Intygstjänsten.
@@ -189,7 +172,7 @@ public interface ModuleApi {
      * @return A new internal model updated with the hosPerson info.
      * @throws ModuleException
      */
-    InternalModelResponse updateBeforeSave(InternalModelHolder internalModel, HoSPersonal hosPerson) throws ModuleException;
+    String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for signing, with new HoS person information.
@@ -203,13 +186,8 @@ public interface ModuleApi {
      *
      * @return A new internal model updated with the hosPerson info.
      */
-    InternalModelResponse updateBeforeSigning(InternalModelHolder internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
+    String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
             throws ModuleException;
-
-    /**
-     * Create a notification message based on the supplied model.
-     */
-    Object createNotification(NotificationMessage notificationMessage) throws ModuleException;
 
     /**
      * Create a revoke request using the Utlatande and the HoSPersonal.
@@ -222,17 +200,11 @@ public interface ModuleApi {
     String createRevokeRequest(Utlatande utlatande, se.inera.intyg.common.support.model.common.internal.HoSPersonal skapatAv, String meddelande)
             throws ModuleException;
 
-    /**
-     * Exposed for testing purposes.
-     *
-     * @return an XML string
-     */
-    String marshall(String jsonString) throws ModuleException;
-
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
 
-    Utlatande getUtlatandeFromIntyg(Intyg intyg) throws ConverterException;
+    /** Returns an instance of the particular sub class of Utlatande that this module handles. */
+    Utlatande getUtlatandeFromXml(String xml) throws ModuleException;
 
     String transformToStatisticsService(String inputXml) throws ModuleException;
 
@@ -242,12 +214,9 @@ public interface ModuleApi {
     /** Get Arende parameters specific to module such as parameters belonging to a certain frage id. */
     Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande);
 
-    String decorateUtlatande(String utlatandeJson) throws ModuleException;
+    String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder) throws ModuleException;
 
-    InternalModelResponse createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, InternalModelHolder internalModelHolder)
-            throws ModuleException;
-
-    Intyg getIntygFromCertificateHolder(CertificateHolder certificateHolder) throws ModuleException;
+    Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException;
 
     String getAdditionalInfo(Intyg intyg) throws ModuleException;
 }

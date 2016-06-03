@@ -79,6 +79,11 @@ angular.module('common').factory('common.dynamicLabelService',
 
             function _updateTillaggsfragorToModel(tillaggsfragor, model) {
                 var modelFrageList = model.tillaggsfragor;
+
+                if (!modelFrageList) {
+                    return;
+                }
+
                 for (var i = 0; i < tillaggsfragor.length; i++) {
                     var tillaggsfraga = {
                         'id': tillaggsfragor[i].id,
