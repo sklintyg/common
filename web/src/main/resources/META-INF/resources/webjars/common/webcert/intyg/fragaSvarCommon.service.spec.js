@@ -132,8 +132,10 @@ describe('fragaSvarCommonService', function() {
             intygsReferens: {
                 intygsId: 'testid'
             },
-            enhetsnamn: 'Ängården',
-            vardgivarnamn: 'Vårdgivare'
+            vardperson: {
+                enhetsnamn: 'Ängården',
+                vardgivarnamn: 'Vårdgivare'
+            }
         };
 
         it('should be correct when user\'s request origin is uthopp', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
