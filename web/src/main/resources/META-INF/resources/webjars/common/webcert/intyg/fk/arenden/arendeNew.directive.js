@@ -27,10 +27,10 @@
 angular.module('common').directive('arendeNew',
     [ '$window', '$log', '$timeout', '$state', '$stateParams',
         'common.User', 'common.statService', 'common.ObjectHelper',
-        'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper', 'common.ArendeListItemModel',
+        'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper', 'common.ArendeListItemModel', 'common.pingService',
         function($window, $log, $timeout, $state, $stateParams,
             User, statService, ObjectHelper,
-                 ArendeProxy, ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel) {
+                 ArendeProxy, ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, pingService) {
             'use strict';
 
             return {
@@ -51,6 +51,11 @@ angular.module('common').directive('arendeNew',
                     // Create model
                     var arendeNewModel = ArendeNewModel.build();
                     $scope.arendeNewModel = arendeNewModel;
+
+                    //Any change to the arendeNewModel indicates user interaction
+                    $scope.$watch('arendeNewModel', function() {
+                        pingService.registerUserAction('entering-nytt-arende-text');
+                    }, true);
 
                     /**
                      * Exposed interactions

@@ -27,9 +27,9 @@
 angular.module('common').directive('arendePanelSvar',
     [ '$window', '$log', '$state', '$stateParams',
         'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel',
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.pingService',
         function($window, $log, $state, $stateParams, ArendeProxy, ArendeHelper, statService, ObjectHelper,
-            IntygCopyRequestModel, ArendeSvarModel) {
+            IntygCopyRequestModel, ArendeSvarModel, pingService) {
             'use strict';
 
             return {
@@ -46,6 +46,10 @@ angular.module('common').directive('arendePanelSvar',
                     // For readability, keep a local struct with the values used from parent scope
                     var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
                     $scope.arendeSvar = ArendeSvar;
+
+                    $scope.$watch('arendeSvar', function() {
+                        pingService.registerUserAction('edited-arende-details');
+                    }, true);
 
                     $scope.showAnswerPanel = function() {
                         return ArendeSvar.intygProperties.kompletteringOnly ||
