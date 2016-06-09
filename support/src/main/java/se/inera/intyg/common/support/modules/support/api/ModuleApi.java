@@ -26,6 +26,7 @@ import java.util.Map;
 import org.joda.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
