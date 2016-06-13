@@ -35,7 +35,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
 
-import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.common.enumerations.*;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
@@ -228,6 +228,54 @@ public class InternalConverterUtilTest {
         assertEquals(code, result.getValue().getCode());
         assertEquals(codeSystem, result.getValue().getCodeSystem());
         assertEquals(displayName, result.getValue().getDisplayName());
+    }
+
+    @Test
+    public void testSpecialistkompetensAppendsDisplayName() {
+        SpecialistkompetensKod specialistkompetens = SpecialistkompetensKod.ALLERGI;
+        Utlatande utlatande = buildUtlatande(null, null);
+        utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
+        utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens.getCode());
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
+        assertEquals(1, skapadAv.getSpecialistkompetens().size());
+        assertEquals(specialistkompetens.getCode(), skapadAv.getSpecialistkompetens().get(0).getCode());
+        assertEquals(specialistkompetens.getDescription(), skapadAv.getSpecialistkompetens().get(0).getDisplayName());
+    }
+
+    @Test
+    public void testSpecialistkompetensDoNotAppendDisplayNameIfNoSpecialistkompetensKodMatch() {
+        String specialistkompetens = "kod";
+        Utlatande utlatande = buildUtlatande(null, null);
+        utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
+        utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens);
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
+        assertEquals(1, skapadAv.getSpecialistkompetens().size());
+        assertEquals(specialistkompetens, skapadAv.getSpecialistkompetens().get(0).getCode());
+        assertNull(skapadAv.getSpecialistkompetens().get(0).getDisplayName());
+    }
+
+    @Test
+    public void testBefattningAppendsDisplayName() {
+        BefattningKod befattningskod = BefattningKod.LAKARE_LEG_ST;
+        Utlatande utlatande = buildUtlatande(null, null);
+        utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
+        utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattningskod.getCode());
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
+        assertEquals(1, skapadAv.getBefattning().size());
+        assertEquals(befattningskod.getCode(), skapadAv.getBefattning().get(0).getCode());
+        assertEquals(befattningskod.getDescription(), skapadAv.getBefattning().get(0).getDisplayName());
+    }
+
+    @Test
+    public void testBefattningDoNotAppendDisplayNameIfNoSpecialistkompetensKodMatch() {
+        String befattning = "kod";
+        Utlatande utlatande = buildUtlatande(null, null);
+        utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
+        utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattning);
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
+        assertEquals(1, skapadAv.getBefattning().size());
+        assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
+        assertNull(skapadAv.getBefattning().get(0).getDisplayName());
     }
 
     private Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {

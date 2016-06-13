@@ -23,7 +23,9 @@ import java.util.stream.Stream;
 
 public enum RelationKod {
 
-    ERSATT("ERSATT", "Ersätter"), KOMPLT("KOMPLT", "Kompletterar"), FRLANG("FRLANG", "Förlänger");
+    ERSATT("ERSATT", "Ersätter"),
+    KOMPLT("KOMPLT", "Kompletterar"),
+    FRLANG("FRLANG", "Förlänger");
 
     private final String value;
     private final String klartext;
