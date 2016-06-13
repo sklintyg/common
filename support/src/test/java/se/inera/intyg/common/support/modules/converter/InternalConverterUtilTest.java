@@ -52,8 +52,8 @@ public class InternalConverterUtilTest {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
-        final String patientPersonId = "pid";
-        final String skapadAvFullstandigtNamn = "fullstÃ¤ndigt namn";
+        final String patientPersonId = "191212121212";
+        final String skapadAvFullstandigtNamn = "fullständigt namn";
         final String skapadAvPersonId = "skapad av pid";
         final LocalDateTime signeringsdatum = LocalDateTime.now();
         final String arbetsplatsKod = "arbetsplatsKod";
@@ -83,7 +83,7 @@ public class InternalConverterUtilTest {
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
         assertNotNull(intyg.getVersion());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
-        assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
+        assertEquals(InternalConverterUtil.PERSON_ID_ROOT, intyg.getPatient().getPersonId().getRoot());
         assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
         assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
         assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
