@@ -40,7 +40,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
 
 public final class InternalConverterUtil {
 
-    public static final String PERSON_ID_ROOT = "1.2.752.129.2.1.3.3";
+    public static final String PERSON_ID_ROOT = "1.2.752.129.2.1.3.1";
+    public static final String SAMORDNING_ID_ROOT = "1.2.752.129.2.1.3.3";
     public static final String HSA_ID_ROOT = "1.2.752.129.2.1.4.1";
     public static final String CERTIFICATE_CODE_SYSTEM = "f6fb361a-e31d-48b8-8657-99b63912dd9b";
     public static final String BEFATTNING_CODE_SYSTEM = "1.2.752.129.2.2.1.4";
@@ -126,7 +127,7 @@ public final class InternalConverterUtil {
 
     public static PersonId getPersonId(Personnummer pnr) {
         PersonId personId = new PersonId();
-        personId.setRoot(PERSON_ID_ROOT);
+        personId.setRoot(pnr.isSamordningsNummer() ? SAMORDNING_ID_ROOT : PERSON_ID_ROOT);
         personId.setExtension(pnr.getPersonnummerWithoutDash());
         return personId;
     }

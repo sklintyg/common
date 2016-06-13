@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.schemas;
 
-
 public final class Constants {
 
     public static final String HSA_ID_OID = "1.2.752.129.2.1.4.1";
