@@ -70,7 +70,13 @@ angular.module('common').controller('common.IntygHeader',
                         intygId: cert.id,
                         intygType: intygType,
                         patientPersonnummer: cert.grundData.patient.personId,
-                        nyttPatientPersonnummer: $stateParams.patientId
+                        nyttPatientPersonnummer: $stateParams.patientId,
+                        fornamn: $stateParams.fornamn,
+                        efternamn: $stateParams.efternamn,
+                        mellannamn: $stateParams.mellannamn,
+                        postadress: $stateParams.postadress,
+                        postnummer: $stateParams.postnummer,
+                        postort: $stateParams.postort
                     }),
                     isOtherCareUnit
                 );

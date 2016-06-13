@@ -52,6 +52,12 @@ angular.module('common').factory('common.ArendeProxy',
             if (intygCopyRequest.nyttPatientPersonnummer) {
                 payload.nyttPatientPersonnummer = intygCopyRequest.nyttPatientPersonnummer;
             }
+            payload.fornamn = intygCopyRequest.fornamn;
+            payload.efternamn = intygCopyRequest.efternamn;
+            payload.mellannamn = intygCopyRequest.mellannamn;
+            payload.postadress = intygCopyRequest.postadress;
+            payload.postnummer = intygCopyRequest.postnummer;
+            payload.postort = intygCopyRequest.postort;
 
             $http.post(restPath, payload).success(function(data) {
                 $log.debug('got data:' + data.intygsUtkastId);

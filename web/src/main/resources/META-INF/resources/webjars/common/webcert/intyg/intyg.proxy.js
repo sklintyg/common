@@ -97,6 +97,12 @@ angular.module('common').factory('common.IntygProxy',
                 if (intygCopyRequest.nyttPatientPersonnummer) {
                     payload.nyttPatientPersonnummer = intygCopyRequest.nyttPatientPersonnummer;
                 }
+                payload.fornamn = intygCopyRequest.fornamn;
+                payload.efternamn = intygCopyRequest.efternamn;
+                payload.mellannamn = intygCopyRequest.mellannamn;
+                payload.postadress = intygCopyRequest.postadress;
+                payload.postnummer = intygCopyRequest.postnummer;
+                payload.postort = intygCopyRequest.postort;
 
                 var restPath = '/api/intyg/' +
                     intygCopyRequest.intygType +

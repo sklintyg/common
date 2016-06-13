@@ -132,7 +132,13 @@ angular.module('common').directive('arendePanelSvar',
                                 intygId: $scope.parentViewState.intyg.id,
                                 intygType: ArendeSvar.intygProperties.type,
                                 patientPersonnummer: $scope.parentViewState.intyg.grundData.patient.personId,
-                                nyttPatientPersonnummer: $stateParams.patientId
+                                nyttPatientPersonnummer: $stateParams.patientId,
+                                fornamn: $stateParams.fornamn,
+                                efternamn: $stateParams.efternamn,
+                                mellannamn: $stateParams.mellannamn,
+                                postadress: $stateParams.postadress,
+                                postnummer: $stateParams.postnummer,
+                                postort: $stateParams.postort
                             }), function(result) {
 
                                 ArendeSvar.updateInProgress = false;
