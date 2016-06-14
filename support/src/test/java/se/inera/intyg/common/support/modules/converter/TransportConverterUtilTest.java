@@ -20,6 +20,7 @@ import org.w3c.dom.Node;
 import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
@@ -151,6 +152,44 @@ public class TransportConverterUtilTest {
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(null);
         TransportConverterUtil.getCVSvarContent(delsvar);
+    }
+
+    @Test
+    public void testSpecialistkompetensUsesCode() {
+        final String specialistkompetensKod = "kod";
+        HosPersonal source = new HosPersonal();
+        source.setPersonalId(new HsaId());
+        source.setEnhet(new Enhet());
+        source.getEnhet().setEnhetsId(new HsaId());
+        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+        source.getEnhet().setVardgivare(new Vardgivare());
+        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+        Specialistkompetens specialistkompetens = new Specialistkompetens();
+        specialistkompetens.setCode(specialistkompetensKod);
+        specialistkompetens.setDisplayName("klartext");
+        source.getSpecialistkompetens().add(specialistkompetens );
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        assertEquals(1, skapadAv.getSpecialiteter().size());
+        assertEquals(specialistkompetensKod, skapadAv.getSpecialiteter().get(0));
+    }
+
+    @Test
+    public void testBefattningUsesCode() {
+        final String befattningKod = "kod";
+        HosPersonal source = new HosPersonal();
+        source.setPersonalId(new HsaId());
+        source.setEnhet(new Enhet());
+        source.getEnhet().setEnhetsId(new HsaId());
+        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+        source.getEnhet().setVardgivare(new Vardgivare());
+        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+        Befattning befattning = new Befattning();
+        befattning.setCode(befattningKod);
+        befattning.setDisplayName("klartext");
+        source.getBefattning().add(befattning);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        assertEquals(1, skapadAv.getBefattningar().size());
+        assertEquals(befattningKod, skapadAv.getBefattningar().get(0));
     }
 
     private Delsvar buildStringDelsvar(List<String> content) {

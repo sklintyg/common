@@ -21,49 +21,17 @@ package se.inera.intyg.common.support.common.enumerations;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-/**
- * Represents all the codes used by this module to define HoSPersonal.
- */
-public enum BefattningKod {
+public enum SpecialistkompetensKod {
 
-    // Överläkare
-    OVERLAKARE("201010", "Överläkare"),
-
-    // Distriktsläkare/Specialist allmänmedicin
-    DISTRIKTSlAKARE("201011", "Distriktsläkare/Specialist allmänmedicin"),
-
-    // Skolläkare
-    SKOLLAKARE("201012", "Skolläkare"),
-
-    // Företagsläkare
-    FORETAGSLAKARE("201013", "Företagsläkare"),
-
-    // Specialistläkare
-    SPECIALISTLAKARE("202010", "Specialistläkare"),
-
-    // Legitimerad läkare under specialiseringstjänstgöring (STläkare)
-    LAKARE_LEG_ST("203010", "Läkare legitimerad, specialiseringstjänstgöring"),
-
-    // Legitimerad läkare under till exempel vikariat
-    LAKARE_LEG_ANNAN("203090", "Läkare legitimerad, annan"),
-
-    // Ej legitimerad läkare under allmäntjänstgöring (AT-läkare)
-    LAKARE_EJ_LEG_AT("204010", "Läkare ej legitimerad, allmäntjänstgöring"),
-
-    // Ej legitimerad läkare under till exempel vikariat eller provtjänstgöring
-    LAKARE_EJ_LEG_ANNAN("204090", "Läkare ej legitimerad, annan");
-
-    private static String codeSystemName = "Befattning HSA";
-
-    private static String codeSystem = "1.2.752.129.2.2.1.4";
-
-    private static String codeSystemVersion = "3.1";
+    // TODO add more values
+    ALLERGI("1001", "Allergi"),
+    BARN_UNGDOMSKIRURGI("1006", "Barn och ungdoms kirurgi");
 
     private String code;
 
     private String description;
 
-    BefattningKod(String code, String description) {
+    SpecialistkompetensKod(String code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -76,23 +44,11 @@ public enum BefattningKod {
         return this.description;
     }
 
-    public String getCodeSystem() {
-        return codeSystem;
-    }
-
-    public String getCodeSystemName() {
-        return codeSystemName;
-    }
-
-    public String getCodeSystemVersion() {
-        return codeSystemVersion;
-    }
-
     /**
      * Try to get a description from the given code.
      */
     public static Optional<String> getDescriptionFromCode(String code) {
-        return Stream.of(BefattningKod.values())
+        return Stream.of(SpecialistkompetensKod.values())
                 .filter(s -> code.equals(s.getCode()))
                 .findFirst().map(s -> s.getDescription());
     }
@@ -101,7 +57,7 @@ public enum BefattningKod {
      * Try to get a code from the given description.
      */
     public static Optional<String> getCodeFromDescription(String description) {
-        return Stream.of(BefattningKod.values())
+        return Stream.of(SpecialistkompetensKod.values())
                 .filter(s -> description.equals(s.getDescription()))
                 .findFirst().map(s -> s.getCode());
     }

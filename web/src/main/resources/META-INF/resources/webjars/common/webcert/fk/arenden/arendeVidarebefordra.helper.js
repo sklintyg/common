@@ -22,23 +22,23 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
         function ($log, $window, $uibModal, UserModel, UtilsService) {
             'use strict';
 
-            this.buildMailToLink = function(arende) {
+            this.buildMailToLink = function(arendeMailModel) {
                 var baseURL = $window.location.protocol + '//' + $window.location.hostname +
                     ($window.location.port ? ':' + $window.location.port : '');
-                var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
+                var certificateUrlPart = UserModel.isUthopp() ? 'certificate' : 'basic-certificate';
 
-                if(typeof arende.fraga === 'undefined' || typeof arende.fraga.intygId === 'undefined') {
+                if(typeof arendeMailModel.intygId === 'undefined') {
                     $log.error('Invalid intyg id. Cannot create vidarebefordra link');
                     return 'error';
                 }
-                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + arende.fraga.intygId + '/questions';
+                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + '/' + arendeMailModel.intygType + '/' + arendeMailModel.intygId + '/questions';
 
                 var recipient = '';
                 var subject = 'Ett arende ska besvaras i Webcert';
-                if (arende.fraga.enhetsnamn !== undefined) {
-                    subject += ' pa enhet ' + arende.fraga.enhetsnamn;
-                    if (arende.fraga.vardgivarnamn !== undefined) {
-                        subject += ' for vardgivare ' + arende.fraga.vardgivarnamn;
+                if (arendeMailModel.enhetsnamn !== undefined) {
+                    subject += ' pa enhet ' + arendeMailModel.enhetsnamn;
+                    if (arendeMailModel.vardgivarnamn !== undefined) {
+                        subject += ' for vardgivare ' + arendeMailModel.vardgivarnamn;
                     }
                 }
 
@@ -53,13 +53,13 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
             this.handleVidareBefodradToggle = function (arende, onYesCallback) {
                 // Only ask about toggle if not already set AND not skipFlag cookie is
                 // set
-                if (!arende.fraga.vidarebefordrad && !_isSkipVidareBefodradCookieSet()) {
+                if (!arende.vidarebefordrad && !_isSkipVidareBefodradCookieSet()) {
                     this.showVidarebefordradPreferenceDialog(
                         'markforward',
                         'Det verkar som att du har informerat den som ska hantera ärendet. Vill du markera ärendet som vidarebefordrat?',
                         function() { // yes
                             $log.debug('yes');
-                            arende.fraga.vidarebefordrad = true;
+                            arende.vidarebefordrad = true;
                             if (onYesCallback) {
                                 // let calling scope handle yes answer
                                 onYesCallback(arende);

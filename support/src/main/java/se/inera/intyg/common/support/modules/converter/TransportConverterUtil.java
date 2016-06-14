@@ -35,12 +35,14 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.IntygsStatus;
+import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 
 public final class TransportConverterUtil {
@@ -156,8 +158,8 @@ public final class TransportConverterUtil {
 
     public static GrundData getGrundData(Intyg source) {
         GrundData grundData = new GrundData();
-        grundData.setPatient(getPatient(source));
-        grundData.setSkapadAv(getSkapadAv(source));
+        grundData.setPatient(getPatient(source.getPatient()));
+        grundData.setSkapadAv(getSkapadAv(source.getSkapadAv()));
         grundData.setSigneringsdatum(source.getSigneringstidpunkt());
         if (!isNullOrEmpty(source.getRelation())) {
             grundData.setRelation(getRelation(source));
@@ -191,55 +193,55 @@ public final class TransportConverterUtil {
                 certificateStatus.getTidpunkt());
     }
 
-    private static HoSPersonal getSkapadAv(Intyg source) {
+    public static HoSPersonal getSkapadAv(HosPersonal source) {
         HoSPersonal personal = new HoSPersonal();
-        personal.setPersonId(source.getSkapadAv().getPersonalId().getExtension());
-        personal.setFullstandigtNamn(source.getSkapadAv().getFullstandigtNamn());
-        personal.setForskrivarKod(source.getSkapadAv().getForskrivarkod());
-        personal.setVardenhet(getVardenhet(source));
-        for (Befattning befattning : source.getSkapadAv().getBefattning()) {
+        personal.setPersonId(source.getPersonalId().getExtension());
+        personal.setFullstandigtNamn(source.getFullstandigtNamn());
+        personal.setForskrivarKod(source.getForskrivarkod());
+        personal.setVardenhet(getVardenhet(source.getEnhet()));
+        for (Befattning befattning : source.getBefattning()) {
             personal.getBefattningar().add(befattning.getCode());
         }
-        for (Specialistkompetens kompetens : source.getSkapadAv().getSpecialistkompetens()) {
+        for (Specialistkompetens kompetens : source.getSpecialistkompetens()) {
             personal.getSpecialiteter().add(kompetens.getCode());
         }
         return personal;
     }
 
-    private static Vardenhet getVardenhet(Intyg source) {
+    public static Vardenhet getVardenhet(Enhet source) {
         Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setPostort(source.getSkapadAv().getEnhet().getPostort());
-        vardenhet.setPostadress(source.getSkapadAv().getEnhet().getPostadress());
-        vardenhet.setPostnummer(source.getSkapadAv().getEnhet().getPostnummer());
-        vardenhet.setEpost(source.getSkapadAv().getEnhet().getEpost());
-        vardenhet.setEnhetsid(source.getSkapadAv().getEnhet().getEnhetsId().getExtension());
-        vardenhet.setArbetsplatsKod(source.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
-        vardenhet.setEnhetsnamn(source.getSkapadAv().getEnhet().getEnhetsnamn());
-        vardenhet.setTelefonnummer(source.getSkapadAv().getEnhet().getTelefonnummer());
-        vardenhet.setVardgivare(getVardgivare(source));
+        vardenhet.setPostort(source.getPostort());
+        vardenhet.setPostadress(source.getPostadress());
+        vardenhet.setPostnummer(source.getPostnummer());
+        vardenhet.setEpost(source.getEpost());
+        vardenhet.setEnhetsid(source.getEnhetsId().getExtension());
+        vardenhet.setArbetsplatsKod(source.getArbetsplatskod().getExtension());
+        vardenhet.setEnhetsnamn(source.getEnhetsnamn());
+        vardenhet.setTelefonnummer(source.getTelefonnummer());
+        vardenhet.setVardgivare(getVardgivare(source.getVardgivare()));
         return vardenhet;
     }
 
-    private static Vardgivare getVardgivare(Intyg source) {
+    public static Vardgivare getVardgivare(se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare source) {
         Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(source.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
-        vardgivare.setVardgivarnamn(source.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
+        vardgivare.setVardgivarid(source.getVardgivareId().getExtension());
+        vardgivare.setVardgivarnamn(source.getVardgivarnamn());
         return vardgivare;
     }
 
-    private static Patient getPatient(Intyg source) {
+    public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v2.Patient source) {
         Patient patient = new Patient();
-        patient.setEfternamn(source.getPatient().getEfternamn());
-        patient.setFornamn(source.getPatient().getFornamn());
-        patient.setMellannamn(source.getPatient().getMellannamn());
-        patient.setPostort(source.getPatient().getPostort());
-        patient.setPostnummer(source.getPatient().getPostnummer());
-        patient.setPostadress(source.getPatient().getPostadress());
-        patient.setPersonId(new Personnummer(source.getPatient().getPersonId().getExtension()));
-        if (StringUtils.isBlank(source.getPatient().getMellannamn())) {
-            patient.setFullstandigtNamn(source.getPatient().getFornamn() + " " + source.getPatient().getEfternamn());
+        patient.setEfternamn(source.getEfternamn());
+        patient.setFornamn(source.getFornamn());
+        patient.setMellannamn(source.getMellannamn());
+        patient.setPostort(source.getPostort());
+        patient.setPostnummer(source.getPostnummer());
+        patient.setPostadress(source.getPostadress());
+        patient.setPersonId(new Personnummer(source.getPersonId().getExtension()));
+        if (StringUtils.isBlank(source.getMellannamn())) {
+            patient.setFullstandigtNamn(source.getFornamn() + " " + source.getEfternamn());
         } else {
-            patient.setFullstandigtNamn(source.getPatient().getFornamn() + " " + source.getPatient().getMellannamn() + " " + source.getPatient().getEfternamn());
+            patient.setFullstandigtNamn(source.getFornamn() + " " + source.getMellannamn() + " " + source.getEfternamn());
         }
         return patient;
     }

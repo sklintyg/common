@@ -22,18 +22,19 @@
  */
 
 /**
- * arendePanel directive. Common directive for both unhandled and handled questions/answers
+ * arendePanelHeader directive. Component for header of a arende panel.
  */
-angular.module('common').directive('arendePanelHeaderAmne',
+angular.module('common').directive('arendePanelHeader',
     [function() {
             'use strict';
 
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendePanelHeaderAmne.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanelHeader.directive.html',
                 scope: {
-                    arendeListItem: '='
+                    arendeListItem: '=',
+                    parentViewState: '='
                 }
             };
         }]);

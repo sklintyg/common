@@ -17,23 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.modules.support.api.dto;
+/**
+ * Created by BESA on 2015-03-05.
+ */
 
-import org.junit.Test;
+/**
+ * arendePanel directive. Common directive for both unhandled and handled questions/answers
+ */
+angular.module('common').directive('arendePanelHeaderAmne',
+    [function() {
+            'use strict';
 
-import static org.junit.Assert.assertEquals;
-
-public class PatientTest {
-
-    @Test
-    public void testFullstandigtNamnWithMellannamn() {
-        Patient patient = new Patient("Test", "Svensson", "Testsson", new Personnummer("19121212-1212"), null, null, null);
-        assertEquals("Test Svensson Testsson", patient.getFullstandigtNamn());
-    }
-
-    @Test
-    public void testFullstandigtNamnWithoutMellannamn() {
-        Patient patient = new Patient("Test", null, "Testsson", new Personnummer("19121212-1212"), null, null, null);
-        assertEquals("Test Testsson", patient.getFullstandigtNamn());
-    }
-}
+            return {
+                restrict: 'A',
+                replace: true,
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanelHeaderAmne.directive.html',
+                scope: {
+                    arendeListItem: '='
+                }
+            };
+        }]);

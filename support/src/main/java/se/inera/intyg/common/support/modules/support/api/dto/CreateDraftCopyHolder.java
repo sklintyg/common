@@ -20,6 +20,8 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import static org.springframework.util.Assert.notNull;
 
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public class CreateDraftCopyHolder {

@@ -25,14 +25,14 @@
  * arendeVidarebefordra directive. Component for Vidarebefordra button, checkbox and loading animation
  */
 angular.module('common').directive('arendeVidarebefordra',
-    [ '$window', '$log', '$timeout', 'common.ArendeVidarebefordraHelper', 'common.ArendeProxy', 'common.dialogService',
-        function($window, $log, $timeout, ArendeVidarebefordraHelper, ArendeProxy, DialogService) {
+    [ '$window', '$log', '$timeout', 'common.ArendeVidarebefordraHelper', 'common.ArendeProxy', 'common.dialogService', 'common.ObjectHelper',
+        function($window, $log, $timeout, ArendeVidarebefordraHelper, ArendeProxy, DialogService, ObjectHelper) {
             'use strict';
 
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendeVidarebefordra.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendeVidarebefordra.directive.html',
                 scope: {
                     panelId: '@',
                     arendeListItem: '=',
@@ -48,11 +48,22 @@ angular.module('common').directive('arendeVidarebefordra',
                         // Handle vidarebefordra dialog
                         // use timeout so that external mail client has a chance to start before showing dialog
                         $timeout(function() {
-                            ArendeVidarebefordraHelper.handleVidareBefodradToggle(arende,
-                                $scope.onVidareBefordradChange);
+                            ArendeVidarebefordraHelper.handleVidareBefodradToggle(arende.fraga,
+                                $scope.onVidarebefordradChange);
                         }, 1000);
+
                         // Launch mail client
-                        $window.location = ArendeVidarebefordraHelper.buildMailToLink(arende);
+                        if (ObjectHelper.isDefined(arende.fraga)) {
+                            var arendeMailModel = {
+                                intygId: arende.fraga.intygId,
+                                intygType: $scope.parentViewState.intygProperties.type,
+                                enhetsnamn: arende.fraga.enhetsnamn,
+                                vardgivarnamn: arende.fraga.vardgivarnamn
+                            };
+                            $window.location = ArendeVidarebefordraHelper.buildMailToLink(arendeMailModel);
+                        } else {
+                            $log.debug('openMailDialog - cant build mailto link. arande.fraga is not defined');
+                        }
                     };
                     $scope.$parent.onVidarebefordradChange = function() {
                         $scope.forwardInProgress = true;

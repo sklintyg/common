@@ -22,18 +22,25 @@
  */
 
 /**
- * arendePanelHeader directive. Component for header of a arende panel.
+ * arendePanel directive. Common directive for both unhandled and handled questions/answers
  */
-angular.module('common').directive('arendePanelHeader',
-    [function() {
+angular.module('common').directive('arendePanel',
+    [ '$window', '$log', '$timeout', '$state', '$stateParams',
+        'common.User', 'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
+        'common.IntygCopyRequestModel',
+        function($window, $log, $timeout, $state, $stateParams, User, ArendeProxy, statService, ObjectHelper,
+            IntygCopyRequestModel) {
             'use strict';
 
             return {
                 restrict: 'A',
+                transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/arenden/arendePanelHeader.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanel.directive.html',
                 scope: {
+                    panelId: '@',
                     arendeListItem: '=',
+                    arendeList: '=',
                     parentViewState: '='
                 }
             };
