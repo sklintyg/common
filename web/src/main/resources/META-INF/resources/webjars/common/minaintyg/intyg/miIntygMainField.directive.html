@@ -1,0 +1,73 @@
+ <div>
+  <div class="cert-titlebar">
+    <img class="cert-icon" alt="" ng-src="/web/webjars/{{cert.typ}}/minaintyg/img/{{cert.typ}}.png" />
+
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <h2 class="cert-title">
+          <span message key="certificatetypes.{{cert.typ}}.commonname"></span>
+                <span class="cert-titlebar-type">
+                  <span class="text-nowrap" message key="certificatetypes.{{cert.typ}}.typename"></span>
+                </span>
+        </h2>
+      </div>
+      <div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 issue">
+        <span class="cert-titlebar-value">{{cert.grundData.signeringsdatum | date:'shortDate'}}</span>
+              <span>
+                <span message key="{{cert.typ}}.label.issued"></span>
+              </span>
+      </div>
+      <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 archive hidden-xs">
+        <a role="button" data-toggle="modal" id="archiveBtn"
+           title="{{messageService.getProperty('modules.button.alt.archive')}}"
+           ng-click="openArchiveDialog(cert)">
+          <span class="glyphicon glyphicon-folder-close white"></span>
+          <!-- <img alt="Arkivera intyg" src="/img/archive-icon.gif" /> -->
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cert-header">
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 header-row">
+        <h3 class="tag">
+          <span message key="{{cert.typ}}.label.patientname"></span>
+        </h3>
+              <span
+                  id="patient-name">{{cert.grundData.patient.fornamn}} {{ cert.grundData.patient.efternamn }}</span><br />
+        <h3 class="tag">
+          <span message key="{{cert.typ}}.label.civicnumber"></span>
+        </h3>
+        <span id="patient-crn">{{cert.grundData.patient.personId}}</span>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <ng-transclude></ng-transclude>
+      </div>
+    </div>
+    <div class="row border-bottom-resp">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 header-row">
+        <h3 class="tag">
+          <span message key="{{cert.typ}}.label.unit"></span>
+        </h3>
+        <span id="careunit">{{cert.grundData.skapadAv.vardenhet.enhetsnamn}}</span>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <h3 class="tag">
+          <span message key="{{cert.typ}}.label.issuer"></span>
+        </h3>
+        <span id="caregiver">{{cert.grundData.skapadAv.vardenhet.vardgivare.vardgivarnamn}}</span>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col-xs-12 hidden-sm hidden-md hidden-lg header-row">
+        <button type="button" class="btn btn-primary pull-right" ata-toggle="modal"
+                title="{{messageService.getProperty('button.alt.archive')}}"
+                ng-click="openArchiveDialog(cert)">
+          <span class="glyphicon glyphicon-folder-close white"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="table-bottom"></div>
+ </div>
