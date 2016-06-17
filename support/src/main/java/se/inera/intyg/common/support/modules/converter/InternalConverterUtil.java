@@ -31,6 +31,7 @@ import org.joda.time.LocalDate;
 import se.inera.intyg.common.support.common.enumerations.*;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.services.SpecialistkompetensService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Patient;
@@ -79,7 +80,7 @@ public final class InternalConverterUtil {
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
             Specialistkompetens kompetens = new Specialistkompetens();
             kompetens.setCode(sourceKompetens);
-            kompetens.setDisplayName(SpecialistkompetensKod.getDescriptionFromCode(sourceKompetens).orElse(null));
+            kompetens.setDisplayName(SpecialistkompetensService.getDescriptionFromCode(sourceKompetens).orElse(null));
             skapadAv.getSpecialistkompetens().add(kompetens);
         }
         return skapadAv;
