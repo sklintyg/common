@@ -56,7 +56,6 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         assertEquals(HandelsekodEnum.ANDRAT.description(), res.getHandelse().getHandelsekod().getDisplayName());
         assertEquals(handelsetid, res.getHandelse().getTidpunkt());
         assertNotNull(res.getHandelse().getHandelsekod().getCodeSystem());
-        assertNotNull(res.getHandelse().getHandelsekod().getCodeSystemName());
         assertEquals(antalFragor, res.getFragorOchSvar().getAntalFragor());
         assertEquals(antalSvar, res.getFragorOchSvar().getAntalSvar());
         assertEquals(antalHanteradeFragor, res.getFragorOchSvar().getAntalHanteradeFragor());
