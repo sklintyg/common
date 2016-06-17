@@ -41,8 +41,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 
 public class InternalConverterUtilTest {
@@ -276,6 +275,21 @@ public class InternalConverterUtilTest {
         assertEquals(1, skapadAv.getBefattning().size());
         assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
         assertNull(skapadAv.getBefattning().get(0).getDisplayName());
+    }
+
+    @Test
+    public void testPersonnummerRoot() {
+        final Personnummer pnr = new Personnummer("19121212-1212");
+        PersonId res = InternalConverterUtil.getPersonId(pnr);
+        assertEquals(pnr.getPersonnummerWithoutDash(), res.getExtension());
+        assertEquals(InternalConverterUtil.PERSON_ID_ROOT, res.getRoot());
+    }
+    @Test
+    public void testSamordningsRoot() {
+        final Personnummer pnr = new Personnummer("19800191-0002");
+        PersonId res = InternalConverterUtil.getPersonId(pnr);
+        assertEquals(pnr.getPersonnummerWithoutDash(), res.getExtension());
+        assertEquals(InternalConverterUtil.SAMORDNING_ID_ROOT, res.getRoot());
     }
 
     private Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
