@@ -56,6 +56,9 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         assertEquals(HandelsekodEnum.ANDRAT.description(), res.getHandelse().getHandelsekod().getDisplayName());
         assertEquals(handelsetid, res.getHandelse().getTidpunkt());
         assertNotNull(res.getHandelse().getHandelsekod().getCodeSystem());
+        // handelsekod -> codeSystemName is not valid in schema but incorrectly generated in java class
+        // therefore we should not populate this field
+        assertNull(res.getHandelse().getHandelsekod().getCodeSystemName());
         assertEquals(antalFragor, res.getFragorOchSvar().getAntalFragor());
         assertEquals(antalSvar, res.getFragorOchSvar().getAntalSvar());
         assertEquals(antalHanteradeFragor, res.getFragorOchSvar().getAntalHanteradeFragor());
