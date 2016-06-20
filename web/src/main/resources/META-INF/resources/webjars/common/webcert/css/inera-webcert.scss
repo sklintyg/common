@@ -933,3 +933,25 @@ wc cookie banner css.
   }
 
 }
+
+#toggleShowRelatedIntyg {
+  margin-left: 10px;
+}
+
+#intygRelations {
+  max-width: 600px;
+  border: 1px solid #9cd7e3;
+  border-radius: 4px;
+  padding: 10px;
+  table {
+    display: table;
+    margin: 0;
+    td {
+      height: 39px;
+      padding: 0px 10px;
+    }
+    th {
+      padding: 0px 10px;
+    }
+  }
+}

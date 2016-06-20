@@ -27,10 +27,7 @@
           <span message key="{{viewState.common.intyg.type}}.label.certtitle"></span><span wc-help-mark field-tooltip-placement="bottom" field-dynamic-help-text="FRM_2.RBK"></span>
         </h1>
 
-        <div class="inline-block">
-          <label class="control-label" id="patientNamnPersonnummer">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} -
-            {{viewState.intygModel.grundData.patient.personId}}</label>
-        </div>
+        <div wc-intyg-relations></div>
 
         <div wc-new-person-id-message></div>
 

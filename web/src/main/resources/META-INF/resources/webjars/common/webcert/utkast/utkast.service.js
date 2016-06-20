@@ -40,6 +40,7 @@ angular.module('common').factory('common.UtkastService',
                 var def = $q.defer();
                 UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, function(data) {
 
+                    viewState.relations = data.relations;
                     viewState.common.update(viewState.draftModel, data);
 
                     // check that the certs status is not signed
