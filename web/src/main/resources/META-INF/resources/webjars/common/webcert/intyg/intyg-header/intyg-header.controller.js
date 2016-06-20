@@ -76,7 +76,8 @@ angular.module('common').controller('common.IntygHeader',
                         mellannamn: $stateParams.mellannamn,
                         postadress: $stateParams.postadress,
                         postnummer: $stateParams.postnummer,
-                        postort: $stateParams.postort
+                        postort: $stateParams.postort,
+                        coherentJournaling: $stateParams.sjf
                     }),
                     isOtherCareUnit
                 );

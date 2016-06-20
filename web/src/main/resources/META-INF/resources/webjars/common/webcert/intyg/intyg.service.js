@@ -18,8 +18,8 @@
  */
 
 angular.module('common').factory('common.IntygService',
-    [ '$log', '$timeout', '$cookies', '$state', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService',
-        function($log, $timeout, $cookies, $state, $stateParams, dialogService, IntygProxy, authorityService) {
+    [ '$log', '$timeout', '$cookies', '$state', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.ObjectHelper',
+        function($log, $timeout, $cookies, $state, $stateParams, dialogService, IntygProxy, authorityService, ObjectHelper) {
             'use strict';
 
             var _COPY_DIALOG_COOKIE = 'wc.dontShowCopyDialog';
