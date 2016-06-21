@@ -2,7 +2,7 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
     'use strict';
 
     formlyConfig.templateManipulators.preWrapper.push(function(template, options, scope) {
-        var runOnTypes = ['single-text', 'multi-text', 'boolean', 'checkbox-inline', 'radioGroup', 'checkGroup', 'date'];
+        var runOnTypes = ['single-text', 'multi-text', 'boolean', 'checkbox-inline', 'radioGroup', 'checkGroup', 'date', 'singleDate'];
         if (runOnTypes.indexOf(options.type) >= 0) {
             // Check labels on all delfraga with id x.1
             if (options.templateOptions.label && options.templateOptions.label.substring(0, 4) === 'DFR_') {

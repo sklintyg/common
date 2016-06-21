@@ -5,6 +5,9 @@
       <div ng-if="field.key" field-selective-view="field" field-model="intygModel">
         <div ng-switch="field.type">
           <div ng-switch-when="date">
+          <span id="{{field.key}}">{{intygModel[field.key] | date: 'longDate'}}</span>
+        </div>
+          <div ng-switch-when="singleDate">
             <span id="{{field.key}}">{{intygModel[field.key] | date: 'longDate'}}</span>
           </div>
           <div ng-switch-when="boolean">
