@@ -99,6 +99,7 @@ angular.module('common').directive('arendeNew',
                     $scope.toggleArendeForm = function() {
                         ArendeNewViewState.arendeNewOpen = !ArendeNewViewState.arendeNewOpen;
                         if(ArendeNewViewState.arendeNewOpen) {
+                            arendeNewModel.reset();
                             ArendeNewViewState.focusQuestion = true;
                         }
                         ArendeNewViewState.showSentMessage = false;
