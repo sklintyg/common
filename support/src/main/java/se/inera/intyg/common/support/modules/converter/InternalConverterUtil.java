@@ -27,8 +27,10 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
+import org.joda.time.Partial;
 
-import se.inera.intyg.common.support.common.enumerations.*;
+import se.inera.intyg.common.support.common.enumerations.BefattningKod;
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.services.SpecialistkompetensService;
@@ -195,12 +197,26 @@ public final class InternalConverterUtil {
         }
     }
 
+    public static void addIfNotNull(List<Svar> svars, String svarsId, String delsvarsId, Boolean content) {
+        if (content != null) {
+            svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content.toString()).build());
+        }
+    }
+
     public static JAXBElement<DatePeriodType> aDatePeriod(LocalDate from, LocalDate tom) {
         DatePeriodType period = new DatePeriodType();
         period.setStart(from);
         period.setEnd(tom);
         return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "datePeriod"), DatePeriodType.class, null,
                 period);
+    }
+
+    public static JAXBElement<PartialDateType> aPartialDate(PartialDateTypeFormatEnum format, Partial partial) {
+        PartialDateType partialDate = new PartialDateType();
+        partialDate.setFormat(format);
+        partialDate.setValue(partial);
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "partialDate"), PartialDateType.class, null,
+                partialDate);
     }
 
     public static JAXBElement<CVType> aCV(String codeSystem, String code, String displayName) {
