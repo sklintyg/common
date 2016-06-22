@@ -173,6 +173,7 @@ var commonMessages = {
         'common.intyg.relation.status.intyg': 'Signerat',
         'common.intyg.relation.status.utkast': 'Utkast',
         'common.intyg.relation.code.komplt': 'Komplettering',
+        'common.intyg.relation.code.frlang': 'Förlängning',
 
         //common.sit.* messages are candidates for a fk-common messages.js
         'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE:',
