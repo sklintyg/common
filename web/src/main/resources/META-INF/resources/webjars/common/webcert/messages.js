@@ -153,6 +153,7 @@ var commonMessages = {
         'common.arende.fraga.amne.kontkt': 'Kontakt',
         'common.arende.fraga.amne.komplt': 'Komplettering',
         'common.arende.fraga.amne.ovrigt': 'Övrigt',
+        'common.arende.fraga.amne.paminn': 'Påminnelse',
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
