@@ -27,10 +27,13 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
+import org.joda.time.Partial;
 
-import se.inera.intyg.common.support.common.enumerations.*;
+import se.inera.intyg.common.support.common.enumerations.BefattningKod;
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.services.SpecialistkompetensService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Patient;
@@ -40,7 +43,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
 
 public final class InternalConverterUtil {
 
-    public static final String PERSON_ID_ROOT = "1.2.752.129.2.1.3.3";
+    public static final String PERSON_ID_ROOT = "1.2.752.129.2.1.3.1";
+    public static final String SAMORDNING_ID_ROOT = "1.2.752.129.2.1.3.3";
     public static final String HSA_ID_ROOT = "1.2.752.129.2.1.4.1";
     public static final String CERTIFICATE_CODE_SYSTEM = "f6fb361a-e31d-48b8-8657-99b63912dd9b";
     public static final String BEFATTNING_CODE_SYSTEM = "1.2.752.129.2.2.1.4";
@@ -78,7 +82,7 @@ public final class InternalConverterUtil {
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
             Specialistkompetens kompetens = new Specialistkompetens();
             kompetens.setCode(sourceKompetens);
-            kompetens.setDisplayName(SpecialistkompetensKod.getDescriptionFromCode(sourceKompetens).orElse(null));
+            kompetens.setDisplayName(SpecialistkompetensService.getDescriptionFromCode(sourceKompetens).orElse(null));
             skapadAv.getSpecialistkompetens().add(kompetens);
         }
         return skapadAv;
@@ -126,7 +130,7 @@ public final class InternalConverterUtil {
 
     public static PersonId getPersonId(Personnummer pnr) {
         PersonId personId = new PersonId();
-        personId.setRoot(PERSON_ID_ROOT);
+        personId.setRoot(pnr.isSamordningsNummer() ? SAMORDNING_ID_ROOT : PERSON_ID_ROOT);
         personId.setExtension(pnr.getPersonnummerWithoutDash());
         return personId;
     }
@@ -193,12 +197,26 @@ public final class InternalConverterUtil {
         }
     }
 
+    public static void addIfNotNull(List<Svar> svars, String svarsId, String delsvarsId, Boolean content) {
+        if (content != null) {
+            svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content.toString()).build());
+        }
+    }
+
     public static JAXBElement<DatePeriodType> aDatePeriod(LocalDate from, LocalDate tom) {
         DatePeriodType period = new DatePeriodType();
         period.setStart(from);
         period.setEnd(tom);
         return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "datePeriod"), DatePeriodType.class, null,
                 period);
+    }
+
+    public static JAXBElement<PartialDateType> aPartialDate(PartialDateTypeFormatEnum format, Partial partial) {
+        PartialDateType partialDate = new PartialDateType();
+        partialDate.setFormat(format);
+        partialDate.setValue(partial);
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "partialDate"), PartialDateType.class, null,
+                partialDate);
     }
 
     public static JAXBElement<CVType> aCV(String codeSystem, String code, String displayName) {

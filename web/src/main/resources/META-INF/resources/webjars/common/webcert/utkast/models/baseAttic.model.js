@@ -24,7 +24,7 @@ angular.module('common').factory('common.domain.BaseAtticModel',
         var BaseAtticModel = BaseModel._extend({
             init : function init (name, properties){
                 init._super.call(this, name, properties);
-                this.atticModel = atticService.addAtticModel(this);
+                this.atticModel = atticService.addNewAtticModel(this);
             },
             updateToAttic : function updateToAttic(properties){
                 atticService.update(this, properties);

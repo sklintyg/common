@@ -25,10 +25,12 @@ angular.module('common').factory('common.IntygFornyaRequestModel', [
         /**
          * Constructor
          *
+         * parameters intygId, intygType, patientPersonnummer, nyttPatientPersonnummer, fornamn, mellannamn, efternamn, postadress, postnummer, postort
+         *
          * @inherits IntygCopyRequestModel
          */
-        function IntygFornyaRequestModel(intygId, intygType, patientPersonnummer, nyttPatientPersonnummer) {
-            IntygCopyRequestModel.apply(this, [intygId, intygType, patientPersonnummer, nyttPatientPersonnummer]);
+        function IntygFornyaRequestModel(data) {
+            IntygCopyRequestModel.apply(this, [data]);
             this.fornya = true;
         }
 
@@ -36,7 +38,7 @@ angular.module('common').factory('common.IntygFornyaRequestModel', [
         IntygFornyaRequestModel.prototype.constructor = IntygFornyaRequestModel;
 
         IntygFornyaRequestModel.build = function(data) {
-            return new IntygFornyaRequestModel(data.intygId, data.intygType, data.patientPersonnummer, data.nyttPatientPersonnummer);
+            return new IntygFornyaRequestModel(data);
         };
 
         return IntygFornyaRequestModel;

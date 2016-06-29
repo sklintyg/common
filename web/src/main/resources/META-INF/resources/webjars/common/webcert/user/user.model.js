@@ -208,6 +208,14 @@ angular.module('common').factory('common.UserModel',
                 return this.hasRoles() && this.user.roles.VARDADMINISTRATOR !== undefined;
             },
 
+            getAnvandarPreference: function _getAnvandarPreference(prefKey) {
+                return this.user.anvandarPreference[prefKey];
+            },
+
+            setAnvandarPreference: function _setAnvandarPreference(prefKey, prefValue) {
+                this.user.anvandarPreference[prefKey] = prefValue;
+            },
+
             termsAccepted: false,
             transitioning: false
 

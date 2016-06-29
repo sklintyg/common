@@ -35,9 +35,12 @@ angular.module('common').factory('common.IntygProxy',
         /*
          * Load certificate details from the server.
          */
-        function _getIntyg(intygsId, intygsTyp, onSuccess, onError) {
+        function _getIntyg(intygsId, intygsTyp, sjf, onSuccess, onError) {
             $log.debug('_getCertificate id:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId;
+            if (sjf !== undefined) {
+                restPath = restPath + '?sjf=' + sjf ;
+            }
             $http.get(restPath).success(function(data) {
                 $log.debug('_getCertificate data:' + data);
                 onSuccess(data);
@@ -96,6 +99,16 @@ angular.module('common').factory('common.IntygProxy',
                 payload.patientPersonnummer = intygCopyRequest.patientPersonnummer;
                 if (intygCopyRequest.nyttPatientPersonnummer) {
                     payload.nyttPatientPersonnummer = intygCopyRequest.nyttPatientPersonnummer;
+                }
+                payload.fornamn = intygCopyRequest.fornamn;
+                payload.efternamn = intygCopyRequest.efternamn;
+                payload.mellannamn = intygCopyRequest.mellannamn;
+                payload.postadress = intygCopyRequest.postadress;
+                payload.postnummer = intygCopyRequest.postnummer;
+                payload.postort = intygCopyRequest.postort;
+
+                if (intygCopyRequest.coherentJournaling) {
+                    payload.coherentJournaling = intygCopyRequest.coherentJournaling;
                 }
 
                 var restPath = '/api/intyg/' +

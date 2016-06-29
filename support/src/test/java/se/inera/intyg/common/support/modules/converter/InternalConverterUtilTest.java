@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,13 @@ import javax.xml.bind.JAXBElement;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import com.google.common.collect.ImmutableMap;
 
 import se.inera.intyg.common.support.common.enumerations.*;
 import se.inera.intyg.common.support.model.common.internal.*;
@@ -41,19 +48,31 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
+import se.inera.intyg.common.support.services.SpecialistkompetensService;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class InternalConverterUtilTest {
+
+    @Spy
+    private SpecialistkompetensService specialistkompetensService;
+
+    @Before
+    public void setup() throws Exception {
+        specialistkompetensService.init();
+        Field field = SpecialistkompetensService.class.getDeclaredField("codeToDescription");
+        field.setAccessible(true);
+        field.set(specialistkompetensService, ImmutableMap.of("1799", "Hörselrubbningar"));
+    }
 
     @Test
     public void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
-        final String patientPersonId = "pid";
-        final String skapadAvFullstandigtNamn = "fullstÃ¤ndigt namn";
+        final String patientPersonId = "191212121212";
+        final String skapadAvFullstandigtNamn = "fullständigt namn";
         final String skapadAvPersonId = "skapad av pid";
         final LocalDateTime signeringsdatum = LocalDateTime.now();
         final String arbetsplatsKod = "arbetsplatsKod";
@@ -83,7 +102,7 @@ public class InternalConverterUtilTest {
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
         assertNotNull(intyg.getVersion());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
-        assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
+        assertEquals(InternalConverterUtil.PERSON_ID_ROOT, intyg.getPatient().getPersonId().getRoot());
         assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
         assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
         assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
@@ -232,19 +251,20 @@ public class InternalConverterUtilTest {
 
     @Test
     public void testSpecialistkompetensAppendsDisplayName() {
-        SpecialistkompetensKod specialistkompetens = SpecialistkompetensKod.ALLERGI;
+        final String specialistkompetens = "1799";
+        final String description = "Hörselrubbningar";
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
-        utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens.getCode());
+        utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens);
         HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
         assertEquals(1, skapadAv.getSpecialistkompetens().size());
-        assertEquals(specialistkompetens.getCode(), skapadAv.getSpecialistkompetens().get(0).getCode());
-        assertEquals(specialistkompetens.getDescription(), skapadAv.getSpecialistkompetens().get(0).getDisplayName());
+        assertEquals(specialistkompetens, skapadAv.getSpecialistkompetens().get(0).getCode());
+        assertEquals(description, skapadAv.getSpecialistkompetens().get(0).getDisplayName());
     }
 
     @Test
     public void testSpecialistkompetensDoNotAppendDisplayNameIfNoSpecialistkompetensKodMatch() {
-        String specialistkompetens = "kod";
+        final String specialistkompetens = "kod";
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens);
@@ -276,6 +296,21 @@ public class InternalConverterUtilTest {
         assertEquals(1, skapadAv.getBefattning().size());
         assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
         assertNull(skapadAv.getBefattning().get(0).getDisplayName());
+    }
+
+    @Test
+    public void testPersonnummerRoot() {
+        final Personnummer pnr = new Personnummer("19121212-1212");
+        PersonId res = InternalConverterUtil.getPersonId(pnr);
+        assertEquals(pnr.getPersonnummerWithoutDash(), res.getExtension());
+        assertEquals(InternalConverterUtil.PERSON_ID_ROOT, res.getRoot());
+    }
+    @Test
+    public void testSamordningsRoot() {
+        final Personnummer pnr = new Personnummer("19800191-0002");
+        PersonId res = InternalConverterUtil.getPersonId(pnr);
+        assertEquals(pnr.getPersonnummerWithoutDash(), res.getExtension());
+        assertEquals(InternalConverterUtil.SAMORDNING_ID_ROOT, res.getRoot());
     }
 
     private Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {

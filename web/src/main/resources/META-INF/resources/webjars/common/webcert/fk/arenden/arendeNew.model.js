@@ -53,8 +53,12 @@ angular.module('common').factory('common.ArendeNewModel',
                     value: 'OVRIGT'
                 }
             ];
-            this.chosenTopic = this.topics[0]; // 'Välj ämne' is default
-            this.frageText = '';
+            var model = this;
+            this.reset = function() {
+                model.chosenTopic = this.topics[0]; // 'Välj ämne' is default
+                model.frageText = '';
+            };
+            this.reset();
         }
 
         ArendeNewModel.build = function(data) {

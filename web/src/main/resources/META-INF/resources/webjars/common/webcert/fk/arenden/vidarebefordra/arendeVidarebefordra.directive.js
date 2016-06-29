@@ -32,7 +32,7 @@ angular.module('common').directive('arendeVidarebefordra',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendeVidarebefordra.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/vidarebefordra/arendeVidarebefordra.directive.html',
                 scope: {
                     panelId: '@',
                     arendeListItem: '=',

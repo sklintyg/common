@@ -153,6 +153,7 @@ var commonMessages = {
         'common.arende.fraga.amne.kontkt': 'Kontakt',
         'common.arende.fraga.amne.komplt': 'Komplettering',
         'common.arende.fraga.amne.ovrigt': 'Övrigt',
+        'common.arende.fraga.amne.paminn': 'Påminnelse',
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
@@ -162,6 +163,18 @@ var commonMessages = {
         'info.loadingcertificate': 'Hämtar intyget...',
 
         'common.label.diagnoses.more_results': 'Det finns fler träffar än vad som kan visas i listan, förfina sökningen.',
+
+        'common.intyg.relation.showrelated': 'Visa relaterade intyg',
+        'common.intyg.relation.hiderelated': 'Dölj relaterade intyg',
+        'common.intyg.relation.currentlyviewing': 'Visas nu',
+        'common.intyg.relation.show': 'Visa',
+        'common.intyg.relation': 'Relation',
+        'common.intyg.relation.status': 'Status',
+        'common.intyg.relation.date': 'Datum',
+        'common.intyg.relation.status.intyg': 'Signerat',
+        'common.intyg.relation.status.utkast': 'Utkast',
+        'common.intyg.relation.code.komplt': 'Komplettering',
+        'common.intyg.relation.code.frlang': 'Förlängning',
 
         //common.sit.* messages are candidates for a fk-common messages.js
         'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE:',

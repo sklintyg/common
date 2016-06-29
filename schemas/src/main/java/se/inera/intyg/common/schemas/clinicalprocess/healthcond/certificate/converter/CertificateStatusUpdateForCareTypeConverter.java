@@ -42,8 +42,6 @@ public final class CertificateStatusUpdateForCareTypeConverter {
 
     private static final String HANDELSE_CODESYSTEM = "dfd7bbad-dbe5-4a2f-ba25-f7b9b2cc6b14";
 
-    private static final String HANDELSE_CODESYSTEM_NAME = "KV_Händelse";
-
     private CertificateStatusUpdateForCareTypeConverter() {
     }
 
@@ -95,7 +93,6 @@ public final class CertificateStatusUpdateForCareTypeConverter {
     private static void decorateWithHandelse(CertificateStatusUpdateForCareType statusUpdateType, NotificationMessage notificationMessage) {
         Handelsekod handelseKod = new Handelsekod();
         handelseKod.setCodeSystem(HANDELSE_CODESYSTEM);
-        handelseKod.setCodeSystemName(HANDELSE_CODESYSTEM_NAME);
 
         HandelsekodEnum handelseValue = convertToHandelsekod(notificationMessage.getHandelse());
         handelseKod.setCode(handelseValue.value());

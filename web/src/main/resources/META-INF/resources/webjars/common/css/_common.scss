@@ -547,3 +547,12 @@ input.ng-invalid-date {
     vertical-align: bottom;
   }
 }
+
+/*
+  Disablar rensa-kryss-knappen i IE eftersom de inte skickar en change event som angularjs kan lyssna på.
+
+  En workaround kan vara på gång i AngularJS. Se https://github.com/angular/angular.js/issues/11193
+*/
+::-ms-clear {
+  display: none;
+}
