@@ -1,6 +1,6 @@
 <div class="row" ng-if="!parentViewState.intygProperties.kompletteringOnly">
-  <div class="col-xs-9"></div>
-  <div wc-authority="VIDAREBEFORDRA_FRAGASVAR" class="col-xs-3 form-inline arende-panel__vidarebefordra-placement"
+  <div class="col-xs-8"></div>
+  <div wc-authority="VIDAREBEFORDRA_FRAGASVAR" class="col-xs-4 form-inline arende-panel__vidarebefordra-placement"
        ng-show="!parentViewState.intygProperties.isRevoked">
     <div>
       <!--  fraga.status header -->
@@ -13,13 +13,13 @@
       </button>
     </div>
     <div class="relative-anchor">
+      <span style="position: absolute; right: 97px; top: -12px" ng-if="forwardInProgress"><img src="/img/ajax-loader-kit-16x16.gif"></span>
       <label for="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}"
              class="checkbox-inline padding-top-small anchor-right">
         <input id="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox"
                ng-disabled="forwardInProgress"
                ng-model="arendeListItem.arende.fraga.vidarebefordrad"
-               ng-change="onVidarebefordradChange()" /> Vidarebefordrad</label> <span
-        ng-if="forwardInProgress"><img src="/img/ajax-loader-kit-16x16.gif"></span>
+               ng-change="onVidarebefordradChange()" /> Vidarebefordrad</label>
     </div>
   </div>
 </div>
