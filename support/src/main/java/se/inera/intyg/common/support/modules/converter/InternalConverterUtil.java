@@ -29,10 +29,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.Partial;
 
-import se.inera.intyg.common.support.common.enumerations.BefattningKod;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.services.SpecialistkompetensService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
@@ -76,7 +76,7 @@ public final class InternalConverterUtil {
             Befattning befattning = new Befattning();
             befattning.setCodeSystem(BEFATTNING_CODE_SYSTEM);
             befattning.setCode(sourceBefattning);
-            befattning.setDisplayName(BefattningKod.getDescriptionFromCode(sourceBefattning).orElse(null));
+            befattning.setDisplayName(BefattningService.getDescriptionFromCode(sourceBefattning).orElse(null));
             skapadAv.getBefattning().add(befattning);
         }
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
