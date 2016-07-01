@@ -1,0 +1,128 @@
+<div formly-field="" ng-repeat="field in fields " ng-if="!field.hide"
+     class="formly-field ng-scope ng-isolate-scope formly-field-group" options="field" model="field.model || model"
+     original-model="model" fields="fields" form="theFormlyForm" form-id="formly_1" form-state="options.formState"
+     form-options="options" index="$index">
+  <div class="ng-scope">
+    <a id="anchor.vardenhet" name="anchor.vardenhet"></a>
+    <div class="field-fade intyg-block clearfix ng-isolate-scope" wc-field="" field-label="luse.label.vardenhet"
+         field-help-text="" field-has-errors="formState.viewState.common.validationMessagesGrouped[to.categoryName]">
+      <div class="intyg-block__titlerow">
+        <h3 class="intyg-block__heading">
+          <span ng-bind-html="resultValue" ng-if="fieldLabel" message="" key="luse.label.vardenhet"
+                class="ng-binding ng-scope ng-isolate-scope">Vårdenhetens adress</span>
+        </h3>
+        <div class="inline-block ng-scope ng-isolate-scope"
+             ng-if="fieldHelpText != undefined || fieldDynamicHelpText != undefined" wc-help-mark="" field-help-text=""
+             field-dynamic-help-text=""></div>
+      </div>
+      <span class="intyg-block__content" ng-class="{unfilled: filled == 'false', fielderror: fieldHasErrors}">
+        <span class="cert-field-blank ng-hide" ng-hide="filled == 'true'"> <span ng-bind-html="resultValue" message=""
+                                                                               key="common.notset"
+                                                                               class="ng-binding ng-isolate-scope">Ej angivet</span>
+        </span>
+        <span ng-transclude="" ng-show="filled == 'true'" class="">
+          <ng-form class="undefined formly ng-pristine ng-valid ng-scope ng-isolate-scope" name="formly_11" role="form"
+                   model="model" fields="options.fieldGroup" options="options.options" form="options.form"
+                   is-field-group="">
+            <div formly-field="" ng-repeat="field in fields " ng-if="!field.hide"
+                 class="formly-field ng-scope ng-isolate-scope formly-field-label-vardenhet" options="field"
+                 model="field.model || model" original-model="model" fields="fields" form="theFormlyForm"
+                 form-id="formly_11" form-state="options.formState" form-options="options" index="$index"><label
+                class="control-label bold ng-binding ng-scope">NMT vg1 ve2 (TSTNMT2321000156-1039), NMT vg1</label>
+
+              <div class="alert alert-info ng-scope ng-hide" ng-show="hsaInfoMissing">
+                Information om vårdenheten saknas i HSA-katalogen. Be den på vårdenheten som är ansvarig för
+                frågor om HSA att uppdatera informationen.
+              </div>
+            </div>
+            <div formly-field="" ng-repeat="field in fields " ng-if="!field.hide"
+                 class="formly-field ng-scope ng-isolate-scope formly-field-single-text" options="field"
+                 model="field.model || model" original-model="model" fields="fields" form="theFormlyForm"
+                 form-id="formly_11" form-state="options.formState" form-options="options" index="$index">
+              <div id="form_grundData_skapadAv.vardenhet.postadress" class="ng-scope">
+                <div class="form-group form-inline row" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
+                  <div class="col-md-5">
+                    <label class="form-control-label">
+                      <span ng-if="to.staticLabel" class="ng-binding ng-scope">Postadress</span>
+                    </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="text" class="form-control ng-pristine ng-untouched ng-valid input-full"
+                           ng-model="model.grundData.skapadAv.vardenhet.postadress" ng-class="{ 'input-full': to.size }"
+                           id="formly_1_single-text_grundData.skapadAv.vardenhet.postadress_1"
+                           name="formly_1_single-text_grundData.skapadAv.vardenhet.postadress_1"
+                           formly-custom-validation="" data-dpmaxz-eid="21">
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div formly-field="" ng-repeat="field in fields " ng-if="!field.hide"
+                   class="formly-field ng-scope ng-isolate-scope formly-field-single-text" options="field"
+                   model="field.model || model" original-model="model" fields="fields" form="theFormlyForm"
+                   form-id="formly_11" form-state="options.formState" form-options="options" index="$index">
+                <div id="form_grundData_skapadAv.vardenhet.postnummer" class="ng-scope">
+                  <div class="form-group form-inline row" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
+                    <div class="col-md-5">
+                      <label class="form-control-label">
+                        <span ng-if="to.staticLabel" class="ng-binding ng-scope">Postnummer</span>
+                      </label>
+                    </div>
+                    <div class="col-md-7">
+                      <input type="text" class="form-control ng-pristine ng-untouched ng-valid input-5"
+                             ng-model="model.grundData.skapadAv.vardenhet.postnummer" ng-class="{ 'input-5': to.size }"
+                             id="formly_1_single-text_grundData.skapadAv.vardenhet.postnummer_2"
+                             name="formly_1_single-text_grundData.skapadAv.vardenhet.postnummer_2"
+                             formly-custom-validation="" data-dpmaxz-eid="22">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div formly-field="" ng-repeat="field in fields " ng-if="!field.hide"
+                   class="formly-field ng-scope ng-isolate-scope formly-field-single-text" options="field"
+                   model="field.model || model" original-model="model" fields="fields" form="theFormlyForm"
+                   form-id="formly_11" form-state="options.formState" form-options="options" index="$index">
+                <div id="form_grundData_skapadAv.vardenhet.postort" class="ng-scope">
+                  <div class="form-group form-inline row" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
+                    <div class="col-md-5">
+                      <label class="form-control-label">
+                        <span ng-if="to.staticLabel" class="ng-binding ng-scope">Postort</span>
+                      </label>
+                    </div>
+                  <div class="col-md-7">
+                    <input type="text" class="form-control ng-pristine ng-untouched ng-valid"
+                           ng-model="model.grundData.skapadAv.vardenhet.postort" ng-class="{ 'input-': to.size }"
+                           id="formly_1_single-text_grundData.skapadAv.vardenhet.postort_3"
+                           name="formly_1_single-text_grundData.skapadAv.vardenhet.postort_3" formly-custom-validation=""
+                           data-dpmaxz-eid="23">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div formly-field="" ng-repeat="field in fields " ng-if="!field.hide"
+                 class="formly-field ng-scope ng-isolate-scope formly-field-single-text" options="field"
+                 model="field.model || model" original-model="model" fields="fields" form="theFormlyForm"
+                 form-id="formly_11" form-state="options.formState" form-options="options" index="$index">
+              <div id="form_grundData_skapadAv.vardenhet.telefonnummer" class="ng-scope">
+                <div class="form-group form-inline row" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
+                  <div class="col-md-5">
+                    <label class="form-control-label">
+                      <span ng-if="to.staticLabel" class="ng-binding ng-scope">Telefonnummer</span>
+                    </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="text" class="form-control ng-pristine ng-untouched ng-valid"
+                           ng-model="model.grundData.skapadAv.vardenhet.telefonnummer" ng-class="{ 'input-': to.size }"
+                           id="formly_1_single-text_grundData.skapadAv.vardenhet.telefonnummer_4"
+                           name="formly_1_single-text_grundData.skapadAv.vardenhet.telefonnummer_4"
+                           formly-custom-validation="" data-dpmaxz-eid="24">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ng-transclude="" class=""></div>
+          </ng-form>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
