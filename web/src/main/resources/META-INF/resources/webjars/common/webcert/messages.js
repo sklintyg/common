@@ -171,8 +171,6 @@ var commonMessages = {
         'common.intyg.relation': 'Relation',
         'common.intyg.relation.status': 'Status',
         'common.intyg.relation.date': 'Datum',
-        'common.intyg.relation.status.intyg': 'Signerat',
-        'common.intyg.relation.status.utkast': 'Utkast',
         'common.intyg.relation.code.komplt': 'Komplettering',
         'common.intyg.relation.code.frlang': 'Förlängning',
 
