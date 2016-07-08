@@ -1,6 +1,9 @@
 <div class="form-group form-inline">
     <div>
-        <label class="inline-block" ng-class="{'bold' : to.bold}"><span dynamic-label key="{{to.label}}.RBK"></span></label>
+        <label class="inline-block" ng-class="{'bold' : to.bold}">
+            <span dynamic-label key="{{to.label}}.RBK"></span>
+            <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+        </label>
     </div>
 
     <label class="radio-inline">
