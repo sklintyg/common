@@ -24,8 +24,9 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
+        'common.ObjectHelper',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
-            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService,
+            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
             DynamicLabelProxy) {
             'use strict';
 
@@ -38,8 +39,10 @@ angular.module('common').factory('common.UtkastService',
                 var intygsTyp = viewState.common.intyg.type;
                 CommonViewState.doneLoading = false;
                 var def = $q.defer();
-                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, function(data) {
+                var sjf = ObjectHelper.isDefined($stateParams.sjf) ? $stateParams.sjf : false;
 
+                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, sjf, function(data) {
+                    viewState.relations = data.relations;
                     viewState.common.update(viewState.draftModel, data);
 
                     // check that the certs status is not signed

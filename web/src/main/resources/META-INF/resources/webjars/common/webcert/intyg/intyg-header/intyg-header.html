@@ -27,7 +27,7 @@
   <div ng-show="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
     <div class="print-hide">
       <div class="form-group buttonbar">
-        <label class="control-label">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} - {{viewState.intygModel.grundData.patient.personId}}</label>
+        <div wc-intyg-relations></div>
         <div class="btn-row">
           <button type="button" id="sendBtn" class="btn btn-info"
                   ng-if="visaSkickaKnappen()"

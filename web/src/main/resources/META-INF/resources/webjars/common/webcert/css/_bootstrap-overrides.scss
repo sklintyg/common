@@ -50,7 +50,7 @@ $font-1: helvetica;
 $font-2: arial;
 $font-3: sans-serif;
 
-%fonts{
+%fonts {
   font-size: 14px;
   font-family: $font-0, $font-1, $font-2, $font-3;
   text-align: left;
@@ -150,9 +150,8 @@ $font-3: sans-serif;
  * Btn-group overrides
  * --------------------------------------- */
 .btn-group-proto {
-   margin: 10px 0;
+  margin: 10px 0;
 }
-
 
 /* ---------------------------------------
  * Dropdown-menu overrides
@@ -395,4 +394,11 @@ $font-3: sans-serif;
 
 .glyphicon.glyphicon-chevron-down {
   top: 3px;
+}
+
+/* ---------------------------------------
+ * Popover overrides
+ * --------------------------------------- */
+.popover-content {
+    white-space: pre-wrap;
 }

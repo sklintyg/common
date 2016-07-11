@@ -67,7 +67,8 @@ describe('User', function() {
         'totaltAntalVardenheter':6,
         'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
         'role': 'Läkare',
-        'origin': 'NORMAL'
+        'origin': 'NORMAL',
+        'anvandarPreference': {}
     };
 
     beforeEach(angular.mock.module('common', function($provide) {
@@ -295,6 +296,16 @@ describe('User', function() {
 
             expect(onSuccess).not.toHaveBeenCalled();
             expect(onError).toHaveBeenCalled();
+        });
+
+        it('should PUT to store anvandar preference', function() {
+
+            UserModel.setUser(testUser);
+
+            $httpBackend.expectPUT('/api/anvandare/preferences').respond(200, {});
+
+            User.storeAnvandarPreference('key1', 'val1');
+            $httpBackend.flush();
         });
     });
 

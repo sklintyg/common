@@ -1,8 +1,13 @@
 <div>
 
-  <div ng-class="{'panel-container': true, 'revoked-certificate' : intygProperties.isRevoked}">
+  <div ng-class="{'panel-container': true, 'revoked-certificate' : parentViewState.intygProperties.isRevoked}">
 
     <div class="arende-panel" id="arende-{{panelId}}-{{arendeListItem.arende.fraga.internReferens}}">
+
+      <!-- list of paminnelser -->
+      <div ng-repeat="paminnelse in arendeListItem.arende.paminnelser | orderBy:'senasteHandelse':true">
+        <div arende-paminnelse-panel panel-id="panelId" paminnelse="paminnelse" parent-view-state="parentViewState"></div>
+      </div>
 
       <div arende-panel-header arende-list-item="arendeListItem" parent-view-state="parentViewState"></div>
 

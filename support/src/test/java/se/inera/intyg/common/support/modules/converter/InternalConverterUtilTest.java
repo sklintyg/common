@@ -34,36 +34,33 @@ import javax.xml.bind.JAXBElement;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableMap;
 
-import se.inera.intyg.common.support.common.enumerations.*;
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.services.SpecialistkompetensService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class InternalConverterUtilTest {
 
-    @Spy
-    private SpecialistkompetensService specialistkompetensService;
-
-    @Before
-    public void setup() throws Exception {
+    @BeforeClass
+    public static void setup() throws Exception {
+        SpecialistkompetensService specialistkompetensService = new SpecialistkompetensService();
         specialistkompetensService.init();
         Field field = SpecialistkompetensService.class.getDeclaredField("codeToDescription");
         field.setAccessible(true);
         field.set(specialistkompetensService, ImmutableMap.of("1799", "Hörselrubbningar"));
+
+        new BefattningService().init();
     }
 
     @Test
@@ -276,14 +273,15 @@ public class InternalConverterUtilTest {
 
     @Test
     public void testBefattningAppendsDisplayName() {
-        BefattningKod befattningskod = BefattningKod.LAKARE_LEG_ST;
+        final String befattningskod = "203010";
+        final String description = "Läkare legitimerad, specialiseringstjänstgöring";
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
-        utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattningskod.getCode());
+        utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattningskod);
         HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
         assertEquals(1, skapadAv.getBefattning().size());
-        assertEquals(befattningskod.getCode(), skapadAv.getBefattning().get(0).getCode());
-        assertEquals(befattningskod.getDescription(), skapadAv.getBefattning().get(0).getDisplayName());
+        assertEquals(befattningskod, skapadAv.getBefattning().get(0).getCode());
+        assertEquals(description, skapadAv.getBefattning().get(0).getDisplayName());
     }
 
     @Test

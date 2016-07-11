@@ -18,12 +18,12 @@
  */
 
 angular.module('common').factory('common.IntygService',
-    [ '$log', '$timeout', '$cookies', '$state', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService',
-        function($log, $timeout, $cookies, $state, $stateParams, dialogService, IntygProxy, authorityService) {
+    [ '$log', '$timeout', '$state', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.ObjectHelper', 'common.UserModel', 'common.User',
+        function($log, $timeout, $state, $stateParams, dialogService, IntygProxy, authorityService, ObjectHelper, UserModel, userService) {
             'use strict';
 
-            var _COPY_DIALOG_COOKIE = 'wc.dontShowCopyDialog';
-            var _FORNYA_DIALOG_COOKIE = 'wc.dontShowFornyaDialog';
+            var _COPY_DIALOG_PREFERENCE = 'wc.dontShowCopyDialog';
+            var _FORNYA_DIALOG_PREFERENCE = 'wc.dontShowFornyaDialog';
             var copyDialogModel = {
                 isOpen: false,
                 dontShowInfo: null,
@@ -64,12 +64,15 @@ angular.module('common').factory('common.IntygService',
                 var viewState = options.viewState;
                 var closeDialog = options.closeDialog;
                 var dialogModel = options.dialogModel;
-                var dialogCookieKey = options.dialogCookieKey;
+                var dialogPreferenceKey = options.dialogPreferenceKey;
 
                 $log.debug(requestType + ' cert from dialog' + requestData);
-                if (dialogModel.dontShowInfo) {
-                    $cookies.putObject(dialogCookieKey, dialogModel.dontShowInfo);
+
+                // Can't check directly on dialogModel.dontShowInfo, it may have false as its value...
+                if (dialogPreferenceKey && (typeof dialogModel.dontShowInfo !== undefined) && dialogModel.dontShowInfo !== null) {
+                    userService.storeAnvandarPreference(dialogPreferenceKey, dialogModel.dontShowInfo);
                 }
+
 
                 dialogModel.showerror = false;
                 dialogModel.acceptprogressdone = false;
@@ -99,14 +102,15 @@ angular.module('common').factory('common.IntygService',
 
             function _copy(viewState, intygCopyRequest, isOtherCareUnit) {
                 var copyDialog;
-                // Create cookie and model representative
+                // Create preference and model representative
                 copyDialogModel.dontShowInfo = false;
 
-                if($cookies.getObject(_COPY_DIALOG_COOKIE) === undefined) {
-                    $cookies.putObject(_COPY_DIALOG_COOKIE, copyDialogModel.dontShowInfo);
+                if (UserModel.getAnvandarPreference(_COPY_DIALOG_PREFERENCE) === undefined) {
+                    UserModel.setAnvandarPreference(_COPY_DIALOG_PREFERENCE, copyDialogModel.dontShowInfo);
                 }
 
-                if ($cookies.getObject(_COPY_DIALOG_COOKIE)) {
+
+                if (UserModel.getAnvandarPreference(_COPY_DIALOG_PREFERENCE) === true || UserModel.getAnvandarPreference(_COPY_DIALOG_PREFERENCE) === 'true') {
                     $log.debug('copy cert without dialog' + intygCopyRequest);
                     resetViewStateErrorKeys(viewState);
                     _createCopyDraft(intygCopyRequest, function(draftResponse) {
@@ -138,7 +142,7 @@ angular.module('common').factory('common.IntygService',
                                 requestFn: _createCopyDraft,
                                 viewState: viewState,
                                 dialogModel: copyDialogModel,
-                                dialogCookieKey: _COPY_DIALOG_COOKIE,
+                                dialogPreferenceKey: _COPY_DIALOG_PREFERENCE,
                                 closeDialog: function (result) {
                                     copyDialog.close(result);
                                 }
@@ -166,16 +170,17 @@ angular.module('common').factory('common.IntygService',
                 return null;
             }
 
+
             function _fornya(viewState, intygFornyaRequest, isOtherCareUnit) {
                 var fornyaDialog;
-                // Create cookie and model representative
-                fornyaDialogModel.dontShowFornyaInfo = false;
+                // Create preference and model representative
+                fornyaDialogModel.dontShowInfo = false;
 
-                if($cookies.getObject(_FORNYA_DIALOG_COOKIE) === undefined) {
-                    $cookies.putObject(_FORNYA_DIALOG_COOKIE, fornyaDialogModel.dontShowFornyaInfo);
+                if (UserModel.getAnvandarPreference(_FORNYA_DIALOG_PREFERENCE) === undefined) {
+                    UserModel.setAnvandarPreference(_FORNYA_DIALOG_PREFERENCE, fornyaDialogModel.dontShowInfo);
                 }
 
-                if ($cookies.getObject(_FORNYA_DIALOG_COOKIE)) {
+                if (UserModel.getAnvandarPreference(_FORNYA_DIALOG_PREFERENCE) === true || UserModel.getAnvandarPreference(_FORNYA_DIALOG_PREFERENCE) === 'true') {
                     $log.debug('copy cert without dialog' + intygFornyaRequest);
                     resetViewStateErrorKeys(viewState);
                     _createFornyaDraft(intygFornyaRequest, function(draftResponse) {
@@ -207,7 +212,7 @@ angular.module('common').factory('common.IntygService',
                                 requestFn: _createFornyaDraft,
                                 viewState: viewState,
                                 dialogModel: fornyaDialogModel,
-                                dialogCookieKey: _FORNYA_DIALOG_COOKIE,
+                                dialogPreferenceKey: _FORNYA_DIALOG_PREFERENCE,
                                 closeDialog: function (result) {
                                     fornyaDialog.close(result);
                                 }
@@ -399,8 +404,8 @@ angular.module('common').factory('common.IntygService',
             return {
                 makulera: _makulera,
                 send: _send,
-                COPY_DIALOG_COOKIE: _COPY_DIALOG_COOKIE,
-                FORNYA_DIALOG_COOKIE: _FORNYA_DIALOG_COOKIE,
+                COPY_DIALOG_PREFERENCE: _COPY_DIALOG_PREFERENCE,
+                FORNYA_DIALOG_PREFERENCE: _FORNYA_DIALOG_PREFERENCE,
                 copy: _copy,
                 fornya: _fornya,
                 isRevoked: _isRevoked,
