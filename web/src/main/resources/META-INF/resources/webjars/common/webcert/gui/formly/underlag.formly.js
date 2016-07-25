@@ -12,13 +12,13 @@ angular.module('common').run(function(formlyConfig) {
 
             $scope.underlagOptions = [{
                 id: null,
-                label: 'Ange underlag eller utredning'
+                label: 'Ange utredning eller underlag'
             }];
 
             function updateUnderlag() {
                 $scope.underlagOptions = [{
                     id: null,
-                    label: 'Ange underlag eller utredning'
+                    label: 'Ange utredning eller underlag'
                 }];
                 if ($scope.to.underlagsTyper) {
                     $scope.to.underlagsTyper.forEach(function (underlagsTyp) {
