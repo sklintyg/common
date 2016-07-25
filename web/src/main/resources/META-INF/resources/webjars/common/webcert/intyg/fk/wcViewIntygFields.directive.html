@@ -47,6 +47,7 @@
               </div>
               <span id="{{field.key}}-{{$index}}-hamtasFran">{{underlag.hamtasFran}}</span>
             </div>
+            <span class="not-entered" ng-hide="intygModel[field.key].length > 0"> <span message key="common.notset"></span></span>
           </div>
           <div ng-switch-when="diagnos">
             <div ng-repeat="diagnos in intygModel[field.key]">
