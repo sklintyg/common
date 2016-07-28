@@ -102,11 +102,6 @@ public class CertificateHolder {
     private boolean deletedByCareGiver;
 
     /**
-     * If this certificate was wireTapped.
-     */
-    private boolean wireTapped = false;
-
-    /**
      * Certificate states.
      */
     private List<CertificateStateHolder> certificateStates;
@@ -228,14 +223,6 @@ public class CertificateHolder {
         this.deletedByCareGiver = deletedByCareGiver;
     }
 
-    public boolean isWireTapped() {
-        return wireTapped;
-    }
-
-    public void setWireTapped(boolean wireTapped) {
-        this.wireTapped = wireTapped;
-    }
-
     public List<CertificateStateHolder> getCertificateStates() {
         return certificateStates;
     }
@@ -274,7 +261,6 @@ public class CertificateHolder {
         result = prime * result + ((civicRegistrationNumber == null) ? 0 : civicRegistrationNumber.hashCode());
         result = prime * result + (deleted ? 1231 : 1237);
         result = prime * result + (deletedByCareGiver ? 1231 : 1237);
-        result = prime * result + (wireTapped ? 1231 : 1237);
         result = prime * result + ((originalCertificate == null) ? 0 : originalCertificate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (revoked ? 1231 : 1237);
@@ -345,9 +331,6 @@ public class CertificateHolder {
             return false;
         }
         if (deletedByCareGiver != other.deletedByCareGiver) {
-            return false;
-        }
-        if (wireTapped != other.wireTapped) {
             return false;
         }
         if (originalCertificate == null) {
