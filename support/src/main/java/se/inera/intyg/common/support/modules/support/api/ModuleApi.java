@@ -213,7 +213,7 @@ public interface ModuleApi {
     ValidateXmlResponse validateXml(String inputXml) throws ModuleException;
 
     /** Get Arende parameters specific to module such as parameters belonging to a certain frage id. */
-    Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande);
+    Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds);
 
     String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder) throws ModuleException;
 
