@@ -229,20 +229,27 @@ public final class InternalConverterUtil {
     }
 
     public static SvarBuilder aSvar(String id) {
-        return new SvarBuilder(id);
+        return new SvarBuilder(id, null);
+    }
+
+    public static SvarBuilder aSvar(String id, Integer instans) {
+        return new SvarBuilder(id, instans);
     }
 
     public static class SvarBuilder {
         private String id;
+        private Integer instans;
         public List<Delsvar> delSvars = new ArrayList<>();
 
-        SvarBuilder(String id) {
+        SvarBuilder(String id, Integer instans) {
             this.id = id;
+            this.instans = instans;
         }
 
         public Svar build() {
             Svar svar = new Svar();
             svar.setId(id);
+            svar.setInstans(instans);
             svar.getDelsvar().addAll(delSvars);
             return svar;
         }
