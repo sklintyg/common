@@ -48,7 +48,7 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         FragorOchSvar FoS = new FragorOchSvar(antalFragor, antalSvar, antalHanteradeFragor, antalHanteradeSvar);
 
         NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", FoS,
-                SchemaVersion.VERSION_2);
+                SchemaVersion.VERSION_2, "ref");
         CertificateStatusUpdateForCareType res = CertificateStatusUpdateForCareTypeConverter.convert(msg, intyg);
 
         assertEquals(intyg, res.getIntyg());
@@ -103,7 +103,7 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         enhet.getVardgivare().setVardgivarnamn(vardgivarnamn);
 
         NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", new FragorOchSvar(4, 3, 2, 1),
-                SchemaVersion.VERSION_2);
+                SchemaVersion.VERSION_2, "ref");
         CertificateStatusUpdateForCareType res = CertificateStatusUpdateForCareTypeConverter.convert(msg, intyg);
 
         assertEquals(arbetsplatskod, res.getIntyg().getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
