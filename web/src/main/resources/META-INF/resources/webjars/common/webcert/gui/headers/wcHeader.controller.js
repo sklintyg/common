@@ -19,9 +19,9 @@
 
 angular.module('common').controller('common.wcHeaderController',
     ['$rootScope','$anchorScroll', '$cookies', '$location', '$log', '$uibModal', '$scope', '$state', '$window', 'common.dialogService',
-        'common.featureService', 'common.messageService', 'common.statService', 'common.User', 'common.UserModel',
+        'common.featureService', 'common.messageService', 'common.statService', 'common.User', 'common.UserModel', 'moduleConfig',
         function($rootScope, $anchorScroll, $cookies, $location, $log, $uibModal, $scope, $state, $window, dialogService,
-            featureService, messageService, statService, User, UserModel) {
+            featureService, messageService, statService, User, UserModel, moduleConfig) {
             'use strict';
 
             //Expose 'now' as a model property for the template to render as todays date
@@ -227,8 +227,8 @@ angular.module('common').controller('common.wcHeaderController',
             }
 
             $scope.goToPrivatPortalen = function(){
-                var link = $window.MODULE_CONFIG.PP_HOST;
-                link += '?from=' + window.encodeURIComponent($window.MODULE_CONFIG.DASHBOARD_URL + '#' + $location.path());
+                var link = moduleConfig.PP_HOST;
+                link += '?from=' + window.encodeURIComponent(moduleConfig.DASHBOARD_URL + '#' + $location.path());
                 $window.location.href = link;
             };
 

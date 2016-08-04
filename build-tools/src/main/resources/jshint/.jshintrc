@@ -42,7 +42,6 @@
 		"xdescribe": false,
 		
 		// actual custom globals
-        "MODULE_CONFIG": false,
         "element": false,
 		"inject": false,
         "by": false,
