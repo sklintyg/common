@@ -88,7 +88,7 @@ public class CertificateHolder {
     private String additionalInfo;
 
     /**
-     * Deleted flag.
+     * If this certificate is archived by the citizen.
      */
     private boolean deleted;
 
