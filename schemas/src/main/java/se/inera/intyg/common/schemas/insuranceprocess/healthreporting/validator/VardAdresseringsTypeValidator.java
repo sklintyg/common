@@ -23,7 +23,7 @@ import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresserin
 import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
-import se.inera.intyg.common.schemas.Constants;
+import se.inera.intyg.common.support.Constants;
 
 import java.util.List;
 

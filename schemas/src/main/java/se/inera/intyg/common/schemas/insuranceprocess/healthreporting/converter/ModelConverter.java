@@ -29,8 +29,8 @@ import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.Lakarutlatande
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
-import se.inera.intyg.common.schemas.Constants;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
+import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;

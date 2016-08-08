@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.converter;
 
+import static se.inera.intyg.common.support.Constants.KV_HANDELSE_CODE_SYSTEM;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +41,6 @@ public final class CertificateStatusUpdateForCareTypeConverter {
     protected static final String TEMPORARY_PHONE_NUMBER = "TEMPORARY PHONE NUMBER";
 
     private static final Logger LOG = LoggerFactory.getLogger(CertificateStatusUpdateForCareTypeConverter.class);
-
-    private static final String HANDELSE_CODESYSTEM = "dfd7bbad-dbe5-4a2f-ba25-f7b9b2cc6b14";
 
     private CertificateStatusUpdateForCareTypeConverter() {
     }
@@ -98,7 +98,7 @@ public final class CertificateStatusUpdateForCareTypeConverter {
 
     private static void decorateWithHandelse(CertificateStatusUpdateForCareType statusUpdateType, NotificationMessage notificationMessage) {
         Handelsekod handelseKod = new Handelsekod();
-        handelseKod.setCodeSystem(HANDELSE_CODESYSTEM);
+        handelseKod.setCodeSystem(KV_HANDELSE_CODE_SYSTEM);
 
         HandelsekodEnum handelseValue = convertToHandelsekod(notificationMessage.getHandelse());
         handelseKod.setCode(handelseValue.value());

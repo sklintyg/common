@@ -99,7 +99,7 @@ public class InternalConverterUtilTest {
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
         assertNotNull(intyg.getVersion());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
-        assertEquals(InternalConverterUtil.PERSON_ID_ROOT, intyg.getPatient().getPersonId().getRoot());
+        assertEquals("1.2.752.129.2.1.3.1", intyg.getPatient().getPersonId().getRoot());
         assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
         assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
         assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
@@ -301,14 +301,14 @@ public class InternalConverterUtilTest {
         final Personnummer pnr = new Personnummer("19121212-1212");
         PersonId res = InternalConverterUtil.getPersonId(pnr);
         assertEquals(pnr.getPersonnummerWithoutDash(), res.getExtension());
-        assertEquals(InternalConverterUtil.PERSON_ID_ROOT, res.getRoot());
+        assertEquals("1.2.752.129.2.1.3.1", res.getRoot());
     }
     @Test
     public void testSamordningsRoot() {
         final Personnummer pnr = new Personnummer("19800191-0002");
         PersonId res = InternalConverterUtil.getPersonId(pnr);
         assertEquals(pnr.getPersonnummerWithoutDash(), res.getExtension());
-        assertEquals(InternalConverterUtil.SAMORDNING_ID_ROOT, res.getRoot());
+        assertEquals("1.2.752.129.2.1.3.3", res.getRoot());
     }
 
     private Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
