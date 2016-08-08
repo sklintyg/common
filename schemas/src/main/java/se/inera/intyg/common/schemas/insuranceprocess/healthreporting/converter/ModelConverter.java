@@ -33,7 +33,6 @@ import se.inera.intyg.common.schemas.Constants;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.util.Iterables;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 
@@ -58,7 +57,7 @@ public final class ModelConverter {
 
         CertificateMetaType meta = builder.build();
 
-        Iterables.addAll(meta.getStatus(), CertificateStateHolderConverter.toCertificateStatusType(source.getCertificateStates()));
+        meta.getStatus().addAll(CertificateStateHolderConverter.toCertificateStatusType(source.getCertificateStates()));
         return builder.build();
     }
 
