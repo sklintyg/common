@@ -41,9 +41,9 @@ angular.module('common').directive('wcIntygLabel',
                         if (questionIds.length === 2 && questionIds[1] === '1') {
                             var frageId = 'FRG_' + questionIds[0];
                             scope.$on('dynamicLabels.updated', function() {
-                                if (dynamicLabelService.getProperty(frageId + '.RBK')) {
+                                if (dynamicLabelService.hasProperty(frageId + '.RBK')) {
                                     scope.h4Label = frageId + '.RBK';
-                                    if (!dynamicLabelService.getProperty(scope.wcIntygLabel + '.RBK')) {
+                                    if (!dynamicLabelService.hasProperty(scope.wcIntygLabel + '.RBK')) {
                                         scope.h5Label = null;
                                     }
                                 }

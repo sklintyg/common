@@ -14,8 +14,8 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
                     scope.showFrageLabel = false;
                     scope.frageId = 'FRG_' + questionIds[0];
                     scope.$on('dynamicLabels.updated', function() {
-                        if (dynamicLabelService.getProperty(scope.frageId + '.RBK')) {
-                            if (dynamicLabelService.getProperty(options.templateOptions.label + '.RBK')) {
+                        if (dynamicLabelService.hasProperty(scope.frageId + '.RBK')) {
+                            if (dynamicLabelService.hasProperty(options.templateOptions.label + '.RBK')) {
                                 scope.showFrageLabel = true;
                             }
                             else {

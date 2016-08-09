@@ -22,25 +22,13 @@ package se.inera.intyg.common.services.texts.model;
 public class Tillaggsfraga implements Comparable<Tillaggsfraga> {
 
     private final String id;
-    private final String text;
-    private final String help;
 
-    public Tillaggsfraga(String id, String text, String help) {
+    public Tillaggsfraga(String id) {
         this.id = id;
-        this.text = text;
-        this.help = help;
     }
 
     public String getId() {
         return id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getHelp() {
-        return help;
     }
 
     @Override
