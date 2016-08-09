@@ -80,6 +80,9 @@ public final class TransportConverterUtil {
                 Node node = (Node) o;
                 NodeList list = node.getChildNodes();
                 for (int i = 0; i < list.getLength(); i++) {
+                    if (Node.ELEMENT_NODE != list.item(i).getNodeType()) {
+                        continue;
+                    }
                     String textContent = list.item(i).getTextContent();
                     switch (list.item(i).getNodeName()) {
                     case "ns3:code":
@@ -130,6 +133,9 @@ public final class TransportConverterUtil {
                 Node node = (Node) o;
                 NodeList list = node.getChildNodes();
                 for (int i = 0; i < list.getLength(); i++) {
+                    if (Node.ELEMENT_NODE != list.item(i).getNodeType()) {
+                        continue;
+                    }
                     String textContent = list.item(i).getTextContent();
                     switch (list.item(i).getNodeName()) {
                     case "ns3:start":

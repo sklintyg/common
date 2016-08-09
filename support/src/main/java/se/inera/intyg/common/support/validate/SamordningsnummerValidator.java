@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.validate;
 
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
+
 import org.apache.commons.lang3.CharUtils;
 import org.joda.time.LocalDate;
 
@@ -32,11 +34,6 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
 
     private static final int SAMORDNING_MONTH_INDEX = 6;
     private static final int SAMORDNING_MONTH_VALUE_MIN = 6;
-
-    /**
-     * The root for samordningsnummer.
-     */
-    public static final String SAMORDNINGSNUMMER_ROOT = "1.2.752.129.2.1.3.3";
 
     /**
      * Controls if a civic registration number is a 'samordningsnummer' or not.
@@ -53,7 +50,7 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
      */
     @Override
     public String getRoot() {
-        return SAMORDNINGSNUMMER_ROOT;
+        return SAMORDNING_ID_OID;
     }
 
     /**
@@ -61,6 +58,7 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
      * of the citizen, this needs to be substracted.
      */
     // CHECKSTYLE:OFF MagicNumber
+    @Override
     protected LocalDate getBirthDay(String personNummer) throws IllegalArgumentException {
         if (!isSamordningsNummer(personNummer)) {
             throw new IllegalArgumentException("personNummer " + personNummer + " is not a valid 'samordningsnummer");

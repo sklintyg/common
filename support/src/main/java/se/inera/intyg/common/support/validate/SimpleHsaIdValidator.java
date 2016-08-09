@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.validate;
 
+import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -35,9 +37,6 @@ import java.util.regex.Pattern;
  */
 public class SimpleHsaIdValidator implements RootValidator {
 
-    /** The root of HSA-ids. */
-    private static final String HSA_ROOT = "1.2.752.129.2.1.4.1";
-
     /** Regex pattern HSA-ids should conform to. */
     private static final Pattern HSA_VALID_PATTERN = Pattern.compile("[A-Z]{2,4}(?:16)?([0-9]{10})\\-(.*)");
 
@@ -51,7 +50,7 @@ public class SimpleHsaIdValidator implements RootValidator {
      */
     @Override
     public String getRoot() {
-        return HSA_ROOT;
+        return HSA_ID_OID;
     }
 
     /**

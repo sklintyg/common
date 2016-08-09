@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import static se.inera.intyg.common.support.model.converter.util.CertificateStateHolderUtil.isArchived;
-
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -31,11 +29,10 @@ import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.Lakarutlatande
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
-import se.inera.intyg.common.schemas.Constants;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
+import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.util.Iterables;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 
@@ -56,11 +53,11 @@ public final class ModelConverter {
                 .issuerName(source.getSigningDoctorName())
                 .facilityName(source.getCareUnitName())
                 .signDate(toLocalDate(source.getSignedDate()))
-                .available(String.valueOf(!isArchived(source.getCertificateStates())));
+                .available(String.valueOf(!source.isDeleted()));
 
         CertificateMetaType meta = builder.build();
 
-        Iterables.addAll(meta.getStatus(), CertificateStateHolderConverter.toCertificateStatusType(source.getCertificateStates()));
+        meta.getStatus().addAll(CertificateStateHolderConverter.toCertificateStatusType(source.getCertificateStates()));
         return builder.build();
     }
 

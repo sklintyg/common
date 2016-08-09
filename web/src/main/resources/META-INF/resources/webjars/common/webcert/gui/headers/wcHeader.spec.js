@@ -28,6 +28,7 @@ describe('wcHeader', function() {
     var statService;
     var featureService;
     var authorityService;
+    var moduleConfig;
     var $compile, $rootScope, $httpBackend, $controller, $templateCache;
 
     var testUserContext = {
@@ -150,11 +151,18 @@ describe('wcHeader', function() {
         $provide.value('common.featureService', featureService); // jasmine.createSpyObj('common.featureService',
                                                                     // ['isFeatureActive'])
     }));
+    beforeEach(angular.mock.module(function($provide) {
+        var testConfig = {
+            PP_HOST: 'localhost:8090',
+            DASHBOARD_URL: '/web/dashboard'
+        };
+        $provide.constant('moduleConfig', testConfig);
+    }));
 
     beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache', '$window',
-        'common.User','common.UserModel', 'common.statService', 'common.featureService', 'common.authorityService',
+        'common.User','common.UserModel', 'common.statService', 'common.featureService', 'common.authorityService', 'moduleConfig',
         function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _$window_, _User_, _UserModel_, _statService_,
-            _featureService_, _authorityService_) {
+            _featureService_, _authorityService_, _moduleConfig_) {
             $scope = _$rootScope_.$new();
             User = _User_;
             UserModel = _UserModel_;
@@ -169,10 +177,7 @@ describe('wcHeader', function() {
             $controller = _$controller_;
             $templateCache = _$templateCache_;
             $window = _$window_;
-            $window.MODULE_CONFIG = {
-                    PP_HOST: 'localhost:8090',
-                    DASHBOARD_URL: '/web/dashboard'
-            };
+            moduleConfig = _moduleConfig_;
 
             // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast
             // from statService

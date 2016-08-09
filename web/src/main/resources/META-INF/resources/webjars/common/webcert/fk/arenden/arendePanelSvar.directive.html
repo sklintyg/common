@@ -42,7 +42,7 @@
           <div class="pull-left" ng-switch="arendeSvar.frageStallare | lowercase">
             <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
             Från: <span ng-switch-when="wc"><span class="arende-sender" message
-                                                  key="arende.fragestallare.fk"></span></span>
+                                                  key="common.arende.fragestallare.fk"></span></span>
             <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
             <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeSvar.internReferens}}"
                   class="arende-sender">{{arendeSvar.vardaktorNamn}}</span>

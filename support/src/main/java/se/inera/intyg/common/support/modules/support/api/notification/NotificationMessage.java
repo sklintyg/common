@@ -24,6 +24,8 @@ import org.joda.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
+
 public class NotificationMessage {
 
     private String intygsId;
@@ -34,9 +36,11 @@ public class NotificationMessage {
 
     private LocalDateTime handelseTid;
 
-    private HandelseType handelse;
+    private HandelsekodEnum handelse;
 
     private SchemaVersion version;
+
+    private String reference;
 
     // The reason why this is an Object is that when serializing with @JsonRawValue (below), it works as intended even
     // if this is a string. However, deserializing doesn't work without the deserialized json in this attribute being
@@ -46,8 +50,8 @@ public class NotificationMessage {
     private FragorOchSvar fragaSvar;
 
     // CHECKSTYLE:OFF ParameterNumber
-    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelseType handelse, String logiskAdress,
-            String utkastJson, FragorOchSvar fragaSvar, SchemaVersion version) {
+    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse, String logiskAdress,
+            String utkastJson, FragorOchSvar fragaSvar, SchemaVersion version, String reference) {
         super();
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
@@ -57,6 +61,7 @@ public class NotificationMessage {
         this.utkastJson = utkastJson;
         this.fragaSvar = fragaSvar;
         this.version = version;
+        this.setReference(reference);
     }
     // CHECKSTYLE:ON ParameterNumber
 
@@ -66,7 +71,7 @@ public class NotificationMessage {
     @Override
     public String toString() {
         return "NotificationMessage [intygsId=" + intygsId + ", intygsTyp=" + intygsTyp + ", logiskAdress=" + logiskAdress + ", handelseTid="
-                + handelseTid + ", handelse=" + handelse + ", version=" + version + "]";
+                + handelseTid + ", handelse=" + handelse + ", version=" + version + ", ref=" + getReference() + "]";
     }
 
     public String getIntygsId() {
@@ -85,7 +90,7 @@ public class NotificationMessage {
         return handelseTid;
     }
 
-    public HandelseType getHandelse() {
+    public HandelsekodEnum getHandelse() {
         return handelse;
     }
 
@@ -114,7 +119,7 @@ public class NotificationMessage {
         this.handelseTid = handelseTid;
     }
 
-    public void setHandelse(HandelseType handelse) {
+    public void setHandelse(HandelsekodEnum handelse) {
         this.handelse = handelse;
     }
 
@@ -132,6 +137,14 @@ public class NotificationMessage {
 
     public void setVersion(SchemaVersion version) {
         this.version = version;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
 }

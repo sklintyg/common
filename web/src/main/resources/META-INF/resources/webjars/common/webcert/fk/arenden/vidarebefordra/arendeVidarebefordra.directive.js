@@ -25,7 +25,8 @@
  * arendeVidarebefordra directive. Component for Vidarebefordra button, checkbox and loading animation
  */
 angular.module('common').directive('arendeVidarebefordra',
-    [ '$window', '$log', '$timeout', 'common.ArendeVidarebefordraHelper', 'common.ArendeProxy', 'common.dialogService', 'common.ObjectHelper',
+    ['$window', '$log', '$timeout', 'common.ArendeVidarebefordraHelper', 'common.ArendeProxy', 'common.dialogService',
+        'common.ObjectHelper',
         function($window, $log, $timeout, ArendeVidarebefordraHelper, ArendeProxy, DialogService, ObjectHelper) {
             'use strict';
 
@@ -40,7 +41,7 @@ angular.module('common').directive('arendeVidarebefordra',
                 },
                 controller: function($scope, $element, $attrs) {
 
-                    $scope.forwardInProgress = false;
+                    $scope.$parent.forwardInProgress = false;
 
                     // NOTE: $parent is needed since ng-if for wc-authority in the templates
                     // creates a new isolate scope and these functions won't be accessible if set directly on
@@ -66,19 +67,20 @@ angular.module('common').directive('arendeVidarebefordra',
                         }
                     };
                     $scope.$parent.onVidarebefordradChange = function() {
-                        $scope.forwardInProgress = true;
-
+                        $scope.$parent.forwardInProgress = true;
                         ArendeProxy.setVidarebefordradState($scope.arendeListItem.arende.fraga.internReferens,
                             $scope.parentViewState.intygProperties.type,
                             $scope.arendeListItem.arende.fraga.vidarebefordrad,
                             function(result) {
-                                $scope.forwardInProgress = false;
+                                $scope.$parent.forwardInProgress = false;
                                 if (result !== null && result.fraga) {
-                                    $scope.arendeListItem.arende.fraga.vidarebefordrad = result.fraga.vidarebefordrad;
+                                    $scope.arendeListItem.arende.fraga.vidarebefordrad =
+                                        result.fraga.vidarebefordrad;
                                 } else {
                                     $scope.arendeListItem.arende.fraga.vidarebefordrad =
                                         !$scope.arendeListItem.arende.fraga.vidarebefordrad;
-                                    DialogService.showErrorMessageDialog('Kunde inte markera/avmarkera frågan som vidarebefordrad. ' +
+                                    DialogService.showErrorMessageDialog(
+                                        'Kunde inte markera/avmarkera frågan som vidarebefordrad. ' +
                                         'Försök gärna igen för att se om felet är tillfälligt. Annars kan du kontakta supporten');
                                 }
                             });

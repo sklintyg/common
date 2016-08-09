@@ -28,11 +28,13 @@ angular.module('common').directive('wcIntygRelations',
 
                     $scope.gotoRelatedIntyg = function(intyg) {
                         var intygType = IntygViewState.intygProperties.type || $scope.viewState.common.intyg.type;
-                        if (intyg.status === 'INTYG') {
-                            $state.go('webcert.intyg.fk.' + intygType, {certificateId: intyg.intygsId});
-                        }
-                        else {
+                        if (intyg.status === 'DRAFT_INCOMPLETE' || intyg.status === 'DRAFT_COMPLETE')
+                        {
                             $state.go(intygType + '-edit', {certificateId: intyg.intygsId});
+                        }
+                        else
+                        {
+                            $state.go('webcert.intyg.fk.' + intygType, {certificateId: intyg.intygsId});
                         }
                     };
 

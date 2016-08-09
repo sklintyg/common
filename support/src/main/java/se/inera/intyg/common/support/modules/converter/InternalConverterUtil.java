@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.modules.converter;
 
+import static se.inera.intyg.common.support.Constants.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +31,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.Partial;
 
-import se.inera.intyg.common.support.common.enumerations.BefattningKod;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.services.SpecialistkompetensService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
@@ -42,14 +44,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
 
 public final class InternalConverterUtil {
-
-    public static final String PERSON_ID_ROOT = "1.2.752.129.2.1.3.1";
-    public static final String SAMORDNING_ID_ROOT = "1.2.752.129.2.1.3.3";
-    public static final String HSA_ID_ROOT = "1.2.752.129.2.1.4.1";
-    public static final String CERTIFICATE_CODE_SYSTEM = "f6fb361a-e31d-48b8-8657-99b63912dd9b";
-    public static final String BEFATTNING_CODE_SYSTEM = "1.2.752.129.2.2.1.4";
-    public static final String ARBETSPLATSKOD_ROOT = "1.2.752.29.4.71";
-    public static final String RELATION_CODE_SYSTEM = "c2362fcd-eda0-4f9a-bd13-b3bbaf7f2146";
 
     private InternalConverterUtil() {
     }
@@ -74,9 +68,9 @@ public final class InternalConverterUtil {
         skapadAv.setEnhet(getEnhet(hoSPersonal.getVardenhet()));
         for (String sourceBefattning : hoSPersonal.getBefattningar()) {
             Befattning befattning = new Befattning();
-            befattning.setCodeSystem(BEFATTNING_CODE_SYSTEM);
+            befattning.setCodeSystem(BEFATTNING_KOD_OID);
             befattning.setCode(sourceBefattning);
-            befattning.setDisplayName(BefattningKod.getDescriptionFromCode(sourceBefattning).orElse(null));
+            befattning.setDisplayName(BefattningService.getDescriptionFromCode(sourceBefattning).orElse(null));
             skapadAv.getBefattning().add(befattning);
         }
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
@@ -104,7 +98,7 @@ public final class InternalConverterUtil {
 
     public static ArbetsplatsKod getArbetsplatsKod(String sourceArbetsplatsKod) {
         ArbetsplatsKod arbetsplatsKod = new ArbetsplatsKod();
-        arbetsplatsKod.setRoot(ARBETSPLATSKOD_ROOT);
+        arbetsplatsKod.setRoot(ARBETSPLATS_KOD_OID);
         arbetsplatsKod.setExtension(sourceArbetsplatsKod);
         return arbetsplatsKod;
     }
@@ -130,7 +124,7 @@ public final class InternalConverterUtil {
 
     public static PersonId getPersonId(Personnummer pnr) {
         PersonId personId = new PersonId();
-        personId.setRoot(pnr.isSamordningsNummer() ? SAMORDNING_ID_ROOT : PERSON_ID_ROOT);
+        personId.setRoot(pnr.isSamordningsNummer() ? SAMORDNING_ID_OID : PERSON_ID_OID);
         personId.setExtension(pnr.getPersonnummerWithoutDash());
         return personId;
     }
@@ -158,7 +152,7 @@ public final class InternalConverterUtil {
 
         TypAvRelation typAvRelation = new TypAvRelation();
         typAvRelation.setCode(source.getGrundData().getRelation().getRelationKod().value());
-        typAvRelation.setCodeSystem(RELATION_CODE_SYSTEM);
+        typAvRelation.setCodeSystem(KV_RELATION_CODE_SYSTEM);
         typAvRelation.setDisplayName(source.getGrundData().getRelation().getRelationKod().getKlartext());
 
         relation.setIntygsId(intygId);
@@ -169,7 +163,7 @@ public final class InternalConverterUtil {
 
     public static HsaId getHsaId(String id) {
         HsaId hsaId = new HsaId();
-        hsaId.setRoot(HSA_ID_ROOT);
+        hsaId.setRoot(HSA_ID_OID);
         hsaId.setExtension(id);
         return hsaId;
     }
@@ -228,20 +222,27 @@ public final class InternalConverterUtil {
     }
 
     public static SvarBuilder aSvar(String id) {
-        return new SvarBuilder(id);
+        return new SvarBuilder(id, null);
+    }
+
+    public static SvarBuilder aSvar(String id, Integer instans) {
+        return new SvarBuilder(id, instans);
     }
 
     public static class SvarBuilder {
         private String id;
+        private Integer instans;
         public List<Delsvar> delSvars = new ArrayList<>();
 
-        SvarBuilder(String id) {
+        SvarBuilder(String id, Integer instans) {
             this.id = id;
+            this.instans = instans;
         }
 
         public Svar build() {
             Svar svar = new Svar();
             svar.setId(id);
+            svar.setInstans(instans);
             svar.getDelsvar().addAll(delSvars);
             return svar;
         }

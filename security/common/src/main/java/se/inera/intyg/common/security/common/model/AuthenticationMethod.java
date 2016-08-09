@@ -17,8 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.model.util;
+package se.inera.intyg.common.security.common.model;
 
-public abstract class Predicate<T> {
-    public abstract boolean apply(T t);
+/**
+ * Created by eriklupander on 2015-08-21.
+ */
+public enum AuthenticationMethod {
+
+     NET_ID, BANK_ID, MOBILT_BANK_ID, SITHS, FAKE;
+
 }
