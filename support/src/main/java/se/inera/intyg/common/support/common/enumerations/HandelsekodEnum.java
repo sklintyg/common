@@ -54,15 +54,6 @@ public enum HandelsekodEnum {
         return description;
     }
 
-    public static String getDescription(String code) {
-        for (HandelsekodEnum value : values()) {
-            if (code.equals(value.value)) {
-                return value.description;
-            }
-        }
-        return "";
-    }
-
     public static HandelsekodEnum fromValue(String value) {
         return Stream.of(HandelsekodEnum.values()).filter(s -> value.equals(s.value())).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(value));

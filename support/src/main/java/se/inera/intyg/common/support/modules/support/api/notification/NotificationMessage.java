@@ -24,6 +24,8 @@ import org.joda.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
+
 public class NotificationMessage {
 
     private String intygsId;
@@ -34,7 +36,7 @@ public class NotificationMessage {
 
     private LocalDateTime handelseTid;
 
-    private HandelseType handelse;
+    private HandelsekodEnum handelse;
 
     private SchemaVersion version;
 
@@ -48,7 +50,7 @@ public class NotificationMessage {
     private FragorOchSvar fragaSvar;
 
     // CHECKSTYLE:OFF ParameterNumber
-    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelseType handelse, String logiskAdress,
+    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse, String logiskAdress,
             String utkastJson, FragorOchSvar fragaSvar, SchemaVersion version, String reference) {
         super();
         this.intygsId = intygsId;
@@ -88,7 +90,7 @@ public class NotificationMessage {
         return handelseTid;
     }
 
-    public HandelseType getHandelse() {
+    public HandelsekodEnum getHandelse() {
         return handelse;
     }
 
@@ -117,7 +119,7 @@ public class NotificationMessage {
         this.handelseTid = handelseTid;
     }
 
-    public void setHandelse(HandelseType handelse) {
+    public void setHandelse(HandelsekodEnum handelse) {
         this.handelse = handelse;
     }
 

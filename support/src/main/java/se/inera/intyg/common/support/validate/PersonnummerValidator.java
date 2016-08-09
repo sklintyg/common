@@ -19,6 +19,8 @@
 
 package se.inera.intyg.common.support.validate;
 
+import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -40,11 +42,6 @@ import org.joda.time.format.ISODateTimeFormat;
  * @author Gustav Norbäcker, R2M
  */
 public class PersonnummerValidator implements RootValidator {
-
-    /**
-     * The root for personnummer.
-     */
-    public static final String PERSONNUMMER_ROOT = "1.2.752.129.2.1.3.1";
 
     /**
      * The regex pattern that the personnummer must conform to.
@@ -76,7 +73,7 @@ public class PersonnummerValidator implements RootValidator {
      */
     @Override
     public String getRoot() {
-        return PERSONNUMMER_ROOT;
+        return PERSON_ID_OID;
     }
 
     /**

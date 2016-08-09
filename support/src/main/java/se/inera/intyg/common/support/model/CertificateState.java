@@ -26,7 +26,7 @@ public enum CertificateState {
     /** This code is unused. */
     UNHANDLED,
 
-    /** The intyg is arhcived in Mina Intyg ('arkiverad'). */
+    /** The intyg is archived in Mina Intyg ('arkiverad'). */
     DELETED,
 
     /** The intyg is no longer archived in Mina Intyg. */
@@ -39,11 +39,5 @@ public enum CertificateState {
     SENT,
 
     /** The intyg was stored in Intygstjänsten. */
-    RECEIVED,
-
-    /** This code is unused (except for some tests). */
-    IN_PROGRESS,
-
-    /** This code is unused (except for some tests). */
-    PROCESSED
+    RECEIVED
 }
