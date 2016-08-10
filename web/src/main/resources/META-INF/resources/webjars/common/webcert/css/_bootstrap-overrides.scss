@@ -212,7 +212,7 @@ $font-3: sans-serif;
  * --------------------------------------- */
 .tooltip {
   text-align: left;
-  z-index: 600;
+  z-index: 2000;
   font-weight: normal;
   white-space: normal;
   &.in {
@@ -227,11 +227,23 @@ $font-3: sans-serif;
 }
 
 /* ---------------------------------------
+ * Tooltip overrides
+ * --------------------------------------- */
+
+.popover {
+  z-index: 2000;
+}
+
+/* ---------------------------------------
  * Alert overrides
  * --------------------------------------- */
 .alert {
   padding-right: 22px;
   max-width: 600px;
+}
+
+.alert-bottom {
+  margin: 10px 0 0 0;
 }
 
 .alert-warning {
