@@ -160,7 +160,7 @@ public interface ModuleApi {
      * @return true if there are changes, false otherwise
      * @throws ModuleException
      */
-    boolean isModelChanged(String persistedState, String currentState) throws ModuleException;
+    boolean shouldNotify(String persistedState, String currentState) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for saving, with new HoS person information.
