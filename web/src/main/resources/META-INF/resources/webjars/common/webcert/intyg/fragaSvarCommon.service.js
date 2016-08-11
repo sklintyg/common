@@ -101,20 +101,6 @@ angular.module('common').factory('common.fragaSvarCommonService',
 
                 var allowedToKomplettera = UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, undefined, false);
 
-                if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
-                    qa.svaraMedNyttIntygDisabled = true;
-
-                    if(allowedToKomplettera){
-                        // User has the privilege but the origin doesn't allow it, show alert to go back to origin
-                        qa.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
-                    }
-                    else {
-                        qa.svaraMedNyttIntygDisabledReason = undefined;
-                    }
-                } else {
-                    qa.svaraMedNyttIntygDisabled = false;
-                }
-
                 if (qa.amne === 'PAMINNELSE') {
                     // RE-020 Påminnelser is never
                     // answerable
