@@ -101,14 +101,6 @@ describe('fragaSvarCommonService', function() {
             expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
         });
 
-        it ('should disable answer and show message about not svara med nytt intyg if user is coming from request origin UTHOPP', function () {
-            UserModel.setUser({origin: 'UTHOPP'});
-
-            var qa = {amne:'KOMPLETTERING_AV_LAKARINTYG'};
-            fragaSvarCommonService.decorateSingleItem(qa);
-            expect(qa.answerDisabled).toBeTruthy();
-            expect(qa.svaraMedNyttIntygDisabled).toBeTruthy();
-        });
     });
 
     describe('Mail link', function() {
