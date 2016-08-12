@@ -5,10 +5,10 @@ dependencies {
   compile project(':integration-util')
 
   compile 'ch.qos.logback:logback-classic'
-  compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.4'
-  compile 'joda-time:joda-time:2.2'
-  compile 'org.springframework:spring-context:4.2.2.RELEASE'
+  compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda'
+  compile 'joda-time:joda-time'
+  compile 'org.springframework:spring-context'
 
-  testCompile 'junit:junit:4.12'
-  testCompile 'org.mockito:mockito-core:1.9.0'
+  testCompile 'junit:junit'
+  testCompile 'org.mockito:mockito-core'
 }
