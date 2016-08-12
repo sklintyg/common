@@ -74,9 +74,6 @@ angular.module('common').controller('common.ArendeCtrl',
                 // Messages needs to be loaded separately from the intyg as user should be able to see messages even if intyg didn't load.
                 // Used when coming from Intyg page.
                 ArendenViewState.intyg = intyg;
-                ArendenViewState.intygProperties.isLoaded = false;
-                ArendenViewState.intygProperties.isSent = false;
-                ArendenViewState.intygProperties.isRevoked = false;
                 if (ObjectHelper.isDefined(ArendenViewState.intyg) && ObjectHelper.isDefined(ArendenViewState.intygProperties)) {
 
                     ArendenViewState.intygProperties = intygProperties;

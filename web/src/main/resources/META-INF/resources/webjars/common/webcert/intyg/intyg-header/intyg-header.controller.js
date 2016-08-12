@@ -18,10 +18,10 @@
  */
 
 angular.module('common').controller('common.IntygHeader',
-    ['$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
+    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
     'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
     'common.IntygService', 'common.IntygViewStateService', 'common.statService',
-        function($scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
+        function($rootScope, $scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
             IntygFornyaRequestModel, User, UserModel, IntygService, CommonViewState, statService) {
             'use strict';
 
@@ -56,6 +56,8 @@ angular.module('common').controller('common.IntygHeader',
                 cert.intygType = intygType;
                 IntygService.makulera( cert, confirmationMessage, function() {
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
+                    $scope.viewState.common.intygProperties.isRevoked = true;
+                    $rootScope.$emit('ViewCertCtrl.load', cert, $scope.viewState.common.intygProperties);
                 });
             };
 
