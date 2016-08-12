@@ -10,8 +10,8 @@ dependencies {
   compile 'se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:1.0.1'
   compile 'se.inera.intyg.insuranceprocess.healthreporting:intyg-insuranceprocess-healthreporting-schemas:1.0.1'
   compile 'se.inera.intyg.transportstyrelsen:intyg-transportstyrelsen-schemas:1.0.1'
-  compile 'joda-time:joda-time:2.2'
+  compile 'joda-time:joda-time'
 
-  testCompile 'junit:junit:4.12'
-  testCompile 'org.mockito:mockito-core:1.9.0'
+  testCompile 'junit:junit'
+  testCompile 'org.mockito:mockito-core'
 }
