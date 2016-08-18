@@ -5,12 +5,12 @@ dependencies {
   compile project(':logging-util')
 
   compile 'ch.qos.logback:logback-classic'
-  compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda'
-  compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider'
-  compile 'joda-time:joda-time'
-  compile 'org.apache.cxf:cxf-rt-transports-http'
-  compile 'org.springframework:spring-context'
+  compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.4'
+  compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.4.4'
+  compile 'joda-time:joda-time:2.2'
+  compile 'org.apache.cxf:cxf-rt-transports-http:3.1.3'
+  compile 'org.springframework:spring-context:4.2.2.RELEASE'
 
-  testCompile 'junit:junit'
-  testCompile 'org.mockito:mockito-core'
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.mockito:mockito-core:1.9.0'
 }
