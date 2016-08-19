@@ -17,31 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.model;
+package se.inera.intyg.common.support.model.util;
 
-/**
- * @author andreaskaltenbach
- */
-public enum CertificateState {
-    /** This code is unused. */
-    UNHANDLED,
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
-    /** The intyg is archived in Mina Intyg ('arkiverad'). */
-    DELETED,
-
-    /** The intyg is no longer archived in Mina Intyg. */
-    RESTORED,
-
-    /** The intyg is 'makulerat'. */
-    CANCELLED,
-
-    /** The intyg is sent to a recipient. */
-    SENT,
-
-    /** The intyg was stored in Intygstjänsten. */
-    RECEIVED,
-
-    /** Valid statuses in {@link se.inera.ifv.insuranceprocess.certificate.v1.StatusType}. */
-    IN_PROGRESS,
-    PROCESSED
+public interface ModelCompareUtil <T extends Utlatande> {
+    boolean isValidForNotification(T utlatande);
 }

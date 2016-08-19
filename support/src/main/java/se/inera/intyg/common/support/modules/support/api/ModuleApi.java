@@ -153,14 +153,15 @@ public interface ModuleApi {
     CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException;
 
     /**
-     * Check whether there are changes between the current and persisted model states.
+     * Determine whether a notification about changed state in a certificate should be sent,
+     * using current and persisted model states.
      *
      * @param persistedState
      * @param currentState
-     * @return true if there are changes, false otherwise
+     * @return true a notification should be sent, false otherwise
      * @throws ModuleException
      */
-    boolean isModelChanged(String persistedState, String currentState) throws ModuleException;
+    boolean shouldNotify(String persistedState, String currentState) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for saving, with new HoS person information.

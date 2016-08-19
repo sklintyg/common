@@ -166,6 +166,10 @@ angular.module('common').factory('common.UtkastSignService',
 
                     if (resultCode === 0) {
                         onSuccess(iid_GetProperty('Signature')); // jshint ignore:line
+                    } else if (resultCode === 2){
+                    	var message = 'Signeringen avbröts av användaren med kod: ' + resultCode;
+                    	$log.info(message);
+                    	onError({ errorCode: 'USER_CANCEL'});
                     } else {
                         var message = 'Signeringen avbröts med kod: ' + resultCode;
                         $log.info(message);

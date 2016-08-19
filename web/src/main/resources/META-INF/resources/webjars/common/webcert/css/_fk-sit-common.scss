@@ -17,31 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.model;
+/* This file should define style rules that are common to view/edit functionality for all FK SIT certificate types (lisu, luse, lua_fs, luae_na...)
+  NOTE: If we in the future can handle client resources from within fk-parent project, this would rather be placed there than in common.
+*/
 
-/**
- * @author andreaskaltenbach
- */
-public enum CertificateState {
-    /** This code is unused. */
-    UNHANDLED,
+/* Color variables */
 
-    /** The intyg is archived in Mina Intyg ('arkiverad'). */
-    DELETED,
+/* Urls variables */
 
-    /** The intyg is no longer archived in Mina Intyg. */
-    RESTORED,
 
-    /** The intyg is 'makulerat'. */
-    CANCELLED,
+.fk-sit-common-ns {
 
-    /** The intyg is sent to a recipient. */
-    SENT,
+  .cert-body .alert ul {
+    padding-left: 20px;
+  }
 
-    /** The intyg was stored in Intygstjänsten. */
-    RECEIVED,
+  .formly-field {
+    h4 {
+      font-weight: bold;
+    }
 
-    /** Valid statuses in {@link se.inera.ifv.insuranceprocess.certificate.v1.StatusType}. */
-    IN_PROGRESS,
-    PROCESSED
+    h4.instruction {
+      font-weight: normal;
+      font-style: italic;
+    }
+  }
+
 }
