@@ -189,8 +189,8 @@ angular.module('common').factory('common.UtkastService',
 
                             var errorCode;
                             var errorMessage;
+                            var variables = null;
                             if (error) {
-                                var variables = null;
                                 if (error.errorCode === 'CONCURRENT_MODIFICATION') {
                                     // In the case of concurrent modification we should have the name of the user making trouble in the message.
                                     variables = {name: error.message};
@@ -202,6 +202,10 @@ angular.module('common').factory('common.UtkastService',
                                 }
                                 var errorMessageId = checkSetErrorSave(errorCode);
                                 errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
+                            } else {
+                                // No error code from server. No contact at all
+                                errorMessage = messageService.getProperty('common.error.save.noconnection', variables, 'common.error.save.noconnection');
+                                errorCode = 'cantconnect';
                             }
                             var result = {
                                 errorMessage: errorMessage,
