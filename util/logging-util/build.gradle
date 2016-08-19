@@ -1,7 +1,7 @@
 description = 'Intyg Common (Logging Utility)'
 
 dependencies {
-  compile 'ch.qos.logback:logback-classic'
+  compile 'ch.qos.logback:logback-classic:1.0.11'
   compile 'org.springframework:spring-context:4.2.2.RELEASE'
   compile 'commons-codec:commons-codec:1.10'
 
