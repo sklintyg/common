@@ -135,6 +135,7 @@ angular.module('common').factory('common.UtkastService',
                         intygState.viewState.draftModel.version, intygState.viewState.intygModel.toSendModel(),
                         function(data) {
 
+                            // Update validation messages
                             var result = {};
                             result.validationMessagesGrouped = {};
                             result.validationMessages = [];
@@ -175,6 +176,14 @@ angular.module('common').factory('common.UtkastService',
                                 });
                                 saveComplete.resolve(result);
                             }
+
+                            // Update relation status on current utkast on save so relation table view is up to date
+                            angular.forEach(intygState.viewState.relations, function(relation) {
+                                if(relation.intygsId === intygState.viewState.intygModel.id) {
+                                    relation.status = data.status;
+                                }
+                            }, intygState.relations);
+
                         }, function(error) {
                             // Show error message if save fails
 

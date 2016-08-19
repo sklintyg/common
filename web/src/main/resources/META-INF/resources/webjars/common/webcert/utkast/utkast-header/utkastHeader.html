@@ -77,11 +77,11 @@
         </div>
         <!-- complete -->
         <div ng-show="!viewState.common.saving && certForm.$pristine && viewState.common.intyg.isComplete && !viewState.common.isSigned">
-          <span id="intyget-sparat-och-komplett-meddelande" message key="draft.status.draft_complete"></span>
+          <span id="intyget-sparat-och-komplett-meddelande" message key="draft.status.complete"></span>
         </div>
         <!-- incomplete -->
         <div ng-show="!viewState.common.saving && certForm.$pristine && !viewState.common.intyg.isComplete">
-          <span id="intyget-sparat-och-ej-komplett-meddelande" message key="draft.status.draft_incomplete"></span>
+          <span id="intyget-sparat-och-ej-komplett-meddelande" message key="draft.status.incomplete"></span>
         </div>
         <!-- form changed -->
         <div ng-show="viewState.common.saving || certForm.$dirty"><span message key="draft.status.changed"></span></div>

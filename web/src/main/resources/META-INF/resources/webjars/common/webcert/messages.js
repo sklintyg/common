@@ -75,22 +75,24 @@ var commonMessages = {
         'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
         'common.modal.mbankid.signed': 'Intyget är nu signerat.',
 
+        // common intyg view messages
+        'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
+        'common.label.saving': 'Sparar',
+
         // cert status messages
         'cert.status.draft_incomplete': 'Utkast, uppgifter saknas',
         'cert.status.draft_complete': 'Utkast, kan signeras',
+        'cert.status.incomplete': 'Utkast, uppgifter saknas',
+        'cert.status.complete': 'Utkast, kan signeras',
         'cert.status.signed': 'Signerat',
         'cert.status.cancelled': 'Makulerat',
         'cert.status.unknown': 'Okänd',
         'cert.status.sent': 'Mottaget',
         'cert.status.received': 'Signerat',
 
-        // common intyg view messages
-        'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
-        'common.label.saving': 'Sparar',
-
-        // draft form status messages
-        'draft.status.draft_incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
-        'draft.status.draft_complete': '<strong>Status:</strong> Utkastet är sparat och kan signeras.',
+        // draft utkast header form status messages
+        'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
+        'draft.status.complete': '<strong>Status:</strong> Utkastet är sparat och kan signeras.',
         'draft.status.signed': '<strong>Status:</strong> Intyget är signerat.',
         'draft.status.changed': '<strong>Status:</strong> Utkastet är ändrat sedan det senast sparades',
 
@@ -177,7 +179,6 @@ var commonMessages = {
         //common.sit.* messages are candidates for a fk-common messages.js
         'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE:',
         'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',
-        'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
         'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
         'common.sit.client-validation.underlag.max-extra-underlag': 'Du kan inte lägga till fler utredningar, max antal är %0st',
 
