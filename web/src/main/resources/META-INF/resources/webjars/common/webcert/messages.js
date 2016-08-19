@@ -82,8 +82,6 @@ var commonMessages = {
         // cert status messages
         'cert.status.draft_incomplete': 'Utkast, uppgifter saknas',
         'cert.status.draft_complete': 'Utkast, kan signeras',
-        'cert.status.incomplete': 'Utkast, uppgifter saknas',
-        'cert.status.complete': 'Utkast, kan signeras',
         'cert.status.signed': 'Signerat',
         'cert.status.cancelled': 'Makulerat',
         'cert.status.unknown': 'Okänd',
