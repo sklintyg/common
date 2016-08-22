@@ -142,7 +142,7 @@ angular.module('common').factory('common.UtkastService',
                             result.validationSections = [];
                             result.version = data.version;
 
-                            if (data.status === 'COMPLETE') {
+                            if (data.status === 'DRAFT_COMPLETE') {
                                 CommonViewState.intyg.isComplete = true;
                                 saveComplete.resolve(result);
                             } else {
