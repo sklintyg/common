@@ -47,6 +47,7 @@
   @import 'fk-sit-common';
   @import '../fk/arenden/_arende';
   @import '../fmb/fmb';
+  @import '../gui/formly/diagnos';
 
   //colors
   $color_java_approx: #28b4c4;
@@ -870,23 +871,6 @@
 
 .valjkodverk {
   margin-right: 15px;
-}
-
-.diagnosRow {
-  transition:.2s ease-out all;
-
-  &.ng-enter,
-  &.ng-leave.ng-leave-active {
-    height: 0px;
-    opacity: 0;
-    overflow:hidden;
-  }
-  &.ng-enter.ng-enter-active,
-  &.ng-leave {
-    height: 64px;
-    opacity: 1;
-    overflow:hidden;
-  }
 }
 
 /*
