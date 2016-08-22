@@ -19,15 +19,15 @@
   -->
 
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:gtb="urn:local:se:intygstjanster:services:GetTSBasResponder:1">
+                xmlns:gtb="urn:local:se:intygstjanster:services:GetTSDiabetesResponder:1">
 
   <xsl:include href="transform/se-intygstjanster-ts-services/general-transform.xslt"/>
 
   <xsl:template name="response">
      <gtb:GetTSBasResponse>
-       <gtb:result>
+       <gtb:resultat>
          <xsl:call-template name="result"/>
-       </gtb:result>
+       </gtb:resultat>
      </gtb:GetTSBasResponse>
    </xsl:template>
 
