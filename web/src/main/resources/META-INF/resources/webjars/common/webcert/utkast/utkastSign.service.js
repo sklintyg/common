@@ -169,7 +169,7 @@ angular.module('common').factory('common.UtkastSignService',
                     } else if (resultCode === 2){
                     	var message = 'Signeringen avbröts av användaren med kod: ' + resultCode;
                     	$log.info(message);
-                    	onError({ errorCode: 'USER_CANCEL'});
+                    	onError({ errorCode: 'USER_NETID_CANCEL'});
                     } else {
                         var message = 'Signeringen avbröts med kod: ' + resultCode;
                         $log.info(message);
@@ -264,6 +264,8 @@ angular.module('common').factory('common.UtkastSignService',
                         messageId = 'common.error.certificateinvalidstate';
                     } else if (error.errorCode === 'SIGN_NETID_ERROR') {
                         messageId = 'common.error.sign.netid';
+                    } else if (error.errorCode === 'USER_NETID_CANCEL') {
+                        messageId = 'common.error.sign.netid.cancel';
                     } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
                         messageId = 'common.error.sign.concurrent_modification';
                     } else if (error.errorCode === 'AUTHORIZATION_PROBLEM') {

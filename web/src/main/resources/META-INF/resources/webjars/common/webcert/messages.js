@@ -192,6 +192,7 @@ var commonMessages = {
         'common.error.invalid_state': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma utkast. Ladda om sidan och försök igen',
         'common.error.sign.general': '<strong>Intyget kunde inte signeras.</strong><br>Försök igen senare.',
         'common.error.sign.netid': '<strong>Intyget kunde inte signeras.</strong><br>Kunde inte kontakta Net iD-klienten. Försök igen senare eller kontakta din support.',
+        'common.error.sign.netid.cancel':'<strong>Intyget kunde inte signeras.</strong><br/>Åtgärden avbruten.',
         'common.error.sign.bankid': '<strong>Intyget kunde inte signeras.</strong><br>Kunde inte kontakta Bank ID-klienten. Försök igen senare eller kontakta din support.',
         'common.error.sign.not_ready_yet': '<strong>Intyget är nu signerat.</strong><br>Tyvärr kan inte intyget visas än då det behandlas. Prova att ladda om sidan lite senare. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
         'common.error.sign.concurrent_modification': '<strong>Det går inte att signera utkastet.</strong><br/>Utkastet har ändrats av en annan användare sedan du började arbeta på det. Ladda om sidan, kontrollera att uppgifterna stämmer och försök signera igen.<br/>Utkastet ändrades av ${name}.',
