@@ -135,6 +135,7 @@ angular.module('common').factory('common.UtkastService',
                         intygState.viewState.draftModel.version, intygState.viewState.intygModel.toSendModel(),
                         function(data) {
 
+                            // Update validation messages
                             var result = {};
                             result.validationMessagesGrouped = {};
                             result.validationMessages = [];
@@ -175,13 +176,21 @@ angular.module('common').factory('common.UtkastService',
                                 });
                                 saveComplete.resolve(result);
                             }
+
+                            // Update relation status on current utkast on save so relation table view is up to date
+                            angular.forEach(intygState.viewState.relations, function(relation) {
+                                if(relation.intygsId === intygState.viewState.intygModel.id) {
+                                    relation.status = data.status;
+                                }
+                            }, intygState.relations);
+
                         }, function(error) {
                             // Show error message if save fails
 
                             var errorCode;
                             var errorMessage;
+                            var variables = null;
                             if (error) {
-                                var variables = null;
                                 if (error.errorCode === 'CONCURRENT_MODIFICATION') {
                                     // In the case of concurrent modification we should have the name of the user making trouble in the message.
                                     variables = {name: error.message};
@@ -193,6 +202,10 @@ angular.module('common').factory('common.UtkastService',
                                 }
                                 var errorMessageId = checkSetErrorSave(errorCode);
                                 errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
+                            } else {
+                                // No error code from server. No contact at all
+                                errorMessage = messageService.getProperty('common.error.save.noconnection', variables, 'common.error.save.noconnection');
+                                errorCode = 'cantconnect';
                             }
                             var result = {
                                 errorMessage: errorMessage,

@@ -75,6 +75,10 @@ var commonMessages = {
         'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
         'common.modal.mbankid.signed': 'Intyget är nu signerat.',
 
+        // common intyg view messages
+        'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
+        'common.label.saving': 'Sparar',
+
         // cert status messages
         'cert.status.draft_incomplete': 'Utkast, uppgifter saknas',
         'cert.status.draft_complete': 'Utkast, kan signeras',
@@ -84,13 +88,9 @@ var commonMessages = {
         'cert.status.sent': 'Mottaget',
         'cert.status.received': 'Signerat',
 
-        // common intyg view messages
-        'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
-        'common.label.saving': 'Sparar',
-
-        // draft form status messages
-        'draft.status.draft_incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
-        'draft.status.draft_complete': '<strong>Status:</strong> Utkastet är sparat och kan signeras.',
+        // draft utkast header form status messages
+        'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
+        'draft.status.complete': '<strong>Status:</strong> Utkastet är sparat och kan signeras.',
         'draft.status.signed': '<strong>Status:</strong> Intyget är signerat.',
         'draft.status.changed': '<strong>Status:</strong> Utkastet är ändrat sedan det senast sparades',
 
@@ -178,7 +178,6 @@ var commonMessages = {
         'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE:',
         'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',
         'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
-        'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
         'common.sit.client-validation.underlag.max-extra-underlag': 'Du kan inte lägga till fler utredningar, max antal är %0st',
 
 
@@ -206,10 +205,11 @@ var commonMessages = {
         'common.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
         'common.error.could_not_load_cert_not_auth': '<strong>Kunde inte hämta intyget eftersom du saknar behörighet.</strong>',
         'common.error.module_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Problem att kontakta intygsmodulen.',
-        'common.error.discard.concurrent_modification': '<strong>Kan inte ta bort utkastet. Utkastet har ändrats av en annan användare medan du arbetat på samma utkast.</strong><br>Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
-        'common.error.save.unknown': '<strong>Okänt fel.</strong> Det går för tillfället inte att spara ändringar.',
-        'common.error.save.module_problem': '<strong>Okänt fel.</strong> Det går för tillfället inte att spara ändringar.',
-        'common.error.save.data_not_found': '<strong>Okänt fel.</strong> Det går för tillfället inte att spara ändringar.',
+        'common.error.discard.concurrent_modification': '<strong><br>Kan inte ta bort utkastet. Utkastet har ändrats av en annan användare medan du arbetat på samma utkast.</strong><br>Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
+        'common.error.save.unknown': '<strong>Okänt fel.</strong><br>Det går för tillfället inte att spara ändringar.',
+        'common.error.save.noconnection': '<strong>Inget nätverk</strong><br>Det går för tillfället inte att spara ändringar eftersom servern inte kunde kontaktas.',
+        'common.error.save.module_problem': '<strong>Okänt fel.</strong><br>Det går för tillfället inte att spara ändringar.',
+        'common.error.save.data_not_found': '<strong>Okänt fel.</strong><br>Det går för tillfället inte att spara ändringar.',
         'common.error.save.concurrent_modification': '<strong>Kan inte spara utkastet. Utkastet har ändrats av en annan användare medan du arbetat på samma utkast.</strong><br>Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
         'common.error.save.unknown_internal_problem': '<strong>Tappade anslutningen till servern.</strong><br>Det går för tillfället inte att spara ändringar.',
         'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).',

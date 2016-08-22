@@ -16,6 +16,10 @@ angular.module('common').run(function(formlyConfig) {
                     }
                 });
 
+                $scope.diagnosKodLoading = [];
+                $scope.diagnosKodNoResults = [];
+                $scope.diagnosKodFocus = [];
+
                 $scope.$watchCollection(
                     'model.diagnoser[0].diagnosKod', function(newValue) {
                         //Reset fmb if we no longer have a valid diagnoseCode to work with
@@ -136,6 +140,7 @@ angular.module('common').run(function(formlyConfig) {
                 if (index === 0) {
                     $scope.updateFmbText();
                 }
+                $scope.diagnosKodFocus[index] = false;
             };
 
             $scope.updateFmbText = function() {
