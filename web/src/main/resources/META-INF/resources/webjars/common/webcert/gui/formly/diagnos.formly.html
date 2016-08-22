@@ -34,7 +34,7 @@
         <tr class="diagnosRow" ng-repeat="diagnos in model[options.key]">
             <td>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="diagnoseCode" name="diagnoseCode{{$index}}" value=""
+                    <input type="text" class="form-control" id="diagnoseCode-{{$index}}" name="diagnoseCode{{$index}}" value=""
                            class='diagnose-code col-xs-11 form-control' ng-model="diagnos.diagnosKod"
                            uib-typeahead="d.value as d.label for d in getDiagnoseCodes(formState.diagnosKodSystem, $viewValue) | limitTo:10"
                            typeahead-min-length="3"
@@ -68,14 +68,14 @@
                        typeahead-wait-ms="100">
             </td>
             <td>
-              <button type="button" class="btn btn-default btn-secondary" ng-click="removeDiagnos($index)"
+              <button id="diagnos-{{$index}}-remove" type="button" class="btn btn-default btn-secondary" ng-click="removeDiagnos($index)"
                       ng-show="model[options.key].length > 1"><span class="glyphicon glyphicon-remove"></span></button>
             </td>
         </tr>
     </table>
 
     <div>
-        <button type="button" ng-if="model[options.key].length < 3" href="" ng-click="addDiagnos()" class="btn btn-default btn-secondary">
+        <button id="laggTillDiagnos" type="button" ng-if="model[options.key].length < 3" href="" ng-click="addDiagnos()" class="btn btn-default btn-secondary">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Lägg till övriga diagnoser
         </button>
     </div>
