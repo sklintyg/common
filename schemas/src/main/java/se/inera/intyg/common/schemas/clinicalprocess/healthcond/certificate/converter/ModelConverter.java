@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.converter;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 import se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.builder.ClinicalProcessCertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
@@ -51,11 +51,11 @@ public final class ModelConverter {
     }
 
 
-    private static LocalDate toLocalDate(Object date) {
+    private static LocalDate toLocalDate(String date) {
         if (date == null) {
             return null;
         }
-        return new LocalDate(date);
+        return LocalDate.parse(date);
     }
 
 }

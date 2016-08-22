@@ -21,6 +21,7 @@ package se.inera.intyg.common.support.modules.converter;
 
 import static se.inera.intyg.common.support.Constants.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +29,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.LocalDate;
-import org.joda.time.Partial;
+import java.time.temporal.*;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
@@ -205,7 +205,7 @@ public final class InternalConverterUtil {
                 period);
     }
 
-    public static JAXBElement<PartialDateType> aPartialDate(PartialDateTypeFormatEnum format, Partial partial) {
+    public static JAXBElement<PartialDateType> aPartialDate(PartialDateTypeFormatEnum format, Temporal partial) {
         PartialDateType partialDate = new PartialDateType();
         partialDate.setFormat(format);
         partialDate.setValue(partial);

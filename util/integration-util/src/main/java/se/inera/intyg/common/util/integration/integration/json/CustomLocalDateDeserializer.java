@@ -19,21 +19,21 @@
 
 package se.inera.intyg.common.util.integration.integration.json;
 
+import java.io.IOException;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-
-import java.io.IOException;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 /**
  * This class is based on the LocalDateDeserializer class. It's content was copied
  * and slightly changed to support dates on the UTC format.
  *
- * Changes: <li>
+ * Changes:
+ * <li>
  * <ul>
  * The ISODateTimeFormat.dateTimeParser() is used instead of the ISODateTimeFormat.localDateParser()
  * </ul>
@@ -43,15 +43,15 @@ import java.io.IOException;
  * </ul>
  * </li>
  *
- * @see com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer
  * @author Magnus Ekstrand
  *
  */
-public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
+public class CustomLocalDateDeserializer extends StdDeserializer<LocalDate> {
 
-    private static final DateTimeFormatter PARSER = ISODateTimeFormat.dateTimeParser();
+    private static final long serialVersionUID = 1L;
 
     public CustomLocalDateDeserializer() {
+        super(LocalDate.class);
     }
 
     /**
@@ -81,7 +81,6 @@ public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
      * @throws com.fasterxml.jackson.core.JsonProcessingException
      */
     @Override
-    @SuppressWarnings("incomplete-switch")
     public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException {
 
@@ -97,15 +96,15 @@ public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
             // We are only interested in year, month and day
             // Skip the time and return at date
-            return new LocalDate(year, month, day);
+            return LocalDate.of(year, month, day);
         case VALUE_NUMBER_INT:
-            return new LocalDate(jp.getLongValue());
+            return Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.of("Europe/Stockholm")).toLocalDate();
         case VALUE_STRING:
             String str = jp.getText().trim();
             if (str.length() == 0) { // [JACKSON-360]
                 return null;
             }
-            return PARSER.parseLocalDate(str);
+            return LocalDate.parse(str, str.contains("T") ? DateTimeFormatter.ISO_DATE_TIME : DateTimeFormatter.ISO_DATE);
         default:
         }
 

@@ -21,9 +21,8 @@ package se.inera.intyg.common.util.integration.schema.adapter;
 
 import java.text.DecimalFormat;
 
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import se.inera.intyg.common.support.model.InternalDate;
 
@@ -79,20 +78,17 @@ public final class InternalDateAdapter {
     }
 
     private static LocalDate getLocalDate(String str) {
-        DateTimeFormatter formatter = ISODateTimeFormat.date();
         try {
-            return LocalDate.parse(str, formatter);
+            return LocalDate.parse(str, DateTimeFormatter.ISO_DATE);
 
         } catch (Exception e) {
-            formatter = ISODateTimeFormat.dateTime();
         }
         try {
-            return LocalDate.parse(str, formatter);
+            return LocalDate.parse(str, DateTimeFormatter.ISO_DATE_TIME);
         } catch (Exception e) {
-            formatter = ISODateTimeFormat.dateHourMinuteSecondFraction();
         }
         try {
-            return LocalDate.parse(str, formatter);
+            return LocalDate.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS"));
         } catch (Exception e) {
             return null;
         }

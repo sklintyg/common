@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class PersonnummerValidatorTest {
     public void setup() {
         validator = new PersonnummerValidator();
         // Set a fixed date for the validator so test don't break in the future.
-        validator.setReferenceDate(new LocalDate("2013-08-22"));
+        validator.setReferenceDate(LocalDate.parse("2013-08-22"));
     }
 
     /**

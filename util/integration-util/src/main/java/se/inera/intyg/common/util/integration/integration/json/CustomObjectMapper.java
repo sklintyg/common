@@ -19,20 +19,16 @@
 
 package se.inera.intyg.common.util.integration.integration.json;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.Partial;
-
-import se.inera.intyg.common.support.model.InternalDate;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.joda.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.joda.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import se.inera.intyg.common.support.model.InternalDate;
 
 /**
  * Customized Jackson ObjectMapper for the inera-certificate projects.
@@ -43,27 +39,29 @@ import com.fasterxml.jackson.datatype.joda.ser.LocalDateTimeSerializer;
  * @author andreaskaltenbach
  */
 public class CustomObjectMapper extends ObjectMapper {
+    private static final long serialVersionUID = 1L;
 
     public CustomObjectMapper() {
         setSerializationInclusion(JsonInclude.Include.NON_NULL);
         configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        registerModule(new Module());
+        registerModule(new CustomModule());
     }
 
-    private static final class Module extends SimpleModule {
-        private Module() {
-            addSerializer(Partial.class, new PartialSerializer());
-            addDeserializer(Partial.class, new PartialDeserializer());
+    private static final class CustomModule extends SimpleModule {
+        private static final long serialVersionUID = 1L;
+
+        private CustomModule() {
+            addSerializer(Temporal.class, new TemporalSerializer());
+            addDeserializer(Temporal.class, new TemporalDeserializer());
 
             addSerializer(InternalDate.class, new InternalDateSerializer());
             addDeserializer(InternalDate.class, new InternalDateDeserializer());
 
-            addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
-            addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
+            addSerializer(LocalDateTime.class, new CustomLocalDateTimeSerializer());
+            addDeserializer(LocalDateTime.class, new CustomLocalDateTimeDeserializer());
 
-            addSerializer(LocalDate.class, new LocalDateSerializer());
-            //addDeserializer(LocalDate.class, new LocalDateDeserializer());
+            addSerializer(LocalDate.class, LocalDateSerializer.INSTANCE);
             /*
              * Using a custom crafted deserializer that handles dates
              * on the UTC format. The original LocalDateDeserializer class do not

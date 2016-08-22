@@ -17,39 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.model;
+package se.inera.intyg.common.util.integration.integration.json;
 
-import org.joda.time.Partial;
+import java.io.IOException;
+import java.time.temporal.Temporal;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+
+import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
 
 /**
  * @author andreaskaltenbach
  */
-public final class PartialInterval {
+public class TemporalSerializer extends StdSerializer<Temporal> {
 
-    private Partial from;
-    private Partial tom;
+    private static final long serialVersionUID = 1L;
 
-    public PartialInterval() {
+    public TemporalSerializer() {
+        super(Temporal.class);
     }
 
-    public PartialInterval(Partial from, Partial tom) {
-        this.from = from;
-        this.tom = tom;
-    }
-
-    public Partial getFrom() {
-        return from;
-    }
-
-    public void setFrom(Partial from) {
-        this.from = from;
-    }
-
-    public Partial getTom() {
-        return tom;
-    }
-
-    public void setTom(Partial tom) {
-        this.tom = tom;
+    @Override
+    public void serialize(Temporal partial, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        jgen.writeString(PartialDateAdapter.printPartialDate(partial));
     }
 }

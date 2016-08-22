@@ -21,14 +21,16 @@ package se.inera.intyg.common.util.integration.integration.json;
 
 import java.io.IOException;
 
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
+
 public class InternalDateSerializer extends StdSerializer<InternalDate> {
+
+    private static final long serialVersionUID = 1L;
 
     public InternalDateSerializer() {
         super(InternalDate.class);

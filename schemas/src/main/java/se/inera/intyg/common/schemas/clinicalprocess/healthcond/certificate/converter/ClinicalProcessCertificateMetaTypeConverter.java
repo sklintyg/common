@@ -30,7 +30,8 @@ import java.util.List;
 
 public final class ClinicalProcessCertificateMetaTypeConverter {
 
-    private ClinicalProcessCertificateMetaTypeConverter() { }
+    private ClinicalProcessCertificateMetaTypeConverter() {
+    }
 
     public static CertificateMetaData toCertificateMetaData(CertificateMetaType certificateMetaType) {
         CertificateMetaData metaData = new CertificateMetaData();
@@ -57,9 +58,7 @@ public final class ClinicalProcessCertificateMetaTypeConverter {
     }
 
     public static Status toStatus(UtlatandeStatus certificateStatus) {
-        Status status = new Status(
-                CertificateState.valueOf(certificateStatus.getType().value()),
-                certificateStatus.getTarget(),
+        Status status = new Status(CertificateState.valueOf(certificateStatus.getType().value()), certificateStatus.getTarget(),
                 certificateStatus.getTimestamp());
         return status;
     }

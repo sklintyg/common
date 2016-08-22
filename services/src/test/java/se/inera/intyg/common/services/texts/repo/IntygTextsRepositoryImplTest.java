@@ -3,9 +3,9 @@ package se.inera.intyg.common.services.texts.repo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 
-import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class IntygTextsRepositoryImplTest {
 
     @Test
     public void testGetLatestVersionNull() {
-        repo.intygTexts = new HashSet<IntygTexts>();
+        repo.intygTexts = new HashSet<>();
         String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
         assertEquals("should return null", null, result);
     }

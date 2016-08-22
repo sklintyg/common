@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.support.modules.support.api;
 
-import org.joda.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.CertificateState;
 
@@ -40,7 +40,7 @@ public class CertificateStateHolder {
             if (timestamp != null) {
                 this.timestamp = timestamp;
             } else {
-                this.timestamp = new LocalDateTime();
+                this.timestamp = LocalDateTime.now();
             }
         }
 

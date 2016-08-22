@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.junit.Test;
 
 public class InternalLocalDateIntervalTest {
@@ -31,9 +31,9 @@ public class InternalLocalDateIntervalTest {
     @Test
     public void testInternaDatesAreValid() {
         InternalDate fromString = new InternalDate("2011-01-01");
-        LocalDate fromDate = new LocalDate("2011-01-01");
+        LocalDate fromDate = LocalDate.parse("2011-01-01");
         InternalDate tomString = new InternalDate("2011-01-02");
-        LocalDate tomDate = new LocalDate("2011-01-02");
+        LocalDate tomDate = LocalDate.parse("2011-01-02");
 
         InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
         assertEquals("Constructed from date did not match expected", interval.fromAsLocalDate(), fromDate);
@@ -50,7 +50,7 @@ public class InternalLocalDateIntervalTest {
         assertEquals(interval.tomAsLocalDate(), null);
     }
 
-    @Test 
+    @Test
     public void testInternaDatesAreWeirdlyInvalid() {
         InternalDate fromDate = new InternalDate("");
         InternalDate tomDate = new InternalDate();
@@ -107,7 +107,7 @@ public class InternalLocalDateIntervalTest {
 
         InternalDate fromString2 = new InternalDate("2012-02-01");
         InternalDate tomString2 = new InternalDate("2012-03-02");
-        
+
         InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString1, tomString1);
         InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString2, tomString2);
         assertFalse(interval1.equals(interval2));

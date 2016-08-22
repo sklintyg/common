@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.support.model.converter.util;
 
-import org.joda.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.*;

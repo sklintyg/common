@@ -21,8 +21,8 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 
