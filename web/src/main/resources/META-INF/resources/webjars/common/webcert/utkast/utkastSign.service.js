@@ -171,8 +171,8 @@ angular.module('common').factory('common.UtkastSignService',
                     	$log.info(message);
                     	onError({ errorCode: 'USER_NETID_CANCEL'});
                     } else {
-                        var message = 'Signeringen avbröts med kod: ' + resultCode;
-                        $log.info(message);
+                        var messageAbort = 'Signeringen avbröts med kod: ' + resultCode;
+                        $log.info(messageAbort);
                         onError({ errorCode: 'SIGN_NETID_ERROR'});
                     }
                 });
@@ -236,12 +236,6 @@ angular.module('common').factory('common.UtkastSignService',
                 getSigneringsstatus();
             }
 
-            function _closeSigningDialog(dialogHandle, signModel){
-                signModel._timer = $timeout(getSigneringsstatus, 1000);
-                dialogHandle.close();
-
-            }
-
             function _showIntygAfterSignering(signModel, intygsTyp, intygsId) {
                 signModel.signingWithSITHSInProgress = false;
 
@@ -253,39 +247,41 @@ angular.module('common').factory('common.UtkastSignService',
             function _setErrorMessageId(error) {
                 var messageId = '';
 
+                var errorTable = {
+                    'DATA_NOT_FOUND':          'common.error.certificatenotfound',
+                    'INVALID_STATE':           'common.error.certificateinvalidstate',
+                    'SIGN_NETID_ERROR':        'common.error.sign.netid',
+                    'USER_NETID_CANCEL':       'common.error.sign.netid.cancel',
+                    'CONCURRENT_MODIFICATION': 'common.error.sign.concurrent_modification',
+                    'AUTHORIZATION_PROBLEM':   'common.error.sign.authorization',
+                    'INDETERMINATE_IDENTITY':  'common.error.sign.indeterminate.identity'
+                };
+
                 if (error === undefined) {
                     $log.debug('_setErrorMessageId: Error is not defined.');
                     messageId = 'common.error.sign.general';
                 }
                 else {
-                    if (error.errorCode === 'DATA_NOT_FOUND') {
-                        messageId = 'common.error.certificatenotfound';
-                    } else if (error.errorCode === 'INVALID_STATE') {
-                        messageId = 'common.error.certificateinvalidstate';
-                    } else if (error.errorCode === 'SIGN_NETID_ERROR') {
-                        messageId = 'common.error.sign.netid';
-                    } else if (error.errorCode === 'USER_NETID_CANCEL') {
-                        messageId = 'common.error.sign.netid.cancel';
-                    } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
-                        messageId = 'common.error.sign.concurrent_modification';
-                    } else if (error.errorCode === 'AUTHORIZATION_PROBLEM') {
-                        messageId = 'common.error.sign.authorization';
-                    } else if (error.errorCode === 'INDETERMINATE_IDENTITY') {
-                        messageId = 'common.error.sign.indeterminate.identity';
-                    } else if (error.errorCode === 'GRP_PROBLEM') {
-                        if (error.message === 'ALREADY_IN_PROGRESS') {
-                            messageId = 'common.error.sign.grp.already_in_progress';
-                        } else if (error.message === 'USER_CANCEL' || error.message === 'CANCELLED') {
-                            messageId = 'common.error.sign.grp.cancel';
-                        } else if (error.message === 'EXPIRED_TRANSACTION') {
-                            messageId = 'common.error.sign.grp.expired_transaction';
-                        } else {
-                            messageId = 'common.error.sign.general';
+                    messageId = errorTable[error.errorCode];
+                    if (!messageId) {
+                        if (error.errorCode === 'GRP_PROBLEM') {
+                            if (error.message === 'ALREADY_IN_PROGRESS') {
+                                messageId = 'common.error.sign.grp.already_in_progress';
+                            } else if (error.message === 'USER_CANCEL' || error.message === 'CANCELLED') {
+                                messageId = 'common.error.sign.grp.cancel';
+                            } else if (error.message === 'EXPIRED_TRANSACTION') {
+                                messageId = 'common.error.sign.grp.expired_transaction';
+                            } else {
+                                messageId = 'common.error.sign.general';
+                            }
                         }
-                    } else if (error === '') {
-                        messageId = 'common.error.cantconnect';
-                    } else {
-                        messageId = 'common.error.sign.general';
+                        else {
+                            if (error === '') {
+                                messageId = 'common.error.cantconnect';
+                            } else {
+                                messageId = 'common.error.sign.general';
+                            }
+                        }
                     }
                 }
                 return messageId;

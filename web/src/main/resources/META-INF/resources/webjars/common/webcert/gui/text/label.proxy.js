@@ -41,6 +41,6 @@ angular.module('common').factory('common.DynamicLabelProxy', [
 
         // Return public API for the service
         return {
-            getDynamicLabels: _getDynamicLabels,
+            getDynamicLabels: _getDynamicLabels
         };
     }]);

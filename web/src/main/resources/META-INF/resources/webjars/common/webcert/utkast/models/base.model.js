@@ -232,10 +232,12 @@ angular.module('common').factory('common.domain.BaseModel',
                 var toModelFn = function(current, prop, extras){
                     if(extras.self.isModelAttr(prop)){
                         if(current.hasOwnProperty(prop.property) && !prop.trans && current[prop.property] !== undefined){
-                            if(typeof prop.toTransform !== 'undefined')
+                            if(typeof prop.toTransform !== 'undefined') {
                                 extras.tm[prop.property] = prop.toTransform(current[prop.property]);
-                            else
+                            }
+                            else {
                                 extras.tm[prop.property] = current[prop.property];
+                            }
                         }
                     } else if(extras.self.isModel(prop)){
                         var child = current[extras.key];

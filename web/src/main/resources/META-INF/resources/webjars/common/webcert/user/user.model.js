@@ -21,6 +21,40 @@ angular.module('common').factory('common.UserModel',
     function() {
         'use strict';
 
+        function _checkRequestOrigin(user, privilegeConfig, intygsTypContext) {
+            if (privilegeConfig.requestOrigins !== undefined && privilegeConfig.requestOrigins.length > 0) {
+
+                //requestOrigin constraint exist - we must match that
+                var originToMatch = user.origin;
+                var matchingOriginConfig;
+                for (var i = 0; i < privilegeConfig.requestOrigins.length; i++) {
+                    if (privilegeConfig.requestOrigins[i].name === originToMatch) {
+                        matchingOriginConfig = privilegeConfig.requestOrigins[i];
+                        break;
+                    }
+
+                }
+
+                if (matchingOriginConfig === undefined) {
+                    return false;
+                }
+
+                //..secondly, if intygstyp context is given, must also have a matching privilege.requestOrigin.intygstyper<->intygstyp constraint if
+                // such a constraint exist.
+                if (intygsTypContext !== undefined) {
+                    //does the originConfig have a intygstyp constraint?
+                    if (matchingOriginConfig.intygstyper !== undefined &&
+                        matchingOriginConfig.intygstyper.length > 0) {
+                        //.. do we have a match with the given intygstyp context?
+                        if (matchingOriginConfig.intygstyper.indexOf(intygsTypContext) === -1) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         return {
             reset: function() {
                 this.user = null;
@@ -129,35 +163,8 @@ angular.module('common').factory('common.UserModel',
                 }
 
                 //..and also, if the privilege has requestOrigin constraints, the users current origin must match that..
-                if (privilegeConfig.requestOrigins !== undefined && privilegeConfig.requestOrigins.length > 0) {
-
-                    //requestOrigin constraint exist - we must match that
-                    var originToMatch = this.user.origin;
-                    var matchingOriginConfig;
-                    for (var i = 0; i < privilegeConfig.requestOrigins.length; i++) {
-                        if (privilegeConfig.requestOrigins[i].name === originToMatch) {
-                            matchingOriginConfig = privilegeConfig.requestOrigins[i];
-                            break;
-                        }
-
-                    }
-
-                    if (matchingOriginConfig === undefined) {
-                        return false;
-                    }
-
-                    //..secondly, if intygstyp context is given, must also have a matching privilege.requestOrigin.intygstyper<->intygstyp constraint if
-                    // such a constraint exist.
-                    if (intygsTypContext !== undefined) {
-                        //does the originConfig have a intygstyp constraint?
-                        if (matchingOriginConfig.intygstyper !== undefined &&
-                            matchingOriginConfig.intygstyper.length > 0) {
-                            //.. do we have a match with the given intygstyp context?
-                            if (matchingOriginConfig.intygstyper.indexOf(intygsTypContext) === -1) {
-                                return false;
-                            }
-                        }
-                    }
+                if (!_checkRequestOrigin(this.user, privilegeConfig, intygsTypContext)) {
+                    return false;
                 }
 
                 //If we get this far - the user is considered to have the privilege
