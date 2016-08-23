@@ -24,11 +24,11 @@
   <xsl:include href="transform/se-intygstjanster-ts-services/general-transform.xslt"/>
 
   <xsl:template name="response">
-     <gtb:GetTSBasResponse>
+     <gtb:GetTSDiabetesResponse>
        <gtb:resultat>
          <xsl:call-template name="result"/>
        </gtb:resultat>
-     </gtb:GetTSBasResponse>
+     </gtb:GetTSDiabetesResponse>
    </xsl:template>
 
 </xsl:stylesheet>
