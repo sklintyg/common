@@ -9,7 +9,7 @@ angular.module('common').factory('common.ViewHelper',
             }
 
             var nextFieldName = field.shift();
-            if(field.length == 0) {
+            if(field.length === 0) {
                 return model[nextFieldName];
             }
 
@@ -19,7 +19,7 @@ angular.module('common').factory('common.ViewHelper',
         return {
             getNestedModelValue: function(model, key) {
                 var fieldPath = key.split('.');
-                if(fieldPath.length == 1) {
+                if(fieldPath.length === 1) {
                     return model[key];
                 }
                 else if(fieldPath.length > 1) {

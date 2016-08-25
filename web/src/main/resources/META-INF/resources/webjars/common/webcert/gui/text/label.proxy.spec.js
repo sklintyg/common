@@ -9,7 +9,6 @@ xdescribe('Proxy: DynamicLabelProxy', function() {
 
     var DynamicLabelProxy, $rootScope, $httpBackend;
     
-    var correctTextModel = {'text':''};
     var textResponse = {'text':''};
 
     // Initialize the controller and a mock scope

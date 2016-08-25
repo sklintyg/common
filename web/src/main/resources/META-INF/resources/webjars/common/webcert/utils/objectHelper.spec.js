@@ -36,7 +36,7 @@ describe('ObjectHelper', function() {
             {svar: 'svar1'},
             {svar: 'svar2'}
         ]
-    }
+    };
 
     beforeEach(angular.mock.inject(['common.ObjectHelper', function(_objectHelper_) {
         objectHelper = _objectHelper_;
@@ -63,12 +63,12 @@ describe('ObjectHelper', function() {
     });
 
     it('should return true if "" (empty string) is passed to isFalsy', function() {
-        var result = objectHelper.isFalsy("");
+        var result = objectHelper.isFalsy('');
         expect(result).toEqual(true);
     });
 
     it('should return true if "" (empty string) is passed to isFalsy', function() {
-        var result = objectHelper.isFalsy("TEXT");
+        var result = objectHelper.isFalsy('TEXT');
         expect(result).toEqual(false);
     });
 

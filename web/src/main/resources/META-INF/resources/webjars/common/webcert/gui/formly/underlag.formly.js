@@ -42,7 +42,7 @@ angular.module('common').run(function(formlyConfig) {
                 $scope.previousUnderlagIncomplete = function() {
                     var prev = $scope.model.underlag[$scope.model.underlag.length - 1];
                     return objectHelper.isEmpty(prev.typ) || objectHelper.isEmpty(prev.datum) || objectHelper.isEmpty(prev.hamtasFran);
-                }
+                };
             }
 
             $scope.$on('dynamicLabels.updated', function() {

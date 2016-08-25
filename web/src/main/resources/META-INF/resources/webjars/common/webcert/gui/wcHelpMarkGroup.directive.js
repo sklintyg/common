@@ -53,7 +53,7 @@ angular.module('common').directive('wcHelpMarkGroup',
                             $scope.showHelp = false;
                         } else {
                             $scope.showHelp = true;
-                            labelTexts += '<h5>'+ id +'</h5>'
+                            labelTexts += '<h5>'+ id +'</h5>';
                             labelTexts += '<p>'+ imported +'</p>';
                         }
                     }

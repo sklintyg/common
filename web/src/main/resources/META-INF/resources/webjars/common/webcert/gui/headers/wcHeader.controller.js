@@ -40,7 +40,7 @@ angular.module('common').controller('common.wcHeaderController',
 
             $scope.setTestMode = function(){
                 $rootScope.testModeActive = !$rootScope.testModeActive;
-            }
+            };
 
             $scope.testModeText = {
                 active: 'Avvaktivera testläge',
@@ -242,7 +242,7 @@ angular.module('common').controller('common.wcHeaderController',
             };
 
             $scope.goToAbout = function() {
-                var msgbox = $uibModal.open({
+                $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderAboutDialog.template.html',
                     controller: function($scope, $uibModalInstance) {
 
@@ -256,7 +256,7 @@ angular.module('common').controller('common.wcHeaderController',
             };
 
             $scope.openChangeCareUnitDialog = function() {
-                var msgbox = $uibModal.open({
+                $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderCareUnitDialog.template.html',
                     controller: function($scope, $uibModalInstance, vardgivare) {
                         $scope.vardgivare = vardgivare;

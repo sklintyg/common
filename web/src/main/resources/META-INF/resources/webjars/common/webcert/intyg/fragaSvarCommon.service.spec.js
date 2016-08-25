@@ -142,7 +142,8 @@ describe('fragaSvarCommonService', function() {
             userModelMock.isUthopp = function() { return true; };
             var link = fragaSvarCommonService.buildMailToLink(qa);
             expect(link).toEqual(
-                'mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20Angarden%20for%20vardgivare%20Vardgivare&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
+                'mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20Angarden%20for%20vardgivare%20Vardgivare'+
+                '&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
                 $window.location.port + '%2Fwebcert%2Fweb%2Fuser%2Fcertificate%2Ftestid%2Fquestions');
         }]));
 
@@ -150,7 +151,8 @@ describe('fragaSvarCommonService', function() {
             userModelMock.isUthopp = function() { return false; };
             var link = fragaSvarCommonService.buildMailToLink(qa);
             expect(link).toEqual(
-                'mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20Angarden%20for%20vardgivare%20Vardgivare&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
+                'mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20Angarden%20for%20vardgivare%20Vardgivare'+
+                '&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
                 $window.location.port + '%2Fwebcert%2Fweb%2Fuser%2Fbasic-certificate%2Ftestid%2Fquestions');
         }]));
 

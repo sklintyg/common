@@ -39,7 +39,7 @@ angular.module('common').directive('fieldSelectiveView',
                     }
 
                     var nextFieldName = field.shift();
-                    if(field.length == 0) {
+                    if(field.length === 0) {
                         return true;
                     }
 
@@ -49,8 +49,8 @@ angular.module('common').directive('fieldSelectiveView',
                 scope.$watch('fieldModel', function(model){
                     var field = scope.fieldSelectiveView;
                     var fieldPath = field.key.split('.');
-                    if(fieldPath.length == 1) {
-                        scope.show = !(field.key && model[field.key] == null);
+                    if(fieldPath.length === 1) {
+                        scope.show = !(field.key && model[field.key] === null);
                     }
                     else if(fieldPath.length > 1) {
                         scope.show = recurseCheckField(model, fieldPath);
