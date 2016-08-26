@@ -49,7 +49,7 @@ public final class CertificateStatusUpdateForCareTypeConverter {
         destination.setIntyg(intyg);
         decorateWithHandelse(destination, notificationMessage);
         decorateWithFragorOchSvar(destination, notificationMessage);
-        // TODO Uncomment next line when we have RC6 of schema (and remove log)
+        // Uncomment next line when we have RC6 of schema (and remove log) See JIRA
         // destination.setRef(notificationMessage.getReference());
         if (notificationMessage.getReference() != null) {
             LOG.error("Here is where we would add the reference '{}', if we had any support in schema. If you see this in production we f'ed up.",
