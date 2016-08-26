@@ -106,7 +106,7 @@ angular.module('common').factory('common.UtkastService',
                 intygState.viewState.common.error.saveErrorCode = null;
 
                 // Update draft version
-                intygState.viewState.common.version = data.version;
+                intygState.viewState.draftModel.version = data.version;
 
                 // Update validation messages
                 intygState.viewState.common.validationMessagesGrouped = {};
