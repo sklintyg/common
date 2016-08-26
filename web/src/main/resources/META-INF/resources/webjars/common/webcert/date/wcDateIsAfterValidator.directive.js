@@ -38,8 +38,8 @@ angular.module('common').directive('wcDateIsAfterValidator',
                             return true;
                         }
 
-                        var mdate1 = moment(date1);
-                        var mdate2 = moment(date2);
+                        var mdate1 = moment(date1, 'YYYY-MM-DD', true);
+                        var mdate2 = moment(date2, 'YYYY-MM-DD', true);
 
                         if(!mdate1.isValid() || !mdate2.isValid()) {
                             return true;

@@ -210,7 +210,7 @@ describe('UtkastService', function() {
 
         it ('successful utkast save and draft incomplete', function () {
             var saveResponse = {
-                'version':1,
+                'version':55,
                 'status':'DRAFT_INCOMPLETE',
                 'messages':[{'field':'errorField','type':'EMPTY','message':'error.message'}]
             };
@@ -235,6 +235,7 @@ describe('UtkastService', function() {
             expect(viewState.common.saving).toBeTruthy();
             $timeout.flush();
             expect(viewState.common.saving).toBeFalsy();
+            expect(viewState.draftModel.version).toBe(55);
         });
 
         it ('successful utkast save and draft incorrect format', function () {

@@ -176,4 +176,100 @@ describe('fragaSvarCommonService', function() {
         }]));
     });
 
+    describe('vidarebefordrad', function() {
+
+        var $httpBackend;
+        var fragaSvarCommonService;
+
+        beforeEach(angular.mock.inject(['$httpBackend', 'common.fragaSvarCommonService',
+            function(_$httpBackend_, _fragaSvarCommonService_) {
+                $httpBackend = _$httpBackend_;
+                fragaSvarCommonService = _fragaSvarCommonService_;
+            }
+        ]));
+
+        it('success', function() {
+            var callback = {done:function(){}};
+            spyOn(callback,'done');
+            fragaSvarCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
+            $httpBackend.expectPUT('/moduleapi/fragasvar/testIntygTyp/111/hanterad').respond(200,{fragasvar:'aaa'});
+            $httpBackend.flush();
+            expect(callback.done).toHaveBeenCalledWith({fragasvar:'aaa'});
+        });
+
+        it('fail', function() {
+            var callback = {done:function(){}};
+            spyOn(callback,'done');
+            fragaSvarCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
+            $httpBackend.expectPUT('/moduleapi/fragasvar/testIntygTyp/111/hanterad').respond(500,{fragasvar:'aaa'});
+            $httpBackend.flush();
+            expect(callback.done).toHaveBeenCalledWith(null);
+        });
+
+        it('toggle', function() {
+            var fraga = {};
+            var onVidarebefordradChange = function() {};
+            fragaSvarCommonService.handleVidareBefodradToggle(fraga, onVidarebefordradChange);
+        });
+    });
+
+    describe('QAonly dialog', function() {
+
+        var $httpBackend;
+        var dialogService;
+        var fragaSvarCommonService;
+        var UserModel;
+
+        beforeEach(angular.mock.inject(['$httpBackend', 'common.fragaSvarCommonService', 'common.dialogService',
+            'common.UserModel',
+            function(_$httpBackend_, _fragaSvarCommonService_, _dialogService_, _UserModel_) {
+                $httpBackend = _$httpBackend_;
+                dialogService = _dialogService_;
+                fragaSvarCommonService = _fragaSvarCommonService_;
+                UserModel = _UserModel_;
+
+                UserModel.setUser({origin: 'UTHOPP'});
+            }
+        ]));
+
+        it('should not open dialog', function() {
+
+            var spies = {
+                preventDefault: function() {},
+                unbindEvent: function() {}
+            };
+            spyOn(spies, 'preventDefault');
+            spyOn(spies, 'unbindEvent');
+            spyOn(dialogService, 'showDialog').and.callThrough();
+            fragaSvarCommonService.checkQAonlyDialog(
+                {},
+                spies,
+                'web/dashboard#/fragasvar/',
+                'web/dashboard#/unhandled-qa',
+                spies.unbindEvent);
+
+            expect(spies.unbindEvent).toHaveBeenCalled();
+            expect(dialogService.showDialog).not.toHaveBeenCalled();
+        });
+
+        it('should open dialog', function() {
+
+            var spies = {
+                preventDefault: function() {},
+                unbindEvent: function() {}
+            };
+            spyOn(spies, 'preventDefault');
+            spyOn(spies, 'unbindEvent');
+            spyOn(dialogService, 'showDialog').and.callThrough();
+            fragaSvarCommonService.checkQAonlyDialog(
+                {},
+                spies,
+                'web/dashboard#/create/choose-patient/index',
+                'web/dashboard#/unhandled-qa',
+                spies.unbindEvent);
+
+            expect(spies.preventDefault).toHaveBeenCalled();
+            expect(dialogService.showDialog).toHaveBeenCalled();
+        });
+    });
 });
