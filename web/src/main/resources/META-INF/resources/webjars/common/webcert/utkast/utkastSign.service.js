@@ -261,27 +261,25 @@ angular.module('common').factory('common.UtkastSignService',
                     $log.debug('_setErrorMessageId: Error is not defined.');
                     messageId = 'common.error.sign.general';
                 }
-                else {
+                else if (errorTable.hasOwnProperty(error.errorCode)) {
                     messageId = errorTable[error.errorCode];
-                    if (!messageId) {
-                        if (error.errorCode === 'GRP_PROBLEM') {
-                            if (error.message === 'ALREADY_IN_PROGRESS') {
-                                messageId = 'common.error.sign.grp.already_in_progress';
-                            } else if (error.message === 'USER_CANCEL' || error.message === 'CANCELLED') {
-                                messageId = 'common.error.sign.grp.cancel';
-                            } else if (error.message === 'EXPIRED_TRANSACTION') {
-                                messageId = 'common.error.sign.grp.expired_transaction';
-                            } else {
-                                messageId = 'common.error.sign.general';
-                            }
-                        }
-                        else {
-                            if (error === '') {
-                                messageId = 'common.error.cantconnect';
-                            } else {
-                                messageId = 'common.error.sign.general';
-                            }
-                        }
+                }
+                else if (error.errorCode === 'GRP_PROBLEM') {
+                    if (error.message === 'ALREADY_IN_PROGRESS') {
+                        messageId = 'common.error.sign.grp.already_in_progress';
+                    } else if (error.message === 'USER_CANCEL' || error.message === 'CANCELLED') {
+                        messageId = 'common.error.sign.grp.cancel';
+                    } else if (error.message === 'EXPIRED_TRANSACTION') {
+                        messageId = 'common.error.sign.grp.expired_transaction';
+                    } else {
+                        messageId = 'common.error.sign.general';
+                    }
+                }
+                else {
+                    if (error === '') {
+                        messageId = 'common.error.cantconnect';
+                    } else {
+                        messageId = 'common.error.sign.general';
                     }
                 }
                 return messageId;
