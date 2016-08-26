@@ -43,11 +43,10 @@
                            typeahead-template-url="/web/webjars/common/webcert/gui/formly/diagnos.formly.typeahead_template.html"
                            typeahead-loading="diagnosKodLoading[$index]"
                            typeahead-no-results="diagnosKodNoResults[$index]"
-                           ng-focus="diagnosKodFocus[$index]=true"
                            ng-blur="onBlurDiagnoseCodeField($index)">
                     <img src="/img/ajax-loader-kit-16x16.gif" class="diagnos-loading" ng-if="diagnosKodLoading[$index]" />
                 </div>
-                <span ng-if="diagnosKodNoResults[$index] && diagnosKodFocus[$index] && form['diagnoseCode'+$index].$viewValue.length > 2" uib-dropdown uib-dropdown-toggle auto-close="disabled" is-open="true">
+                <span ng-if="diagnosKodNoResults[$index] && form['diagnoseCode'+$index].$viewValue.length > 2" uib-dropdown uib-dropdown-toggle auto-close="disabled" is-open="true">
                       <ul uib-dropdown-menu>
                             <li><a href>Inga matchande diagnoser funna</a></li>
                       </ul>

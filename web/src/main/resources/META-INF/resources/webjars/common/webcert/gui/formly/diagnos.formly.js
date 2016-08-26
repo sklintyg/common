@@ -18,7 +18,6 @@ angular.module('common').run(function(formlyConfig) {
 
                 $scope.diagnosKodLoading = [];
                 $scope.diagnosKodNoResults = [];
-                $scope.diagnosKodFocus = [];
 
                 $scope.$watchCollection(
                     'model.diagnoser[0].diagnosKod', function(newValue) {
@@ -140,7 +139,6 @@ angular.module('common').run(function(formlyConfig) {
                 if (index === 0) {
                     $scope.updateFmbText();
                 }
-                $scope.diagnosKodFocus[index] = false;
             };
 
             $scope.updateFmbText = function() {
