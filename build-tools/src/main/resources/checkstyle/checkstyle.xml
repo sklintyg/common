@@ -108,7 +108,10 @@
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
     <module name="TodoComment">
+      <property name="format" value="TODO+:?"/>
       <property name="severity" value="warning"/>
+      <message key="todo.match"
+             value="TODO-comment found!"/>
     </module>
     <module name="UpperEll"/>
     <module name="FileContentsHolder"/>
