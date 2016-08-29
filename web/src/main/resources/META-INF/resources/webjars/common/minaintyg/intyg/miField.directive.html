@@ -1,8 +1,7 @@
 <div class="body-row">
   <span ng-if="fieldDynamicLabel" mi-intyg-label="fieldDynamicLabel"></span>
-  <h3 class="title" ng-if="fieldLabel" ng-class="{ 'unfilled' : !filled}">
+  <h3 class="title" ng-if="fieldLabel" ng-class="{'unfilled' : !filled}">
     <span message key="{{fieldLabel}}"></span>
-    <!--span ng-if="fieldDynamicLabel" dynamic-label key="{{ fieldDynamicLabel }}"></span-->
   </h3>
   <span ng-hide="filled"><span message key="view.label.blank"></span></span>
   <span class="text" ng-show="filled">
