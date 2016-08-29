@@ -29,15 +29,15 @@ import java.util.List;
  */
 public class PatientValidator {
 
-    private static final ModuleValidatorUtil moduleValidator = new ModuleValidatorUtil();
+    private static final ModuleValidatorUtil MODULE_VALIDATOR_UTIL = new ModuleValidatorUtil();
 
     public void validate(Patient patient, List<ValidationMessage> validationMessages) {
         if (patient == null) {
             return;
         }
-        moduleValidator.assertStringNotEmpty(validationMessages, patient.getPostadress(), "patient.postadress", "common.validation.patient.postadress.missing");
-        moduleValidator.assertStringNotEmpty(validationMessages, patient.getPostnummer(), "patient.postnummer", "common.validation.patient.postnummer.missing");
-        moduleValidator.assertStringNotEmpty(validationMessages, patient.getPostort(), "patient.postort", "common.validation.patient.postort.missing");
+        MODULE_VALIDATOR_UTIL.assertStringNotEmpty(validationMessages, patient.getPostadress(), "patient.postadress", "common.validation.patient.postadress.missing");
+        MODULE_VALIDATOR_UTIL.assertStringNotEmpty(validationMessages, patient.getPostnummer(), "patient.postnummer", "common.validation.patient.postnummer.missing");
+        MODULE_VALIDATOR_UTIL.assertStringNotEmpty(validationMessages, patient.getPostort(), "patient.postort", "common.validation.patient.postort.missing");
     }
 
 }
