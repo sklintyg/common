@@ -174,6 +174,11 @@ var commonMessages = {
         'common.intyg.relation.code.komplt': 'Komplettering',
         'common.intyg.relation.code.frlang': 'Förlängning',
 
+        'common.intyg.patientadress': 'Patientens adressuppgifter',
+        'common.postadress': 'Postadress',
+        'common.postnummer': 'Postadress',
+        'common.postort': 'Postort',
+
         //common.sit.* messages are candidates for a fk-common messages.js
         'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE:',
         'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',

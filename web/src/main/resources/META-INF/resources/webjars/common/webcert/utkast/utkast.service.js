@@ -53,6 +53,20 @@ angular.module('common').factory('common.UtkastService',
                         $location.url('/intyg/' + intygsTyp + '/' + viewState.draftModel.content.id);
                     }
                     else {
+
+                        // update patient data from integration if available
+                        if(UserModel.isDjupintegration()) {
+                            if(ObjectHelper.isDefined($stateParams.postadress)){
+                                viewState.intygModel.grundData.patient.postadress = $stateParams.postadress;
+                            }
+                            if(ObjectHelper.isDefined($stateParams.postadress)) {
+                                viewState.intygModel.grundData.patient.postnummer = $stateParams.postnummer;
+                            }
+                            if(ObjectHelper.isDefined($stateParams.postadress)) {
+                                viewState.intygModel.grundData.patient.postort = $stateParams.postort;
+                            }
+                        }
+
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor
                         dynamicLabelService.updateDynamicLabels(intygsTyp, viewState.draftModel.content);
                         $timeout(function() {
