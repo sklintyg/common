@@ -21,16 +21,14 @@ describe('PatientModel', function() {
     'use strict';
 
     var PatientModel;
-    var $httpBackend;
 
     beforeEach(angular.mock.module('common', function($provide) {
     }));
 
     beforeEach(angular.mock.inject([
-        'common.PatientModel', '$httpBackend',
-        function(_PatientModel_, _$httpBackend_) {
+        'common.PatientModel',
+        function(_PatientModel_) {
             PatientModel = _PatientModel_;
-            $httpBackend = _$httpBackend_;
         }]));
 
     describe('#reset', function() {

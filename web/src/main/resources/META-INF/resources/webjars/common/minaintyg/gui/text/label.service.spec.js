@@ -146,33 +146,5 @@ describe('dynamicLabelService', function() {
             expect(aProp).toBeUndefined();
         });
 
-        /* it('should return an empty string if the message is an empty string', function() {
-         // todo
-         });
-
-         it('should return the correct value if a language is set in the root scope', function() {
-         // todo
-         });
-
-         it('should return the correct value if a default language is set', function() {
-         // todo
-         });
-
-         it('should return the default value if the key is not present in the resources', function() {
-         // todo
-         });
-
-         it('should return the missing key if the key is not present in the resources', function() {
-         // todo
-         });
-
-         it('should return missing language if no language is set', function() {
-         // todo
-         });
-
-         it('should return string with expanded string if variable available', function() {
-         // todo
-         }); */
-
     });
 });

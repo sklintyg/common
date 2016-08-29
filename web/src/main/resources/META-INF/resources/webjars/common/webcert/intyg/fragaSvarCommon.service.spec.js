@@ -215,15 +215,13 @@ describe('fragaSvarCommonService', function() {
 
     describe('QAonly dialog', function() {
 
-        var $httpBackend;
         var dialogService;
         var fragaSvarCommonService;
         var UserModel;
 
-        beforeEach(angular.mock.inject(['$httpBackend', 'common.fragaSvarCommonService', 'common.dialogService',
+        beforeEach(angular.mock.inject(['common.fragaSvarCommonService', 'common.dialogService',
             'common.UserModel',
-            function(_$httpBackend_, _fragaSvarCommonService_, _dialogService_, _UserModel_) {
-                $httpBackend = _$httpBackend_;
+            function(_fragaSvarCommonService_, _dialogService_, _UserModel_) {
                 dialogService = _dialogService_;
                 fragaSvarCommonService = _fragaSvarCommonService_;
                 UserModel = _UserModel_;

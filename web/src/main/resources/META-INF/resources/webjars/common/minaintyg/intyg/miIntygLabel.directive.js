@@ -22,6 +22,19 @@ angular.module('common').directive('miIntygLabel',
         function($log, dynamicLabelService) {
             'use strict';
 
+            function _onLabelsUpdated(scope, frageId) {
+                if (dynamicLabelService.hasProperty(frageId + '.RBK')) {
+                    scope.h4Label = frageId + '.RBK';
+                    if (!dynamicLabelService.hasProperty(scope.miIntygLabel + '.RBK')) {
+                        scope.h5Label = null;
+                    }
+                }
+                else {
+                    scope.h4Label = scope.h5Label;
+                    scope.h5Label = null;
+                }
+            }
+
             return {
                 restrict: 'A',
                 replace: true,
@@ -40,18 +53,7 @@ angular.module('common').directive('miIntygLabel',
                         var questionIds = scope.miIntygLabel.substring(4).split('.');
                         if (questionIds.length === 2 && questionIds[1] === '1') {
                             var frageId = 'FRG_' + questionIds[0];
-                            scope.$on('dynamicLabels.updated', function() {
-                                if (dynamicLabelService.hasProperty(frageId + '.RBK')) {
-                                    scope.h4Label = frageId + '.RBK';
-                                    if (!dynamicLabelService.hasProperty(scope.miIntygLabel + '.RBK')) {
-                                        scope.h5Label = null;
-                                    }
-                                }
-                                else {
-                                    scope.h4Label = scope.h5Label;
-                                    scope.h5Label = null;
-                                }
-                            });
+                            scope.$on('dynamicLabels.updated', angular.bind(this, _onLabelsUpdated, scope, frageId));
                         }
                     }
                     else if (scope.miIntygLabel.substring(0, 4) === 'FRG_') {

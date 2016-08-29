@@ -47,11 +47,9 @@ angular.module('common').controller('common.ArendeCtrl',
                     ArendenViewState.activeErrorMessageKey = null;
                     ArendenViewState.showAllKompletteringarHandled = false;
 
-                    if(ObjectHelper.isDefined(intygProperties)){
-                        // If kompletteringsmode, only show kompletteringsissues
-                        if (intygProperties.kompletteringOnly) {
-                            result = filterKompletteringar(result, intygProperties);
-                        }
+                    // If kompletteringsmode, only show kompletteringsissues
+                    if(ObjectHelper.isDefined(intygProperties) && intygProperties.kompletteringOnly) {
+                        result = filterKompletteringar(result, intygProperties);
                     }
 
                     $scope.arendeList = ArendeHelper.createListItemsFromArenden(result);

@@ -20,7 +20,6 @@
 describe('DateIsAfterValidatorDirective', function() {
     'use strict';
 
-    var element;
     var $scope;
 
     beforeEach(angular.mock.module('htmlTemplates'));
@@ -40,7 +39,7 @@ describe('DateIsAfterValidatorDirective', function() {
                 testDate1: '',
                 testDate2: ''
             };
-            element = $compile(tpl)($scope);
+            $compile(tpl)($scope);
             $scope.$digest();
         }
     ]));

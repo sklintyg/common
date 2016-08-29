@@ -94,7 +94,9 @@ angular.module('common')
              */
             function patchClose () {
                 // Perform sanity check
-                if (!angular.isFunction(isoScope.close)) { return; }
+                if (!angular.isFunction(isoScope.close)) {
+                    return;
+                }
                 // Keep old close callback
                 origCloseFn = isoScope.close;
                 // Patch with our own callback

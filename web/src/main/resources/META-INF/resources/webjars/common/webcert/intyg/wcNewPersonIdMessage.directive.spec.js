@@ -22,9 +22,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     var $scope;
     var element;
-    var $compileProvider;
     var $stateParams;
-    var messageService;
 
     var samordningsNummer = '19540187-5769';
     var personNummer1 = '19121212-1212';
@@ -33,13 +31,8 @@ describe('wcNewPersonIdMessageDirective', function() {
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common'));
 
-    beforeEach(module(function(_$compileProvider_) {
-        $compileProvider = _$compileProvider_;
-    }));
-
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$stateParams', 'common.messageService',
-        function($compile, $rootScope, _$stateParams_, _messageService_) {
-            messageService = _messageService_;
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$stateParams',
+        function($compile, $rootScope, _$stateParams_) {
             $stateParams = _$stateParams_;
 
             $scope = $rootScope.$new();

@@ -23,7 +23,6 @@ describe('UtkastService', function() {
     var dynamicLabelService;
     var utkastService;
     var commonViewState;
-    var messageService;
     var viewState;
     var $httpBackend;
     var $location;
@@ -44,11 +43,10 @@ describe('UtkastService', function() {
     }));
 
     beforeEach(angular.mock.inject(['common.dynamicLabelService', 'common.UtkastService', 'common.UtkastViewStateService',
-        'common.messageService', '$httpBackend', '$location', '$rootScope', '$stateParams', '$timeout',
-        function(_dynamicLabelService_, _utkastService_, _commonViewState_, _messageService_, _$httpBackend_, _$location_, _$rootScope_, _$stateParams_, _$timeout_) {
+        '$httpBackend', '$location', '$rootScope', '$stateParams', '$timeout',
+        function(_dynamicLabelService_, _utkastService_, _commonViewState_, _$httpBackend_, _$location_, _$rootScope_, _$stateParams_, _$timeout_) {
             dynamicLabelService = _dynamicLabelService_;
             utkastService = _utkastService_;
-            messageService = _messageService_;
             commonViewState = _commonViewState_;
             $httpBackend = _$httpBackend_;
             $location = _$location_;
@@ -98,9 +96,7 @@ describe('UtkastService', function() {
 
             $stateParams.certificateId = 'testIntygId';
             var promise = utkastService.load(viewState);
-            var resultData;
             promise.then(function(data) {
-                resultData = data;
             });
 
             utkastContent.braIntygsData = 'bra';

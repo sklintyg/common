@@ -80,7 +80,6 @@ angular.module('common').directive('wcDatePeriodValidator',
             controller: function($scope) {
 
                 this.registerDatePeriod = function(ngModel, fieldOptions) {
-//                    console.log('registerDatePeriod', element, fieldOptions);
                     if (!datePeriods[fieldOptions.index]) {
                         datePeriods[fieldOptions.index] = {};
                     }

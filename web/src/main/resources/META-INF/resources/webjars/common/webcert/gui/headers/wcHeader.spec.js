@@ -25,10 +25,6 @@ describe('wcHeader', function() {
     var element;
     var User;
     var UserModel;
-    var statService;
-    var featureService;
-    var authorityService;
-    var moduleConfig;
     var $compile, $rootScope, $httpBackend, $controller, $templateCache;
 
     var testUserContext = {
@@ -155,23 +151,18 @@ describe('wcHeader', function() {
     }));
 
     beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache',
-        'common.User','common.UserModel', 'common.statService', 'common.featureService', 'common.authorityService', 'moduleConfig',
-        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _User_, _UserModel_, _statService_,
-            _featureService_, _authorityService_, _moduleConfig_) {
+        'common.User','common.UserModel',
+        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _User_, _UserModel_) {
             $scope = _$rootScope_.$new();
             User = _User_;
             UserModel = _UserModel_;
             UserModel.setUser(testUserContext);
 
-            statService = _statService_;
-            featureService = _featureService_;
-            authorityService = _authorityService_;
             $compile = _$compile_;
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             $controller = _$controller_;
             $templateCache = _$templateCache_;
-            moduleConfig = _moduleConfig_;
 
             // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast
             // from statService

@@ -23,7 +23,6 @@ describe('UtkastSignService', function() {
     'use strict';
 
     var UtkastSignService;
-    var $document;
     var $httpBackend;
     var $q;
     var $location;
@@ -50,8 +49,8 @@ describe('UtkastSignService', function() {
     }));
 
     beforeEach(angular.mock.inject(['common.UtkastSignService', '$httpBackend', '$location', '$q', '$stateParams', '$timeout',
-        '$document', 'common.dialogService', 'common.User',
-        function(_UtkastSignService_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_, _$document_,
+        'common.dialogService', 'common.User',
+        function(_UtkastSignService_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_,
             _dialogService_, _User_) {
             UtkastSignService = _UtkastSignService_;
             $httpBackend = _$httpBackend_;
@@ -59,7 +58,6 @@ describe('UtkastSignService', function() {
             $location = _$location_;
             $stateParams = _$stateParams_;
             $timeout = _$timeout_;
-            $document = _$document_;
             dialogService = _dialogService_;
             User = _User_;
 
@@ -165,7 +163,6 @@ describe('UtkastSignService', function() {
     // TODO add a similar test for signera with BankID (which is a combination of client/server-side signing)
     describe('#signera client', function() {
         var intygId = 123, biljettId = 12345, version = 5;
-        var $scope;
 
         beforeEach(function() {
             iid_GetProperty = jasmine.createSpy('iid_GetProperty'); // jshint ignore:line
@@ -176,7 +173,6 @@ describe('UtkastSignService', function() {
             User.getUser().authenticationMethod = 'NET_ID';
 
             $stateParams.certificateId = intygId;
-            $scope = {};
         });
 
         afterEach(function() {

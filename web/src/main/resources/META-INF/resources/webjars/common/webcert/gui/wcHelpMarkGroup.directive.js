@@ -47,9 +47,7 @@ angular.module('common').directive('wcHelpMarkGroup',
                         var imported = dynamicLabelService.getProperty(id);
 
                         // if we any empty string or only extension, dont render the ? icon in GUI.
-                        if (imported === '' || imported.split('.')[0] === '') {
-                            $scope.showHelp = false;
-                        } else if (imported === undefined || imported === null){
+                        if (!imported || imported.split('.')[0] === '') {
                             $scope.showHelp = false;
                         } else {
                             $scope.showHelp = true;
@@ -74,7 +72,6 @@ angular.module('common').directive('wcHelpMarkGroup',
                     // texts failed to update first but they are updated on the dynamicLabels.updated event sent when utkast AND texts have been loaded.
 
                     $scope.$on('dynamicLabels.updated', function() {
-                        //$log.debug('updating from intyg.loaded message');
                         updateLabels();
                     });
                     updateLabels();
