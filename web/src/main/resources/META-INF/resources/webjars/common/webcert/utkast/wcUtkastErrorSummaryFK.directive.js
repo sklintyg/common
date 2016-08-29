@@ -41,7 +41,7 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
                                 return 'KAT_' + i + '.RBK';
                             }
                         }
-                        return messageService.getProperty(viewState.intyg.type+'.label.'+category);
+                        return messageService.getProperty('common.label.'+category);
                     };
                 }
             };

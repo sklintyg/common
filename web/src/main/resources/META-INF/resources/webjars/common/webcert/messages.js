@@ -184,7 +184,11 @@ var commonMessages = {
         'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',
         'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
         'common.sit.client-validation.underlag.max-extra-underlag': 'Du kan inte lägga till fler utredningar, max antal är %0st',
-
+        'common.label.patient': 'Patientens adressuppgifter',
+        'common.label.vardenhet': 'Vårdenhetens adress',
+        'common.validation.patient.postadress.missing': 'Postadress saknas.',
+        'common.validation.patient.postnummer.missing': 'Postnummer saknas.',
+        'common.validation.patient.postort.missing': 'Postort saknas.',
 
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
