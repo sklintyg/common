@@ -86,25 +86,24 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function _decorateSingleItem(qa) {
+
+                var allowedToKomplettera = UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, undefined, false);
+
                 if (qa.amne === 'PAMINNELSE') {
                     // RE-020 Påminnelser is never
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-                } else if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
+                } else if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') &&
+                    !allowedToKomplettera) {
+                    // If svaramednyttintygdisabled = true already then we aren't allowed to answer regardless of privilege
+
                     // RE-005, RE-006
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
                 } else {
                     qa.answerDisabled = false;
                     qa.answerDisabledReason = undefined;
-                }
-
-                if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
-                    qa.svaraMedNyttIntygDisabled = true;
-                    qa.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
-                } else {
-                    qa.svaraMedNyttIntygDisabled = false;
                 }
 
                 _decorateSingleItemMeasure(qa);
