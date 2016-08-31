@@ -42,9 +42,12 @@
   @import 'wc-header';
   @import 'wc-vardenhet-selector';
   @import 'wc-header-care-unit-dialog';
+  @import 'wc-table-head';
   @import 'bootstrap-overrides';
-  @import '../intyg/fk/arenden/arende';
-  @import 'komplettering-dialog';
+  @import 'fk-sit-common';
+  @import '../fk/arenden/_arende';
+  @import '../fmb/fmb';
+  @import '../gui/formly/diagnos';
 
   //colors
   $color_java_approx: #28b4c4;
@@ -214,7 +217,6 @@
 
   .utkast-footer {
     margin-bottom: 50px;
-    margin-left: 15px;
   }
 
   p {
@@ -871,23 +873,6 @@
   margin-right: 15px;
 }
 
-.diagnosRow {
-  transition:.2s ease-out all;
-
-  &.ng-enter,
-  &.ng-leave.ng-leave-active {
-    height: 0px;
-    opacity: 0;
-    overflow:hidden;
-  }
-  &.ng-enter.ng-enter-active,
-  &.ng-leave {
-    height: 64px;
-    opacity: 1;
-    overflow:hidden;
-  }
-}
-
 /*
 Modular modifiers
 */
@@ -898,6 +883,15 @@ Modular modifiers
 
 .padding-top-large {
   padding-top: 30px;
+}
+
+.relative-anchor {
+  position:relative;
+}
+
+.anchor-right {
+  position: absolute;
+  right: 0;
 }
 
 /*
@@ -923,4 +917,28 @@ wc cookie banner css.
     padding: 0;
   }
 
+}
+
+#toggleShowRelatedIntyg {
+  margin-left: 10px;
+}
+
+#intygRelations {
+  max-width: 600px;
+  border: 1px solid #9cd7e3;
+  border-radius: 4px;
+  padding: 10px;
+
+  .currentlyviewing {
+    padding-left: 7px;
+  }
+  table {
+    display: table;
+    margin: 0;
+    td {
+      height: 36px;
+    }
+    th {
+    }
+  }
 }

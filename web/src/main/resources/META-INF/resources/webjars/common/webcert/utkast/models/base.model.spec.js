@@ -471,7 +471,7 @@ describe('common.domain.BaseModel', function() {
                             defaultValue:[],
                             toTransform: ModelTransform.toTypeTransform,
                             fromTransform: ModelTransform.fromTypeTransform
-                        }),
+                        })
                 };
 
                 var IntygModel = BaseAtticModel._extend({

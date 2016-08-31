@@ -19,12 +19,15 @@
 
 package se.inera.intyg.common.services.texts;
 
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+
 /**
  * Service used to access the texts in a certificate.
  */
 public interface IntygTextsService {
+
     /**
-     * Returns the texts for a given type and version.
+     * Returns the texts for a given type and version as JSON.
      *
      * @param intygsTyp
      *            the type
@@ -35,9 +38,21 @@ public interface IntygTextsService {
     String getIntygTexts(String intygsTyp, String version);
 
     /**
+     * Returns an {@link IntygTexts} representation of the set of texts for the certificate with specified and version.
+     *
+     * @param intygsTyp
+     *            the type
+     * @param version
+     *            the version
+     * @return the texts as an {@link IntygTexts} object
+     */
+    IntygTexts getIntygTextsPojo(String intygsTyp, String version);
+
+    /**
      * Returns the latest version for <code>intygsTyp</code>.
      *
-     * @param intygsTyp the type
+     * @param intygsTyp
+     *            the type
      * @return the latest version
      */
     String getLatestVersion(String intygsTyp);

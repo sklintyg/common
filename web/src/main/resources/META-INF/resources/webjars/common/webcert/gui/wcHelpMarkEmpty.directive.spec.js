@@ -31,10 +31,6 @@ describe('wcHelpMarkEmptyDirective', function() {
 
     beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('networkConfig', {});
-    }));
-
     beforeEach(module(function(_$compileProvider_) {
         $compileProvider = _$compileProvider_;
     }));

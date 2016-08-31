@@ -35,6 +35,8 @@ public class Relation {
 
     private LocalDate sistaGiltighetsDatum;
 
+    private String referensId;
+
     @Override
     public boolean equals(Object object) {
         if (object == null) {
@@ -47,12 +49,14 @@ public class Relation {
         return Objects.equals(this.relationKod, that.relationKod)
                 && Objects.equals(this.relationIntygsId, that.relationIntygsId)
                 && Objects.equals(this.meddelandeId, that.meddelandeId)
-                && Objects.equals(this.sistaGiltighetsDatum, that.sistaGiltighetsDatum);
+                && Objects.equals(this.sistaGiltighetsDatum, that.sistaGiltighetsDatum)
+                && Objects.equals(this.referensId, that.referensId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.relationKod, this.relationIntygsId);
+        return Objects.hash(this.relationKod, this.relationIntygsId,
+                this.meddelandeId, this.sistaGiltighetsDatum, this.referensId);
     }
 
     public RelationKod getRelationKod() {
@@ -85,6 +89,14 @@ public class Relation {
 
     public void setSistaGiltighetsDatum(LocalDate sistaGiltighetsDatum) {
         this.sistaGiltighetsDatum = sistaGiltighetsDatum;
+    }
+
+    public String getReferensId() {
+        return referensId;
+    }
+
+    public void setReferensId(String referensId) {
+        this.referensId = referensId;
     }
 
 }

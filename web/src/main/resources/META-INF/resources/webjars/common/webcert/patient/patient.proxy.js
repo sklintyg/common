@@ -41,6 +41,7 @@ angular.module('common').factory('common.PatientProxy',
 
                     if (data.status === 'FOUND' && data.person) {
                         that.sekretessmarkering = data.person.sekretessmarkering;
+                        that.personnummer = data.person.personnummer;
                         that.fornamn = data.person.fornamn;
                         that.mellannamn = data.person.mellannamn;
                         that.efternamn = data.person.efternamn;

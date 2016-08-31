@@ -185,6 +185,11 @@ a {
     }
   }
 
+  h5 {
+    font-size: 13px;
+    padding-bottom: 10px;
+  }
+
   a {
     color: $color_blue_chill_approx;
   }
@@ -217,7 +222,6 @@ a {
   }
   &__titlerow {
     padding-bottom: 10px;
-    padding-left: 20px;
   }
   .title-single {
     background: none;
@@ -326,6 +330,13 @@ div.infobox {
   margin-left: 0px;
   opacity: 0;
   height: 0;
+}
+
+.fold-animation {
+  overflow:hidden;
+  &.ng-enter-prepare {
+    height: 0px;
+  }
 }
 
 .slide-fade-animation {
@@ -534,4 +545,13 @@ input.ng-invalid-date {
   .form-inline .radio input[type=radio] .big-radio, .form-inline .checkbox input[type=checkbox] .big-checkbox {
     vertical-align: bottom;
   }
+}
+
+/*
+  Disablar rensa-kryss-knappen i IE eftersom de inte skickar en change event som angularjs kan lyssna på.
+
+  En workaround kan vara på gång i AngularJS. Se https://github.com/angular/angular.js/issues/11193
+*/
+::-ms-clear {
+  display: none;
 }

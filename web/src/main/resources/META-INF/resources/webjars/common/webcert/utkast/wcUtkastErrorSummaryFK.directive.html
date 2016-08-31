@@ -3,7 +3,7 @@
   <h3><span message key="draft.saknar-uppgifter"></span></h3>
   <ul>
     <li ng-repeat="message in viewState.common.validationSections">
-      <a href="" ng-click="scrollTo(message)"><span dynamic-label key="{{lookUp(message)}}"></span></a>
+      <a href="" ng-click="scrollTo(message)">{{lookUpLabel(message)}}</span></a>
     </li>
   </ul>
 </div>

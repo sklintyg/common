@@ -22,6 +22,7 @@ package se.inera.intyg.common.support.modules.support.api;
 import java.util.List;
 
 import org.joda.time.LocalDateTime;
+
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 
 public class CertificateHolder {
@@ -30,11 +31,6 @@ public class CertificateHolder {
      * Id of the certificate.
      */
     private String id;
-
-    /**
-     * Certificate document.
-     */
-    private String document;
 
     /**
      * The transport model (XML) that was used to generate this entity.
@@ -92,7 +88,7 @@ public class CertificateHolder {
     private String additionalInfo;
 
     /**
-     * Deleted flag.
+     * If this certificate is archived by the citizen.
      */
     private boolean deleted;
 
@@ -104,11 +100,6 @@ public class CertificateHolder {
      * (by revoking its consent or stops being a citizen).
      */
     private boolean deletedByCareGiver;
-
-    /**
-     * If this certificate was wireTapped.
-     */
-    private boolean wireTapped = false;
 
     /**
      * Certificate states.
@@ -126,14 +117,6 @@ public class CertificateHolder {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getDocument() {
-        return document;
-    }
-
-    public void setDocument(String document) {
-        this.document = document;
     }
 
     public String getOriginalCertificate() {
@@ -240,14 +223,6 @@ public class CertificateHolder {
         this.deletedByCareGiver = deletedByCareGiver;
     }
 
-    public boolean isWireTapped() {
-        return wireTapped;
-    }
-
-    public void setWireTapped(boolean wireTapped) {
-        this.wireTapped = wireTapped;
-    }
-
     public List<CertificateStateHolder> getCertificateStates() {
         return certificateStates;
     }
@@ -266,7 +241,7 @@ public class CertificateHolder {
 
     @Override
     public String toString() {
-        return "CertificateHolder [id=" + id + ", document=" + document + ", originalCertificate=" + originalCertificate + ", type=" + type
+        return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type
                 + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
                 + ", civicRegistrationNumber=" + civicRegistrationNumber.getPnrHash() + ", signedDate=" + signedDate + ", validFromDate=" + validFromDate
                 + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo + ", deleted=" + deleted + ", deletedByCareGiver="
@@ -286,8 +261,7 @@ public class CertificateHolder {
         result = prime * result + ((civicRegistrationNumber == null) ? 0 : civicRegistrationNumber.hashCode());
         result = prime * result + (deleted ? 1231 : 1237);
         result = prime * result + (deletedByCareGiver ? 1231 : 1237);
-        result = prime * result + (wireTapped ? 1231 : 1237);
-        result = prime * result + ((document == null) ? 0 : document.hashCode());
+        result = prime * result + ((originalCertificate == null) ? 0 : originalCertificate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + (revoked ? 1231 : 1237);
         result = prime * result + ((signedDate == null) ? 0 : signedDate.hashCode());
@@ -359,14 +333,11 @@ public class CertificateHolder {
         if (deletedByCareGiver != other.deletedByCareGiver) {
             return false;
         }
-        if (wireTapped != other.wireTapped) {
-            return false;
-        }
-        if (document == null) {
-            if (other.document != null) {
+        if (originalCertificate == null) {
+            if (other.originalCertificate != null) {
                 return false;
             }
-        } else if (!document.equals(other.document)) {
+        } else if (!originalCertificate.equals(other.originalCertificate)) {
             return false;
         }
         if (id == null) {

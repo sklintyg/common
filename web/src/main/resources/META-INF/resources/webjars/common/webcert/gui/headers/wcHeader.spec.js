@@ -25,9 +25,6 @@ describe('wcHeader', function() {
     var element;
     var User;
     var UserModel;
-    var statService;
-    var featureService;
-    var authorityService;
     var $compile, $rootScope, $httpBackend, $controller, $templateCache;
 
     var testUserContext = {
@@ -126,7 +123,6 @@ describe('wcHeader', function() {
 
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common', function($provide) {
-        // $provide.value('common.UserModel', {user: testUserContext});
 
         var featureService = {
             testDjupintegration: false,
@@ -138,41 +134,35 @@ describe('wcHeader', function() {
                 SKICKA_INTYG: 'skickaIntyg'
             },
             isFeatureActive: function(feature) {
-                if (this.testDjupintegration) {
-                    return true;
-                } else {
-                    return true;
-                }
-
-                return false;
+                return true;
             }
         };
         $provide.value('common.featureService', featureService); // jasmine.createSpyObj('common.featureService',
                                                                     // ['isFeatureActive'])
     }));
+    beforeEach(angular.mock.module(function($provide) {
+        var testConfig = {
+            PP_HOST: 'localhost:8090',
+            DASHBOARD_URL: '/web/dashboard'
+        };
+        $provide.constant('moduleConfig', testConfig);
+        $window = {location:null};
+        $provide.value('$window', $window);
+    }));
 
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache', '$window',
-        'common.User','common.UserModel', 'common.statService', 'common.featureService', 'common.authorityService',
-        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _$window_, _User_, _UserModel_, _statService_,
-            _featureService_, _authorityService_) {
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$controller', '$httpBackend', '$templateCache',
+        'common.User','common.UserModel',
+        function(_$compile_, _$rootScope_, _$controller_, _$httpBackend_, _$templateCache_, _User_, _UserModel_) {
             $scope = _$rootScope_.$new();
             User = _User_;
             UserModel = _UserModel_;
             UserModel.setUser(testUserContext);
 
-            statService = _statService_;
-            featureService = _featureService_;
-            authorityService = _authorityService_;
             $compile = _$compile_;
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             $controller = _$controller_;
             $templateCache = _$templateCache_;
-            $window = _$window_;
-            $window.MODULE_CONFIG = {
-                    PP_HOST: 'localhost:8090',
-                    DASHBOARD_URL: '/web/dashboard'
-            };
 
             // Instruct jasmine to let the real broadcast be called so that scope.stat will be filled by the broadcast
             // from statService
@@ -264,12 +254,37 @@ describe('wcHeader', function() {
         it('should show a logout button if not in djupintegration mode', function() {
             var link = element.find('#logoutLink');
             expect(link.length).toBe(1);
+
+            $(link).click();
+            expect($window.location).toBe('/logout');
         });
-        /*
-         * xit('should generate a menu with choices fit for a doctor', function() { });
-         * 
-         * xit('should generate a menu with choices fit for an administrator', function() { });
-         */
+
+        it('should generate a menu with choices fit for a doctor', function() {
+            var menuItems = element.find('#huvudmeny .nav LI');
+            expect(menuItems.length).toBe(4);
+            expect($(menuItems[0]).find('A').attr('href')).toBe('/web/dashboard#/create/index');
+            expect($(menuItems[1]).find('A').attr('href')).toBe('/web/dashboard#/unhandled-qa');
+            expect($(menuItems[2]).find('A').attr('href')).toBe('/web/dashboard#/unsigned');
+            expect($(menuItems[3]).find('A').attr('href')).toBe('/web/dashboard#/webcert/about');
+        });
+
+        it('should generate a menu with choices fit for an administrator', function() {
+
+            var administratorUserContext = angular.copy(testUserContext);
+            administratorUserContext.roles = {
+                VARDADMINISTRATOR: {name: 'VARDADMINISTRATOR', desc: 'Vårdadministratör'}
+            };
+            UserModel.setUser(administratorUserContext);
+            generateHeader($scope);
+
+            var menuItems = element.find('#huvudmeny .nav LI');
+            expect(menuItems.length).toBe(4);
+            expect($(menuItems[0]).find('A').attr('href')).toBe('/web/dashboard#/unhandled-qa');
+            expect($(menuItems[1]).find('A').attr('href')).toBe('/web/dashboard#/unsigned');
+            expect($(menuItems[2]).find('A').attr('href')).toBe('/web/dashboard#/create/index');
+            expect($(menuItems[3]).find('A').attr('href')).toBe('/web/dashboard#/webcert/about');
+        });
+
         it('should bubbles showing number of unhandled questions/answers and utkast on vardenhet', function() {
             var unsignedCerts = element.find('#stat-unitstat-unsigned-certs-count');
             var unhandledQs = element.find('#stat-unitstat-unhandled-question-count');

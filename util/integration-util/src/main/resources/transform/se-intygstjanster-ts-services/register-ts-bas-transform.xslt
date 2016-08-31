@@ -25,9 +25,9 @@
 
   <xsl:template name="response">
      <rmc:RegisterTSBasResponse>
-       <rmc:result>
+       <rmc:resultat>
          <xsl:call-template name="result"/>
-       </rmc:result>
+       </rmc:resultat>
      </rmc:RegisterTSBasResponse>
    </xsl:template>
 

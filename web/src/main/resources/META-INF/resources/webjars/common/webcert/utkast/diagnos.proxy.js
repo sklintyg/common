@@ -39,7 +39,7 @@ angular.module('common').factory('common.DiagnosProxy',
          * Search diagnosis by description
          */
         function _searchByDescription(codeSystem, searchString) {
-            //$log.debug('_searchByDescription: ' + searchString);
+            $log.debug('_searchByDescription: ' + searchString);
             var restPath = '/moduleapi/diagnos/beskrivning/sok';
             var data = {
                 codeSystem: codeSystem,

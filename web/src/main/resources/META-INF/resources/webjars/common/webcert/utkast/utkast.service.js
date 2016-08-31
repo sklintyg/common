@@ -24,10 +24,13 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
+        'common.ObjectHelper',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
-            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService,
-            DynamicLabelProxy) {
+            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper) {
             'use strict';
+
+            // used to calculate save duration
+            var saveStartTime;
 
             /**
              * Load draft to webcert
@@ -38,8 +41,10 @@ angular.module('common').factory('common.UtkastService',
                 var intygsTyp = viewState.common.intyg.type;
                 CommonViewState.doneLoading = false;
                 var def = $q.defer();
-                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, function(data) {
+                var sjf = ObjectHelper.isDefined($stateParams.sjf) ? $stateParams.sjf : false;
 
+                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, sjf, function(data) {
+                    viewState.relations = data.relations;
                     viewState.common.update(viewState.draftModel, data);
 
                     // check that the certs status is not signed
@@ -48,6 +53,20 @@ angular.module('common').factory('common.UtkastService',
                         $location.url('/intyg/' + intygsTyp + '/' + viewState.draftModel.content.id);
                     }
                     else {
+
+                        // update patient data from integration if available
+                        if(UserModel.isDjupintegration()) {
+                            if(ObjectHelper.isDefined($stateParams.postadress)){
+                                viewState.intygModel.grundData.patient.postadress = $stateParams.postadress;
+                            }
+                            if(ObjectHelper.isDefined($stateParams.postadress)) {
+                                viewState.intygModel.grundData.patient.postnummer = $stateParams.postnummer;
+                            }
+                            if(ObjectHelper.isDefined($stateParams.postadress)) {
+                                viewState.intygModel.grundData.patient.postort = $stateParams.postort;
+                            }
+                        }
+
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor
                         dynamicLabelService.updateDynamicLabels(intygsTyp, viewState.draftModel.content);
                         $timeout(function() {
@@ -67,15 +86,6 @@ angular.module('common').factory('common.UtkastService',
                 return def.promise;
             }
 
-            function checkSetErrorSave(errorCode) {
-                var model = 'common.error.save.unknown';
-                if (errorCode !== undefined && errorCode !== null) {
-                    model = ('common.error.save.' + errorCode).toLowerCase();
-                }
-
-                return model;
-            }
-
             /**
              * Save draft to webcert
              * @param autoSave
@@ -86,124 +96,145 @@ angular.module('common').factory('common.UtkastService',
                     return false;
                 }
 
-                var saveStartTime = moment();
+                saveStartTime = moment();
                 CommonViewState.saving = true;
 
-                var deferred = $q.defer();
-                $rootScope.$broadcast('saveRequest', deferred);
+                // Inform utkast controller about save
+                var utkastControllerResponse = $q.defer();
+                $rootScope.$broadcast('saveRequest', utkastControllerResponse);
 
-                deferred.promise.then(function(intygState) {
-
-                    var saveComplete = $q.defer();
-
-                    var saveCompletePromise = saveComplete.promise.then(function(result) {
-                        // save success
-                        intygState.viewState.common.validationSections = result.validationSections;
-                        intygState.viewState.common.validationMessages = result.validationMessages;
-                        intygState.viewState.common.validationMessagesGrouped = result.validationMessagesGrouped;
-                        intygState.viewState.common.error.saveErrorMessage = null;
-                        intygState.viewState.common.error.saveErrorCode = null;
-                        intygState.viewState.draftModel.version = result.version;
-
-                    }, function(result) {
-                        // save failed
-                        intygState.formFail();
-                        intygState.viewState.common.error.saveErrorMessage = result.errorMessage;
-                        intygState.viewState.common.error.saveErrorCode = result.errorCode;
-                    });
-
-                    saveCompletePromise.finally(function() { // jshint ignore:line
-                        if (extras && extras.destroy) {
-                            extras.destroy();
-                        }
-                        var saveRequestDuration = moment().diff(saveStartTime);
-                        if (saveRequestDuration > 1000) {
-                            CommonViewState.saving = false;
-                            $window.saving = false;
-                        } else {
-                            $timeout(function() {
-                                CommonViewState.saving = false;
-                                $window.saving = false;
-                            }, 1000 - saveRequestDuration);
-                        }
-                    });
-
+                // utkast controller will return intygState specific to this intygstyp
+                utkastControllerResponse.promise.then(function(intygState) {
                     UtkastProxy.saveUtkast(intygState.viewState.intygModel.id, intygState.viewState.common.intyg.type,
                         intygState.viewState.draftModel.version, intygState.viewState.intygModel.toSendModel(),
-                        function(data) {
-
-                            var result = {};
-                            result.validationMessagesGrouped = {};
-                            result.validationMessages = [];
-                            result.validationSections = [];
-                            result.version = data.version;
-
-                            if (data.status === 'COMPLETE') {
-                                CommonViewState.intyg.isComplete = true;
-                                saveComplete.resolve(result);
-                            } else {
-                                CommonViewState.intyg.isComplete = false;
-
-                                if (!CommonViewState.showComplete) {
-                                    result.validationMessages = data.messages.filter(function(message) {
-                                        return (message.type !== 'EMPTY');
-                                    });
-                                }
-                                else {
-                                    result.validationMessages = data.messages;
-                                }
-
-                                angular.forEach(result.validationMessages, function(message) {
-                                    var field = message.field;
-                                    var parts = field.split('.');
-                                    var section;
-                                    if (parts.length > 0) {
-                                        section = parts[0].toLowerCase();
-                                        if (result.validationSections.indexOf(section) === -1) {
-                                            result.validationSections.push(section);
-                                        }
-
-                                        if (result.validationMessagesGrouped[section]) {
-                                            result.validationMessagesGrouped[section].push(message);
-                                        } else {
-                                            result.validationMessagesGrouped[section] = [message];
-                                        }
-                                    }
-                                });
-                                saveComplete.resolve(result);
-                            }
-                        }, function(error) {
-                            // Show error message if save fails
-
-                            var errorMessage;
-                            var variables = null;
-                            if (error.errorCode === 'CONCURRENT_MODIFICATION') {
-                                // In the case of concurrent modification we should have the name of the user making trouble in the message.
-                                variables = {name: error.message};
-                            }
-
-                            var errorCode = error.errorCode;
-                            if (typeof errorCode === 'undefined') {
-                                errorCode = 'unknown';
-                            }
-                            var errorMessageId = checkSetErrorSave(errorCode);
-                            errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
-
-                            var result = {
-                                errorMessage: errorMessage,
-                                errorCode: errorCode
-                            };
-                            saveComplete.reject(result);
-                        }
-                    );
+                        angular.bind(this, _saveSuccess, intygState, extras),
+                        angular.bind(this, _saveFailed, intygState, extras));
                 });
                 return true;
+            }
+
+            // This function is called if save is successful
+            function _saveSuccess(intygState, extras, data) {
+                // Clear error messages
+                intygState.viewState.common.error.saveErrorMessage = null;
+                intygState.viewState.common.error.saveErrorCode = null;
+
+                // Update draft version
+                intygState.viewState.draftModel.version = data.version;
+
+                // Update validation messages
+                intygState.viewState.common.validationMessagesGrouped = {};
+                intygState.viewState.common.validationMessages = [];
+                intygState.viewState.common.validationSections = [];
+
+                if (data.status === 'DRAFT_COMPLETE') {
+                    CommonViewState.intyg.isComplete = true;
+                } else {
+                    CommonViewState.intyg.isComplete = false;
+
+                    if (!CommonViewState.showComplete) {
+                        intygState.viewState.common.validationMessages = data.messages.filter(function(message) {
+                            return (message.type !== 'EMPTY');
+                        });
+                    }
+                    else {
+                        intygState.viewState.common.validationMessages = data.messages;
+                    }
+
+                    angular.forEach(intygState.viewState.common.validationMessages, function(message) {
+                        var field = message.field;
+                        var parts = field.split('.');
+                        var section;
+                        if (parts.length > 0) {
+                            section = parts[0].toLowerCase();
+                            if (intygState.viewState.common.validationSections.indexOf(section) === -1) {
+                                intygState.viewState.common.validationSections.push(section);
+                            }
+
+                            if (intygState.viewState.common.validationMessagesGrouped[section]) {
+                                intygState.viewState.common.validationMessagesGrouped[section].push(message);
+                            } else {
+                                intygState.viewState.common.validationMessagesGrouped[section] = [message];
+                            }
+                        }
+                    });
+                }
+
+                // Update relation status on current utkast on save so relation table view is up to date
+                angular.forEach(intygState.viewState.relations, function(relation) {
+                    if(relation.intygsId === intygState.viewState.intygModel.id) {
+                        relation.status = data.status;
+                    }
+                }, intygState.relations);
+
+                _saveFinally(extras);
+            }
+
+            // This function is called if save fails
+            function _saveFailed(intygState, extras, error) {
+                // Show error message if save fails
+
+                var errorCode;
+                var errorMessage;
+                var variables = null;
+                if (error) {
+                    if (error.errorCode === 'CONCURRENT_MODIFICATION') {
+                        // In the case of concurrent modification we should have the name of the user making trouble in the message.
+                        variables = {name: error.message};
+                    }
+
+                    errorCode = error.errorCode;
+                    if (typeof errorCode === 'undefined') {
+                        errorCode = 'unknown';
+                    }
+                    var errorMessageId = checkSetErrorSave(errorCode);
+                    errorMessage = messageService.getProperty(errorMessageId, variables, errorMessageId);
+                } else {
+                    // No error code from server. No contact at all
+                    errorMessage = messageService.getProperty('common.error.save.noconnection', variables,
+                        'common.error.save.noconnection');
+                    errorCode = 'cantconnect';
+                }
+
+                intygState.formFail();
+                intygState.viewState.common.error.saveErrorMessage = errorMessage;
+                intygState.viewState.common.error.saveErrorCode = errorCode;
+
+                _saveFinally(extras);
+            }
+
+            // This function will be executed if the save is successful or not
+            function _saveFinally(extras) {
+                if (extras && extras.destroy) {
+                    extras.destroy();
+                }
+
+                // The save spinner should be visible at least 1 second
+                var saveRequestDuration = moment().diff(saveStartTime);
+                if (saveRequestDuration > 1000) {
+                    CommonViewState.saving = false;
+                    $window.saving = false;
+                } else {
+                    $timeout(function() {
+                        CommonViewState.saving = false;
+                        $window.saving = false;
+                    }, 1000 - saveRequestDuration);
+                }
             }
 
             function checkSetError(errorCode) {
                 var model = 'common.error.unknown';
                 if (errorCode !== undefined && errorCode !== null) {
                     model = ('common.error.' + errorCode).toLowerCase();
+                }
+
+                return model;
+            }
+
+            function checkSetErrorSave(errorCode) {
+                var model = 'common.error.save.unknown';
+                if (errorCode !== undefined && errorCode !== null) {
+                    model = ('common.error.save.' + errorCode).toLowerCase();
                 }
 
                 return model;

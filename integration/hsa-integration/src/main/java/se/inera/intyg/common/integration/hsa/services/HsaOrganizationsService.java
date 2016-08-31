@@ -19,10 +19,10 @@
 
 package se.inera.intyg.common.integration.hsa.services;
 
-import java.util.List;
-
-import se.inera.intyg.common.integration.hsa.model.Vardgivare;
+import se.inera.intyg.common.integration.hsa.model.UserAuthorizationInfo;
 import se.inera.intyg.common.integration.hsa.model.Vardenhet;
+
+import java.util.List;
 
 /**
  *
@@ -37,7 +37,7 @@ public interface HsaOrganizationsService {
      * @return list of vårdgivare containing authorized enheter and mottagningar. If user is not authorized at all,
      *         an empty list will be returned
      */
-    List<Vardgivare> getAuthorizedEnheterForHosPerson(String hosPersonHsaId);
+    UserAuthorizationInfo getAuthorizedEnheterForHosPerson(String hosPersonHsaId);
 
     /**
      * Returns the hsaId of the parent care giver of the specified care unit.
@@ -50,7 +50,7 @@ public interface HsaOrganizationsService {
     String getVardgivareOfVardenhet(String vardenhetHsaId);
 
     /**
-     * Returns a fully recursively populated Vardenhet for the specified.
+     * Returns a fully recursively populated Vardenhet for the specified hsaId.
      * @param vardenhetHsaId
      *      HsaId of the vårdenhet.
      * @return

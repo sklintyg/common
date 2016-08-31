@@ -5,7 +5,7 @@
           <img class="media-object fmb-accordion-head-img" ng-src="/img/socialstyrelsen_logo.png"/>
       </div>
       <div class="fmb-panel-title">
-          <h4>Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</h4>
+          <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}}</span>: Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</h4>
       </div>
       <div class="fmb-collapse-icon">
           <span>
@@ -14,9 +14,6 @@
       </div>
     </div>
     <div class="panel-body">
-
-      <h2 id="fmb_diagnos_heading_{{relatedFormId}}" class="fmb-diagnosis-headline">{{diagnosisCode}}</h2>
-      <hr class="fmb-ruler"/>
 
       <div ng-repeat="item in helpTextContents" ng-show="item.text || item.list">
           <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">

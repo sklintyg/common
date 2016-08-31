@@ -199,10 +199,8 @@ angular.module('common').factory('common.domain.AtticService',
                 this.atticModels = {};
             },
 
-            addAtticModel : function(model){
-                if(this.atticModels[model.name] === undefined){
-                    this.atticModels[model.name] = new AtticModel(model);
-                }
+            addNewAtticModel : function(model){
+                this.atticModels[model.name] = new AtticModel(model);
                 return this.atticModels[model.name];
             },
 

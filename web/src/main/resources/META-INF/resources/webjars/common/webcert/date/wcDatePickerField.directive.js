@@ -120,6 +120,9 @@ angular.module('common').directive('wcDatePickerField',
                     if (scope.addDateParser === 'loose') {
                         dateUtils.addDateParserFormatter(ngModel);
                     }
+                    else if (scope.addDateParser === 'strict') {
+                        dateUtils.addStrictDateParser(ngModel);
+                    }
                     else {
                         $log.error('unknown dateparser method ' + scope.addDateParser);
                     }

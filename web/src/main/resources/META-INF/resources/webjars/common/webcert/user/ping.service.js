@@ -23,7 +23,11 @@ angular.module('common').factory('common.pingService',
 
         var pingSessionPromise;
 
+<<<<<<< HEAD
         //(Max) how often should session ping requests be sent
+=======
+        //(Max) how often should session ping requestsf be sent
+>>>>>>> origin/release/v3.0.0
         var msMinPingSessionRequestInterval = 30 * 1000;
 
         /*

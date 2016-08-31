@@ -39,8 +39,8 @@ angular.module('common').directive('wcMaxlength',
 
                 scope.$evalAsync(function() {
                     var counterName = 'charsRemaining' + attrs.id;
-                    counterName = counterName.replace('.', '');
-                    counterName = counterName.replace('-', '');
+                    counterName = counterName.replace(/\./g, '');
+                    counterName = counterName.replace(/-/g, '');
                     scope[counterName] = attrs.maxlength;
 
                     var counter = angular.

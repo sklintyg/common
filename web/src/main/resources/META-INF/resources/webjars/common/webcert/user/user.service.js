@@ -125,6 +125,20 @@ angular.module('common').factory('common.User',
                     $log.error('error ' + status);
                     onError(data);
                 });
+            },
+
+            storeAnvandarPreference: function(prefKey, prefValue) {
+                $http.put('/api/anvandare/preferences', {
+                    'key' : prefKey,
+                    'value' : prefValue
+                }).
+                success(function() {
+                    $log.debug('save user pref OK');
+                    userModel.setAnvandarPreference(prefKey, prefValue);
+                }).error(function(data, status) {
+                    $log.error('save user pref error: ' + status);
+                }).finally(function() { // jshint ignore:line
+                });
             }
 
         };

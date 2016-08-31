@@ -21,6 +21,40 @@ angular.module('common').factory('common.UserModel',
     function() {
         'use strict';
 
+        function _checkRequestOrigin(user, privilegeConfig, intygsTypContext) {
+            if (privilegeConfig.requestOrigins !== undefined && privilegeConfig.requestOrigins.length > 0) {
+
+                //requestOrigin constraint exist - we must match that
+                var originToMatch = user.origin;
+                var matchingOriginConfig;
+                for (var i = 0; i < privilegeConfig.requestOrigins.length; i++) {
+                    if (privilegeConfig.requestOrigins[i].name === originToMatch) {
+                        matchingOriginConfig = privilegeConfig.requestOrigins[i];
+                        break;
+                    }
+
+                }
+
+                if (matchingOriginConfig === undefined) {
+                    return false;
+                }
+
+                //..secondly, if intygstyp context is given, must also have a matching privilege.requestOrigin.intygstyper<->intygstyp constraint if
+                // such a constraint exist.
+                if (intygsTypContext !== undefined) {
+                    //does the originConfig have a intygstyp constraint?
+                    if (matchingOriginConfig.intygstyper !== undefined &&
+                        matchingOriginConfig.intygstyper.length > 0) {
+                        //.. do we have a match with the given intygstyp context?
+                        if (matchingOriginConfig.intygstyper.indexOf(intygsTypContext) === -1) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         return {
             reset: function() {
                 this.user = null;
@@ -109,7 +143,7 @@ angular.module('common').factory('common.UserModel',
                 return this.user !== undefined && this.user.authorities !== undefined;
             },
 
-            hasPrivilege: function _hasPrivilege(privilege, intygsTypContext, checkOrigins) {
+            hasPrivilege: function _hasPrivilege(privilege, intygsTypContext) {
 
                 //Basic first check - User must at least have the base privilege
                 if (!(this.hasAuthorities() && this.user.authorities[privilege] !== undefined)) {
@@ -128,38 +162,9 @@ angular.module('common').factory('common.UserModel',
                     }
                 }
 
-                if(typeof checkOrigins === 'undefined' || checkOrigins) {
-                    //..and also, if the privilege has requestOrigin constraints, the users current origin must match that..
-                    if (privilegeConfig.requestOrigins !== undefined && privilegeConfig.requestOrigins.length > 0) {
-
-                        //requestOrigin constraint exist - we must match that
-                        var originToMatch = this.user.origin;
-                        var matchingOriginConfig;
-                        for (var i = 0; i < privilegeConfig.requestOrigins.length; i++) {
-                            if (privilegeConfig.requestOrigins[i].name === originToMatch) {
-                                matchingOriginConfig = privilegeConfig.requestOrigins[i];
-                                break;
-                            }
-
-                        }
-
-                        if (matchingOriginConfig === undefined) {
-                            return false;
-                        }
-
-                        //..secondly, if intygstyp context is given, must also have a matching privilege.requestOrigin.intygstyper<->intygstyp constraint if
-                        // such a constraint exist.
-                        if (intygsTypContext !== undefined) {
-                            //does the originConfig have a intygstyp constraint?
-                            if (matchingOriginConfig.intygstyper !== undefined &&
-                                matchingOriginConfig.intygstyper.length > 0) {
-                                //.. do we have a match with the given intygstyp context?
-                                if (matchingOriginConfig.intygstyper.indexOf(intygsTypContext) === -1) {
-                                    return false;
-                                }
-                            }
-                        }
-                    }
+                //..and also, if the privilege has requestOrigin constraints, the users current origin must match that..
+                if (!_checkRequestOrigin(this.user, privilegeConfig, intygsTypContext)) {
+                    return false;
                 }
 
                 //If we get this far - the user is considered to have the privilege
@@ -208,6 +213,14 @@ angular.module('common').factory('common.UserModel',
 
             isVardAdministrator: function _isVardAdministrator() {
                 return this.hasRoles() && this.user.roles.VARDADMINISTRATOR !== undefined;
+            },
+
+            getAnvandarPreference: function _getAnvandarPreference(prefKey) {
+                return this.user.anvandarPreference[prefKey];
+            },
+
+            setAnvandarPreference: function _setAnvandarPreference(prefKey, prefValue) {
+                this.user.anvandarPreference[prefKey] = prefValue;
             },
 
             termsAccepted: false,

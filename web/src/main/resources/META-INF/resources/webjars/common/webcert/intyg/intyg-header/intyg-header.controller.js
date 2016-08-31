@@ -18,10 +18,10 @@
  */
 
 angular.module('common').controller('common.IntygHeader',
-    ['$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
+    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
     'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
     'common.IntygService', 'common.IntygViewStateService', 'common.statService',
-        function($scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
+        function($rootScope, $scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
             IntygFornyaRequestModel, User, UserModel, IntygService, CommonViewState, statService) {
             'use strict';
 
@@ -33,9 +33,9 @@ angular.module('common').controller('common.IntygHeader',
             $scope.fornyaBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.fornya.text');
 
             $scope.visaSkickaKnappen = function(){
-                return !$scope.viewState.common.intyg.isSent &&
+                return !$scope.viewState.common.intygProperties.isSent &&
                   !$scope.viewState.common.isIntygOnSendQueue &&
-                  !$scope.viewState.common.intyg.isRevoked &&
+                  !$scope.viewState.common.intygProperties.isRevoked &&
                   !$scope.viewState.common.isIntygOnRevokeQueue;
             };
 
@@ -56,6 +56,8 @@ angular.module('common').controller('common.IntygHeader',
                 cert.intygType = intygType;
                 IntygService.makulera( cert, confirmationMessage, function() {
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
+                    $scope.viewState.common.intygProperties.isRevoked = true;
+                    $rootScope.$emit('ViewCertCtrl.load', cert, $scope.viewState.common.intygProperties);
                 });
             };
 
@@ -70,7 +72,14 @@ angular.module('common').controller('common.IntygHeader',
                         intygId: cert.id,
                         intygType: intygType,
                         patientPersonnummer: cert.grundData.patient.personId,
-                        nyttPatientPersonnummer: $stateParams.patientId
+                        nyttPatientPersonnummer: $stateParams.patientId,
+                        fornamn: $stateParams.fornamn,
+                        efternamn: $stateParams.efternamn,
+                        mellannamn: $stateParams.mellannamn,
+                        postadress: $stateParams.postadress,
+                        postnummer: $stateParams.postnummer,
+                        postort: $stateParams.postort,
+                        coherentJournaling: $stateParams.sjf
                     }),
                     isOtherCareUnit
                 );
@@ -85,7 +94,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.print = function(cert, isEmployeeCopy) {
-                if (CommonViewState.intyg.isRevoked) {
+                if (CommonViewState.intygProperties.isRevoked) {
                     var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
                     PrintService.printWebPageWithCustomTitle(cert.id, intygType, customHeader);
                 } else if (isEmployeeCopy) {

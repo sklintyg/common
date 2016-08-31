@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
 public class IntygTextsRepositoryImplTest {
 
@@ -27,10 +26,10 @@ public class IntygTextsRepositoryImplTest {
     public void testGetLatestVersion() {
         repo.intygTexts = new HashSet<IntygTexts>() {
             {
-                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null));
-                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, null, null, null, null));
-                add(new IntygTexts("1.1.0.1", DEFAULT_INTYGSTYP, null, null, null, null));
-                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null));
+                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
+                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+                add(new IntygTexts("1.1.0.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
             }
         };
         String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
@@ -48,10 +47,10 @@ public class IntygTextsRepositoryImplTest {
     public void testGetLatestVersionValidFromFilter() {
         repo.intygTexts = new HashSet<IntygTexts>() {
             {
-                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null));
-                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null));
-                add(new IntygTexts("1.1.0.1", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(1), null, null, null));
-                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null));
+                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
+                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
+                add(new IntygTexts("1.1.0.1", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(1), null, null, null, null));
+                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
             }
         };
         String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
@@ -62,11 +61,11 @@ public class IntygTextsRepositoryImplTest {
     public void testGetLatestVersionTypeFilter() {
         repo.intygTexts = new HashSet<IntygTexts>() {
             {
-                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null));
-                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, null, null, null, null));
-                add(new IntygTexts("1.1.0.1", "wrong-type", null, null, null, null));
-                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null));
-                add(new IntygTexts("2", "wrong-type", null, null, null, null));
+                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
+                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+                add(new IntygTexts("1.1.0.1", "wrong-type", null, null, null, null, null));
+                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+                add(new IntygTexts("2", "wrong-type", null, null, null, null, null));
             }
         };
         String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
@@ -75,13 +74,24 @@ public class IntygTextsRepositoryImplTest {
 
     @Test
     public void testGetTextsSuccessful() {
-        IntygTexts testData = new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null);
+        IntygTexts testData = new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
         repo.intygTexts = new HashSet<IntygTexts>() {
             {
                 add(testData);
             }
         };
         assertEquals("should return the IntygText in set", testData, repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
+    }
+
+    @Test
+    public void testGetTextsZeroPaddingDoesntMatter() {
+        IntygTexts testData = new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
+        repo.intygTexts = new HashSet<IntygTexts>() {
+            {
+                add(testData);
+            }
+        };
+        assertEquals("should return the IntygText in set", testData, repo.getTexts(DEFAULT_INTYGSTYP, "01.000"));
     }
 
     @Test
@@ -92,7 +102,7 @@ public class IntygTextsRepositoryImplTest {
 
     @Test
     public void testGetTextsNotCareAboutValidFrom() {
-        IntygTexts testData = new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, LocalDate.now().plusYears(1), null, null, null);
+        IntygTexts testData = new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, LocalDate.now().plusYears(1), null, null, null, null);
         repo.intygTexts = new HashSet<IntygTexts>() {
             {
                 add(testData);

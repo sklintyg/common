@@ -19,11 +19,17 @@
 
 package se.inera.intyg.common.util.integration.interceptor;
 
-import javax.xml.transform.TransformerFactory;
+import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 
-import org.apache.cxf.feature.transform.AbstractXSLTInterceptor;
-import org.apache.cxf.feature.transform.XSLTOutInterceptor;
+import javax.xml.soap.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.apache.cxf.feature.transform.*;
+import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,5 +81,24 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
         message.getExchange().getOutFaultMessage().put(Message.RESPONSE_CODE, HTTP_OK);
 
         super.handleMessage(message);
+    }
+
+    @Override
+    public void handleFault(Message message) {
+        Exception e = message.getContent(Exception.class);
+        try {
+            SOAPEnvelope envelope = MessageFactory.newInstance().createMessage().getSOAPPart().getEnvelope();
+            SOAPFault soapFault = envelope.getBody().addFault();
+            soapFault.setFaultString(e != null ? e.getMessage() : "Unknown error");
+
+            StringWriter sw = new StringWriter();
+            TransformerFactory.newInstance().newTransformer().transform(new DOMSource(envelope), new StreamResult(sw));
+            InputStream transformedStream = XSLTUtils.transform(getXSLTTemplate(),
+                    new ByteArrayInputStream((sw.getBuffer().toString()).getBytes(StandardCharsets.UTF_8)));
+            IOUtils.copyAndCloseInput(transformedStream, message.getContent(OutputStream.class));
+
+        } catch (SOAPException | TransformerException | TransformerFactoryConfigurationError | IOException ex) {
+            LOGGER.error("Error occured during error handling: {}", e.getMessage());
+        }
     }
 }

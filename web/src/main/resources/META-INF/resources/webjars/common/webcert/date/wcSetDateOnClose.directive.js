@@ -39,7 +39,7 @@ angular.module('common')
                 function () {
                     // Watch some properties which is related to uib-datepicker
                     return !!(
-                        isoScope.dateDisabled &&
+                        isoScope.datepickerOptions &&
                         isoScope.dateSelection &&
                         isoScope.close
                     );
@@ -94,7 +94,9 @@ angular.module('common')
              */
             function patchClose () {
                 // Perform sanity check
-                if (!angular.isFunction(isoScope.close)) { return; }
+                if (!angular.isFunction(isoScope.close)) {
+                    return;
+                }
                 // Keep old close callback
                 origCloseFn = isoScope.close;
                 // Patch with our own callback

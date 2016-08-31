@@ -334,18 +334,6 @@ describe('DateRangeService', function() {
             now24String = now24.format('YYYY-MM-DD');
             now31String = now31.format('YYYY-MM-DD');
 
-            //console.log('nowString : ' + nowString);
-            //console.log('now7String : ' + now7String);
-
-            //console.log('now8String : ' + now8String);
-            //console.log('now15String : ' + now15String);
-
-            //console.log('now16String : ' + now16String);
-            //console.log('now23String : ' + now23String);
-
-            //console.log('now24String : ' + now24String);
-            //console.log('now31String : ' + now31String);
-
         });
 
 
@@ -385,14 +373,14 @@ describe('DateRangeService', function() {
             // should reset from to dates
             // remove them from min max
             // days between should be 0
-            //console.log('**********************************************');
+
             fromTos.range1.check(false);
             expect(fromTos.minMax.min).toBeUndefined();
             expect(fromTos.minMax.max).toBeUndefined();
             expect(fromTos.totalCertDays).toBe(0);
             expect(fromTos.range1.from.dateString).toBeUndefined();
             expect(fromTos.range1.to.dateString).toBeUndefined();
-            //console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+
             // check it back to make sure, min, max, days between are set.
             fromTos.range1.check(true);
             expect(fromTos.range1.from.dateString).toBe(nowString);
@@ -459,7 +447,6 @@ describe('DateRangeService', function() {
         });
 
         it ('can have 4 dates', function () {
-            //console.log('****** can have 4 dates');
             var fromTos = DateRangeService.FromTos.build(['range1', 'range2', 'range3', 'range4']);
 
             fromTos.range1.check(true);
@@ -513,15 +500,10 @@ describe('DateRangeService', function() {
 
             // add a date to range3
             var now26 = moment(now24).add(2, 'days');
-            //console.log('now26 all : ' + moment().format());
-
-            //console.log('now26 00 : ' + moment(0,'HH').format());
 
             var now26String = now26.format('YYYY-MM-DD');
-            //console.log('now26String : ' + now26String);
             fromTos.range3.from.update(now24String);
             fromTos.range3.to.update(now26String);
-            //console.log('min : ' + fromTos.minMax.min.dateString + ', max:' + fromTos.minMax.max.dateString);
 
             // result should be 7+7 + (24 to 26 = 3 days ) +3 = 17
             expect(fromTos.totalCertDays).toBe(17);

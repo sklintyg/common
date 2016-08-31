@@ -22,7 +22,6 @@ describe('wcHelpMark', function() {
 
     var $q;
     var $scope;
-    var $compileProvider;
     var dynamicLabelProxy;
     var dynamicLabelService;
     var element;
@@ -30,14 +29,6 @@ describe('wcHelpMark', function() {
     beforeEach(angular.mock.module('htmlTemplates'));
 
     beforeEach(angular.mock.module('common'));
-
-    beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('networkConfig', {});
-    }));
-
-    beforeEach(module(function(_$compileProvider_) {
-        $compileProvider = _$compileProvider_;
-    }));
 
     beforeEach(angular.mock.inject(['$q', 'common.DynamicLabelProxy', 'common.dynamicLabelService',
         function(_$q_, _dynamicLabelProxy_, _dynamicLabelService_) {

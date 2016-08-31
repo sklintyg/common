@@ -39,7 +39,11 @@ describe('Service: PingService', function() {
     ]));
 
     describe('pingService', function() {
+<<<<<<< HEAD
         it('should not ping backend if not threshold delay passed', function() {
+=======
+        it('should not ping backend until after threshold delay value', function() {
+>>>>>>> origin/release/v3.0.0
 
             pingService.registerUserAction('Test');
             $interval.flush(pingService._THROTTLE_VALUE_ - 10);

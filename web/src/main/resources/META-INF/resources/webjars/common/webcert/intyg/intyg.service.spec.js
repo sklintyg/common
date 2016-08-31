@@ -23,25 +23,22 @@ describe('IntygService', function() {
     'use strict';
 
     var IntygService;
-    var $document;
     var $httpBackend;
-    var $q;
     var $state;
-    var $stateParams;
     var $timeout;
     var dialogService;
-    var User;
-    var $cookies;
+    var UserModel;
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.messageService',
             jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
         $provide.value('$stateParams', {});
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
-        $provide.value('common.UserModel', { userContext: { authenticationScheme: null }, getActiveFeatures: function() {}, hasPrivilege: function() {} });
         $provide.value('common.UtkastViewStateService', {});
         $provide.value('common.utkastNotifyService', {});
         $provide.value('common.domain.DraftModel', {});
+
+        $provide.value('common.User', jasmine.createSpyObj('common.User', ['storeAnvandarPreference']));
     }));
 
     angular.module('common').config(function($stateProvider){
@@ -49,20 +46,19 @@ describe('IntygService', function() {
         });
     });
 
-    beforeEach(angular.mock.inject(['common.IntygService', '$cookies', '$httpBackend', '$q', '$state', '$stateParams', '$timeout',
-        '$document', 'common.dialogService', 'common.User',
-        function(_IntygService_, _$cookies_, _$httpBackend_, _$q_, _$state_, _$stateParams_, _$timeout_, _$document_,
-            _dialogService_, _User_) {
+    beforeEach(angular.mock.inject(['common.IntygService', '$httpBackend', '$state', '$timeout',
+        'common.dialogService', 'common.UserModel',
+        function(_IntygService_, _$httpBackend_, _$state_, _$timeout_, _dialogService_, _UserModel_) {
             IntygService = _IntygService_;
-            $cookies = _$cookies_;
             $httpBackend = _$httpBackend_;
-            $q = _$q_;
             $state = _$state_;
-            $stateParams = _$stateParams_;
             $timeout = _$timeout_;
-            $document = _$document_;
             dialogService = _dialogService_;
-            User = _User_;
+            UserModel = _UserModel_;
+
+            UserModel.setUser({
+                anvandarPreference: {}
+            });
         }]));
 
     describe('#copy', function() {
@@ -101,9 +97,9 @@ describe('IntygService', function() {
             spyOn($state, 'go').and.callThrough();
         });
 
-        it('should immediately request a utkast copy of cert if the copy cookie is set', function() {
+        it('should immediately request a utkast copy of cert if the copy preference is set', function() {
 
-            $cookies.putObject(IntygService.COPY_DIALOG_COOKIE, true);
+            UserModel.setAnvandarPreference(IntygService.COPY_DIALOG_PREFERENCE, true);
 
             $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
@@ -114,12 +110,12 @@ describe('IntygService', function() {
             expect(dialogService.showDialog).not.toHaveBeenCalled();
             expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
 
-            $cookies.remove(IntygService.COPY_DIALOG_COOKIE);
+            UserModel.setAnvandarPreference(IntygService.COPY_DIALOG_PREFERENCE, false);
         });
 
-        it('should show the copy dialog if the copy cookie is not set', function() {
+        it('should show the copy dialog if the copy preference is not set', function() {
 
-            $cookies.remove(IntygService.COPY_DIALOG_COOKIE);
+            UserModel.setAnvandarPreference(IntygService.COPY_DIALOG_PREFERENCE, false);
             $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
@@ -128,12 +124,11 @@ describe('IntygService', function() {
             $timeout.flush();
 
             expect(dialogService.showDialog).toHaveBeenCalled();
-
         });
 
-        it('should immediately request a fornya utkast of cert if the fornya cookie is set', function() {
+        it('should immediately request a fornya utkast of cert if the fornya preference is set', function() {
 
-            $cookies.putObject(IntygService.FORNYA_DIALOG_COOKIE, true);
+            UserModel.setAnvandarPreference(IntygService.FORNYA_DIALOG_PREFERENCE, true);
 
             $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/fornya/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
@@ -144,12 +139,12 @@ describe('IntygService', function() {
             expect(dialogService.showDialog).not.toHaveBeenCalled();
             expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
 
-            $cookies.remove(IntygService.FORNYA_DIALOG_COOKIE);
+            UserModel.setAnvandarPreference(IntygService.FORNYA_DIALOG_PREFERENCE, false);
         });
 
-        it('should show the fornya dialog if the copy cookie is not set', function() {
+        it('should show the fornya dialog if the copy preference is not set', function() {
 
-            $cookies.remove(IntygService.FORNYA_DIALOG_COOKIE);
+            UserModel.setAnvandarPreference(IntygService.FORNYA_DIALOG_PREFERENCE, false);
             $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/fornya/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );

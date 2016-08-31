@@ -24,9 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.riv.infrastructure.directory.employee.getemployeeincludingprotectedperson.v1.rivtabp21.GetEmployeeIncludingProtectedPersonResponderInterface;
 import se.riv.infrastructure.directory.employee.getemployeeincludingprotectedpersonresponder.v1.GetEmployeeIncludingProtectedPersonResponseType;
 import se.riv.infrastructure.directory.employee.getemployeeincludingprotectedpersonresponder.v1.GetEmployeeIncludingProtectedPersonType;
-import se.riv.infrastructure.directory.v1.PaTitleType;
-import se.riv.infrastructure.directory.v1.PersonInformationType;
-import se.riv.infrastructure.directory.v1.ResultCodeEnum;
+import se.riv.infrastructure.directory.v1.*;
 
 /**
  * Created by eriklupander on 2015-12-03.
@@ -54,14 +52,19 @@ public class GetEmployeeResponderStub implements GetEmployeeIncludingProtectedPe
         person.setMiddleAndSurName(hsaPerson.getEfterNamn());
 
         for (String legYrkesGrp : hsaPerson.getLegitimeradeYrkesgrupper()) {
-            PaTitleType paTitle = new PaTitleType();
-            paTitle.setPaTitleName(legYrkesGrp);
-            person.getPaTitle().add(paTitle);
+            person.getHealthCareProfessionalLicence().add(legYrkesGrp);
         }
 
         for (HsaSpecialicering spec : hsaPerson.getSpecialiseringar()) {
             person.getSpecialityCode().add(spec.getKod());
             person.getSpecialityName().add(spec.getNamn());
+        }
+
+        // Lägg in ev. befattningskod såsom en PaTitleType
+        if (hsaPerson.getBefattningsKod() != null) {
+            PaTitleType paTitleType = new PaTitleType();
+            paTitleType.setPaTitleCode(hsaPerson.getBefattningsKod());
+            person.getPaTitle().add(paTitleType);
         }
 
         response.getPersonInformation().add(person);

@@ -50,30 +50,18 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     ($window.location.port ? ':' + $window.location.port : '');
                 var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
 
-                // If qa.intygsReferens is undefined this could be because the
-                // new ArendeListItem is used and not the old FragaSvar database entity.
-                // This means we should first check if old version is defined
-                // and then check for new version. This can be removed when
-                // support for fk7263 is removed.
-                var intygsId;
                 if(typeof qa.intygsReferens === 'undefined' || typeof qa.intygsReferens.intygsId === 'undefined') {
-                    if (typeof qa.intygId === 'undefined') {
-                        $log.error('Invalid intyg id. Cannot create vidarebefordra link');
-                        return 'error';
-                    }
-                    intygsId = qa.intygId;
+                    $log.error('Invalid intyg id. Cannot create vidarebefordra link');
+                    return 'error';
                 }
-                else {
-                    intygsId = qa.intygsReferens.intygsId;
-                }
-                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + intygsId + '/questions';
+                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygsReferens.intygsId + '/questions';
 
                 var recipient = '';
                 var subject = 'En fraga-svar ska besvaras i Webcert';
-                if (qa.enhetsnamn !== undefined) {
-                    subject += ' pa enhet ' + qa.enhetsnamn;
-                    if (qa.vardgivarnamn !== undefined) {
-                        subject += ' for vardgivare ' + qa.vardgivarnamn;
+                if (qa.vardperson.enhetsnamn !== undefined) {
+                    subject += ' pa enhet ' + qa.vardperson.enhetsnamn;
+                    if (qa.vardperson.vardgivarnamn !== undefined) {
+                        subject += ' for vardgivare ' + qa.vardperson.vardgivarnamn;
                     }
                 }
 
@@ -98,24 +86,25 @@ angular.module('common').factory('common.fragaSvarCommonService',
             }
 
             function _decorateSingleItem(qa) {
-
-                var allowedToKomplettera = UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, undefined, false);
-
                 if (qa.amne === 'PAMINNELSE') {
                     // RE-020 Påminnelser is never
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-                } else if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') &&
-                    !allowedToKomplettera) {
-                    // If svaramednyttintygdisabled = true already then we aren't allowed to answer regardless of privilege
-
+                } else if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') && !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
                     // RE-005, RE-006
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
                 } else {
                     qa.answerDisabled = false;
                     qa.answerDisabledReason = undefined;
+                }
+
+                if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') && UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
+                    qa.svaraMedNyttIntygDisabled = true;
+                    qa.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
+                } else {
+                    qa.svaraMedNyttIntygDisabled = false;
                 }
 
                 _decorateSingleItemMeasure(qa);

@@ -34,6 +34,7 @@ import se.inera.intyg.common.integration.hsa.client.AuthorizationManagementServi
 import se.inera.intyg.common.integration.hsa.client.OrganizationUnitService;
 import se.inera.intyg.common.integration.hsa.model.*;
 import se.inera.intyg.common.integration.hsa.stub.Medarbetaruppdrag;
+import se.inera.intyg.common.support.common.util.StringUtil;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.riv.infrastructure.directory.organization.gethealthcareunitmembersresponder.v1.HealthCareUnitMemberType;
 import se.riv.infrastructure.directory.organization.gethealthcareunitmembersresponder.v1.HealthCareUnitMembersType;
@@ -55,8 +56,6 @@ public class HsaOrganizationsServiceImpl implements HsaOrganizationsService {
     private static final Logger LOG = LoggerFactory.getLogger(HsaOrganizationsServiceImpl.class);
 
     private static final String DEFAULT_ARBETSPLATSKOD = "0000000";
-
-    private static final String DEFAULT_POSTNR = "XXXXX";
 
     @Autowired
     private AuthorizationManagementService authorizationManagementService;
@@ -120,8 +119,9 @@ public class HsaOrganizationsServiceImpl implements HsaOrganizationsService {
     }
 
     @Override
-    public List<Vardgivare> getAuthorizedEnheterForHosPerson(String hosPersonHsaId) {
+    public UserAuthorizationInfo getAuthorizedEnheterForHosPerson(String hosPersonHsaId) {
         List<Vardgivare> vardgivareList = new ArrayList<>();
+        UserCredentials userCredentials = new UserCredentials();
 
         try {
             List<CredentialInformationType> credentialInformationList = authorizationManagementService
@@ -151,19 +151,28 @@ public class HsaOrganizationsServiceImpl implements HsaOrganizationsService {
 
                             return vg;
                         }).collect(Collectors.toList()));
+
+                // Add relevant credentialInfo to the userCredz
+                userCredentials.getGroupPrescriptionCode().addAll(credentialInformation.getGroupPrescriptionCode());
+                userCredentials.getPaTitleCode().addAll(credentialInformation.getPaTitleCode());
+                userCredentials.setPersonalPrescriptionCode(credentialInformation.getPersonalPrescriptionCode());
+                userCredentials.getHsaSystemRole().addAll(credentialInformation.getHsaSystemRole());
             }
 
             vardgivareList.sort(Comparator.nullsLast(Comparator.comparing(Vardgivare::getNamn)));
+            return new UserAuthorizationInfo(userCredentials, vardgivareList);
         } catch (ExternalServiceCallException e) {
             LOG.warn("Returning empty vardgivareList, cause: {}", e.getMessage());
         }
-        return vardgivareList;
+        return new UserAuthorizationInfo(userCredentials, vardgivareList); // Empty
     }
 
     private Vardenhet createVardenhet(CredentialInformationType credentialInformation, CommissionType ct) {
         Vardenhet vardenhet = new Vardenhet(ct.getHealthCareUnitHsaId(), ct.getHealthCareUnitName());
         vardenhet.setStart(ct.getHealthCareUnitStartDate());
         vardenhet.setEnd(ct.getHealthCareUnitEndDate());
+        AgandeForm agandeForm = getAgandeForm(ct.getHealthCareProviderOrgNo());
+        vardenhet.setAgandeForm(agandeForm);
 
         // I don't like this, but we need to do an extra call to
         // infrastructure:directory:organization:getUnit for address related stuff.
@@ -175,7 +184,7 @@ public class HsaOrganizationsServiceImpl implements HsaOrganizationsService {
         }
 
         getHealthCareUnitMembers(vardenhet).ifPresent(response -> {
-            attachMottagningar(vardenhet, response);
+            attachMottagningar(vardenhet, response, agandeForm);
             setArbetsplatskod(vardenhet, response);
         });
 
@@ -207,7 +216,22 @@ public class HsaOrganizationsServiceImpl implements HsaOrganizationsService {
         return !(toDate != null && now.isAfter(toDate));
     }
 
-    private void attachMottagningar(Vardenhet vardenhet, final HealthCareUnitMembersType healthCareUnitMembers) {
+    private AgandeForm getAgandeForm(String orgNo) {
+        if (StringUtil.isNullOrEmpty(orgNo)) {
+            LOG.error("orgNo is null or empty, this make us unable to determine if the unit is private or not");
+            return AgandeForm.OKAND;
+        }
+        return orgNo.startsWith("2") ? AgandeForm.OFFENTLIG : AgandeForm.PRIVAT;
+    }
+
+    /**
+     * Used when ownership is not used.
+     */
+    private void attachMottagningar(Vardenhet vardenhet, HealthCareUnitMembersType healthCareUnitMembers) {
+        attachMottagningar(vardenhet, healthCareUnitMembers, AgandeForm.OKAND);
+    }
+
+    private void attachMottagningar(Vardenhet vardenhet, final HealthCareUnitMembersType healthCareUnitMembers, AgandeForm agandeForm) {
         for (HealthCareUnitMemberType member : healthCareUnitMembers.getHealthCareUnitMember()) {
 
             if (!isActive(member.getHealthCareUnitMemberStartDate(), member.getHealthCareUnitMemberEndDate())) {
@@ -228,6 +252,7 @@ public class HsaOrganizationsServiceImpl implements HsaOrganizationsService {
             mottagning.setTelefonnummer(member.getHealthCareUnitMemberTelephoneNumber().stream().collect(Collectors.joining(", ")));
             mottagning.setArbetsplatskod(member.getHealthCareUnitMemberPrescriptionCode().size() > 0
                     ? member.getHealthCareUnitMemberPrescriptionCode().get(0) : DEFAULT_ARBETSPLATSKOD);
+            mottagning.setAgandeForm(agandeForm);
 
             vardenhet.getMottagningar().add(mottagning);
             LOG.debug("Attached mottagning '{}' to vardenhet '{}'", mottagning.getId(), vardenhet.getId());
@@ -274,7 +299,7 @@ public class HsaOrganizationsServiceImpl implements HsaOrganizationsService {
             }
         } else {
             if (vardenhet.getPostnummer() == null) {
-                vardenhet.setPostnummer(DEFAULT_POSTNR);
+                vardenhet.setPostnummer("");
             }
             vardenhet.setPostort(lastLine != null ? lastLine.trim() : "");
         }

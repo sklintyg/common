@@ -65,7 +65,7 @@ module.exports = function(config) {
             WEBJAR_DIR + 'jquery/jquery.min.js',
             WEBJAR_DIR + 'angularjs/angular.js',
             WEBJAR_DIR + 'angularjs/angular-mocks.js',
-            WEBJAR_DIR + 'angularjs/1.4.7/angular-locale_sv-se.js',
+            WEBJAR_DIR + 'angularjs/1.4.10/angular-locale_sv-se.js',
             WEBJAR_DIR + 'angularjs/angular-cookies.js',
             WEBJAR_DIR + 'angular-ui-router/angular-ui-router.js',
             WEBJAR_DIR + 'angularjs/angular-sanitize.js',
@@ -78,7 +78,8 @@ module.exports = function(config) {
             SRC_DIR + 'messages.js',
             SRC_DIR + 'module.js',
 
-            { pattern: SRC_DIR + '**/*' },
+            { pattern: SRC_DIR + '**/*.js' },
+            { pattern: SRC_DIR + '**/*.html' },
             { pattern: TEST_DIR + '**/*.spec.js' },
 
             // Test resources

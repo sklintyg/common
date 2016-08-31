@@ -25,9 +25,9 @@
 
   <xsl:template name="response">
      <gtb:GetTSBasResponse>
-       <gtb:result>
+       <gtb:resultat>
          <xsl:call-template name="result"/>
-       </gtb:result>
+       </gtb:resultat>
      </gtb:GetTSBasResponse>
    </xsl:template>
 

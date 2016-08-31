@@ -23,7 +23,6 @@ describe('utkastHeader', function() {
     var $httpBackend;
     var $scope;
     var $timeout;
-    var controller;
     var testCert = {
         grundData: {
             patient: {
@@ -38,13 +37,12 @@ describe('utkastHeader', function() {
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('smoothScroll', {});
-        $provide.value('networkConfig', {});
     }));
 
     beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', '$timeout',
         function($controller, _$rootScope_, _$httpBackend_, _$timeout_) {
             $scope = _$rootScope_.$new();
-            controller = $controller('common.UtkastHeader', { $scope: $scope });
+            $controller('common.UtkastHeader', { $scope: $scope });
             $httpBackend = _$httpBackend_;
             $timeout = _$timeout_;
         }]));

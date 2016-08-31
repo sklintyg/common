@@ -1,5 +1,5 @@
-<div class="form-group form-inline row" ng-class="{'indent' : to.indent}">
-  <div class="col-md-{{to.labelColSize}}">
+<div class="form-group form-{{to.formType}} row" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
+  <div class="col-md-{{to.labelColSize}} control-label">
     <label class="form-control-label">
         <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
         <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
@@ -7,6 +7,6 @@
     <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.help}}.HLP"></span>
   </div>
   <div class="col-md-{{12 - to.labelColSize}}">
-    <input type="text" class="form-control" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
+    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
   </div>
 </div>

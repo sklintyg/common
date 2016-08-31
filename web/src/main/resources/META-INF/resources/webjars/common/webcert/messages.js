@@ -75,6 +75,10 @@ var commonMessages = {
         'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
         'common.modal.mbankid.signed': 'Intyget är nu signerat.',
 
+        // common intyg view messages
+        'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
+        'common.label.saving': 'Sparar',
+
         // cert status messages
         'cert.status.draft_incomplete': 'Utkast, uppgifter saknas',
         'cert.status.draft_complete': 'Utkast, kan signeras',
@@ -84,13 +88,9 @@ var commonMessages = {
         'cert.status.sent': 'Mottaget',
         'cert.status.received': 'Signerat',
 
-        // common intyg view messages
-        'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
-        'common.label.saving': 'Sparar',
-
-        // draft form status messages
-        'draft.status.draft_incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
-        'draft.status.draft_complete': '<strong>Status:</strong> Utkastet är sparat och kan signeras.',
+        // draft utkast header form status messages
+        'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
+        'draft.status.complete': '<strong>Status:</strong> Utkastet är sparat och kan signeras.',
         'draft.status.signed': '<strong>Status:</strong> Intyget är signerat.',
         'draft.status.changed': '<strong>Status:</strong> Utkastet är ändrat sedan det senast sparades',
 
@@ -136,8 +136,24 @@ var commonMessages = {
         'qa.measure.markhandled': 'Markera som hanterad',
         'qa.measure.handled': 'Ingen',
 
-        'arende.fraga.amne.komplt': 'Komplettering',
-        'arende.fraga.amne.ovrigt': 'Övrigt',
+        // Ärendehantering
+        'common.loading.existing.arenden': 'Laddar ärenden...',
+
+        'common.arende.fragestallare.wc': 'Vårdenheten',
+        'common.arende.fragestallare.fk': 'Försäkringskassan',
+
+        'common.arende.atgard.svarfranvarden': 'Svara',
+        'common.arende.atgard.svarfranfk': 'Invänta svar från Försäkringskassan',
+        'common.arende.atgard.komplettering': 'Komplettera',
+        'common.arende.atgard.markhandled': 'Markera som hanterad',
+        'common.arende.atgard.handled': 'Ingen',
+
+        'common.arende.fraga.amne.arbtid': 'Arbetstidsförläggning',
+        'common.arende.fraga.amne.avstmn': 'Avstämningsmöte',
+        'common.arende.fraga.amne.kontkt': 'Kontakt',
+        'common.arende.fraga.amne.komplt': 'Komplettering',
+        'common.arende.fraga.amne.ovrigt': 'Övrigt',
+        'common.arende.fraga.amne.paminn': 'Påminnelse',
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
@@ -147,6 +163,32 @@ var commonMessages = {
         'info.loadingcertificate': 'Hämtar intyget...',
 
         'common.label.diagnoses.more_results': 'Det finns fler träffar än vad som kan visas i listan, förfina sökningen.',
+
+        'common.intyg.relation.showrelated': 'Visa relaterade intyg',
+        'common.intyg.relation.hiderelated': 'Dölj relaterade intyg',
+        'common.intyg.relation.currentlyviewing': 'Visas nu',
+        'common.intyg.relation.show': 'Visa',
+        'common.intyg.relation': 'Relation',
+        'common.intyg.relation.status': 'Status',
+        'common.intyg.relation.date': 'Datum',
+        'common.intyg.relation.code.komplt': 'Komplettering',
+        'common.intyg.relation.code.frlang': 'Förlängning',
+
+        'common.intyg.patientadress': 'Patientens adressuppgifter',
+        'common.postadress': 'Postadress',
+        'common.postnummer': 'Postadress',
+        'common.postort': 'Postort',
+
+        //common.sit.* messages are candidates for a fk-common messages.js
+        'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE:',
+        'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',
+        'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
+        'common.sit.client-validation.underlag.max-extra-underlag': 'Du kan inte lägga till fler utredningar, max antal är %0st',
+        'common.label.patient': 'Patientens adressuppgifter',
+        'common.label.vardenhet': 'Vårdenhetens adress',
+        'common.validation.patient.postadress.missing': 'Postadress saknas.',
+        'common.validation.patient.postnummer.missing': 'Postnummer saknas.',
+        'common.validation.patient.postort.missing': 'Postort saknas.',
 
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
@@ -158,6 +200,7 @@ var commonMessages = {
         'common.error.invalid_state': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma utkast. Ladda om sidan och försök igen',
         'common.error.sign.general': '<strong>Intyget kunde inte signeras.</strong><br>Försök igen senare.',
         'common.error.sign.netid': '<strong>Intyget kunde inte signeras.</strong><br>Kunde inte kontakta Net iD-klienten. Försök igen senare eller kontakta din support.',
+        'common.error.sign.netid.cancel':'<strong>Intyget kunde inte signeras.</strong><br/>Åtgärden avbruten.',
         'common.error.sign.bankid': '<strong>Intyget kunde inte signeras.</strong><br>Kunde inte kontakta Bank ID-klienten. Försök igen senare eller kontakta din support.',
         'common.error.sign.not_ready_yet': '<strong>Intyget är nu signerat.</strong><br>Tyvärr kan inte intyget visas än då det behandlas. Prova att ladda om sidan lite senare. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
         'common.error.sign.concurrent_modification': '<strong>Det går inte att signera utkastet.</strong><br/>Utkastet har ändrats av en annan användare sedan du började arbeta på det. Ladda om sidan, kontrollera att uppgifterna stämmer och försök signera igen.<br/>Utkastet ändrades av ${name}.',
@@ -171,20 +214,21 @@ var commonMessages = {
         'common.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
         'common.error.could_not_load_cert_not_auth': '<strong>Kunde inte hämta intyget eftersom du saknar behörighet.</strong>',
         'common.error.module_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Problem att kontakta intygsmodulen.',
-        'common.error.discard.concurrent_modification': '<strong>Kan inte ta bort utkastet. Utkastet har ändrats av en annan användare medan du arbetat på samma utkast.</strong><br>Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
-        'common.error.save.unknown': '<strong>Okänt fel.</strong> Det går för tillfället inte att spara ändringar.',
-        'common.error.save.module_problem': '<strong>Okänt fel.</strong> Det går för tillfället inte att spara ändringar.',
-        'common.error.save.data_not_found': '<strong>Okänt fel.</strong> Det går för tillfället inte att spara ändringar.',
+        'common.error.discard.concurrent_modification': '<strong><br>Kan inte ta bort utkastet. Utkastet har ändrats av en annan användare medan du arbetat på samma utkast.</strong><br>Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
+        'common.error.save.unknown': '<strong>Okänt fel.</strong><br>Det går för tillfället inte att spara ändringar.',
+        'common.error.save.noconnection': '<strong>Inget nätverk</strong><br>Det går för tillfället inte att spara ändringar eftersom servern inte kunde kontaktas.',
+        'common.error.save.module_problem': '<strong>Okänt fel.</strong><br>Det går för tillfället inte att spara ändringar.',
+        'common.error.save.data_not_found': '<strong>Okänt fel.</strong><br>Det går för tillfället inte att spara ändringar.',
         'common.error.save.concurrent_modification': '<strong>Kan inte spara utkastet. Utkastet har ändrats av en annan användare medan du arbetat på samma utkast.</strong><br>Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
         'common.error.save.unknown_internal_problem': '<strong>Tappade anslutningen till servern.</strong><br>Det går för tillfället inte att spara ändringar.',
         'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).',
 
         // FMB texts
-        'fmb.falt2_spb': 'Symtom, prognos och behandling',
-        'fmb.falt2_general': 'Generell information',
-        'fmb.falt4': '',
-        'fmb.falt5': '',
-        'fmb.falt8b': '',
+        'fmb.symptom_prognos_behandling': 'Symtom, prognos och behandling',
+        'fmb.generell_info': 'Generell information',
+        'fmb.funktionsnedsattning': '',
+        'fmb.aktivitetsbegransning': '',
+        'fmb.beslutsunderlag_textuellt': '',
 
         // Fragasvar för FK
         'common.fk.info.loading.existing.qa': 'Hämtar tidigare frågor och svar...',
@@ -198,7 +242,15 @@ var commonMessages = {
         'common.fk.fragasvar.error.invalid_state': '<strong>Funktionen är inte giltig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma post. Ladda om informationen och försök igen',
         'common.fk.fragasvar.error.unknown_internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Försök igen och kontakta supporten om problemet kvarstår.',
         'common.fk.fragasvar.error.authorization_problem': '<strong>Du har inte behörighet att utföra funktionen, kontakta supporten för mer information.</strong>',
-        'common.fk.fragasvar.error.data_not_found': '<strong>Intyget kunde inte hittas i intygstjänsten.</strong><br>Intyget är borttaget eller så saknas behörighet.'
+        'common.fk.fragasvar.error.data_not_found': '<strong>Intyget kunde inte hittas i intygstjänsten.</strong><br>Intyget är borttaget eller så saknas behörighet.',
+
+        // fragaSvar errors
+        'common.arende.error.external_system_problem': '<strong>Meddelandet har inte skickats till Försäkringskassan då Webcert saknar kontakt med Försäkringskassans datasystem.</strong><br>Prova att skicka om meddelandet. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
+        'common.arende.error.internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Försök igen och kontakta supporten om problemet kvarstår.',
+        'common.arende.error.invalid_state': '<strong>Funktionen är inte giltig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma post. Ladda om informationen och försök igen',
+        'common.arende.error.unknown_internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Försök igen och kontakta supporten om problemet kvarstår.',
+        'common.arende.error.authorization_problem': '<strong>Du har inte behörighet att utföra funktionen, kontakta supporten för mer information.</strong>',
+        'common.arende.error.data_not_found': '<strong>Personen kunde inte hittas i personuppgiftstjänsten.</strong>'
     },
     'en': {
         'common.ok': 'OK',

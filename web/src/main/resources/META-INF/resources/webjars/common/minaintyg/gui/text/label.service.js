@@ -13,9 +13,15 @@ angular.module('common').factory('common.dynamicLabelService',
             'use strict';
 
             var _labelResources = null;
-            var structureTypesEnum = { kategori: 'KAT', fraga: 'FRG', delFraga: 'DFR' };
-            var structureTextTypesEnum = { rubrik: 'RBK', hjalp: 'HLP' };
             var tillaggsFragor = null;
+
+            function _hasProperty(key) {
+                var text = _labelResources[key];
+                if (typeof text === 'undefined' || text === '') {
+                    return false;
+                }
+                return true;
+            }
 
             function _getProperty(key) {
                 var value = getRequiredTextByPropKey(key); // get required text
@@ -28,25 +34,11 @@ angular.module('common').factory('common.dynamicLabelService',
                     return '';
                 }
 
-                var textFound = true;
                 var text = _labelResources[key];
                 if (typeof text === 'undefined') {
                     $log.debug('[MISSING TEXT ERROR - missing required id: "' + key + '"]');
-                    textFound = false;
                 } else if (text === '') {
                     $log.debug('[MISSING TEXT ERROR - have ID but not text for required id: "' + key + '"]');
-                    textFound = false;
-                }
-
-                if(!textFound && typeof tillaggsFragor !== 'undefined')
-                {
-                    // Check if its a tillaggsfraga
-                    for (var i = 0; i < tillaggsFragor.length; i++) {
-                        if (tillaggsFragor[i].id === _convertTextIdToModelId(key)) {
-                            text = tillaggsFragor[i].text;
-                            break;
-                        }
-                    }
                 }
 
                 return text;
@@ -67,18 +59,13 @@ angular.module('common').factory('common.dynamicLabelService',
                 return tillaggsFragor;
             }
 
-            function _convertTextIdToModelId(textObject) {
-                if(typeof textObject !== 'undefined' && textObject !== null) {
-                    return textObject.substr(4, 4);
-                } else {
-                    $log.debug('invalid textobject:' + textObject);
-                }
-
-                return '';
-            }
-
             function _updateTillaggsfragorToModel(tillaggsfragor, model) {
                 var modelFrageList = model.tillaggsfragor;
+
+                if (!modelFrageList) {
+                    return;
+                }
+
                 for (var i = 0; i < tillaggsfragor.length; i++) {
                     var tillaggsfraga = {
                         'id': tillaggsfragor[i].id,
@@ -136,6 +123,7 @@ angular.module('common').factory('common.dynamicLabelService',
                 checkLabels: _checkLabels,
                 getProperty: _getProperty,
                 getTillaggsFragor: _getTillaggsFragor,
+                hasProperty: _hasProperty,
                 updateDynamicLabels: _updateDynamicLabels
             };
         }

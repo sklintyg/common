@@ -48,8 +48,6 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     private static final Logger LOG = LoggerFactory.getLogger(IntygTextsRepository.class);
 
     private static final String TILLAGGSFRAGA_REGEX = "\\d{4}";
-    private static final String TEXT_SUFFIX = "RBK";
-    private static final String HELP_TEXT_SUFFIX = "HLP";
 
     /**
      * The in-memory database of the texts available.
@@ -87,12 +85,13 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
                     Element root = doc.getDocumentElement();
                     String version = root.getAttribute("version");
                     String intygsTyp = root.getAttribute("typ").toLowerCase();
+                    String pdfPath = root.getAttribute("pdf");
                     LocalDate giltigFrom = getDate(root, "giltigFrom");
                     LocalDate giltigTo = getDate(root, "giltigTom");
                     SortedMap<String, String> texts = getTexter(root);
                     List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor(doc);
 
-                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor);
+                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, pdfPath);
                     if (!intygTexts.contains(newIntygTexts)) {
                         LOG.debug("Adding new version of {} with version name {}", intygsTyp, version);
                         intygTexts.add(newIntygTexts);
@@ -135,25 +134,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
     private Tillaggsfraga getTillaggsFraga(Element element) {
         String id = getTillaggsFragaId(element);
-        String text = "";
-        String help = "";
 
-        NodeList textsList = element.getElementsByTagName("text");
-        for (int i = 0; i < textsList.getLength(); i++) {
-            Element textElement = (Element) textsList.item(i);
-            String textId = textElement.getAttribute("id");
-
-            // In tillaggsfragor the ids of the tags are of fixed format. The texts WILL end with RBK and the helptexts
-            // WILL end with HLP.
-            if (textId.endsWith(HELP_TEXT_SUFFIX)) {
-                help = textElement.getTextContent();
-            } else if (textId.endsWith(TEXT_SUFFIX)) {
-                text = textElement.getTextContent();
-            } else {
-                throw new IllegalArgumentException("Could not parse the id " + textId + " as a tillaggsfraga");
-            }
-        }
-        return new Tillaggsfraga(id, text, help);
+        return new Tillaggsfraga(id);
     }
 
     private String getTillaggsFragaId(Element element) {
@@ -184,7 +166,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     @Override
     public IntygTexts getTexts(String intygsTyp, String version) {
         try {
-            IntygTexts wanted = new IntygTexts(version, intygsTyp, null, null, null, null);
+            IntygTexts wanted = new IntygTexts(version, intygsTyp, null, null, null, null, null);
             for (IntygTexts intygText : intygTexts) {
                 if (wanted.equals(intygText)) {
                     return intygText;

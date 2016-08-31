@@ -37,6 +37,10 @@ angular.module('common').directive('wcDatePeriodField',
             require:'wcDatePeriodField',
             controller: function($scope) {
 
+                if ($scope.domId === undefined) {
+                    $scope.domId = $scope.field + '-' + $scope.index + '-' + $scope.type;
+                }
+
                 if($scope.format === undefined){
                     $scope.format = 'yyyy-MM-dd';
                 }
@@ -68,6 +72,7 @@ angular.module('common').directive('wcDatePeriodField',
         function(dateUtils) {
             'use strict';
             return {
+                priority: 1,
                 restrict: 'A',
                 require:['ngModel', '^wcDatePeriodField', '^wcDatePeriodValidator'],
                 link: function(scope, element, attrs, ctrls) {
