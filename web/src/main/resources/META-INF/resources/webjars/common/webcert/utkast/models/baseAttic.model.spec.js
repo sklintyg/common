@@ -24,16 +24,7 @@ describe('common.domain.BaseAtticModel', function() {
     var attic;
     var ModelAttr;
 
-    beforeEach(angular.mock.module('common', function($provide) {
-
-        // the below are now included in common
-        //$provide.value('fk7263.domain.DraftModel', __draftModel__);
-        //$provide.value('fk7263.domain.IntygModel', {});
-        //$provide.value('fk7263.domain.PatientModel', {});
-        //$provide.value('fk7263.domain.SkapadAvModel', {});
-        //$provide.value('fk7263.domain.VardenhetModel', {});
-
-    }));
+    beforeEach(angular.mock.module('common'));
 
     // Get references to the object we want to test from the context.
 
@@ -47,7 +38,7 @@ describe('common.domain.BaseAtticModel', function() {
 
     describe('enums', function(){
         it('can handle an array of objects ', function(){
-            
+
             var modelDef = {
                 korkortstyp: new ModelAttr('korkortstyp',
                     {defaultValue:
@@ -60,10 +51,6 @@ describe('common.domain.BaseAtticModel', function() {
             };
 
             var model = new BaseAtticModel('model1', modelDef);
-            //console.log('------------------------- enums');
-            //console.log('--- model def');
-
-            //console.log(JSON.stringify(model));
 
             var content = {korkortstyp:[
                 {'type': 'C1', 'selected': 'stooges'},
@@ -71,23 +58,17 @@ describe('common.domain.BaseAtticModel', function() {
                 {'type': 'C', 'selected': 'deviants'}
             ]};
 
-            //console.log('--- after update');
             model.update(content);
-            //console.log(JSON.stringify(model));
             expect(model.korkortstyp[0].selected).toBe('stooges');
             expect(model.korkortstyp[1].selected).toBe('mc5');
             expect(model.korkortstyp[2].selected).toBe('deviants');
 
-            //console.log('--- after clear');
             model.clear();
-            //console.log(JSON.stringify(model));
             expect(model.korkortstyp[0].selected).toBe(false);
             expect(model.korkortstyp[1].selected).toBe(false);
             expect(model.korkortstyp[2].selected).toBe(false);
 
-            //console.log('--- after restore');
             model.restoreFromAttic();
-            //console.log(JSON.stringify(model));
             expect(model.korkortstyp[0].selected).toBe('stooges');
             expect(model.korkortstyp[1].selected).toBe('mc5');
             expect(model.korkortstyp[2].selected).toBe('deviants');
@@ -99,14 +80,6 @@ describe('common.domain.BaseAtticModel', function() {
         describe('nested attic model', function() {
 
             var model;
-
-            beforeEach(function() {
-
-
-
-
-
-            });
 
             it('can update and restore from attic', function() {
                 var modelDef = {
@@ -129,12 +102,8 @@ describe('common.domain.BaseAtticModel', function() {
                     }
                 };
 
-                //console.log('---------------------------- update model');
                 model.update(content); // will do an update to attic
 
-                //console.log('attic model :' + JSON.stringify(model.atticModel));
-
-                //console.log('---------------------------- clear model');
                 model.clear();
 
                 expect(model.a.aa.aaa).toBe(false);
@@ -143,7 +112,6 @@ describe('common.domain.BaseAtticModel', function() {
                 expect(model.a.ad).toBe('fred');
 
 
-                //console.log('---------------------------- restore from attic');
                 model.restoreFromAttic();
 
                 expect(model.a.aa.aaa).toBe('update aaa');
@@ -171,19 +139,14 @@ describe('common.domain.BaseAtticModel', function() {
                     }
                 };
 
-                //console.log('---------------------------- update model');
                 model.update(content); // will do an update to attic
 
-                //console.log('attic model :' + JSON.stringify(model.atticModel));
-
-                //console.log('---------------------------- clear model');
                 model.clear('a.aa');
                 expect(model.a.aa.aaa).toBe(false);
                 expect(model.a.aa.aab).toBe('hi');
                 expect(model.a.ab.aba).toBe(true);
 
 
-                //console.log('---------------------------- restore from attic');
                 model.restoreFromAttic('a.aa');
 
                 expect(model.a.aa.aaa).toBe('update aaa');
@@ -401,15 +364,11 @@ describe('common.domain.BaseAtticModel', function() {
                     },
 
                     update: function update(content) {
-                        //if (parent) {
-                        //    parent.content = this;
-                        //}
                         update._super.call(this, content);
                     }
                 });
 
                 model = new IntygModel();
-                //console.log('model new : ' + JSON.stringify(model));
 
             });
 
@@ -419,7 +378,6 @@ describe('common.domain.BaseAtticModel', function() {
 
                 var content = {diagnosBeskrivning: 'diagnosBeskrivning', diagnosBeskrivning1: 'diagnosBeskrivning1'};
                 model.update(content);
-                //console.log('model after update : ' + JSON.stringify(model));
 
                 model.updateToAttic();
 
@@ -467,9 +425,6 @@ describe('common.domain.BaseAtticModel', function() {
                 // --- check toSendModel
 
                 var send = model.toSendModel();
-
-                //console.log('model : ' + JSON.stringify(model));
-                //console.log('send : ' + JSON.stringify(send));
 
                 // check that send includes default values
                 expect(send.avstangningSmittskydd).toBe(false);

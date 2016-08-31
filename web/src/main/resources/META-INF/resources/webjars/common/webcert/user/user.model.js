@@ -112,22 +112,18 @@ angular.module('common').factory('common.UserModel',
                 getRole: function(roles) {
                     var rs = '';
                     if (roles.VARDADMINISTRATOR !== undefined) {
-                        //rs += roles.VARDADMINISTRATOR.name;
                         rs += roles.VARDADMINISTRATOR.desc;
                     }
 
                     if (roles.LAKARE !== undefined) {
-                        //rs += roles.LAKARE.name;
                         rs += roles.LAKARE.desc;
                     }
 
                     if (roles.PRIVATLAKARE !== undefined) {
-                        //rs += roles.PRIVATLAKARE.name;
                         rs += roles.PRIVATLAKARE.desc;
                     }
 
                     if (roles.TANDLAKARE !== undefined) {
-                        //rs += roles.TANDLAKARE.name;
                         rs += roles.TANDLAKARE.desc;
                     }
 

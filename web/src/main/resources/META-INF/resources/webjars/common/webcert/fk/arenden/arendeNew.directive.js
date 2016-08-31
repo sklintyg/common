@@ -117,7 +117,7 @@ angular.module('common').directive('arendeNew',
 
                         ArendeProxy.sendNewArende($stateParams.certificateId, ArendeNewViewState.parentViewState.intygProperties.type, arendeNewModel,
                             function(arendeModel) {
-                                
+
                                 $log.debug('Got saveNewQuestion result:' + arendeModel);
                                 ArendeNewViewState.updateInProgress = false;
                                 ArendeNewViewState.activeErrorMessageKey = null;

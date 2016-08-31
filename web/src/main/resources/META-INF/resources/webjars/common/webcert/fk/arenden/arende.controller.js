@@ -84,7 +84,9 @@ angular.module('common').controller('common.ArendeCtrl',
                     fetchArenden(intygId, ArendenViewState.intygProperties);
 
                 } else if (ObjectHelper.isDefined($stateParams.certificateId)) {
-                    fetchArenden($stateParams.certificateId, null);
+                    fetchArenden($stateParams.certificateId, {
+                        type:$state.current.data.intygType
+                    });
                 }
             });
             $scope.$on('$destroy', unbindFastEvent);

@@ -268,6 +268,8 @@ angular.module('common').factory('common.domain.BaseModel',
 
             _getPropertiesAndCurrent: function(propertyPath){
 
+                var nc;
+
                 function findPropsCurrent(baseModel, props, propsCurrent) {
                     for(var j = 0; j < props.length; j++){
                         var prop = props[j];
@@ -283,7 +285,6 @@ angular.module('common').factory('common.domain.BaseModel',
 
                 var propsCurrent = {props:this.properties, current:this};
                 var i = propertyPath.lastIndexOf('.');
-                var nc;
                 if(i > -1 ){
                     var props = propertyPath.split('.');
                     findPropsCurrent(this, props, propsCurrent);
