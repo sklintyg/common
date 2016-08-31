@@ -124,7 +124,7 @@ public final class ModelConverter {
     }
 
     public static String buildVardReferensId(String intygId, LocalDateTime ts) {
-        return StringUtils.join(new Object[] { "REVOKE", intygId, ts.format(DateTimeFormatter.ISO_DATE_TIME) }, "-");
+        return StringUtils.join(new Object[] { "REVOKE", intygId, ts.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS")) }, "-");
     }
 
     public static LakarutlatandeEnkelType toLakarutlatandeEnkelType(Utlatande utlatande) {
