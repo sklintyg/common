@@ -19,7 +19,8 @@
 
 package se.inera.intyg.common.support.model;
 
-import org.joda.time.LocalDate;
+
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;

@@ -32,8 +32,8 @@ import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

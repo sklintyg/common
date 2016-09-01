@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.ISODateTimeFormat;
 
 import iso.v21090.dt.v1.II;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
@@ -52,7 +53,7 @@ public final class ModelConverter {
                 .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
                 .issuerName(source.getSigningDoctorName())
                 .facilityName(source.getCareUnitName())
-                .signDate(toLocalDate(source.getSignedDate()))
+                .signDate(source.getSignedDate() != null ? source.getSignedDate().toLocalDate() : null)
                 .available(String.valueOf(!source.isDeleted()));
 
         CertificateMetaType meta = builder.build();
@@ -123,8 +124,7 @@ public final class ModelConverter {
     }
 
     public static String buildVardReferensId(String intygId, LocalDateTime ts) {
-        String time = ts.toString(ISODateTimeFormat.basicDateTime());
-        return StringUtils.join(new Object[] { "REVOKE", intygId, time }, "-");
+        return StringUtils.join(new Object[] { "REVOKE", intygId, ts.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS")) }, "-");
     }
 
     public static LakarutlatandeEnkelType toLakarutlatandeEnkelType(Utlatande utlatande) {
@@ -148,11 +148,11 @@ public final class ModelConverter {
         return lakarutlatande;
     }
 
-    private static LocalDate toLocalDate(Object date) {
+    private static LocalDate toLocalDate(String date) {
         if (date == null) {
             return null;
         }
-        return new LocalDate(date);
+        return LocalDate.parse(date);
     }
 
 }

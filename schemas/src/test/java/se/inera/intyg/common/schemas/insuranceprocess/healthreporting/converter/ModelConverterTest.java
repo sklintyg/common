@@ -17,39 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.model;
+package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import org.joda.time.Partial;
+import static org.junit.Assert.assertEquals;
 
-/**
- * @author andreaskaltenbach
- */
-public final class PartialInterval {
+import java.time.LocalDateTime;
 
-    private Partial from;
-    private Partial tom;
+import org.junit.Test;
 
-    public PartialInterval() {
-    }
+public class ModelConverterTest {
 
-    public PartialInterval(Partial from, Partial tom) {
-        this.from = from;
-        this.tom = tom;
-    }
-
-    public Partial getFrom() {
-        return from;
-    }
-
-    public void setFrom(Partial from) {
-        this.from = from;
-    }
-
-    public Partial getTom() {
-        return tom;
-    }
-
-    public void setTom(Partial tom) {
-        this.tom = tom;
+    @Test
+    public void testVardreferensId() {
+        String intygId = "INTYGID";
+        LocalDateTime time = LocalDateTime.of(2011, 01, 02, 23, 59, 01, 1);
+        String res = ModelConverter.buildVardReferensId(intygId, time);
+        assertEquals("REVOKE-" + intygId + "-20110102T235901.000" , res);
     }
 }

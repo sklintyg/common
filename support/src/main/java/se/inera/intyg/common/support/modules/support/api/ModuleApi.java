@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;

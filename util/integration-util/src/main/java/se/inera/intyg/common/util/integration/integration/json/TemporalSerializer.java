@@ -19,25 +19,28 @@
 
 package se.inera.intyg.common.util.integration.integration.json;
 
+import java.io.IOException;
+import java.time.temporal.Temporal;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.joda.time.Partial;
-import se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter;
 
-import java.io.IOException;
+import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
 
 /**
  * @author andreaskaltenbach
  */
-public class PartialSerializer extends StdSerializer<Partial> {
+public class TemporalSerializer extends StdSerializer<Temporal> {
 
-    public PartialSerializer() {
-        super(Partial.class);
+    private static final long serialVersionUID = 1L;
+
+    public TemporalSerializer() {
+        super(Temporal.class);
     }
 
     @Override
-    public void serialize(Partial partial, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(PartialAdapter.printPartial(partial));
+    public void serialize(Temporal partial, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        jgen.writeString(PartialDateAdapter.printPartialDate(partial));
     }
 }

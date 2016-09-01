@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.support.modules.support.api.notification;
 
-import org.joda.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;

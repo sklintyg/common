@@ -20,16 +20,16 @@
 package se.inera.intyg.common.util.integration.integration.json;
 
 import java.io.IOException;
-
-import org.joda.time.LocalDate;
-
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
+import java.time.Instant;
+import java.time.ZoneId;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
 
 public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
 
@@ -41,10 +41,10 @@ public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
 
     @Override
     public InternalDate deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException {
+            throws IOException {
         switch (jp.getCurrentToken()) {
         case START_ARRAY:
-            //[yyyy,MM,dd,hh,mm,ss,ms]
+            // [yyyy,MM,dd,hh,mm,ss,ms]
 
             jp.nextToken(); // VALUE_NUMBER_INT
             int year = jp.getIntValue();
@@ -59,12 +59,13 @@ public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
             // Skip the time and return at date
             return InternalDateAdapter.parseInternalDate(year, month, day);
         case VALUE_NUMBER_INT:
-            return new InternalDate(new LocalDate(jp.getLongValue()));
+            return new InternalDate(Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.of("Europe/Stockholm")).toLocalDate());
         case VALUE_STRING:
             String str = jp.getText().trim();
             if (str.length() == 0) { // [JACKSON-360]
                 return null;
             }
+
             return InternalDateAdapter.parseInternalDate(str);
         default:
             throw ctxt.wrongTokenException(jp, JsonToken.START_ARRAY, "expected JSON Array, Number or String");

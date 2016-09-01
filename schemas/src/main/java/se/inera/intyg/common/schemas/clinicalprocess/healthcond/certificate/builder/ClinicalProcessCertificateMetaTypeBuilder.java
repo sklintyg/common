@@ -19,8 +19,8 @@
 
 package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.builder;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.StatusType;

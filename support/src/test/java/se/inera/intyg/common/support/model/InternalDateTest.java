@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.junit.Test;
 
 public class InternalDateTest {

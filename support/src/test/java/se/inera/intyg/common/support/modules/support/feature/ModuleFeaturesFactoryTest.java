@@ -26,13 +26,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ModuleFeaturesFactoryTest {
 
     private static final String TEST_FILE = "/Features/test-features.properties";
-    
+
     @Test
     public void testFactory() {
         Map<String, Boolean> features = ModuleFeaturesFactory.getFeatures(TEST_FILE);
@@ -42,5 +41,5 @@ public class ModuleFeaturesFactoryTest {
         assertFalse(features.get(ModuleFeature.MAKULERA_INTYG.getName()));
         assertFalse(features.get(ModuleFeature.SKICKA_INTYG.getName()));
     }
-    
+
 }

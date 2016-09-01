@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import org.joda.time.LocalDateTime;
+import java.time.LocalDateTime;
 import org.junit.Test;
 
 import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;

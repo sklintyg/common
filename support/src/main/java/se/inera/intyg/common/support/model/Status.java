@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.support.model;
 
-import org.joda.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 /**
  * @author andreaskaltenbach

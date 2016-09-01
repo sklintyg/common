@@ -68,12 +68,6 @@
       <artifactId>intyg-transportstyrelsen-schemas</artifactId>
     </dependency>
 
-    <!-- Date/Time -->
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-    </dependency>
-
     <!-- Test dependencies -->
     <dependency>
       <groupId>junit</groupId>

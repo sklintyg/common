@@ -19,25 +19,37 @@
 
 package se.inera.intyg.common.util.integration.integration.json;
 
+import static com.fasterxml.jackson.core.JsonToken.VALUE_STRING;
+
 import java.io.IOException;
+import java.time.temporal.Temporal;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
+import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
 
-public class InternalDateSerializer extends StdSerializer<InternalDate> {
+/**
+ * @author andreaskaltenbach
+ */
+public class TemporalDeserializer extends StdDeserializer<Temporal> {
 
     private static final long serialVersionUID = 1L;
 
-    public InternalDateSerializer() {
-        super(InternalDate.class);
+    public TemporalDeserializer() {
+        super(Temporal.class);
     }
 
     @Override
-    public void serialize(InternalDate date, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(InternalDateAdapter.printInternalDate(date));
+    public Temporal deserialize(JsonParser jp, DeserializationContext ctxt)
+            throws IOException {
+
+        if (jp.getCurrentToken() != VALUE_STRING) {
+            throw ctxt.wrongTokenException(jp, VALUE_STRING, "expected JSON String");
+
+        }
+
+        return PartialDateAdapter.parsePartialDate(jp.getText().trim());
     }
 }
