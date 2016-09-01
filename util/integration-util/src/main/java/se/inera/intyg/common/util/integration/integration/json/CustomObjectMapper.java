@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 /**
  * Customized Jackson ObjectMapper for the inera-certificate projects.
  *
- * -registers additional serializers and deserializers for JODA date and time types
+ * -registers additional serializers and deserializers for date and time types
  * -registers a specialized serializer to represent certificate-specific data as JSON
  *
  * @author andreaskaltenbach
