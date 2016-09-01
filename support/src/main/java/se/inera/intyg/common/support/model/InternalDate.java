@@ -33,7 +33,8 @@ import java.time.format.*;
  * @author erik
  */
 public class InternalDate {
-
+    private static final InternalDate MIN_DATE = new InternalDate("1900-01-01");
+    private static final InternalDate MAX_DATE = new InternalDate("2099-12-12");
     private static final String DATE_FORMAT = "[1-2][0-9]{3,3}(-((0[1-9])|(1[0-2]))(-((0[1-9])|([1-2][0-9])|(3[0-1]))))";
 
     private static final DateTimeFormatter PARSER = DateTimeFormatter.ISO_DATE;
@@ -120,6 +121,13 @@ public class InternalDate {
             return true;
         }
         return this.asLocalDate().isAfter(LocalDate.now());
+    }
+
+    public boolean isReasonable() {
+        if (date == null) {
+            return false;
+        }
+        return this.asLocalDate().isAfter(MIN_DATE.asLocalDate()) && this.asLocalDate().isBefore(MAX_DATE.asLocalDate());
     }
 
     @Override

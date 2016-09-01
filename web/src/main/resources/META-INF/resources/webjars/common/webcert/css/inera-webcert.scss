@@ -481,7 +481,7 @@
   }
 
   /* Used in wcDatePickerField.directive.html */
-  .text-invalid, INPUT.ng-invalid-dateperiod {
+  .text-invalid, INPUT.ng-invalid-dateperiod, INPUT.ng-invalid-min-date, INPUT.ng-invalid-max-date  {
     box-shadow: inset 0 1px 1px $black_075,0 0 8px $red_60;
     border-color: $blaze_orange;
   }
