@@ -74,6 +74,20 @@ angular.module('common').directive('wcDatePickerField',
     .directive('wcDatePickerFieldInput', ['$log', 'common.DateUtilsService',
     function($log, dateUtils ) {
         'use strict';
+        var checkDate = function(date1, date2){
+        	if (!date1 || !date2) {
+                // consider empty models to be valid
+                return true;
+            }
+
+            var mdate1 = moment(date1);
+            var mdate2 = moment(date2);
+
+            if(!mdate1.isValid() || !mdate2.isValid()) {
+                return true;
+            }
+            return !moment(mdate2).isAfter(mdate1);
+        };
         return {
             priority:10,
             restrict: 'A',
@@ -138,27 +152,12 @@ angular.module('common').directive('wcDatePickerField',
                 var maximumDate = '2099-12-12';
                 var minimumDate = '1900-01-01';
                 
-                var checkDate = function(date1, date2){
-                	if (ngModel.$isEmpty(date1) || ngModel.$isEmpty(date2)) {
-                        // consider empty models to be valid
-                        return true;
-                    }
-
-                    var mdate1 = moment(date1);
-                    var mdate2 = moment(date2);
-
-                    if(!mdate1.isValid() || !mdate2.isValid()) {
-                        return true;
-                    }
-                    return !moment(mdate2).isAfter(mdate1);
-                };
-                
                 ngModel.$validators.maxDate = function() {
-                    return checkDate(maximumDate, ngModel.$modelValue);
+                    return checkDate(maximumDate, ngModel.$viewValue);
                 };
                 
                 ngModel.$validators.minDate = function() {
-                    return checkDate(ngModel.$modelValue, minimumDate);
+                    return checkDate(ngModel.$viewValue, minimumDate);
                 };
              
             }
