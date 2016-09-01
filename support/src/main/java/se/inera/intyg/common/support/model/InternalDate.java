@@ -21,9 +21,8 @@ package se.inera.intyg.common.support.model;
 
 import java.util.Objects;
 
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
+import java.time.LocalDate;
+import java.time.format.*;
 
 /**
  * A way of handling Dates in our internal model that allows faulty user input,
@@ -37,8 +36,7 @@ public class InternalDate {
 
     private static final String DATE_FORMAT = "[1-2][0-9]{3,3}(-((0[1-9])|(1[0-2]))(-((0[1-9])|([1-2][0-9])|(3[0-1]))))";
 
-    /**Parser used for parsing LocalDate[s] from Strings, uses {@code ISODateTimeFormat}. */
-    private static final DateTimeFormatter PARSER = ISODateTimeFormat.date();
+    private static final DateTimeFormatter PARSER = DateTimeFormatter.ISO_DATE;
 
     private String date;
 
@@ -66,7 +64,7 @@ public class InternalDate {
         if (date == null) {
             throw new ModelException("Got null while creating date object");
         }
-        this.date = date.toString(ISODateTimeFormat.date());
+        this.date = date.format(PARSER);
     }
 
     /*
@@ -91,8 +89,8 @@ public class InternalDate {
         }
         LocalDate localDate;
         try {
-            localDate = PARSER.parseLocalDate(date);
-        } catch (IllegalArgumentException ie) {
+            localDate = LocalDate.parse(date, PARSER);
+        } catch (DateTimeParseException ie) {
             throw new ModelException(String.format("Could not parse %s to LocalDate, failed with message: %s", date, ie.getMessage()));
         }
         return localDate;
@@ -107,8 +105,8 @@ public class InternalDate {
             return false;
         }
         try {
-            ISODateTimeFormat.date().parseLocalDate(date);
-        } catch (Exception e) {
+            LocalDate.parse(date, PARSER);
+        } catch (DateTimeParseException e) {
             return false;
         }
         return date.matches(DATE_FORMAT);

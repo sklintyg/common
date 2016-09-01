@@ -22,6 +22,7 @@ package se.inera.intyg.common.services.texts.repo;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,7 +31,6 @@ import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,8 +48,6 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     private static final Logger LOG = LoggerFactory.getLogger(IntygTextsRepository.class);
 
     private static final String TILLAGGSFRAGA_REGEX = "\\d{4}";
-    private static final String TEXT_SUFFIX = "RBK";
-    private static final String HELP_TEXT_SUFFIX = "HLP";
 
     /**
      * The in-memory database of the texts available.
@@ -136,25 +134,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
     private Tillaggsfraga getTillaggsFraga(Element element) {
         String id = getTillaggsFragaId(element);
-        String text = "";
-        String help = "";
 
-        NodeList textsList = element.getElementsByTagName("text");
-        for (int i = 0; i < textsList.getLength(); i++) {
-            Element textElement = (Element) textsList.item(i);
-            String textId = textElement.getAttribute("id");
-
-            // In tillaggsfragor the ids of the tags are of fixed format. The texts WILL end with RBK and the helptexts
-            // WILL end with HLP.
-            if (textId.endsWith(HELP_TEXT_SUFFIX)) {
-                help = textElement.getTextContent();
-            } else if (textId.endsWith(TEXT_SUFFIX)) {
-                text = textElement.getTextContent();
-            } else {
-                throw new IllegalArgumentException("Could not parse the id " + textId + " as a tillaggsfraga");
-            }
-        }
-        return new Tillaggsfraga(id, text, help);
+        return new Tillaggsfraga(id);
     }
 
     private String getTillaggsFragaId(Element element) {

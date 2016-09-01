@@ -26,9 +26,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.joda.time.LocalDate;
-import org.joda.time.Period;
-import org.joda.time.format.ISODateTimeFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Performs validation of a 'Personnummer'. The following can be configured:
@@ -36,7 +37,7 @@ import org.joda.time.format.ISODateTimeFormat;
  * <li>Strict dash check: If the dash should be validated. If the citizen is 100 years old or more, the separator should
  * be <code>+</code>, otherwise <code>-</code>.
  * <li>Reference date: By default all personnummer are validated against the current date. Other dates can be used by
- * setting {@link #setReferenceDate(org.joda.time.LocalDate)}. Useful for unit testing.
+ * setting {@link #setReferenceDate(java.time.LocalDate)}. Useful for unit testing.
  * </ul>
  *
  * @author Gustav Norbäcker, R2M
@@ -55,7 +56,7 @@ public class PersonnummerValidator implements RootValidator {
     /**
      * This oldest citizen with a personnummer was born 1840-05-06.
      */
-    private static final LocalDate FIRST_PERSONNUMMER_DATE = new LocalDate("1840-05-06");
+    private static final LocalDate FIRST_PERSONNUMMER_DATE = LocalDate.parse("1840-05-06");
     public static final int AGE_CUTOFF = 100;
 
     /**
@@ -124,7 +125,7 @@ public class PersonnummerValidator implements RootValidator {
         try {
             localDate = getBirthDay(dateString);
 
-        } catch (IllegalArgumentException e) {
+        } catch (DateTimeParseException | IllegalArgumentException e) {
             result.add(String.format("The date '%s' in SSN '%s' is invalid", dateString, pnr));
         }
 
@@ -166,7 +167,7 @@ public class PersonnummerValidator implements RootValidator {
      */
     private void checkSeparator(String pnr, LocalDate birthday, String separator, List<String> result) {
         if (strictSeparatorCheck) {
-            Period age = new Period(birthday, referenceDate());
+            Period age = Period.between(birthday, referenceDate());
             boolean ageMoreThan100 = age.getYears() >= AGE_CUTOFF;
             boolean dashSeparator = separator.equals("-");
             if (ageMoreThan100 && dashSeparator) {
@@ -223,7 +224,7 @@ public class PersonnummerValidator implements RootValidator {
      *             if the date wasn't valid.
      */
     protected LocalDate getBirthDay(String dateString) throws IllegalArgumentException {
-        return ISODateTimeFormat.basicDate().parseLocalDate(dateString);
+        return LocalDate.parse(dateString, DateTimeFormatter.BASIC_ISO_DATE);
     }
 
     public boolean isStrictSeparatorCheck() {

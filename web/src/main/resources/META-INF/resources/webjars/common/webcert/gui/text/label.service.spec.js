@@ -150,31 +150,6 @@ describe('dynamicLabelService', function() {
             var aProp = dynamicLabelService.getProperty('KAT_2.HLP', rootProp);
             expect(aProp).toEqual('Help text for - 2. Intyg är baserat på');
         });
-/*
-        it('should return the correct value if a language is set in the root scope', function() {
-            // todo
-        });
-
-        it('should return the correct value if a default language is set', function() {
-            // todo
-        });
-
-        it('should return the default value if the key is not present in the resources', function() {
-            // todo
-        });
-
-        it('should return the missing key if the key is not present in the resources', function() {
-            // todo
-        });
-
-        it('should return missing language if no language is set', function() {
-            // todo
-        });
-
-        it('should return string with expanded string if variable available', function() {
-            // todo
-        });*/
-
 
     });
 });

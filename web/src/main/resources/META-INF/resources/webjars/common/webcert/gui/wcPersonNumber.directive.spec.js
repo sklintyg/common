@@ -23,16 +23,13 @@ describe('wcPersonNumber', function() {
     beforeEach(angular.mock.module('common'));
 
     var $scope;
-    var personIdValidatorService;
 
     // Create a form to test the validation directive on.
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', 'common.PersonIdValidatorService', function($compile, $rootScope, _personIdValidatorService_) {
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
         $scope = $rootScope.$new();
         $scope.model = {
             test: null
         };
-
-        personIdValidatorService = _personIdValidatorService_;
 
         var el = angular
             .element('<form name="form"><input ng-model="model.test" name="test" wc-person-number></form>');

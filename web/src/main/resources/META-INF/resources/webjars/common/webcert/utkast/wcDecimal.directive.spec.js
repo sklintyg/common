@@ -22,7 +22,7 @@ describe('wcDecimal', function() {
 
     beforeEach(angular.mock.module('common'));
 
-    var $scope, form;
+    var $scope;
 
     // Create a form to test the validation directive on.
     beforeEach(angular.mock.inject(function($compile, $rootScope) {
@@ -34,7 +34,7 @@ describe('wcDecimal', function() {
         var el = angular
             .element('<form name="form"><input id="test" name="test" type="text" class="small-decimal" ' +
                 'wc-decimal-number wc-decimal-max-numbers="2" ng-model="model.test"></form>');
-        form = $compile(el)($scope);
+        $compile(el)($scope);
         $scope.$digest();
     }));
 

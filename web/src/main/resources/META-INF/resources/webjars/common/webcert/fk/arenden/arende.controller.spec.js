@@ -17,16 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('QACtrl', function() {
+describe('ArendeCtrl', function() {
     'use strict';
-/*
+
     var $httpBackend;
     var featureService;
     var $scope;
     var $q;
     var $rootScope;
-    var fragaSvarCommonService;
-    var fragaSvarService;
+    var ArendeProxy;
+    var ArendenViewState;
     var IntygService;
     var deferred;
     var ObjectHelper;
@@ -62,7 +62,7 @@ describe('QACtrl', function() {
         'namnfortydligandeOchAdress': 'Hans Njurgren\nCentrum Väst Mott\nLasarettsvägen 13\n721 61 Västerås\n021-1818000' };
 
     // Load the webcert module and mock away everything that is not necessary.
-    beforeEach(angular.mock.module('luse', function($provide) {
+    beforeEach(angular.mock.module('common', function($provide) {
         featureService = {
             features: {
                 HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast'
@@ -70,8 +70,6 @@ describe('QACtrl', function() {
             isFeatureActive: jasmine.createSpy('isFeatureActive')
         };
         $provide.value('common.dialogService', {});
-        fragaSvarCommonService = jasmine.createSpyObj('common.fragaSvarCommonService', [ 'isUnhandled', 'fromFk', 'setVidareBefordradState' ]);
-        $provide.value('common.fragaSvarCommonService', fragaSvarCommonService);
         $provide.value('common.IntygService', { isSentToTarget: function() {} });
         $provide.value('common.statService', {});
         $provide.value('common.User', {});
@@ -79,22 +77,26 @@ describe('QACtrl', function() {
 
         ObjectHelper = { isDefined: function() {} }; //jasmine.createSpyObj('common.ObjectHelper', [ 'isDefined']);
         $provide.value('common.ObjectHelper', ObjectHelper);
-        fragaSvarService = jasmine.createSpyObj('luse.fragaSvarProxy',
+        ArendeProxy = jasmine.createSpyObj('common.ArendeProxy',
             [ 'getQAForCertificate', 'closeAsHandled', 'closeAllAsHandled', 'saveNewQuestion', 'saveAnswer']);
-        $provide.value('luse.fragaSvarProxy', fragaSvarService);
+        $provide.value('common.ArendeProxy', jasmine.createSpyObj('common.ArendeProxy', [ 'getArenden']));
         $provide.value('common.IntygViewStateService', {});
         deferred = jasmine.createSpyObj('def', ['resolve']);
+        $provide.value('$state', {current:{data:{intygType:'testIntyg'}}});
+        $provide.value('$stateParams', {certificateId:'intyg-2'});
     }));
 
     beforeEach(angular.mock.inject(['$controller', '$rootScope', '$q', '$httpBackend', 'common.IntygService',
-        function($controller, _$rootScope_, _$q_, _$httpBackend_, _IntygService_) {
+        'common.ArendeProxy', 'common.ArendenViewStateService',
+        function($controller, _$rootScope_, _$q_, _$httpBackend_, _IntygService_, _ArendeProxy_, _ArendenViewState_) {
             $rootScope = _$rootScope_;
             $scope = $rootScope.$new();
-            $controller('luse.QACtrl',
-                { $scope: $scope, fragaSvarCommonService: fragaSvarCommonService, fragaSvarService: fragaSvarService });
+            $controller('common.ArendeCtrl', { $scope: $scope });
             $q = _$q_;
             $httpBackend = _$httpBackend_;
             IntygService = _IntygService_;
+            ArendeProxy = _ArendeProxy_;
+            ArendenViewState = _ArendenViewState_;
 
             // arrange
             spyOn($scope, '$broadcast');
@@ -115,9 +117,10 @@ describe('QACtrl', function() {
         it('on load fragasvar with intyg', function() {
 
             // kick off the window change event
-            $rootScope.$broadcast('luse.ViewCertCtrl.load', testCert, {
+            $rootScope.$broadcast('ViewCertCtrl.load', testCert, {
                 isSent: true,
-                isRevoked: false
+                isRevoked: false,
+                type: 'testIntyg'
             });
 
             // ------ act
@@ -126,20 +129,24 @@ describe('QACtrl', function() {
             $rootScope.$apply();
 
             // ------ assert
-            expect($scope.cert).toEqual(testCert);
-            expect($scope.certProperties.isLoaded).toBe(true);
-            expect($scope.certProperties.isSent).toBe(true);
-            expect($scope.certProperties.isRevoked).toBe(false);
+            expect(ArendeProxy.getArenden).toHaveBeenCalled();
+            expect(ArendeProxy.getArenden.calls.mostRecent().args[0]).toBe('intyg-2');
+            expect(ArendeProxy.getArenden.calls.mostRecent().args[1]).toBe('testIntyg');
+            expect(ArendenViewState.intyg).toEqual(testCert);
+            expect(ArendenViewState.intygProperties.isLoaded).toBe(true);
+            expect(ArendenViewState.intygProperties.isSent).toBe(true);
+            expect(ArendenViewState.intygProperties.isRevoked).toBe(false);
         });
 
         it('on load fragasvar with utkast (forced parent intyg)', function() {
 
             // kick off the window change event
-            $rootScope.$broadcast('luse.ViewCertCtrl.load', testCert, {
+            $rootScope.$broadcast('ViewCertCtrl.load', testCert, {
                 isSent: true,
                 isRevoked: false,
                 forceUseProvidedIntyg: true,
-                kompletteringOnly: true
+                kompletteringOnly: true,
+                type: 'testIntyg'
             });
 
             // ------ act
@@ -148,15 +155,18 @@ describe('QACtrl', function() {
             $rootScope.$apply();
 
             // ------ assert
-            expect($scope.certProperties.isLoaded).toBe(true);
-            expect($scope.certProperties.isSent).toBe(true);
-            expect($scope.certProperties.isRevoked).toBe(false);
+            expect(ArendeProxy.getArenden).toHaveBeenCalled();
+            expect(ArendeProxy.getArenden.calls.mostRecent().args[0]).toBe('intyg-2');
+            expect(ArendeProxy.getArenden.calls.mostRecent().args[1]).toBe('testIntyg');
+            expect(ArendenViewState.intygProperties.isLoaded).toBe(true);
+            expect(ArendenViewState.intygProperties.isSent).toBe(true);
+            expect(ArendenViewState.intygProperties.isRevoked).toBe(false);
         });
 
         it('on load fragasvar with null', function() {
 
             // kick off the window change event
-            $rootScope.$broadcast('luse.ViewCertCtrl.load', null, null);
+            $rootScope.$broadcast('ViewCertCtrl.load', null, null);
 
             // ------ act
             // promises are resolved/dispatched only on next $digest cycle
@@ -164,58 +174,39 @@ describe('QACtrl', function() {
             $rootScope.$apply();
 
             // ------ assert
-            expect($scope.cert).toEqual(null);
-            expect($scope.certProperties.isLoaded).toBe(false);
-            expect($scope.certProperties.isSent).toBe(false);
-            expect($scope.certProperties.isRevoked).toBe(false);
+            expect(ArendeProxy.getArenden).toHaveBeenCalled();
+            expect(ArendeProxy.getArenden.calls.mostRecent().args[0]).toBe('intyg-2');
+            expect(ArendeProxy.getArenden.calls.mostRecent().args[1]).toBe('testIntyg');
+            expect(ArendenViewState.intyg).toEqual(null);
+            expect(ArendenViewState.intygProperties.isLoaded).toBe(false);
+            expect(ArendenViewState.intygProperties.isSent).toBe(false);
+            expect(ArendenViewState.intygProperties.isRevoked).toBe(false);
         });
 
     });
 
     describe('#open-closed issuesFilter', function() {
         it('should return false if openIssuesFilter qa status is closed', function() {
-            var qa = {
-                status: 'CLOSED'
+            var arendeListItem = {
+                arende: {
+                    fraga: {
+                        status: 'CLOSED'
+                    }
+                }
             };
-            expect($scope.openIssuesFilter(qa)).toBe(false);
+            expect($scope.openArendenFilter(arendeListItem)).toBe(false);
         });
 
         it('should return true if closedIssuesFilter qa status is closed', function() {
-            var qa = {
-                status: 'CLOSED'
+            var arendeListItem = {
+                arende: {
+                    fraga: {
+                        status: 'CLOSED'
+                    }
+                }
             };
-            expect($scope.closedIssuesFilter(qa)).toBe(true);
+            expect($scope.closedArendenFilter(arendeListItem)).toBe(true);
         });
     });
 
-    describe('#send question', function() {
-        it('should toggle the state of the new question form when toggleQuestionForm is called', function() {
-
-            spyOn($scope, 'initQuestionForm');
-
-            $scope.toggleQuestionForm();
-
-            expect($scope.widgetState.newQuestionOpen).toBe(true);
-            expect($scope.initQuestionForm).toHaveBeenCalled();
-
-            // hide sent message and focus question
-            expect($scope.widgetState.sentMessage).toBe(false);
-            expect($scope.widgetState.focusQuestion).toBe(true);
-        });
-
-        it('should sendQuestion when "skicka fråga" is clicked', function() {
-
-            var question = {
-                chosenTopic: {
-                    value: 'KONTAKT'
-                },
-                frageText: 'Att fråga eller inte fråga. Det är frågan.'
-            };
-
-            $scope.sendQuestion(question);
-
-            expect(fragaSvarService.saveNewQuestion).toHaveBeenCalled();
-        });
-    });
-*/
 });

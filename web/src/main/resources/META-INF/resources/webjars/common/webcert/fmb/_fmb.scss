@@ -71,7 +71,8 @@ $fmb-glyphicon-hover-color: #808080;
   .panel-body {
     width: 615px;
     max-height: 334px;
-    padding: 5px 15px 15px 15px;
+    margin-top: 15px;
+    padding: 0 15px;
     overflow-x: hidden;
     overflow-y: auto;
   }

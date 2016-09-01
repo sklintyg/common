@@ -7,6 +7,6 @@
     <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.help}}.HLP"></span>
   </div>
   <div class="col-md-{{12 - to.labelColSize}}">
-    <input type="text" class="form-control" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
+    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
   </div>
 </div>

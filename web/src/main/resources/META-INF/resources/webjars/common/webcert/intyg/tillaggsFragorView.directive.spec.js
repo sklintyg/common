@@ -22,22 +22,12 @@ describe('tillaggsFragorView Directive', function() {
 
     var $scope;
     var element;
-    var $compileProvider;
-    var dynamicLabelProxy;
-    var dynamicLabelService;
 
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common'));
 
-    beforeEach(module(function(_$compileProvider_) {
-        $compileProvider = _$compileProvider_;
-    }));
-
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', 'common.DynamicLabelProxy', 'common.dynamicLabelService',
-        function($compile, $rootScope, _dynamicLabelProxy_, _dynamicLabelService_) {
-            dynamicLabelProxy = _dynamicLabelProxy_;
-            dynamicLabelService = _dynamicLabelService_;
-
+    beforeEach(angular.mock.inject(['$compile', '$rootScope',
+        function($compile, $rootScope) {
             $scope = $rootScope.$new();
             element =
                 $compile('<tillaggs-fragor-view tillaggs-fragor="tillaggsfragor"></tillaggs-fragor-view>')($scope);

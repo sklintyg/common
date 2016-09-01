@@ -17,39 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.model;
-
-import org.joda.time.Partial;
-
 /**
- * @author andreaskaltenbach
+ * Renders a TH element with underline on hover and a tooltip on mouseover
  */
-public final class PartialInterval {
+angular.module('common').directive('wcTableHead',
+    ['common.messageService',
+    function(messageService) {
+        'use strict';
 
-    private Partial from;
-    private Partial tom;
+        return {
+            restrict: 'A',
+            templateUrl: '/web/webjars/common/webcert/gui/wcTableHead.directive.html',
+            scope: {
+                labelKey: '@',
+                helpKey: '@'
+            },
+            link: function($scope, element, attr) {
 
-    public PartialInterval() {
-    }
+                $scope.text = messageService.getProperty($scope.labelKey);
+                $scope.helpText = messageService.getProperty($scope.helpKey);
 
-    public PartialInterval(Partial from, Partial tom) {
-        this.from = from;
-        this.tom = tom;
-    }
-
-    public Partial getFrom() {
-        return from;
-    }
-
-    public void setFrom(Partial from) {
-        this.from = from;
-    }
-
-    public Partial getTom() {
-        return tom;
-    }
-
-    public void setTom(Partial tom) {
-        this.tom = tom;
-    }
-}
+            }
+        };
+    }]);

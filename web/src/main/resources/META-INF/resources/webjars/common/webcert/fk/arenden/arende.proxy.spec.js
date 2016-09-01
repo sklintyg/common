@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('FragaSvarService', function() {
+describe('ArendeProxy', function() {
     'use strict';
-/*
+
     var $httpBackend;
     var $scope;
     var $rootScope;
-    var fragaSvarService;
+    var ArendeProxy;
 
     // Testdata
     var testNewQuestionResponse = {'internReferens':13,'frageStallare':'WC','amne':'ARBETSTIDSFORLAGGNING',
@@ -49,20 +49,20 @@ describe('FragaSvarService', function() {
             'vardgivarnamn':'Landstinget Norrland'},'status':'CLOSED','vidarebefordrad':false,
         'senasteHandelseDatum':'2015-02-23T13:11:15.790'};
 
-    beforeEach(module('luse', function($provide) {
+    beforeEach(module('common', function($provide) {
         $provide.value('common.User', {});
     }));
 
-    beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', 'luse.fragaSvarProxy',
-        function($controller, _$rootScope_, _$httpBackend_, _fragaSvarService_) {
+    beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', 'common.ArendeProxy',
+        function($controller, _$rootScope_, _$httpBackend_, _ArendeProxy_) {
 
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             $scope = $rootScope.$new();
-            fragaSvarService = _fragaSvarService_;
+            ArendeProxy = _ArendeProxy_;
         }]));
 
-    xdescribe('#saveNewQuestion', function() {
+    describe('#saveNewQuestion', function() {
         it('should call onSuccess callback when called', function() {
 
             var onSuccess = jasmine.createSpy('onSuccess');
@@ -70,24 +70,24 @@ describe('FragaSvarService', function() {
 
             var intygsTyp = 'luse';
             var intygsId = 'intyg-1';
-            var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + intygsId;
             $httpBackend.expectPOST(restPath).respond(200, testNewQuestionResponse);
 
-            var question = {
+            var arende = {
                 chosenTopic: {
                     value: 'KONTAKT'
                 },
                 frageText: 'Att fråga eller inte fråga. Det är frågan.'
             };
 
-            fragaSvarService.saveNewQuestion(intygsId, intygsTyp, question, onSuccess, onError);
+            ArendeProxy.sendNewArende(intygsId, intygsTyp, arende, onSuccess, onError);
             $httpBackend.flush();
 
             expect(onSuccess).toHaveBeenCalled();
         });
     });
 
-    xdescribe('#saveAnswer', function() {
+    describe('#saveAnswer', function() {
         it('should call onSuccess callback when saveAnswer is called', function() {
 
             var onSuccess = jasmine.createSpy('onSuccess');
@@ -95,19 +95,19 @@ describe('FragaSvarService', function() {
 
             var intygsTyp = 'luse';
             var intygsId = 'intyg-1';
-            var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId + '/besvara';
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + intygsId + '/besvara';
             $httpBackend.expectPUT(restPath).respond(200, testAnswerResponse);
 
             var answer = {
-                internReferens: 'intyg-1',
+                fragaInternReferens: 'intyg-1',
                 svarsText: 'Att svara eller inte svara. Det är frågan.'
             };
 
-            fragaSvarService.saveAnswer(answer, intygsTyp, onSuccess, onError);
+            ArendeProxy.saveAnswer(answer, intygsTyp, onSuccess, onError);
             $httpBackend.flush();
 
             expect(onSuccess).toHaveBeenCalled();
         });
     });
-*/
+
 });

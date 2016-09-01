@@ -23,16 +23,17 @@ describe('wcFmbHelpDisplay', function () {
     beforeEach(angular.mock.module('common'));
     beforeEach(angular.mock.module('htmlTemplates'));
 
-    var element, outerScope, innerScope;
+    var element, outerScope;
 
     beforeEach(inject(function ($rootScope, $compile) {
-        element = angular.element('<wc-fmb-help-display related-form-id="SOMEFORM" diagnosis-code="fmb.diagnosKod" diagnosis-description="fmb.diagnosBeskrivning" help-text-contents="fmb.formData.FORM"></wc-fmb-help-display>');
+        element = angular.element('<wc-fmb-help-display related-form-id="SOMEFORM" diagnosis-code="fmb.diagnosKod" '+
+            'diagnosis-description="fmb.diagnosBeskrivning" help-text-contents="fmb.formData.FORM"></wc-fmb-help-display>');
         outerScope = $rootScope;
         $compile(element)(outerScope);
 
         outerScope.$digest(); //digest the outerscope before the innerScope is called
 
-        innerScope = element.isolateScope(); //This will get the isolate scope
+        element.isolateScope(); //This will get the isolate scope
     }));
 
     function setUpFMBData(data) {

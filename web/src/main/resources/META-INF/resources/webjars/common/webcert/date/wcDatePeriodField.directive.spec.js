@@ -20,7 +20,6 @@
 describe('DatePeriodFieldDirective', function() {
     'use strict';
 
-    var element;
     var $scope;
 
     beforeEach(angular.mock.module('htmlTemplates'));
@@ -47,7 +46,7 @@ describe('DatePeriodFieldDirective', function() {
                     }
                 }]
             };
-            element = $compile(tpl)($scope);
+            $compile(tpl)($scope);
             $scope.$digest();
         }
     ]));

@@ -137,7 +137,7 @@ angular.module('common').factory('common.User',
                     userModel.setAnvandarPreference(prefKey, prefValue);
                 }).error(function(data, status) {
                     $log.error('save user pref error: ' + status);
-                }).finally(function() {
+                }).finally(function() { // jshint ignore:line
                 });
             }
 

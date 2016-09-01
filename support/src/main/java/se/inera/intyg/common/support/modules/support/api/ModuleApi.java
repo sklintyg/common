@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -75,9 +75,12 @@ public interface ModuleApi {
      * @param applicationOrigin
      *            The context from which this method was called (i.e Webcert or MinaIntyg)
      *
+     * @param optionalFields
+     *            The optional field references to include in the pdf. The format, meaning and syntax of the optionalFields id's is determined within each implementing module project.
+
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
+    PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
@@ -153,14 +156,15 @@ public interface ModuleApi {
     CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException;
 
     /**
-     * Check whether there are changes between the current and persisted model states.
+     * Determine whether a notification about changed state in a certificate should be sent,
+     * using current and persisted model states.
      *
      * @param persistedState
      * @param currentState
-     * @return true if there are changes, false otherwise
+     * @return true a notification should be sent, false otherwise
      * @throws ModuleException
      */
-    boolean isModelChanged(String persistedState, String currentState) throws ModuleException;
+    boolean shouldNotify(String persistedState, String currentState) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for saving, with new HoS person information.

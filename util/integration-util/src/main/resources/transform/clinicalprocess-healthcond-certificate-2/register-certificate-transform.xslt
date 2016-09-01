@@ -6,9 +6,9 @@
 
   <xsl:template name="response">
      <rc:RegisterCertificateResponse>
-       <rc:resultat>
+       <rc:result>
          <xsl:call-template name="result"/>
-       </rc:resultat>
+       </rc:result>
      </rc:RegisterCertificateResponse>
    </xsl:template>
 

@@ -28,7 +28,7 @@ angular.module('common').factory('common.domain.ModelTransformService',
 
                 angular.forEach(fromApp, function(value, key) {
                     if(value === true) {
-                        transportModel.push({val: parseInt(key)});
+                        transportModel.push({val: parseInt(key, 10)});
                     }
                 }, fromApp);
 

@@ -52,10 +52,11 @@ angular.module('common').directive('arendePanelSvar',
                     }, true);
 
                     $scope.showAnswerPanel = function() {
+                        var hasMeddelandeIsClosed = ArendeSvar.meddelande && ArendeSvar.status === 'CLOSED';
+                        var cannotKomplettera = ArendeSvar.cannotKomplettera || hasMeddelandeIsClosed;
                         return ArendeSvar.intygProperties.kompletteringOnly ||
                             (ArendeSvar.amne !== 'KOMPLT') ||
-                            (ArendeSvar.amne === 'KOMPLT' && (ArendeSvar.cannotKomplettera ||
-                                (ArendeSvar.meddelande && ArendeSvar.status === 'CLOSED')));
+                            (ArendeSvar.amne === 'KOMPLT' && cannotKomplettera);
                     };
 
                     $scope.showAnswer = function() {

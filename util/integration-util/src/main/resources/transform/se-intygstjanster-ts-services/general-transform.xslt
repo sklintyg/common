@@ -57,10 +57,9 @@
       </xsl:otherwise>
     </xsl:choose>
 
-    <hr:errorText>
+    <hr:resultText>
       <xsl:value-of select="faultstring/text()"/>
-    </hr:errorText>
+    </hr:resultText>
   </xsl:template>
-
 
 </xsl:stylesheet>

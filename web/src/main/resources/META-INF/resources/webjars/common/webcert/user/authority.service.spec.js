@@ -21,7 +21,7 @@ describe('authorityService', function() {
     'use strict';
 
     var authorityService;
-    var User, UserModel, featureService;
+    var UserModel;
 
     var testUser = {
         'hsaId': 'eva',
@@ -62,11 +62,9 @@ describe('authorityService', function() {
 
     }));
 
-    beforeEach(angular.mock.inject(['common.authorityService','common.featureService', 'common.User', 'common.UserModel',
-        function(_authorityService_, _featureService_, _User_, _UserModel_) {
+    beforeEach(angular.mock.inject(['common.authorityService', 'common.UserModel',
+        function(_authorityService_, _UserModel_) {
             authorityService = _authorityService_;
-            featureService = _featureService_;
-            User = _User_;
             UserModel = _UserModel_;
             UserModel.setUser(testUser);
         }

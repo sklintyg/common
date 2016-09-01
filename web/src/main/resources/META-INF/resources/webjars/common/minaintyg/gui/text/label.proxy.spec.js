@@ -3,12 +3,10 @@ xdescribe('Proxy: DynamicLabelProxy', function() {
 
     // Load the module and mock away everything that is not necessary.
     beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common', function($provide) {
-        //$provide.value('RegisterModel', jasmine.createSpyObj('RegisterModel', ['get', 'convertToViewModel', 'convertToDTO']));
-    }));
+    beforeEach(angular.mock.module('common'));
 
     var DynamicLabelProxy, $rootScope, $httpBackend;
-    
+
     var textResponse = {'text':''};
 
     // Initialize the controller and a mock scope

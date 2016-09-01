@@ -23,14 +23,10 @@ describe('IntygService', function() {
     'use strict';
 
     var IntygService;
-    var $document;
     var $httpBackend;
-    var $q;
     var $state;
-    var $stateParams;
     var $timeout;
     var dialogService;
-    var User;
     var UserModel;
 
     beforeEach(angular.mock.module('common', function($provide) {
@@ -50,19 +46,14 @@ describe('IntygService', function() {
         });
     });
 
-    beforeEach(angular.mock.inject(['common.IntygService', '$httpBackend', '$q', '$state', '$stateParams', '$timeout',
-        '$document', 'common.dialogService', 'common.User', 'common.UserModel',
-        function(_IntygService_, _$httpBackend_, _$q_, _$state_, _$stateParams_, _$timeout_, _$document_,
-            _dialogService_, _User_, _UserModel_) {
+    beforeEach(angular.mock.inject(['common.IntygService', '$httpBackend', '$state', '$timeout',
+        'common.dialogService', 'common.UserModel',
+        function(_IntygService_, _$httpBackend_, _$state_, _$timeout_, _dialogService_, _UserModel_) {
             IntygService = _IntygService_;
             $httpBackend = _$httpBackend_;
-            $q = _$q_;
             $state = _$state_;
-            $stateParams = _$stateParams_;
             $timeout = _$timeout_;
-            $document = _$document_;
             dialogService = _dialogService_;
-            User = _User_;
             UserModel = _UserModel_;
 
             UserModel.setUser({

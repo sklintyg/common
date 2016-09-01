@@ -21,14 +21,13 @@ describe('featureService', function() {
     'use strict';
 
     var featureService;
-    var User, UserModel;
+    var UserModel;
 
     beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.inject(['common.featureService', 'common.User', 'common.UserModel',
-        function(_featureService_, _User_, _UserModel_) {
+    beforeEach(angular.mock.inject(['common.featureService', 'common.UserModel',
+        function(_featureService_, _UserModel_) {
             featureService = _featureService_;
-            User = _User_;
             UserModel = _UserModel_;
         }
     ]));

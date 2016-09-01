@@ -22,16 +22,7 @@ describe('common.domain.AtticService', function() {
 
     var attic;
 
-    beforeEach(angular.mock.module('common', function($provide) {
-
-        // the below are now included in common
-        //$provide.value('fk7263.domain.DraftModel', __draftModel__);
-        //$provide.value('fk7263.domain.IntygModel', {});
-        //$provide.value('fk7263.domain.PatientModel', {});
-        //$provide.value('fk7263.domain.SkapadAvModel', {});
-        //$provide.value('fk7263.domain.VardenhetModel', {});
-
-    }));
+    beforeEach(angular.mock.module('common'));
 
     // Get references to the object we want to test from the context.
 

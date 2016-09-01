@@ -39,5 +39,9 @@ public enum CertificateState {
     SENT,
 
     /** The intyg was stored in Intygstjänsten. */
-    RECEIVED
+    RECEIVED,
+
+    /** Valid statuses in {@link se.inera.ifv.insuranceprocess.certificate.v1.StatusType}. */
+    IN_PROGRESS,
+    PROCESSED
 }

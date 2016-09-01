@@ -22,7 +22,7 @@ package se.inera.intyg.common.support.validate;
 import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 import org.apache.commons.lang3.CharUtils;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 /**
  * Performs validation of a 'Samordningsnummer'.

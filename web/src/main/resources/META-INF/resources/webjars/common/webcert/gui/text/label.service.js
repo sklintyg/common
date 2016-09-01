@@ -15,6 +15,14 @@ angular.module('common').factory('common.dynamicLabelService',
             var _labelResources = null;
             var tillaggsFragor = null;
 
+            function _hasProperty(key) {
+                var text = _labelResources[key];
+                if (typeof text === 'undefined' || text === '') {
+                    return false;
+                }
+                return true;
+            }
+
             function _getProperty(key) {
                 var value = getRequiredTextByPropKey(key); // get required text
                 return value;
@@ -26,25 +34,11 @@ angular.module('common').factory('common.dynamicLabelService',
                     return '';
                 }
 
-                var textFound = true;
                 var text = _labelResources[key];
                 if (typeof text === 'undefined') {
                     $log.debug('[MISSING TEXT ERROR - missing required id: "' + key + '"]');
-                    textFound = false;
                 } else if (text === '') {
                     $log.debug('[MISSING TEXT ERROR - have ID but not text for required id: "' + key + '"]');
-                    textFound = false;
-                }
-
-                if(!textFound && typeof tillaggsFragor !== 'undefined')
-                {
-                    // Check if its a tillaggsfraga
-                    for (var i = 0; i < tillaggsFragor.length; i++) {
-                        if (tillaggsFragor[i].id === _convertTextIdToModelId(key)) {
-                            text = tillaggsFragor[i].text;
-                            break;
-                        }
-                    }
                 }
 
                 return text;
@@ -63,18 +57,6 @@ angular.module('common').factory('common.dynamicLabelService',
 
             function _getTillaggsFragor() {
                 return tillaggsFragor;
-            }
-
-            function _convertTextIdToModelId(textObject) {
-                if(typeof textObject !== 'undefined' && textObject !== null) {
-                    return textObject.substr(4, 4);
-                }
-                else
-                {
-                    $log.debug('invalid textobject:' + textObject);
-                }
-
-                return '';
             }
 
             function _updateTillaggsfragorToModel(tillaggsfragor, model) {
@@ -151,6 +133,7 @@ angular.module('common').factory('common.dynamicLabelService',
             return {
                 checkLabels: _checkLabels,
                 getProperty: _getProperty,
+                hasProperty: _hasProperty,
                 getTillaggsFragor: _getTillaggsFragor,
                 updateDynamicLabels: _updateDynamicLabels
             };

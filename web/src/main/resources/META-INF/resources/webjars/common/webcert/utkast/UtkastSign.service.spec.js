@@ -23,7 +23,6 @@ describe('UtkastSignService', function() {
     'use strict';
 
     var UtkastSignService;
-    var $document;
     var $httpBackend;
     var $q;
     var $location;
@@ -31,17 +30,20 @@ describe('UtkastSignService', function() {
     var $timeout;
     var dialogService;
     var User;
+    var UserModel;
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('$document', [
             {}
         ]);
         $provide.value('$state', jasmine.createSpyObj('$state', [ 'reload' ]));
-        $provide.value('common.messageService',
-            jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
+        var messageSpy = jasmine.createSpyObj('common.messageService', [ 'addResources' ]);
+        messageSpy.getProperty = jasmine.createSpy('getProperty').and.callFake = function(id) { return id; };
+        $provide.value('common.messageService', messageSpy);
+
         $provide.value('$stateParams', {});
         $provide.value('common.dialogService',
-            jasmine.createSpyObj('common.dialogService', [ 'showDialog', 'showErrorMessageDialog' ]));
+            jasmine.createSpyObj('common.dialogService', [ 'showErrorMessageDialog' ]));
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
         $provide.value('common.UserModel', { user: { authenticationScheme: null } });
         $provide.value('common.UtkastViewStateService', {});
@@ -50,18 +52,18 @@ describe('UtkastSignService', function() {
     }));
 
     beforeEach(angular.mock.inject(['common.UtkastSignService', '$httpBackend', '$location', '$q', '$stateParams', '$timeout',
-        '$document', 'common.dialogService', 'common.User',
-        function(_UtkastSignService_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_, _$document_,
-            _dialogService_, _User_) {
+        'common.dialogService', 'common.User', 'common.UserModel',
+        function(_UtkastSignService_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_,
+            _dialogService_, _User_, _UserModel_) {
             UtkastSignService = _UtkastSignService_;
             $httpBackend = _$httpBackend_;
             $q = _$q_;
             $location = _$location_;
             $stateParams = _$stateParams_;
             $timeout = _$timeout_;
-            $document = _$document_;
             dialogService = _dialogService_;
             User = _User_;
+            UserModel = _UserModel_;
 
             spyOn($location, 'path').and.callFake(function() {
                 return { search: function() {
@@ -162,10 +164,110 @@ describe('UtkastSignService', function() {
         });
     });
 
-    // TODO add a similar test for signera with BankID (which is a combination of client/server-side signing)
+    describe('Signera bankid', function() {
+        var intygId = 123, biljettId = 12345, version = 5;
+
+        var dialogState;
+
+        beforeEach(function() {
+            User.getUser().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
+            User.getUser().authenticationMethod = 'BANKID';
+
+            $stateParams.certificateId = intygId;
+
+            UserModel.hasAuthenticationMethod = function() {
+                return false;
+            };
+
+            var openedDefered = $q.defer(),
+                resultDefered = $q.defer();
+            dialogState = {
+                model: {},
+                opened: openedDefered.promise,
+                result: resultDefered.promise,
+                close: jasmine.createSpy('close')
+            };
+            dialogService.showDialog = jasmine.createSpy('showDialog').and.callFake(function() {
+                openedDefered.resolve();
+                resultDefered.resolve();
+                return dialogState;
+            });
+        });
+
+        afterEach(function() {
+            User.getUser().authenticationScheme = null;
+            User.getUser().authenticationMethod = null;
+        });
+
+        it('should redirect to "visa intyg" if the request to sign was successful', function() {
+
+            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/grp/signeraserver').
+            respond(200, { id: biljettId, hash: 'abcd1234' });
+
+            // Visa text om att öppna bankid app
+            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
+                version: 111,
+                status: 'BEARBETAR'
+            });
+
+            var signResult;
+            UtkastSignService.signera('fk7263', version).then(function(result) {
+                signResult = result;
+            });
+
+            $timeout.flush();
+            $httpBackend.flush();
+
+            expect(dialogState.model.bodyTextId).toBe('common.modal.bankid.open');
+            expect(dialogState.model.signState).toBe('BEARBETAR');
+
+            // Visa text om att signera i app
+            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
+                version: 111,
+                status: 'VANTA_SIGN'
+            });
+            $timeout.flush();
+            $httpBackend.flush();
+
+            expect(dialogState.model.bodyTextId).toBe('common.modal.bankid.signing');
+            expect(dialogState.model.signState).toBe('VANTA_SIGN');
+
+            // Signering klar
+            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
+                version: 111,
+                status: 'SIGNERAD'
+            });
+            $timeout.flush();
+            $httpBackend.flush();
+
+            expect(dialogState.model.bodyTextId).toBe('common.modal.bankid.signed');
+            expect(dialogState.model.signState).toBe('SIGNERAD');
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
+            expect(signResult).toEqual({newVersion: 111});
+        });
+
+        it('should show error if the bankid is busy', function() {
+            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/grp/signeraserver').
+            respond(500, { errorCode:'GRP_PROBLEM', message: 'ALREADY_IN_PROGRESS' });
+
+            UserModel.hasAuthenticationMethod = function() {
+                return false;
+            };
+
+            var signResult;
+            UtkastSignService.signera('fk7263', version).then(function(result) {
+                signResult = result;
+            });
+
+            $timeout.flush();
+            $httpBackend.flush();
+
+            expect(dialogService.showErrorMessageDialog).toHaveBeenCalledWith('common.error.sign.grp.already_in_progress');
+        });
+    });
+
     describe('#signera client', function() {
         var intygId = 123, biljettId = 12345, version = 5;
-        var $scope;
 
         beforeEach(function() {
             iid_GetProperty = jasmine.createSpy('iid_GetProperty'); // jshint ignore:line
@@ -176,7 +278,6 @@ describe('UtkastSignService', function() {
             User.getUser().authenticationMethod = 'NET_ID';
 
             $stateParams.certificateId = intygId;
-            $scope = {};
         });
 
         afterEach(function() {

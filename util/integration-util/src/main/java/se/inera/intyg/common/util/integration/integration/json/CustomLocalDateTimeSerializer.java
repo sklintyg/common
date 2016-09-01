@@ -19,34 +19,25 @@
 
 package se.inera.intyg.common.util.integration.integration.json;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import org.joda.time.Partial;
-import se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter;
-
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import static com.fasterxml.jackson.core.JsonToken.VALUE_STRING;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-/**
- * @author andreaskaltenbach
- */
-public class PartialDeserializer extends StdDeserializer<Partial> {
+public class CustomLocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
 
-    public PartialDeserializer() {
-        super(Partial.class);
+    private static final long serialVersionUID = 1L;
+
+    public CustomLocalDateTimeSerializer() {
+        super(LocalDateTime.class);
     }
 
     @Override
-    public Partial deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException {
-
-        if (jp.getCurrentToken() != VALUE_STRING) {
-            throw ctxt.wrongTokenException(jp, VALUE_STRING, "expected JSON String");
-
-        }
-
-        return PartialAdapter.parsePartial(jp.getText().trim());
+    public void serialize(LocalDateTime value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+        jgen.writeString(value.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
     }
 }

@@ -24,7 +24,7 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
@@ -139,10 +139,10 @@ public final class TransportConverterUtil {
                     String textContent = list.item(i).getTextContent();
                     switch (list.item(i).getNodeName()) {
                     case "ns3:start":
-                        datePeriodType.setStart(new LocalDate(textContent));
+                        datePeriodType.setStart(LocalDate.parse(textContent));
                         break;
                     case "ns3:end":
-                        datePeriodType.setEnd(new LocalDate(textContent));
+                        datePeriodType.setEnd(LocalDate.parse(textContent));
                         break;
                     default:
                         LOG.debug("Unexpected element found while parsing DatePeriodType");

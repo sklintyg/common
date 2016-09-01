@@ -19,10 +19,10 @@
 
 package se.inera.intyg.common.services.texts.model;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.LocalDate;
 
 /**
  * Data container for the texts used in certificates.

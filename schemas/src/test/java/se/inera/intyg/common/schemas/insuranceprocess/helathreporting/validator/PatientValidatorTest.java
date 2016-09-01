@@ -22,20 +22,18 @@ package se.inera.intyg.common.schemas.insuranceprocess.helathreporting.validator
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import iso.v21090.dt.v1.II;
-import org.junit.Before;
-import org.junit.Test;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
-import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.validator.PatientValidator;
-
-import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import iso.v21090.dt.v1.II;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
+import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.validator.PatientValidator;
 
 public class PatientValidatorTest {
     private PatientType patient;
     private II patientId;
-    private List<String> errors;
 
     @Before
     public void setup() {
@@ -45,7 +43,6 @@ public class PatientValidatorTest {
         patientId.setExtension("19121212-1212");
         patient.setPersonId(patientId);
         patient.setFullstandigtNamn("namn");
-        errors = new ArrayList<>();
     }
 
     @Test

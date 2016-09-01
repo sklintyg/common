@@ -45,7 +45,7 @@ angular.module('common').service('common.IntygViewStateService',
 
         this.updateIntygProperties = function(statuses) {
 
-            var targetName = undefined;
+            var targetName;
             if(this.intygProperties.type === 'ts-bas' || this.intygProperties.type === 'ts-diabetes') {
                 targetName = 'TS';
             } else {

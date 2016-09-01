@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.model.common.internal;
 
 import java.util.Objects;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 

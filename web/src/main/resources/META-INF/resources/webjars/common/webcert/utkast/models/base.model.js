@@ -232,10 +232,12 @@ angular.module('common').factory('common.domain.BaseModel',
                 var toModelFn = function(current, prop, extras){
                     if(extras.self.isModelAttr(prop)){
                         if(current.hasOwnProperty(prop.property) && !prop.trans && current[prop.property] !== undefined){
-                            if(typeof prop.toTransform !== 'undefined')
+                            if(typeof prop.toTransform !== 'undefined') {
                                 extras.tm[prop.property] = prop.toTransform(current[prop.property]);
-                            else
+                            }
+                            else {
                                 extras.tm[prop.property] = current[prop.property];
+                            }
                         }
                     } else if(extras.self.isModel(prop)){
                         var child = current[extras.key];
@@ -266,6 +268,8 @@ angular.module('common').factory('common.domain.BaseModel',
 
             _getPropertiesAndCurrent: function(propertyPath){
 
+                var nc;
+
                 function findPropsCurrent(baseModel, props, propsCurrent) {
                     for(var j = 0; j < props.length; j++){
                         var prop = props[j];
@@ -281,7 +285,6 @@ angular.module('common').factory('common.domain.BaseModel',
 
                 var propsCurrent = {props:this.properties, current:this};
                 var i = propertyPath.lastIndexOf('.');
-                var nc;
                 if(i > -1 ){
                     var props = propertyPath.split('.');
                     findPropsCurrent(this, props, propsCurrent);

@@ -42,9 +42,12 @@
   @import 'wc-header';
   @import 'wc-vardenhet-selector';
   @import 'wc-header-care-unit-dialog';
+  @import 'wc-table-head';
   @import 'bootstrap-overrides';
+  @import 'fk-sit-common';
   @import '../fk/arenden/_arende';
   @import '../fmb/fmb';
+  @import '../gui/formly/diagnos';
 
   //colors
   $color_java_approx: #28b4c4;
@@ -214,7 +217,6 @@
 
   .utkast-footer {
     margin-bottom: 50px;
-    margin-left: 15px;
   }
 
   p {
@@ -871,23 +873,6 @@
   margin-right: 15px;
 }
 
-.diagnosRow {
-  transition:.2s ease-out all;
-
-  &.ng-enter,
-  &.ng-leave.ng-leave-active {
-    height: 0px;
-    opacity: 0;
-    overflow:hidden;
-  }
-  &.ng-enter.ng-enter-active,
-  &.ng-leave {
-    height: 64px;
-    opacity: 1;
-    overflow:hidden;
-  }
-}
-
 /*
 Modular modifiers
 */
@@ -943,15 +928,17 @@ wc cookie banner css.
   border: 1px solid #9cd7e3;
   border-radius: 4px;
   padding: 10px;
+
+  .currentlyviewing {
+    padding-left: 7px;
+  }
   table {
     display: table;
     margin: 0;
     td {
-      height: 39px;
-      padding: 0px 10px;
+      height: 36px;
     }
     th {
-      padding: 0px 10px;
     }
   }
 }

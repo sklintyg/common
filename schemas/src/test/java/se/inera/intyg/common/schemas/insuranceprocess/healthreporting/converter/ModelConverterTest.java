@@ -17,27 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.util.integration.integration.json;
+package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.joda.time.Partial;
-import se.inera.intyg.common.util.integration.schema.adapter.PartialAdapter;
+import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
 
-/**
- * @author andreaskaltenbach
- */
-public class PartialSerializer extends StdSerializer<Partial> {
+import org.junit.Test;
 
-    public PartialSerializer() {
-        super(Partial.class);
-    }
+public class ModelConverterTest {
 
-    @Override
-    public void serialize(Partial partial, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(PartialAdapter.printPartial(partial));
+    @Test
+    public void testVardreferensId() {
+        String intygId = "INTYGID";
+        LocalDateTime time = LocalDateTime.of(2011, 01, 02, 23, 59, 01, 1);
+        String res = ModelConverter.buildVardReferensId(intygId, time);
+        assertEquals("REVOKE-" + intygId + "-20110102T235901.000" , res);
     }
 }
