@@ -21,7 +21,6 @@ describe('arendePanelSvar', function() {
     'use strict';
 
     var element;
-    var $httpBackend;
     var $scope;
     var $rootScope;
     var ArendeProxy;
@@ -32,7 +31,7 @@ describe('arendePanelSvar', function() {
         $provide.value('common.dialogService', {});
         $provide.value('common.IntygService', { isSentToTarget: function() {} });
         $provide.value('common.User', { getVardenhetFilterList: function() { return []; } });
-        $provide.value('common.statService', {});
+        $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat']));
         $provide.value('common.ObjectHelper', jasmine.createSpyObj('common.ObjectHelper',
             [ 'isDefined']));
         $provide.value('common.IntygCopyRequestModel', jasmine.createSpyObj('common.IntygCopyRequestModel',
@@ -44,23 +43,20 @@ describe('arendePanelSvar', function() {
 
     beforeEach(angular.mock.module('htmlTemplates'));
 
-    beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope', '$q', '$httpBackend',
-        function($controller, $compile, _$rootScope_, _$q_, _$httpBackend_) {
+    beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope', '$q', 'common.ArendeListItemModel',
+        function($controller, $compile, _$rootScope_, _$q_, _ArendeListItemModel_) {
             $rootScope = _$rootScope_;
             $scope = $rootScope.$new();
 
-            $httpBackend = _$httpBackend_;
-            $scope.qa = {
-                arende:{
-                    fraga:{},
-                    svar:{}
-                }
-            };
+            $scope.arendeListItem = _ArendeListItemModel_.build({
+                fraga:{},
+                svar:{}
+            });
             $scope.parentViewState = {
                 intygProperties: {},
                 intyg: { grundData:{skapadAv:{vardenhet:{}}}}
             };
-            element = $compile('<div arende-panel-svar arende-list-item="qa" panel-id="handled" parent-view-state="parentViewState"></div>')($scope);
+            element = $compile('<div arende-panel-svar arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></div>')($scope);
             $scope.$digest();
             $scope = element.isolateScope();
         }]));
@@ -68,14 +64,27 @@ describe('arendePanelSvar', function() {
     describe('#send answer', function() {
         it('should sendAnswer when "svara" is clicked', function() {
 
-            var fragaSvar = {
-                internReferens: 'intyg-1',
-                svarsText: 'Att svara eller inte svara. Det är frågan.'
+            var arende = {
+                'fraga':{'kompletteringar':[],'internReferens':'ref-1','status':'CLOSED','amne':'OVRIGT','meddelandeRubrik':'Övrigt',
+                'sistaDatumForSvar':'2016-09-14','vidarebefordrad':false,'frageStallare':'FK','externaKontakter':[],'meddelande':'Meddelandetext',
+                'signeratAv':'Arnold Schwarzenegger','svarSkickadDatum':'2016-08-31T16:27:29.898','intygId':'425da3ef-2a24-4a9a-98c4-ace7625c1d4a',
+                'enhetsnamn':'NMT vg3 ve1','vardgivarnamn':'NMT vg3','timestamp':'2016-08-31T16:27:29.898','arendeType':'FRAGA','vardaktorNamn':'Arnold Schwarzenegger'},
+                'svar':{'kompletteringar':[],'internReferens':'37637406-b888-467b-a672-62beb7905907','status':'CLOSED','amne':'OVRIGT',
+                'meddelandeRubrik':'Övrigt','vidarebefordrad':false,'frageStallare':'WC','externaKontakter':[],'meddelande':'Testsvar',
+                'signeratAv':'Arnold Schwarzenegger','svarSkickadDatum':'2016-08-31T16:40:35.498','intygId':'425da3ef-2a24-4a9a-98c4-ace7625c1d4a',
+                'enhetsnamn':'NMT vg3 ve1','vardgivarnamn':'NMT vg3','timestamp':'2016-08-31T16:40:35.498','arendeType':'SVAR',
+                'svarPaId':'f9638b05-1fa0-4cc7-8e1c-177ce670808b','vardaktorNamn':'Arnold Schwarzenegger'},
+                'senasteHandelse':'2016-08-31T16:40:35.498','paminnelser':[]
             };
 
-            $scope.sendAnswer(fragaSvar);
+            ArendeProxy.saveAnswer.and.callFake(function(ArendeSvar, intygsTyp, onSuccess, onError) {
+                onSuccess(arende);
+            });
+
+            $scope.sendAnswer();
 
             expect(ArendeProxy.saveAnswer).toHaveBeenCalled();
+            expect($scope.arendeListItem.arende).toEqual(arende);
         });
 
     });

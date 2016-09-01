@@ -21,7 +21,6 @@ describe('ArendeProxy', function() {
     'use strict';
 
     var $httpBackend;
-    var $scope;
     var $rootScope;
     var ArendeProxy;
 
@@ -58,7 +57,7 @@ describe('ArendeProxy', function() {
 
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
-            $scope = $rootScope.$new();
+            $rootScope.$new();
             ArendeProxy = _ArendeProxy_;
         }]));
 

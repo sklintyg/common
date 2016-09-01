@@ -96,7 +96,7 @@ describe('common.domain.BaseModel', function() {
                 expect(model.shake).toBe('vanilla');
 
                 model.setshake('chocolate');
-                
+
                 expect(model.vanilla).toBeFalsy();
                 expect(model.chocolate).toBeTruthy();
 
