@@ -133,7 +133,6 @@ public class InternalLocalDateInterval {
 
     @JsonIgnore
     public boolean isReasonable() {
-
         boolean reasonableFrom = this.from.asLocalDate().isAfter(MIN_DATE.asLocalDate()) && this.from.asLocalDate().isBefore(MAX_DATE.asLocalDate());
         boolean reasonableTo = this.tom.asLocalDate().isAfter(MIN_DATE.asLocalDate()) && this.tom.asLocalDate().isBefore(MAX_DATE.asLocalDate());
         return isValid() && reasonableFrom && reasonableTo;
