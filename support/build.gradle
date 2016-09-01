@@ -6,15 +6,15 @@ dependencies {
   compile "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessVersion}"
 
   compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-  compile 'com.google.guava:guava:14.0.1'
-  compile 'org.apache.commons:commons-lang3:3.1'
-  compile 'org.slf4j:jcl-over-slf4j:1.7.5'
-  compile 'net.sf.saxon:Saxon-HE:9.6.0-4'
-  compile 'org.springframework:spring-beans:4.2.2.RELEASE'
-  compile 'org.springframework:spring-context:4.2.2.RELEASE'
-  compile('org.springframework:spring-core:4.2.2.RELEASE') {
-    exclude(module: 'commons-logging')
+  compile "com.google.guava:guava:${guavaVersion}"
+  compile "org.apache.commons:commons-lang3:3.1"
+  compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+  compile "net.sf.saxon:Saxon-HE:9.6.0-4"
+  compile "org.springframework:spring-beans:${springVersion}"
+  compile "org.springframework:spring-context:${springVersion}"
+  compile("org.springframework:spring-core:${springVersion}") {
+    exclude(module: "commons-logging")
   }
 
-  testCompile 'org.mockito:mockito-core:1.9.0'
+  testCompile "org.mockito:mockito-core:${mockitoVersion}"
 }

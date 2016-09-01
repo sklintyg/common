@@ -181,9 +181,9 @@ describe('wcHeader', function() {
         });
 
         it('should show the current date, the name of the selected vardgivare and the selected vardenhet for non private practitioner', function() {
-            var locationDateText = element.find('#wc-header-location-date');
-            var today = moment().format('YYYY-MM-DD');
-            // TODO: reactivate
+            // TODO: reactivate (the date format is wrong under gradle)
+            //var locationDateText = element.find('#wc-header-location-date');
+            //var today = moment().format('YYYY-MM-DD');
             // expect(locationDateText.html()).toBe(today);
 
             var locationCareGiverText = element.find('#wc-header-location-care-giver');
@@ -223,9 +223,9 @@ describe('wcHeader', function() {
         });
 
          it('should only show the current date and the name of the selected vardgivare for a private practitioner', function() {
-            var locationDateText = element.find('#wc-header-location-date');
-             var today = moment().format('YYYY-MM-DD');
-             // TODO: reactivate
+            // TODO: reactivate (the date format is wrong under gradle)
+            // var locationDateText = element.find('#wc-header-location-date');
+            // var today = moment().format('YYYY-MM-DD');
             // expect(locationDateText.html()).toBe(today);
 
             var locationCareGiverText = element.find('#wc-header-location-care-giver');

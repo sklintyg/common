@@ -11,5 +11,5 @@ dependencies {
   compile "se.inera.intyg.insuranceprocess.healthreporting:intyg-insuranceprocess-healthreporting-schemas:${intygInsuranceprocessVersion}"
   compile "se.inera.intyg.transportstyrelsen:intyg-transportstyrelsen-schemas:${intygTransportstyrelsenVersion}"
 
-  testCompile "org.mockito:mockito-core:1.9.0"
+  testCompile "org.mockito:mockito-core:${mockitoVersion}"
 }
