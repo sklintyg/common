@@ -32,7 +32,8 @@ angular.module('common').directive('wcDatePickerField',
                 onChange: '&',
                 maxDate: '@',
                 overrideRender: '=',
-                addDateParser: '@'
+                addDateParser: '@', 
+                dateOptions: '@'
             },
             templateUrl: '/web/webjars/common/webcert/date/wcDatePickerField.directive.html',
             require:'wcDatePickerField',
@@ -41,13 +42,13 @@ angular.module('common').directive('wcDatePickerField',
                 if($scope.format === undefined){
                     $scope.format = 'yyyy-MM-dd';
                 }
-
+                
                 if($scope.maxDate === undefined){
                     $scope.maxDate = null;
                 } else {
                     $scope.maxDate = '\'' + $scope.maxDate + '\'';
                 }
-
+                		
                 $scope.isOpen = false;
                 $scope.toggleOpen = function($event) {
                     $event.preventDefault();
@@ -66,6 +67,7 @@ angular.module('common').directive('wcDatePickerField',
                     var inputChild = element.find('input');
                     ctrl.datepickerPopupScope = inputChild.isolateScope();
                 }
+                
             }
         };
     })
@@ -77,12 +79,15 @@ angular.module('common').directive('wcDatePickerField',
             restrict: 'A',
             require:['ngModel', '^wcDatePickerField'],
             link: function(scope, element, attrs, ctrls) {
+            	
                 var ngModel = ctrls[0];
                 var wcDatePickerField = ctrls[1];
                 if(wcDatePickerField.overrideRender) {
                     var getDate = function getDate(date){
-                        // now then... we need to check if the date is the correct :
-                        // YYYY-MM-DD format, if not then just set the datepicker-popups date
+                        // now then... we need to check if the date is the
+						// correct :
+                        // YYYY-MM-DD format, if not then just set the
+						// datepicker-popups date
                         // to ... today ..
                         var ppdate;
                         if(date instanceof Date){
@@ -102,11 +107,13 @@ angular.module('common').directive('wcDatePickerField',
                         }
                     };
 
-                    // the bind event on the input text box is just setting the date to the model value
+                    // the bind event on the input text box is just setting the
+					// date to the model value
                     // we need to intercept this and make sure :
                     // it's today, on an invalid date
                     // it's the date, if the date is valid
-                    // but first we need to remove the event listeners for ui-bootstrap-tpls.js datepicker
+                    // but first we need to remove the event listeners for
+					// ui-bootstrap-tpls.js datepicker
                     // this little monster listening can be found at ln 1519
                     //
                     // UPDATED for UI Bootstrap 0.14.3 now at row 2234
@@ -127,6 +134,33 @@ angular.module('common').directive('wcDatePickerField',
                         $log.error('unknown dateparser method ' + scope.addDateParser);
                     }
                 }
+                
+                var maximumDate = '2099-12-12';
+                var minimumDate = '1900-01-01';
+                
+                var checkDate = function(date1, date2){
+                	if (ngModel.$isEmpty(date1) || ngModel.$isEmpty(date2)) {
+                        // consider empty models to be valid
+                        return true;
+                    }
+
+                    var mdate1 = moment(date1);
+                    var mdate2 = moment(date2);
+
+                    if(!mdate1.isValid() || !mdate2.isValid()) {
+                        return true;
+                    }
+                    return !moment(mdate2).isAfter(mdate1);
+                };
+                
+                ngModel.$validators.maxDate = function() {
+                    return checkDate(maximumDate, ngModel.$modelValue);
+                };
+                
+                ngModel.$validators.minDate = function() {
+                    return checkDate(ngModel.$modelValue, minimumDate);
+                };
+             
             }
         };
     }]);
