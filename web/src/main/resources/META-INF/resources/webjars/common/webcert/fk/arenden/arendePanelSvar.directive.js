@@ -25,11 +25,11 @@
  * arendePanelSvar directive. Handles all komplettering and svar components.
  */
 angular.module('common').directive('arendePanelSvar',
-    [ '$window', '$log', '$state', '$stateParams',
+    [ '$window', '$log', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.pingService',
-        function($window, $log, $state, $stateParams, ArendeProxy, ArendeHelper, statService, ObjectHelper,
-            IntygCopyRequestModel, ArendeSvarModel, pingService) {
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.pingService', 'common.FocusElementService',
+        function($window, $log, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService, ObjectHelper,
+            IntygCopyRequestModel, ArendeSvarModel, pingService, focusElement) {
             'use strict';
 
             return {
@@ -53,7 +53,7 @@ angular.module('common').directive('arendePanelSvar',
 
                     $scope.showAnswerPanel = function() {
                         var hasMeddelandeIsClosed = ArendeSvar.meddelande && ArendeSvar.status === 'CLOSED';
-                        var cannotKomplettera = ArendeSvar.cannotKomplettera || hasMeddelandeIsClosed;
+                        var cannotKomplettera = ArendeSvar.answerKompletteringWithText || hasMeddelandeIsClosed;
                         return ArendeSvar.intygProperties.kompletteringOnly ||
                             (ArendeSvar.amne !== 'KOMPLT') ||
                             (ArendeSvar.amne === 'KOMPLT' && cannotKomplettera);
@@ -66,20 +66,13 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.showKompletteringControls = function() {
                         return !ArendeSvar.intygProperties.kompletteringOnly &&
                             $scope.isAnswerAllowed() &&
-                            ArendeSvar.amne === 'KOMPLT';
-                    };
-
-                    $scope.showSvaraMedNyttIntygButton = function() {
-                        return !ArendeSvar.svaraMedNyttIntygDisabled && ArendeSvar.status !== 'CLOSED';
+                            ArendeSvar.amne === 'KOMPLT' && !ArendeSvar.answerKompletteringWithText;
                     };
 
                     $scope.showRegularAnswer = function() {
-                        return $scope.isAnswerAllowed() && !ArendeSvar.cannotKomplettera;
+                        return $scope.isAnswerAllowed() && !ArendeSvar.answerKompletteringWithText;
                     };
 
-                    $scope.showKompletteringWarning = function() {
-                        return $scope.isAnswerAllowed() && ArendeSvar.cannotKomplettera;
-                    };
 
                     $scope.showButtonBar = function() {
                         // VÄNTAR på svar från Vårdenheten och det är inte kompletteringsvy vi renderar
@@ -114,51 +107,14 @@ angular.module('common').directive('arendePanelSvar',
                         });
                     };
 
-                    /**
-                     * Svara med nytt intyg
-                     * @param arendeListItem
-                     * @param intyg
-                     */
-                    $scope.answerWithIntyg = function() {
+                    $scope.answerWithMessage = function() {
+                        ArendeSvar.answerKompletteringWithText = true;
+                        focusElement('answerText-' + ArendeSvar.fragaInternReferens);
+                    };
 
-                        if (!ObjectHelper.isDefined(ArendeSvar.intygProperties)) {
-                            ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-intyg';
-                            return;
-                        }
-
-                        ArendeSvar.updateInProgress = true; // trigger local spinner
-                        ArendeSvar.activeKompletteringErrorMessageKey = null;
-                        ArendeProxy.answerWithIntyg($scope.arendeListItem.arende, ArendeSvar.intygProperties.type,
-                            IntygCopyRequestModel.build({
-                                intygId: $scope.parentViewState.intyg.id,
-                                intygType: ArendeSvar.intygProperties.type,
-                                patientPersonnummer: $scope.parentViewState.intyg.grundData.patient.personId,
-                                nyttPatientPersonnummer: $stateParams.patientId,
-                                fornamn: $stateParams.fornamn,
-                                efternamn: $stateParams.efternamn,
-                                mellannamn: $stateParams.mellannamn,
-                                postadress: $stateParams.postadress,
-                                postnummer: $stateParams.postnummer,
-                                postort: $stateParams.postort
-                            }), function(result) {
-
-                                ArendeSvar.updateInProgress = false;
-                                ArendeSvar.activeKompletteringErrorMessageKey = null;
-                                statService.refreshStat();
-
-                                function goToDraft(type, intygId) {
-                                    $state.go(type + '-edit', {
-                                        certificateId: intygId
-                                    });
-                                }
-
-                                goToDraft(ArendeSvar.intygProperties.type, result.intygsUtkastId);
-
-                            }, function(errorData) {
-                                // show error view
-                                ArendeSvar.updateInProgress = false;
-                                ArendeSvar.activeKompletteringErrorMessageKey = errorData.errorCode;
-                            });
+                    $scope.abortTextAnswer = function() {
+                        //Should we empty the svarstext input field?
+                        ArendeSvar.answerKompletteringWithText = false;
                     };
 
                     $scope.updateAnsweredAsHandled = function(deferred, unhandledarendes) {

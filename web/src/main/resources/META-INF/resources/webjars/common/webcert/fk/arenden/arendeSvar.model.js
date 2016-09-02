@@ -30,7 +30,7 @@ angular.module('common').factory('common.ArendeSvarModel',
              * Constructor
              */
             function ArendeSvarModel(parentViewState, arendeListItem) {
-                this.cannotKomplettera = false;
+                this.answerKompletteringWithText = false;
                 this.update(parentViewState, arendeListItem);
             }
 
@@ -46,6 +46,7 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.status = arendeListItem.arende.fraga.status;
                 this.frageStallare = arendeListItem.arende.fraga.frageStallare;
                 this.fragaInternReferens = arendeListItem.arende.fraga.internReferens;
+                this.fragaMeddelande = arendeListItem.arende.fraga.meddelande;
 
                 // From svar
                 if (!ObjectHelper.isDefined(arendeListItem.arende.svar)) {
@@ -53,7 +54,6 @@ angular.module('common').factory('common.ArendeSvarModel',
                         meddelande: ''
                     };
                 }
-
                 this.meddelande = arendeListItem.arende.svar.meddelande;
                 this.internReferens = arendeListItem.arende.svar.internReferens;
                 this.svarSkickadDatum = arendeListItem.arende.svar.svarSkickadDatum;
@@ -64,6 +64,7 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.answerDisabledReason = arendeListItem.answerDisabledReason;
                 this.svaraMedNyttIntygDisabled = arendeListItem.svaraMedNyttIntygDisabled;
                 this.svaraMedNyttIntygDisabledReason = arendeListItem.svaraMedNyttIntygDisabledReason;
+                this.kompletteringar = arendeListItem.kompletteringar;
             };
 
             ArendeSvarModel.build = function(parentViewState, arendeListItem) {
