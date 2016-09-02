@@ -57,14 +57,31 @@ describe('ArendeCtrl', function() {
         'kommentar': 'Prognosen för patienten är god.\nHan kommer att kunna återgå till sitt arbete efter genomförd behandling.',
         'namnfortydligandeOchAdress': 'Hans Njurgren\nCentrum Väst Mott\nLasarettsvägen 13\n721 61 Västerås\n021-1818000' };
 
+    var arendeList = [{
+        fraga:{'kompletteringar':[],'internReferens':'ref-1','status':'CLOSED','amne':'OVRIGT','meddelandeRubrik':'Övrigt',
+            'sistaDatumForSvar':'2016-09-14','vidarebefordrad':false,'frageStallare':'FK','externaKontakter':[],'meddelande':'Meddelandetext',
+            'signeratAv':'Arnold Schwarzenegger','svarSkickadDatum':'2016-08-31T16:27:29.898','intygId':'425da3ef-2a24-4a9a-98c4-ace7625c1d4a',
+            'enhetsnamn':'NMT vg3 ve1','vardgivarnamn':'NMT vg3','timestamp':'2016-08-31T16:27:29.898','arendeType':'FRAGA','vardaktorNamn':'Arnold Schwarzenegger'},
+        svar:{'kompletteringar':[],'internReferens':'37637406-b888-467b-a672-62beb7905907','status':'CLOSED','amne':'OVRIGT',
+            'meddelandeRubrik':'Övrigt','vidarebefordrad':false,'frageStallare':'WC','externaKontakter':[],'meddelande':'Testsvar',
+            'signeratAv':'Arnold Schwarzenegger','svarSkickadDatum':'2016-08-31T16:40:35.498','intygId':'425da3ef-2a24-4a9a-98c4-ace7625c1d4a',
+            'enhetsnamn':'NMT vg3 ve1','vardgivarnamn':'NMT vg3','timestamp':'2016-08-31T16:40:35.498','arendeType':'SVAR',
+            'svarPaId':'f9638b05-1fa0-4cc7-8e1c-177ce670808b','vardaktorNamn':'Arnold Schwarzenegger'},
+        senasteHandelse:'2016-08-31T16:40:35.498',paminnelser:[]
+    }];
+
     // Load the webcert module and mock away everything that is not necessary.
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.dialogService', {});
         $provide.value('common.IntygService', { isSentToTarget: function() {} });
         $provide.value('common.statService', {});
         $provide.value('common.User', {});
-        $provide.value('common.UserModel', {});
-
+        $provide.value('common.UserModel', {
+            hasPrivilege: jasmine.createSpy(),
+            hasRequestOrigin: jasmine.createSpy(),
+            privileges: {BESVARA_KOMPLETTERINGSFRAGA:'BESVARA_KOMPLETTERINGSFRAGA'},
+            requestOrigins: {UTHOPP:'UTHOPP'}
+        });
         ObjectHelper = { isDefined: function() {} };
         $provide.value('common.ObjectHelper', ObjectHelper);
         ArendeProxy = jasmine.createSpyObj('common.ArendeProxy',
@@ -103,6 +120,10 @@ describe('ArendeCtrl', function() {
     describe('#testEvents', function() {
         it('on load fragasvar with intyg', function() {
 
+            ArendeProxy.getArenden.and.callFake(function(id, type, success, error) {
+                success(arendeList);
+            });
+
             // kick off the window change event
             $rootScope.$broadcast('ViewCertCtrl.load', testCert, {
                 isSent: true,
@@ -127,6 +148,10 @@ describe('ArendeCtrl', function() {
 
         it('on load fragasvar with utkast (forced parent intyg)', function() {
 
+            ArendeProxy.getArenden.and.callFake(function(id, type, success, error) {
+                success(arendeList);
+            });
+
             // kick off the window change event
             $rootScope.$broadcast('ViewCertCtrl.load', testCert, {
                 isSent: true,
@@ -148,6 +173,9 @@ describe('ArendeCtrl', function() {
             expect(ArendenViewState.intygProperties.isLoaded).toBe(true);
             expect(ArendenViewState.intygProperties.isSent).toBe(true);
             expect(ArendenViewState.intygProperties.isRevoked).toBe(false);
+
+            // TODO: filterKompletteringar not implemented correctly
+            // expect($scope.arendeList).toEqual();
         });
 
         it('on load fragasvar with null', function() {

@@ -1,9 +1,9 @@
 angular.module('common').controller('common.ArendeCtrl',
     ['$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$window', '$filter',
-        'common.dialogService', 'common.ObjectHelper',
+        'common.dialogService', 'common.ObjectHelper', 'common.ErrorHelper',
         'common.ArendeProxy', 'common.ArendenViewStateService', 'common.ArendeHelper',
         function ($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter,
-                  dialogService, ObjectHelper,
+                  dialogService, ObjectHelper, ErrorHelper,
                   ArendeProxy, ArendenViewState, ArendeHelper) {
             'use strict';
 
@@ -58,11 +58,7 @@ angular.module('common').controller('common.ArendeCtrl',
                     // show error view
                     ArendenViewState.doneLoading = true;
 
-                    if(ObjectHelper.isDefined(errorData.errorCode)){
-                        ArendenViewState.activeErrorMessageKey = errorData.errorCode;
-                    } else {
-                        ArendenViewState.activeErrorMessageKey = 'unknown';
-                    }
+                    ArendenViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
                 });
             }
 

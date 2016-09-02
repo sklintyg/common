@@ -26,10 +26,10 @@
  */
 angular.module('common').directive('arendePanelSvar',
     [ '$window', '$log', '$state', '$stateParams', '$q',
-        'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper',
+        'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper', 'common.ErrorHelper',
         'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.pingService', 'common.FocusElementService',
         function($window, $log, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService, ObjectHelper,
-            IntygCopyRequestModel, ArendeSvarModel, pingService, focusElement) {
+            ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, pingService, focusElement) {
             'use strict';
 
             return {
@@ -103,7 +103,7 @@ angular.module('common').directive('arendePanelSvar',
                         }, function(errorData) {
                             // show error view
                             ArendeSvar.updateInProgress = false;
-                            ArendeSvar.activeErrorMessageKey = errorData.errorCode;
+                            ArendeSvar.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
                         });
                     };
 
