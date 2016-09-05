@@ -254,10 +254,7 @@ describe('UtkastSignService', function() {
                 return false;
             };
 
-            var signResult;
-            UtkastSignService.signera('fk7263', version).then(function(result) {
-                signResult = result;
-            });
+            UtkastSignService.signera('fk7263', version);
 
             $timeout.flush();
             $httpBackend.flush();

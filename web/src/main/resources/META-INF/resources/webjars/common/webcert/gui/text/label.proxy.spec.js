@@ -6,7 +6,7 @@ xdescribe('Proxy: DynamicLabelProxy', function() {
     beforeEach(angular.mock.module('common'));
 
     var DynamicLabelProxy, $rootScope, $httpBackend;
-    
+
     var textResponse = {'text':''};
 
     // Initialize the controller and a mock scope

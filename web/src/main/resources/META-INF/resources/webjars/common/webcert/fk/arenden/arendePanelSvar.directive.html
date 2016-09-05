@@ -1,32 +1,13 @@
 <div>
-  <!-- error message occuring when interacting with server for komplettering-->
-  <div id="internal-{{arendeSvar.fragaInternReferens}}-meddelande-load-error"
-       ng-show="arendeSvar.activeKompletteringErrorMessageKey" class="alert alert-danger">
-    <span message key="common.arende.error.{{arendeSvar.activeKompletteringErrorMessageKey}}"></span>
-  </div>
-
   <div id="answerDisabledReasonPanel-{{arendeSvar.fragaInternReferens}}" class="alert alert-info"
-       ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason != ''">
+       ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason">
     {{arendeSvar.answerDisabledReason}}
   </div>
 
   <!-- Svara med nytt intyg button - only on komplettering -->
-  <div class="buttonbar" ng-show="showKompletteringControls()">
+  <div class="buttonbar" ng-if="showKompletteringControls()">
+    <div arende-panel-svar-kompletteringsatgard parent-view-state="parentViewState" arende-list-item="arendeListItem"  on-answer-with-message="answerWithMessage()"></div>
 
-    <div id="komplettering-disabled-{{arendeSvar.fragaInternReferens}}" class="alert alert-warning" ng-if="arendeSvar.svaraMedNyttIntygDisabled == true">
-      {{arendeSvar.svaraMedNyttIntygDisabledReason}}
-    </div>
-    <button type="button" class="btn" ng-if="showSvaraMedNyttIntygButton()" ng-class="{'btn-success': arendeSvar.status != 'CLOSED' && !arendeSvar.cannotKomplettera,
-             'btn-default btn-secondary': arendeSvar.status == 'CLOSED' || arendeSvar.cannotKomplettera}"
-            ng-click="answerWithIntyg()" ng-disabled="arendeSvar.cannotKomplettera" wc-check-vardenhet
-            vardenhet="{{arendeSvar.enhetsid}}" id="answerWithIntygBtn-{{arendeSvar.fragaInternReferens}}">
-      <img src="/img/loader-small-green.gif" ng-show="arendeSvar.updateInProgress"> Svara med nytt intyg
-    </button>
-        <span ng-show="arendeSvar.status != 'CLOSED'">
-        <label for="cant-komplettera-{{arendeSvar.fragaInternReferens}}" class="checkbox-inline">
-          <input id="cant-komplettera-{{arendeSvar.fragaInternReferens}}" type="checkbox"
-                 ng-model="arendeSvar.cannotKomplettera" ng-change="onCannotKomplettera()" /> Kan ej svara med nytt intyg</label>
-        </span>
   </div>
 
   <!-- Svarsdelen -->
@@ -72,13 +53,6 @@
         <!-- Rubrik: Svar -->
         <label class="control-label" ng-show="showRegularAnswer()">Svar</label>
 
-        <!-- ELLER varningsruta komplettering -->
-        <div class="alert alert-warning" ng-show="showKompletteringWarning()">
-          <strong>Viktigt!</strong> Konsekvensen av att skicka ett meddelande om att komplettering ej kan göras kan
-          innebära att Försäkringskassans handläggare avslår ansökan om sjukpenning.<br>
-          I det här meddelandet ska du inte skriva någon medicinsk information. Om du har behov av en dialog som
-          innehåller medicinsk information ska du svara med nytt intyg.
-        </div>
 
         <!-- ELLER inforuta komplettering EJ IMPLEMENTERAT än. Ingår i "SVAR SOM FÖLJER MED" komplettering funktionalitet.
         <div class="alert alert-info"
@@ -104,6 +78,10 @@
                     wc-check-vardenhet vardenhet="{{arendeSvar.enhetsId}}"
                     id="sendAnswerBtn-{{arendeSvar.fragaInternReferens}}">
               <img src="/img/loader-small-green.gif" ng-show="arendeSvar.updateInProgress"> Skicka svar
+            </button>
+            <button type="button" class="btn btn-default btn-secondary" ng-click="abortTextAnswer()"
+                    ng-show="arendeSvar.answerKompletteringWithText"
+                    id="abortAnswerBtn-{{qa.internReferens}}"> Avbryt
             </button>
           </div>
         </div>

@@ -26,10 +26,10 @@
  */
 angular.module('common').directive('arendeNew',
     [ '$window', '$log', '$timeout', '$state', '$stateParams',
-        'common.User', 'common.statService', 'common.ObjectHelper',
+        'common.User', 'common.statService', 'common.ObjectHelper', 'common.ErrorHelper',
         'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper', 'common.ArendeListItemModel', 'common.pingService',
         function($window, $log, $timeout, $state, $stateParams,
-            User, statService, ObjectHelper,
+            User, statService, ObjectHelper, ErrorHelper,
                  ArendeProxy, ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, pingService) {
             'use strict';
 
@@ -139,7 +139,7 @@ angular.module('common').directive('arendeNew',
                             }, function(errorData) {
                                 // show error view
                                 ArendeNewViewState.updateInProgress = false;
-                                ArendeNewViewState.activeErrorMessageKey = errorData.errorCode;
+                                ArendeNewViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
                             });
                     };
 

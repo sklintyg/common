@@ -133,14 +133,14 @@ angular.module('common').factory('common.dialogService',
                     $scope.bodyTextId = bodyTextId;
                     $scope.bodyText = bodyText;
                     $scope.button1click = function(result) {
-                        button1click();
+                        button1click($uibModalInstance);
                         if(autoClose) {
                             $uibModalInstance.close(result);
                         }
                     };
                     $scope.button2click = function() {
                         if (button2click) {
-                            button2click();
+                            button2click($uibModalInstance);
                         }
                         $uibModalInstance.dismiss('button2 dismiss');
                     };
@@ -148,7 +148,7 @@ angular.module('common').factory('common.dialogService',
                     if ($scope.button3visible !== undefined) {
                         $scope.button3click = function() {
                             if (button3click) {
-                                button3click();
+                                button3click($uibModalInstance);
                             }
                             $uibModalInstance.dismiss('button3 dismiss');
                         };

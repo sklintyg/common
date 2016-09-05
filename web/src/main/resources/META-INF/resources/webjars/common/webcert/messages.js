@@ -138,6 +138,9 @@ var commonMessages = {
 
         // Ärendehantering
         'common.loading.existing.arenden': 'Laddar ärenden...',
+        'common.arende.komplettering.answerwithmessage.help': 'Med förtydligande avses information som inte tillför ny medicinsk information, utan förtydligar, förklarar eller ytterligare specificerar medicinska begrepp, termer eller mått. Exempelvis vad avses med skrivningen ”synnerligt påverkad” (i just detta fall), vad menas med ”samsjuklighet” (i just detta fall), etc.',
+        'common.arende.komplettering.disabled.svaramedintyg.uthopp': 'Om kompletteringen innebär att ny medicinsk information behöver tillföras ska informationen ges i ett nytt intyg. Kopiera/förnya det befintliga intyget i journalsystemet och komplettera med den nya informationen.',
+        'common.arende.komplettering.disabled.onlydoctor': 'Kompletteringar kan endast besvaras av läkare.',
 
         'common.arende.fragestallare.wc': 'Vårdenheten',
         'common.arende.fragestallare.fk': 'Försäkringskassan',
@@ -250,7 +253,8 @@ var commonMessages = {
         'common.arende.error.invalid_state': '<strong>Funktionen är inte giltig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma post. Ladda om informationen och försök igen',
         'common.arende.error.unknown_internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Försök igen och kontakta supporten om problemet kvarstår.',
         'common.arende.error.authorization_problem': '<strong>Du har inte behörighet att utföra funktionen, kontakta supporten för mer information.</strong>',
-        'common.arende.error.data_not_found': '<strong>Personen kunde inte hittas i personuppgiftstjänsten.</strong>'
+        'common.arende.error.data_not_found': '<strong>Personen kunde inte hittas i personuppgiftstjänsten.</strong>',
+        'common.arende.error.komplettera-no-intyg': '<strong>Kan inte svara med nytt intyg</strong><br>Intyget kunde inte laddas och är därför inte tillgängligt att användas som grund för komplettering.'
     },
     'en': {
         'common.ok': 'OK',

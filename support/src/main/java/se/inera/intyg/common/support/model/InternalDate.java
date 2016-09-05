@@ -19,10 +19,10 @@
 
 package se.inera.intyg.common.support.model;
 
-import java.util.Objects;
-
 import java.time.LocalDate;
-import java.time.format.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
 /**
  * A way of handling Dates in our internal model that allows faulty user input,
@@ -33,9 +33,9 @@ import java.time.format.*;
  * @author erik
  */
 public class InternalDate {
-
+    private static final InternalDate MIN_DATE = new InternalDate("1900-01-01");
+    private static final InternalDate MAX_DATE = new InternalDate("2099-12-12");
     private static final String DATE_FORMAT = "[1-2][0-9]{3,3}(-((0[1-9])|(1[0-2]))(-((0[1-9])|([1-2][0-9])|(3[0-1]))))";
-
     private static final DateTimeFormatter PARSER = DateTimeFormatter.ISO_DATE;
 
     private String date;
@@ -120,6 +120,13 @@ public class InternalDate {
             return true;
         }
         return this.asLocalDate().isAfter(LocalDate.now());
+    }
+
+    public boolean isReasonable() {
+        if (date == null) {
+            return false;
+        }
+        return this.asLocalDate().isAfter(MIN_DATE.asLocalDate()) && this.asLocalDate().isBefore(MAX_DATE.asLocalDate());
     }
 
     @Override

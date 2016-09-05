@@ -20,8 +20,6 @@
 describe('arendeVidarebefordra', function() {
     'use strict';
 
-    var element;
-    var $httpBackend;
     var $scope;
     var $rootScope;
     var ArendeProxy;
@@ -50,16 +48,15 @@ describe('arendeVidarebefordra', function() {
 
     beforeEach(angular.mock.module('htmlTemplates'));
 
-    beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope', '$httpBackend', '$window',
+    beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope', '$window',
         'common.authorityService', 'common.ArendeProxy', 'common.dialogService',
-        function($controller, $compile, _$rootScope_, _$httpBackend_, _$window_, _authorityService_, _ArendeProxy_,
+        function($controller, $compile, _$rootScope_, _$window_, _authorityService_, _ArendeProxy_,
             _DialogService_) {
             $rootScope = _$rootScope_;
             authorityService = _authorityService_;
             authorityService.isAuthorityActive.and.returnValue(true);
             ArendeProxy = _ArendeProxy_;
             DialogService = _DialogService_;
-            $httpBackend = _$httpBackend_;
             $window = _$window_;
 
             $scope = $rootScope.$new();
@@ -86,7 +83,7 @@ describe('arendeVidarebefordra', function() {
             var tpl = angular.element(
                 '<div arende-vidarebefordra arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></div>'
             );
-            element = $compile(tpl)($scope);
+            $compile(tpl)($scope);
             $scope.$digest();
         }]));
 

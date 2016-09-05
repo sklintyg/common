@@ -22,8 +22,8 @@
  */
 
 angular.module('common').factory('common.ArendeListItemModel',
-    ['$log', 'common.UserModel', 'common.ObjectHelper',
-        function($log, UserModel, ObjectHelper) {
+    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService',
+        function($log, UserModel, ObjectHelper, messageService) {
         'use strict';
 
         /**
@@ -51,7 +51,10 @@ angular.module('common').factory('common.ArendeListItemModel',
         };
 
         ArendeListItemModel.prototype._updateListItemState = function() {
-            if (this.arende.fraga.amne === 'PAMINNELSE') {
+            if (this.arende.fraga.status === 'CLOSED') {
+                this.answerDisabled = true;
+                this.answerDisabledReason = undefined; // En avslutat konversation kan inte besvaras
+            } else if (this.arende.fraga.amne === 'PAMINNELSE') {
                 // RE-020 Påminnelser is never
                 // answerable
                 this.answerDisabled = true;
@@ -61,7 +64,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
                 // RE-005, RE-006
                 this.answerDisabled = true;
-                this.answerDisabledReason = 'Kompletteringar kan endast besvaras av läkare.';
+                this.answerDisabledReason = messageService.getProperty('common.arende.komplettering.disabled.onlydoctor');
             } else {
                 this.answerDisabled = false;
                 this.answerDisabledReason = undefined;
@@ -70,7 +73,7 @@ angular.module('common').factory('common.ArendeListItemModel',
             if ((this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') &&
                 UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
                 this.svaraMedNyttIntygDisabled = true;
-                this.svaraMedNyttIntygDisabledReason = 'Gå tillbaka till journalsystemet för att svara på kompletteringsbegäran med nytt intyg.';
+                this.svaraMedNyttIntygDisabledReason = messageService.getProperty('common.arende.komplettering.disabled.svaramedintyg.uthopp');
             } else {
                 this.svaraMedNyttIntygDisabled = false;
             }
