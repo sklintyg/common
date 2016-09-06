@@ -40,7 +40,7 @@ angular.module('common').factory('common.IntygService',
 
             function goToDraft(type, intygId) {
                 $state.go(type + '-edit', {
-                    certificateId: intygId
+                    intygificateId: intygId
                 });
             }
 
@@ -66,7 +66,7 @@ angular.module('common').factory('common.IntygService',
                 var dialogModel = options.dialogModel;
                 var dialogPreferenceKey = options.dialogPreferenceKey;
 
-                $log.debug(requestType + ' cert from dialog' + requestData);
+                $log.debug(requestType + ' intyg from dialog' + requestData);
 
                 // Can't check directly on dialogModel.dontShowInfo, it may have false as its value...
                 if (dialogPreferenceKey && (typeof dialogModel.dontShowInfo !== undefined) && dialogModel.dontShowInfo !== null) {
@@ -111,7 +111,7 @@ angular.module('common').factory('common.IntygService',
 
 
                 if (UserModel.getAnvandarPreference(_COPY_DIALOG_PREFERENCE) === true || UserModel.getAnvandarPreference(_COPY_DIALOG_PREFERENCE) === 'true') {
-                    $log.debug('copy cert without dialog' + intygCopyRequest);
+                    $log.debug('copy intyg without dialog' + intygCopyRequest);
                     resetViewStateErrorKeys(viewState);
                     _createCopyDraft(intygCopyRequest, function(draftResponse) {
                         goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
@@ -132,7 +132,7 @@ angular.module('common').factory('common.IntygService',
 
                     copyDialog = dialogService.showDialog({
                         dialogId: 'copy-dialog',
-                        titleId: 'label.copycert',
+                        titleId: 'label.copyintyg',
                         templateUrl: '/app/partials/copy-dialog.html',
                         model: copyDialogModel,
                         button1click: function () {
@@ -181,7 +181,7 @@ angular.module('common').factory('common.IntygService',
                 }
 
                 if (UserModel.getAnvandarPreference(_FORNYA_DIALOG_PREFERENCE) === true || UserModel.getAnvandarPreference(_FORNYA_DIALOG_PREFERENCE) === 'true') {
-                    $log.debug('copy cert without dialog' + intygFornyaRequest);
+                    $log.debug('copy intyg without dialog' + intygFornyaRequest);
                     resetViewStateErrorKeys(viewState);
                     _createFornyaDraft(intygFornyaRequest, function(draftResponse) {
                         goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
@@ -202,7 +202,7 @@ angular.module('common').factory('common.IntygService',
 
                     fornyaDialog = dialogService.showDialog({
                         dialogId: 'fornya-dialog',
-                        titleId: 'label.fornyacert',
+                        titleId: 'label.fornyaintyg',
                         templateUrl: '/app/partials/fornya-dialog.html',
                         model: fornyaDialogModel,
                         button1click: function () {
@@ -281,7 +281,7 @@ angular.module('common').factory('common.IntygService',
                     sendDialog.close();
                     onSuccess(status);
                 }, function(error) {
-                    $log.debug('Send cert failed: ' + error);
+                    $log.debug('Send intyg failed: ' + error);
                     dialogModel.acceptprogressdone = true;
                     dialogModel.showerror = true;
                 });
@@ -300,7 +300,7 @@ angular.module('common').factory('common.IntygService',
                     dialogId: 'send-dialog',
                     titleId: titleId,
                     bodyTextId: bodyTextId,
-                    templateUrl: '/web/webjars/common/webcert/intyg/intyg.send.dialog.html',
+                    templateUrl: '/web/webjars/common/webintyg/intyg/intyg.send.dialog.html',
                     model: dialogSendModel,
                     button1click: function() {
                         $log.debug('send intyg from dialog. id:' + intygId + ', intygType:' + intygType + ', recipientId:' + recipientId);
@@ -327,10 +327,10 @@ angular.module('common').factory('common.IntygService',
                 isOpen: false
             };
 
-            function _revokeSigneratIntyg(cert, dialogModel, makuleraDialog, onSuccess) {
+            function _revokeSigneratIntyg(intyg, dialogModel, makuleraDialog, onSuccess) {
                 dialogModel.showerror = false;
                 dialogModel.acceptprogressdone = false;
-                IntygProxy.makuleraIntyg(cert.id, cert.intygType, function() {
+                IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, function() {
                     dialogModel.acceptprogressdone = true;
                     makuleraDialog.close();
                     onSuccess();
@@ -341,20 +341,63 @@ angular.module('common').factory('common.IntygService',
                 });
             }
 
-            function _makulera( cert, confirmationMessage, onSuccess) {
+            function _revokeAndReplaceSigneratIntyg(intyg, dialogModel, makuleraDialog, onSuccess) {
+                dialogModel.showerror = false;
+                dialogModel.acceptprogressdone = false;
+                IntygProxy.makuleraOchErsattIntyg(intyg.id, intyg.intygType, function() {
+                    dialogModel.acceptprogressdone = true;
+                    makuleraDialog.close();
+                    onSuccess();
+                }, function(error) {
+                    $log.debug('Revoke failed: ' + error);
+                    dialogModel.acceptprogressdone = true;
+                    dialogModel.showerror = true;
+                });
+            }
+
+            function _makulera( intyg, confirmationMessage, onSuccess) {
+
+                function isMakuleraEnabled(model) {
+                    return model.acceptprogressdone &&
+                        (
+                            ObjectHelper.isDefined(model.makuleraModel.reason) ||
+                            (model.makuleraModel.reason === 'OVRIGT' &&
+                            ObjectHelper.isDefined(model.makuleraModel.clarification))
+                        );
+                };
 
                 var dialogMakuleraModel = {
+                    isMakuleraEnabled: isMakuleraEnabled,
                     acceptprogressdone: true,
                     focus: false,
                     errormessageid: 'error.failedtomakuleraintyg',
-                    showerror: false
-                };
-
-                var successCallback = function() {
-                    dialogService.showMessageDialog('label.makulera.confirmation', confirmationMessage,
-                        function() {
-                            onSuccess();
-                        });
+                    showerror: false,
+                    choices: [
+                        {
+                            label: 'Intyget har fyllts i felaktigt',
+                            value: 'FELAKTIGT_INTYG',
+                            placeholder: 'Förtydliga vid behov...'
+                        },
+                        {
+                            label: 'Patienten har kommit med ny information som behöver tillföras',
+                            value: 'PATIENT_NY_INFO',
+                            placeholder: 'Förtydliga vid behov...'
+                        },
+                        {
+                            label: 'Min bedömning i intyget har ändrats',
+                            value: 'MIN_BEDOMNING_ANDRAD',
+                            placeholder: 'Förtydliga vid behov...'
+                        },
+                        {
+                            label: 'Övrigt',
+                            value: 'OVRIGT',
+                            placeholder: 'Ange orsak (obligatoriskt)...'
+                        }
+                    ],
+                    makuleraModel: {
+                        reason: undefined,
+                        clarification: ''
+                    }
                 };
 
                 makuleraDialog = dialogService.showDialog({
@@ -363,13 +406,20 @@ angular.module('common').factory('common.IntygService',
                     templateUrl: '/app/partials/makulera-dialog.html',
                     model: dialogMakuleraModel,
                     button1click: function() {
-                        $log.debug('revoking cert from dialog' + cert);
-                        _revokeSigneratIntyg(cert, dialogMakuleraModel, makuleraDialog, successCallback);
+                        $log.debug('revoking intyg from dialog' + intyg);
+                        _revokeSigneratIntyg(intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
+                    },
+                    button2click: function() {
+                        $log.debug('revoking and replacing intyg from dialog' + intyg);
+                        _revokeAndReplaceSigneratIntyg(intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
                     },
 
                     button1text: 'common.revoke',
                     button1id: 'button1makulera-dialog',
-                    button2text: 'common.cancel',
+                    button2text: 'common.revokeandreplace',
+                    button2id: 'button2makulera-dialog',
+                    button3text: 'common.canceldontrevoke',
+                    button3id: 'button3makulera-dialog',
                     bodyTextId: 'label.makulera.body',
                     autoClose: false
                 });
