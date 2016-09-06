@@ -62,10 +62,10 @@ angular.module('common').factory('common.IntygProxy',
                 });
         }
 
-        function _makuleraIntyg(intygsId, intygsTyp, onSuccess, onError) {
+        function _makuleraIntyg(intygsId, intygsTyp, revokeMessage, onSuccess, onError) {
             $log.debug('_revokeSigneratIntyg: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkalla';
-            $http.post(restPath, {}).
+            $http.post(restPath, { revokeMessage: revokeMessage }).
                 success(function(data) {
                     if (data === 'OK') {
                         onSuccess();

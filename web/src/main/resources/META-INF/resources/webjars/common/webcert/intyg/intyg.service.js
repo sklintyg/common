@@ -330,7 +330,10 @@ angular.module('common').factory('common.IntygService',
             function _revokeSigneratIntyg(intyg, dialogModel, makuleraDialog, onSuccess) {
                 dialogModel.showerror = false;
                 dialogModel.acceptprogressdone = false;
-                IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, function() {
+
+                var revokeMessage = dialogModel.makuleraModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification;
+
+                IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, revokeMessage, function() {
                     dialogModel.acceptprogressdone = true;
                     makuleraDialog.close();
                     onSuccess();
@@ -360,11 +363,12 @@ angular.module('common').factory('common.IntygService',
                 function isMakuleraEnabled(model) {
                     return model.acceptprogressdone &&
                         (
-                            ObjectHelper.isDefined(model.makuleraModel.reason) ||
+                            (ObjectHelper.isDefined(model.makuleraModel.reason) &&
+                                model.makuleraModel.reason !== 'OVRIGT') ||
                             (model.makuleraModel.reason === 'OVRIGT' &&
-                            ObjectHelper.isDefined(model.makuleraModel.clarification))
+                                !ObjectHelper.isEmpty(model.makuleraModel.clarification))
                         );
-                };
+                }
 
                 var dialogMakuleraModel = {
                     isMakuleraEnabled: isMakuleraEnabled,
@@ -372,33 +376,35 @@ angular.module('common').factory('common.IntygService',
                     focus: false,
                     errormessageid: 'error.failedtomakuleraintyg',
                     showerror: false,
-                    choices: [
-                        {
-                            label: 'Intyget har fyllts i felaktigt',
-                            value: 'FELAKTIGT_INTYG',
-                            placeholder: 'Förtydliga vid behov...'
-                        },
-                        {
-                            label: 'Patienten har kommit med ny information som behöver tillföras',
-                            value: 'PATIENT_NY_INFO',
-                            placeholder: 'Förtydliga vid behov...'
-                        },
-                        {
-                            label: 'Min bedömning i intyget har ändrats',
-                            value: 'MIN_BEDOMNING_ANDRAD',
-                            placeholder: 'Förtydliga vid behov...'
-                        },
-                        {
-                            label: 'Övrigt',
-                            value: 'OVRIGT',
-                            placeholder: 'Ange orsak (obligatoriskt)...'
-                        }
-                    ],
+                    labels: {
+                        'FELAKTIGT_INTYG': 'Intyget har fyllts i felaktigt',
+                        'PATIENT_NY_INFO': 'Patienten har kommit med ny information som behöver tillföras',
+                        'MIN_BEDOMNING_ANDRAD': 'Min bedömning i intyget har ändrats',
+                        'OVRIGT': 'Övrigt'
+                    },
+                    choices: [],
                     makuleraModel: {
                         reason: undefined,
                         clarification: ''
                     }
                 };
+
+                angular.forEach(dialogMakuleraModel.labels, function(label, key) {
+                    if(key === 'OVRIGT'){
+                        this.push({
+                            label: label,
+                            value: key,
+                            placeholder: 'Ange orsak (obligatoriskt)...'
+                        });
+                    }
+                    else{
+                        this.push({
+                            label: label,
+                            value: key,
+                            placeholder: 'Förtydliga vid behov...'
+                        });
+                    }
+                }, dialogMakuleraModel.choices);
 
                 makuleraDialog = dialogService.showDialog({
                     dialogId: 'makulera-dialog',
