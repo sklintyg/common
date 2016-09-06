@@ -1,6 +1,6 @@
 <div class="intyg-block clearfix">
   <div class="intyg-block__titlerow">
-    <h4 class="cert-field-number" ng-if="fieldNumber != undefined">
+    <h4 class="intyg-field-number" ng-if="fieldNumber != undefined">
       <span message key="modules.label.field"></span> {{fieldNumber}} </h4>
 
     <h3 class="intyg-block__heading">
@@ -12,7 +12,7 @@
 
   </div>
 	<span class="intyg-block__content" ng-class="{unfilled: filled == 'false', fielderror: fieldHasErrors}">
-    <span class="cert-field-blank" ng-hide="filled == 'true'"> <span message key="common.notset"></span></span>
+    <span class="intyg-field-blank" ng-hide="filled == 'true'"> <span message key="common.notset"></span></span>
 		<span ng-transclude ng-show="filled == 'true'"></span>
   </span>
 </div>

@@ -93,7 +93,7 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                     }
                 };
 
-                // cert data may be loaded now, or it may be loaded later.
+                // intyg data may be loaded now, or it may be loaded later.
                 updateShowFlag();
                 $scope.$watch('viewState.intygModel.grundData.patient.personId', updateShowFlag);
             },

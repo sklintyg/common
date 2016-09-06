@@ -137,10 +137,10 @@ a {
       color: $color_silver_chalice_approx;
     }
   }
-  .cert-body .intyg-block .title {
+  .intyg-body .intyg-block .title {
     color: $color_silver_chalice_approx;
   }
-  .intyg-block h4.cert-field-number {
+  .intyg-block h4.intyg-field-number {
     color: $color_silver_chalice_approx;
   }
 }
@@ -151,7 +151,7 @@ a {
 }
 
 /* Commonly used */
-.cert-body {
+.intyg-body {
 
   .alert-info {
     margin: 0 20px 20px 0;
@@ -177,7 +177,7 @@ a {
   h4 {
     font-size: 14px;
     padding-bottom: 10px;
-    &.cert-field-number {
+    &.intyg-field-number {
       float: right;
       padding: 0 0 0 10px;
       color: $color_blue_chill_approx;
@@ -204,7 +204,7 @@ a {
   .checkbox-columns {
     margin-left: 0;
   }
-  .cert-field-blank {
+  .intyg-field-blank {
     color: $color_blue_chill_approx;
   }
   &__heading {
@@ -267,7 +267,7 @@ ul.padded-list {
 }
 
 /* Unused. Remove */
-.intyg-block-single h4.cert-field-number {
+.intyg-block-single h4.intyg-field-number {
   padding: 10px 20px 0 20px;
 }
 
@@ -410,6 +410,14 @@ label {
   }
 }
 
+.big-radio-label {
+  padding-left: 25px;
+}
+
+input[type=radio].big-radio {
+  margin-left: -25px;
+}
+
 /* Commonly used */
 .edit-form {
   .alert-danger {
@@ -437,7 +445,7 @@ label {
 }
 
 /* Common for ts-bas and ts-diabetes */
-.cert-answer {
+.intyg-answer {
   font-weight: bold;
   white-space: pre-line;
 }

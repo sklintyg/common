@@ -1,4 +1,4 @@
-<div wc-print-header title-id="{{viewState.common.intyg.type}}.label.certtitle" print-message-id="print.label.draft" intygs-id="cert.id"></div>
+<div wc-print-header title-id="{{viewState.common.intyg.type}}.label.certtitle" print-message-id="print.label.draft" intygs-id="intyg.id"></div>
 <div class="print-show">
   <label class="control-label">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} - {{viewState.intygModel.grundData.patient.personId}}</label>
 </div>
@@ -91,7 +91,7 @@
 </div>
 
 <!-- Total fail error messages -->
-<div id="error-panel" class="cert-error-panel"
+<div id="error-panel" class="intyg-error-panel"
      ng-show="viewState.common.doneLoading && viewState.common.error.activeErrorMessageKey && !viewState.common.deleted">
   <div class="alert alert-danger">
     <span message key="{{viewState.common.error.activeErrorMessageKey}}"></span>

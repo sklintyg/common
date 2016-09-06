@@ -57,13 +57,13 @@ angular.module('common').factory('common.UtkastProxy',
         /**
          * Saves a utkast to the server.
          */
-        function _saveUtkast(intygsId, intygsTyp, version, cert, onSuccess, onError) {
+        function _saveUtkast(intygsId, intygsTyp, version, intyg, onSuccess, onError) {
             $log.debug('_saveDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version;
 
             $window.saving = true;
             saveDraftInProgress = true;
-            $http.put(restPath, cert).
+            $http.put(restPath, intyg).
                 success(function(data) {
                     $log.debug('_saveDraft data: ' + data);
                     onSuccess(data);

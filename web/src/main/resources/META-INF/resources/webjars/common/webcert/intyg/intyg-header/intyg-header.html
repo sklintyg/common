@@ -3,7 +3,7 @@
        intygs-id="viewState.common.intygModel.id"></div>
 
   <!-- error message -->
-  <div id="cert-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
+  <div id="intyg-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
        class="alert alert-danger alert-column print-hide">
 
     <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
@@ -122,7 +122,7 @@
 
       <div wc-secrecy-mark-message person-id="viewState.intygModel.grundData.patient.personId" type="intyg"></div>
 
-      <div id="cert-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
+      <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
         <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>
       </div>
 
@@ -137,8 +137,8 @@
 
       <div ng-if="viewState.common.intygProperties.isRevoked || viewState.common.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"
            style="margin-right: 20px; max-width: 530px;">
-        <span ng-if="viewState.common.isIntygOnRevokeQueue" id="certificate-revoked-it-message-text" message key="cert.status.revoke.requested"></span>
-        <span ng-if="viewState.common.intygProperties.isRevoked && (!viewState.common.isIntygOnRevokeQueue || viewState.common.isIntygOnRevokeQueue == 'undefined')" id="certificate-revoked-on-queue-it-message-text" message key="cert.status.revoke.confirmed"></span>
+        <span ng-if="viewState.common.isIntygOnRevokeQueue" id="certificate-revoked-it-message-text" message key="intyg.status.revoke.requested"></span>
+        <span ng-if="viewState.common.intygProperties.isRevoked && (!viewState.common.isIntygOnRevokeQueue || viewState.common.isIntygOnRevokeQueue == 'undefined')" id="certificate-revoked-on-queue-it-message-text" message key="intyg.status.revoke.confirmed"></span>
       </div>
 
 

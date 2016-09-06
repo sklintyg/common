@@ -24,7 +24,7 @@ angular.module('common').animation('.fold-animation', ['$animateCss', '$log', fu
             var animator = $animateCss(element, {
                 addClass: 'fold-slide-fade-animation',
                 easing: 'ease-out',
-                from: { height:'0px' },
+                from: { height:'0' },
                 to: { height: height + 'px' },
                 duration: 0.3,
                 cleanupStyles: true
@@ -38,7 +38,7 @@ angular.module('common').animation('.fold-animation', ['$animateCss', '$log', fu
                 addClass: 'fold-slide-fade-animation-hidden',
                 easing: 'ease-out',
                 from: { height: height + 'px' },
-                to: { height:'0px' },
+                to: { height:'0' },
                 duration: 0.3
             });
         }

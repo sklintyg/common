@@ -73,7 +73,7 @@ angular.module('common').controller('common.ArendeCtrl',
                     ArendenViewState.intygProperties.isLoaded = true;
                     var intygId = $stateParams.certificateId;
                     if (intygProperties.forceUseProvidedIntyg) {
-                        // Used for utkast page. In this case we must use the id from cert because $stateParams.certificateId is the id of the utkast, not the parentIntyg
+                        // Used for utkast page. In this case we must use the id from intyg because $stateParams.certificateId is the id of the utkast, not the parentIntyg
                         intygId = intyg.id;
                     }
                     fetchArenden(intygId, ArendenViewState.intygProperties);

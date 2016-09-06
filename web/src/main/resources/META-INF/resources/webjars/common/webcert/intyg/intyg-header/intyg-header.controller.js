@@ -20,9 +20,9 @@
 angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
     'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
-    'common.IntygService', 'common.IntygViewStateService', 'common.statService',
+    'common.IntygService', 'common.IntygViewStateService', 'common.statService', 'common.ObjectHelper',
         function($rootScope, $scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
-            IntygFornyaRequestModel, User, UserModel, IntygService, CommonViewState, statService) {
+            IntygFornyaRequestModel, User, UserModel, IntygService, CommonViewState, statService, ObjectHelper) {
             'use strict';
 
             var intygType = $state.current.data.intygType;
@@ -53,30 +53,30 @@ angular.module('common').controller('common.IntygHeader',
                 });
             };
 
-            $scope.makulera = function(cert) {
+            $scope.makulera = function(intyg) {
                 var confirmationMessage = messageService.getProperty(intygType+'.label.makulera.confirmation', {
-                    namn: cert.grundData.patient.fullstandigtNamn,
-                    personnummer: cert.grundData.patient.personId
+                    namn: intyg.grundData.patient.fullstandigtNamn,
+                    personnummer: intyg.grundData.patient.personId
                 });
-                cert.intygType = intygType;
-                IntygService.makulera( cert, confirmationMessage, function() {
+                intyg.intygType = intygType;
+                IntygService.makulera( intyg, confirmationMessage, function() {
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
                     $scope.viewState.common.intygProperties.isRevoked = true;
-                    $rootScope.$emit('ViewCertCtrl.load', cert, $scope.viewState.common.intygProperties);
+                    $rootScope.$emit('ViewCertCtrl.load', intyg, $scope.viewState.common.intygProperties);
                 });
             };
 
-            function fornyaOrCopy (cert, intygServiceMethod, buildIntygRequestModel) {
-                if (cert === undefined || cert.grundData === undefined) {
-                    $log.debug('cert or cert.grundData is undefined. Aborting fornya.');
+            function fornyaOrCopy (intyg, intygServiceMethod, buildIntygRequestModel) {
+                if (intyg === undefined || intyg.grundData === undefined) {
+                    $log.debug('intyg or intyg.grundData is undefined. Aborting fornya.');
                     return;
                 }
-                var isOtherCareUnit = User.getValdVardenhet().id !== cert.grundData.skapadAv.vardenhet.enhetsid;
+                var isOtherCareUnit = User.getValdVardenhet().id !== intyg.grundData.skapadAv.vardenhet.enhetsid;
                 intygServiceMethod($scope.viewState,
                     buildIntygRequestModel({
-                        intygId: cert.id,
+                        intygId: intyg.id,
                         intygType: intygType,
-                        patientPersonnummer: cert.grundData.patient.personId,
+                        patientPersonnummer: intyg.grundData.patient.personId,
                         nyttPatientPersonnummer: $stateParams.patientId,
                         fornamn: $stateParams.fornamn,
                         efternamn: $stateParams.efternamn,
@@ -90,18 +90,18 @@ angular.module('common').controller('common.IntygHeader',
                 );
             }
 
-            $scope.fornya = function(cert) {
-                return fornyaOrCopy(cert, IntygService.fornya, IntygFornyaRequestModel.build);
+            $scope.fornya = function(intyg) {
+                return fornyaOrCopy(intyg, IntygService.fornya, IntygFornyaRequestModel.build);
             };
 
-            $scope.copy = function(cert) {
-                return fornyaOrCopy(cert, IntygService.copy, IntygCopyRequestModel.build);
+            $scope.copy = function(intyg) {
+                return fornyaOrCopy(intyg, IntygService.copy, IntygCopyRequestModel.build);
             };
 
-            $scope.print = function(cert, isEmployeeCopy) {
+            $scope.print = function(intyg, isEmployeeCopy) {
                 if (CommonViewState.intygProperties.isRevoked) {
-                    var customHeader = cert.grundData.patient.fullstandigtNamn + ' - ' + cert.grundData.patient.personId;
-                    PrintService.printWebPageWithCustomTitle(cert.id, intygType, customHeader);
+                    var customHeader = intyg.grundData.patient.fullstandigtNamn + ' - ' + intyg.grundData.patient.personId;
+                    PrintService.printWebPageWithCustomTitle(intyg.id, intygType, customHeader);
                 } else if (isEmployeeCopy) {
                     window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
                 } else {

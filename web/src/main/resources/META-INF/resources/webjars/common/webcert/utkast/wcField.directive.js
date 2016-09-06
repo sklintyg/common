@@ -18,7 +18,7 @@
  */
 
 /**
- * wcField directive. Used to abstract common layout for full-layout form fields in cert modules
+ * wcField directive. Used to abstract common layout for full-layout form fields in intyg modules
  */
 angular.module('common').directive('wcField',
     [ 'common.messageService', 'common.dynamicLabelService',

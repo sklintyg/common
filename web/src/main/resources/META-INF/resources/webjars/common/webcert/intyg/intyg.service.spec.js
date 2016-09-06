@@ -64,7 +64,7 @@ describe('IntygService', function() {
     describe('#copy', function() {
 
         var $scope;
-        var cert;
+        var intyg;
 
         beforeEach(function() {
             $scope = {
@@ -78,7 +78,7 @@ describe('IntygService', function() {
                     errormessageid: null
                 }
             };
-            cert = {
+            intyg = {
                 'intygId': 'intyg-1', 'source': 'IT', 'intygType': 'fk7263', 'status': 'SENT',
                 'lastUpdatedSigned': '2011-03-23T09:29:15.000', 'updatedSignedBy': 'Eva Holgersson', 'vidarebefordrad': false,
                 'grundData' : { 'patient' : { 'personId': '19121212-1212'}, 'skapadAv' : {'vardenhet' : {'enhetsid' : '1234'} } }
@@ -97,14 +97,14 @@ describe('IntygService', function() {
             spyOn($state, 'go').and.callThrough();
         });
 
-        it('should immediately request a utkast copy of cert if the copy preference is set', function() {
+        it('should immediately request a utkast copy of intyg if the copy preference is set', function() {
 
             UserModel.setAnvandarPreference(IntygService.COPY_DIALOG_PREFERENCE, true);
 
-            $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/kopiera/').respond(
+            $httpBackend.expectPOST('/api/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygService.copy($scope.viewState, cert);
+            IntygService.copy($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
             expect(dialogService.showDialog).not.toHaveBeenCalled();
@@ -116,24 +116,24 @@ describe('IntygService', function() {
         it('should show the copy dialog if the copy preference is not set', function() {
 
             UserModel.setAnvandarPreference(IntygService.COPY_DIALOG_PREFERENCE, false);
-            $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/kopiera/').respond(
+            $httpBackend.expectPOST('/api/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygService.copy($scope.viewState, cert);
+            IntygService.copy($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
 
             expect(dialogService.showDialog).toHaveBeenCalled();
         });
 
-        it('should immediately request a fornya utkast of cert if the fornya preference is set', function() {
+        it('should immediately request a fornya utkast of intyg if the fornya preference is set', function() {
 
             UserModel.setAnvandarPreference(IntygService.FORNYA_DIALOG_PREFERENCE, true);
 
-            $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/fornya/').respond(
+            $httpBackend.expectPOST('/api/intyg/' + intyg.intygType + '/' + intyg.intygId +'/fornya/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygService.fornya($scope.viewState, cert);
+            IntygService.fornya($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
             expect(dialogService.showDialog).not.toHaveBeenCalled();
@@ -145,10 +145,10 @@ describe('IntygService', function() {
         it('should show the fornya dialog if the copy preference is not set', function() {
 
             UserModel.setAnvandarPreference(IntygService.FORNYA_DIALOG_PREFERENCE, false);
-            $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/fornya/').respond(
+            $httpBackend.expectPOST('/api/intyg/' + intyg.intygType + '/' + intyg.intygId +'/fornya/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygService.fornya($scope.viewState, cert);
+            IntygService.fornya($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
 
@@ -159,9 +159,9 @@ describe('IntygService', function() {
 
     describe('_createCopyDraft', function() {
 
-        var cert;
+        var intyg;
         beforeEach(function() {
-            cert = {
+            intyg = {
                 'intygId': 'intyg-1', 'source': 'IT', 'intygType': 'fk7263', 'status': 'SENT',
                 'lastUpdatedSigned': '2011-03-23T09:29:15.000', 'updatedSignedBy': 'Eva Holgersson', 'vidarebefordrad': false,
                 'grundData' : { 'patient' : { 'personId': '19121212-1212'}}
@@ -173,10 +173,10 @@ describe('IntygService', function() {
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
 
-            $httpBackend.expectPOST('/api/intyg/' + cert.intygType + '/' + cert.intygId +'/kopiera/').respond(
+            $httpBackend.expectPOST('/api/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygService.__test__.createCopyDraft(cert, onSuccess, onError);
+            IntygService.__test__.createCopyDraft(intyg, onSuccess, onError);
             $httpBackend.flush();
 
             expect(onSuccess).toHaveBeenCalledWith({'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'});

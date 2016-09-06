@@ -29,8 +29,10 @@ angular.module('common').constant('common.messages', {
         'common.nodontask': 'Nej, fråga inte igen',
         'common.ok': 'OK',
         'common.cancel': 'Avbryt',
+        'common.canceldontrevoke': 'Avbryt, makulera ej',
         'common.goback': 'Tillbaka',
-        'common.revoke': 'Intyget ska återtas',
+        'common.revoke': 'Makulera',
+        'common.revokeandreplace': 'Makulera och ersätt',
         'common.sign': 'Signera',
         'common.signsend': 'Signera och skicka',
         'common.send': 'Skicka',
@@ -81,14 +83,17 @@ angular.module('common').constant('common.messages', {
         'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
         'common.label.saving': 'Sparar',
 
-        // cert status messages
-        'cert.status.draft_incomplete': 'Utkast, uppgifter saknas',
-        'cert.status.draft_complete': 'Utkast, kan signeras',
-        'cert.status.signed': 'Signerat',
-        'cert.status.cancelled': 'Makulerat',
-        'cert.status.unknown': 'Okänd',
-        'cert.status.sent': 'Mottaget',
-        'cert.status.received': 'Signerat',
+        // intyg status messages
+        'intyg.status.draft_incomplete': 'Utkast, uppgifter saknas',
+        'intyg.status.draft_complete': 'Utkast, kan signeras',
+        'intyg.status.signed': 'Signerat',
+        'intyg.status.cancelled': 'Makulerat',
+        'intyg.status.unknown': 'Okänd',
+        'intyg.status.sent': 'Mottaget',
+        'intyg.status.received': 'Signerat',
+        // Revoke status messages (type agnostic)
+        'intyg.status.revoke.requested' : 'Intyget är makulerat',
+        'intyg.status.revoke.confirmed' : 'Intyget är makulerat',
 
         // draft utkast header form status messages
         'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
@@ -103,10 +108,6 @@ angular.module('common').constant('common.messages', {
         'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
         'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
-
-        // Revoke status messages (type agnostic)
-        'cert.status.revoke.requested' : 'Begäran om makulering skickad till intygstjänsten',
-        'cert.status.revoke.confirmed' : 'Intyget är makulerat',
 
         // wc-common-directives-resources
         'nav.label.loggedinas': 'Inloggad som:',
@@ -165,7 +166,7 @@ angular.module('common').constant('common.messages', {
         'common.arende.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
         'common.arende.help.handled': 'Tidigare frågor och svar är sådana som redan har besvarats eller hanterats på något sätt.',
 
-        // Cert module messages. Used by several cert modules.
+        // intyg module messages. Used by several intyg modules.
         'modules.label.field': 'Fält',
         'modules.label.blank': '- ej ifyllt',
         'modules.button.alt.archive': 'Arkivera intyget. Flyttar intyget till Arkiverade intyg',

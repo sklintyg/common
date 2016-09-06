@@ -18,7 +18,7 @@
  */
 
 /**
- * wcFieldSingle directive. Used to abstract common layout for single-line form fields in cert modules
+ * wcFieldSingle directive. Used to abstract common layout for single-line form fields in intyg modules
  */
 angular.module('common').directive('wcFieldSingle', ['common.messageService',
     function(messageService) {
@@ -50,7 +50,7 @@ angular.module('common').directive('wcFieldSingle', ['common.messageService',
                 };
             },
             template: '<div class="intyg-block intyg-block-single clearfix">' +
-                '<h4 class="cert-field-number" ng-if="fieldNumber != undefined">' +
+                '<h4 class="intyg-field-number" ng-if="fieldNumber != undefined">' +
                 '<span message key="modules.label.field"></span> {{fieldNumber}}</h4>' +
                 '<span ng-transclude></span>' +
                 '<span style="vertical-align: sub;" wc-help-mark field-help-text="{{fieldHelpText}}"></span>' +
