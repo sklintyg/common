@@ -1,5 +1,5 @@
 <div>
-  <label ng-class="{ 'checkbox-inline': !parentViewState.intygProperties.isRevoked}" ng-if="!parentViewState.intygProperties.kompletteringOnly">
+  <label ng-class="{ 'checkbox-inline': !parentViewState.intygProperties.isRevoked}" ng-if="showHandleToggle()">
     <input type="checkbox" ng-if="!parentViewState.intygProperties.isRevoked" ng-model="handledFunction" ng-model-options="{ getterSetter: true }"
            id="handleCheck-{{arendeListItem.arende.fraga.internReferens}}">
     Hanterad

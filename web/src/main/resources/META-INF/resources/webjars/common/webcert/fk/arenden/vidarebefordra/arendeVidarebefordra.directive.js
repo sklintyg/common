@@ -43,6 +43,11 @@ angular.module('common').directive('arendeVidarebefordra',
 
                     $scope.$parent.forwardInProgress = false;
 
+                    $scope.showVidarebefordra = function() {
+                        return !$scope.parentViewState.intygProperties.kompletteringOnly &&
+                            $scope.arendeListItem.arende.fraga.status !== 'CLOSED';
+                    };
+
                     // NOTE: $parent is needed since ng-if for wc-authority in the templates
                     // creates a new isolate scope and these functions won't be accessible if set directly on
                     $scope.$parent.openMailDialog = function(arende) {
