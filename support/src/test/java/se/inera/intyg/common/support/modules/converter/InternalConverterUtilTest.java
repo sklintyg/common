@@ -27,13 +27,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -141,6 +141,22 @@ public class InternalConverterUtilTest {
         assertNotNull(intyg.getRelation().get(0).getTyp().getCodeSystem());
         assertEquals(relationIntygsId, intyg.getRelation().get(0).getIntygsId().getExtension());
         assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
+    }
+
+    @Test
+    public void testConvertUnitAdddressInformationMissing() {
+        Utlatande utlatande = buildUtlatande("intygsid", "enhetsid", "enhetsnamn", "191212121212",
+                "fullständigt namn", "skapad av pid", LocalDateTime.now(), "arbetsplatsKod", null, null, null, "epost", null,
+                "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress", "patientPostnummer", "patientPostort",
+                null, null);
+
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
+
+        // empty string if missing in input
+        assertEquals("", intyg.getSkapadAv().getEnhet().getPostadress());
+        assertEquals("", intyg.getSkapadAv().getEnhet().getPostnummer());
+        assertEquals("", intyg.getSkapadAv().getEnhet().getPostort());
+        assertEquals("", intyg.getSkapadAv().getEnhet().getTelefonnummer());
     }
 
     @Test

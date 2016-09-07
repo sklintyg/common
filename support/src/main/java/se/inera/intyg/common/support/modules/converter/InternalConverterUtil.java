@@ -22,6 +22,7 @@ package se.inera.intyg.common.support.modules.converter;
 import static se.inera.intyg.common.support.Constants.*;
 
 import java.time.LocalDate;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.StringUtils;
-import java.time.temporal.*;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
@@ -86,10 +86,10 @@ public final class InternalConverterUtil {
         Enhet vardenhet = new Enhet();
         vardenhet.setEnhetsId(getHsaId(sourceVardenhet.getEnhetsid()));
         vardenhet.setEnhetsnamn(sourceVardenhet.getEnhetsnamn());
-        vardenhet.setPostnummer(sourceVardenhet.getPostnummer());
-        vardenhet.setPostadress(sourceVardenhet.getPostadress());
-        vardenhet.setPostort(sourceVardenhet.getPostort());
-        vardenhet.setTelefonnummer(sourceVardenhet.getTelefonnummer());
+        vardenhet.setPostnummer(emptyStringIfNull(sourceVardenhet.getPostnummer()));
+        vardenhet.setPostadress(emptyStringIfNull(sourceVardenhet.getPostadress()));
+        vardenhet.setPostort(emptyStringIfNull(sourceVardenhet.getPostort()));
+        vardenhet.setTelefonnummer(emptyStringIfNull(sourceVardenhet.getTelefonnummer()));
         vardenhet.setEpost(sourceVardenhet.getEpost());
         vardenhet.setVardgivare(getVardgivare(sourceVardenhet.getVardgivare()));
         vardenhet.setArbetsplatskod(getArbetsplatsKod(sourceVardenhet.getArbetsplatsKod()));
