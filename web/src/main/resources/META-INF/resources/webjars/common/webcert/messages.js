@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* jshint maxlen: false, unused: false */
-var commonMessages = {
+/* jshint maxlen: false */
+angular.module('common').constant('common.messages', {
     'sv': {
 
         'common.continue': 'Fortsätt',
@@ -260,4 +260,4 @@ var commonMessages = {
         'common.ok': 'OK',
         'common.cancel': 'Cancel'
     }
-};
+});
