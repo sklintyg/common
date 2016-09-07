@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import java.time.LocalDateTime;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -155,8 +155,8 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testSpecialistkompetensUsesCode() {
-        final String specialistkompetensKod = "kod";
+    public void testSpecialistkompetensUsesDisplayName() {
+        final String specialistkompetensKlartext = "klartext";
         HosPersonal source = new HosPersonal();
         source.setPersonalId(new HsaId());
         source.setEnhet(new Enhet());
@@ -165,12 +165,16 @@ public class TransportConverterUtilTest {
         source.getEnhet().setVardgivare(new Vardgivare());
         source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
         Specialistkompetens specialistkompetens = new Specialistkompetens();
-        specialistkompetens.setCode(specialistkompetensKod);
-        specialistkompetens.setDisplayName("klartext");
-        source.getSpecialistkompetens().add(specialistkompetens );
+        specialistkompetens.setCode("kod");
+        specialistkompetens.setDisplayName(specialistkompetensKlartext);
+        source.getSpecialistkompetens().add(specialistkompetens);
+        Specialistkompetens specialistkompetensWithNullKlartext = new Specialistkompetens();
+        specialistkompetensWithNullKlartext.setCode("kod2");
+        specialistkompetensWithNullKlartext.setDisplayName(null); // will not be used
+        source.getSpecialistkompetens().add(specialistkompetensWithNullKlartext);
         HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
         assertEquals(1, skapadAv.getSpecialiteter().size());
-        assertEquals(specialistkompetensKod, skapadAv.getSpecialiteter().get(0));
+        assertEquals(specialistkompetensKlartext, skapadAv.getSpecialiteter().get(0));
     }
 
     @Test

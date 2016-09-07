@@ -35,7 +35,6 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.support.services.SpecialistkompetensService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Patient;
@@ -44,6 +43,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
 
 public final class InternalConverterUtil {
+
+    private static final String NOT_AVAILABLE = "N/A";
 
     private InternalConverterUtil() {
     }
@@ -75,8 +76,12 @@ public final class InternalConverterUtil {
         }
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
             Specialistkompetens kompetens = new Specialistkompetens();
-            kompetens.setCode(sourceKompetens);
-            kompetens.setDisplayName(SpecialistkompetensService.getDescriptionFromCode(sourceKompetens).orElse(null));
+            /*
+             * INTYG-2875: Due to HSA sending speciality codes and names in two incoherent lists we only keep speciality
+             * names, hence code is not available.
+             */
+            kompetens.setCode(NOT_AVAILABLE);
+            kompetens.setDisplayName(sourceKompetens);
             skapadAv.getSpecialistkompetens().add(kompetens);
         }
         return skapadAv;

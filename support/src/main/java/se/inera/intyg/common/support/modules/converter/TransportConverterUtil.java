@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.lang3.StringUtils;
-import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
@@ -209,7 +209,9 @@ public final class TransportConverterUtil {
             personal.getBefattningar().add(befattning.getCode());
         }
         for (Specialistkompetens kompetens : source.getSpecialistkompetens()) {
-            personal.getSpecialiteter().add(kompetens.getCode());
+            if (kompetens.getDisplayName() != null) {
+                personal.getSpecialiteter().add(kompetens.getDisplayName());
+            }
         }
         return personal;
     }
