@@ -37,11 +37,21 @@
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
                   ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
           </button>
+          <!-- Normal pdf-utskrift av signerat intyg  -->
           <button type="button" id="downloadprint"
                   class="btn btn-info"
                   wc-authority
                   intygstyp="{{intygstyp}}"
                   feature="!arbetsgivarUtskrift"
+                  ng-if="!makuleratIntyg()"
+                  ng-click="print(viewState.intygModel, false)">
+            <span message key="common.button.save.as.pdf"></span>
+          </button>
+          <!-- html utskrift av makulerat intyg  -->
+          <button type="submit"
+                  value="submit"
+                  class="btn btn-info"
+                  ng-if="makuleratIntyg()"
                   ng-click="print(viewState.intygModel, false)">
             Skriv ut
           </button>
@@ -51,9 +61,9 @@
                feature="arbetsgivarUtskrift"
                intygstyp="{{intygstyp}}">
             <div class="btn-group"
-                 ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
-              <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Skriv ut <span class="caret"></span>
+                 ng-if="!makuleratIntyg()">
+              <button id="intyg-header-dropdown-select-pdf-type" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span message key="common.button.save.as.pdf"></span><span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
                 <li><a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">Fullständigt intyg</a></li>
@@ -62,13 +72,6 @@
                 </li>
               </ul>
             </div>
-            <button type="submit"
-                    value="submit"
-                    class="btn btn-info"
-                    ng-if="viewState.common.intygProperties.isRevoked || viewState.common.isIntygOnRevokeQueue"
-                    ng-click="print(viewState.intygModel, false)">
-              Skriv ut
-            </button>
           </div>
           <button type="button"
                   wc-authority="KOPIERA_INTYG"

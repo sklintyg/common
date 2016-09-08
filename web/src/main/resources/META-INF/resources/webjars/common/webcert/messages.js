@@ -37,6 +37,7 @@ angular.module('common').constant('common.messages', {
         'common.fornya': 'Förnya',
         'common.delete': 'Radera',
         'common.sign.intyg': 'Signera intyget',
+        'common.button.save.as.pdf': 'Spara som PDF',
 
         'common.alert.newpersonid': 'Patienten har ett nytt personnummer: <b>${person}</b>',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>',
