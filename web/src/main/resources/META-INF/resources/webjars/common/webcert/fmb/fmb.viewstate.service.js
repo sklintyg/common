@@ -23,7 +23,9 @@ angular.module('common').service('common.fmb.ViewStateService',
 
             this.state = {
                 formData: [],
-                diagnosKod: undefined
+                diagnosKod: undefined,
+                diagnosBeskrivning: undefined, 
+                originalDiagnoskod: undefined
             };
 
             this.reset = function() {
@@ -41,9 +43,11 @@ angular.module('common').service('common.fmb.ViewStateService',
                 return transformedFormData;
             };
 
-            this.setState = function(formData, diagnosKod){
+            this.setState = function(formData, diagnosKod, diagnosBeskrivning, originalDiagnoskod){
                 this.state.formData = transformFormData(formData);
                 this.state.diagnosKod = diagnosKod;
+                this.state.diagnosBeskrivning = diagnosBeskrivning;
+                this.state.originalDiagnoskod = originalDiagnoskod;
             };
 
             this.reset();

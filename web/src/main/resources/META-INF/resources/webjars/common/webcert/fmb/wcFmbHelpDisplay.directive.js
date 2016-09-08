@@ -30,6 +30,7 @@ angular.module('common').directive('wcFmbHelpDisplay',
                     helpTextContents: '=',
                     diagnosisDescription: '=',
                     diagnosisCode: '=',
+                    originalDiagnosisCode: '=',
                     relatedFormId: '@'
                 },
                 link: function(scope, element, attrs) {
