@@ -25,9 +25,10 @@
 
   <xsl:template name="response">
     <lc:ListActiveSickLeavesForCareUnitResponse>
-      <lc:result>
-        <xsl:call-template name="result"/>
-      </lc:result>
+      <lc:resultCode>ERROR</lc:resultCode>
+      <lc:comment>
+        <xsl:value-of select="faultstring/text()"/>
+      </lc:comment>
     </lc:ListActiveSickLeavesForCareUnitResponse>
   </xsl:template>
 
