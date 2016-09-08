@@ -24,6 +24,7 @@ describe('UtkastService', function() {
     var utkastService;
     var commonViewState;
     var viewState;
+    var commonUser;
     var $httpBackend;
     var $location;
     var $rootScope;
@@ -42,12 +43,13 @@ describe('UtkastService', function() {
         });
     }));
 
-    beforeEach(angular.mock.inject(['common.dynamicLabelService', 'common.UtkastService', 'common.UtkastViewStateService',
+    beforeEach(angular.mock.inject(['common.dynamicLabelService', 'common.UtkastService', 'common.UtkastViewStateService', 'common.User',
         '$httpBackend', '$location', '$rootScope', '$stateParams', '$timeout',
-        function(_dynamicLabelService_, _utkastService_, _commonViewState_, _$httpBackend_, _$location_, _$rootScope_, _$stateParams_, _$timeout_) {
+        function(_dynamicLabelService_, _utkastService_, _commonViewState_, _commonUser_, _$httpBackend_, _$location_, _$rootScope_, _$stateParams_, _$timeout_) {
             dynamicLabelService = _dynamicLabelService_;
             utkastService = _utkastService_;
             commonViewState = _commonViewState_;
+            commonUser = _commonUser_;
             $httpBackend = _$httpBackend_;
             $location = _$location_;
             $rootScope = _$rootScope_;
@@ -85,6 +87,14 @@ describe('UtkastService', function() {
             viewState.intygModel = viewState.draftModel.content;
             viewState.intygModel.toSendModel = function() { return viewState.intygModel; };
             commonViewState.intyg.type = 'testIntyg';
+            commonUser.getUser = function() {
+                return {
+                    valdVardenhet: {
+                        id: 'enhetId',
+                        mottagningar: []
+                    }
+                };
+            };
         }
     ]));
 

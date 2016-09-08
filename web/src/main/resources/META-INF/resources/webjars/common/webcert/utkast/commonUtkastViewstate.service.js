@@ -18,7 +18,7 @@
  */
 
 angular.module('common').service('common.UtkastViewStateService',
-    ['$stateParams', '$window', 'common.ViewStateService', function($stateParams, $window, commonViewStateService) {
+    ['$stateParams', '$window', 'common.ViewStateService', 'common.User', function($stateParams, $window, commonViewStateService, commonUser) {
         'use strict';
 
         this.reset = function() {
@@ -74,19 +74,33 @@ angular.module('common').service('common.UtkastViewStateService',
                     this.textVersionUpdated = true;
                 }
 
-                // check if all info is available from HSA. If not, display the info message that someone needs to update it
-                this.hsaInfoMissing = false;
-                var vardenhetData = draftModel.content.grundData.skapadAv.vardenhet;
-                var properties = ['postadress', 'postnummer', 'postort', 'telefonnummer'];
-                for(var i = 0; i < properties.length; i++) {
-                    var field = vardenhetData[properties[i]];
-                    if(field === undefined || field === '') {
-                        this.hsaInfoMissing = true;
+                this.hsaInfoMissing = checkHsaInfo(data);
+            }
+        };
+
+        function checkHsaInfo(data) {
+            var vardenhetData = commonUser.getUser().valdVardenhet;
+            if (vardenhetData.mottagningar !== undefined) {
+                for (var enhetIndex = 0; enhetIndex < vardenhetData.mottagningar.length; enhetIndex++) {
+                    if (vardenhetData.mottagningar[enhetIndex].id === data.content.grundData.skapadAv.vardenhet.enhetsid) {
+                        vardenhetData = vardenhetData.mottagningar[enhetIndex];
                         break;
                     }
                 }
             }
-        };
+
+            if (vardenhetData.id === data.content.grundData.skapadAv.vardenhet.enhetsid) {
+                var properties = ['postadress', 'postnummer', 'postort', 'telefonnummer'];
+                for(var i = 0; i < properties.length; i++) {
+                    var field = vardenhetData[properties[i]];
+                    if(field === undefined || field === '') {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
 
         this.toggleShowComplete = function() {
             this.showComplete = !this.showComplete;
@@ -104,4 +118,4 @@ angular.module('common').service('common.UtkastViewStateService',
 
         this.reset();
     }
-]);
+    ]);
