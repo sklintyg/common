@@ -160,6 +160,9 @@ angular.module('common').constant('common.messages', {
         'common.arende.fraga.amne.ovrigt': 'Övrigt',
         'common.arende.fraga.amne.paminn': 'Påminnelse',
 
+        'common.arende.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
+        'common.arende.help.handled': 'Tidigare frågor och svar är sådana som redan har besvarats eller hanterats på något sätt.',
+
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
         'modules.label.blank': '- ej ifyllt',
