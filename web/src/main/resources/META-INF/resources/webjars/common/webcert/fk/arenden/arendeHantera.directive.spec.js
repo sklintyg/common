@@ -66,6 +66,15 @@ describe('arendeHantera', function() {
             $scope = element.isolateScope();
         }]));
 
+    it('Should be possible to change to unhandled status if sent from FK and has no response', function() {
+        $scope.arendeListItem.arende.fraga.frageStallare = 'FK';
+        $scope.arendeListItem.arende.svar.frageStallare = 'WC';
+        $scope.arendeListItem.arende.svar.meddelande = '';
+        $scope.$apply();
+        expect($scope.showHandleToggle()).toBeTruthy();
+        expect(element.find('INPUT').length).toBe(1);
+    });
+
     it('Should not be possible to change to unhandled status if sent from FK and has a response (FS-011)', function() {
         $scope.arendeListItem.arende.fraga.frageStallare = 'FK';
         $scope.arendeListItem.arende.svar.frageStallare = 'WC';

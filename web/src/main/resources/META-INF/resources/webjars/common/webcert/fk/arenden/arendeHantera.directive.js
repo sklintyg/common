@@ -44,7 +44,7 @@ angular.module('common').directive('arendeHantera',
                             !$scope.parentViewState.intygProperties.kompletteringOnly &&
                             // Enforce business rule FS-011, from FK + answer should remain closed
                             ($scope.arendeListItem.arende.fraga.frageStallare === 'WC' ||
-                            $scope.arendeListItem.arende.fraga.status !== 'CLOSED');
+                             !$scope.arendeListItem.arende.svar.meddelande);
                     };
 
                     $scope.handledFunction = function(newState) {
