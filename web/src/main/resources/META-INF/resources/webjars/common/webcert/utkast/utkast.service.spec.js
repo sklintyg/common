@@ -144,10 +144,11 @@ describe('UtkastService', function() {
 
             expect(viewState.common.doneLoading).toBeTruthy();
             expect(resultData.braIntygsData).toBe('bra');
-            expect($rootScope.$broadcast.calls.count()).toBe(5);
+            expect($rootScope.$broadcast.calls.count()).toBe(6);
             expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['intyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
-            expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['wcFocusOn', 'focusFirstInput']);
+            expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
+            expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
         });
 
         it ('successful utkast load with sjf', function () {
