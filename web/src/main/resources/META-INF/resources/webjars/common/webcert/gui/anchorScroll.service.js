@@ -20,7 +20,7 @@
 /**
  * Created by eriklupander on 15-04-29.
  */
-angular.module('common').factory('common.anchorScrollService', ['$location', 'smoothScroll', function($location, smoothScrollService) {
+angular.module('common').factory('common.anchorScrollService', ['$location', '$log', 'smoothScroll', function($location, $log, smoothScrollService) {
     'use strict';
 
     /**
@@ -35,6 +35,11 @@ angular.module('common').factory('common.anchorScrollService', ['$location', 'sm
         $location.hash(anchorName);
 
         var elementToScrollTo = angular.element.find('#' + _escape(anchorName))[0];
+
+        if (!elementToScrollTo) {
+            $log.error('Unable to find scrollTo target "' + anchorName + '"');
+            return;
+        }
 
         var options = {
             duration: 500,

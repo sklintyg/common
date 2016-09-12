@@ -36,4 +36,14 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
         return template;
     });
 
+    // Add an id to every question. This id is used to scroll to the question from arendePanelFraga.directive
+    formlyConfig.templateManipulators.preWrapper.push(function(template, options, scope) {
+        if (options.key && $.type(options.key) === 'string') {
+            var key = options.key.replace(/\.|\[|\]/g,'_');
+            return '<div id="form_' + key + '">' + template + '</div>';
+        } else {
+            return template;
+        }
+    });
+
 }]);

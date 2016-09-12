@@ -28,8 +28,7 @@ angular.module('common').controller('common.ArendeCtrl',
                         isAnyKompletteringarNotHandled = (isKompletteringFraga && arendeListItem.fraga.status !== 'CLOSED');
                     }
 
-                    // Filter out the komplettering the utkast was based on and only that one.
-                    return isKompletteringFraga && arendeListItem.fraga.internReferens === ArendenViewState.intygProperties.meddelandeId;
+                    return isKompletteringFraga;
                 });
 
                 // If there aren't any kompletteringar that aren't handled already, we can show the sign that all kompletteringar are handled.

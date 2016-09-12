@@ -105,7 +105,8 @@ angular.module('common').factory('common.ArendeListItemModel',
 
                     var newKompletteringListItem = {
                         frgId: 'FRG_' + komplettering.frageId + '.RBK',
-                        text: komplettering.text
+                        text: komplettering.text,
+                        modelName: komplettering.jsonPropertyHandle
                     };
                     this.push(newKompletteringListItem);
                 }, this.kompletteringar);
