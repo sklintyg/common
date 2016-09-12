@@ -29,13 +29,13 @@ describe('arendeHantera', function() {
     var arende = {
         fraga:{'kompletteringar':[],'internReferens':'ref-1','status':'CLOSED','amne':'OVRIGT','meddelandeRubrik':'Övrigt',
             'sistaDatumForSvar':'2016-09-14','vidarebefordrad':false,'frageStallare':'WC','externaKontakter':[],'meddelande':'Meddelandetext',
-            'signeratAv':'Arnold Schwarzenegger','svarSkickadDatum':'2016-08-31T16:27:29.898','intygId':'425da3ef-2a24-4a9a-98c4-ace7625c1d4a',
-            'enhetsnamn':'NMT vg3 ve1','vardgivarnamn':'NMT vg3','timestamp':'2016-08-31T16:27:29.898','arendeType':'FRAGA','vardaktorNamn':'Arnold Schwarzenegger'},
+            'signeratAv':'Arnold Johansson','svarSkickadDatum':'2016-08-31T16:27:29.898','intygId':'425da3ef-2a24-4a9a-98c4-ace7625c1d4a',
+            'enhetsnamn':'NMT vg3 ve1','vardgivarnamn':'NMT vg3','timestamp':'2016-08-31T16:27:29.898','arendeType':'FRAGA','vardaktorNamn':'Arnold Johansson'},
         svar:{'kompletteringar':[],'internReferens':'37637406-b888-467b-a672-62beb7905907','status':'CLOSED','amne':'OVRIGT',
             'meddelandeRubrik':'Övrigt','vidarebefordrad':false,'frageStallare':'FK','externaKontakter':[],'meddelande':'Testsvar',
-            'signeratAv':'Arnold Schwarzenegger','svarSkickadDatum':'2016-08-31T16:40:35.498','intygId':'425da3ef-2a24-4a9a-98c4-ace7625c1d4a',
+            'signeratAv':'Arnold Johansson','svarSkickadDatum':'2016-08-31T16:40:35.498','intygId':'425da3ef-2a24-4a9a-98c4-ace7625c1d4a',
             'enhetsnamn':'NMT vg3 ve1','vardgivarnamn':'NMT vg3','timestamp':'2016-08-31T16:40:35.498','arendeType':'SVAR',
-            'svarPaId':'f9638b05-1fa0-4cc7-8e1c-177ce670808b','vardaktorNamn':'Arnold Schwarzenegger'},
+            'svarPaId':'f9638b05-1fa0-4cc7-8e1c-177ce670808b','vardaktorNamn':'Arnold Johansson'},
         senasteHandelse:'2016-08-31T16:40:35.498',paminnelser:[]
     };
 
