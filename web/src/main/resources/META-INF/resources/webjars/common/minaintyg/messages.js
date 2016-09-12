@@ -83,7 +83,7 @@ angular.module('common').constant('common.messages', {
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
-        'modules.label.blank': '- ej ifyllt',
+        'modules.label.blank': 'Ej ifyllt',
         'modules.button.alt.archive': 'Arkivera intyget. Flyttar intyget till Arkiverade intyg',
         'modules.button.save.as.pdf': 'Spara som PDF',
         'modules.link.label.save.as.pdf': 'Spara som PDF',
