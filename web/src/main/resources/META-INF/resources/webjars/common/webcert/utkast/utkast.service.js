@@ -46,6 +46,7 @@ angular.module('common').factory('common.UtkastService',
 
                 UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, sjf, function(data) {
                     viewState.relations = data.relations;
+                    viewState.common.intyg.isKomplettering = data.content.grundData.relation !== undefined && data.content.grundData.relation.relationKod === 'KOMPLT';
                     viewState.common.update(viewState.draftModel, data);
 
                     // check that the certs status is not signed

@@ -32,6 +32,7 @@ angular.module('common').constant('common.messages', {
         'common.goback': 'Tillbaka',
         'common.revoke': 'Intyget ska återtas',
         'common.sign': 'Signera',
+        'common.signsend': 'Signera och skicka',
         'common.send': 'Skicka',
         'common.copy': 'Kopiera',
         'common.fornya': 'Förnya',
@@ -101,6 +102,7 @@ angular.module('common').constant('common.messages', {
         'draft.signingdoctor': 'Signerande läkare',
         'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
+        'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
 
         // Revoke status messages (type agnostic)
         'cert.status.revoke.requested' : 'Begäran om makulering skickad till intygstjänsten',

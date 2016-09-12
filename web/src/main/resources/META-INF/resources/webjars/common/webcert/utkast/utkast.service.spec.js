@@ -143,7 +143,50 @@ describe('UtkastService', function() {
             $timeout.flush();
 
             expect(viewState.common.doneLoading).toBeTruthy();
+            expect(commonViewState.intyg.isKomplettering).toBeFalsy();
             expect(resultData.braIntygsData).toBe('bra');
+            expect($rootScope.$broadcast.calls.count()).toBe(6);
+            expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['intyg.loaded', response.content]);
+            expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
+            expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
+            expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
+        });
+
+        it ('successful completion utkast load', function () {
+            spyOn(dynamicLabelService, 'updateDynamicLabels');
+            spyOn($rootScope,'$broadcast').and.callThrough();
+
+            $stateParams.certificateId = 'testIntygIdKomplt';
+            var promise = utkastService.load(viewState);
+            var resultData;
+            promise.then(function(data) {
+                resultData = data;
+            });
+
+            var utkastContentKomplt = {
+                grundData:{
+                    skapadAv: {
+                        vardenhet: {}
+                    },
+                    relation: {
+                        relationKod: 'KOMPLT'
+                    }
+                },
+                id: 'testIntygIdKomplt',
+                typ: 'testIntyg',
+                textVersion: '1.0'
+            };
+            var response = {
+                relations: [],
+                content: utkastContentKomplt
+            };
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygIdKomplt?sjf=false').respond(200, response);
+            $httpBackend.flush();
+            expect(viewState.common.doneLoading).toBeFalsy();
+            $timeout.flush();
+
+            expect(viewState.common.doneLoading).toBeTruthy();
+            expect(commonViewState.intyg.isKomplettering).toBeTruthy();
             expect($rootScope.$broadcast.calls.count()).toBe(6);
             expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['intyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
