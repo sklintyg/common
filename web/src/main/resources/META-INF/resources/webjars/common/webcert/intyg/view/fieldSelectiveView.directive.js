@@ -29,7 +29,7 @@ angular.module('common').directive('fieldSelectiveView',
                 fieldSelectiveView: '=',
                 fieldModel: '='
             },
-            templateUrl: '/web/webjars/common/webcert/intyg/fieldSelectiveView.directive.html',
+            templateUrl: '/web/webjars/common/webcert/intyg/view/fieldSelectiveView.directive.html',
             link: function(scope, element, attrs) {
 
                 function recurseCheckField(model, field) {

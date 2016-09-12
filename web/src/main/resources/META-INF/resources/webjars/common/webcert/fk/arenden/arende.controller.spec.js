@@ -24,7 +24,7 @@ describe('ArendeCtrl', function() {
     var $rootScope;
     var ArendeProxy;
     var ArendenViewState;
-    var IntygService;
+    var IntygHelper;
     var ObjectHelper;
 
     var testCert = { 'id': 'intyg-2', 'typ': 'luse', 'grundData': {'signeringsdatum': '2012-12-23T21:00:00.000',
@@ -73,7 +73,7 @@ describe('ArendeCtrl', function() {
     // Load the webcert module and mock away everything that is not necessary.
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.dialogService', {});
-        $provide.value('common.IntygService', { isSentToTarget: function() {} });
+        $provide.value('common.IntygHelper', { isSentToTarget: function() {} });
         $provide.value('common.statService', {});
         $provide.value('common.User', {});
         $provide.value('common.UserModel', {
@@ -92,13 +92,13 @@ describe('ArendeCtrl', function() {
         $provide.value('$stateParams', {certificateId:'intyg-2'});
     }));
 
-    beforeEach(angular.mock.inject(['$controller', '$rootScope', 'common.IntygService',
+    beforeEach(angular.mock.inject(['$controller', '$rootScope', 'common.IntygHelper',
         'common.ArendeProxy', 'common.ArendenViewStateService',
-        function($controller, _$rootScope_, _IntygService_, _ArendeProxy_, _ArendenViewState_) {
+        function($controller, _$rootScope_, _IntygHelper_, _ArendeProxy_, _ArendenViewState_) {
             $rootScope = _$rootScope_;
             $scope = $rootScope.$new();
             $controller('common.ArendeCtrl', { $scope: $scope });
-            IntygService = _IntygService_;
+            IntygHelper = _IntygHelper_;
             ArendeProxy = _ArendeProxy_;
             ArendenViewState = _ArendenViewState_;
 
@@ -107,7 +107,7 @@ describe('ArendeCtrl', function() {
 
             // ----- arrange
             // spies, mocks
-            spyOn(IntygService, 'isSentToTarget').and.callFake(function() {
+            spyOn(IntygHelper, 'isSentToTarget').and.callFake(function() {
                 // Statuses include a SENT object below so return true.
                 return true;
             });

@@ -28,7 +28,7 @@ angular.module('common').directive('sjukskrivningView',
                 sjukskrivningView: '=',
                 fieldModel: '='
             },
-            templateUrl: '/web/webjars/common/webcert/intyg/sjukskrivningView.directive.html',
+            templateUrl: '/web/webjars/common/webcert/intyg/view/sjukskrivningView.directive.html',
             link: function(scope, element, attrs) {
                 scope.grader = [0,1,2,3];
             }

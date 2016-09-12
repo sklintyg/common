@@ -31,7 +31,7 @@ describe('arendeVidarebefordra', function() {
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.dialogService', jasmine.createSpyObj('common.dialogService',
             [ 'showErrorMessageDialog']));
-        $provide.value('common.IntygService', { isSentToTarget: function() {} });
+        $provide.value('common.IntygHelper', { isSentToTarget: function() {} });
         $provide.value('common.User', { getVardenhetFilterList: function() { return []; } });
         $provide.value('common.statService', {});
         $provide.value('common.IntygCopyRequestModel', jasmine.createSpyObj('common.IntygCopyRequestModel',

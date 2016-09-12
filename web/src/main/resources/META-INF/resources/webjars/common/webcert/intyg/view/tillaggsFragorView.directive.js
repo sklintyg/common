@@ -17,24 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('radioView',
-    ['$log', '$window', 'common.ViewHelper', function($log, $window, ViewHelper) {
+angular.module('common').directive('tillaggsFragorView',
+    [function() {
         'use strict';
 
         return {
-            restrict: 'A',
+            restrict: 'E',
+            transclude: true,
             replace: true,
             scope: {
-                radioView: '=',
-                fieldModel: '='
+                tillaggsFragor: '='
             },
-            templateUrl: '/web/webjars/common/webcert/intyg/radioView.directive.html',
-            link: function(scope, element, attrs) {
-
-                scope.$watch('fieldModel', function(model){
-                    scope.value = ViewHelper.getNestedModelValue(model, scope.radioView.key);
-                }, true);
-
-            }
+            templateUrl: '/web/webjars/common/webcert/intyg/view/tillaggsFragorView.directive.html'
         };
     }]);

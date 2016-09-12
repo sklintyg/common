@@ -29,7 +29,7 @@ describe('arendePanelSvar', function() {
     // Load the webcert module and mock away everything that is not necessary.
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.dialogService', {});
-        $provide.value('common.IntygService', { isSentToTarget: function() {} });
+        $provide.value('common.IntygHelper', { isSentToTarget: function() {} });
         $provide.value('common.User', { getVardenhetFilterList: function() { return []; } });
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat']));
         $provide.value('common.IntygCopyRequestModel', jasmine.createSpyObj('common.IntygCopyRequestModel',

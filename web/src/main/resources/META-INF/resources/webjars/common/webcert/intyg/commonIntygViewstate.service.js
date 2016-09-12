@@ -18,7 +18,7 @@
  */
 
 angular.module('common').service('common.IntygViewStateService',
-    ['$log', 'common.ViewStateService', 'common.IntygService', function($log, commonViewStateService, IntygService) {
+    ['$log', 'common.ViewStateService', 'common.IntygHelper', function($log, commonViewStateService, IntygHelper) {
         'use strict';
 
         this.reset = function() {
@@ -52,9 +52,8 @@ angular.module('common').service('common.IntygViewStateService',
                 targetName = 'FK';
             }
 
-
-            this.intygProperties.isSent = IntygService.isSentToTarget(result.statuses, targetName);
-            this.intygProperties.isRevoked = IntygService.isRevoked(result.statuses);
+            this.intygProperties.isSent = IntygHelper.isSentToTarget(result.statuses, targetName);
+            this.intygProperties.isRevoked = IntygHelper.isRevoked(result.statuses);
             if (this.intygProperties.isRevoked) {
                 this.intygProperties.printStatus = 'revoked';
             } else {

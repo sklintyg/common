@@ -20,9 +20,9 @@
 angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
     'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
-    'common.IntygService', 'common.IntygViewStateService', 'common.statService', 'common.ObjectHelper',
+        'common.IntygSend', 'common.IntygCopyFornya', 'common.IntygMakulera', 'common.IntygViewStateService', 'common.statService', 'common.ObjectHelper',
         function($rootScope, $scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
-            IntygFornyaRequestModel, User, UserModel, IntygService, CommonViewState, statService, ObjectHelper) {
+            IntygFornyaRequestModel, User, UserModel, IntygSend, IntygCopyFornya, IntygMakulera, CommonViewState, statService, ObjectHelper) {
             'use strict';
 
             var intygType = $state.current.data.intygType;
@@ -45,7 +45,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.send = function() {
-                IntygService.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
+                IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
                         intygType+'.label.send', intygType+'.label.send.body', function() {
                         // After a send request we shouldn't reload right away due to async reasons.
                         // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
@@ -59,7 +59,7 @@ angular.module('common').controller('common.IntygHeader',
                     personnummer: intyg.grundData.patient.personId
                 });
                 intyg.intygType = intygType;
-                IntygService.makulera( intyg, confirmationMessage, function() {
+                IntygMakulera.makulera( intyg, confirmationMessage, function() {
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
                     $scope.viewState.common.intygProperties.isRevoked = true;
                     $rootScope.$emit('ViewCertCtrl.load', intyg, $scope.viewState.common.intygProperties);
@@ -91,11 +91,11 @@ angular.module('common').controller('common.IntygHeader',
             }
 
             $scope.fornya = function(intyg) {
-                return fornyaOrCopy(intyg, IntygService.fornya, IntygFornyaRequestModel.build);
+                return fornyaOrCopy(intyg, IntygCopyFornya.fornya, IntygFornyaRequestModel.build);
             };
 
             $scope.copy = function(intyg) {
-                return fornyaOrCopy(intyg, IntygService.copy, IntygCopyRequestModel.build);
+                return fornyaOrCopy(intyg, IntygCopyFornya.copy, IntygCopyRequestModel.build);
             };
 
             $scope.print = function(intyg, isEmployeeCopy) {

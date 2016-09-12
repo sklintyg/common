@@ -29,7 +29,7 @@ angular.module('common').directive('defaultView',
                 defaultView: '=',
                 fieldModel: '='
             },
-            templateUrl: '/web/webjars/common/webcert/intyg/defaultView.directive.html',
+            templateUrl: '/web/webjars/common/webcert/intyg/view/defaultView.directive.html',
             link: function(scope, element, attrs) {
                 scope.id = scope.defaultView.key;
                 scope.$watch('fieldModel', function(model){
