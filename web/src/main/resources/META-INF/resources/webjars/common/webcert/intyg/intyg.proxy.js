@@ -78,6 +78,18 @@ angular.module('common').factory('common.IntygProxy',
                 });
         }
 
+        function _makuleraErsattIntyg(intygsId, intygsTyp, revokeMessage, onSuccess, onError) {
+            $log.debug('_revokeSigneratIntyg: ' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkallaersatt';
+            $http.post(restPath, { revokeMessage: revokeMessage }).
+            success(function(data) {
+                onSuccess(data);
+            }).
+            error(function(error) {
+                _handleError(onError, error);
+            });
+        }
+
         function _fornyaOrCopyIntyg (action) {
             var restEndpoint;
 
@@ -146,6 +158,7 @@ angular.module('common').factory('common.IntygProxy',
         return {
             getIntyg: _getIntyg,
             makuleraIntyg: _makuleraIntyg,
+            makuleraErsattIntyg: _makuleraErsattIntyg,
             sendIntyg: _sendIntyg,
             copyIntyg: _fornyaOrCopyIntyg('copy'),
             fornyaIntyg: _fornyaOrCopyIntyg('fornya'),
