@@ -8,15 +8,10 @@
     "recipient": {
       "id": "recipient",
       "type": "string"
-    },
-    "patientConsent": {
-      "id": "patientConsent",
-      "type": "boolean"
     }
   },
   "additionalProperties": false,
   "required": [
-    "recipient",
-    "patientConsent"
+    "recipient"
   ]
 }

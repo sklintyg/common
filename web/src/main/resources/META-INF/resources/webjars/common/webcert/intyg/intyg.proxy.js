@@ -50,10 +50,10 @@ angular.module('common').factory('common.IntygProxy',
             });
         }
 
-        function _sendIntyg(intygsId, intygsTyp, recipientId, patientConsent, onSuccess, onError) {
+        function _sendIntyg(intygsId, intygsTyp, recipientId, onSuccess, onError) {
             $log.debug('_sendSigneratIntyg: ' + intygsId);
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/skicka';
-            $http.post(restPath, {'recipient': recipientId, 'patientConsent': patientConsent}).
+            $http.post(restPath, {'recipient': recipientId}).
                 success(function(data) {
                     onSuccess(data);
                 }).

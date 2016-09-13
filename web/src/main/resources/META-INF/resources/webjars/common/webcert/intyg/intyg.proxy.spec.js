@@ -45,7 +45,7 @@ describe('IntygProxy', function() {
 
         $httpBackend.expectPOST('/moduleapi/intyg/intygsTyp/intygsId/skicka', data).respond(200);
 
-        IntygProxy.sendIntyg('intygsId', 'intygsTyp', 'recipientId', true, function(){}, function(){});
+        IntygProxy.sendIntyg('intygsId', 'intygsTyp', 'recipientId',  function(){}, function(){});
 
         $httpBackend.flush();
     });
