@@ -555,3 +555,7 @@ input.ng-invalid-date {
 ::-ms-clear {
   display: none;
 }
+
+.keep-newlines {
+  white-space: pre-line;
+}

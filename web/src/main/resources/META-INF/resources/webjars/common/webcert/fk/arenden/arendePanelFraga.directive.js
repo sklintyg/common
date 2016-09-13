@@ -39,13 +39,22 @@ angular.module('common').directive('arendePanelFraga',
                     arendeListItem: '='
                 },
                 link:function(scope) {
-                    scope.scrollToFraga = function(modelName) {
+                    scope.scrollToFraga = function(komplettering) {
+
+                        var target;
+                        if (komplettering.modelName === 'tillaggsfragor') {
+                            target = 'form_tillaggsfragor_' + komplettering.id;
+                        } else {
+                            target = 'form_' + komplettering.modelName;
+                        }
+
                         var offset = 10;
                         var topMenuElements = angular.element.find('.header-fix-top');
                         if (topMenuElements.length > 0) {
                             offset = angular.element(topMenuElements[0]).prop('offsetHeight') + offset;
                         }
-                        anchorScroll.scrollTo('form_'+modelName, offset);
+
+                        anchorScroll.scrollTo(target, offset);
                     };
                 }
             };

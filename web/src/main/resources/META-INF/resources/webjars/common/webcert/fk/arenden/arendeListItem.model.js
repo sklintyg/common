@@ -106,8 +106,14 @@ angular.module('common').factory('common.ArendeListItemModel',
                     var newKompletteringListItem = {
                         frgId: 'FRG_' + komplettering.frageId + '.RBK',
                         text: komplettering.text,
-                        modelName: komplettering.jsonPropertyHandle
+                        modelName: komplettering.jsonPropertyHandle,
+                        id: komplettering.frageId
                     };
+
+                    if (komplettering.jsonPropertyHandle === 'tillaggsfragor') {
+                        newKompletteringListItem.frgId = 'DFR_' + komplettering.frageId + '.1.RBK';
+                    }
+
                     this.push(newKompletteringListItem);
                 }, this.kompletteringar);
             }

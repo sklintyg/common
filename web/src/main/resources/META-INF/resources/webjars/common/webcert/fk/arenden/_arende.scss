@@ -125,23 +125,9 @@ arende list item animation
     font-weight: normal;
   }
 }
-
-.arende-block-body {
-  white-space: normal;
-
-  &.komplettera-block {
-    div {
-      span {
-        white-space: pre-line;
-      }
-    }
-  }
-}
-
 .arende-block-body {
   display: block;
-  padding: 0 20px 20px 20px;
-  white-space: pre-line;
+  padding: 10px 20px 20px 20px;
 }
 
 .arende-sender {
@@ -159,4 +145,8 @@ arende list item animation
 
 .arende-list-section {
   padding-top: 15px;
+}
+
+.arende-meddelande, .arende-komplettera {
+  padding-top: 10px;
 }

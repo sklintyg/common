@@ -20,16 +20,15 @@
     </div>
 
     <div class="arende-block-body"
-         id="{{panelId}}-arende-fragetext-{{arendeListItem.arende.fraga.internReferens}}"
-         ng-if="arendeListItem.arende.fraga.meddelande">
-      {{arendeListItem.arende.fraga.meddelande}}
+         id="{{panelId}}-arende-fragetext-{{arendeListItem.arende.fraga.internReferens}}">
+      <div class="arende-meddelande" ng-if="arendeListItem.arende.fraga.meddelande">{{arendeListItem.arende.fraga.meddelande}}</div>
+      <div class="arende-komplettera"
+           id="{{panelId}}-fkKompletteringar-{{arendeListItem.arende.fraga.internReferens}}"
+           ng-repeat="komplettering in arendeListItem.kompletteringar">
+        <a href="" ng-click="scrollToFraga(komplettering)"><span class="bold" dynamic-label key="{{komplettering.frgId}}"></span></a>
+        <div class="keep-newlines">{{komplettering.text}}</div>
+      </div>
     </div>
 
-    <div class="arende-block-body komplettera-block"
-         id="{{panelId}}-fkKompletteringar-{{arendeListItem.arende.fraga.internReferens}}"
-         ng-repeat="komplettering in arendeListItem.kompletteringar">
-      <a href="" ng-click="scrollToFraga(komplettering.modelName)"><span class="bold" dynamic-label key="{{komplettering.frgId}}"></span></a>
-      {{komplettering.text}}
-    </div>
   </div>
 </div>
