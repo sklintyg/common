@@ -204,27 +204,34 @@ angular.module('common').factory('common.DateUtilsService', function() {
         return endMoment.diff(startMoment, 'days');
     }
 
-    function _addDateParserFormatter(formElement) {
+    function _addLooseDateParser(formElement) {
 
         function parseDateLoose(viewValue) {
+
             viewValue = _convertDateToISOString(viewValue);
+
             if (_isDate(viewValue)) {
                 formElement.$setValidity('date', true);
             }
-            else if ((/[0-9]{8}/).test(viewValue)) {
-                // Allow date input without dashes
-                var checkDate = moment(viewValue, 'YYYYMMDD');
-                if (checkDate.isValid()) {
-                    viewValue = checkDate.format(_format);
-                    formElement.$setValidity('date', true);
-                    formElement.$setViewValue(viewValue);
-                    formElement.$render();
+            else {
+                // Remove '-' and '/' from date input
+                viewValue = viewValue.replace(/[-\/]/g, '');
+
+                if ((/[0-9]{8}/).test(viewValue)) {
+                    // Allow date input without dashes
+                    var checkDate = moment(viewValue, 'YYYYMMDD');
+                    if (checkDate.isValid()) {
+                        viewValue = checkDate.format(_format);
+                        formElement.$setValidity('date', true);
+                        formElement.$setViewValue(viewValue);
+                        formElement.$render();
+                        return viewValue;
+                    }
+                }
+                else {
+                    formElement.$setValidity('date', false);
                     return viewValue;
                 }
-            }
-            else {
-                formElement.$setValidity('date', false);
-                return viewValue;
             }
 
             return viewValue;
@@ -260,20 +267,25 @@ angular.module('common').factory('common.DateUtilsService', function() {
                 formElement.$setValidity('date', true);
                 return viewValue;
             }
-            else if ((/[0-9]{8}/).test(viewValue)) {
-                // Allow date input without dashes
-                var checkDate = moment(viewValue, 'YYYYMMDD');
-                if (checkDate.isValid()) {
-                    viewValue = checkDate.format(_format);
-                    formElement.$setValidity('date', true);
-                    formElement.$setViewValue(viewValue);
-                    formElement.$render();
-                    return viewValue;
-                }
-            }
             else {
-                formElement.$setValidity('date', false);
-                return undefined;
+                // Remove '-' and '/' from date input
+                viewValue = viewValue.replace(/[-\/]/g, '');
+
+                if ((/[0-9]{8}/).test(viewValue)) {
+                    // Allow date input without dashes
+                    var checkDate = moment(viewValue, 'YYYYMMDD');
+                    if (checkDate.isValid()) {
+                        viewValue = checkDate.format(_format);
+                        formElement.$setValidity('date', true);
+                        formElement.$setViewValue(viewValue);
+                        formElement.$render();
+                        return viewValue;
+                    }
+                }
+                else {
+                    formElement.$setValidity('date', false);
+                    return undefined;
+                }
             }
         }
 
@@ -304,8 +316,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
         isBeforeOrEqual : _isBeforeOrEqual,
         isSame : _isSame,
         todayAsYYYYMMDD :_todayAsYYYYMMDD,
-        addDateParserFormatter : _addDateParserFormatter,
         addDateFormatter : _addDateFormatter,
+        addLooseDateParser : _addLooseDateParser,
         addStrictDateParser : _addStrictDateParser,
         dateReg : _dateReg
     };
