@@ -20,8 +20,8 @@
         <div class="dialog-choice-box">
           <div class="dialog-choice-box__text-section">
             <h3>Jag behöver lägga till ny medicinsk information</h3>
-            <p ng-show="model.svaraMedNyttIntygDisabled">{{model.svaraMedNyttIntygDisabledReason}}</p>
-            <p ng-show="!model.svaraMedNyttIntygDisabled">Om kompletteringen innebär att ny medicinsk information behöver tillföras ska informationen ges i ett
+            <p ng-if="model.svaraMedNyttIntygDisabled">{{model.svaraMedNyttIntygDisabledReason}}</p>
+            <p ng-if="!model.svaraMedNyttIntygDisabled">Om kompletteringen innebär att ny medicinsk information behöver tillföras ska informationen ges i ett
               nytt intyg. Fyll i den nya informationen i den kopia som skapas av det befintliga intyget.</p>
           </div>
           <div class="dialog-choice-box__button-section">
@@ -49,7 +49,7 @@
       </div>
     </div>
     <!-- error message occuring when interacting with server for komplettering-->
-    <div id="komplettering-dialog-error-{{model.fragaInternReferens}}" ng-show="model.activeKompletteringErrorMessageKey"
+    <div id="komplettering-dialog-error-{{model.fragaInternReferens}}" ng-if="model.activeKompletteringErrorMessageKey"
          class="alert alert-danger alert-bottom">
       <span message key="common.arende.error.{{model.activeKompletteringErrorMessageKey}}"></span>
     </div>
