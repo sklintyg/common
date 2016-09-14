@@ -20,20 +20,131 @@
 describe('UtkastNotifyService', function() {
     'use strict';
 
+    var dialogService;
     var utkastNotifyService;
+    var utkastViewState;
+    var $httpBackend;
+    var $timeout;
+    var fakeModal;
+    var $window;
 
-    beforeEach(angular.mock.module('common'), function($provide){
-        $provide.value('common.UtkastNotifyProxy', {});
-        $provide.value('common.messageService', {});
-        $provide.value('common.dialogService', {});
-        $provide.value('common.UtkastProxy', {});
-    });
+    beforeEach(angular.mock.module(function($provide){
+        var $window = {location:{}};
+        $provide.value('$window', $window);
+        $provide.value('common.dialogService', jasmine.createSpyObj('common.dialogService', ['showErrorMessageDialog']));
 
-    beforeEach(angular.mock.inject(['common.UtkastNotifyService',
-        function(_utkastNotifyService_) {
+        var fakeModal = {
+            open: function(options) { this.options = options; return this; },
+            result: {
+                then: function() {return fakeModal.deferred.promise;}
+            }
+        };
+        $provide.value('$uibModal', fakeModal);
+    }));
+
+    beforeEach(angular.mock.inject(['$httpBackend', '$q', '$timeout', '$uibModal', '$window', 'common.dialogService',
+        'common.UtkastNotifyService', 'common.UtkastViewStateService',
+        function(_$httpBackend_, $q, _$timeout_, _$uibModal_, _$window_, _dialogService_,
+            _utkastNotifyService_, _UtkastViewStateService_) {
+            $httpBackend = _$httpBackend_;
+            $timeout = _$timeout_;
+            fakeModal = _$uibModal_;
+            fakeModal.deferred = $q.defer();
+            $window = _$window_;
+            dialogService = _dialogService_;
             utkastNotifyService = _utkastNotifyService_;
+            utkastViewState = _UtkastViewStateService_;
+            utkastViewState.reset();
         }
     ]));
+
+    describe('notifyUtkast', function() {
+
+        it ('should mark utkast as vidarebefordrat', function() {
+            var utkast = {
+                version:4
+            };
+            utkastNotifyService.notifyUtkast('intygsId','intygsTyp',utkast,utkastViewState);
+
+            var utkastResponse = {
+                version: 4,
+                vidarebefordrad: false
+            };
+            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId?sjf=false').respond(200, utkastResponse);
+            $httpBackend.flush();
+            $timeout.flush();
+
+            // Fake user yes click in dialog
+            fakeModal.options.resolve.yesCallback()();
+            fakeModal.deferred.resolve();
+            expect(utkastViewState.vidarebefordraInProgress).toBeTruthy();
+
+            var vidarebefordraResponse = {
+                version: 5,
+                vidarebefordrad: true
+            };
+            $httpBackend.expectPUT('/api/intyg/intygsTyp/intygsId/4/vidarebefordra').respond(200, vidarebefordraResponse);
+            $httpBackend.flush();
+            expect(utkastViewState.vidarebefordraInProgress).toBeFalsy();
+            expect(utkast.version).toBe(5);
+            expect(utkast.vidarebefordrad).toBeTruthy();
+            expect($window.location).toContain('mailto:');
+            expect(dialogService.showErrorMessageDialog).not.toHaveBeenCalled();
+        });
+
+        it ('should show errormessagedialog if mark utkast as vidarebefordrat fails', function() {
+            var utkast = {
+                version:4
+            };
+            utkastNotifyService.notifyUtkast('intygsId','intygsTyp',utkast,utkastViewState);
+
+            var utkastResponse = {
+                version: 4,
+                vidarebefordrad: false
+            };
+            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId?sjf=false').respond(200, utkastResponse);
+            $httpBackend.flush();
+            $timeout.flush();
+
+            // Fake user yes click in dialog
+            fakeModal.options.resolve.yesCallback()();
+            fakeModal.deferred.resolve();
+            expect(utkastViewState.vidarebefordraInProgress).toBeTruthy();
+
+            $httpBackend.expectPUT('/api/intyg/intygsTyp/intygsId/4/vidarebefordra').respond(500);
+            $httpBackend.flush();
+            expect(utkastViewState.vidarebefordraInProgress).toBeFalsy();
+            expect(utkast.version).toBe(4);
+            expect(utkast.vidarebefordrad).toBeFalsy();
+            expect($window.location).toContain('mailto:');
+            expect(dialogService.showErrorMessageDialog).toHaveBeenCalled();
+        });
+
+        it ('should not mark utkast as vidarebefordrat if user selects no', function() {
+            var utkast = {
+                version:4
+            };
+            utkastNotifyService.notifyUtkast('intygsId','intygsTyp',utkast,utkastViewState);
+
+            var utkastResponse = {
+                version: 4,
+                vidarebefordrad: false
+            };
+            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId?sjf=false').respond(200, utkastResponse);
+            $httpBackend.flush();
+            $timeout.flush();
+
+            // Fake user yes click in dialog
+            fakeModal.options.resolve.noCallback()();
+            fakeModal.deferred.resolve();
+
+            expect(utkastViewState.vidarebefordraInProgress).toBeFalsy();
+            expect(utkast.version).toBe(4);
+            expect(utkast.vidarebefordrad).toBeFalsy();
+            expect($window.location).toContain('mailto:');
+            expect(dialogService.showErrorMessageDialog).not.toHaveBeenCalled();
+        });
+    });
 
     describe('#notificationEncoding', function() {
 

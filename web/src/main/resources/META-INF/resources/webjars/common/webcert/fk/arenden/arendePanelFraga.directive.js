@@ -25,8 +25,8 @@
  * arendePanelFraga directive. Handles fraga part of a arendePanel.
  */
 angular.module('common').directive('arendePanelFraga',
-    [
-        function() {
+    [ 'common.anchorScrollService',
+        function(anchorScroll) {
             'use strict';
 
             return {
@@ -37,6 +37,16 @@ angular.module('common').directive('arendePanelFraga',
                 scope: {
                     panelId: '@',
                     arendeListItem: '='
+                },
+                link:function(scope) {
+                    scope.scrollToFraga = function(modelName) {
+                        var offset = 10;
+                        var topMenuElements = angular.element.find('.header-fix-top');
+                        if (topMenuElements.length > 0) {
+                            offset = angular.element(topMenuElements[0]).prop('offsetHeight') + offset;
+                        }
+                        anchorScroll.scrollTo('form_'+modelName, offset);
+                    };
                 }
             };
         }]);

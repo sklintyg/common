@@ -26,18 +26,15 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.google.common.collect.ImmutableMap;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
@@ -46,7 +43,6 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.support.services.SpecialistkompetensService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 
@@ -54,12 +50,6 @@ public class InternalConverterUtilTest {
 
     @BeforeClass
     public static void setup() throws Exception {
-        SpecialistkompetensService specialistkompetensService = new SpecialistkompetensService();
-        specialistkompetensService.init();
-        Field field = SpecialistkompetensService.class.getDeclaredField("codeToDescription");
-        field.setAccessible(true);
-        field.set(specialistkompetensService, ImmutableMap.of("1799", "Hörselrubbningar"));
-
         new BefattningService().init();
     }
 
@@ -141,6 +131,22 @@ public class InternalConverterUtilTest {
         assertNotNull(intyg.getRelation().get(0).getTyp().getCodeSystem());
         assertEquals(relationIntygsId, intyg.getRelation().get(0).getIntygsId().getExtension());
         assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
+    }
+
+    @Test
+    public void testConvertUnitAdddressInformationMissing() {
+        Utlatande utlatande = buildUtlatande("intygsid", "enhetsid", "enhetsnamn", "191212121212",
+                "fullständigt namn", "skapad av pid", LocalDateTime.now(), "arbetsplatsKod", null, null, null, "epost", null,
+                "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress", "patientPostnummer", "patientPostort",
+                null, null);
+
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
+
+        // empty string if missing in input
+        assertEquals("", intyg.getSkapadAv().getEnhet().getPostadress());
+        assertEquals("", intyg.getSkapadAv().getEnhet().getPostnummer());
+        assertEquals("", intyg.getSkapadAv().getEnhet().getPostort());
+        assertEquals("", intyg.getSkapadAv().getEnhet().getTelefonnummer());
     }
 
     @Test
@@ -248,27 +254,14 @@ public class InternalConverterUtilTest {
 
     @Test
     public void testSpecialistkompetensAppendsDisplayName() {
-        final String specialistkompetens = "1799";
-        final String description = "Hörselrubbningar";
+        final String specialistkompetens = "Hörselrubbningar";
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens);
         HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
         assertEquals(1, skapadAv.getSpecialistkompetens().size());
-        assertEquals(specialistkompetens, skapadAv.getSpecialistkompetens().get(0).getCode());
-        assertEquals(description, skapadAv.getSpecialistkompetens().get(0).getDisplayName());
-    }
-
-    @Test
-    public void testSpecialistkompetensDoNotAppendDisplayNameIfNoSpecialistkompetensKodMatch() {
-        final String specialistkompetens = "kod";
-        Utlatande utlatande = buildUtlatande(null, null);
-        utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
-        utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens);
-        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
-        assertEquals(1, skapadAv.getSpecialistkompetens().size());
-        assertEquals(specialistkompetens, skapadAv.getSpecialistkompetens().get(0).getCode());
-        assertNull(skapadAv.getSpecialistkompetens().get(0).getDisplayName());
+        assertEquals("N/A", skapadAv.getSpecialistkompetens().get(0).getCode());
+        assertEquals(specialistkompetens, skapadAv.getSpecialistkompetens().get(0).getDisplayName());
     }
 
     @Test

@@ -153,7 +153,7 @@ angular.module('common').run(function(formlyConfig) {
                 } else if (fmbViewState.state.diagnosKod !== diagnoseCode) {
 
                     fmbService.getFMBHelpTextsByCode(diagnoseCode).then(function(formData) {
-                        fmbViewState.setState(formData, formData.icd10Code);
+                        fmbViewState.setState(formData, formData.icd10Code, formData.icd10Description, diagnoseCode);
                     }, function fmbReject(data) {
                         $log.debug('Error searching fmb help text');
                         fmbViewState.reset();

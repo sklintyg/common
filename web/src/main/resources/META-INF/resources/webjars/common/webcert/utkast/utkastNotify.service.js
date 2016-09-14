@@ -46,6 +46,8 @@ angular.module('common').factory('common.UtkastNotifyService',
                         notifyUtkast(utkastNotifyRequest, updateState).then(function(vidarebefordradResult) {
                             onNotifyChangeSuccess(utkast, updateState, vidarebefordradResult);
                         }, function(error) {
+                            // Update vidarebefordrad to true failed, reset gui to previous value
+                            utkast.vidarebefordrad = draft.vidarebefordrad;
                             onNotifyChangeFail(utkast, updateState, error);
                         });
                 },

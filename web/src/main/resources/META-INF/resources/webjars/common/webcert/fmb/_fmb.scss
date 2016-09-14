@@ -56,6 +56,11 @@ $fmb-glyphicon-hover-color: #808080;
   }
 }
 
+.panel-wrapper-fmb {
+  position:relative;
+  padding:10px;
+}
+
 .panel-fmb-info {
   border-color: $fmb-border-color;
 

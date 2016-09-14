@@ -27,7 +27,7 @@ describe('wcFmbHelpDisplay', function () {
 
     beforeEach(inject(function ($rootScope, $compile) {
         element = angular.element('<wc-fmb-help-display related-form-id="SOMEFORM" diagnosis-code="fmb.diagnosKod" '+
-            'diagnosis-description="fmb.diagnosBeskrivning" help-text-contents="fmb.formData.FORM"></wc-fmb-help-display>');
+            'diagnosis-description="fmb.diagnosBeskrivning" original-diagnosis-code="fmb.originalDiagnoskod" help-text-contents="fmb.formData.FORM"></wc-fmb-help-display>');
         outerScope = $rootScope;
         $compile(element)(outerScope);
 
@@ -46,12 +46,16 @@ describe('wcFmbHelpDisplay', function () {
         beforeEach(function() {
             setUpFMBData({
                 formData: {},
-                diagnosKod: 'J22'
+                diagnosKod: 'J22',
+                diagnosBeskrivning: 'Akut bronkit'
             });
         });
 
+        it('should have a static headline set', function() {
+           expect(element.find('#fmb_static_heading_SOMEFORM').first().text()).toEqual('Information från Socialstyrelsens försäkringsmedicinska beslutsstöd'); 
+        });
         it('should have a diagnosis headline set', function() {
-            expect(element.find('#fmb_diagnos_heading_SOMEFORM').first().text()).toEqual('J22');
+            expect(element.find('#fmb_diagnos_heading_SOMEFORM').first().text()).toEqual('J22 - Akut bronkit');
         });
     });
 
@@ -78,6 +82,23 @@ describe('wcFmbHelpDisplay', function () {
         });
 
     });
+
+    describe('alert appears correctly', function () {
+        beforeEach(function() {
+            setUpFMBData({
+                formData: {},
+                diagnosKod: 'J22',
+                diagnosBeskrivning: 'Akut bronkit',
+                originalDiagnoskod: 'J222'
+            });
+        });
+
+        it('should have a visible alert text', function() {
+           expect(element.find('#fmb_diagnos_not_in_fmb_alert').first().text())
+               .toEqual('För J222 finns inget FMB-stöd. Det FMB-stöd som visas nedan gäller den mindre specifika koden J22 - Akut bronkit.'); 
+        });
+    });
+
 
 });
 

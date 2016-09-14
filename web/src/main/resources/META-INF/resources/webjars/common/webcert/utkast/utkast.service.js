@@ -24,9 +24,10 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
-        'common.ObjectHelper',
+        'common.ObjectHelper', 'common.IntygService', 'common.IntygProxy',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
-            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper) {
+            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
+            IntygService, IntygProxy) {
             'use strict';
 
             // used to calculate save duration
@@ -45,6 +46,7 @@ angular.module('common').factory('common.UtkastService',
 
                 UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, sjf, function(data) {
                     viewState.relations = data.relations;
+                    viewState.common.intyg.isKomplettering = data.content.grundData.relation !== undefined && data.content.grundData.relation.relationKod === 'KOMPLT';
                     viewState.common.update(viewState.draftModel, data);
 
                     // check that the certs status is not signed
@@ -74,6 +76,8 @@ angular.module('common').factory('common.UtkastService',
                             $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
                             $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
                             CommonViewState.doneLoading = true;
+
+                            _loadParentIntyg(viewState);
                             def.resolve(viewState.intygModel);
                         }, 10);
                     }
@@ -84,6 +88,39 @@ angular.module('common').factory('common.UtkastService',
                     def.reject(error);
                 });
                 return def.promise;
+            }
+
+            function _loadParentIntyg(viewState) {
+                var intygModel = viewState.intygModel;
+                // Load parentIntyg to feed fragasvar component with load event
+                if (ObjectHelper.isDefined(intygModel.grundData.relation) &&
+                    ObjectHelper.isDefined(intygModel.grundData.relation.relationIntygsId) &&
+                    ObjectHelper.isDefined(intygModel.grundData.relation.meddelandeId)) {
+                    IntygProxy.getIntyg(intygModel.grundData.relation.relationIntygsId, viewState.common.intyg.type, false,
+                        function(result) {
+                            if (result !== null && result !== '') {
+                                var parentIntyg = result.contents;
+                                var intygMeta = {
+                                    isSent: IntygService.isSentToTarget(result.statuses, 'FK'),
+                                    isRevoked: IntygService.isRevoked(result.statuses),
+                                    forceUseProvidedIntyg: true,
+                                    kompletteringOnly: true,
+                                    meddelandeId: intygModel.grundData.relation.meddelandeId
+                                };
+                                $rootScope.$emit('ViewCertCtrl.load', parentIntyg, intygMeta);
+                            } else {
+                                $rootScope.$emit('ViewCertCtrl.load', null, null);
+                            }
+                        }, function(error) {
+                            $rootScope.$emit('ViewCertCtrl.load', null, null);
+                        });
+                } else {
+                    // Failed to load parent intyg. Tell frågasvar
+                    $rootScope.$broadcast('ViewCertCtrl.load', null, {
+                        isSent: false,
+                        isRevoked: false
+                    });
+                }
             }
 
             /**

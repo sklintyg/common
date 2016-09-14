@@ -39,6 +39,14 @@ angular.module('common').directive('arendeHantera',
                 },
                 controller: function($scope, $element, $attrs) {
 
+                    $scope.showHandleToggle = function() {
+                        return !$scope.parentViewState.intygProperties.isRevoked &&
+                            !$scope.parentViewState.intygProperties.kompletteringOnly &&
+                            // Enforce business rule FS-011, from FK + answer should remain closed
+                            ($scope.arendeListItem.arende.fraga.frageStallare === 'WC' ||
+                             !$scope.arendeListItem.arende.svar.meddelande);
+                    };
+
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
                             if (newState) {

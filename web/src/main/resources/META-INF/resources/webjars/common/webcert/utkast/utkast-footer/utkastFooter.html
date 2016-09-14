@@ -30,9 +30,13 @@
   </div>
 
   <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
+      <p ng-show="viewState.common.intyg.isKomplettering">
+        <span message key="draft.completion.signinfo"></span>
+      </p>
       <button type="button" id="signera-utkast-button" class="btn btn-success"
               ng-disabled="!viewState.common.intyg.isComplete || certForm.$dirty || signingWithSITHSInProgress"
-              ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif"/> <span message key="common.sign"></span>
+              ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif"/>
+        <span message key="common.{{viewState.common.intyg.isKomplettering ? 'signsend' : 'sign'}}"></span>
       </button>
   </div>
 

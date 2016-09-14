@@ -1,11 +1,15 @@
-<div style="position:relative">
+<div class="panel-wrapper-fmb">
   <div class="panel panel-fmb-info" ng-class="{'fmb-collapse' : !status.open}">
     <div class="panel-heading panel-fmb-info-heading" ng-click="status.open = !status.open">
       <div class="pull-left">
           <img class="media-object fmb-accordion-head-img" ng-src="/img/socialstyrelsen_logo.png"/>
       </div>
       <div class="fmb-panel-title">
-          <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}}</span>: Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</h4>
+          <h4><span id="fmb_static_heading_{{relatedFormId}}">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</span></h4>
+          <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}} - {{diagnosisDescription}}</span></h4>
+      </div>
+      <div class="alert alert-warning" ng-if="diagnosisCode !== originalDiagnosisCode">
+        <span id="fmb_diagnos_not_in_fmb_alert">För {{originalDiagnosisCode}} finns inget FMB-stöd. Det FMB-stöd som visas nedan gäller den mindre specifika koden {{diagnosisCode}} - {{diagnosisDescription}}.</span>
       </div>
       <div class="fmb-collapse-icon">
           <span>

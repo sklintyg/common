@@ -69,10 +69,6 @@ angular.module('common').directive('arendePanelSvar',
                             ArendeSvar.amne === 'KOMPLT' && !ArendeSvar.answerKompletteringWithText;
                     };
 
-                    $scope.showRegularAnswer = function() {
-                        return $scope.isAnswerAllowed() && !ArendeSvar.answerKompletteringWithText;
-                    };
-
 
                     $scope.showButtonBar = function() {
                         // VÄNTAR på svar från Vårdenheten och det är inte kompletteringsvy vi renderar

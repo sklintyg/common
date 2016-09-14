@@ -24,6 +24,7 @@ describe('UtkastService', function() {
     var utkastService;
     var commonViewState;
     var viewState;
+    var commonUser;
     var $httpBackend;
     var $location;
     var $rootScope;
@@ -42,12 +43,13 @@ describe('UtkastService', function() {
         });
     }));
 
-    beforeEach(angular.mock.inject(['common.dynamicLabelService', 'common.UtkastService', 'common.UtkastViewStateService',
+    beforeEach(angular.mock.inject(['common.dynamicLabelService', 'common.UtkastService', 'common.UtkastViewStateService', 'common.User',
         '$httpBackend', '$location', '$rootScope', '$stateParams', '$timeout',
-        function(_dynamicLabelService_, _utkastService_, _commonViewState_, _$httpBackend_, _$location_, _$rootScope_, _$stateParams_, _$timeout_) {
+        function(_dynamicLabelService_, _utkastService_, _commonViewState_, _commonUser_, _$httpBackend_, _$location_, _$rootScope_, _$stateParams_, _$timeout_) {
             dynamicLabelService = _dynamicLabelService_;
             utkastService = _utkastService_;
             commonViewState = _commonViewState_;
+            commonUser = _commonUser_;
             $httpBackend = _$httpBackend_;
             $location = _$location_;
             $rootScope = _$rootScope_;
@@ -85,6 +87,14 @@ describe('UtkastService', function() {
             viewState.intygModel = viewState.draftModel.content;
             viewState.intygModel.toSendModel = function() { return viewState.intygModel; };
             commonViewState.intyg.type = 'testIntyg';
+            commonUser.getUser = function() {
+                return {
+                    valdVardenhet: {
+                        id: 'enhetId',
+                        mottagningar: []
+                    }
+                };
+            };
         }
     ]));
 
@@ -133,11 +143,55 @@ describe('UtkastService', function() {
             $timeout.flush();
 
             expect(viewState.common.doneLoading).toBeTruthy();
+            expect(commonViewState.intyg.isKomplettering).toBeFalsy();
             expect(resultData.braIntygsData).toBe('bra');
-            expect($rootScope.$broadcast.calls.count()).toBe(5);
+            expect($rootScope.$broadcast.calls.count()).toBe(6);
             expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['intyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
-            expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['wcFocusOn', 'focusFirstInput']);
+            expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
+            expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
+        });
+
+        it ('successful completion utkast load', function () {
+            spyOn(dynamicLabelService, 'updateDynamicLabels');
+            spyOn($rootScope,'$broadcast').and.callThrough();
+
+            $stateParams.certificateId = 'testIntygIdKomplt';
+            var promise = utkastService.load(viewState);
+            var resultData;
+            promise.then(function(data) {
+                resultData = data;
+            });
+
+            var utkastContentKomplt = {
+                grundData:{
+                    skapadAv: {
+                        vardenhet: {}
+                    },
+                    relation: {
+                        relationKod: 'KOMPLT'
+                    }
+                },
+                id: 'testIntygIdKomplt',
+                typ: 'testIntyg',
+                textVersion: '1.0'
+            };
+            var response = {
+                relations: [],
+                content: utkastContentKomplt
+            };
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygIdKomplt?sjf=false').respond(200, response);
+            $httpBackend.flush();
+            expect(viewState.common.doneLoading).toBeFalsy();
+            $timeout.flush();
+
+            expect(viewState.common.doneLoading).toBeTruthy();
+            expect(commonViewState.intyg.isKomplettering).toBeTruthy();
+            expect($rootScope.$broadcast.calls.count()).toBe(6);
+            expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['intyg.loaded', response.content]);
+            expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
+            expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
+            expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
         });
 
         it ('successful utkast load with sjf', function () {

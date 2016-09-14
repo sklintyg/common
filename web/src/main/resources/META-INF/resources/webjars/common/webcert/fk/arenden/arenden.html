@@ -8,7 +8,7 @@
 
         <!-- Kompletteringar heading for utkast view -->
         <h2 ng-show="viewState.intygProperties.kompletteringOnly" class="col-head">Kompletteringar <span wc-help-mark
-                                                                                                         field-help-text="arende.help.kompletteringar"></span>
+                                                                                                         field-help-text="common.arende.help.kompletteringar"></span>
         </h2>
 
         <!-- new arende form -->
@@ -37,7 +37,7 @@
         <!-- list of open arenden -->
         <div ng-show="!intygProperties.kompletteringOnly">
           <h2 class="col-head" ng-show="arendeListFiltered.length > 0">Tidigare frågor och svar <span wc-help-mark
-                                                                                                      field-help-text="arende.help.handled"></span>
+                                                                                                      field-help-text="common.arende.help.handled"></span>
           </h2>
           <div
               ng-repeat="arendeListItem in arendeListFiltered = (arendeList | filter:closedArendenFilter | orderBy:'senasteHandelseDatum':true)"

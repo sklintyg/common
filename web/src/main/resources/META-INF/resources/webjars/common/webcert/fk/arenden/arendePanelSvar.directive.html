@@ -41,7 +41,12 @@
     </div>
 
     <!-- KNAPPAR HANTERADE FRÅGOR -->
-    <!-- None anymore -->
+    <div ng-if="!showButtonBar()">
+      <div id="internal-{{arendeSvar.fragaInternReferens}}-closedArende-error"
+           ng-show="arendeListItem.activeErrorMessageKey" class="alert alert-danger">
+        <span message key="common.error.{{arendeListItem.activeErrorMessageKey}}"></span>
+      </div>
+    </div>
 
     <!-- KNAPPAR EJ HANTERADE FRÅGOR -->
     <!-- TA BORT arendeSvar.intygProperties.kompletteringOnly NÄR "SVAR SOM FÖLJER MED" ÄR IMPLEMENTERAT -->
@@ -51,7 +56,7 @@
       <div class="form-group">
 
         <!-- Rubrik: Svar -->
-        <label class="control-label" ng-show="showRegularAnswer()">Svar</label>
+        <label class="control-label" ng-show="isAnswerAllowed()">Svar</label>
 
 
         <!-- ELLER inforuta komplettering EJ IMPLEMENTERAT än. Ingår i "SVAR SOM FÖLJER MED" komplettering funktionalitet.
@@ -70,7 +75,7 @@
             <!-- error message occuring when interacting with server for this FragaSvar-->
             <div id="internal-{{arendeSvar.fragaInternReferens}}-svarsText-load-error"
                  ng-show="arendeSvar.activeErrorMessageKey" class="alert alert-danger">
-              <span message key="fk7263.error.{{arendeSvar.activeErrorMessageKey}}"></span>
+              <span message key="common.error.{{arendeSvar.activeErrorMessageKey}}"></span>
             </div>
 
             <button type="button" class="btn btn-success" ng-click="sendAnswer()"

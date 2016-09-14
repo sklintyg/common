@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* jshint maxlen: false, unused: false */
-var commonMessages = {
+/* jshint maxlen: false */
+angular.module('common').constant('common.messages', {
     'sv': {
 
         'common.continue': 'Fortsätt',
@@ -32,11 +32,13 @@ var commonMessages = {
         'common.goback': 'Tillbaka',
         'common.revoke': 'Intyget ska återtas',
         'common.sign': 'Signera',
+        'common.signsend': 'Signera och skicka',
         'common.send': 'Skicka',
         'common.copy': 'Kopiera',
         'common.fornya': 'Förnya',
         'common.delete': 'Radera',
         'common.sign.intyg': 'Signera intyget',
+        'common.button.save.as.pdf': 'Spara som PDF',
 
         'common.alert.newpersonid': 'Patienten har ett nytt personnummer: <b>${person}</b>',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>',
@@ -100,6 +102,7 @@ var commonMessages = {
         'draft.signingdoctor': 'Signerande läkare',
         'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
+        'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
 
         // Revoke status messages (type agnostic)
         'cert.status.revoke.requested' : 'Begäran om makulering skickad till intygstjänsten',
@@ -141,6 +144,7 @@ var commonMessages = {
         'common.arende.komplettering.answerwithmessage.help': 'Med förtydligande avses information som inte tillför ny medicinsk information, utan förtydligar, förklarar eller ytterligare specificerar medicinska begrepp, termer eller mått. Exempelvis vad avses med skrivningen ”synnerligt påverkad” (i just detta fall), vad menas med ”samsjuklighet” (i just detta fall), etc.',
         'common.arende.komplettering.disabled.svaramedintyg.uthopp': 'Om kompletteringen innebär att ny medicinsk information behöver tillföras ska informationen ges i ett nytt intyg. Kopiera/förnya det befintliga intyget i journalsystemet och komplettera med den nya informationen.',
         'common.arende.komplettering.disabled.onlydoctor': 'Kompletteringar kan endast besvaras av läkare.',
+        'common.arende.komplettering.kompletteringsatgard.dialogtitle': 'Besvara kompletteringsbegäran',
 
         'common.arende.fragestallare.wc': 'Vårdenheten',
         'common.arende.fragestallare.fk': 'Försäkringskassan',
@@ -157,6 +161,9 @@ var commonMessages = {
         'common.arende.fraga.amne.komplt': 'Komplettering',
         'common.arende.fraga.amne.ovrigt': 'Övrigt',
         'common.arende.fraga.amne.paminn': 'Påminnelse',
+
+        'common.arende.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
+        'common.arende.help.handled': 'Tidigare frågor och svar är sådana som redan har besvarats eller hanterats på något sätt.',
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
@@ -260,4 +267,4 @@ var commonMessages = {
         'common.ok': 'OK',
         'common.cancel': 'Cancel'
     }
-};
+});

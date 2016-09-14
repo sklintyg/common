@@ -22,6 +22,7 @@ package se.inera.intyg.common.support.modules.converter;
 import static se.inera.intyg.common.support.Constants.*;
 
 import java.time.LocalDate;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,11 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.StringUtils;
-import java.time.temporal.*;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.support.services.SpecialistkompetensService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Patient;
@@ -44,6 +43,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
 
 public final class InternalConverterUtil {
+
+    private static final String NOT_AVAILABLE = "N/A";
 
     private InternalConverterUtil() {
     }
@@ -75,8 +76,12 @@ public final class InternalConverterUtil {
         }
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
             Specialistkompetens kompetens = new Specialistkompetens();
-            kompetens.setCode(sourceKompetens);
-            kompetens.setDisplayName(SpecialistkompetensService.getDescriptionFromCode(sourceKompetens).orElse(null));
+            /*
+             * INTYG-2875: Due to HSA sending speciality codes and names in two incoherent lists we only keep speciality
+             * names, hence code is not available.
+             */
+            kompetens.setCode(NOT_AVAILABLE);
+            kompetens.setDisplayName(sourceKompetens);
             skapadAv.getSpecialistkompetens().add(kompetens);
         }
         return skapadAv;
@@ -86,10 +91,10 @@ public final class InternalConverterUtil {
         Enhet vardenhet = new Enhet();
         vardenhet.setEnhetsId(getHsaId(sourceVardenhet.getEnhetsid()));
         vardenhet.setEnhetsnamn(sourceVardenhet.getEnhetsnamn());
-        vardenhet.setPostnummer(sourceVardenhet.getPostnummer());
-        vardenhet.setPostadress(sourceVardenhet.getPostadress());
-        vardenhet.setPostort(sourceVardenhet.getPostort());
-        vardenhet.setTelefonnummer(sourceVardenhet.getTelefonnummer());
+        vardenhet.setPostnummer(emptyStringIfNull(sourceVardenhet.getPostnummer()));
+        vardenhet.setPostadress(emptyStringIfNull(sourceVardenhet.getPostadress()));
+        vardenhet.setPostort(emptyStringIfNull(sourceVardenhet.getPostort()));
+        vardenhet.setTelefonnummer(emptyStringIfNull(sourceVardenhet.getTelefonnummer()));
         vardenhet.setEpost(sourceVardenhet.getEpost());
         vardenhet.setVardgivare(getVardgivare(sourceVardenhet.getVardgivare()));
         vardenhet.setArbetsplatskod(getArbetsplatsKod(sourceVardenhet.getArbetsplatsKod()));

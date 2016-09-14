@@ -32,6 +32,11 @@ angular.module('common').controller('common.IntygHeader',
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
             $scope.fornyaBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.fornya.text');
 
+
+            $scope.makuleratIntyg = function(){
+                return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
+            };
+
             $scope.visaSkickaKnappen = function(){
                 return !$scope.viewState.common.intygProperties.isSent &&
                   !$scope.viewState.common.isIntygOnSendQueue &&
