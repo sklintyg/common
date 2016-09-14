@@ -258,14 +258,37 @@ angular.module('common').controller('common.wcHeaderController',
             $scope.openChangeCareUnitDialog = function() {
                 $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderCareUnitDialog.template.html',
-                    controller: function($scope, $uibModalInstance, vardgivare) {
+                    size: 'lg',
+                    controller: function($scope, $uibModalInstance, vardgivare, valdEnhet) {
                         $scope.vardgivare = vardgivare;
+                        //make sure path to any selected vardenhet is expanded
+                        expandPath($scope.vardgivare, valdEnhet);
+
                         $scope.error = false;
 
                         $scope.close = function() {
                             $uibModalInstance.close();
                         };
 
+                        function expandPath(vardgivare, valdEnhet) {
+                            var currentVE = null;
+                            if (valdEnhet) {
+                                angular.forEach(vardgivare, function(vg) {
+                                    angular.forEach(vg.vardenheter, function(ve) {
+                                        currentVE = ve;
+                                        angular.forEach(ve.mottagningar, function(ue) {
+                                            if (ue.id === valdEnhet.id) {
+                                                //UE level selected, make sure it's parent VE is expanded
+                                                // so that this UE is visible
+                                                currentVE.showMottagning = true;
+                                            }
+                                        });
+
+                                    });
+
+                                });
+                            }
+                        }
                         /******************
                          * Functions used by wcHeaderCareUnitDialog to
                          * present the data in a structured way
@@ -293,6 +316,10 @@ angular.module('common').controller('common.wcHeaderController',
 
                         $scope.findAllIntyg = function(vg, id) {
                             return findAll(vg, id, $scope.findIntyg);
+                        };
+
+                        $scope.isCurrentlySelected = function(id) {
+                            return (valdEnhet && valdEnhet.id === id);
                         };
 
                         /******************
@@ -327,6 +354,9 @@ angular.module('common').controller('common.wcHeaderController',
                     resolve: {
                         vardgivare: function() {
                             return angular.copy($scope.user.vardgivare);
+                        },
+                        valdEnhet: function() {
+                            return angular.copy($scope.user.valdVardenhet);
                         }
                     }
                 });
