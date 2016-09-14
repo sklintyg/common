@@ -48,7 +48,7 @@ public class SimpleHsaIdValidatorTest {
         assertListSize(0, validator.validateExtension("SE160000000000-1337"));
         assertListSize(0, validator.validateExtension("SE0000000000- '()+,-./:=?"));
         assertListSize(0, validator.validateExtension("SE5565594230-YJ54"));
-        
+
         /** Expect errors */
         assertListSize(1, validator.validateExtension("TESTA5565594230-106J"));
         assertListSize(1, validator.validateExtension("T5565594230-106J"));

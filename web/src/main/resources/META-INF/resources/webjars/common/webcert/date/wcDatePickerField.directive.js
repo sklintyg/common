@@ -32,7 +32,7 @@ angular.module('common').directive('wcDatePickerField',
                 onChange: '&',
                 maxDate: '@',
                 overrideRender: '=',
-                addDateParser: '@', 
+                addDateParser: '@',
                 dateOptions: '@'
             },
             templateUrl: '/web/webjars/common/webcert/date/wcDatePickerField.directive.html',
@@ -42,13 +42,13 @@ angular.module('common').directive('wcDatePickerField',
                 if($scope.format === undefined){
                     $scope.format = 'yyyy-MM-dd';
                 }
-                
+
                 if($scope.maxDate === undefined){
                     $scope.maxDate = null;
                 } else {
                     $scope.maxDate = '\'' + $scope.maxDate + '\'';
                 }
-                		
+
                 $scope.isOpen = false;
                 $scope.toggleOpen = function($event) {
                     $event.preventDefault();
@@ -67,7 +67,7 @@ angular.module('common').directive('wcDatePickerField',
                     var inputChild = element.find('input');
                     ctrl.datepickerPopupScope = inputChild.isolateScope();
                 }
-                
+
             }
         };
     })
@@ -93,7 +93,7 @@ angular.module('common').directive('wcDatePickerField',
             restrict: 'A',
             require:['ngModel', '^wcDatePickerField'],
             link: function(scope, element, attrs, ctrls) {
-            	
+
                 var ngModel = ctrls[0];
                 var wcDatePickerField = ctrls[1];
                 if(wcDatePickerField.overrideRender) {
@@ -148,18 +148,18 @@ angular.module('common').directive('wcDatePickerField',
                         $log.error('unknown dateparser method ' + scope.addDateParser);
                     }
                 }
-                
+
                 var maximumDate = '2099-12-12';
                 var minimumDate = '1900-01-01';
-                
+
                 ngModel.$validators.maxDate = function() {
                     return checkDate(maximumDate, ngModel.$viewValue);
                 };
-                
+
                 ngModel.$validators.minDate = function() {
                     return checkDate(ngModel.$viewValue, minimumDate);
                 };
-             
+
             }
         };
     }]);

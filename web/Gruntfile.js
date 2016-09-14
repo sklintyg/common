@@ -130,7 +130,7 @@ module.exports = function(grunt) {
                     src: ['*.scss'],
                     dest: DEST_DIR + 'webjars/common/css/',
                     ext: '.css'
-                }, 
+                },
                 {
                     expand: true,
                     cwd: SRC_DIR + 'webjars/common/webcert/css/',

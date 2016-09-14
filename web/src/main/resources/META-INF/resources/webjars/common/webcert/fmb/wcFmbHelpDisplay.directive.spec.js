@@ -52,7 +52,7 @@ describe('wcFmbHelpDisplay', function () {
         });
 
         it('should have a static headline set', function() {
-           expect(element.find('#fmb_static_heading_SOMEFORM').first().text()).toEqual('Information från Socialstyrelsens försäkringsmedicinska beslutsstöd'); 
+           expect(element.find('#fmb_static_heading_SOMEFORM').first().text()).toEqual('Information från Socialstyrelsens försäkringsmedicinska beslutsstöd');
         });
         it('should have a diagnosis headline set', function() {
             expect(element.find('#fmb_diagnos_heading_SOMEFORM').first().text()).toEqual('J22 - Akut bronkit');
@@ -95,7 +95,7 @@ describe('wcFmbHelpDisplay', function () {
 
         it('should have a visible alert text', function() {
            expect(element.find('#fmb_diagnos_not_in_fmb_alert').first().text())
-               .toEqual('För J222 finns inget FMB-stöd. Det FMB-stöd som visas nedan gäller den mindre specifika koden J22 - Akut bronkit.'); 
+               .toEqual('För J222 finns inget FMB-stöd. Det FMB-stöd som visas nedan gäller den mindre specifika koden J22 - Akut bronkit.');
         });
     });
 

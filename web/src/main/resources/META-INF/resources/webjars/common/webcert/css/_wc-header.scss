@@ -37,7 +37,7 @@ $stat-circle-active-border-color: #ff4565;
 /* Urls variables */
 $url-avatar: url('/img/avatar.png');
 
-.header { 
+.header {
   background-color: $header-background-color;
   padding: 5px 0 15px; /* don't change this setup. it's needed for IE8 flow on smaller screens to work */
   color: $header-color;

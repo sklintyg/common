@@ -314,7 +314,7 @@
     li {
       padding-bottom: 6px;
     }
-  } 
+  }
 
   h3 {
     font-size: 16px;
@@ -376,12 +376,12 @@
     margin-top: 0 !important;
   }
 
-  /* Not used? */  
+  /* Not used? */
   .scrollable {
     overflow-x: auto;
   }
 
-  /* Commonly used by all intygstyper */  
+  /* Commonly used by all intygstyper */
   .no-padding {
     padding: 0;
   }
@@ -424,18 +424,18 @@
     height: 80%;
   }
 
-  /* Not used? */  
+  /* Not used? */
   .modal .modal-container-terms {
     height: 100%;
     width: 80%;
   }
 
-  /* Commonly used */  
+  /* Commonly used */
   .alert-column {
     margin-right: 30px;
   }
 
-  /* Not used? */  
+  /* Not used? */
   .dialog-extra-panel {
     padding-top: 20px;
   }
@@ -445,7 +445,7 @@
     margin: 0;
   }
 
-  /* alert-dismissable is not used anywhere, but close is. This selector will not be applied */ 
+  /* alert-dismissable is not used anywhere, but close is. This selector will not be applied */
   .alert-dismissable .close {
     right: -10px;
   }
@@ -492,7 +492,7 @@
     padding-right: 10px;
   }
 
-  /* Not used? */  
+  /* Not used? */
   span.error {
     color: $web_orangered;
   }
@@ -538,13 +538,13 @@
     padding: 15px 17px;
   }
 
-  /* Not used? */  
+  /* Not used? */
   .certlist {
     padding-bottom: 20px;
     a:hover {
       text-decoration: none !important;
     }
-  } 
+  }
 
   .webcert-multicol {
     float: left;
@@ -554,16 +554,16 @@
   }
 
   .webcert-multicol-container {
-    /* Equal height using http://matthewjamestaylor.com/blog/equal-height-columns-cross-browser-css-no-hacks */    
+    /* Equal height using http://matthewjamestaylor.com/blog/equal-height-columns-cross-browser-css-no-hacks */
     float: left;
     min-height: 832px;
     position: relative;
     width: 100%;
   }
 
-  /* Sets a background for our multicol and an override class for the tallest column in our multicol setup. Use the specific webcert-multicol-background-* as the default background color for all the colors. 
+  /* Sets a background for our multicol and an override class for the tallest column in our multicol setup. Use the specific webcert-multicol-background-* as the default background color for all the colors.
    * This gives the shortest of the columns the correct backgroundcolor on IE9.
-   * Use the .webcert-col-tallest-* for the tallest of the columns to override the background color. And all this hassle just to cater for the needs of IE9. */ 
+   * Use the .webcert-col-tallest-* for the tallest of the columns to override the background color. And all this hassle just to cater for the needs of IE9. */
   .webcert-multicol-background-grey {
     background-color: $concrete !important;
   }
@@ -721,12 +721,12 @@
     top:400px;
   }
 
-  /* Commonly used */  
+  /* Commonly used */
   .qa-table-section {
     padding-top: 20px;
   }
 
-  /* Commonly used */  
+  /* Commonly used */
   .table-qa {
     border-collapse: separate;
     border-spacing: 0 8px;
@@ -785,18 +785,18 @@
     }
   }
 
-  /* Not used? */  
+  /* Not used? */
   .table-care-unit {
     display: table;
   }
 
-  /* Commonly used */  
+  /* Commonly used */
   .unbreakable {
     white-space: nowrap;
   }
-  
 
-/* Not used? */  
+
+/* Not used? */
   #qa-table input[type=checkbox] {
     margin: 6px 0 0;
   }
@@ -806,7 +806,7 @@
     min-width: 50px;
   }
 
-  /* Commonly used */  
+  /* Commonly used */
   .qa-filter-panel {
     -webkit-border-radius: 0 5px 5px 5px;
     -moz-border-radius: 0 5px 5px 5px;
@@ -829,12 +829,12 @@
     padding-bottom: 10px;
   }
 
-  /* Commonly used */  
+  /* Commonly used */
   .weak-hidden {
     display: none;
   }
 
-  /* Commonly used */  
+  /* Commonly used */
   [wc-enable-tooltip] {
     position: relative;
   }
