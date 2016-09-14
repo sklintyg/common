@@ -41,11 +41,6 @@ describe('IntygSendService', function() {
         $provide.value('common.User', jasmine.createSpyObj('common.User', ['storeAnvandarPreference']));
     }));
 
-    angular.module('common').config(function($stateProvider){
-        $stateProvider.state('fk7263-edit', {
-        });
-    });
-
     beforeEach(angular.mock.inject(['common.IntygSend', '$httpBackend', '$state', '$timeout',
         'common.dialogService', 'common.UserModel',
         function(_IntygSend_, _$httpBackend_, _$state_, _$timeout_, _dialogService_, _UserModel_) {

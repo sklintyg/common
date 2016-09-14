@@ -41,7 +41,7 @@ angular.module('common').controller('common.ArendeCtrl',
 
             function fetchArenden(intygId, intygProperties) {
                 ArendeProxy.getArenden(intygId, intygProperties.type, function (result) {
-                    $log.debug('getArendeForintygificate:success data:' + result);
+                    $log.debug('getArendeForCertificate:success data:' + result);
                     ArendenViewState.doneLoading = true;
                     ArendenViewState.activeErrorMessageKey = null;
                     ArendenViewState.showAllKompletteringarHandled = false;

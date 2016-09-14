@@ -40,36 +40,6 @@ angular.module('common').factory('common.ArendeProxy',
         }
 
         /*
-         * answer komplettering with a new intyg (basically do a copy with a 'komplettering' relation to this intyg)
-         */
-        function _answerWithIntyg(arende, intygsTyp, intygCopyRequest, onSuccess, onError) {
-            $log.debug('_answerWithIntyg: arendeId:' + arende.fraga.internReferens + ' intygsTyp: ' + intygsTyp);
-
-            var restPath = '/api/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/' +
-                arende.fraga.internReferens + '/komplettera';
-            var payload = {};
-            payload.patientPersonnummer = intygCopyRequest.patientPersonnummer;
-            if (intygCopyRequest.nyttPatientPersonnummer) {
-                payload.nyttPatientPersonnummer = intygCopyRequest.nyttPatientPersonnummer;
-            }
-            payload.fornamn = intygCopyRequest.fornamn;
-            payload.efternamn = intygCopyRequest.efternamn;
-            payload.mellannamn = intygCopyRequest.mellannamn;
-            payload.postadress = intygCopyRequest.postadress;
-            payload.postnummer = intygCopyRequest.postnummer;
-            payload.postort = intygCopyRequest.postort;
-
-            $http.post(restPath, payload).success(function(data) {
-                $log.debug('got data:' + data.intygsUtkastId);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
-                // Let calling code handle the error of no data response
-                onError(data);
-            });
-        }
-
-        /*
          * save new answer to a question
          */
         function _saveAnswer(ArendeSvar, intygsTyp, onSuccess, onError) {

@@ -39,7 +39,7 @@ angular.module('common').factory('common.IntygProxy',
             $log.debug('_getCertificate id:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId;
             if (sjf !== undefined) {
-                restPath = restPath + '?sjf=' + sjf ;
+                restPath = restPath + '?sjf=' + sjf;
             }
             $http.get(restPath).success(function(data) {
                 $log.debug('_getCertificate data:' + data);
@@ -65,65 +65,94 @@ angular.module('common').factory('common.IntygProxy',
         function _makuleraIntyg(intygsId, intygsTyp, revokeMessage, onSuccess, onError) {
             $log.debug('_revokeSigneratIntyg: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkalla';
-            $http.post(restPath, { revokeMessage: revokeMessage }).
-                success(function(data) {
-                    if (data === 'OK') {
-                        onSuccess();
-                    } else {
-                        onError();
-                    }
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
-                });
-        }
-
-        function _makuleraErsattIntyg(intygsId, intygsTyp, revokeMessage, onSuccess, onError) {
-            $log.debug('_revokeSigneratIntyg: ' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkallaersatt';
-            $http.post(restPath, { revokeMessage: revokeMessage }).
-            success(function(data) {
-                onSuccess(data);
-            }).
-            error(function(error) {
+            $http.post(restPath, {revokeMessage: revokeMessage}).success(function(data) {
+                if (data === 'OK') {
+                    onSuccess();
+                } else {
+                    onError();
+                }
+            }).error(function(error) {
                 _handleError(onError, error);
             });
         }
 
-        function _fornyaOrCopyIntyg (action) {
+        function buildPayloadFromCopyIntygRequest(intygCopyRequest) {
+            var payload = {};
+            payload.patientPersonnummer = intygCopyRequest.patientPersonnummer;
+            if (intygCopyRequest.nyttPatientPersonnummer) {
+                payload.nyttPatientPersonnummer = intygCopyRequest.nyttPatientPersonnummer;
+            }
+            payload.fornamn = intygCopyRequest.fornamn;
+            payload.efternamn = intygCopyRequest.efternamn;
+            payload.mellannamn = intygCopyRequest.mellannamn;
+            payload.postadress = intygCopyRequest.postadress;
+            payload.postnummer = intygCopyRequest.postnummer;
+            payload.postort = intygCopyRequest.postort;
+
+            if (intygCopyRequest.coherentJournaling) {
+                payload.coherentJournaling = intygCopyRequest.coherentJournaling;
+            }
+            return payload;
+        }
+
+        /*
+         * answer komplettering with a new intyg (basically do a copy with a 'komplettering' relation to this intyg)
+         */
+        function _answerWithIntyg(arende, intygsTyp, intygCopyRequest, onSuccess, onError) {
+            $log.debug('_answerWithIntyg: arendeId:' + arende.fraga.internReferens + ' intygsTyp: ' + intygsTyp);
+
+            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/' +
+                arende.fraga.internReferens + '/komplettera';
+            var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
+
+            $http.post(restPath, payload).success(function(data) {
+                $log.debug('got data:' + data.intygsUtkastId);
+                onSuccess(data);
+            }).error(function(data, status) {
+                $log.error('error ' + status);
+                // Let calling code handle the error of no data response
+                onError(data);
+            });
+        }
+
+        function _makuleraErsattIntyg(intygsId, intygsTyp, intygCopyRequest, revokeMessage, onSuccess, onError) {
+            $log.debug('_revokeSigneratIntyg: ' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkallaersatt';
+
+            var payload = {
+                copyIntygRequest: buildPayloadFromCopyIntygRequest(intygCopyRequest),
+                revokeSignedIntygParameter: {
+                    revokeMessage: revokeMessage
+                }
+            };
+
+            $http.post(restPath, payload).success(function(data) {
+                onSuccess(data);
+            }).error(function(error) {
+                _handleError(onError, error);
+            });
+        }
+
+        function _fornyaOrCopyIntyg(action) {
             var restEndpoint;
 
             switch (action) {
-                case 'copy':
-                    restEndpoint = 'kopiera';
-                    break;
-                case 'fornya':
-                    restEndpoint = 'fornya';
-                    break;
-                default:
-                    throw new Error('common.IntygProxy#_fornyaOrCopyIntyg: Unknown action parameter', action);
+            case 'copy':
+                restEndpoint = 'kopiera';
+                break;
+            case 'fornya':
+                restEndpoint = 'fornya';
+                break;
+            default:
+                throw new Error('common.IntygProxy#_fornyaOrCopyIntyg: Unknown action parameter', action);
             }
 
-            return function doFornyaOrCopyIntyg (intygCopyRequest, onSuccess, onError) {
+            return function doFornyaOrCopyIntyg(intygCopyRequest, onSuccess, onError) {
                 $log.debug(action + ' intyg' + intygCopyRequest.intygType + ', ' + intygCopyRequest.intygId);
 
-                var payload = {};
-                payload.patientPersonnummer = intygCopyRequest.patientPersonnummer;
-                if (intygCopyRequest.nyttPatientPersonnummer) {
-                    payload.nyttPatientPersonnummer = intygCopyRequest.nyttPatientPersonnummer;
-                }
-                payload.fornamn = intygCopyRequest.fornamn;
-                payload.efternamn = intygCopyRequest.efternamn;
-                payload.mellannamn = intygCopyRequest.mellannamn;
-                payload.postadress = intygCopyRequest.postadress;
-                payload.postnummer = intygCopyRequest.postnummer;
-                payload.postort = intygCopyRequest.postort;
+                var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
 
-                if (intygCopyRequest.coherentJournaling) {
-                    payload.coherentJournaling = intygCopyRequest.coherentJournaling;
-                }
-
-                var restPath = '/api/intyg/' +
+                var restPath = '/moduleapi/intyg/' +
                     intygCopyRequest.intygType +
                     '/' +
                     intygCopyRequest.intygId +
@@ -145,13 +174,11 @@ angular.module('common').factory('common.IntygProxy',
         function _logPrint(intygsId, intygsTyp, onSuccess, onError) {
             $log.debug('_logPrint, intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/loggautskrift';
-            $http.post(restPath, intygsId).
-                success(function(data) {
-                    onSuccess(data);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
-                });
+            $http.post(restPath, intygsId).success(function(data) {
+                onSuccess(data);
+            }).error(function(error) {
+                _handleError(onError, error);
+            });
         }
 
         // Return public API for the service
@@ -162,6 +189,7 @@ angular.module('common').factory('common.IntygProxy',
             sendIntyg: _sendIntyg,
             copyIntyg: _fornyaOrCopyIntyg('copy'),
             fornyaIntyg: _fornyaOrCopyIntyg('fornya'),
+            answerWithIntyg: _answerWithIntyg,
             logPrint: _logPrint
         };
     }]);

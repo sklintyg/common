@@ -41,7 +41,7 @@ angular.module('common').directive('wcIntygLabel',
                 scope: {
                     wcIntygLabel: '='
                 },
-                templateUrl: '/web/webjars/common/webcert/intyg/wcIntygLabel.directive.html',
+                templateUrl: '/web/webjars/common/webcert/gui/wcIntygLabel.directive.html',
                 link: function(scope, element, attrs) {
                     if (typeof scope.wcIntygLabel !== 'string') {
                         $log.debug('wcIntygLabel argument is not a string');

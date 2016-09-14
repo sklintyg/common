@@ -24,7 +24,7 @@ angular.module('common').factory('common.IntygHelper',
 
             function _goToDraft(type, intygId) {
                 $state.go(type + '-edit', {
-                    intygificateId: intygId
+                    certificateId: intygId
                 });
             }
 

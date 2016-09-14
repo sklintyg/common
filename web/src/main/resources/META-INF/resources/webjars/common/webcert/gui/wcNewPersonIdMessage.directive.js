@@ -97,6 +97,6 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                 updateShowFlag();
                 $scope.$watch('viewState.intygModel.grundData.patient.personId', updateShowFlag);
             },
-            templateUrl: '/web/webjars/common/webcert/intyg/wcNewPersonIdMessage.directive.html'
+            templateUrl: '/web/webjars/common/webcert/gui/wcNewPersonIdMessage.directive.html'
         };
     }]);

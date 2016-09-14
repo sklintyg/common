@@ -25,11 +25,8 @@
  * arendePanel directive. Common directive for both unhandled and handled questions/answers
  */
 angular.module('common').directive('arendePanel',
-    [ '$window', '$log', '$timeout', '$state', '$stateParams',
-        'common.User', 'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
-        'common.IntygCopyRequestModel',
-        function($window, $log, $timeout, $state, $stateParams, User, ArendeProxy, statService, ObjectHelper,
-            IntygCopyRequestModel) {
+    [
+        function() {
             'use strict';
 
             return {

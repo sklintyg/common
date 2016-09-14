@@ -17,8 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* globals readJSON */
-/* globals tv4 */
 describe('IntygCopyService', function() {
     'use strict';
 

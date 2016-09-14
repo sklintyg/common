@@ -18,8 +18,8 @@
  */
 
 angular.module('common').factory('common.IntygMakulera',
-    [ '$log', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper',
-        function($log, dialogService, IntygProxy, ObjectHelper) {
+    [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
+        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel) {
             'use strict';
 
             // Makulera dialog setup
@@ -28,21 +28,46 @@ angular.module('common').factory('common.IntygMakulera',
             };
 
             function _revokeSigneratIntyg(intygMakuleraMethod, intyg, dialogModel, makuleraDialog, onSuccess) {
+
                 dialogModel.showerror = false;
                 dialogModel.acceptprogressdone = false;
 
                 var revokeMessage = dialogModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification;
                 revokeMessage.trim();
 
-                intygMakuleraMethod(intyg.id, intyg.intygType, revokeMessage, function() {
+                var intygCopyRequest = IntygCopyRequestModel.build({
+                    intygId: intyg.id,
+                    intygType: intyg.intygType,
+                    patientPersonnummer: intyg.grundData.patient.personId,
+                    nyttPatientPersonnummer: $stateParams.patientId,
+                    fornamn: $stateParams.fornamn,
+                    efternamn: $stateParams.efternamn,
+                    mellannamn: $stateParams.mellannamn,
+                    postadress: $stateParams.postadress,
+                    postnummer: $stateParams.postnummer,
+                    postort: $stateParams.postort
+                });
+
+                function onMakuleraComplete() {
                     dialogModel.acceptprogressdone = true;
                     makuleraDialog.close();
                     onSuccess();
-                }, function(error) {
+                }
+
+                function onMakuleraFail(error) {
                     $log.debug('Revoke failed: ' + error);
                     dialogModel.acceptprogressdone = true;
                     dialogModel.showerror = true;
-                });
+                }
+
+                if(intygMakuleraMethod === 'REVOKE') {
+                    IntygProxy.makuleraIntyg(intyg.id, intyg.intygType,
+                        onMakuleraComplete, onMakuleraFail);
+                }
+                else if(intygMakuleraMethod === 'REVOKE_AND_REPLACE'){
+                    IntygProxy.makuleraErsattIntyg(intygCopyRequest, revokeMessage,
+                        onMakuleraComplete, onMakuleraFail);
+                }
             }
 
             function _makulera( intyg, confirmationMessage, onSuccess) {
@@ -76,6 +101,7 @@ angular.module('common').factory('common.IntygMakulera',
                     }
                 };
 
+                // Fill dialogMakuleraModel.choices array with choices based on labels
                 angular.forEach(dialogMakuleraModel.labels, function(label, key) {
                     if(key === 'OVRIGT'){
                         this.push({
@@ -100,11 +126,11 @@ angular.module('common').factory('common.IntygMakulera',
                     model: dialogMakuleraModel,
                     button1click: function() {
                         $log.debug('revoking intyg from dialog' + intyg);
-                        _revokeSigneratIntyg(IntygProxy.makuleraIntyg, intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
+                        _revokeSigneratIntyg('REVOKE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
                     },
                     button2click: function() {
                         $log.debug('revoking and replacing intyg from dialog' + intyg);
-                        _revokeSigneratIntyg(IntygProxy.makuleraErsattIntyg, intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
+                        _revokeSigneratIntyg('REVOKE_AND_REPLACE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
                     },
 
                     button1text: 'common.revoke',
