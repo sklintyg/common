@@ -3,6 +3,9 @@ description = 'Intyg Common (Web)'
 apply plugin: 'com.moowork.grunt'
 apply plugin: 'com.moowork.node'
 
+def webappOutputDir = 'build/';
+def webappTestOutputDir = 'build/karma/';
+
 grunt {
   colors = true
 }
@@ -53,28 +56,17 @@ task moveJsFiles(type: Copy, dependsOn: unzipWebjars) {
 
 task jsTests(type: NodeTask, dependsOn: [npmInstall, moveJsFiles]) {
     script = file('node_modules/grunt-cli/bin/grunt')
-    args = ['test']
+    args = ['test', '--outputDir=' + webappTestOutputDir, '--skip-coverage='+(!project.hasProperty('runSonar'))]
 }
 
 test.dependsOn(jsTests)
 
 task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
     script = file('node_modules/grunt-cli/bin/grunt')
-    args = ['default']
+    args = ['default', '--outputDir=' + webappOutputDir]
 }
 
 jar.dependsOn(jsInclude)
-
-// TODO (put in webcert/minaintyg)
-// if (project.hasProperty('rehabstod.useMinifiedJavaScript')) {
-//   war {
-//     webAppDirName = 'build/webapp'
-//   }
-//  war.dependsOn grunt_build
-// }
-// else {
-//   war.dependsOn grunt_build_no_minify
-// }
 
 dependencies {
   compile 'org.webjars:angularjs:1.4.10'
