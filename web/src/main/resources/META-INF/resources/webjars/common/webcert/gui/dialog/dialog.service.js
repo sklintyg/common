@@ -142,7 +142,9 @@ angular.module('common').factory('common.dialogService',
                         if (button2click) {
                             button2click($uibModalInstance);
                         }
-                        $uibModalInstance.dismiss('button2 dismiss');
+                        if(autoClose) {
+                            $uibModalInstance.dismiss('button2 dismiss');
+                        }
                     };
                     $scope.button3visible = button3visible;
                     if ($scope.button3visible !== undefined) {

@@ -143,6 +143,9 @@ angular.module('common').controller('common.UtkastHeader',
                             }
                         });
                     },
+                    button2click: function(modalInstance){
+                        modalInstance.close();
+                    },
                     button1text: 'common.delete',
                     button2text: 'common.cancel',
                     autoClose: false

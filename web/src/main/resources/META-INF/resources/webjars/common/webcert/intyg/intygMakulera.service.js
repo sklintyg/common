@@ -18,8 +18,8 @@
  */
 
 angular.module('common').factory('common.IntygMakulera',
-    [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
-        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel) {
+    [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel', 'common.IntygHelper',
+        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper) {
             'use strict';
 
             // Makulera dialog setup
@@ -30,7 +30,6 @@ angular.module('common').factory('common.IntygMakulera',
             function _revokeSigneratIntyg(intygMakuleraMethod, intyg, dialogModel, makuleraDialog, onSuccess) {
 
                 dialogModel.showerror = false;
-                dialogModel.acceptprogressdone = false;
 
                 var revokeMessage = dialogModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification;
                 revokeMessage.trim();
@@ -49,31 +48,40 @@ angular.module('common').factory('common.IntygMakulera',
                 });
 
                 function onMakuleraComplete() {
-                    dialogModel.acceptprogressdone = true;
+                    dialogModel.makuleraProgressDone = true;
                     makuleraDialog.close();
                     onSuccess();
                 }
 
+                function onMakuleraErsattComplete(utkastResponse) {
+                    onMakuleraComplete();
+                    dialogModel.ersattProgressDone = true;
+                    IntygHelper.goToDraft(utkastResponse.intygsTyp, utkastResponse.intygsUtkastId);
+                }
+
                 function onMakuleraFail(error) {
                     $log.debug('Revoke failed: ' + error);
-                    dialogModel.acceptprogressdone = true;
+                    dialogModel.makuleraProgressDone = true;
+                    dialogModel.ersattProgressDone = true;
                     dialogModel.showerror = true;
                 }
 
                 if(intygMakuleraMethod === 'REVOKE') {
-                    IntygProxy.makuleraIntyg(intyg.id, intyg.intygType,
+                    dialogModel.makuleraProgressDone = false;
+                    IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, revokeMessage,
                         onMakuleraComplete, onMakuleraFail);
                 }
                 else if(intygMakuleraMethod === 'REVOKE_AND_REPLACE'){
+                    dialogModel.ersattProgressDone = false;
                     IntygProxy.makuleraErsattIntyg(intygCopyRequest, revokeMessage,
-                        onMakuleraComplete, onMakuleraFail);
+                        onMakuleraErsattComplete, onMakuleraFail);
                 }
             }
 
-            function _makulera( intyg, confirmationMessage, onSuccess) {
+            function _makulera(intyg, confirmationMessage, onSuccess) {
 
                 function isMakuleraEnabled(model) {
-                    return model.acceptprogressdone &&
+                    return model.makuleraProgressDone && model.ersattProgressDone &&
                         (
                             (ObjectHelper.isDefined(model.makuleraModel.reason) &&
                                 model.makuleraModel.reason !== 'OVRIGT') ||
@@ -84,7 +92,8 @@ angular.module('common').factory('common.IntygMakulera',
 
                 var dialogMakuleraModel = {
                     isMakuleraEnabled: isMakuleraEnabled,
-                    acceptprogressdone: true,
+                    makuleraProgressDone: true,
+                    ersattProgressDone: true,
                     focus: false,
                     errormessageid: 'error.failedtomakuleraintyg',
                     showerror: false,
@@ -109,8 +118,7 @@ angular.module('common').factory('common.IntygMakulera',
                             value: key,
                             placeholder: 'Ange orsak (obligatoriskt)...'
                         });
-                    }
-                    else{
+                    } else {
                         this.push({
                             label: label,
                             value: key,
@@ -132,7 +140,6 @@ angular.module('common').factory('common.IntygMakulera',
                         $log.debug('revoking and replacing intyg from dialog' + intyg);
                         _revokeSigneratIntyg('REVOKE_AND_REPLACE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
                     },
-
                     button1text: 'common.revoke',
                     button1id: 'button1makulera-dialog',
                     button2text: 'common.revokeandreplace',

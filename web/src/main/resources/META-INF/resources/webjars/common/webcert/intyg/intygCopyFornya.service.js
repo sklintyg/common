@@ -143,6 +143,9 @@ angular.module('common').factory('common.IntygCopyFornya',
                                 }
                             });
                         },
+                        button2click: function(modalInstance){
+                            modalInstance.close();
+                        },
                         button1text: 'common.copy',
                         button2text: 'common.cancel',
                         autoClose: false
@@ -212,6 +215,9 @@ angular.module('common').factory('common.IntygCopyFornya',
                                     fornyaDialog.close(result);
                                 }
                             });
+                        },
+                        button2click: function(modalInstance){
+                            modalInstance.close();
                         },
                         button1text: 'common.fornya',
                         button2text: 'common.cancel',

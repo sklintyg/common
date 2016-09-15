@@ -62,9 +62,9 @@ angular.module('common').factory('common.IntygProxy',
                 });
         }
 
-        function _makuleraIntyg(intygsId, intygsTyp, revokeMessage, onSuccess, onError) {
-            $log.debug('_revokeSigneratIntyg: ' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkalla';
+        function _makuleraIntyg(intygId, intygType, revokeMessage, onSuccess, onError) {
+            $log.debug('_revokeSigneratIntyg: ' + intygId + ' intygsTyp: ' + intygType);
+            var restPath = '/moduleapi/intyg/' + intygType + '/' + intygId + '/aterkalla';
             $http.post(restPath, {revokeMessage: revokeMessage}).success(function(data) {
                 if (data === 'OK') {
                     onSuccess();
@@ -95,29 +95,9 @@ angular.module('common').factory('common.IntygProxy',
             return payload;
         }
 
-        /*
-         * answer komplettering with a new intyg (basically do a copy with a 'komplettering' relation to this intyg)
-         */
-        function _answerWithIntyg(arende, intygsTyp, intygCopyRequest, onSuccess, onError) {
-            $log.debug('_answerWithIntyg: arendeId:' + arende.fraga.internReferens + ' intygsTyp: ' + intygsTyp);
-
-            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/' +
-                arende.fraga.internReferens + '/komplettera';
-            var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
-
-            $http.post(restPath, payload).success(function(data) {
-                $log.debug('got data:' + data.intygsUtkastId);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
-                // Let calling code handle the error of no data response
-                onError(data);
-            });
-        }
-
-        function _makuleraErsattIntyg(intygsId, intygsTyp, intygCopyRequest, revokeMessage, onSuccess, onError) {
-            $log.debug('_revokeSigneratIntyg: ' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/aterkallaersatt';
+        function _makuleraErsattIntyg(intygCopyRequest, revokeMessage, onSuccess, onError) {
+            $log.debug('_revokeSigneratIntyg: ' + intygCopyRequest.intygId + ' intygsTyp: ' + intygCopyRequest.intygTyp);
+            var restPath = '/moduleapi/intyg/' + intygCopyRequest.intygType + '/' + intygCopyRequest.intygId + '/aterkallaersatt';
 
             var payload = {
                 copyIntygRequest: buildPayloadFromCopyIntygRequest(intygCopyRequest),
@@ -126,8 +106,9 @@ angular.module('common').factory('common.IntygProxy',
                 }
             };
 
-            $http.post(restPath, payload).success(function(data) {
-                onSuccess(data);
+            $http.post(restPath, payload).success(function(utkastResponse) {
+                onSuccess(utkastResponse);
+                statService.refreshStat();
             }).error(function(error) {
                 _handleError(onError, error);
             });
@@ -169,6 +150,26 @@ angular.module('common').factory('common.IntygProxy',
                     onError(data);
                 });
             };
+        }
+
+        /*
+         * answer komplettering with a new intyg (basically do a copy with a 'komplettering' relation to this intyg)
+         */
+        function _answerWithIntyg(arende, intygsTyp, intygCopyRequest, onSuccess, onError) {
+            $log.debug('_answerWithIntyg: arendeId:' + arende.fraga.internReferens + ' intygsTyp: ' + intygsTyp);
+
+            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/' +
+                arende.fraga.internReferens + '/komplettera';
+            var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
+
+            $http.post(restPath, payload).success(function(data) {
+                $log.debug('got data:' + data.intygsUtkastId);
+                onSuccess(data);
+            }).error(function(data, status) {
+                $log.error('error ' + status);
+                // Let calling code handle the error of no data response
+                onError(data);
+            });
         }
 
         function _logPrint(intygsId, intygsTyp, onSuccess, onError) {
