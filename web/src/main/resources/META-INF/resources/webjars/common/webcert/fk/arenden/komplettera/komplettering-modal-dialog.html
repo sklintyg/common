@@ -1,15 +1,15 @@
 <div id="{{dialogId}}" class="modal-header">
   <button type="button" class="close" ng-click="$dismiss()">×</button>
-  <h3 ng-focus="model.focus" tabindex="-1">
+  <h3 ng-focus="model.arendeSvar.focus" tabindex="-1">
     <span message key="{{titleId}}"></span>
   </h3>
 </div>
 <div class="modal-body">
   <div class="dialog-scroller arende-block-body">
-    <div id="arende-fragetext-{{model.fragaInternReferens}}">{{model.fragaMeddelande}}</div>
+    <div id="arende-fragetext-{{model.arendeSvar.fragaInternReferens}}">{{model.arendeSvar.fragaMeddelande}}</div>
     <div
-         id="fkKompletteringar-{{model.fragaInternReferens}}"
-         ng-repeat="komplettering in model.kompletteringar">
+         id="fkKompletteringar-{{model.arendeSvar.fragaInternReferens}}"
+         ng-repeat="komplettering in model.arendeSvar.kompletteringar">
       Komplettering på fråga <span class="bold" dynamic-label key="{{komplettering.frgId}}"></span>:
       {{komplettering.text}}
     </div>
@@ -20,16 +20,24 @@
         <div class="dialog-choice-box">
           <div class="dialog-choice-box__text-section">
             <h3>Jag behöver lägga till ny medicinsk information</h3>
-            <p ng-if="model.svaraMedNyttIntygDisabled">{{model.svaraMedNyttIntygDisabledReason}}</p>
-            <p ng-if="!model.svaraMedNyttIntygDisabled">Om kompletteringen innebär att ny medicinsk information behöver tillföras ska informationen ges i ett
+            <p ng-if="model.arendeSvar.svaraMedNyttIntygDisabled">{{model.arendeSvar.svaraMedNyttIntygDisabledReason}}</p>
+            <p ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled">Om kompletteringen innebär att ny medicinsk information behöver tillföras ska informationen ges i ett
               nytt intyg. Fyll i den nya informationen i den kopia som skapas av det befintliga intyget.</p>
           </div>
           <div class="dialog-choice-box__button-section">
-            <button type="button" class="btn btn-success" ng-if="!model.svaraMedNyttIntygDisabled"
+
+            <button type="button" class="btn btn-success" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled && !model.komplUtkastFinns"
                     ng-click="button1click()"  wc-check-vardenhet
                     vardenhet="{{arendeSvar.enhetsid}}" id="komplettering-modal-dialog-answerWithNyttIntyg-button">
-              <img src="/img/loader-small-green.gif" ng-show="model.updateInProgress"> Svara med nytt intyg
+              <img src="/img/loader-small-green.gif" ng-show="model.arendeSvar.updateInProgress"> Svara med nytt intyg
             </button>
+
+            <button type="button" class="btn btn-success" ng-if="model.komplUtkastFinns"
+                    ng-click="button3click()"  wc-check-vardenhet
+                    vardenhet="{{arendeSvar.enhetsid}}" id="komplettering-modal-dialog-goToUtkast-button">
+              <img src="/img/loader-small-green.gif" ng-show="model.arendeSvar.updateInProgress"> Fortsätt på intygsutkast
+            </button>
+
             </div>
         </div>
       </div>
@@ -49,9 +57,9 @@
       </div>
     </div>
     <!-- error message occuring when interacting with server for komplettering-->
-    <div id="komplettering-dialog-error-{{model.fragaInternReferens}}" ng-if="model.activeKompletteringErrorMessageKey"
+    <div id="komplettering-dialog-error-{{model.arendeSvar.fragaInternReferens}}" ng-if="model.arendeSvar.activeKompletteringErrorMessageKey"
          class="alert alert-danger alert-bottom">
-      <span message key="common.arende.error.{{model.activeKompletteringErrorMessageKey}}"></span>
+      <span message key="common.arende.error.{{model.arendeSvar.activeKompletteringErrorMessageKey}}"></span>
     </div>
   </div>
 </div>

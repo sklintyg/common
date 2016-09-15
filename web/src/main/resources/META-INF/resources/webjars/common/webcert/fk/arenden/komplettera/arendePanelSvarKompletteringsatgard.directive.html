@@ -1,1 +1,4 @@
-<button class="btn btn-success" id="answer-kompletteringsatgard-open-{{arendeSvar.fragaInternReferens}}" ng-click="openKompletteringDialog()">Svara</button>
+<span>
+  <button class="btn btn-success" id="answer-kompletteringsatgard-open-{{arendeSvar.fragaInternReferens}}" ng-click="openKompletteringDialog()">Svara</button>
+  <button class="btn btn-success" ng-if="showGoToUtkastButton" id="answer-kompletteringsatgard-open-utkast-{{arendeSvar.fragaInternReferens}}" ng-click="openKompletteringsUtkast()">Fortsätt på intygsutkast</button>
+</span>

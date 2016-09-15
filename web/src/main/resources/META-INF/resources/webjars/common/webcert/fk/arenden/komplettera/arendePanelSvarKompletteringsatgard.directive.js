@@ -29,10 +29,20 @@
 angular.module('common').directive('arendePanelSvarKompletteringsatgard',
     [ '$window', '$log', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService',
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService', 'common.ArendenViewStateService',
         function($window, $log, $state, $stateParams, $q, ArendeProxy, statService, ObjectHelper,
-            IntygCopyRequestModel, ArendeSvarModel, dialogService) {
+            IntygCopyRequestModel, ArendeSvarModel, dialogService, arendenViewStateService) {
             'use strict';
+
+            function _hasKompletteringUtkastRelation(relations) {
+                for (var a = 0; a < relations.length; a++) {
+                    var relation = relations[a];
+                    if (relation.kod === 'KOMPLT') {
+                        return true;
+                    }
+                }
+                return false;
+            }
 
             return {
                 restrict: 'A',
@@ -45,20 +55,55 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                 },
                 controller: function($scope, $element, $attrs) {
 
-
                     var kompletteringDialog;
 
                     // For readability, keep a local struct with the values used from parent scope
                     var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
+                    $scope.relations = arendenViewStateService.relations;
+
                     $scope.arendeSvar = ArendeSvar;
 
+                    $scope.showGoToUtkastButton = _hasKompletteringUtkastRelation($scope.relations);
+
+                    $scope.openKompletteringsUtkast = function() {
+
+                        // Highly unlikely that there could be a komplettering without at least one relation.
+                        if (typeof $scope.relations === 'undefined' || $scope.relations.length === 0) {
+                            ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-utkast';
+                            return;
+                        }
+
+                        // Iterate over relations, find the newest 'KOMPLT' one. Could be made prettier with _.js or similar.
+                        var latestKomplRelation;
+                        for (var a = 0; a < $scope.relations.length; a++) {
+                            var relation =  $scope.relations[a];
+                            if (relation.kod === 'KOMPLT') {
+                                if (typeof latestKomplRelation === 'undefined') {
+                                    latestKomplRelation = relation;
+                                } else if (relation.date > latestKomplRelation.date) {
+                                    latestKomplRelation = relation;
+                                }
+                            }
+                        }
+                        if (typeof latestKomplRelation !== 'undefined') {
+                            $state.go(ArendeSvar.intygProperties.type + '-edit', {certificateId: latestKomplRelation.intygsId});
+                        } else {
+                            ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-utkast';
+                        }
+                    };
+
                    $scope.openKompletteringDialog = function() {
+
+                       var dialogModel = {
+                           arendeSvar: ArendeSvar,
+                           komplUtkastFinns : _hasKompletteringUtkastRelation($scope.relations)
+                       };
 
                         kompletteringDialog = dialogService.showDialog({
                             dialogId: 'komplettering-modal-dialog',
                             titleId: 'common.arende.komplettering.kompletteringsatgard.dialogtitle',
                             templateUrl: '/web/webjars/common/webcert/fk/arenden/komplettera/komplettering-modal-dialog.html',
-                            model: ArendeSvar,
+                            model: dialogModel,
                             button1click: function(modalInstance) {
                                 if (!ObjectHelper.isDefined(ArendeSvar.intygProperties)) {
                                     ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-intyg';
@@ -93,6 +138,11 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                                 $scope.onAnswerWithMessage();
                             },
                             button2id: 'button2answermessage-dialog',
+                            button3click: function(modalInstance) {
+                                modalInstance.close();
+                                $scope.openKompletteringsUtkast();
+                            },
+                            button3id:  'button3gotoutkast-dialog',
                             autoClose: false,
                             size: 'lg'
                         }).result.then(function() {
@@ -102,6 +152,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                         });
 
                     };
+
 
                     $scope.onAnswerWithIntyg = function() {
 
