@@ -42,9 +42,11 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
     @Autowired
     private List<ModuleEntryPoint> moduleEntryPoints;
 
-    private Map<String, ModuleEntryPoint> moduleApiMap = new HashMap<String, ModuleEntryPoint>();
+    private Map<String, ModuleEntryPoint> moduleApiMap = new HashMap<>();
 
-    private Map<String, IntygModule> intygModuleMap = new HashMap<String, IntygModule>();
+    private Map<String, IntygModule> intygModuleMap = new HashMap<>();
+
+    private Map<String, String> externalIdToModuleId = new HashMap<>();
 
     private ApplicationOrigin origin;
 
@@ -53,6 +55,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
         for (ModuleEntryPoint entryPoint : moduleEntryPoints) {
             moduleApiMap.put(entryPoint.getModuleId(), entryPoint);
+            externalIdToModuleId.put(entryPoint.getExternalId(), entryPoint.getModuleId());
             IntygModule module = new IntygModule(entryPoint.getModuleId(), entryPoint.getModuleName(),
                     entryPoint.getModuleDescription(), entryPoint.getDetailedModuleDescription(),
                     entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),
@@ -66,7 +69,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     @Override
     public List<IntygModule> listAllModules() {
-        List<IntygModule> moduleList = new ArrayList<IntygModule>(intygModuleMap.values());
+        List<IntygModule> moduleList = new ArrayList<>(intygModuleMap.values());
         Collections.sort(moduleList);
         return moduleList;
     }
@@ -113,5 +116,10 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     public ApplicationOrigin getOrigin() {
         return origin;
+    }
+
+    @Override
+    public String getModuleIdFromExternalId(String externalId) {
+        return externalIdToModuleId.get(externalId);
     }
 }

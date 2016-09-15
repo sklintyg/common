@@ -19,9 +19,9 @@
 
 package se.inera.intyg.common.support.modules.support;
 
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-
 import java.util.Map;
+
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 /**
  * Defines the contract for modules so they can be discovered by an application.
@@ -49,6 +49,11 @@ public interface ModuleEntryPoint {
      * Returns a detailed description for the module, suitable for display in the GUI.
      */
     String getDetailedModuleDescription();
+
+    /**
+     * Returns a unique external id for the module.
+     */
+    String getExternalId();
 
     /**
      * Returns the identifier of the default recipient of this module, or <code>null</code> if no default recipient
