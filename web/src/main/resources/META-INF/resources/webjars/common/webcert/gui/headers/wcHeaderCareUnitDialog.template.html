@@ -23,11 +23,11 @@
           </button>
         </div>
         <div class="col-xs-5">
-          <button type="button" id="select-active-unit-{{enhet.id}}-modal"
+          <button type="button" id="select-active-unit-{{enhet.id}}-modal" ng-disabled="isCurrentlySelected(enhet.id)"
                   class="btn btn-link wc-wrap-text"
                   data-ng-click="selectVardenhet(enhet)">
             {{enhet.namn}}
-          </button>
+          </button><span ng-if="isCurrentlySelected(enhet.id)"> (vald enhet)</span>
         </div>
         <div class="col-xs-3 enhet-stat"
              id="fraga-svar-stat-{{enhet.id}}">
@@ -43,9 +43,9 @@
           <div class="col-xs-5 col-xs-offset-1">
             <button type="button" id="select-active-unit-{{mottagning.id}}-modal"
                     class="btn btn-link mottagning-button wc-wrap-text"
-                    data-ng-click="selectVardenhet(mottagning)">
+                    data-ng-click="selectVardenhet(mottagning)" ng-disabled="isCurrentlySelected(mottagning.id)">
               {{mottagning.namn}}
-            </button>
+            </button><span ng-if="isCurrentlySelected(mottagning.id)"> (vald enhet)</span>
           </div>
           <div class="col-xs-3 enhet-stat"
                id="fraga-svar-stat-{{mottagning.id}}">
@@ -60,5 +60,5 @@
     </div>
     <hr />
   </div>
-  <div class="alert alert-danger" ng-show="error">Tekniskt fel. Kunde inte byta vårdenhet.</div>
+  <div class="alert alert-danger" ng-if="error">Tekniskt fel. Kunde inte byta vårdenhet.</div>
 </div>

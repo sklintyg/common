@@ -1,6 +1,6 @@
 <div ng-show="tillaggsFragor.length>0">
   <div wc-field field-dynamic-label="KAT_9999.RBK">
-    <div ng-repeat="tillaggsfraga in tillaggsFragor" class="intyg-field">
+    <div ng-repeat="tillaggsfraga in tillaggsFragor" class="intyg-field" id="form_tillaggsfragor_{{tillaggsfraga.id}}">
       <div>
         <label><span dynamic-label key="DFR_{{tillaggsfraga.id}}.1.RBK"></span></label>
       </div>

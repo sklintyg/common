@@ -77,7 +77,7 @@ angular.module('common').directive('wcDatePeriodField',
                 require:['ngModel', '^wcDatePeriodField', '^wcDatePeriodValidator'],
                 link: function(scope, element, attrs, ctrls) {
                     var ngModel = ctrls[0];
-                    dateUtils.addDateParserFormatter(ngModel);
+                    dateUtils.addLooseDateParser(ngModel);
 
                     var wcDatePeriodField = ctrls[1];
                     var wcDatePeriodValidator = ctrls[2];
