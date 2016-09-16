@@ -58,7 +58,7 @@
                 </span>
             </td>
             <td class="diagnosDescriptionColumn">
-                <input type="text" class="form-control maxwidth" id="diagnoseDescription"
+                <input type="text" class="form-control maxwidth" id="diagnoseDescription-{{$index}}"
                        class="col-xs-12 form-control" name="diagnose.description" value=""
                        ng-model= "diagnos.diagnosBeskrivning"
                        uib-typeahead="d.value as d.label for d in searchDiagnoseByDescription(formState.diagnosKodSystem, $viewValue)"
