@@ -21,6 +21,8 @@
 module.exports = function(grunt) {
     'use strict';
 
+    require('time-grunt')(grunt);
+    grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -31,10 +33,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-angular-templates');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-sass-lint');
+    grunt.loadNpmTasks('grunt-wiredep');
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/';
-    var DEST_DIR = (grunt.option('outputDir') || 'build') +  'resources/main/META-INF/resources/';
-    var TEST_OUTPUT_DIR = (grunt.option('outputDir') || 'build/karma');
+    var DEST_DIR = (grunt.option('outputDir') || 'build/') +  'resources/main/META-INF/resources/';
+    var TEST_OUTPUT_DIR = (grunt.option('outputDir') || 'build/karma/');
     var SKIP_COVERAGE = grunt.option('skip-coverage') !== undefined ? grunt.option('skip-coverage') : true;
 
     var minaintyg = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/minaintyg/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
@@ -54,6 +57,26 @@ module.exports = function(grunt) {
     }));
 
     grunt.initConfig({
+
+        bower: {
+            install: {
+                options: {
+                    copy: false
+                }
+            }
+        },
+
+        wiredep: {
+            options: {
+                devDependencies: true
+            },
+            webcert: {
+                src: ['karma-webcert.conf.js']
+            },
+            minaintyg: {
+                src: ['karma-minaintyg.conf.js']
+            }
+        },
 
         sasslint: {
             options: {
@@ -102,7 +125,7 @@ module.exports = function(grunt) {
 
         karma: {
             minaintyg: {
-                configFile: SRC_DIR + 'karma-minaintyg.conf.ci.js',
+                configFile: 'karma-minaintyg.conf.ci.js',
                 coverageReporter: {
                     type : 'lcovonly',
                     dir : TEST_OUTPUT_DIR + 'minaintyg/',
@@ -110,7 +133,7 @@ module.exports = function(grunt) {
                 }
             },
             webcert: {
-                configFile: SRC_DIR + 'karma-webcert.conf.ci.js',
+                configFile: 'karma-webcert.conf.ci.js',
                 coverageReporter: {
                     type : 'lcovonly',
                     dir : TEST_OUTPUT_DIR + 'webcert/',
@@ -202,11 +225,11 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', [ 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'sass', 'jshint' ]);
+    grunt.registerTask('default', [ 'bower', 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'sass', 'jshint' ]);
     grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg', 'csslint:minaintyg' ]);
     grunt.registerTask('lint-webcert', [ 'jshint:webcert', 'csslint:webcert' ]);
     grunt.registerTask('lint', [ 'jshint', 'csslint' ]);
-    grunt.registerTask('test-minaintyg', [ 'karma:minaintyg' ]);
-    grunt.registerTask('test-webcert', [ 'karma:webcert' ]);
-    grunt.registerTask('test', [ 'karma' ].concat(SKIP_COVERAGE?[]:['lcovMerge']));
+    grunt.registerTask('test-minaintyg', [ 'wiredep:minaintyg', 'karma:minaintyg' ]);
+    grunt.registerTask('test-webcert', [ 'wiredep:webcert', 'karma:webcert' ]);
+    grunt.registerTask('test', [ 'wiredep', 'karma' ].concat(SKIP_COVERAGE?[]:['lcovMerge']));
 };
