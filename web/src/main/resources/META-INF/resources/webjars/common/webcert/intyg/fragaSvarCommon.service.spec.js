@@ -44,6 +44,11 @@ describe('fragaSvarCommonService', function() {
             expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
         });
 
+        it ('should be unhandled if qa.status === PENDING_INTERNAL_ACTION && qa.amne === PAMINN', function () {
+            var qa = {status:'PENDING_INTERNAL_ACTION', amne : 'PAMINN'};
+            expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
+        });
+
         it ('should be unhandled if qa.status === PENDING_EXTERNAL_ACTION && qa.amne === MAKULERING', function () {
             var qa = {status:'PENDING_EXTERNAL_ACTION', amne : 'MAKULERING'};
             expect(fragaSvarCommonService.isUnhandled(qa)).toBeFalsy();
@@ -82,6 +87,13 @@ describe('fragaSvarCommonService', function() {
 
         it ('should disable answer if amne is PAMINNELSE', function () {
             var qa = {amne:'PAMINNELSE'};
+            fragaSvarCommonService.decorateSingleItem(qa);
+            expect(qa.answerDisabled).toBeTruthy();
+            expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
+        });
+
+        it ('should disable answer if amne is PAMINN', function () {
+            var qa = {amne:'PAMINN'};
             fragaSvarCommonService.decorateSingleItem(qa);
             expect(qa.answerDisabled).toBeTruthy();
             expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();

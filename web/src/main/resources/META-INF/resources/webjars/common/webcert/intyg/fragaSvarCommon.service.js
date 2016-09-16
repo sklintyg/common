@@ -85,17 +85,24 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 return (document.cookie && document.cookie.indexOf('WCDontAskForVidareBefordradToggle=1') !== -1);
             }
 
+            function _isKomplettering(value) {
+                return value === 'KOMPLETTERING_AV_LAKARINTYG' || value === 'KOMPLT';
+            }
+
+            function _isPaminnelse(value) {
+                return value === 'PAMINNELSE' || value === 'PAMINN';
+            }
+
             function _decorateSingleItem(qa) {
 
                 var allowedToKomplettera = UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, undefined, false);
 
-                if (qa.amne === 'PAMINNELSE') {
+                if (_isPaminnelse(qa.amne)) {
                     // RE-020 Påminnelser is never
                     // answerable
                     qa.answerDisabled = true;
                     qa.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-                } else if ((qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') &&
-                    !allowedToKomplettera) {
+                } else if (_isKomplettering(qa.amne) && !allowedToKomplettera) {
                     // If svaramednyttintygdisabled = true already then we aren't allowed to answer regardless of privilege
 
                     // RE-005, RE-006
@@ -114,7 +121,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                     qa.measureResKey = 'handled';
                 } else if (_isUnhandledForDecoration(qa)) {
                     qa.measureResKey = 'markhandled';
-                } else if (qa.amne === 'KOMPLETTERING_AV_LAKARINTYG' || qa.amne === 'KOMPLT') {
+                } else if (_isKomplettering(qa.amne)) {
                     qa.measureResKey = 'komplettering';
                 } else {
                     if (qa.status === 'PENDING_INTERNAL_ACTION') {
@@ -132,14 +139,14 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 if(!qa){
                     return false;
                 }
-                return qa.status === 'ANSWERED' || qa.amne === 'MAKULERING' || qa.amne === 'PAMINNELSE';
+                return qa.status === 'ANSWERED' || qa.amne === 'MAKULERING' || _isPaminnelse(qa.amne);
             }
 
             function _isUnhandled(qa){
                 if(!qa){
                     return false;
                 }
-                return (qa.status === 'PENDING_INTERNAL_ACTION' && qa.amne === 'PAMINNELSE') || qa.status === 'ANSWERED';
+                return (qa.status === 'PENDING_INTERNAL_ACTION' && _isPaminnelse(qa.amne)) || qa.status === 'ANSWERED';
             }
 
             function _getUnhandledQas(qas){

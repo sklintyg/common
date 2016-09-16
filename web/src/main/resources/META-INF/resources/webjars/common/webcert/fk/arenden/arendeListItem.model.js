@@ -54,7 +54,7 @@ angular.module('common').factory('common.ArendeListItemModel',
             if (this.arende.fraga.status === 'CLOSED') {
                 this.answerDisabled = true;
                 this.answerDisabledReason = undefined; // En avslutat konversation kan inte besvaras
-            } else if (this.arende.fraga.amne === 'PAMINNELSE') {
+            } else if (this.arende.fraga.amne === 'PAMINNELSE' || this.arende.fraga.amne === 'PAMINN') {
                 // RE-020 Påminnelser is never
                 // answerable
                 this.answerDisabled = true;
@@ -120,7 +120,7 @@ angular.module('common').factory('common.ArendeListItemModel',
         };
 
         ArendeListItemModel.prototype._isUnhandledForDecoration = function(){
-            return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || this.arende.fraga.amne === 'PAMINNELSE';
+            return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || this.arende.fraga.amne === 'PAMINNELSE' || this.arende.fraga.amne === 'PAMINN';
         };
 
         return ArendeListItemModel;
