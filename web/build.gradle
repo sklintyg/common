@@ -26,6 +26,11 @@ sourceSets {
 }
 
 task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
+  inputs.dir("$projectDir/src/main/resources")
+  inputs.file("$projectDir/Grunfile.js")
+  inputs.file("$projectDir/bower.json")
+  outputs.dir(webappTestOutputDir)
+
   script = file('node_modules/grunt-cli/bin/grunt')
   args = ['test', '--outputDir=' + webappTestOutputDir, '--skip-coverage='+(!project.hasProperty('runSonar'))]
 }
@@ -33,6 +38,11 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
 test.dependsOn(jsTests)
 
 task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
+  inputs.dir("$projectDir/src/main/resources")
+  inputs.file("$projectDir/Grunfile.js")
+  inputs.file("$projectDir/bower.json")
+  outputs.dir(webappOutputDir)
+
   script = file('node_modules/grunt-cli/bin/grunt')
   args = ['default', '--outputDir=' + webappOutputDir]
 }
