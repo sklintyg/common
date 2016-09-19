@@ -24,10 +24,10 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
-        'common.ObjectHelper', 'common.IntygService', 'common.IntygProxy',
+        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
             dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
-            IntygService, IntygProxy) {
+            IntygHelper, IntygProxy) {
             'use strict';
 
             // used to calculate save duration
@@ -101,8 +101,8 @@ angular.module('common').factory('common.UtkastService',
                             if (result !== null && result !== '') {
                                 var parentIntyg = result.contents;
                                 var intygMeta = {
-                                    isSent: IntygService.isSentToTarget(result.statuses, 'FK'),
-                                    isRevoked: IntygService.isRevoked(result.statuses),
+                                    isSent: IntygHelper.isSentToTarget(result.statuses, 'FK'),
+                                    isRevoked: IntygHelper.isRevoked(result.statuses),
                                     forceUseProvidedIntyg: true,
                                     kompletteringOnly: true,
                                     meddelandeId: intygModel.grundData.relation.meddelandeId

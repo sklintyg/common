@@ -27,10 +27,10 @@ angular.module('common').factory('common.IntygSend',
                 isOpen: false
             };
 
-            function _sendSigneratIntyg(intygsId, intygsTyp, recipientId, patientConsent, dialogModel, sendDialog, onSuccess) {
+            function _sendSigneratIntyg(intygsId, intygsTyp, recipientId, dialogModel, sendDialog, onSuccess) {
                 dialogModel.showerror = false;
                 dialogModel.acceptprogressdone = false;
-                IntygProxy.sendIntyg(intygsId, intygsTyp, recipientId, patientConsent, function(status) {
+                IntygProxy.sendIntyg(intygsId, intygsTyp, recipientId, function(status) {
                     dialogModel.acceptprogressdone = true;
                     sendDialog.close();
                     onSuccess(status);
@@ -59,7 +59,7 @@ angular.module('common').factory('common.IntygSend',
                     model: dialogSendModel,
                     button1click: function() {
                         $log.debug('send intyg from dialog. id:' + intygId + ', intygType:' + intygType + ', recipientId:' + recipientId);
-                        _sendSigneratIntyg(intygId, intygType, recipientId, dialogSendModel.patientConsent, dialogSendModel,
+                        _sendSigneratIntyg(intygId, intygType, recipientId, dialogSendModel,
                             sendDialog, onSuccess);
                     },
                     button1text: 'common.send',
