@@ -40,6 +40,14 @@ angular.module('common').factory('common.ArendeListItemModel',
             this.updateArendeListItem();
         }
 
+        function _isKomplettering(amne) {
+            return amne === 'KOMPLETTERING_AV_LAKARINTYG' || amne === 'KOMPLT';
+        }
+
+        function _isPaminnelse(amne) {
+            return amne === 'PAMINNELSE' || amne === 'PAMINN';
+        }
+
         ArendeListItemModel.build = function(arendeModel) {
             return new ArendeListItemModel(arendeModel);
         };
@@ -54,13 +62,13 @@ angular.module('common').factory('common.ArendeListItemModel',
             if (this.arende.fraga.status === 'CLOSED') {
                 this.answerDisabled = true;
                 this.answerDisabledReason = undefined; // En avslutat konversation kan inte besvaras
-            } else if (this.arende.fraga.amne === 'PAMINNELSE' || this.arende.fraga.amne === 'PAMINN') {
+            } else if (_isPaminnelse(this.arende.fraga.amne)) {
                 // RE-020 Påminnelser is never
                 // answerable
                 this.answerDisabled = true;
                 this.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
             } else if (this.arende.fraga.status !== 'CLOSED' &&
-                (this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') &&
+                _isKomplettering(this.arende.fraga.amne) &&
                 !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
                 // RE-005, RE-006
                 this.answerDisabled = true;
@@ -70,7 +78,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabledReason = undefined;
             }
 
-            if ((this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') &&
+            if (_isKomplettering(this.arende.fraga.amne) &&
                 UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
                 this.svaraMedNyttIntygDisabled = true;
                 this.svaraMedNyttIntygDisabledReason = messageService.getProperty('common.arende.komplettering.disabled.svaramedintyg.uthopp');
@@ -84,7 +92,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.atgardMessageId = 'handled';
             } else if (this._isUnhandledForDecoration()) {
                 this.atgardMessageId = 'markhandled';
-            } else if (this.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || this.arende.fraga.amne === 'KOMPLT') {
+            } else if (_isKomplettering(this.arende.fraga.amne)) {
                 this.atgardMessageId = 'komplettering';
             } else {
                 if (this.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
@@ -120,7 +128,7 @@ angular.module('common').factory('common.ArendeListItemModel',
         };
 
         ArendeListItemModel.prototype._isUnhandledForDecoration = function(){
-            return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || this.arende.fraga.amne === 'PAMINNELSE' || this.arende.fraga.amne === 'PAMINN';
+            return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || _isPaminnelse(this.arende.fraga.amne);
         };
 
         return ArendeListItemModel;
