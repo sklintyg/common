@@ -61,13 +61,12 @@ angular.module('common').controller('common.ArendeCtrl',
                 });
             }
 
-            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties, relations) {
+            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
 
                 // IMPORTANT!! DON'T LET fetchArenden DEPEND ON THE INTYG LOAD EVENT (intyg) in this case!
                 // Messages needs to be loaded separately from the intyg as user should be able to see messages even if intyg didn't load.
                 // Used when coming from Intyg page.
                 ArendenViewState.intyg = intyg;
-                ArendenViewState.relations = relations;
                 if (ObjectHelper.isDefined(ArendenViewState.intyg) && ObjectHelper.isDefined(ArendenViewState.intygProperties)) {
 
                     ArendenViewState.intygProperties = intygProperties;

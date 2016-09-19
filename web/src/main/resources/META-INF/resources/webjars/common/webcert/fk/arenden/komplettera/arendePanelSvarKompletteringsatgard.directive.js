@@ -59,7 +59,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                     // For readability, keep a local struct with the values used from parent scope
                     var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
-                    $scope.relations = arendenViewStateService.relations;
+                    $scope.relations = ArendeSvar.intygProperties.relations; //arendenViewStateService.relations;
 
                     $scope.arendeSvar = ArendeSvar;
 

@@ -43,7 +43,7 @@ angular.module('common').service('common.IntygViewStateService',
             this.common.reset();
         };
 
-        this.updateIntygProperties = function(statuses) {
+        this.updateIntygProperties = function(result) {
 
             var targetName;
             if(this.intygProperties.type === 'ts-bas' || this.intygProperties.type === 'ts-diabetes') {
@@ -53,12 +53,16 @@ angular.module('common').service('common.IntygViewStateService',
             }
 
 
-            this.intygProperties.isSent = IntygService.isSentToTarget(statuses, targetName);
-            this.intygProperties.isRevoked = IntygService.isRevoked(statuses);
+            this.intygProperties.isSent = IntygService.isSentToTarget(result.statuses, targetName);
+            this.intygProperties.isRevoked = IntygService.isRevoked(result.statuses);
             if (this.intygProperties.isRevoked) {
                 this.intygProperties.printStatus = 'revoked';
             } else {
                 this.intygProperties.printStatus = 'signed';
+            }
+
+            if (typeof result.relations !== 'undefined') {
+                this.intygProperties.relations = result.relations;
             }
         };
 
