@@ -109,6 +109,8 @@ angular.module('common').constant('common.messages', {
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
         'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
 
+        'intyg.makulera.help' : 'Orsak till makulering ska anges för att undvika att Försäkringskassans handläggare kontaktar dig senare för att få information om orsaken, vilket kan fördröja handläggningen av patientens ärende.',
+
         // wc-common-directives-resources
         'nav.label.loggedinas': 'Inloggad som:',
 

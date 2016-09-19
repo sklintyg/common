@@ -54,14 +54,14 @@ angular.module('common').directive('wcHelpMark',
                             } else {
                                 $scope.showHelp = true;
                             }
-                            $log.debug('new help text dynamic:' + $scope.fieldDynamicHelpText + ', actual:' + $scope.text);
+                            //$log.debug('new help text dynamic:' + $scope.fieldDynamicHelpText + ', actual:' + $scope.text);
                         } else if(!ObjectHelper.isEmpty($scope.fieldHelpText)) {
                             $scope.text = messageService.getProperty($scope.fieldHelpText);
                             $scope.showHelp = true;
-                            $log.debug('new help text static:' + $scope.fieldHelpText + ', actual:' + $scope.text);
+                            //$log.debug('new help text static:' + $scope.fieldHelpText + ', actual:' + $scope.text);
                         } else {
                             $scope.showHelp = false;
-                            $log.debug('disable help');
+                            //$log.debug('disable help');
                         }
                     }
 
