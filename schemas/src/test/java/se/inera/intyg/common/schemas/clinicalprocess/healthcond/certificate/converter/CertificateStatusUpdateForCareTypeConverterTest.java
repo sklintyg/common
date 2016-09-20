@@ -24,12 +24,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
+
 import org.junit.Test;
 
 import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
-import se.inera.intyg.common.support.modules.support.api.notification.FragorOchSvar;
-import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
-import se.inera.intyg.common.support.modules.support.api.notification.SchemaVersion;
+import se.inera.intyg.common.support.modules.support.api.notification.*;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v2.CertificateStatusUpdateForCareType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.ArbetsplatsKod;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
@@ -68,12 +67,6 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         // Make sure we have a valid Intyg according to service contract
         assertEquals(CertificateStatusUpdateForCareTypeConverter.TEMPORARY_ARBETSPLATSKOD,
                 res.getIntyg().getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
-        assertEquals(CertificateStatusUpdateForCareTypeConverter.TEMPORARY_PHONE_NUMBER, res.getIntyg().getSkapadAv().getEnhet().getTelefonnummer());
-        assertEquals(CertificateStatusUpdateForCareTypeConverter.TEMPORARY_POSTADRESS, res.getIntyg().getSkapadAv().getEnhet().getPostadress());
-        assertEquals(CertificateStatusUpdateForCareTypeConverter.TEMPORARY_POSTNUMMER, res.getIntyg().getSkapadAv().getEnhet().getPostnummer());
-        assertEquals(CertificateStatusUpdateForCareTypeConverter.TEMPORARY_POSTORT, res.getIntyg().getSkapadAv().getEnhet().getPostort());
-        assertEquals("", res.getIntyg().getSkapadAv().getEnhet().getEnhetsnamn());
-        assertEquals("", res.getIntyg().getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
         assertNull(res.getIntyg().getSkapadAv().getEnhet().getEpost());
     }
 
@@ -85,35 +78,17 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
 
         Intyg intyg = buildIntyg();
         final String arbetsplatskod = "ARBETSPLATSKOD";
-        final String phonenumber = "PHONE_NUMBER";
-        final String postadress = "POSTADRESS";
-        final String postnummer = "POSTNUMMER";
-        final String postort = "POSTORT";
-        final String enhetsnamn = "ENHETSNAMN";
-        final String vardgivarnamn = "VARDGIVARNAMN";
         final String epost = "EPOST";
 
         Enhet enhet = intyg.getSkapadAv().getEnhet();
-        enhet.setPostadress(postadress);
-        enhet.setPostnummer(postnummer);
-        enhet.setPostort(postort);
-        enhet.setTelefonnummer(phonenumber);
         enhet.getArbetsplatskod().setExtension(arbetsplatskod);
-        enhet.setEnhetsnamn(enhetsnamn);
         enhet.setEpost(epost);
-        enhet.getVardgivare().setVardgivarnamn(vardgivarnamn);
 
         NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", new FragorOchSvar(4, 3, 2, 1),
                 SchemaVersion.VERSION_2, "ref");
         CertificateStatusUpdateForCareType res = CertificateStatusUpdateForCareTypeConverter.convert(msg, intyg);
 
         assertEquals(arbetsplatskod, res.getIntyg().getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
-        assertEquals(phonenumber, res.getIntyg().getSkapadAv().getEnhet().getTelefonnummer());
-        assertEquals(postadress, res.getIntyg().getSkapadAv().getEnhet().getPostadress());
-        assertEquals(postnummer, res.getIntyg().getSkapadAv().getEnhet().getPostnummer());
-        assertEquals(postort, res.getIntyg().getSkapadAv().getEnhet().getPostort());
-        assertEquals(enhetsnamn, res.getIntyg().getSkapadAv().getEnhet().getEnhetsnamn());
-        assertEquals(vardgivarnamn, res.getIntyg().getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
         assertEquals(epost, res.getIntyg().getSkapadAv().getEnhet().getEpost());
 
     }

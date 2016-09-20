@@ -90,7 +90,7 @@ public final class InternalConverterUtil {
     private static Enhet getEnhet(Vardenhet sourceVardenhet) {
         Enhet vardenhet = new Enhet();
         vardenhet.setEnhetsId(getHsaId(sourceVardenhet.getEnhetsid()));
-        vardenhet.setEnhetsnamn(sourceVardenhet.getEnhetsnamn());
+        vardenhet.setEnhetsnamn(emptyStringIfNull(sourceVardenhet.getEnhetsnamn()));
         vardenhet.setPostnummer(emptyStringIfNull(sourceVardenhet.getPostnummer()));
         vardenhet.setPostadress(emptyStringIfNull(sourceVardenhet.getPostadress()));
         vardenhet.setPostort(emptyStringIfNull(sourceVardenhet.getPostort()));
@@ -111,7 +111,7 @@ public final class InternalConverterUtil {
     private static Vardgivare getVardgivare(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceVardgivare) {
         Vardgivare vardgivare = new Vardgivare();
         vardgivare.setVardgivareId(getHsaId(sourceVardgivare.getVardgivarid()));
-        vardgivare.setVardgivarnamn(sourceVardgivare.getVardgivarnamn());
+        vardgivare.setVardgivarnamn(emptyStringIfNull(sourceVardgivare.getVardgivarnamn()));
         return vardgivare;
     }
 

@@ -31,10 +31,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 public final class CertificateStatusUpdateForCareTypeConverter {
 
     protected static final String TEMPORARY_ARBETSPLATSKOD = "TEMPORARY ARBETSPLATSKOD";
-    protected static final String TEMPORARY_POSTADRESS = "TEMPORARY POSTADRESS";
-    protected static final String TEMPORARY_POSTNUMMER = "TEMPORARY POSTNUMMER";
-    protected static final String TEMPORARY_POSTORT = "TEMPORARY POSTORT";
-    protected static final String TEMPORARY_PHONE_NUMBER = "TEMPORARY PHONE NUMBER";
 
     private CertificateStatusUpdateForCareTypeConverter() {
     }
@@ -54,34 +50,14 @@ public final class CertificateStatusUpdateForCareTypeConverter {
      *
      * It is needed because a utkast might not contain the information needed to meet the requirements of the service
      * contract. And we send not yet signed utkast in CertificateStatusUpdateForCare.
-     *
-     * The information that is updated in this method is the units address information.
      */
     private static void complementIntyg(Intyg intyg) {
         Enhet enhet = intyg.getSkapadAv().getEnhet();
         if (StringUtils.isBlank(enhet.getArbetsplatskod().getExtension())) {
             enhet.getArbetsplatskod().setExtension(TEMPORARY_ARBETSPLATSKOD);
         }
-        if (enhet.getEnhetsnamn() == null) {
-            enhet.setEnhetsnamn("");
-        }
-        if (StringUtils.isBlank(enhet.getPostadress())) {
-            enhet.setPostadress(TEMPORARY_POSTADRESS);
-        }
-        if (StringUtils.isBlank(enhet.getPostnummer())) {
-            enhet.setPostnummer(TEMPORARY_POSTNUMMER);
-        }
-        if (StringUtils.isBlank(enhet.getPostort())) {
-            enhet.setPostort(TEMPORARY_POSTORT);
-        }
-        if (StringUtils.isBlank(enhet.getTelefonnummer())) {
-            enhet.setTelefonnummer(TEMPORARY_PHONE_NUMBER);
-        }
         if ("".equals(enhet.getEpost())) {
             enhet.setEpost(null);
-        }
-        if (enhet.getVardgivare().getVardgivarnamn() == null) {
-            enhet.getVardgivare().setVardgivarnamn("");
         }
     }
 
