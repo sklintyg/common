@@ -37,4 +37,6 @@ public interface IntygModuleRegistry {
     List<ModuleEntryPoint> getModuleEntryPoints();
 
     boolean moduleExists(String moduleId);
+
+    String getModuleIdFromExternalId(String externalId);
 }

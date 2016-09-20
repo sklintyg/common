@@ -24,7 +24,7 @@ angular.module('common').service('common.fmb.ViewStateService',
             this.state = {
                 formData: [],
                 diagnosKod: undefined,
-                diagnosBeskrivning: undefined, 
+                diagnosBeskrivning: undefined,
                 originalDiagnoskod: undefined
             };
 

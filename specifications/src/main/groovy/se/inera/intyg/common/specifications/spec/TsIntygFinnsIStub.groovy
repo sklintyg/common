@@ -17,33 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.specifications.spec.util
+package se.inera.intyg.common.specifications.spec
 
-import groovyx.net.http.RESTClient
+import se.inera.intyg.common.specifications.spec.util.RestClientFixture
 
-/**
- *
- * @author andreaskaltenbach
- */
-class RestClientFixture {
+public class TsIntygFinnsIStub extends RestClientFixture {
 
-    String baseUrl = System.getProperty("certificate.baseUrl") + "resources/"
-    
-    /**
-     * Creates a RestClient which accepts all server certificates
-     * @return
-     */
-    def createRestClient() {
-        createRestClient(baseUrl)
+    String id;
+    def responseData = null;
+
+    private String url = System.getProperty("certificate.baseUrl")
+
+    def execute() {
+        def restClient = createRestClient("${url}")
+        def response = restClient.get(path: 'ts-certificate-stub/certificates')
+        responseData = response.data;
     }
 
-    /**
-     * Creates a RestClient which accepts all server certificates
-     * @return
-     */
-    static def createRestClient(String url) {
-        def restClient = new RESTClient(url)
-        restClient.ignoreSSLIssues()
-        restClient
+    boolean exists(){
+        return responseData[id] != null;
     }
 }

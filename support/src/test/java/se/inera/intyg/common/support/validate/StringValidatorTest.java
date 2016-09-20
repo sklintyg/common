@@ -27,7 +27,7 @@ import java.util.Calendar;
 import org.junit.Test;
 
 public class StringValidatorTest {
-    
+
     @Test
     public void testValidateStringIsNumbers() {
         final String numbers = "2011";
@@ -52,12 +52,12 @@ public class StringValidatorTest {
         int thisYear = now.get(Calendar.YEAR);
         final String validThisYear = Integer.toString(thisYear);
         final String validButFuture = Integer.toString(thisYear + 1);
-        
+
         final String eighteenHundred = "1800";
         final String nineHundred = "0900";
         final String other = "2011-12-12";
         final String inTheFuture = "5666";
-        
+
         StringValidator validator = new StringValidator();
         assertTrue(validator.validateStringIsYear(twentyEleven));
         assertTrue(validator.validateStringIsYear(nineteenEleven));
@@ -70,7 +70,7 @@ public class StringValidatorTest {
         assertFalse(validator.validateStringIsYear(validButFuture));
 
         assertFalse(validator.validateStringIsYear(inTheFuture));
-        
+
         assertFalse(validator.validateStringIsYear(other));
     }
 

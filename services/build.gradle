@@ -1,0 +1,10 @@
+description = 'Intyg Common (Services)'
+
+dependencies {
+  compile project(':common-support')
+  compile project(':integration-util')
+
+  compile "org.springframework:spring-context:${springVersion}"
+
+  testCompile "org.mockito:mockito-core:${mockitoVersion}"
+}

@@ -35,11 +35,11 @@ import ch.qos.logback.core.spi.FilterReply;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MarkerFilterTest {
-    
+
     private MarkerFilter markerFilter;
     private FilterReply accept = FilterReply.ACCEPT;
     private FilterReply deny = FilterReply.DENY;
-    
+
     @Before
     public void setUp() {
         markerFilter = new MarkerFilter();

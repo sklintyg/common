@@ -23,14 +23,13 @@ module.exports = function(config) {
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/webcert/';
     var TEST_DIR = 'src/main/resources/META-INF/resources/webjars/common/webcert/';
-    var WEBJAR_DIR = 'target/webjardependencies/';
     var NODE_DIR = 'node_modules/';
     //var TEMPLATE_PATH = ;
 
     config.set({
 
         // base path, that will be used to resolve files and exclude
-        basePath: '../../../../../',
+        basePath: '',
 
         // frameworks to use
         frameworks: [ 'jasmine' ],
@@ -62,15 +61,21 @@ module.exports = function(config) {
         files: [
 
             // Dependencies
-            WEBJAR_DIR + 'jquery/jquery.min.js',
-            WEBJAR_DIR + 'angularjs/angular.js',
-            WEBJAR_DIR + 'angularjs/angular-mocks.js',
-            WEBJAR_DIR + 'angularjs/1.4.10/angular-locale_sv-se.js',
-            WEBJAR_DIR + 'angularjs/angular-cookies.js',
-            WEBJAR_DIR + 'angular-ui-router/angular-ui-router.js',
-            WEBJAR_DIR + 'angularjs/angular-sanitize.js',
-            WEBJAR_DIR + 'angular-ui-bootstrap/ui-bootstrap-tpls.js',
-            WEBJAR_DIR + 'momentjs/moment.js',
+            // bower:js
+            'bower_components/jquery/jquery.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-cookies/angular-cookies.js',
+            'bower_components/angular-mocks/angular-mocks.js',
+            'bower_components/angular-i18n/angular-locale_sv-se.js',
+            'bower_components/angular-sanitize/angular-sanitize.js',
+            'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+            'bower_components/api-check/dist/api-check.js',
+            'bower_components/angular-formly/dist/formly.js',
+            'bower_components/angular-ui-router/release/angular-ui-router.js',
+            'bower_components/bootstrap/dist/js/bootstrap.js',
+            'bower_components/momentjs/moment.js',
+            // endbower
             NODE_DIR + '/karma-read-json/karma-read-json.js',
             NODE_DIR + 'tv4/tv4.js',
 
