@@ -185,7 +185,7 @@ public final class InternalConverterUtil {
         MeddelandeReferens mr = new MeddelandeReferens();
         mr.setMeddelandeId(utlatande.getGrundData().getRelation().getMeddelandeId());
         if (utlatande.getGrundData().getRelation().getReferensId() != null) {
-            mr.getReferensId().add(utlatande.getGrundData().getRelation().getReferensId());
+            mr.setReferensId(utlatande.getGrundData().getRelation().getReferensId());
         }
         return mr;
     }

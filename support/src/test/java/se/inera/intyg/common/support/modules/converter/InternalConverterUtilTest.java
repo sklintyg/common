@@ -160,8 +160,7 @@ public class InternalConverterUtilTest {
         MeddelandeReferens result = InternalConverterUtil.getMeddelandeReferensOfType(utlatande, type);
         assertNotNull(result);
         assertEquals(meddelandeId, result.getMeddelandeId());
-        assertEquals(1, result.getReferensId().size());
-        assertEquals(referensId, result.getReferensId().get(0));
+        assertEquals(referensId, result.getReferensId());
     }
 
     @Test
@@ -173,7 +172,7 @@ public class InternalConverterUtilTest {
         MeddelandeReferens result = InternalConverterUtil.getMeddelandeReferensOfType(utlatande, type);
         assertNotNull(result);
         assertEquals(meddelandeId, result.getMeddelandeId());
-        assertTrue(result.getReferensId().isEmpty());
+        assertNull(result.getReferensId());
     }
 
     @Test

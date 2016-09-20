@@ -22,8 +22,6 @@ package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.con
 import static se.inera.intyg.common.support.Constants.KV_HANDELSE_CODE_SYSTEM;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v2.CertificateStatusUpdateForCareType;
@@ -38,8 +36,6 @@ public final class CertificateStatusUpdateForCareTypeConverter {
     protected static final String TEMPORARY_POSTORT = "TEMPORARY POSTORT";
     protected static final String TEMPORARY_PHONE_NUMBER = "TEMPORARY PHONE NUMBER";
 
-    private static final Logger LOG = LoggerFactory.getLogger(CertificateStatusUpdateForCareTypeConverter.class);
-
     private CertificateStatusUpdateForCareTypeConverter() {
     }
 
@@ -49,12 +45,7 @@ public final class CertificateStatusUpdateForCareTypeConverter {
         destination.setIntyg(intyg);
         decorateWithHandelse(destination, notificationMessage);
         decorateWithFragorOchSvar(destination, notificationMessage);
-        // Uncomment next line when we have RC6 of schema (and remove log) See JIRA
-        // destination.setRef(notificationMessage.getReference());
-        if (notificationMessage.getReference() != null) {
-            LOG.error("Here is where we would add the reference '{}', if we had any support in schema. If you see this in production we f'ed up.",
-                    notificationMessage.getReference());
-        }
+        destination.setRef(notificationMessage.getReference());
         return destination;
     }
 
@@ -109,12 +100,12 @@ public final class CertificateStatusUpdateForCareTypeConverter {
     }
 
     private static void decorateWithFragorOchSvar(CertificateStatusUpdateForCareType statusUpdateType, NotificationMessage notificationMessage) {
-        FragorOchSvar fosType = new FragorOchSvar();
-        fosType.setAntalFragor(notificationMessage.getFragaSvar().getAntalFragor());
-        fosType.setAntalHanteradeFragor(notificationMessage.getFragaSvar().getAntalHanteradeFragor());
-        fosType.setAntalHanteradeSvar(notificationMessage.getFragaSvar().getAntalHanteradeSvar());
-        fosType.setAntalSvar(notificationMessage.getFragaSvar().getAntalSvar());
-        statusUpdateType.setFragorOchSvar(fosType);
+//        FragorOchSvar fosType = new FragorOchSvar();
+//        fosType.setAntalFragor(notificationMessage.getFragaSvar().getAntalFragor());
+//        fosType.setAntalHanteradeFragor(notificationMessage.getFragaSvar().getAntalHanteradeFragor());
+//        fosType.setAntalHanteradeSvar(notificationMessage.getFragaSvar().getAntalHanteradeSvar());
+//        fosType.setAntalSvar(notificationMessage.getFragaSvar().getAntalSvar());
+//        statusUpdateType.setFragorOchSvar(fosType);
     }
 
 }
