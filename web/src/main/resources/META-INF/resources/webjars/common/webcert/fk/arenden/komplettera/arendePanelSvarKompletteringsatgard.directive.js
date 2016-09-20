@@ -28,10 +28,10 @@
  */
 angular.module('common').directive('arendePanelSvarKompletteringsatgard',
     [ '$window', '$log', '$state', '$stateParams', '$q',
-        'common.IntygProxy', 'common.statService', 'common.ObjectHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService', 'common.ArendenViewStateService',
-        function($window, $log, $state, $stateParams, $q, IntygProxy, statService, ObjectHelper,
-            IntygCopyRequestModel, ArendeSvarModel, dialogService, arendenViewStateService) {
+        'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService', 'common.ArendenViewStateService', 'common.IntygProxy',
+        function($window, $log, $state, $stateParams, $q, ArendeProxy, statService, ObjectHelper,
+            IntygCopyRequestModel, ArendeSvarModel, dialogService, arendenViewStateService, IntygProxy) {
             'use strict';
 
             function _hasKompletteringUtkastRelation(relations) {
@@ -157,7 +157,6 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                     };
 
-
                     $scope.onAnswerWithIntyg = function() {
 
                         var deferred = $q.defer();
@@ -192,10 +191,6 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                             });
                         return deferred.promise;
                     };
-
-
-
-
                 }
             };
         }]);
