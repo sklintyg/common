@@ -9,11 +9,25 @@
         <div arende-paminnelse-panel panel-id="panelId" paminnelse="paminnelse" parent-view-state="parentViewState"></div>
       </div>
 
-      <div arende-panel-header arende-list-item="arendeListItem" parent-view-state="parentViewState"></div>
+      <div arende-panel-header arende-list="arendeList" arende-list-item="arendeListItem" parent-view-state="parentViewState"></div>
 
       <div arende-vidarebefordra arende-list-item="arendeListItem" panel-id="panelId" parent-view-state="parentViewState"></div>
 
       <div arende-panel-fraga arende-list-item="arendeListItem" panel-id="panelId" parent-view-state="parentViewState"></div>
+
+      <div ng-repeat="kompletteringArendeListItem in arendeListItem.extraKompletteringarArenden">
+
+          <div ng-repeat="paminnelse in kompletteringArendeListItem.arende.paminnelser | orderBy:'senasteHandelse':true">
+            <div arende-paminnelse-panel panel-id="panelId" paminnelse="paminnelse" parent-view-state="parentViewState"></div>
+          </div>
+
+          <div arende-panel-header arende-list="arendeList" arende-list-item="kompletteringArendeListItem" parent-view-state="parentViewState"></div>
+
+          <div arende-vidarebefordra arende-list-item="kompletteringArendeListItem" panel-id="panelId" parent-view-state="parentViewState"></div>
+
+          <div arende-panel-fraga arende-list-item="kompletteringArendeListItem" panel-id="panelId" parent-view-state="parentViewState"></div>
+
+      </div>
 
       <div arende-panel-svar arende-list-item="arendeListItem" panel-id="panelId" parent-view-state="parentViewState"></div>
 

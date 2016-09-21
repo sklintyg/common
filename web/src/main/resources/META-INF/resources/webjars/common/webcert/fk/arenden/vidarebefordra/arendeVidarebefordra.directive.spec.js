@@ -83,8 +83,9 @@ describe('arendeVidarebefordra', function() {
             var tpl = angular.element(
                 '<div arende-vidarebefordra arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></div>'
             );
-            $compile(tpl)($scope);
+            var element = $compile(tpl)($scope);
             $scope.$digest();
+            $scope = element.isolateScope();
         }]));
 
 

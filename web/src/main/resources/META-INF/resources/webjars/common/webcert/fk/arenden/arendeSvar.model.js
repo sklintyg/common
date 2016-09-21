@@ -49,11 +49,6 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.fragaMeddelande = arendeListItem.arende.fraga.meddelande;
 
                 // From svar
-                if (!ObjectHelper.isDefined(arendeListItem.arende.svar)) {
-                    arendeListItem.arende.svar = {
-                        meddelande: ''
-                    };
-                }
                 this.meddelande = arendeListItem.arende.svar.meddelande;
                 this.internReferens = arendeListItem.arende.svar.internReferens;
                 this.svarSkickadDatum = arendeListItem.arende.svar.svarSkickadDatum;

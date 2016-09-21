@@ -25,8 +25,8 @@
  * arendeHantera directive. Common directive for Hanterad checkbox
  */
 angular.module('common').directive('arendeHantera',
-    [ '$window', '$log', 'common.ArendeProxy', 'common.statService', 'common.ErrorHelper',
-        function($window, $log, ArendeProxy, statService, ErrorHelper) {
+    [ '$window', '$log', 'common.ArendeProxy', 'common.statService', 'common.ErrorHelper', 'common.ArendeHelper',
+        function($window, $log, ArendeProxy, statService, ErrorHelper, ArendeHelper) {
             'use strict';
 
             return {
@@ -34,6 +34,7 @@ angular.module('common').directive('arendeHantera',
                 replace: true,
                 templateUrl: '/web/webjars/common/webcert/fk/arenden/arendeHantera.directive.html',
                 scope: {
+                    arendeList: '=',
                     arendeListItem: '=',
                     parentViewState: '='
                 },
@@ -72,6 +73,7 @@ angular.module('common').directive('arendeHantera',
                                 angular.copy(result, arendeListItem.arende);
                                 arendeListItem.updateArendeListItem();
                                 statService.refreshStat();
+                                ArendeHelper.splitToSingleItem(arendeListItem, $scope.arendeList);
                             }
                             $window.doneLoading = true;
                             if(deferred) {
@@ -101,6 +103,7 @@ angular.module('common').directive('arendeHantera',
                                 angular.copy(result, arendeListItem.arende);
                                 arendeListItem.updateArendeListItem();
                                 statService.refreshStat();
+                                ArendeHelper.checkMergeToKompletteringItem(arendeListItem, $scope.arendeList);
                             }
                         }, function(errorData) {
                             // show error view

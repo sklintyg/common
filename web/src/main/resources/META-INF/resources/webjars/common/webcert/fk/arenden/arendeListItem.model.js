@@ -29,7 +29,7 @@ angular.module('common').factory('common.ArendeListItemModel',
         /**
          * Constructor
          */
-        function ArendeListItemModel(arendeModel) {
+        function ArendeListItemModel(arendeModel, extraKompletteringarArende) {
             this.answerDisabled = false;
             this.answerDisabledReason = '';
             this.svaraMedNyttIntygDisabled = false;
@@ -37,6 +37,15 @@ angular.module('common').factory('common.ArendeListItemModel',
             this.atgardMessageId = '';
             this.arende = arendeModel; // ArendeModel from backend
             this.kompletteringar = []; // this is created in updateArendeListItem since dynamic text ids needs to be created from arende.fraga.kompletteringar
+            this.extraKompletteringarArenden = [];
+            if (extraKompletteringarArende) {
+                this.extraKompletteringarArenden = extraKompletteringarArende.map(function(extraKompletteringarArende) {
+                    var newItem = ArendeListItemModel.build(extraKompletteringarArende);
+                    newItem.parentListItem = this;
+                    newItem.updateArendeListItem();
+                    return newItem;
+                }, this);
+            }
             this.updateArendeListItem();
         }
 
@@ -48,11 +57,18 @@ angular.module('common').factory('common.ArendeListItemModel',
             return amne === 'PAMINNELSE' || amne === 'PAMINN';
         }
 
-        ArendeListItemModel.build = function(arendeModel) {
-            return new ArendeListItemModel(arendeModel);
+        ArendeListItemModel.build = function(arendeModel, extraKompletteringarArende) {
+            return new ArendeListItemModel(arendeModel, extraKompletteringarArende);
         };
 
         ArendeListItemModel.prototype.updateArendeListItem = function () {
+
+            if (!ObjectHelper.isDefined(this.arende.svar)) {
+                this.arende.svar = {
+                    meddelande: ''
+                };
+            }
+
             this._updateListItemState();
             this._updateAtgardMessage();
             this._updateKompletteringar();

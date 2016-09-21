@@ -40,17 +40,14 @@ angular.module('common').directive('arendeVidarebefordra',
                     parentViewState: '='
                 },
                 controller: function($scope, $element, $attrs) {
-
-                    $scope.$parent.forwardInProgress = false;
+                    $scope.forwardInProgress = false;
 
                     $scope.showVidarebefordra = function() {
                         return !$scope.parentViewState.intygProperties.kompletteringOnly &&
                             $scope.arendeListItem.arende.fraga.status !== 'CLOSED';
                     };
 
-                    // NOTE: $parent is needed since ng-if for wc-authority in the templates
-                    // creates a new isolate scope and these functions won't be accessible if set directly on
-                    $scope.$parent.openMailDialog = function(arende) {
+                    $scope.openMailDialog = function(arende) {
                         // Handle vidarebefordra dialog
                         // use timeout so that external mail client has a chance to start before showing dialog
                         $timeout(function() {
@@ -71,13 +68,14 @@ angular.module('common').directive('arendeVidarebefordra',
                             $log.debug('openMailDialog - cant build mailto link. arande.fraga is not defined');
                         }
                     };
-                    $scope.$parent.onVidarebefordradChange = function() {
-                        $scope.$parent.forwardInProgress = true;
+
+                    $scope.onVidarebefordradChange = function() {
+                        $scope.forwardInProgress = true;
                         ArendeProxy.setVidarebefordradState($scope.arendeListItem.arende.fraga.internReferens,
                             $scope.parentViewState.intygProperties.type,
                             $scope.arendeListItem.arende.fraga.vidarebefordrad,
                             function(result) {
-                                $scope.$parent.forwardInProgress = false;
+                                $scope.forwardInProgress = false;
                                 if (result && result.fraga) {
                                     $scope.arendeListItem.arende.fraga.vidarebefordrad =
                                         result.fraga.vidarebefordrad;
