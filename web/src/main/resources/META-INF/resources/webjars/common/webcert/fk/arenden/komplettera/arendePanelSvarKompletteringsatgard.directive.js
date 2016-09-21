@@ -28,20 +28,24 @@
  */
 angular.module('common').directive('arendePanelSvarKompletteringsatgard',
     [ '$window', '$log', '$state', '$stateParams', '$q',
-        'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
+        'common.IntygProxy', 'common.statService', 'common.ObjectHelper',
         'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService', 'common.ArendenViewStateService',
-        function($window, $log, $state, $stateParams, $q, ArendeProxy, statService, ObjectHelper,
+        function($window, $log, $state, $stateParams, $q, IntygProxy, statService, ObjectHelper,
             IntygCopyRequestModel, ArendeSvarModel, dialogService, arendenViewStateService) {
             'use strict';
 
             function _hasKompletteringUtkastRelation(relations) {
                 for (var a = 0; a < relations.length; a++) {
                     var relation = relations[a];
-                    if (relation.kod === 'KOMPLT') {
+                    if (relation.kod === 'KOMPLT' && _isUtkast(relation)) {
                         return true;
                     }
                 }
                 return false;
+            }
+
+            function _isUtkast(relation) {
+                return relation.status === 'DRAFT_INCOMPLETE' || relation.status === 'DRAFT_COMPLETE';
             }
 
             return {
@@ -77,7 +81,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                         var latestKomplRelation;
                         for (var a = 0; a < $scope.relations.length; a++) {
                             var relation =  $scope.relations[a];
-                            if (relation.kod === 'KOMPLT') {
+                            if (relation.kod === 'KOMPLT' && _isUtkast(relation)) {
                                 if (typeof latestKomplRelation === 'undefined') {
                                     latestKomplRelation = relation;
                                 } else if (relation.date > latestKomplRelation.date) {
@@ -161,7 +165,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                         ArendeSvar.updateInProgress = true; // trigger local spinner
                         ArendeSvar.activeKompletteringErrorMessageKey = null;
 
-                        ArendeProxy.answerWithIntyg($scope.arendeListItem.arende, ArendeSvar.intygProperties.type,
+                        IntygProxy.answerWithIntyg($scope.arendeListItem.arende, ArendeSvar.intygProperties.type,
                             IntygCopyRequestModel.build({
                                 intygId: $scope.parentViewState.intyg.id,
                                 intygType: ArendeSvar.intygProperties.type,
