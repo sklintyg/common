@@ -29,6 +29,7 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
   inputs.dir("$projectDir/src/main/resources")
   inputs.files(fileTree(projectDir).include('*.js'))
   inputs.files(fileTree(projectDir).include('*.json'))
+  inputs.files(configurations.compile)
   outputs.dir(webappTestOutputDir)
 
   script = file('node_modules/grunt-cli/bin/grunt')
@@ -41,6 +42,7 @@ task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
   inputs.dir("$projectDir/src/main/resources")
   inputs.files(fileTree(projectDir).include('*.js'))
   inputs.files(fileTree(projectDir).include('*.json'))
+  inputs.files(configurations.compile)
   outputs.dir(webappOutputDir)
 
   script = file('node_modules/grunt-cli/bin/grunt')
