@@ -33,9 +33,9 @@ public enum HandelsekodEnum {
     MAKULE("MAKULE", "Intyg makulerat"),
     NYFRFM("NYFRFM", "Ny fråga från mottagare"),
     NYSVFM("NYSVFM", "Nytt svar från mottagare"),
-    NYFRTM("NYFRTM", "Ny fråga till mottagare"),
-    HANFRA("HANFRA", "Hanterad fråga från mottagare"),
-    HANSVA("HANSVA", "Hanterat svar från mottagare"),
+    NYFRFV("NYFRFV", "Ny fråga från vården"),
+    HANFRFV("HANFRFV", "Hanterad fråga från vården"),
+    HANFRFM("HANFRFM", "Hanterad fråga från mottagare"),
     ANDRAT("ANDRAT", "Intygsutkast ändrat");
 
     private final String value;

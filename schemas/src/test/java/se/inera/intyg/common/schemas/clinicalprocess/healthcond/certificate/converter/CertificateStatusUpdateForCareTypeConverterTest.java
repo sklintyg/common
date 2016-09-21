@@ -28,7 +28,9 @@ import java.time.LocalDateTime;
 import org.junit.Test;
 
 import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
-import se.inera.intyg.common.support.modules.support.api.notification.*;
+import se.inera.intyg.common.support.modules.support.api.notification.Arenden;
+import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
+import se.inera.intyg.common.support.modules.support.api.notification.SchemaVersion;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v2.CertificateStatusUpdateForCareType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.ArbetsplatsKod;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
@@ -40,14 +42,19 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         final String intygsId = "intygsid";
         final LocalDateTime handelsetid = LocalDateTime.now().minusDays(1);
         final HandelsekodEnum handelsetyp = HandelsekodEnum.ANDRAT;
-        final int antalFragor = 4;
-        final int antalSvar = 3;
-        final int antalHanteradeFragor = 2;
-        final int antalHanteradeSvar = 1;
+        final int skickadeFragorTotalt = 8;
+        final int skickadeFragorHanterade = 7;
+        final int skickadeFragorBesvarade = 6;
+        final int skickadeFragorEjBesvarade = 5;
+        final int mottagnaFragorTotalt = 4;
+        final int mottagnaFragorHanterade = 3;
+        final int mottagnaFragorBesvarade = 2;
+        final int mottagnaFragorEjBesvarade = 1;
         final Intyg intyg = buildIntyg();
-        FragorOchSvar FoS = new FragorOchSvar(antalFragor, antalSvar, antalHanteradeFragor, antalHanteradeSvar);
+        Arenden skickadeFragor = new Arenden(skickadeFragorTotalt, skickadeFragorEjBesvarade, skickadeFragorBesvarade, skickadeFragorHanterade);
+        Arenden mottagnaFragor = new Arenden(mottagnaFragorTotalt, mottagnaFragorEjBesvarade, mottagnaFragorBesvarade, mottagnaFragorHanterade);
 
-        NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", FoS,
+        NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", null, skickadeFragor, mottagnaFragor,
                 SchemaVersion.VERSION_2, "ref");
         CertificateStatusUpdateForCareType res = CertificateStatusUpdateForCareTypeConverter.convert(msg, intyg);
 
@@ -59,10 +66,14 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         // handelsekod -> codeSystemName is not valid in schema but incorrectly generated in java class
         // therefore we should not populate this field
         assertNull(res.getHandelse().getHandelsekod().getCodeSystemName());
-//        assertEquals(antalFragor, res.getFragorOchSvar().getAntalFragor());
-//        assertEquals(antalSvar, res.getFragorOchSvar().getAntalSvar());
-//        assertEquals(antalHanteradeFragor, res.getFragorOchSvar().getAntalHanteradeFragor());
-//        assertEquals(antalHanteradeSvar, res.getFragorOchSvar().getAntalHanteradeSvar());
+        assertEquals(skickadeFragorTotalt, res.getSkickadeFragor().getTotalt());
+        assertEquals(skickadeFragorEjBesvarade, res.getSkickadeFragor().getEjBesvarade());
+        assertEquals(skickadeFragorBesvarade, res.getSkickadeFragor().getBesvarade());
+        assertEquals(skickadeFragorHanterade, res.getSkickadeFragor().getHanterade());
+        assertEquals(mottagnaFragorTotalt, res.getMottagnaFragor().getTotalt());
+        assertEquals(mottagnaFragorEjBesvarade, res.getMottagnaFragor().getEjBesvarade());
+        assertEquals(mottagnaFragorBesvarade, res.getMottagnaFragor().getBesvarade());
+        assertEquals(mottagnaFragorHanterade, res.getMottagnaFragor().getHanterade());
 
         // Make sure we have a valid Intyg according to service contract
         assertEquals(CertificateStatusUpdateForCareTypeConverter.TEMPORARY_ARBETSPLATSKOD,
@@ -84,7 +95,8 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         enhet.getArbetsplatskod().setExtension(arbetsplatskod);
         enhet.setEpost(epost);
 
-        NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", new FragorOchSvar(4, 3, 2, 1),
+        NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", null, new Arenden(4, 3, 2, 1),
+                new Arenden(4, 3, 2, 1),
                 SchemaVersion.VERSION_2, "ref");
         CertificateStatusUpdateForCareType res = CertificateStatusUpdateForCareTypeConverter.convert(msg, intyg);
 

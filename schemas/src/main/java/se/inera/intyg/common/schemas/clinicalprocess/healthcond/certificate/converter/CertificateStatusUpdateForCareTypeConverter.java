@@ -40,7 +40,7 @@ public final class CertificateStatusUpdateForCareTypeConverter {
         complementIntyg(intyg);
         destination.setIntyg(intyg);
         decorateWithHandelse(destination, notificationMessage);
-        decorateWithFragorOchSvar(destination, notificationMessage);
+        decorateWithArenden(destination, notificationMessage);
         destination.setRef(notificationMessage.getReference());
         return destination;
     }
@@ -75,13 +75,17 @@ public final class CertificateStatusUpdateForCareTypeConverter {
         statusUpdateType.setHandelse(handelseType);
     }
 
-    private static void decorateWithFragorOchSvar(CertificateStatusUpdateForCareType statusUpdateType, NotificationMessage notificationMessage) {
-//        FragorOchSvar fosType = new FragorOchSvar();
-//        fosType.setAntalFragor(notificationMessage.getFragaSvar().getAntalFragor());
-//        fosType.setAntalHanteradeFragor(notificationMessage.getFragaSvar().getAntalHanteradeFragor());
-//        fosType.setAntalHanteradeSvar(notificationMessage.getFragaSvar().getAntalHanteradeSvar());
-//        fosType.setAntalSvar(notificationMessage.getFragaSvar().getAntalSvar());
-//        statusUpdateType.setFragorOchSvar(fosType);
+    private static void decorateWithArenden(CertificateStatusUpdateForCareType statusUpdateType, NotificationMessage notificationMessage) {
+        statusUpdateType.setSkickadeFragor(toArenden(notificationMessage.getSkickadeFragor()));
+        statusUpdateType.setMottagnaFragor(toArenden(notificationMessage.getMottagnaFragor()));
     }
 
+    private static Arenden toArenden(se.inera.intyg.common.support.modules.support.api.notification.Arenden source) {
+        Arenden target = new Arenden();
+        target.setTotalt(source.getTotalt());
+        target.setBesvarade(source.getBesvarade());
+        target.setEjBesvarade(source.getEjBesvarade());
+        target.setHanterade(source.getHanterade());
+        return target;
+    }
 }

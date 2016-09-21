@@ -49,9 +49,13 @@ public class NotificationMessage {
 
     private FragorOchSvar fragaSvar;
 
+    private Arenden skickadeFragor;
+
+    private Arenden mottagnaFragor;
+
     // CHECKSTYLE:OFF ParameterNumber
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse, String logiskAdress,
-            String utkastJson, FragorOchSvar fragaSvar, SchemaVersion version, String reference) {
+            String utkastJson, FragorOchSvar fragaSvar, Arenden skickadeFragor, Arenden mottagnaFragor, SchemaVersion version, String reference) {
         super();
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
@@ -60,6 +64,8 @@ public class NotificationMessage {
         this.logiskAdress = logiskAdress;
         this.utkastJson = utkastJson;
         this.fragaSvar = fragaSvar;
+        this.skickadeFragor = skickadeFragor;
+        this.mottagnaFragor = mottagnaFragor;
         this.version = version;
         this.setReference(reference);
     }
@@ -103,6 +109,14 @@ public class NotificationMessage {
         return fragaSvar;
     }
 
+    public Arenden getSkickadeFragor() {
+        return skickadeFragor;
+    }
+
+    public Arenden getMottagnaFragor() {
+        return mottagnaFragor;
+    }
+
     public void setIntygsId(String intygsId) {
         this.intygsId = intygsId;
     }
@@ -129,6 +143,14 @@ public class NotificationMessage {
 
     public void setFragaSvar(FragorOchSvar fragaSvar) {
         this.fragaSvar = fragaSvar;
+    }
+
+    public void setSkickadeFragor(Arenden skickadeFragor) {
+        this.skickadeFragor = skickadeFragor;
+    }
+
+    public void setMottagnaFragor(Arenden mottagnaFragor) {
+        this.mottagnaFragor = mottagnaFragor;
     }
 
     public SchemaVersion getVersion() {
