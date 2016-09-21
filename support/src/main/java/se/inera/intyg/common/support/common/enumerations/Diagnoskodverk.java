@@ -19,30 +19,30 @@
 
 package se.inera.intyg.common.support.common.enumerations;
 
+import java.util.stream.Stream;
+
 public enum Diagnoskodverk {
 
-    SNOMED_CT("1.2.752.116.2.1.1.1", "1.2.752.116.2.1.1.1", "SNOMED-CT", null),
+    SNOMED_CT("1.2.752.116.2.1.1.1", "SNOMED-CT", null),
 
-    ICD_10_SE("1.2.752.116.1.1.1.1.3", "1.2.752.116.1.1.1.1.3", "ICD-10", null),
+    ICD_10_SE("1.2.752.116.1.1.1.1.3", "ICD-10", null),
 
-    KSH_97_P("1.2.752.116.1.3.1.4.1", "1.2.752.116.1.3.1.1.2", "KSH97-P", null);
+    KSH_97_P("1.2.752.116.1.3.1.4.1", "KSH97-P", null);
 
-    Diagnoskodverk(String codeSystemV1, String codeSystemV2, String codeSystemName, String codeSystemVersion) {
-        this.codeSystemV1 = codeSystemV1;
-        this.codeSystemV2 = codeSystemV2;
+    Diagnoskodverk(String codeSystemV1, String codeSystemName, String codeSystemVersion) {
+        this.codeSystem = codeSystemV1;
         this.codeSystemName = codeSystemName;
         this.codeSystemVersion = codeSystemVersion;
     }
 
-    private final String codeSystemV1;
-    private final String codeSystemV2;
+    private final String codeSystem;
 
     private final String codeSystemName;
 
     private final String codeSystemVersion;
 
-    public String getCodeSystem(boolean old) {
-        return old ? codeSystemV1 : codeSystemV2;
+    public String getCodeSystem() {
+        return codeSystem;
     }
 
     public String getCodeSystemName() {
@@ -53,12 +53,7 @@ public enum Diagnoskodverk {
         return codeSystemVersion;
     }
 
-    public static Diagnoskodverk getEnumByCodeSystem(String oid, boolean old) {
-        for (Diagnoskodverk kodverk : Diagnoskodverk.values()) {
-            if (kodverk.getCodeSystem(old).equals(oid)) {
-                return kodverk;
-            }
-        }
-        return null;
+    public static Diagnoskodverk getEnumByCodeSystem(String oid) {
+        return Stream.of(Diagnoskodverk.values()).filter(kod -> kod.getCodeSystem().equals(oid)).findAny().orElse(null);
     }
 }
