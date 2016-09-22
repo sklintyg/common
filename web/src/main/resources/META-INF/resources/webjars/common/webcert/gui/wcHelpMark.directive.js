@@ -32,7 +32,7 @@ angular.module('common').directive('wcHelpMark',
                     fieldHelpText: '@',
                     fieldDynamicHelpText: '@',
                     fieldTooltipPlacement: '@',
-                    helpMarkAppendtobody: '=',
+                    helpMarkAppendtobody: '=?',
                     helpMarkClass: '@'
                 },
                 link: function($scope, element, attr) {
@@ -40,19 +40,23 @@ angular.module('common').directive('wcHelpMark',
                     $scope.text = '';
                     $scope.showHelp = false;
 
-                    if ($scope.fieldTooltipPlacement === undefined) {
+                    if (!ObjectHelper.isDefined($scope.fieldTooltipPlacement)) {
                         $scope.placement = 'right';
                     } else {
                         $scope.placement = $scope.fieldTooltipPlacement;
                     }
 
-                    if(typeof $scope.helpMarkAppendtobody === undefined) {
+                    if(!ObjectHelper.isDefined($scope.helpMarkAppendtobody)) {
                         $scope.helpMarkAppendtobody = true;
                     }
 
                     function setText(text) {
                         if(!ObjectHelper.isEmpty(text)){
-                            $scope.text = '<div class="'+ $scope.helpMarkClass + '">' + text + '</div>';
+                            if(!ObjectHelper.isEmpty($scope.helpMarkClass)){
+                                $scope.text = '<div class="'+ $scope.helpMarkClass + '">' + text + '</div>';
+                            } else {
+                                $scope.text = text;
+                            }
                         } else {
                             $scope.text = '';
                         }

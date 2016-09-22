@@ -24,6 +24,7 @@ $header-fix-top-btn-link-color: #fff;
 $header-fix-panel-box-shadow: #323232;
 $header-fix-panel-border-bottom-color: #999;
 $header-fix-panel-background-color: #fff;
+$header-fix-panel-popover-color: #333;
 
 .header-fix-top {
   position: fixed;
@@ -75,17 +76,20 @@ $header-fix-panel-background-color: #fff;
 }
 
 .header-fix-panel__title {
-  display: inline-block; margin-right: 20px;
+  display: inline-block;
+  margin-right: 20px;
 }
 
 .header-fix-panel__title .popover {
   max-width: 450px;
 }
 
-/*.header-fix-panel .page-title .header-fix-panel__popover-content {
+.header-fix-panel__popover-content {
   font-size: 14px;
-  color: black;
-}*/
+  line-height: 1.42857143;
+  color: $header-fix-panel-popover-color;
+  font-weight: normal;
+}
 
 .header-wrapper {
   /*  max-height: 110px; does commenting out this break anything? */
