@@ -31,7 +31,9 @@ angular.module('common').directive('wcHelpMark',
                 scope: {
                     fieldHelpText: '@',
                     fieldDynamicHelpText: '@',
-                    fieldTooltipPlacement: '@'
+                    fieldTooltipPlacement: '@',
+                    helpMarkAppendtobody: '=',
+                    helpMarkClass: '@'
                 },
                 link: function($scope, element, attr) {
 
@@ -44,9 +46,21 @@ angular.module('common').directive('wcHelpMark',
                         $scope.placement = $scope.fieldTooltipPlacement;
                     }
 
+                    if(typeof $scope.helpMarkAppendtobody === undefined) {
+                        $scope.helpMarkAppendtobody = true;
+                    }
+
+                    function setText(text) {
+                        if(!ObjectHelper.isEmpty(text)){
+                            $scope.text = '<div class="'+ $scope.helpMarkClass + '">' + text + '</div>';
+                        } else {
+                            $scope.text = '';
+                        }
+                    }
+
                     function updateMessage() {
                         if(!ObjectHelper.isEmpty($scope.fieldDynamicHelpText)) {
-                            $scope.text = dynamicLabelService.getProperty($scope.fieldDynamicHelpText);
+                            setText(dynamicLabelService.getProperty($scope.fieldDynamicHelpText));
 
                             // if we have empty string, dont render the ? icon in GUI.
                             if(ObjectHelper.isEmpty($scope.text)) {
@@ -56,7 +70,7 @@ angular.module('common').directive('wcHelpMark',
                             }
                             //$log.debug('new help text dynamic:' + $scope.fieldDynamicHelpText + ', actual:' + $scope.text);
                         } else if(!ObjectHelper.isEmpty($scope.fieldHelpText)) {
-                            $scope.text = messageService.getProperty($scope.fieldHelpText);
+                            setText(messageService.getProperty($scope.fieldHelpText));
                             $scope.showHelp = true;
                             //$log.debug('new help text static:' + $scope.fieldHelpText + ', actual:' + $scope.text);
                         } else {

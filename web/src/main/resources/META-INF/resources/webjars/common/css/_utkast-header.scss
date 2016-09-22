@@ -31,7 +31,8 @@ $header-fix-panel-background-color: #fff;
   left: 0;
   top: 0;
   z-index: 500;
-  h1 {
+
+  .page-title {
     margin: 0 20px 0 0;
     line-height: 29px;
   }
@@ -72,6 +73,19 @@ $header-fix-panel-background-color: #fff;
   -moz-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
   box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
 }
+
+.header-fix-panel__title {
+  display: inline-block; margin-right: 20px;
+}
+
+.header-fix-panel__title .popover {
+  max-width: 450px;
+}
+
+/*.header-fix-panel .page-title .header-fix-panel__popover-content {
+  font-size: 14px;
+  color: black;
+}*/
 
 .header-wrapper {
   /*  max-height: 110px; does commenting out this break anything? */
