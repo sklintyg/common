@@ -33,13 +33,10 @@ angular.module('common').directive('wcIntegrationEnhetSelector', function() {
             var model = {};
             model.vardgivare = angular.copy($scope.user.vardgivare);
             model.valdVardenhet = angular.copy($scope.user.valdVardenhet);
-
+            //just expand all vg by default
             if (angular.isArray(model.vardgivare)) {
                 angular.forEach(model.vardgivare, function(vg) {
-                        vg.expanded = true;
-                        angular.forEach(vg.vardenheter, function(ve) {
-                            ve.expanded = true;
-                        });
+                    vg.expanded = true;
                 });
             }
 
