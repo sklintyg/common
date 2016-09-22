@@ -74,15 +74,21 @@ angular.module('common').directive('wcDatePeriodField',
             return {
                 priority: 1,
                 restrict: 'A',
-                require:['ngModel', '^wcDatePeriodField', '^wcDatePeriodValidator'],
+                require:['ngModel', '^wcDatePeriodField', '^wcDatePeriodManager'],
                 link: function(scope, element, attrs, ctrls) {
                     var ngModel = ctrls[0];
+
                     dateUtils.addLooseDateParser(ngModel);
 
                     var wcDatePeriodField = ctrls[1];
-                    var wcDatePeriodValidator = ctrls[2];
+                    var wcDatePeriodManager = ctrls[2];
 
-                    wcDatePeriodValidator.registerDatePeriod(ngModel, wcDatePeriodField.fieldOptions);
+                    wcDatePeriodManager.registerDatePeriod(ngModel, wcDatePeriodField.fieldOptions);
+
+                    scope.onblur = function() {
+                        wcDatePeriodManager.applyToDateCodes(wcDatePeriodField.fieldOptions.index);
+                    };
+
                 }
             };
         }]);

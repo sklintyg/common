@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcDatePeriodValidator',
+angular.module('common').directive('wcDatePeriodManager',
     ['common.DateUtilsService', 'common.wcDatePeriodFieldHelper', function(dateUtilsService, datePeriodFieldHelper) {
         'use strict';
 
@@ -90,6 +90,32 @@ angular.module('common').directive('wcDatePeriodValidator',
 
                     ngModel.$validators.datePeriod = datePeriodValidator;
                 };
+
+                /*
+                 If user enters a valid "in the future" code such a "d40" into the tom-field, it's
+                 date value should be set to from-date + 40 days (requires a valid date in the from-field).
+                 */
+                    this.applyToDateCodes = function(index) {
+                        var fromField = datePeriods[index].from;
+                        var tomField = datePeriods[index].tom;
+
+                        //1. fromField must have a valid date for his to work
+                        if (!fromField.moment || !fromField.moment.isValid()) {
+                            return;
+                        }
+
+                        //2. The entered code must be a parsable daysInFuture expression
+                        var days = dateUtilsService.parseDayCodes(tomField.ngModel.$viewValue);
+                        if (days !== null) {
+                            var newTomMoment = moment(fromField.moment).add(days, 'days');
+
+                            tomField.ngModel.$setViewValue(newTomMoment.format('YYYY-MM-DD'));
+                            tomField.ngModel.$setValidity('date', true);
+                            tomField.ngModel.$render();
+                            return;
+                        }
+
+                    };
             }
         };
     }]);

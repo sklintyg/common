@@ -10,6 +10,8 @@
            uib-datepicker-popup="{{format}}"
            max-date="{{maxDate}}"
            ng-model-options="{ allowInvalid: true }"
+           ng-blur="onblur()"
+           wc-blur-on-enter
            wc-date-period-field-input/>
     <span class="input-group-btn">
       <button type="button" id="{{domId}}-toggle" class="btn btn-default" ng-click="toggleOpen($event)" ng-disabled="isOpen">

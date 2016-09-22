@@ -6,6 +6,8 @@
             max-date="{{maxDate}}"
             ng-model-options="{ allowInvalid: true }"
             datepicker-options="dateOptions"
+           ng-blur="onDatepickerInputFieldBlur()"
+           wc-blur-on-enter
            wc-date-picker-field-input/>
     <span class="input-group-btn">
       <button type="button" id="{{domId}}-toggle" class="btn btn-default" ng-click="toggleOpen($event)" ng-disabled="isOpen"><i class="glyphicon glyphicon-calendar"></i></button>

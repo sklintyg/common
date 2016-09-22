@@ -33,7 +33,8 @@ angular.module('common').directive('wcDatePickerField',
                 maxDate: '@',
                 overrideRender: '=',
                 addDateParser: '@',
-                dateOptions: '@'
+                dateOptions: '@',
+                onBlur: '&'
             },
             templateUrl: '/web/webjars/common/webcert/date/wcDatePickerField.directive.html',
             require:'wcDatePickerField',
@@ -58,6 +59,9 @@ angular.module('common').directive('wcDatePickerField',
                     });
                 };
 
+                $scope.onDatepickerInputFieldBlur = function() {
+                    $scope.onBlur();
+                };
 
                 this.datepickerPopupScope = {};
                 this.overrideRender = $scope.overrideRender;

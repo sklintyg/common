@@ -27,6 +27,19 @@ angular.module('common').factory('common.DateUtilsService', function() {
     'use strict';
     var _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
     var _format = 'YYYY-MM-DD';
+
+    var dayCodeReg = /^d(\d{1,3})$/i;
+
+    function _parseDayCodes(input) {
+        if (input && typeof input === 'string') {
+            var result = dayCodeReg.exec(input);
+            if (result && result.length>0) {
+                return parseInt(result[1], 10);
+            }
+        }
+        return null;
+    }
+
    /**
      * Does supplied date look like an iso date XXXX-XX-XX
      * @param date
@@ -319,7 +332,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
         addDateFormatter : _addDateFormatter,
         addLooseDateParser : _addLooseDateParser,
         addStrictDateParser : _addStrictDateParser,
-        dateReg : _dateReg
+        dateReg : _dateReg,
+        parseDayCodes: _parseDayCodes
     };
 
 });

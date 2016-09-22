@@ -37,7 +37,7 @@ describe('DatePeriodFieldDirective', function() {
                     '<span wc-date-period-field model="model" field="test" index="0" type="from" dom-id="test"></span>' +
                 '</div>'
             );
-            tpl.data('$wcDatePeriodValidatorController', validatorCtrl);
+            tpl.data('$wcDatePeriodManagerController', validatorCtrl);
             $scope = $rootScope.$new();
             $scope.model = {
                 test: [{

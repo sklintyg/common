@@ -250,4 +250,28 @@ describe('DateUtilsService', function() {
 
     });
 
+    describe('#parseDayCodes', function() {
+
+        it ('can check that we can extract days correctly for valid input', function () {
+
+            expect(DateUtilsService.parseDayCodes('d1')).toEqual(1);
+            expect(DateUtilsService.parseDayCodes('d180')).toEqual(180);
+            expect(DateUtilsService.parseDayCodes('D40')).toEqual(40);
+
+        });
+
+        it ('can check that we will not extract days for invalid input', function () {
+
+            expect(DateUtilsService.parseDayCodes(undefined)).toBe(null);
+            expect(DateUtilsService.parseDayCodes(null)).toBe(null);
+            expect(DateUtilsService.parseDayCodes('')).toBe(null);
+            expect(DateUtilsService.parseDayCodes('180')).toBe(null);
+            expect(DateUtilsService.parseDayCodes('v180')).toBe(null);
+            expect(DateUtilsService.parseDayCodes('d1800')).toBe(null);
+
+
+        });
+
+
+    });
 });
