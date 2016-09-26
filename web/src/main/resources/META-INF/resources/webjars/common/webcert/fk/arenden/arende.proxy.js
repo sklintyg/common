@@ -1,5 +1,5 @@
-angular.module('common').factory('common.ArendeProxy',
-    function($http, $log) {
+angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common.ArendeLegacyProxy',
+    function($http, $log, ArendeLegacyProxy) {
         'use strict';
 
         /*
@@ -7,6 +7,10 @@ angular.module('common').factory('common.ArendeProxy',
          */
         function _getArenden(intygsId, intygsTyp, onSuccess, onError) {
             $log.debug('_getArenden: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.getArenden.apply(null, arguments);
+            }
+
             var restPath = '/moduleapi/arende/' + intygsId;
             $http.get(restPath).success(function(data) {
                 $log.debug('got data:' + data);
@@ -23,6 +27,10 @@ angular.module('common').factory('common.ArendeProxy',
          */
         function _sendNewArende(intygsId, intygsTyp, arende, onSuccess, onError) {
             $log.debug('_saveNewQuestion: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.sendNewArende.apply(null, arguments);
+            }
+
             var payload = {
                 amne: arende.chosenTopic.value,
                 meddelande: arende.frageText
@@ -44,6 +52,9 @@ angular.module('common').factory('common.ArendeProxy',
          */
         function _saveAnswer(ArendeSvar, intygsTyp, onSuccess, onError) {
             $log.debug('_saveAnswer: arendeId:' + ArendeSvar.fragaInternReferens + ' intygsTyp: ' + intygsTyp);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.saveAnswer.apply(null, arguments);
+            }
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + ArendeSvar.fragaInternReferens + '/besvara';
             $http.put(restPath, ArendeSvar.meddelande).success(function(data) {
@@ -61,6 +72,10 @@ angular.module('common').factory('common.ArendeProxy',
          */
         function _closeAsHandled(arendeId, intygsTyp, onSuccess, onError) {
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeId + '/stang';
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.closeAsHandled.apply(null, arguments);
+            }
+
             $http.put(restPath).success(function(data) {
                 $log.debug('got data:' + data);
                 onSuccess(data);
@@ -77,6 +92,9 @@ angular.module('common').factory('common.ArendeProxy',
          */
         function _openAsUnhandled(arendeId, intygsTyp, onSuccess, onError) {
             $log.debug('_openAsUnhandled: arendeId:' + arendeId + ' intygsTyp: ' + intygsTyp);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.openAsUnhandled.apply(null, arguments);
+            }
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeId + '/oppna';
             $http.put(restPath).success(function(data) {
@@ -94,6 +112,10 @@ angular.module('common').factory('common.ArendeProxy',
          */
         function _closeAllAsHandled(arenden, onSuccess, onError) {
             var restPath = '/moduleapi/arende/stang';
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.closeAllAsHandled.apply(null, arguments);
+            }
+
             var fs = [];
             angular.forEach(arenden, function(arende, key) {
                 this.push({ intygsTyp: arende.fraga.intygTyp, arendeId: arende.internReferens });
@@ -114,6 +136,10 @@ angular.module('common').factory('common.ArendeProxy',
          */
         function _setVidarebefordradState(arendeReferens, intygsTyp, isVidareBefordrad, callback) {
             $log.debug('_setVidareBefordradState');
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.setVidarebefordradState.apply(null, arguments);
+            }
+
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeReferens + '/vidarebefordrad';
             $http.put(restPath, isVidareBefordrad).success(function(data) {
                 $log.debug('_setVidareBefordradState data:' + data);
@@ -135,4 +161,4 @@ angular.module('common').factory('common.ArendeProxy',
             closeAllAsHandled: _closeAllAsHandled,
             setVidarebefordradState: _setVidarebefordradState
         };
-    });
+    }]);

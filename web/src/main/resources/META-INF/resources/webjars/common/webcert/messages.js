@@ -165,6 +165,9 @@ angular.module('common').constant('common.messages', {
         'common.arende.fraga.amne.ovrigt': 'Övrigt',
         'common.arende.fraga.amne.paminn': 'Påminnelse',
 
+        // Används bara av fk7263 (ArendeLegacyProxy)
+        'common.arende.fraga.amne.makulering_av_lakarintyg': 'Makulering av läkarintyg',
+
         'common.arende.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
         'common.arende.help.handled': 'Tidigare frågor och svar är sådana som redan har besvarats eller hanterats på något sätt.',
 

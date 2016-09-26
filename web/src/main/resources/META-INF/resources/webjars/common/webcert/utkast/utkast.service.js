@@ -105,7 +105,8 @@ angular.module('common').factory('common.UtkastService',
                                     isRevoked: IntygHelper.isRevoked(result.statuses),
                                     forceUseProvidedIntyg: true,
                                     kompletteringOnly: true,
-                                    meddelandeId: intygModel.grundData.relation.meddelandeId
+                                    meddelandeId: intygModel.grundData.relation.meddelandeId,
+                                    type: viewState.common.intyg.type
                                 };
                                 $rootScope.$emit('ViewCertCtrl.load', parentIntyg, intygMeta);
                             } else {
