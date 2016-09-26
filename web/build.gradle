@@ -52,16 +52,3 @@ task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
 }
 
 jar.dependsOn(jsInclude)
-
-buildscript {
-  repositories {
-    maven {
-      url 'https://plugins.gradle.org/m2/'
-    }
-  }
-
-  dependencies {
-    classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
-    classpath 'com.moowork.gradle:gradle-grunt-plugin:0.12'
-  }
-}
