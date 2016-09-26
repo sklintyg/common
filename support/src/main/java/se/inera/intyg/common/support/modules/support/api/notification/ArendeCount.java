@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.support.modules.support.api.notification;
 
-public class Arenden {
+public class ArendeCount {
 
     private int totalt;
 
@@ -29,19 +29,18 @@ public class Arenden {
 
     private int hanterade;
 
-    public Arenden(int totalt, int ejBesvarade, int besvarade, int hanterade) {
-        super();
+    public ArendeCount(int totalt, int ejBesvarade, int besvarade, int hanterade) {
         this.totalt = totalt;
         this.ejBesvarade = ejBesvarade;
         this.besvarade = besvarade;
         this.hanterade = hanterade;
     }
 
-    public Arenden() {
+    public ArendeCount() {
     }
 
-    public static Arenden getEmpty() {
-        return new Arenden(0, 0, 0, 0);
+    public static ArendeCount getEmpty() {
+        return new ArendeCount(0, 0, 0, 0);
     }
 
     @Override
@@ -53,31 +52,15 @@ public class Arenden {
         return totalt;
     }
 
-    public void setTotalt(int totalt) {
-        this.totalt = totalt;
-    }
-
     public int getEjBesvarade() {
         return ejBesvarade;
-    }
-
-    public void setEjBesvarade(int ejBesvarade) {
-        this.ejBesvarade = ejBesvarade;
     }
 
     public int getBesvarade() {
         return besvarade;
     }
 
-    public void setBesvarade(int besvarade) {
-        this.besvarade = besvarade;
-    }
-
     public int getHanterade() {
         return hanterade;
-    }
-
-    public void setHanterade(int hanterade) {
-        this.hanterade = hanterade;
     }
 }

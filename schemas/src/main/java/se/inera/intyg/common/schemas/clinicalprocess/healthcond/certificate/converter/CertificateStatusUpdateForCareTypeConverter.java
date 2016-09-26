@@ -23,6 +23,7 @@ import static se.inera.intyg.common.support.Constants.KV_HANDELSE_CODE_SYSTEM;
 
 import org.apache.commons.lang3.StringUtils;
 
+import se.inera.intyg.common.support.modules.support.api.notification.ArendeCount;
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v2.CertificateStatusUpdateForCareType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.Handelsekod;
@@ -80,7 +81,7 @@ public final class CertificateStatusUpdateForCareTypeConverter {
         statusUpdateType.setMottagnaFragor(toArenden(notificationMessage.getMottagnaFragor()));
     }
 
-    private static Arenden toArenden(se.inera.intyg.common.support.modules.support.api.notification.Arenden source) {
+    private static Arenden toArenden(ArendeCount source) {
         Arenden target = new Arenden();
         target.setTotalt(source.getTotalt());
         target.setBesvarade(source.getBesvarade());

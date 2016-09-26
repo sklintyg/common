@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 import org.junit.Test;
 
 import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
-import se.inera.intyg.common.support.modules.support.api.notification.Arenden;
+import se.inera.intyg.common.support.modules.support.api.notification.ArendeCount;
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 import se.inera.intyg.common.support.modules.support.api.notification.SchemaVersion;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v2.CertificateStatusUpdateForCareType;
@@ -51,8 +51,8 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         final int mottagnaFragorBesvarade = 2;
         final int mottagnaFragorEjBesvarade = 1;
         final Intyg intyg = buildIntyg();
-        Arenden skickadeFragor = new Arenden(skickadeFragorTotalt, skickadeFragorEjBesvarade, skickadeFragorBesvarade, skickadeFragorHanterade);
-        Arenden mottagnaFragor = new Arenden(mottagnaFragorTotalt, mottagnaFragorEjBesvarade, mottagnaFragorBesvarade, mottagnaFragorHanterade);
+        ArendeCount skickadeFragor = new ArendeCount(skickadeFragorTotalt, skickadeFragorEjBesvarade, skickadeFragorBesvarade, skickadeFragorHanterade);
+        ArendeCount mottagnaFragor = new ArendeCount(mottagnaFragorTotalt, mottagnaFragorEjBesvarade, mottagnaFragorBesvarade, mottagnaFragorHanterade);
 
         NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", null, skickadeFragor, mottagnaFragor,
                 SchemaVersion.VERSION_2, "ref");
@@ -95,8 +95,8 @@ public class CertificateStatusUpdateForCareTypeConverterTest {
         enhet.getArbetsplatskod().setExtension(arbetsplatskod);
         enhet.setEpost(epost);
 
-        NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", null, new Arenden(4, 3, 2, 1),
-                new Arenden(4, 3, 2, 1),
+        NotificationMessage msg = new NotificationMessage(intygsId, "luse", handelsetid, handelsetyp, "address", "", null, new ArendeCount(4, 3, 2, 1),
+                new ArendeCount(4, 3, 2, 1),
                 SchemaVersion.VERSION_2, "ref");
         CertificateStatusUpdateForCareType res = CertificateStatusUpdateForCareTypeConverter.convert(msg, intyg);
 
