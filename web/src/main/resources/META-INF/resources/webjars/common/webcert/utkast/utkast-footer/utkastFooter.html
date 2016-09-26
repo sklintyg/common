@@ -1,43 +1,49 @@
-<div ng-if="!isSigned" class="print-hide utkast-footer">
+<div class="row">
+  <div ng-if="!isSigned" class="print-hide utkast-footer">
 
-  <h3><span message key="common.sign.intyg"></span></h3>
+    <h3 wc-authority="!SIGNERA_INTYG">
+      <span message key="common.sign.intyg"></span>
+    </h3>
 
-  <div id="sign-requires-doctor-message-text" wc-authority="!SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}" class="alert alert-info">
-    <span message key="draft.onlydoctorscansign"></span>
-  </div>
-
-  <div wc-authority="!SIGNERA_INTYG, VIDAREBEFORDRA_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
-    <p>
-      <span message key="draft.notifydoctor"></span>
-    </p>
-    <div class="form-group">
-      <button type="button" id="vidarebefordraEjHanterad" class="btn"
-              ng-class="{'btn-info': !viewState.draftModel.vidarebefordrad, 'btn-default btn-secondary' : viewState.draftModel.vidarebefordrad}"
-              title="Skicka mejl med en länk till utkastet för att informera den läkare som ska signera det."
-              ng-click="vidarebefordraUtkast()">
-        <img ng-if="!viewState.draftModel.vidarebefordrad" src="/img/mail.png"> <img ng-if="viewState.draftModel.vidarebefordrad" src="/img/mail_dark.png">
-      </button>
+    <div id="sign-requires-doctor-message-text" wc-authority="!SIGNERA_INTYG"
+         intygstyp="{{viewState.common.intyg.type}}" class="alert alert-info">
+      <span message key="draft.onlydoctorscansign"></span>
     </div>
 
-    <div class="intyg-block">
-      <label for="mark-as-vidarebefordrad">
-        <input id="mark-as-vidarebefordrad" type="checkbox"
-               ng-disabled="viewState.common.vidarebefordraInProgress" ng-model="viewState.draftModel.vidarebefordrad"
-               ng-change="onVidarebefordradChange()" /> Vidarebefordrad
-      </label> <span ng-if="viewState.common.vidarebefordraInProgress"> <img
-        src="/img/ajax-loader-kit-16x16.gif"></span>
-    </div>
-  </div>
+    <div wc-authority="!SIGNERA_INTYG, VIDAREBEFORDRA_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
+      <p>
+        <span message key="draft.notifydoctor"></span>
+      </p>
+      <div class="form-group">
+        <button type="button" id="vidarebefordraEjHanterad" class="btn"
+                ng-class="{'btn-info': !viewState.draftModel.vidarebefordrad, 'btn-default btn-secondary' : viewState.draftModel.vidarebefordrad}"
+                title="Skicka mejl med en länk till utkastet för att informera den läkare som ska signera det."
+                ng-click="vidarebefordraUtkast()">
+          <img ng-if="!viewState.draftModel.vidarebefordrad" src="/img/mail.png"> <img
+            ng-if="viewState.draftModel.vidarebefordrad" src="/img/mail_dark.png">
+        </button>
+      </div>
 
-  <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
+      <div class="intyg-block">
+        <label for="mark-as-vidarebefordrad">
+          <input id="mark-as-vidarebefordrad" type="checkbox" ng-disabled="viewState.common.vidarebefordraInProgress"
+                 ng-model="viewState.draftModel.vidarebefordrad" ng-change="onVidarebefordradChange()" />
+          Vidarebefordrad
+        </label> <span ng-if="viewState.common.vidarebefordraInProgress"> <img
+          src="/img/ajax-loader-kit-16x16.gif"></span>
+      </div>
+    </div>
+
+    <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
       <p ng-show="viewState.common.intyg.isKomplettering">
         <span message key="draft.completion.signinfo"></span>
       </p>
       <button type="button" id="signera-utkast-button" class="btn btn-success"
               ng-disabled="!viewState.common.intyg.isComplete || certForm.$dirty || signingWithSITHSInProgress"
-              ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif"/>
+              ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif" />
         <span message key="common.{{viewState.common.intyg.isKomplettering ? 'signsend' : 'sign'}}"></span>
       </button>
-  </div>
+    </div>
 
+  </div>
 </div>
