@@ -433,3 +433,22 @@ $font-3: sans-serif;
 .popover {
   z-index: 2000; /* must be higher than modal z-index (currently 1050+index*10) to allow tooltips on modals */
 }
+
+/* ---------------------------------------
+ * breakpoint overrides
+ * --------------------------------------- */
+@media (min-width: 768px) {
+
+  .form-horizontal .control-label {
+    text-align: left;
+  }
+
+}
+
+@media (min-width: 992px) {
+
+  .form-horizontal .control-label {
+    text-align: right;
+  }
+
+}
