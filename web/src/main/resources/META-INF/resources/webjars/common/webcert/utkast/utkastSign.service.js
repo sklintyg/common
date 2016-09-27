@@ -247,7 +247,6 @@ angular.module('common').factory('common.UtkastSignService',
                     'DATA_NOT_FOUND':          'common.error.certificatenotfound',
                     'INVALID_STATE':           'common.error.certificateinvalidstate',
                     'SIGN_NETID_ERROR':        'common.error.sign.netid',
-                    'USER_NETID_CANCEL':       'common.error.sign.netid.cancel',
                     'CONCURRENT_MODIFICATION': 'common.error.sign.concurrent_modification',
                     'AUTHORIZATION_PROBLEM':   'common.error.sign.authorization',
                     'INDETERMINATE_IDENTITY':  'common.error.sign.indeterminate.identity'
