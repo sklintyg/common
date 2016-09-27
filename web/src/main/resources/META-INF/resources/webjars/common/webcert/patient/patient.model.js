@@ -18,12 +18,12 @@
  */
 
 angular.module('common').factory('common.PatientModel',
-    [ '$log',
-        function($log) {
+    [ '$log', 'common.ObjectHelper',
+        function($log, ObjectHelper) {
             'use strict';
 
             return {
-                reset: function() {
+                build: function() {
                     this.personnummer = null;
                     this.sekretessmarkering = null;
                     this.intygId = null;
@@ -34,6 +34,27 @@ angular.module('common').factory('common.PatientModel',
                     this.postadress = null;
                     this.postnummer = null;
                     this.postort = null;
+                    return this;
+                },
+                update: function(patientResponse) {
+
+                    this.personnummer = patientResponse.personnummer;
+                    this.sekretessmarkering = patientResponse.sekretessmarkering;
+                    this.intygId = patientResponse.intygId;
+                    this.intygType = patientResponse.intygType;
+                    this.fornamn = patientResponse.fornamn;
+                    this.mellannamn = patientResponse.mellannamn;
+                    this.efternamn = patientResponse.efternamn;
+                    this.postadress = patientResponse.postadress;
+                    this.postnummer = patientResponse.postnummer;
+                    this.postort = patientResponse.postort;
+
+                    if(ObjectHelper.isEmpty(this.personnummer) ||
+                        ObjectHelper.isEmpty(this.fornamn) ||
+                        ObjectHelper.isEmpty(this.efternamn)){
+                        return false;
+                    }
+                    return true;
                 }
             };
         }]);

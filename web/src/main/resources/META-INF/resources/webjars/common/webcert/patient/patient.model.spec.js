@@ -31,10 +31,10 @@ describe('PatientModel', function() {
             PatientModel = _PatientModel_;
         }]));
 
-    describe('#reset', function() {
+    describe('#build', function() {
 
         it('should create an empty object', function() {
-            PatientModel.reset();
+            PatientModel.build();
 
             expect(PatientModel.personnummer).toBeNull();
             expect(PatientModel.intygType).toEqual('default');
