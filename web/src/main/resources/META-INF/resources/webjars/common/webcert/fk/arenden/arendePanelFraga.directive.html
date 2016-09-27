@@ -25,7 +25,8 @@
       <div class="arende-komplettera"
            id="{{panelId}}-fkKompletteringar-{{arendeListItem.arende.fraga.internReferens}}"
            ng-repeat="komplettering in arendeListItem.kompletteringar">
-        <a href="" ng-click="scrollToFraga(komplettering)"><span class="bold" dynamic-label key="{{komplettering.frgId}}"></span></a>
+        <span ng-if="komplettering.falt"><strong><span>{{komplettering.falt}}</span></strong></span>
+        <span ng-if="komplettering.frgId"><a href="" ng-click="scrollToFraga(komplettering)"><span class="bold" dynamic-label key="{{komplettering.frgId}}"></span></a></span>
         <div class="keep-newlines">{{komplettering.text}}</div>
       </div>
     </div>

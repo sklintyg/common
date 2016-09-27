@@ -127,12 +127,17 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.kompletteringar = [];
                 angular.forEach(this.arende.fraga.kompletteringar, function(komplettering){
 
-                    var newKompletteringListItem = {
-                        frgId: 'FRG_' + komplettering.frageId + '.RBK',
-                        text: komplettering.text,
-                        modelName: komplettering.jsonPropertyHandle,
-                        id: komplettering.frageId
-                    };
+                    // Support fraga/svar legacy komplettering (fk7263)
+                    var newKompletteringListItem = komplettering;
+
+                    if (komplettering.frageId) {
+                        newKompletteringListItem = {
+                            frgId: 'FRG_' + komplettering.frageId + '.RBK',
+                            text: komplettering.text,
+                            modelName: komplettering.jsonPropertyHandle,
+                            id: komplettering.frageId
+                        };
+                    }
 
                     if (komplettering.jsonPropertyHandle === 'tillaggsfragor') {
                         newKompletteringListItem.frgId = 'DFR_' + komplettering.frageId + '.1.RBK';
