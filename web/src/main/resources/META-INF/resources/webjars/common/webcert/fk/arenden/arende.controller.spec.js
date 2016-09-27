@@ -22,6 +22,7 @@ describe('ArendeCtrl', function() {
 
     var $scope;
     var $rootScope;
+    var $q;
     var ArendeProxy;
     var ArendenViewState;
     var IntygHelper;
@@ -85,17 +86,18 @@ describe('ArendeCtrl', function() {
         ObjectHelper = { isDefined: function() {} };
         $provide.value('common.ObjectHelper', ObjectHelper);
         ArendeProxy = jasmine.createSpyObj('common.ArendeProxy',
-            [ 'getQAForCertificate', 'closeAsHandled', 'closeAllAsHandled', 'saveNewQuestion', 'saveAnswer']);
-        $provide.value('common.ArendeProxy', jasmine.createSpyObj('common.ArendeProxy', [ 'getArenden']));
+            [ 'getArenden', 'getQAForCertificate', 'closeAsHandled', 'closeAllAsHandled', 'saveNewQuestion', 'saveAnswer']);
+        $provide.value('common.ArendeProxy', ArendeProxy);
         $provide.value('common.IntygViewStateService', {});
         $provide.value('$state', {current:{data:{intygType:'testIntyg'}}});
         $provide.value('$stateParams', {certificateId:'intyg-2'});
     }));
 
-    beforeEach(angular.mock.inject(['$controller', '$rootScope', 'common.IntygHelper',
+    beforeEach(angular.mock.inject(['$controller', '$q', '$rootScope', 'common.IntygHelper',
         'common.ArendeProxy', 'common.ArendenViewStateService',
-        function($controller, _$rootScope_, _IntygHelper_, _ArendeProxy_, _ArendenViewState_) {
+        function($controller, _$q_, _$rootScope_, _IntygHelper_, _ArendeProxy_, _ArendenViewState_) {
             $rootScope = _$rootScope_;
+            $q = _$q_;
             $scope = $rootScope.$new();
             $controller('common.ArendeCtrl', { $scope: $scope });
             IntygHelper = _IntygHelper_;
@@ -222,6 +224,34 @@ describe('ArendeCtrl', function() {
             };
             expect($scope.closedArendenFilter(arendeListItem)).toBe(true);
         });
+    });
+
+    describe('#updateAnsweredAsHandled', function() {
+        it('has no UnhandledQas so shouldnt update qas', function() {
+            // ----- arrange
+            var qaList = [];
+            ArendenViewState.common = {intygProperties:{type:'luse'}};
+
+            // ----- act
+            $scope.$emit('markAnsweredAsHandledEvent', $q.defer(), qaList);
+
+            // ----- assert
+            expect(ArendeProxy.closeAllAsHandled).not.toHaveBeenCalled();
+        });
+
+        it('has UnhandledQas so should update qas', function() {
+            // ----- arrange
+            var qaAnswered = {};
+            var qaList = [qaAnswered];
+            ArendenViewState.common = {intygProperties:{type:'luse'}};
+
+            // ----- act
+            $scope.$emit('markAnsweredAsHandledEvent', $q.defer(), qaList);
+
+            // ----- assert
+            expect(ArendeProxy.closeAllAsHandled).toHaveBeenCalled();
+        });
+
     });
 
 });

@@ -31,12 +31,12 @@ describe('arendeHelper', function() {
             ArendeListItemModel = _ArendeListItemModel_;
             ArendeHelper = _ArendeHelper_;
 
-            arende1 = {id:1, fraga:{ amne: 'KOMPLT' }, svar:{}};
-            arende2 = {id:2, fraga:{}, svar:{}};
-            arende3 = {id:3, fraga:{}, svar:{}};
-            arende4 = {id:4, fraga:{ amne: 'KOMPLT' }, svar:{}};
-            arende5 = {id:5, fraga:{ amne: 'KOMPLT' }, svar:{}};
-            arende6 = {id:6, fraga:{ amne: 'KOMPLT' }, svar:{}};
+            arende1 = {id:1, fraga:{ amne: 'KOMPLT' }, svar:{}, paminnelser:[]};
+            arende2 = {id:2, fraga:{}, svar:{}, paminnelser:[]};
+            arende3 = {id:3, fraga:{}, svar:{}, paminnelser:[]};
+            arende4 = {id:4, fraga:{ amne: 'KOMPLT' }, svar:{}, paminnelser:[]};
+            arende5 = {id:5, fraga:{ amne: 'KOMPLT' }, svar:{}, paminnelser:[]};
+            arende6 = {id:6, fraga:{ amne: 'KOMPLT' }, svar:{}, paminnelser:[]};
             itemList = [
                 item1 = ArendeListItemModel.build(arende1, [arende4, arende5, arende6]),
                 item2 = ArendeListItemModel.build(arende2),
@@ -127,9 +127,9 @@ describe('arendeHelper', function() {
     });
 
     it('Should merge and reorder if komplettering has later timestamp', function() {
-        arende1.fraga.timestamp = '2016-08-21T11:02:41.800';
+        arende1.senasteHandelse = '2016-08-21T11:02:41.800';
         arende3.fraga.amne = 'KOMPLT';
-        arende3.fraga.timestamp = '2016-09-21T11:02:41.800';
+        arende3.senasteHandelse = '2016-09-21T11:02:41.800';
         ArendeHelper.checkMergeToKompletteringItem(item3, itemList);
 
         expect(itemList.length).toBe(2);

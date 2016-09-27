@@ -24,7 +24,6 @@ describe('arendePanelSvar', function() {
     var $scope;
     var $rootScope;
     var ArendeProxy;
-    var deferred;
 
     // Load the webcert module and mock away everything that is not necessary.
     beforeEach(angular.mock.module('common', function($provide) {
@@ -87,29 +86,4 @@ describe('arendePanelSvar', function() {
 
     });
 
-    describe('#updateAnsweredAsHandled', function() {
-        it('has no UnhandledQas so shouldnt update qas', function() {
-            // ----- arrange
-            var qaList = [];
-
-            // ----- act
-            $scope.updateAnsweredAsHandled(deferred, qaList);
-
-            // ----- assert
-            expect(ArendeProxy.closeAllAsHandled).not.toHaveBeenCalled();
-        });
-
-        it('has UnhandledQas so should update qas', function() {
-            // ----- arrange
-            var qaAnswered = {};
-            var qaList = [qaAnswered];
-
-            // ----- act
-            $scope.updateAnsweredAsHandled(deferred, qaList);
-
-            // ----- assert
-            expect(ArendeProxy.closeAllAsHandled).toHaveBeenCalled();
-        });
-
-    });
 });

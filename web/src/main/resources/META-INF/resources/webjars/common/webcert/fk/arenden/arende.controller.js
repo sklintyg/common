@@ -127,7 +127,7 @@ angular.module('common').controller('common.ArendeCtrl',
                         }
                     }
                 );
-            };
+            }
 
             // Scope interactions
 
