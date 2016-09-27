@@ -71,11 +71,11 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
         /*
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
-        function _closeAllAsHandled(qas, onSuccess, onError) {
+        function _closeAllAsHandled(arenden, intygsTyp, onSuccess, onError) {
             var restPath = '/moduleapi/fragasvar/stang';
             var fs = [];
-            angular.forEach(qas, function(qa/*, key*/) {
-                this.push({ intygsTyp : qa.intygsReferens.intygsTyp, fragaSvarId:qa.internReferens });
+            angular.forEach(arenden, function(arendeListItem) {
+                this.push({ intygsTyp : intygsTyp, fragaSvarId:arendeListItem.arende.fraga.internReferens });
             }, fs);
 
             $http.put(restPath, fs).success(function(data) {

@@ -147,6 +147,17 @@ angular.module('common').factory('common.ArendeListItemModel',
             return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || _isPaminnelse(this.arende.fraga.amne);
         };
 
+        ArendeListItemModel.prototype.isUnhandled = function(){
+            return (this.arende.fraga.status === 'PENDING_INTERNAL_ACTION' && _isPaminnelse(this.arende.fraga.amne)) || this.arende.fraga.status === 'ANSWERED';
+        };
+
+        ArendeListItemModel.prototype.fromFk = function() {
+            if (this.arende.fraga.frageStallare === 'FK'){
+                return true;
+            }
+            return false;
+        };
+
         return ArendeListItemModel;
     }
 ]);

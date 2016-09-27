@@ -112,38 +112,6 @@ angular.module('common').directive('arendePanelSvar',
                         //Should we empty the svarstext input field?
                         ArendeSvar.answerKompletteringWithText = false;
                     };
-
-                    $scope.updateAnsweredAsHandled = function(deferred, unhandledarendes) {
-                        if (unhandledarendes === undefined || unhandledarendes.length === 0) {
-                            return;
-                        }
-                        ArendeProxy.closeAllAsHandled(unhandledarendes,
-                            function(arendes) {
-                                if (arendes) {
-                                    angular.forEach(arendes, function(arende) { //unused parameter , key
-                                        ArendeHelper.decorateSingleItem(arende);
-                                    });
-                                    statService.refreshStat();
-                                }
-                                $window.doneLoading = true;
-                                if (deferred) {
-                                    deferred.resolve();
-                                }
-                            }, function() { // unused parameter: errorData
-                                // show error view
-                                $window.doneLoading = true;
-                                if (deferred) {
-                                    deferred.resolve();
-                                }
-                            });
-                    };
-
-                    // listeners - interscope communication
-                    var unbindmarkAnsweredAsHandledEvent = $scope.$on('markAnsweredAsHandledEvent',
-                        function($event, deferred, unhandledarendes) {
-                            $scope.updateAnsweredAsHandled(deferred, unhandledarendes);
-                        });
-                    $scope.$on('$destroy', unbindmarkAnsweredAsHandledEvent);
                 }
             };
         }]);

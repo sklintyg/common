@@ -110,15 +110,15 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
         /*
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
-        function _closeAllAsHandled(arenden, onSuccess, onError) {
+        function _closeAllAsHandled(arenden, intygsTyp, onSuccess, onError) {
             var restPath = '/moduleapi/arende/stang';
             if (intygsTyp === 'fk7263') {
                 return ArendeLegacyProxy.closeAllAsHandled.apply(null, arguments);
             }
 
             var fs = [];
-            angular.forEach(arenden, function(arende, key) {
-                this.push({ intygsTyp: arende.fraga.intygTyp, arendeId: arende.internReferens });
+            angular.forEach(arenden, function(arendeListItem, key) {
+                this.push({ intygsTyp: arendeListItem.arende.fraga.intygTyp, arendeId: arendeListItem.arende.internReferens });
             }, fs);
 
             $http.put(restPath, fs).success(function(data) {

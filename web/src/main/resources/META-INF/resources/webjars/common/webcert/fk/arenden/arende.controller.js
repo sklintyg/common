@@ -1,10 +1,10 @@
 angular.module('common').controller('common.ArendeCtrl',
     ['$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$window', '$filter',
         'common.dialogService', 'common.ObjectHelper', 'common.ErrorHelper',
-        'common.ArendeProxy', 'common.ArendenViewStateService', 'common.ArendeHelper',
+        'common.ArendeProxy', 'common.ArendenViewStateService', 'common.ArendeHelper', 'common.statService',
         function ($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter,
                   dialogService, ObjectHelper, ErrorHelper,
-                  ArendeProxy, ArendenViewState, ArendeHelper) {
+                  ArendeProxy, ArendenViewState, ArendeHelper, statService) {
             'use strict';
 
             ArendenViewState.reset();
@@ -88,17 +88,46 @@ angular.module('common').controller('common.ArendeCtrl',
 
             // listeners - interscope communication
             var unbindmarkAnsweredAsHandledEvent = $scope.$on('markAnsweredAsHandledEvent', function ($event, deferred, unhandledQas) {
-                //qaHelper.updateAnsweredAsHandled(deferred, unhandledQas, true);
+                _updateAnsweredAsHandled(deferred, unhandledQas);
                 deferred.resolve();
             });
             $scope.$on('$destroy', unbindmarkAnsweredAsHandledEvent);
 
             var unbindHasUnhandledQasEvent = $scope.$on('hasUnhandledQasEvent', function ($event, deferred) {
-                deferred.resolve([]);
-                //deferred.resolve(fragaSvarCommonService.getUnhandledQas($scope.qaList));
+                deferred.resolve(ArendeHelper.getUnhandledArenden($scope.arendeList));
             });
             $scope.$on('$destroy', unbindHasUnhandledQasEvent);
 
+            function _updateAnsweredAsHandled(deferred, unhandledarendes) {
+                if (unhandledarendes === undefined || unhandledarendes.length === 0) {
+                    return;
+                }
+                ArendeProxy.closeAllAsHandled(unhandledarendes, ArendenViewState.common.intygProperties.type,
+                    function(arendes) {
+                        if (arendes) {
+                            angular.forEach(arendes, function(arende) {
+                                angular.forEach($scope.arendeList, function(arendeListItem) {
+                                    if (arende.fraga.internReferens === arendeListItem.arende.fraga.internReferens) {
+                                        angular.copy(arende, arendeListItem.arende);
+                                        arendeListItem.updateArendeListItem();
+                                    }
+                                });
+                            });
+                            statService.refreshStat();
+                        }
+                        $window.doneLoading = true;
+                        if (deferred) {
+                            deferred.resolve();
+                        }
+                    }, function() { // unused parameter: errorData
+                        // show error view
+                        $window.doneLoading = true;
+                        if (deferred) {
+                            deferred.resolve();
+                        }
+                    }
+                );
+            };
 
             // Scope interactions
 

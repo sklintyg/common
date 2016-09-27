@@ -33,6 +33,22 @@ angular.module('common').service('common.ArendeHelper',
                 return arendeListItem;
             };
 
+            this.getUnhandledArenden = function(arendeList) {
+                if(!arendeList || arendeList.length === 0){
+                    return false;
+                }
+                var arendeListfiltered = [];
+                for (var i = 0, len = arendeList.length; i < len; i++) {
+                    var arendeListItem = arendeList[i];
+                    var isUnhandled = arendeListItem.isUnhandled();
+                    var fromFk = arendeListItem.fromFk();
+                    if (arendeListItem.arende.fraga.status === 'ANSWERED' || (isUnhandled && fromFk) ){
+                        arendeListfiltered.push(arendeListItem);
+                    }
+                }
+                return arendeListfiltered;
+            };
+
             function _arendeSortFunction(a,b) {
                 if (a.paminnelser.length > 0 && b.paminnelser.length === 0) {
                     return -1;
