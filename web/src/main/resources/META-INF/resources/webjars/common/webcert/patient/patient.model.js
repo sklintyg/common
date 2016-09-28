@@ -22,6 +22,15 @@ angular.module('common').factory('common.PatientModel',
         function($log, ObjectHelper) {
             'use strict';
 
+            function _isValid() {
+                if(ObjectHelper.isEmpty(this.personnummer) ||
+                    ObjectHelper.isEmpty(this.fornamn) ||
+                    ObjectHelper.isEmpty(this.efternamn)){
+                    return false;
+                }
+                return true;
+            }
+
             return {
                 build: function() {
                     this.personnummer = null;
@@ -37,7 +46,6 @@ angular.module('common').factory('common.PatientModel',
                     return this;
                 },
                 update: function(patientResponse) {
-
                     this.personnummer = patientResponse.personnummer;
                     this.sekretessmarkering = patientResponse.sekretessmarkering;
                     this.intygId = patientResponse.intygId;
@@ -48,13 +56,8 @@ angular.module('common').factory('common.PatientModel',
                     this.postadress = patientResponse.postadress;
                     this.postnummer = patientResponse.postnummer;
                     this.postort = patientResponse.postort;
-
-                    if(ObjectHelper.isEmpty(this.personnummer) ||
-                        ObjectHelper.isEmpty(this.fornamn) ||
-                        ObjectHelper.isEmpty(this.efternamn)){
-                        return false;
-                    }
-                    return true;
-                }
+                    return isValid();
+                },
+                isValid: _isValid
             };
         }]);
