@@ -22,18 +22,11 @@ module.exports = function(grunt) {
     'use strict';
 
     require('time-grunt')(grunt);
-    grunt.loadNpmTasks('grunt-bower-task');
-    grunt.loadNpmTasks('grunt-contrib-csslint');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-lcov-merge');
-    grunt.loadNpmTasks('grunt-ng-annotate');
-    grunt.loadNpmTasks('grunt-angular-templates');
-    grunt.loadNpmTasks('grunt-sass');
-    grunt.loadNpmTasks('grunt-sass-lint');
-    grunt.loadNpmTasks('grunt-wiredep');
+    require('jit-grunt')(grunt, {
+        bower: 'grunt-bower-task',
+        configureProxies: 'grunt-connect-proxy',
+        ngtemplates: 'grunt-angular-templates'
+    });
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/';
     var DEST_DIR = (grunt.option('outputDir') || 'build/') +  'resources/main/META-INF/resources/';
@@ -112,6 +105,7 @@ module.exports = function(grunt) {
         jshint: {
             options: {
                 jshintrc: '../build-tools/src/main/resources/jshint/.jshintrc',
+                reporterOutput: '',
                 force: false,
                 ignores: ['**/templates.js', '**/vendor/**']
             },

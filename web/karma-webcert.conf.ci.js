@@ -63,6 +63,23 @@ module.exports = function(config) {
             return plugins;
         })(),
 
-        reporters : [ 'dots', 'coverage' ]
+        preprocessors: (function() {
+            var preprocessors = {
+                'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.html': ['ng-html2js'],
+                'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.scss': ['scss']
+            };
+            if (runCoverage) {
+                preprocessors['src/main/resources/META-INF/resources/webjars/common/webcert/**/*.js'] = ['coverage'];
+            }
+            return preprocessors;
+        })(),
+
+        reporters: (function() {
+            var reporters = [ 'dots' ];
+            if (runCoverage) {
+                reporters.push('coverage');
+            }
+            return reporters;
+        })()
     });
 };
