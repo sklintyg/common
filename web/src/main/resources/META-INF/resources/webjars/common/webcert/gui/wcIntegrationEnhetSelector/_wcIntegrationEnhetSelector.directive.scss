@@ -1,19 +1,46 @@
 .wc-integration-enhet-selector {
 
-  .btn {
-    padding: 2px 2px;
+  //this modal should appear a bit down on the page
+  .modal-dialog {
+    margin-top:100px;
   }
+
+  //..and have more padding
+  .modal-header {
+    border-bottom: none;
+    padding: 25px 50px;
+  }
+
+  //and should add vertical scrollbar over 500 px height
+  .modal-body {
+    padding: 2px 60px 20px 60px;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  //First child is a VG and should have other styling
+  .nav-pills {
+    &.nav-stacked {
+        li:first-child > a {
+          color: #333;
+          background: #fff !important;
+
+        }
+      }
+    }
+
   .toggle-icon {
-    color: #111111;
-    cursor: pointer
+    color: #808080;
+    cursor: pointer;
+    padding-right:8px;
   }
+  //enhet should be indented
   .enhet {
-    margin-left: 20px;
+    padding-left: 50px;
   }
-  .mottagning {
-    margin-left: 60px;
+
+  .glyphicon {
+    top: 2px;
   }
-  .glyphicon-hide {
-    color: transparent;
-  }
+
 }
