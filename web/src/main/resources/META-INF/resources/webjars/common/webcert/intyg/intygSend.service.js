@@ -62,6 +62,9 @@ angular.module('common').factory('common.IntygSend',
                         _sendSigneratIntyg(intygId, intygType, recipientId, dialogSendModel,
                             sendDialog, onSuccess);
                     },
+                    button2click: function(modalInstance){
+                        sendDialog.close();
+                    },
                     button1text: 'common.send',
                     button1id: 'button1send-dialog',
                     button2text: 'common.cancel',
