@@ -60,22 +60,22 @@ public class InternalDateTest {
 
     @Test
     public void testIsDateInFuture() {
-        InternalDate validNotFuture = new InternalDate("2012-12-12");
+        InternalDate validNotFuture = new InternalDate(LocalDate.now().minusMonths(6));
         InternalDate validOneYearInFuture = new InternalDate(LocalDate.now().plusYears(1));
         InternalDate validOneDayInFuture = new InternalDate(LocalDate.now().plusDays(1));
+        InternalDate validMoreThenOneYearAgo = new InternalDate(LocalDate.now().minusYears(1).minusDays(1));
         InternalDate validSameDate = new InternalDate(LocalDate.now());
 
         InternalDate invalidDate = new InternalDate("2001-01");
 
-
-        assertFalse(validNotFuture.invalidOrInFuture());
-        assertTrue(validOneYearInFuture.invalidOrInFuture());
-        assertTrue(validOneDayInFuture.invalidOrInFuture());
-        //Same date is not in the future right?
-        assertFalse(validSameDate.invalidOrInFuture());
+        assertFalse(validNotFuture.beforeMinDateOrInFuture(LocalDate.now().minusYears(1)));
+        assertFalse(validSameDate.beforeMinDateOrInFuture(LocalDate.now().minusYears(1)));
 
         //Should be invalid
-        assertTrue(invalidDate.invalidOrInFuture());
+        assertTrue(validOneYearInFuture.beforeMinDateOrInFuture(LocalDate.now().minusYears(1)));
+        assertTrue(validOneDayInFuture.beforeMinDateOrInFuture(LocalDate.now().minusYears(1)));
+        assertTrue(validMoreThenOneYearAgo.beforeMinDateOrInFuture(LocalDate.now().minusYears(1)));
+        assertTrue(invalidDate.beforeMinDateOrInFuture(LocalDate.now().minusYears(1)));
     }
 
     @Test (expected = ModelException.class)

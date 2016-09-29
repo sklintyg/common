@@ -31,6 +31,7 @@ angular.module('common').directive('wcDatePickerField',
                 invalid: '=',
                 onChange: '&',
                 maxDate: '@',
+                minDate: '@',
                 overrideRender: '=',
                 addDateParser: '@',
                 dateOptions: '@',
@@ -40,15 +41,23 @@ angular.module('common').directive('wcDatePickerField',
             require:'wcDatePickerField',
             controller: function($scope) {
 
+                $scope.dateOptions = {
+                        minDate: undefined,
+                        maxDate: undefined
+                };
+
+                if ($scope.minDate !== undefined) {
+                    $scope.dateOptions.minDate = new Date($scope.minDate);
+                }
+                
+                if ($scope.maxDate !== undefined) {
+                    $scope.dateOptions.maxDate = new Date($scope.maxDate);
+                }
+
                 if($scope.format === undefined){
                     $scope.format = 'yyyy-MM-dd';
                 }
 
-                if($scope.maxDate === undefined){
-                    $scope.maxDate = null;
-                } else {
-                    $scope.maxDate = '\'' + $scope.maxDate + '\'';
-                }
 
                 $scope.isOpen = false;
                 $scope.toggleOpen = function($event) {

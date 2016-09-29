@@ -112,14 +112,19 @@ public class InternalDate {
         return date.matches(DATE_FORMAT);
     }
 
-    public boolean invalidOrInFuture() {
+    /**
+     * Determine whether an InternalDate is outside the allowed interval minDate < theDate < future.
+     * @param minDate
+     * @return True if it is outside the allowed interval or is null or invalid, false otherwise. 
+     */
+    public boolean beforeMinDateOrInFuture(LocalDate minDate) {
         if (date == null) {
             return true;
         }
         if (!this.isValidDate()) {
             return true;
         }
-        return this.asLocalDate().isAfter(LocalDate.now());
+        return this.asLocalDate().isBefore(minDate) || this.asLocalDate().isAfter(LocalDate.now());
     }
 
     public boolean isReasonable() {
