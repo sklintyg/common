@@ -118,10 +118,10 @@ angular.module('common').directive('wcDatePickerField',
                         // to ... today ..
                         var ppdate;
                         if(date instanceof Date){
-                            ppdate = dateUtils.toMomentStrict(date);
+                            ppdate = dateUtils.toMomentStrict(date).toDate();
                         }
                         if(dateUtils.dateReg.test(date)){
-                            ppdate = dateUtils.toMomentStrict(date);
+                            ppdate = dateUtils.toMomentStrict(date).toDate();
                         } else {
                             ppdate = new Date();
                         }
