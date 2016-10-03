@@ -19,28 +19,33 @@
 
 package se.inera.intyg.common.services.texts.repo;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.PostConstruct;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
+
+import javax.annotation.PostConstruct;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Repository
 public class IntygTextsRepositoryImpl implements IntygTextsRepository {
@@ -108,12 +113,12 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         }
     }
 
-    private LocalDate getDate(Element root, String id) {
+    protected LocalDate getDate(Element root, String id) {
         String date = root.getAttribute(id);
         return date == null || "".equals(date) ? null : LocalDate.parse(date);
     }
 
-    private SortedMap<String, String> getTexter(Element element) {
+    protected SortedMap<String, String> getTexter(Element element) {
         SortedMap<String, String> texts = new TreeMap<>();
         NodeList textsList = element.getElementsByTagName("text");
         for (int i = 0; i < textsList.getLength(); i++) {
@@ -123,7 +128,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         return texts;
     }
 
-    private List<Tillaggsfraga> getTillaggsfragor(Document doc) {
+    protected List<Tillaggsfraga> getTillaggsfragor(Document doc) {
         List<Tillaggsfraga> tillaggsFragor = new ArrayList<>();
         NodeList tillaggList = doc.getElementsByTagName("tillaggsfraga");
         for (int i = 0; i < tillaggList.getLength(); i++) {
