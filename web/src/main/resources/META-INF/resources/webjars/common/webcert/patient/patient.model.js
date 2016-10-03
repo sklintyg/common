@@ -8,7 +8,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * sklintyg is distributed in the hope that it will be useful,
+ * sklintyg is distributed in the hope this it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -17,47 +17,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.PatientModel',
-    [ '$log', 'common.ObjectHelper',
+angular.module('common').service('common.PatientModel',
+    ['$log', 'common.ObjectHelper',
         function($log, ObjectHelper) {
             'use strict';
 
-            function _isValid() {
-                if(ObjectHelper.isEmpty(this.personnummer) ||
+            this.isValid = function() {
+                if (ObjectHelper.isEmpty(this.personnummer) ||
                     ObjectHelper.isEmpty(this.fornamn) ||
-                    ObjectHelper.isEmpty(this.efternamn)){
+                    ObjectHelper.isEmpty(this.efternamn)) {
                     return false;
                 }
                 return true;
-            }
-
-            return {
-                build: function() {
-                    this.personnummer = null;
-                    this.sekretessmarkering = null;
-                    this.intygId = null;
-                    this.intygType = 'default';
-                    this.fornamn = null;
-                    this.mellannamn = null;
-                    this.efternamn = null;
-                    this.postadress = null;
-                    this.postnummer = null;
-                    this.postort = null;
-                    return this;
-                },
-                update: function(patientResponse) {
-                    this.personnummer = patientResponse.personnummer;
-                    this.sekretessmarkering = patientResponse.sekretessmarkering;
-                    this.intygId = patientResponse.intygId;
-                    this.intygType = patientResponse.intygType;
-                    this.fornamn = patientResponse.fornamn;
-                    this.mellannamn = patientResponse.mellannamn;
-                    this.efternamn = patientResponse.efternamn;
-                    this.postadress = patientResponse.postadress;
-                    this.postnummer = patientResponse.postnummer;
-                    this.postort = patientResponse.postort;
-                    return isValid();
-                },
-                isValid: _isValid
             };
+
+            this.build = function() {
+                this.personnummer = null;
+                this.sekretessmarkering = null;
+                this.intygId = null;
+                this.intygType = 'default';
+                this.fornamn = null;
+                this.mellannamn = null;
+                this.efternamn = null;
+                this.postadress = null;
+                this.postnummer = null;
+                this.postort = null;
+                return this;
+            };
+            this.update = function(patientResponse) {
+                this.personnummer = patientResponse.personnummer;
+                this.sekretessmarkering = patientResponse.sekretessmarkering;
+                this.intygId = patientResponse.intygId;
+                this.intygType = patientResponse.intygType;
+                this.fornamn = patientResponse.fornamn;
+                this.mellannamn = patientResponse.mellannamn;
+                this.efternamn = patientResponse.efternamn;
+                this.postadress = patientResponse.postadress;
+                this.postnummer = patientResponse.postnummer;
+                this.postort = patientResponse.postort;
+                return this.isValid();
+            };
+
+            this.build();
         }]);
