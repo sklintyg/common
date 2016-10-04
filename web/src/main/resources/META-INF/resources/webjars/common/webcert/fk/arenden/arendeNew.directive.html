@@ -3,6 +3,7 @@
   <!-- Arende button -->
   <div ng-show="getNewArendeState() == 'new'"
        wc-check-vardenhet
+       wc-authority feature="skapaNyFraga" intygstyp="{{localViewState.parentViewState.intygProperties.type}}"
        vardenhet="{{intyg.grundData.skapadAv.vardenhet.enhetsid}}">
     <div class="form-group">
       <button type="button" class="btn btn-success" ng-click="toggleArendeForm()" id="askArendeBtn">Ny fråga till

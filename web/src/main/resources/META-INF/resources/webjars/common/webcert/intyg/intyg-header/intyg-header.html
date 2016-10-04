@@ -40,9 +40,7 @@
           <!-- Normal pdf-utskrift av signerat intyg  -->
           <button type="button" id="downloadprint"
                   class="btn btn-info"
-                  wc-authority
-                  intygstyp="{{intygstyp}}"
-                  feature="!arbetsgivarUtskrift"
+                  wc-authority feature="utskrift" intygstyp="{{intygstyp}}"
                   ng-if="!makuleratIntyg()"
                   ng-click="print(viewState.intygModel, false)">
             <span message key="common.button.save.as.pdf"></span>
@@ -57,9 +55,7 @@
           </button>
           <div id="downloadprintemployer"
                style="display:inline;"
-               wc-authority
-               feature="arbetsgivarUtskrift"
-               intygstyp="{{intygstyp}}">
+               wc-authority feature="arbetsgivarUtskrift" intygstyp="{{intygstyp}}">
             <div class="btn-group"
                  ng-if="!makuleratIntyg()">
               <button id="intyg-header-dropdown-select-pdf-type" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

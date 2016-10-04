@@ -35,7 +35,6 @@ angular.module('common').factory('common.featureService',
                 return false;
             }
 
-
             if (intygstyp && activeFeatures.indexOf(feature + '.' + intygstyp) === -1) {
                 return false;
             }
@@ -50,7 +49,9 @@ angular.module('common').factory('common.featureService',
                 KOPIERA_INTYG: 'kopieraIntyg',
                 FORNYA_INTYG: 'fornyaIntyg',
                 MAKULERA_INTYG: 'makuleraIntyg',
+                SKAPA_NYFRAGA: 'skapaNyFraga',
                 SKICKA_INTYG: 'skickaIntyg',
+                UTSKRIFT: 'utskrift',
                 ARBETSGIVARUTSKRIFT: 'arbetsgivarUtskrift',
                 JS_LOGGNING: 'jsLoggning',
                 JS_MINIFIED: 'jsMinified'
