@@ -25,8 +25,10 @@ public enum ModuleFeature {
     HANTERA_INTYGSUTKAST("hanteraIntygsutkast"),
     KOPIERA_INTYG("kopieraIntyg"),
     MAKULERA_INTYG("makuleraIntyg"),
-    ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift"),
-    SKICKA_INTYG("skickaIntyg");
+    SKAPA_NYFRAGA("skapaNyFraga"),
+    SKICKA_INTYG("skickaIntyg"),
+    UTSKRIFT("utskrift"),
+    ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift");
 
     private String name;
 

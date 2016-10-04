@@ -24,9 +24,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-
 import org.junit.Test;
+
+import java.util.Map;
 
 public class ModuleFeaturesFactoryTest {
 
@@ -36,7 +36,10 @@ public class ModuleFeaturesFactoryTest {
     public void testFactory() {
         Map<String, Boolean> features = ModuleFeaturesFactory.getFeatures(TEST_FILE);
         assertNotNull(features);
-        assertEquals(6, features.size());
+
+        // There are 8 features in ModuleFeature.java
+        assertEquals(8, features.size());
+
         assertTrue(features.get(ModuleFeature.HANTERA_FRAGOR.getName()));
         assertFalse(features.get(ModuleFeature.MAKULERA_INTYG.getName()));
         assertFalse(features.get(ModuleFeature.SKICKA_INTYG.getName()));
