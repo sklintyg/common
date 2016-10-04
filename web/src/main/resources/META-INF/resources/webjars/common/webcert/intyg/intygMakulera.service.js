@@ -31,7 +31,7 @@ angular.module('common').factory('common.IntygMakulera',
 
                 dialogModel.showerror = false;
 
-                var revokeMessage = dialogModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification;
+                var revokeMessage = dialogModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason];
                 revokeMessage.trim();
 
                 var intygCopyRequest = IntygCopyRequestModel.build({
@@ -86,7 +86,7 @@ angular.module('common').factory('common.IntygMakulera',
                             (ObjectHelper.isDefined(model.makuleraModel.reason) &&
                                 model.makuleraModel.reason !== 'OVRIGT') ||
                             (model.makuleraModel.reason === 'OVRIGT' &&
-                                !ObjectHelper.isEmpty(model.makuleraModel.clarification))
+                                !ObjectHelper.isEmpty(model.makuleraModel.clarification[model.makuleraModel.reason]))
                         );
                 }
 
@@ -106,7 +106,7 @@ angular.module('common').factory('common.IntygMakulera',
                     choices: [],
                     makuleraModel: {
                         reason: undefined,
-                        clarification: ''
+                        clarification: []
                     }
                 };
 

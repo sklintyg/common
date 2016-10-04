@@ -18,7 +18,7 @@
       </label>
       <div class="form-group fold-animation" ng-if="model.makuleraModel.reason == reason.value">
         <textarea id="clarification-{{reason.value}}" rows='3' class='form-control'
-                  ng-model="model.makuleraModel.clarification" placeholder="{{reason.placeholder}}">
+                  ng-model="model.makuleraModel.clarification[reason.value]" placeholder="{{reason.placeholder}}">
         </textarea>
       </div>
     </div>
