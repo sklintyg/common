@@ -288,9 +288,9 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
         } else {
 
             this.from = DateUnit.build(undefined, this, this.name+'from');
-            this.from.update(startDate);
             this.to = DateUnit.build(undefined, this, this.name+'tom');
 
+            this.from.update(startDate);
             this.to.update(this.sevenDaysAhead(startDate));
             this.updateDaysBetween();
 
@@ -315,10 +315,17 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             var minMax = this.parent.minMax;
             if (!minMax || !minMax.min) {
                 var now = _now();
-                this.update({from:now, to:this.sevenDaysAhead(now)});
+                // INTYG-2992: Only allow updating datevalue if the field is empty
+                this.update({
+                    from: this.from.dateString ? this.from.dateString : now,
+                    to:   this.to.dateString   ? this.to.dateString   : this.sevenDaysAhead(now)
+                });
             } else {
                 var nextStartDate = moment(minMax.max.moment).add(interval, 'days');
-                this.update({from:nextStartDate, to:this.sevenDaysAhead(nextStartDate)});
+                this.update({
+                    from: this.from.dateString ? this.from.dateString : nextStartDate,
+                    to:   this.to.dateString   ? this.to.dateString   : this.sevenDaysAhead(nextStartDate)
+                });
             }
         } else {
             this.update(undefined);
@@ -351,10 +358,8 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             this.valid = false;
         }
 
-        // finally if this is valid set the workState
-        if(this.valid){
-            // this is valid!!
-            // set the workState
+        // Set to checked if any string is entered
+        if (this.from.dateString && this.to.dateString) {
             this.workState = true;
         } else {
             this.workState = false;

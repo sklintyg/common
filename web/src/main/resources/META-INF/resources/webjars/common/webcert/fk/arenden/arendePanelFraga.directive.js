@@ -44,6 +44,8 @@ angular.module('common').directive('arendePanelFraga',
                         var target;
                         if (komplettering.modelName === 'tillaggsfragor') {
                             target = 'form_tillaggsfragor_' + komplettering.id;
+                        } else if (angular.element.find('#form_FRG_' + komplettering.id).length > 0) {
+                            target = 'form_FRG_' + komplettering.id;
                         } else {
                             target = 'form_' + komplettering.modelName;
                         }

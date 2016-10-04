@@ -59,7 +59,7 @@ describe('PatientProxy', function() {
                     }
                 });
 
-            PatientModel.reset();
+            PatientModel.build();
             PatientProxy.getPatient(personnummer, onSuccess, null);
             $httpBackend.flush();
 
@@ -83,7 +83,7 @@ describe('PatientProxy', function() {
                     person: null
                 });
 
-            PatientModel.reset();
+            PatientModel.build();
             PatientProxy.getPatient(personnummer, onSuccess, onNotFound);
             $httpBackend.flush();
 
@@ -104,7 +104,7 @@ describe('PatientProxy', function() {
             $httpBackend.expectGET('/api/person/' + personnummer).
                 respond(500);
 
-            PatientModel.reset();
+            PatientModel.build();
             PatientProxy.getPatient(personnummer, onSuccess, onNotFound, onError);
             $httpBackend.flush();
 

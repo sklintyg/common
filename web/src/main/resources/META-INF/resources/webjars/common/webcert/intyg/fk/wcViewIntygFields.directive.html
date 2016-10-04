@@ -2,7 +2,7 @@
   <div wc-field field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
     <div ng-repeat="field in group.fieldGroup" ng-if="!field.templateOptions.hideFromSigned" class="intyg-field"
          ng-attr-id="{{field.key && 'form_'+field.key || undefined}}">
-      <div wc-intyg-label="field.templateOptions.label"></div>
+      <div wc-intyg-label="field.templateOptions.label" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
       <div ng-if="field.key" field-selective-view="field" field-model="intygModel">
         <div ng-switch="field.type">
           <div ng-switch-when="date">

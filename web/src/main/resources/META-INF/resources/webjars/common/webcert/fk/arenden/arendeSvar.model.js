@@ -39,7 +39,12 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.intygProperties = parentViewState.intygProperties;
 
                 // From intyg
-                this.enhetsId = parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid;
+                if (parentViewState.intyg) {
+                    this.enhetsId = parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid;
+                }
+                else {
+                    this.enhetsid = null;
+                }
 
                 // From fraga
                 this.amne = arendeListItem.arende.fraga.amne;
