@@ -51,7 +51,7 @@
                             <li><a href>Inga matchande diagnoser funna</a></li>
                       </ul>
                 </span>
-                <span ng-if="form['diagnoseCode'+$index].$viewValue.length > 1 && form['diagnoseCode'+$index].$viewValue.length < 3" uib-dropdown uib-dropdown-toggle auto-close="disabled" is-open="true">
+                <span ng-if="form['diagnoseCode'+$index].$viewValue.length > 0 && form['diagnoseCode'+$index].$viewValue.length < 3" uib-dropdown uib-dropdown-toggle auto-close="disabled" is-open="true">
                       <ul uib-dropdown-menu>
                             <li><a href>Ange 3 tecken för att söka diagnoskod</a></li>
                       </ul>
