@@ -39,7 +39,8 @@ angular.module('common').directive('wcIntygLabel',
                 restrict: 'A',
                 replace: true,
                 scope: {
-                    wcIntygLabel: '='
+                    wcIntygLabel: '=',
+                    forceNoH5: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/gui/wcIntygLabel.directive.html',
                 link: function(scope, element, attrs) {
@@ -48,6 +49,10 @@ angular.module('common').directive('wcIntygLabel',
                         return;
                     }
                     scope.h5Label = scope.wcIntygLabel + '.RBK';
+                    scope.noH5 = false;
+                    if (scope.forceNoH5 === true) {
+                        scope.noH5 = true;
+                    }
 
                     if (scope.wcIntygLabel.substring(0, 4) === 'DFR_') {
                         var questionIds = scope.wcIntygLabel.substring(4).split('.');
@@ -59,6 +64,10 @@ angular.module('common').directive('wcIntygLabel',
                     else if (scope.wcIntygLabel.substring(0, 4) === 'FRG_') {
                         scope.h4Label = scope.h5Label;
                         scope.h5Label = null;
+                        scope.noH5 = true;
+                        if (scope.forceNoH5 === false) {
+                            scope.noH5 = false;
+                        }
                     }
                 }
             };
