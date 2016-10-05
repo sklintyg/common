@@ -35,7 +35,9 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
   outputs.dir(webappTestOutputDir)
 
   script = file('node_modules/grunt-cli/bin/grunt')
-  args = ['test', "--outputDir=${webappTestOutputDir}", '--skip-coverage='+(!project.hasProperty('runSonar'))]
+  doFirst {
+      args = ['test', "--outputDir=${webappTestOutputDir}", '--skip-coverage='+!gradle.taskGraph.allTasks.any{it.name == 'sonarcube'}]
+  }
 }
 
 test.dependsOn(jsTests)
