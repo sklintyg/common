@@ -53,7 +53,11 @@ angular.module('common').directive('arendePanelFraga',
                         var offset = 10;
                         var topMenuElements = angular.element.find('.header-fix-top');
                         if (topMenuElements.length > 0) {
-                            offset = angular.element(topMenuElements[0]).prop('offsetHeight') + offset;
+                            var headerHeight = angular.element(topMenuElements[0]).prop('offsetHeight');
+                            offset += ($(window).height() - headerHeight) / 2 + headerHeight;
+                        }
+                        else {
+                            offset += $(window).height() / 2;
                         }
 
                         anchorScroll.scrollTo(target, offset);
