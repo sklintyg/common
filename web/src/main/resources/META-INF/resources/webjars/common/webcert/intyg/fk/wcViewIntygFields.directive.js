@@ -34,10 +34,10 @@ angular.module('common').directive('wcViewIntygFields',
 
                 scope.showFieldLine = function(field, nextField) {
                     // No lines after these fields
-                    if (field.type == 'info' || field.type == 'headline') {
+                    if (field.type === 'info' || field.type === 'headline') {
                         return false;
                     }
-                    if (field.templateOptions.label && field.templateOptions.label.indexOf('KV_') == 0) {
+                    if (field.templateOptions.label && field.templateOptions.label.indexOf('KV_') === 0) {
                         return false;
                     }
                     var exp = /DFR_[0-9]+\.([2-9]|[1-9][0-9]+)/;
