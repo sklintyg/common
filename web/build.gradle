@@ -35,7 +35,7 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
   outputs.dir(webappTestOutputDir)
 
   script = file('node_modules/grunt-cli/bin/grunt')
-  args = ['test', '--outputDir=' + webappTestOutputDir, '--skip-coverage='+(!project.hasProperty('runSonar'))]
+  args = ['test', "--outputDir=${webappTestOutputDir}", '--skip-coverage='+(!project.hasProperty('runSonar'))]
 }
 
 test.dependsOn(jsTests)
@@ -48,7 +48,7 @@ task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
   outputs.dir(webappOutputDir)
 
   script = file('node_modules/grunt-cli/bin/grunt')
-  args = ['default', '--outputDir=' + webappOutputDir]
+  args = ['default', "--outputDir=${webappOutputDir}"]
 }
 
 jar.dependsOn(jsInclude)
