@@ -18,7 +18,7 @@
         <ui-select theme="bootstrap" search-enabled="false" ng-model="underlag.typ"
          id="underlag-{{$index}}-typ" name="andraUnderlag-{{$index}}" append-to-body="false">
             <ui-select-match>
-                <span ng-bind="$select.selected.label"></span>
+                <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
             </ui-select-match>
             <ui-select-choices repeat="item.id as item in underlagOptions" value="$select.selected.id">
                 <span ng-bind="item.label"></span>
