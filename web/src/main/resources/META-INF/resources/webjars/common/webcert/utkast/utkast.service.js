@@ -44,15 +44,12 @@ angular.module('common').factory('common.UtkastService',
                 var def = $q.defer();
                 var sjf = ObjectHelper.isDefined($stateParams.sjf) ? $stateParams.sjf : false;
 
-                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, sjf, function(data) {
-                    viewState.relations = data.relations;
-                    viewState.common.intyg.isKomplettering = data.content.grundData.relation !== undefined && data.content.grundData.relation.relationKod === 'KOMPLT';
-                    viewState.common.update(viewState.draftModel, data);
+                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, sjf, function(utkastData) {
 
                     // check that the certs status is not signed
                     if (viewState.draftModel.isSigned()) {
                         // just change straight to the intyg
-                        $location.url('/intyg/' + intygsTyp + '/' + viewState.draftModel.content.id);
+                        $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id);
                     }
                     else {
 
@@ -70,16 +67,34 @@ angular.module('common').factory('common.UtkastService',
                         }
 
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor
-                        dynamicLabelService.updateDynamicLabels(intygsTyp, viewState.draftModel.content);
-                        $timeout(function() {
-                            wcFocus('focusFirstInput');
-                            $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
-                            $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
-                            CommonViewState.doneLoading = true;
+                        dynamicLabelService.updateDynamicLabels(intygsTyp, utkastData.content.textVersion).then(
+                            function(labels) {
+                                viewState.relations = utkastData.relations;
+                                viewState.common.intyg.isKomplettering = utkastData.content.grundData.relation !== undefined && utkastData.content.grundData.relation.relationKod === 'KOMPLT';
+                                
+                                // update model here so controls dependent on correct models at startup has the right values first
+                                viewState.common.update(viewState.draftModel, utkastData);
+                                
+                                // add tilläggsfrågor to model when dynamic texts are used
+                                if(labels === null) {
+                                    dynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, viewState.draftModel.content);
+                                }
 
-                            _loadParentIntyg(viewState);
-                            def.resolve(viewState.intygModel);
-                        }, 10);
+                                $timeout(function() {
+                                    wcFocus('focusFirstInput');
+                                    $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
+                                    $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
+                                    CommonViewState.doneLoading = true;
+
+                                    _loadParentIntyg(viewState);
+                                    def.resolve(viewState.intygModel);
+                                }, 10);
+                                
+                            }, function(error) {
+                                CommonViewState.doneLoading = true;
+                                CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);
+                                def.reject(error);
+                            });
                     }
 
                 }, function(error) {

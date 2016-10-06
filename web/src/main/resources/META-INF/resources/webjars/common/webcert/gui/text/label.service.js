@@ -8,8 +8,8 @@
  * Usage: <dynamicLabel key="some.resource.key" [fallback="defaulttextifnokeyfound"]/>
  */
 angular.module('common').factory('common.dynamicLabelService',
-    [ '$log', '$rootScope', 'common.DynamicLabelProxy',
-        function($log, $rootScope, DynamicLabelProxy) {
+    [ '$log', '$rootScope', '$q', 'common.DynamicLabelProxy',
+        function($log, $rootScope, $q, DynamicLabelProxy) {
             'use strict';
 
             var _labelResources = null;
@@ -107,35 +107,49 @@ angular.module('common').factory('common.dynamicLabelService',
                 }
             }
 
-            function _updateDynamicLabels(intygsTyp, model) {
-                if (model.textVersion) {
-                    DynamicLabelProxy.getDynamicLabels(intygsTyp, model.textVersion).then(
+            function _updateDynamicLabels(intygsTyp, intygTextVersion) {
+
+                var deferred = $q.defer();
+
+                if (intygTextVersion) {
+                    DynamicLabelProxy.getDynamicLabels(intygsTyp, intygTextVersion).then(
                         function(dynamicLabelJson) {
                             if (dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined') {
                                 $log.debug(dynamicLabelJson);
                                 _clearLabels();
                                 _addLabels(dynamicLabelJson);
-                                _updateTillaggsfragorToModel(dynamicLabelJson.tillaggsfragor, model);
+                                $rootScope.$broadcast('dynamicLabels.updated');
+                                deferred.resolve(dynamicLabelJson);
                             } else {
                                 $log.debug('No dynamic text for intygType: ' + intygsTyp);
+                                $rootScope.$broadcast('dynamicLabels.updated');
+                                var error = {
+                                    errorCode: 'could_not_load_cert',
+                                    message: 'could not load dynamic text'
+                                };
+                                deferred.reject(error);
                             }
-                            $rootScope.$broadcast('dynamicLabels.updated');
                         },
                         function(error) {
                             $log.debug('error:' + error);
+                            deferred.reject(error);
                         });
                 } else {
                     //This intygstype does not use dynamic texts, so let's empty any cached labels
                     _labelResources = null;
                     $rootScope.$broadcast('dynamicLabels.updated');
+                    deferred.resolve(null);
                 }
+                
+                return deferred.promise;
             }
             return {
                 checkLabels: _checkLabels,
                 getProperty: _getProperty,
                 hasProperty: _hasProperty,
                 getTillaggsFragor: _getTillaggsFragor,
-                updateDynamicLabels: _updateDynamicLabels
+                updateDynamicLabels: _updateDynamicLabels,
+                updateTillaggsfragorToModel: _updateTillaggsfragorToModel
             };
         }
     ]);
