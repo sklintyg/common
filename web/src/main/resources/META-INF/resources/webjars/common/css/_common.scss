@@ -410,12 +410,12 @@ label {
   }
 }
 
+/* These two must match to keep distance. use big-radio-label for wrapping label and big-radio on the input radio */
+.big-radio-label input[type=radio].big-radio {
+  margin-left: -25px;
+}
 .big-radio-label {
   padding-left: 25px;
-}
-
-input[type=radio].big-radio {
-  margin-left: -25px;
 }
 
 /* Commonly used */
@@ -460,6 +460,7 @@ input[type=text].small-decimal {
   background: $color_eastern_blue_approx !important;
   color: $white !important;
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)" !important;
+  filter: none;
 }
 
 .navbar-default .navbar-nav {
