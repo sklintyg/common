@@ -187,9 +187,9 @@ angular.module('common').constant('common.messages', {
         'common.intyg.relation': 'Relation',
         'common.intyg.relation.status': 'Status',
         'common.intyg.relation.date': 'Datum',
-        'common.intyg.relation.code.komplt': 'Komplettering',
-        'common.intyg.relation.code.ersatt': 'Ersättning',
-        'common.intyg.relation.code.frlang': 'Förlängning',
+        'common.intyg.relation.code.komplt': 'Kompletterar',
+        'common.intyg.relation.code.ersatt': 'Ersätter',
+        'common.intyg.relation.code.frlang': 'Förlänger',
 
         'common.intyg.patientadress': 'Patientens adressuppgifter',
         'common.postadress': 'Postadress',
