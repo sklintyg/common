@@ -142,4 +142,16 @@ describe('arendeHelper', function() {
         expect(itemList[1].extraKompletteringarArenden[2].arende.id).toBe(6);
         expect(itemList[1].extraKompletteringarArenden[3].arende.id).toBe(1);
     });
+
+    it('should split all into single items', function() {
+        ArendeHelper.splitAllToSingleItems(item1, itemList);
+
+        expect(itemList.length).toBe(6);
+        expect(itemList[0].arende.id).toBe(1);
+        expect(itemList[1].arende.id).toBe(2);
+        expect(itemList[2].arende.id).toBe(3);
+        expect(itemList[3].arende.id).toBe(4);
+        expect(itemList[4].arende.id).toBe(5);
+        expect(itemList[5].arende.id).toBe(6);
+    });
 });

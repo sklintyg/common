@@ -38,6 +38,7 @@ angular.module('common').directive('arendePanelSvar',
                 templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanelSvar.directive.html',
                 scope: {
                     panelId: '@',
+                    arendeList: '=',
                     arendeListItem: '=',
                     parentViewState: '='
                 },
@@ -92,6 +93,15 @@ angular.module('common').directive('arendePanelSvar',
                             if (result !== null) {
                                 // update real item
                                 angular.copy(result, $scope.arendeListItem.arende);
+
+                                if ($scope.arendeListItem.extraKompletteringarArenden.length > 0) {
+                                    angular.forEach($scope.arendeListItem.extraKompletteringarArenden,
+                                        function(arendeListItem) {
+                                            arendeListItem.arende.fraga.status = result.fraga.status;
+                                        });
+                                    ArendeHelper.splitAllToSingleItems($scope.arendeListItem, $scope.arendeList);
+                                }
+
                                 $scope.arendeListItem.updateArendeListItem(result);
                                 ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);
                                 statService.refreshStat();
