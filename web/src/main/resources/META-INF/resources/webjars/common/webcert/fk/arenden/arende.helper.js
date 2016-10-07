@@ -148,6 +148,6 @@ angular.module('common').service('common.ArendeHelper',
             this.splitAllToSingleItems = function(arendeListItem, arendeList) {
                 Array.prototype.push.apply(arendeList,
                     arendeListItem.extraKompletteringarArenden.splice(0, arendeListItem.extraKompletteringarArenden.length));
-            }
+            };
 
         }]);
