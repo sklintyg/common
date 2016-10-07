@@ -18,7 +18,7 @@
  */
 
 angular.module('common').service('common.IntygViewStateService',
-    ['$log', 'common.ViewStateService', 'common.IntygHelper', function($log, commonViewStateService, IntygHelper) {
+    ['$log', 'common.ViewStateService', 'common.IntygHelper', 'common.ObjectHelper', function($log, commonViewStateService, IntygHelper, ObjectHelper) {
         'use strict';
 
         this.reset = function() {
@@ -78,6 +78,33 @@ angular.module('common').service('common.IntygViewStateService',
                     this.activeErrorMessageKey = 'common.error.could_not_load_cert';
                 }
             }
+        };
+
+        /**
+         * When a deep-integration user requests an intyg, the request (see stateParams) may contain name and address
+         * as query parameters. This method matches the supplied stateParams (if applicable) with the patient name on
+         * the requested certificate and returns true if the name has changed.
+         */
+        this.hasChangedName = function(intygModel, stateParams) {
+            if (ObjectHelper.isDefined(stateParams.fornamn) && ObjectHelper.isDefined(stateParams.efternamn)) {
+                return intygModel.grundData.patient.fornamn !== stateParams.fornamn ||
+                    intygModel.grundData.patient.efternamn !== stateParams.efternamn;
+            }
+            return false;
+        };
+
+        /**
+         * When a deep-integration user requests an intyg, the request (see stateParams) may contain name and address
+         * as query parameters. This method matches the supplied stateParams (if applicable) with the patient address on
+         * the requested certificate and returns true if the address has changed.
+         */
+        this.hasChangedAddress = function(intygModel, stateParams) {
+            if (ObjectHelper.isDefined(stateParams.postort) && ObjectHelper.isDefined(stateParams.postadress) && ObjectHelper.isDefined(stateParams.postnummer)) {
+                return intygModel.grundData.patient.postort !== stateParams.postort ||
+                    intygModel.grundData.patient.postadress !== stateParams.postadress ||
+                    intygModel.grundData.patient.postnummer !== stateParams.postnummer;
+            }
+            return false;
         };
 
         this.reset();

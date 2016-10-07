@@ -124,11 +124,19 @@
 
       <div wc-new-person-id-message></div>
 
+
       <div class="alert alert-info alert-column" ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
         <strong>Status:</strong>
         <span ng-if="viewState.common.intygProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
         <span ng-if="!viewState.common.intygProperties.isSent && !viewState.common.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
         <span ng-if="!viewState.common.intygProperties.isSent && viewState.common.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
+
+      </div>
+
+      <div ng-if="changedName || changedAddress" class="alert alert-info alert-column">
+        <span id="intyg-djupintegration-name-changed" ng-if="changedName && !changedAddress" message key="intyg.status.patient.name.changed"></span>
+        <span id="intyg-djupintegration-address-changed" ng-if="!changedName && changedAddress" message key="intyg.status.patient.address.changed"></span>
+        <span id="intyg-djupintegration-name-and-address-changed" ng-if="changedName && changedAddress" message key="intyg.status.patient.name.and.address.changed"></span>
       </div>
 
       <div ng-if="viewState.common.intygProperties.isRevoked || viewState.common.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"

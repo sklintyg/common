@@ -27,6 +27,9 @@ angular.module('common').controller('common.IntygHeader',
 
             var intygType = $state.current.data.intygType;
 
+
+
+
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
