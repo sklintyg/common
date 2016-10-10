@@ -28,14 +28,14 @@ fdescribe('Filter: PersonIdFormatter', function () {
     }));
 
     it('should return pnr with dash for non-dashed one', inject(function (PersonIdFormatterFilter) {
-        expect(PersonIdFormatterFilter('191212121212')).toEqual('19121212-1212');
+        expect(PersonIdFormatterFilter('191212121212')).toEqual('19121212-1212');                  // jshint ignore:line
     }));
 
     it('should return pnr with dash for shortone', inject(function (PersonIdFormatterFilter) {
-        expect(PersonIdFormatterFilter('1212121212')).toEqual('20121212-1212');
+        expect(PersonIdFormatterFilter('1212121212')).toEqual('20121212-1212');                    // jshint ignore:line
     }));
 
     it('should return same as supplied when not a valid pnr', inject(function (PersonIdFormatterFilter) {
-        expect(PersonIdFormatterFilter('abc-123-def-456')).toEqual('abc-123-def-456');
+        expect(PersonIdFormatterFilter('abc-123-def-456')).toEqual('abc-123-def-456');             // jshint ignore:line
     }));
 });
