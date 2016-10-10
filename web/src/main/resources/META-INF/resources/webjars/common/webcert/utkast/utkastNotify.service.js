@@ -239,7 +239,7 @@ angular.module('common').factory('common.UtkastNotifyService',
                 var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert pa enhet ' +
                     utilsService.replaceAccentedCharacters(enhetsNamn) + ' for vardgivare ' +
                     utilsService.replaceAccentedCharacters(vardgivareNamn);
-                var body = 'Klicka pa lanken for att ga till utkastet:\n' + url;
+                var body = 'Klicka pa lanken for att ga till utkastet:\n' + url + '\n\nOBS! Satt i ditt SITHS-kort innan du klickar pa lanken.';
                 var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
                     encodeURIComponent(body);
                 $log.debug(link);
