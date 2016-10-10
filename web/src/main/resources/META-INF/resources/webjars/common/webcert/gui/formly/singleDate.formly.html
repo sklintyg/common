@@ -3,6 +3,7 @@
     <label class="form-control-label" ng-class="{'bold' : to.bold}">
       <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
       <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
+      {{to.required ? '*' : ''}}
     </label>
   </div>
   <div>
