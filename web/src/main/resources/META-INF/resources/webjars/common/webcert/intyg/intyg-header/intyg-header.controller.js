@@ -27,14 +27,19 @@ angular.module('common').controller('common.IntygHeader',
 
             var intygType = $state.current.data.intygType;
 
-
-
-
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
             $scope.fornyaBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.fornya.text');
+            $scope.patient = {};
 
+            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
+                // Listen when a certificate is loaded and make a
+                // control if a patient's name or address has been changed.
+                $scope.patient.changedName = CommonViewState.patient.hasChangedName(intyg, $stateParams);
+                $scope.patient.changedAddress = CommonViewState.patient.hasChangedAddress(intyg, $stateParams);
+            });
+            $scope.$on('$destroy', unbindFastEvent);
 
             $scope.makuleratIntyg = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
@@ -111,6 +116,7 @@ angular.module('common').controller('common.IntygHeader',
                     window.open($scope.pdfUrl, '_blank');
                 }
             };
+
         }
     ]
 );

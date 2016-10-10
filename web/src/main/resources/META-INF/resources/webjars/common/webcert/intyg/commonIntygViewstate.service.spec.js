@@ -41,26 +41,26 @@ describe('commonIntygViewstateService', function() {
         ]));
 
         it('hasNameChanged true if efternamn has changed', function() {
-            expect(commonIntygViewstateService.hasChangedName(intygModel, {'fornamn':'Tolvan','efternamn':'Tolvansson-changed'})).toBeTruthy();
+            expect(commonIntygViewstateService.patient.hasChangedName(intygModel, {'fornamn':'Tolvan','efternamn':'Tolvansson-changed'})).toBeTruthy();
         });
         it('hasNameChanged true if fornamn has changed', function() {
-            expect(commonIntygViewstateService.hasChangedName(intygModel, {'fornamn':'Tolvan-changed','efternamn':'Tolvansson'})).toBeTruthy();
+            expect(commonIntygViewstateService.patient.hasChangedName(intygModel, {'fornamn':'Tolvan-changed','efternamn':'Tolvansson'})).toBeTruthy();
         });
         it('hasNameChanged false if none has changed', function() {
-            expect(commonIntygViewstateService.hasChangedName(intygModel, {'fornamn':'Tolvan','efternamn':'Tolvansson'})).toBeFalsy();
+            expect(commonIntygViewstateService.patient.hasChangedName(intygModel, {'fornamn':'Tolvan','efternamn':'Tolvansson'})).toBeFalsy();
         });
 
         it('hasAddressChanged false if none has changed', function() {
-            expect(commonIntygViewstateService.hasChangedAddress(intygModel, {postadress: 'Blomstervägen 13', postort: 'Småmåla', postnummer: '123 45'})).toBeFalsy();
+            expect(commonIntygViewstateService.patient.hasChangedAddress(intygModel, {postadress: 'Blomstervägen 13', postort: 'Småmåla', postnummer: '123 45'})).toBeFalsy();
         });
         it('hasAddressChanged true if postadress has changed', function() {
-            expect(commonIntygViewstateService.hasChangedAddress(intygModel, {postadress: 'Blomstervägen 12', postort: 'Småmåla', postnummer: '123 45'})).toBeTruthy();
+            expect(commonIntygViewstateService.patient.hasChangedAddress(intygModel, {postadress: 'Blomstervägen 12', postort: 'Småmåla', postnummer: '123 45'})).toBeTruthy();
         });
         it('hasAddressChanged true if postort has changed', function() {
-            expect(commonIntygViewstateService.hasChangedAddress(intygModel, {postadress: 'Blomstervägen 13', postort: 'Stormåla', postnummer: '123 45'})).toBeTruthy();
+            expect(commonIntygViewstateService.patient.hasChangedAddress(intygModel, {postadress: 'Blomstervägen 13', postort: 'Stormåla', postnummer: '123 45'})).toBeTruthy();
         });
         it('hasAddressChanged true if postnummer has changed', function() {
-            expect(commonIntygViewstateService.hasChangedAddress(intygModel, {postadress: 'Blomstervägen 13', postort: 'Småmåla', postnummer: '54 321'})).toBeTruthy();
+            expect(commonIntygViewstateService.patient.hasChangedAddress(intygModel, {postadress: 'Blomstervägen 13', postort: 'Småmåla', postnummer: '54 321'})).toBeTruthy();
         });
     });
 });
