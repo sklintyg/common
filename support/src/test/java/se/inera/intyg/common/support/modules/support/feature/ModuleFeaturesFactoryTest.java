@@ -30,11 +30,12 @@ import java.util.Map;
 
 public class ModuleFeaturesFactoryTest {
 
+    private static final String MODUL_ID = "modulId";
     private static final String TEST_FILE = "/Features/test-features.properties";
 
     @Test
     public void testFactory() {
-        Map<String, Boolean> features = ModuleFeaturesFactory.getFeatures(TEST_FILE);
+        Map<String, Boolean> features = ModuleFeaturesFactory.getFeatures(MODUL_ID, TEST_FILE);
         assertNotNull(features);
 
         // There are 8 features in ModuleFeature.java
@@ -45,4 +46,27 @@ public class ModuleFeaturesFactoryTest {
         assertFalse(features.get(ModuleFeature.SKICKA_INTYG.getName()));
     }
 
+    @Test
+    public void testFactoryExternalFile() {
+        try {
+            System.setProperty("feature." + MODUL_ID + ".file", System.getProperty("user.dir") + "/src/test/resources/" + TEST_FILE);
+
+            Map<String, Boolean> features = ModuleFeaturesFactory.getFeatures(MODUL_ID, "does not exist");
+            assertNotNull(features);
+
+            // There are 8 features in ModuleFeature.java
+            assertEquals(8, features.size());
+
+            assertTrue(features.get(ModuleFeature.HANTERA_FRAGOR.getName()));
+            assertFalse(features.get(ModuleFeature.MAKULERA_INTYG.getName()));
+            assertFalse(features.get(ModuleFeature.SKICKA_INTYG.getName()));
+        } finally {
+            System.clearProperty("feature." + MODUL_ID + ".file");
+        }
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testFactoryNoFile() {
+        ModuleFeaturesFactory.getFeatures(MODUL_ID, "does not exist");
+    }
 }
