@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-fdescribe('Filter: PersonIdFormatter', function () {
+describe('Filter: PersonIdFormatter', function () {
     'use strict';
 
     // load the controller's module

@@ -95,7 +95,8 @@ describe('arendeVidarebefordra', function() {
         expect($window.location).toEqual(
             'mailto:?subject=Ett%20arende%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20enhet1%20for%20vardgivare%20vardgivare1'+
             '&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20arende%3A%0Aprotocol%2F%2Fhostname%3Aport%2Fwebcert%2Fweb'+
-            '%2Fuser%2Fbasic-certificate%2FtestIntyg%2FID112%2Fquestions');
+            '%2Fuser%2Fbasic-certificate%2FtestIntyg%2FID112%2Fquestions%0A%0AOBS!%20Satt%20i%20ditt%20SITHS-kort%20innan%20du'+
+            '%20klickar%20pa%20lanken.');
     });
 
     describe('#vidarebefordra', function() {
