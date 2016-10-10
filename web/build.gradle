@@ -3,8 +3,8 @@ description = 'Intyg Common (Web)'
 apply plugin: 'com.moowork.grunt'
 apply plugin: 'com.moowork.node'
 
-def webappOutputDir = 'build/';
-def webappTestOutputDir = 'build/karma/';
+def webappOutputDir = 'build/'
+def webappTestOutputDir = 'build/karma/'
 
 grunt {
   colors = true
