@@ -352,7 +352,8 @@ div.infobox {
 
 .fold-slide-fade-animation-hidden {
   overflow: hidden;
-  margin-left: 0px;
+  padding: 0;
+  margin-left: 0;
   opacity: 0;
   height: 0;
 }

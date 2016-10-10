@@ -24,7 +24,7 @@ angular.module('common').animation('.fold-animation', ['$animateCss', '$log', fu
             var animator = $animateCss(element, {
                 addClass: 'fold-slide-fade-animation',
                 easing: 'ease-out',
-                from: { height:'0' },
+                from: { height:'0', padding:'0' },
                 to: { height: height + 'px' },
                 duration: 0.3,
                 cleanupStyles: true
