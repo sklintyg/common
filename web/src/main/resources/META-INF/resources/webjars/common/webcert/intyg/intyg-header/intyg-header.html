@@ -31,17 +31,23 @@
       </div>
       <div class="form-group buttonbar">
         <div class="btn-row">
-          <button type="button" id="sendBtn" class="btn btn-info"
-                  ng-if="visaSkickaKnappen()"
-                  wc-authority feature="skickaIntyg" request-origin="!UTHOPP" intygstyp="{{intygstyp}}"
+          <button type="button"
+                  id="sendBtn"
+                  class="btn btn-info"
+                  wc-authority feature="skickaIntyg"
+                  request-origin="!UTHOPP"
+                  intygstyp="{{intygstyp}}"
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
-                  ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
+                  ng-if="visaSkickaKnappen()"
+                  ng-click="send()">
+            <span message key="{{intygstyp}}.button.send"></span>
           </button>
           <!-- Normal pdf-utskrift av signerat intyg  -->
-          <button type="button" id="downloadprint"
+          <button type="button"
+                  id="downloadprint"
                   class="btn btn-info"
-                  wc-authority feature="utskrift" intygstyp="{{intygstyp}}"
-                  ng-if="!makuleratIntyg()"
+                  intygstyp="{{intygstyp}}"
+                  ng-if="showPrintBtn() && !makuleratIntyg()"
                   ng-click="print(viewState.intygModel, false)">
             <span message key="common.button.save.as.pdf"></span>
           </button>
@@ -53,18 +59,33 @@
                   ng-click="print(viewState.intygModel, false)">
             Skriv ut
           </button>
-          <div id="downloadprintemployer"
-               style="display:inline;"
-               wc-authority feature="arbetsgivarUtskrift" intygstyp="{{intygstyp}}">
-            <div class="btn-group"
-                 ng-if="!makuleratIntyg()">
-              <button id="intyg-header-dropdown-select-pdf-type" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div id="downloadprintemployer" intygstyp="{{intygstyp}}" style="display:inline;">
+            <div class="btn-group" ng-if="showEmployerPrintBtn() && !makuleratIntyg()">
+              <button type="button"
+                      id="intyg-header-dropdown-select-pdf-type"
+                      class="btn btn-info dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false">
                 <span message key="common.button.save.as.pdf"></span><span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
-                <li><a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">Fullständigt intyg</a></li>
-                <li title="Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare">
-                  <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">Minimalt intyg</a>
+                <!--<li wc-authority feature="utskrift">-->
+                <li ng-if="utskrift">
+                  <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">
+                    <span message key="common.button.save.as.pdf.full"></span>
+                  </a>
+                </li>
+                <!--<li wc-authority feature="arbetsgivarUtskrift"-->
+                <li ng-if="arbetsgivarUtskrift"
+                    uib-popover="{{employerPrintBtnTooltipText}}"
+                    popover-trigger="mouseenter"
+                    popover-popup-delay="300"
+                    popover-append-to-body="true"
+                    popover-placement="auto top">
+                  <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">
+                    <span message key="common.button.save.as.pdf.mininmal"></span>
+                  </a>
                 </li>
               </ul>
             </div>

@@ -41,6 +41,9 @@ angular.module('common').constant('common.messages', {
         'common.delete': 'Radera',
         'common.sign.intyg': 'Signera intyget',
         'common.button.save.as.pdf': 'Spara som PDF',
+        'common.button.save.as.pdf.full': 'Fullständigt intyg',
+        'common.button.save.as.pdf.mininmal': 'Minimalt intyg',
+        'common.button.save.as.pdf.mininmal.title': 'Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare',
 
         'common.alert.newpersonid': 'Patienten har ett nytt personnummer: <b>${person}</b>',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>',
@@ -91,13 +94,14 @@ angular.module('common').constant('common.messages', {
         'intyg.status.unknown': 'Okänd',
         'intyg.status.sent': 'Mottaget',
         'intyg.status.received': 'Signerat',
-        // Revoke status messages (type agnostic)
-        'intyg.status.revoke.requested' : 'Intyget är makulerat',
-        'intyg.status.revoke.confirmed' : 'Intyget är makulerat',
 
         'intyg.status.patient.name.changed' : 'Observera att patientens namn har ändrats sedan det här intyget utfärdades. När du kopierar eller förnyar intyget kommer patientens aktuella namn att användas i det nya intygsutkastet.',
         'intyg.status.patient.address.changed' : 'Observera att patientens adress har ändrats sedan det här intyget utfärdades. När du kopierar eller förnyar intyget kommer patientens aktuella adress att användas i det nya intygsutkastet.',
         'intyg.status.patient.name.and.address.changed' : 'Observera att patientens namn och adress har ändrats sedan det här intyget utfärdades. När du kopierar eller förnyar intyget kommer patientens aktuella namn och adress att användas i det nya intygsutkastet.',
+
+        // Revoke status messages (type agnostic)
+        'intyg.status.revoke.requested' : 'Intyget är makulerat',
+        'intyg.status.revoke.confirmed' : 'Intyget är makulerat',
 
         // draft utkast header form status messages
         'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
@@ -118,8 +122,7 @@ angular.module('common').constant('common.messages', {
         // wc-common-directives-resources
         'nav.label.loggedinas': 'Inloggad som:',
 
-        // Fraga/svar resource - used both by webcert and module
-        // modal messages
+        // Fraga/svar resource - used both by webcert and module modal messages
         'modal.title.markforward': 'Markera som vidarebefordrad?',
 
         'qa.status.pending_internal_action': 'Kräver svar',
@@ -256,6 +259,7 @@ angular.module('common').constant('common.messages', {
         'common.fk.fragasvar.marked.as.hanterad': '<strong>Frågan-svaret är markerad som hanterad.</strong><br> Frågan-svaret visas under rubriken \'hanterade frågor och svar\' nedan.',
         'common.fk.fragasvar.marked.as.ohanterad': '<strong>Frågan-svaret är markerad som ej hanterad.</strong><br> Frågan-svaret visas under rubriken \'Ej hanterade frågor och svar\' ovan.',
         'common.fk.fragasvar.label.ovanstaende-har-bekraftats': '<strong>Ovanstående har bekräftats</strong>',
+
         // fragaSvar errors
         'common.fk.fragasvar.error.external_system_problem': '<strong>Meddelandet har inte skickats till Försäkringskassan då Webcert saknar kontakt med Försäkringskassans datasystem.</strong><br>Prova att skicka om meddelandet. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
         'common.fk.fragasvar.error.internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Försök igen och kontakta supporten om problemet kvarstår.',
@@ -264,7 +268,7 @@ angular.module('common').constant('common.messages', {
         'common.fk.fragasvar.error.authorization_problem': '<strong>Du har inte behörighet att utföra funktionen, kontakta supporten för mer information.</strong>',
         'common.fk.fragasvar.error.data_not_found': '<strong>Intyget kunde inte hittas i intygstjänsten.</strong><br>Intyget är borttaget eller så saknas behörighet.',
 
-        // fragaSvar errors
+        // Ärendehantering errors
         'common.arende.error.external_system_problem': '<strong>Meddelandet har inte skickats till Försäkringskassan då Webcert saknar kontakt med Försäkringskassans datasystem.</strong><br>Prova att skicka om meddelandet. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
         'common.arende.error.internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Försök igen och kontakta supporten om problemet kvarstår.',
         'common.arende.error.invalid_state': '<strong>Funktionen är inte giltig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma post. Ladda om informationen och försök igen',
