@@ -46,10 +46,11 @@ angular.module('common').controller('common.IntygHeader',
                 if ($scope.showEmployerPrintBtn()) {
                     return false;
                 }
-                return !$scope.utskrift === false;
+                return $scope.utskrift;
             };
+
             $scope.showEmployerPrintBtn = function() {
-                return !$scope.arbetsgivarUtskrift === false;
+                return $scope.arbetsgivarUtskrift;
             };
 
             var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
