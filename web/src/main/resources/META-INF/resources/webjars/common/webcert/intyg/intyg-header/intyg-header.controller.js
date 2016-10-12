@@ -70,6 +70,11 @@ angular.module('common').controller('common.IntygHeader',
                 IntygMakulera.makulera( intyg, confirmationMessage, function() {
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
                     $scope.viewState.common.intygProperties.isRevoked = true;
+                    angular.forEach($scope.viewState.relations, function(relation) {
+                        if(relation.intygsId === intyg.id) {
+                            relation.status = 'cancelled';
+                        }
+                    });
                     $rootScope.$emit('ViewCertCtrl.load', intyg, $scope.viewState.common.intygProperties);
                 });
             };
