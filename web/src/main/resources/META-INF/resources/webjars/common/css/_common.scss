@@ -223,7 +223,7 @@ a {
     a {
         color: $color_blue_chill_approx;
     }
-    label {
+    .control-label {
         max-width: 600px;
         vertical-align: baseline;
         font-weight: normal;
@@ -474,28 +474,6 @@ label {
 }
 
 
-/* These two must match to keep distance. use big-radio-label for wrapping label and big-radio on the input radio */
-
-.big-radio-label input[type=radio].big-radio {
-    margin-left: -25px;
-}
-
-.big-radio-label {
-    padding-left: 25px;
-}
-
-
-/* These two must match to keep distance. use big-radio-label for wrapping label and big-radio on the input radio */
-
-.big-checkbox-label input[type=radio].big-checkbox {
-    margin-left: -25px;
-}
-
-.big-checkbox-label {
-    padding-left: 25px;
-}
-
-
 /* Commonly used */
 
 .edit-form {
@@ -518,6 +496,28 @@ label {
     .intyg-block .checkbox input[type=checkbox] {
         margin-left: -20px;
     }
+}
+
+
+/* These two must match to keep distance. use big-radio-label for wrapping label and big-radio on the input radio */
+
+label.big-radio-label input[type=radio].big-radio {
+    margin-left: -25px;
+}
+
+label.big-radio-label {
+    padding-left: 25px;
+}
+
+
+/* These two must match to keep distance. use big-radio-label for wrapping label and big-radio on the input radio */
+
+label.big-checkbox-label input[type=checkbox].big-checkbox {
+    margin-left: -25px;
+}
+
+label.big-checkbox-label {
+    padding-left: 25px;
 }
 
 

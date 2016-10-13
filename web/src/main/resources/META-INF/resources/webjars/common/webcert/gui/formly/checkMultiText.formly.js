@@ -33,7 +33,7 @@ angular.module('common').run(function(formlyConfig) {
 
             $scope.to.open = false;
 
-            function loadModel(params) {
+            function loadModel() {
                 // Restore data model value form attic if exists
                 AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
 
@@ -50,13 +50,22 @@ angular.module('common').run(function(formlyConfig) {
                     AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
                 } else {
                     // Clear attic model and destroy watch on scope destroy
-                    AtticHelper.updateToAttic($scope, $scope.model, $scope.options.key);
+                    AtticHelper.updateToAtticImmediate($scope.model, $scope.options.key);
                 }
             }
 
             $scope.$watch('to.open', function(newVal) {
                 updateModel(newVal);
-            });
+            }, true);
+            /*
+                        $scope.$watch('model[options.key]', function(newVal) {
+                            if (!$scope.to.open) {
+                                loadModel();
+                            }
+                        });
+            */
+
+            $scope.$on('intyg.loaded', loadModel);
 
             loadModel();
 
