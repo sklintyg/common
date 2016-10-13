@@ -76,7 +76,7 @@ angular.module('common').factory('common.UtkastService',
                                 viewState.common.update(viewState.draftModel, utkastData);
                                 
                                 // add tilläggsfrågor to model when dynamic texts are used
-                                if(labels === null) {
+                                if(labels !== null) {
                                     dynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, viewState.draftModel.content);
                                 }
 
