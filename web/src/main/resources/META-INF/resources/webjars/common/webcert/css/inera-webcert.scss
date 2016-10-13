@@ -456,17 +456,6 @@
     }
   }
 
-  /* Used in utkastHeader.html */
-  .wc-spinner-inline {
-    display: inline;
-    div {
-      display: inline;
-    }
-    p {
-      display: inline;
-    }
-  }
-
   /**Form/validation**/
   %validation-box-shadow {
     border-color: $color_celeste_approx;
@@ -913,10 +902,6 @@ wc cookie banner css.
     padding: 0;
   }
 
-}
-
-#toggleShowRelatedIntyg {
-  margin-left: 10px;
 }
 
 #intygRelations {

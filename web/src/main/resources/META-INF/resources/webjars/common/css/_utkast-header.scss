@@ -33,9 +33,18 @@ $header-fix-panel-popover-color: #333;
   top: 0;
   z-index: 500;
 
+  h1.page-title {
+    font-size: 18px;
+  }
   .page-title {
     margin: 0 20px 0 0;
     line-height: 29px;
+
+  }
+
+  .backlink-icon {
+    margin: 2px 5px 0 0;
+
   }
 }
 
@@ -48,7 +57,7 @@ $header-fix-panel-popover-color: #333;
 .header-fix-top-expand-wrapper {
   position: absolute;
   right: 0;
-  top: 0;
+  top: 10px;
   background-color: $header-fix-top-expand-background-color;
   text-align: center;
   -webkit-border-radius: 0 0 5px 5px;
@@ -65,8 +74,33 @@ $header-fix-panel-popover-color: #333;
   }
 }
 
+.utkast-header-right-group {
+  padding:0 0 10px 10px;
+}
+
+.utkast-header-person-id {
+
+  .control-label {
+    font-size: 18px;
+  }
+
+}
+
+.utkast-header-relations {
+  min-height:20px;
+}
+
+.utkast-header-status {
+  span {
+    color:#666;
+  }
+  //so that the absolute positioned toggle button doesn't flow over content
+  //the padding will case line break before that happens
+  padding-right: 130px;
+}
+
 .header-fix-panel {
-  padding: 20px 0 10px 30px;
+  padding: 10px 0 0 30px;
   border-bottom: 1px solid $header-fix-panel-border-bottom-color;
   background-color: $header-fix-panel-background-color;
   -ms-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;

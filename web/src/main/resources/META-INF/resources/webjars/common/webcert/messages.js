@@ -84,7 +84,6 @@ angular.module('common').constant('common.messages', {
 
         // common intyg view messages
         'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
-        'common.label.saving': 'Sparar',
 
         // intyg status messages
         'intyg.status.draft_incomplete': 'Utkast, uppgifter saknas',
@@ -187,8 +186,8 @@ angular.module('common').constant('common.messages', {
 
         'common.label.diagnoses.more_results': 'Det finns fler träffar än vad som kan visas i listan, förfina sökningen.',
 
-        'common.intyg.relation.showrelated': 'Visa relaterade intyg',
-        'common.intyg.relation.hiderelated': 'Dölj relaterade intyg',
+        'common.intyg.relation.showrelated': 'Visa relaterade intyg <span class="glyphicon glyphicon-chevron-down"></span>',
+        'common.intyg.relation.hiderelated': 'Dölj relaterade intyg <span class="glyphicon glyphicon-chevron-up"></span>',
         'common.intyg.relation.currentlyviewing': 'Visas nu',
         'common.intyg.relation.show': 'Visa',
         'common.intyg.relation': 'Relation',
