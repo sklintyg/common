@@ -18,7 +18,7 @@
  */
 
 angular.module('common').factory('common.domain.ModelTransformService',
-    [function() {
+    ['common.ObjectHelper', function(ObjectHelper) {
         'use strict';
 
         return {
@@ -42,6 +42,79 @@ angular.module('common').factory('common.domain.ModelTransformService',
                     modelInternal[fromBackend[backendPropIndex].val] = true;
                 }
                 return modelInternal;
+            },
+            underlagFromTransform: function(underlagArray) {
+
+                // We now always have a specific amount of underlag so add that number of empty elements
+                for(var i = 0; underlagArray.length < 3; i++){
+                    underlagArray.push({
+                        typ: null,
+                        datum: null,
+                        hamtasFran: null
+                    });
+                }
+
+                if (underlagArray) {
+                    underlagArray.forEach(function(underlag) {
+                        if (!underlag.typ) {
+                            underlag.typ = null;
+                        }
+                        if (!underlag.datum) {
+                            underlag.datum = null;
+                        }
+                        if (!underlag.hamtasFran) {
+                            underlag.hamtasFran = null;
+                        }
+                    });
+                }
+                return underlagArray;
+            },
+            underlagToTransform: function(underlagArray) {
+
+                var underlagCopy = angular.copy(underlagArray);
+
+                // delete all rows with no values at all so as to not confuse backend with non-errors
+                var i = 0;
+                while(i < underlagCopy.length) {
+                    if(ObjectHelper.isEmpty(underlagCopy[i].typ) &&
+                        ObjectHelper.isEmpty(underlagCopy[i].datum) &&
+                        ObjectHelper.isEmpty(underlagCopy[i].hamtasFran)){
+                        underlagCopy.splice(i, 1);
+                    } else {
+                        i++;
+                    }
+                }
+
+                return underlagCopy;
+            },
+            diagnosFromTransform: function(diagnosArray) {
+
+                // We now always have a specific amount of underlag so add that number of empty elements
+                for(var i = 0; diagnosArray.length < 3; i++){
+                    diagnosArray.push({
+                        diagnosKodSystem: 'ICD_10_SE',
+                        diagnosKod : undefined,
+                        diagnosBeskrivning : undefined
+                    });
+                }
+
+                return diagnosArray;
+            },
+            diagnosToTransform: function(diagnosArray) {
+                var diagnosCopy = angular.copy(diagnosArray);
+
+                // delete all rows with no values at all so as to not confuse backend with non-errors
+                var i = 0;
+                while(i < diagnosCopy.length) {
+                    if(ObjectHelper.isEmpty(diagnosCopy[i].diagnosKod) &&
+                        ObjectHelper.isEmpty(diagnosCopy[i].diagnosBeskrivning)){
+                        diagnosCopy.splice(i, 1);
+                    } else {
+                        i++;
+                    }
+                }
+
+                return diagnosCopy;
             }
         };
     }]);
