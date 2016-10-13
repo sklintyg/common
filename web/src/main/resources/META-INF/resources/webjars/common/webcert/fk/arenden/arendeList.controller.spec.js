@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('ArendeCtrl', function() {
+describe('ArendeListCtrl', function() {
     'use strict';
 
     var $scope;
@@ -94,12 +94,12 @@ describe('ArendeCtrl', function() {
     }));
 
     beforeEach(angular.mock.inject(['$controller', '$q', '$rootScope', 'common.IntygHelper',
-        'common.ArendeProxy', 'common.ArendenViewStateService',
+        'common.ArendeProxy', 'common.ArendeListViewStateService',
         function($controller, _$q_, _$rootScope_, _IntygHelper_, _ArendeProxy_, _ArendenViewState_) {
             $rootScope = _$rootScope_;
             $q = _$q_;
             $scope = $rootScope.$new();
-            $controller('common.ArendeCtrl', { $scope: $scope });
+            $controller('common.ArendeListCtrl', { $scope: $scope });
             IntygHelper = _IntygHelper_;
             ArendeProxy = _ArendeProxy_;
             ArendenViewState = _ArendenViewState_;
@@ -159,7 +159,6 @@ describe('ArendeCtrl', function() {
                 isSent: true,
                 isRevoked: false,
                 forceUseProvidedIntyg: true,
-                kompletteringOnly: true,
                 type: 'testIntyg'
             });
 

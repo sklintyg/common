@@ -32,7 +32,7 @@ angular.module('common').directive('arendeHantera',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendeHantera.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/hantera/arendeHantera.directive.html',
                 scope: {
                     arendeList: '=',
                     arendeListItem: '=',
@@ -42,7 +42,6 @@ angular.module('common').directive('arendeHantera',
 
                     $scope.showHandleToggle = function() {
                         return !$scope.parentViewState.intygProperties.isRevoked &&
-                            !$scope.parentViewState.intygProperties.kompletteringOnly &&
                             // Enforce business rule FS-011, from FK + answer should remain closed
                             ($scope.arendeListItem.arende.fraga.frageStallare === 'WC' ||
                              !$scope.arendeListItem.arende.svar.meddelande);

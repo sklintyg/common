@@ -194,7 +194,6 @@ angular.module('common').factory('common.UtkastService',
                                     isSent: IntygHelper.isSentToTarget(result.statuses, 'FK'),
                                     isRevoked: IntygHelper.isRevoked(result.statuses),
                                     forceUseProvidedIntyg: true,
-                                    kompletteringOnly: true,
                                     meddelandeId: intygModel.grundData.relation.meddelandeId,
                                     type: viewState.common.intyg.type
                                 };

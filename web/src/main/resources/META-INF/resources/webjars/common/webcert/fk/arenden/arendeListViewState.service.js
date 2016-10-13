@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').service('common.ArendenViewStateService',
+angular.module('common').service('common.ArendeListViewStateService',
     ['common.IntygViewStateService', function(CommonViewState) {
         'use strict';
 
@@ -25,7 +25,6 @@ angular.module('common').service('common.ArendenViewStateService',
             this.doneLoading = false;
             this.activeErrorMessageKey = null;
             this.showTemplate = true;
-            this.showAllKompletteringarHandled = false;
 
             this.intyg = {};
             this.intygProperties = {

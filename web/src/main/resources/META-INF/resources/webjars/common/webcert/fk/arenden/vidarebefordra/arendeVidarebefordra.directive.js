@@ -43,8 +43,7 @@ angular.module('common').directive('arendeVidarebefordra',
                     $scope.forwardInProgress = false;
 
                     $scope.showVidarebefordra = function() {
-                        return !$scope.parentViewState.intygProperties.kompletteringOnly &&
-                            $scope.arendeListItem.arende.fraga.status !== 'CLOSED';
+                        return $scope.arendeListItem.arende.fraga.status !== 'CLOSED';
                     };
 
                     $scope.openMailDialog = function(arende) {

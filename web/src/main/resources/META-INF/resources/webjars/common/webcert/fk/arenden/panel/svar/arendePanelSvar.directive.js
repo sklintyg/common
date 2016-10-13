@@ -35,7 +35,7 @@ angular.module('common').directive('arendePanelSvar',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanelSvar.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/panel/svar/arendePanelSvar.directive.html',
                 scope: {
                     panelId: '@',
                     arendeList: '=',
@@ -55,8 +55,7 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.showAnswerPanel = function() {
                         var hasMeddelandeIsClosed = ArendeSvar.meddelande && ArendeSvar.status === 'CLOSED';
                         var cannotKomplettera = ArendeSvar.answerKompletteringWithText || hasMeddelandeIsClosed;
-                        return ArendeSvar.intygProperties.kompletteringOnly ||
-                            (ArendeSvar.amne !== 'KOMPLT') ||
+                        return (ArendeSvar.amne !== 'KOMPLT') ||
                             (ArendeSvar.amne === 'KOMPLT' && cannotKomplettera);
                     };
 
@@ -65,15 +64,14 @@ angular.module('common').directive('arendePanelSvar',
                     };
 
                     $scope.showKompletteringControls = function() {
-                        return !ArendeSvar.intygProperties.kompletteringOnly &&
-                            $scope.isAnswerAllowed() &&
+                        return $scope.isAnswerAllowed() &&
                             ArendeSvar.amne === 'KOMPLT' && !ArendeSvar.answerKompletteringWithText;
                     };
 
 
                     $scope.showButtonBar = function() {
-                        // VÄNTAR på svar från Vårdenheten och det är inte kompletteringsvy vi renderar
-                        return !ArendeSvar.intygProperties.kompletteringOnly && ArendeSvar.status === 'PENDING_INTERNAL_ACTION';
+                        // VÄNTAR på svar från Vårdenheten
+                        return ArendeSvar.status === 'PENDING_INTERNAL_ACTION';
                     };
 
                     $scope.isAnswerAllowed = function() {

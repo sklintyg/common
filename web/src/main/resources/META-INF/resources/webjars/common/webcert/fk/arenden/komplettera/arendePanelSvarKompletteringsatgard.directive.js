@@ -29,9 +29,9 @@
 angular.module('common').directive('arendePanelSvarKompletteringsatgard',
     [ '$window', '$log', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService', 'common.ArendenViewStateService', 'common.IntygProxy',
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService', 'common.ArendeListViewStateService', 'common.IntygProxy',
         function($window, $log, $state, $stateParams, $q, ArendeProxy, statService, ObjectHelper,
-            IntygCopyRequestModel, ArendeSvarModel, dialogService, arendenViewStateService, IntygProxy) {
+            IntygCopyRequestModel, ArendeSvarModel, dialogService, ArendeListViewStateService, IntygProxy) {
             'use strict';
 
             function _hasKompletteringUtkastRelation(relations) {
@@ -63,7 +63,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                     // For readability, keep a local struct with the values used from parent scope
                     var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
-                    $scope.relations = ArendeSvar.intygProperties.relations; //arendenViewStateService.relations;
+                    $scope.relations = ArendeSvar.intygProperties.relations; //ArendeListViewStateService.relations;
 
                     $scope.arendeSvar = ArendeSvar;
 

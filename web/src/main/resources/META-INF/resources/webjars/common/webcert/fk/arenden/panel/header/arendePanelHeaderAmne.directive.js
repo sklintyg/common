@@ -24,21 +24,16 @@
 /**
  * arendePanel directive. Common directive for both unhandled and handled questions/answers
  */
-angular.module('common').directive('arendePanel',
-    [
-        function() {
+angular.module('common').directive('arendePanelHeaderAmne',
+    [function() {
             'use strict';
 
             return {
                 restrict: 'A',
-                transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendePanel.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/panel/header/arendePanelHeaderAmne.directive.html',
                 scope: {
-                    panelId: '@',
-                    arendeListItem: '=',
-                    arendeList: '=',
-                    parentViewState: '='
+                    arendeListItem: '='
                 }
             };
         }]);

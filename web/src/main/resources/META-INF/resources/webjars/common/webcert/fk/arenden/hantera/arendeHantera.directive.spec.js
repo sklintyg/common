@@ -49,8 +49,8 @@ describe('arendeHantera', function() {
     beforeEach(angular.mock.module('htmlTemplates'));
 
     beforeEach(angular.mock.inject(['$controller', '$compile', '$httpBackend', '$rootScope', 'common.ArendeListItemModel',
-        'common.ArendenViewStateService', 'common.ArendeNewViewStateService',
-        function($controller, $compile, _$httpBackend_, _$rootScope_, _ArendeListItemModel_, _ArendenViewStateService_,
+        'common.ArendeListViewStateService', 'common.ArendeNewViewStateService',
+        function($controller, $compile, _$httpBackend_, _$rootScope_, _ArendeListItemModel_, _ArendeListViewStateService_,
             _ArendeNewViewState_) {
             $rootScope = _$rootScope_;
             $httpBackend = _$httpBackend_;
@@ -58,7 +58,7 @@ describe('arendeHantera', function() {
             $scope = $rootScope.$new();
 
             $scope.arendeListItem = _ArendeListItemModel_.build(angular.copy(arende));
-            $scope.parentViewState = _ArendenViewStateService_.reset();
+            $scope.parentViewState = _ArendeListViewStateService_.reset();
             $scope.parentViewState.setIntygType('intygstyp');
             element = $compile('<div arende-hantera arende-list-item="arendeListItem" parent-view-state="parentViewState"></div>')($scope);
 

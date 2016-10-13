@@ -36,7 +36,7 @@ angular.module('common').directive('arendeNew',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/arendeNew.directive.html',
+                templateUrl: '/web/webjars/common/webcert/fk/arenden/new/arendeNew.directive.html',
                 scope: {
                     arendeList: '=',
                     parentViewState: '='
@@ -62,14 +62,13 @@ angular.module('common').directive('arendeNew',
                      */
 
                     function isNew() {
-                        var notKomplettering = !ArendeNewViewState.parentViewState.intygProperties.kompletteringOnly;
                         var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
                         var newArendeFormClosed = !ArendeNewViewState.arendeNewOpen;
                         var intygSentOrArendenAvailable = ($scope.parentViewState.common.isIntygOnSendQueue ||
                                                             ArendeNewViewState.parentViewState.intygProperties.isSent ||
                                                             $scope.arendeList.length > 0);
 
-                        return notKomplettering && notRevoked && newArendeFormClosed && intygSentOrArendenAvailable;
+                        return notRevoked && newArendeFormClosed && intygSentOrArendenAvailable;
                     }
 
                     function isNotSent() {

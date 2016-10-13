@@ -73,7 +73,6 @@ describe('arendeVidarebefordra', function() {
             };
             $scope.parentViewState = {
                 intygProperties: {
-                    kompletteringOnly:false,
                     isRevoked:false,
                     type:'testIntyg'
                 },

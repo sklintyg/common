@@ -1,63 +1,32 @@
-angular.module('common').controller('common.ArendeCtrl',
+angular.module('common').controller('common.ArendeListCtrl',
     ['$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$window', '$filter',
         'common.dialogService', 'common.ObjectHelper', 'common.ErrorHelper',
-        'common.ArendeProxy', 'common.ArendenViewStateService', 'common.ArendeHelper', 'common.statService',
+        'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.statService',
         function ($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter,
                   dialogService, ObjectHelper, ErrorHelper,
-                  ArendeProxy, ArendenViewState, ArendeHelper, statService) {
+                  ArendeProxy, ArendeListViewState, ArendeHelper, statService) {
             'use strict';
 
-            ArendenViewState.reset();
-            ArendenViewState.setIntygType($state.current.data.intygType);
-            $scope.viewState = ArendenViewState;
+            ArendeListViewState.reset();
+            ArendeListViewState.setIntygType($state.current.data.intygType);
+            $scope.viewState = ArendeListViewState;
             $scope.arendeList = [];
 
             // Load
 
-            function filterKompletteringar(arendeList, intygProperties) {
-
-                var isAnyKompletteringarNotHandled = false;
-
-                // Filter out the komplettering the utkast was based on and only that one.
-                var filteredList = arendeList.filter(function(arendeListItem) {
-
-                    var isKompletteringFraga = arendeListItem.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || arendeListItem.fraga.amne === 'KOMPLT';
-
-                    // Check if this komplettering isn't handled. Used to show sign if there are no more unhandled kompletteringar
-                    if(!isAnyKompletteringarNotHandled){
-                        isAnyKompletteringarNotHandled = (isKompletteringFraga && arendeListItem.fraga.status !== 'CLOSED');
-                    }
-
-                    return isKompletteringFraga;
-                });
-
-                // If there aren't any kompletteringar that aren't handled already, we can show the sign that all kompletteringar are handled.
-                ArendenViewState.showAllKompletteringarHandled = !isAnyKompletteringarNotHandled;
-                return filteredList;
-            }
-
-            this.filterKompletteringar = filterKompletteringar;
-
-
             function fetchArenden(intygId, intygProperties) {
                 ArendeProxy.getArenden(intygId, intygProperties.type, function (result) {
                     $log.debug('getArendeForCertificate:success data:' + result);
-                    ArendenViewState.doneLoading = true;
-                    ArendenViewState.activeErrorMessageKey = null;
-                    ArendenViewState.showAllKompletteringarHandled = false;
-
-                    // If kompletteringsmode, only show kompletteringsissues
-                    if(ObjectHelper.isDefined(intygProperties) && intygProperties.kompletteringOnly) {
-                        result = filterKompletteringar(result, intygProperties);
-                    }
+                    ArendeListViewState.doneLoading = true;
+                    ArendeListViewState.activeErrorMessageKey = null;
 
                     $scope.arendeList = ArendeHelper.createListItemsFromArenden(result);
 
                 }, function (errorData) {
                     // show error view
-                    ArendenViewState.doneLoading = true;
+                    ArendeListViewState.doneLoading = true;
 
-                    ArendenViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                    ArendeListViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
                 });
             }
 
@@ -66,17 +35,17 @@ angular.module('common').controller('common.ArendeCtrl',
                 // IMPORTANT!! DON'T LET fetchArenden DEPEND ON THE INTYG LOAD EVENT (intyg) in this case!
                 // Messages needs to be loaded separately from the intyg as user should be able to see messages even if intyg didn't load.
                 // Used when coming from Intyg page.
-                ArendenViewState.intyg = intyg;
-                if (ObjectHelper.isDefined(ArendenViewState.intyg) && ObjectHelper.isDefined(ArendenViewState.intygProperties)) {
+                ArendeListViewState.intyg = intyg;
+                if (ObjectHelper.isDefined(ArendeListViewState.intyg) && ObjectHelper.isDefined(ArendeListViewState.intygProperties)) {
 
-                    ArendenViewState.intygProperties = intygProperties;
-                    ArendenViewState.intygProperties.isLoaded = true;
+                    ArendeListViewState.intygProperties = intygProperties;
+                    ArendeListViewState.intygProperties.isLoaded = true;
                     var intygId = $stateParams.certificateId;
                     if (intygProperties.forceUseProvidedIntyg) {
                         // Used for utkast page. In this case we must use the id from intyg because $stateParams.certificateId is the id of the utkast, not the parentIntyg
                         intygId = intyg.id;
                     }
-                    fetchArenden(intygId, ArendenViewState.intygProperties);
+                    fetchArenden(intygId, ArendeListViewState.intygProperties);
 
                 } else if (ObjectHelper.isDefined($stateParams.certificateId)) {
                     fetchArenden($stateParams.certificateId, {
@@ -102,7 +71,7 @@ angular.module('common').controller('common.ArendeCtrl',
                 if (unhandledarendes === undefined || unhandledarendes.length === 0) {
                     return;
                 }
-                ArendeProxy.closeAllAsHandled(unhandledarendes, ArendenViewState.common.intygProperties.type,
+                ArendeProxy.closeAllAsHandled(unhandledarendes, ArendeListViewState.common.intygProperties.type,
                     function(arendes) {
                         if (arendes) {
                             angular.forEach(arendes, function(arende) {
@@ -142,4 +111,9 @@ angular.module('common').controller('common.ArendeCtrl',
             $scope.closedArendenFilter = function (arendeListItem) {
                 return arendeListItem.arende.fraga.status === 'CLOSED';
             };
+
+            $scope.kompletteringarFilter = function(arendeListItem) {
+                return arendeListItem.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' || arendeListItem.arende.fraga.amne === 'KOMPLT';
+            };
+
         }]);
