@@ -67,7 +67,7 @@ angular.module('common').factory('common.UtkastService',
                         }
 
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor
-                        dynamicLabelService.updateDynamicLabels(intygsTyp, utkastData.content.textVersion).then(
+                        dynamicLabelService.updateDynamicLabels(intygsTyp, utkastData.latestTextVersion).then(
                             function(labels) {
                                 viewState.relations = utkastData.relations;
                                 viewState.common.intyg.isKomplettering = utkastData.content.grundData.relation !== undefined && utkastData.content.grundData.relation.relationKod === 'KOMPLT';

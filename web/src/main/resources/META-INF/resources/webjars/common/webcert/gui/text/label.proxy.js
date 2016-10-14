@@ -13,7 +13,7 @@ angular.module('common').factory('common.DynamicLabelProxy', [
             var promise = $q.defer();
 
             // Don't even bother with old intyg types
-            if (intygType === 'fk7263') {
+            if (!version || intygType === 'fk7263') {
                 promise.resolve(null);
             } else {
                 var restPath = '/api/utkast/questions/' + intygType + '/' + version;
