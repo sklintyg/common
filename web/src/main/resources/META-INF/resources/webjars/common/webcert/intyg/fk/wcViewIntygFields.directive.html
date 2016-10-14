@@ -2,7 +2,7 @@
   <div wc-field field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
     <div ng-repeat="field in group.fieldGroup" ng-if="!field.templateOptions.hideFromSigned" ng-class="{'intyg-field' : field.type != 'headline'}"
          ng-attr-id="{{field.key && 'form_'+field.key || undefined}}">
-      <div wc-intyg-label="field.templateOptions.label" force-no-h5="field.templateOptions.noH5" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
+      <div wc-intyg-label="field.templateOptions.label" force-no-h5-after="field.templateOptions.noH5After" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
       <div ng-if="field.key" field-selective-view="field" field-model="intygModel">
         <div ng-switch="field.type">
           <div ng-switch-when="date">
@@ -29,6 +29,15 @@
                 <li><span id="{{field.key}}-{{asa.val}}" dynamic-label key="{{field.templateOptions.code}}.{{asa.val}}.RBK"></span></li>
               </ul>
             </div>
+          </div>
+          <div ng-switch-when="check-multi-text">
+            <h4>
+              <span dynamic-label key="FRG_{{field.templateOptions.frgId}}.RBK"></span>
+            </h4>
+            <h5>
+              <span dynamic-label key="DFR_{{field.templateOptions.frgId}}.1.RBK"></span>
+            </h5>
+            <span id="{{field.key}}">{{intygModel[field.key]}}</span>
           </div>
           <div ng-switch-when="radio-group">
             <div radio-view="field" field-model="intygModel"></div>

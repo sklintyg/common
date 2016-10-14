@@ -203,7 +203,7 @@ angular.module('common').constant('common.messages', {
         'common.postort': 'Postort',
 
         //common.sit.* messages are candidates for a fk-common messages.js
-        'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE:',
+        'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE',
         'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',
         'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
         'common.sit.client-validation.underlag.max-extra-underlag': 'Du kan inte lägga till fler utredningar, max antal är %0st',

@@ -5,8 +5,7 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
         if (dynamicLabelService.hasProperty(scope.frageId + '.RBK')) {
             if (dynamicLabelService.hasProperty(options.templateOptions.label + '.RBK')) {
                 scope.showFrageLabel = true;
-            }
-            else {
+            } else {
                 options.templateOptions.label = scope.frageId;
                 options.templateOptions.bold = true;
             }
@@ -43,7 +42,7 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
             key = options.templateOptions.id;
         }
         if (key && $.type(key) === 'string') {
-            key = key.replace(/\.|\[|\]/g,'_');
+            key = key.replace(/\.|\[|\]/g, '_');
             return '<div id="form_' + key + '">' + template + '</div>';
         } else {
             return template;

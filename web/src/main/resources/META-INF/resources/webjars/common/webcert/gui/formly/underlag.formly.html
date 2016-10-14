@@ -1,19 +1,25 @@
-<div class="" ng-show="model.underlagFinns">
-  <label class="control-label inline-block bold">
+<div ng-show="model.underlagFinns">
+  <label class="control-label inline-block bold" ng-if="to.label">
     <span dynamic-label key="{{to.label}}.RBK"></span> *
     <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
   </label>
   <table class="form-group">
     <tr class="underlagRow">
-      <th><span dynamic-label key="{{to.typLabel}}.RBK"></span> <span wc-help-mark field-dynamic-help-text="{{to.typLabel}}.HLP"></span></th>
+      <th style="width: 35%;"><span dynamic-label key="{{to.typLabel}}.RBK"></span> <span wc-help-mark field-dynamic-help-text="{{to.typLabel}}.HLP"></span></th>
       <th><span dynamic-label key="{{to.datumLabel}}.RBK"></span> <span wc-help-mark field-dynamic-help-text="{{to.datumLabel}}.HLP"></span></th>
       <th><span dynamic-label key="{{to.hamtasFranLabel}}.RBK"></span> <span wc-help-mark field-dynamic-help-text="{{to.hamtasFranLabel}}.HLP"></span></th>
-      <th></th>
     </tr>
     <tr class="underlagRow" ng-repeat="underlag in model.underlag">
       <td>
-        <select id="underlag-{{$index}}-typ" class="form-control" name="andraUnderlag-{{$index}}" data-ng-model="underlag.typ"
-                data-ng-options="item.id as item.label for item in underlagOptions"></select>
+        <ui-select theme="bootstrap" search-enabled="false" ng-model="underlag.typ"
+         id="underlag-{{$index}}-typ" name="andraUnderlag-{{$index}}" append-to-body="false">
+            <ui-select-match>
+                <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
+            </ui-select-match>
+            <ui-select-choices repeat="item.id as item in underlagOptions" value="$select.selected.id">
+                <span ng-bind="item.label"></span>
+            </ui-select-choices>
+        </ui-select>
       </td>
       <td>
         <span wc-date-picker-field target-model="underlag.datum" dom-id="underlag-{{$index}}-datum"
@@ -22,16 +28,7 @@
       <td>
         <input id="underlag-{{$index}}-hamtasFran" type="text" class="form-control input-full" ng-model="underlag.hamtasFran">
       </td>
-      <td><button id="underlag-{{$index}}-remove" type="button" class="btn btn-default btn-secondary" ng-click="removeUnderlag($index)"
-                ng-show="model.underlag.length > 1"><span class="glyphicon glyphicon-remove"></span></button>
-      </td>
     </tr>
 
   </table>
-  <div>
-    <button id="laggTillUnderlag" type="button" ng-if="model.underlag.length < to.maxUnderlag" href="" ng-click="createUnderlag()" class="btn btn-default btn-secondary"
-       ng-class="{ 'disabled': previousUnderlagIncomplete() }"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Lägg
-      till ytterligare underlag</button>
-    <span ng-if="model.underlag.length === to.maxUnderlag"><span message key="common.sit.client-validation.underlag.max-extra-underlag" param="to.maxUnderlag"></span></span><!-- kursivera -->
-  </div>
 </div>

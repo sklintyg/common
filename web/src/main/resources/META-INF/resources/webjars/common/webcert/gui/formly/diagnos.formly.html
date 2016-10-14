@@ -1,19 +1,19 @@
 <div class="row bottom-padding-small">
     <div class='col-xs-12'>
-
-            <span class="bold valjkodverk" message key="common.sit.label.valj-version-icd-10"></span>
-            <label class="radio-inline">
-                <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
+        <div class="form-group">
+            <div class="bottom-padding-small"><span class="bold valjkodverk" message key="common.sit.label.valj-version-icd-10"></span></div>
+            <label class="radio-inline big-radio-label">
+                <input type="radio" class="big-radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
                        ng-model="formState.diagnosKodSystem" checked="checked"
                        ng-change="onChangeKodverk()">
                 <span message key="common.sit.label.diagnoskodverk.fullstandig"></span>
             </label>
-            <label class="radio-inline">
-                <input type="radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodSystem" value="KSH_97_P"
+            <label class="radio-inline big-radio-label">
+                <input type="radio" class="big-radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodSystem" value="KSH_97_P"
                        ng-model="formState.diagnosKodSystem" ng-change="onChangeKodverk()">
                 <span message key="common.sit.label.diagnoskodverk.primarvard"></span>
             </label>
-
+        </div>
     </div>
 </div>
 
@@ -28,13 +28,16 @@
                 <span dynamic-label key="{{to.diagnosBeskrivningLabel}}.RBK"></span>
                 <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.diagnosBeskrivningLabel}}.HLP"></span>
             </th>
-            <th>
-            </th>
+            <!--th>
+            </th-->
         </tr>
         <tr class="diagnosRow" ng-repeat="diagnos in model[options.key]">
             <td>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="diagnoseCode-{{$index}}" name="diagnoseCode{{$index}}" value=""
+                    <input type="text" class="form-control" id="diagnoseCode-{{$index}}"
+                           name="diagnoseCode{{$index}}"
+                           value=""
+                           placeholder="{{$index == 0 ? 'Huvuddiagnos' : 'Bidiagnos'}}"
                            class='diagnose-code col-xs-11 form-control'
                            ng-model="diagnos.diagnosKod"
                            ng-change="onDiagnoseCodeChanged($index)"
@@ -48,20 +51,23 @@
                            ng-blur="onBlurDiagnoseCodeField($index)">
                     <img src="/img/ajax-loader-kit-16x16.gif" class="diagnos-loading" ng-if="diagnosKodLoading[$index]" />
                 </div>
-                <span ng-if="diagnosKodNoResults[$index] && form['diagnoseCode'+$index].$viewValue.length > 2" uib-dropdown uib-dropdown-toggle auto-close="disabled" is-open="true">
+                <span ng-if="diagnosKodNoResults[$index] && form['diagnoseCode'+$index].$viewValue.length > 2" uib-dropdown uib-dropdown-toggle
+                    auto-close="disabled" is-open="true">
                       <ul uib-dropdown-menu>
                             <li><a href>Inga matchande diagnoser funna</a></li>
                       </ul>
                 </span>
-                <span ng-if="form['diagnoseCode'+$index].$viewValue.length > 0 && form['diagnoseCode'+$index].$viewValue.length < 3" uib-dropdown uib-dropdown-toggle auto-close="disabled" is-open="true">
+                <span ng-if="form['diagnoseCode'+$index].$viewValue.length > 0 && form['diagnoseCode'+$index].$viewValue.length < 3" uib-dropdown
+                    uib-dropdown-toggle auto-close="disabled" is-open="true">
                       <ul uib-dropdown-menu>
                             <li><a href>Ange 3 tecken för att söka diagnoskod</a></li>
                       </ul>
                 </span>
             </td>
             <td class="diagnosDescriptionColumn">
-                <input type="text" class="form-control maxwidth" id="diagnoseDescription-{{$index}}"
-                       class="col-xs-12 form-control" name="diagnose.description" value=""
+                <input type="text" class="col-xs-12 form-control maxwidth" id="diagnoseDescription-{{$index}}"
+                       name="diagnose.description"
+                       value=""
                        ng-model= "diagnos.diagnosBeskrivning"
                        ng-change="onDiagnoseDescriptionChanged($index)"
                        uib-typeahead="d.value as d.label for d in searchDiagnoseByDescription(formState.diagnosKodSystem, $viewValue)"
@@ -69,16 +75,6 @@
                        typeahead-template-url="/web/webjars/common/webcert/gui/formly/diagnos.formly.typeahead_template.html"
                        typeahead-wait-ms="100">
             </td>
-            <td>
-              <button id="diagnos-{{$index}}-remove" type="button" class="btn btn-default btn-secondary" ng-click="removeDiagnos($index)"
-                      ng-show="model[options.key].length > 1"><span class="glyphicon glyphicon-remove"></span></button>
-            </td>
         </tr>
     </table>
-
-    <div>
-        <button id="laggTillDiagnos" type="button" ng-if="model[options.key].length < 3" href="" ng-click="addDiagnos()" class="btn btn-default btn-secondary">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Lägg till övriga diagnoser
-        </button>
-    </div>
 </div>

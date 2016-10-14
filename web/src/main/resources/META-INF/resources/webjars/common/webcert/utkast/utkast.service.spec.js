@@ -30,6 +30,7 @@ describe('UtkastService', function() {
     var $rootScope;
     var $stateParams;
     var $timeout;
+    var $q;
     var utkastContent;
 
     beforeEach(angular.mock.module('common', function($provide) {
@@ -44,8 +45,9 @@ describe('UtkastService', function() {
     }));
 
     beforeEach(angular.mock.inject(['common.dynamicLabelService', 'common.UtkastService', 'common.UtkastViewStateService', 'common.User',
-        '$httpBackend', '$location', '$rootScope', '$stateParams', '$timeout',
-        function(_dynamicLabelService_, _utkastService_, _commonViewState_, _commonUser_, _$httpBackend_, _$location_, _$rootScope_, _$stateParams_, _$timeout_) {
+        '$httpBackend', '$location', '$rootScope', '$stateParams', '$timeout', '$q',
+        function(_dynamicLabelService_, _utkastService_, _commonViewState_, _commonUser_,
+            _$httpBackend_, _$location_, _$rootScope_, _$stateParams_, _$timeout_, _$q_) {
             dynamicLabelService = _dynamicLabelService_;
             utkastService = _utkastService_;
             commonViewState = _commonViewState_;
@@ -55,6 +57,7 @@ describe('UtkastService', function() {
             $rootScope = _$rootScope_;
             $stateParams = _$stateParams_;
             $timeout = _$timeout_;
+            $q = _$q_;
 
             commonViewState.reset();
 
@@ -100,6 +103,14 @@ describe('UtkastService', function() {
 
     describe('load', function() {
 
+        beforeEach(function() {
+            spyOn(dynamicLabelService, 'updateDynamicLabels').and.callFake(function() {
+                var deferred = $q.defer();
+                deferred.resolve();
+                return deferred.promise;
+            });
+        });
+
         it ('utkast load isSigned should forward to intyg view', function () {
             spyOn(viewState.draftModel,'isSigned').and.callFake(function() {return true;});
             spyOn($location,'url');
@@ -122,7 +133,6 @@ describe('UtkastService', function() {
         });
 
         it ('successful utkast load', function () {
-            spyOn(dynamicLabelService, 'updateDynamicLabels');
             spyOn($rootScope,'$broadcast').and.callThrough();
 
             $stateParams.certificateId = 'testIntygId';
@@ -153,7 +163,6 @@ describe('UtkastService', function() {
         });
 
         it ('successful completion utkast load', function () {
-            spyOn(dynamicLabelService, 'updateDynamicLabels');
             spyOn($rootScope,'$broadcast').and.callThrough();
 
             $stateParams.certificateId = 'testIntygIdKomplt';
@@ -195,7 +204,6 @@ describe('UtkastService', function() {
         });
 
         it ('successful utkast load with sjf', function () {
-            spyOn(dynamicLabelService, 'updateDynamicLabels');
 
             $stateParams.certificateId = 'testIntygId';
             $stateParams.sjf = true;
@@ -218,7 +226,6 @@ describe('UtkastService', function() {
         });
 
         it ('unsuccessful utkast load', function () {
-            spyOn(dynamicLabelService, 'updateDynamicLabels');
             spyOn($rootScope,'$broadcast').and.callThrough();
 
             $stateParams.certificateId = 'testIntygId';

@@ -40,7 +40,7 @@ angular.module('common').directive('wcIntygLabel',
                 replace: true,
                 scope: {
                     wcIntygLabel: '=',
-                    forceNoH5: '='
+                    forceNoH5After: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/gui/wcIntygLabel.directive.html',
                 link: function(scope, element, attrs) {
@@ -49,9 +49,9 @@ angular.module('common').directive('wcIntygLabel',
                         return;
                     }
                     scope.h5Label = scope.wcIntygLabel + '.RBK';
-                    scope.noH5 = false;
-                    if (scope.forceNoH5 === true) {
-                        scope.noH5 = true;
+                    scope.noH5After = false;
+                    if (scope.forceNoH5After === true) {
+                        scope.noH5After = true;
                     }
 
                     if (scope.wcIntygLabel.substring(0, 4) === 'DFR_') {
@@ -64,9 +64,9 @@ angular.module('common').directive('wcIntygLabel',
                     else if (scope.wcIntygLabel.substring(0, 4) === 'FRG_') {
                         scope.h4Label = scope.h5Label;
                         scope.h5Label = null;
-                        scope.noH5 = true;
-                        if (scope.forceNoH5 === false) {
-                            scope.noH5 = false;
+                        scope.noH5After = true;
+                        if (scope.forceNoH5After === false) {
+                            scope.noH5After = false;
                         }
                     }
                 }
