@@ -99,8 +99,8 @@ angular.module('common').constant('common.messages', {
         'intyg.status.patient.name.and.address.changed' : 'Observera att patientens namn och adress har ändrats sedan det här intyget utfärdades. När du kopierar eller förnyar intyget kommer patientens aktuella namn och adress att användas i det nya intygsutkastet.',
 
         // Revoke status messages (type agnostic)
-        'intyg.status.revoke.requested' : 'Intyget är makulerat',
-        'intyg.status.revoke.confirmed' : 'Intyget är makulerat',
+        'intyg.status.revoke.requested' : '<strong>Status:</strong> Intyget är makulerat.',
+        'intyg.status.revoke.confirmed' : '<strong>Status:</strong> Intyget är makulerat.',
 
         // draft utkast header form status messages
         'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
