@@ -39,6 +39,7 @@ angular.module('common').directive('wcField',
                     fieldDynamicHelpText: '@?',
                     fieldHasErrors: '=',
                     fieldTooltipPlacement: '@',
+                    fieldRequired: '@',
                     filled: '@?'
                 },
                 controller: function($scope) {

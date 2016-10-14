@@ -57,7 +57,7 @@ public final class IntygTexts {
     }
 
     private void validateVersion(String version) {
-        if (!Arrays.stream(version.split(DELIMITER)).allMatch((s) -> StringUtils.isNumeric(s))) {
+        if (version == null || !Arrays.stream(version.split(DELIMITER)).allMatch((s) -> StringUtils.isNumeric(s))) {
             throw new IllegalArgumentException("Version " + version + " is not in format 'x.x.x.x'");
         }
     }

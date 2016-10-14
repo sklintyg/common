@@ -16,19 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.security.common.service;
 
-/**
- * Created by eriklupander on 2016-05-18.
- */
-public interface AuthenticationLogger {
-    void logUserLogin(String userHsaId, String authScheme, String origin);
+angular.module('common').filter('PersonIdFormatter', ['common.PersonIdValidatorService',
+    function(PersonIdValidatorService) {
+        'use strict';
 
-    void logUserLogout(String userHsaId, String authScheme);
-
-    void logUserSessionExpired(String userHsaId, String authScheme);
-
-    void logMissingMedarbetarUppdrag(String userHsaId);
-
-    void logMissingMedarbetarUppdrag(String userHsaId, String enhetsId);
-}
+        /**
+         * The PersonIdValidatorService returns a yyyyMMdd-NNNN pnr from the validatePersonnummer method if and only if
+         * the supplied input is valid. Otherwise, null or undefined are returned. In those cases, this filter will
+         * just return the input unprocessed.
+         */
+        return function(input) {
+            var validated = PersonIdValidatorService.validatePersonnummer(input);
+            if (validated !== null && typeof validated !== 'undefined') {
+                return validated;
+            }
+            return input;
+        };
+    }]);

@@ -3,52 +3,56 @@ description = 'Intyg Common (Web)'
 apply plugin: 'com.moowork.grunt'
 apply plugin: 'com.moowork.node'
 
-def webappOutputDir = 'build/';
-def webappTestOutputDir = 'build/karma/';
+def webappOutputDir = 'build/'
+def webappTestOutputDir = 'build/karma/'
 
 grunt {
-  colors = true
+    colors = System.properties['gruntColors'] ? System.properties['gruntColors'].toBoolean() : true
 }
 
 node {
-  version = '6.6.0'
-  download = true
-  distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
-  workDir = projectDir
-  nodeModulesDir = projectDir
+    version = '6.6.0'
+    download = true
+    distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
+    workDir = projectDir
+    nodeModulesDir = projectDir
 }
 
 sourceSets {
-  main {
-    resources {
-      exclude '**/*.scss'
-      exclude '**/*.spec.js'
+    main {
+        resources {
+            exclude '**/*.scss'
+            exclude '**/*.spec.js'
+        }
     }
-  }
 }
 
 task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
-  inputs.dir("$projectDir/src/main/resources")
-  inputs.files(fileTree(projectDir).include('*.js'))
-  inputs.files(fileTree(projectDir).include('*.json'))
-  inputs.files(configurations.compile)
-  outputs.dir(webappTestOutputDir)
+    inputs.dir("$projectDir/src/main/resources")
+    inputs.files(fileTree(projectDir).include('*.js'))
+    inputs.files(fileTree(projectDir).include('*.json'))
+    inputs.files(configurations.compile)
+    outputs.dir(webappTestOutputDir)
 
-  script = file('node_modules/grunt-cli/bin/grunt')
-  args = ['test', '--outputDir=' + webappTestOutputDir, '--skip-coverage='+(!project.hasProperty('runSonar'))]
+    script = file('node_modules/grunt-cli/bin/grunt')
+    doFirst {
+        args = [ 'test',
+                 "--outputDir=${webappTestOutputDir}",
+                 '--skip-coverage=' + !gradle.taskGraph.allTasks.any{it.name == 'sonarcube'} ]
+    }
 }
 
 test.dependsOn(jsTests)
 
 task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
-  inputs.dir("$projectDir/src/main/resources")
-  inputs.files(fileTree(projectDir).include('*.js'))
-  inputs.files(fileTree(projectDir).include('*.json'))
-  inputs.files(configurations.compile)
-  outputs.dir(webappOutputDir)
+    inputs.dir("$projectDir/src/main/resources")
+    inputs.files(fileTree(projectDir).include('*.js'))
+    inputs.files(fileTree(projectDir).include('*.json'))
+    inputs.files(configurations.compile)
+    outputs.dir(webappOutputDir)
 
-  script = file('node_modules/grunt-cli/bin/grunt')
-  args = ['default', '--outputDir=' + webappOutputDir]
+    script = file('node_modules/grunt-cli/bin/grunt')
+    args = ['default', "--outputDir=${webappOutputDir}"]
 }
 
 jar.dependsOn(jsInclude)

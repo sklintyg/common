@@ -1,9 +1,4 @@
-<div class="inline-block">
-  <label class="control-label" id="patientNamnPersonnummer">
-    {{viewState.intygModel.grundData.patient.fullstandigtNamn}} -
-    {{viewState.intygModel.grundData.patient.personId}}
-  </label>
-</div><a ng-click="showrelated = !showrelated" id="toggleShowRelatedIntyg" ng-show="viewState.relations.length > 1"><span ng-show="!showrelated" message key="common.intyg.relation.showrelated"></span><span ng-show="showrelated" message key="common.intyg.relation.hiderelated"></span>
+<a ng-click="showrelated = !showrelated" id="toggleShowRelatedIntyg" ng-show="viewState.relations.length > 1"><span ng-show="!showrelated" message key="common.intyg.relation.showrelated" title="Visar relaterade intyg utfärdade på denna enhet."></span><span ng-show="showrelated" message key="common.intyg.relation.hiderelated"></span>
 </a>
 <div uib-collapse="!showrelated" id="intygRelations">
   <table class="table table-striped table-qa">

@@ -1,6 +1,7 @@
 <div class="form-group">
     <label class="control-label inline-block" ng-class="{'bold' : to.bold}">
         <span dynamic-label key="{{to.label}}.RBK"></span>
+        {{to.required ? '*' : ''}}
         <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
     </label>
     <textarea id="{{options.key}}" name="{{options.key}}" rows='6'

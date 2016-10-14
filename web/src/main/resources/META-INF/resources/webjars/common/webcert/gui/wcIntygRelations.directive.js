@@ -34,7 +34,14 @@ angular.module('common').directive('wcIntygRelations',
                         }
                         else
                         {
-                            $state.go('webcert.intyg.fk.' + intygType, {certificateId: intyg.intygsId});
+                            // ts-bas statename is ts.bas
+                            // ts-diabetes statename is ts.diabetes
+                            if (intygType.substring(0,3) === 'ts-') {
+                                $state.go('webcert.intyg.ts.' + intygType.substring(3), {certificateId: intyg.intygsId});
+                            }
+                            else {
+                                $state.go('webcert.intyg.fk.' + intygType, {certificateId: intyg.intygsId});
+                            }
                         }
                     };
 

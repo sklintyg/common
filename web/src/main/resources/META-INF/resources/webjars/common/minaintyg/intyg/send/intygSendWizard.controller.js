@@ -19,9 +19,11 @@
 
 angular.module('common').controller('common.SendCertWizardCtrl',
     [ '$filter', '$location', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
-        'common.IntygSendService',
-        function($filter, $location, $rootScope, $stateParams, $scope, intygListService, intygSendService) {
+        'common.IntygSendService', 'common.messageService',
+        function($filter, $location, $rootScope, $stateParams, $scope, intygListService, intygSendService, messageService) {
             'use strict';
+
+            $scope.messageService = messageService;
 
             // Get module and default recipient from querystring
             var params = $location.search();

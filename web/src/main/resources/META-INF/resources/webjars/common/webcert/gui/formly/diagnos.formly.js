@@ -97,7 +97,18 @@ angular.module('common').run(function(formlyConfig) {
                 if ($index === 0 || $item.value.length === 0) {
                     $scope.updateFmbText();
                 }
+            };
 
+            $scope.onDiagnoseCodeChanged = function(index) {
+                if (!$scope.form['diagnoseCode' + index].$viewValue) {
+                    $scope.model[$scope.options.key][index].diagnosBeskrivning = undefined;
+                }
+            };
+
+            $scope.onDiagnoseDescriptionChanged = function(index) {
+                if (!$scope.model[$scope.options.key][index].diagnosBeskrivning) {
+                    $scope.model[$scope.options.key][index].diagnosKod = undefined;
+                }
             };
 
             $scope.onChangeKodverk = function() {

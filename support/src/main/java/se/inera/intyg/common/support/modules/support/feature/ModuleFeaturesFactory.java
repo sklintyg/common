@@ -24,8 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.*;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 public final class ModuleFeaturesFactory {
@@ -33,11 +32,11 @@ public final class ModuleFeaturesFactory {
     private ModuleFeaturesFactory() {
     }
 
-    public static Map<String, Boolean> getFeatures(String featurePropertiesFile) {
+    public static Map<String, Boolean> getFeatures(String moduleId, String fallbackFeaturePropertiesFile) {
 
-        Properties features = loadFeaturePropertiesFile(featurePropertiesFile);
+        Properties features = loadFeaturePropertiesFile(moduleId, fallbackFeaturePropertiesFile);
 
-        Map<String, Boolean> moduleFeaturesMap = new HashMap<String, Boolean>();
+        Map<String, Boolean> moduleFeaturesMap = new HashMap<>();
 
         for (ModuleFeature feature : ModuleFeature.values()) {
 
@@ -54,9 +53,12 @@ public final class ModuleFeaturesFactory {
         return moduleFeaturesMap;
     }
 
-    private static Properties loadFeaturePropertiesFile(String featurePropertiesFile) {
+    private static Properties loadFeaturePropertiesFile(String moduleId, String featurePropertiesFile) {
+        String path = System.getProperty(String.format("feature.%s.file", moduleId));
+        Resource resource = (path != null)
+                ? new FileSystemResource(path)
+                : new ClassPathResource(featurePropertiesFile);
         try {
-            Resource resource = new ClassPathResource(featurePropertiesFile);
             return PropertiesLoaderUtils.loadProperties(resource);
         } catch (IOException e) {
             throw new IllegalArgumentException("Feature file not found");

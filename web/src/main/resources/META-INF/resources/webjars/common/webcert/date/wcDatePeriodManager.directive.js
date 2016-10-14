@@ -93,7 +93,7 @@ angular.module('common').directive('wcDatePeriodManager',
 
                 /*
                  If user enters a valid "in the future" code such a "d40" into the tom-field, it's
-                 date value should be set to from-date + 40 days (requires a valid date in the from-field).
+                 date value should be set to from-date + 39 so that the total length is 40 days (requires a valid date in the from-field).
                  */
                     this.applyToDateCodes = function(index) {
                         var fromField = datePeriods[index].from;
@@ -107,7 +107,8 @@ angular.module('common').directive('wcDatePeriodManager',
                         //2. The entered code must be a parsable daysInFuture expression
                         var days = dateUtilsService.parseDayCodes(tomField.ngModel.$viewValue);
                         if (days !== null) {
-                            var newTomMoment = moment(fromField.moment).add(days, 'days');
+                            //Take away 1 day, because the dayCode defines the total length of the interval we should get.
+                            var newTomMoment = moment(fromField.moment).add(days - 1, 'days');
 
                             tomField.ngModel.$setViewValue(newTomMoment.format('YYYY-MM-DD'));
                             tomField.ngModel.$setValidity('date', true);

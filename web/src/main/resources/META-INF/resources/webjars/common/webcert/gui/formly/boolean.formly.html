@@ -2,6 +2,7 @@
     <div>
         <label class="inline-block" ng-class="{'bold' : to.bold}">
             <span dynamic-label key="{{to.label}}.RBK"></span>
+            {{to.required ? '*' : ''}}
             <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
         </label>
     </div>

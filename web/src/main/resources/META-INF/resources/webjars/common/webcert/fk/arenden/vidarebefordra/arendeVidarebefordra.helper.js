@@ -42,7 +42,7 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                     }
                 }
 
-                var body = 'Klicka pa lanktexten for att besvara arende:\n' + url;
+                var body = 'Klicka pa lanktexten for att besvara arende:\n' + url + '\n\nOBS! Satt i ditt SITHS-kort innan du klickar pa lanken.';
                 var link = 'mailto:' + recipient + '?subject=' +
                     encodeURIComponent(UtilsService.replaceAccentedCharacters(subject)) + '&body=' +
                     encodeURIComponent(body);

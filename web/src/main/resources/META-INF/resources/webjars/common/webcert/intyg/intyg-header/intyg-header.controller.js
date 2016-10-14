@@ -18,20 +18,48 @@
  */
 
 angular.module('common').controller('common.IntygHeader',
-    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.messageService', 'common.PrintService',
-    'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
-        'common.IntygSend', 'common.IntygCopyFornya', 'common.IntygMakulera', 'common.IntygViewStateService', 'common.statService', 'common.ObjectHelper',
-        function($rootScope, $scope, $log, $state, $stateParams, messageService, PrintService, IntygCopyRequestModel,
+    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService', 'common.messageService', 'common.PrintService',
+        'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyFornya',
+        'common.IntygMakulera', 'common.IntygViewStateService', 'common.statService', 'common.ObjectHelper',
+
+        function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService, PrintService, IntygCopyRequestModel,
             IntygFornyaRequestModel, User, UserModel, IntygSend, IntygCopyFornya, IntygMakulera, CommonViewState, statService, ObjectHelper) {
+
             'use strict';
 
             var intygType = $state.current.data.intygType;
 
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
+
+            $scope.patient = {};
+
+            // get print features
+            $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
+            $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
+
             $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
             $scope.fornyaBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.fornya.text');
+            $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
+            $scope.showPrintBtn = function() {
+                if ($scope.showEmployerPrintBtn()) {
+                    return false;
+                }
+                return $scope.utskrift;
+            };
+
+            $scope.showEmployerPrintBtn = function() {
+                return $scope.arbetsgivarUtskrift;
+            };
+
+            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
+                // Listen when a certificate is loaded and make a
+                // control if a patient's name or address has been changed.
+                $scope.patient.changedName = CommonViewState.patient.hasChangedName(intyg, $stateParams);
+                $scope.patient.changedAddress = CommonViewState.patient.hasChangedAddress(intyg, $stateParams);
+            });
+            $scope.$on('$destroy', unbindFastEvent);
 
             $scope.makuleratIntyg = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
@@ -62,6 +90,11 @@ angular.module('common').controller('common.IntygHeader',
                 IntygMakulera.makulera( intyg, confirmationMessage, function() {
                     $scope.viewState.common.isIntygOnRevokeQueue = true;
                     $scope.viewState.common.intygProperties.isRevoked = true;
+                    angular.forEach($scope.viewState.relations, function(relation) {
+                        if(relation.intygsId === intyg.id) {
+                            relation.status = 'cancelled';
+                        }
+                    });
                     $rootScope.$emit('ViewCertCtrl.load', intyg, $scope.viewState.common.intygProperties);
                 });
             };
@@ -108,6 +141,7 @@ angular.module('common').controller('common.IntygHeader',
                     window.open($scope.pdfUrl, '_blank');
                 }
             };
+
         }
     ]
 );

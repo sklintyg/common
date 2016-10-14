@@ -27,21 +27,33 @@
   <div ng-show="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
     <div class="print-hide">
       <div class="form-group">
-        <div wc-intyg-relations></div>
+        <div class="inline-block" style="margin-right:10px"
+             wc-intyg-patient-namn-personnummer
+             patient-name="viewState.intygModel.grundData.patient.fullstandigtNamn"
+             person-id="viewState.intygModel.grundData.patient.personId">
+
+        </div>
+        <span wc-intyg-relations></span>
       </div>
       <div class="form-group buttonbar">
         <div class="btn-row">
-          <button type="button" id="sendBtn" class="btn btn-info"
-                  ng-if="visaSkickaKnappen()"
-                  wc-authority feature="skickaIntyg" request-origin="!UTHOPP" intygstyp="{{intygstyp}}"
+          <button type="button"
+                  id="sendBtn"
+                  class="btn btn-info"
+                  wc-authority feature="skickaIntyg"
+                  request-origin="!UTHOPP"
+                  intygstyp="{{intygstyp}}"
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
-                  ng-click="send()"><span message key="{{intygstyp}}.button.send"></span>
+                  ng-if="visaSkickaKnappen()"
+                  ng-click="send()">
+            <span message key="{{intygstyp}}.button.send"></span>
           </button>
           <!-- Normal pdf-utskrift av signerat intyg  -->
-          <button type="button" id="downloadprint"
+          <button type="button"
+                  id="downloadprint"
                   class="btn btn-info"
-                  wc-authority feature="utskrift" intygstyp="{{intygstyp}}"
-                  ng-if="!makuleratIntyg()"
+                  intygstyp="{{intygstyp}}"
+                  ng-if="showPrintBtn() && !makuleratIntyg()"
                   ng-click="print(viewState.intygModel, false)">
             <span message key="common.button.save.as.pdf"></span>
           </button>
@@ -53,18 +65,33 @@
                   ng-click="print(viewState.intygModel, false)">
             Skriv ut
           </button>
-          <div id="downloadprintemployer"
-               style="display:inline;"
-               wc-authority feature="arbetsgivarUtskrift" intygstyp="{{intygstyp}}">
-            <div class="btn-group"
-                 ng-if="!makuleratIntyg()">
-              <button id="intyg-header-dropdown-select-pdf-type" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div id="downloadprintemployer" intygstyp="{{intygstyp}}" style="display:inline;">
+            <div class="btn-group" ng-if="showEmployerPrintBtn() && !makuleratIntyg()">
+              <button type="button"
+                      id="intyg-header-dropdown-select-pdf-type"
+                      class="btn btn-info dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false">
                 <span message key="common.button.save.as.pdf"></span><span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
-                <li><a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">Fullständigt intyg</a></li>
-                <li title="Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare">
-                  <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">Minimalt intyg</a>
+                <!--<li wc-authority feature="utskrift">-->
+                <li ng-if="utskrift">
+                  <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">
+                    <span message key="common.button.save.as.pdf.full"></span>
+                  </a>
+                </li>
+                <!--<li wc-authority feature="arbetsgivarUtskrift"-->
+                <li ng-if="arbetsgivarUtskrift"
+                    uib-popover="{{employerPrintBtnTooltipText}}"
+                    popover-trigger="mouseenter"
+                    popover-popup-delay="300"
+                    popover-append-to-body="true"
+                    popover-placement="auto top">
+                  <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">
+                    <span message key="common.button.save.as.pdf.mininmal"></span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -129,6 +156,13 @@
         <span ng-if="viewState.common.intygProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
         <span ng-if="!viewState.common.intygProperties.isSent && !viewState.common.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
         <span ng-if="!viewState.common.intygProperties.isSent && viewState.common.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
+
+      </div>
+
+      <div ng-if="patient.changedName || patient.changedAddress" class="alert alert-info alert-column">
+        <span id="intyg-djupintegration-name-changed" ng-if="patient.changedName && !patient.changedAddress" message key="intyg.status.patient.name.changed"></span>
+        <span id="intyg-djupintegration-address-changed" ng-if="!patient.changedName && patient.changedAddress" message key="intyg.status.patient.address.changed"></span>
+        <span id="intyg-djupintegration-name-and-address-changed" ng-if="patient.changedName && patient.changedAddress" message key="intyg.status.patient.name.and.address.changed"></span>
       </div>
 
       <div ng-if="viewState.common.intygProperties.isRevoked || viewState.common.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"

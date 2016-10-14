@@ -6,8 +6,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import se.inera.intyg.common.services.texts.model.IntygTexts;
-
 public class IntygTextsTest {
 
     @Test
@@ -24,6 +22,12 @@ public class IntygTextsTest {
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidVersionNumber() {
         new IntygTexts("1.x", null, null, null, null, null, null);
+        fail();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidVersionNumberNull() {
+        new IntygTexts(null, null, null, null, null, null, null);
         fail();
     }
 }
