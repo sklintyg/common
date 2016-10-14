@@ -24,10 +24,10 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
-        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy',
+        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
             dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
-            IntygHelper, IntygProxy) {
+            IntygHelper, IntygProxy, PatientProxy) {
             'use strict';
 
             // used to calculate save duration
@@ -64,6 +64,44 @@ angular.module('common').factory('common.UtkastService',
                             if(ObjectHelper.isDefined($stateParams.postadress)) {
                                 viewState.intygModel.grundData.patient.postort = $stateParams.postort;
                             }
+                        }
+
+                        // Update patient name from PU-service if UserModel Origin is NORMAL
+                        if (!UserModel.isDjupintegration() && !UserModel.isUthopp()) {
+                            CommonViewState.fetchingPatientData = true;
+                            PatientProxy.getPatient(viewState.intygModel.grundData.patient.personId, function(patientResult) {
+                                var dirty = false;
+                                if (angular.isString(patientResult.fornamn) && viewState.intygModel.grundData.patient.fornamn !== patientResult.fornamn) {
+                                    viewState.intygModel.grundData.patient.fornamn = patientResult.fornamn;
+                                    dirty = true;
+                                }
+                                if (angular.isString(patientResult.mellannamn) && viewState.intygModel.grundData.patient.mellannamn !== patientResult.mellannamn) {
+                                    viewState.intygModel.grundData.patient.mellannamn = patientResult.mellannamn;
+                                    dirty = true;
+                                }
+                                if (angular.isString(patientResult.efternamn) && viewState.intygModel.grundData.patient.efternamn !== patientResult.efternamn) {
+                                    viewState.intygModel.grundData.patient.efternamn = patientResult.efternamn;
+                                    dirty = true;
+                                }
+
+                                // If there had been a change, build the 'fullstandigtNamn' property
+                                if (dirty) {
+                                    viewState.intygModel.grundData.patient.fullstandigtNamn = (patientResult.fornamn ? patientResult.fornamn : '');
+
+                                    if (angular.isString(patientResult.mellannamn)) {
+                                        viewState.intygModel.grundData.patient.fullstandigtNamn += ' ' + patientResult.mellannamn;
+                                    }
+
+                                    if (angular.isString(patientResult.efternamn)) {
+                                        viewState.intygModel.grundData.patient.fullstandigtNamn += ' ' + patientResult.efternamn;
+                                    }
+                                }
+                                CommonViewState.fetchingPatientData = false;
+                            }, function() { // not found
+                                CommonViewState.fetchingPatientData = false;
+                            }, function() { // error
+                                CommonViewState.fetchingPatientData = false;
+                            });
                         }
 
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor

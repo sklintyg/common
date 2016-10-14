@@ -33,6 +33,13 @@ describe('UtkastService', function() {
     var $q;
     var utkastContent;
 
+    var puResponse = {
+        fornamn: 'Tolvan',
+        mellannamn: null,
+        efternamn: 'Tolvansson',
+        patientId: '19121212-1212'
+    };
+
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('$stateParams', {});
         $provide.value('common.messageService', {
@@ -70,6 +77,11 @@ describe('UtkastService', function() {
                             postort: null,
                             telefonnummer: null
                         }
+                    },
+                    patient: {
+                        fornamn: 'Tolvan',
+                        efternamn: 'Tolvansson',
+                        personId: '19121212-1212'
                     }
                 },
                 id: 'testIntygId',
@@ -77,6 +89,7 @@ describe('UtkastService', function() {
                 textVersion: '1.0'
             };
 
+            // viewState.intygModel.grundData.patient.personId
             viewState = {
                 common: commonViewState,
                 draftModel: {
@@ -147,7 +160,10 @@ describe('UtkastService', function() {
                 relations: [],
                 content: utkastContent
             };
+
+
             $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=false').respond(200, response);
+            $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
             expect(viewState.common.doneLoading).toBeFalsy();
             $timeout.flush();
@@ -190,6 +206,7 @@ describe('UtkastService', function() {
                 content: utkastContentKomplt
             };
             $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygIdKomplt?sjf=false').respond(200, response);
+            $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
             expect(viewState.common.doneLoading).toBeFalsy();
             $timeout.flush();
@@ -219,6 +236,7 @@ describe('UtkastService', function() {
                 content: utkastContent
             };
             $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=true').respond(200, response);
+            $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
             $timeout.flush();
 
