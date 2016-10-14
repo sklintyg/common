@@ -19,7 +19,8 @@
 
 angular.module('common').factory('common.IntygMakulera',
     [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel', 'common.IntygHelper',
-        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper) {
+        'common.IntygViewStateService', 
+        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper, CommonViewState) {
             'use strict';
 
             // Makulera dialog setup
@@ -79,6 +80,8 @@ angular.module('common').factory('common.IntygMakulera',
             }
 
             function _makulera(intyg, confirmationMessage, onSuccess) {
+                // Only show tooltip for FK-intyg
+                var showQuestionMark = CommonViewState.defaultRecipient === 'FK' ? true : false;
 
                 function isMakuleraEnabled(model) {
                     return model.makuleraProgressDone && model.ersattProgressDone &&
@@ -91,6 +94,7 @@ angular.module('common').factory('common.IntygMakulera',
                 }
 
                 var dialogMakuleraModel = {
+                    showQuestionMark: showQuestionMark,
                     isMakuleraEnabled: isMakuleraEnabled,
                     makuleraProgressDone: true,
                     ersattProgressDone: true,
