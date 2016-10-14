@@ -40,7 +40,7 @@ angular.module('common').directive('wcIntygLabel',
                 replace: true,
                 scope: {
                     wcIntygLabel: '=',
-                    forcenoH5After: '='
+                    forceNoH5After: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/gui/wcIntygLabel.directive.html',
                 link: function(scope, element, attrs) {
@@ -50,7 +50,7 @@ angular.module('common').directive('wcIntygLabel',
                     }
                     scope.h5Label = scope.wcIntygLabel + '.RBK';
                     scope.noH5After = false;
-                    if (scope.forcenoH5After === true) {
+                    if (scope.forceNoH5After === true) {
                         scope.noH5After = true;
                     }
 
@@ -65,7 +65,7 @@ angular.module('common').directive('wcIntygLabel',
                         scope.h4Label = scope.h5Label;
                         scope.h5Label = null;
                         scope.noH5After = true;
-                        if (scope.forcenoH5After === false) {
+                        if (scope.forceNoH5After === false) {
                             scope.noH5After = false;
                         }
                     }

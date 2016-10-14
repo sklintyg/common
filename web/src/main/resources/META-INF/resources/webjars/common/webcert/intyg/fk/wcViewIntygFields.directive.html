@@ -30,6 +30,15 @@
               </ul>
             </div>
           </div>
+          <div ng-switch-when="check-multi-text">
+            <h4>
+              <span dynamic-label key="FRG_{{field.templateOptions.frgId}}.RBK"></span>
+            </h4>
+            <h5>
+              <span dynamic-label key="DFR_{{field.templateOptions.frgId}}.1.RBK"></span>
+            </h5>
+            <span id="{{field.key}}">{{intygModel[field.key]}}</span>
+          </div>
           <div ng-switch-when="radio-group">
             <div radio-view="field" field-model="intygModel"></div>
           </div>
