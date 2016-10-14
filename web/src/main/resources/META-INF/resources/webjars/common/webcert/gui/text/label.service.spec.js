@@ -1,4 +1,4 @@
-describe('dynamicLabelService', function() {
+fdescribe('dynamicLabelService', function() {
     'use strict';
 
     var dynamicLabelProxy;
@@ -48,10 +48,16 @@ describe('dynamicLabelService', function() {
                 tillaggsfragor: []
             };
 
-            dynamicLabelService.updateDynamicLabels('testtyp', model);
+            var failedPromise = false;
+            dynamicLabelService.updateDynamicLabels('testtyp', model.textVersion).then(function(labels) {
+                dynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, model);
+            }, function() {
+                failedPromise = true;
+            });
 
             $rootScope.$apply();
 
+            expect(failedPromise).toBeFalsy();
             expect(model.tillaggsfragor.length).toBe(2);
             expect(model.tillaggsfragor[0].id).toBe('9001');
             expect(model.tillaggsfragor[1].id).toBe('9003');
@@ -68,10 +74,16 @@ describe('dynamicLabelService', function() {
                 ]
             };
 
-            dynamicLabelService.updateDynamicLabels('testtyp', model);
+            var failedPromise = false;
+            dynamicLabelService.updateDynamicLabels('testtyp', model.textVersion).then(function(labels) {
+                dynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, model);
+            }, function() {
+                failedPromise = true;
+            });
 
             $rootScope.$apply();
 
+            expect(failedPromise).toBeFalsy();
             expect(model.tillaggsfragor.length).toBe(2);
             expect(model.tillaggsfragor[0].id).toBe('9001');
             expect(model.tillaggsfragor[1].id).toBe('9003');
@@ -88,10 +100,16 @@ describe('dynamicLabelService', function() {
                 ]
             };
 
-            dynamicLabelService.updateDynamicLabels('testtyp', model);
+            var failedPromise = false;
+            dynamicLabelService.updateDynamicLabels('testtyp', model.textVersion).then(function(labels) {
+                dynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, model);
+            }, function() {
+                failedPromise = true;
+            });
 
             $rootScope.$apply();
 
+            expect(failedPromise).toBeFalsy();
             expect(model.tillaggsfragor.length).toBe(2);
             expect(model.tillaggsfragor[0].id).toBe('9001');
             expect(model.tillaggsfragor[1].id).toBe('9003');
