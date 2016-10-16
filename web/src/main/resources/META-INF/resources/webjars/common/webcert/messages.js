@@ -51,6 +51,8 @@ angular.module('common').constant('common.messages', {
         'common.alert.sekretessmarkering.intyg': '<p>Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var  vänlig hantera dem varsamt.</p>På grund av sekretessmarkeringen går det inte att kopiera intyget.',
         'common.alert.sekretessmarkering.error': 'Misslyckades att slå upp patienten i personuppgiftstjänsten. Observera att patienten kan ha skyddade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',
         'common.alert.textversionupdated': 'Observera att frågetexterna har uppdaterats',
+        'common.warning.patientdataupdate.failed': '<b>Observera!</b> Misslyckades att slå upp patienten i personuppgiftstjänsten',
+
 
         'common.date': 'Datum',
         'common.when': 'När?',

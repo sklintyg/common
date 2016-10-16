@@ -32,10 +32,6 @@
               </h1>
 
               <div class="form-group buttonbar">
-                <button type="button" class="btn btn-default btn-secondary" wc-authority="HANTERA_PERSONUPPGIFTER" ng-click="updatePatientData()" id="fetchPatientButton"
-                        title="Hämta personuppgifter från folkbokföringsregistret.">
-                  <img ng-show="viewState.common.fetchingPatientData" ng-src="/img/loader-small.gif" /> Hämta personuppgifter
-                </button>
                 <button type="button" class="btn btn-default btn-secondary" ng-if="!viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                         ng-click="toggleShowComplete()" id="showCompleteButton"
                         title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">

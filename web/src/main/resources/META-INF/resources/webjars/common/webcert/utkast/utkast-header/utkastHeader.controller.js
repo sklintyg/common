@@ -21,48 +21,11 @@ angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
         'common.messageService', 'common.PrintService', 'common.UtkastService', 'common.UtkastProxy', 'common.statService',
         'common.featureService', 'common.UserModel', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
-        'common.PatientProxy', 'common.authorityService',
+        'common.authorityService',
         function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
             PrintService, UtkastService, UtkastProxy, statService, featureService, UserModel,  dialogService, CommonViewState,
-            anchorScrollService, PatientProxy, authorityService) {
+            anchorScrollService, authorityService) {
             'use strict';
-
-            $scope.updatePatientData = function() {
-
-                if(!(angular.isObject($scope.viewState.intygModel) &&
-                     angular.isObject($scope.viewState.intygModel.grundData) &&
-                     angular.isObject($scope.viewState.intygModel.grundData.patient) &&
-                     angular.isString($scope.viewState.intygModel.grundData.patient.personId))) {
-                    $log.debug('Intygdata or patient data missing for lookup.');
-                    return;
-                }
-
-                CommonViewState.fetchingPatientData = true;
-                $timeout(function() { // delay operation just a bit to make sure the animation is visible to the user
-                    PatientProxy.getPatient($scope.viewState.intygModel.grundData.patient.personId, function(patientResult) {
-                        CommonViewState.fetchingPatientData = false;
-                        $scope.viewState.intygModel.grundData.patient.fullstandigtNamn = (patientResult.fornamn ? patientResult.fornamn : '');
-
-                        if (angular.isString(patientResult.mellannamn)) {
-                            $scope.viewState.intygModel.grundData.patient.fullstandigtNamn += ' ' + patientResult.mellannamn;
-                        }
-
-                        if (angular.isString(patientResult.efternamn)) {
-                            $scope.viewState.intygModel.grundData.patient.fullstandigtNamn += ' ' + patientResult.efternamn;
-                        }
-
-                        $scope.viewState.intygModel.grundData.patient.postadress = patientResult.postadress;
-                        $scope.viewState.intygModel.grundData.patient.postnummer = patientResult.postnummer;
-                        $scope.viewState.intygModel.grundData.patient.postort = patientResult.postort;
-
-                    }, function() { // not found
-                        CommonViewState.fetchingPatientData = false;
-                    }, function() { // error
-                        CommonViewState.fetchingPatientData = false;
-                    });
-
-                }, 500);
-            };
 
             /**
              * Toggle header part ('Dölj meny'-knapp)
