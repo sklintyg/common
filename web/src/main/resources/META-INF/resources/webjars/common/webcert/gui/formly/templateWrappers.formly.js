@@ -4,6 +4,8 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
     function _onLabelsUpdated(scope, options) {
         if (dynamicLabelService.hasProperty(scope.frageId + '.RBK')) {
             if (dynamicLabelService.hasProperty(options.templateOptions.label + '.RBK')) {
+                scope.required = options.templateOptions.required;
+                options.templateOptions.required = false;
                 scope.showFrageLabel = true;
             } else {
                 options.templateOptions.label = scope.frageId;
@@ -26,7 +28,7 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
                     scope.frageId = 'FRG_' + questionIds[0];
                     scope.$on('dynamicLabels.updated', angular.bind(this, _onLabelsUpdated, scope, options));
                     return '<h4 ng-if="showFrageLabel">' +
-                        '<span dynamic-label key="{{frageId}}.RBK"></span>' +
+                        '<span dynamic-label key="{{frageId}}.RBK"></span> {{required ? "*" : ""}}' +
                         '<span wc-help-mark field-dynamic-help-text="{{frageId}}.HLP"></span>' +
                         '</h4>' + template;
                 }
