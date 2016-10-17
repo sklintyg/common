@@ -64,7 +64,10 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.answerDisabledReason = arendeListItem.answerDisabledReason;
                 this.svaraMedNyttIntygDisabled = arendeListItem.svaraMedNyttIntygDisabled;
                 this.svaraMedNyttIntygDisabledReason = arendeListItem.svaraMedNyttIntygDisabledReason;
-                this.kompletteringar = arendeListItem.kompletteringar;
+                this.kompletteringar = angular.copy(arendeListItem.kompletteringar);
+                angular.forEach(arendeListItem.extraKompletteringarArenden, function(extraKomplettering) {
+                    Array.prototype.push.apply(this.kompletteringar, extraKomplettering.kompletteringar);
+                }, this);
             };
 
             ArendeSvarModel.build = function(parentViewState, arendeListItem) {

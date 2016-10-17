@@ -33,7 +33,7 @@ $dialog-choice-box-border-color: #cccccc;
   border: 1px solid $dialog-choice-box-border-color;
   border-radius: 2px;
   position: relative;
-  height: 180px;
+  height: 195px;
 }
 
 .dialog-choice-box__text-section {
@@ -48,3 +48,6 @@ $dialog-choice-box-border-color: #cccccc;
   padding-bottom: 10px;
 }
 
+.komplettera-row {
+  padding-top: 10px;
+}

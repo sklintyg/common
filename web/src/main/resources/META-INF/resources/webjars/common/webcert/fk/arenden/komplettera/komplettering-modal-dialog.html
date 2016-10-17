@@ -5,13 +5,22 @@
   </h3>
 </div>
 <div class="modal-body">
-  <div class="dialog-scroller arende-block-body">
+  <div class="dialog-scroller">
     <div id="arende-fragetext-{{model.arendeSvar.fragaInternReferens}}">{{model.arendeSvar.fragaMeddelande}}</div>
     <div
          id="fkKompletteringar-{{model.arendeSvar.fragaInternReferens}}"
          ng-repeat="komplettering in model.arendeSvar.kompletteringar">
-      Komplettering på fråga <span class="bold" dynamic-label key="{{komplettering.frgId}}"></span>:
-      {{komplettering.text}}
+
+      <div class="komplettera-row" ng-if="model.arendeSvar.intygProperties.type == 'fk7263'">
+        <span class="bold">{{komplettering.falt}}</span><br>
+        {{komplettering.text}}
+      </div>
+
+      <div ng-if="model.arendeSvar.intygProperties.type != 'fk7263'">
+        Komplettering på fråga <span class="bold" dynamic-label key="{{komplettering.frgId}}"></span>:
+        {{komplettering.text}}
+      </div>
+
     </div>
   </div>
   <div>
