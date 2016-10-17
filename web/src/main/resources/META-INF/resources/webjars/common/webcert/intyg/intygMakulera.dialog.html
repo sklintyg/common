@@ -33,7 +33,8 @@
     </button>
     <button type="button" id="{{button2id}}" class="btn btn-danger"
             ng-disabled="!model.isMakuleraEnabled(model)"
-            ng-click="button2click()">
+            ng-click="button2click()"
+            title="Intygsinformationen kopieras in i ett nytt utkast som kan korrigeras.">
       <img ng-hide="model.ersattProgressDone" ng-src="/img/ajax-loader-small-red.gif" />
       <span message key="{{button2text}}"></span>
     </button>
