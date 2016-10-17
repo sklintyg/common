@@ -68,6 +68,7 @@ $font-3: sans-serif;
  * --------------------------------------- */
 .btn {
   line-height: 18px;
+  padding: 7px 12px;
 }
 
 .btn-secondary {
@@ -294,6 +295,10 @@ $font-3: sans-serif;
   padding-bottom: 15px;
 }
 
+.form-group--small-gap {
+  padding-bottom: 5px;
+}
+
 /* ---------------------------------------
  * Nav overrides
  * --------------------------------------- */
@@ -407,11 +412,12 @@ $font-3: sans-serif;
  * Glyphicon overrides
  * --------------------------------------- */
 .glyphicon-question-sign {
-  top: 3px;
+  top: 5px;
   font-size: 18px;
   margin-left: 5px;
   color: $glyphicon-question-sign-color;
   font-weight: 900;
+  line-height: 0;
 
   &:hover {
     cursor: pointer;

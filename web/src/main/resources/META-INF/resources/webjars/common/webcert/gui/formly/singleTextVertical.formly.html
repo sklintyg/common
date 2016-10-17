@@ -1,0 +1,13 @@
+<div class="form-group input-full" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
+  <div class="control-label">
+    <label class="form-control-label">
+        <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+        <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
+        {{to.required ? '*' : ''}}
+    </label>
+    <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.help}}.HLP"></span>
+  </div>
+  <div>
+    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
+  </div>
+</div>
