@@ -47,7 +47,7 @@ angular.module('common').factory('common.UtkastService',
                 UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, sjf, function(utkastData) {
 
                     // check that the certs status is not signed
-                    if (viewState.draftModel.isSigned()) {
+                    if (utkastData.status === 'SIGNED') {
                         // just change straight to the intyg
                         $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id);
                     }
