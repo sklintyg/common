@@ -193,6 +193,11 @@ describe('UtkastService', function() {
                     skapadAv: {
                         vardenhet: {}
                     },
+                    patient: {
+                        fornamn: 'Tolvan',
+                        efternamn: 'Tolvansson',
+                        personId: '19121212-1212'
+                    },
                     relation: {
                         relationKod: 'KOMPLT'
                     }

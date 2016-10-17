@@ -1,4 +1,4 @@
-fdescribe('dynamicLabelService', function() {
+describe('dynamicLabelService', function() {
     'use strict';
 
     var dynamicLabelProxy;

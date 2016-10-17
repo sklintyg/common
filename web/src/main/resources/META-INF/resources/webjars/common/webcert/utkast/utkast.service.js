@@ -34,6 +34,88 @@ angular.module('common').factory('common.UtkastService',
             var saveStartTime;
 
             /**
+             * Takes address properties from Djupintegration query params and applies them onto the utkast.grundData.patient
+             */
+            function _applyDjupintegrationAddressChange(stateParams, patient) {
+                if(ObjectHelper.isDefined(stateParams.postadress)){
+                    patient.postadress = stateParams.postadress;
+                }
+                if(ObjectHelper.isDefined(stateParams.postnummer)) {
+                    patient.postnummer = stateParams.postnummer;
+                }
+                if(ObjectHelper.isDefined(stateParams.postort)) {
+                    patient.postort = stateParams.postort;
+                }
+            }
+
+            /**
+             * Applicable only to NORMAL users, the PU service is used to load the Patient object and any name changes
+             * are then applied to the utkast.grundData.patient.
+             */
+            function _applyNameChangeFromPuService(patient) {
+
+                var deferred = $q.defer();
+
+                CommonViewState.fetchingPatientData = true;
+                PatientProxy.getPatient(patient.personId, function(patientResult) {
+                    var dirty = false;
+                    if (angular.isString(patientResult.fornamn) && patient.fornamn !== patientResult.fornamn) {
+                        patient.fornamn = patientResult.fornamn;
+                        dirty = true;
+                    }
+                    if (angular.isString(patientResult.mellannamn) && patient.mellannamn !== patientResult.mellannamn) {
+                        patient.mellannamn = patientResult.mellannamn;
+                        dirty = true;
+                    }
+                    if (angular.isString(patientResult.efternamn) && patient.efternamn !== patientResult.efternamn) {
+                        patient.efternamn = patientResult.efternamn;
+                        dirty = true;
+                    }
+
+                    // If there had been a change, build the 'fullstandigtNamn' property
+                    if (dirty) {
+                        patient.fullstandigtNamn = (patientResult.fornamn ? patientResult.fornamn : '');
+
+                        if (angular.isString(patientResult.mellannamn)) {
+                            patient.fullstandigtNamn += ' ' + patientResult.mellannamn;
+                        }
+                        if (angular.isString(patientResult.efternamn)) {
+                            patient.fullstandigtNamn += ' ' + patientResult.efternamn;
+                        }
+                    }
+                    CommonViewState.fetchingPatientData = false;
+                    deferred.resolve(null);
+                }, function() { // not found
+                    CommonViewState.fetchingPatientData = false;
+                    deferred.resolve(null);
+                }, function() { // error
+                    CommonViewState.fetchingPatientData = false;
+                    deferred.resolve(null);
+                });
+                return deferred.promise;
+            }
+
+            /**
+             * Performs the last loading steps, e.g. broadcasting and fullfilling the original promise.
+             *
+             * Handled in method so it can be chained to run after previous internal functions yielding promises has
+             * executed.
+             */
+            function _finishLoadingUtkast(viewState, intygsTyp, def) {
+
+                $timeout(function() {
+                    wcFocus('focusFirstInput');
+                    $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
+                    $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
+                    CommonViewState.doneLoading = true;
+
+                    _loadParentIntyg(viewState);
+                    def.resolve(viewState.intygModel);
+                }, 10);
+            }
+
+
+            /**
              * Load draft to webcert
              * @param viewState
              * @private
@@ -53,57 +135,6 @@ angular.module('common').factory('common.UtkastService',
                     }
                     else {
 
-                        // update patient data from integration if available
-                        if(UserModel.isDjupintegration()) {
-                            if(ObjectHelper.isDefined($stateParams.postadress)){
-                                viewState.intygModel.grundData.patient.postadress = $stateParams.postadress;
-                            }
-                            if(ObjectHelper.isDefined($stateParams.postadress)) {
-                                viewState.intygModel.grundData.patient.postnummer = $stateParams.postnummer;
-                            }
-                            if(ObjectHelper.isDefined($stateParams.postadress)) {
-                                viewState.intygModel.grundData.patient.postort = $stateParams.postort;
-                            }
-                        }
-
-                        // Update patient name from PU-service if UserModel Origin is NORMAL
-                        if (!UserModel.isDjupintegration() && !UserModel.isUthopp()) {
-                            CommonViewState.fetchingPatientData = true;
-                            PatientProxy.getPatient(viewState.intygModel.grundData.patient.personId, function(patientResult) {
-                                var dirty = false;
-                                if (angular.isString(patientResult.fornamn) && viewState.intygModel.grundData.patient.fornamn !== patientResult.fornamn) {
-                                    viewState.intygModel.grundData.patient.fornamn = patientResult.fornamn;
-                                    dirty = true;
-                                }
-                                if (angular.isString(patientResult.mellannamn) && viewState.intygModel.grundData.patient.mellannamn !== patientResult.mellannamn) {
-                                    viewState.intygModel.grundData.patient.mellannamn = patientResult.mellannamn;
-                                    dirty = true;
-                                }
-                                if (angular.isString(patientResult.efternamn) && viewState.intygModel.grundData.patient.efternamn !== patientResult.efternamn) {
-                                    viewState.intygModel.grundData.patient.efternamn = patientResult.efternamn;
-                                    dirty = true;
-                                }
-
-                                // If there had been a change, build the 'fullstandigtNamn' property
-                                if (dirty) {
-                                    viewState.intygModel.grundData.patient.fullstandigtNamn = (patientResult.fornamn ? patientResult.fornamn : '');
-
-                                    if (angular.isString(patientResult.mellannamn)) {
-                                        viewState.intygModel.grundData.patient.fullstandigtNamn += ' ' + patientResult.mellannamn;
-                                    }
-
-                                    if (angular.isString(patientResult.efternamn)) {
-                                        viewState.intygModel.grundData.patient.fullstandigtNamn += ' ' + patientResult.efternamn;
-                                    }
-                                }
-                                CommonViewState.fetchingPatientData = false;
-                            }, function() { // not found
-                                CommonViewState.fetchingPatientData = false;
-                            }, function() { // error
-                                CommonViewState.fetchingPatientData = false;
-                            });
-                        }
-
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor
                         dynamicLabelService.updateDynamicLabels(intygsTyp, utkastData.latestTextVersion).then(
                             function(labels) {
@@ -112,21 +143,28 @@ angular.module('common').factory('common.UtkastService',
                                 
                                 // update model here so controls dependent on correct models at startup has the right values first
                                 viewState.common.update(viewState.draftModel, utkastData);
-                                
+
+                                // update patient data from integration if available
+                                if(UserModel.isDjupintegration()) {
+                                    _applyDjupintegrationAddressChange($stateParams, viewState.draftModel.content.grundData.patient);
+                                }
+
                                 // add tilläggsfrågor to model when dynamic texts are used
-                                if(labels !== null) {
+                                if(ObjectHelper.isDefined(labels)) {
                                     dynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, viewState.draftModel.content);
                                 }
 
-                                $timeout(function() {
-                                    wcFocus('focusFirstInput');
-                                    $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
-                                    $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
-                                    CommonViewState.doneLoading = true;
+                                // Update patient name from PU-service if UserModel Origin is NORMAL
+                                if (!UserModel.isDjupintegration() && !UserModel.isUthopp()) {
 
-                                    _loadParentIntyg(viewState);
-                                    def.resolve(viewState.intygModel);
-                                }, 10);
+                                    // Update, then finish loading using promise.
+                                    _applyNameChangeFromPuService(viewState.draftModel.content.grundData.patient).then(function() {
+                                        _finishLoadingUtkast(viewState, intygsTyp, def);
+                                    });
+                                } else {
+                                    // No need to wait for PatientProxy to check patient, run finish method right away.
+                                    _finishLoadingUtkast(viewState, intygsTyp, def);
+                                }
                                 
                             }, function(error) {
                                 CommonViewState.doneLoading = true;
