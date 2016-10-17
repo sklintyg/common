@@ -32,7 +32,8 @@ angular.module('common').service('common.ArendenViewStateService',
                 isLoaded: false,
                 isSent: false,
                 isRevoked: false,
-                type: undefined
+                type: undefined,
+                relations: []
             };
 
             // Injecting the CommonViewState service so client-side only changes on the intyg page (such as a send/revoke)

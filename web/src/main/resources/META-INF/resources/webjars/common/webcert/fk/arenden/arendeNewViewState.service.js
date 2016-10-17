@@ -30,7 +30,8 @@ angular.module('common').service('common.ArendeNewViewStateService',
             this.intygProperties = {
                 isLoaded: false,
                 isSent: false,
-                isRevoked: false
+                isRevoked: false,
+                relations: []
             };
             return this;
         };
