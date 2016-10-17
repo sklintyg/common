@@ -53,7 +53,6 @@ angular.module('common').factory('common.UtkastService',
              * are then applied to the utkast.grundData.patient.
              */
             function _applyNameChangeFromPuService(patient) {
-
                 var deferred = $q.defer();
 
                 CommonViewState.fetchingPatientData = true;
@@ -146,6 +145,7 @@ angular.module('common').factory('common.UtkastService',
 
                                 // update patient data from integration if available
                                 if(UserModel.isDjupintegration()) {
+
                                     _applyDjupintegrationAddressChange($stateParams, viewState.draftModel.content.grundData.patient);
                                 }
 
@@ -156,7 +156,6 @@ angular.module('common').factory('common.UtkastService',
 
                                 // Update patient name from PU-service if UserModel Origin is NORMAL
                                 if (!UserModel.isDjupintegration() && !UserModel.isUthopp()) {
-
                                     // Update, then finish loading using promise.
                                     _applyNameChangeFromPuService(viewState.draftModel.content.grundData.patient).then(function() {
                                         _finishLoadingUtkast(viewState, intygsTyp, def);

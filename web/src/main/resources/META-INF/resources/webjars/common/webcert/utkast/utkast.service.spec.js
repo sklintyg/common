@@ -34,10 +34,12 @@ describe('UtkastService', function() {
     var utkastContent;
 
     var puResponse = {
-        fornamn: 'Tolvan',
-        mellannamn: null,
-        efternamn: 'Tolvansson',
-        patientId: '19121212-1212'
+        status: 'FOUND',
+        person: {
+            fornamn: 'Tolvan',
+            mellannamn: null,
+            efternamn: 'Tolvansson'
+        }
     };
 
     beforeEach(angular.mock.module('common', function($provide) {
@@ -162,7 +164,6 @@ describe('UtkastService', function() {
                 content: utkastContent
             };
 
-
             $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=false').respond(200, response);
             $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
@@ -177,6 +178,41 @@ describe('UtkastService', function() {
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
             expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
+        });
+
+        it ('successful utkast load with name changed', function () {
+
+            $stateParams.certificateId = 'testIntygId';
+            var promise = utkastService.load(viewState);
+            var resultData;
+            promise.then(function(data) {
+                resultData = data;
+            });
+            commonUser.isDjupintegration = function() {return false;};
+            commonUser.isUthopp = function() {return false;};
+
+            utkastContent.braIntygsData = 'bra';
+            var response = {
+                relations: [],
+                content: utkastContent
+            };
+            var puChangedResponse = {
+                status: 'FOUND',
+                person: {
+                    fornamn: 'Lilltolvan',
+                    mellannamn: null,
+                    efternamn: 'Tolvanelli'
+                }
+            };
+
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=false').respond(200, response);
+            $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puChangedResponse);
+            $httpBackend.flush();
+            expect(viewState.common.doneLoading).toBeFalsy();
+            $timeout.flush();
+            expect(viewState.common.doneLoading).toBeTruthy();
+            expect(viewState.draftModel.content.grundData.patient.fornamn === 'Lilltolvan').toBeTruthy();
+            expect(viewState.draftModel.content.grundData.patient.efternamn === 'Tolvanelli').toBeTruthy();
         });
 
         it ('successful completion utkast load', function () {
