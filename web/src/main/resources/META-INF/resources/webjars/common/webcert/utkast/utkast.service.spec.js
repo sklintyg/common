@@ -136,7 +136,8 @@ describe('UtkastService', function() {
             utkastContent.braIntygsData = 'bra';
             var response = {
                 relations: [],
-                content: utkastContent
+                content: utkastContent,
+                status: 'SIGNED'
             };
             $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=false').respond(200, response);
             $httpBackend.flush();
