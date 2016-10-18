@@ -7,7 +7,5 @@ dependencies {
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
   compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:${jacksonVersion}"
   compile "org.apache.cxf:cxf-rt-transports-http:${cxfVersion}"
-  compile "org.springframework:spring-context:${springVersion}"
-
-  testCompile "org.mockito:mockito-core:${mockitoVersion}"
+  compile "org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"  
 }

@@ -5,6 +5,4 @@ dependencies {
   compile project(':logging-util')
 
   compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessVersion}"
-
-  testCompile "org.mockito:mockito-core:${mockitoVersion}"
 }
