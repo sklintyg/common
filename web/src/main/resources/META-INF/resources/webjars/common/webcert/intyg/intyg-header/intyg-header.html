@@ -102,7 +102,7 @@
                   intygstyp="{{intygstyp}}"
                   id="copyBtn"
                   class="btn btn-info"
-                  ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
+                  ng-if="!viewState.common.common.sekretessmarkering"
                   ng-click="copy(viewState.intygModel)"
                   uib-popover="{{copyBtnTooltipText}}"
                   popover-trigger="mouseenter"
