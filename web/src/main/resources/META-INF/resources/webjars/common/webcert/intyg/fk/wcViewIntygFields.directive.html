@@ -6,10 +6,12 @@
       <div ng-if="field.key" field-selective-view="field" field-model="intygModel">
         <div ng-switch="field.type">
           <div ng-switch-when="date">
-          <span id="{{field.key}}">{{intygModel[field.key] | date: 'longDate'}}</span>
-        </div>
+            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key] | date: 'longDate'}}</span>
+            <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
+          </div>
           <div ng-switch-when="singleDate">
-            <span id="{{field.key}}">{{intygModel[field.key] | date: 'longDate'}}</span>
+            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key] | date: 'longDate'}}</span>
+            <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
           </div>
           <div ng-switch-when="boolean">
             <div ng-switch="intygModel[field.key]">
@@ -37,7 +39,8 @@
             <h5>
               <span dynamic-label key="DFR_{{field.templateOptions.frgId}}.1.RBK"></span>
             </h5>
-            <span id="{{field.key}}">{{intygModel[field.key]}}</span>
+            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key]}}</span>
+            <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
           </div>
           <div ng-switch-when="radio-group">
             <div radio-view="field" field-model="intygModel"></div>
@@ -55,7 +58,7 @@
               <h5><span dynamic-label key="{{field.templateOptions.hamtasFranLabel}}.RBK"></span></h5>
               <span id="{{field.key}}-{{$index}}-hamtasFran">{{underlag.hamtasFran}}</span>
             </div>
-            <span class="not-entered" ng-if="intygModel[field.key].length == 0"> <span message key="common.notset"></span></span>
+            <span class="not-entered" ng-if="intygModel[field.key]"><span message key="common.notset"></span></span>
           </div>
           <div ng-switch-when="diagnos">
             <div ng-repeat="diagnos in intygModel[field.key]" class="intyg-block__subcontent">
@@ -71,7 +74,8 @@
             <div sjukskrivning-view="field" field-model="intygModel"></div>
           </div>
           <div ng-switch-default>
-            <span id="{{field.key}}">{{intygModel[field.key]}}</span>
+            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key]}}</span>
+            <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
           </div>
         </div>
       </div>
