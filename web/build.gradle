@@ -38,7 +38,7 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
     doFirst {
         args = [ 'test',
                  "--outputDir=${webappTestOutputDir}",
-                 '--skip-coverage=' + !gradle.taskGraph.allTasks.any{it.name == 'sonarcube'} ]
+                 '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '') ]
     }
 }
 

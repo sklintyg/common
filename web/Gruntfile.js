@@ -31,20 +31,18 @@ module.exports = function(grunt) {
     var SRC_DIR = 'src/main/resources/META-INF/resources/';
     var DEST_DIR = (grunt.option('outputDir') || 'build/') +  'resources/main/META-INF/resources/';
     var TEST_OUTPUT_DIR = (grunt.option('outputDir') || 'build/karma/');
-    var SKIP_COVERAGE = grunt.option('skip-coverage') !== undefined ? grunt.option('skip-coverage') : true;
-
+    var RUN_COVERAGE = grunt.option('run-coverage') !== undefined ? grunt.option('run-coverage') : false;
+        
     var minaintyg = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/minaintyg/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
-    grunt.file.write(DEST_DIR + 'webjars/common/minaintyg/module-deps.json', JSON.stringify(minaintyg.
-        map(function(file){ return '/web/'+file; }).
-        concat('/web/webjars/common/minaintyg/templates.js'), null, 4));
+    grunt.file.write(DEST_DIR + 'webjars/common/minaintyg/module-deps.json',
+                     JSON.stringify(minaintyg.map(function(file){ return '/web/'+file; }).concat('/web/webjars/common/minaintyg/templates.js'), null, 4));
     minaintyg = [SRC_DIR + 'webjars/common/minaintyg/module.js', DEST_DIR + 'webjars/common/minaintyg/templates.js'].concat(minaintyg.map(function(file){
         return SRC_DIR + file;
     }));
 
     var webcert = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/webcert/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
-    grunt.file.write(DEST_DIR + 'webjars/common/webcert/module-deps.json', JSON.stringify(webcert.
-        map(function(file){ return '/web/'+file; }).
-        concat('/web/webjars/common/webcert/templates.js'), null, 4));
+    grunt.file.write(DEST_DIR + 'webjars/common/webcert/module-deps.json',
+                     JSON.stringify(webcert.map(function(file){ return '/web/'+file; }).concat('/web/webjars/common/webcert/templates.js'), null, 4));
     webcert = [SRC_DIR + 'webjars/common/webcert/module.js', DEST_DIR + 'webjars/common/webcert/templates.js'].concat(webcert.map(function(file){
         return SRC_DIR + file;
     }));
@@ -225,5 +223,5 @@ module.exports = function(grunt) {
     grunt.registerTask('lint', [ 'jshint', 'csslint' ]);
     grunt.registerTask('test-minaintyg', [ 'wiredep:minaintyg', 'karma:minaintyg' ]);
     grunt.registerTask('test-webcert', [ 'wiredep:webcert', 'karma:webcert' ]);
-    grunt.registerTask('test', [ 'wiredep', 'karma' ].concat(SKIP_COVERAGE?[]:['lcovMerge']));
+    grunt.registerTask('test', [ 'wiredep', 'karma' ].concat(RUN_COVERAGE?['lcovMerge']:[]));
 };
