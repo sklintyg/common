@@ -74,15 +74,16 @@ angular.module('common').factory('common.domain.ModelTransformService',
                 var underlagCopy = angular.copy(underlagArray);
 
                 // delete all rows with no values at all so as to not confuse backend with non-errors
-                var i = 0;
-                while(i < underlagCopy.length) {
+                var i = underlagCopy.length - 1;
+                while(i >= 0) {
                     if(ObjectHelper.isEmpty(underlagCopy[i].typ) &&
                         ObjectHelper.isEmpty(underlagCopy[i].datum) &&
                         ObjectHelper.isEmpty(underlagCopy[i].hamtasFran)){
                         underlagCopy.splice(i, 1);
                     } else {
-                        i++;
+                        break;
                     }
+                    i--;
                 }
 
                 return underlagCopy;
@@ -104,14 +105,15 @@ angular.module('common').factory('common.domain.ModelTransformService',
                 var diagnosCopy = angular.copy(diagnosArray);
 
                 // delete all rows with no values at all so as to not confuse backend with non-errors
-                var i = 0;
-                while(i < diagnosCopy.length) {
+                var i = diagnosCopy.length - 1;
+                while(i >= 0) {
                     if(ObjectHelper.isEmpty(diagnosCopy[i].diagnosKod) &&
                         ObjectHelper.isEmpty(diagnosCopy[i].diagnosBeskrivning)){
                         diagnosCopy.splice(i, 1);
                     } else {
-                        i++;
+                        break;
                     }
+                    i--;
                 }
 
                 return diagnosCopy;

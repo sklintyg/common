@@ -1,11 +1,9 @@
 <div wc-date-period-manager model="model">
-  <div class="form-group">
   <label class="">
     <span dynamic-label key="{{to.label}}.RBK"></span>
     <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
   </label>
-  </div>
-  <div class="form-group form-inline row" data-ng-repeat="field in to.fields">
+  <div class="form-inline row" data-ng-repeat="field in to.fields">
     <div class="col-md-4">
       <label class="">
         <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>

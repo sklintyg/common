@@ -1,0 +1,4 @@
+<div ng-class="{'grouperror' : formState.viewState.common.validationMessagesByField[to.validationGroup.toLowerCase()]}">
+  <formly-transclude></formly-transclude>
+  <wc-field-validation field-type="to.type" validations="formState.viewState.common.validationMessagesByField[to.validationGroup.toLowerCase()]"></wc-field-validation>
+</div>

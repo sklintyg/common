@@ -29,6 +29,17 @@ public class ValidationMessage {
 
     private final ValidationMessageType type;
 
+    private final String dynamicKey;
+
+    public ValidationMessage(String field, ValidationMessageType type) {
+        Assert.hasText(field, "'field' must not be empty");
+        Assert.notNull(type, "'type' must not be empty");
+        this.field = field;
+        this.type = type;
+        this.message = null;
+        this.dynamicKey = null;
+    }
+
     public ValidationMessage(String field, ValidationMessageType type, String message) {
         Assert.hasText(field, "'field' must not be empty");
         Assert.notNull(type, "'type' must not be empty");
@@ -36,6 +47,18 @@ public class ValidationMessage {
         this.field = field;
         this.type = type;
         this.message = message;
+        this.dynamicKey = null;
+    }
+
+    public ValidationMessage(String field, ValidationMessageType type, String message, String dynamicKey) {
+        Assert.hasText(field, "'field' must not be empty");
+        Assert.notNull(type, "'type' must not be empty");
+        Assert.hasText(message, "'message' must not be empty");
+        Assert.hasText(dynamicKey, "'dynamicLabel' must not be empty");
+        this.field = field;
+        this.type = type;
+        this.message = message;
+        this.dynamicKey = dynamicKey;
     }
 
     public String getField() {
@@ -48,6 +71,10 @@ public class ValidationMessage {
 
     public ValidationMessageType getType() {
         return type;
+    }
+
+    public String getDynamicKey() {
+        return dynamicKey;
     }
 
     @Override

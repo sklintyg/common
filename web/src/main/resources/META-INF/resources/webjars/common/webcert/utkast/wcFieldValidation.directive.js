@@ -17,8 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.modules.support.api.dto;
+angular.module('common').directive('wcFieldValidation',
+    [
+        function() {
+            'use strict';
 
-public enum ValidationMessageType {
-    BLANK, EMPTY, INVALID_FORMAT, INCORRECT_COMBINATION, OTHER
-}
+            return {
+                restrict: 'AE',
+                transclude: true,
+                replace: true,
+                templateUrl: '/web/webjars/common/webcert/utkast/wcFieldValidation.directive.html',
+                scope: {
+                    validations: '=',
+                    fieldType: '=',
+                    labelColSize: '='
+                },
+                link: function(scope, element, attrs) {
+                    console.log(scope.labelColSize, attrs);
+                }
+            };
+        }]);

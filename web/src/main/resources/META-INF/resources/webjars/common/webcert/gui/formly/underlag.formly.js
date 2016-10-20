@@ -20,6 +20,20 @@ angular.module('common').run(function(formlyConfig) {
                 return objectHelper.isEmpty(prev.typ) || objectHelper.isEmpty(prev.datum) || objectHelper.isEmpty(prev.hamtasFran);
             };
 
+            $scope.hasValidationError = function(field, index) {
+                return $scope.formState.viewState.common.validationMessagesByField &&
+                    !!$scope.formState.viewState.common.validationMessagesByField['underlag.' + index + '.' + field];
+            };
+
+            $scope.$watch('formState.viewState.common.validationMessagesByField', function() {
+                $scope.underlagValidations = [];
+                angular.forEach($scope.formState.viewState.common.validationMessagesByField, function(validations, key) {
+                    if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
+                        $scope.underlagValidations = $scope.underlagValidations.concat(validations);
+                    }
+                });
+            });
+
             function updateUnderlag() {
                 $scope.underlagOptions = [chooseOption];
 

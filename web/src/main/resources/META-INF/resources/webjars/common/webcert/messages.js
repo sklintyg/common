@@ -215,6 +215,20 @@ angular.module('common').constant('common.messages', {
         'common.validation.patient.postnummer.missing': 'Postnummer saknas.',
         'common.validation.patient.postort.missing': 'Postort saknas.',
 
+        'common.validation.boolean.empty': 'Du måste välja minst ett alternativ.',
+        'common.validation.check-group.empty': 'Du måste välja minst ett alternativ.',
+        'common.validation.multi-text.empty': 'Fältet får inte vara tomt.',
+        'common.validation.text-group.empty': 'Minst ett fält måste fyllas i',
+        'common.validation.radio-group.empty': 'Du måste välja ett alternativ.',
+        'common.validation.singledate.empty': 'Du måste välja datum.',
+        'common.validation.single-text.empty': 'Fältet får inte vara tomt.',
+        'common.validation.single-text-vertical.empty': 'Fältet får inte vara tomt.',
+        'common.validation.underlag.empty': 'Minst en rad måste fyllas i',
+        'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+
+        'common.validation.postnummer.incorrect-format': 'Postnummer har fel format',
+
+
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
         'common.error.authorization_problem' : '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
