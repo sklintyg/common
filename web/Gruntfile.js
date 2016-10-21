@@ -76,19 +76,6 @@ module.exports = function(grunt) {
             target: [SRC_DIR + '**/*.scss']
         },
 
-        csslint: {
-            options: {
-                csslintrc: '../build-tools/src/main/resources/csslint/.csslintrc',
-                force: true
-            },
-            minaintyg: {
-                src: [ SRC_DIR + 'webjars/common/minaintyg/**/*.css' ]
-            },
-            webcert: {
-                src: [ SRC_DIR + 'webjars/common/webcert/**/*.css' ]
-            }
-        },
-
         concat: {
             minaintyg: {
                 src: minaintyg,
@@ -218,9 +205,9 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('default', [ 'bower', 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'sass' ]);
-    grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg', 'csslint:minaintyg' ]);
-    grunt.registerTask('lint-webcert', [ 'jshint:webcert', 'csslint:webcert' ]);
-    grunt.registerTask('lint', [ 'jshint', 'csslint' ]);
+    grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg' ]);
+    grunt.registerTask('lint-webcert', [ 'jshint:webcert' ]);
+    grunt.registerTask('lint', [ 'jshint' ]);
     grunt.registerTask('test-minaintyg', [ 'wiredep:minaintyg', 'karma:minaintyg' ]);
     grunt.registerTask('test-webcert', [ 'wiredep:webcert', 'karma:webcert' ]);
     grunt.registerTask('test', [ 'wiredep', 'karma' ].concat(RUN_COVERAGE?['lcovMerge']:[]));
