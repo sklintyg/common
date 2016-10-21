@@ -65,7 +65,7 @@ angular.module('common').factory('common.IntygProxy',
         function _makuleraIntyg(intygId, intygType, revokeMessage, onSuccess, onError) {
             $log.debug('_revokeSigneratIntyg: ' + intygId + ' intygsTyp: ' + intygType);
             var restPath = '/moduleapi/intyg/' + intygType + '/' + intygId + '/aterkalla';
-            $http.post(restPath, {revokeMessage: revokeMessage}).success(function(data) {
+            $http.post(restPath, revokeMessage).success(function(data) {
                 if (data === 'OK') {
                     onSuccess();
                 } else {
@@ -101,9 +101,7 @@ angular.module('common').factory('common.IntygProxy',
 
             var payload = {
                 copyIntygRequest: buildPayloadFromCopyIntygRequest(intygCopyRequest),
-                revokeSignedIntygParameter: {
-                    revokeMessage: revokeMessage
-                }
+                revokeSignedIntygParameter: revokeMessage
             };
 
             $http.post(restPath, payload).success(function(utkastResponse) {

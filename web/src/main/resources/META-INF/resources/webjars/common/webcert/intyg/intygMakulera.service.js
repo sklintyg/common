@@ -32,8 +32,11 @@ angular.module('common').factory('common.IntygMakulera',
 
                 dialogModel.showerror = false;
 
-                var revokeMessage = dialogModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason];
-                revokeMessage.trim();
+                var revokeMessage = {
+                    message : dialogModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason],
+                    reason : dialogModel.makuleraModel.reason
+                };
+                revokeMessage.message.trim();
 
                 var intygCopyRequest = IntygCopyRequestModel.build({
                     intygId: intyg.id,
