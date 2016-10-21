@@ -35,11 +35,7 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
     outputs.dir(webappTestOutputDir)
 
     script = file('node_modules/grunt-cli/bin/grunt')
-    doFirst {
-        args = [ 'test',
-                 "--outputDir=${webappTestOutputDir}",
-                 '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '') ]
-    }
+    args = [ 'test', "--outputDir=${webappTestOutputDir}", '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '') ]
 }
 
 test.dependsOn(jsTests)
