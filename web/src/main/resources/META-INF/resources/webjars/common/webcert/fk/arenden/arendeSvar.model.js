@@ -65,8 +65,18 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.svaraMedNyttIntygDisabled = arendeListItem.svaraMedNyttIntygDisabled;
                 this.svaraMedNyttIntygDisabledReason = arendeListItem.svaraMedNyttIntygDisabledReason;
                 this.kompletteringar = angular.copy(arendeListItem.kompletteringar);
-                angular.forEach(arendeListItem.extraKompletteringarArenden, function(extraKomplettering) {
-                    Array.prototype.push.apply(this.kompletteringar, extraKomplettering.kompletteringar);
+
+                this.kompletteringsArenden = [{
+                    fragaInternReferens: this.fragaInternReferens,
+                    fragaMeddelande: this.fragaMeddelande,
+                    kompletteringar: this.kompletteringar 
+                }];
+                angular.forEach(arendeListItem.extraKompletteringarArenden, function(extraArendeListItem) {
+                    this.kompletteringsArenden.push({
+                        fragaInternReferens: extraArendeListItem.arende.fraga.internReferens,
+                        fragaMeddelande: extraArendeListItem.arende.fraga.meddelande,
+                        kompletteringar: extraArendeListItem.kompletteringar
+                    });
                 }, this);
             };
 

@@ -6,21 +6,22 @@
 </div>
 <div class="modal-body">
   <div class="dialog-scroller">
-    <div id="arende-fragetext-{{model.arendeSvar.fragaInternReferens}}">{{model.arendeSvar.fragaMeddelande}}</div>
-    <div
-         id="fkKompletteringar-{{model.arendeSvar.fragaInternReferens}}"
-         ng-repeat="komplettering in model.arendeSvar.kompletteringar">
+    <div ng-repeat="kompArende in model.arendeSvar.kompletteringsArenden" class="form-group">
+      <div id="arende-fragetext-{{kompArende.fragaInternReferens}}">{{kompArende.fragaMeddelande}}</div>
+      <div
+          id="fkKompletteringar-{{kompArende.fragaInternReferens}}"
+          ng-repeat="komplettering in kompArende.kompletteringar" class="padding-top-small">
 
-      <div class="komplettera-row" ng-if="model.arendeSvar.intygProperties.type == 'fk7263'">
-        <span class="bold">{{komplettering.falt}}</span><br>
-        {{komplettering.text}}
+        <div class="komplettera-row" ng-if="model.arendeSvar.intygProperties.type == 'fk7263'">
+          <span class="bold">{{komplettering.falt}}</span><br>
+          {{komplettering.text}}
+        </div>
+
+        <div ng-if="model.arendeSvar.intygProperties.type != 'fk7263'">
+          Komplettering på fråga <span class="bold" dynamic-label key="{{komplettering.frgId}}"></span>:
+          {{komplettering.text}}
+        </div>
       </div>
-
-      <div ng-if="model.arendeSvar.intygProperties.type != 'fk7263'">
-        Komplettering på fråga <span class="bold" dynamic-label key="{{komplettering.frgId}}"></span>:
-        {{komplettering.text}}
-      </div>
-
     </div>
   </div>
   <div>
