@@ -1,4 +1,4 @@
-description = 'Intyg Common (FitNesse fixturer)'
+description = 'Intyg Common (FitNesse-fixturer)'
 
 apply plugin: 'groovy'
 
