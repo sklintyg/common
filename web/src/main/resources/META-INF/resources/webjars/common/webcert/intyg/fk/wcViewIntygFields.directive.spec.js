@@ -29,6 +29,9 @@ describe('wcViewIntygFields Directive', function() {
     beforeEach(angular.mock.inject(['$compile', '$rootScope',
         function($compile, $rootScope) {
             $scope = $rootScope.$new();
+
+            $scope.intygModel = { testValue: 'text' };
+
             element =
                 $compile('<div wc-view-intyg-fields="fields" intyg-model="intygModel"></div>')($scope);
 
@@ -56,5 +59,12 @@ describe('wcViewIntygFields Directive', function() {
         expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.99'}})).toBeFalsy();
     });
 
+    it('should display svarstext depending on show options', function() {
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{}})).toBeTruthy();
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{}})).toBeTruthy();
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{hideFromSigned:true}})).toBeFalsy();
+        expect($scope.showField({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{hideWhenEmpty:true}})).toBeFalsy();
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{hideWhenEmpty:true}})).toBeTruthy();
+    });
 
 });
