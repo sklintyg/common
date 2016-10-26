@@ -1,9 +1,10 @@
 <div>
   <div wc-field field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
-    <div ng-repeat="field in group.fieldGroup" ng-if="!field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || intygModel[field.key])" ng-class="{'intyg-field' : field.type != 'headline'}"
+    <div ng-repeat="field in group.fieldGroup" ng-class="{'intyg-field' : field.type != 'headline'}"
          ng-attr-id="{{field.key && 'form_'+field.key || undefined}}">
-      <div wc-intyg-label="field.templateOptions.label" force-no-h5-after="field.templateOptions.noH5After" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
-      <div ng-if="field.key" field-selective-view="field" field-model="intygModel">
+    
+      <div wc-intyg-label="field.templateOptions.label" ng-if="showField(field)" force-no-h5-after="field.templateOptions.noH5After" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
+      <div ng-if="field.key && showField(field)" field-selective-view="field" field-model="intygModel">
         <div ng-switch="field.type">
           <div ng-switch-when="date">
             <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key] | date: 'longDate'}}</span>
