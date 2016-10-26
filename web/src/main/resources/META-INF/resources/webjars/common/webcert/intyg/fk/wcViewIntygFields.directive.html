@@ -73,7 +73,7 @@
             <div sjukskrivning-view="field" field-model="intygModel"></div>
           </div>
           <div ng-switch-default>
-            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key]}}</span>
+            <span class="multiline" id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key]}}</span>
             <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
           </div>
         </div>
