@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcFieldValidation',
+angular.module('common').directive('wcValidationWrapper',
     [
         function() {
             'use strict';
@@ -26,7 +26,7 @@ angular.module('common').directive('wcFieldValidation',
                 restrict: 'AE',
                 transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/utkast/wcFieldValidation.directive.html',
+                templateUrl: '/web/webjars/common/webcert/utkast/wcValidationWrapper.directive.html',
                 scope: {
                     validations: '=',
                     fieldType: '@',

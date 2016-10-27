@@ -46,7 +46,7 @@ angular.module('common').directive('wcMaxlength',
                     var counter = angular.
                         element('<div class="counter">Tecken kvar: {{' + counterName + '}}</div>');
                     $compile(counter)(scope);
-                    element.parent().append(counter);
+                    element.after(counter);
 
                     function limitLength(text) {
                         if (text === undefined) {

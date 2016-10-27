@@ -1,4 +1,5 @@
-<div ng-class="{'fielderror' : formState.viewState.common.validationMessagesByField[options.key.toLowerCase()]}">
+<wc-validation-wrapper field-type="{{options.type}}"
+                       label-col-size="{{to.labelColSize}}"
+                       validations="formState.viewState.common.validationMessagesByField[options.key.toLowerCase()]">
   <formly-transclude></formly-transclude>
-  <wc-field-validation field-type="options.type" validations="formState.viewState.common.validationMessagesByField[options.key.toLowerCase()]" label-col-size="to.labelColSize"></wc-field-validation>
-</div>
+</wc-validation-wrapper>
