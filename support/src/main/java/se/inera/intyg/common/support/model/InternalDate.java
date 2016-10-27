@@ -27,9 +27,11 @@ import java.util.Objects;
 /**
  * A way of handling Dates in our internal model that allows faulty user input,
  * this is needed at this stage because of the auto save function among other things.
- * <br/><br/>
+ * <br/>
+ * <br/>
  *
  * This class contains util methods for various things such as getting a string as a {@link LocalDate} etc.
+ *
  * @author erik
  */
 public class InternalDate {
@@ -48,17 +50,21 @@ public class InternalDate {
 
     /**
      * Constuct an {@link se.inera.intyg.common.support.model.InternalDate} from a String.
+     *
      * @param date a String
      */
     public InternalDate(String date) {
-            this.date = date;
+        this.date = date;
     }
 
     /**
      * Constuct an {@link se.inera.intyg.common.support.model.InternalDate} from a {@link LocalDate},
      * primarily used when converting from external to internal model.
-     * @param date a {@link LocalDate}
-     * @throws {@link ModelException} if null is passed
+     *
+     * @param date
+     *            a {@link LocalDate}
+     * @throws {@link
+     *             ModelException} if null is passed
      */
     public InternalDate(LocalDate date) {
         if (date == null) {
@@ -80,8 +86,10 @@ public class InternalDate {
 
     /**
      * Attempts to parse the String held to a LocalDate.
+     *
      * @return {@link LocalDate} if parsing was successful
-     * @throws ModelException if parsing failed
+     * @throws ModelException
+     *             if parsing failed
      */
     public LocalDate asLocalDate() {
         if (date == null) {
@@ -98,6 +106,7 @@ public class InternalDate {
 
     /**
      * Check if the string held in this InternalDate matches expected dateformat (yyyy-MM-dd).
+     *
      * @return true if it does, false otherwise
      */
     public boolean isValidDate() {
@@ -114,8 +123,9 @@ public class InternalDate {
 
     /**
      * Determine whether an InternalDate is outside the allowed interval minDate < theDate < future.
+     *
      * @param minDate
-     * @return True if it is outside the allowed interval or is null or invalid, false otherwise. 
+     * @return True if it is outside the allowed interval or is null or invalid, false otherwise.
      */
     public boolean beforeMinDateOrInFuture(LocalDate minDate) {
         if (date == null) {
