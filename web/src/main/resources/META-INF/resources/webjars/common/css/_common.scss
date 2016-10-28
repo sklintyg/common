@@ -693,6 +693,11 @@ input.ng-invalid-date {
     margin-bottom: 0;
 }
 
+TD .validation {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
 .formly-field {
     &:not(:nth-last-child(2)) {
         padding-bottom: 15px;

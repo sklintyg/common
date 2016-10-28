@@ -270,8 +270,8 @@ angular.module('common').factory('common.UtkastService',
                     }
 
                     angular.forEach(intygState.viewState.common.validationMessages, function(message) {
-                        var section = message.field;
-                        var field = message.field;
+                        var section = message.field.toLowerCase();
+                        var field = message.field.toLowerCase();
                         var i = message.field.indexOf('.');
                         if (i >= 0) {
                             section = message.field.substring(0, i).toLowerCase();
