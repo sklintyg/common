@@ -53,6 +53,10 @@ angular.module('common').directive('wcViewIntygFields', ['$rootScope', 'common.O
                         if (exp.exec(nextField.templateOptions.label)) {
                             return false;
                         }
+                        if (field.key === 'underlagFinns' && nextField.key === 'underlag' && ObjectHelper.isDefined(scope.intygModel.underlag) && 
+                                scope.intygModel.underlag.length === 0) {
+                            return false;
+                        }
                     } else {
                         // Always line on these fields
                         if(field.templateOptions.forceLine){
