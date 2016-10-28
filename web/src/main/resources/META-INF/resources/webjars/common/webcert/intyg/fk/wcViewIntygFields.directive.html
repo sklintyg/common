@@ -29,8 +29,19 @@
           <div ng-switch-when="check-group">
             <div data-ng-repeat="asa in intygModel[field.key]">
               <ul>
+                <li><span id="{{field.key}}-{{asa.typ}}" dynamic-label key="{{field.templateOptions.code}}.{{asa.typ}}.RBK"></span></li>
+              </ul>
+            </div>
+          </div>
+          <div ng-switch-when="check-group-description">
+            <div data-ng-repeat="asa in intygModel[field.key]">
+              <ul>
                 <li><span id="{{field.key}}-{{asa.val}}" dynamic-label key="{{field.templateOptions.code}}.{{asa.val}}.RBK"></span></li>
               </ul>
+              <h5>
+                <span dynamic-label key="{{field.templateOptions.descLabel}}.RBK"></span>
+              </h5>
+              <span id="{{field.key}}-{{asa.val}}-description" ng-if="asa.beskrivning">{{asa.beskrivning}}</span>
             </div>
           </div>
           <div ng-switch-when="check-multi-text">
