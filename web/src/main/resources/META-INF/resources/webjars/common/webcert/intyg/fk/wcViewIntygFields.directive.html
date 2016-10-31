@@ -19,6 +19,9 @@
               <span id="{{field.key}}-Ja" ng-switch-when="true">Ja</span>
               <span id="{{field.key}}-Nej" ng-switch-when="false">Nej</span>
             </div>
+            <div ng-if="intygModel[field.key] === undefined">
+              <span id="{{field.key}}" class="not-entered"><span message key="common.notset"></span></span>
+            </div>
           </div>
           <div ng-switch-when="checkbox-inline">
             <div ng-switch="intygModel[field.key]">
@@ -32,6 +35,7 @@
                 <li><span id="{{field.key}}-{{asa.typ}}" dynamic-label key="{{field.templateOptions.code}}.{{asa.typ}}.RBK"></span></li>
               </ul>
             </div>
+            <span id="{{field.key}}" ng-if="!intygModel[field.key] || intygModel[field.key].length === 0" class="not-entered"><span message key="common.notset"></span></span>
           </div>
           <div ng-switch-when="check-group-description">
             <div data-ng-repeat="asa in intygModel[field.key]">
@@ -43,6 +47,7 @@
               </h5>
               <span id="{{field.key}}-{{asa.val}}-description" ng-if="asa.beskrivning">{{asa.beskrivning}}</span>
             </div>
+            <span id="{{field.key}}" ng-if="!intygModel[field.key] || intygModel[field.key].length === 0" class="not-entered"><span message key="common.notset"></span></span>
           </div>
           <div ng-switch-when="check-multi-text">
             <h4>
@@ -56,6 +61,10 @@
           </div>
           <div ng-switch-when="radio-group">
             <div radio-view="field" field-model="intygModel"></div>
+          </div>
+          <div ng-switch-when="prognos">
+            <span id="{{field.key}}-typ" dynamic-label key="{{field.templateOptions.code}}.{{intygModel[field.key].typ}}.RBK"></span>
+            <span id="{{field.key}}-dagarTillArbete" dynamic-label key="{{field.templateOptions.prognosDagarTillArbeteCode}}.{{intygModel[field.key].dagarTillArbete}}.RBK"></span>
           </div>
           <div ng-switch-when="underlag">
             <div ng-repeat="underlag in intygModel[field.key]" class="intyg-block__subcontent">
