@@ -31,8 +31,7 @@ public class PatientValidatorTest {
         List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 1 validation errors", 1, validations.size());
-        assertEquals(String.format("Expected validation message: %s", validations.get(0).getMessage()), "common.validation.patient.postadress.missing",
-                validations.get(0).getMessage());
+        assertEquals("Expected validation failure for postadress", "patient.grunddata.patient.postadress", validations.get(0).getField());
     }
 
     @Test
@@ -43,8 +42,7 @@ public class PatientValidatorTest {
         List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 1 validation errors", 1, validations.size());
-        assertEquals(String.format("Expected validation message: %s", validations.get(0).getMessage()), "common.validation.patient.postort.missing",
-                validations.get(0).getMessage());
+        assertEquals("Expected validation failure for postort", "patient.grunddata.patient.postort", validations.get(0).getField());
     }
 
     @Test
@@ -55,8 +53,8 @@ public class PatientValidatorTest {
         List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 1 validation errors", 1, validations.size());
-        assertEquals(String.format("Expected validation message: %s", validations.get(0).getMessage()), "common.validation.patient.postnummer.missing",
-                validations.get(0).getMessage());
+        assertEquals("Expected validation failure for postnummer", "patient.grunddata.patient.postnummer", validations.get(0).getField());
+        assertEquals(validations.get(0).getField(), "patient.grunddata.patient.postnummer", validations.get(0).getField());
     }
 
     @Test(expected=RuntimeException.class)
