@@ -4,8 +4,9 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
-        controller: ['$scope', '$log', 'common.DiagnosProxy', 'common.fmb.ViewStateService', 'common.fmbService', 'common.ObjectHelper',
-            function($scope, $log, diagnosProxy, fmbViewState, fmbService, ObjectHelper) {
+        controller: ['$scope', '$log', 'common.DiagnosProxy', 'common.fmb.ViewStateService', 'common.fmbService',
+            'common.ObjectHelper', 'common.MonitoringLogService',
+            function($scope, $log, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService) {
                 var enableFMB = $scope.options.data.enableFMB;
 
                 var formState = $scope.formState;
@@ -13,6 +14,11 @@ angular.module('common').run(function(formlyConfig) {
                 $scope.$watch('model.' + $scope.options.key + '[0].diagnosKodSystem', function(newVal, oldVal) {
                     if (newVal) {
                         formState.diagnosKodSystem = newVal;
+                        // We only want to log when the diagnoskodverk really changed and not when the value is set in the beginning
+                        // of loading the utkast
+                        if (oldVal) {
+                            monitoringService.diagnoskodverkChanged(formState.viewState.intygModel.id, formState.viewState.common.intyg.type);
+                        }
                     }
                 });
 
