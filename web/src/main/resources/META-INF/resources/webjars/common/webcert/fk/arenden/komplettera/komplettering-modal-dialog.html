@@ -59,9 +59,14 @@
               meddelande.</p>
           </div>
           <div class="dialog-choice-box__button-section">
-            <button type="button" id="komplettering-modal-dialog-answerWithMessage-button" class="btn btn-info" ng-click="button2click()">
+            <button type="button" id="komplettering-modal-dialog-answerWithMessage-button" class="btn btn-info" ng-click="button2click()" ng-if="model.arendeSvar.intygProperties.type == 'fk7263'">
               Svara med meddelande
             </button>
+            <div title="I denna version av Webcert är det inte möjligt att svara på kompletteringsbegäran med meddelande. Svara med nytt intyg istället." ng-if="model.arendeSvar.intygProperties.type != 'fk7263'">
+              <button type="button" id="komplettering-modal-dialog-answerWithMessage-button-disabled" class="btn btn-info" disabled>
+                Svara med meddelande
+              </button>
+            </div>
           </div>
         </div>
       </div>
