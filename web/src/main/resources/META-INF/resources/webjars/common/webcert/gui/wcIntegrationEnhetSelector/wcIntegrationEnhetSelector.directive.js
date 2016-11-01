@@ -44,7 +44,8 @@ angular.module('common').directive('wcIntegrationEnhetSelector', function() {
             $scope.model = model;
 
             //Report user selection back to user of directive
-            $scope.itemSelected = function(unit) {
+            $scope.itemSelected = function(e, unit) {
+                e.preventDefault();
                 $scope.onUnitSelection({
                     enhet: unit
                 });

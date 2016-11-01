@@ -7,7 +7,7 @@
       </a>
     </li>
     <li ng-if="vg.expanded" ng-repeat="enhet in vg.vardenheter | orderBy:'namn'">
-      <a class="enhet" id="wc-integration-enhet-selector-select-active-unit-{{enhet.id}}-link" ng-click="itemSelected(enhet)" href="javascript:void(0);">{{enhet.namn}}<i
+      <a class="enhet" id="wc-integration-enhet-selector-select-active-unit-{{enhet.id}}-link" ng-click="itemSelected($event, enhet)" href="#">{{enhet.namn}}<i
           class="glyphicon glyphicon-chevron-right"></i>
       </a>
     </li>
