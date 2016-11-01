@@ -20,5 +20,5 @@
 package se.inera.intyg.common.support.modules.support.api.dto;
 
 public enum ValidationMessageType {
-    BLANK, EMPTY, INVALID_FORMAT, INCORRECT_COMBINATION, OTHER
+    BLANK, EMPTY, INVALID_FORMAT, INCORRECT_COMBINATION, OTHER, PERIOD_OVERLAP
 }
