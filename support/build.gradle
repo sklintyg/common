@@ -9,7 +9,4 @@ dependencies {
   compile "com.google.guava:guava:${guavaVersion}"
   compile "org.apache.commons:commons-lang3:${commonsLangVersion}"
   compile "net.sf.saxon:Saxon-HE:${saxonVersion}"
-  compile "org.springframework:spring-beans:${springVersion}"
-  compile "org.springframework:spring-context:${springVersion}"
-  compile "org.springframework:spring-core:${springVersion}"
 }
