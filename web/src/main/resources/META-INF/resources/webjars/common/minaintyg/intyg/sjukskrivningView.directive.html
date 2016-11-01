@@ -1,5 +1,5 @@
 <div class="row">
-  <div data-ng-repeat="grad in grader">
+  <div data-ng-repeat="grad in grader" ng-show="fieldModel[sjukskrivningView][grad]">
     <div class="col-xs-3">
       <span dynamic-label
             key="KV_FKMU_0003.{{fieldModel[sjukskrivningView][grad].sjukskrivningsgrad}}.RBK"></span>
