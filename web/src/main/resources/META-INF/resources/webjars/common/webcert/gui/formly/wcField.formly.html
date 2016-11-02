@@ -6,16 +6,6 @@
        field-has-errors="formState.viewState.common.validationMessagesGrouped[to.categoryName]"
        field-required="{{to.required}}"
        class="field-fade">
-<!--
-    <div class="alert alert-danger" ng-if="formState.viewState.common.validationMessagesGrouped[to.categoryName]"
-         id="validationMessages_{{to.categoryName}}">
-      <ul>
-        <li ng-repeat="message in formState.viewState.common.validationMessagesGrouped[to.categoryName]">
-          <span message key="{{message.message}}"></span>
-        </li>
-      </ul>
-    </div>
--->
     <formly-transclude></formly-transclude>
   </div>
 </div>

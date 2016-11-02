@@ -43,6 +43,48 @@ angular.module('common').factory('common.domain.ModelTransformService',
                 }
                 return modelInternal;
             },
+            atgarderToTransform: function(fromApp) {
+
+                var transportModel = [];
+
+                angular.forEach(fromApp, function(value, key) {
+                    if(value.checked === true) {
+                        transportModel.push({val: key, beskrivning: value.desc});
+                    }
+                }, fromApp);
+
+                return transportModel;
+            },
+            atgarderFromTransform: function(fromBackend) {
+
+                var modelInternal = {};
+
+                for(var backendPropIndex = 0; backendPropIndex < fromBackend.length; backendPropIndex++) {
+                    modelInternal[fromBackend[backendPropIndex].val] = { checked : true, desc : fromBackend[backendPropIndex].beskrivning };                    
+                }
+                return modelInternal;
+            },
+            sysselsattningToTransform: function(fromApp) {
+
+                var transportModel = [];
+
+                angular.forEach(fromApp, function(value, key) {
+                    if(value === true) {
+                        transportModel.push({typ: key});
+                    }
+                }, fromApp);
+
+                return transportModel;
+            },
+            sysselsattningFromTransform: function(fromBackend) {
+
+                var modelInternal = {};
+
+                for(var backendPropIndex = 0; backendPropIndex < fromBackend.length; backendPropIndex++) {
+                    modelInternal[fromBackend[backendPropIndex].typ] = true;
+                }
+                return modelInternal;
+            },
             underlagFromTransform: function(underlagArray) {
 
                 // We now always have a specific amount of underlag so add that number of empty elements

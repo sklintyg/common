@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('wcViewIntygFields Directive', function() {
+describe('wcViewIntygField Directive', function() {
     'use strict';
 
     var $scope;
@@ -29,8 +29,11 @@ describe('wcViewIntygFields Directive', function() {
     beforeEach(angular.mock.inject(['$compile', '$rootScope',
         function($compile, $rootScope) {
             $scope = $rootScope.$new();
+
+            $scope.intygModel = { testValue: 'text' };
+
             element =
-                $compile('<div wc-view-intyg-fields="fields" intyg-model="intygModel"></div>')($scope);
+                $compile('<div wc-view-intyg-field field="field" intyg-model="intygModel"></div>')($scope);
 
             $scope.$digest();
             $scope = element.isolateScope();
@@ -56,5 +59,18 @@ describe('wcViewIntygFields Directive', function() {
         expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.99'}})).toBeFalsy();
     });
 
+    it('should display svarstext depending on show options', function() {
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1'}})).toBeTruthy();
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1'}})).toBeTruthy();
+
+        $scope.intygModel = { testValue: null };
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1', hideFromSigned:false}})).toBeTruthy();
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1', hideFromSigned:true}})).toBeFalsy();
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1', hideFromSigned:true, hideWhenEmpty:true}})).toBeFalsy();
+        expect($scope.showField({type:'date',templateOptions:{label:'FRG_1', hideWhenEmpty:true}})).toBeFalsy();
+
+        $scope.intygModel = { testValue: 'real text' };
+        expect($scope.showField({key: 'testValue', type:'date',templateOptions:{label:'FRG_1', hideWhenEmpty:true}})).toBeTruthy();
+    });
 
 });

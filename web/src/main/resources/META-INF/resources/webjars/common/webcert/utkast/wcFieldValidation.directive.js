@@ -31,9 +31,6 @@ angular.module('common').directive('wcFieldValidation',
                     validations: '=',
                     fieldType: '@',
                     labelColSize: '@'
-                },
-                link: function(scope, element, attrs) {
-                    console.log(scope.fieldType, attrs);
                 }
             };
         }]);

@@ -32,16 +32,16 @@ public class IntygTextsServiceImplTest {
     @Test
     public void testGetVersion() {
         when(repo.getLatestVersion(any(String.class))).thenReturn("1.0");
-        String result = service.getLatestVersion("LISU");
-        verify(repo, times(1)).getLatestVersion("LISU");
+        String result = service.getLatestVersion("LISJP");
+        verify(repo, times(1)).getLatestVersion("LISJP");
         assertEquals("result should be what repo returns", result, "1.0");
     }
 
     @Test
     public void testGetVersionNull() {
         when(repo.getLatestVersion(any(String.class))).thenReturn(null);
-        String result = service.getLatestVersion("LISU");
-        verify(repo, times(1)).getLatestVersion("LISU");
+        String result = service.getLatestVersion("LISJP");
+        verify(repo, times(1)).getLatestVersion("LISJP");
         assertEquals("result should be what repo returns", result, null);
     }
 
@@ -49,8 +49,8 @@ public class IntygTextsServiceImplTest {
     public void testGetTexts() throws JsonProcessingException {
         when(repo.getTexts(any(String.class), any(String.class))).thenReturn(null);
         when(mapper.writeValueAsString(any())).thenReturn("null");
-        String result = service.getIntygTexts("LISU", "0.9");
-        verify(repo, times(1)).getTexts("LISU", "0.9");
+        String result = service.getIntygTexts("LISJP", "0.9");
+        verify(repo, times(1)).getTexts("LISJP", "0.9");
         verify(mapper, times(1)).writeValueAsString(null);
         assertEquals("result should be what mapper returns", result, "null");
     }

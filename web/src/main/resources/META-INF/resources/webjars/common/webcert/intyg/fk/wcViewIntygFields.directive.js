@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcViewIntygFields',
+angular.module('common').directive('wcViewIntygFields', [
     function() {
         'use strict';
 
@@ -31,22 +31,6 @@ angular.module('common').directive('wcViewIntygFields',
             templateUrl: '/web/webjars/common/webcert/intyg/fk/wcViewIntygFields.directive.html',
             link: function(scope, element, attrs) {
                 scope.intygFields = scope.wcViewIntygFields;
-
-                scope.showFieldLine = function(field, nextField) {
-                    // No lines after these fields
-                    if (field.type === 'info' || field.type === 'headline') {
-                        return false;
-                    }
-                    if (field.templateOptions.label && field.templateOptions.label.indexOf('KV_') === 0) {
-                        return false;
-                    }
-                    var exp = /DFR_[0-9]+\.([2-9]|[1-9][0-9]+)/;
-                    if (exp.exec(nextField.templateOptions.label)) {
-                        return false;
-                    }
-                    return true;
-                };
-
             }
         };
-    });
+    }]);

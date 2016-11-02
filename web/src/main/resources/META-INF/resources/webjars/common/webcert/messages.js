@@ -59,7 +59,7 @@ angular.module('common').constant('common.messages', {
 
         'common.notset': 'Ej angivet',
 
-        'common.about.cookies': '<p>Så kallade kakor (cookies) används för att underlätta för besökaren på webbplatsen. En kaka är en textfil som lagras på din dator och som innehåller information. Denna webbplats använder så kallade sessionskakor. Sessionskakor lagras temporärt i din dators minne under tiden du är inne på en webbsida. Sessionskakor försvinner när du stänger din webbläsare. Ingen personlig information om dig sparas vid användning av sessionskakor.</p><p>Om du inte accepterar användandet av kakor kan du stänga av det via din webbläsares säkerhetsinställningar. Du kan även ställa in webbläsaren så att du får en varning varje gång webbplatsen försöker sätta en kaka på din dator.</p><p><strong>Observera!</strong> Om du stänger av kakor i din webbläsare kan du inte logga in i Webcert.</p><p>Allmän information om kakor (cookies) och lagen om elektronisk kommunikation finns på Post- och telestyrelsens webbplats.</p><p><a href="https://www.pts.se/sv/Privat/Internet/Integritet1/Fragor-och-svar-om-kakor-for-anvandare2/" target="_blank">Mer om kakor (cookies) på Post- och telestyrelsens webbplats</a></p>',
+        'common.about.cookies': '<p>Så kallade kakor (cookies) används för att underlätta för besökaren på webbplatsen. En kaka är en textfil som lagras på din dator och som innehåller information. Denna webbplats använder så kallade sessionskakor. Sessionskakor lagras temporärt i din dators minne under tiden du är inne på en webbsida. Sessionskakor försvinner när du stänger din webbläsare. Ingen personlig information om dig sparas vid användning av sessionskakor.</p><p>Om du inte accepterar användandet av kakor kan du stänga av det via din webbläsares säkerhetsinställningar. Du kan även ställa in webbläsaren så att du får en varning varje gång webbplatsen försöker sätta en kaka på din dator.</p><p><strong>Observera!</strong> Om du stänger av kakor i din webbläsare kan du inte logga in i Webcert.</p><p>Allmän information om kakor (cookies) och lagen om elektronisk kommunikation finns på Post- och telestyrelsens webbplats.</p><p><a href="https://www.pts.se/sv/Privat/Internet/Skydd-av-uppgifter/Fragor-och-svar-om-kakor-for-anvandare1/" target="_blank">Mer om kakor (cookies) på Post- och telestyrelsens webbplats</a></p>',
 
         // avtal/terms
         'avtal.title.text' : 'Godkännande av användarvillkor',
@@ -383,6 +383,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.multi-text.empty': 'Fältet får inte vara tomt.',
         'common.validation.text-group.empty': 'Minst ett fält måste fyllas i',
         'common.validation.radio-group.empty': 'Du måste välja ett alternativ.',
+        'common.validation.select.empty': 'Du måste välja ett alternativ.',
         'common.validation.singledate.empty': 'Du måste välja datum.',
         'common.validation.single-text.empty': 'Fältet får inte vara tomt.',
         'common.validation.single-text-vertical.empty': 'Fältet får inte vara tomt.',
@@ -390,8 +391,8 @@ angular.module('common').constant('common.messages', {
         'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
 
         'common.validation.date_out_of_range': 'Datum får inte ligga för långt fram eller tillbaka i tiden.',
-        'common.validation.diagnos.missing': 'Huvuddiagnos måste anges',
         'common.validation.diagnos0.missing': 'ICD-10 kod saknas på huvuddiagnosen.',
+        'common.validation.diagnos.missing': 'Huvuddiagnos måste anges',
         'common.validation.diagnos0.invalid': 'ICD-10 kod på huvuddiagnosen är ej giltig',
         'common.validation.diagnos0.length-3': 'Diagnoskod på huvuddiagnosen ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos0.psykisk.length-4': 'Diagnoskod på huvuddiagnosen ska anges med minst fyra positioner då en psykisk diagnos anges.',
@@ -401,14 +402,14 @@ angular.module('common').constant('common.messages', {
         'common.validation.diagnos1.length-3': 'Diagnoskod på diagnosrad 2 ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos1.psykisk.length-4': 'Diagnoskod på diagnosrad 2 ska anges med minst fyra positioner då en psykisk diagnos anges.',
         'common.validation.diagnos1.description.missing': 'Diagnostext saknas på diagnosrad 2',
-        'common.validation.diagnos2.missing': 'ICD-10 kod saknas på diagnosrad 3.',
         'common.validation.diagnos2.invalid': 'ICD-10 kod på diagnosrad 3 är ej giltig',
+        'common.validation.diagnos2.missing': 'ICD-10 kod saknas på diagnosrad 3.',
         'common.validation.diagnos2.length-3': 'Diagnoskod på diagnosrad 3 ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos2.psykisk.length-4': 'Diagnoskod på diagnosrad 3 ska anges med minst fyra positioner då en psykisk diagnos anges.',
         'common.validation.diagnos2.description.missing': 'Diagnostext saknas på diagnosrad 3',
-
+        'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
+        'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
         'common.validation.postnummer.incorrect-format': 'Postnummer har fel format',
-
 
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',

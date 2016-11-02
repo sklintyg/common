@@ -65,6 +65,7 @@ public final class InternalDateAdapter {
 
     /**
      * Make an InternalDate from int values, ensures that two digits are used in all positions (i.e '09' not '9').
+     *
      * @param year
      * @param month
      * @param day
@@ -77,6 +78,7 @@ public final class InternalDateAdapter {
         return new InternalDate(dateString);
     }
 
+    //CHECKSTYLE:OFF EmptyBlock
     private static LocalDate getLocalDate(String str) {
         try {
             return LocalDate.parse(str, DateTimeFormatter.ISO_DATE);
@@ -93,5 +95,6 @@ public final class InternalDateAdapter {
             return null;
         }
     }
+    //CHECKSTYLE:ON EmptyBlock
 
 }

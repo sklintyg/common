@@ -1,0 +1,34 @@
+<div class="form-group">
+  <div>
+    <label class="inline-block" ng-class="{'bold' : to.bold}">
+      <span dynamic-label key="{{to.label}}.RBK"></span>
+      {{to.required ? '*' : ''}}
+      <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+    </label>
+  </div>
+
+  <div data-ng-repeat="choice in to.choices">
+    <wc-validation-group field-type="check.group" validations="formState.viewState.common.validationMessagesByField[options.key]">
+      <div class="form-inline">
+        <label class="checkbox" ng-class="{disabled:to.disabled[choice.id]}">
+          <input id="{{options.key}}-{{choice.id}}" type="checkbox" class="big-checkbox" ng-model="model[options.key][choice.id].checked" ng-disabled="to.disabled[choice.id]">
+          <span dynamic-label key="{{to.code}}.{{choice.id}}.RBK"></span>
+        </label>
+        <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{choice.id}}.HLP"></span>
+      </div>
+      <div ng-if="model[options.key][choice.id].checked && choice.usesDescription" class="form-group fold-animation">
+        <wc-validation-wrapper field-type="multi-text" validations="getDescriptionValidationsForChoice(choice)">
+          <label class="control-label inline-block" ng-class="{'bold' : to.bold}">
+            <span dynamic-label key="{{to.descLabel}}.RBK"></span>
+            {{to.required ? '*' : ''}}
+            <span wc-help-mark field-dynamic-help-text="{{to.descLabel}}.HLP"></span>
+          </label>
+          <textarea id="{{options.key}}-{{choice.id}}-description" name="{{options.key}}-{{choice.id}}-description" rows='3'
+                  class='form-control' ng-model="model[options.key][choice.id].desc">
+          </textarea>
+        </wc-validation-wrapper>
+      </div>
+    </wc-validation-group>
+  </div>
+
+</div>

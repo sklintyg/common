@@ -1,85 +1,14 @@
 <div>
+
   <div wc-field field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
-    <div ng-repeat="field in group.fieldGroup" ng-if="!field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || intygModel[field.key])" ng-class="{'intyg-field' : field.type != 'headline'}"
-         ng-attr-id="{{field.key && 'form_'+field.key || undefined}}">
-      <div wc-intyg-label="field.templateOptions.label" force-no-h5-after="field.templateOptions.noH5After" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
-      <div ng-if="field.key" field-selective-view="field" field-model="intygModel">
-        <div ng-switch="field.type">
-          <div ng-switch-when="date">
-            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key] | date: 'longDate'}}</span>
-            <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
-          </div>
-          <div ng-switch-when="singleDate">
-            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key] | date: 'longDate'}}</span>
-            <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
-          </div>
-          <div ng-switch-when="boolean">
-            <div ng-switch="intygModel[field.key]">
-              <span id="{{field.key}}-Ja" ng-switch-when="true">Ja</span>
-              <span id="{{field.key}}-Nej" ng-switch-when="false">Nej</span>
-            </div>
-          </div>
-          <div ng-switch-when="checkbox-inline">
-            <div ng-switch="intygModel[field.key]">
-              <span id="{{field.key}}-Ja" ng-switch-when="true">Ja</span>
-              <span id="{{field.key}}-Nej" ng-switch-when="false">Nej</span>
-            </div>
-          </div>
-          <div ng-switch-when="check-group">
-            <div data-ng-repeat="asa in intygModel[field.key]">
-              <ul>
-                <li><span id="{{field.key}}-{{asa.val}}" dynamic-label key="{{field.templateOptions.code}}.{{asa.val}}.RBK"></span></li>
-              </ul>
-            </div>
-          </div>
-          <div ng-switch-when="check-multi-text">
-            <h4>
-              <span dynamic-label key="FRG_{{field.templateOptions.frgId}}.RBK"></span>
-            </h4>
-            <h5>
-              <span dynamic-label key="DFR_{{field.templateOptions.frgId}}.1.RBK"></span>
-            </h5>
-            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key]}}</span>
-            <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
-          </div>
-          <div ng-switch-when="radio-group">
-            <div radio-view="field" field-model="intygModel"></div>
-          </div>
-          <div ng-switch-when="underlag">
-            <div ng-repeat="underlag in intygModel[field.key]" class="intyg-block__subcontent">
-              <h5>
-                <span dynamic-label key="{{field.templateOptions.typLabel}}.RBK"></span>
-                <span id="{{field.key}}-{{$index}}-typ" dynamic-label key="KV_FKMU_0005.{{underlag.typ}}.RBK"></span>
-              </h5>
-              <p>
-                <span dynamic-label key="{{field.templateOptions.datumLabel}}.RBK"></span>
-                <span id="{{field.key}}-{{$index}}-datum">{{underlag.datum | date: 'longDate'}}</span>
-              </p>
-              <h5><span dynamic-label key="{{field.templateOptions.hamtasFranLabel}}.RBK"></span></h5>
-              <span id="{{field.key}}-{{$index}}-hamtasFran">{{underlag.hamtasFran}}</span>
-            </div>
-          </div>
-          <div ng-switch-when="diagnos">
-            <div ng-repeat="diagnos in intygModel[field.key]" class="intyg-block__subcontent">
-              <div>
-                <label><span dynamic-label key="{{field.templateOptions.diagnosKodLabel}}.RBK"></span></label>
-                <label><span dynamic-label key="{{field.templateOptions.diagnosBeskrivningLabel}}.RBK"></span></label>
-              </div>
-              <span id="{{field.key}}-{{$index}}-kod">{{diagnos.diagnosKod}}</span>
-              <span id="{{field.key}}-{{$index}}-beskrivning">{{diagnos.diagnosBeskrivning}}</span>
-            </div>
-          </div>
-          <div ng-switch-when="sjukskrivningar">
-            <div sjukskrivning-view="field" field-model="intygModel"></div>
-          </div>
-          <div ng-switch-default>
-            <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key]}}</span>
-            <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
-          </div>
-        </div>
+
+    <div ng-repeat="field in group.fieldGroup">
+      <div wc-view-intyg-field field="field" next-field="group.fieldGroup[$index+1]" intyg-model="intygModel"></div>
+      <div ng-repeat="subField in field.fieldGroup">
+        <div wc-view-intyg-field field="subField" next-field="field.fieldGroup[$index+1]" intyg-model="intygModel"></div>
       </div>
-      <hr ng-if="!$last && showFieldLine(field, group.fieldGroup[$index+1])">
     </div>
+
   </div>
 
   <tillaggs-fragor-view tillaggs-fragor="intygModel.tillaggsfragor"></tillaggs-fragor-view>
