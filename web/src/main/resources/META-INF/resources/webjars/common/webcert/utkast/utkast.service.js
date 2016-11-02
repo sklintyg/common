@@ -277,7 +277,6 @@ angular.module('common').factory('common.UtkastService',
                             section = message.field.substring(0, i).toLowerCase();
                             field = message.field.substring(i + 1).toLowerCase();
                         }
-                        console.log(section, field);
                         if (intygState.viewState.common.validationSections.indexOf(section) === -1) {
                             intygState.viewState.common.validationSections.push(section);
                         }
