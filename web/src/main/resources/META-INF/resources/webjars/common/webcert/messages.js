@@ -234,10 +234,19 @@ angular.module('common').constant('common.messages', {
         'lisjp.button.send': 'Skicka till Försäkringskassan',
         'fk7263.button.send': 'Skicka till Försäkringskassan',
 
-        // Send
+        'ts-bas.button.send': 'Skicka till Transportstyrelsen',
+        'ts-bas.label.send': 'Skicka intyg till Transportstyrelsen',
+        'ts-diabetes.button.send': 'Skicka till Transportstyrelsen',
+        'ts-diabetes.label.send': 'Skicka intyg till Transportstyrelsen',
+
+        // Send fk
         'luse.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
         'luae_na.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
         'luae_fs.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
+
+        // send ts
+        'ts-bas.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
+        'ts-diabetes.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
 
         // Send w sjukpenning
         'lisjp.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
@@ -275,6 +284,18 @@ angular.module('common').constant('common.messages', {
         'lisjp.label.status.recieved': 'Intyget är signerat och mottaget av Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via 1177.se.',
         'lisjp.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via 1177.se. Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning. Om patienten inte har möjlighet att skicka intyget elektroniskt till Försäkringskassan kan du skicka intyget direkt till Försäkringskassan åt patienten.',
         'lisjp.label.kontakt-info': 'Namn och kontaktuppgifter till vårdenheten',
+
+        'ts-bas.label.kopiera.text': 'Skapar en kopia av befintligt intyg. Det nya utkastet (kopian) kan ändras och signeras.',
+        'ts-bas.label.makulera.confirmation': 'Transportstyrelsens läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
+        'ts-bas.label.status.sent': 'Intyget är signerat och har skickats till Transportstyrelsens system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via 1177.se.',
+        'ts-bas.label.status.recieved': 'Intyget är signerat och mottaget av Transportstyrelsens system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via 1177.se.',
+        'ts-bas.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via 1177.se. Om patienten inte har möjlighet att skicka intyget elektroniskt till Transportstyrelsen kan du skicka intyget direkt till Transportstyrelsen åt patienten.',
+
+        'ts-diabetes.label.makulera.confirmation': 'Transportstyrelsens läkarintyg, diabetes, utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
+        'ts-diabetes.label.status.sent': 'Intyget är signerat och har skickats till Transportstyrelsens system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via 1177.se.',
+        'ts-diabetes.label.status.recieved': 'Intyget är signerat och mottaget av Transportstyrelsens system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via 1177.se.',
+        'ts-diabetes.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via 1177.se. Om patienten inte har möjlighet att skicka intyget elektroniskt till Transportstyrelsen kan du skicka intyget direkt till Transportstyrelsen åt patienten.',
+        'ts-diabetes.label.kopiera.text': 'Skapar en kopia av befintligt intyg. Det nya utkastet (kopian) kan ändras och signeras.',
 
         // Validation messages
         'luse.validation.grund-for-mu.incorrect_combination_annat_beskrivning' : 'Fritextfältet som hör till alternativet Annat under \'Uppgifterna i intyget baseras på\' får endast fyllas i om \'Annan referens valts\'.',
@@ -377,6 +398,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.patient.postadress.missing': 'Postadress saknas.',
         'common.validation.patient.postnummer.missing': 'Postnummer saknas.',
         'common.validation.patient.postort.missing': 'Postort saknas.',
+        'common.validation.postnummer.incorrect-format': 'Postnummer har fel format',
 
         'common.validation.boolean.empty': 'Du måste välja minst ett alternativ.',
         'common.validation.check-group.empty': 'Du måste välja minst ett alternativ.',
@@ -391,27 +413,23 @@ angular.module('common').constant('common.messages', {
         'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
         'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
-
         'common.validation.date_out_of_range': 'Datum får inte ligga för långt fram eller tillbaka i tiden.',
-        'common.validation.diagnos0.missing': 'ICD-10 kod saknas på huvuddiagnosen.',
         'common.validation.diagnos.missing': 'Huvuddiagnos måste anges',
+        'common.validation.diagnos0.missing': 'ICD-10 kod saknas på huvuddiagnosen.',
         'common.validation.diagnos0.invalid': 'ICD-10 kod på huvuddiagnosen är ej giltig',
         'common.validation.diagnos0.length-3': 'Diagnoskod på huvuddiagnosen ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos0.psykisk.length-4': 'Diagnoskod på huvuddiagnosen ska anges med minst fyra positioner då en psykisk diagnos anges.',
+        'common.validation.diagnos0.description.missing': 'Diagnostext saknas på huvuddiagnosen',
+        'common.validation.diagnos1.missing': 'ICD-10 kod saknas på diagnosrad 2.',
         'common.validation.diagnos1.invalid': 'ICD-10 kod på diagnosrad 2 är ej giltig',
         'common.validation.diagnos1.length-3': 'Diagnoskod på diagnosrad 2 ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos1.psykisk.length-4': 'Diagnoskod på diagnosrad 2 ska anges med minst fyra positioner då en psykisk diagnos anges.',
         'common.validation.diagnos1.description.missing': 'Diagnostext saknas på diagnosrad 2',
-        'common.validation.diagnos2.invalid': 'ICD-10 kod på diagnosrad 3 är ej giltig',
         'common.validation.diagnos2.missing': 'ICD-10 kod saknas på diagnosrad 3.',
+        'common.validation.diagnos2.invalid': 'ICD-10 kod på diagnosrad 3 är ej giltig',
         'common.validation.diagnos2.length-3': 'Diagnoskod på diagnosrad 3 ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos2.psykisk.length-4': 'Diagnoskod på diagnosrad 3 ska anges med minst fyra positioner då en psykisk diagnos anges.',
         'common.validation.diagnos2.description.missing': 'Diagnostext saknas på diagnosrad 3',
-        'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
-        'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
-        'common.validation.diagnos0.description.missing': 'Diagnostext saknas på huvuddiagnosen',
-        'common.validation.diagnos1.missing': 'ICD-10 kod saknas på diagnosrad 2.',
-        'common.validation.postnummer.incorrect-format': 'Postnummer har fel format',
 
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',

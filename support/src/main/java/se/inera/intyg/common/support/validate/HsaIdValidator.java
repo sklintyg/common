@@ -119,7 +119,7 @@ public class HsaIdValidator implements RootValidator {
         String orgNoWithoutChecksum = orgNo.substring(0, ORG_WO_CHECKSUM_END);
         int mod10 = orgNo.charAt(ORG_WO_CHECKSUM_END) - '0';
 
-        if (ValidatorUtils.calculateMod10(orgNoWithoutChecksum) != mod10) {
+        if (ValidatorUtil.calculateMod10(orgNoWithoutChecksum) != mod10) {
             result.add(String.format("The checksum digit in org-number '%s' is invalid", orgNo));
         }
     }

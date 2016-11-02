@@ -20,5 +20,10 @@
 package se.inera.intyg.common.support.modules.support.api.dto;
 
 public enum ValidationMessageType {
-    BLANK, EMPTY, INVALID_FORMAT, INCORRECT_COMBINATION, OTHER, PERIOD_OVERLAP
+    BLANK,
+    EMPTY, // empty does not generate error unless "Visa vad som saknas" is pressed
+    INVALID_FORMAT, // invalid_format DOES generate error even if "Visa vad som saknas" is NOT pressed
+    INCORRECT_COMBINATION,
+    OTHER,
+    PERIOD_OVERLAP
 }
