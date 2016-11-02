@@ -68,7 +68,7 @@ public final class ValidatorUtil {
         return (BASE_10 - (cs % BASE_10)) % BASE_10;
     }
 
-    public boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field) {
+    public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field) {
         boolean valid = true;
         if (!date.isValidDate()) {
             addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT);
@@ -83,7 +83,7 @@ public final class ValidatorUtil {
         return valid;
     }
 
-    public void validateVardenhet(GrundData grundData, List<ValidationMessage> validationMessages) {
+    public static void validateVardenhet(GrundData grundData, List<ValidationMessage> validationMessages) {
         if (StringUtils.isBlank(grundData.getSkapadAv().getVardenhet().getPostadress())) {
             addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postadress", ValidationMessageType.EMPTY);
         }
@@ -104,7 +104,7 @@ public final class ValidatorUtil {
         }
     }
 
-    public boolean isBlankButNotNull(String stringFromField) {
+    public static boolean isBlankButNotNull(String stringFromField) {
         return (!StringUtils.isEmpty(stringFromField)) && StringUtils.isBlank(stringFromField);
     }
 
@@ -112,11 +112,11 @@ public final class ValidatorUtil {
      * Check if there are validation errors.
      *
      */
-    public ValidationStatus getValidationStatus(List<ValidationMessage> validationMessages) {
+    public static ValidationStatus getValidationStatus(List<ValidationMessage> validationMessages) {
         return (validationMessages.isEmpty()) ? ValidationStatus.VALID : ValidationStatus.INVALID;
     }
 
-    public void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg, String dynamicLabel) {
+    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg, String dynamicLabel) {
         validationMessages.add(new ValidationMessage(field, type, msg, dynamicLabel));
         LOG.debug(field + " " + msg);
     }
@@ -131,12 +131,12 @@ public final class ValidatorUtil {
      * @param msg
      *            a String with an error code for the front end implementation
      */
-    public void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg) {
+    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg) {
         validationMessages.add(new ValidationMessage(field, type, msg));
         LOG.debug(field + " " + msg);
     }
 
-    public void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type) {
+    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type) {
         validationMessages.add(new ValidationMessage(field, type));
         LOG.debug(field + " " + type.toString());
     }
@@ -146,7 +146,7 @@ public final class ValidatorUtil {
      *            intervals
      * @return boolean
      */
-    public boolean allNulls(InternalLocalDateInterval[] intervals) {
+    public static boolean allNulls(InternalLocalDateInterval[] intervals) {
         for (InternalLocalDateInterval interval : intervals) {
             if (interval != null) {
                 return false;
@@ -165,16 +165,16 @@ public final class ValidatorUtil {
      * @param errorCode
      *            the errorCode to log in validation errors
      */
-    public AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field, String errorCode) {
+    public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field, String errorCode) {
         if (beskrivning == null || beskrivning.isEmpty()) {
-            addValidationError(validationMessages,field, ValidationMessageType.EMPTY, errorCode);
+            addValidationError(validationMessages, field, ValidationMessageType.EMPTY, errorCode);
             LOG.debug(field + " " + errorCode);
             return AssertionResult.FAILURE;
         }
         return AssertionResult.SUCCESS;
     }
 
-    public AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field) {
+    public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field) {
         if (beskrivning == null || beskrivning.isEmpty()) {
             addValidationError(validationMessages, field, ValidationMessageType.EMPTY);
             return AssertionResult.FAILURE;
@@ -205,11 +205,11 @@ public final class ValidatorUtil {
         }
     }
 
-    public boolean isNotNullTrue(Boolean bool) {
+    public static boolean isNotNullTrue(Boolean bool) {
         return bool != null && bool;
     }
 
-    public boolean isNotNullFalse(Boolean bool) {
+    public static boolean isNotNullFalse(Boolean bool) {
         return bool != null && !bool;
     }
 

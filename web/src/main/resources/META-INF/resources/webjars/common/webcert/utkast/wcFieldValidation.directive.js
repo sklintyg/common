@@ -42,7 +42,7 @@ angular.module('common').directive('wcFieldValidation',
                             section = message.field.substring(0, i).toLowerCase();
                         }
                         return section;
-                    }
+                    };
 
                 }
             };

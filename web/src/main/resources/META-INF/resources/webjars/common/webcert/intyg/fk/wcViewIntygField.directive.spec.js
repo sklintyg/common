@@ -31,6 +31,7 @@ describe('wcViewIntygField Directive', function() {
             $scope = $rootScope.$new();
 
             $scope.intygModel = { testValue: 'text' };
+            $scope.field = {templateOptions:{}};
 
             element =
                 $compile('<div wc-view-intyg-field field="field" intyg-model="intygModel"></div>')($scope);

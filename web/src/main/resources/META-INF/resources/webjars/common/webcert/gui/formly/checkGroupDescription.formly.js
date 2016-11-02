@@ -11,7 +11,7 @@ angular.module('common').run(function(formlyConfig) {
                 }
                 var key = $scope.options.key + '.' + choice.id + '.beskrivning';
                 return $scope.formState.viewState.common.validationMessagesByField[key.toLowerCase()];
-            }
+            };
         }]
     });
 
