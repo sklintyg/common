@@ -389,6 +389,8 @@ angular.module('common').constant('common.messages', {
         'common.validation.single-text-vertical.empty': 'Fältet får inte vara tomt.',
         'common.validation.underlag.empty': 'Minst en rad måste fyllas i',
         'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
+        'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
 
         'common.validation.date_out_of_range': 'Datum får inte ligga för långt fram eller tillbaka i tiden.',
         'common.validation.diagnos0.missing': 'ICD-10 kod saknas på huvuddiagnosen.',
@@ -396,8 +398,6 @@ angular.module('common').constant('common.messages', {
         'common.validation.diagnos0.invalid': 'ICD-10 kod på huvuddiagnosen är ej giltig',
         'common.validation.diagnos0.length-3': 'Diagnoskod på huvuddiagnosen ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos0.psykisk.length-4': 'Diagnoskod på huvuddiagnosen ska anges med minst fyra positioner då en psykisk diagnos anges.',
-        'common.validation.diagnos0.description.missing': 'Diagnostext saknas på huvuddiagnosen',
-        'common.validation.diagnos1.missing': 'ICD-10 kod saknas på diagnosrad 2.',
         'common.validation.diagnos1.invalid': 'ICD-10 kod på diagnosrad 2 är ej giltig',
         'common.validation.diagnos1.length-3': 'Diagnoskod på diagnosrad 2 ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos1.psykisk.length-4': 'Diagnoskod på diagnosrad 2 ska anges med minst fyra positioner då en psykisk diagnos anges.',
@@ -409,6 +409,8 @@ angular.module('common').constant('common.messages', {
         'common.validation.diagnos2.description.missing': 'Diagnostext saknas på diagnosrad 3',
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
         'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
+        'common.validation.diagnos0.description.missing': 'Diagnostext saknas på huvuddiagnosen',
+        'common.validation.diagnos1.missing': 'ICD-10 kod saknas på diagnosrad 2.',
         'common.validation.postnummer.incorrect-format': 'Postnummer har fel format',
 
         // Common errors
