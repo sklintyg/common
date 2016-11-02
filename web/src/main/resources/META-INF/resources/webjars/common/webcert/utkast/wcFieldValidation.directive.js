@@ -31,6 +31,19 @@ angular.module('common').directive('wcFieldValidation',
                     validations: '=',
                     fieldType: '@',
                     labelColSize: '@'
+                },
+                link: function(scope) {
+
+                    // This is used to create keys for fitnesse lookup
+                    scope.getSection = function(message) {
+                        var section = message.field.toLowerCase();
+                        var i = message.field.indexOf('.');
+                        if (i >= 0) {
+                            section = message.field.substring(0, i).toLowerCase();
+                        }
+                        return section;
+                    }
+
                 }
             };
         }]);
