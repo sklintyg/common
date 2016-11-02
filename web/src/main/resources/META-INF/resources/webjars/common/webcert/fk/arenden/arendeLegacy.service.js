@@ -16,7 +16,7 @@ angular.module('common').factory('common.ArendeLegacyService',
             'MAKULERING_AV_LAKARINTYG': 'MAKULERING_AV_LAKARINTYG',
             'AVSTAMNINGSMOTE': 'AVSTMN',
             'KONTAKT': 'KONTKT',
-            'ARBETSTIDSFORLAGGNING': 'ARBTID',
+            'ARBETSTIDSFORLAGGNING': 'ARBETSTIDSFORLAGGNING',
             'PAMINNELSE': 'PAMINN',
             'OVRIGT': 'OVRIGT'
         };

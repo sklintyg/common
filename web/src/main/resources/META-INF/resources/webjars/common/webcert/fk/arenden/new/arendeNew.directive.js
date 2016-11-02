@@ -49,7 +49,7 @@ angular.module('common').directive('arendeNew',
                     $scope.localViewState = ArendeNewViewState;
 
                     // Create model
-                    var arendeNewModel = ArendeNewModel.build();
+                    var arendeNewModel = ArendeNewModel.build($scope.parentViewState.intygProperties.type);
                     $scope.arendeNewModel = arendeNewModel;
 
                     //Any change to the arendeNewModel indicates user interaction

@@ -166,7 +166,6 @@ angular.module('common').constant('common.messages', {
         'common.arende.atgard.markhandled': 'Markera som hanterad',
         'common.arende.atgard.handled': 'Ingen',
 
-        'common.arende.fraga.amne.arbtid': 'Arbetstidsförläggning',
         'common.arende.fraga.amne.avstmn': 'Avstämningsmöte',
         'common.arende.fraga.amne.kontkt': 'Kontakt',
         'common.arende.fraga.amne.komplt': 'Komplettering',
@@ -175,6 +174,7 @@ angular.module('common').constant('common.messages', {
 
         // Används bara av fk7263 (ArendeLegacyProxy)
         'common.arende.fraga.amne.makulering_av_lakarintyg': 'Makulering av läkarintyg',
+        'common.arende.fraga.amne.arbetstidsforlaggning': 'Arbetstidsförläggning',
 
         'common.arende.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
         'common.arende.help.handled': 'Tidigare frågor och svar är sådana som redan har besvarats eller hanterats på något sätt.',

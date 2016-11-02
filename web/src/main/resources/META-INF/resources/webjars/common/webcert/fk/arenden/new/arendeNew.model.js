@@ -35,11 +35,17 @@ angular.module('common').factory('common.ArendeNewModel',
                 {
                     label: 'Välj ämne',
                     value: null
-                },
-                {
+                }
+            ];
+
+            if (data === 'fk7263') {
+                this.topics.push({
                     label: 'Arbetstidsförläggning',
-                    value: 'ARBTID'
-                },
+                    value: 'ARBETSTIDSFORLAGGNING'
+                });
+            }
+
+            this.topics.push(
                 {
                     label: 'Avstämningsmöte',
                     value: 'AVSTMN'
@@ -52,7 +58,7 @@ angular.module('common').factory('common.ArendeNewModel',
                     label: 'Övrigt',
                     value: 'OVRIGT'
                 }
-            ];
+            );
             var model = this;
             this.reset = function() {
                 model.chosenTopic = this.topics[0]; // 'Välj ämne' is default
