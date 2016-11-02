@@ -37,9 +37,7 @@ angular.module('common').factory('common.ArendeLegacyService',
         function _convertFragasvarListToArendeList(list) {
             var converted = [];
             angular.forEach(list, function(fs) {
-                console.log(fs);
                 var arende = _convertFragasvarToArende(fs);
-                console.log(arende);
                 converted.push(arende);
             });
             return converted;
