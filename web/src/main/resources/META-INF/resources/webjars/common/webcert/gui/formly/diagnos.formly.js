@@ -33,6 +33,16 @@ angular.module('common').run(function(formlyConfig) {
                         }
                     });
 
+                function isShortPsykiskDiagnos(kod) {
+                    // Från kravsidan:
+                    // För LUSE,  LISU, LUAE NA och LUAE FS måste psykiska diagnoser anges med minst fyra positioner
+                    // Med psykisk diagnos avses alla diagnoser som börjar med Z73 eller med F (dvs. som tillhör F-kapitlet i ICD-10)
+                    var psykiskDiagnos = kod.substr(0, 3) === 'Z73' || kod.substr(0, 1) === 'F';
+                    var shortPsykiskDiagnos = kod.length < 4 && psykiskDiagnos;
+
+                    return shortPsykiskDiagnos;
+                }
+
                 $scope.getDiagnoseCodes = function(codeSystem, val) {
                     return diagnosProxy.searchByCode(codeSystem, val)
                         .then(function(response) {
@@ -41,7 +51,8 @@ angular.module('common').run(function(formlyConfig) {
                                     return {
                                         value: item.kod,
                                         beskrivning: item.beskrivning,
-                                        label: item.kod + ' | ' + item.beskrivning
+                                        label: item.kod + ' | ' + item.beskrivning,
+                                        shortPsykiskDiagnos: isShortPsykiskDiagnos(item.kod)
                                     };
                                 });
                                 if (result.length > 0) {
@@ -67,7 +78,8 @@ angular.module('common').run(function(formlyConfig) {
                                 return {
                                     value: item.kod,
                                     beskrivning: item.beskrivning,
-                                    label: item.kod + ' | ' + item.beskrivning
+                                    label: item.kod + ' | ' + item.beskrivning,
+                                    shortPsykiskDiagnos: isShortPsykiskDiagnos(item.kod)
                                 };
                             });
                             if (result.length > 0) {
@@ -86,16 +98,24 @@ angular.module('common').run(function(formlyConfig) {
             };
 
             $scope.onDiagnoseCodeSelect = function($index, $item) {
+                if (isShortPsykiskDiagnos($item.value)) {
+                    $scope.model[$scope.options.key][$index].diagnosKod = undefined;
+                    return;
+                }
                 $scope.model[$scope.options.key][$index].diagnosBeskrivning = $item.beskrivning;
                 $scope.model[$scope.options.key][$index].diagnosKodSystem = formState.diagnosKodSystem;
                 $scope.form.$setDirty();
                 if ($index === 0) {
                     $scope.updateFmbText();
                 }
-
             };
 
             $scope.onDiagnoseDescriptionSelect = function($index, $item) {
+                if (isShortPsykiskDiagnos($item.value)) {
+                    $scope.model[$scope.options.key][$index].diagnosKod = undefined;
+                    $scope.model[$scope.options.key][$index].diagnosBeskrivning = undefined;
+                    return;
+                }
                 $scope.model[$scope.options.key][$index].diagnosKod = $item.value;
                 $scope.model[$scope.options.key][$index].diagnosBeskrivning = $item.beskrivning;
                 $scope.model[$scope.options.key][$index].diagnosKodSystem = formState.diagnosKodSystem;
