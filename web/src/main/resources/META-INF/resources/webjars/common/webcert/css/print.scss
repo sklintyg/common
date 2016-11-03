@@ -24,6 +24,11 @@ $font-2: 'sans-serif';
 
 
 @media print {
+
+  .webcert-multicol-container {
+    margin-top: 20px !important;
+  }
+
   %radio-checkbox-common {
     display: inline-block;
     float: none;
