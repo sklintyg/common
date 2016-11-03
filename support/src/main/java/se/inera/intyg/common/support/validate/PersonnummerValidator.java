@@ -196,7 +196,7 @@ public class PersonnummerValidator implements RootValidator {
      *            List that validation messages are added to.
      */
     private void checkChecksum(String pnr, String dateString, String nnn, int mod10, List<String> result) {
-        if (ValidatorUtils.calculateMod10(dateString.substring(2) + nnn) != mod10) {
+        if (ValidatorUtil.calculateMod10(dateString.substring(2) + nnn) != mod10) {
             result.add(String.format("The checksum digit in SSN '%s' is invalid", pnr));
         }
     }

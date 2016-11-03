@@ -544,8 +544,25 @@ label.big-radio-label, label.big-checkbox-label {
 */
 /* Only used in wcField.directive.html */
 
-.fielderror {
+.categoryerror, .grouperror {
     border: 2px solid $color_apple_blossom_approx;
+}
+.grouperror {
+    margin-left:-10px;
+    padding: 10px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    border-radius: 4px 4px 4px 4px;
+}
+input.fielderror {
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+    border: 1px solid #ff6600;
+}
+.fielderror {
+    input[TYPE='text'], textarea, .ui-select-match {
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+        border: 1px solid #ff6600;
+    }
 }
 
 
@@ -667,4 +684,28 @@ input.ng-invalid-date {
 
 .keep-newlines {
     white-space: pre-line;
+}
+
+.validation {
+    display: table;
+    padding: 0 10px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+TD .validation {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.formly-field {
+    &:not(:nth-last-child(2)) {
+        padding-bottom: 15px;
+        &.small-gap {
+            padding-bottom: 5px;
+        }
+    }
+    &.formly-field-headline {
+        padding-bottom: 0;
+    }
 }

@@ -1,0 +1,20 @@
+<div>
+  <div ng-repeat="validation in validations">
+
+    <div class="row" ng-if="labelColSize">
+      <div class="col-md-{{labelColSize}}"></div>
+      <div class="col-md-{{12 - labelColSize}}">
+        <div class="alert alert-danger validation" data-validation-section="{{getSection(validation)}}">
+          <span ng-if="!validation.message" message key="common.validation.{{fieldType}}.{{validation.type}}"></span>
+          <span ng-if="validation.message" combined-label="" dyn-key="{{validation.dynamicKey}}" stat-key="{{validation.message}}"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-danger validation" ng-if="!labelColSize" data-validation-section="{{getSection(validation)}}">
+      <span ng-if="!validation.message" message key="common.validation.{{fieldType}}.{{validation.type}}"></span>
+      <span ng-if="validation.message" combined-label="" dyn-key="{{validation.dynamicKey}}" stat-key="{{validation.message}}"></span>
+    </div>
+
+  </div>
+</div>

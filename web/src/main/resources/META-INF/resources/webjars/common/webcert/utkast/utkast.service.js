@@ -253,6 +253,7 @@ angular.module('common').factory('common.UtkastService',
                 intygState.viewState.common.validationMessagesGrouped = {};
                 intygState.viewState.common.validationMessages = [];
                 intygState.viewState.common.validationSections = [];
+                intygState.viewState.common.validationMessagesByField = {};
 
                 if (data.status === 'DRAFT_COMPLETE') {
                     CommonViewState.intyg.isComplete = true;
@@ -269,21 +270,27 @@ angular.module('common').factory('common.UtkastService',
                     }
 
                     angular.forEach(intygState.viewState.common.validationMessages, function(message) {
-                        var field = message.field;
-                        var parts = field.split('.');
-                        var section;
-                        if (parts.length > 0) {
-                            section = parts[0].toLowerCase();
-                            if (intygState.viewState.common.validationSections.indexOf(section) === -1) {
-                                intygState.viewState.common.validationSections.push(section);
-                            }
-
-                            if (intygState.viewState.common.validationMessagesGrouped[section]) {
-                                intygState.viewState.common.validationMessagesGrouped[section].push(message);
-                            } else {
-                                intygState.viewState.common.validationMessagesGrouped[section] = [message];
-                            }
+                        var section = message.field.toLowerCase();
+                        var field = message.field.toLowerCase();
+                        var i = message.field.indexOf('.');
+                        if (i >= 0) {
+                            section = message.field.substring(0, i).toLowerCase();
+                            field = message.field.substring(i + 1).toLowerCase();
                         }
+                        if (intygState.viewState.common.validationSections.indexOf(section) === -1) {
+                            intygState.viewState.common.validationSections.push(section);
+                        }
+
+                        if (intygState.viewState.common.validationMessagesGrouped[section]) {
+                            intygState.viewState.common.validationMessagesGrouped[section].push(message);
+                        } else {
+                            intygState.viewState.common.validationMessagesGrouped[section] = [message];
+                        }
+
+                        if (!intygState.viewState.common.validationMessagesByField[field]) {
+                            intygState.viewState.common.validationMessagesByField[field] = [];
+                        }
+                        intygState.viewState.common.validationMessagesByField[field].push(message);
                     });
                 }
 

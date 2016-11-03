@@ -3,7 +3,7 @@
     <span dynamic-label key="{{to.label}}.RBK"></span> *
     <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
   </label>
-  <table class="form-group">
+  <table class="">
     <tr class="underlagRow">
       <th style="width: 35%;"><span dynamic-label key="{{to.typLabel}}.RBK"></span> *<span wc-help-mark field-dynamic-help-text="{{to.typLabel}}.HLP"></span></th>
       <th><span dynamic-label key="{{to.datumLabel}}.RBK"></span><span wc-help-mark field-dynamic-help-text="{{to.datumLabel}}.HLP"></span></th>
@@ -12,7 +12,8 @@
     <tr class="underlagRow" ng-repeat="underlag in model.underlag">
       <td>
         <ui-select theme="bootstrap" search-enabled="false" ng-model="underlag.typ"
-         id="underlag-{{$index}}-typ" name="andraUnderlag-{{$index}}" append-to-body="false">
+         id="underlag-{{$index}}-typ" name="andraUnderlag-{{$index}}" append-to-body="false"
+         ng-class="{'fielderror' : hasValidationError('typ', $index)}">
             <ui-select-match>
                 <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
             </ui-select-match>
@@ -23,12 +24,18 @@
       </td>
       <td>
         <span wc-date-picker-field target-model="underlag.datum" dom-id="underlag-{{$index}}-datum"
-              ng-model="underlag.datum" add-date-parser="loose"></span>
+              ng-class="{'fielderror' : hasValidationError('datum', $index)}"
+              ng-model="underlag.datum"
+              add-date-parser="loose"></span>
       </td>
       <td>
-        <input id="underlag-{{$index}}-hamtasFran" type="text" class="form-control input-full" ng-model="underlag.hamtasFran">
+        <input id="underlag-{{$index}}-hamtasFran"
+               type="text"
+               class="form-control input-full"
+               ng-class="{'fielderror' : hasValidationError('hamtasfran', $index)}"
+               ng-model="underlag.hamtasFran">
       </td>
     </tr>
-
   </table>
+  <wc-field-validation field-type="{{options.type}}" validations="underlagValidations"></wc-field-validation>
 </div>

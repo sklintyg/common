@@ -39,14 +39,14 @@ public final class PatientValidator {
         if (patient == null) {
             throw new RuntimeException("No Patient found when attempting to validate");
         }
-        validateString(validationMessages, patient.getPostadress(), "patient.postadress", "common.validation.patient.postadress.missing");
-        validateString(validationMessages, patient.getPostnummer(), "patient.postnummer", "common.validation.patient.postnummer.missing");
-        validateString(validationMessages, patient.getPostort(), "patient.postort", "common.validation.patient.postort.missing");
+        validateString(validationMessages, patient.getPostadress(), "patient.grunddata.patient.postadress");
+        validateString(validationMessages, patient.getPostnummer(), "patient.grunddata.patient.postnummer");
+        validateString(validationMessages, patient.getPostort(), "patient.grunddata.patient.postort");
     }
 
-    private static void validateString(List<ValidationMessage> validationMessages, String text, String field, String msg) {
+    private static void validateString(List<ValidationMessage> validationMessages, String text, String field) {
         if (StringUtils.isBlank(text)) {
-            validationMessages.add(new ValidationMessage(field, ValidationMessageType.EMPTY, msg));
+            validationMessages.add(new ValidationMessage(field, ValidationMessageType.EMPTY));
         }
     }
 }

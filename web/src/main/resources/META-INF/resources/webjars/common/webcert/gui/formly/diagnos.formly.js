@@ -179,6 +179,20 @@ angular.module('common').run(function(formlyConfig) {
                 }
             };
 
+            $scope.hasValidationError = function(field, index) {
+                return $scope.formState.viewState.common.validationMessagesByField &&
+                    !!$scope.formState.viewState.common.validationMessagesByField['diagnoser.' + index + '.' + field];
+            };
+
+            $scope.$watch('formState.viewState.common.validationMessagesByField', function() {
+                $scope.diagnosValidations = [];
+                angular.forEach($scope.formState.viewState.common.validationMessagesByField, function(validations, key) {
+                    if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
+                        $scope.diagnosValidations = $scope.diagnosValidations.concat(validations);
+                    }
+                });
+            });
+
         }]
     });
 

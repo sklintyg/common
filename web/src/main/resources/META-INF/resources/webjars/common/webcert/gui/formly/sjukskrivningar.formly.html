@@ -1,20 +1,28 @@
 <div wc-date-period-manager model="model">
-  <div class="form-group">
   <label class="">
     <span dynamic-label key="{{to.label}}.RBK"></span>
     <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
   </label>
-  </div>
-  <div class="form-group form-inline row" data-ng-repeat="field in to.fields">
-    <div class="col-md-4">
-      <label class="">
-        <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>
-      </label>
-      <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{field}}.HLP"></span>
+
+  <wc-validation-group field-type="{{to.type}}"
+                       validations="formState.viewState.common.validationMessagesByField[options.key]">
+    <div class="form-inline row" data-ng-repeat="field in to.fields">
+
+      <div class="col-md-4">
+        <label class="">
+          <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>
+        </label>
+        <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{field}}.HLP"></span>
+      </div>
+
+      <div class="col-md-12">
+        <wc-validation-wrapper field-type="date-period" validations="getValidationsForPeriod(field)">
+          från och med <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"></span>
+          till och med <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom"></span>
+        </wc-validation-wrapper>
+      </div>
+
     </div>
-    <div class="col-md-12">
-      från och med <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"></span>
-      till och med <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom"></span>
-    </div>
-  </div>
+  </wc-validation-group>
+
 </div>

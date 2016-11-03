@@ -17,13 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.support.modules.support.api.dto;
+angular.module('common').directive('wcValidationWrapper',
+    [
+        function() {
+            'use strict';
 
-public enum ValidationMessageType {
-    BLANK,
-    EMPTY, // empty does not generate error unless "Visa vad som saknas" is pressed
-    INVALID_FORMAT, // invalid_format DOES generate error even if "Visa vad som saknas" is NOT pressed
-    INCORRECT_COMBINATION,
-    OTHER,
-    PERIOD_OVERLAP
-}
+            return {
+                restrict: 'AE',
+                transclude: true,
+                replace: true,
+                templateUrl: '/web/webjars/common/webcert/utkast/wcValidationWrapper.directive.html',
+                scope: {
+                    validations: '=',
+                    fieldType: '@',
+                    labelColSize: '@'
+                }
+            };
+        }]);

@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div>
     <table>
         <tr>
             <th>
@@ -39,6 +39,7 @@
                            value=""
                            placeholder="{{$index == 0 ? 'Huvuddiagnos' : 'Bidiagnos'}}"
                            class='diagnose-code col-xs-11 form-control'
+                           ng-class="{'fielderror' : hasValidationError('diagnoskod', $index)}"
                            ng-model="diagnos.diagnosKod"
                            ng-change="onDiagnoseCodeChanged($index)"
                            uib-typeahead="d.value as d.label for d in getDiagnoseCodes(formState.diagnosKodSystem, $viewValue) | limitTo:10"
@@ -66,6 +67,7 @@
             </td>
             <td class="diagnosDescriptionColumn">
                 <input type="text" class="col-xs-12 form-control maxwidth" id="diagnoseDescription-{{$index}}"
+                       ng-class="{'fielderror' : hasValidationError('diagnosbeskrivning', $index)}"
                        name="diagnose.description"
                        value=""
                        ng-model= "diagnos.diagnosBeskrivning"
@@ -77,4 +79,5 @@
             </td>
         </tr>
     </table>
+    <wc-field-validation field-type="{{options.type}}" validations="diagnosValidations"></wc-field-validation>
 </div>
