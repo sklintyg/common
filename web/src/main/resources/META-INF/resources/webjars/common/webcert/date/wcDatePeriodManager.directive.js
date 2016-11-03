@@ -100,22 +100,27 @@ angular.module('common').directive('wcDatePeriodManager',
                         var tomField = datePeriods[index].tom;
 
                         //1. fromField must have a valid date for his to work
-                        if (!fromField.moment || !fromField.moment.isValid()) {
+                        if (!fromField.ngModel.$viewValue || !dateUtilsService.dateReg.test(fromField.ngModel.$viewValue)) {
                             return;
                         }
 
-                        //2. The entered code must be a parsable daysInFuture expression
+                        //2. The entered code must be a parsable expression
+                        var newTomMoment;
                         var days = dateUtilsService.parseDayCodes(tomField.ngModel.$viewValue);
                         if (days !== null) {
                             //Take away 1 day, because the dayCode defines the total length of the interval we should get.
-                            var newTomMoment = moment(fromField.moment).add(days - 1, 'days');
-
+                            newTomMoment = moment(fromField.ngModel.$viewValue).add(days - 1, 'days');
+                        } else {
+                            var months = dateUtilsService.parseMonthCode(tomField.ngModel.$viewValue);
+                            if (months !== null) {
+                                newTomMoment = moment(fromField.ngModel.$viewValue).add(months, 'months');
+                            }
+                        }
+                        if (newTomMoment) {
                             tomField.ngModel.$setViewValue(newTomMoment.format('YYYY-MM-DD'));
                             tomField.ngModel.$setValidity('date', true);
                             tomField.ngModel.$render();
-                            return;
                         }
-
                     };
             }
         };

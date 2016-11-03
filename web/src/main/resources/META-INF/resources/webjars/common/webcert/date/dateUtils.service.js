@@ -29,10 +29,26 @@ angular.module('common').factory('common.DateUtilsService', function() {
     var _format = 'YYYY-MM-DD';
 
     var dayCodeReg = /^d(\d{1,3})$/i;
+    var weekCodeReg = /^v(\d{1,3})$/i;
+    var monthCodeReg = /^m(\d{1,2})$/i;
 
     function _parseDayCodes(input) {
         if (input && typeof input === 'string') {
             var result = dayCodeReg.exec(input);
+            if (result && result.length>0) {
+                return parseInt(result[1], 10);
+            }
+            result = weekCodeReg.exec(input);
+            if (result && result.length>0) {
+                return parseInt(result[1], 10) * 7;
+            }
+        }
+        return null;
+    }
+
+    function _parseMonthCode(input) {
+        if (input && typeof input === 'string') {
+            var result = monthCodeReg.exec(input);
             if (result && result.length>0) {
                 return parseInt(result[1], 10);
             }
@@ -333,7 +349,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
         addLooseDateParser : _addLooseDateParser,
         addStrictDateParser : _addStrictDateParser,
         dateReg : _dateReg,
-        parseDayCodes: _parseDayCodes
+        parseDayCodes: _parseDayCodes,
+        parseMonthCode: _parseMonthCode
     };
 
 });
