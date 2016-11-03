@@ -52,18 +52,18 @@ describe('diagnos', function() {
 
     it('should mark psykisk code with less than 4 characters as shortPsykiskDiagnos', function() {
         $httpBackend.expectPOST('/moduleapi/diagnos/kod/sok').respond({
-            "resultat":"OK",
-            "diagnoser":[
-                {"kod":"F23","beskrivning":"Akuta och övergående psykotiska syndrom"},
-                {"kod":"F230","beskrivning":"Akut polymorf psykos utan egentlig schizofren sjukdomsbild"},
-                {"kod":"F231","beskrivning":"Akut polymorf psykos med schizofren sjukdomsbild"},
-                {"kod":"F231","beskrivning":"Akut polymorf psykos med schizofren sjukdomsbild"},
-                {"kod":"Z73","beskrivning":"Problem som har samband med svårigheter att kontrollera livssituationen"},
-                {"kod":"Z730","beskrivning":"Utbrändhet"},
-                {"kod":"G90","beskrivning":"Sjukdomar i autonoma nervsystemet"},
-                {"kod":"F90","beskrivning": "Hyperaktivitetsstörningar"}
+            'resultat':'OK',
+            'diagnoser':[
+                {'kod':'F23','beskrivning':'Akuta och övergående psykotiska syndrom'},
+                {'kod':'F230','beskrivning':'Akut polymorf psykos utan egentlig schizofren sjukdomsbild'},
+                {'kod':'F231','beskrivning':'Akut polymorf psykos med schizofren sjukdomsbild'},
+                {'kod':'F231','beskrivning':'Akut polymorf psykos med schizofren sjukdomsbild'},
+                {'kod':'Z73','beskrivning':'Problem som har samband med svårigheter att kontrollera livssituationen'},
+                {'kod':'Z730','beskrivning':'Utbrändhet'},
+                {'kod':'G90','beskrivning':'Sjukdomar i autonoma nervsystemet'},
+                {'kod':'F90','beskrivning': 'Hyperaktivitetsstörningar'}
             ],
-            "moreResults":false
+            'moreResults':false
         });
 
         var diagnoses = null;
