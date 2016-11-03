@@ -5,7 +5,7 @@
            type="text"
            class="form-control"
            ng-model="model[field][index].period[type]"
-           is-open="isOpen"
+           is-open="pickerState.isOpen"
            maxlength="10"
            uib-datepicker-popup="{{format}}"
            max-date="{{maxDate}}"
@@ -14,7 +14,7 @@
            wc-blur-on-enter
            wc-date-period-field-input/>
     <span class="input-group-btn">
-      <button type="button" id="{{domId}}-toggle" class="btn btn-default" ng-click="toggleOpen($event)" ng-disabled="isOpen">
+      <button type="button" id="{{domId}}-toggle" class="btn btn-default" ng-click="toggleOpen($event)" ng-disabled="pickerState.isOpen">
         <i class="glyphicon glyphicon-calendar"></i>
       </button>
     </span>

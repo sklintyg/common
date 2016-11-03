@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcDatePickerField',
-    function($rootScope, $timeout) {
+angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout', 'common.DatePickerOpenService',
+    function($rootScope, $timeout, datePickerOpen) {
         'use strict';
 
         return {
@@ -58,13 +58,17 @@ angular.module('common').directive('wcDatePickerField',
                     $scope.format = 'yyyy-MM-dd';
                 }
 
+                var PickerState = {
+                    isOpen: false
+                };
+                $scope.pickerState = PickerState;
 
-                $scope.isOpen = false;
                 $scope.toggleOpen = function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
                     $timeout(function() {
-                        $scope.isOpen = !$scope.isOpen;
+                        $scope.pickerState.isOpen = !$scope.pickerState.isOpen;
+                        datePickerOpen.update($scope.pickerState);
                     });
                 };
 
@@ -83,7 +87,7 @@ angular.module('common').directive('wcDatePickerField',
 
             }
         };
-    })
+    }])
     .directive('wcDatePickerFieldInput', ['$log', 'common.DateUtilsService',
     function($log, dateUtils ) {
         'use strict';

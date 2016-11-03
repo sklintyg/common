@@ -1,17 +1,24 @@
 <span class="inline-block">
   <span class="wc-datepicker-wrapper input-group">
-    <input id="{{domId}}" name="{{domId}}" type="text" class="form-control" ng-class="{'text-invalid': invalid}" ng-model="targetModel" is-open="isOpen" maxlength="10"
-            wc-set-date-on-close
-            uib-datepicker-popup="{{format}}"
-            max-date="{{maxDate}}"
-            min-date="{{minDate}}"
-            ng-model-options="{ allowInvalid: true }"
-            datepicker-options="dateOptions"
+    <input id="{{domId}}"
+           name="{{domId}}"
+           type="text"
+           class="form-control"
+           ng-class="{'text-invalid': invalid}"
+           ng-model="targetModel"
+           is-open="pickerState.isOpen"
+           maxlength="10"
+           wc-set-date-on-close
+           uib-datepicker-popup="{{format}}"
+           max-date="{{maxDate}}"
+           min-date="{{minDate}}"
+           ng-model-options="{ allowInvalid: true }"
+           datepicker-options="dateOptions"
            ng-blur="onDatepickerInputFieldBlur()"
            wc-blur-on-enter
            wc-date-picker-field-input/>
     <span class="input-group-btn">
-      <button type="button" id="{{domId}}-toggle" class="btn btn-default" ng-click="toggleOpen($event)" ng-disabled="isOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+      <button type="button" id="{{domId}}-toggle" class="btn btn-default" ng-click="toggleOpen($event)" ng-disabled="pickerState.isOpen"><i class="glyphicon glyphicon-calendar"></i></button>
     </span>
   </span>
 </span>
