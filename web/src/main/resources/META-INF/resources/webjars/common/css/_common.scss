@@ -226,6 +226,9 @@ a {
     h5 {
         font-size: 14px;
         padding-bottom: 10px;
+        &.noH4Before {
+            padding-top: 10px;
+        }
     }
     a {
         color: $color_blue_chill_approx;
@@ -565,6 +568,14 @@ input.fielderror {
     }
 }
 
+.fieldkmplt {
+    border: 2px solid $color_blue_chill_approx;
+    margin-left:-10px;
+    padding: 10px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    border-radius: 4px 4px 4px 4px;
+}
 
 /* Common for ts-bas and ts-diabetes */
 

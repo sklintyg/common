@@ -18,7 +18,7 @@
  */
 
 angular.module('common').service('common.ArendeListViewStateService',
-    ['common.IntygViewStateService', function(CommonViewState) {
+    ['common.IntygViewStateService', function(IntygViewStateService) {
         'use strict';
 
         this.reset = function() {
@@ -35,14 +35,20 @@ angular.module('common').service('common.ArendeListViewStateService',
                 relations: []
             };
 
-            // Injecting the CommonViewState service so client-side only changes on the intyg page (such as a send/revoke)
+            // Injecting the IntygViewStateService service so client-side only changes on the intyg page (such as a send/revoke)
             // can trigger GUI updates in the Q&A view.
-            this.common = CommonViewState;
+            this.common = IntygViewStateService;
+            this.common.kompletteringar = [];
+
             return this;
         };
 
         this.setIntygType = function(type) {
             this.intygProperties.type = type;
+        };
+
+        this.setKompletteringar = function(kompletteringar) {
+            this.common.kompletteringar = kompletteringar;
         };
 
         this.reset();
