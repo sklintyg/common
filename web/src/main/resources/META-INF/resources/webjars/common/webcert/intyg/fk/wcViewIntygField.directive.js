@@ -34,11 +34,6 @@ angular.module('common').directive('wcViewIntygField', ['$rootScope', 'common.Ob
 
                 scope.viewState = IntygViewStateService;
 
-                scope.$watch('viewState.kompletteringar', function(newVal) {
-                    console.log(newVal);
-                    console.log(scope.viewState.kompletteringar);
-                });
-
                 scope.getKompletteringar = function() {
                     return scope.viewState.kompletteringar;
                 };
