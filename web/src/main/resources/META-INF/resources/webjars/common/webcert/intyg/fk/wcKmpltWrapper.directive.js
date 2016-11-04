@@ -38,7 +38,7 @@ angular.module('common').directive('wcKmpltWrapper',
                         var found = scope.kompletteringar.filter(function(komplettering){
                             return komplettering.modelName === key;
                         });
-                        return found.length > 0 && type != 'headline';
+                        return found.length > 0 && type !== 'headline';
                     };
                 }
             };
