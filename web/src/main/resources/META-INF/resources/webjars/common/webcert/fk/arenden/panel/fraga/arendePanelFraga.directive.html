@@ -19,15 +19,16 @@
       </div>
     </div>
 
-    <div class="arende-block-body"
-         id="{{panelId}}-arende-fragetext-{{arendeListItem.arende.fraga.internReferens}}">
+    <div class="arende-block-body" id="{{panelId}}-arende-fragetext-{{arendeListItem.arende.fraga.internReferens}}">
       <div class="arende-meddelande" ng-if="arendeListItem.arende.fraga.meddelande">{{arendeListItem.arende.fraga.meddelande}}</div>
       <div class="arende-komplettera"
            id="{{panelId}}-fkKompletteringar-{{arendeListItem.arende.fraga.internReferens}}"
            ng-repeat="komplettering in arendeListItem.kompletteringar">
+
         <span ng-if="komplettering.falt"><strong><span>{{komplettering.falt}}</span></strong></span>
-        <span ng-if="komplettering.frgId"><a href="" ng-click="scrollToFraga(komplettering)"><span class="bold" dynamic-label key="{{komplettering.frgId}}"></span></a></span>
+        <span ng-if="komplettering.frgId"><span class="bold" dynamic-label key="{{komplettering.frgId}}"></span></span>
         <div class="keep-newlines">{{komplettering.text}}</div>
+        <div><a href="" ng-click="scrollToFraga(komplettering)">Visa frågan</a></div>
       </div>
     </div>
 

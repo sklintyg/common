@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcViewIntygField', ['$rootScope', 'common.ObjectHelper',
-    function($rootScope, ObjectHelper) {
+angular.module('common').directive('wcViewIntygField', ['$rootScope', 'common.ObjectHelper', 'common.IntygViewStateService',
+    function($rootScope, ObjectHelper, IntygViewStateService) {
         'use strict';
 
         return {
@@ -31,6 +31,17 @@ angular.module('common').directive('wcViewIntygField', ['$rootScope', 'common.Ob
             },
             templateUrl: '/web/webjars/common/webcert/intyg/fk/wcViewIntygField.directive.html',
             link: function(scope, element, attrs) {
+
+                scope.viewState = IntygViewStateService;
+
+                scope.$watch('viewState.kompletteringar', function(newVal) {
+                    console.log(newVal);
+                    console.log(scope.viewState.kompletteringar);
+                });
+
+                scope.getKompletteringar = function() {
+                    return scope.viewState.kompletteringar;
+                };
 
                 scope.showField = function(field){
                     return !field.templateOptions.hideFromSigned &&
