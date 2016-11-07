@@ -21,12 +21,13 @@
 /* A panel to be used instead of the regular bootstrap panels, panel-default etc.
  * Specifically targeting the FMB-accordion
  */
-$fmb-border-color: #999;
+$fmb-border-color: #ccc;
 $fmb-panelheading-color: #333333;
 $fmb-panelheading-background-color: #fff;
 $fmb-panelheading-background-hover-color: #E0FFFF;
 $fmb-panelheading-border-color: #fff;
 $fmb-panelcollapse-border-color: #fff;
+$fmb-panelfooter-color: #999;
 $fmb-diagnosis-color: #000;
 $fmb-glyphicon-hover-color: #808080;
 
@@ -56,18 +57,36 @@ $fmb-glyphicon-hover-color: #808080;
   }
 }
 
+.fmb-column {
+  padding-right: 65px;
+}
+
+.btn-fmb {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px 5px;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.btn-default.btn-fmb:hover,.btn-default.btn-fmb:focus  {
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #adadad;
+}
+
 .panel-wrapper-fmb {
   position:relative;
-  padding:10px;
 }
 
 .panel-fmb-info {
   border-color: $fmb-border-color;
 
-  transition-property: width, max-height;
+  transition-property: width;
   transition-duration: 0.4s;
   position: absolute;
-  left: 101%;
+  left: 100%;
   width: 620px;
   overflow: hidden;
   z-index: 100;
@@ -83,14 +102,9 @@ $fmb-glyphicon-hover-color: #808080;
   }
 
   &.fmb-collapse {
-    width: 65px;
-    max-height: 55px;
+    width: 0;
     .panel-body {
     }
-  }
-
-  &.fmb-collapse:hover {
-    border: 1px solid #008391;
   }
 
   > .panel-heading {
@@ -112,23 +126,30 @@ $fmb-glyphicon-hover-color: #808080;
     padding-top: 0;
   }
 
+  > .panel-footer--fmb {
+    background-color: $fmb-panelheading-background-color;
+    text-align: center;
+    color: $fmb-panelfooter-color;
+    width: 615px;
+  }
+
   .fmb-panel-title {
-    margin: 8px 20px 0px 50px;
+    margin: 8px 20px 0px 0px;
     width: 520px;
   }
 
   .fmb-collapse-icon {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 5px;
-    right: 5px;
+    top: 0;
+    right: 0;
+    border: none;
+    line-height: 13px;
+    padding: 17px 20px;
   }
 }
 
-.fmb-accordion-head-img {
-  height: 35px;
-  width: auto;
+.fmb-icon-text {
+  vertical-align: middle;
 }
 
 .fmb-diagnosis-headline {
@@ -138,8 +159,8 @@ $fmb-glyphicon-hover-color: #808080;
   margin-bottom: 5px;
 }
 
-.fmb-sub-headline {
-  padding-bottom: 0;
+h4.fmb-sub-headline {
+  padding-bottom: 0 !important;
 }
 
 .fmb-section {
@@ -152,14 +173,6 @@ $fmb-glyphicon-hover-color: #808080;
 
 .col-fmb-base-offset {
   margin-top: 30px;
-}
-
-.panel-fmb-info-heading:hover {
-  cursor: pointer;
-}
-
-.fmb-glyphicon:hover {
-  color: $fmb-glyphicon-hover-color;
 }
 
 /*Make the FMB-display a bit responsive*/
