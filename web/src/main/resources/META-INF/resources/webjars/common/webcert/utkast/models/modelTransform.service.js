@@ -43,28 +43,7 @@ angular.module('common').factory('common.domain.ModelTransformService',
                 }
                 return modelInternal;
             },
-            atgarderToTransform: function(fromApp) {
-
-                var transportModel = [];
-
-                angular.forEach(fromApp, function(value, key) {
-                    if(value.checked === true) {
-                        transportModel.push({val: key, beskrivning: value.desc});
-                    }
-                }, fromApp);
-
-                return transportModel;
-            },
-            atgarderFromTransform: function(fromBackend) {
-
-                var modelInternal = {};
-
-                for(var backendPropIndex = 0; backendPropIndex < fromBackend.length; backendPropIndex++) {
-                    modelInternal[fromBackend[backendPropIndex].val] = { checked : true, desc : fromBackend[backendPropIndex].beskrivning };                    
-                }
-                return modelInternal;
-            },
-            sysselsattningToTransform: function(fromApp) {
+            enumToTransform: function(fromApp) {
 
                 var transportModel = [];
 
@@ -76,7 +55,7 @@ angular.module('common').factory('common.domain.ModelTransformService',
 
                 return transportModel;
             },
-            sysselsattningFromTransform: function(fromBackend) {
+            enumFromTransform: function(fromBackend) {
 
                 var modelInternal = {};
 
