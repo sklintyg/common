@@ -900,22 +900,25 @@ wc cookie banner css.
 
 }
 
-#intygRelations {
-  max-width: 600px;
-  border: 1px solid #9cd7e3;
-  border-radius: 4px;
-  padding: 10px;
-
-  .currentlyviewing {
-    padding-left: 7px;
+#wc-intyg-relations-list {
+  &.modal-body {
+    padding-top: 0;
   }
-  table {
-    display: table;
-    margin: 0;
-    td {
-      height: 36px;
+
+  #intygRelations {
+    max-width: 600px;
+
+    .currentlyviewing {
+      padding-left: 7px;
     }
-    th {
+    table {
+      display: table;
+      margin: 0;
+      td {
+        height: 36px;
+      }
+      th {
+      }
     }
   }
 }

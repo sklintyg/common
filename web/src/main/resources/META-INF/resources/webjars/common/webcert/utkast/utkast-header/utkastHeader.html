@@ -37,6 +37,9 @@
                         title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
                   Visa vad som saknas
                 </button>
+
+                <wc-intyg-relations-button view-state="viewState" btn-class="btn btn-default btn-secondary"></wc-intyg-relations-button>
+
                 <button type="button" class="btn btn-default btn-secondary" ng-if="viewState.common.showComplete" ng-disabled="viewState.common.intyg.isComplete"
                         ng-click="toggleShowComplete()" id="hideCompleteButton"
                         title="Visar vilka obligatoriska fält i utkastet som inte är ifyllda. Alla obligatoriska fält måste vara ifyllda för att utkastet ska kunna signeras.">
@@ -58,8 +61,6 @@
                    patient-name="viewState.intygModel.grundData.patient.fullstandigtNamn"
                    person-id="viewState.intygModel.grundData.patient.personId"
                    class="utkast-header-person-id"></div>
-                <div wc-intyg-relations class="utkast-header-relations"></div>
-
 
                 <!-- current draft status -->
                 <div class="utkast-header-status">
