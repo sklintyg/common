@@ -1,22 +1,22 @@
-<div class="print-hide">
+<div class="fmb print-hide">
+  <button type="button" class="btn btn-default btn-fmb" ng-click="status.open = !status.open">FMB <i
+      class="glyphicon fmb-glyphicon"
+      ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
   <div class="panel-wrapper-fmb">
-    <button type="button"
-            class="btn btn-default btn-fmb"
-            ng-click="status.open = !status.open">FMB <i class="glyphicon fmb-glyphicon"
-                                                         ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
+    <div class="panel-arrow" ng-class="{'fmb-collapse': !status.open}"></div>
     <div class="panel panel-fmb-info" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
       <div class="panel-heading panel-fmb-info-heading">
         <div class="fmb-panel-title">
-          <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}} - {{diagnosisDescription}}</span></h4>
+          <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}} - {{diagnosisDescription}}</span>
+          </h4>
         </div>
         <div class="alert alert-warning" ng-if="diagnosisCode !== originalDiagnosisCode">
           <span id="fmb_diagnos_not_in_fmb_alert">Det FMB-stöd som visas är för koden {{diagnosisCode}} - {{diagnosisDescription}}.</span>
         </div>
         <div>
-          <button type="button"
-                  class="btn btn-default fmb-collapse-icon"
-                  ng-click="status.open = !status.open"><i class="glyphicon fmb-glyphicon"
-                                                               ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
+          <button type="button" class="btn btn-default fmb-collapse-icon" ng-click="status.open = !status.open"><i
+              class="glyphicon fmb-glyphicon"
+              ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
         </div>
       </div>
       <div class="panel-body">
@@ -33,7 +33,8 @@
         </div>
       </div>
       <div class="panel-footer panel-footer--fmb">
-          <img ng-src="/web/img/socialstyrelsen_icon16.png"/> <span class="fmb-icon-text" id="fmb_static_heading_{{relatedFormId}}">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</span>
+        <img ng-src="/web/img/socialstyrelsen_icon16.png" /> <span class="fmb-icon-text"
+                                                                   id="fmb_static_heading_{{relatedFormId}}">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</span>
       </div>
     </div>
   </div>
