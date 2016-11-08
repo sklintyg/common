@@ -82,6 +82,12 @@ $fmb-glyphicon-hover-color: #808080;
   left: 105%;
   top: -4px;
   position: absolute;
+  transition-property: opacity;
+  transition-duration: 0.4s;
+
+  &.fmb-collapse {
+    opacity: 0;
+  }
 }
 
 .panel-arrow {
@@ -122,8 +128,6 @@ $fmb-glyphicon-hover-color: #808080;
 .panel-fmb-info {
   position: absolute;
   border-color: $fmb-border-color;
-  transition-property: width;
-  transition-duration: 0.4s;
   width: 620px;
   overflow: hidden;
   z-index: 100;
@@ -136,12 +140,6 @@ $fmb-glyphicon-hover-color: #808080;
     padding: 0 15px;
     overflow-x: hidden;
     overflow-y: auto;
-  }
-
-  &.fmb-collapse {
-    width: 0;
-    .panel-body {
-    }
   }
 
   > .panel-heading {
