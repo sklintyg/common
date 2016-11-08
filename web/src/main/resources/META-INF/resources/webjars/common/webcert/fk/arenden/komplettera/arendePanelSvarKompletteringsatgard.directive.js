@@ -68,8 +68,6 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                     $scope.arendeSvar = ArendeSvar;
                     $scope.relations = ArendeSvar.intygProperties.relations; //ArendeListViewStateService.relations;
 
-                    ArendeListViewStateService.setKompletteringar(ArendeSvar.kompletteringar);
-
                     $scope.showGoToUtkastButton = _hasKompletteringUtkastRelation($scope.relations);
 
                     $scope.openKompletteringsUtkast = function() {

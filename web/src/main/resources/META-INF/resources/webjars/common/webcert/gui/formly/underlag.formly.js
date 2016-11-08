@@ -4,8 +4,8 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'underlag',
         templateUrl: '/web/webjars/common/webcert/gui/formly/underlag.formly.html',
-        controller: ['$scope', 'common.dynamicLabelService', 'common.ObjectHelper', '$timeout',
-        function($scope, dynamicLabelService, objectHelper, $timeout) {
+        controller: ['$scope', 'common.dynamicLabelService', 'common.ObjectHelper', 'common.ArendeListViewStateService',
+        function($scope, dynamicLabelService, objectHelper, ArendeListViewState) {
 
             var chooseOption = {
                 id: null,
@@ -18,6 +18,10 @@ angular.module('common').run(function(formlyConfig) {
             $scope.previousUnderlagIncomplete = function() {
                 var prev = underlag[underlag.length - 1];
                 return objectHelper.isEmpty(prev.typ) || objectHelper.isEmpty(prev.datum) || objectHelper.isEmpty(prev.hamtasFran);
+            };
+
+            $scope.hasKomplettering = function() {
+                return ArendeListViewState.hasKompletteringar($scope.options.key);
             };
 
             $scope.hasValidationError = function(field, index) {

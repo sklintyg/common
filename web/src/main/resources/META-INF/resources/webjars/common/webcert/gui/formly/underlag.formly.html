@@ -1,4 +1,4 @@
-<div ng-show="model.underlagFinns">
+<div ng-show="model.underlagFinns" ng-class="{'groupkomplettering' : hasKomplettering()}">
   <label class="control-label inline-block bold" ng-if="to.label">
     <span dynamic-label key="{{to.label}}.RBK"></span> *
     <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
@@ -38,4 +38,5 @@
     </tr>
   </table>
   <wc-field-validation field-type="{{options.type}}" validations="underlagValidations"></wc-field-validation>
+  <wc-field-komplettering key="{{options.key}}"></wc-field-komplettering>
 </div>

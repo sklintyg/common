@@ -4,8 +4,8 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'prognos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/prognos.formly.html',
-        controller: ['$scope', 'common.dynamicLabelService', 'common.ObjectHelper', '$timeout',
-        function($scope, dynamicLabelService, objectHelper, $timeout) {
+        controller: ['$scope', 'common.dynamicLabelService', 'common.ArendeListViewStateService',
+        function($scope, dynamicLabelService, ArendeListViewState) {
 
             var chooseOption = {
                 id: undefined,
@@ -26,6 +26,10 @@ angular.module('common').run(function(formlyConfig) {
                     });
                 }
             }
+
+            $scope.hasKompletteringar = function() {
+                return ArendeListViewState.hasKompletteringar($scope.options.key);
+            };
 
             $scope.$on('dynamicLabels.updated', function() {
                 updatePrognosOptions();

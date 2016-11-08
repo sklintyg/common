@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcValidationWrapper',
+angular.module('common').directive('wcFieldKomplettering',
     [ 'common.ArendeListViewStateService',
         function(ArendeListViewState) {
             'use strict';
@@ -26,19 +26,21 @@ angular.module('common').directive('wcValidationWrapper',
                 restrict: 'AE',
                 transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/utkast/wcValidationWrapper.directive.html',
+                templateUrl: '/web/webjars/common/webcert/utkast/wcFieldKomplettering.directive.html',
+                require: '?^^wcField',
                 scope: {
-                    validations: '=',
-                    fieldType: '@',
-                    labelColSize: '@',
                     key: '@',
-                    kompletteringKey: '@',
-                    hideKompletteringText: '@'
+                    kompletteringKey: '@'
                 },
-                link: function(scope) {
+                link: function(scope, element, attr, wcField) {
                     scope.hasKomplettering = function() {
                         var key = scope.kompletteringKey || scope.key;
-                        return ArendeListViewState.hasKompletteringar(key);
+                        var found = ArendeListViewState.hasKompletteringar(key);
+                        // If there is a wcField above us in DOM, inform it to show komplettering border
+                        if (wcField && found) {
+                            wcField.setHasKomplettering();
+                        }
+                        return found;
                     };
                 }
             };

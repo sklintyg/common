@@ -5,8 +5,8 @@ angular.module('common').run(function(formlyConfig) {
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
         controller: ['$scope', '$log', 'common.DiagnosProxy', 'common.fmb.ViewStateService', 'common.fmbService',
-            'common.ObjectHelper', 'common.MonitoringLogService',
-            function($scope, $log, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService) {
+            'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService',
+            function($scope, $log, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService, ArendeListViewState) {
                 var enableFMB = $scope.options.data.enableFMB;
 
                 var formState = $scope.formState;
@@ -197,6 +197,10 @@ angular.module('common').run(function(formlyConfig) {
                         return [];
                     });
                 }
+            };
+
+            $scope.hasKomplettering = function() {
+                return ArendeListViewState.hasKompletteringar($scope.options.key);
             };
 
             $scope.hasValidationError = function(field, index) {

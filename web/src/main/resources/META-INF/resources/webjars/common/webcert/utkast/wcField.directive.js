@@ -66,6 +66,11 @@ angular.module('common').directive('wcField',
                     if ($scope.fieldDynamicLabelGroup === null) {
                         $scope.fieldDynamicLabelGroup = undefined;
                     }
+
+                    $scope.fieldHasKomplettering = false;
+                    this.setHasKomplettering = function() {
+                        $scope.fieldHasKomplettering = true;
+                    };
                 }
             };
         }]);

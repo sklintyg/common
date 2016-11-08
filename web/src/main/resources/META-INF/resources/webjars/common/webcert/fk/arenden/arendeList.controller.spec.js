@@ -27,6 +27,7 @@ describe('ArendeListCtrl', function() {
     var ArendenViewState;
     var IntygHelper;
     var ObjectHelper;
+    var DynamicLabelService;
 
     var testCert = { 'id': 'intyg-2', 'typ': 'luse', 'grundData': {'signeringsdatum': '2012-12-23T21:00:00.000',
         'skapadAv': {'personId': 'hans', 'fullstandigtNamn': 'Hans Njurgren', 'vardenhet': {'enhetsid': 'dialys',
@@ -91,11 +92,12 @@ describe('ArendeListCtrl', function() {
         $provide.value('common.IntygViewStateService', {});
         $provide.value('$state', {current:{data:{intygType:'testIntyg'}}});
         $provide.value('$stateParams', {certificateId:'intyg-2'});
+        $provide.value('common.dynamicLabelService', jasmine.createSpyObj('common.dynamicLabelService', ['getTillaggsFragor']));
     }));
 
     beforeEach(angular.mock.inject(['$controller', '$q', '$rootScope', 'common.IntygHelper',
-        'common.ArendeProxy', 'common.ArendeListViewStateService',
-        function($controller, _$q_, _$rootScope_, _IntygHelper_, _ArendeProxy_, _ArendenViewState_) {
+        'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.dynamicLabelService',
+        function($controller, _$q_, _$rootScope_, _IntygHelper_, _ArendeProxy_, _ArendenViewState_, _DynamicLabelService_) {
             $rootScope = _$rootScope_;
             $q = _$q_;
             $scope = $rootScope.$new();
@@ -103,6 +105,7 @@ describe('ArendeListCtrl', function() {
             IntygHelper = _IntygHelper_;
             ArendeProxy = _ArendeProxy_;
             ArendenViewState = _ArendenViewState_;
+            DynamicLabelService = _DynamicLabelService_;
 
             // arrange
             spyOn($scope, '$broadcast');
@@ -251,6 +254,52 @@ describe('ArendeListCtrl', function() {
             expect(ArendeProxy.closeAllAsHandled).toHaveBeenCalled();
         });
 
+    });
+
+    describe('komplettering', function() {
+       it('should convert kompletteringar to show blue borders and information text', function() {
+           ArendeProxy.getArenden.and.callFake(function(id, type, success, error) {
+               success([{
+                   'fraga':{
+                       'kompletteringar':[
+                           {'position':0, 'instans':1, 'frageId':'34',   'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'arbetsresor'},
+                           {'position':0, 'instans':1, 'frageId':'9003', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor'},
+                           {'position':0, 'instans':1, 'frageId':'9001', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor'}
+                       ],
+                       'internReferens':'6efaf8ea-adf6-698c-3be3-b2c7ae7cd3e6', 'status':'PENDING_INTERNAL_ACTION', 'amne':'KOMPLT',
+                       'meddelandeRubrik':'Komplettering', 'vidarebefordrad':false, 'frageStallare':'FK', 'externaKontakter':[],
+                       'meddelande':'', 'signeratAv':'Arnold Johansson', 'svarSkickadDatum':'2016-07-13T17:23:00.000',
+                       'intygId':'9020fbb9-e387-40b0-ba75-ac2746e4736b', 'enhetsnamn':'NMT vg3 ve1', 'vardgivarnamn':'NMT vg3',
+                       'timestamp':'2016-11-08T11:40:26.441', 'arendeType':'FRAGA'
+                   }, 'senasteHandelse':'2016-11-08T11:40:26.441', 'paminnelser':[]
+               }]);
+           });
+
+           DynamicLabelService.getTillaggsFragor.and.returnValue([{'id':'9003'},{'id':'9001'}]);
+
+           $rootScope.$broadcast('ViewCertCtrl.load', testCert, {
+               isSent: true,
+               isRevoked: false,
+               type: 'testIntyg'
+           });
+
+           expect(ArendenViewState.getKompletteringar('funktionsnedsattning')).toEqual([]);
+           expect(ArendenViewState.getKompletteringar('arbetsresor')).toEqual(
+               [{'position':0, 'instans':1, 'frageId':'34',   'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'arbetsresor'}]);
+           expect(ArendenViewState.getKompletteringar('tillaggsfragor[0].svar')).toEqual(
+               [{'position':0, 'instans':1, 'frageId':'9003', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor'}]);
+           expect(ArendenViewState.getKompletteringar('tillaggsfragor[1].svar')).toEqual(
+               [{'position':0, 'instans':1, 'frageId':'9001', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor'}]);
+           expect(ArendenViewState.getKompletteringar('tillaggsfragor[2].svar')).toEqual([]);
+           expect(ArendenViewState.getKompletteringar('tillaggsfragor')).toEqual([]);
+
+           expect(ArendenViewState.hasKompletteringar('funktionsnedsattning')).toBeFalsy();
+           expect(ArendenViewState.hasKompletteringar('arbetsresor')).toBeTruthy();
+           expect(ArendenViewState.hasKompletteringar('tillaggsfragor[0].svar')).toBeTruthy();
+           expect(ArendenViewState.hasKompletteringar('tillaggsfragor[1].svar')).toBeTruthy();
+           expect(ArendenViewState.hasKompletteringar('tillaggsfragor[2].svar')).toBeFalsy();
+           expect(ArendenViewState.hasKompletteringar('tillaggsfragor')).toBeFalsy();
+       });
     });
 
 });

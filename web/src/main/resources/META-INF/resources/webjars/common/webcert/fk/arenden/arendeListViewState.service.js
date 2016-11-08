@@ -47,6 +47,20 @@ angular.module('common').service('common.ArendeListViewStateService',
             this.intygProperties.type = type;
         };
 
+        this.hasKompletteringar = function(key) {
+            if (this.common.kompletteringar[key]) {
+                return this.common.kompletteringar[key].length > 0;
+            }
+            return false;
+        };
+
+        this.getKompletteringar = function(key) {
+            if (this.common.kompletteringar[key]) {
+                return this.common.kompletteringar[key];
+            }
+            return [];
+        };
+
         this.setKompletteringar = function(kompletteringar) {
             this.common.kompletteringar = kompletteringar;
         };

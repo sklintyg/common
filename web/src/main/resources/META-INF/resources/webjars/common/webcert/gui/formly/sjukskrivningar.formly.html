@@ -5,7 +5,8 @@
   </label>
 
   <wc-validation-group field-type="{{to.type}}"
-                       validations="formState.viewState.common.validationMessagesByField[options.key]">
+                       validations="formState.viewState.common.validationMessagesByField[options.key]"
+                       kompletteringar="hasKompletteringar()">
     <div class="form-inline row" data-ng-repeat="field in to.fields">
 
       <div class="col-md-4">
@@ -23,6 +24,9 @@
       </div>
 
     </div>
+
+    <wc-field-komplettering key="{{options.key}}" komplettering-key="{{to.kompletteringKey}}"></wc-field-komplettering>
+
   </wc-validation-group>
 
 </div>

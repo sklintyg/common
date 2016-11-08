@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div>
+<div ng-class="{'groupkomplettering' : hasKomplettering()}">
     <table>
         <tr>
             <th>
@@ -80,4 +80,5 @@
         </tr>
     </table>
     <wc-field-validation field-type="{{options.type}}" validations="diagnosValidations"></wc-field-validation>
+    <wc-field-komplettering key="{{options.key}}"></wc-field-komplettering>
 </div>

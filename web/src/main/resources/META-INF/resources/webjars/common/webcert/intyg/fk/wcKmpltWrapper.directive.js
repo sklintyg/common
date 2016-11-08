@@ -18,8 +18,8 @@
  */
 
 angular.module('common').directive('wcKmpltWrapper',
-    [
-        function() {
+    [ 'common.ArendeListViewStateService',
+        function(ArendeListViewState) {
             'use strict';
 
             return {
@@ -35,10 +35,8 @@ angular.module('common').directive('wcKmpltWrapper',
                 link: function(scope, element, attr) {
 
                     scope.showBorder = function(key, type) {
-                        var found = scope.kompletteringar.filter(function(komplettering){
-                            return komplettering.modelName === key;
-                        });
-                        return found.length > 0 && type !== 'headline';
+                        var found = ArendeListViewState.hasKompletteringar(key);
+                        return found && type !== 'headline';
                     };
                 }
             };

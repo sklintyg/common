@@ -2,9 +2,10 @@ angular.module('common').controller('common.ArendeListCtrl',
     ['$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$window', '$filter',
         'common.dialogService', 'common.ObjectHelper', 'common.ErrorHelper',
         'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.statService',
+        'common.dynamicLabelService',
         function ($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter,
                   dialogService, ObjectHelper, ErrorHelper,
-                  ArendeProxy, ArendeListViewState, ArendeHelper, statService) {
+                  ArendeProxy, ArendeListViewState, ArendeHelper, statService, dynamicLabelService) {
             'use strict';
 
             ArendeListViewState.reset();
@@ -21,6 +22,29 @@ angular.module('common').controller('common.ArendeListCtrl',
                     ArendeListViewState.activeErrorMessageKey = null;
 
                     $scope.arendeList = ArendeHelper.createListItemsFromArenden(result);
+
+                    // Merge all kompletteringar and set in ArendeListViewState
+                    var kompletteringar = {};
+                    angular.forEach(result, function(arende) {
+                        angular.forEach(arende.fraga.kompletteringar, function(komplettering) {
+                            var key = komplettering.jsonPropertyHandle;
+                            if (key === 'tillaggsfragor') {
+                                var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
+                                if (tillaggsfragor) {
+                                    for (var i = 0; i < tillaggsfragor.length; i++) {
+                                        if (tillaggsfragor[i].id === komplettering.frageId) {
+                                            key += '[' + i + '].svar';
+                                        }
+                                    }
+                                }
+                            }
+                            if (!kompletteringar[key]) {
+                                kompletteringar[key] = [];
+                            }
+                            kompletteringar[key].push(komplettering);
+                        });
+                    });
+                    ArendeListViewState.setKompletteringar(kompletteringar);
 
                 }, function (errorData) {
                     // show error view

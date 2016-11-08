@@ -1,4 +1,15 @@
-<div ng-class="{'fielderror' : validations}">
+<div ng-class="{'fielderror' : validations, 'fieldkomplettering' : hasKomplettering()}">
   <ng-transclude></ng-transclude>
-  <wc-field-validation field-type="{{fieldType}}" label-col-size="{{labelColSize}}" validations="validations"></wc-field-validation>
+  <wc-field-validation
+      field-type="{{fieldType}}"
+      key="{{key}}"
+      komplettering-key="{{kompletteringKey}}"
+      label-col-size="{{labelColSize}}"
+      validations="validations">
+  </wc-field-validation>
+  <wc-field-komplettering
+      ng-if="!hideKompletteringText"
+      key="{{key}}"
+      komplettering-key="{{kompletteringKey}}">
+  </wc-field-komplettering>
 </div>

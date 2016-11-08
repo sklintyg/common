@@ -545,30 +545,46 @@ label.big-radio-label, label.big-checkbox-label {
     padding-top: 2px;
 }
 */
-/* Only used in wcField.directive.html */
 
-.categoryerror, .grouperror {
-    border: 2px solid $color_apple_blossom_approx;
-}
-.grouperror {
-    margin-left:-10px;
-    padding: 10px;
-    -webkit-border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
-    border-radius: 4px 4px 4px 4px;
-}
-input.fielderror {
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
-    border: 1px solid #ff6600;
-}
-.fielderror {
-    input[TYPE='text'], textarea, .ui-select-match {
+.edit-form {
+    .categorykmplt, .groupkomplettering {
+        border: 2px solid $color_blue_chill_approx;
+    }
+    .categoryerror, .grouperror {
+        border: 2px solid $color_apple_blossom_approx;
+    }
+    .grouperror, .groupkomplettering {
+        margin-left: -10px;
+        padding: 10px;
+        -webkit-border-radius: 4px 4px 4px 4px;
+        -moz-border-radius: 4px 4px 4px 4px;
+        border-radius: 4px 4px 4px 4px;
+    }
+
+    input.fieldkomplettering {
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 131, 145, 0.6);
+        border: 1px solid $color_blue_chill_approx;
+    }
+    .fieldkomplettering {
+        input[TYPE='text'], textarea, .ui-select-match {
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 131, 145, 0.6);
+            border: 1px solid $color_blue_chill_approx;
+        }
+    }
+
+    input.fielderror {
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
         border: 1px solid #ff6600;
     }
+    .fielderror {
+        input[TYPE='text'], textarea, .ui-select-match {
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+            border: 1px solid #ff6600;
+        }
+    }
 }
 
-.fieldkmplt {
+.intyg-body .fieldkmplt {
     border: 2px solid $color_blue_chill_approx;
     margin-left:-10px;
     padding: 10px;
@@ -697,7 +713,7 @@ input.ng-invalid-date {
     white-space: pre-line;
 }
 
-.validation {
+.intyg-body .validation {
     display: table;
     padding: 0 10px;
     margin-top: 10px;
