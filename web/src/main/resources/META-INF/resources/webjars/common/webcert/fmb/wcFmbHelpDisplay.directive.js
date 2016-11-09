@@ -26,6 +26,7 @@ angular.module('common').directive('wcFmbHelpDisplay',
 
             return {
                 restrict: 'E',
+                transclude: true,
                 scope: {
                     helpTextContents: '=',
                     diagnosisDescription: '=',

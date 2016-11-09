@@ -17,22 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').service('common.fmbViewState', [
-    'common.fmbDiagnosInfoModel',
-    function(fmbModel) {
+angular.module('common').factory('common.fmbProxy', ['$http' , '$q', '$log',
+    function($http, $q, $log) {
         'use strict';
 
-        this.state = {
-            main: fmbModel.build(),
-            bi1: fmbModel.build(),
-            bi2: fmbModel.build()
-        };
+        /*
+         * get diagnosis by code
+         */
+        function _getFMBHelpTextsByCode(diagnosisCode) {
+            var deferred = $q.defer(),
+                restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
 
-        this.setState = function(diagnosType, formData, originalDiagnoskod) {
-            this.state[diagnosType].setState(formData, originalDiagnoskod);
-        };
+            $http.get(restPath).success(function(response) {
+                deferred.resolve(response);
+            }).error(function(response, status) {
+                $log.error('error ' + status);
+                deferred.reject(status);
+            });
 
-        this.reset = function(diagnosType, formData) {
-            this.state[diagnosType] = fmbModel.build();
+            return deferred.promise;
+        }
+
+        // Return public API for the service
+        return {
+            getFMBHelpTextsByCode: _getFMBHelpTextsByCode
         };
     }]);
+

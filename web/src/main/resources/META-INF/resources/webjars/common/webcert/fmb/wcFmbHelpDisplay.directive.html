@@ -1,41 +1,57 @@
-<div class="fmb print-hide">
-  <button type="button" class="btn btn-default btn-fmb" ng-click="status.open = !status.open">FMB <i
-      class="glyphicon fmb-glyphicon"
-      ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
-  <div class="panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
-    <div class="panel-arrow"></div>
-    <div class="panel panel-fmb-info">
-      <div class="panel-heading panel-fmb-info-heading">
-        <div class="fmb-panel-title">
-          <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}} - {{diagnosisDescription}}</span>
-          </h4>
+<div>
+  <div ng-show="helpTextContents">
+    <div class="fmb print-hide">
+      <button type="button" class="btn btn-default btn-fmb" ng-click="status.open = !status.open">FMB <i
+          class="glyphicon fmb-glyphicon"
+          ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
+      <div class="panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
+        <div class="panel-arrow"></div>
+        <div class="panel panel-fmb-info">
+          <uib-tabset active="active">
+            <uib-tab index="$index + 1"
+                     ng-repeat="tab in tabs"
+                     heading="{{tab.title}}"
+                     disable="tab.disabled"
+                     select="selectDiagnos($index)">
+              {{tab.content}}
+            </uib-tab>
+          </uib-tabset>
+          <div class="panel-heading panel-fmb-info-heading">
+            <div class="fmb-panel-title">
+              <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}} - {{diagnosisDescription}}</span>
+              </h4>
+            </div>
+            <div class="alert alert-warning" ng-if="diagnosisCode !== originalDiagnosisCode">
+              <span id="fmb_diagnos_not_in_fmb_alert">För {{originalDiagnosisCode}} finns inget FMB-stöd. Det FMB-stöd som visas nedan gäller den mindre specifika koden {{diagnosisCode}} - {{diagnosisDescription}}.</span>
+            </div>
+            <div>
+              <button type="button" class="btn btn-default fmb-collapse-icon" ng-click="status.open = !status.open"><i
+                  class="glyphicon fmb-glyphicon"
+                  ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div ng-repeat="item in helpTextContents" ng-show="item.text || item.list">
+              <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">
+                <span message key="{{'fmb.' + item.heading}}"></span>
+              </h4>
+              <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.text">{{item.text}}</section>
+              <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.list">
+                <ul class="fmb-bullet-list" ng-repeat="bullet in item.list track by $index">
+                  <li id="fmb_bullet_{{item.heading}}_{{$index}}">{{bullet}}</li>
+                </ul>
+              </section>
+            </div>
+          </div>
+          <div class="panel-footer panel-footer--fmb">
+            <img ng-src="/web/img/socialstyrelsen_icon16.png" /> <span class="fmb-icon-text"
+                                                                       id="fmb_static_heading_{{relatedFormId}}">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</span>
+          </div>
         </div>
-        <div class="alert alert-warning" ng-if="diagnosisCode !== originalDiagnosisCode">
-          <span id="fmb_diagnos_not_in_fmb_alert">Det FMB-stöd som visas är för koden {{diagnosisCode}} - {{diagnosisDescription}}.</span>
-        </div>
-        <div>
-          <button type="button" class="btn btn-default fmb-collapse-icon" ng-click="status.open = !status.open"><i
-              class="glyphicon fmb-glyphicon"
-              ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div ng-repeat="item in helpTextContents" ng-show="item.text || item.list">
-          <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">
-            <span message key="{{'fmb.' + item.heading}}"></span>
-          </h4>
-          <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.text">{{item.text}}</section>
-          <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.list">
-            <ul class="fmb-bullet-list" ng-repeat="bullet in item.list track by $index">
-              <li id="fmb_bullet_{{item.heading}}_{{$index}}">{{bullet}}</li>
-            </ul>
-          </section>
-        </div>
-      </div>
-      <div class="panel-footer panel-footer--fmb">
-        <img ng-src="/web/img/socialstyrelsen_icon16.png" /> <span class="fmb-icon-text"
-                                                                   id="fmb_static_heading_{{relatedFormId}}">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</span>
       </div>
     </div>
+  </div>
+  <div ng-class="{'fmb-column': helpTextContents}">
+    <div ng-transclude></div>
   </div>
 </div>

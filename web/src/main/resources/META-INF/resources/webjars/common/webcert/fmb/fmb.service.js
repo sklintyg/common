@@ -17,31 +17,71 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.fmbService', ['$http' , '$q', '$log',
-    function($http, $q, $log) {
+angular.module('common').factory('common.fmbService', [
+    '$http' , '$q', '$log',
+    'common.fmbViewState', 'common.fmbProxy',
+    function($http, $q, $log, fmbViewState, fmbProxy) {
         'use strict';
 
-        /*
-         * get diagnosis by code
-         */
-        function _getFMBHelpTextsByCode(diagnosisCode) {
-            var deferred = $q.defer(),
-                restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
+        function _updateFmbTextsForAllDiagnoses(diagnoser) {
+            if (!angular.isArray(diagnoser)) {
+                $log.error('_updateFmbTextsForAllDiagnoses called with invalid parameter - array required');
+                return;
+            }
 
-            $http.get(restPath).success(function(response) {
-                deferred.resolve(response);
-            }).error(function(response, status) {
-                $log.error('error ' + status);
-                deferred.reject(status);
+            if(diagnoser.length !== 3)
+            {
+                $log.error('_updateFmbTextsForAllDiagnoses - diagnose type missing from array. should be length 3');
+                return;
+            }
+
+            var diagnosTypes = ['main', 'bi1', 'bi2'];
+            var requestDiagnosTypes = [];
+            var promises = [];
+
+            // Request FMB texts for all entered diagnoses
+            var i;
+            for (i = 0; i < diagnoser.length; i++){
+                if (diagnoser[i].diagnosKod) {
+                    requestDiagnosTypes.push(diagnosTypes[i]);
+                    promises.push(fmbProxy.getFMBHelpTextsByCode(diagnoser[i].diagnosKod));
+                }
+            }
+
+            // Resolve all server responses
+            $q.all(promises).then(function(formDatas){
+                var j;
+                for(j = 0; j < formDatas.length; j++){
+                    fmbViewState.setState(requestDiagnosTypes[j], formDatas[j]);
+                }
+            }, function(errors) {
+                var j;
+                for(j = 0; j < errors.length; j++){
+                    $log.debug('Error searching fmb help text for diagnostype ' + requestDiagnosTypes[j]);
+                    fmbViewState.reset(requestDiagnosTypes[j]);
+                }
             });
-
-            return deferred.promise;
         }
 
+        function _updateFmbText(diagnosType, originalDiagnosKod) {
+            if (originalDiagnosKod === undefined || originalDiagnosKod.length === 0) {
+                fmbViewState.reset(diagnosType);
+            } else if(fmbViewState.state[diagnosType].diagnosKod !== originalDiagnosKod) {
+                var fmbSuccess = function fmbSuccess(formData) {
+                    fmbViewState.setState(diagnosType, formData, originalDiagnosKod);
+                };
+                var fmbReject = function fmbReject(data) {
+                    $log.debug('Error searching fmb help text for diagnostype ' + diagnosType);
+                    $log.debug(data);
+                };
+                fmbProxy.getFMBHelpTextsByCode(originalDiagnosKod).then(fmbSuccess, fmbReject);
+            }
+        }
 
         // Return public API for the service
         return {
-            getFMBHelpTextsByCode: _getFMBHelpTextsByCode
+            updateFmbTextsForAllDiagnoses: _updateFmbTextsForAllDiagnoses,
+            updateFmbText: _updateFmbText
         };
     }]);
 
