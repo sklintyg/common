@@ -78,6 +78,11 @@ angular.module('common').controller('common.IntygHeader',
                         // After a send request we shouldn't reload right away due to async reasons.
                         // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
                         $scope.viewState.common.isIntygOnSendQueue = true;
+                        angular.forEach($scope.viewState.relations, function(relation) {
+                            if(relation.intygsId === $scope.viewState.intygModel.id) {
+                                relation.status = 'sent';
+                            }
+                        });
                 });
             };
 
