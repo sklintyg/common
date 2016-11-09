@@ -53,7 +53,7 @@ angular.module('common').service('common.IntygViewStateService',
             this.arende.amne = arende.fraga.amne;
             this.arende.status = arende.fraga.status;
             this.arende.kompletteringar = arende.fraga.kompletteringar;
-        }
+        };
 
         this.updateIntygProperties = function(result) {
 

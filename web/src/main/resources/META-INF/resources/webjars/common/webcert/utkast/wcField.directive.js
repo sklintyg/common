@@ -77,7 +77,7 @@ angular.module('common').directive('wcField',
                     $scope.$watch('viewState.arende.status', function() {
                         var arende = $scope.viewState.arende;
 
-                        if ($scope.categoryNumber !== undefined && arende !== undefined && arende.amne === "KOMPLT") {
+                        if ($scope.categoryNumber !== undefined && arende !== undefined && arende.amne === 'KOMPLT') {
 
                             angular.forEach(arende.kompletteringar, function(komplettering) {
                                 if ($scope.viewState.fcMap) {
@@ -86,7 +86,7 @@ angular.module('common').directive('wcField',
                                     var status = arende.status;
 
                                     if (map.has(key) && map.get(key).toString() === $scope.categoryNumber) {
-                                        $scope.fieldHasKomplettering = status === 'PENDING_INTERNAL_ACTION'
+                                        $scope.fieldHasKomplettering = status === 'PENDING_INTERNAL_ACTION';
                                     }
                                 }
                             });
