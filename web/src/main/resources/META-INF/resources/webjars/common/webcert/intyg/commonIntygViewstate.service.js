@@ -39,9 +39,21 @@ angular.module('common').service('common.IntygViewStateService',
                 newPatientId: false // FK only for now. Consider making specific viewState services for each intyg as with utkast
             };
 
+            this.arende = {
+                amne: undefined,
+                status: undefined,
+                kompletteringar: {}
+            };
+
             this.common = commonViewStateService;
             this.common.reset();
         };
+
+        this.updateArende = function(arende) {
+            this.arende.amne = arende.fraga.amne;
+            this.arende.status = arende.fraga.status;
+            this.arende.kompletteringar = arende.fraga.kompletteringar;
+        }
 
         this.updateIntygProperties = function(result) {
 

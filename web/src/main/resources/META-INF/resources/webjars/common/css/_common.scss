@@ -545,6 +545,7 @@ label.big-radio-label, label.big-checkbox-label {
     padding-top: 2px;
 }
 */
+/* Only used in wcField.directive.html */
 
 .edit-form {
     .categorykmplt, .groupkomplettering {
@@ -584,10 +585,8 @@ label.big-radio-label, label.big-checkbox-label {
     }
 }
 
-.intyg-body .fieldkmplt {
+.intyg-body .categorykmplt {
     border: 2px solid $color_blue_chill_approx;
-    margin-left:-10px;
-    padding: 10px;
     -webkit-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
     border-radius: 4px 4px 4px 4px;

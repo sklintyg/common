@@ -75,6 +75,7 @@ angular.module('common').factory('common.ArendeSvarModel',
                     fragaMeddelande: this.fragaMeddelande,
                     kompletteringar: this.kompletteringar 
                 }];
+
                 angular.forEach(arendeListItem.extraKompletteringarArenden, function(extraArendeListItem) {
                     this.kompletteringsArenden.push({
                         fragaInternReferens: extraArendeListItem.arende.fraga.internReferens,

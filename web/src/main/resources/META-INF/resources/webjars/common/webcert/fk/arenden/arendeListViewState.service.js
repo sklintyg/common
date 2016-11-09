@@ -65,6 +65,10 @@ angular.module('common').service('common.ArendeListViewStateService',
             this.common.kompletteringar = kompletteringar;
         };
 
+        this.setArende = function(arende) {
+            this.common.updateArende(arende);
+        };
+
         this.reset();
     }]
 );

@@ -55,8 +55,7 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.showAnswerPanel = function() {
                         var hasMeddelandeIsClosed = ArendeSvar.meddelande && ArendeSvar.status === 'CLOSED';
                         var cannotKomplettera = ArendeSvar.answerKompletteringWithText || hasMeddelandeIsClosed;
-                        return (ArendeSvar.amne !== 'KOMPLT') ||
-                            (ArendeSvar.amne === 'KOMPLT' && cannotKomplettera);
+                        return (ArendeSvar.amne !== 'KOMPLT') || (ArendeSvar.amne === 'KOMPLT' && cannotKomplettera);
                     };
 
                     $scope.showAnswer = function() {
@@ -67,7 +66,6 @@ angular.module('common').directive('arendePanelSvar',
                         return $scope.isAnswerAllowed() &&
                             ArendeSvar.amne === 'KOMPLT' && !ArendeSvar.answerKompletteringWithText;
                     };
-
 
                     $scope.showButtonBar = function() {
                         // VÄNTAR på svar från Vårdenheten
@@ -101,6 +99,10 @@ angular.module('common').directive('arendePanelSvar',
                                 }
 
                                 $scope.arendeListItem.updateArendeListItem(result);
+
+                                // Update arende in the common intyg view state
+                                $scope.parentViewState.setArende($scope.arendeListItem.arende);
+
                                 ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);
                                 statService.refreshStat();
                             }

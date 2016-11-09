@@ -21,10 +21,31 @@ angular.module('common').directive('wcViewIntygField', ['$rootScope', 'common.Ob
     function($rootScope, ObjectHelper, IntygViewStateService) {
         'use strict';
 
+        function _initFieldCategoryMap() {
+            if (IntygViewStateService.fcMap === undefined) {
+                IntygViewStateService.fcMap = {};
+
+                IntygViewStateService.fcMap.has = function(key) {
+                    return this.hasOwnProperty(key);
+                };
+
+                IntygViewStateService.fcMap.get = function(key) {
+                    return this[key];
+                };
+
+                IntygViewStateService.fcMap.set = function(key, value) {
+                    if ( !this.has(key) ) {
+                        this[key] = value;
+                    }
+                };
+            }
+        }
+
         return {
             restrict: 'AE',
             replace: true,
             scope: {
+                categoryNumber: '=',
                 field: '=',
                 nextField: '=',
                 intygModel: '='
@@ -32,11 +53,11 @@ angular.module('common').directive('wcViewIntygField', ['$rootScope', 'common.Ob
             templateUrl: '/web/webjars/common/webcert/intyg/fk/wcViewIntygField.directive.html',
             link: function(scope, element, attrs) {
 
-                scope.viewState = IntygViewStateService;
+                _initFieldCategoryMap(scope);
 
-                scope.getKompletteringar = function() {
-                    return scope.viewState.kompletteringar;
-                };
+                if (scope.field.key && scope.categoryNumber) {
+                    IntygViewStateService.fcMap.set(scope.field.key, scope.categoryNumber);
+                }
 
                 scope.showField = function(field){
                     return !field.templateOptions.hideFromSigned &&

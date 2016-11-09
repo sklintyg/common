@@ -44,7 +44,7 @@ angular.module('common').directive('arendeHantera',
                         return !$scope.parentViewState.intygProperties.isRevoked &&
                             // Enforce business rule FS-011, from FK + answer should remain closed
                             ($scope.arendeListItem.arende.fraga.frageStallare === 'WC' ||
-                             !$scope.arendeListItem.arende.svar.meddelande);
+                            !$scope.arendeListItem.arende.svar.meddelande);
                     };
 
                     $scope.handledFunction = function(newState) {
@@ -71,6 +71,10 @@ angular.module('common').directive('arendeHantera',
                             if (result !== null) {
                                 angular.copy(result, arendeListItem.arende);
                                 arendeListItem.updateArendeListItem();
+
+                                // Update arende int common intyg view state
+                                $scope.parentViewState.setArende(arendeListItem.arende);
+
                                 statService.refreshStat();
                                 ArendeHelper.splitToSingleItem(arendeListItem, $scope.arendeList);
                             }
@@ -101,6 +105,10 @@ angular.module('common').directive('arendeHantera',
                             if (result !== null) {
                                 angular.copy(result, arendeListItem.arende);
                                 arendeListItem.updateArendeListItem();
+
+                                // Update arende in the common intyg view state
+                                $scope.parentViewState.setArende(arendeListItem.arende);
+
                                 statService.refreshStat();
                                 ArendeHelper.checkMergeToKompletteringItem(arendeListItem, $scope.arendeList);
                             }

@@ -21,8 +21,8 @@
  * wcField directive. Used to abstract common layout for full-layout form fields in intyg modules
  */
 angular.module('common').directive('wcField',
-    [ 'common.messageService', 'common.dynamicLabelService',
-        function(messageService, dynamicLabelService) {
+    [ 'common.messageService', 'common.dynamicLabelService', 'common.IntygViewStateService',
+        function(messageService, dynamicLabelService, IntygViewStateService) {
             'use strict';
 
             return {
@@ -31,6 +31,7 @@ angular.module('common').directive('wcField',
                 replace: true,
                 templateUrl: '/web/webjars/common/webcert/utkast/wcField.directive.html',
                 scope: {
+                    categoryNumber: '@',
                     fieldLabel: '@',
                     fieldDynamicLabel: '@',
                     fieldDynamicLabelGroup: '=',
@@ -43,6 +44,7 @@ angular.module('common').directive('wcField',
                     filled: '@?'
                 },
                 controller: function($scope) {
+                    $scope.viewState = IntygViewStateService;
                     $scope.hasText = true;
 
                     if ($scope.filled === undefined) {
@@ -71,6 +73,26 @@ angular.module('common').directive('wcField',
                     this.setHasKomplettering = function() {
                         $scope.fieldHasKomplettering = true;
                     };
+
+                    $scope.$watch('viewState.arende.status', function() {
+                        var arende = $scope.viewState.arende;
+
+                        if ($scope.categoryNumber !== undefined && arende !== undefined && arende.amne === "KOMPLT") {
+
+                            angular.forEach(arende.kompletteringar, function(komplettering) {
+                                if ($scope.viewState.fcMap) {
+                                    var key = komplettering.jsonPropertyHandle;
+                                    var map  = $scope.viewState.fcMap;
+                                    var status = arende.status;
+
+                                    if (map.has(key) && map.get(key).toString() === $scope.categoryNumber) {
+                                        $scope.fieldHasKomplettering = status === 'PENDING_INTERNAL_ACTION'
+                                    }
+                                }
+                            });
+                        }
+                    });
+
                 }
             };
         }]);

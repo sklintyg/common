@@ -1,7 +1,5 @@
 <div ng-class="{'intyg-field' : field.type != 'headline'}" ng-attr-id="{{field.key && 'form_'+field.key || undefined}}">
 
-  <wc-kmplt-wrapper field-key="{{field.key}}" field-type="{{field.type}}" kompletteringar="viewState.kompletteringar" ng-if="field.key">
-
     <div wc-intyg-label="field.templateOptions.label" ng-if="showField(field)" force-no-h5-after="field.templateOptions.noH5After" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}" style="padding-top: 10px"></div>
     <div ng-if="field.key && showField(field)" field-selective-view="field" field-model="intygModel">
       <div ng-switch="field.type">
@@ -87,8 +85,6 @@
       </div>
     </div>
 
-  </wc-kmplt-wrapper>
-
-  <hr ng-if="!$last && showFieldLine(field, nextField)">
+    <hr ng-if="!$last && showFieldLine(field, nextField)">
 
 </div>
