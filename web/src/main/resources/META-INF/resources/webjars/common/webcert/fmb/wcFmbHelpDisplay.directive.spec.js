@@ -95,7 +95,7 @@ describe('wcFmbHelpDisplay', function () {
 
         it('should have a visible alert text', function() {
            expect(element.find('#fmb_diagnos_not_in_fmb_alert').first().text())
-               .toEqual('För J222 finns inget FMB-stöd. Det FMB-stöd som visas nedan gäller den mindre specifika koden J22 - Akut bronkit.');
+               .toEqual('Det FMB-stöd som visas är för koden J22 - Akut bronkit.');
         });
     });
 
