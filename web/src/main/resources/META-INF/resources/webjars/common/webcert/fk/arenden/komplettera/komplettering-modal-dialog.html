@@ -9,7 +9,7 @@
     <div ng-repeat="kompArende in model.arendeSvar.kompletteringsArenden" class="form-group">
       <div id="arende-fragetext-{{kompArende.fragaInternReferens}}">{{kompArende.fragaMeddelande}}</div>
       <div
-          id="fkKompletteringar-{{kompArende.fragaInternReferens}}"
+          id="fkKompletteringar-{{kompArende.fragaInternReferens}}-{{$index}}"
           ng-repeat="komplettering in kompArende.kompletteringar" class="padding-top-small">
 
         <div class="komplettera-row" ng-if="model.arendeSvar.intygProperties.type == 'fk7263'">

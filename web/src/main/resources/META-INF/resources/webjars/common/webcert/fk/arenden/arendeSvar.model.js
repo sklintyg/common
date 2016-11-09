@@ -66,6 +66,10 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.svaraMedNyttIntygDisabledReason = arendeListItem.svaraMedNyttIntygDisabledReason;
                 this.kompletteringar = angular.copy(arendeListItem.kompletteringar);
 
+                this.updateExtraKompletteringar(arendeListItem);
+            };
+
+            ArendeSvarModel.prototype.updateExtraKompletteringar = function(arendeListItem) {
                 this.kompletteringsArenden = [{
                     fragaInternReferens: this.fragaInternReferens,
                     fragaMeddelande: this.fragaMeddelande,
