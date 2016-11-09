@@ -85,8 +85,8 @@ angular.module('common').constant('common.messages', {
         'modules.label.field': 'Fält',
         'modules.label.blank': 'Ej ifyllt',
         'modules.button.alt.archive': 'Arkivera intyget. Flyttar intyget till Arkiverade intyg',
-        'modules.button.save.as.pdf': 'Spara som PDF',
-        'modules.link.label.save.as.pdf': 'Spara som PDF',
+        'modules.button.save.as.pdf': 'Skriv ut',
+        'modules.link.label.save.as.pdf': 'Skriv ut',
 
         'info.loadingcertificate': 'Hämtar intyget...',
 

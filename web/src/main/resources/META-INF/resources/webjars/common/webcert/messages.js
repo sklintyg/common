@@ -40,7 +40,7 @@ angular.module('common').constant('common.messages', {
         'common.fornya': 'Förnya',
         'common.delete': 'Radera',
         'common.sign.intyg': 'Signera intyget',
-        'common.button.save.as.pdf': 'Spara som PDF',
+        'common.button.save.as.pdf': 'Skriv ut',
         'common.button.save.as.pdf.full': 'Fullständigt intyg',
         'common.button.save.as.pdf.mininmal': 'Minimalt intyg',
         'common.button.save.as.pdf.mininmal.title': 'Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare',
