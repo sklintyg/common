@@ -59,28 +59,6 @@ angular.module('common').constant('common.messages', {
         // modal messages
         'modal.title.markforward': 'Markera som vidarebefordrad?',
 
-        'qa.status.pending_internal_action': 'Kräver svar',
-        'qa.status.pending_external_action': 'Inväntar svar',
-        'qa.status.answered': 'Besvarat',
-        'qa.status.closed': 'Hanterat',
-
-        'qa.fragestallare.fk': 'Försäkringskassan',
-        'qa.fragestallare.wc': 'Vårdenheten',
-        'qa.amne.paminnelse': 'Påminnelse',
-        'qa.amne.arbetstidsforlaggning': 'Arbetstidsförläggning',
-        'qa.amne.kontakt': 'Kontakt',
-        'qa.amne.avstamningsmote': 'Avstämningsmöte',
-        'qa.amne.komplettering_av_lakarintyg': 'Komplettering av läkarintyg',
-        'qa.amne.komplt': 'Komplettering av läkarintyg',
-        'qa.amne.makulering_av_lakarintyg': 'Makulering av läkarintyg',
-        'qa.amne.ovrigt': 'Övrigt',
-
-        'qa.measure.svarfranvarden': 'Svara',
-        'qa.measure.svarfranfk': 'Invänta svar från Försäkringskassan',
-        'qa.measure.komplettering': 'Komplettera',
-        'qa.measure.markhandled': 'Markera som hanterad',
-        'qa.measure.handled': 'Inget',
-
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
         'modules.label.blank': 'Ej ifyllt',
