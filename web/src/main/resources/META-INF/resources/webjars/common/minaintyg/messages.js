@@ -79,7 +79,7 @@ angular.module('common').constant('common.messages', {
         'qa.measure.svarfranfk': 'Invänta svar från Försäkringskassan',
         'qa.measure.komplettering': 'Komplettera',
         'qa.measure.markhandled': 'Markera som hanterad',
-        'qa.measure.handled': 'Ingen',
+        'qa.measure.handled': 'Inget',
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',

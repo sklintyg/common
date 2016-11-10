@@ -148,7 +148,7 @@ angular.module('common').constant('common.messages', {
         'qa.measure.svarfranfk': 'Invänta svar från Försäkringskassan',
         'qa.measure.komplettering': 'Komplettera',
         'qa.measure.markhandled': 'Markera som hanterad',
-        'qa.measure.handled': 'Ingen',
+        'qa.measure.handled': 'Inget',
 
         // Ärendehantering
         'common.loading.existing.arenden': 'Laddar ärenden...',
@@ -164,7 +164,7 @@ angular.module('common').constant('common.messages', {
         'common.arende.atgard.svarfranfk': 'Invänta svar från Försäkringskassan',
         'common.arende.atgard.komplettering': 'Komplettera',
         'common.arende.atgard.markhandled': 'Markera som hanterad',
-        'common.arende.atgard.handled': 'Ingen',
+        'common.arende.atgard.handled': 'Inget',
 
         'common.arende.fraga.amne.avstmn': 'Avstämningsmöte',
         'common.arende.fraga.amne.kontkt': 'Kontakt',
