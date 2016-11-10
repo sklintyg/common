@@ -96,9 +96,9 @@ angular.module('common').constant('common.messages', {
         'intyg.status.sent': 'Mottaget',
         'intyg.status.received': 'Signerat',
 
-        'intyg.status.patient.name.changed' : 'Observera att patientens namn har ändrats sedan det här intyget utfärdades. När du kopierar eller förnyar intyget kommer patientens aktuella namn att användas i det nya intygsutkastet.',
-        'intyg.status.patient.address.changed' : 'Observera att patientens adress har ändrats sedan det här intyget utfärdades. När du kopierar eller förnyar intyget kommer patientens aktuella adress att användas i det nya intygsutkastet.',
-        'intyg.status.patient.name.and.address.changed' : 'Observera att patientens namn och adress har ändrats sedan det här intyget utfärdades. När du kopierar eller förnyar intyget kommer patientens aktuella namn och adress att användas i det nya intygsutkastet.',
+        'intyg.status.patient.name.changed' : 'Observera att patientens namn har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn.',
+        'intyg.status.patient.address.changed' : 'Observera att patientens adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya adress.',
+        'intyg.status.patient.name.and.address.changed' : 'Observera att patientens namn och adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn och adress.',
 
         // Revoke status messages (type agnostic)
         'intyg.status.revoke.requested' : '<strong>Status:</strong> Intyget är makulerat.',
