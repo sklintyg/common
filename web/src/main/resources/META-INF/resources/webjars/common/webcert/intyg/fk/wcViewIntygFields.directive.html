@@ -1,6 +1,6 @@
 <div>
 
-  <div wc-field category-number="{{group.templateOptions.category}}" field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
+  <div wc-intyg-field category-number="{{group.templateOptions.category}}" field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
     <div ng-repeat="field in group.fieldGroup">
       <div wc-view-intyg-field category-number="group.templateOptions.category" field="field" next-field="group.fieldGroup[$index+1]" intyg-model="intygModel"></div>
       <div ng-repeat="subField in field.fieldGroup">

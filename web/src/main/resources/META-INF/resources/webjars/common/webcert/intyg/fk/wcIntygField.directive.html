@@ -1,0 +1,12 @@
+<div class="intyg-block clearfix">
+  <div class="intyg-block__titlerow">
+    <h3 class="intyg-block__heading">
+      <span ng-if="fieldLabel" message key="{{fieldLabel}}"></span>
+      <span ng-if="fieldDynamicLabel" dynamic-label key="{{fieldDynamicLabel}}"></span>
+    </h3>
+  </div>
+	<span class="intyg-block__content" ng-class="{unfilled: filled == 'false', categorykmplt: fieldHasKomplettering}">
+    <span class="intyg-field-blank" ng-hide="filled == 'true'"> <span message key="common.notset"></span></span>
+		<span ng-transclude ng-show="filled == 'true'"></span>
+  </span>
+</div>
