@@ -256,10 +256,14 @@ describe('DateUtilsService', function() {
 
             expect(DateUtilsService.parseDayCodes('d1')).toEqual(1);
             expect(DateUtilsService.parseDayCodes('d180')).toEqual(180);
+            expect(DateUtilsService.parseDayCodes('d09')).toEqual(9);
+            expect(DateUtilsService.parseDayCodes('d005')).toEqual(5);
             expect(DateUtilsService.parseDayCodes('D40')).toEqual(40);
 
             expect(DateUtilsService.parseDayCodes('v1')).toEqual(7);
             expect(DateUtilsService.parseDayCodes('v3')).toEqual(21);
+            expect(DateUtilsService.parseDayCodes('v04')).toEqual(28);
+            expect(DateUtilsService.parseDayCodes('v009')).toEqual(63);
             expect(DateUtilsService.parseDayCodes('V20')).toEqual(140);
 
         });
@@ -272,7 +276,12 @@ describe('DateUtilsService', function() {
             expect(DateUtilsService.parseDayCodes('180')).toBe(null);
             expect(DateUtilsService.parseDayCodes('v1800')).toBe(null);
             expect(DateUtilsService.parseDayCodes('d1800')).toBe(null);
-
+            expect(DateUtilsService.parseDayCodes('d0')).toBe(null);
+            expect(DateUtilsService.parseDayCodes('d00')).toBe(null);
+            expect(DateUtilsService.parseDayCodes('d000')).toBe(null);
+            expect(DateUtilsService.parseDayCodes('v0')).toBe(null);
+            expect(DateUtilsService.parseDayCodes('v00')).toBe(null);
+            expect(DateUtilsService.parseDayCodes('v000')).toBe(null);
 
         });
     });
@@ -282,6 +291,7 @@ describe('DateUtilsService', function() {
         it ('can check that we can extract months correctly for valid input', function () {
             expect(DateUtilsService.parseMonthCode('m1')).toEqual(1);
             expect(DateUtilsService.parseMonthCode('m24')).toEqual(24);
+            expect(DateUtilsService.parseMonthCode('m03')).toEqual(3);
             expect(DateUtilsService.parseMonthCode('M12')).toEqual(12);
         });
 
@@ -292,6 +302,8 @@ describe('DateUtilsService', function() {
             expect(DateUtilsService.parseMonthCode('180')).toBe(null);
             expect(DateUtilsService.parseMonthCode('v18')).toBe(null);
             expect(DateUtilsService.parseMonthCode('d180')).toBe(null);
+            expect(DateUtilsService.parseMonthCode('m0')).toBe(null);
+            expect(DateUtilsService.parseMonthCode('m00')).toBe(null);
         });
 
     });
