@@ -28,8 +28,8 @@ angular.module('common').service('common.fmbViewState', [
             bi2: fmbModel.build()
         };
 
-        this.setState = function(diagnosType, formData, originalDiagnoskod) {
-            this.state[diagnosType].setState(formData, originalDiagnoskod);
+        this.setState = function(diagnosType, formData, originalDiagnosKod) {
+            this.state[diagnosType].setState(formData, originalDiagnosKod);
         };
 
         this.reset = function(diagnosType, formData) {

@@ -36,14 +36,17 @@ angular.module('common').factory('common.fmbService', [
             }
 
             var diagnosTypes = ['main', 'bi1', 'bi2'];
-            var requestDiagnosTypes = [];
+            var fmbDiagnosRequest = [];
             var promises = [];
 
             // Request FMB texts for all entered diagnoses
             var i;
             for (i = 0; i < diagnoser.length; i++){
                 if (diagnoser[i].diagnosKod) {
-                    requestDiagnosTypes.push(diagnosTypes[i]);
+                    fmbDiagnosRequest.push({
+                        type: diagnosTypes[i],
+                        code: diagnoser[i].diagnosKod
+                    });
                     promises.push(fmbProxy.getFMBHelpTextsByCode(diagnoser[i].diagnosKod));
                 }
             }
@@ -52,13 +55,13 @@ angular.module('common').factory('common.fmbService', [
             $q.all(promises).then(function(formDatas){
                 var j;
                 for(j = 0; j < formDatas.length; j++){
-                    fmbViewState.setState(requestDiagnosTypes[j], formDatas[j]);
+                    fmbViewState.setState(fmbDiagnosRequest[j].type, formDatas[j], fmbDiagnosRequest[j].code);
                 }
             }, function(errors) {
                 var j;
                 for(j = 0; j < errors.length; j++){
-                    $log.debug('Error searching fmb help text for diagnostype ' + requestDiagnosTypes[j]);
-                    fmbViewState.reset(requestDiagnosTypes[j]);
+                    $log.debug('Error searching fmb help text for diagnostype ' + fmbDiagnosRequest[j].type + ' with diagnoscode: ' + fmbDiagnosRequest[j].code);
+                    fmbViewState.reset(fmbDiagnosRequest[j].type);
                 }
             });
         }

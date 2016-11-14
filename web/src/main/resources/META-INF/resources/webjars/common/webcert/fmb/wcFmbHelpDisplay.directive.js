@@ -20,27 +20,49 @@
 /**
  * Display FMB help texts
  */
-angular.module('common').directive('wcFmbHelpDisplay',
-        function() {
-            'use strict';
+angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper',
+    function(ObjectHelper) {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                transclude: true,
-                scope: {
-                    helpTextContents: '=',
-                    diagnosisDescription: '=',
-                    diagnosisCode: '=',
-                    originalDiagnosisCode: '=',
-                    relatedFormId: '@'
-                },
-                link: function(scope, element, attrs) {
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                fmbStates: '=',
+                fieldName: '@',
+                relatedFormId: '@'
+            },
+            link: function(scope, element, attrs) {
+                scope.status = {
+                    open: true
+                };
 
-                    //Some status we need to have on the accordion
-                    scope.status = {
-                        open: true
-                    };
-                },
-                templateUrl: '/web/webjars/common/webcert/fmb/wcFmbHelpDisplay.directive.html'
-            };
-        });
+                function checkDiagnos(diagnos) {
+                    if (angular.isObject(diagnos) && !ObjectHelper.isEmpty(diagnos.diagnosKod) &&
+                        Object.keys(diagnos.formData).length > 1) {
+                        scope.fmbAvailable = true;
+                        return true;
+                    }
+                    return false;
+                }
+
+                function updateFMBAvailable() {
+                    scope.fmbAvailable = false;
+                    if (angular.isObject(scope.fmbStates)) {
+                        if (checkDiagnos(scope.fmbStates.main) ||
+                            checkDiagnos(scope.fmbStates.bi1) ||
+                            checkDiagnos(scope.fmbStates.bi2)) {
+                            scope.fmbAvailable = true;
+                        }
+                    }
+                }
+
+                scope.$watch('fmbStates', function(newVal, oldVal) {
+                    updateFMBAvailable();
+                }, true);
+
+                updateFMBAvailable();
+            },
+            templateUrl: '/web/webjars/common/webcert/fmb/wcFmbHelpDisplay.directive.html'
+        };
+    }]);

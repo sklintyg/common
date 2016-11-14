@@ -26,8 +26,7 @@ describe('wcFmbHelpDisplay', function () {
     var element, outerScope;
 
     beforeEach(inject(function ($rootScope, $compile) {
-        element = angular.element('<wc-fmb-help-display related-form-id="SOMEFORM" diagnosis-code="fmb.diagnosKod" '+
-            'diagnosis-description="fmb.diagnosBeskrivning" original-diagnosis-code="fmb.originalDiagnoskod" help-text-contents="fmb.formData.FORM"></wc-fmb-help-display>');
+        element = angular.element('<wc-fmb-help-display related-form-id="SOMEFORM" fmb-states="fmbStates"></wc-fmb-help-display>');
         outerScope = $rootScope;
         $compile(element)(outerScope);
 
@@ -89,7 +88,7 @@ describe('wcFmbHelpDisplay', function () {
                 formData: {},
                 diagnosKod: 'J22',
                 diagnosBeskrivning: 'Akut bronkit',
-                originalDiagnoskod: 'J222'
+                originalDiagnosKod: 'J222'
             });
         });
 
