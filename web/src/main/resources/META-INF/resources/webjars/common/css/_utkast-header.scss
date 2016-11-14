@@ -83,17 +83,17 @@ $header-fix-panel-popover-color: #333;
   .control-label {
     font-size: 18px;
     line-height:29px;
+    padding-bottom: 16px;
+    //so that the absolute positioned toggle button doesn't flow over content
+    //the padding will case line break before that happens
+    padding-right: 130px;
   }
-
 }
 
 .utkast-header-status {
   span {
     color:#666;
   }
-  //so that the absolute positioned toggle button doesn't flow over content
-  //the padding will case line break before that happens
-  padding-right: 130px;
 }
 
 .header-fix-panel {
