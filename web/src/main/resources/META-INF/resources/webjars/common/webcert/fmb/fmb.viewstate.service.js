@@ -18,21 +18,28 @@
  */
 
 angular.module('common').service('common.fmbViewState', [
-    'common.fmbDiagnosInfoModel',
-    function(fmbModel) {
+    'common.fmbDiagnosInfoModel', 'common.ObjectHelper',
+    function(fmbModel, ObjectHelper) {
         'use strict';
 
-        this.state = {
-            main: fmbModel.build(),
-            bi1: fmbModel.build(),
-            bi2: fmbModel.build()
+        this.diagnoses = {
+            // The following properties are created and deleted on demand depending on FMB info available.
+            // main: fmbModel.build(),
+            // bi1: fmbModel.build(),
+            // bi2: fmbModel.build()
         };
+        this.activeDiagnos = 1;
 
         this.setState = function(diagnosType, formData, originalDiagnosKod) {
-            this.state[diagnosType].setState(formData, originalDiagnosKod);
+
+            if(!ObjectHelper.isEmpty(originalDiagnosKod) && !angular.isObject(this.diagnoses[diagnosType])){
+                this.diagnoses[diagnosType] = fmbModel.build();
+            }
+
+            this.diagnoses[diagnosType].setState(formData, originalDiagnosKod);
         };
 
         this.reset = function(diagnosType, formData) {
-            this.state[diagnosType] = fmbModel.build();
+            delete this.diagnoses[diagnosType];
         };
     }]);

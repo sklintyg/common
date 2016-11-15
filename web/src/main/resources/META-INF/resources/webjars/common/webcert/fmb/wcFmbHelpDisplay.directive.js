@@ -39,8 +39,7 @@ angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper',
 
                 function checkDiagnos(diagnos) {
                     if (angular.isObject(diagnos) && !ObjectHelper.isEmpty(diagnos.diagnosKod) &&
-                        Object.keys(diagnos.formData).length > 1) {
-                        scope.fmbAvailable = true;
+                        diagnos.hasInfo) {
                         return true;
                     }
                     return false;
@@ -48,10 +47,10 @@ angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper',
 
                 function updateFMBAvailable() {
                     scope.fmbAvailable = false;
-                    if (angular.isObject(scope.fmbStates)) {
-                        if (checkDiagnos(scope.fmbStates.main) ||
-                            checkDiagnos(scope.fmbStates.bi1) ||
-                            checkDiagnos(scope.fmbStates.bi2)) {
+                    if (angular.isObject(scope.fmbStates) && angular.isObject(scope.fmbStates.diagnoses)) {
+                        if (checkDiagnos(scope.fmbStates.diagnoses.main) ||
+                            checkDiagnos(scope.fmbStates.diagnoses.bi1) ||
+                            checkDiagnos(scope.fmbStates.diagnoses.bi2)) {
                             scope.fmbAvailable = true;
                         }
                     }

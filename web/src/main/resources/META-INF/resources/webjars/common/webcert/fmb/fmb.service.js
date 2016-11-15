@@ -69,15 +69,18 @@ angular.module('common').factory('common.fmbService', [
         function _updateFmbText(diagnosType, originalDiagnosKod) {
             if (originalDiagnosKod === undefined || originalDiagnosKod.length === 0) {
                 fmbViewState.reset(diagnosType);
-            } else if(fmbViewState.state[diagnosType].diagnosKod !== originalDiagnosKod) {
-                var fmbSuccess = function fmbSuccess(formData) {
-                    fmbViewState.setState(diagnosType, formData, originalDiagnosKod);
-                };
-                var fmbReject = function fmbReject(data) {
-                    $log.debug('Error searching fmb help text for diagnostype ' + diagnosType);
-                    $log.debug(data);
-                };
-                fmbProxy.getFMBHelpTextsByCode(originalDiagnosKod).then(fmbSuccess, fmbReject);
+            } else {
+                if (!angular.isObject(fmbViewState.diagnoses[diagnosType]) ||
+                    fmbViewState.diagnoses[diagnosType].diagnosKod !== originalDiagnosKod) {
+                    var fmbSuccess = function fmbSuccess(formData) {
+                        fmbViewState.setState(diagnosType, formData, originalDiagnosKod);
+                    };
+                    var fmbReject = function fmbReject(data) {
+                        $log.debug('Error searching fmb help text for diagnostype ' + diagnosType);
+                        $log.debug(data);
+                    };
+                    fmbProxy.getFMBHelpTextsByCode(originalDiagnosKod).then(fmbSuccess, fmbReject);
+                }
             }
         }
 
