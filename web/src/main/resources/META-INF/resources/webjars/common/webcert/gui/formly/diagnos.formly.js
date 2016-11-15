@@ -173,6 +173,11 @@ angular.module('common').run(function(formlyConfig) {
             }
 
             $scope.onBlurDiagnoseCodeField = function(index) {
+                if (!$scope.model[$scope.options.key][index].diagnosKod) {
+                    // Clear diagnoskod in all cases when not selected from the typeahead
+                    $scope.form['diagnoseCode'+index].$setViewValue();
+                    $scope.form['diagnoseCode'+index].$render();
+                }
                 if (index === 0) {
                     $scope.updateFmbText();
                 }
