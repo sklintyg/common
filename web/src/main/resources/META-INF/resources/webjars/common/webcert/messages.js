@@ -407,6 +407,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.radio-group.empty': 'Du måste välja ett alternativ.',
         'common.validation.select.empty': 'Du måste välja ett alternativ.',
         'common.validation.singledate.empty': 'Du måste välja datum.',
+        'common.validation.singledate.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
         'common.validation.single-text.empty': 'Fältet får inte vara tomt.',
         'common.validation.single-text-vertical.empty': 'Fältet får inte vara tomt.',
         'common.validation.underlag.empty': 'Minst en rad måste fyllas i',
