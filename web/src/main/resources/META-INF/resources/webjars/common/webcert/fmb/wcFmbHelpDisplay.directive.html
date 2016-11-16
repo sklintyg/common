@@ -5,17 +5,18 @@
           <img class="media-object fmb-accordion-head-img" ng-src="/img/socialstyrelsen_logo.png"/>
       </div>
       <div class="fmb-panel-title">
-          <h4><span id="fmb_static_heading_{{relatedFormId}}">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</span></h4>
-          <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}} - {{diagnosisDescription}}</span></h4>
-        </div>
+        <h4><span id="fmb_static_heading_{{relatedFormId}}">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</span></h4>
+        <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{diagnosisCode}} - {{diagnosisDescription}}</span></h4>
+      </div>
+      <div>
         <div class="alert alert-warning" ng-if="diagnosisCode !== originalDiagnosisCode">
           <span id="fmb_diagnos_not_in_fmb_alert">Det FMB-stöd som visas är för koden {{diagnosisCode}} - {{diagnosisDescription}}.</span>
         </div>
         <div>
-          <button type="button"
-                  class="btn btn-default fmb-collapse-icon"
-                  ng-click="status.open = !status.open"><i class="glyphicon fmb-glyphicon"
-                                                               ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
+          <button class="btn btn-default fmb-collapse-icon">
+            <i class="glyphicon fmb-glyphicon"
+               ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i>
+          </button>
         </div>
       </div>
     </div>
