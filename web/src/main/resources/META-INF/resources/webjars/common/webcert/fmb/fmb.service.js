@@ -19,23 +19,40 @@
 
 angular.module('common').factory('common.fmbService', [
     '$http' , '$q', '$log',
-    'common.fmbViewState', 'common.fmbProxy',
-    function($http, $q, $log, fmbViewState, fmbProxy) {
+    'common.fmbViewState', 'common.fmbProxy', 'common.ObjectHelper',
+    function($http, $q, $log, fmbViewState, fmbProxy, ObjectHelper) {
         'use strict';
 
+        function _checkDiagnos(diagnos) {
+            if (angular.isObject(diagnos) && !ObjectHelper.isEmpty(diagnos.diagnosKod) &&
+                diagnos.hasInfo) {
+                return true;
+            }
+            return false;
+        }
+
+        function _isAnyFMBDataAvailable(fmbStates) {
+            if (angular.isObject(fmbStates) && angular.isObject(fmbStates.diagnoses)) {
+                if (_checkDiagnos(fmbStates.diagnoses[0]) ||
+                    _checkDiagnos(fmbStates.diagnoses[1]) ||
+                    _checkDiagnos(fmbStates.diagnoses[2])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         function _updateFmbTextsForAllDiagnoses(diagnoser) {
+            fmbViewState.reset(0);
+            fmbViewState.reset(1);
+            fmbViewState.reset(2);
+
             if (!angular.isArray(diagnoser)) {
                 $log.error('_updateFmbTextsForAllDiagnoses called with invalid parameter - array required');
-                return;
+                return false;
             }
 
-            if(diagnoser.length !== 3)
-            {
-                $log.error('_updateFmbTextsForAllDiagnoses - diagnose type missing from array. should be length 3');
-                return;
-            }
-
-            var diagnosTypes = ['main', 'bi1', 'bi2'];
+            var diagnosTypes = [0, 1, 2];
             var fmbDiagnosRequest = [];
             var promises = [];
 
@@ -64,6 +81,8 @@ angular.module('common').factory('common.fmbService', [
                     fmbViewState.reset(fmbDiagnosRequest[j].type);
                 }
             });
+
+            return true;
         }
 
         function _updateFmbText(diagnosType, originalDiagnosKod) {
@@ -86,8 +105,9 @@ angular.module('common').factory('common.fmbService', [
 
         // Return public API for the service
         return {
+            checkDiagnos: _checkDiagnos,
+            isAnyFMBDataAvailable: _isAnyFMBDataAvailable,
             updateFmbTextsForAllDiagnoses: _updateFmbTextsForAllDiagnoses,
             updateFmbText: _updateFmbText
         };
     }]);
-

@@ -22,11 +22,17 @@ angular.module('common').service('common.fmbViewState', [
     function(fmbModel, ObjectHelper) {
         'use strict';
 
+        this.DIAGNOS_TYPE = {
+            HUVUDDIAGNOS: 0,
+            BIDIAGNOS1: 1,
+            BIDIAGNOS2: 2
+        };
+
         this.diagnoses = {
             // The following properties are created and deleted on demand depending on FMB info available.
-            // main: fmbModel.build(),
-            // bi1: fmbModel.build(),
-            // bi2: fmbModel.build()
+            // 0: fmbModel.build(), // huvuddiagnos
+            // 1: fmbModel.build(), // bidiagnos
+            // 2: fmbModel.build() // bidiagnos
         };
         this.activeDiagnos = 1;
 
@@ -39,7 +45,7 @@ angular.module('common').service('common.fmbViewState', [
             this.diagnoses[diagnosType].setState(formData, originalDiagnosKod);
         };
 
-        this.reset = function(diagnosType, formData) {
+        this.reset = function(diagnosType) {
             delete this.diagnoses[diagnosType];
         };
     }]);

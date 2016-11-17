@@ -28,7 +28,7 @@
                 <div class="alert alert-warning" ng-if="fmb.diagnosKod !== fmb.originalDiagnosKod">
                   <span id="fmb_diagnos_not_in_fmb_alert">För {{fmb.originalDiagnosKod}} finns inget FMB-stöd. Det FMB-stöd som visas nedan gäller den mindre specifika koden {{fmb.diagnosKod}} - {{fmb.diagnosBeskrivning}}.</span>
                 </div>
-                <div class="alert alert-warning" ng-if="!fmb.hasInfo">
+                <div class="alert alert-warning" ng-if="!fmb.formData[fieldName]">
                   <span id="fmb_info_not_available"><span class="bold">Observera!</span> För "{{fmb.diagnosKod}} {{fmb.diagnosBeskrivning}}" finns ingen FMB-information för detta fält.</span>
                 </div>
                 <div ng-repeat="item in fmb.formData[fieldName]" ng-show="item.text || item.list">

@@ -20,8 +20,8 @@
 /**
  * Display FMB help texts
  */
-angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper',
-    function(ObjectHelper) {
+angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', 'common.fmbService',
+    function(ObjectHelper, fmbService) {
         'use strict';
 
         return {
@@ -37,30 +37,11 @@ angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper',
                     open: true
                 };
 
-                function checkDiagnos(diagnos) {
-                    if (angular.isObject(diagnos) && !ObjectHelper.isEmpty(diagnos.diagnosKod) &&
-                        diagnos.hasInfo) {
-                        return true;
-                    }
-                    return false;
-                }
-
-                function updateFMBAvailable() {
-                    scope.fmbAvailable = false;
-                    if (angular.isObject(scope.fmbStates) && angular.isObject(scope.fmbStates.diagnoses)) {
-                        if (checkDiagnos(scope.fmbStates.diagnoses.main) ||
-                            checkDiagnos(scope.fmbStates.diagnoses.bi1) ||
-                            checkDiagnos(scope.fmbStates.diagnoses.bi2)) {
-                            scope.fmbAvailable = true;
-                        }
-                    }
-                }
-
                 scope.$watch('fmbStates', function(newVal, oldVal) {
-                    updateFMBAvailable();
+                    scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(newVal);
                 }, true);
 
-                updateFMBAvailable();
+                scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(scope.fmbStates);
             },
             templateUrl: '/web/webjars/common/webcert/fmb/wcFmbHelpDisplay.directive.html'
         };

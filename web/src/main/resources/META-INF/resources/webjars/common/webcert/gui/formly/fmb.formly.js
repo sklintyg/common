@@ -25,7 +25,7 @@ angular.module('common').run(function(formlyConfig) {
         templateUrl: '/web/webjars/common/webcert/gui/formly/fmb.formly.html',
         controller: ['$scope', '$log', 'common.fmbViewState',
             function($scope, $log, fmbViewState) {
-                $scope.fmbState = fmbViewState.state;
+                $scope.fmbStates = fmbViewState;
             }]
     });
 });

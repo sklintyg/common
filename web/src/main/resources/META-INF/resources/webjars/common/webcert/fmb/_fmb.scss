@@ -126,7 +126,7 @@ $fmb-glyphicon-hover-color: #808080;
 }
 
 .fmb-panel-tabset {
-  margin-top: -40px;
+  margin-top: -30px;
 
   > ul {
     border-bottom: none;
@@ -146,6 +146,10 @@ $fmb-glyphicon-hover-color: #808080;
     background-color: #fff;
     border: 1px solid #ddd;
     border-bottom-color: transparent;
+  }
+
+  .nav > li > a {
+    padding: 5px 32px;
   }
 }
 
