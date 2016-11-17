@@ -86,8 +86,9 @@ angular.module('common').factory('common.fmbService', [
         }
 
         function _updateFmbText(diagnosType, originalDiagnosKod) {
-            if (originalDiagnosKod === undefined || originalDiagnosKod.length === 0) {
+            if (!ObjectHelper.isDefined(originalDiagnosKod) || originalDiagnosKod.length === 0) {
                 fmbViewState.reset(diagnosType);
+                return false;
             } else {
                 if (!angular.isObject(fmbViewState.diagnoses[diagnosType]) ||
                     fmbViewState.diagnoses[diagnosType].diagnosKod !== originalDiagnosKod) {
@@ -101,6 +102,7 @@ angular.module('common').factory('common.fmbService', [
                     fmbProxy.getFMBHelpTextsByCode(originalDiagnosKod).then(fmbSuccess, fmbReject);
                 }
             }
+            return true;
         }
 
         // Return public API for the service

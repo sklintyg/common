@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-fdescribe('fmbService', function() {
+describe('fmbService', function() {
     'use strict';
 
     var $rootScope;
@@ -60,6 +60,71 @@ fdescribe('fmbService', function() {
                 hasInfo: false
             };
             expect(fmbService.checkDiagnos(diagnos)).toBeFalsy();
+        });
+
+        it('should return true with valid input', function() {
+            var diagnos = {
+                diagnosKod: 'J22',
+                diagnosBeskrivning: 'Akut bronkit är inte kul.',
+                formData: {
+                    DIAGNOS: {
+                        heading: 'SYMPTOM_PROGNOS_BEHANDLING',
+                        text: 'Akut bronkit orsakas vanligen av luftvägsinflammation och ...'
+                    }
+                },
+                hasInfo: true
+            };
+            expect(fmbService.checkDiagnos(diagnos)).toBeTruthy();
+        });
+    });
+
+    describe('isAnyFMBDataAvailable', function() {
+        it('should return false with invalid input', function() {
+
+            // Negative: invalid input
+            var fmbStates = null;
+            expect(fmbService.isAnyFMBDataAvailable(fmbStates)).toBeFalsy();
+
+            fmbStates = {};
+            expect(fmbService.isAnyFMBDataAvailable(fmbStates)).toBeFalsy();
+
+            // Negative: no data available
+            fmbStates = {
+                diagnoses: [
+                    {
+                        diagnosKod: 'J22',
+                        hasInfo: false
+                    },
+                    {
+                        diagnosKod: 'M118',
+                        hasInfo: false
+                    },
+                    {
+                        diagnosKod: 'H27',
+                        hasInfo: false
+                    }
+                ]
+            };
+            expect(fmbService.isAnyFMBDataAvailable(fmbStates)).toBeFalsy();
+
+            // Positive: data available
+            fmbStates = {
+                diagnoses: [
+                    {
+                        diagnosKod: 'J22',
+                        hasInfo: false
+                    },
+                    {
+                        diagnosKod: 'M118',
+                        hasInfo: false
+                    },
+                    {
+                        diagnosKod: 'H27',
+                        hasInfo: true
+                    }
+                ]
+            };
+            expect(fmbService.isAnyFMBDataAvailable(fmbStates)).toBeTruthy();
         });
 
         it('should return true with valid input', function() {
@@ -159,15 +224,24 @@ fdescribe('fmbService', function() {
             spyOn(fmbViewState, 'reset').and.callThrough();
             spyOn(fmbProxy, 'getFMBHelpTextsByCode').and.callFake(function() {
                 var promise = $q.defer();
-                promise.resolve([{0:{}}, {1:{}}, {2:{}}]);
+                promise.resolve({
+                    forms: [
+                        {
+                            DIAGNOS: {
+                                heading: 'SYMPTOM_PROGNOS_BEHANDLING',
+                                text: 'Akut bronkit orsakas vanligen av luftvägsinflammation och ...'
+                            }
+                        }
+                    ]
+                });
                 return promise.promise;
             });
         });
 
         it('should set fmb state from available diagnoses', function() {
 
-            var diagnoser = {
-                0: {
+            var diagnoser = [
+                {
                     diagnosKod: 'J22',
                     diagnosBeskrivning: 'Akut bronkit är inte kul.',
                     formData: {
@@ -178,7 +252,7 @@ fdescribe('fmbService', function() {
                     },
                     hasInfo: true
                 },
-                1: {
+                {
                     diagnosKod: 'M118',
                     diagnosBeskrivning: 'Akut bronkit är inte kul.',
                     formData: {
@@ -189,7 +263,7 @@ fdescribe('fmbService', function() {
                     },
                     hasInfo: true
                 },
-                2: {
+                {
                     diagnosKod: 'H27',
                     diagnosBeskrivning: 'Akut bronkit är inte kul.',
                     formData: {
@@ -200,13 +274,68 @@ fdescribe('fmbService', function() {
                     },
                     hasInfo: true
                 }
-            };
+            ];
 
             var result = fmbService.updateFmbTextsForAllDiagnoses(diagnoser);
 
             $rootScope.$apply();
 
+            expect(result).toBeTruthy();
+            expect(fmbViewState.setState).toHaveBeenCalled();
+        });
+    });
+
+    describe('updateFmbText', function() {
+
+        beforeEach(function() {
+
+            fmbViewState.diagnoses = [
+                {
+                    diagnosKod: 'J22',
+                    hasInfo: false,
+                    setState: function() {}
+                },
+                {
+                    diagnosKod: 'M118',
+                    hasInfo: false,
+                    setState: function() {}
+                },
+                {
+                    diagnosKod: 'H27',
+                    hasInfo: true,
+                    setState: function() {}
+                }
+            ];
+
+            spyOn(fmbViewState, 'setState').and.callThrough();
+            spyOn(fmbViewState, 'reset').and.callThrough();
+            spyOn(fmbProxy, 'getFMBHelpTextsByCode').and.callFake(function() {
+                var promise = $q.defer();
+                promise.resolve({});
+                return promise.promise;
+            });
+        });
+
+        it('should reset fmb info if invalid code is sent', function() {
+
+            var diagnosType = 0;
+            var originalDiagnosKod = null;
+
+            var result = fmbService.updateFmbText(diagnosType, originalDiagnosKod);
+
             expect(result).toBeFalsy();
+            expect(fmbViewState.reset).toHaveBeenCalled();
+        });
+
+        it('should set fmb info if a valid diagnoses array is provided', function() {
+
+            var diagnosType = 0;
+            var originalDiagnosKod = 'M118';
+
+            var result = fmbService.updateFmbText(diagnosType, originalDiagnosKod);
+            $rootScope.$apply();
+
+            expect(result).toBeTruthy();
             expect(fmbViewState.setState).toHaveBeenCalled();
         });
     });
