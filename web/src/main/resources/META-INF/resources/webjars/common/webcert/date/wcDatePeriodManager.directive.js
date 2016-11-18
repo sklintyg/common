@@ -21,40 +21,37 @@ angular.module('common').directive('wcDatePeriodManager',
     ['common.DateUtilsService', 'common.wcDatePeriodFieldHelper', function(dateUtilsService, datePeriodFieldHelper) {
         'use strict';
 
-        var datePeriods = [];
+        var datePeriods = {};
 
         var updateMoments = function() {
-            for(var i=1; i<datePeriods.length; i++) {
-                var datePeriod = datePeriods[i];
-                datePeriod.from.moment = dateUtilsService.toMomentStrict(datePeriod.from.ngModel.$modelValue);
-                datePeriod.tom.moment = dateUtilsService.toMomentStrict(datePeriod.tom.ngModel.$modelValue);
-            }
+            angular.forEach(datePeriods, function(datePeriod) {
+                datePeriod.from.moment = dateUtilsService.convertDateStrict(datePeriod.from.ngModel.$modelValue);
+                datePeriod.tom.moment = dateUtilsService.convertDateStrict(datePeriod.tom.ngModel.$modelValue);
+            });
         };
 
         var clearOverlaps = function() {
-            for(var i=1; i<datePeriods.length; i++) {
-                var datePeriod = datePeriods[i];
+            angular.forEach(datePeriods, function(datePeriod) {
                 datePeriod.overlap = false;
-            }
+            });
         };
 
         var updateOverlaps = function() {
-            for(var i=1; i<datePeriods.length; i++){
-                var datePeriod = datePeriods[i];
-                for(var j = i + 1; j < datePeriods.length; j++) {
-                    var datePeriod2 = datePeriods[j];
-                    var hasOverlap = datePeriodFieldHelper.hasOverlap(datePeriod, datePeriod2);
-                    if (hasOverlap) {
-                        datePeriod.overlap = true;
-                        datePeriod2.overlap = true;
+            angular.forEach(datePeriods, function(datePeriod) {
+                angular.forEach(datePeriods, function(datePeriod2) {
+                    if (datePeriod != datePeriod2) {
+                        var hasOverlap = datePeriodFieldHelper.hasOverlap(datePeriod, datePeriod2);
+                        if (hasOverlap) {
+                            datePeriod.overlap = true;
+                            datePeriod2.overlap = true;
+                        }
                     }
-                }
-            }
+                });
+            });
         };
 
         var updateValidity = function() {
-            for(var i=1; i<datePeriods.length; i++) {
-                var datePeriod = datePeriods[i];
+            angular.forEach(datePeriods, function(datePeriod) {
                 if (datePeriod.overlap) {
                     datePeriod.from.ngModel.$setValidity('dateperiod', false);
                     datePeriod.tom.ngModel.$setValidity('dateperiod', false);
@@ -62,7 +59,7 @@ angular.module('common').directive('wcDatePeriodManager',
                     datePeriod.from.ngModel.$setValidity('dateperiod', true);
                     datePeriod.tom.ngModel.$setValidity('dateperiod', true);
                 }
-            }
+            });
         };
 
         var datePeriodValidator = function() {
