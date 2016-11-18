@@ -4,8 +4,8 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'sjukskrivningar',
         templateUrl: '/web/webjars/common/webcert/gui/formly/sjukskrivningar.formly.html',
-        controller: ['$scope', 'common.ArendeListViewStateService',
-            function($scope, ArendeListViewState) {
+        controller: ['$scope', 'common.ArendeListViewStateService', 'common.SjukskrivningarViewStateService',
+            function($scope, ArendeListViewState, viewstate) {
                 $scope.getValidationsForPeriod = function(period) {
                     if (!$scope.formState.viewState.common.validationMessagesByField) {
                         return null;
@@ -16,6 +16,18 @@ angular.module('common').run(function(formlyConfig) {
                 $scope.hasKompletteringar = function() {
                     return ArendeListViewState.hasKompletteringar($scope.options.key);
                 };
+
+                $scope.viewstate = viewstate.reset();
+
+                $scope.$on('intyg.loaded', function() {
+                    viewstate.setModel($scope.model[$scope.options.key]);
+                    viewstate.updatePeriods();
+                });
+
+                $scope.$watch('model.' + $scope.options.key, function(newValue, oldValue) {
+                    viewstate.updatePeriods();
+                }, true);
+
             }
         ]
     });

@@ -15,7 +15,7 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
     }
 
     formlyConfig.templateManipulators.preWrapper.push(function(template, options, scope) {
-        var runOnTypes = ['single-text', 'multi-text', 'boolean', 'checkbox-inline', 'radioGroup', 'checkGroup', 'date', 'singleDate'];
+        var runOnTypes = ['single-text', 'multi-text', 'boolean', 'checkbox-inline', 'radioGroup', 'checkGroup', 'date', 'singleDate', 'sjukskrivningar'];
         if (runOnTypes.indexOf(options.type) >= 0) {
             if (options.templateOptions.label && options.templateOptions.label.substring(0, 4) === 'FRG_') {
                 options.templateOptions.bold = true;
