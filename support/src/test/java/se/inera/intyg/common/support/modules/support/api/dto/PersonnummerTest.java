@@ -211,7 +211,7 @@ public class PersonnummerTest {
         assertTrue(exceptionThrownWhenNormalizing);
 
         //Fail this test if a new method is added to Personnummer to make sure a call to it is added here
-        assertEquals(10, countNonPrivateMethodsInClass(Personnummer.class));
+        assertEquals(8, countNonPrivateMethodsInClass(Personnummer.class));
 
     }
 
@@ -219,7 +219,8 @@ public class PersonnummerTest {
         final Method[] declaredMethods = personnummerClass.getDeclaredMethods();
         int counter = 0;
         for (Method declaredMethod : declaredMethods) {
-            if (!Modifier.isPrivate(declaredMethod.getModifiers())) {
+            int modifierBits = declaredMethod.getModifiers();
+            if (!Modifier.isPrivate(modifierBits) && !Modifier.isStatic(modifierBits)) {
                 counter++;
             }
         }

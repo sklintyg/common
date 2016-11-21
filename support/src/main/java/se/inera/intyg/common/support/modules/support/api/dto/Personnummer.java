@@ -20,6 +20,7 @@
 package se.inera.intyg.common.support.modules.support.api.dto;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 import se.inera.intyg.common.util.logging.HashUtility;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
@@ -35,6 +36,21 @@ public class Personnummer {
 
     public Personnummer(String pnr) {
         this.pnr = pnr;
+    }
+
+    /**
+     * Returns a Personnummer with a dash, iff the String is a valid personnummer.
+     * @return Validated personnummer on form (19|20)[0-9]{6}-[0-9]{4}
+     */
+    public static Optional<Personnummer> createValidatedPersonnummerWithDash(String nonValidatedPnr) {
+        try {
+            String pnrWithoutDash = new Personnummer(nonValidatedPnr).getNormalizedPnr();
+            //Check:OFF: MagicNumber
+            return Optional.of(new Personnummer(pnrWithoutDash.substring(0, 8) + '-' + pnrWithoutDash.substring(8, 12)));
+            //Check:ON: MagicNumber
+        } catch (InvalidPersonNummerException e) {
+            return Optional.empty();
+        }
     }
 
     @JsonValue

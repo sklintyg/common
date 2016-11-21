@@ -40,6 +40,7 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
+import se.inera.intyg.common.support.modules.support.api.dto.InvalidPersonNummerException;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
@@ -245,7 +246,10 @@ public final class TransportConverterUtil {
         patient.setPostort(source.getPostort());
         patient.setPostnummer(source.getPostnummer());
         patient.setPostadress(source.getPostadress());
-        patient.setPersonId(new Personnummer(source.getPersonId().getExtension()));
+
+
+        String pnr = source.getPersonId().getExtension();
+        patient.setPersonId(Personnummer.createValidatedPersonnummerWithDash(pnr).orElse(new Personnummer(pnr)));
         if (StringUtils.isBlank(source.getMellannamn())) {
             patient.setFullstandigtNamn(source.getFornamn() + " " + source.getEfternamn());
         } else {
