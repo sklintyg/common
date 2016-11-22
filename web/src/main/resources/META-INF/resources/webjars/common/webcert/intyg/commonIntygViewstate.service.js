@@ -39,24 +39,75 @@ angular.module('common').service('common.IntygViewStateService',
                 newPatientId: false // FK only for now. Consider making specific viewState services for each intyg as with utkast
             };
 
-            this.arende = {
-                amne: undefined,
-                status: undefined,
-                kompletteringar: {}
-            };
+            // Key/value where value is a list
+            this.categoryFieldMap = {};
 
             this.common = commonViewStateService;
             this.common.reset();
         };
 
-        this.updateArende = function(arende) {
-            this.arende.amne = arende.fraga.amne;
-            this.arende.status = arende.fraga.status;
-            this.arende.kompletteringar = arende.fraga.kompletteringar;
+        this.findIndex = function(categoryKey, fieldKey) {
+            var index = -1;
+            if (categoryKey && fieldKey) {
+                var category = this.getCategory(categoryKey);
+                if (Array.isArray(category)) {
+                    category.some(function(item, i) {
+                        return item.id === fieldKey ? (index = i, true) : false;
+                    });
+                }
+            }
+            return index;
+        }
+
+        this.getCategory = function(key) {
+            if (key) {
+                return this.categoryFieldMap[key];
+            }
+        }
+
+        this.getCategoryField = function(categoryKey, fieldKey) {
+            var item = null;
+            if (categoryKey && fieldKey) {
+                var index = this.findIndex(categoryKey, fieldKey)
+                if (index > -1) {
+                    item = getCategory(categoryKey)[index];
+                }
+            }
+            return item;
+        }
+
+        this.hasCategoryField = function(categoryKey ,fieldKey) {
+            if (categoryKey && fieldKey) {
+                return this.findIndex(categoryKey, fieldKey) > -1 ? true : false;
+            }
+            return false;
         };
 
-        this.updateIntygProperties = function(result) {
+        this.setCategory = function(key, value) {
+            if (key && value) {
+                this.categoryFieldMap[key] = value;
+            }
+        }
 
+        this.setCategoryField = function(categoryKey, fieldKey, fieldStatus) {
+            if (categoryKey && fieldKey) {
+                if (!fieldStatus) {
+                    fieldStatus = 'CLOSED';
+                }
+
+                var index = this.findIndex(categoryKey, fieldKey)
+                if (index > -1) {
+                    this.categoryFieldMap[categoryKey].splice(index, 1, {id:fieldKey, status:fieldStatus});
+                } else {
+                    if (!this.categoryFieldMap[categoryKey]) {
+                        this.categoryFieldMap[categoryKey] = [];
+                    }
+                    this.categoryFieldMap[categoryKey].push({id:fieldKey, status:fieldStatus});
+                }
+            }
+        }
+
+        this.updateIntygProperties = function(result) {
             var targetName;
             if(this.intygProperties.type === 'ts-bas' || this.intygProperties.type === 'ts-diabetes') {
                 targetName = 'TS';

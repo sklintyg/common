@@ -92,16 +92,14 @@ angular.module('common').directive('arendePanelSvar',
 
                                 if ($scope.arendeListItem.extraKompletteringarArenden.length > 0) {
                                     angular.forEach($scope.arendeListItem.extraKompletteringarArenden,
-                                        function(arendeListItem) {
-                                            arendeListItem.arende.fraga.status = result.fraga.status;
+                                        function(listItem) {
+                                            listItem.arende.fraga.status = result.fraga.status;
+                                            // Update kompletteringar in the common intyg view state
+                                            $scope.parentViewState.updateKompletteringarArende(listItem.arende);
                                         });
                                     ArendeHelper.splitAllToSingleItems($scope.arendeListItem, $scope.arendeList);
                                 }
-
                                 $scope.arendeListItem.updateArendeListItem(result);
-
-                                // Update arende in the common intyg view state
-                                $scope.parentViewState.setArende($scope.arendeListItem.arende);
 
                                 ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);
                                 statService.refreshStat();

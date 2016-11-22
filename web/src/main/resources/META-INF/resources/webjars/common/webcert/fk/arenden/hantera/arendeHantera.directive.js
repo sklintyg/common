@@ -25,8 +25,8 @@
  * arendeHantera directive. Common directive for Hanterad checkbox
  */
 angular.module('common').directive('arendeHantera',
-    [ '$window', '$log', 'common.ArendeProxy', 'common.statService', 'common.ErrorHelper', 'common.ArendeHelper',
-        function($window, $log, ArendeProxy, statService, ErrorHelper, ArendeHelper) {
+    [ '$window', '$log', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeHelper', 'common.dynamicLabelService',
+        function($window, $log, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService) {
             'use strict';
 
             return {
@@ -72,8 +72,7 @@ angular.module('common').directive('arendeHantera',
                                 angular.copy(result, arendeListItem.arende);
                                 arendeListItem.updateArendeListItem();
 
-                                // Update arende int common intyg view state
-                                $scope.parentViewState.setArende(arendeListItem.arende);
+                                $scope.parentViewState.updateKompletteringarArende(arendeListItem.arende);
 
                                 statService.refreshStat();
                                 ArendeHelper.splitToSingleItem(arendeListItem, $scope.arendeList);
@@ -106,8 +105,7 @@ angular.module('common').directive('arendeHantera',
                                 angular.copy(result, arendeListItem.arende);
                                 arendeListItem.updateArendeListItem();
 
-                                // Update arende in the common intyg view state
-                                $scope.parentViewState.setArende(arendeListItem.arende);
+                                $scope.parentViewState.updateKompletteringarArende(arendeListItem.arende);
 
                                 statService.refreshStat();
                                 ArendeHelper.checkMergeToKompletteringItem(arendeListItem, $scope.arendeList);

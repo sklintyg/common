@@ -1,13 +1,14 @@
 <div>
 
-  <div wc-intyg-field category-number="{{group.templateOptions.category}}" field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
+  <div wc-intyg-field field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
     <div ng-repeat="field in group.fieldGroup">
-      <div wc-view-intyg-field category-number="group.templateOptions.category" field="field" next-field="group.fieldGroup[$index+1]" intyg-model="intygModel"></div>
+      <wc-kmplt-wrapper category-key="{{group.templateOptions.category}}" field-key="{{field.key}}"></wc-kmplt-wrapper>
+      <div wc-view-intyg-field field="field" next-field="group.fieldGroup[$index+1]" intyg-model="intygModel"></div>
       <div ng-repeat="subField in field.fieldGroup">
-        <div wc-view-intyg-field category-number="group.templateOptions.category" field="subField" next-field="field.fieldGroup[$index+1]" intyg-model="intygModel"></div>
+        <wc-kmplt-wrapper category-key="{{group.templateOptions.category}}" field-key="{{subField.key}}"></wc-kmplt-wrapper>
+        <div wc-view-intyg-field field="subField" next-field="field.fieldGroup[$index+1]" intyg-model="intygModel"></div>
       </div>
     </div>
-
   </div>
 
   <tillaggs-fragor-view tillaggs-fragor="intygModel.tillaggsfragor"></tillaggs-fragor-view>

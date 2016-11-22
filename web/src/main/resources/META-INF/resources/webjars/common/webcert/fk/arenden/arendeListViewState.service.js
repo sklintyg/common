@@ -35,9 +35,12 @@ angular.module('common').service('common.ArendeListViewStateService',
                 relations: []
             };
 
-            // Injecting the IntygViewStateService service so client-side only changes on the intyg page (such as a send/revoke)
-            // can trigger GUI updates in the Q&A view.
+            // Injecting the IntygViewStateService service so client-side only changes
+            // on the intyg page (such as a send/revoke) can trigger GUI updates in the Q&A view.
             this.common = IntygViewStateService;
+
+            // Adding a list of kompletteringar to the IntygViewStateService.
+            // Each entry in this list will have another list of kompletteringar
             this.common.kompletteringar = [];
 
             return this;
@@ -55,18 +58,55 @@ angular.module('common').service('common.ArendeListViewStateService',
         };
 
         this.getKompletteringar = function(key) {
-            if (this.common.kompletteringar[key]) {
+             if (this.common.kompletteringar[key]) {
                 return this.common.kompletteringar[key];
-            }
-            return [];
+             }
+             return [];
         };
 
         this.setKompletteringar = function(kompletteringar) {
             this.common.kompletteringar = kompletteringar;
         };
 
-        this.setArende = function(arende) {
-            this.common.updateArende(arende);
+        this.updateKompletteringar = function(kompletteringar) {
+            angular.forEach(kompletteringar, function(komplettering) {
+                angular.forEach(komplettering, function(kmplt) {
+                    var key = kmplt.jsonPropertyHandle;
+
+                    // Reset and update with latest
+                    this.common.kompletteringar[key] = [];
+                    this.common.kompletteringar[key].push(kmplt);
+                }, this);
+            }, this);
+        };
+
+        this.updateKompletteringarArende = function(arende) {
+            if (arende) {
+                // Update kompletteringar in the common intyg view state
+                var kompletteringar = {};
+                angular.forEach(arende.fraga.kompletteringar, function(komplettering) {
+                    komplettering.amne = arende.fraga.amne;
+                    komplettering.status = arende.fraga.status;
+
+                    var key = komplettering.jsonPropertyHandle;
+                    if (key === 'tillaggsfragor') {
+                        var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
+                        if (tillaggsfragor) {
+                            for (var i = 0; i < tillaggsfragor.length; i++) {
+                                if (tillaggsfragor[i].id === komplettering.frageId) {
+                                    key += '[' + i + '].svar';
+                                }
+                            }
+                        }
+                    }
+                    if (!kompletteringar[key]) {
+                        kompletteringar[key] = [];
+                    }
+
+                    kompletteringar[key].push(komplettering);
+                });
+                this.updateKompletteringar(kompletteringar);
+            }
         };
 
         this.reset();

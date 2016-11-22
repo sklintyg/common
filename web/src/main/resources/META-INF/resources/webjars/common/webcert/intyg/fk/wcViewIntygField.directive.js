@@ -21,26 +21,6 @@ angular.module('common').directive('wcViewIntygField', ['$rootScope', 'common.Ob
     function($rootScope, ObjectHelper, IntygViewStateService) {
         'use strict';
 
-        function _initFieldCategoryMap() {
-            if (IntygViewStateService.fcMap === undefined) {
-                IntygViewStateService.fcMap = {};
-
-                IntygViewStateService.fcMap.has = function(key) {
-                    return this.hasOwnProperty(key);
-                };
-
-                IntygViewStateService.fcMap.get = function(key) {
-                    return this[key];
-                };
-
-                IntygViewStateService.fcMap.set = function(key, value) {
-                    if ( !this.has(key) ) {
-                        this[key] = value;
-                    }
-                };
-            }
-        }
-
         return {
             restrict: 'AE',
             replace: true,
@@ -53,19 +33,12 @@ angular.module('common').directive('wcViewIntygField', ['$rootScope', 'common.Ob
             templateUrl: '/web/webjars/common/webcert/intyg/fk/wcViewIntygField.directive.html',
             link: function(scope, element, attrs) {
 
-                _initFieldCategoryMap(scope);
-
-                if (scope.field.key && scope.categoryNumber) {
-                    IntygViewStateService.fcMap.set(scope.field.key, scope.categoryNumber);
-                }
-
                 scope.showField = function(field){
                     return !field.templateOptions.hideFromSigned &&
                      (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
                 };
 
                 scope.showFieldLine = function(field, nextField) {
-
                     var showField = scope.showField(field);
 
                     if(showField){
