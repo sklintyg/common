@@ -75,19 +75,19 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                     // dagen efter 'till och med' datumet för den föregående perioden.
 
                     var prevDatePeriodTom = {
-                        'EN_FJARDEDEL' : DateUtilsService.convertDateStrict(this.model['HALFTEN'].period.tom),
-                        'HALFTEN' : DateUtilsService.convertDateStrict(this.model['TRE_FJARDEDEL'].period.tom),
-                        'TRE_FJARDEDEL' : DateUtilsService.convertDateStrict(this.model['HELT_NEDSATT'].period.tom),
+                        'EN_FJARDEDEL' : DateUtilsService.convertDateStrict(this.model.HALFTEN.period.tom),
+                        'HALFTEN' : DateUtilsService.convertDateStrict(this.model.TRE_FJARDEDEL.period.tom),
+                        'TRE_FJARDEDEL' : DateUtilsService.convertDateStrict(this.model.HELT_NEDSATT.period.tom)
                     };
 
-                    if (!prevDatePeriodTom['EN_FJARDEDEL']) {
-                        prevDatePeriodTom['EN_FJARDEDEL'] = prevDatePeriodTom['HALFTEN'];
+                    if (!prevDatePeriodTom.EN_FJARDEDEL) {
+                        prevDatePeriodTom.EN_FJARDEDEL = prevDatePeriodTom.HALFTEN;
                     }
-                    if (!prevDatePeriodTom['EN_FJARDEDEL']) {
-                        prevDatePeriodTom['EN_FJARDEDEL'] = prevDatePeriodTom['TRE_FJARDEDEL'];
+                    if (!prevDatePeriodTom.EN_FJARDEDEL) {
+                        prevDatePeriodTom.EN_FJARDEDEL = prevDatePeriodTom.TRE_FJARDEDEL;
                     }
-                    if (!prevDatePeriodTom['HALFTEN']) {
-                        prevDatePeriodTom['HALFTEN'] = prevDatePeriodTom['TRE_FJARDEDEL'];
+                    if (!prevDatePeriodTom.HALFTEN) {
+                        prevDatePeriodTom.HALFTEN = prevDatePeriodTom.TRE_FJARDEDEL;
                     }
 
                     if (prevDatePeriodTom[period]) {
@@ -118,8 +118,7 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
 
             this.updatePeriods = function() {
 
-                var minDate = undefined;
-                var maxDate = undefined;
+                var minDate, maxDate;
 
                 angular.forEach(this.model, function(value, key) {
 

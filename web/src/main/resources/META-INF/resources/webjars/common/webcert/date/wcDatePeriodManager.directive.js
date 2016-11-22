@@ -39,7 +39,7 @@ angular.module('common').directive('wcDatePeriodManager',
         var updateOverlaps = function() {
             angular.forEach(datePeriods, function(datePeriod) {
                 angular.forEach(datePeriods, function(datePeriod2) {
-                    if (datePeriod != datePeriod2) {
+                    if (datePeriod !== datePeriod2) {
                         var hasOverlap = datePeriodFieldHelper.hasOverlap(datePeriod, datePeriod2);
                         if (hasOverlap) {
                             datePeriod.overlap = true;
