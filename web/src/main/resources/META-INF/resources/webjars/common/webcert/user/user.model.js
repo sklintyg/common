@@ -207,6 +207,10 @@ angular.module('common').factory('common.UserModel',
                 return this.hasRequestOrigin(this.requestOrigins.UTHOPP);
             },
 
+            isNormalOrigin: function _isNormalOrigin() {
+                return this.hasRequestOrigin(this.requestOrigins.NORMAL);
+            },
+
             isVardAdministrator: function _isVardAdministrator() {
                 return this.hasRoles() && this.user.roles.VARDADMINISTRATOR !== undefined;
             },

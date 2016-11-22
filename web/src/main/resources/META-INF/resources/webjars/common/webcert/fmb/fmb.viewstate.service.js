@@ -17,38 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').service('common.fmb.ViewStateService',
-        function() {
-            'use strict';
+angular.module('common').service('common.fmbViewState', [
+    'common.fmbDiagnosInfoModel', 'common.ObjectHelper',
+    function(fmbModel, ObjectHelper) {
+        'use strict';
 
-            this.state = {
-                formData: [],
-                diagnosKod: undefined,
-                diagnosBeskrivning: undefined,
-                originalDiagnoskod: undefined
-            };
+        this.DIAGNOS_TYPE = {
+            HUVUDDIAGNOS: 0,
+            BIDIAGNOS1: 1,
+            BIDIAGNOS2: 2
+        };
 
-            this.reset = function() {
-                this.state.formData = [];
-                this.state.diagnosKod = undefined;
-                return this;
-            };
+        this.diagnoses = {
+            // The following properties are created and deleted on demand depending on FMB info available.
+            // 0: fmbModel.build(), // huvuddiagnos
+            // 1: fmbModel.build(), // bidiagnos
+            // 2: fmbModel.build() // bidiagnos
+        };
+        this.activeDiagnos = 1;
 
-            var transformFormData = function transformFormData(formData) {
-                var transformedFormData = {};
-                formData.forms.forEach(function(item) {
-                    transformedFormData[item.name] = item.content;
-                });
+        this.setState = function(diagnosType, formData, originalDiagnosKod) {
 
-                return transformedFormData;
-            };
+            if(!ObjectHelper.isEmpty(originalDiagnosKod) && !angular.isObject(this.diagnoses[diagnosType])){
+                this.diagnoses[diagnosType] = fmbModel.build();
+            }
 
-            this.setState = function(formData, diagnosKod, diagnosBeskrivning, originalDiagnoskod){
-                this.state.formData = transformFormData(formData);
-                this.state.diagnosKod = diagnosKod;
-                this.state.diagnosBeskrivning = diagnosBeskrivning;
-                this.state.originalDiagnoskod = originalDiagnoskod;
-            };
+            this.diagnoses[diagnosType].setState(formData, originalDiagnosKod);
+        };
 
-            this.reset();
-        });
+        this.reset = function(diagnosType) {
+            delete this.diagnoses[diagnosType];
+        };
+    }]);

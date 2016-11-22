@@ -20,31 +20,29 @@
 /**
  * wcField directive. Used to abstract common layout for full-layout form fields in intyg modules
  */
-angular.module('common').directive('wcIntygField',
-    [ 'common.messageService', 'common.dynamicLabelService', 'common.IntygViewStateService',
-        function(messageService, dynamicLabelService, IntygViewStateService) {
-            'use strict';
+angular.module('common').directive('wcIntygField', function() {
+    'use strict';
 
-            return {
-                restrict: 'A',
-                transclude: true,
-                replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/wcIntygField.directive.html',
-                scope: {
-                    fieldDynamicLabel: '@',
-                    fieldLabel: '@',
-                    filled: '@?'
-                },
-                controller: function($scope) {
-                    if ($scope.filled === undefined) {
-                        $scope.filled = 'true';
-                    }
+    return {
+        restrict: 'A',
+        transclude: true,
+        replace: true,
+        templateUrl: '/web/webjars/common/webcert/intyg/fk/wcIntygField.directive.html',
+        scope: {
+            fieldDynamicLabel: '@',
+            fieldLabel: '@',
+            filled: '@?'
+        },
+        controller: function($scope) {
+            if ($scope.filled === undefined) {
+                $scope.filled = 'true';
+            }
 
-                    $scope.categoryHasKomplettering = false;
-                    this.setCategoryHasKomplettering = function(hasKomplettering) {
-                        $scope.categoryHasKomplettering = hasKomplettering;
-                    };
-
-                }
+            $scope.categoryHasKomplettering = false;
+            this.setCategoryHasKomplettering = function(hasKomplettering) {
+                $scope.categoryHasKomplettering = hasKomplettering;
             };
-        }]);
+
+        }
+    };
+});

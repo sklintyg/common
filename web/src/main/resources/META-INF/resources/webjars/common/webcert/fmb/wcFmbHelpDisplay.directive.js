@@ -20,26 +20,29 @@
 /**
  * Display FMB help texts
  */
-angular.module('common').directive('wcFmbHelpDisplay',
-        function() {
-            'use strict';
+angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', 'common.fmbService',
+    function(ObjectHelper, fmbService) {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                scope: {
-                    helpTextContents: '=',
-                    diagnosisDescription: '=',
-                    diagnosisCode: '=',
-                    originalDiagnosisCode: '=',
-                    relatedFormId: '@'
-                },
-                link: function(scope, element, attrs) {
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                fmbStates: '=',
+                fieldName: '@',
+                relatedFormId: '@'
+            },
+            link: function(scope, element, attrs) {
+                scope.status = {
+                    open: true
+                };
 
-                    //Some status we need to have on the accordion
-                    scope.status = {
-                        open: true
-                    };
-                },
-                templateUrl: '/web/webjars/common/webcert/fmb/wcFmbHelpDisplay.directive.html'
-            };
-        });
+                scope.$watch('fmbStates', function(newVal, oldVal) {
+                    scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(newVal);
+                }, true);
+
+                scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(scope.fmbStates);
+            },
+            templateUrl: '/web/webjars/common/webcert/fmb/wcFmbHelpDisplay.directive.html'
+        };
+    }]);

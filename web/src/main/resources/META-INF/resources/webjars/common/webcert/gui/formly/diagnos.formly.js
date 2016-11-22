@@ -4,10 +4,10 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
-        controller: ['$scope', '$log', 'common.DiagnosProxy', 'common.fmb.ViewStateService', 'common.fmbService',
+        controller: ['$scope', '$log', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService',
             'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService',
-            function($scope, $log, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService, ArendeListViewState) {
-                var enableFMB = $scope.options.data.enableFMB;
+            function($scope, $log, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService,
+                ArendeListViewState) {
 
                 var formState = $scope.formState;
                 formState.diagnosKodSystem = 'ICD_10_SE';
@@ -17,7 +17,8 @@ angular.module('common').run(function(formlyConfig) {
                         // We only want to log when the diagnoskodverk really changed and not when the value is set in the beginning
                         // of loading the utkast
                         if (oldVal) {
-                            monitoringService.diagnoskodverkChanged(formState.viewState.intygModel.id, formState.viewState.common.intyg.type);
+                            monitoringService.diagnoskodverkChanged(formState.viewState.intygModel.id,
+                                formState.viewState.common.intyg.type);
                         }
                     }
                 });
@@ -25,11 +26,25 @@ angular.module('common').run(function(formlyConfig) {
                 $scope.diagnosKodLoading = [];
                 $scope.diagnosKodNoResults = [];
 
-                $scope.$watchCollection(
+                $scope.$watch(
                     'model.diagnoser[0].diagnosKod', function(newValue) {
                         //Reset fmb if we no longer have a valid diagnoseCode to work with
                         if (ObjectHelper.isEmpty(newValue) || newValue.length < 3) {
-                            fmbViewState.reset();
+                            fmbViewState.reset(0);
+                        }
+                    });
+                $scope.$watch(
+                    'model.diagnoser[1].diagnosKod', function(newValue) {
+                        //Reset fmb if we no longer have a valid diagnoseCode to work with
+                        if (ObjectHelper.isEmpty(newValue) || newValue.length < 3) {
+                            fmbViewState.reset(1);
+                        }
+                    });
+                $scope.$watch(
+                    'model.diagnoser[2].diagnosKod', function(newValue) {
+                        //Reset fmb if we no longer have a valid diagnoseCode to work with
+                        if (ObjectHelper.isEmpty(newValue) || newValue.length < 3) {
+                            fmbViewState.reset(2);
                         }
                     });
 
@@ -70,154 +85,131 @@ angular.module('common').run(function(formlyConfig) {
                         });
                 };
 
-            $scope.searchDiagnoseByDescription = function(codeSystem, val) {
-                return diagnosProxy.searchByDescription(codeSystem, val)
-                    .then(function(response) {
-                        if (response && response.data && response.data.resultat === 'OK') {
-                            var result = response.data.diagnoser.map(function(item) {
-                                return {
-                                    value: item.kod,
-                                    beskrivning: item.beskrivning,
-                                    label: item.kod + ' | ' + item.beskrivning,
-                                    shortPsykiskDiagnos: isShortPsykiskDiagnos(item.kod)
-                                };
-                            });
-                            if (result.length > 0) {
-                                result[0].moreResults = response.data.moreResults;
+                $scope.searchDiagnoseByDescription = function(codeSystem, val) {
+                    return diagnosProxy.searchByDescription(codeSystem, val)
+                        .then(function(response) {
+                            if (response && response.data && response.data.resultat === 'OK') {
+                                var result = response.data.diagnoser.map(function(item) {
+                                    return {
+                                        value: item.kod,
+                                        beskrivning: item.beskrivning,
+                                        label: item.kod + ' | ' + item.beskrivning,
+                                        shortPsykiskDiagnos: isShortPsykiskDiagnos(item.kod)
+                                    };
+                                });
+                                if (result.length > 0) {
+                                    result[0].moreResults = response.data.moreResults;
+                                }
+                                return result;
                             }
-                            return result;
-                        }
-                        else {
+                            else {
+                                return [];
+                            }
+                        }, function(response) {
+                            $log.debug('Error searching diagnose code');
+                            $log.debug(response);
                             return [];
-                        }
-                    }, function(response) {
-                        $log.debug('Error searching diagnose code');
-                        $log.debug(response);
-                        return [];
-                    });
-            };
+                        });
+                };
 
-            $scope.onDiagnoseCodeSelect = function($index, $item) {
-                if (isShortPsykiskDiagnos($item.value)) {
-                    $scope.model[$scope.options.key][$index].diagnosKod = undefined;
-                    return;
-                }
-                $scope.model[$scope.options.key][$index].diagnosBeskrivning = $item.beskrivning;
-                $scope.model[$scope.options.key][$index].diagnosKodSystem = formState.diagnosKodSystem;
-                $scope.form.$setDirty();
-                if ($index === 0) {
-                    $scope.updateFmbText();
-                }
-            };
-
-            $scope.onDiagnoseDescriptionSelect = function($index, $item) {
-                if (isShortPsykiskDiagnos($item.value)) {
-                    $scope.model[$scope.options.key][$index].diagnosKod = undefined;
-                    $scope.model[$scope.options.key][$index].diagnosBeskrivning = undefined;
-                    return;
-                }
-                $scope.model[$scope.options.key][$index].diagnosKod = $item.value;
-                $scope.model[$scope.options.key][$index].diagnosBeskrivning = $item.beskrivning;
-                $scope.model[$scope.options.key][$index].diagnosKodSystem = formState.diagnosKodSystem;
-                $scope.form.$setDirty();
-                if ($index === 0 || $item.value.length === 0) {
-                    $scope.updateFmbText();
-                }
-            };
-
-            $scope.onDiagnoseCodeChanged = function(index) {
-                if (!$scope.form['diagnoseCode' + index].$viewValue) {
-                    $scope.model[$scope.options.key][index].diagnosBeskrivning = undefined;
-                }
-            };
-
-            $scope.onDiagnoseDescriptionChanged = function(index) {
-                if (!$scope.model[$scope.options.key][index].diagnosBeskrivning) {
-                    $scope.model[$scope.options.key][index].diagnosKod = undefined;
-                }
-            };
-
-            $scope.onChangeKodverk = function() {
-                resetDiagnoses();
-                setAlldiagnosKodSystem(formState.diagnosKodSystem);
-            };
-
-            $scope.addDiagnos = function() {
-                $scope.model[$scope.options.key].push({
-                    diagnosKodSystem: formState.diagnosKodSystem,
-                    diagnosKod : undefined,
-                    diagnosBeskrivning : undefined
-                });
-            };
-
-            $scope.removeDiagnos = function(index) {
-                $scope.model[$scope.options.key].splice(index, 1);
-                $scope.form.$setDirty();
-                $scope.updateFmbText();
-
-            };
-
-            function resetDiagnoses(){
-                $scope.model[$scope.options.key].forEach(function(diagnos) {
-                    diagnos.diagnosKodSystem = formState.diagnosKodSystem;
-                    diagnos.diagnosKod = undefined;
-                    diagnos.diagnosBeskrivning = undefined;
-                });
-            }
-
-            function setAlldiagnosKodSystem(val) {
-                formState.diagnosKodSystem = val;
-                $scope.model[$scope.options.key].forEach(function(diagnos) {
-                    diagnos.diagnosKodSystem = val;
-                });
-            }
-
-            $scope.onBlurDiagnoseCodeField = function(index) {
-                if (index === 0) {
-                    $scope.updateFmbText();
-                }
-            };
-
-            $scope.updateFmbText = function() {
-                if (!enableFMB) {
-                    return;
-                }
-
-                var diagnoseCode = $scope.model[$scope.options.key][0].diagnosKod;
-
-                if (ObjectHelper.isEmpty(diagnoseCode)) {
-                    fmbViewState.reset();
-                } else if (fmbViewState.state.diagnosKod !== diagnoseCode) {
-
-                    fmbService.getFMBHelpTextsByCode(diagnoseCode).then(function(formData) {
-                        fmbViewState.setState(formData, formData.icd10Code, formData.icd10Description, diagnoseCode);
-                    }, function fmbReject(data) {
-                        $log.debug('Error searching fmb help text');
-                        fmbViewState.reset();
-                        return [];
-                    });
-                }
-            };
-
-            $scope.hasKomplettering = function() {
-                return ArendeListViewState.hasKompletteringar($scope.options.key);
-            };
-
-            $scope.hasValidationError = function(field, index) {
-                return $scope.formState.viewState.common.validationMessagesByField &&
-                    !!$scope.formState.viewState.common.validationMessagesByField['diagnoser.' + index + '.' + field];
-            };
-
-            $scope.$watch('formState.viewState.common.validationMessagesByField', function() {
-                $scope.diagnosValidations = [];
-                angular.forEach($scope.formState.viewState.common.validationMessagesByField, function(validations, key) {
-                    if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
-                        $scope.diagnosValidations = $scope.diagnosValidations.concat(validations);
+                $scope.onDiagnoseCodeSelect = function(index, $item) {
+                    var diagnoseModel = $scope.model[$scope.options.key][index];
+                    if (isShortPsykiskDiagnos($item.value)) {
+                        diagnoseModel.diagnosKod = undefined;
+                        return;
                     }
+                    diagnoseModel.diagnosBeskrivning = $item.beskrivning;
+                    diagnoseModel.diagnosKodSystem = formState.diagnosKodSystem;
+                    $scope.form.$setDirty();
+                    fmbService.updateFmbText(index, $item.value);
+                };
+
+                $scope.onDiagnoseDescriptionSelect = function(index, $item) {
+                    var diagnoseModel = $scope.model[$scope.options.key][index];
+                    if (isShortPsykiskDiagnos($item.value)) {
+                        diagnoseModel.diagnosKod = undefined;
+                        diagnoseModel.diagnosBeskrivning = undefined;
+                        return;
+                    }
+                    diagnoseModel.diagnosKod = $item.value;
+                    diagnoseModel.diagnosBeskrivning = $item.beskrivning;
+                    diagnoseModel.diagnosKodSystem = formState.diagnosKodSystem;
+                    $scope.form.$setDirty();
+                    fmbService.updateFmbText(index, $item.value);
+                };
+
+                $scope.onDiagnoseCodeChanged = function(index) {
+                    if (!$scope.form['diagnoseCode' + index].$viewValue) {
+                        $scope.model[$scope.options.key][index].diagnosBeskrivning = undefined;
+                        fmbService.updateFmbText(index, null);
+                    }
+                };
+
+                $scope.onDiagnoseDescriptionChanged = function(index) {
+                    if (!$scope.model[$scope.options.key][index].diagnosBeskrivning) {
+                        $scope.model[$scope.options.key][index].diagnosKod = undefined;
+                        fmbService.updateFmbText(index, null);
+                    }
+                };
+
+                $scope.onChangeKodverk = function() {
+                    resetDiagnoses();
+                    setAlldiagnosKodSystem(formState.diagnosKodSystem);
+                };
+
+                $scope.addDiagnos = function() {
+                    $scope.model[$scope.options.key].push({
+                        diagnosKodSystem: formState.diagnosKodSystem,
+                        diagnosKod: undefined,
+                        diagnosBeskrivning: undefined
+                    });
+                };
+
+                function resetDiagnoses() {
+                    $scope.model[$scope.options.key].forEach(function(diagnos) {
+                        diagnos.diagnosKodSystem = formState.diagnosKodSystem;
+                        diagnos.diagnosKod = undefined;
+                        diagnos.diagnosBeskrivning = undefined;
+                    });
+                }
+
+                function setAlldiagnosKodSystem(val) {
+                    formState.diagnosKodSystem = val;
+                    $scope.model[$scope.options.key].forEach(function(diagnos) {
+                        diagnos.diagnosKodSystem = val;
+                    });
+                }
+
+                $scope.onBlurDiagnoseCodeField = function(index) {
+                    if (!$scope.model[$scope.options.key][index].diagnosKod) {
+                        // Clear diagnoskod in all cases when not selected from the typeahead
+                        $scope.form['diagnoseCode' + index].$setViewValue();
+                        $scope.form['diagnoseCode' + index].$render();
+                    }
+                    fmbService.updateFmbText(index, $scope.model[$scope.options.key][index].diagnosKod);
+                };
+
+                $scope.hasValidationError = function(field, index) {
+                    return $scope.formState.viewState.common.validationMessagesByField &&
+                        !!$scope.formState.viewState.common.validationMessagesByField['diagnoser.' + index + '.' +
+                        field];
+                };
+
+
+                $scope.hasKomplettering = function() {
+                    return ArendeListViewState.hasKompletteringar($scope.options.key);
+                };
+
+                $scope.$watch('formState.viewState.common.validationMessagesByField', function() {
+                    $scope.diagnosValidations = [];
+                    angular.forEach($scope.formState.viewState.common.validationMessagesByField,
+                        function(validations, key) {
+                            if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
+                                $scope.diagnosValidations = $scope.diagnosValidations.concat(validations);
+                            }
+                        });
                 });
-            });
-
-        }]
+            }
+        ]
     });
-
 });

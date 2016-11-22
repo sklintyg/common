@@ -28,9 +28,9 @@ angular.module('common').factory('common.DateUtilsService', function() {
     var _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
     var _format = 'YYYY-MM-DD';
 
-    var dayCodeReg = /^d((?!0+$)\d{1,3})$/i;
-    var weekCodeReg = /^v((?!0+$)\d{1,3})$/i;
-    var monthCodeReg = /^m((?!0+$)\d{1,2})$/i;
+    var dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i;
+    var weekCodeReg = /^(?=\d*v\d*$)v?(?!0+v?$)(\d{1,3})v?$/i;
+    var monthCodeReg = /^(?=\d*m\d*$)m?(?!0+m?$)(\d{1,2})m?$/i;
 
     function _parseDayCodes(input) {
         if (input && typeof input === 'string') {

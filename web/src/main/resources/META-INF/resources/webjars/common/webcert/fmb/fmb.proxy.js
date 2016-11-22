@@ -17,14 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Do an override of the templateUrl of the original accordionGroupDirective
- * so that we can have custom look for our fmb display
- */
-angular.module('common').directive('wcAccordionGroup',
-    function (uibAccordionGroupDirective) {
+angular.module('common').factory('common.fmbProxy', ['$http' , '$q', '$log',
+    function($http, $q, $log) {
         'use strict';
 
-        return angular.extend({}, uibAccordionGroupDirective[0], {templateUrl: '/web/webjars/common/webcert/fmb/wcAccordionGroup.template.html'});
-    });
+        /*
+         * get diagnosis by code
+         */
+        function _getFMBHelpTextsByCode(diagnosisCode) {
+            var deferred = $q.defer(),
+                restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
+
+            $http.get(restPath).success(function(response) {
+                deferred.resolve(response);
+            }).error(function(response, status) {
+                $log.error('error ' + status);
+                deferred.reject(status);
+            });
+
+            return deferred.promise;
+        }
+
+        // Return public API for the service
+        return {
+            getFMBHelpTextsByCode: _getFMBHelpTextsByCode
+        };
+    }]);
 

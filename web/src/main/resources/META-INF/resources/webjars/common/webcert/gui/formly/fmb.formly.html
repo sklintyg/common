@@ -1,5 +1,4 @@
 <div class="form-inline" ng-class="to.panelClass">
-  <wc-fmb-help-display related-form-id="{{to.relatedFormId}}" diagnosis-code="fmbState.diagnosKod"
-                       diagnosis-description="fmbState.diagnosBeskrivning" original-diagnosis-code="fmbState.originalDiagnoskod"
-                       help-text-contents="fmbState.formData[to.helpTextContents]"></wc-fmb-help-display>
+  <wc-fmb-help-display related-form-id="{{to.relatedFormId}}" fmb-states="fmbStates"
+                       field-name="{{to.fieldName}}"></wc-fmb-help-display>
 </div>
