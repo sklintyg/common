@@ -57,28 +57,28 @@ angular.module('common').service('common.IntygViewStateService',
                 }
             }
             return index;
-        }
+        };
 
         this.getCategory = function(key) {
             if (key) {
                 return this.categoryFieldMap[key];
             }
-        }
+        };
 
         this.getCategoryField = function(categoryKey, fieldKey) {
             var item = null;
             if (categoryKey && fieldKey) {
-                var index = this.findIndex(categoryKey, fieldKey)
+                var index = this.findIndex(categoryKey, fieldKey);
                 if (index > -1) {
-                    item = getCategory(categoryKey)[index];
+                    item = this.getCategory(categoryKey)[index];
                 }
             }
             return item;
-        }
+        } ;
 
         this.hasCategoryField = function(categoryKey ,fieldKey) {
             if (categoryKey && fieldKey) {
-                return this.findIndex(categoryKey, fieldKey) > -1 ? true : false;
+                return this.findIndex(categoryKey, fieldKey) > -1;
             }
             return false;
         };
@@ -87,7 +87,7 @@ angular.module('common').service('common.IntygViewStateService',
             if (key && value) {
                 this.categoryFieldMap[key] = value;
             }
-        }
+        };
 
         this.setCategoryField = function(categoryKey, fieldKey, fieldStatus) {
             if (categoryKey && fieldKey) {
@@ -95,7 +95,7 @@ angular.module('common').service('common.IntygViewStateService',
                     fieldStatus = 'CLOSED';
                 }
 
-                var index = this.findIndex(categoryKey, fieldKey)
+                var index = this.findIndex(categoryKey, fieldKey);
                 if (index > -1) {
                     this.categoryFieldMap[categoryKey].splice(index, 1, {id:fieldKey, status:fieldStatus});
                 } else {
@@ -105,7 +105,7 @@ angular.module('common').service('common.IntygViewStateService',
                     this.categoryFieldMap[categoryKey].push({id:fieldKey, status:fieldStatus});
                 }
             }
-        }
+        };
 
         this.updateIntygProperties = function(result) {
             var targetName;
