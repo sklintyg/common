@@ -1,15 +1,9 @@
 <div>
-    <label class="control-label inline-block" ng-class="{'bold' : to.bold}">
-        <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
-        <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
-        {{to.required ? '*' : ''}}
-        <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
-        <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
-    </label>
-    <textarea id="{{options.key}}" name="{{options.key}}" rows='6'
-              class='form-control' ng-model="model[options.key]">
+  <wc-form-label to="to"></wc-form-label>
+  <textarea id="{{options.key}}" name="{{options.key}}" rows='6' class='form-control' ng-model="model[options.key]">
     </textarea>
-    <div ng-if="to.subTextId && to.subTextDynId" class="info-transfer">
-      <span ng-if="to.subTextId && to.subTextDynId" combined-label dyn-key="{{to.subTextDynId}}.RBK" stat-key="{{to.subTextId}}"></span>
-    </div>
+  <div ng-if="to.subTextId && to.subTextDynId" class="info-transfer">
+    <span ng-if="to.subTextId && to.subTextDynId" combined-label dyn-key="{{to.subTextDynId}}.RBK"
+          stat-key="{{to.subTextId}}"></span>
+  </div>
 </div>

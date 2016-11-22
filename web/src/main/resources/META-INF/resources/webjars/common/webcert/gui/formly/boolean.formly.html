@@ -1,12 +1,5 @@
 <div class="form-inline">
-    <div>
-        <label class="inline-block" ng-class="{'bold' : to.bold}">
-            <span dynamic-label key="{{to.label}}.RBK"></span>
-            {{to.required ? '*' : ''}}
-            <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
-        </label>
-    </div>
-
+    <wc-form-label to="to"></wc-form-label>
     <label class="radio-inline big-radio-label">
         <input id="{{options.key}}Yes" name="{{options.key}}" type="radio" class="big-radio"
                ng-value="true" ng-model="model[options.key]"/> Ja

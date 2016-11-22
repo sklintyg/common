@@ -35,6 +35,7 @@ angular.module('common').directive('wcHelpMark',
                     helpMarkAppendtobody: '=?',
                     helpMarkClass: '@'
                 },
+                templateUrl: '/web/webjars/common/webcert/gui/wcHelpMark.directive.html',
                 link: function($scope, element, attr) {
 
                     $scope.text = '';
@@ -94,7 +95,6 @@ angular.module('common').directive('wcHelpMark',
                     attr.$observe('fieldDynamicHelpText', updateMessage);
 
                     updateMessage();
-                },
-                templateUrl: '/web/webjars/common/webcert/gui/wcHelpMark.directive.html'
+                }
             };
         }]);

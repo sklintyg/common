@@ -191,6 +191,13 @@ a {
     }
 }
 
+/* main view class styles targeting just the intyg view side should use */
+.intyg-view {
+  h5 {
+    font-weight: bold;
+  }
+}
+
 
 /* Common for intygstyper */
 
@@ -212,7 +219,8 @@ a {
     }
     h4 {
         font-size: 16px;
-        padding-bottom: 20px;
+        padding-bottom: 15px;
+        line-height: 19px;
         &.intyg-field-number {
             float: right;
             padding: 0 0 0 10px;
@@ -224,8 +232,9 @@ a {
         }
     }
     h5 {
-        font-size: 14px;
-        padding-bottom: 10px;
+        font-size: 13px;
+        padding-bottom: 5px;
+        line-height: 17px;
         &.noH4Before {
             padding-top: 10px;
         }

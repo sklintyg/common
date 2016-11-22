@@ -1,0 +1,26 @@
+<div>
+  <h4 ng-if="frageId && !to.forceHeadingTypeLabel" ng-class="{'noH5After': !delFrageId}">
+    <span ng-if="frageId" dynamic-label key="{{frageId}}.RBK"></span>
+    <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
+    <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
+    {{to.required ? '*' : ''}}
+    <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+    <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
+  </h4>
+  <h5 ng-if="delFrageId && !to.forceHeadingTypeLabel">
+    <span ng-if="delFrageId" dynamic-label key="{{delFrageId}}.RBK"></span>
+    <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
+    <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
+    {{to.required ? '*' : ''}}
+    <span ng-if="delFrageId" wc-help-mark field-dynamic-help-text="{{delFrageId}}.HLP"></span>
+    <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
+  </h5>
+  <label ng-if="to.forceHeadingTypeLabel">
+    <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+    <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
+    <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
+    {{to.required ? '*' : ''}}
+    <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+    <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
+  </label>
+</div>

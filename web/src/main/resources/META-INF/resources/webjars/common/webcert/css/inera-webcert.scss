@@ -143,10 +143,6 @@
     font-weight: bold;
   }
 
-  h5 {
-    font-weight: bold;
-  }
-
   h6 {
     font-weight: bold;
   }
@@ -861,6 +857,10 @@ Modular modifiers
 
 .padding-top-small {
   padding-top: 5px;
+}
+
+.padding-top-medium {
+  padding-top: 15px;
 }
 
 .padding-top-large {

@@ -16,6 +16,8 @@ angular.module('common').run(function(formlyConfig) {
                 $scope.to.formType = 'inline';
             }
 
+            $scope.to.forceHeadingTypeLabel = true;
+
             // Restore data model value form attic if exists
             AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
 

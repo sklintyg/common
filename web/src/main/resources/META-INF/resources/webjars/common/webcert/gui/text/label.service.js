@@ -16,6 +16,11 @@ angular.module('common').factory('common.dynamicLabelService',
             var tillaggsFragor = null;
 
             function _hasProperty(key) {
+
+                if(_labelResources === null){
+                    return false;
+                }
+
                 var text = _labelResources[key];
                 if (typeof text === 'undefined' || text === '') {
                     return false;

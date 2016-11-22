@@ -3,7 +3,9 @@
   <div wc-intyg-field field-dynamic-label="KAT_{{group.templateOptions.category}}.RBK" ng-repeat="group in intygFields">
     <div ng-repeat="field in group.fieldGroup">
       <wc-kmplt-wrapper category-key="{{group.templateOptions.category}}" field-key="{{field.key}}"></wc-kmplt-wrapper>
-      <div wc-view-intyg-field field="field" next-field="group.fieldGroup[$index+1]" intyg-model="intygModel"></div>
+      <div wc-view-intyg-field field="field" next-field="group.fieldGroup[$index+1]"
+           intyg-model="intygModel"
+           ng-if="!field.wrapper"></div>
       <div ng-repeat="subField in field.fieldGroup">
         <wc-kmplt-wrapper category-key="{{group.templateOptions.category}}" field-key="{{subField.key}}"></wc-kmplt-wrapper>
         <div wc-view-intyg-field field="subField" next-field="field.fieldGroup[$index+1]" intyg-model="intygModel"></div>

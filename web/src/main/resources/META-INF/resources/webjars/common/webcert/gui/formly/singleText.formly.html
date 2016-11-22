@@ -1,11 +1,6 @@
 <div class="form-{{to.formType}} row" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
   <div class="col-md-{{to.labelColSize}} control-label">
-    <label class="form-control-label">
-        <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
-        <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
-        {{to.required ? '*' : ''}}
-    </label>
-    <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.help}}.HLP"></span>
+    <wc-form-label to="to"></wc-form-label>
   </div>
   <div class="col-md-{{12 - to.labelColSize}}">
     <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
