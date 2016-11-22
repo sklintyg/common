@@ -285,11 +285,11 @@ describe('ArendeListCtrl', function() {
 
            expect(ArendenViewState.getKompletteringar('funktionsnedsattning')).toEqual([]);
            expect(ArendenViewState.getKompletteringar('arbetsresor')).toEqual(
-               [{'position':0, 'instans':1, 'frageId':'34',   'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'arbetsresor'}]);
+               [{'position':0, 'instans':1, 'frageId':'34',   'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'arbetsresor', amne: 'KOMPLT', status: 'PENDING_INTERNAL_ACTION'}]);
            expect(ArendenViewState.getKompletteringar('tillaggsfragor[0].svar')).toEqual(
-               [{'position':0, 'instans':1, 'frageId':'9003', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor'}]);
+               [{'position':0, 'instans':1, 'frageId':'9003', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor', amne: 'KOMPLT', status: 'PENDING_INTERNAL_ACTION'}]);
            expect(ArendenViewState.getKompletteringar('tillaggsfragor[1].svar')).toEqual(
-               [{'position':0, 'instans':1, 'frageId':'9001', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor'}]);
+               [{'position':0, 'instans':1, 'frageId':'9001', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor', amne: 'KOMPLT', status: 'PENDING_INTERNAL_ACTION'}]);
            expect(ArendenViewState.getKompletteringar('tillaggsfragor[2].svar')).toEqual([]);
            expect(ArendenViewState.getKompletteringar('tillaggsfragor')).toEqual([]);
 
