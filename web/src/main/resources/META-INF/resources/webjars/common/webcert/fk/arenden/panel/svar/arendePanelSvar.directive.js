@@ -100,6 +100,7 @@ angular.module('common').directive('arendePanelSvar',
                                     ArendeHelper.splitAllToSingleItems($scope.arendeListItem, $scope.arendeList);
                                 }
                                 $scope.arendeListItem.updateArendeListItem(result);
+                                $scope.parentViewState.updateKompletteringarArende($scope.arendeListItem.arende);
 
                                 ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);
                                 statService.refreshStat();
