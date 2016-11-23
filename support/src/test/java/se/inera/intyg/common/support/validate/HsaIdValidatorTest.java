@@ -21,11 +21,10 @@ package se.inera.intyg.common.support.validate;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import se.inera.intyg.common.support.common.util.StringUtil;
 
 public class HsaIdValidatorTest {
 
@@ -56,7 +55,7 @@ public class HsaIdValidatorTest {
     }
 
     private void assertListSize(int size, List<String> collection) {
-        String validationMessage = StringUtil.join(",", collection);
+        String validationMessage = StringUtils.join(collection, ',');
         Assert.assertEquals(validationMessage, size, collection.size());
     }
 

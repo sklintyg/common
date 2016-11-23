@@ -1,5 +1,0 @@
-description = "Common (Security Authorities)"
-
-dependencies {
-  compile project(':security-common')
-}

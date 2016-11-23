@@ -19,10 +19,10 @@
 
 package se.inera.intyg.common.support.modules.support.api.exception;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Collections;
 import java.util.List;
-
-import se.inera.intyg.common.support.common.util.StringUtil;
 
 public class ModuleValidationException extends ModuleException {
 
@@ -31,7 +31,7 @@ public class ModuleValidationException extends ModuleException {
     private final List<String> validationEntries;
 
     public ModuleValidationException(List<String> validationEntries) {
-        super(StringUtil.join(",", validationEntries));
+        super(StringUtils.join(validationEntries, ','));
         this.validationEntries = validationEntries;
     }
 
@@ -46,7 +46,7 @@ public class ModuleValidationException extends ModuleException {
     }
 
     public ModuleValidationException(List<String> validationEntries, Throwable cause) {
-        super(StringUtil.join(",", validationEntries), cause);
+        super(StringUtils.join(validationEntries, ','), cause);
         this.validationEntries = validationEntries;
     }
 

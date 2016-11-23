@@ -19,15 +19,14 @@
 
 package se.inera.intyg.common.support.validate;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.List;
-
-import java.time.LocalDate;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.inera.intyg.common.support.common.util.StringUtil;
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test the {@link PersonnummerValidator}.
@@ -62,7 +61,7 @@ public class SamordningsnummerValidatorTest {
     }
 
     private void assertListSize(int size, List<String> collection) {
-        String validationMessage = StringUtil.join(",", collection);
+        String validationMessage = StringUtils.join(collection, ',');
         assertEquals(validationMessage, size, collection.size());
     }
 }

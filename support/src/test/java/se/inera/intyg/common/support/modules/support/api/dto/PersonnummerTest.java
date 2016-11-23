@@ -30,7 +30,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import se.inera.intyg.common.util.logging.HashUtility;
+import se.inera.intyg.common.support.common.util.HashUtility;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

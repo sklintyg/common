@@ -2,7 +2,6 @@ description = 'Intyg Common (Schemas)'
 
 dependencies {
   compile project(':common-support')
-  compile project(':logging-util')
 
   compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
 }

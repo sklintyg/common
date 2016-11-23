@@ -6,5 +6,5 @@ dependencies {
 
   compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
   compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:${jacksonVersion}"
-  compile "org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"  
+  compile "org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"
 }
