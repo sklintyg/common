@@ -26,8 +26,6 @@ angular.module('common').controller('common.ArendeListCtrl',
                     // Merge all kompletteringar and set in ArendeListViewState
                     var kompletteringar = {};
                     angular.forEach(result, function(arende) {
-                        ArendeListViewState.updateKompletteringarArende(arende, ArendeListViewState.setKompletteringar);
-
                         angular.forEach(arende.fraga.kompletteringar, function(komplettering) {
                             komplettering.amne = arende.fraga.amne;
                             komplettering.status = arende.fraga.status;
