@@ -300,6 +300,43 @@ describe('ArendeListCtrl', function() {
            expect(ArendenViewState.hasKompletteringar('tillaggsfragor[2].svar')).toBeFalsy();
            expect(ArendenViewState.hasKompletteringar('tillaggsfragor')).toBeFalsy();
        });
+
+        it('should not include hanterade ärenden', function() {
+            ArendeProxy.getArenden.and.callFake(function(id, type, success, error) {
+                success([{
+                    'fraga':{
+                        'kompletteringar':[
+                            {'position':0, 'instans':1, 'frageId':'34',   'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'arbetsresor'}
+                        ],
+                        'internReferens':'6efaf8ea-adf6-698c-3be3-b2c7ae7cd3e6', 'status':'PENDING_INTERNAL_ACTION', 'amne':'KOMPLT',
+                        'meddelandeRubrik':'Komplettering', 'vidarebefordrad':false, 'frageStallare':'FK', 'externaKontakter':[],
+                        'meddelande':'', 'signeratAv':'Arnold Johansson', 'svarSkickadDatum':'2016-07-13T17:23:00.000',
+                        'intygId':'9020fbb9-e387-40b0-ba75-ac2746e4736b', 'enhetsnamn':'NMT vg3 ve1', 'vardgivarnamn':'NMT vg3',
+                        'timestamp':'2016-11-08T11:40:26.441', 'arendeType':'FRAGA'
+                    }, 'senasteHandelse':'2016-11-08T11:40:26.441', 'paminnelser':[]
+                },{
+                    'fraga':{
+                        'kompletteringar':[
+                            {'position':0, 'instans':1, 'frageId':'6',   'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'diagnos'}
+                        ],
+                        'internReferens':'6efaf8ea-adf6-698c-3be3-b2c7ae7cd3e6', 'status':'CLOSED', 'amne':'KOMPLT',
+                        'meddelandeRubrik':'Komplettering', 'vidarebefordrad':false, 'frageStallare':'FK', 'externaKontakter':[],
+                        'meddelande':'', 'signeratAv':'Arnold Johansson', 'svarSkickadDatum':'2016-07-13T17:23:00.000',
+                        'intygId':'9020fbb9-e387-40b0-ba75-ac2746e4736b', 'enhetsnamn':'NMT vg3 ve1', 'vardgivarnamn':'NMT vg3',
+                        'timestamp':'2016-11-08T11:40:26.441', 'arendeType':'FRAGA'
+                    }, 'senasteHandelse':'2016-11-08T11:40:26.441', 'paminnelser':[]
+                }]);
+            });
+
+            $rootScope.$broadcast('ViewCertCtrl.load', testCert, {
+                isSent: true,
+                isRevoked: false,
+                type: 'testIntyg'
+            });
+
+            expect(ArendenViewState.hasKompletteringar('arbetsresor')).toBeTruthy();
+            expect(ArendenViewState.hasKompletteringar('diagnos')).toBeFalsy();
+        });
     });
 
 });

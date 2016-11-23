@@ -11,7 +11,7 @@
     <div class="inline-block" ng-if="fieldHelpText != undefined || fieldDynamicHelpText != undefined" wc-help-mark field-help-text="{{fieldHelpText}}"
          field-dynamic-help-text="{{fieldDynamicHelpText}}"></div>
   </div>
-	<span class="intyg-block__content" ng-class="{unfilled: filled == 'false', categoryerror: fieldHasErrors}">
+	<span class="intyg-block__content" ng-class="{unfilled: filled == 'false', categoryerror: fieldHasErrors, categorykmplt: fieldHasKomplettering}">
     <span class="intyg-field-blank" ng-hide="filled == 'true'"> <span message key="common.notset"></span></span>
 		<span ng-transclude ng-show="filled == 'true'"></span>
   </span>

@@ -26,27 +26,29 @@ angular.module('common').controller('common.ArendeListCtrl',
                     // Merge all kompletteringar and set in ArendeListViewState
                     var kompletteringar = {};
                     angular.forEach(result, function(arende) {
-                        angular.forEach(arende.fraga.kompletteringar, function(komplettering) {
-                            komplettering.amne = arende.fraga.amne;
-                            komplettering.status = arende.fraga.status;
+                        if (arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
+                            angular.forEach(arende.fraga.kompletteringar, function (komplettering) {
+                                komplettering.amne = arende.fraga.amne;
+                                komplettering.status = arende.fraga.status;
 
-                            var key = komplettering.jsonPropertyHandle;
-                            if (key === 'tillaggsfragor') {
-                                var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
-                                if (tillaggsfragor) {
-                                    for (var i = 0; i < tillaggsfragor.length; i++) {
-                                        if (tillaggsfragor[i].id === komplettering.frageId) {
-                                            key += '[' + i + '].svar';
+                                var key = komplettering.jsonPropertyHandle;
+                                if (key === 'tillaggsfragor') {
+                                    var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
+                                    if (tillaggsfragor) {
+                                        for (var i = 0; i < tillaggsfragor.length; i++) {
+                                            if (tillaggsfragor[i].id === komplettering.frageId) {
+                                                key += '[' + i + '].svar';
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            if (!kompletteringar[key]) {
-                                kompletteringar[key] = [];
-                            }
+                                if (!kompletteringar[key]) {
+                                    kompletteringar[key] = [];
+                                }
 
-                            kompletteringar[key].push(komplettering);
-                        });
+                                kompletteringar[key].push(komplettering);
+                            });
+                        }
                     });
                     ArendeListViewState.setKompletteringar(kompletteringar);
 
