@@ -14,7 +14,10 @@ angular.module('common').factory('common.TillaggsfragorHelper',
                     fields.push({
                         key: 'tillaggsfragor[' + i + '].svar',
                         type: 'multi-text',
-                        templateOptions: { label: 'DFR_' + tillagsFraga.id + '.1', id: 'tillaggsfragor_' + tillagsFraga.id }
+                        templateOptions: { label: 'DFR_' + tillagsFraga.id + '.1',
+                            id: 'tillaggsfragor_' + tillagsFraga.id,
+                            forceHeadingTypeLabel: true
+                        }
                     });
                 }
 
