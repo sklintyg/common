@@ -19,15 +19,13 @@
 
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,6 +34,8 @@ import se.inera.intyg.common.util.logging.HashUtility;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static org.junit.Assert.*;
 
 public class PersonnummerTest {
 
@@ -290,6 +290,38 @@ public class PersonnummerTest {
 
         //Then
         assertEquals(expected, normalizedPnr);
+    }
+
+    @Test
+    public void testCreateValidatedPersonnummerWithDash() throws Exception {
+        //null <==> return nothing
+        @SuppressWarnings("unchecked")
+        Pair<String, String>[] argumentAndResult = (Pair<String, String>[]) new Pair[] {
+                Pair.of(null, null),
+                Pair.of("", null),
+                Pair.of("19121212-1212", "19121212-1212"),
+                Pair.of("191212121212", "19121212-1212"),
+                Pair.of("1212121212", "20121212-1212"),
+                Pair.of("21121212-1212", null),
+                Pair.of("20121212-1212", "20121212-1212"),
+                Pair.of("201212121212", "20121212-1212"),
+                Pair.of("121212+1212", "19121212-1212"),
+                Pair.of("121212+112", null),
+                Pair.of("21212-1212", null),
+        };
+
+        for(int i = 0; i < argumentAndResult.length; i++) {
+            String currentArgumentLabel = String.format("argument[%d]:\"%s\"", i, argumentAndResult[i].getLeft());
+            Optional<Personnummer> pnr = Personnummer.createValidatedPersonnummerWithDash(argumentAndResult[i].getLeft());
+            if(argumentAndResult[i].getRight() == null) {
+                assertFalse(String.format("Returned something when it should not have, %s", currentArgumentLabel), pnr.isPresent());
+            } else {
+                assertTrue(String.format("Failed to return something when it should have, %s", currentArgumentLabel), pnr.isPresent());
+                if(pnr.isPresent()) {
+                    assertEquals(currentArgumentLabel, argumentAndResult[i].getRight(), pnr.get().getPersonnummer());
+                }
+            }
+        }
     }
 
     @Test

@@ -53,6 +53,10 @@ public class Personnummer {
         }
     }
 
+    public static Optional<Personnummer> createValidatedPersonnummerWithDash(Personnummer nonValidatedPnr) {
+        return createValidatedPersonnummerWithDash(nonValidatedPnr.getPersonnummer());
+    }
+
     @JsonValue
     public String getPersonnummer() {
         return pnr;
