@@ -32,7 +32,7 @@ angular.module('common').service('common.DatePickerOpenService', function() {
         // Close last opened datepicker
         if(toggledDatePickerState.isOpen === true){
 
-            if(this.openDatePicker){
+            if(this.openDatePicker && toggledDatePickerState !== this.openDatePicker){
                 this.openDatePicker.isOpen = false;
                 this.openDatePicker = null;
             }

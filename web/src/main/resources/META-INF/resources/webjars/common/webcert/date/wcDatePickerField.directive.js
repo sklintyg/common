@@ -72,12 +72,6 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                     });
                 };
 
-                $scope.$watch('pickerState.isOpen', function(newValue, oldValue) {
-                    if (oldValue && !newValue) {
-                        datePickerOpen.update($scope.pickerState);
-                    }
-                });
-
                 $scope.onDatepickerInputFieldBlur = function() {
                     $scope.onBlur();
                 };

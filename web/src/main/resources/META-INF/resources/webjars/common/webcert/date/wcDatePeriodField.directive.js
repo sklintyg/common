@@ -65,12 +65,6 @@ angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout
                     });
                 };
 
-                $scope.$watch('pickerState.isOpen', function(newValue, oldValue) {
-                    if (oldValue && !newValue) {
-                        datePickerOpen.update($scope.pickerState);
-                    }
-                });
-
                 this.fieldOptions = {
                     field : $scope.field,
                     index : $scope.index,

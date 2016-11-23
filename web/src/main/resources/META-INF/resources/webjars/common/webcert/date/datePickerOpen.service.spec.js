@@ -75,6 +75,17 @@ describe('DatePickerOpenService', function() {
             expect(pickerState.isOpen).toBeFalsy();
         });
 
+        it('can open with same datepicker as previous', function(){
+
+            pickerState.isOpen = true;
+            DatePickerOpenService.openDatePicker = pickerState;
+
+            DatePickerOpenService.update(pickerState);
+
+            expect(DatePickerOpenService.openDatePicker).toBe(pickerState);
+            expect(pickerState.isOpen).toBeTruthy();
+        });
+
         it('can close datepicker without previous', function(){
 
             pickerState.isOpen = false;
