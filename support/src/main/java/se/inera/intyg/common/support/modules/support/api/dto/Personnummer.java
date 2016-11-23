@@ -45,9 +45,9 @@ public class Personnummer {
     public static Optional<Personnummer> createValidatedPersonnummerWithDash(String nonValidatedPnr) {
         try {
             String pnrWithoutDash = new Personnummer(nonValidatedPnr).getNormalizedPnr();
-            //Check:OFF: MagicNumber
+            //CHECKSTYLE:OFF MagicNumber
             return Optional.of(new Personnummer(pnrWithoutDash.substring(0, 8) + '-' + pnrWithoutDash.substring(8, 12)));
-            //Check:ON: MagicNumber
+            //CHECKSTYLE:ON MagicNumber
         } catch (InvalidPersonNummerException e) {
             return Optional.empty();
         }
