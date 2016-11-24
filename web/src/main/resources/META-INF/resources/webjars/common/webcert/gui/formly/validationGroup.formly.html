@@ -1,4 +1,5 @@
 <wc-validation-group field-type="{{to.type}}"
+                     warnings="formState.viewState.common.warningMessagesByField[to.validationGroup.toLowerCase()]"
                      validations="formState.viewState.common.validationMessagesByField[to.validationGroup.toLowerCase()]">
   <formly-transclude></formly-transclude>
 </wc-validation-group>

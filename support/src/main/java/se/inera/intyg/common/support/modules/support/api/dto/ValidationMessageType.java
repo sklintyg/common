@@ -25,5 +25,6 @@ public enum ValidationMessageType {
     INVALID_FORMAT, // invalid_format DOES generate error even if "Visa vad som saknas" is NOT pressed
     INCORRECT_COMBINATION,
     OTHER,
-    PERIOD_OVERLAP
+    PERIOD_OVERLAP,
+    WARN // Warn never generates error or stops signing. It's used for non-blocking info/warning messages such as when user has specified a date which is in the future which may be weird but not invalid.
 }

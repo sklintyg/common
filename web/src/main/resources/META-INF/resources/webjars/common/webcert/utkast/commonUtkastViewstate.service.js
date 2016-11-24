@@ -45,6 +45,9 @@ angular.module('common').service('common.UtkastViewStateService',
             this.validationMessagesGrouped  = null;
             this.validationMessagesByField = null;
 
+            this.warningMessages  = null;
+            this.warningMessagesByField = null;
+
             this.doneLoading = false;
             this.collapsedHeader = false;
             this.saving = false;

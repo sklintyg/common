@@ -29,6 +29,7 @@ angular.module('common').directive('wcFieldValidation',
                 templateUrl: '/web/webjars/common/webcert/utkast/wcFieldValidation.directive.html',
                 scope: {
                     validations: '=',
+                    warnings: '=',
                     fieldType: '@',
                     labelColSize: '@'
                 },
@@ -43,7 +44,6 @@ angular.module('common').directive('wcFieldValidation',
                         }
                         return section;
                     };
-
                 }
             };
         }]);

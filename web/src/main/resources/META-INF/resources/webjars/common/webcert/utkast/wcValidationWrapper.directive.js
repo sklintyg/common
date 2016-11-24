@@ -29,6 +29,7 @@ angular.module('common').directive('wcValidationWrapper',
                 templateUrl: '/web/webjars/common/webcert/utkast/wcValidationWrapper.directive.html',
                 scope: {
                     validations: '=',
+                    warnings: '=',
                     fieldType: '@',
                     labelColSize: '@',
                     key: '@',

@@ -25,11 +25,15 @@ import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Common utils used for validation.
@@ -69,7 +73,6 @@ public final class ValidatorUtil {
     }
 
     public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field) {
-        boolean valid = true;
         if (!date.isValidDate()) {
             addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT);
             return false;
@@ -78,9 +81,21 @@ public final class ValidatorUtil {
         if (!date.isReasonable()) {
             addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT,
                     "common.validation.date_out_of_range");
-            valid = false;
+            return false;
         }
-        return valid;
+        return true;
+    }
+
+    public static boolean validateDateWithWarnings(InternalDate date, List<ValidationMessage> validationMessages, String field) {
+        boolean isValid = validateDate(date, validationMessages, field);
+
+
+        // Note that being in the future doesn't make it invalid per se, only WARN
+        if (date.beforeMinDateOrInFuture(LocalDate.MIN)) {
+            ValidatorUtil.addValidationError(validationMessages, field, ValidationMessageType.WARN,
+                    "common.validation.future.datum");
+        }
+        return isValid;
     }
 
     public static void validateVardenhet(GrundData grundData, List<ValidationMessage> validationMessages) {
@@ -117,6 +132,11 @@ public final class ValidatorUtil {
     }
 
     public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg, String dynamicLabel) {
+
+        // Bit of a hack - but make sure no WARN types are added to the ERROR list.
+        if (type == ValidationMessageType.WARN) {
+            return;
+        }
         validationMessages.add(new ValidationMessage(field, type, msg, dynamicLabel));
         LOG.debug(field + " " + msg);
     }
@@ -213,4 +233,18 @@ public final class ValidatorUtil {
         return bool != null && !bool;
     }
 
+    public static ValidateDraftResponse buildValidateDraftResponse(List<ValidationMessage> validationMessages) {
+        List<ValidationMessage> errors = validationMessages.stream().filter(isValidationError()).collect(Collectors.toList());
+        List<ValidationMessage> warnings = validationMessages.stream().filter(isValidationWarning()).collect(Collectors.toList());
+
+        return new ValidateDraftResponse(getValidationStatus(errors), errors, warnings);
+    }
+
+    private static Predicate<ValidationMessage> isValidationWarning() {
+        return vm -> vm.getType() == ValidationMessageType.WARN;
+    }
+
+    private static Predicate<ValidationMessage> isValidationError() {
+        return vm -> vm.getType() != ValidationMessageType.WARN;
+    }
 }

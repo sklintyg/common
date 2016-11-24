@@ -417,6 +417,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
         'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
         'common.validation.date_out_of_range': 'Datum får inte ligga för långt fram eller tillbaka i tiden.',
+        'common.validation.future.datum': 'Observera att du valt ett datum framåt i tiden.',
         'common.validation.diagnos.missing': 'Huvuddiagnos måste anges',
         'common.validation.diagnos0.missing': 'ICD-10 kod saknas på huvuddiagnosen.',
         'common.validation.diagnos0.invalid': 'ICD-10 kod på huvuddiagnosen är ej giltig',

@@ -378,6 +378,8 @@ describe('UtkastService', function() {
             expect(viewState.common.validationMessages).toEqual([
                 {'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}]);
             expect(viewState.common.validationSections).toEqual(['errorfield']);
+
+            expect(viewState.common.warningMessages).toEqual([]);
         });
 
         it ('successful utkast save and draft incorrect format, showComplete is true', function () {
@@ -428,6 +430,32 @@ describe('UtkastService', function() {
             expect(viewState.common.validationMessagesGrouped).toEqual({});
             expect(viewState.common.validationMessages).toEqual([]);
             expect(viewState.common.validationSections).toEqual([]);
+        });
+
+        it ('successful utkast save and draft complete, with warnings', function () {
+            var saveResponse = {
+                'version':1,
+                'status':'DRAFT_COMPLETE',
+                'messages':[],
+                'warnings':[{'field':'warning.field','type':'WARN','message':'warn.message'}]
+            };
+
+            $httpBackend.expectPUT('/moduleapi/utkast/testIntyg/testIntygId/1').respond(200, saveResponse);
+
+            utkastService.save();
+
+            $rootScope.$apply();
+            $httpBackend.flush();
+
+            expect(formFailStateSet).toBeFalsy();
+            expect(viewState.common.error.saveErrorMessage).toBe(null);
+            expect(viewState.common.intyg.isComplete).toBeTruthy();
+            expect(viewState.common.validationMessagesGrouped).toEqual({});
+            expect(viewState.common.validationMessages).toEqual([]);
+            expect(viewState.common.validationSections).toEqual([]);
+
+            expect(viewState.common.warningMessages).toEqual([{'field':'warning.field','type':'WARN','message':'warn.message'}]);
+            expect(viewState.common.warningMessagesByField['field']).toBeDefined();
         });
 
         it ('unsuccessful utkast save', function () {
