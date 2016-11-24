@@ -1,5 +1,7 @@
-<wc-validation-group field-type="{{to.type}}"
+<wc-validation-group id="validationGroup-{{to.validationGroup}}"
+                     field-type="{{to.type}}"
                      warnings="formState.viewState.common.warningMessagesByField[to.validationGroup.toLowerCase()]"
-                     validations="formState.viewState.common.validationMessagesByField[to.validationGroup.toLowerCase()]">
+                     validations="formState.viewState.common.validationMessagesByField[to.validationGroup.toLowerCase()]"
+                     kompletteringar="formState.hasKompletteringar(to.kompletteringGroup)">
   <formly-transclude></formly-transclude>
 </wc-validation-group>
