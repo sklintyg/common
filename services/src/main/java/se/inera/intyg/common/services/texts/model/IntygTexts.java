@@ -133,10 +133,7 @@ public final class IntygTexts {
         } else if (!intygsTyp.equals(other.intygsTyp)) {
             return false;
         }
-        if (compareVersions(this, other) != 0) {
-            return false;
-        }
-        return true;
+        return compareVersions(this, other) == 0;
     }
 
     public String getPdfPath() {

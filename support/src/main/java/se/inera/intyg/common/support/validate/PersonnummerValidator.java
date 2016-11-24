@@ -21,15 +21,14 @@ package se.inera.intyg.common.support.validate;
 
 import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Performs validation of a 'Personnummer'. The following can be configured:
@@ -169,7 +168,7 @@ public class PersonnummerValidator implements RootValidator {
         if (strictSeparatorCheck) {
             Period age = Period.between(birthday, referenceDate());
             boolean ageMoreThan100 = age.getYears() >= AGE_CUTOFF;
-            boolean dashSeparator = separator.equals("-");
+            boolean dashSeparator = "-".equals(separator);
             if (ageMoreThan100 && dashSeparator) {
                 result.add(String.format(
                         "The SSN '%s' is invalid - citizen is over 100 years old but the separator '-' is used", pnr));

@@ -19,10 +19,7 @@
 
 package se.inera.intyg.common.support.xml;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,12 +113,12 @@ public class SchemaValidatorBuilder {
 
         @Override
         public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
-            systemId = getLastPathSegment(systemId);
+            String lastPathSegment = getLastPathSegment(systemId);
 
             for (Source source : sources) {
-                if (source.getSystemId().equals(systemId)) {
+                if (source.getSystemId().equals(lastPathSegment)) {
                     InputStream resourceAsStream = ((StreamSource) source).getInputStream();
-                    return new LSInputImpl(publicId, systemId, resourceAsStream);
+                    return new LSInputImpl(publicId, lastPathSegment, resourceAsStream);
                 }
             }
 
@@ -184,26 +181,32 @@ public class SchemaValidatorBuilder {
 
             @Override
             public void setBaseURI(String baseURI) {
+                // Do nothing
             }
 
             @Override
             public void setByteStream(InputStream byteStream) {
+                // Do nothing
             }
 
             @Override
             public void setCertifiedText(boolean certifiedText) {
+                // Do nothing
             }
 
             @Override
             public void setCharacterStream(Reader characterStream) {
+                // Do nothing
             }
 
             @Override
             public void setEncoding(String encoding) {
+                // Do nothing
             }
 
             @Override
             public void setStringData(String stringData) {
+                // Do nothing
             }
 
             @Override

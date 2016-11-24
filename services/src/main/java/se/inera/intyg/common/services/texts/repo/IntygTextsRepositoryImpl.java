@@ -31,6 +31,7 @@ import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -110,7 +111,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
     protected LocalDate getDate(Element root, String id) {
         String date = root.getAttribute(id);
-        return date == null || "".equals(date) ? null : LocalDate.parse(date);
+        return StringUtils.isBlank(date) ? null : LocalDate.parse(date);
     }
 
     protected SortedMap<String, String> getTexter(Element element) {
