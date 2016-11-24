@@ -455,7 +455,7 @@ describe('UtkastService', function() {
             expect(viewState.common.validationSections).toEqual([]);
 
             expect(viewState.common.warningMessages).toEqual([{'field':'warning.field','type':'WARN','message':'warn.message'}]);
-            expect(viewState.common.warningMessagesByField['field']).toBeDefined();
+            expect(viewState.common.warningMessagesByField.field).toBeDefined();
         });
 
         it ('unsuccessful utkast save', function () {
