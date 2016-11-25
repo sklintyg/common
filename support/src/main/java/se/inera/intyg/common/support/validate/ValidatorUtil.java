@@ -90,8 +90,9 @@ public final class ValidatorUtil {
         boolean isValid = validateDate(date, validationMessages, field);
 
 
+        // For structurally valid dates, check if it is a future date
         // Note that being in the future doesn't make it invalid per se, only WARN
-        if (date.beforeMinDateOrInFuture(LocalDate.MIN)) {
+        if (date.isValidDate() && date.asLocalDate().isAfter(LocalDate.now())) {
             ValidatorUtil.addValidationError(validationMessages, field, ValidationMessageType.WARN,
                     "common.validation.future.datum");
         }

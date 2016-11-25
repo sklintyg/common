@@ -61,4 +61,13 @@ public class ValidatorUtilTest {
         assertEquals("common.validation.future.datum", errors.get(0).getMessage());
     }
 
+    @Test
+    public void testGarbageDateDoesNotReturnFutureMessage() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        boolean valid = ValidatorUtil.validateDateWithWarnings(new InternalDate("notADate"), errors, "testfield");
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+    //    assertEquals(assertEquals("common.validation.future.datum", errors.get(0).getMessage());)
+    }
+
 }
