@@ -45,6 +45,9 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 
+/**
+ * Provides utility methods for converting domain objects from transport format to internal Java format.
+ */
 public final class TransportConverterUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransportConverterUtil.class);

@@ -42,6 +42,9 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Relation;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
 
+/**
+ * Provides utility methods for converting domain objects from internal Java format to transport format.
+ */
 public final class InternalConverterUtil {
 
     private static final String NOT_AVAILABLE = "N/A";
