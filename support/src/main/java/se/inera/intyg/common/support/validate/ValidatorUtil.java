@@ -72,6 +72,19 @@ public final class ValidatorUtil {
         return (BASE_10 - (cs % BASE_10)) % BASE_10;
     }
 
+    /**
+     * Validates that the supplied date is parsable and reasonable. Reasonable is defined as somewhere between
+     * {@link InternalDate#MIN_DATE} and {@link InternalDate#MAX_DATE}, typically 1900-01-01 to 2099-12-31.
+     *
+     * @param date
+     *      Date to validate.
+     * @param validationMessages
+     *      List of validationMessages. Any validation errors and/or warnings are added to this list.
+     * @param field
+     *      Field identifier, used if a validation entry has to be added.
+     * @return
+     *      True if valid, false otherwise.
+     */
     public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field) {
         if (!date.isValidDate()) {
             addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT);
@@ -86,7 +99,21 @@ public final class ValidatorUtil {
         return true;
     }
 
-    public static boolean validateDateWithWarnings(InternalDate date, List<ValidationMessage> validationMessages, String field) {
+    /**
+     * Performs the normal date validation {@link ValidatorUtil#validateDate(InternalDate, List, String)} as well as
+     * checking if the supplied date is in the future. If future, a {@link ValidationMessage} of type {@link ValidationMessageType#WARN}
+     * is added to the supplied list of validationMessages.
+     *
+     * @param date
+     *      Date to validate.
+     * @param validationMessages
+     *      List of validationMessages. Any validation errors and/or warnings are added to this list.
+     * @param field
+     *      Field identifier, used if a validation entry has to be added.
+     * @return
+     *      True if date was valid according to {@link ValidatorUtil#validateDate(InternalDate, List, String)}.
+     */
+    public static boolean validateDateAndWarnIfFuture(InternalDate date, List<ValidationMessage> validationMessages, String field) {
         boolean isValid = validateDate(date, validationMessages, field);
 
 
