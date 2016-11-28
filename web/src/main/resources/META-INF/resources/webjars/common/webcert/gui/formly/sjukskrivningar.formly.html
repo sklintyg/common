@@ -20,20 +20,28 @@
   <wc-validation-group field-type="{{to.type}}"
                        validations="formState.viewState.common.validationMessagesByField[options.key]"
                        kompletteringar="hasKompletteringar()">
-    <div class="form-inline" data-ng-repeat="field in to.fields">
+    <div class="form-horizontal" data-ng-repeat="field in to.fields">
 
       <wc-validation-wrapper field-type="date-period" validations="getValidationsForPeriod(field)">
-        <div class="row">
-          <div class="col-md-3">
-            <label>
-              <input class="form-control" type="checkbox" ng-model="viewstate.periods[field].checked" ng-change="viewstate.updateCheckBox(field)">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="big-checkbox-label checkbox-inline">
+              <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked" ng-change="viewstate.updateCheckBox(field)">
               <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>
             </label>
             <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{field}}.HLP"></span>
           </div>
-          <div class="col-md-9">
-            från och med <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"></span>
-            till och med <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom"></span>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="{{options.key}}-{{field}}-from">från och med</label>
+            <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"></span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="{{options.key}}-{{field}}-tom">till och med</label>
+            <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom"></span>
           </div>
         </div>
       </wc-validation-wrapper>
