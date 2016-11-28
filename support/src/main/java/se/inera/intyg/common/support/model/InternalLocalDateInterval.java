@@ -43,6 +43,7 @@ public class InternalLocalDateInterval {
     private InternalDate tom;
 
     public InternalLocalDateInterval() {
+        // Needed for deserialization
     }
 
     /**

@@ -39,7 +39,7 @@ public class Status {
     }
 
     public Status() {
-
+        // Needed for deserialization
     }
 
     public CertificateState getType() {

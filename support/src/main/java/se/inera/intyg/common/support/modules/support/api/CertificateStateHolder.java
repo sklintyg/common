@@ -32,6 +32,7 @@ public class CertificateStateHolder {
         private LocalDateTime timestamp;
 
         public CertificateStateHolder() {
+            // Needed for deserialization
         }
 
         public CertificateStateHolder(String target, CertificateState state, LocalDateTime timestamp) {

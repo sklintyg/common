@@ -72,6 +72,7 @@ public class NotificationMessage {
     // CHECKSTYLE:ON ParameterNumber
 
     public NotificationMessage() {
+        // Needed for deserialization
     }
 
     @Override

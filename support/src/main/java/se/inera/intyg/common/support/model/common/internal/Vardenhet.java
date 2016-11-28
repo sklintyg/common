@@ -40,10 +40,6 @@ public class Vardenhet {
 
     private String arbetsplatsKod;
 
-    public Vardenhet() {
-
-    }
-
     @Override
     public boolean equals(Object object) {
         if (object == null) {

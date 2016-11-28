@@ -94,7 +94,7 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
             StringWriter sw = new StringWriter();
             TransformerFactory.newInstance().newTransformer().transform(new DOMSource(envelope), new StreamResult(sw));
             InputStream transformedStream = XSLTUtils.transform(getXSLTTemplate(),
-                    new ByteArrayInputStream((sw.getBuffer().toString()).getBytes(StandardCharsets.UTF_8)));
+                    new ByteArrayInputStream(sw.getBuffer().toString().getBytes(StandardCharsets.UTF_8)));
             IOUtils.copyAndCloseInput(transformedStream, message.getContent(OutputStream.class));
 
         } catch (SOAPException | TransformerException | TransformerFactoryConfigurationError | IOException ex) {

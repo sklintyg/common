@@ -20,9 +20,7 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import static org.springframework.util.Assert.notNull;
 
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.*;
 
 public class CreateDraftCopyHolder {
 
@@ -74,11 +72,11 @@ public class CreateDraftCopyHolder {
     }
 
     public boolean hasPatient() {
-        return (this.patient != null);
+        return this.patient != null;
     }
 
     public boolean hasNewPersonnummer() {
-        return (this.newPersonnummer != null);
+        return this.newPersonnummer != null;
     }
 
     public Relation getRelation() {

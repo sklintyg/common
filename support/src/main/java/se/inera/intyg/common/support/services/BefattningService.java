@@ -88,7 +88,7 @@ public class BefattningService {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOG.error("Error closing buffered reader {}", e);
                 }
             }
         }

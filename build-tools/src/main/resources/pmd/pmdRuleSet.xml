@@ -33,11 +33,15 @@
     <rule ref="rulesets/java/design.xml/SimplifyBooleanReturns"/>
     <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>
     <rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody"/>
+    <rule ref="rulesets/java/design.xml/UncommentedEmptyConstructor"/>
     <rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn"/>
 
     <rule ref="rulesets/java/imports.xml/DuplicateImports"/>
     <rule ref="rulesets/java/imports.xml/UnusedImports"/>
     <rule ref="rulesets/java/imports.xml/ImportFromSamePackage"/>
+
+    <rule ref="rulesets/java/logging-java.xml/SystemPrintln"/>
+    <rule ref="rulesets/java/logging-java.xml/AvoidPrintStackTrace"/>
 
     <rule ref="rulesets/java/naming.xml/SuspiciousEqualsMethodName"/>
 

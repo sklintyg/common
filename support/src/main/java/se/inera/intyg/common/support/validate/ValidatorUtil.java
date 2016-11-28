@@ -19,21 +19,19 @@
 
 package se.inera.intyg.common.support.validate;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.modules.support.api.dto.*;
 
 /**
  * Common utils used for validation.
@@ -148,7 +146,7 @@ public final class ValidatorUtil {
     }
 
     public static boolean isBlankButNotNull(String stringFromField) {
-        return (!StringUtils.isEmpty(stringFromField)) && StringUtils.isBlank(stringFromField);
+        return !StringUtils.isEmpty(stringFromField) && StringUtils.isBlank(stringFromField);
     }
 
     /**
@@ -156,7 +154,7 @@ public final class ValidatorUtil {
      *
      */
     public static ValidationStatus getValidationStatus(List<ValidationMessage> validationMessages) {
-        return (validationMessages.isEmpty()) ? ValidationStatus.VALID : ValidationStatus.INVALID;
+        return validationMessages.isEmpty() ? ValidationStatus.VALID : ValidationStatus.INVALID;
     }
 
     public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg, String dynamicLabel) {

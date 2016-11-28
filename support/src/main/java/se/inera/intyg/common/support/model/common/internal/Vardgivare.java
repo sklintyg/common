@@ -26,10 +26,6 @@ public class Vardgivare {
 
     private String vardgivarnamn;
 
-    public Vardgivare() {
-
-    }
-
     @Override
     public boolean equals(Object object) {
         if (object == null) {

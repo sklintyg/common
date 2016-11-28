@@ -62,7 +62,7 @@ public final class TransportConverterUtil {
     public static String getStringContent(Delsvar delsvar) {
         String string = delsvar.getContent().stream()
                 .map(content -> ((String) content).trim())
-                .filter(content -> (!content.isEmpty()))
+                .filter(content -> !content.isEmpty())
                 .reduce("", String::concat);
         return string;
     }
@@ -271,6 +271,6 @@ public final class TransportConverterUtil {
     }
 
     private static boolean isNullOrEmpty(List<?> list) {
-        return (list == null || list.isEmpty());
+        return list == null || list.isEmpty();
     }
 }

@@ -30,6 +30,7 @@ public final class LocalDateInterval {
     private LocalDate tom;
 
     public LocalDateInterval() {
+        // Needed for deserialization
     }
 
     public LocalDateInterval(LocalDate from, LocalDate tom) {

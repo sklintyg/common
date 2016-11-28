@@ -37,6 +37,7 @@ public class ArendeCount {
     }
 
     public ArendeCount() {
+        // Needed for deserialization
     }
 
     public static ArendeCount getEmpty() {

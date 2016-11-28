@@ -18,9 +18,7 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class HoSPersonal {
 
@@ -35,10 +33,6 @@ public class HoSPersonal {
     private List<String> specialiteter;
 
     private Vardenhet vardenhet;
-
-    public HoSPersonal() {
-
-    }
 
     @Override
     public boolean equals(Object object) {

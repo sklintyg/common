@@ -46,6 +46,7 @@ public class InternalDate {
      * Default constructor.
      */
     public InternalDate() {
+        // Needed for deserialization
     }
 
     /**

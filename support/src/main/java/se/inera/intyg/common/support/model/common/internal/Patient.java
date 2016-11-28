@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-
 import java.util.Objects;
+
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 
 public class Patient {
 
@@ -39,10 +39,6 @@ public class Patient {
     private String postnummer;
 
     private String postort;
-
-    public Patient() {
-
-    }
 
     @Override
     public boolean equals(Object object) {

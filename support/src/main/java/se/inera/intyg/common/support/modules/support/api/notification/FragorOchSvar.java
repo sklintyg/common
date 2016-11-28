@@ -38,6 +38,7 @@ public class FragorOchSvar {
     }
 
     public FragorOchSvar() {
+        // Needed for deserialization
     }
 
     public static FragorOchSvar getEmpty() {

@@ -98,8 +98,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
                         intygTexts.add(newIntygTexts);
                     }
                 } catch (IllegalArgumentException e) {
-                    LOG.error("Bad file in directory {}: {}", fileDirectory, e.getMessage());
-                    e.printStackTrace();
+                    LOG.error("Bad file in directory {}: {}", fileDirectory, e);
                 } catch (IOException | ParserConfigurationException | SAXException e) {
                     LOG.error("Error while reading file {}", file.getFileName(), e);
                 }
