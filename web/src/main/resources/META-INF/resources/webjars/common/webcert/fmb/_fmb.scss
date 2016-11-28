@@ -160,12 +160,12 @@ $fmb-glyphicon-hover-color: #808080;
   /*overflow: hidden;*/
   z-index: 100;
   box-shadow: 0px 0px 14px rgba(0, 0, 0, .25);
+  border-radius: 0 4px 4px 4px;
 
   .panel-body {
-    width: 615px;
     max-height: 334px;
     margin-top: 0;
-    padding: 15 15px;
+    padding: 15px 15px 5px 15px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -198,7 +198,6 @@ $fmb-glyphicon-hover-color: #808080;
     background-color: $fmb-panelheading-background-color;
     text-align: center;
     color: $fmb-panelfooter-color;
-    width: 615px;
   }
 
   .fmb-panel-title {
@@ -217,7 +216,7 @@ $fmb-glyphicon-hover-color: #808080;
     border: none;
     line-height: 13px;
     padding: 10px 12px;
-    border-radius: 0 4px 0 4px;
+    border-radius: 0 4px 0 0;
   }
 }
 

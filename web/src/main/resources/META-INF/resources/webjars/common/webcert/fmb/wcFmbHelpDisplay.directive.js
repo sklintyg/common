@@ -34,7 +34,7 @@ angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', '
             },
             link: function(scope, element, attrs) {
                 scope.status = {
-                    open: true
+                    open: false
                 };
 
                 scope.$watch('fmbStates', function(newVal, oldVal) {
