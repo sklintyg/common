@@ -22,7 +22,7 @@ import java.util.*;
 
 public class HoSPersonal {
 
-    private String personId;
+    private String personI;
 
     private String fullstandigtNamn;
 
