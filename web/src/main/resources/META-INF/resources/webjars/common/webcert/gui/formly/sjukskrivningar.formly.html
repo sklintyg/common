@@ -1,7 +1,7 @@
 <div wc-date-period-manager model="model" class="sjukskrivningar">
-  <label class="">
+  <h4 class="noH5After">
     <span dynamic-label key="{{to.label}}.RBK"></span>
-  </label>
+  </h4>
 
   <div class="sjukskrivningar-section">
     <span dynamic-label key="{{to.label}}.HLP"></span>
@@ -20,38 +20,29 @@
   <wc-validation-group field-type="{{to.type}}"
                        validations="formState.viewState.common.validationMessagesByField[options.key]"
                        kompletteringar="hasKompletteringar()">
-    <div class="form-horizontal" data-ng-repeat="field in to.fields">
-
-      <wc-validation-wrapper field-type="date-period" validations="getValidationsForPeriod(field)">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="big-checkbox-label checkbox-inline">
-              <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked" ng-change="viewstate.updateCheckBox(field)">
-              <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>
-            </label>
-            <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{field}}.HLP"></span>
+    <div class="form-inline sjukskrivningar-section" data-ng-repeat="field in to.fields">
+      <div class="row">
+        <wc-validation-wrapper field-type="date-period" validations="getValidationsForPeriod(field)">
+          <div class="col-md-3">
+              <label class="big-checkbox-label checkbox-inline">
+                <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked" ng-change="viewstate.updateCheckBox(field)">
+                <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>
+              </label>
+              <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{field}}.HLP"></span>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="{{options.key}}-{{field}}-from">från och med</label>
-            <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"></span>
+          <div class="col-md-4">
+              <label for="{{options.key}}-{{field}}-from">från och med</label>
+              <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"></span>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="{{options.key}}-{{field}}-tom">till och med</label>
-            <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom"></span>
+          <div class="col-md-4">
+              <label for="{{options.key}}-{{field}}-tom">till och med</label>
+              <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom"></span>
           </div>
-        </div>
-      </wc-validation-wrapper>
+        </wc-validation-wrapper>
+      </div>
 
       <div class="fold-animation fold-slide-animation" ng-if="viewstate.periods[field].valid">
-        <div class="row">
-          <div class="col-md-12 sjukskrivningar-section">
-            Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i {{viewstate.periods[field].days}} dagar.
-          </div>
-        </div>
+        Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i {{viewstate.periods[field].days}} dagar.
       </div>
 
     </div>
