@@ -34,9 +34,7 @@ angular.module('common').directive('wcKmpltWrapper',
 
             return {
                 restrict: 'AE',
-                transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/wcKmpltWrapper.directive.html',
                 require: '?^^wcIntygField',
                 scope: {
                     categoryKey: '@',
