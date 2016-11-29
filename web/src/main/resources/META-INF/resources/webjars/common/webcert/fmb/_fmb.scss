@@ -84,6 +84,7 @@ $fmb-glyphicon-hover-color: #808080;
   position: absolute;
   transition-property: opacity;
   transition-duration: 0.4s;
+  z-index: 100;
 
   &.fmb-collapse {
     opacity: 0;
@@ -130,6 +131,7 @@ $fmb-glyphicon-hover-color: #808080;
 
   > ul {
     border-bottom: none;
+    margin-left: -1px;
   }
 
   .nav-tabs > li > a {
@@ -151,6 +153,10 @@ $fmb-glyphicon-hover-color: #808080;
   .nav > li > a {
     padding: 5px 32px;
   }
+}
+
+.fmb-panel-tabset.hide-tabs > ul {
+  visibility: hidden;
 }
 
 .panel-fmb-info {

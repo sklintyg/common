@@ -20,15 +20,14 @@
 /**
  * Display FMB help texts
  */
-angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', 'common.fmbService',
-    function(ObjectHelper, fmbService) {
+angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', 'common.fmbService', 'common.fmbViewState',
+    function(ObjectHelper, fmbService, fmbViewState) {
         'use strict';
 
         return {
             restrict: 'E',
             transclude: true,
             scope: {
-                fmbStates: '=',
                 fieldName: '@',
                 relatedFormId: '@'
             },
@@ -36,6 +35,8 @@ angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', '
                 scope.status = {
                     open: false
                 };
+
+                scope.fmbStates = fmbViewState;
 
                 scope.$watch('fmbStates', function(newVal, oldVal) {
                     scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(newVal);

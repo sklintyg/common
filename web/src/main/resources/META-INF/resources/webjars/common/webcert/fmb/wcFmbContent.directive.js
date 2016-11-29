@@ -17,15 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').run(function(formlyConfig) {
-    'use strict';
+/**
+ * Display FMB help texts
+ */
+angular.module('common').directive('wcFmbContent', ['$log', 'common.ObjectHelper', 'common.fmbService',
+    function($log, ObjectHelper, fmbService) {
+        'use strict';
 
-    formlyConfig.setType({
-        name: 'fmb',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/fmb.formly.html',
-        controller: ['$scope', '$log',
-            function($scope, $log) {
-
-            }]
-    });
-});
+        return {
+            restrict: 'EA',
+            scope: {
+                fmb: '=',
+                relatedFormId: '@',
+                status: '=',
+                fieldName: '='
+            },
+            link: function(scope, element, attrs) {
+                $log.debug(scope.fmb);
+            },
+            templateUrl: '/web/webjars/common/webcert/fmb/wcFmbContent.directive.html'
+        };
+    }]);

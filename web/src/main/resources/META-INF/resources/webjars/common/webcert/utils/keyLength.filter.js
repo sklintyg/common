@@ -17,15 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').run(function(formlyConfig) {
-    'use strict';
+angular.module('common').filter('keyLength',
+    function() {
+        'use strict';
 
-    formlyConfig.setType({
-        name: 'fmb',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/fmb.formly.html',
-        controller: ['$scope', '$log',
-            function($scope, $log) {
-
-            }]
+        return function(input) {
+            return Object.keys(input).length;
+        };
     });
-});

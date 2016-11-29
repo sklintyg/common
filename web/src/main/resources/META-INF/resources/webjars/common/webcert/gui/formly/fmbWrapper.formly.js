@@ -20,12 +20,9 @@
 angular.module('common').run(function(formlyConfig) {
     'use strict';
 
-    formlyConfig.setType({
-        name: 'fmb',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/fmb.formly.html',
-        controller: ['$scope', '$log',
-            function($scope, $log) {
-
-            }]
+    formlyConfig.setWrapper({
+        name: 'fmb-wrapper',
+        templateUrl: '/web/webjars/common/webcert/gui/formly/fmbWrapper.formly.html'
     });
+
 });
