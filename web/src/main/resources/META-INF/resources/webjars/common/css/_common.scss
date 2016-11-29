@@ -250,6 +250,9 @@ a {
     .checkbox {
         padding-left: 20px;
     }
+    .checkbox.big-checkbox-label, .checkbox-inline.big-checkbox-label {
+        padding-left: 29px;
+    }
     .checkbox-columns {
         margin-left: 0;
     }
@@ -534,6 +537,10 @@ label {
     }
     .intyg-block .checkbox input[type=checkbox] {
         margin-left: -20px;
+    }
+    .intyg-block .checkbox.big-checkbox-label input[type=checkbox],
+    .intyg-block .checkbox-inline.big-checkbox-label input[type=checkbox] {
+        margin-left: -29px;
     }
 }
 
