@@ -39,6 +39,12 @@ describe('DateRangeService', function() {
             expect(du.dateString).toBe('2015-01-01');
         });
 
+        it('can create a DateUnit from a YYYYMMDD string', function(){
+            var du = DateRangeService.DateUnit.build('20150101');
+            expect(du.valid).toBeTruthy();
+            expect(du.dateString).toBe('2015-01-01');
+        });
+
         it('will create a non swedish DateUnit, not YYYY-MM-DD', function(){
             // english
             var du = DateRangeService.DateUnit.build('03-12-2015');

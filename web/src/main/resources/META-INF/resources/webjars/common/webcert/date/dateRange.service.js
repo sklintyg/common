@@ -27,6 +27,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
     'use strict';
     // private vars
     var format = 'YYYY-MM-DD';
+    var formatWithoutDashes = 'YYYYMMDD';
     var interval = 1;
     var week = 6;
     var months = 6;
@@ -118,6 +119,10 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
         if(dateUtils.dateReg.test(dateString)){
             that.dateString = dateString;
             that.moment = moment(dateString, format, true);
+            that.valid = that.moment.isValid();
+        } else if(dateUtils.dateRegWithoutDashes.test(dateString)){
+            that.moment = moment(dateString, formatWithoutDashes, true);
+            that.dateString = that.moment.format(format);
             that.valid = that.moment.isValid();
         } else {
             that.valid = false;
