@@ -74,24 +74,16 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                     // Väljer jag en andra/tredje/fjärde sjukskrivningsperiod ska 'från och med' datum sättas till
                     // dagen efter 'till och med' datumet för den föregående perioden.
 
-                    var prevDatePeriodTom = {
-                        'EN_FJARDEDEL' : DateUtilsService.convertDateStrict(this.model.HALFTEN.period.tom),
-                        'HALFTEN' : DateUtilsService.convertDateStrict(this.model.TRE_FJARDEDEL.period.tom),
-                        'TRE_FJARDEDEL' : DateUtilsService.convertDateStrict(this.model.HELT_NEDSATT.period.tom)
-                    };
+                    var maxDate;
+                    angular.forEach(this.model, function(period) {
+                        var checkDate = DateUtilsService.convertDateStrict(period.period.tom);
+                        if (checkDate && (!maxDate || checkDate > maxDate)) {
+                            maxDate = checkDate;
+                        }
+                    });
 
-                    if (!prevDatePeriodTom.EN_FJARDEDEL) {
-                        prevDatePeriodTom.EN_FJARDEDEL = prevDatePeriodTom.HALFTEN;
-                    }
-                    if (!prevDatePeriodTom.EN_FJARDEDEL) {
-                        prevDatePeriodTom.EN_FJARDEDEL = prevDatePeriodTom.TRE_FJARDEDEL;
-                    }
-                    if (!prevDatePeriodTom.HALFTEN) {
-                        prevDatePeriodTom.HALFTEN = prevDatePeriodTom.TRE_FJARDEDEL;
-                    }
-
-                    if (prevDatePeriodTom[period]) {
-                        this.model[period].period.from = prevDatePeriodTom[period].add(1, 'days').format('YYYY-MM-DD');
+                    if (maxDate) {
+                        this.model[period].period.from = maxDate.add(1, 'days').format('YYYY-MM-DD');
                     }
                     else {
                         this.model[period].period.from = moment().format('YYYY-MM-DD');
@@ -131,10 +123,10 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                     var toMoment = DateUtilsService.convertDateStrict(value.period.tom);
 
                     // Get min and max dates
-                    if (fromMoment && fromMoment.isBefore(minDate)) {
+                    if (fromMoment && (!minDate || fromMoment.isBefore(minDate))) {
                         minDate = fromMoment;
                     }
-                    if (toMoment && toMoment.isAfter(maxDate)) {
+                    if (toMoment && (!maxDate || toMoment.isAfter(maxDate))) {
                         maxDate = toMoment;
                     }
 
