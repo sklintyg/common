@@ -8,6 +8,7 @@
     <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.help}}.HLP"></span>
   </div>
   <div>
-    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
+    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled"
+           ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }" maxlength="4000">
   </div>
 </div>

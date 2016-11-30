@@ -3,6 +3,7 @@
     <wc-form-label to="to"></wc-form-label>
   </div>
   <div class="col-md-{{12 - to.labelColSize}}">
-    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled" ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }">
+    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled"
+           ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }" maxlength="{{to.maxlength || 4000}}">
   </div>
 </div>

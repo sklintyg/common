@@ -11,7 +11,9 @@
     <div class="col-md-12">
       <label>
         <span message key="common.sit.label.sjukskrivning.hoursperweek"></span>
-        <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek"  ng-change="viewstate.updateHoursPerWeek()"> h/vecka
+        <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek"
+               ng-change="viewstate.updateHoursPerWeek()"
+               maxlength="3"> h/vecka
         <span wc-help-mark field-help-text="common.sit.help.sjukskrivning.hoursperweek"></span>
       </label>
     </div>

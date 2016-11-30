@@ -47,7 +47,8 @@
                            typeahead-template-url="/web/webjars/common/webcert/gui/formly/diagnos.formly.typeahead_template.html"
                            typeahead-loading="diagnosKodLoading[$index]"
                            typeahead-no-results="diagnosKodNoResults[$index]"
-                           ng-blur="onBlurDiagnoseCodeField($index)">
+                           ng-blur="onBlurDiagnoseCodeField($index)"
+                           maxlength="4000">
                     <img src="/img/ajax-loader-kit-16x16.gif" class="diagnos-loading" ng-if="diagnosKodLoading[$index]" />
                 </div>
                 <span ng-if="diagnosKodNoResults[$index] && form['diagnoseCode'+$index].$viewValue.length > 2" uib-dropdown uib-dropdown-toggle
@@ -73,7 +74,8 @@
                        uib-typeahead="d.value as d.label for d in searchDiagnoseByDescription(formState.diagnosKodSystem, $viewValue)"
                        typeahead-on-select="onDiagnoseDescriptionSelect($index, $item)"
                        typeahead-template-url="/web/webjars/common/webcert/gui/formly/diagnos.formly.typeahead_template.html"
-                       typeahead-wait-ms="100">
+                       typeahead-wait-ms="100"
+                       maxlength="4000">
             </td>
         </tr>
     </table>
