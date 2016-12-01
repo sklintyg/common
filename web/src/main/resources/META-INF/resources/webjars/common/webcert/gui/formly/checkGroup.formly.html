@@ -1,13 +1,5 @@
 <div class="form-horizontal">
-  <div>
-    <!--h4 class="inline-block" ng-class="{'bold' : to.bold}">
-      <span dynamic-label key="{{to.label}}.RBK"></span>
-      {{to.required ? '*' : ''}}
-      <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
-    </h4-->
-    <wc-form-label to="to"></wc-form-label>
-  </div>
-
+  <wc-form-label to="to"></wc-form-label>
   <div data-ng-repeat="choice in to.choices">
     <label class="big-checkbox-label checkbox">
       <input id="{{options.key}}-{{choice}}" type="checkbox" class="big-checkbox" ng-model="model[options.key][choice]">
