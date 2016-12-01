@@ -7,7 +7,6 @@ angular.module('common').run(function(formlyConfig) {
         controller: ['$scope', '$log', function($scope, $log) {
 
             $scope.$watch('model.' + $scope.options.key, function(newVal, oldVal) {
-
             }, true);
         }]
     });
