@@ -36,7 +36,8 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: 'full',
                             labelColSize: 3,
                             formType: 'horizontal',
-                            maxlength: 500
+                            maxlength: 500,
+                            required: true
                         }
                     },
                     {
@@ -48,7 +49,8 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: '5',
                             labelColSize: 3,
                             formType: 'horizontal',
-                            maxlength: 6
+                            maxlength: 6,
+                            required: true
                         }
                     },
                     {
@@ -59,7 +61,8 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             disabled: UserModel.isDjupintegration(),
                             labelColSize: 3,
                             formType: 'horizontal',
-                            maxlength: 100
+                            maxlength: 100,
+                            required: true
                         }
                     },
                     {
@@ -86,7 +89,8 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: 'full',
                             labelColSize: 3,
                             formType: 'horizontal',
-                            maxlength: 500
+                            maxlength: 500,
+                            required: true
                         }
                     },
                     {
@@ -97,13 +101,19 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: '5',
                             labelColSize: 3,
                             formType: 'horizontal',
-                            maxlength: 6
+                            maxlength: 6,
+                            required: true
                         }
                     },
                     {
                         key: 'grundData.skapadAv.vardenhet.postort',
                         type: 'single-text',
-                        templateOptions: {staticLabel: 'Postort', labelColSize: 3, formType: 'horizontal'}
+                        templateOptions: {
+                            staticLabel: 'Postort',
+                            labelColSize: 3,
+                            formType: 'horizontal',
+                            required: true
+                        }
                     },
                     {
                         key: 'grundData.skapadAv.vardenhet.telefonnummer',
@@ -112,7 +122,8 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             staticLabel: 'Telefonnummer',
                             labelColSize: 3,
                             formType: 'horizontal',
-                            maxlength: 100
+                            maxlength: 100,
+                            required: true
                         }
                     }
                 ]
