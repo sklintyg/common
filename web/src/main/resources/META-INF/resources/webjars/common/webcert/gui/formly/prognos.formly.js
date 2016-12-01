@@ -9,7 +9,7 @@ angular.module('common').run(function(formlyConfig) {
 
             var chooseOption = {
                 id: undefined,
-                label: 'Välj...'
+                label: 'Välj tidsperiod'
             };
 
             $scope.prognosOptions = [];

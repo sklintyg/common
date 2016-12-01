@@ -1,29 +1,30 @@
-<div class="form-group form-inline">
+<div class="form-group">
   <div>
-    <label class="inline-block" ng-class="{'bold' : to.bold}">
+    <h4 class="inline-block" ng-class="{'bold' : to.bold}">
       <span dynamic-label key="{{to.label}}.RBK"></span>
       {{to.required ? '*' : ''}}
       <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
-    </label>
+    </h4>
   </div>
 
   <wc-validation-group field-type="radio-group"
                        validations="formState.viewState.common.validationMessagesByField[options.key]"
                        kompletteringar="hasKompletteringar()">
-    <div class="form-group form-inline row" data-ng-repeat="choice in to.choices">
+    <div class="form-group form-inline" data-ng-repeat="choice in to.choices">
 
-      <div ng-class="choice.showDropDown ? 'col-md-8' : 'col-md-12'">
-        <label class="radio">
-          <input id="{{options.key}}-{{choice.id}}" type="radio" name="{{options.key}}" class="big-radio" ng-model="model[options.key].typ" value="{{choice.id}}">
-          <span dynamic-label key="{{to.code}}.{{choice.id}}.RBK"></span>
-        </label>
-        <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{choice.id}}.HLP"></span>
-      </div>
+      <label class="radio">
+        <input id="{{options.key}}-{{choice.id}}" type="radio" name="{{options.key}}" class="big-radio"
+               ng-model="model[options.key].typ" value="{{choice.id}}">
+        <span dynamic-label key="{{to.code}}.{{choice.id}}.RBK"></span>
+      </label>
+      <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{choice.id}}.HLP"></span>
 
-      <div class="col-md-4" ng-if="choice.showDropDown">
-        <wc-validation-wrapper field-type="select" validations="formState.viewState.common.validationMessagesByField[options.key + '.dagartillarbete']">
-          <ui-select theme="bootstrap" search-enabled="false" ng-model="model[options.key].dagarTillArbete" ng-disabled="model[options.key].typ !== choice.id"
-              id="prognosDagarTillArbete-{{$index}}-typ" name="prognosDagarTillArbete-{{$index}}" append-to-body="false">
+      <div ng-if="choice.showDropDown" class="prognos-dropdown">
+        <wc-validation-wrapper field-type="select"
+                               validations="formState.viewState.common.validationMessagesByField[options.key + '.dagartillarbete']">
+          <ui-select theme="bootstrap" search-enabled="false" ng-model="model[options.key].dagarTillArbete"
+                     ng-disabled="model[options.key].typ !== choice.id" id="prognosDagarTillArbete-{{$index}}-typ"
+                     name="prognosDagarTillArbete-{{$index}}" append-to-body="false">
             <ui-select-match>
               <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
             </ui-select-match>
