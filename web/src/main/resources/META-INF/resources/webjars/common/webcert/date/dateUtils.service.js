@@ -26,7 +26,7 @@
 angular.module('common').factory('common.DateUtilsService', function() {
     'use strict';
     var _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
-    var _dateRegWithoutDashes = /[1-2][0-9]{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])/;
+    var _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/;
     var _format = 'YYYY-MM-DD';
 
     var dayCodeReg = /^(?=\d*d\d*$)d?(?!0+d?$)(\d{1,3})d?$/i;
@@ -350,7 +350,7 @@ angular.module('common').factory('common.DateUtilsService', function() {
         addLooseDateParser : _addLooseDateParser,
         addStrictDateParser : _addStrictDateParser,
         dateReg : _dateReg,
-        dateRegWithoutDashes: _dateRegWithoutDashes,
+        dateRegDashesOptional: _dateRegDashesOptional,
         parseDayCodes: _parseDayCodes,
         parseMonthCode: _parseMonthCode
     };

@@ -34,15 +34,27 @@ describe('DateRangeService', function() {
 
     describe('#DateUnit', function(){
         it('can create a DateUnit from a YYYY-MM-DD string', function(){
-            var du = DateRangeService.DateUnit.build('2015-01-01');
+            var du = DateRangeService.DateUnit.build('2015-01-09');
             expect(du.valid).toBeTruthy();
-            expect(du.dateString).toBe('2015-01-01');
+            expect(du.dateString).toBe('2015-01-09');
         });
 
         it('can create a DateUnit from a YYYYMMDD string', function(){
-            var du = DateRangeService.DateUnit.build('20150101');
+            var du = DateRangeService.DateUnit.build('20150109');
             expect(du.valid).toBeTruthy();
-            expect(du.dateString).toBe('2015-01-01');
+            expect(du.dateString).toBe('2015-01-09');
+        });
+
+        it('can create a DateUnit from a YYYYMM-DD string', function(){
+            var du = DateRangeService.DateUnit.build('201501-09');
+            expect(du.valid).toBeTruthy();
+            expect(du.dateString).toBe('2015-01-09');
+        });
+
+        it('can create a DateUnit from a YYYY-MMDD string', function(){
+            var du = DateRangeService.DateUnit.build('2015-0109');
+            expect(du.valid).toBeTruthy();
+            expect(du.dateString).toBe('2015-01-09');
         });
 
         it('will create a non swedish DateUnit, not YYYY-MM-DD', function(){

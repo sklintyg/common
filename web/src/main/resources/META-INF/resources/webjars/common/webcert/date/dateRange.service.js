@@ -120,8 +120,8 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
             that.dateString = dateString;
             that.moment = moment(dateString, format, true);
             that.valid = that.moment.isValid();
-        } else if(dateUtils.dateRegWithoutDashes.test(dateString)){
-            that.moment = moment(dateString, formatWithoutDashes, true);
+        } else if(dateUtils.dateRegDashesOptional.test(dateString)){
+            that.moment = moment(dateString.replace(/-/g, ''), formatWithoutDashes, true);
             that.dateString = that.moment.format(format);
             that.valid = that.moment.isValid();
         } else {
