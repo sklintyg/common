@@ -1,7 +1,7 @@
 <div>
   <div ng-show="fmbAvailable">
     <div class="fmb print-hide">
-      <button type="button" class="btn btn-default btn-fmb" ng-click="status.open = !status.open">FMB <i
+      <button id="{{relatedFormId}}-fmb-button" type="button" class="btn btn-default btn-fmb" ng-click="status.open = !status.open">FMB <i
           class="glyphicon fmb-glyphicon"
           ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
       <div class="panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
