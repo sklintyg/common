@@ -1,10 +1,11 @@
 <div class="form-horizontal">
   <div>
-    <label class="inline-block" ng-class="{'bold' : to.bold}">
+    <!--h4 class="inline-block" ng-class="{'bold' : to.bold}">
       <span dynamic-label key="{{to.label}}.RBK"></span>
       {{to.required ? '*' : ''}}
       <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
-    </label>
+    </h4-->
+    <wc-form-label to="to"></wc-form-label>
   </div>
 
   <div data-ng-repeat="choice in to.choices">
