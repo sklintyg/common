@@ -105,7 +105,7 @@ public class CustomLocalDateTimeDeserializer extends StdDeserializer<LocalDateTi
         throw context.wrongTokenException(parser, JsonToken.VALUE_STRING, "Expected array or string.");
     }
 
-    protected <BOGUS> BOGUS rethrowDateTimeException(JsonParser p, DeserializationContext context,
+    private void rethrowDateTimeException(JsonParser p, DeserializationContext context,
             DateTimeException e0, String value) throws JsonMappingException {
         JsonMappingException e;
         if (e0 instanceof DateTimeParseException) {
