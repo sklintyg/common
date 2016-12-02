@@ -1,4 +1,4 @@
-<div wc-print-header title-id="{{viewState.common.intyg.type}}.label.certtitle" print-message-id="print.label.draft" intygs-id="intyg.id"></div>
+<div wc-print-header title-id="{{intygsnamn}}" print-message-id="print.label.draft" intygs-id="intyg.id"></div>
 <div class="print-show">
   <label class="control-label">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} - {{viewState.intygModel.grundData.patient.personId | PersonIdFormatter}}</label>
 </div>
@@ -26,7 +26,7 @@
             <div class="pull-left">
 
               <h1 class="page-title header-fix-panel__title"><a id="tillbakaButton" wc-authority="NAVIGERING" class="backlink-icon" href wc-back title="Tillbaka till Skriv intyg"></a>
-                <span message key="{{viewState.common.intyg.type}}.label.certtitle"></span><span wc-help-mark field-tooltip-placement="bottom" field-dynamic-help-text="FRM_2.RBK"
+                <span>{{intygsnamn}}</span><span wc-help-mark field-tooltip-placement="bottom" field-dynamic-help-text="FRM_2.RBK"
                                                                                                  help-mark-class="header-fix-panel__popover-content"
                                                                                                  help-mark-appendtobody="false"></span>
               </h1>

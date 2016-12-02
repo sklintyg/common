@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <h2 class="cert-title">
-          <span message key="{{cert.typ}}.label.certtitle"></span>
+          <span>{{moduleService.getModuleName(cert.typ)}}</span>
         </h2>
       </div>
       <div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 issue">
@@ -19,7 +19,6 @@
            title="{{messageService.getProperty('modules.button.alt.archive')}}"
            ng-click="openArchiveDialog(cert)">
           <span class="glyphicon glyphicon-folder-close white"></span>
-          <!-- <img alt="Arkivera intyg" src="/img/archive-icon.gif" /> -->
         </a>
       </div>
     </div>
@@ -31,8 +30,7 @@
         <h3 class="tag">
           <span message key="{{cert.typ}}.label.patientname"></span>
         </h3>
-              <span
-                  id="patient-name">{{cert.grundData.patient.fornamn}} {{ cert.grundData.patient.efternamn }}</span><br />
+        <span id="patient-name">{{cert.grundData.patient.fornamn}} {{ cert.grundData.patient.efternamn }}</span><br />
         <h3 class="tag">
           <span message key="{{cert.typ}}.label.civicnumber"></span>
         </h3>

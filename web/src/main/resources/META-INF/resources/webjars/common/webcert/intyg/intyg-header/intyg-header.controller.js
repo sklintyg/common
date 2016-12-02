@@ -18,11 +18,11 @@
  */
 
 angular.module('common').controller('common.IntygHeader',
-    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService', 'common.messageService', 'common.PrintService',
-        'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyFornya',
-        'common.IntygMakulera', 'common.IntygViewStateService', 'common.statService', 'common.ObjectHelper',
+    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService', 'common.messageService',
+        'common.moduleService', 'common.PrintService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
+        'common.IntygSend', 'common.IntygCopyFornya', 'common.IntygMakulera', 'common.IntygViewStateService', 'common.statService', 'common.ObjectHelper',
 
-        function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService, PrintService, IntygCopyRequestModel,
+        function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService, moduleService, PrintService, IntygCopyRequestModel,
             IntygFornyaRequestModel, User, UserModel, IntygSend, IntygCopyFornya, IntygMakulera, CommonViewState, statService, ObjectHelper) {
 
             'use strict';
@@ -31,6 +31,7 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
+            $scope.intygsnamn = moduleService.getModuleName(intygType);
 
             $scope.patient = {};
 

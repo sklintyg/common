@@ -19,13 +19,16 @@
 
 angular.module('common').controller('common.UtkastHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', '$q', '$timeout', '$window',
-        'common.messageService', 'common.PrintService', 'common.UtkastService', 'common.UtkastProxy', 'common.statService',
-        'common.featureService', 'common.UserModel', 'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService',
-        'common.authorityService',
-        function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window, messageService,
-            PrintService, UtkastService, UtkastProxy, statService, featureService, UserModel,  dialogService, CommonViewState,
-            anchorScrollService, authorityService) {
+        'common.messageService', 'common.moduleService', 'common.PrintService', 'common.UtkastService',
+        'common.UtkastProxy', 'common.statService', 'common.featureService', 'common.UserModel',
+        'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService', 'common.authorityService',
+        function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window,
+            messageService, moduleService, PrintService, UtkastService, UtkastProxy, statService, featureService,
+            UserModel,  dialogService, CommonViewState, anchorScrollService, authorityService) {
+
             'use strict';
+
+            $scope.intygsnamn = moduleService.getModuleName(CommonViewState.intyg.type);
 
             /**
              * Toggle header part ('Dölj meny'-knapp)

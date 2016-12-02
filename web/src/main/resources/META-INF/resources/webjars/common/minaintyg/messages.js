@@ -20,7 +20,6 @@
 /* jshint maxlen: false */
 angular.module('common').constant('common.messages', {
     'sv': {
-
         'common.yes': 'Ja',
         'common.no': 'Nej',
         'common.notset': 'Ej ifyllt',

@@ -18,7 +18,7 @@
  */
 
 angular.module('common').directive('miIntygMainField',
-    function() {
+    [ 'common.moduleService', function(moduleService) {
         'use strict';
 
         return {
@@ -28,6 +28,10 @@ angular.module('common').directive('miIntygMainField',
             scope: {
                 cert: '='
             },
-            templateUrl: '/web/webjars/common/minaintyg/intyg/miIntygMainField.directive.html'
+            templateUrl: '/web/webjars/common/minaintyg/intyg/miIntygMainField.directive.html',
+            link: function(scope) {
+                scope.moduleService = moduleService;
+            }
         };
-    });
+    }]
+);
