@@ -1,6 +1,7 @@
 subprojects {
+    // Checkstyle ===========================================================
+
     apply plugin: 'checkstyle'
-    apply plugin: 'pmd'
 
     checkstyle {
         config = resources.text.fromFile("$rootProject.projectDir/build-tools/src/main/resources/checkstyle/checkstyle.xml")
@@ -12,6 +13,33 @@ subprojects {
     checkstyleMain.onlyIf { project.hasProperty('codeQuality') }
     checkstyleMain.source = "src/main/java" // Explicitly disable generated code
     checkstyleTest.enabled = false
+
+    // PMD ==================================================================
+
+    apply plugin: 'pmd'
+
+    pmd {
+        ignoreFailures = false
+        ruleSetFiles = rootProject.files("$rootProject.projectDir/build-tools/src/main/resources/pmd/pmdRuleSet.xml")
+        ruleSets = []
+        sourceSets = [ sourceSets.main ]
+    }
+
+    pmdMain.onlyIf { project.hasProperty('codeQuality') }
+    pmdTest.enabled = false
+
+    // Errorprone ===========================================================
+
+    apply plugin: 'net.ltgt.errorprone-base'
+
+    // This makes sure only production code (not tests) is checked
+    if (project.hasProperty('codeQuality')) {
+        compileJava {
+            toolChain net.ltgt.gradle.errorprone.ErrorProneToolChain.create(project)
+        }
+    }
+
+    // Jacoco ===============================================================
 
     apply plugin: 'jacoco'
 
@@ -25,15 +53,7 @@ subprojects {
         }
     }
 
-    pmd {
-        ignoreFailures = false
-        ruleSetFiles = rootProject.files("$rootProject.projectDir/build-tools/src/main/resources/pmd/pmdRuleSet.xml")
-        ruleSets = []
-        sourceSets = [ sourceSets.main ]
-    }
-
-    pmdMain.onlyIf { project.hasProperty('codeQuality') }
-    pmdTest.enabled = false
+    // License ==============================================================
 
     apply plugin: 'com.github.hierynomus.license'
 
@@ -62,5 +82,17 @@ sonarqube {
         property "sonar.test.exclusions", "src/test/**"
         property "sonar.exclusions", ["**/stub/**", "**/exception/**", "**/*Exception*.java", "**/templates.js", "**/vendor/**"]
         property "sonar.javascript.lcov.reportPath", "build/karma/merged_lcov.info"
+    }
+}
+
+// This buildscript block should not be required, since we have one in build.gradle, but for some reason errorprone
+// only works if the block is present in this file as well.
+buildscript {
+    dependencies {
+        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
+    }
+
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
     }
 }
