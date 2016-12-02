@@ -64,7 +64,7 @@ public final class WebcertModelFactoryUtil {
         populateWithPatientInfo(grundData, newDraftData.getPatient());
     }
 
-    private static void populateWithPatientInfo(GrundData grundData, Patient patient) throws ConverterException {
+    public static void populateWithPatientInfo(GrundData grundData, Patient patient) throws ConverterException {
         if (patient == null) {
             throw new ConverterException("Got null while trying to populateWithPatientInfo");
         }

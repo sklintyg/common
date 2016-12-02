@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
@@ -178,6 +179,19 @@ public interface ModuleApi {
      * @throws ModuleException
      */
     String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException;
+
+    /**
+     * Returns an updated version of the internal model for saving, with new patient information applied.
+     *
+     * @param internalModel
+     *            The internal model to use as a base.
+     * @param patient
+     *            The patient complement the model with.
+     *
+     * @return A new internal model updated with the Patient info.
+     * @throws ModuleException
+     */
+    String updateBeforeSave(String internalModel, Patient patient) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for signing, with new HoS person information.
