@@ -28,8 +28,8 @@ public enum PartKod {
     INVANA("MI", "Invånaren"),
     TRANSP("TS", "Transportstyrelsen");
 
-    private String value;
-    private String displayName;
+    private final String value;
+    private final String displayName;
 
     PartKod(String value, String displayName) {
         this.value = value;

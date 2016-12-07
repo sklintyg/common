@@ -27,7 +27,7 @@ public enum StatusKod {
     DELETE("DELETED"),
     RESTOR("RESTORED");
 
-    private String displayName;
+    private final String displayName;
 
     StatusKod(String displayName) {
         this.displayName = displayName;

@@ -152,15 +152,6 @@ public class PersonnummerTest {
     }
 
     @Test
-    public void testSamePersonnummerEquals() throws Exception {
-        //Given
-        final Personnummer personnummer = new Personnummer("000000-0000");
-
-        //Then
-        assertTrue(personnummer.equals(personnummer));
-    }
-
-    @Test
     public void testHashCode() throws Exception {
         //Given
         final Personnummer personnummer0 = new Personnummer("000000-0000");

@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 public enum SchemaVersion {
     VERSION_1("V1"), VERSION_2("V2");
 
-    private String version;
+    private final String version;
 
     SchemaVersion(String version) {
         this.version = version;

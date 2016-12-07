@@ -30,7 +30,7 @@ public enum ModuleFeature {
     UTSKRIFT("utskrift"),
     ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift");
 
-    private String name;
+    private final String name;
 
     ModuleFeature(String name) {
         this.name = name;
