@@ -16,54 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').factory('common.moduleService',
-    ['$http', '$log', function($http, $log) {
-        'use strict';
 
-        var moduleArray = null;
+angular.module('common').factory('common.moduleService', function() {
+    'use strict';
 
-        function _findModule(moduleId) {
-            var found = null;
-            if (Array.isArray(moduleArray)) {
-                found = moduleArray.find(function(module) {
-                    return module.id === moduleId;
-                });
-            }
-            return found;
+    var moduleArray = null;
+
+    function _findModuleById(moduleId) {
+        var filterArray = [];
+        if (Array.isArray(moduleArray)) {
+            filterArray = moduleArray.filter(function(module) {
+                return module.id === moduleId;
+            });
         }
 
-        function _lookupName(moduleId) {
-            var module = _findModule(moduleId);
-            return !module ? '' : module.label;
-        }
+        // The filter() method creates a new array with all elements
+        // that pass the test implemented by the provided function.
+        // If there were an element that passed the test, the filterArray
+        // only have one item since moduleArray only keep unique entries.
+        return filterArray.length > 0 ? filterArray[0] : null;
+    }
 
-        function _setModules(modules) {
-            moduleArray = modules;
-        }
+    function _getModuleName(moduleId) {
+        var module = _findModuleById(moduleId);
+        return !module ? '' : module.label;
+    }
 
-        function _getModules(onSuccess, onError) {
-            if (Array.isArray(moduleArray)) {
-                onSuccess(moduleArray);
-            } else {
-                var restPath = '/api/modules/map';
-                $http.get(restPath).success(function(data) {
-                    moduleArray = data;
-                    onSuccess(data);
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
-                    if (onError) {
-                        onError();
-                    }
-                });
-            }
-        }
+    function _setModules(modules) {
+        moduleArray = modules;
+    }
 
-        return {
-            getModule: _findModule,
-            getModuleName: _lookupName,
-            getModules: _getModules,
-            setModules: _setModules
-        };
-    }]
-);
-
+    return {
+        getModule: _findModuleById,
+        getModuleName: _getModuleName,
+        setModules: _setModules
+    };
+});
