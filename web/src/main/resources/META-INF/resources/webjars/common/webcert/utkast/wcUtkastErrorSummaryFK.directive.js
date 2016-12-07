@@ -21,8 +21,8 @@
  * wcField directive. Used to abstract common layout for full-layout form fields in intyg modules
  */
 angular.module('common').directive('wcUtkastErrorSummaryFk',
-    ['common.dynamicLabelService', 'common.messageService', 'common.UtkastViewStateService',
-        function(dynamicLabelService, messageService, viewState) {
+    ['common.dynamicLabelService', 'common.messageService', 'common.UtkastViewStateService', 'common.anchorScrollService',
+        function(dynamicLabelService, messageService, viewState, anchorScrollService) {
             'use strict';
 
             return {
@@ -32,9 +32,12 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
                 scope: true,
                 controller: function($scope) {
                     $scope.lookUpLabel = function(category) {
-                        for(var i=0; i<$scope.categoryNames.length; i++) {
-                            if (category === $scope.categoryNames[i]) {
-                                var result = dynamicLabelService.getProperty('KAT_' + i + '.RBK');
+
+                        var keys = Object.keys($scope.categoryNames);
+
+                        for(var i = 0; i < keys.length; i++) {
+                            if (category === $scope.categoryNames[keys[i]].toLowerCase()) {
+                                var result = dynamicLabelService.getProperty('KAT_' + keys[i] + '.RBK');
                                 if (result) {
                                     return result;
                                 }
@@ -42,6 +45,10 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
                             }
                         }
                         return messageService.getProperty('common.label.'+category);
+                    };
+
+                    $scope.scrollTo = function(message) {
+                        anchorScrollService.scrollTo('anchor-' + message);
                     };
                 }
             };
