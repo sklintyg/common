@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.validate;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Joiner;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +55,7 @@ public class HsaIdValidatorTest {
     }
 
     private void assertListSize(int size, List<String> collection) {
-        String validationMessage = StringUtils.join(collection, ',');
+        String validationMessage = Joiner.on(',').join(collection);
         Assert.assertEquals(validationMessage, size, collection.size());
     }
 

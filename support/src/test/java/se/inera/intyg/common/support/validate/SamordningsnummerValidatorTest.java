@@ -19,7 +19,7 @@
 
 package se.inera.intyg.common.support.validate;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Joiner;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,7 +61,7 @@ public class SamordningsnummerValidatorTest {
     }
 
     private void assertListSize(int size, List<String> collection) {
-        String validationMessage = StringUtils.join(collection, ',');
+        String validationMessage = Joiner.on(',').join(collection);
         assertEquals(validationMessage, size, collection.size());
     }
 }

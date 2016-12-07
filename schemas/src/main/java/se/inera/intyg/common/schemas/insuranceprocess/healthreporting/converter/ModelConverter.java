@@ -22,14 +22,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Joiner;
 
 import iso.v21090.dt.v1.II;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -124,7 +127,7 @@ public final class ModelConverter {
     }
 
     public static String buildVardReferensId(String intygId, LocalDateTime ts) {
-        return StringUtils.join(new Object[] { "REVOKE", intygId, ts.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS")) }, "-");
+        return Joiner.on('-').join("REVOKE", intygId, ts.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS")));
     }
 
     public static LakarutlatandeEnkelType toLakarutlatandeEnkelType(Utlatande utlatande) {
