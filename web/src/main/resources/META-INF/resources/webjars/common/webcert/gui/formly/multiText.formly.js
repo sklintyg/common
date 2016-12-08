@@ -5,11 +5,17 @@ angular.module('common').run(function(formlyConfig) {
         name: 'multi-text',
         templateUrl: '/web/webjars/common/webcert/gui/formly/multiText.formly.html',
         controller: ['$scope', 'common.ObjectHelper', 'common.AtticHelper', function($scope, ObjectHelper, AtticHelper) {
-            // Restore data model value form attic if exists
-            AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
 
-            // Clear attic model and destroy watch on scope destroy
-            AtticHelper.updateToAttic($scope, $scope.model, $scope.options.key);
+            // atticService doesn't support array syntax with []
+            // this is used by tillaggsfragor
+            // Since tillaggsfragor are currently not shown/hidden it is safe to skip these
+            if ($scope.options.key.substring(0, 14) !== 'tillaggsfragor') {
+                // Restore data model value form attic if exists
+                AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
+
+                // Clear attic model and destroy watch on scope destroy
+                AtticHelper.updateToAttic($scope, $scope.model, $scope.options.key);
+            }
         }]
     });
 });

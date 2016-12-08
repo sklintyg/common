@@ -1,15 +1,15 @@
-angular.module('common').factory('common.AtticHelper', ['common.ObjectHelper', function(ObjectHelper) {
+angular.module('common').factory('common.AtticHelper', [function() {
     'use strict';
 
     function _updateToAtticImmediate(model, optionsKey) {
-        model.updateToAttic(ObjectHelper.deepGet(model.properties, optionsKey));
-        model.clear(model.properties[optionsKey.split('.')[0]]);
+        model.updateToAttic(optionsKey);
+        model.clear(optionsKey);
     }
 
     return {
         restoreFromAttic: function(model, optionsKey) {
-            if (model.isInAttic(ObjectHelper.deepGet(model.properties, optionsKey))) {
-                model.restoreFromAttic(ObjectHelper.deepGet(model.properties, optionsKey));
+            if (model.isInAttic(optionsKey)) {
+                model.restoreFromAttic(optionsKey);
             }
         },
 

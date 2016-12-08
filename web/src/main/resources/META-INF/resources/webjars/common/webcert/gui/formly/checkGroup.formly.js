@@ -4,10 +4,13 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'check-group',
         templateUrl: '/web/webjars/common/webcert/gui/formly/checkGroup.formly.html',
-        controller: ['$scope', '$log', function($scope, $log) {
+        controller: ['$scope', 'common.AtticHelper', function($scope, AtticHelper) {
 
-            $scope.$watch('model.' + $scope.options.key, function(newVal, oldVal) {
-            }, true);
+            // Restore data model value form attic if exists
+            AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
+
+            // Clear attic model and destroy watch on scope destroy
+            AtticHelper.updateToAttic($scope, $scope.model, $scope.options.key);
         }]
     });
 

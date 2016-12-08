@@ -4,7 +4,14 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'date',
         templateUrl: '/web/webjars/common/webcert/gui/formly/date.formly.html',
-        controller: ['$scope', 'common.DateUtilsService', 'common.dynamicLabelService', function($scope, dateUtils, dynamicLabelService) {
+        controller: ['$scope', 'common.DateUtilsService', 'common.dynamicLabelService', 'common.AtticHelper',
+            function($scope, dateUtils, dynamicLabelService, AtticHelper) {
+
+            // Restore data model value form attic if exists
+            AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
+
+            // Clear attic model and destroy watch on scope destroy
+            AtticHelper.updateToAttic($scope, $scope.model, $scope.options.key);
 
             $scope.$watch('model.' + $scope.options.key, function(newVal, oldVal) {
                 var formState = $scope.formState;

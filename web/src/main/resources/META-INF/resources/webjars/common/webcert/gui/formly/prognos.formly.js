@@ -4,8 +4,14 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'prognos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/prognos.formly.html',
-        controller: ['$scope', 'common.dynamicLabelService', 'common.ArendeListViewStateService',
-        function($scope, dynamicLabelService, ArendeListViewState) {
+        controller: ['$scope', 'common.dynamicLabelService', 'common.ArendeListViewStateService', 'common.AtticHelper',
+        function($scope, dynamicLabelService, ArendeListViewState, AtticHelper) {
+
+            // Restore data model value form attic if exists
+            AtticHelper.restoreFromAttic($scope.model, $scope.options.key + '.typ');
+
+            // Clear attic model and destroy watch on scope destroy
+            AtticHelper.updateToAttic($scope, $scope.model, $scope.options.key + '.typ');
 
             var chooseOption = {
                 id: undefined,

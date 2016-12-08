@@ -142,13 +142,15 @@ describe('common.domain.BaseModel', function() {
         });
 
         describe('clear', function(){
-            it('can clear object ', function(){
+
+            it('can clear single property', function() {
 
                 var modelDef = {
                     a: {
                         aa: { aaa: false, aab: 'hi'},
                         ab : false
-                    }
+                    },
+                    b: undefined
                 };
                 model = new BaseModel('model1', modelDef );
 
@@ -158,6 +160,36 @@ describe('common.domain.BaseModel', function() {
                 model.a.aa.aaa ='hiya aaa';
                 model.a.aa.aab ='hiya aab';
                 model.a.ab ='hiya cp1';
+                model.b = 'i\'m alone here';
+
+                model.clear('b');
+
+                expect(model.a).toEqual({
+                    aa: { aaa: 'hiya aaa', aab: 'hiya aab'},
+                    ab : 'hiya cp1'
+                });
+                expect(model.b).toBe(undefined);
+
+            });
+
+            it('can clear object ', function(){
+
+                var modelDef = {
+                    a: {
+                        aa: { aaa: false, aab: 'hi'},
+                        ab : false
+                    },
+                    b: undefined
+                };
+                model = new BaseModel('model1', modelDef );
+
+                print(model);
+
+                // set model props
+                model.a.aa.aaa ='hiya aaa';
+                model.a.aa.aab ='hiya aab';
+                model.a.ab ='hiya cp1';
+                model.b = 'i\'m alone here';
 
                 model.clear('a');
 

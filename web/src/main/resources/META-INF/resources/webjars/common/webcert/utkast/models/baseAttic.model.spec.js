@@ -81,6 +81,71 @@ describe('common.domain.BaseAtticModel', function() {
 
             var model;
 
+            it('can determine if property is in attic', function() {
+                var modelDef = {
+                    a: {
+                        aa: {aaa: undefined, aab: undefined},
+                        ab: {aba: undefined, abb: undefined, abc: undefined},
+                        ac : {aca: undefined}
+                    }
+                };
+
+                model = new BaseAtticModel('NestedModel', modelDef);
+
+                model.a.aa.aaa = false;
+                model.a.aa.aab = 'hi';
+                model.a.ab.aba = false;
+                model.a.ab.abb = 'yeah';
+                model.a.ac.aca = false;
+
+                expect(model.isInAttic('a')).toBeFalsy();
+                expect(model.isInAttic('a.aa')).toBeFalsy();
+                expect(model.isInAttic('a.aa.aaa')).toBeFalsy();
+                expect(model.isInAttic('a.aa.aab')).toBeFalsy();
+                expect(model.isInAttic('a.ab')).toBeFalsy();
+                expect(model.isInAttic('a.ab.aba')).toBeFalsy();
+                expect(model.isInAttic('a.ab.abb')).toBeFalsy();
+                expect(model.isInAttic('a.ab.abc')).toBeFalsy();
+                expect(model.isInAttic('a.ac')).toBeFalsy();
+                expect(model.isInAttic('a.ac.aca')).toBeFalsy();
+
+                model.updateToAttic('a.ac.aca');
+                expect(model.isInAttic('a')).toBeTruthy();
+                expect(model.isInAttic('a.aa')).toBeFalsy();
+                expect(model.isInAttic('a.aa.aaa')).toBeFalsy();
+                expect(model.isInAttic('a.aa.aab')).toBeFalsy();
+                expect(model.isInAttic('a.ab')).toBeFalsy();
+                expect(model.isInAttic('a.ab.aba')).toBeFalsy();
+                expect(model.isInAttic('a.ab.abb')).toBeFalsy();
+                expect(model.isInAttic('a.ab.abc')).toBeFalsy();
+                expect(model.isInAttic('a.ac')).toBeTruthy();
+                expect(model.isInAttic('a.ac.aca')).toBeTruthy();
+
+                model.updateToAttic('a.ab');
+                expect(model.isInAttic('a')).toBeTruthy();
+                expect(model.isInAttic('a.aa')).toBeFalsy();
+                expect(model.isInAttic('a.aa.aaa')).toBeFalsy();
+                expect(model.isInAttic('a.aa.aab')).toBeFalsy();
+                expect(model.isInAttic('a.ab')).toBeTruthy();
+                expect(model.isInAttic('a.ab.aba')).toBeTruthy();
+                expect(model.isInAttic('a.ab.abb')).toBeTruthy();
+                expect(model.isInAttic('a.ab.abc')).toBeFalsy();
+                expect(model.isInAttic('a.ac')).toBeTruthy();
+                expect(model.isInAttic('a.ac.aca')).toBeTruthy();
+
+                model.updateToAttic('a');
+                expect(model.isInAttic('a')).toBeTruthy();
+                expect(model.isInAttic('a.aa')).toBeTruthy();
+                expect(model.isInAttic('a.aa.aaa')).toBeTruthy();
+                expect(model.isInAttic('a.aa.aab')).toBeTruthy();
+                expect(model.isInAttic('a.ab')).toBeTruthy();
+                expect(model.isInAttic('a.ab.aba')).toBeTruthy();
+                expect(model.isInAttic('a.ab.abb')).toBeTruthy();
+                expect(model.isInAttic('a.ab.abc')).toBeFalsy();
+                expect(model.isInAttic('a.ac')).toBeTruthy();
+                expect(model.isInAttic('a.ac.aca')).toBeTruthy();
+            });
+
             it('can update and restore from attic', function() {
                 var modelDef = {
                     a: {
@@ -111,6 +176,10 @@ describe('common.domain.BaseAtticModel', function() {
                 expect(model.a.ac).toBe(undefined);
                 expect(model.a.ad).toBe('fred');
 
+                expect(model.isInAttic('a.aa.aaa')).toBeTruthy();
+                expect(model.isInAttic('a.ab')).toBeTruthy();
+                expect(model.isInAttic('a.ac')).toBeTruthy();
+                expect(model.isInAttic('a.ad')).toBeTruthy();
 
                 model.restoreFromAttic();
 

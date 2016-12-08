@@ -290,7 +290,10 @@ angular.module('common').factory('common.domain.BaseModel',
                     findPropsCurrent(this, props, propsCurrent);
                 } else {
                     nc = this[propertyPath];
-                    if(nc){
+                    // Added check for isModelAttr
+                    // propsCurrent.current can not be set to nc when clearing a field with a single ModelAttr
+                    // propsCurrent.current needs to be set to nc when clearing a field with child properties
+                    if (nc && !this.isModelAttr(this.properties[propertyPath])) {
                         propsCurrent.current = nc;
                     }
                     propsCurrent.props = this.properties[propertyPath];

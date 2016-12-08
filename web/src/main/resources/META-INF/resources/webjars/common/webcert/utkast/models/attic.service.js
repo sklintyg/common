@@ -18,7 +18,7 @@
  */
 
 angular.module('common').factory('common.domain.AtticService',
-    [ 'common.domain.ModelAttr', 'common.ObjectHelper', function( ModelAttr, ObjectHelper ) {
+    [ '$log', 'common.domain.ModelAttr', 'common.ObjectHelper', function( $log, ModelAttr, ObjectHelper ) {
         'use strict';
 
 
@@ -29,44 +29,39 @@ angular.module('common').factory('common.domain.AtticService',
             },
 
             // attic functions
-            isInAttic : function(properties) {
-                var atticModel = this.atticModel;
-                var cp = this.getProperties(atticModel, properties);
+            isInAttic : function(model, properties) {
 
-                var checkProp = function(prop) {
-                    if(prop instanceof ModelAttr && atticModel.hasOwnProperty(prop.property)){
-                        prop = prop.property;
-                    }
-                    return atticModel.hasOwnProperty(prop) && atticModel[prop] !== undefined;
-                };
+                var cp = this.getProperties(model, properties);
 
-                function hasProp(prop) {
-                    if(prop instanceof Array){
-                        for(var j = 0; j<prop.length; j++){
-                            if(checkProp(prop[j])){
-                                return true;
-                            }
-                        }
-                    } else if(checkProp(prop)){
-                        return true;
-                    }
+                var thisIsInAttic = this._isInAttic;
+                return this._isInAttic(cp.current, cp.props, cp.atticModel, thisIsInAttic);
+            },
 
-                    return false;
+            _isInAttic : function(model, properties, atticModel, thisIsInAttic){
+                if(properties instanceof ModelAttr){
+                    properties = [properties];
                 }
-
-                if(cp.props instanceof ModelAttr) {
-                    return hasProp(cp.props);
-                } else {
-                    // Assuming array for now, add cases as needed.
-                    for(var i = 0; i<cp.props.length; i++){
-                        var prop = cp.props[i];
-                        if(hasProp(prop)) {
-                            return true;
+                var hasProp = false;
+                angular.forEach(properties, function(prop, key){
+                    if(prop instanceof ModelAttr){
+                        if(atticModel.hasOwnProperty(prop.property) && atticModel[prop.property] !== undefined){
+                            hasProp = true;
+                        }
+                    } else if( prop instanceof Array ){
+                        if (thisIsInAttic(this, prop, atticModel, thisIsInAttic)) {
+                            hasProp = true;
+                        }
+                    } else if(typeof prop === 'object'){
+                        if (thisIsInAttic(model[key], properties[key], atticModel[key], thisIsInAttic)) {
+                            hasProp = true;
+                        }
+                    } else {
+                        if (atticModel.hasOwnProperty(prop) && atticModel[prop] !== undefined) {
+                            hasProp = true;
                         }
                     }
-                }
-
-                return false;
+                }, model);
+                return hasProp;
             },
 
             getProperties: function(model, properties, fromRestore) {
@@ -156,7 +151,7 @@ angular.module('common').factory('common.domain.AtticService',
 
             restore : function(model, properties) {
 
-                var cp = this.getProperties(model, properties, true);
+                var cp = this.getProperties(model, properties);
 
                 var thisRestore = this._restore;
                 this._restore(cp.current, cp.props, cp.atticModel, thisRestore);
@@ -223,9 +218,14 @@ angular.module('common').factory('common.domain.AtticService',
             },
 
             isInAttic : function(model, properties){
+                if (angular.isString(properties) && properties.indexOf('[') >= 0) {
+                    $log.error('atticService doesn\'t support array syntax with []');
+                    return false;
+                }
+
                 var atticModel = this.getAtticModel(model.name);
                 if(atticModel){
-                    return atticModel.isInAttic(properties);
+                    return atticModel.isInAttic(model, properties);
                 } else {
                     return false;
                 }
