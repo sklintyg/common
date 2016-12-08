@@ -22,7 +22,7 @@
   <wc-validation-group field-type="{{to.type}}"
                        validations="formState.viewState.common.validationMessagesByField[options.key]"
                        kompletteringar="hasKompletteringar()">
-    <div class="form-inline sjukskrivningar-section clearfix" data-ng-repeat="field in to.fields">
+    <div class="form-horizontal sjukskrivningar-section clearfix" data-ng-repeat="field in to.fields">
       <div class="row">
         <wc-validation-wrapper field-type="date-period" validations="getValidationsForPeriod(field)">
           <div class="col-vlg-auto col-lg-12 col-md-4 col-sm-12">
@@ -42,7 +42,7 @@
                 <label for="{{options.key}}-{{field}}-from">från och med</label>
                 <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"></span>
               </div>
-              <div style="clear:right"></div>
+              <div class="clearfix"></div>
             </div>
             <div class="col-vlg-auto
                         col-lg-auto
