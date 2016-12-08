@@ -12,3 +12,4 @@ build
 .gradle
 node-v*
 typings/
+web/yarn.lock
