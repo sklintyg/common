@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('wcViewIntygField Directive', function() {
+describe('wcIntygField Directive', function() {
     'use strict';
 
     var $scope;
@@ -34,7 +34,7 @@ describe('wcViewIntygField Directive', function() {
             $scope.field = {templateOptions:{}};
 
             element =
-                $compile('<div wc-view-intyg-field field="field" intyg-model="intygModel"></div>')($scope);
+                $compile('<div wc-intyg-field field="field" intyg-model="intygModel"></div>')($scope);
 
             $scope.$digest();
             $scope = element.isolateScope();

@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcViewIntygFields', [
+angular.module('common').directive('wcIntygFields', [
     function() {
         'use strict';
 
@@ -25,12 +25,12 @@ angular.module('common').directive('wcViewIntygFields', [
             restrict: 'A',
             replace: true,
             scope: {
-                wcViewIntygFields: '=',
+                wcIntygFields: '=',
                 intygModel: '='
             },
-            templateUrl: '/web/webjars/common/webcert/intyg/fk/wcViewIntygFields.directive.html',
-            link: function(scope, element, attrs) {
-                scope.intygFields = scope.wcViewIntygFields;
+            templateUrl: '/web/webjars/common/webcert/intyg/fk/wcIntygFields.directive.html',
+            link: function(scope) {
+                scope.intygFields = scope.wcIntygFields;
             }
         };
     }]);

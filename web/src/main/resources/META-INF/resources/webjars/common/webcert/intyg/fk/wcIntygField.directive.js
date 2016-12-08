@@ -17,32 +17,70 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * wcField directive. Used to abstract common layout for full-layout form fields in intyg modules
- */
-angular.module('common').directive('wcIntygField', function() {
-    'use strict';
+angular.module('common').directive('wcIntygField', ['$rootScope', 'common.ObjectHelper', 'common.IntygViewStateService',
+    function($rootScope, ObjectHelper, IntygViewStateService) {
+        'use strict';
 
-    return {
-        restrict: 'A',
-        transclude: true,
-        replace: true,
-        templateUrl: '/web/webjars/common/webcert/intyg/fk/wcIntygField.directive.html',
-        scope: {
-            fieldDynamicLabel: '@',
-            fieldLabel: '@',
-            filled: '@?'
-        },
-        controller: function($scope) {
-            if ($scope.filled === undefined) {
-                $scope.filled = 'true';
+        return {
+            restrict: 'AE',
+            replace: true,
+            scope: {
+                categoryKey: '@',
+                field: '=',
+                nextField: '=',
+                intygModel: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/intyg/fk/wcIntygField.directive.html',
+            link: function(scope, element, attrs) {
+
+                // Update structure holding field and category mapping
+                scope.viewState = IntygViewStateService;
+                scope.viewState.setCategoryField(scope.categoryKey, scope.field.key || scope.field.templateOptions.kompletteringGroup);
+
+                console.log(scope.categoryKey, scope.field.key, scope.field.templateOptions.kompletteringGroup);
+
+                scope.showField = function(field){
+                    return !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
+                };
+
+                scope.showFieldLine = function(field, nextField) {
+                    var showField = scope.showField(field);
+
+                    if(showField){
+                        // No lines after these fields
+                        if (field.type === 'info' || field.type === 'headline') {
+                            return false;
+                        }
+                        if (field.templateOptions.label && field.templateOptions.label.indexOf('KV_') === 0) {
+                            return false;
+                        }
+
+                        if (nextField) {
+                            var exp = /DFR_[0-9]+\.([2-9]|[1-9][0-9]+)/;
+                            if (exp.exec(nextField.templateOptions.label)) {
+                                return false;
+                            }
+                            if (field.key === 'underlagFinns' && nextField.key === 'underlag' &&
+                                ObjectHelper.isDefined(scope.intygModel.underlag) &&
+                                scope.intygModel.underlag.length === 0) {
+                                return false;
+                            }
+                        }
+                        else {
+                            return false;
+                        }
+
+                        return true;
+                    } else {
+                        // Always line on these fields
+                        if(field.templateOptions.forceLine){
+                            return true;
+                        }
+
+                        return false;
+                    }
+                };
             }
-
-            $scope.categoryHasKomplettering = false;
-            this.setCategoryHasKomplettering = function(hasKomplettering) {
-                $scope.categoryHasKomplettering = hasKomplettering;
-            };
-
-        }
-    };
-});
+        };
+    }
+]);

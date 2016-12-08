@@ -83,14 +83,9 @@ angular.module('common').service('common.IntygViewStateService',
             return false;
         };
 
-        this.setCategory = function(key, value) {
-            if (key && value) {
-                this.categoryFieldMap[key] = value;
-            }
-        };
-
         this.setCategoryField = function(categoryKey, fieldKey, fieldStatus) {
             if (categoryKey && fieldKey) {
+
                 if (!fieldStatus) {
                     fieldStatus = 'CLOSED';
                 }
@@ -106,6 +101,25 @@ angular.module('common').service('common.IntygViewStateService',
                 }
             }
         };
+
+        this.updateCategoryField = function(categoryKey, fieldKey, fieldStatus) {
+            var found = this.hasCategoryField(categoryKey, fieldKey);
+            if (found) {
+                // update category/field mapping
+                this.setCategoryField(categoryKey, fieldKey, fieldStatus);
+            }
+        };
+
+        /*
+        this.printCategoryFieldMap = function() {
+            for (var key in this.categoryFieldMap){
+                console.log('CATEGORY_KEY: ' + key);
+                for (var field in this.categoryFieldMap[key]){
+                    console.log('FIELD_KEY: ' + this.categoryFieldMap[key][field]['id'] + ", FIELD_STATUS: " + this.categoryFieldMap[key][field]['status']);
+                }
+            }
+        };
+        */
 
         this.updateIntygProperties = function(result) {
             var targetName;

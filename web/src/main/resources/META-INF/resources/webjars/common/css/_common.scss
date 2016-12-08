@@ -561,7 +561,7 @@ label.big-radio-label, label.big-checkbox-label {
     padding-top: 2px;
 }
 */
-/* Only used in wcField.directive.html and wcIntygField.directive.html */
+/* Only used in wcField.directive.html and wcIntygCategory.directive.html */
 
 .edit-form {
     .categorykmplt, .groupkomplettering {
@@ -726,6 +726,13 @@ input.ng-invalid-date {
 
 .keep-newlines {
     white-space: pre-line;
+}
+
+.intyg-body .komplettering {
+    display: table;
+    padding: 0 10px;
+    margin-top: 0px;
+    margin-bottom: 7px;
 }
 
 .intyg-body .validation {
