@@ -29,10 +29,7 @@ import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -118,10 +115,7 @@ public final class ModelConverter {
         revokeType.setAdressVard(vardAdressType);
         revokeType.setVardReferensId(buildVardReferensId(utlatande.getId(), LocalDateTime.now()));
         revokeType.setAvsantTidpunkt(LocalDateTime.now());
-
-        if (revokeMessage != null) {
-            revokeType.setMeddelande(revokeMessage);
-        }
+        revokeType.setMeddelande(revokeMessage);
 
         return revokeType;
     }
