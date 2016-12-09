@@ -34,21 +34,6 @@ angular.module('common').factory('common.UtkastService',
             var saveStartTime;
 
             /**
-             * Takes address properties from Djupintegration query params and applies them onto the utkast.grundData.patient
-             */
-            function _applyDjupintegrationAddressChange(stateParams, patient) {
-                if(ObjectHelper.isDefined(stateParams.postadress)){
-                    patient.postadress = stateParams.postadress;
-                }
-                if(ObjectHelper.isDefined(stateParams.postnummer)) {
-                    patient.postnummer = stateParams.postnummer;
-                }
-                if(ObjectHelper.isDefined(stateParams.postort)) {
-                    patient.postort = stateParams.postort;
-                }
-            }
-
-            /**
              * Applicable only to NORMAL users, the PU service is used to load the Patient object and any name changes
              * are then applied to the utkast.grundData.patient.
              */
@@ -142,12 +127,6 @@ angular.module('common').factory('common.UtkastService',
                                 
                                 // update model here so controls dependent on correct models at startup has the right values first
                                 viewState.common.update(viewState.draftModel, utkastData);
-
-                                // update patient data from integration if available
-                                if(UserModel.isDjupintegration()) {
-
-                                    _applyDjupintegrationAddressChange($stateParams, viewState.draftModel.content.grundData.patient);
-                                }
 
                                 // add tilläggsfrågor to model when dynamic texts are used
                                 if(ObjectHelper.isDefined(labels)) {

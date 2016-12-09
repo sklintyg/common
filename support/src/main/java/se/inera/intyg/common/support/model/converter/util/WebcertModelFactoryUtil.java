@@ -22,10 +22,14 @@ package se.inera.intyg.common.support.model.converter.util;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
-
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 
 public final class WebcertModelFactoryUtil {
 
@@ -69,6 +73,72 @@ public final class WebcertModelFactoryUtil {
             throw new ConverterException("Got null while trying to populateWithPatientInfo");
         }
         grundData.setPatient(patient);
+    }
+
+    /**
+     * Create a new effective Patient model based on supplied patient and existing patient, following the pattern that
+     * only valid new patient details override existing ones.
+     *
+     * Special logic is applies to personId, where only valid personnr and samordningsnummer are valid override values.
+     *
+     * @param existingPatient
+     * @param newPatient
+     * @return
+     */
+    public static Patient buildNewEffectivePatient(Patient existingPatient, Patient newPatient) {
+        Patient mergedPatient = new Patient();
+
+        // Only accept valid personnr or samordningsnummer as new personId
+        if (newPatient.getPersonId() != null && (Personnummer.createValidatedPersonnummerWithDash(newPatient.getPersonId()).isPresent()
+                || newPatient.getPersonId().isSamordningsNummer())) {
+            mergedPatient.setPersonId(newPatient.getPersonId());
+        } else {
+            mergedPatient.setPersonId(existingPatient.getPersonId());
+        }
+
+        if (StringUtils.isNotBlank(newPatient.getFornamn())) {
+            mergedPatient.setFornamn(newPatient.getFornamn());
+        } else {
+            mergedPatient.setFornamn(existingPatient.getFornamn());
+        }
+
+        // Name
+        if (StringUtils.isNotBlank(newPatient.getMellannamn())) {
+            mergedPatient.setMellannamn(newPatient.getMellannamn());
+        } else {
+            mergedPatient.setMellannamn(existingPatient.getMellannamn());
+        }
+
+        if (StringUtils.isNotBlank(newPatient.getEfternamn())) {
+            mergedPatient.setEfternamn(newPatient.getEfternamn());
+        } else {
+            mergedPatient.setEfternamn(existingPatient.getEfternamn());
+        }
+
+        if (StringUtils.isNotBlank(newPatient.getFullstandigtNamn())) {
+            mergedPatient.setFullstandigtNamn(newPatient.getFullstandigtNamn());
+        } else {
+            mergedPatient.setFullstandigtNamn(existingPatient.getFullstandigtNamn());
+        }
+
+        // Address
+        if (StringUtils.isNotBlank(newPatient.getPostadress())) {
+            mergedPatient.setPostadress(newPatient.getPostadress());
+        } else {
+            mergedPatient.setPostadress(existingPatient.getPostadress());
+        }
+        if (StringUtils.isNotBlank(newPatient.getPostnummer())) {
+            mergedPatient.setPostnummer(newPatient.getPostnummer());
+        } else {
+            mergedPatient.setPostnummer(existingPatient.getPostnummer());
+        }
+        if (StringUtils.isNotBlank(newPatient.getPostort())) {
+            mergedPatient.setPostort(newPatient.getPostort());
+        } else {
+            mergedPatient.setPostort(existingPatient.getPostort());
+        }
+
+        return mergedPatient;
     }
 
     private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
