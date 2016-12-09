@@ -24,6 +24,7 @@ describe('common.domain.BaseModel', function() {
     var BaseAtticModel;
     var ModelAttr;
     var ModelTransform;
+    var GrundData;
 
     beforeEach(angular.mock.module('common', function($provide) {
     }));
@@ -32,11 +33,13 @@ describe('common.domain.BaseModel', function() {
 
     beforeEach(angular.mock.inject([
         'common.domain.BaseModel', 'common.domain.BaseAtticModel', 'common.domain.ModelAttr', 'common.domain.ModelTransformService',
-        function( _BaseModel_, _BaseAtticModel_,  _modelAttr_, _ModelTransform_) {
+        'common.Domain.GrundDataModel',
+        function( _BaseModel_, _BaseAtticModel_,  _modelAttr_, _ModelTransform_, _GrundData_) {
             BaseModel = _BaseModel_;
             BaseAtticModel = _BaseAtticModel_;
             ModelAttr = _modelAttr_;
             ModelTransform = _ModelTransform_;
+            GrundData = _GrundData_;
         }]));
 
     describe('#base model', function() {
@@ -169,6 +172,37 @@ describe('common.domain.BaseModel', function() {
                     ab : 'hiya cp1'
                 });
                 expect(model.b).toBe(undefined);
+
+            });
+
+            it('can clear PatientModel property', function() {
+
+                var modelDef = {
+                    a: {
+                        aa: { aaa: false, aab: 'hi'},
+                        ab : false
+                    },
+                    grundData: GrundData.build()
+                };
+                model = new BaseModel('model1', modelDef );
+
+                print(model);
+
+                model.clear('a.aa.aab');
+
+                // set model props
+                model.a.aa.aaa ='hiya aaa';
+                model.a.aa.aab ='hiya aab';
+                model.a.ab ='hiya cp1';
+                model.grundData.patient.postadress = '2nd street';
+
+                model.clear('grundData.patient.postadress');
+
+                expect(model.a).toEqual({
+                    aa: { aaa: 'hiya aaa', aab: 'hiya aab'},
+                    ab : 'hiya cp1'
+                });
+                expect(model.grundData.patient.postadress).toBe(undefined);
 
             });
 

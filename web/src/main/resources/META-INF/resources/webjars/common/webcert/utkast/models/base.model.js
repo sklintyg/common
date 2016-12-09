@@ -124,7 +124,7 @@ angular.module('common').factory('common.domain.BaseModel',
                     }
                 }
 
-                if(extras.self.isModelAttr(props)){
+                if(extras.self.isModelAttr(props) || !(extras.self.isArray(props) || extras.self.isObject(props))){
                     propFn(currentSelf, props, extras);
                 } else {
                     angular.forEach(props, function(val, key) {
@@ -273,13 +273,19 @@ angular.module('common').factory('common.domain.BaseModel',
                 function findPropsCurrent(baseModel, props, propsCurrent) {
                     for(var j = 0; j < props.length; j++){
                         var prop = props[j];
-                        if(!baseModel.isModelAttr(propsCurrent.props[prop])) {
+                        if (!baseModel.isModelAttr(propsCurrent.props[prop]) &&
+                            (baseModel.isObject(propsCurrent.props[prop]) || baseModel.isArray(propsCurrent.props[prop]))) {
                             nc = propsCurrent.current[prop];
                             if(nc){
                                 propsCurrent.current = nc;
                             }
                         }
-                        propsCurrent.props = propsCurrent.props[prop];
+                        if (baseModel.isObject(propsCurrent.props[prop])) {
+                            propsCurrent.props = propsCurrent.props[prop];
+                        }
+                        else {
+                            propsCurrent.props = prop;
+                        }
                     }
                 }
 
