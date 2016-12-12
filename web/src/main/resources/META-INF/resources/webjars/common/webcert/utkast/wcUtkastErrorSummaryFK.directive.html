@@ -2,7 +2,7 @@
      style="margin-right: 20px">
   <h3><span message key="draft.saknar-uppgifter"></span></h3>
   <ul>
-    <li ng-repeat="message in viewState.common.validationSections">
+    <li ng-repeat="message in viewState.common.validation.sections">
       <a href="" ng-click="scrollTo(message)">{{lookUpLabel(message)}}</span></a>
     </li>
   </ul>
