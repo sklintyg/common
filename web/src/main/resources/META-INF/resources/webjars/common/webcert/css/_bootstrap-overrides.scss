@@ -100,7 +100,7 @@ $font-3: sans-serif;
 }
 
 %btn-common {
-  font-weight: bold;
+  font-weight: normal;
   background: none;
   border: none;
 }
@@ -145,14 +145,10 @@ $font-3: sans-serif;
 }
 
 .btn-inverse {
-  background: none;
+  @extend %btn-info-common;
   background-color: $btn-inverse-background-color;
   color: $btn-inverse-color;
-  &:focus {
-    background-color: $btn-inverse-background-focus-and-hover-color;
-    color: $btn-inverse-color;
-  }
-  &:hover {
+  &:focus, &:hover {
     background-color: $btn-inverse-background-focus-and-hover-color;
     color: $btn-inverse-color;
   }
