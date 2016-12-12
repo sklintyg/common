@@ -2,6 +2,7 @@ angular.module('common').run(function(formlyConfig) {
     'use strict';
 
     formlyConfig.setType({
+        'extends': 'validation-on-blur',
         name: 'date',
         templateUrl: '/web/webjars/common/webcert/gui/formly/date.formly.html',
         controller: ['$scope', 'common.DateUtilsService', 'common.dynamicLabelService', 'common.AtticHelper',

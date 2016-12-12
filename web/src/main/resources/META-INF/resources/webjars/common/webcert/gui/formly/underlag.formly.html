@@ -13,7 +13,8 @@
       <td>
         <ui-select theme="bootstrap" search-enabled="false" ng-model="underlag.typ"
          id="underlag-{{$index}}-typ" name="andraUnderlag-{{$index}}" append-to-body="false"
-         ng-class="{'fielderror' : hasValidationError('typ', $index)}">
+         ng-class="{'fielderror' : hasValidationError('typ', $index)}"
+         on-select="validate()">
             <ui-select-match>
                 <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
             </ui-select-match>
@@ -26,6 +27,7 @@
         <span wc-date-picker-field target-model="underlag.datum" dom-id="underlag-{{$index}}-datum"
               ng-class="{'fielderror' : hasValidationError('datum', $index)}"
               ng-model="underlag.datum"
+              on-blur="validate()"
               add-date-parser="loose"></span>
       </td>
       <td>
@@ -34,6 +36,7 @@
                class="form-control input-full"
                ng-class="{'fielderror' : hasValidationError('hamtasfran', $index)}"
                ng-model="underlag.hamtasFran"
+               ng-blur="validate()"
                maxlength="4000">
       </td>
     </tr>

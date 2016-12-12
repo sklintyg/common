@@ -5,7 +5,8 @@ angular.module('common').run(function(formlyConfig) {
         name: 'prognos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/prognos.formly.html',
         controller: ['$scope', 'common.dynamicLabelService', 'common.ArendeListViewStateService', 'common.AtticHelper',
-        function($scope, dynamicLabelService, ArendeListViewState, AtticHelper) {
+            'common.UtkastValidationService',
+        function($scope, dynamicLabelService, ArendeListViewState, AtticHelper, UtkastValidationService) {
 
             // Restore data model value form attic if exists
             AtticHelper.restoreFromAttic($scope.model, $scope.options.key + '.typ');
@@ -40,6 +41,10 @@ angular.module('common').run(function(formlyConfig) {
             $scope.$on('dynamicLabels.updated', function() {
                 updatePrognosOptions();
             });
+
+            $scope.validate = function() {
+                UtkastValidationService.validate($scope.model);
+            };
 
             updatePrognosOptions();
         }]

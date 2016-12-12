@@ -18,7 +18,8 @@
  */
 
 angular.module('common').service('common.UtkastViewStateService',
-    ['$stateParams', '$window', 'common.ViewStateService', 'common.User', function($stateParams, $window, commonViewStateService, commonUser) {
+    ['$stateParams', '$window', 'common.ViewStateService', 'common.User', 'common.UtkastValidationViewState',
+        function($stateParams, $window, commonViewStateService, commonUser, utkastValidationViewState) {
         'use strict';
 
         this.reset = function() {
@@ -40,13 +41,6 @@ angular.module('common').service('common.UtkastViewStateService',
             this.deleted = false;
             this.isSigned = false;
             this.textVersionUpdated = false;
-            this.validationSections  = null;
-            this.validationMessages  = null;
-            this.validationMessagesGrouped  = null;
-            this.validationMessagesByField = null;
-
-            this.warningMessages  = null;
-            this.warningMessagesByField = null;
 
             this.doneLoading = false;
             this.collapsedHeader = false;
@@ -58,6 +52,9 @@ angular.module('common').service('common.UtkastViewStateService',
 
             this.common = commonViewStateService;
             this.common.reset();
+
+            this.validation = utkastValidationViewState;
+            this.validation.reset();
         };
 
         this.update = function(draftModel, data) {

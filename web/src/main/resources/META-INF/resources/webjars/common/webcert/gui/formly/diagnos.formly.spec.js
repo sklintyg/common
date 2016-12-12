@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('diagnos', function() {
+fdescribe('diagnos', function() {
     'use strict';
 
     var $scope;
@@ -36,7 +36,7 @@ describe('diagnos', function() {
             diagnoser:[{}]
         };
         $scope.options = {
-            formState:{viewState:{common:{}}}
+            formState:{viewState:{common:{validation:{}}}}
         };
         $scope.formFields = [{
             key: 'diagnoser',

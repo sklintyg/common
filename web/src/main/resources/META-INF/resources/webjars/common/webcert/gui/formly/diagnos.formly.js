@@ -5,9 +5,9 @@ angular.module('common').run(function(formlyConfig) {
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
         controller: ['$scope', '$log', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService',
-            'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService',
+            'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService', 'common.UtkastValidationService',
             function($scope, $log, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService,
-                ArendeListViewState) {
+                ArendeListViewState, UtkastValidationService) {
 
                 var formState = $scope.formState;
                 formState.diagnosKodSystem = 'ICD_10_SE';
@@ -190,8 +190,8 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.hasValidationError = function(field, index) {
-                    return $scope.formState.viewState.common.validationMessagesByField &&
-                        !!$scope.formState.viewState.common.validationMessagesByField['diagnoser.' + index + '.' +
+                    return $scope.formState.viewState.common.validation.messagesByField &&
+                        !!$scope.formState.viewState.common.validation.messagesByField['diagnoser.' + index + '.' +
                         field];
                 };
 
@@ -200,15 +200,19 @@ angular.module('common').run(function(formlyConfig) {
                     return ArendeListViewState.hasKompletteringar($scope.options.key);
                 };
 
-                $scope.$watch('formState.viewState.common.validationMessagesByField', function() {
+                $scope.$watch('formState.viewState.common.validation.messagesByField', function() {
                     $scope.diagnosValidations = [];
-                    angular.forEach($scope.formState.viewState.common.validationMessagesByField,
+                    angular.forEach($scope.formState.viewState.common.validation.messagesByField,
                         function(validations, key) {
                             if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
                                 $scope.diagnosValidations = $scope.diagnosValidations.concat(validations);
                             }
                         });
                 });
+
+                $scope.validate = function() {
+                    UtkastValidationService.validate($scope.model);
+                };
             }
         ]
     });

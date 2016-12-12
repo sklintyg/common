@@ -13,6 +13,7 @@
         <span message key="common.sit.label.sjukskrivning.hoursperweek"></span>
         <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek"
                ng-change="viewstate.updateHoursPerWeek()"
+               ng-blur="validate()"
                maxlength="3"> h/vecka
         <span wc-help-mark field-help-text="common.sit.help.sjukskrivning.hoursperweek"></span>
       </label>
@@ -27,7 +28,8 @@
         <wc-validation-wrapper field-type="date-period" validations="getValidationsForPeriod(field)">
           <div class="col-vlg-auto col-lg-12 col-md-4 col-sm-12">
               <label class="big-checkbox-label checkbox-inline">
-                <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked" ng-change="viewstate.updateCheckBox(field)">
+                <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked"
+                       ng-change="viewstate.updateCheckBox(field); validate()">
                 <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>
               </label>
               <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{field}}.HLP"></span>
@@ -40,7 +42,7 @@
                         col-sm-12">
               <div class="sjukskrivningar_period">
                 <label for="{{options.key}}-{{field}}-from">från och med</label>
-                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"></span>
+                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from" onblur="validate()"></span>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -50,7 +52,7 @@
                         col-sm-12">
               <div class="sjukskrivningar_period">
                 <label for="{{options.key}}-{{field}}-tom">till och med</label>
-                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom"></span>
+                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom" onblur="validate()"></span>
               </div>
             </div>
           </div>

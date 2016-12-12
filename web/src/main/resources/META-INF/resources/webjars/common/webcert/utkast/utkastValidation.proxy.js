@@ -17,21 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').run(function(formlyConfig) {
-    'use strict';
+angular.module('common').factory('common.UtkastValidationProxy',
+    ['$http', function($http) {
+        'use strict';
 
-    formlyConfig.setType({
-        'extends': 'validation-on-change',
-        name: 'checkbox-inline',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/checkboxInline.formly.html',
-        controller: ['$scope', 'common.AtticHelper', function($scope, AtticHelper) {
+        function _validateUtkast(intygsId, intygsTyp, utkastData, callback,  errorCallback) {
+            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/validate';
+            $http.post(restPath, utkastData).success(function(data) {
+                callback(data);
+            }).error(function(data, status) {
+                errorCallback(data);
+            });
+        }
 
-            // Restore data model value form attic if exists
-            AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
-
-            // Clear attic model and destroy watch on scope destroy
-            AtticHelper.updateToAttic($scope, $scope.model, $scope.options.key);
-        }]
-    });
-
-});
+        // Return public API for the service
+        return {
+            validateUtkast: _validateUtkast
+        };
+    }]);

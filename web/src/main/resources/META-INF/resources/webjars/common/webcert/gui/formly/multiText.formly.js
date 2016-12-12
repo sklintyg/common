@@ -2,6 +2,7 @@ angular.module('common').run(function(formlyConfig) {
     'use strict';
 
     formlyConfig.setType({
+        'extends': 'validation-on-blur',
         name: 'multi-text',
         templateUrl: '/web/webjars/common/webcert/gui/formly/multiText.formly.html',
         controller: ['$scope', 'common.ObjectHelper', 'common.AtticHelper', function($scope, ObjectHelper, AtticHelper) {

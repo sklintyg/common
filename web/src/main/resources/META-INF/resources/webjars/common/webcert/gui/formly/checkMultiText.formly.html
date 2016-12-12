@@ -10,6 +10,6 @@
         <span wc-help-mark field-dynamic-help-text="DFR_{{to.frgId}}.1.HLP"></span>
     </label>
 		<textarea id="{{options.key}}" name="{{options.key}}" rows='6' class='form-control' ng-model="model[options.key]"
-              maxlength="4000"></textarea>
+              maxlength="4000" ng-blur="validate()"></textarea>
 	</div>
 </div>

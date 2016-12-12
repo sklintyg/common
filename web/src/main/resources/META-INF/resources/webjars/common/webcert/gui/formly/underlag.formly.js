@@ -5,7 +5,8 @@ angular.module('common').run(function(formlyConfig) {
         name: 'underlag',
         templateUrl: '/web/webjars/common/webcert/gui/formly/underlag.formly.html',
         controller: ['$scope', 'common.dynamicLabelService', 'common.ObjectHelper', 'common.ArendeListViewStateService',
-        function($scope, dynamicLabelService, objectHelper, ArendeListViewState) {
+            'common.UtkastValidationService',
+        function($scope, dynamicLabelService, objectHelper, ArendeListViewState, UtkastValidationService) {
 
             var chooseOption = {
                 id: null,
@@ -25,13 +26,17 @@ angular.module('common').run(function(formlyConfig) {
             };
 
             $scope.hasValidationError = function(field, index) {
-                return $scope.formState.viewState.common.validationMessagesByField &&
-                    !!$scope.formState.viewState.common.validationMessagesByField['underlag.' + index + '.' + field];
+                return $scope.formState.viewState.common.validation.messagesByField &&
+                    !!$scope.formState.viewState.common.validation.messagesByField['underlag.' + index + '.' + field];
             };
 
-            $scope.$watch('formState.viewState.common.validationMessagesByField', function() {
+            $scope.validate = function() {
+                UtkastValidationService.validate($scope.model);
+            };
+
+            $scope.$watch('formState.viewState.common.validation.messagesByField', function() {
                 $scope.underlagValidations = [];
-                angular.forEach($scope.formState.viewState.common.validationMessagesByField, function(validations, key) {
+                angular.forEach($scope.formState.viewState.common.validation.messagesByField, function(validations, key) {
                     if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
                         $scope.underlagValidations = $scope.underlagValidations.concat(validations);
                     }

@@ -3,7 +3,7 @@ angular.module('common').run(function(formlyConfig) {
 
     formlyConfig.setWrapper({
         name: 'wc-field',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/wcField.formly.html'
+        templateUrl: '/web/webjars/common/webcert/gui/formly/wrapper/wcField.formly.html'
     });
 
 });

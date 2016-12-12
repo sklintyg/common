@@ -3,7 +3,7 @@ angular.module('common').run(['formlyConfig', function(formlyConfig) {
 
     formlyConfig.setWrapper({
         name: 'validationGroup',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/validationGroup.formly.html'
+        templateUrl: '/web/webjars/common/webcert/gui/formly/wrapper/validationGroup.formly.html'
     });
 
 }]);

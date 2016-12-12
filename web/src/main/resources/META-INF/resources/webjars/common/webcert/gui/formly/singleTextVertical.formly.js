@@ -2,6 +2,7 @@ angular.module('common').run(function(formlyConfig) {
     'use strict';
 
     formlyConfig.setType({
+        'extends': 'validation-on-blur',
         name: 'single-text-vertical',
         templateUrl: '/web/webjars/common/webcert/gui/formly/singleTextVertical.formly.html',
         controller: ['$scope', 'common.ObjectHelper', 'common.AtticHelper',

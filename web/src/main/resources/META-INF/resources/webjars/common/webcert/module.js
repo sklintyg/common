@@ -17,7 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'formly' ]);
+// Add formly base types to separate module since they need to execute before the types which extends them.
+angular.module('common.formlyBaseTypes', []);
+
+angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'formly', 'common.formlyBaseTypes' ]);
 
 // Inject language resources
 angular.module('common').run([ 'common.messageService', 'common.messages',

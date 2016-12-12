@@ -23,7 +23,9 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'check-multi-text',
         templateUrl: '/web/webjars/common/webcert/gui/formly/checkMultiText.formly.html',
-        controller: ['$scope', 'common.ObjectHelper', 'common.AtticHelper', function($scope, ObjectHelper, AtticHelper) {
+        controller: ['$scope', 'common.ObjectHelper', 'common.AtticHelper', 'common.UtkastValidationService', function(
+            $scope, ObjectHelper, AtticHelper, UtkastValidationService) {
+
             if (!$scope.to.labelColSize) {
                 $scope.to.labelColSize = 5;
             }
@@ -53,6 +55,10 @@ angular.module('common').run(function(formlyConfig) {
                     AtticHelper.updateToAtticImmediate($scope.model, $scope.options.key);
                 }
             }
+
+            $scope.validate = function() {
+                UtkastValidationService.validate($scope.model);
+            };
 
             $scope.$watch('to.open', function(newVal) {
                 updateModel(newVal);

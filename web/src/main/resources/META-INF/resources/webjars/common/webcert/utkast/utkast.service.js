@@ -228,71 +228,10 @@ angular.module('common').factory('common.UtkastService',
                 // Update draft version
                 intygState.viewState.draftModel.version = data.version;
 
-                // Update validation messages
-                intygState.viewState.common.validationMessagesGrouped = {};
-                intygState.viewState.common.validationMessages = [];
-                intygState.viewState.common.validationSections = [];
-                intygState.viewState.common.validationMessagesByField = {};
-
-                // Warn messages
-                intygState.viewState.common.warningMessages = typeof data.warnings !== 'undefined' ? data.warnings : [];
-                intygState.viewState.common.warningMessagesByField = {};
-
-                // Process warning messages. We want to show these regardless if the draft is complete/valid or not.
-                angular.forEach(intygState.viewState.common.warningMessages, function(message) {
-                    var field = message.field.toLowerCase();
-                    var i = message.field.indexOf('.');
-                    if (i >= 0) {
-                        field = message.field.substring(i + 1).toLowerCase();
-                    }
-                    if (!intygState.viewState.common.warningMessagesByField[field]) {
-                        intygState.viewState.common.warningMessagesByField[field] = [];
-                    }
-                    intygState.viewState.common.warningMessagesByField[field].push(message);
-                });
-
                 if (data.status === 'DRAFT_COMPLETE') {
                     CommonViewState.intyg.isComplete = true;
                 } else {
                     CommonViewState.intyg.isComplete = false;
-
-                    if (!CommonViewState.showComplete) {
-                        intygState.viewState.common.validationMessages = data.messages.filter(function(message) {
-                            return (message.type !== 'EMPTY');
-                        });
-                    }
-                    else {
-                        intygState.viewState.common.validationMessages = data.messages;
-                    }
-
-                    // Iterate over and process validation errors
-                    angular.forEach(intygState.viewState.common.validationMessages, function(message) {
-
-                        var section = message.field.toLowerCase();
-                        var field = message.field.toLowerCase();
-
-                        var i = message.field.indexOf('.');
-                        if (i >= 0) {
-                            section = message.field.substring(0, i).toLowerCase();
-                            field = message.field.substring(i + 1).toLowerCase();
-                        }
-                        if (intygState.viewState.common.validationSections.indexOf(section) === -1) {
-                            intygState.viewState.common.validationSections.push(section);
-                        }
-
-                        if (intygState.viewState.common.validationMessagesGrouped[section]) {
-                            intygState.viewState.common.validationMessagesGrouped[section].push(message);
-                        } else {
-                            intygState.viewState.common.validationMessagesGrouped[section] = [message];
-                        }
-
-                        if (!intygState.viewState.common.validationMessagesByField[field]) {
-                            intygState.viewState.common.validationMessagesByField[field] = [];
-                        }
-                        intygState.viewState.common.validationMessagesByField[field].push(message);
-                    });
-
-
                 }
 
                 // Update relation status on current utkast on save so relation table view is up to date

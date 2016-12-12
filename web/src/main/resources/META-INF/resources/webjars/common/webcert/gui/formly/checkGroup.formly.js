@@ -2,6 +2,7 @@ angular.module('common').run(function(formlyConfig) {
     'use strict';
 
     formlyConfig.setType({
+        'extends': 'validation-on-change',
         name: 'check-group',
         templateUrl: '/web/webjars/common/webcert/gui/formly/checkGroup.formly.html',
         controller: ['$scope', 'common.AtticHelper', function($scope, AtticHelper) {

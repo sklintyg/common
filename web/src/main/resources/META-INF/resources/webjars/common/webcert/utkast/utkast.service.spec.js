@@ -345,9 +345,9 @@ describe('UtkastService', function() {
             expect(formFailStateSet).toBeFalsy();
             expect(viewState.common.error.saveErrorMessage).toBe(null);
             expect(viewState.common.intyg.isComplete).toBeFalsy();
-            expect(viewState.common.validationMessagesGrouped).toEqual({});
-            expect(viewState.common.validationMessages).toEqual([]);
-            expect(viewState.common.validationSections).toEqual([]);
+            expect(viewState.common.validation.messagesGrouped).toEqual({});
+            expect(viewState.common.validation.messages).toEqual([]);
+            expect(viewState.common.validation.sections).toEqual([]);
 
             expect(viewState.common.saving).toBeTruthy();
             $timeout.flush();
@@ -373,13 +373,13 @@ describe('UtkastService', function() {
             expect(formFailStateSet).toBeFalsy();
             expect(viewState.common.error.saveErrorMessage).toBe(null);
             expect(viewState.common.intyg.isComplete).toBeFalsy();
-            expect(viewState.common.validationMessagesGrouped).toEqual(
+            expect(viewState.common.validation.messagesGrouped).toEqual(
                 {errorfield:[{'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}]});
-            expect(viewState.common.validationMessages).toEqual([
+            expect(viewState.common.validation.messages).toEqual([
                 {'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}]);
-            expect(viewState.common.validationSections).toEqual(['errorfield']);
+            expect(viewState.common.validation.sections).toEqual(['errorfield']);
 
-            expect(viewState.common.warningMessages).toEqual([]);
+            expect(viewState.common.validation.warningMessages).toEqual([]);
         });
 
         it ('successful utkast save and draft incorrect format, showComplete is true', function () {
@@ -401,13 +401,13 @@ describe('UtkastService', function() {
             expect(formFailStateSet).toBeFalsy();
             expect(viewState.common.error.saveErrorMessage).toBe(null);
             expect(viewState.common.intyg.isComplete).toBeFalsy();
-            expect(viewState.common.validationMessagesGrouped).toEqual({
+            expect(viewState.common.validation.messagesGrouped).toEqual({
                 errorfield:[{'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}],
                 errorfield2:[{'field':'errorField2','type':'EMPTY','message':'error.message2'}]});
-            expect(viewState.common.validationMessages).toEqual([
+            expect(viewState.common.validation.messages).toEqual([
                 {'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'},
                 {'field':'errorField2','type':'EMPTY','message':'error.message2'}]);
-            expect(viewState.common.validationSections).toEqual(['errorfield','errorfield2']);
+            expect(viewState.common.validation.sections).toEqual(['errorfield','errorfield2']);
         });
 
         it ('successful utkast save and draft complete', function () {
@@ -427,9 +427,9 @@ describe('UtkastService', function() {
             expect(formFailStateSet).toBeFalsy();
             expect(viewState.common.error.saveErrorMessage).toBe(null);
             expect(viewState.common.intyg.isComplete).toBeTruthy();
-            expect(viewState.common.validationMessagesGrouped).toEqual({});
-            expect(viewState.common.validationMessages).toEqual([]);
-            expect(viewState.common.validationSections).toEqual([]);
+            expect(viewState.common.validation.messagesGrouped).toEqual({});
+            expect(viewState.common.validation.messages).toEqual([]);
+            expect(viewState.common.validation.sections).toEqual([]);
         });
 
         it ('successful utkast save and draft complete, with warnings', function () {
@@ -450,12 +450,12 @@ describe('UtkastService', function() {
             expect(formFailStateSet).toBeFalsy();
             expect(viewState.common.error.saveErrorMessage).toBe(null);
             expect(viewState.common.intyg.isComplete).toBeTruthy();
-            expect(viewState.common.validationMessagesGrouped).toEqual({});
-            expect(viewState.common.validationMessages).toEqual([]);
-            expect(viewState.common.validationSections).toEqual([]);
+            expect(viewState.common.validation.messagesGrouped).toEqual({});
+            expect(viewState.common.validation.messages).toEqual([]);
+            expect(viewState.common.validation.sections).toEqual([]);
 
-            expect(viewState.common.warningMessages).toEqual([{'field':'warning.field','type':'WARN','message':'warn.message'}]);
-            expect(viewState.common.warningMessagesByField.field).toBeDefined();
+            expect(viewState.common.validation.warningMessages).toEqual([{'field':'warning.field','type':'WARN','message':'warn.message'}]);
+            expect(viewState.common.validation.warningMessagesByField.field).toBeDefined();
         });
 
         it ('unsuccessful utkast save', function () {

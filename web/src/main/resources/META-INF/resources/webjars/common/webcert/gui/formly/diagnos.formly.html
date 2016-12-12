@@ -5,12 +5,12 @@
             <label class="radio-inline big-radio-label">
                 <input type="radio" class="big-radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
                        ng-model="formState.diagnosKodSystem" checked="checked"
-                       ng-change="onChangeKodverk()">
+                       ng-change="onChangeKodverk(); validate()">
                 <span message key="common.sit.label.diagnoskodverk.fullstandig"></span>
             </label>
             <label class="radio-inline big-radio-label">
                 <input type="radio" class="big-radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodSystem" value="KSH_97_P"
-                       ng-model="formState.diagnosKodSystem" ng-change="onChangeKodverk()">
+                       ng-model="formState.diagnosKodSystem" ng-change="onChangeKodverk(); validate()">
                 <span message key="common.sit.label.diagnoskodverk.primarvard"></span>
             </label>
         </div>
@@ -47,7 +47,7 @@
                            typeahead-template-url="/web/webjars/common/webcert/gui/formly/diagnos.formly.typeahead_template.html"
                            typeahead-loading="diagnosKodLoading[$index]"
                            typeahead-no-results="diagnosKodNoResults[$index]"
-                           ng-blur="onBlurDiagnoseCodeField($index)"
+                           ng-blur="onBlurDiagnoseCodeField($index); validate()"
                            maxlength="4000">
                     <img src="/img/ajax-loader-kit-16x16.gif" class="diagnos-loading" ng-if="diagnosKodLoading[$index]" />
                 </div>
@@ -70,6 +70,7 @@
                        name="diagnose.description"
                        value=""
                        ng-model= "diagnos.diagnosBeskrivning"
+                       ng-blur="validate()"
                        ng-change="onDiagnoseDescriptionChanged($index)"
                        uib-typeahead="d.value as d.label for d in searchDiagnoseByDescription(formState.diagnosKodSystem, $viewValue)"
                        typeahead-on-select="onDiagnoseDescriptionSelect($index, $item)"

@@ -22,7 +22,7 @@ angular.module('common').run(function(formlyConfig) {
 
     formlyConfig.setWrapper({
         name: 'fmb-wrapper',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/fmbWrapper.formly.html'
+        templateUrl: '/web/webjars/common/webcert/gui/formly/wrapper/fmbWrapper.formly.html'
     });
 
 });
