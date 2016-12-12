@@ -50,6 +50,7 @@ angular.module('common').service('common.UtkastViewStateService',
 
             this.doneLoading = false;
             this.collapsedHeader = false;
+            this.showHideButtonText = 'Dölj meny';
             this.saving = false;
             this.headerSize = {width:0, height: 250};
             this.today = new Date();
@@ -113,6 +114,11 @@ angular.module('common').service('common.UtkastViewStateService',
 
         this.toggleCollapsedHeader = function() {
             this.collapsedHeader = !this.collapsedHeader;
+            if(this.collapsedHeader){
+                this.showHideButtonText = 'Visa meny';
+            } else {
+                this.showHideButtonText = 'Dölj meny';
+            }
         };
 
         this.setDoneLoading = function(val){
