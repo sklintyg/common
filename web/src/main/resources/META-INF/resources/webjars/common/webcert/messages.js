@@ -300,7 +300,7 @@ angular.module('common').constant('common.messages', {
 
         // Validation messages
         'luse.validation.grund-for-mu.incorrect_combination_annat_beskrivning' : 'Fritextfältet som hör till alternativet Annat under \'Uppgifterna i intyget baseras på\' får endast fyllas i om \'Annan referens valts\'.',
-        'luse.validation.grund-for-mu.kannedom.after': 'Får inte vara senare än datum för \'{0}\'',
+        'luse.validation.grund-for-mu.kannedom.after': 'Får inte vara senare än \'{0}\'',
         'luse.validation.underlagfinns.incorrect_combination' : 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
         'luse.validation.underlag.too_many': 'För många underlag. Detta fel kan ej åtgärdas av användaren. Påbörja ett nytt utkast och rapportera felet till Inera Kundtjänst.',
         'luse.validation.underlag.missing': 'Du måste ange ett underlag.',
@@ -312,6 +312,7 @@ angular.module('common').constant('common.messages', {
         'luse.validation.kontakt.incorrect_combination' : 'Anledning till kontakt kan endast fyllas i om \'kontakt med FK önskas\' är vald.',
 
         'luae_na.validation.grund-for-mu.incorrect_combination_annat_beskrivning' : 'Fritextfältet som hör till alternativet Annat under \'Uppgifterna i intyget baseras på\' får endast fyllas i om \'Annan referens\' valts.',
+        'luae_na.validation.grund-for-mu.kannedom.after': 'Får inte vara senare än \'{0}\'',
         'luae_na.validation.grund-for-mu.kannedom.after.undersokning': '\'Kännedom om patienten\' får inte vara senare än datum för \'Min undersökning av patienten\'',
         'luae_na.validation.grund-for-mu.kannedom.after.anhorigsbeskrivning': '\'Kännedom om patienten\' får inte vara senare än datum för \'Anhörigs beskrivning av patienten\'',
         'luae_na.validation.underlagfinns.incorrect_combination' : 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
@@ -325,7 +326,7 @@ angular.module('common').constant('common.messages', {
 
         'luae_fs.validation.grund-for-mu.annat.beskrivning.invalid_combination': 'Om inte alternativet Annat är angett får inte beskrivningsfältet anges',
         'luae_fs.validation.underlagfinns.incorrect_combination' : 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
-        'luae_fs.validation.grund-for-mu.kannedom.after': 'Får inte vara senare än datum för \'{0}\'',
+        'luae_fs.validation.grund-for-mu.kannedom.after': 'Får inte vara senare än \'{0}\'',
         'luae_fs.validation.underlag.missing': 'Du måste ange ett underlag.',
         'luae_fs.validation.underlag.incorrect_format' : 'Fel typ av underlag',
         'luae_fs.validation.underlagfinns.missing': 'Frågan \'Finns det andra medicinska utredningar eller underlag\' måste besvaras',
