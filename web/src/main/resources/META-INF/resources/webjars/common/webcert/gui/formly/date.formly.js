@@ -2,11 +2,10 @@ angular.module('common').run(function(formlyConfig) {
     'use strict';
 
     formlyConfig.setType({
-        'extends': 'validation-on-blur',
         name: 'date',
         templateUrl: '/web/webjars/common/webcert/gui/formly/date.formly.html',
-        controller: ['$scope', 'common.DateUtilsService', 'common.dynamicLabelService', 'common.AtticHelper',
-            function($scope, dateUtils, dynamicLabelService, AtticHelper) {
+        controller: ['$scope', 'common.DateUtilsService', 'common.dynamicLabelService', 'common.AtticHelper', 'common.UtkastValidationService',
+            function($scope, dateUtils, dynamicLabelService, AtticHelper, UtkastValidationService) {
 
             // Restore data model value form attic if exists
             AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
@@ -30,15 +29,23 @@ angular.module('common').run(function(formlyConfig) {
                 if (newVal) {
                     if (!$scope.model[$scope.options.key]) {
                         $scope.model[$scope.options.key] = dateUtils.todayAsYYYYMMDD();
+                        $scope.validate();
                     }
                 } else if (oldVal !== undefined) {
                     // Clear date if check is unchecked
-                    $scope.model[$scope.options.key] = undefined;
+                    if ($scope.model[$scope.options.key] !== undefined) {
+                        $scope.model[$scope.options.key] = undefined;
+                        $scope.validate();
+                    }
                 }
             });
 
             $scope.getDynamicText = function(key) {
                 return dynamicLabelService.getProperty(key);
+            };
+
+            $scope.validate = function() {
+                UtkastValidationService.validate($scope.model);
             };
         }]
     });
