@@ -92,21 +92,6 @@ describe('PersonIdValidatorService', function() {
         expect(result).toEqual('19121212-1212');
     });
 
-    it('should pass with a valid "personnummer" with format yyMMdd-nnnn', function() {
-        var result = personIdValidatorService.validate('121212-1212');
-        expect(result).toEqual('20121212-1212');
-    });
-
-    it('should pass with a valid "personnummer" with format yyMMdd+nnnn', function() {
-        var result = personIdValidatorService.validate('121212+1212');
-        expect(result).toEqual('19121212-1212');
-    });
-
-    it('should pass with a valid "personnummer" with format yyMMddnnnn', function() {
-        var result = personIdValidatorService.validate('1212121212');
-        expect(result).toEqual('20121212-1212');
-    });
-
     it('should pass with a "personnummer" with an age of 125 years or less', function() {
         var pnr = createValidPersonnummer(moment().subtract('years', 125).format('YYYYMMDD'));
 
@@ -130,20 +115,35 @@ describe('PersonIdValidatorService', function() {
         expect(result).toEqual('19121272-1219');
     });
 
-    it('should pass with a valid "samordningsnummer" with format "yyMMnn-nnnn"', function() {
-        var result = personIdValidatorService.validate('121272-1219');
-        expect(result).toEqual('20121272-1219');
-    });
-
-    it('should pass with a valid "samordningsnummer" with format "yyMMnnnnnn"', function() {
-        var result = personIdValidatorService.validate('1212721219');
-        expect(result).toEqual('20121272-1219');
-    });
-
     // Fail
+
+    it('should fail with a "personnummer" with format yyMMddnnnn', function() {
+        var result = personIdValidatorService.validate('1212121212');
+        expect(result).toBeUndefined();
+    });
+
+    it('should fail with a "personnummer" with format yyMMdd-nnnn', function() {
+        var result = personIdValidatorService.validate('121212-1212');
+        expect(result).toBeUndefined();
+    });
+
+    it('should fail with a "personnummer" with format yyMMdd+nnnn', function() {
+        var result = personIdValidatorService.validate('121212+1212');
+        expect(result).toBeUndefined();
+    });
 
     it('should fail if "personnummer" has invalid check digit', function() {
         var result = personIdValidatorService.validate('121212-1213');
+        expect(result).toBeUndefined();
+    });
+
+    it('should fail with a "samordningsnummer" with format "yyMMnn-nnnn"', function() {
+        var result = personIdValidatorService.validate('121272-1219');
+        expect(result).toBeUndefined();
+    });
+
+    it('should fail with a "samordningsnummer" with format "yyMMnnnnnn"', function() {
+        var result = personIdValidatorService.validate('1212721219');
         expect(result).toBeUndefined();
     });
 

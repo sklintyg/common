@@ -22,22 +22,56 @@
  * in SKV 704 and SKV 707. The model holds the number in the format ååååMMdd-nnnn (or ååååMMnn-nnnn in the case of
  * samordningsnummer) but it allows the user to input the number in any of the valid formats.
  */
-angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorService',
-    function(personIdValidator) {
+angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorService', 'common.UtilsService',
+    function(personIdValidator, utils) {
         'use strict';
 
         return {
-
             restrict: 'A',
             require: 'ngModel',
+            link: function(scope, element, attrs, ngModel) {
 
-            link: function(scope, element, attrs, ctrl) {
-
-                ctrl.$parsers.unshift(function(viewValue) {
+                ngModel.$validators.validPnr = function(modelValue, viewValue) {
                     var number = personIdValidator.validate(viewValue);
-                    ctrl.$setValidity('personNumberValidate', number !== undefined);
-                    return number;
-                });
+
+                    if (ngModel.$viewValue === '') {
+                        ngModel.$setUntouched();
+                    }
+                    return number !== undefined;
+                };
+
+                function handleViewValueUpdate(newValue, oldValue) {
+
+                    if(!newValue) {
+                        return;
+                    }
+
+                    function updateViewValue(value) {
+                        ngModel.$setViewValue(value);
+                        ngModel.$render();
+                    }
+
+                    var lookingLikePnr = /^[0-9]*-?[0-9]*$/i;
+
+                    // if new value is longer than older we care, otherwise something that we already approved was removed
+                    if ((!oldValue) || (newValue.length > oldValue.length)) {
+                        if (!newValue.match(lookingLikePnr) ||
+                            (newValue.length !== 9 && newValue[newValue.length-1] === '-')) {
+                            // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
+                            newValue = oldValue;
+                            updateViewValue(newValue);
+                        } else if (newValue.length === 8 || newValue.length === 9) {
+                            // add dash if 8 chars were typed
+                            newValue = utils.insertAt(newValue, '-', 8);
+                            updateViewValue(newValue);
+                        }
+                    }
+                }
+
+                scope.$watch(function() {
+                    return ngModel.$viewValue;
+                }, handleViewValueUpdate);
+
             }
         };
     }]);

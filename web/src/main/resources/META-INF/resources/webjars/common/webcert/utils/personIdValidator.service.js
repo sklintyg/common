@@ -28,8 +28,8 @@
 angular.module('common').factory('common.PersonIdValidatorService',function() {
     'use strict';
 
-    var PERSONNUMMER_REGEXP = /^(\d{2})?(\d{2})(\d{2})([0-3]\d)([-+]?)(\d{4})$/;
-    var SAMORDNINGSNUMMER_REGEXP = /^(\d{2})?(\d{2})(\d{2})([6-9]\d)-?(\d{4})$/;
+    var PERSONNUMMER_REGEXP = /^(\d{2})(\d{2})(\d{2})([0-3]\d)([-+]?)(\d{4})$/;
+    var SAMORDNINGSNUMMER_REGEXP = /^(\d{2})(\d{2})(\d{2})([6-9]\d)-?(\d{4})$/;
 
     var MAXIMUM_AGE = 125;
 

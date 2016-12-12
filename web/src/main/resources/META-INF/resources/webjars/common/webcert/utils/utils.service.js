@@ -59,10 +59,24 @@ angular.module('common').factory('common.UtilsService', function() {
         return str;
     }
 
+    function escapeRegExp(str) {
+        return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+    }
+
+    function _replaceAll(str, find, replace) {
+        return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+    }
+
+    function _insertAt(str, text, position) {
+        return str.substr(0, position) + text + str.substr(position);
+    }
+
     return {
         isValidString: _isValidString,
         isDefined: _isDefined,
-        replaceAccentedCharacters: _replaceAccentedCharacters
+        replaceAccentedCharacters: _replaceAccentedCharacters,
+        replaceAll: _replaceAll,
+        insertAt: _insertAt
     };
 
 });
