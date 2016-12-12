@@ -24,10 +24,10 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
-        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy',
+        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
             dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
-            IntygHelper, IntygProxy, PatientProxy) {
+            IntygHelper, IntygProxy, PatientProxy, UtkastValidationService) {
             'use strict';
 
             // used to calculate save duration
@@ -92,6 +92,8 @@ angular.module('common').factory('common.UtkastService',
                     $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
                     $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
                     CommonViewState.doneLoading = true;
+
+                    UtkastValidationService.validate(viewState.draftModel.content);
 
                     _loadParentIntyg(viewState);
                     def.resolve(viewState.intygModel);

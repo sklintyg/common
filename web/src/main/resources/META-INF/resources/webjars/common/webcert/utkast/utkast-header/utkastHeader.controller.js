@@ -22,9 +22,10 @@ angular.module('common').controller('common.UtkastHeader',
         'common.messageService', 'common.moduleService', 'common.PrintService', 'common.UtkastService',
         'common.UtkastProxy', 'common.statService', 'common.featureService', 'common.UserModel',
         'common.dialogService', 'common.UtkastViewStateService', 'common.anchorScrollService', 'common.authorityService',
+        'common.UtkastValidationService',
         function($rootScope, $scope, $log, $state, $stateParams, $location, $q, $timeout, $window,
             messageService, moduleService, PrintService, UtkastService, UtkastProxy, statService, featureService,
-            UserModel,  dialogService, CommonViewState, anchorScrollService, authorityService) {
+            UserModel,  dialogService, CommonViewState, anchorScrollService, authorityService, UtkastValidationService) {
 
             'use strict';
 
@@ -44,6 +45,7 @@ angular.module('common').controller('common.UtkastHeader',
                 CommonViewState.toggleShowComplete();
                 UtkastService.save();
                 anchorScrollService.scrollTo('top');
+                UtkastValidationService.filterValidationMessages();
             };
 
             /**

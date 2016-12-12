@@ -32,19 +32,16 @@ angular.module('common').factory('common.UtkastValidationService',
                     });
             }
 
+            var rawMessages = [];
+
             function _processResult(data) {
-                // Update validation messages
-                ValidationViewState.messagesGrouped = {};
-                ValidationViewState.messages = [];
-                ValidationViewState.sections = [];
-                ValidationViewState.messagesByField = {};
 
                 // Warn messages
                 ValidationViewState.warningMessages = typeof data.warnings !== 'undefined' ? data.warnings : [];
                 ValidationViewState.warningMessagesByField = {};
 
                 // Process warning messages. We want to show these regardless if the draft is complete/valid or not.
-                angular.forEach(ValidationViewState.warningMessages, function(message) {
+                angular.forEach(ValidationViewState.warningMessages, function (message) {
                     var field = message.field.toLowerCase();
                     var i = message.field.indexOf('.');
                     if (i >= 0) {
@@ -56,13 +53,25 @@ angular.module('common').factory('common.UtkastValidationService',
                     ValidationViewState.warningMessagesByField[field].push(message);
                 });
 
+                rawMessages = data.messages;
+
+                _filterValidationMessages();
+            }
+
+            function _filterValidationMessages() {
+
+                ValidationViewState.messagesGrouped = {};
+                ValidationViewState.messages = [];
+                ValidationViewState.sections = [];
+                ValidationViewState.messagesByField = {};
+
                 if (!CommonViewState.showComplete) {
-                    ValidationViewState.messages = data.messages.filter(function(message) {
+                    ValidationViewState.messages = rawMessages.filter(function(message) {
                         return (message.type !== 'EMPTY');
                     });
                 }
                 else {
-                    ValidationViewState.messages = data.messages;
+                    ValidationViewState.messages = rawMessages;
                 }
 
                 // Iterate over and process validation errors
@@ -94,7 +103,8 @@ angular.module('common').factory('common.UtkastValidationService',
             }
 
             return {
-                validate: _validate
+                validate: _validate,
+                filterValidationMessages: _filterValidationMessages
             };
         }
     ]);
