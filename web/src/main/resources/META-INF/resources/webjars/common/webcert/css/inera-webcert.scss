@@ -902,29 +902,6 @@ wc cookie banner css.
 
 }
 
-#wc-intyg-relations-list {
-  &.modal-body {
-    padding-top: 0;
-  }
-
-  #intygRelations {
-    max-width: 600px;
-
-    .currentlyviewing {
-      padding-left: 7px;
-    }
-    table {
-      display: table;
-      margin: 0;
-      td {
-        height: 36px;
-      }
-      th {
-      }
-    }
-  }
-}
-
 .empty {
   color: #a9a9a9;
 }
