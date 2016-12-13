@@ -4,8 +4,8 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'date',
         templateUrl: '/web/webjars/common/webcert/gui/formly/date.formly.html',
-        controller: ['$scope', 'common.DateUtilsService', 'common.dynamicLabelService', 'common.AtticHelper', 'common.UtkastValidationService',
-            function($scope, dateUtils, dynamicLabelService, AtticHelper, UtkastValidationService) {
+        controller: ['$scope', '$timeout', 'common.DateUtilsService', 'common.dynamicLabelService', 'common.AtticHelper', 'common.UtkastValidationService',
+            function($scope, $timeout, dateUtils, dynamicLabelService, AtticHelper, UtkastValidationService) {
 
             // Restore data model value form attic if exists
             AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
@@ -45,7 +45,12 @@ angular.module('common').run(function(formlyConfig) {
             };
 
             $scope.validate = function() {
-                UtkastValidationService.validate($scope.model);
+                // When a date is selected from the date popup a blur event is sent.
+                // In the current version of Angular UI this blur event is sent before utkast model is updated
+                // This timeout ensures we get the new value in $scope.model
+                $timeout(function() {
+                    UtkastValidationService.validate($scope.model);
+                });
             };
         }]
     });
