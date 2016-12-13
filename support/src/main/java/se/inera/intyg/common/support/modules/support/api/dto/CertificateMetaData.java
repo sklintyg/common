@@ -19,10 +19,9 @@
 
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import java.util.List;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import se.inera.intyg.common.support.model.Status;
 
@@ -36,6 +35,8 @@ public class CertificateMetaData {
     private String facilityName;
     private LocalDateTime signDate;
     private boolean available;
+    private List<Status> status;
+    private String additionalInfo;
 
     public String getCertificateId() {
         return certificateId;
@@ -97,7 +98,5 @@ public class CertificateMetaData {
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
-    private List<Status> status;
-    private String additionalInfo;
 
 }

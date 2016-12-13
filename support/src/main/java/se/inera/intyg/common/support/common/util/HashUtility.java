@@ -30,17 +30,16 @@ import org.springframework.util.StringUtils;
 
 public final class HashUtility {
 
-    private HashUtility() {
-    }
-
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(HashUtility.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HashUtility.class);
 
     private static final String DIGEST = "SHA-256";
     private static final MessageDigest MSG_DIGEST;
 
     public static final String EMPTY = "EMPTY";
     private static final String NO_HASH_VALUE = "NO-HASH-VALUE";
+
+    private HashUtility() {
+    }
 
     static {
         MessageDigest tmp = null;
