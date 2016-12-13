@@ -40,8 +40,6 @@ angular.module('common').directive('wcIntygFieldKomplettering',
                     fieldKey: '@'
                 },
                 link: function(scope) {
-                    console.log('- - - - - - - - - - - - - - ');
-                    console.log(scope.categoryKey, scope.fieldKey);
                     scope.hasFieldKomplettering = function() {
                         // lookup if there's a field having a status PENDING_INTERNAL_ACTION
                         var category = IntygViewStateService.getCategory(scope.categoryKey);

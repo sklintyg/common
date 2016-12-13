@@ -37,8 +37,6 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                 scope.viewState = IntygViewStateService;
                 scope.viewState.setCategoryField(scope.categoryKey, scope.field.key || scope.field.templateOptions.kompletteringGroup);
 
-                console.log(scope.categoryKey, scope.field.key, scope.field.templateOptions.kompletteringGroup);
-
                 scope.showField = function(field){
                     return !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
                 };

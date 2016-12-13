@@ -110,17 +110,6 @@ angular.module('common').service('common.IntygViewStateService',
             }
         };
 
-        /*
-        this.printCategoryFieldMap = function() {
-            for (var key in this.categoryFieldMap){
-                console.log('CATEGORY_KEY: ' + key);
-                for (var field in this.categoryFieldMap[key]){
-                    console.log('FIELD_KEY: ' + this.categoryFieldMap[key][field]['id'] + ", FIELD_STATUS: " + this.categoryFieldMap[key][field]['status']);
-                }
-            }
-        };
-        */
-
         this.updateIntygProperties = function(result) {
             var targetName;
             if(this.intygProperties.type === 'ts-bas' || this.intygProperties.type === 'ts-diabetes') {
