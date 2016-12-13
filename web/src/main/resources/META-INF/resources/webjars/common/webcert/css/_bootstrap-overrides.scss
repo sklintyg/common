@@ -67,14 +67,20 @@ $font-3: sans-serif;
 /* ---------------------------------------
  * Button overrides
  * --------------------------------------- */
+%btn-common {
+  font-weight: normal;
+  background: none;
+  border: none;
+  padding: 7px 15px;
+}
+
 .btn {
   line-height: 18px;
   padding: 7px 12px;
 }
 
 .btn-secondary {
-  padding: 7px 15px;
-  background: none;
+  @extend %btn-common;
   background-color: $btn-secondary-background-color;
   &:hover {
     background-color: $btn-secondary-background-hover-color;
@@ -82,13 +88,10 @@ $font-3: sans-serif;
 }
 
 .btn-success {
-  padding: 7px 15px;
-  font-weight: bold;
-  background: none;
+  @extend %btn-common;
   background-color: $btn-success-background-color;
   cursor: pointer;
   white-space: nowrap;
-  border: none;
 
   &:hover, &:focus, &:active, &.active {
     background-color: $btn-success-hover-background-color;
@@ -96,13 +99,7 @@ $font-3: sans-serif;
 }
 
 .open .dropdown-toggle.btn-success {
-    background-color: $btn-success-hover-background-color;
-}
-
-%btn-common {
-  font-weight: normal;
-  background: none;
-  border: none;
+  background-color: $btn-success-hover-background-color;
 }
 
 .btn-danger {
@@ -157,14 +154,6 @@ $font-3: sans-serif;
 .buttonbar {
   .btn {
     margin: 5px 5px 0 0;
-  }
-
-  .btn-info {
-    padding: 7px 15px;
-  }
-
-  .btn-inverse {
-    padding: 7px 15px;
   }
 
   .checkbox-inline {
