@@ -3,9 +3,12 @@ angular.module('common.formlyBaseTypes').run(function(formlyConfig) {
 
     formlyConfig.setType({
         name: 'validation-on-blur',
-        controller: ['$scope', 'common.UtkastValidationService', function($scope, UtkastValidationService) {
+        controller: ['$scope', '$timeout', 'common.UtkastValidationService', function($scope, $timeout, UtkastValidationService) {
             $scope.onBlur = function() {
-                UtkastValidationService.validate($scope.model);
+                // $timeout is needed to allow for the attic functionality to clear the model value for hidden fields
+                $timeout(function() {
+                    UtkastValidationService.validate($scope.model);
+                });
             };
         }],
         defaultOptions:  {
