@@ -11,7 +11,7 @@
     <span ng-if="delFrageId" dynamic-label key="{{delFrageId}}.RBK"></span>
     <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
     <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
-    {{to.required ? '*' : ''}}
+    {{to.required == true ? '*' : ''}}
     <span ng-if="delFrageId" wc-help-mark field-dynamic-help-text="{{delFrageId}}.HLP"></span>
     <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
   </h5>
@@ -19,7 +19,7 @@
     <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
     <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
     <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
-    {{to.required ? '*' : ''}}
+    {{to.required == true ? '*' : ''}}
     <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
     <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
   </label>
