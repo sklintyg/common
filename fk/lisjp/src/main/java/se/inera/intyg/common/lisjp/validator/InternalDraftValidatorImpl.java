@@ -243,7 +243,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             if (utlatande.getSjukskrivningar()
                     .stream()
                     .filter(Objects::nonNull)
-                    .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null && sjukskrivning.getPeriod().getFrom() != null
+                    .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null
+                            && sjukskrivning.getPeriod().getFrom() != null
+                            && sjukskrivning.getPeriod().getFrom().isValidDate()
                             && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
                 ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
                         "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
