@@ -1,6 +1,6 @@
 <div ng-class="{'grouperror' : validations, 'groupkomplettering' : kompletteringar}">
   <ng-transclude></ng-transclude>
-  <wc-field-validation field-type="{{fieldType}}" validations="validations"></wc-field-validation>
+  <wc-field-validation field-type="{{fieldType}}" validations="validations" warnings="warnings"></wc-field-validation>
   <div class="alert alert-info validation" ng-if="kompletteringar" data-komplettering-section="{{key}}">
     Kompletteringsbegäran
   </div>

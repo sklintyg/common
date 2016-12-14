@@ -22,6 +22,7 @@ package se.inera.intyg.common.support.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 /**
@@ -136,6 +137,16 @@ public class InternalDate {
             return true;
         }
         return this.asLocalDate().isBefore(minDate) || this.asLocalDate().isAfter(LocalDate.now());
+    }
+
+    public boolean isBeforeNumDays(int days) {
+        if (date == null) {
+            return true;
+        }
+        if (!this.isValidDate()) {
+            return true;
+        }
+        return this.asLocalDate().isBefore(LocalDate.now().minus(days, ChronoUnit.DAYS));
     }
 
     public boolean isReasonable() {
