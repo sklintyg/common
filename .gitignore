@@ -3,11 +3,13 @@ bower_components
 build
 .classpath
 .DS_Store
+.vscode
 generated
 .gradle
 .idea
 *.iml
 *.log
+jsconfig.json
 node
 node_modules
 node-v*
@@ -16,5 +18,6 @@ rebel.xml
 .settings
 target
 typings/
+typings.json
 web/yarn.lock
 yarn.lock
