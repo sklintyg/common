@@ -29,12 +29,16 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.lisjp.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 
@@ -139,6 +143,17 @@ public class UtlatandeToIntygTest {
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertTrue(intyg.getSvar().size() == 1);
         assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!",
+                intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
+    }
+
+    @Test
+    public void testConvertWithConcatToOvrigt2() {
+        LisjpUtlatande utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!")
+                .setMotiveringTillTidigtStartdatumForSjukskrivning("Motivering2!").setOvrigt("TheRealOvrigt").build();
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        assertTrue(intyg.getSvar().size() == 1);
+        assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!\n"
+                + "Orsak för att starta perioden mer än 7 dagar bakåt i tiden: Motivering2!\nTheRealOvrigt",
                 intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
     }
 

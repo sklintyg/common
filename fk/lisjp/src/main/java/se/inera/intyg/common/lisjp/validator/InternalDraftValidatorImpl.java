@@ -19,7 +19,9 @@
 
 package se.inera.intyg.common.lisjp.validator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,9 +31,14 @@ import com.google.common.collect.ImmutableList;
 
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.lisjp.model.internal.*;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
@@ -39,6 +46,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
     private static final int MAX_ARBETSLIVSINRIKTADE_ATGARDER = 10;
     private static final int MAX_SYSSELSATTNING = 5;
+    private static final int VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR = 7;
 
     @Autowired
     private ValidatorUtilFK validatorUtilFK;
@@ -230,6 +238,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
             // R17 Validate no sjukskrivningperiods overlap
             validateSjukskrivningPeriodOverlap(utlatande, validationMessages);
+
+            // INTYG-3207: Show warning if any period starts earlier than 7 days before now
+            if (utlatande.getSjukskrivningar()
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null && sjukskrivning.getPeriod().getFrom() != null
+                            && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
+                ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
+                        "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
+            }
 
             // Arbetstidsforlaggning R13, R14, R15, R16
             if (isArbetstidsforlaggningMandatory(utlatande)) {
