@@ -70,11 +70,6 @@ subprojects {
     }
 
     dependencies {
-        compile "com.itextpdf:itextpdf:${itextVersion}"
-        compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
-        compile "com.helger:ph-schematron:${phSchematronVersion}"
-        compile "org.springframework:spring-tx:${springVersion}"
-
         testCompile "junit:junit:4.+"
         testCompile "commons-io:commons-io:${commonsIoVersion}"
         testCompile "org.mockito:mockito-core:${mockitoVersion}"
