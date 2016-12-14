@@ -42,6 +42,18 @@ angular.module('common').controller('common.wcHeaderController',
                 $rootScope.testModeActive = !$rootScope.testModeActive;
             };
 
+            $scope.otherLocationsStatsCount = function() {
+                return ($scope.stat.intygAndraEnheter + $scope.stat.fragaSvarAndraEnheter);
+            };
+
+            $scope.hasOtherLocationsStats = function() {
+                return $scope.otherLocationsStatsCount() > 0;
+            };
+
+            $scope.moreThanOneUnit = function() {
+                return $scope.user.totaltAntalVardenheter > 1;
+            };
+
             $scope.testModeText = {
                 active: 'Avvaktivera testläge',
                 inactive: 'Aktivera testläge'

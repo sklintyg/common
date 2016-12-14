@@ -9,8 +9,7 @@
                 ng-class="{'btn-info': !arendeListItem.arende.fraga.vidarebefordrad, 'btn-default btn-secondary' : arendeListItem.arende.fraga.vidarebefordrad}"
                 title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
                 ng-click="openMailDialog(arendeListItem.arende)" ng-show="!parentViewState.intygProperties.isRevoked">
-          <img ng-if="!arendeListItem.arende.fraga.vidarebefordrad" src="/img/mail.png"> <img
-            ng-if="arendeListItem.arende.fraga.vidarebefordrad" src="/img/mail_dark.png">
+          <span class="glyphicon glyphicon-share-alt" ng-class="{'forward-active': !arendeListItem.arende.fraga.vidarebefordrad, 'forward-inactive': arendeListItem.arende.fraga.vidarebefordrad}"></span>
         </button>
       </div>
       <div class="relative-anchor">

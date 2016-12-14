@@ -236,7 +236,7 @@ $font-3: sans-serif;
 }
 
 .tooltip-inner {
-  max-width: 450px;
+  max-width: 650px;
   text-align: left;
 }
 
@@ -246,6 +246,7 @@ $font-3: sans-serif;
 
 .popover {
   z-index: 2000;
+  max-width: 450px;
 }
 
 /* ---------------------------------------
@@ -280,6 +281,13 @@ $font-3: sans-serif;
   /* WCAG AA compliant */
   border: 1px solid $alert-info-border-color;
   background-image: none;
+}
+
+.alert-dismissable .close, .alert-dismissible .close {
+  position: relative;
+  top: -10px;
+  right: -14px;
+  color: inherit;
 }
 
 /* ---------------------------------------

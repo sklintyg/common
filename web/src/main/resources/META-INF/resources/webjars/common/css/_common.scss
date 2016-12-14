@@ -47,12 +47,13 @@ a {
         display: block;
         width: 24px;
         height: 24px;
-        background: transparent $url_0 center left no-repeat;
+        /*background: transparent $url_0 center left no-repeat;*/
         float: left;
-        margin: 2px 20px 0 0;
+        margin: 0 10px 0 0;
     }
     &:hover.backlink-icon {
-        background: transparent $url_1 center left no-repeat;
+        /*background: transparent $url_1 center left no-repeat;*/
+        text-decoration: none;
     }
 }
 

@@ -39,12 +39,14 @@ $header-fix-panel-popover-color: #333;
   .page-title {
     margin: 0 20px 0 0;
     line-height: 29px;
-
   }
 
   .backlink-icon {
-    margin: 2px 5px 0 0;
+    margin: 3px 5px 0 0;
+  }
 
+  &:hover.backlink-icon {
+    text-decoration: none;
   }
 }
 
