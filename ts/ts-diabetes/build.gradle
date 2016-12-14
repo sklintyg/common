@@ -1,4 +1,4 @@
-description = 'Intygstyper (TS Läkarintyg, diabetes)'
+description = 'Intyg Common (TS Läkarintyg, diabetes)'
 
 dependencies {
   compile project(':ts-parent')

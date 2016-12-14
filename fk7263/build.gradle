@@ -1,4 +1,4 @@
-description = 'Intygstyper (FK7263 Läkarintyg)'
+description = 'Intyg Common (FK7263 Läkarintyg)'
 
 dependencies {
     compile project(":common-support")
