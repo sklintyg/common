@@ -32,6 +32,11 @@ angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorS
             link: function(scope, element, attrs, ngModel) {
 
                 ngModel.$validators.validPnr = function(modelValue, viewValue) {
+
+                    if(viewValue === ''){
+                        return true;
+                    }
+
                     var number = personIdValidator.validate(viewValue);
 
                     if (ngModel.$viewValue === '') {
