@@ -21,7 +21,7 @@
   </div>
 
   <wc-validation-group field-type="{{to.type}}"
-                       validations="formState.viewState.common.validationMessagesByField[options.key]"
+                       validations="formState.viewState.common.validation.messagesByField[options.key]"
                        kompletteringar="hasKompletteringar()">
     <div class="form-horizontal sjukskrivningar-section clearfix" data-ng-repeat="field in to.fields">
       <div class="row">
@@ -42,7 +42,7 @@
                         col-sm-12">
               <div class="sjukskrivningar_period">
                 <label for="{{options.key}}-{{field}}-from">från och med</label>
-                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from" onblur="validate()"></span>
+                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from" on-blur="validate()"></span>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -52,7 +52,7 @@
                         col-sm-12">
               <div class="sjukskrivningar_period">
                 <label for="{{options.key}}-{{field}}-tom">till och med</label>
-                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom" onblur="validate()"></span>
+                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom" on-blur="validate()"></span>
               </div>
             </div>
           </div>

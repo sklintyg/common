@@ -8,7 +8,7 @@
   </div>
 
   <wc-validation-group field-type="radio-group"
-                       validations="formState.viewState.common.validationMessagesByField[options.key]"
+                       validations="formState.viewState.common.validation.messagesByField[options.key]"
                        kompletteringar="hasKompletteringar()">
     <div class="form-group form-inline" data-ng-repeat="choice in to.choices">
 
@@ -21,7 +21,7 @@
 
       <div ng-if="choice.showDropDown" class="prognos-dropdown">
         <wc-validation-wrapper field-type="select"
-                               validations="formState.viewState.common.validationMessagesByField[options.key + '.dagartillarbete']">
+                               validations="formState.viewState.common.validation.messagesByField[options.key + '.dagartillarbete']">
           <ui-select theme="bootstrap" search-enabled="false" ng-model="model[options.key].dagarTillArbete"
                      on-select="validate()"
                      ng-disabled="model[options.key].typ !== choice.id" id="prognosDagarTillArbete-{{$index}}-typ"

@@ -31,7 +31,8 @@ angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout
                 type: '@',
                 format: '@',
                 domId: '@',
-                maxDate: '@'
+                maxDate: '@',
+                onBlur: '&'
             },
             templateUrl: '/web/webjars/common/webcert/date/wcDatePeriodField.directive.html',
             require:'wcDatePeriodField',
@@ -65,6 +66,8 @@ angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout
                     });
                 };
 
+                this.onBlur = $scope.onBlur;
+
                 this.fieldOptions = {
                     field : $scope.field,
                     index : $scope.index,
@@ -92,6 +95,9 @@ angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout
 
                     scope.onblur = function() {
                         wcDatePeriodManager.applyToDateCodes(wcDatePeriodField.fieldOptions.index);
+                        if (wcDatePeriodField.onBlur) {
+                            wcDatePeriodField.onBlur();
+                        }
                     };
 
                 }
