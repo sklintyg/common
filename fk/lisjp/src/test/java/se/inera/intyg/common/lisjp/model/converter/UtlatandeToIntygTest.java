@@ -28,9 +28,17 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.converter.UtlatandeToIntyg;
@@ -144,8 +152,8 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void testConvertWithConcatToOvrigt2() {
-        LisjpUtlatande utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!").
-                setMotiveringTillTidigtStartdatumForSjukskrivning("Motivering2!").setOvrigt("TheRealOvrigt").build();
+        LisjpUtlatande utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!")
+                .setMotiveringTillTidigtStartdatumForSjukskrivning("Motivering2!").setOvrigt("TheRealOvrigt").build();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertTrue(intyg.getSvar().size() == 1);
         assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!\n"

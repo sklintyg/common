@@ -19,7 +19,9 @@
 
 package se.inera.intyg.common.lisjp.validator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,13 +29,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.ImmutableList;
 
-import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.support.validate.PatientValidator;
-import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.lisjp.model.internal.*;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.PatientValidator;
+import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpUtlatande> {
 
@@ -236,9 +243,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             if (utlatande.getSjukskrivningar()
                     .stream()
                     .filter(Objects::nonNull)
-                    .anyMatch(sjukskrivning ->
-                            sjukskrivning.getPeriod() != null && sjukskrivning.getPeriod().getFrom() != null
-                                    && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
+                    .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null && sjukskrivning.getPeriod().getFrom() != null
+                            && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
                 ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
                         "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
             }
