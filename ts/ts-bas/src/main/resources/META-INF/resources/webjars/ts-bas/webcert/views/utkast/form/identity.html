@@ -1,0 +1,23 @@
+<a id="anchor-identitet" name="anchor.identitet"></a>
+<div wc-field
+     field-dynamic-label="KAT_100.RBK"
+     field-has-errors="viewState.common.validation.messagesGrouped.identitet"
+     field-required="true"
+     id="identitetForm">
+
+  <div class="form-group">
+    <wc-validation-group field-type="check-group" validations="viewState.getValidationErrors('identitet')">
+      <div class="clearfix">
+        <label class="radio checkbox-columns col-xs-6" ng-repeat="v in viewState.identitet">
+          <input id="identity{{$index}}" name="identity{{$index}}" type="radio" value="{{v.id}}"
+                 ng-model="viewState.intygModel.vardkontakt.idkontroll" ng-change="validate()">
+          {{v.label}}
+        </label>
+      </div>
+    </wc-validation-group>
+  </div>
+
+  <div class="alert alert-info">
+    <span dynamic-label key="FRM_1.RBK" style="white-space:pre-line"></span>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+description = 'Intygstyper (TS Läkarintyg, parent)'
+
+dependencies {
+    compile project(":common-support")
+    compile project(":common-web")
+    compile project(":integration-util")
+    compile project(":common-services")
+    compile project(":common-schemas")
+
+    compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
+    compile "se.inera.intyg.transportstyrelsen:intyg-transportstyrelsen-schemas:${intygTransportstyrelsenSchemasVersion}"
+}

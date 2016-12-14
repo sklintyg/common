@@ -1,0 +1,152 @@
+/*
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+//These variables should be extracted and imported
+//colors
+$color-alto-approx: #ddd;
+
+//urls
+$ss16-url: url('../img/ss16.png');
+
+label[for^='option.'] span, input[id^='option.'] {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.soclink {
+  background-image: $ss16-url;
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
+
+.float-l {
+  float: left;
+}
+
+.float-r {
+  float: right;
+}
+
+.recipentlist {
+  padding: 10px 0;
+  border-bottom: 1px solid $color-alto-approx;
+  margin-bottom: 10px;
+}
+
+.mandatory {
+  color: #fff;
+  padding: 12px 15px 0 0;
+}
+
+.asterix {
+  color: #ff0000;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+.intyg-body .body-row .title.row {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.intyg-body .body-row .unfilled {
+  font-weight: normal;
+}
+
+.intyg-body .summary-row {
+  margin: 0 0 5px 0;
+  background-color: #ededed;
+  border: 1px solid #d8d8d8;
+}
+
+.intyg-body .summary-row .title-summary {
+  color: #000;
+  display: block;
+  padding: 5px 20px;
+}
+
+.intyg-body .summary-row .title-summary {
+  vertical-align: middle;
+}
+
+.summary-text {
+  font-weight: normal;
+  font-size: 13px;
+  color: #333;
+}
+
+.tbl {
+  display: table;
+  /*width: 100%;*/
+}
+
+.tbl-row {
+  display: table-row;
+}
+
+.tbl-col-valign {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.tbl-col-l {
+  display: table-cell;
+  padding-right: 20px;
+  width: 30%;
+}
+
+.tbl-col-r {
+  display: table-cell;
+  padding-right: 20px;
+  width: 70%;
+}
+
+/* Glyphicon styles */
+
+.gi-2x {
+  font-size: 2em;
+}
+.gi-3x {
+  font-size: 3em;
+}
+.gi-4x {
+  font-size: 4em;
+}
+.gi-5x {
+  font-size: 5em;
+}
+
+.glyphicon-warning-sign {
+  color: #8A6D00;
+}
+
+#aktivitetsbegransning {
+  width: 100%;
+}
+#customize-summary-info {
+  margin: 10px 0 10px 0;
+}
+#customize-summary-info div {
+  padding: 10px 0 10px 0;
+}
+
+.fk7263-issue {
+  text-align: right;
+  padding-right: 20px;
+}

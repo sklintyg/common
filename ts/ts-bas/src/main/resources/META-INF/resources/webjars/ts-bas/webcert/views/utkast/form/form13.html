@@ -1,0 +1,29 @@
+<a id="anchor-utvecklingsstorning" name="anchor.utvecklingsstorning"></a>
+<div wc-field
+     field-dynamic-label="KAT_13.RBK"
+     field-has-errors="viewState.common.validation.messagesGrouped.utvecklingsstorning"
+     id="utvecklingsstorningForm">
+  <table class="table table-form">
+    <tr>
+      <th><span message key="common.yes"></span></th>
+      <th><span message key="common.no"></span></th>
+      <th class="maxwidth"></th>
+    </tr>
+    <tr>
+      <td><input id="utvecklingsstorninga" name="utvecklingsstorninga" type="radio" ng-value="true"
+                 ng-model="viewState.intygModel.utvecklingsstorning.psykiskUtvecklingsstorning" ng-change="validate()"></td>
+      <td><input name="utvecklingsstorninga" type="radio" ng-value="false"
+                 ng-model="viewState.intygModel.utvecklingsstorning.psykiskUtvecklingsstorning" ng-change="validate()"></td>
+      <td><span dynamic-label key="FRG_28.RBK"></span> *</td>
+    </tr>
+    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('harSyndrom')"></wc-field-validation></td></tr>
+    <tr>
+      <td><input name="utvecklingsstorningb" type="radio" ng-value="true"
+                 ng-model="viewState.intygModel.utvecklingsstorning.harSyndrom" ng-change="validate()"></td>
+      <td><input name="utvecklingsstorningb" type="radio" ng-value="false"
+                 ng-model="viewState.intygModel.utvecklingsstorning.harSyndrom" ng-change="validate()"></td>
+      <td><span dynamic-label key="FRG_29.RBK"></span> *</td>
+    </tr>
+    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('psykiskUtvecklingsstorning')"></wc-field-validation></td></tr>
+  </table>
+</div>

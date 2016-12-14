@@ -1,0 +1,22 @@
+<div class="field-fade" ng-hide="viewState.avstangningSmittskydd()">
+  <a id="anchor-aktivitetsbegransning" name="anchor.aktivitetsbegransning"></a>
+
+  <div wc-field field-label="fk7263.label.aktivitetsbegransning" field-number="5"
+       field-help-text="fk7263.helptext.aktivitetsbegransning"
+       field-has-errors="viewState.common.validation.messagesGrouped.aktivitetsbegransning" field-required="true"
+       class="print-pagebreak-after">
+
+    <a class="soclink" href="http://www.socialstyrelsen.se/riktlinjer/forsakringsmedicinsktbeslutsstod"
+       target="_blank" title="Öppnar Socialstyrelsens beslutstöd för angiven huvuddiagnos">Socialstyrelsens
+      försäkringsmedicinska beslutsstöd</a>
+    <wc-fmb-help-display related-form-id="FALT5" fmb-states="fmbViewState" field-name="AKTIVITETSBEGRANSNING">
+      <wc-validation-wrapper field-type="multi-text"
+                             validations="viewState.getValidationErrors('aktivitetsbegransning')">
+        <textarea id="activityLimitation" class="form-control" name="activityLimitation" rows='10'
+                  ng-model="model.aktivitetsbegransning" wc-maxlength ng-trim="false"
+                  maxlength="{{viewState.inputLimits.aktivitetsbegransning}}"
+                  ng-blur="validate()"></textarea>
+      </wc-validation-wrapper>
+    </wc-fmb-help-display>
+  </div>
+</div>
