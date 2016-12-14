@@ -1,4 +1,4 @@
-description = 'Intygstyper (Läkarintyg aktivitetsersättning vid förlängd skolgång)'
+description = 'Intyg Common (Läkarintyg aktivitetsersättning vid förlängd skolgång)'
 
 dependencies {
   compile project(':fk-parent')
