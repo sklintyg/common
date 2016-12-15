@@ -57,6 +57,20 @@ describe('DateRangeService', function() {
             expect(du.dateString).toBe('2015-01-09');
         });
 
+        it('retains invalid date string with only dashes', function(){
+            var du = DateRangeService.DateUnit.build('--');
+            expect(du.valid).toBeFalsy();
+            expect(du.dateString).toBe('--');
+
+            du = DateRangeService.DateUnit.build('aa-');
+            expect(du.valid).toBeFalsy();
+            expect(du.dateString).toBe('aa-');
+
+            du = DateRangeService.DateUnit.build('2016-01-');
+            expect(du.valid).toBeFalsy();
+            expect(du.dateString).toBe('2016-01-');
+        });
+
         it('will create a non swedish DateUnit, not YYYY-MM-DD', function(){
             // english
             var du = DateRangeService.DateUnit.build('03-12-2015');

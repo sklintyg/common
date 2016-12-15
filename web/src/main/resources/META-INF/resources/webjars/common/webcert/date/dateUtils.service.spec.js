@@ -319,4 +319,35 @@ describe('DateUtilsService', function() {
         });
 
     });
+
+    describe('Loose dateparser', function() {
+
+        var parser;
+
+        beforeEach(function() {
+            var form = { $setValidity:function(){}, $setViewValue:function(){}, $render:function(){} };
+            DateUtilsService.addLooseDateParser(form);
+            parser =  form.$parsers[0];
+        });
+
+        it('converts YYYY-MMDD dates', function() {
+            expect(parser('2016-0102')).toBe('2016-01-02');
+        });
+
+        it('converts YYYYMM-DD dates', function() {
+            expect(parser('201601-02')).toBe('2016-01-02');
+        });
+
+        it('converts YYYYMMDD dates', function() {
+            expect(parser('20160102')).toBe('2016-01-02');
+        });
+
+        it('can keep dashes', function() {
+            expect(parser('----')).toBe('----');
+            expect(parser('2016-')).toBe('2016-');
+            expect(parser('201601-')).toBe('201601-');
+            expect(parser('sdfs--')).toBe('sdfs--');
+        });
+
+    });
 });
