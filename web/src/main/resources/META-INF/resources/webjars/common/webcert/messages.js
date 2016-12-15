@@ -415,6 +415,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.single-text.empty': 'Fältet får inte vara tomt.',
         'common.validation.single-text-vertical.empty': 'Fältet får inte vara tomt.',
         'common.validation.underlag.empty': 'Minst en rad måste fyllas i',
+        'common.validation.date.empty': 'Fältet får inte vara tomt.',
         'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
         'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
@@ -436,6 +437,13 @@ angular.module('common').constant('common.messages', {
         'common.validation.diagnos2.length-3': 'Diagnoskod på diagnosrad 3 ska anges med så många positioner som möjligt, men minst tre positioner.',
         'common.validation.diagnos2.psykisk.length-4': 'Diagnoskod på diagnosrad 3 ska anges med minst fyra positioner då en psykisk diagnos anges.',
         'common.validation.diagnos2.description.missing': 'Diagnostext saknas på diagnosrad 3',
+        'common.validation.sjukskrivning_period.empty': 'Fältet får inte vara tomt.',
+        'common.validation.sjukskrivning_period.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        'common.validation.sjukskrivning_period.period_overlap': 'Sjukskrivningsperioder med överlappande datum har angetts.',
+        'common.validation.sjukskrivning_period.en_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 25% har angetts på felaktigt format.',
+        'common.validation.sjukskrivning_period.halften.invalid_format': 'Datum för nedsatt arbetsförmåga med 50% har angetts på felaktigt format.',
+        'common.validation.sjukskrivning_period.tre_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format.',
+        'common.validation.sjukskrivning_period.helt_nedsatt.invalid_format': 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format.',
 
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
