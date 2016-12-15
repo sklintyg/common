@@ -24,10 +24,14 @@ import java.io.StringWriter;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
-import org.custommonkey.xmlunit.*;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,9 +40,10 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import se.inera.intyg.common.luae_fs.model.converter.InternalToTransport;
-import se.inera.intyg.common.luae_fs.model.converter.TransportToInternal;
-import se.inera.intyg.common.luae_fs.utils.*;
+import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
+import se.inera.intyg.common.luae_fs.utils.Scenario;
+import se.inera.intyg.common.luae_fs.utils.ScenarioFinder;
+import se.inera.intyg.common.luae_fs.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
@@ -63,8 +68,12 @@ public class RoundTripTest {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Test that no information is lost when mapping json -> xml -> json.
+     * This represents the case where the certificate is originally from Webcert and is read from Intygstjansten.
+     */
     @Test
-    public void testRoundTrip() throws Exception {
+    public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
 
@@ -84,6 +93,34 @@ public class RoundTripTest {
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+    }
+
+    /**
+     * Test that no information is lost when mapping xml -> json -> xml.
+     * This represents the case where the certificate is from another medical journaling system and is read from
+     * Intygstjansten.
+     */
+    @Test
+    public void testRoundTripTransportFirst() throws Exception {
+        CustomObjectMapper objectMapper = new CustomObjectMapper();
+        LuaefsUtlatande internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
+
+        JsonNode tree = objectMapper.valueToTree(internal);
+        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        StringWriter expected = new StringWriter();
+        StringWriter actual = new StringWriter();
+        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
+        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
+
+        XMLUnit.setIgnoreWhitespace(true);
+        XMLUnit.setIgnoreAttributeOrder(true);
+        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
+        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
+        assertTrue(diff.toString(), diff.similar());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {

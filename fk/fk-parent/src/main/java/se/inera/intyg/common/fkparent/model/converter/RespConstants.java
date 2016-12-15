@@ -321,8 +321,9 @@ public final class RespConstants {
         }
 
         public static ReferensTyp byTransportId(String transportId) {
+            String normId = transportId != null ? transportId.trim() : null;
             for (ReferensTyp referensTyp : values()) {
-                if (referensTyp.transportId.equals(transportId)) {
+                if (referensTyp.transportId.equals(normId)) {
                     return referensTyp;
                 }
             }

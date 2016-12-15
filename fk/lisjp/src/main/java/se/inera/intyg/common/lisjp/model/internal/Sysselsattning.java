@@ -21,7 +21,9 @@ package se.inera.intyg.common.lisjp.model.internal;
 
 import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
@@ -61,8 +63,9 @@ public abstract class Sysselsattning {
 
         @JsonCreator
         public static SysselsattningsTyp fromId(@JsonProperty("id") String id) {
+            String normId = id != null ? id.trim() : null;
             for (SysselsattningsTyp typ : values()) {
-                if (typ.id.equals(id)) {
+                if (typ.id.equals(normId)) {
                     return typ;
                 }
             }
