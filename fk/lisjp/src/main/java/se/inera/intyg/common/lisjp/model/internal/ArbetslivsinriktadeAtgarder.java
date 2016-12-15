@@ -19,7 +19,9 @@
 
 package se.inera.intyg.common.lisjp.model.internal;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
@@ -65,8 +67,9 @@ public abstract class ArbetslivsinriktadeAtgarder {
 
         @JsonCreator
         public static ArbetslivsinriktadeAtgarderVal fromId(@JsonProperty("id") String id) {
+            String normId = id != null ? id.trim() : null;
             for (ArbetslivsinriktadeAtgarderVal typ : values()) {
-                if (typ.id.equals(id)) {
+                if (typ.id.equals(normId)) {
                     return typ;
                 }
             }

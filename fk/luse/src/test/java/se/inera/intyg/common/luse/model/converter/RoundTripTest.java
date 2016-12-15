@@ -24,10 +24,14 @@ import java.io.StringWriter;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
-import org.custommonkey.xmlunit.*;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,9 +41,14 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import se.inera.intyg.common.luse.model.converter.InternalToTransport;
+import se.inera.intyg.common.luse.model.converter.TransportToInternal;
+import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
+import se.inera.intyg.common.luse.utils.Scenario;
+import se.inera.intyg.common.luse.utils.ScenarioFinder;
+import se.inera.intyg.common.luse.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.luse.utils.*;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
 
@@ -68,9 +77,12 @@ public class RoundTripTest {
                 .collect(Collectors.toList());
     }
 
-
+    /**
+     * Test that no information is lost when mapping json -> xml -> json.
+     * This represents the case where the certificate is originally from Webcert and is read from Intygstjansten.
+     */
     @Test
-    public void testRoundTrip() throws Exception {
+    public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
 
@@ -92,8 +104,36 @@ public class RoundTripTest {
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
     }
 
+    /**
+     * Test that no information is lost when mapping xml -> json -> xml.
+     * This represents the case where the certificate is from another medical journaling system and is read from
+     * Intygstjansten.
+     */
+    @Test
+    public void testRoundTripTransportFirst() throws Exception {
+        CustomObjectMapper objectMapper = new CustomObjectMapper();
+        LuseUtlatande internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
+
+        JsonNode tree = objectMapper.valueToTree(internal);
+        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        StringWriter expected = new StringWriter();
+        StringWriter actual = new StringWriter();
+        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
+        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
+
+        XMLUnit.setIgnoreWhitespace(true);
+        XMLUnit.setIgnoreAttributeOrder(true);
+        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
+        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
+        assertTrue(diff.toString(), diff.similar());
+    }
+
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        JAXBElement<?> jaxbElement = new JAXBElement<RegisterCertificateType>(
+        JAXBElement<?> jaxbElement = new JAXBElement<>(
                 new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:2", "RegisterCertificate"),
                 RegisterCertificateType.class, ws);
         return jaxbElement;

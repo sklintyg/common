@@ -21,7 +21,9 @@ package se.inera.intyg.common.lisjp.model.internal;
 
 import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.auto.value.AutoValue;
 
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
@@ -78,8 +80,9 @@ public abstract class Sjukskrivning {
 
         @JsonCreator
         public static SjukskrivningsGrad fromId(@JsonProperty("id") String id) {
+            String normId = id != null ? id.trim() : null;
             for (SjukskrivningsGrad typ : values()) {
-                if (typ.id.equals(id)) {
+                if (typ.id.equals(normId)) {
                     return typ;
                 }
             }
