@@ -18,8 +18,11 @@
  */
 
 angular.module('common').controller('common.UtkastFooter',
-    ['$scope', 'common.UtkastSignService', 'common.UtkastNotifyService',
-        function($scope, UtkastSignService, UtkastNotifyService) {
+    ['$scope',
+        'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
+        'common.UtkastViewStateService', 'common.anchorScrollService', 'common.UtkastService',
+        function($scope,
+            UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, anchorScrollService, UtkastService) {
             'use strict';
 
             var viewState = $scope.viewState;
@@ -41,6 +44,13 @@ angular.module('common').controller('common.UtkastFooter',
              * Action to sign the certificate draft and return to Webcert again.
              */
             $scope.sign = function() {
+                if(!viewState.common.intyg.isComplete || $scope.signingWithSITHSInProgress){
+                    CommonViewState.toggleShowComplete();
+                    UtkastService.save();
+                    anchorScrollService.scrollTo('bottom');
+                    UtkastValidationService.filterValidationMessages();
+                    return;
+                }
                 UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
                     function(result) {
                         if (result.newVersion) {
