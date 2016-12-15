@@ -245,11 +245,11 @@ angular.module('common').factory('common.DateUtilsService', function() {
             }
             else {
                 // Remove '-' and '/' from date input
-                viewValue = viewValue.replace(/[-\/]/g, '');
+                var viewValueWithoutDashes = viewValue.replace(/[-\/]/g, '');
 
-                if ((/[0-9]{8}/).test(viewValue)) {
+                if ((/[0-9]{8}/).test(viewValueWithoutDashes)) {
                     // Allow date input without dashes
-                    var checkDate = moment(viewValue, 'YYYYMMDD');
+                    var checkDate = moment(viewValueWithoutDashes, 'YYYYMMDD');
                     if (checkDate.isValid()) {
                         viewValue = checkDate.format(_format);
                         formElement.$setValidity('date', true);
