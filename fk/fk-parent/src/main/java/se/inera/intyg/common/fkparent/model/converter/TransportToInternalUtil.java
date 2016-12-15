@@ -18,7 +18,12 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_2_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_BESKRIVNING_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_DELSVAR_ID_6;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
@@ -64,7 +69,7 @@ public final class TransportToInternalUtil {
             case DIAGNOS_DELSVAR_ID_6:
                 CVType diagnos = getCVSvarContent(delsvar);
                 diagnosKod = diagnos.getCode();
-                diagnosDisplayName = (diagnos.getDisplayName() != null) ? diagnos.getDisplayName() : "";
+                diagnosDisplayName = diagnos.getDisplayName();
                 diagnosKodSystem = diagnos.getCodeSystem();
                 break;
             case DIAGNOS_BESKRIVNING_DELSVAR_ID_6:
@@ -73,7 +78,7 @@ public final class TransportToInternalUtil {
             case BIDIAGNOS_1_DELSVAR_ID_6:
                 CVType bidiagnos1 = getCVSvarContent(delsvar);
                 bidiagnosKod1 = bidiagnos1.getCode();
-                bidiagnosDisplayName1 = (bidiagnos1.getDisplayName() != null) ? bidiagnos1.getDisplayName() : "";
+                bidiagnosDisplayName1 = bidiagnos1.getDisplayName();
                 bidiagnosKodSystem1 = bidiagnos1.getCodeSystem();
                 break;
             case BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6:
@@ -82,7 +87,7 @@ public final class TransportToInternalUtil {
             case BIDIAGNOS_2_DELSVAR_ID_6:
                 CVType bidiagnos2 = getCVSvarContent(delsvar);
                 bidiagnosKod2 = bidiagnos2.getCode();
-                bidiagnosDisplayName2 = (bidiagnos2.getDisplayName() != null) ? bidiagnos2.getDisplayName() : "";
+                bidiagnosDisplayName2 = bidiagnos2.getDisplayName();
                 bidiagnosKodSystem2 = bidiagnos2.getCodeSystem();
                 break;
             case BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6:
