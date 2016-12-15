@@ -21,6 +21,7 @@ package se.inera.intyg.common.support.validate;
 import org.junit.Test;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,6 +35,24 @@ import static org.junit.Assert.assertTrue;
  * Created by eriklupander on 2016-11-24.
  */
 public class ValidatorUtilTest {
+
+    @Test
+    public void testDateValidationForValidDate() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        boolean valid = ValidatorUtil.validateDate(new InternalDate("2016-01-02"), errors, "testfield");
+        assertTrue(valid);
+        assertEquals(0, errors.size());
+    }
+
+    @Test
+    public void testDateValidationForEmptyDate() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        boolean valid = ValidatorUtil.validateDate(null, errors, "testfield");
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertEquals("testfield", errors.get(0).getField());
+        assertEquals(ValidationMessageType.EMPTY, errors.get(0).getType());
+    }
 
     @Test
     public void testDateValidationForDateWhenBefore1900() {

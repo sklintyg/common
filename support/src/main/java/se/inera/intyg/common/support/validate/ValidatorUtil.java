@@ -84,6 +84,12 @@ public final class ValidatorUtil {
      *      True if valid, false otherwise.
      */
     public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field) {
+
+        if (date == null) {
+            addValidationError(validationMessages, field, ValidationMessageType.EMPTY);
+            return false;
+        }
+
         if (!date.isValidDate()) {
             addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT);
             return false;

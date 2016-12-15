@@ -522,8 +522,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
     @Test
@@ -571,7 +571,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningPeriodOverlap() throws Exception {
+    public void validateSjukskrivningPeriodOverlapHeltNedsattBeforeNedsattHalften() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
                 .setSjukskrivningar(
                         Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
@@ -584,10 +584,54 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(2, res.getValidationErrors().size());
-        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT", res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
-        assertEquals("bedomning.sjukskrivningar.period.HALFTEN", res.getValidationErrors().get(1).getField());
+        assertEquals("bedomning.sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(1).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
+    }
+
+    @Test
+    public void validateSjukskrivningPeriodOverlapHeltNedsattAfterNedsattHalften() throws Exception {
+        LisjpUtlatande utlatande = builderTemplate
+                .setSjukskrivningar(
+                        Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
+                                new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2)))),
+                                Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+                                        new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
+                .setArbetstidsforlaggning(false)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(2, res.getValidationErrors().size());
+        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
+        assertEquals("bedomning.sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(1).getField());
+        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
+    }
+
+    @Test
+    public void validateSjukskrivningPeriodOverlapSameStartDate() throws Exception {
+        LisjpUtlatande utlatande = builderTemplate
+                .setSjukskrivningar(
+                        Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
+                                new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2)))),
+                                Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+                                        new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
+                .setArbetstidsforlaggning(false)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(4, res.getValidationErrors().size());
+        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
+        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(1).getField());
+        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
+        assertEquals("bedomning.sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(2).getField());
+        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(2).getType());
+        assertEquals("bedomning.sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(3).getField());
+        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(3).getType());
     }
 
     @Test

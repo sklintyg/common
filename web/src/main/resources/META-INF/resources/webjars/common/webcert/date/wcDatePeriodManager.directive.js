@@ -72,11 +72,13 @@ angular.module('common').directive('wcDatePeriodManager',
         return {
             restrict: 'A',
             scope: {
-                model: '='
+                model: '=',
+                validateDatePeriods: '@'
             },
             controller: function($scope) {
 
                 this.registerDatePeriod = function(ngModel, fieldOptions) {
+
                     if (!datePeriods[fieldOptions.index]) {
                         datePeriods[fieldOptions.index] = {};
                     }
@@ -85,7 +87,9 @@ angular.module('common').directive('wcDatePeriodManager',
                         fieldOptions: fieldOptions
                     };
 
-                    ngModel.$validators.datePeriod = datePeriodValidator;
+                    if ($scope.validateDatePeriods) {
+                        ngModel.$validators.datePeriod = datePeriodValidator;
+                    }
                 };
 
                 /*

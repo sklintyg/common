@@ -22,6 +22,7 @@ package se.inera.intyg.common.lisjp.validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -287,19 +288,34 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             return;
         }
 
-        if (isPeriodIntervalsOverlapping(sjukskrivning, sjukskrivningar) && sjukskrivning.getSjukskrivningsgrad() != null) {
-            ValidatorUtil.addValidationError(validationMessages,
-                    "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId(),
-                    ValidationMessageType.PERIOD_OVERLAP);
+        Optional<Sjukskrivning> overlappingPeriod = getPeriodIntervalsOverlapping(sjukskrivning, sjukskrivningar);
+        if (overlappingPeriod.isPresent()) {
+            if (sjukskrivning.getPeriod().getFrom().equals(overlappingPeriod.get().getPeriod().getFrom())) {
+                ValidatorUtil.addValidationError(validationMessages,
+                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from",
+                        ValidationMessageType.PERIOD_OVERLAP);
+                ValidatorUtil.addValidationError(validationMessages,
+                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".tom",
+                        ValidationMessageType.PERIOD_OVERLAP);
+            } else if (sjukskrivning.getPeriod().getFrom().asLocalDate().isBefore(overlappingPeriod.get().getPeriod().getFrom().asLocalDate())) {
+                ValidatorUtil.addValidationError(validationMessages,
+                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".tom",
+                        ValidationMessageType.PERIOD_OVERLAP);
+            } else {
+                ValidatorUtil.addValidationError(validationMessages,
+                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from",
+                        ValidationMessageType.PERIOD_OVERLAP);
+            }
         }
     }
 
-    private boolean isPeriodIntervalsOverlapping(Sjukskrivning sjukskrivning, ImmutableList<Sjukskrivning> sjukskrivningar) {
+    private Optional<Sjukskrivning> getPeriodIntervalsOverlapping(Sjukskrivning sjukskrivning, ImmutableList<Sjukskrivning> sjukskrivningar) {
         return sjukskrivningar
                 .stream()
                 .filter(Objects::nonNull)
                 .filter(e -> e != sjukskrivning)
-                .anyMatch(e -> e.getPeriod() != null && e.getPeriod().overlaps(sjukskrivning.getPeriod()));
+                .filter(e -> e.getPeriod() != null && e.getPeriod().overlaps(sjukskrivning.getPeriod()))
+                .findFirst();
     }
 
     private void validateSjukskrivning(List<ValidationMessage> validationMessages, Sjukskrivning sjukskrivning) {
@@ -312,15 +328,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                 ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.EMPTY,
                         "lisjp.validation.bedomning.sjukskrivningar.period" + sjukskrivning.getSjukskrivningsgrad().getId() + ".missing");
             } else {
-                if (!sjukskrivning.getPeriod().isValid()) {
+
+                boolean fromDateValid = ValidatorUtil.validateDate(sjukskrivning.getPeriod().getFrom(), validationMessages,
+                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from");
+
+                boolean toDateValid = ValidatorUtil.validateDate(sjukskrivning.getPeriod().getTom(), validationMessages,
+                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".tom");
+
+                if (fromDateValid && toDateValid && !sjukskrivning.getPeriod().isValid()) {
                     ValidatorUtil.addValidationError(validationMessages,
                             "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId(),
                             ValidationMessageType.INVALID_FORMAT);
-                } else {
-                    ValidatorUtil.validateDate(sjukskrivning.getPeriod().getFrom(), validationMessages,
-                            "bedomning.sjukskrivningar." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from");
-                    ValidatorUtil.validateDate(sjukskrivning.getPeriod().getTom(), validationMessages,
-                            "bedomning.sjukskrivningar." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from");
                 }
             }
         }
