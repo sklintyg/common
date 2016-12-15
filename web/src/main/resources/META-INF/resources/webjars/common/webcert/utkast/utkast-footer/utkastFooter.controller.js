@@ -44,10 +44,15 @@ angular.module('common').controller('common.UtkastFooter',
              * Action to sign the certificate draft and return to Webcert again.
              */
             $scope.sign = function() {
-                if(!viewState.common.intyg.isComplete || $scope.signingWithSITHSInProgress){
-                    CommonViewState.toggleShowComplete();
+
+                if($scope.signingWithSITHSInProgress){
+                    return;
+                }
+
+                if(!viewState.common.intyg.isComplete || $scope.certForm.$dirty){
+                    CommonViewState.setShowComplete();
                     UtkastService.save();
-                    anchorScrollService.scrollTo('bottom');
+                    //anchorScrollService.scrollTo('bottom');
                     UtkastValidationService.filterValidationMessages();
                     return;
                 }

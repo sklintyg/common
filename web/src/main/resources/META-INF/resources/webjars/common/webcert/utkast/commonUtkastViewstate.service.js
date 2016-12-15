@@ -103,9 +103,8 @@ angular.module('common').service('common.UtkastViewStateService',
             return false;
         }
 
-
-        this.toggleShowComplete = function() {
-            this.showComplete = !this.showComplete;
+        this.setShowComplete = function(showComplete) {
+            this.showComplete = showComplete || true;
             return this.showComplete;
         };
 

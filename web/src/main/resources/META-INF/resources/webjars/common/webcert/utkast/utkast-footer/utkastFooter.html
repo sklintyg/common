@@ -39,7 +39,7 @@
         <span message key="draft.completion.signinfo"></span>
       </p>
       <button type="button" id="signera-utkast-button" class="btn btn-success"
-              ng-disabled="signingWithSITHSInProgress"
+              ng-disabled="certForm.$dirty || signingWithSITHSInProgress"
               ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif" />
         <span message key="common.{{viewState.common.intyg.isKomplettering ? 'signsend' : 'sign'}}"></span>
       </button>
