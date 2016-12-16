@@ -1,0 +1,149 @@
+<a id="anchor-syn" name="anchor.syn"></a>
+<div wc-field
+     field-dynamic-label="KAT_3.RBK"
+     field-dynamic-help-text="KAT_3.HLP"
+     field-has-errors="viewState.common.validation.messagesGrouped.syn"
+     ng-form
+     name="synForm" id="synForm">
+  <table class="table table-form">
+    <tr>
+      <td></td>
+      <td></td>
+      <td><h5>Alternativ 1</h5></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Vid synnedsättningar av betydelse för innehavet krävs ögonläkarintyg. Detta gäller vid
+        proliferativ retinopati, genomgången laserbehandling av retinopati, signifikant makulaödem
+        eller
+        vid annan ögonsjukdom samt om ögonbottenfoto saknas.
+      </td>
+    </tr>
+    <tr>
+      <th><span message key="common.yes"></span></th>
+      <th><span message key="common.no"></span></th>
+      <th class="maxwidth"></th>
+    </tr>
+    <tr>
+      <td><input id="synay" name="syna" type="radio" ng-value="true"
+                 ng-model="viewState.intygModel.syn.separatOgonlakarintyg" ng-change="validate()"></td>
+      <td><input id="synan" name="syna" type="radio" ng-value="false"
+                 ng-model="viewState.intygModel.syn.separatOgonlakarintyg" ng-change="validate()"></td>
+      <td><span dynamic-label key="FRG_43.RBK"></span> *</td>
+    </tr>
+    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('separatOgonlakarintyg')"></wc-field-validation></td></tr>
+
+    <tr data-ng-hide="viewState.intygModel.syn.separatOgonlakarintyg">
+      <td></td>
+      <td></td>
+      <td><h5 class="inline-heading">Alternativ 2: (frågorna b-d besvaras)</h5></td>
+    </tr>
+    <tr data-ng-hide="viewState.intygModel.syn.separatOgonlakarintyg">
+      <td></td>
+      <td></td>
+      <td>Om ögonläkarintyg inte krävs kan behandlande specialistkompetent läkare med god kännedom om
+        patientens sjukdom här avge intyg om synfunktionen.
+      </td>
+    </tr>
+    <tr data-ng-hide="viewState.intygModel.syn.separatOgonlakarintyg">
+      <td><input id="synby" name="synb" type="radio" ng-value="true"
+                 ng-model="viewState.intygModel.syn.synfaltsprovningUtanAnmarkning" ng-change="validate()"></td>
+      <td><input id="synbn" name="synb" type="radio" ng-value="false"
+                 ng-model="viewState.intygModel.syn.synfaltsprovningUtanAnmarkning" ng-change="validate()"></td>
+      <td>
+        <span dynamic-label key="FRG_44.RBK"></span>
+        <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false">*</span>
+      </td>
+    </tr>
+    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('provningUtanAnmarkning')"></wc-field-validation></td></tr>
+
+    <tr data-ng-hide="viewState.intygModel.syn.separatOgonlakarintyg">
+      <td></td>
+      <td></td>
+      <td>
+        <p><span dynamic-label key="FRG_8.RBK"></span></p>
+
+        <div class="alert alert-info">
+          <span message key="ts-diabetes.helptext.synfunktioner.synskarpa"></span>
+        </div>
+
+        <table class="table table-form">
+          <tr>
+            <th></th>
+            <th>Utan korrektion
+              <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false">*</span>
+              <span wc-help-mark field-help-text="ts-diabetes.helptext.synfunktioner.utan-korrektion"></span>
+            </th>
+            <th>Med korrektion
+              <span wc-help-mark field-help-text="ts-diabetes.helptext.synfunktioner.med-korrektion"></span>
+            </th>
+          </tr>
+          <tr>
+            <td>Höger öga</td>
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('hoger.utankorrektion')">
+                <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+                       id="synHogerOgaUtanKorrektion" ng-model="viewState.intygModel.syn.hoger.utanKorrektion" maxlength="4"
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('hoger.medKorrektion')">
+                <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+                       id="synHogerOgaMedKorrektion" ng-model="viewState.intygModel.syn.hoger.medKorrektion" maxlength="4"
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
+          </tr>
+          <tr>
+            <td>Vänster öga</td>
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('vanster.utankorrektion')">
+                <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+                       id="synVansterOgaUtanKorrektion" ng-model="viewState.intygModel.syn.vanster.utanKorrektion" maxlength="4"
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('vanster.medKorrektion')">
+                <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+                       id="synVansterOgaMedKorrektion" ng-model="viewState.intygModel.syn.vanster.medKorrektion" maxlength="4"
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
+          </tr>
+          <tr>
+            <td>Binokulärt</td>
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('binokulart.utankorrektion')">
+                <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+                       id="synBinokulartUtanKorrektion" ng-model="viewState.intygModel.syn.binokulart.utanKorrektion" maxlength="4"
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('binokulart.medKorrektion')">
+                <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+                       id="synBinokulartMedKorrektion" ng-model="viewState.intygModel.syn.binokulart.medKorrektion" maxlength="4"
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
+          </tr>
+        </table>
+    </tr>
+
+    <tr data-ng-hide="viewState.intygModel.syn.separatOgonlakarintyg">
+      <td><input id="syndy" name="synd" type="radio" ng-value="true" ng-model="viewState.intygModel.syn.diplopi" ng-change="validate()">
+      </td>
+      <td><input id="syndn" name="synd" type="radio" ng-value="false" ng-model="viewState.intygModel.syn.diplopi" ng-change="validate()">
+      </td>
+      <td>
+        <span dynamic-label key="FRG_6.RBK"></span>
+        <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false">*</span>
+      </td>
+    </tr>
+    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('diplopi')"></wc-field-validation></td></tr>
+
+  </table>
+</div>

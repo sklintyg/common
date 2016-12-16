@@ -10,6 +10,16 @@ include ':common-schemas'
 include ':common-specifications'
 include ':common-services'
 
+include ':fk7263'
+include ':fk-parent'
+include ':luse'
+include ':lisjp'
+include ':luae_na'
+include ':luae_fs'
+include ':ts-parent'
+include ':ts-bas'
+include ':ts-diabetes'
+
 project(':common-build-tools').projectDir = "$rootDir/build-tools" as File
 project(':logging-util').projectDir = "$rootDir/util/logging-util" as File
 project(':common-support').projectDir = "$rootDir/support" as File
@@ -18,3 +28,11 @@ project(':integration-util').projectDir = "$rootDir/util/integration-util" as Fi
 project(':common-schemas').projectDir = "$rootDir/schemas" as File
 project(':common-specifications').projectDir = "$rootDir/specifications" as File
 project(':common-services').projectDir = "$rootDir/services" as File
+project(':fk-parent').projectDir = "$rootDir/fk/fk-parent" as File
+project(':luse').projectDir = "$rootDir/fk/luse" as File
+project(':lisjp').projectDir = "$rootDir/fk/lisjp" as File
+project(':luae_na').projectDir = "$rootDir/fk/luae_na" as File
+project(':luae_fs').projectDir = "$rootDir/fk/luae_fs" as File
+project(':ts-parent').projectDir = "$rootDir/ts/ts-parent" as File
+project(':ts-bas').projectDir = "$rootDir/ts/ts-bas" as File
+project(':ts-diabetes').projectDir = "$rootDir/ts/ts-diabetes" as File

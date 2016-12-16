@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2016 Inera AB (http://www.inera.se)
+  ~
+  ~ This file is part of sklintyg (https://github.com/sklintyg).
+  ~
+  ~ sklintyg is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ sklintyg is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<ns3:RegisterTSDiabetes xmlns="urn:local:se:intygstjanster:services:1"
+    xmlns:ns2="urn:local:se:intygstjanster:services:types:1"
+    xmlns:ns3="urn:local:se:intygstjanster:services:RegisterTSDiabetesResponder:1">
+    <ns3:intyg>
+    <intygsId>9876543210</intygsId>
+    <intygsTyp>ts-diabetes</intygsTyp>
+    <version>02</version>
+    <utgava>06</utgava>
+    <intygAvser>
+        <korkortstyp>A1</korkortstyp>
+    </intygAvser>
+    <identitetStyrkt>
+        <idkontroll>IDK1</idkontroll>
+    </identitetStyrkt>
+    <diabetes>
+        <debutArDiabetes>2012</debutArDiabetes>
+        <diabetesTyp>TYP1</diabetesTyp>
+        <harBehandlingKost>true</harBehandlingKost>
+    </diabetes>
+    <hypoglykemier>
+        <harKunskapOmAtgarder>true</harKunskapOmAtgarder>
+        <harTeckenNedsattHjarnfunktion>false</harTeckenNedsattHjarnfunktion>
+        <saknarFormagaKannaVarningstecken>false</saknarFormagaKannaVarningstecken>
+        <harAllvarligForekomst>false</harAllvarligForekomst>
+        <harAllvarligForekomstTrafiken>false</harAllvarligForekomstTrafiken>
+        <genomforEgenkontrollBlodsocker>true</genomforEgenkontrollBlodsocker>
+    </hypoglykemier>
+    <separatOgonLakarintygKommerSkickas>true</separatOgonLakarintygKommerSkickas>
+    <bedomning>
+        <korkortstyp>A1</korkortstyp>
+    </bedomning>
+</ns3:intyg>
+</ns3:RegisterTSDiabetes>
