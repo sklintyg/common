@@ -27,6 +27,15 @@ angular.module('ts-bas').controller('ts-bas.UtkastController',
             'use strict';
 
             /**********************************************************************************
+             * Auto-resize textareas
+             **********************************************************************************/
+            $('.edit-form').on( 'keydown', 'textarea', function (e) {
+                $(this).css('height', 'auto' );
+                $(this).height( this.scrollHeight );
+            });
+            $('.edit-form').find('textarea').keydown();
+
+            /**********************************************************************************
              * Default state
              **********************************************************************************/
 
