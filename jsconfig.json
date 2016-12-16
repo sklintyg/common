@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
 	// See https://go.microsoft.com/fwlink/?LinkId=759670
 	// for the documentation about the jsconfig.json format
@@ -12,21 +11,3 @@
 		"build"
 	]
 }
-||||||| merged common ancestors
-=======
-{
-	// See https://go.microsoft.com/fwlink/?LinkId=759670
-	// for the documentation about the jsconfig.json format
-	"compilerOptions": {
-		"target": "es5",
-        "allowSyntheticDefaultImports": true
-	},
-	"exclude": [
-		"node_modules",
-		"bower_components",
-		"build",
-		"fk/build",
-		"target"
-	]
-}
->>>>>>> intygstyper/develop

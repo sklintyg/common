@@ -76,7 +76,7 @@ module.exports = function(grunt) {
 
         jshint: {
             options: {
-                jshintrc: 'build/build-tools/jshint/.jshintrc',
+                jshintrc: npmDir + '/build-tools/src/main/resources/jshint/.jshintrc',
                 reporterOutput: '',
                 force: false
             },
