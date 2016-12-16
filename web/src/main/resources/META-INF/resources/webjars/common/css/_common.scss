@@ -529,12 +529,6 @@ label {
         margin: -1px 0 0;
         vertical-align: middle;
     }
-}
-
-
-/* Commonly used */
-
-.edit-form {
     h4 {
         font-size: 14px;
         line-height: 20px;
@@ -548,25 +542,7 @@ label {
     }
 }
 
-
-/* These two must match to keep distance. use big-radio-label for wrapping label and big-radio on the input radio */
-
-label.big-radio-label input[type=radio].big-radio, label.big-checkbox-label input[type=checkbox].big-checkbox {
-    margin-left: -25px;
-    margin-top: -1px;
-}
-
-label.big-radio-label, label.big-checkbox-label {
-    padding-left: 25px;
-    line-height: 22px;
-}
-/*
-.form-horizontal label.big-checkbox-label, .form-horizontal label.big-radio-label {
-    padding-top: 2px;
-}
-*/
 /* Only used in wcField.directive.html and wcIntygCategory.directive.html */
-
 .edit-form {
     .categorykmplt, .groupkomplettering {
         border: 2px solid $color_blue_chill_approx;
@@ -604,6 +580,29 @@ label.big-radio-label, label.big-checkbox-label {
         }
     }
 }
+
+.edit-form {
+    textarea.form-control {
+        padding: 4px 6px;
+        overflow-y: hidden;
+    }
+}
+
+/* These two must match to keep distance. use big-radio-label for wrapping label and big-radio on the input radio */
+label.big-radio-label input[type=radio].big-radio, label.big-checkbox-label input[type=checkbox].big-checkbox {
+    margin-left: -25px;
+    margin-top: -1px;
+}
+
+label.big-radio-label, label.big-checkbox-label {
+    padding-left: 25px;
+    line-height: 22px;
+}
+/*
+.form-horizontal label.big-checkbox-label, .form-horizontal label.big-radio-label {
+    padding-top: 2px;
+}
+*/
 
 .intyg-body .categorykmplt {
     border: 2px solid $color_blue_chill_approx;
@@ -793,5 +792,11 @@ TD .validation {
     }
     .invisible-vlg {
         display: none !important;
+    }
+    textarea.form-control {
+        max-width: 700px;
+    }
+    textarea#currentWork.form-control {
+        max-width: 682px;
     }
 }

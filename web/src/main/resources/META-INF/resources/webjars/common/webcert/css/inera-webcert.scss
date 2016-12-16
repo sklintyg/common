@@ -173,7 +173,7 @@
   }
 
   textarea {
-    max-width: 206px;
+    width: 100%;
   }
 
   select {
@@ -360,11 +360,6 @@
   /* Commonly used by all intygstyper */
   .no-padding {
     padding: 0;
-  }
-
-  textarea {
-    width: 100%;
-    max-width: 500px;
   }
 
   label {

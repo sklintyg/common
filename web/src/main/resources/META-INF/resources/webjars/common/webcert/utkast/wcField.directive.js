@@ -70,6 +70,9 @@ angular.module('common').directive('wcField', function() {
                 $scope.fieldHasKomplettering = true;
             };
 
+            $scope.showTitleRow = function() {
+                return $scope.fieldNumber != undefined || $scope.fieldLabel || $scope.fieldDynamicLabel;
+            };
         }
     };
 });
