@@ -147,6 +147,16 @@ describe('PersonIdValidatorService', function() {
         expect(result).toBeUndefined();
     });
 
+    it('should fail if "personnummer" is a undefined', function() {
+        var result = personIdValidatorService.validatePersonnummer(undefined);
+        expect(result).toBeNull();
+    });
+
+    it('should fail if "personnummer" is garbage', function() {
+        var result = personIdValidatorService.validatePersonnummer('garbage');
+        expect(result).toBeNull();
+    });
+
     it('should fail if "personnummer" is a samordningsnummer', function() {
         var result = personIdValidatorService.validatePersonnummer('121272-1219');
         expect(result).toBeNull();
@@ -181,6 +191,11 @@ describe('PersonIdValidatorService', function() {
     it('should fail if "samordningsnummer" is a personnummer', function() {
         var result = personIdValidatorService.validateSamordningsnummer('19121212-1212');
         expect(result).toBeNull();
+    });
+
+    it('should fail with if "samordningsnummer" is undefined', function() {
+        var result = personIdValidatorService.validate(undefined);
+        expect(result).toBeUndefined();
     });
 
     it('should fail with if "samordningsnummer" has invalid date', function() {

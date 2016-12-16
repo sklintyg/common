@@ -46,7 +46,7 @@ angular.module('common').constant('common.messages', {
         'common.button.save.as.pdf.mininmal.title': 'Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare',
 
         'common.alert.newpersonid': 'Patienten har ett nytt personnummer: <b>${person}</b>',
-        'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>',
+        'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>. Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret',
         'common.alert.sekretessmarkering.utkast': 'Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var vänlig hantera dem varsamt.',
         'common.alert.sekretessmarkering.intyg': '<p>Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var  vänlig hantera dem varsamt.</p>På grund av sekretessmarkeringen går det inte att kopiera intyget.',
         'common.alert.sekretessmarkering.error': 'Misslyckades att slå upp patienten i personuppgiftstjänsten. Observera att patienten kan ha skyddade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',

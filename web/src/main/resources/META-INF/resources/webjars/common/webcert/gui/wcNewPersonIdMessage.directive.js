@@ -56,28 +56,16 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                 }
 
                 function decideMessageToShow(intygPersonnummer, alternatePatientSSn) {
-                    // 1. intygets personnummer validerar som personnummer
-                    // = visa nuvarande skylt om nytt personnummer om alternatePatientSSn skiljer sig från detta.
-                    var result = personIdValidator.validatePersonnummer(intygPersonnummer);
-                    if(personIdValidator.validResult(result)){
-                        if(intygPersonnummer !== alternatePatientSSn) {
-                            showPersonnummerMessage(alternatePatientSSn);
-                        }
-                    } else {
-                        //2 intygets personnummer är ett samordningsnummer (dagsiffra > 31)
-                        result = personIdValidator.validateSamordningsnummer(intygPersonnummer);
-                        if(personIdValidator.validResult(result)) {
 
-                            //2.2 om alternatePatientSSn validerar som personnummer
-                            //    = visa nuvarande meddelande om nytt personnummer.
-                            result = personIdValidator.validatePersonnummer(alternatePatientSSn);
-                            if(personIdValidator.validResult(result)) {
-                                showPersonnummerMessage(alternatePatientSSn);
-                            } else {
-                                //2.1 om alternatePatientSSn inte validerar som personnummer
-                                //    = visa istället meddelande "Patienten har samordningsnummer kopplat till reservnummer: alternatePatientSSn"
-                                showReservnummerMessage(alternatePatientSSn);
-                            }
+                    var validatedAlternateSSn = personIdValidator.validate(alternatePatientSSn);
+
+                    //If an alternatePatientSSn is given that differs from current..
+                    if (intygPersonnummer !== validatedAlternateSSn) {
+                        //.. and it's passes as a personnummer/samordningsnummer valid for future use (e.g in copy/renew)
+                        if (personIdValidator.validResult(validatedAlternateSSn)) {
+                            showPersonnummerMessage(alternatePatientSSn);
+                        } else {
+                            showReservnummerMessage(alternatePatientSSn);
                         }
                     }
                 }
