@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-fdescribe('diagnos', function() {
+describe('diagnos', function() {
     'use strict';
 
     var $scope;
