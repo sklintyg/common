@@ -19,8 +19,8 @@
 
 angular.module('common').factory('common.IntygCopyFornya',
     [ '$log', '$stateParams',
-        'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.UserModel', 'common.User', 'common.IntygHelper',
-        function($log, $stateParams, dialogService, IntygProxy, authorityService, UserModel, userService, IntygHelper) {
+        'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.UserModel', 'common.User', 'common.IntygHelper', 'common.PersonIdValidatorService',
+        function($log, $stateParams, dialogService, IntygProxy, authorityService, UserModel, userService, IntygHelper, PersonIdValidatorService) {
             'use strict';
 
             var _COPY_DIALOG_PREFERENCE = 'wc.dontShowCopyDialog';
@@ -121,7 +121,7 @@ angular.module('common').factory('common.IntygCopyFornya',
                 } else {
 
                     copyDialogModel.otherCareUnit = isOtherCareUnit;
-                    copyDialogModel.patientId = $stateParams.patientId;
+                    copyDialogModel.patientId = PersonIdValidatorService.validate($stateParams.patientId);
                     copyDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                     copyDialogModel.intygTyp = intygCopyRequest.intygType;
 
@@ -194,7 +194,7 @@ angular.module('common').factory('common.IntygCopyFornya',
                 } else {
 
                     fornyaDialogModel.otherCareUnit = isOtherCareUnit;
-                    fornyaDialogModel.patientId = $stateParams.patientId;
+                    fornyaDialogModel.patientId = PersonIdValidatorService.validate($stateParams.patientId);
                     fornyaDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                     fornyaDialogModel.intygTyp = intygFornyaRequest.intygType;
 

@@ -84,12 +84,20 @@ describe('wcNewPersonIdMessageDirective', function() {
         expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: '+samordningsNummer);
     });
 
-    it('should display new samordningsnummer text', function() {
+    it('should display new samordningsnummer text for new reservnr for existing samordningnr', function() {
         $stateParams.patientId = '555555-5555';
         $scope.viewState.intygModel.grundData.patient.personId = samordningsNummer;
         $scope.$digest();
 
-        expect($(element).find('span').text()).toBe('Patienten har samordningsnummer kopplat till reservnummer: 555555-5555');
+        expect($(element).find('span').text()).toContain('Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
+    });
+
+    it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
+        $stateParams.patientId = 'A123456FFFF';
+        $scope.viewState.intygModel.grundData.patient.personId = personNummer1;
+        $scope.$digest();
+
+        expect($(element).find('span').text()).toContain('Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
     });
 
 });
