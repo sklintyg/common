@@ -2,16 +2,16 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean class="se.inera.intyg.intygstyper.luae_na.model.converter.WebcertModelFactoryImpl" />
+  <bean class="se.inera.intyg.common.luae_na.model.converter.WebcertModelFactoryImpl" />
 
-  <bean class="se.inera.intyg.intygstyper.luae_na.model.converter.SvarIdHelperImpl" />
+  <bean class="se.inera.intyg.common.luae_na.model.converter.SvarIdHelperImpl" />
 
-  <bean class="se.inera.intyg.intygstyper.luae_na.rest.LuaenaModuleApi" />
+  <bean class="se.inera.intyg.common.luae_na.rest.LuaenaModuleApi" />
 
-  <bean class="se.inera.intyg.intygstyper.luae_na.validator.InternalDraftValidatorImpl" />
+  <bean class="se.inera.intyg.common.luae_na.validator.InternalDraftValidatorImpl" />
 
-  <bean class="se.inera.intyg.intygstyper.luae_na.model.util.LuaenaModelCompareUtil" />
+  <bean class="se.inera.intyg.common.luae_na.model.util.LuaenaModelCompareUtil" />
 
-  <bean id="luaenaEntryPoint" class="se.inera.intyg.intygstyper.luae_na.support.LuaenaEntryPoint" />
+  <bean id="luaenaEntryPoint" class="se.inera.intyg.common.luae_na.support.LuaenaEntryPoint" />
 
 </beans>

@@ -2,16 +2,16 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean class="se.inera.intyg.intygstyper.luse.model.converter.WebcertModelFactoryImpl" />
+  <bean class="se.inera.intyg.common.luse.model.converter.WebcertModelFactoryImpl" />
 
-  <bean class="se.inera.intyg.intygstyper.luse.model.converter.SvarIdHelperImpl" />
+  <bean class="se.inera.intyg.common.luse.model.converter.SvarIdHelperImpl" />
 
-  <bean class="se.inera.intyg.intygstyper.luse.rest.LuseModuleApi" />
+  <bean class="se.inera.intyg.common.luse.rest.LuseModuleApi" />
 
-  <bean class="se.inera.intyg.intygstyper.luse.validator.InternalDraftValidatorImpl" />
+  <bean class="se.inera.intyg.common.luse.validator.InternalDraftValidatorImpl" />
 
-  <bean class="se.inera.intyg.intygstyper.luse.model.util.LuseModelCompareUtil" />
+  <bean class="se.inera.intyg.common.luse.model.util.LuseModelCompareUtil" />
 
-  <bean id="luseEntryPoint" class="se.inera.intyg.intygstyper.luse.support.LuseEntryPoint" />
+  <bean id="luseEntryPoint" class="se.inera.intyg.common.luse.support.LuseEntryPoint" />
 
 </beans>

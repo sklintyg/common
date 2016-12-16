@@ -28,7 +28,7 @@
 
   <logger name="org.springframework" level="error" />
 
-  <logger name="se.inera.intyg.intygstyper.ts_bas" level="debug" />
+  <logger name="se.inera.intyg.common.ts_bas" level="debug" />
 
   <root>
     <level value="error" />

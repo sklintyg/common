@@ -1,6 +1,18 @@
-description = 'Intygstyper (FK7263 Läkarintyg)'
+description = 'Intyg Common (FK7263 Läkarintyg)'
 
 dependencies {
+    compile project(":common-support")
+    compile project(":common-web")
+    compile project(":integration-util")
+    compile project(":common-services")
+    compile project(":common-schemas")
+
+    compile "com.itextpdf:itextpdf:${itextVersion}"
+    compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+    compile "com.helger:ph-schematron:${phSchematronVersion}"
+    compile "org.springframework:spring-tx:${springVersion}"
+
+
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygCertificateSchemasVersion}"
     compile "se.skltp.adapterservices.insuranceprocess.healthreporting:FkEintygAdapterIC-validator:${fkEIntygAdapterVersion}"
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
