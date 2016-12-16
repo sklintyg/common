@@ -38,29 +38,10 @@ angular.module('common').factory('common.IntygMakulera',
                 };
                 revokeMessage.message.trim();
 
-                var intygCopyRequest = IntygCopyRequestModel.build({
-                    intygId: intyg.id,
-                    intygType: intyg.intygType,
-                    patientPersonnummer: intyg.grundData.patient.personId,
-                    nyttPatientPersonnummer: $stateParams.patientId,
-                    fornamn: $stateParams.fornamn,
-                    efternamn: $stateParams.efternamn,
-                    mellannamn: $stateParams.mellannamn,
-                    postadress: $stateParams.postadress,
-                    postnummer: $stateParams.postnummer,
-                    postort: $stateParams.postort
-                });
-
                 function onMakuleraComplete() {
                     dialogModel.makuleraProgressDone = true;
                     makuleraDialog.close();
                     onSuccess();
-                }
-
-                function onMakuleraErsattComplete(utkastResponse) {
-                    onMakuleraComplete();
-                    dialogModel.ersattProgressDone = true;
-                    IntygHelper.goToDraft(utkastResponse.intygsTyp, utkastResponse.intygsUtkastId);
                 }
 
                 function onMakuleraFail(error) {
@@ -75,11 +56,6 @@ angular.module('common').factory('common.IntygMakulera',
                     IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, revokeMessage,
                         onMakuleraComplete, onMakuleraFail);
                 }
-                else if(intygMakuleraMethod === 'REVOKE_AND_REPLACE'){
-                    dialogModel.ersattProgressDone = false;
-                    IntygProxy.makuleraErsattIntyg(intygCopyRequest, revokeMessage,
-                        onMakuleraErsattComplete, onMakuleraFail);
-                }
             }
 
             function _makulera(intyg, confirmationMessage, onSuccess) {
@@ -87,11 +63,11 @@ angular.module('common').factory('common.IntygMakulera',
                 var showQuestionMark = CommonViewState.defaultRecipient === 'FK' ? true : false;
 
                 function isMakuleraEnabled(model) {
-                    return model.makuleraProgressDone && model.ersattProgressDone &&
+                    return model.makuleraProgressDone && // model.ersattProgressDone &&
                         (
                             (ObjectHelper.isDefined(model.makuleraModel.reason) &&
-                                model.makuleraModel.reason !== 'OVRIGT') ||
-                            (model.makuleraModel.reason === 'OVRIGT' &&
+                                model.makuleraModel.reason !== 'ANNAT_ALLVARLIGT_FEL') ||
+                            (model.makuleraModel.reason === 'ANNAT_ALLVARLIGT_FEL' &&
                                 !ObjectHelper.isEmpty(model.makuleraModel.clarification[model.makuleraModel.reason]))
                         );
                 }
@@ -100,15 +76,12 @@ angular.module('common').factory('common.IntygMakulera',
                     showQuestionMark: showQuestionMark,
                     isMakuleraEnabled: isMakuleraEnabled,
                     makuleraProgressDone: true,
-                    ersattProgressDone: true,
                     focus: false,
                     errormessageid: 'error.failedtomakuleraintyg',
                     showerror: false,
                     labels: {
-                        'FELAKTIGT_INTYG': 'Intyget har fyllts i felaktigt',
-                        'PATIENT_NY_INFO': 'Patienten har kommit med ny information som behöver tillföras',
-                        'MIN_BEDOMNING_ANDRAD': 'Min bedömning i intyget har ändrats',
-                        'OVRIGT': 'Övrigt'
+                        'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
+                        'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'
                     },
                     choices: [],
                     makuleraModel: {
@@ -119,19 +92,12 @@ angular.module('common').factory('common.IntygMakulera',
 
                 // Fill dialogMakuleraModel.choices array with choices based on labels
                 angular.forEach(dialogMakuleraModel.labels, function(label, key) {
-                    if(key === 'OVRIGT'){
-                        this.push({
-                            label: label,
-                            value: key,
-                            placeholder: 'Ange orsak (obligatoriskt)...'
-                        });
-                    } else {
-                        this.push({
-                            label: label,
-                            value: key,
-                            placeholder: 'Förtydliga vid behov...'
-                        });
-                    }
+
+                    this.push({
+                        label: label,
+                        value: key,
+                        placeholder: 'Förtydliga vid behov...'
+                    });
                 }, dialogMakuleraModel.choices);
 
                 makuleraDialog = dialogService.showDialog({
@@ -143,14 +109,8 @@ angular.module('common').factory('common.IntygMakulera',
                         $log.debug('revoking intyg from dialog' + intyg);
                         _revokeSigneratIntyg('REVOKE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
                     },
-                    button2click: function() {
-                        $log.debug('revoking and replacing intyg from dialog' + intyg);
-                        _revokeSigneratIntyg('REVOKE_AND_REPLACE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
-                    },
                     button1text: 'common.revoke',
                     button1id: 'button1makulera-dialog',
-                    button2text: 'common.revokeandreplace',
-                    button2id: 'button2makulera-dialog',
                     button3text: 'common.canceldontrevoke',
                     button3id: 'button3makulera-dialog',
                     bodyTextId: 'label.makulera.body',

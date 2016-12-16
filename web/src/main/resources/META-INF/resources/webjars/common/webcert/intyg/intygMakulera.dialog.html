@@ -14,7 +14,6 @@
       <label class="radio big-radio-label">
         <input id="reason-{{reason.value}}" name="reason-{{reason.value}}" type="radio" class="big-radio"
                ng-model="model.makuleraModel.reason" ng-value="reason.value"> {{reason.label}}
-        <!--span message key="{{reason.label}}"></span-->
       </label>
       <div class="form-group fold-animation" ng-if="model.makuleraModel.reason == reason.value">
         <textarea id="clarification-{{reason.value}}" rows='3' class='form-control'
@@ -31,13 +30,7 @@
       <img ng-hide="model.makuleraProgressDone" ng-src="/img/ajax-loader-small-red.gif" />
       <span message key="{{button1text}}"></span>
     </button>
-    <button type="button" id="{{button2id}}" class="btn btn-danger"
-            ng-disabled="!model.isMakuleraEnabled(model)"
-            ng-click="button2click()"
-            title="Intygsinformationen kopieras in i ett nytt utkast som kan korrigeras.">
-      <img ng-hide="model.ersattProgressDone" ng-src="/img/ajax-loader-small-red.gif" />
-      <span message key="{{button2text}}"></span>
-    </button>
+
     <button type="button" id="{{button3id}}" class="btn btn-info" ng-click="button3click()">
       <span message key="{{button3text}}"></span>
     </button>
