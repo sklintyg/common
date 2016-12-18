@@ -71,7 +71,7 @@ angular.module('common').directive('wcField', function() {
             };
 
             $scope.showTitleRow = function() {
-                return $scope.fieldNumber != undefined || $scope.fieldLabel || $scope.fieldDynamicLabel;
+                return $scope.fieldNumber !== undefined || $scope.fieldLabel || $scope.fieldDynamicLabel;
             };
         }
     };

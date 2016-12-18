@@ -39,7 +39,7 @@ angular.module('ts-bas').controller('ts-bas.Utkast.Form19Controller',
             //Make a printable list of Specialiteter
             $scope.specialiteter = '';
             $scope.showSpecialiteter = function() {
-                return specialiteter && specialiteter != '';
+                return $scope.specialiteter && $scope.specialiteter !== '';
             };
             $scope.$watch('user.user.specialiseringar', function(specialiteter) {
                 if (specialiteter === undefined) {
@@ -57,7 +57,7 @@ angular.module('ts-bas').controller('ts-bas.Utkast.Form19Controller',
             }, true);
 
             $scope.showForm = function() {
-                return showBefattningar() || showSpecialiteter();
+                return $scope.showBefattningar() || $scope.showSpecialiteter();
             };
 
         }]);
