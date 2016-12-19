@@ -47,6 +47,11 @@ angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorS
 
                 function handleViewValueUpdate(newValue, oldValue) {
 
+                    if(newValue === ''){
+                        ngModel.$setUntouched();
+                        ngModel.$setValidity('validPnr', true);
+                    }
+
                     if(!newValue) {
                         return;
                     }
@@ -59,7 +64,7 @@ angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorS
                     var lookingLikePnr = /^[0-9]*-?[0-9]*$/i;
 
                     // if new value is longer than older we care, otherwise something that we already approved was removed
-                    if ((!oldValue) || (newValue.length > oldValue.length)) {
+                    if (!oldValue || (newValue.length > oldValue.length)) {
                         if (!newValue.match(lookingLikePnr) ||
                             (newValue.length !== 9 && newValue[newValue.length-1] === '-')) {
                             // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
@@ -70,6 +75,14 @@ angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorS
                             newValue = utils.insertAt(newValue, '-', 8);
                             updateViewValue(newValue);
                         }
+                    } else if (!oldValue || (newValue.length <= oldValue.length)) {
+
+                        if (!newValue.match(lookingLikePnr)) {
+                            // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
+                            newValue = oldValue;
+                            updateViewValue(newValue);
+                        }
+
                     }
                 }
 
