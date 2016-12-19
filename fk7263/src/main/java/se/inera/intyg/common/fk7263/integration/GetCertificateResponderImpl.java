@@ -58,7 +58,7 @@ import se.inera.intyg.common.util.logging.LogMarkers;
 public class GetCertificateResponderImpl implements
         GetCertificateResponderInterface {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(GetCertificateResponderImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetCertificateResponderImpl.class);
 
     private JAXBContext jaxbContext;
     private ObjectFactory objectFactory;

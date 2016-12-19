@@ -20,7 +20,10 @@
 package se.inera.intyg.common.services.texts.model;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -57,7 +60,7 @@ public final class IntygTexts {
     }
 
     private void validateVersion(String version) {
-        if (version == null || !Arrays.stream(version.split(DELIMITER)).allMatch((s) -> StringUtils.isNumeric(s))) {
+        if (version == null || !Arrays.stream(version.split(DELIMITER)).allMatch(s -> StringUtils.isNumeric(s))) {
             throw new IllegalArgumentException("Version " + version + " is not in format 'x.x.x.x'");
         }
     }

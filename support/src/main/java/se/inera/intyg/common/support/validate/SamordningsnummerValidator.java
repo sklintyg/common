@@ -60,7 +60,7 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
      */
     // CHECKSTYLE:OFF MagicNumber
     @Override
-    protected LocalDate getBirthDay(String personNummer) throws IllegalArgumentException {
+    protected LocalDate getBirthDay(String personNummer) {
         if (!isSamordningsNummer(personNummer)) {
             throw new IllegalArgumentException("personNummer " + personNummer + " is not a valid 'samordningsnummer");
         }

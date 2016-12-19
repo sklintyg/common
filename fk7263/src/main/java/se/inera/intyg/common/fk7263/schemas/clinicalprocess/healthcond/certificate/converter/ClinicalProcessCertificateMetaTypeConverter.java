@@ -43,7 +43,7 @@ public final class ClinicalProcessCertificateMetaTypeConverter {
         metaData.setFacilityName(certificateMetaType.getFacilityName());
         metaData.setSignDate(certificateMetaType.getSignDate());
         metaData.setAdditionalInfo(certificateMetaType.getComplemantaryInfo());
-        metaData.setAvailable(certificateMetaType.getAvailable().toLowerCase().equals("true"));
+        metaData.setAvailable("true".equalsIgnoreCase(certificateMetaType.getAvailable()));
         List<Status> statuses = toStatusList(certificateMetaType.getStatus());
         metaData.setStatus(statuses);
         return metaData;

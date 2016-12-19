@@ -20,19 +20,24 @@
 package se.inera.intyg.common.fk7263.model.converter;
 
 import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getIntyg;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
 
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
 import se.inera.intyg.common.fk7263.model.internal.Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
@@ -172,7 +177,7 @@ public final class UtlatandeToIntyg {
         }
 
         addIfNotBlank(svars, SJUKDOMSFORLOPP_SVAR_10002, SJUKDOMSFORLOPP_DELSVAR_10002_1, source.getSjukdomsforlopp());
-        svars.add(createRekommendation(source, svars));
+        svars.add(createRekommendation(source));
 
         addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_17, AKTIVITETSBEGRANSNING_DELSVAR_17_1, source.getAktivitetsbegransning());
         addIfNotBlank(svars, OVRIGA_UPPLYSNINGAR_SVAR_25, OVRIGA_UPPLYSNINGAR_DELSVAR_25_1, buildOvrigaUpplysningar(source));
@@ -217,7 +222,7 @@ public final class UtlatandeToIntyg {
         return svarBuilder.build();
     }
 
-    private static Svar createRekommendation(Utlatande source, List<Svar> svars) {
+    private static Svar createRekommendation(Utlatande source) {
         SvarBuilder svarBuilder = aSvar(REKOMMENDATION_KONTAKT_SVAR_10003)
                 .withDelsvar(REKOMMENDATION_KONTAKT_DELSVAR_AF_10003_1, String.valueOf(source.isRekommendationKontaktArbetsformedlingen()))
                 .withDelsvar(REKOMMENDATION_KONTAKT_DELSVAR_FHV_10003_2, String.valueOf(source.isRekommendationKontaktForetagshalsovarden()));

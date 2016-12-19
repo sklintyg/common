@@ -56,7 +56,7 @@ public final class XmlValidator {
     public static ValidateXmlResponse validate(RegisterCertificateValidator validator, String inputXml) throws ModuleException {
         try {
             SchematronOutputType valResult = validator.validateSchematron(new StreamSource(new StringReader(inputXml)));
-            if (SVRLHelper.getAllFailedAssertions(valResult).size() > 0) {
+            if (!SVRLHelper.getAllFailedAssertions(valResult).isEmpty()) {
                 List<String> errorMsgs = new ArrayList<>();
                 SVRLHelper.getAllFailedAssertions(valResult)
                         .forEach(fra -> errorMsgs.add(String.format("TEST: %s, MSG: %s", fra.getTest(), fra.getText())));

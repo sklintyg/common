@@ -21,7 +21,9 @@ package se.inera.intyg.common.ts_bas.validator.transport;
 import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
 import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.validate.PersonnummerValidator;
@@ -203,11 +205,11 @@ public class TransportValidatorInstance {
     enum AssertionResult {
         SUCCESS(true), FAILURE(false);
 
+        private final boolean assertSuccessful;
+
         AssertionResult(boolean assertSuccessfull) {
             this.assertSuccessful = assertSuccessfull;
         }
-
-        private final boolean assertSuccessful;
 
         public boolean failed() {
             return !assertSuccessful;

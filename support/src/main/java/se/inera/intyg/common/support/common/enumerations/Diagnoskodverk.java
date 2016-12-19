@@ -29,17 +29,17 @@ public enum Diagnoskodverk {
 
     KSH_97_P("1.2.752.116.1.3.1.4.1", "KSH97-P", null);
 
-    Diagnoskodverk(String codeSystemV1, String codeSystemName, String codeSystemVersion) {
-        this.codeSystem = codeSystemV1;
-        this.codeSystemName = codeSystemName;
-        this.codeSystemVersion = codeSystemVersion;
-    }
-
     private final String codeSystem;
 
     private final String codeSystemName;
 
     private final String codeSystemVersion;
+
+    Diagnoskodverk(String codeSystemV1, String codeSystemName, String codeSystemVersion) {
+        this.codeSystem = codeSystemV1;
+        this.codeSystemName = codeSystemName;
+        this.codeSystemVersion = codeSystemVersion;
+    }
 
     public String getCodeSystem() {
         return codeSystem;

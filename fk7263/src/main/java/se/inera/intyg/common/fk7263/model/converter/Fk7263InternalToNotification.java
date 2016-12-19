@@ -33,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
@@ -41,10 +43,23 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
-import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
-import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.*;
-import se.riv.clinicalprocess.healthcond.certificate.types.v1.*;
+import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.Arbetsformaga;
+import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.CertificateStatusUpdateForCareType;
+import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.Enhet;
+import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.FragorOchSvar;
+import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.Handelse;
+import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.HosPersonal;
+import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.Patient;
+import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.UtlatandeType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.DatumPeriod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.Diagnos;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.Handelsekod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.HandelsekodKodRestriktion;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.HsaId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.PQ;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.PersonId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.TypAvUtlatande;
+import se.riv.clinicalprocess.healthcond.certificate.types.v1.UtlatandeId;
 
 public class Fk7263InternalToNotification {
 
@@ -83,7 +98,7 @@ public class Fk7263InternalToNotification {
 
         UtlatandeType utlatandeType = new UtlatandeType();
 
-        decorateWithTypAvUtlatande(utlatandeType, utlatandeSource);
+        decorateWithTypAvUtlatande(utlatandeType);
         decorateWithUtlatandeId(utlatandeType, utlatandeSource);
         decorateWithSigneringsDatum(utlatandeType, utlatandeSource);
         decorateWithPatient(utlatandeType, utlatandeSource);
@@ -99,7 +114,7 @@ public class Fk7263InternalToNotification {
         return statusUpdateType;
     }
 
-    private void decorateWithTypAvUtlatande(UtlatandeType utlatandeType, Utlatande utlatandeSource) {
+    private void decorateWithTypAvUtlatande(UtlatandeType utlatandeType) {
         TypAvUtlatande typAvUtlatande = new TypAvUtlatande();
         typAvUtlatande.setCode(Fk7263EntryPoint.MODULE_ID.toUpperCase());
         typAvUtlatande.setCodeSystem(KV_UTLATANDETYP_INTYG_CODE_SYSTEM);

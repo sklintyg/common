@@ -144,11 +144,11 @@ public class PersonnummerValidator implements RootValidator {
      */
     private void checkDateRange(String pnr, LocalDate birthday, List<String> result) {
         if (birthday.isAfter(referenceDate())) {
-            result.add("The SSN '%s' is invalid - date is in the future");
+            result.add(String.format("The SSN '%s' is invalid - date is in the future", pnr));
         }
 
         if (birthday.isBefore(FIRST_PERSONNUMMER_DATE)) {
-            result.add("The SSN '%s' is invalid - date is too far in the past");
+            result.add(String.format("The SSN '%s' is invalid - date is too far in the past", pnr));
         }
     }
 
@@ -222,7 +222,7 @@ public class PersonnummerValidator implements RootValidator {
      * @throws IllegalArgumentException
      *             if the date wasn't valid.
      */
-    protected LocalDate getBirthDay(String dateString) throws IllegalArgumentException {
+    protected LocalDate getBirthDay(String dateString) {
         return LocalDate.parse(dateString, DateTimeFormatter.BASIC_ISO_DATE);
     }
 

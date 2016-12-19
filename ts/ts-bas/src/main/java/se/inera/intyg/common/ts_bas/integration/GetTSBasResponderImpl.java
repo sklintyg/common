@@ -21,7 +21,9 @@ package se.inera.intyg.common.ts_bas.integration;
 
 import java.io.StringReader;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.xml.bind.JAXB;
 
@@ -35,17 +37,25 @@ import com.google.common.base.Throwables;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.integration.module.exception.MissingConsentException;
 import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.modules.support.api.*;
+import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
+import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
+import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
-import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.*;
+import se.inera.intyg.common.util.logging.LogMarkers;
+import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponderInterface;
+import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponseType;
+import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasType;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
+import se.inera.intygstjanster.ts.services.v1.IntygMeta;
+import se.inera.intygstjanster.ts.services.v1.IntygStatus;
+import se.inera.intygstjanster.ts.services.v1.Status;
+import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
 
 public class GetTSBasResponderImpl implements GetTSBasResponderInterface {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(GetTSBasResponderImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetTSBasResponderImpl.class);
 
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;

@@ -226,7 +226,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     private void validateSjukskrivningar(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
 
         // Check if there are any at all
-        if (utlatande.getSjukskrivningar() == null || utlatande.getSjukskrivningar().size() < 1) {
+        if (utlatande.getSjukskrivningar() == null || utlatande.getSjukskrivningar().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.EMPTY,
                     "lisjp.validation.bedomning.sjukskrivningar.missing");
         } else {
@@ -360,7 +360,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
     private void validateAtgarder(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // Anything checked at all?
-        if (utlatande.getArbetslivsinriktadeAtgarder() == null || utlatande.getArbetslivsinriktadeAtgarder().size() < 1) {
+        if (utlatande.getArbetslivsinriktadeAtgarder() == null || utlatande.getArbetslivsinriktadeAtgarder().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "atgarder.arbetslivsinriktadeAtgarder", ValidationMessageType.EMPTY,
                     "lisjp.validation.atgarder.missing");
         } else {

@@ -34,15 +34,23 @@ import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
-import se.riv.clinicalprocess.healthcond.certificate.v2.*;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.Befattning;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.v2.Enhet;
+import se.riv.clinicalprocess.healthcond.certificate.v2.HosPersonal;
+import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v2.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 
 /**
@@ -63,11 +71,10 @@ public final class TransportConverterUtil {
      * @return The non-empty String content of the Delsvar.
      */
     public static String getStringContent(Delsvar delsvar) {
-        String string = delsvar.getContent().stream()
+        return delsvar.getContent().stream()
                 .map(content -> ((String) content).trim())
                 .filter(content -> !content.isEmpty())
                 .reduce("", String::concat);
-        return string;
     }
 
     /**
@@ -117,7 +124,7 @@ public final class TransportConverterUtil {
                 return cvType;
             } else if (o instanceof JAXBElement) {
                 @SuppressWarnings("unchecked")
-                JAXBElement<CVType> jaxbCvType = ((JAXBElement<CVType>) o);
+                JAXBElement<CVType> jaxbCvType = (JAXBElement<CVType>) o;
                 return jaxbCvType.getValue();
             }
         }
@@ -158,7 +165,7 @@ public final class TransportConverterUtil {
                 return datePeriodType;
             } else if (o instanceof JAXBElement) {
                 @SuppressWarnings("unchecked")
-                JAXBElement<DatePeriodType> jaxbCvType = ((JAXBElement<DatePeriodType>) o);
+                JAXBElement<DatePeriodType> jaxbCvType = (JAXBElement<DatePeriodType>) o;
                 return jaxbCvType.getValue();
             }
         }

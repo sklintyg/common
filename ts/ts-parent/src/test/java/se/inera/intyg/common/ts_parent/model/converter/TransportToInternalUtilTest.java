@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ts_parent.model.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -80,5 +81,29 @@ public class TransportToInternalUtilTest {
         assertEquals(2, res.getSkapadAv().getBefattningar().size());
         assertEquals(befattning1, res.getSkapadAv().getBefattningar().get(0));
         assertEquals(befattning2, res.getSkapadAv().getBefattningar().get(1));
+    }
+
+    @Test
+    public void testBuildSkapadAvWithoutBefattningskodAndSpecialisering() {
+        se.inera.intygstjanster.ts.services.v1.GrundData grundData = new se.inera.intygstjanster.ts.services.v1.GrundData();
+        se.inera.intygstjanster.ts.services.v1.Patient patient = new se.inera.intygstjanster.ts.services.v1.Patient();
+        patient.setPersonId(new II());
+        patient.getPersonId().setExtension("19121212-1212");
+        grundData.setPatient(patient);
+        grundData.setSigneringsTidstampel("2016-10-11T12:12:44");
+        SkapadAv skapadAv = new SkapadAv();
+        skapadAv.setPersonId(new II());
+        se.inera.intygstjanster.ts.services.v1.Vardenhet vardenhet = new se.inera.intygstjanster.ts.services.v1.Vardenhet();
+        se.inera.intygstjanster.ts.services.v1.Vardgivare vardgivare = new se.inera.intygstjanster.ts.services.v1.Vardgivare();
+        vardgivare.setVardgivarid(new II());
+        vardenhet.setVardgivare(vardgivare);
+        vardenhet.setEnhetsId(new II());
+        skapadAv.setVardenhet(vardenhet);
+        grundData.setSkapadAv(skapadAv);
+
+        GrundData res = TransportToInternalUtil.buildGrundData(grundData);
+
+        assertTrue(res.getSkapadAv().getSpecialiteter().isEmpty());
+        assertTrue(res.getSkapadAv().getBefattningar().isEmpty());
     }
 }

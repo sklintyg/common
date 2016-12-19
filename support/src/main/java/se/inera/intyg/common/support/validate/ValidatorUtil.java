@@ -31,7 +31,10 @@ import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 
 /**
  * Common utils used for validation.
@@ -242,11 +245,11 @@ public final class ValidatorUtil {
     public enum AssertionResult {
         SUCCESS(true), FAILURE(false);
 
+        private final boolean assertSuccessful;
+
         AssertionResult(boolean assertSuccessfull) {
             this.assertSuccessful = assertSuccessfull;
         }
-
-        private final boolean assertSuccessful;
 
         public boolean failed() {
             return !assertSuccessful;

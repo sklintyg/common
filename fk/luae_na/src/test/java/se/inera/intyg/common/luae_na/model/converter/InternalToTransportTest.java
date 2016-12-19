@@ -27,13 +27,14 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
+import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
-import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 
 public class InternalToTransportTest {
@@ -80,6 +81,11 @@ public class InternalToTransportTest {
         LuaenaUtlatande utlatande = getUtlatande(RelationKod.FRLANG, null, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
+    }
+
+    @Test(expected = ConverterException.class)
+    public void testConvertSourceNull() throws Exception {
+        InternalToTransport.convert(null);
     }
 
     public static LuaenaUtlatande getUtlatande() {

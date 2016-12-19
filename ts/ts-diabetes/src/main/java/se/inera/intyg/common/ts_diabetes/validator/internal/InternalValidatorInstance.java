@@ -23,9 +23,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.support.validate.*;
-import se.inera.intyg.common.ts_diabetes.model.internal.*;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.PatientValidator;
+import se.inera.intyg.common.support.validate.StringValidator;
+import se.inera.intyg.common.support.validate.ValidatorUtil;
+import se.inera.intyg.common.ts_diabetes.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes.model.internal.Diabetes;
+import se.inera.intyg.common.ts_diabetes.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
+import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
 
 /**
  * Class for validating drafts of the internal model.
@@ -67,9 +77,7 @@ public class InternalValidatorInstance {
             ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
         }
 
-        ValidateDraftResponse response = new ValidateDraftResponse(ValidatorUtil.getValidationStatus(validationMessages), validationMessages);
-
-        return response;
+        return new ValidateDraftResponse(ValidatorUtil.getValidationStatus(validationMessages), validationMessages);
     }
 
     private void validateHypoglykemi(Hypoglykemier hypoglykemier) {
