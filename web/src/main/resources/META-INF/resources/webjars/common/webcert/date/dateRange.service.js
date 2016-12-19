@@ -246,12 +246,17 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
                 }
                 dateUnit.update(formValue); // will trigger a fromTo.updateModel
                 if(dateUnit.valid) {
-                    formElement.$setValidity('date', false);
-                    return formValue;
+                    formElement.$setValidity('date', true);
                 } else {
-                    formElement.$setValidity('date', false);
-                    return undefined;
+                    if (!formValue) {
+                        formElement.$setValidity('date', true);
+                        return null;
+                    }
+                    else {
+                        formElement.$setValidity('date', false);
+                    }
                 }
+                return formValue;
             });
 
             formElement.$formatters = [];
