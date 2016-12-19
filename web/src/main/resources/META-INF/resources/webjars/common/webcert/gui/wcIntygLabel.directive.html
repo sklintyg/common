@@ -1,4 +1,7 @@
 <div>
+  <h4 ng-if="staticLabelId">
+    <span message key="{{staticLabelId}}"></span>
+  </h4>
   <h4 ng-if="h4Label" ng-class="{noH5After : noH5After}">
     <span dynamic-label key="{{h4Label}}"></span>
   </h4>

@@ -81,7 +81,7 @@ angular.module('luse').factory('luse.FormFactory', [
                             staticLabelId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                             subTextId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
                             subTextDynId: 'FRG_25',
-                            hideFromSigned: true,
+                            hideWhenEmpty: true,
                             required: true
                         }
                     },

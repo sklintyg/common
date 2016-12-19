@@ -40,6 +40,7 @@ angular.module('common').directive('wcIntygLabel',
                 replace: true,
                 scope: {
                     wcIntygLabel: '=',
+                    staticLabelId: '=',
                     forceNoH5After: '=',
                     forceNoH4Before: '='
                 },

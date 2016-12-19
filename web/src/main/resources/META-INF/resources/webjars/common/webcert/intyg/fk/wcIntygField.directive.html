@@ -1,6 +1,6 @@
 <div ng-class="{'intyg-field' : field.type != 'headline'}" ng-attr-id="{{field.key && 'form_'+field.key || undefined}}">
 
-  <div wc-intyg-label="field.templateOptions.label" ng-if="showField(field)" force-no-h5-after="field.templateOptions.noH5After" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
+  <div wc-intyg-label="field.templateOptions.label" static-label-id="field.templateOptions.staticLabelId" ng-if="showField(field)" force-no-h5-after="field.templateOptions.noH5After" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
 
   <wc-intyg-field-komplettering ng-if="field.type !== 'check-multi-text'" category-key="{{categoryKey}}" field-key="{{field.key}}"></wc-intyg-field-komplettering>
 
