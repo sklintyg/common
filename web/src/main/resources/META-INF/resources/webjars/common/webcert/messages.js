@@ -480,9 +480,9 @@ angular.module('common').constant('common.messages', {
         // FMB texts
         'fmb.symptom_prognos_behandling': 'Symtom, prognos och behandling',
         'fmb.generell_info': 'Generell information',
-        'fmb.funktionsnedsattning': '',
-        'fmb.aktivitetsbegransning': '',
-        'fmb.beslutsunderlag_textuellt': '',
+        'fmb.funktionsnedsattning': 'Om funktionsnedsättning',
+        'fmb.aktivitetsbegransning': 'Om aktivitetsbegränsning',
+        'fmb.beslutsunderlag_textuellt': 'Sjukskrivningsrekommendation',
 
         // Fragasvar för FK
         'common.fk.info.loading.existing.qa': 'Hämtar tidigare frågor och svar...',
