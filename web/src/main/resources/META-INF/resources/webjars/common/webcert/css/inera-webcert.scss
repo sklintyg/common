@@ -530,30 +530,27 @@
     width: 100%;
   }
 
-  .webcert-multicol-container {
-    /* Equal height using http://matthewjamestaylor.com/blog/equal-height-columns-cross-browser-css-no-hacks */
+  .webcert-multicol-container1, .webcert-multicol-container2 {
+    /* Equal height using http://matthewjamestaylor.com/blog/equal-height-columns-cross-browser-css-no-hacks
+     *
+     * webcert-multicol-container1 and webcert-multicol-container2 are used to set background color of each column
+     * webcert-col-primary and webcert-col-secondary are used for the content of each column
+     */
     float: left;
     min-height: 832px;
     position: relative;
     width: 100%;
   }
 
-  /* Sets a background for our multicol and an override class for the tallest column in our multicol setup. Use the specific webcert-multicol-background-* as the default background color for all the colors.
-   * This gives the shortest of the columns the correct backgroundcolor on IE9.
-   * Use the .webcert-col-tallest-* for the tallest of the columns to override the background color. And all this hassle just to cater for the needs of IE9. */
+  .webcert-multicol-container2 {
+    right: 50%;
+  }
+
   .webcert-multicol-background-grey {
     background-color: $concrete !important;
   }
 
-  .webcert-col-tallest-grey {
-    background-color: $concrete !important;
-  }
-
   .webcert-multicol-background-white {
-    background-color: $white !important;
-  }
-
-  .webcert-col-tallest-white {
     background-color: $white !important;
   }
 
@@ -563,27 +560,32 @@
   }
 
   .webcert-col-primary {
+    float: left;
+    width: 50%;
+    left: 50%;
     padding: 30px 30px 20px 30px;
   }
 
   .webcert-col-secondary {
+    float: left;
+    width: 50%;
+    left: 50%;
     position: relative;
     padding: 30px 15px 30px 30px;
   }
 
-  @media(min-width: 768px) {
-    .webcert-multicol-container {
-      left: 50%;
+  @media(max-width: 768px) {
+    .webcert-multicol-container1, .webcert-multicol-container2 {
+      float: none;
+      min-height: 0;
+      right: auto;
     }
-
-    .webcert-col-primary {
-      left: -50%;
-      padding: 30px 30px 20px 30px;
+    .webcert-col-primary, .webcert-col-secondary {
+      width: 100%;
+      left: auto;
     }
-
     .webcert-col-secondary {
-      background: none;
-      left: -50%;
+      min-height: 832px;
     }
   }
 
