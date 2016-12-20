@@ -117,12 +117,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
                         && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getUndersokningAvPatienten().asLocalDate())) {
                     ValidatorUtil.addValidationError(validationMessages, "grundformu.kannedomOmPatient", ValidationMessageType.OTHER,
-                            "luae_na.validation.grund-for-mu.kannedom.after.undersokning", "KV_FKMU_0001.UNDERSOKNING.RBK");
+                            "luae_na.validation.grund-for-mu.kannedom.after", "KV_FKMU_0001.UNDERSOKNING.RBK");
                 }
                 if (utlatande.getAnhorigsBeskrivningAvPatienten() != null && utlatande.getAnhorigsBeskrivningAvPatienten().isValidDate()
                         && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getAnhorigsBeskrivningAvPatienten().asLocalDate())) {
                     ValidatorUtil.addValidationError(validationMessages, "grundformu.kannedomOmPatient", ValidationMessageType.OTHER,
-                            "luae_na.validation.grund-for-mu.kannedom.after.anhorigsbeskrivning", "KV_FKMU_0001.ANHORIG.RBK");
+                            "luae_na.validation.grund-for-mu.kannedom.after", "KV_FKMU_0001.ANHORIG.RBK");
                 }
             }
         }
