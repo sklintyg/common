@@ -24,13 +24,23 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.BEFATTNINGSKOD
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PRIndirectReference;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfIndirectReference;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -38,7 +48,27 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.ts_bas.model.internal.*;
+import se.inera.intyg.common.ts_bas.model.internal.Bedomning;
+import se.inera.intyg.common.ts_bas.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_bas.model.internal.Diabetes;
+import se.inera.intyg.common.ts_bas.model.internal.Funktionsnedsattning;
+import se.inera.intyg.common.ts_bas.model.internal.HjartKarl;
+import se.inera.intyg.common.ts_bas.model.internal.HorselBalans;
+import se.inera.intyg.common.ts_bas.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_bas.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_bas.model.internal.Kognitivt;
+import se.inera.intyg.common.ts_bas.model.internal.Medicinering;
+import se.inera.intyg.common.ts_bas.model.internal.Medvetandestorning;
+import se.inera.intyg.common.ts_bas.model.internal.NarkotikaLakemedel;
+import se.inera.intyg.common.ts_bas.model.internal.Neurologi;
+import se.inera.intyg.common.ts_bas.model.internal.Njurar;
+import se.inera.intyg.common.ts_bas.model.internal.Psykiskt;
+import se.inera.intyg.common.ts_bas.model.internal.Sjukhusvard;
+import se.inera.intyg.common.ts_bas.model.internal.SomnVakenhet;
+import se.inera.intyg.common.ts_bas.model.internal.Syn;
+import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.Utvecklingsstorning;
+import se.inera.intyg.common.ts_bas.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
@@ -238,11 +268,7 @@ public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
         if (texts == null) {
             return PDF_PATH_V06U07;
         }
-        String path = texts.getPdfPath();
-        if (path == null) {
-            return PDF_PATH_V06U07;
-        }
-        return path;
+        return texts.getProperties().getProperty(PDF_PATH_PROPERTY_KEY, PDF_PATH_V06U07);
     }
 
     private void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text) throws DocumentException, IOException {

@@ -21,13 +21,23 @@ package se.inera.intyg.common.ts_diabetes.pdf;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PRIndirectReference;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfIndirectReference;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -35,7 +45,15 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.ts_diabetes.model.internal.*;
+import se.inera.intyg.common.ts_diabetes.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_diabetes.model.internal.Diabetes;
+import se.inera.intyg.common.ts_diabetes.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
+import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
@@ -219,11 +237,7 @@ public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
         if (texts == null) {
             return PDF_PATH_V02_U06;
         }
-        String path = texts.getPdfPath();
-        if (path == null) {
-            return PDF_PATH_V02_U06;
-        }
-        return path;
+        return texts.getProperties().getProperty(PDF_PATH_PROPERTY_KEY, PDF_PATH_V02_U06);
     }
 
     private void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text) throws DocumentException, IOException {

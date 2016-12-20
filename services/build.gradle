@@ -3,4 +3,6 @@ description = 'Intyg Common (Services)'
 dependencies {
   compile project(':common-support')
   compile project(':integration-util')
+
+  compile "commons-io:commons-io:${commonsIoVersion}"
 }

@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,14 +36,14 @@ public final class IntygTexts {
     private static final String DELIMITER = "\\.";
     private final String version;
     private final String intygsTyp;
-    private final String pdfPath;
+    private final Properties properties;
     private final LocalDate validFrom;
     private final LocalDate validTo;
     private final SortedMap<String, String> texter;
     private final List<Tillaggsfraga> tillaggsfragor;
 
     public IntygTexts(String version, String intygsTyp, LocalDate validFrom, LocalDate validTo, SortedMap<String, String> texts,
-            List<Tillaggsfraga> tillaggsfragor, String pdfPath) {
+            List<Tillaggsfraga> tillaggsfragor, Properties properties) {
 
         // Validate input
         validateVersion(version);
@@ -56,7 +57,24 @@ public final class IntygTexts {
         if (this.tillaggsfragor != null) {
             Collections.sort(this.tillaggsfragor);
         }
-        this.pdfPath = pdfPath;
+        this.properties = properties;
+    }
+
+    public static int compareVersions(IntygTexts candidate1, IntygTexts candidate2) {
+        String[] tokens1 = candidate1.getVersion().split(DELIMITER);
+        String[] tokens2 = candidate2.getVersion().split(DELIMITER);
+        int length = Math.max(tokens1.length, tokens2.length);
+        for (int i = 0; i < length; i++) {
+            int part1 = i < tokens1.length ? Integer.parseInt(tokens1[i]) : 0;
+            int part2 = i < tokens2.length ? Integer.parseInt(tokens2[i]) : 0;
+            if (part1 < part2) {
+                return -1;
+            }
+            if (part1 > part2) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     private void validateVersion(String version) {
@@ -87,23 +105,6 @@ public final class IntygTexts {
 
     public List<Tillaggsfraga> getTillaggsfragor() {
         return tillaggsfragor;
-    }
-
-    public static int compareVersions(IntygTexts candidate1, IntygTexts candidate2) {
-        String[] tokens1 = candidate1.getVersion().split(DELIMITER);
-        String[] tokens2 = candidate2.getVersion().split(DELIMITER);
-        int length = Math.max(tokens1.length, tokens2.length);
-        for (int i = 0; i < length; i++) {
-            int part1 = i < tokens1.length ? Integer.parseInt(tokens1[i]) : 0;
-            int part2 = i < tokens2.length ? Integer.parseInt(tokens2[i]) : 0;
-            if (part1 < part2) {
-                return -1;
-            }
-            if (part1 > part2) {
-                return 1;
-            }
-        }
-        return 0;
     }
 
     @Override
@@ -139,7 +140,7 @@ public final class IntygTexts {
         return compareVersions(this, other) == 0;
     }
 
-    public String getPdfPath() {
-        return pdfPath;
+    public Properties getProperties() {
+        return properties;
     }
 }

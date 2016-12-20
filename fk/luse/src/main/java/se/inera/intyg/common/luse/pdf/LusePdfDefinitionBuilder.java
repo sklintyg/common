@@ -25,17 +25,40 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.pdf.FkBasePdfDefinitionBuilder;
+import se.inera.intyg.common.fkparent.pdf.PdfConstants;
+import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkDynamicPageDecoratorEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkFormIdentityEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkFormPagePersonnummerEventHandlerImpl;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkLogoEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkOverflowPagePersonnummerEventHandlerImpl;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkPrintedByEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.PageNumberingEventHandler;
+import se.inera.intyg.common.fkparent.pdf.model.FkCheckbox;
+import se.inera.intyg.common.fkparent.pdf.model.FkDiagnosKodField;
+import se.inera.intyg.common.fkparent.pdf.model.FkFieldGroup;
+import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
+import se.inera.intyg.common.fkparent.pdf.model.FkOverflowPage;
+import se.inera.intyg.common.fkparent.pdf.model.FkOverflowableValueField;
+import se.inera.intyg.common.fkparent.pdf.model.FkPage;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.fkparent.pdf.model.FkTillaggsFraga;
+import se.inera.intyg.common.fkparent.pdf.model.FkValueField;
+import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
+import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.fkparent.model.internal.*;
-import se.inera.intyg.common.fkparent.pdf.*;
-import se.inera.intyg.common.fkparent.pdf.eventhandlers.*;
-import se.inera.intyg.common.fkparent.pdf.model.*;
-import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 
 /**
  * Contructs a object graph of PdfComponents that represents a LUSE intyg.
@@ -71,7 +94,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler());
-            def.addPageEvent(new FkFormIdentityEventHandler("FK 7800 (001 F 001) Fastställd av Försäkringskassan", "7800", "01"));
+            def.addPageEvent(new FkFormIdentityEventHandler(intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID), intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID), intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));

@@ -22,6 +22,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 public interface PdfGenerator<T extends Utlatande> {
+    String PDF_PATH_PROPERTY_KEY = "pdfPath";
 
     String generatePdfFilename(T utlatande);
 

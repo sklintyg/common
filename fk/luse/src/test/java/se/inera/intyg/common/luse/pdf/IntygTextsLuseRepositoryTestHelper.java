@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.luse.pdf;
 
+import com.google.common.collect.ImmutableMap;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -28,6 +29,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.SortedMap;
 
 /**
@@ -47,12 +49,15 @@ public class IntygTextsLuseRepositoryTestHelper extends IntygTextsRepositoryImpl
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();
-            String pdfPath = root.getAttribute("pdf");
             LocalDate giltigFrom = super.getDate(root, "giltigFrom");
             LocalDate giltigTo = super.getDate(root, "giltigTom");
             SortedMap texts = super.getTexter(root);
             List tillaggsFragor = this.getTillaggsfragor(e);
-            super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, pdfPath));
+
+            Properties prop = new Properties();
+            prop.putAll(ImmutableMap.of("formId", "FK 7800 (001 F 001) Fastställd av Försäkringskassan (TEST)", "blankettId", "7800", "blankettVersion", "01"));
+
+            super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {
             e1.printStackTrace();
             throw new RuntimeException(e1.getMessage());

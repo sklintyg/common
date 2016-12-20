@@ -33,13 +33,18 @@ import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.SitUtlatande;
 
 /**
- * Base class with common methods used by SIT type PDF definition construction.
+ * Base class with common methods used by SMI type PDF definition construction.
  *
  * Created by marced on 2016-10-25.
  */
 public class FkBasePdfDefinitionBuilder {
 
     protected static final String DATE_PATTERN = "yyyy-MM-dd";
+    protected static final String PROPERTY_KEY_FORMID = "formId";
+    protected static final String PROPERTY_KEY_BLANKETT_ID = "blankettId";
+    protected static final String PROPERTY_KEY_BLANKETT_VERSION = "blankettVersion";
+
+
     protected IntygTexts intygTexts;
 
     protected String getPrintedByText(ApplicationOrigin applicationOrigin) {

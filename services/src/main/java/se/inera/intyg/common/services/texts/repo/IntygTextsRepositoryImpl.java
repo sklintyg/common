@@ -21,11 +21,13 @@ package se.inera.intyg.common.services.texts.repo;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -36,6 +38,7 @@ import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +59,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     private static final Logger LOG = LoggerFactory.getLogger(IntygTextsRepository.class);
 
     private static final String TILLAGGSFRAGA_REGEX = "\\d{4}";
+    private static final String TEXTDATA_FILE_EXTENSION = ".xml";
 
     /**
      * The in-memory database of the texts available.
@@ -84,8 +88,9 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     @Scheduled(cron = "${texts.update.cron}")
     public void update() {
         try {
-            Files.walk(Paths.get(fileDirectory)).filter(file -> Files.isRegularFile(file)).forEach(file -> {
+            Files.walk(Paths.get(fileDirectory)).filter(IntygTextsRepositoryImpl::isIntygTextsFile).forEach((file) -> {
                 try {
+                    LOG.debug("Updating intygtexts versions for " + file.getFileName());
                     Document doc = DocumentBuilderFactory.newInstance()
                             .newDocumentBuilder()
                             .parse(Files.newInputStream(file));
@@ -93,13 +98,12 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
                     Element root = doc.getDocumentElement();
                     String version = root.getAttribute("version");
                     String intygsTyp = root.getAttribute("typ").toLowerCase();
-                    String pdfPath = root.getAttribute("pdf");
                     LocalDate giltigFrom = getDate(root, "giltigFrom");
                     LocalDate giltigTo = getDate(root, "giltigTom");
                     SortedMap<String, String> texts = getTexter(root);
                     List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor(doc);
 
-                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, pdfPath);
+                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, getTextVersionProperties(file));
                     if (!intygTexts.contains(newIntygTexts)) {
                         LOG.debug("Adding new version of {} with version name {}", intygsTyp, version);
                         intygTexts.add(newIntygTexts);
@@ -137,6 +141,37 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
             tillaggsFragor.add(getTillaggsFraga((Element) tillaggList.item(i)));
         }
         return tillaggsFragor;
+    }
+
+    /**
+     * Retrieve the corresponding property file for a intyg texts xml file.
+     *
+     * @param file
+     * @return
+     */
+    private Properties getTextVersionProperties(Path file) {
+
+        String baseName = FilenameUtils.getBaseName(file.getFileName().toString());
+        final Path propertiesFilePath = file.resolveSibling(baseName + ".properties");
+        Properties props = new Properties();
+        try {
+            props.load(Files.newInputStream(propertiesFilePath));
+            LOG.debug("Loaded " + props.stringPropertyNames().size() + " properties for " + propertiesFilePath);
+        } catch (IOException e) {
+            LOG.error("Failed to load properties for text file " + propertiesFilePath, e);
+        }
+
+        return props;
+    }
+
+    /**
+     * Determines if the given file is a intyg texts XML source file candidate.
+     *
+     * @param file
+     * @return
+     */
+    private static boolean isIntygTextsFile(Path file) {
+        return Files.isRegularFile(file) && file.getFileName().toString().toLowerCase().endsWith(TEXTDATA_FILE_EXTENSION);
     }
 
     private Tillaggsfraga getTillaggsFraga(Element element) {
