@@ -56,34 +56,37 @@ angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorS
                         return;
                     }
 
-                    function updateViewValue(value) {
-                        ngModel.$setViewValue(value);
-                        ngModel.$render();
-                    }
+                    function preventUnwantedCharacters(newValue, oldValue) {
 
-                    var lookingLikePnr = /^[0-9]*-?[0-9]*$/i;
+                        function updateViewValue(value) {
+                            ngModel.$setViewValue(value);
+                            ngModel.$render();
+                        }
 
-                    // if new value is longer than older we care, otherwise something that we already approved was removed
-                    if (!oldValue || (newValue.length > oldValue.length)) {
-                        if (!newValue.match(lookingLikePnr) ||
-                            (newValue.length !== 9 && newValue[newValue.length-1] === '-')) {
+                        var lookingLikePnr = /^[0-9]*-?[0-9]*$/i;
+
+                        // if new value is longer than older we care, otherwise something that we already approved was removed
+                        if (!oldValue || (newValue.length > oldValue.length)) {
+                            if (!newValue.match(lookingLikePnr) ||
+                                (newValue.length !== 9 && newValue[newValue.length - 1] === '-')) {
+                                // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
+                                newValue = oldValue;
+                                updateViewValue(newValue);
+                            } else if (newValue.length === 8 || newValue.length === 9) {
+                                // add dash if 8 chars were typed
+                                newValue = utils.insertAt(newValue, '-', 8);
+                                updateViewValue(newValue);
+                            }
+                        } else if ((!oldValue || (newValue.length <= oldValue.length)) &&
+                            !newValue.match(lookingLikePnr)) {
+
                             // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
                             newValue = oldValue;
                             updateViewValue(newValue);
-                        } else if (newValue.length === 8 || newValue.length === 9) {
-                            // add dash if 8 chars were typed
-                            newValue = utils.insertAt(newValue, '-', 8);
-                            updateViewValue(newValue);
                         }
-                    } else if (!oldValue || (newValue.length <= oldValue.length)) {
-
-                        if (!newValue.match(lookingLikePnr)) {
-                            // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
-                            newValue = oldValue;
-                            updateViewValue(newValue);
-                        }
-
                     }
+
+                    preventUnwantedCharacters(newValue, oldValue);
                 }
 
                 scope.$watch(function() {

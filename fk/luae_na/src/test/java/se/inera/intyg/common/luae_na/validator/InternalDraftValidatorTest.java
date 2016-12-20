@@ -146,7 +146,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("luae_na.validation.grund-for-mu.kannedom.after.undersokning", res.getValidationErrors().get(0).getMessage());
+        assertEquals("luae_na.validation.grund-for-mu.kannedom.after", res.getValidationErrors().get(0).getMessage());
         assertEquals("KV_FKMU_0001.UNDERSOKNING.RBK", res.getValidationErrors().get(0).getDynamicKey());
         assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
     }
@@ -161,7 +161,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("luae_na.validation.grund-for-mu.kannedom.after.anhorigsbeskrivning", res.getValidationErrors().get(0).getMessage());
+        assertEquals("luae_na.validation.grund-for-mu.kannedom.after", res.getValidationErrors().get(0).getMessage());
         assertEquals("KV_FKMU_0001.ANHORIG.RBK", res.getValidationErrors().get(0).getDynamicKey());
         assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
     }
