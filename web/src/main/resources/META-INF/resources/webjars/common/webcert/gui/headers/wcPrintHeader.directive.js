@@ -26,7 +26,7 @@ angular.module('common').directive('wcPrintHeader',
                 restrict: 'A',
                 replace: true,
                 scope: {
-                    titleId: '@',
+                    title: '@',
                     printMessageId: '@',
                     intygsId: '='
                 },
