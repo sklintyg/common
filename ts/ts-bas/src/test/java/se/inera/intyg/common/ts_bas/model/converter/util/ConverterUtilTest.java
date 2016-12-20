@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 
 public class ConverterUtilTest {
 
@@ -36,7 +36,7 @@ public class ConverterUtilTest {
 
     @Test
     public void testConvertFromUtlatande() throws Exception {
-        Utlatande utlatande = objectMapper.readValue(jsonString, Utlatande.class);
+        TsBasUtlatande utlatande = objectMapper.readValue(jsonString, TsBasUtlatande.class);
         CertificateHolder holder = ConverterUtil.toCertificateHolder(utlatande);
         Assert.assertEquals("7cc59f3e-ed60-4f79-8f3c-a863a8e43c50", holder.getId());
         Assert.assertEquals("IFV1239877878-1042", holder.getCareUnitId());

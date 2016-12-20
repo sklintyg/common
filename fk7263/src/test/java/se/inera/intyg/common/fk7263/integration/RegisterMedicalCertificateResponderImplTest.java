@@ -49,7 +49,7 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
 import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -66,7 +66,7 @@ public class RegisterMedicalCertificateResponderImplTest {
 
     private RegisterMedicalCertificateType request;
     private String xml;
-    private Utlatande utlatande;
+    private Fk7263Utlatande utlatande;
     private CertificateHolder certificateHolder;
 
     @InjectMocks

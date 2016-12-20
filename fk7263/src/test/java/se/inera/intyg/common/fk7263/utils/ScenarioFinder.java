@@ -19,7 +19,9 @@
 
 package se.inera.intyg.common.fk7263.utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 
@@ -172,10 +175,10 @@ public class ScenarioFinder {
          * {@inheritDoc}
          */
         @Override
-        public se.inera.intyg.common.fk7263.model.internal.Utlatande asInternalModel()
+        public Fk7263Utlatande asInternalModel()
                 throws ScenarioNotFoundException {
             try {
-                return new CustomObjectMapper().readValue(getInternalModelFor(scenarioFile), se.inera.intyg.common.fk7263.model.internal.Utlatande.class);
+                return new CustomObjectMapper().readValue(getInternalModelFor(scenarioFile), Fk7263Utlatande.class);
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(scenarioFile.getName(), "internal", e);
             }

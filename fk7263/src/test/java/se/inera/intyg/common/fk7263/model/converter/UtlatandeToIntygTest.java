@@ -40,7 +40,7 @@ import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
@@ -74,7 +74,7 @@ public class UtlatandeToIntygTest {
         final String patientPostnummer = "patientPostnummer";
         final String patientPostort = "patientPostort";
 
-        Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
+        Fk7263Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
                 skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
                 vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
                 null, null);
@@ -121,7 +121,7 @@ public class UtlatandeToIntygTest {
     public void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
-        Utlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
+        Fk7263Utlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertNotNull(intyg.getRelation());
@@ -135,7 +135,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testSvar() {
 
-        Utlatande utlatande = buildFullUtlatande();
+        Fk7263Utlatande utlatande = buildFullUtlatande();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -177,12 +177,12 @@ public class UtlatandeToIntygTest {
 
     }
 
-    private Utlatande buildFullUtlatande() {
+    private Fk7263Utlatande buildFullUtlatande() {
         InternalDate annanReferensDate = new InternalDate("2015-01-01");
         InternalDate from = new InternalDate("2015-01-01");
         InternalDate to = new InternalDate("2015-01-02");
         InternalDate journalDate = new InternalDate();
-        Utlatande utlatande = buildUtlatande();
+        Fk7263Utlatande utlatande = buildUtlatande();
         utlatande.setAktivitetsbegransning("aktivitetsbegransning");
         utlatande.setAnnanAtgard("annan atgard");
         utlatande.setAnnanReferens(annanReferensDate);
@@ -351,7 +351,7 @@ public class UtlatandeToIntygTest {
         InternalDate to75 = new InternalDate("2015-01-06");
         InternalDate from100 = new InternalDate("2015-01-07");
         InternalDate to100 = new InternalDate("2015-01-08");
-        Utlatande utlatande = buildUtlatande();
+        Fk7263Utlatande utlatande = buildUtlatande();
         utlatande.setNedsattMed25(new InternalLocalDateInterval(from25, to25));
         utlatande.setNedsattMed50(new InternalLocalDateInterval(from50, to50));
         utlatande.setNedsattMed75(new InternalLocalDateInterval(from75, to75));
@@ -402,23 +402,23 @@ public class UtlatandeToIntygTest {
         assertEquals(to25.asLocalDate(), dateperiod.getValue().getEnd());
     }
 
-    private Utlatande buildUtlatande() {
+    private Fk7263Utlatande buildUtlatande() {
         return buildUtlatande(null, null);
     }
 
-    private Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
+    private Fk7263Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", "patientPersonId",
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
                 "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
                 "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
-    private Utlatande buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
+    private Fk7263Utlatande buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
             String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
             String patientPostort, RelationKod relationKod, String relationIntygsId) {
-        Utlatande utlatande = new Utlatande();
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         utlatande.setId(intygsId);
         GrundData grundData = new GrundData();
         HoSPersonal skapadAv = new HoSPersonal();

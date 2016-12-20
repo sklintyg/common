@@ -20,12 +20,12 @@
 package se.inera.intyg.common.ts_bas.model.util;
 
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 
-public class TsBasModelCompareUtil implements ModelCompareUtil<Utlatande> {
+public class TsBasModelCompareUtil implements ModelCompareUtil<TsBasUtlatande> {
 
     @Override
-    public boolean isValidForNotification(Utlatande utlatande) {
+    public boolean isValidForNotification(TsBasUtlatande utlatande) {
         // Until someone actually specifies metrics for this, we assume TS-Bas is always valid for change notifications.
         return true;
     }

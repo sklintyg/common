@@ -19,21 +19,20 @@
 package se.inera.intyg.common.ts_bas.validator;
 
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.validator.internal.InternalValidatorInstance;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 
-public class TsBasValidator implements InternalDraftValidator<Utlatande> {
+public class TsBasValidator implements InternalDraftValidator<TsBasUtlatande> {
 
     /**
      * Validates an internal Utlatande.
      *
-     * @param utlatande
-     *            se.inera.intyg.common.ts_bas.model.internal.Utlatande
+     * @param utlatande TsBasUtlatande
      * @return List of validation errors, or an empty string if validated correctly.
      */
     @Override
-    public ValidateDraftResponse validateDraft(Utlatande utlatande) {
+    public ValidateDraftResponse validateDraft(TsBasUtlatande utlatande) {
         InternalValidatorInstance instance = new InternalValidatorInstance();
         return instance.validate(utlatande);
     }

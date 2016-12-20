@@ -50,7 +50,7 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.notification.*;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.CertificateStatusUpdateForCareType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.HandelsekodKodRestriktion;
 
@@ -284,7 +284,7 @@ public class Fk7263InternalToNotificationTest {
 
     @Test
     public void testPersonnummerRoot() throws Exception {
-        Utlatande utlatande = new Utlatande();
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         GrundData grundData = new GrundData();
         Patient patient = new Patient();
         final String pnr = "19121212-1212";
@@ -296,7 +296,7 @@ public class Fk7263InternalToNotificationTest {
         skapadAv.setVardenhet(vardenhet);
         grundData.setSkapadAv(skapadAv);
         utlatande.setGrundData(grundData);
-        doReturn(utlatande).when(objectMapper).readValue(anyString(), eq(Utlatande.class));
+        doReturn(utlatande).when(objectMapper).readValue(anyString(), eq(Fk7263Utlatande.class));
         NotificationMessage msg = new NotificationMessage("intyg-4", FK7263, LocalDateTime.now(), HandelsekodEnum.ANDRAT, LOGISK_ADRESS,
                 "", FragorOchSvar.getEmpty(), null, null, SchemaVersion.VERSION_1, null);
         CertificateStatusUpdateForCareType res = converter.createCertificateStatusUpdateForCareType(msg);
@@ -306,7 +306,7 @@ public class Fk7263InternalToNotificationTest {
 
     @Test
     public void testSamordningRoot() throws Exception {
-        Utlatande utlatande = new Utlatande();
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         GrundData grundData = new GrundData();
         Patient patient = new Patient();
         final String pnr = "19800191-0002";
@@ -318,7 +318,7 @@ public class Fk7263InternalToNotificationTest {
         skapadAv.setVardenhet(vardenhet);
         grundData.setSkapadAv(skapadAv);
         utlatande.setGrundData(grundData);
-        doReturn(utlatande).when(objectMapper).readValue(anyString(), eq(Utlatande.class));
+        doReturn(utlatande).when(objectMapper).readValue(anyString(), eq(Fk7263Utlatande.class));
         NotificationMessage msg = new NotificationMessage("intyg-4", FK7263, LocalDateTime.now(), HandelsekodEnum.ANDRAT, LOGISK_ADRESS,
                 "", FragorOchSvar.getEmpty(), null, null, SchemaVersion.VERSION_1, null);
         CertificateStatusUpdateForCareType res = converter.createCertificateStatusUpdateForCareType(msg);

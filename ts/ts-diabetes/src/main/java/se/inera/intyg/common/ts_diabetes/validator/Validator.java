@@ -19,11 +19,11 @@
 package se.inera.intyg.common.ts_diabetes.validator;
 
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.validator.internal.InternalValidatorInstance;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 
-public class Validator implements InternalDraftValidator<Utlatande> {
+public class Validator implements InternalDraftValidator<TsDiabetesUtlatande> {
 
     /**
      * Validates an external Utlatande.
@@ -33,7 +33,7 @@ public class Validator implements InternalDraftValidator<Utlatande> {
      * @return List of validation errors, or an empty string if validated correctly
      */
     @Override
-    public ValidateDraftResponse validateDraft(Utlatande utlatande) {
+    public ValidateDraftResponse validateDraft(TsDiabetesUtlatande utlatande) {
         InternalValidatorInstance instance = new InternalValidatorInstance();
         return instance.validate(utlatande);
     }

@@ -30,8 +30,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 
@@ -198,10 +198,10 @@ public class ScenarioFinder {
          * {@inheritDoc}
          */
         @Override
-        public se.inera.intyg.common.ts_diabetes.model.internal.Utlatande asInternalModel()
+        public TsDiabetesUtlatande asInternalModel()
                 throws ScenarioNotFoundException {
             try {
-                return new CustomObjectMapper().readValue(getInternalModelFor(scenarioFile), Utlatande.class);
+                return new CustomObjectMapper().readValue(getInternalModelFor(scenarioFile), TsDiabetesUtlatande.class);
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(scenarioFile.getName(), "internal MI", e);
             }

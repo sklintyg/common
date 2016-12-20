@@ -26,7 +26,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Created by marced on 18/08/16.
@@ -43,12 +43,12 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private static final String WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY = "Detta är en utskrift av ett elektroniskt intyg med minimalt innehåll. Det uppfyller sjuklönelagens krav, om inget annat regleras i kollektivavtal. Det minimala intyget kan ge arbetsgivaren sämre möjligheter att bedöma behovet av rehabilitering än ett fullständigt intyg";
     private static final String WATERMARK_TEXT_CONTENT_IS_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort";
 
-    public PdfEmployeeGenerator(Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields)
+    public PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields)
             throws PdfGeneratorException {
         this(intyg, statuses, applicationOrigin, optionalFields, true);
     }
 
-    protected PdfEmployeeGenerator(Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> selectedOptionalFields,
+    protected PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> selectedOptionalFields,
             boolean flatten)
             throws PdfGeneratorException {
         try {

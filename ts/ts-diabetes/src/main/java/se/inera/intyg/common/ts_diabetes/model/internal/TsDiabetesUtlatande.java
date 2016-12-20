@@ -19,9 +19,10 @@
 package se.inera.intyg.common.ts_diabetes.model.internal;
 
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 
-public class Utlatande implements se.inera.intyg.common.support.model.common.internal.Utlatande {
+public class TsDiabetesUtlatande implements Utlatande {
 
     private String id;
 

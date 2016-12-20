@@ -57,7 +57,7 @@ import se.inera.intyg.common.ts_diabetes.integration.RegisterTSDiabetesResponder
 import se.inera.intyg.common.ts_diabetes.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.pdf.PdfGeneratorImpl;
 import se.inera.intyg.common.ts_diabetes.utils.*;
 import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
@@ -124,8 +124,8 @@ public class TsDiabetesModuleApiTest {
 
     @Test
     public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(ApplicationOrigin.class))).thenReturn(new byte[] {});
-        when(pdfGenerator.generatePdfFilename(any(Utlatande.class))).thenReturn("filename");
+        when(pdfGenerator.generatePDF(any(TsDiabetesUtlatande.class), any(ApplicationOrigin.class))).thenReturn(new byte[] {});
+        when(pdfGenerator.generatePdfFilename(any(TsDiabetesUtlatande.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
             moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG);
         }
@@ -139,13 +139,13 @@ public class TsDiabetesModuleApiTest {
         String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), internalHolder);
 
         assertNotNull(holder);
-        Utlatande utlatande = objectMapper.readValue(holder, Utlatande.class);
+        TsDiabetesUtlatande utlatande = objectMapper.readValue(holder, TsDiabetesUtlatande.class);
         assertEquals(true, utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.A1));
     }
 
     @Test
     public void getAdditionalInfoFromUtlatandeTest() throws Exception {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
         String result = moduleApi.getAdditionalInfo(intyg);
@@ -374,7 +374,7 @@ public class TsDiabetesModuleApiTest {
     @Test
     public void testGetUtlatandeFromXml() throws Exception {
         String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
-        Utlatande res = moduleApi.getUtlatandeFromXml(xml);
+        TsDiabetesUtlatande res = moduleApi.getUtlatandeFromXml(xml);
 
         assertNotNull(res);
     }

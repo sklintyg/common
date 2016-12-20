@@ -26,16 +26,17 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 /**
  * @author andreaskaltenbach
  */
-public class Utlatande implements se.inera.intyg.common.support.model.common.internal.Utlatande {
+public class Fk7263Utlatande implements Utlatande {
 
     private String typ = Fk7263EntryPoint.MODULE_ID;
 

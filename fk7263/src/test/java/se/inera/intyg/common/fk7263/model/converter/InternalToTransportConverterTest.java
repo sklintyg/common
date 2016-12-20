@@ -44,7 +44,7 @@ import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.utils.*;
 
 /**
@@ -55,7 +55,7 @@ public class InternalToTransportConverterTest {
     @Test
     public void testConvertUtlatande() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            Utlatande intUtlatande = scenario.asInternalModel();
+            Fk7263Utlatande intUtlatande = scenario.asInternalModel();
 
             RegisterMedicalCertificateType actual = InternalToTransport.getJaxbObject(intUtlatande);
 
@@ -69,8 +69,8 @@ public class InternalToTransportConverterTest {
     public void testConversionUtanFalt5() throws JAXBException, IOException, SAXException, ConverterException {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
-        Utlatande internalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.json").getInputStream(), Utlatande.class);
+        Fk7263Utlatande internalFormat = objectMapper.readValue(
+                new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.json").getInputStream(), Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
 
@@ -95,8 +95,8 @@ public class InternalToTransportConverterTest {
     public void testConversionMaximal() throws JAXBException, IOException, SAXException, ConverterException {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
-        Utlatande internalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-internal.json").getInputStream(), Utlatande.class);
+        Fk7263Utlatande internalFormat = objectMapper.readValue(
+                new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-internal.json").getInputStream(), Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
 
@@ -121,8 +121,8 @@ public class InternalToTransportConverterTest {
     public void testConversionWithDiagnosisAsKSH97() throws JAXBException, IOException, SAXException, ConverterException {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
-        Utlatande internalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.json").getInputStream(), Utlatande.class);
+        Fk7263Utlatande internalFormat = objectMapper.readValue(
+                new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.json").getInputStream(), Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
 
@@ -147,8 +147,8 @@ public class InternalToTransportConverterTest {
     public void testConversionMinimal() throws JAXBException, IOException, SAXException, ConverterException {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
-        Utlatande externalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal.json").getInputStream(), Utlatande.class);
+        Fk7263Utlatande externalFormat = objectMapper.readValue(
+                new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal.json").getInputStream(), Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
 
@@ -171,8 +171,8 @@ public class InternalToTransportConverterTest {
     public void testConversionKommentar() throws JAXBException, IOException, SAXException, ConverterException {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
-        Utlatande externalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/friviligttext-fk7263-internal.json").getInputStream(), Utlatande.class);
+        Fk7263Utlatande externalFormat = objectMapper.readValue(
+                new ClassPathResource("InternalToTransportConverterTest/friviligttext-fk7263-internal.json").getInputStream(), Fk7263Utlatande.class);
         RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
         String expected = "8b: " + "nedsattMed25Beskrivning. " + "nedsattMed50Beskrivning. " + "nedsattMed75Beskrivning. kommentar";
         String result = registerMedicalCertificateType.getLakarutlatande().getKommentar();
@@ -184,8 +184,8 @@ public class InternalToTransportConverterTest {
 
 
         ObjectMapper objectMapper = new CustomObjectMapper();
-        Utlatande externalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal-orimligt-datum.json").getInputStream(), Utlatande.class);
+        Fk7263Utlatande externalFormat = objectMapper.readValue(
+                new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal-orimligt-datum.json").getInputStream(), Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
 
@@ -208,8 +208,8 @@ public class InternalToTransportConverterTest {
     public void testConversionMinimalSmiL() throws JAXBException, IOException, SAXException, ConverterException {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
-        Utlatande externalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-internal.json").getInputStream(), Utlatande.class);
+        Fk7263Utlatande externalFormat = objectMapper.readValue(
+                new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-internal.json").getInputStream(), Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
 
@@ -231,7 +231,7 @@ public class InternalToTransportConverterTest {
     @Test
     public void testPersonnummerRoot() throws Exception {
         final String personnummer = "19121212-1212";
-        Utlatande utlatande = new Utlatande();
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         GrundData grundData = new GrundData();
         Patient patient = new Patient();
         patient.setPersonId(new Personnummer(personnummer));
@@ -250,7 +250,7 @@ public class InternalToTransportConverterTest {
     @Test
     public void testSamordningRoot() throws Exception {
         final String personnummer = "19800191-0002";
-        Utlatande utlatande = new Utlatande();
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         GrundData grundData = new GrundData();
         Patient patient = new Patient();
         patient.setPersonId(new Personnummer(personnummer));

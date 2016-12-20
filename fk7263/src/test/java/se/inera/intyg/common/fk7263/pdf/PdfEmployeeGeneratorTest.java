@@ -42,7 +42,7 @@ import se.inera.intyg.common.support.model.*;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 
@@ -70,7 +70,7 @@ public class PdfEmployeeGeneratorTest {
 
     @Test
     public void testPdfFileName() throws Exception {
-        final Utlatande intyg = objectMapper.readValue(fk7263Json, Utlatande.class);
+        final Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         se.inera.intyg.common.support.model.common.internal.Patient patient = new se.inera.intyg.common.support.model.common.internal.Patient();
         patient.setPersonId(new Personnummer("19121212-1212"));
@@ -113,7 +113,7 @@ public class PdfEmployeeGeneratorTest {
         @SuppressWarnings("unchecked")
         Map<String, String> pdfContent = objectMapper.readValue(expectedPdfContentEmployerWC, Map.class);
 
-        Utlatande intyg = objectMapper.readValue(fk7263Json, Utlatande.class);
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         // generate PDF
         byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, false).getBytes();
@@ -132,7 +132,7 @@ public class PdfEmployeeGeneratorTest {
 
     @Test
     public void testWCWriteEmployerCopy() throws Exception {
-        Utlatande intyg = objectMapper.readValue(fk7263Json, Utlatande.class);
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
         // generate PDF
         byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-normal");
@@ -146,7 +146,7 @@ public class PdfEmployeeGeneratorTest {
     @Test
     public void testWCIntygIsSignedButNotSentToFK() throws Exception {
         // Given
-        Utlatande intyg = objectMapper.readValue(fk7263Json, Utlatande.class);
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         List<Status> statuses = new ArrayList<>();
         statuses.add(new Status(CertificateState.RECEIVED, null, LocalDateTime.now()));
@@ -166,7 +166,7 @@ public class PdfEmployeeGeneratorTest {
     @Test
     public void testWCIntygIsSignedAndSentToFKThenGeneratePDF() throws Exception {
         // Given
-        Utlatande intyg = objectMapper.readValue(fk7263Json, Utlatande.class);
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         List<Status> statuses = new ArrayList<>();
         statuses.add(new Status(CertificateState.SENT, "FK", LocalDateTime.now()));
@@ -181,7 +181,7 @@ public class PdfEmployeeGeneratorTest {
         @SuppressWarnings("unchecked")
         Map<String, String> pdfContent = objectMapper.readValue(expectedPdfContentEmployerMIMinimal, Map.class);
 
-        Utlatande intyg = objectMapper.readValue(fk7263Json, Utlatande.class);
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         List<String> optionalFields = new ArrayList<>();
 
@@ -207,7 +207,7 @@ public class PdfEmployeeGeneratorTest {
         @SuppressWarnings("unchecked")
         Map<String, String> pdfContent = objectMapper.readValue(expectedPdfContentEmployerMIFull, Map.class);
 
-        Utlatande intyg = objectMapper.readValue(fk7263Json, Utlatande.class);
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         // generate PDF
         List<String> allFields = Stream.of(EmployeeOptionalFields.values()).map(EmployeeOptionalFields::value).collect(Collectors.toList());

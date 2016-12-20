@@ -28,7 +28,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 
 public class ConverterUtilTest {
@@ -39,7 +39,7 @@ public class ConverterUtilTest {
 
     @Test
     public void testConvertFromUtlatande() throws Exception {
-        Utlatande utlatande = objectMapper.readValue(json, Utlatande.class);
+        Fk7263Utlatande utlatande = objectMapper.readValue(json, Fk7263Utlatande.class);
         CertificateHolder holder = ConverterUtil.toCertificateHolder(utlatande);
         Assert.assertEquals("id", holder.getId());
         Assert.assertEquals("Enhetsid", holder.getCareUnitId());

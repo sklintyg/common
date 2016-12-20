@@ -20,14 +20,14 @@
 package se.inera.intyg.common.ts_bas.validator.internal;
 
 import se.inera.intyg.common.ts_bas.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 
 public class ValidationContext {
 
-    private final Utlatande utlatande;
+    private final TsBasUtlatande utlatande;
 
-    public ValidationContext(Utlatande utlatande) {
+    public ValidationContext(TsBasUtlatande utlatande) {
         this.utlatande = utlatande;
     }
 

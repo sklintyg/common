@@ -30,7 +30,7 @@ import com.google.common.base.Joiner;
 
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.Scenario;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
@@ -48,7 +48,7 @@ public class InternalValidatorTest {
     @Test
     public void testValidate() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            Utlatande utlatande = scenario.asInternalModel();
+            TsBasUtlatande utlatande = scenario.asInternalModel();
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
             assertEquals(
@@ -68,7 +68,7 @@ public class InternalValidatorTest {
     public void testValidateWithErrors() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
 
-            Utlatande utlatande = scenario.asInternalModel();
+            TsBasUtlatande utlatande = scenario.asInternalModel();
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
             assertEquals(ValidationStatus.INVALID, validationResponse.getStatus());
@@ -77,7 +77,7 @@ public class InternalValidatorTest {
 
     @Test
     public void testInvalidDiabetesTyp2MissingBehandling() throws Exception {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-typ2-missing-behandling")
+        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-typ2-missing-behandling")
                 .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
@@ -86,7 +86,7 @@ public class InternalValidatorTest {
 
     @Test
     public void testInvalidSynskarpa() throws Exception {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("invalid-korrigerad-synskarpa").asInternalModel();
+        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("invalid-korrigerad-synskarpa").asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
         assertEquals("syn.vansterOga.utanKorrektion", getSingleElement(validationResponse.getValidationErrors()).getField());
@@ -94,7 +94,7 @@ public class InternalValidatorTest {
 
     @Test
     public void testFunktionshinderBeskrivningMissing() throws Exception {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("invalid-funktionshinder-beskrivning-missing")
+        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("invalid-funktionshinder-beskrivning-missing")
                 .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
@@ -104,7 +104,7 @@ public class InternalValidatorTest {
 
     @Test
     public void testIdentitetMissing() throws Exception {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("invalid-missing-identitet")
+        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("invalid-missing-identitet")
                 .asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
@@ -114,7 +114,7 @@ public class InternalValidatorTest {
 
     @Test
     public void testSjukhusvardValidationOrder() throws ScenarioNotFoundException {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-sjukhusvard").asInternalModel();
+        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-sjukhusvard").asInternalModel();
         utlatande.getSjukhusvard().setAnledning(null);
         utlatande.getSjukhusvard().setVardinrattning(null);
         utlatande.getSjukhusvard().setTidpunkt(null);

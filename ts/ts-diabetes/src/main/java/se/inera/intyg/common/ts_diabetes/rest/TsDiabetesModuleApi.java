@@ -39,7 +39,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.ts_diabetes.integration.RegisterTSDiabetesResponderImpl;
 import se.inera.intyg.common.ts_diabetes.model.converter.*;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.util.TSDiabetesCertificateMetaTypeConverter;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -53,7 +53,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
  *
  * @author Gustav Norbäcker, R2M
  */
-public class TsDiabetesModuleApi extends TsParentModuleApi<Utlatande> {
+public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApi.class);
 
@@ -74,7 +74,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<Utlatande> {
     private XslTransformer xslTransformer;
 
     public TsDiabetesModuleApi() {
-        super(Utlatande.class);
+        super(TsDiabetesUtlatande.class);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<Utlatande> {
     }
 
     @Override
-    public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
+    public TsDiabetesUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
         RegisterTSDiabetesType jaxbObject = JAXB.unmarshal(new StringReader(xml),
                 RegisterTSDiabetesType.class);
         try {
@@ -150,7 +150,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<Utlatande> {
 
     private CertificateResponse convert(GetTSDiabetesResponseType diabetesResponseType, boolean revoked) throws ModuleException {
         try {
-            Utlatande utlatande = TransportToInternalConverter.convert(diabetesResponseType.getIntyg());
+            TsDiabetesUtlatande utlatande = TransportToInternalConverter.convert(diabetesResponseType.getIntyg());
             String internalModel = toInternalModelResponse(utlatande);
             CertificateMetaData metaData = TSDiabetesCertificateMetaTypeConverter.toCertificateMetaData(diabetesResponseType.getMeta(),
                     diabetesResponseType.getIntyg());
@@ -161,7 +161,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<Utlatande> {
     }
 
     @Override
-    protected Intyg utlatandeToIntyg(Utlatande utlatande) throws ConverterException {
+    protected Intyg utlatandeToIntyg(TsDiabetesUtlatande utlatande) throws ConverterException {
         return UtlatandeToIntyg.convert(utlatande);
     }
 }

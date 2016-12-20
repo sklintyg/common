@@ -44,7 +44,7 @@ import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,7 +60,7 @@ public class WebcertModelFactoryTest {
     public void testCreateEditableModel() throws JsonParseException, JsonMappingException, IOException, ConverterException {
         when(intygTexts.getLatestVersion(eq(TsDiabetesEntryPoint.MODULE_ID))).thenReturn("version");
 
-        Utlatande utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
+        TsDiabetesUtlatande utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
         assertNotNull(utlatande);
         assertEquals(TsDiabetesEntryPoint.MODULE_ID, utlatande.getTyp());
@@ -85,7 +85,7 @@ public class WebcertModelFactoryTest {
         final List<String> specialiseringar = Arrays.asList("specialitet1", "specialitet2");
         final LocalDateTime signingDate = LocalDateTime.now();
 
-        Utlatande utlatande = new Utlatande();
+        TsDiabetesUtlatande utlatande = new TsDiabetesUtlatande();
         utlatande.getGrundData().setSkapadAv(new se.inera.intyg.common.support.model.common.internal.HoSPersonal());
         HoSPersonal hosPerson = createHosPersonal();
         WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
@@ -106,13 +106,13 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV2Format() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
-        Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
+        TsDiabetesUtlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
         assertTrue(CollectionUtils.isEmpty(UtlatandeToIntyg.convert(draft).getSvar()));
     }
 
     @Test(expected = ConverterException.class)
     public void testCreateCopyCertificateIdMissing() throws Exception {
-        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), new Utlatande());
+        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), new TsDiabetesUtlatande());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {

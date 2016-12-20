@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.*;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.ObjectFactory;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
@@ -104,7 +104,7 @@ public class RoundTripTest {
 
     @Test
     public void testConvertToRivtav2() throws Exception {
-        Utlatande internal = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
+        TsDiabetesUtlatande internal = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
         RegisterCertificateType actual = new RegisterCertificateType();
         actual.setIntyg(UtlatandeToIntyg.convert(internal));
 

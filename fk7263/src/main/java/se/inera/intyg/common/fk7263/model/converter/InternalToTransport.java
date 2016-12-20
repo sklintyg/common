@@ -54,7 +54,7 @@ import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
@@ -71,7 +71,7 @@ public final class InternalToTransport {
     private InternalToTransport() {
     }
 
-    public static RegisterMedicalCertificateType getJaxbObject(Utlatande source) throws ConverterException {
+    public static RegisterMedicalCertificateType getJaxbObject(Fk7263Utlatande source) throws ConverterException {
         RegisterMedicalCertificateType register = new RegisterMedicalCertificateType();
         register.setLakarutlatande(new LakarutlatandeType());
         if (source.getId() != null) {
@@ -115,7 +115,7 @@ public final class InternalToTransport {
         return register;
     }
 
-    private static void buildMedicinsktTillstandBeskrivning(MedicinsktTillstandType tillstand, Utlatande source) {
+    private static void buildMedicinsktTillstandBeskrivning(MedicinsktTillstandType tillstand, Fk7263Utlatande source) {
         List<String> parts = new ArrayList<>();
         // Beskrivning huvuddiagnos
         if (!isEmpty(source.getDiagnosBeskrivning1())) {
@@ -140,7 +140,7 @@ public final class InternalToTransport {
         }
     }
 
-    private static String buildDiagnoser(Utlatande source) {
+    private static String buildDiagnoser(Fk7263Utlatande source) {
         String diagnos1 = "";
         String diagnos2 = "";
 
@@ -154,7 +154,7 @@ public final class InternalToTransport {
         return Joiner.on(". ").skipNulls().join(Stream.of(diagnos1, diagnos2).map(StringUtils::trimToNull).toArray());
     }
 
-    private static String buildKommentar(Utlatande source) {
+    private static String buildKommentar(Fk7263Utlatande source) {
         String annanRef = null;
         String prognosBedomning = null;
         String ovrigKommentar = null;
@@ -180,7 +180,7 @@ public final class InternalToTransport {
         return !isEmpty(ret) ? ret : null;
     }
 
-    private static String buildArbetstidsforlaggning(Utlatande source) {
+    private static String buildArbetstidsforlaggning(Fk7263Utlatande source) {
         List<String> parts = new ArrayList<>();
         if (!isEmpty(source.getNedsattMed25Beskrivning())) {
             parts.add(source.getNedsattMed25Beskrivning());
@@ -201,7 +201,7 @@ public final class InternalToTransport {
         return funktionstillstandType;
     }
 
-    private static ArbetsformagaType toArbetsformaga(Utlatande source) throws ConverterException {
+    private static ArbetsformagaType toArbetsformaga(Fk7263Utlatande source) throws ConverterException {
 
         ArbetsformagaType arbetsformagaType = new ArbetsformagaType();
 
@@ -268,7 +268,7 @@ public final class InternalToTransport {
         return arbetsformagaType;
     }
 
-    private static List<SysselsattningType> convertSysselsattnings(Utlatande source) {
+    private static List<SysselsattningType> convertSysselsattnings(Fk7263Utlatande source) {
         List<SysselsattningType> sysselsattningTypes = new ArrayList<>();
 
         if (source.isNuvarandeArbete()) {
@@ -291,7 +291,7 @@ public final class InternalToTransport {
         return sysselsattningTypes;
     }
 
-    private static void convertVardkontakter(RegisterMedicalCertificateType register, Utlatande source) {
+    private static void convertVardkontakter(RegisterMedicalCertificateType register, Fk7263Utlatande source) {
         if (source == null) {
             return;
         }
@@ -315,7 +315,7 @@ public final class InternalToTransport {
         }
     }
 
-    private static void convertReferenser(RegisterMedicalCertificateType register, Utlatande source) {
+    private static void convertReferenser(RegisterMedicalCertificateType register, Fk7263Utlatande source) {
         if (source == null) {
             return;
         }
@@ -346,7 +346,7 @@ public final class InternalToTransport {
      *            Utlatande
      * @return List of AktivitetType
      */
-    private static void convertAktiviteter(RegisterMedicalCertificateType register, Utlatande source) {
+    private static void convertAktiviteter(RegisterMedicalCertificateType register, Fk7263Utlatande source) {
         if (source == null) {
             return;
         }

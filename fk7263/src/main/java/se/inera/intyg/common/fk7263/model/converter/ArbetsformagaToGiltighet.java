@@ -27,7 +27,7 @@ import java.time.LocalDate;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Created by erik on 15-04-08.
@@ -50,7 +50,7 @@ public final class ArbetsformagaToGiltighet {
      *      Aa LocalDateInterval with the earliest fromDate to the
      *      latest toDate. Null if there are invalid/unparsable dates.
      */
-    public static LocalDateInterval getGiltighetFromUtlatande(Utlatande utlatande) {
+    public static LocalDateInterval getGiltighetFromUtlatande(Fk7263Utlatande utlatande) {
         try {
             return new LocalDateInterval(getValidFromDate(utlatande), getValidToDate(utlatande));
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public final class ArbetsformagaToGiltighet {
         }
     }
 
-    private static LocalDate getValidToDate(Utlatande utlatande) {
+    private static LocalDate getValidToDate(Fk7263Utlatande utlatande) {
         LocalDate toDate = null;
         List<InternalDate> toDates = new ArrayList<>();
         addTomDate(utlatande.getNedsattMed100(), toDates);
@@ -74,7 +74,7 @@ public final class ArbetsformagaToGiltighet {
         return toDate;
     }
 
-    private static LocalDate getValidFromDate(Utlatande utlatande) {
+    private static LocalDate getValidFromDate(Fk7263Utlatande utlatande) {
         LocalDate fromDate = null;
 
         List<InternalDate> fromDates = new ArrayList<>();

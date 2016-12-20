@@ -19,9 +19,10 @@
 package se.inera.intyg.common.ts_bas.model.internal;
 
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
-public class Utlatande implements se.inera.intyg.common.support.model.common.internal.Utlatande {
+public class TsBasUtlatande implements Utlatande {
 
     private String id;
 

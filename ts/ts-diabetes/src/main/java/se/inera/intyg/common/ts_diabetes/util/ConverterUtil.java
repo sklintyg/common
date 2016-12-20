@@ -23,7 +23,7 @@ import com.google.common.base.Joiner;
 
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 
 public final class ConverterUtil {
@@ -31,7 +31,7 @@ public final class ConverterUtil {
     private ConverterUtil() {
     }
 
-    public static CertificateHolder toCertificateHolder(Utlatande utlatande) throws ModuleException {
+    public static CertificateHolder toCertificateHolder(TsDiabetesUtlatande utlatande) throws ModuleException {
         CertificateHolder certificateHolder = new CertificateHolder();
         certificateHolder.setId(utlatande.getId());
         certificateHolder.setCareUnitId(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());

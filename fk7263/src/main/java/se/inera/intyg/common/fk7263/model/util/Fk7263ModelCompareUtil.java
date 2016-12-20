@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Util for checking a models consistency in different states.
@@ -44,19 +44,19 @@ public class Fk7263ModelCompareUtil {
      * Check if two models differ.
      * @return true if they do, false otherwise
      */
-    public boolean modelDiffers(Utlatande oldUtlatande, Utlatande newUtlatande) {
+    public boolean modelDiffers(Fk7263Utlatande oldUtlatande, Fk7263Utlatande newUtlatande) {
         return diagnoseDiffers(oldUtlatande, newUtlatande)
                 || sjukskrivningsperiodDiffers(oldUtlatande, newUtlatande)
                 || sjukskrivningsgradDiffers(oldUtlatande, newUtlatande);
     }
 
-    private boolean sjukskrivningsgradDiffers(Utlatande oldUtlatande, Utlatande newUtlatande) {
+    private boolean sjukskrivningsgradDiffers(Fk7263Utlatande oldUtlatande, Fk7263Utlatande newUtlatande) {
         int[] oldSjukskrivningsgrad = makeIntMatrix(oldUtlatande);
         int[] newSjukskrivningsgrad = makeIntMatrix(newUtlatande);
         return !Arrays.equals(oldSjukskrivningsgrad, newSjukskrivningsgrad);
     }
 
-    private int[] makeIntMatrix(Utlatande source) {
+    private int[] makeIntMatrix(Fk7263Utlatande source) {
         final int totalNumberOfNedsattMedValues = 4;
         final int indexNedsattMed100 = 0;
         final int indexNedsattMed75 = 1;
@@ -71,7 +71,7 @@ public class Fk7263ModelCompareUtil {
         return matrix;
     }
 
-    private boolean sjukskrivningsperiodDiffers(Utlatande oldUtlatande, Utlatande newUtlatande) {
+    private boolean sjukskrivningsperiodDiffers(Fk7263Utlatande oldUtlatande, Fk7263Utlatande newUtlatande) {
         return checkPerioderDiffers(oldUtlatande.getNedsattMed100(), newUtlatande.getNedsattMed100())
                 || checkPerioderDiffers(oldUtlatande.getNedsattMed75(), newUtlatande.getNedsattMed75())
                 || checkPerioderDiffers(oldUtlatande.getNedsattMed50(), newUtlatande.getNedsattMed50())
@@ -91,7 +91,7 @@ public class Fk7263ModelCompareUtil {
         return period != null && period.isValid();
     }
 
-    private boolean diagnoseDiffers(Utlatande oldUtlatande, Utlatande newUtlatande) {
+    private boolean diagnoseDiffers(Fk7263Utlatande oldUtlatande, Fk7263Utlatande newUtlatande) {
         DiagnosKod diagnoskodOld = new DiagnosKod(oldUtlatande.getDiagnosKod(), oldUtlatande.getDiagnosKodsystem1());
         DiagnosKod diagnoskodNew = new DiagnosKod(newUtlatande.getDiagnosKod(), newUtlatande.getDiagnosKodsystem1());
 

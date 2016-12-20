@@ -137,7 +137,7 @@ import se.inera.intyg.common.ts_bas.model.internal.Medvetandestorning;
 import se.inera.intyg.common.ts_bas.model.internal.NarkotikaLakemedel;
 import se.inera.intyg.common.ts_bas.model.internal.Sjukhusvard;
 import se.inera.intyg.common.ts_bas.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
@@ -154,7 +154,7 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(Utlatande source) {
+    public static Intyg convert(TsBasUtlatande source) {
         Intyg intyg = InternalConverterUtil.getIntyg(source);
         complementArbetsplatskodIfMissing(intyg);
         intyg.setTyp(getTypAvIntyg());
@@ -177,7 +177,7 @@ public final class UtlatandeToIntyg {
         }
     }
 
-    private static List<Svar> getSvar(Utlatande source) {
+    private static List<Svar> getSvar(TsBasUtlatande source) {
         List<Svar> svars = new ArrayList<>();
 
         if (source.getIntygAvser() != null) {

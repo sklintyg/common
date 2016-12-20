@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.ts_bas.utils;
 
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 
@@ -76,5 +77,5 @@ public interface Scenario {
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */
-    se.inera.intyg.common.ts_bas.model.internal.Utlatande asInternalModel() throws ScenarioNotFoundException;
+    TsBasUtlatande asInternalModel() throws ScenarioNotFoundException;
 }

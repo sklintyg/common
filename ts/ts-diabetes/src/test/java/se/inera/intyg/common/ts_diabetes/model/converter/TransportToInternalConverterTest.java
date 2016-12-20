@@ -32,7 +32,7 @@ import org.junit.Test;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioNotFoundException;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
@@ -62,7 +62,7 @@ public class TransportToInternalConverterTest {
     public void testConvert() throws Exception {
         RegisterTSDiabetesType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().setSkapadAv(buildSkapadAv(SPECIALIST_KOMPETENS));
-        Utlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
+        TsDiabetesUtlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
         assertEquals(LocalDateTime.of(2013, 8, 12, 15, 57, 0), res.getGrundData().getSigneringsdatum());
         HoSPersonal hosPersonal = res.getGrundData().getSkapadAv();
         assertEquals(ENHETSNAMN, hosPersonal.getVardenhet().getEnhetsnamn());
@@ -82,7 +82,7 @@ public class TransportToInternalConverterTest {
     public void testConvertNullSpecialistkompetens() throws Exception {
         RegisterTSDiabetesType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().setSkapadAv(buildSkapadAv(null));
-        Utlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
+        TsDiabetesUtlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
         HoSPersonal hosPersonal = res.getGrundData().getSkapadAv();
         assertTrue(hosPersonal.getSpecialiteter().isEmpty());
     }
@@ -93,7 +93,7 @@ public class TransportToInternalConverterTest {
         RegisterTSDiabetesType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().getSkapadAv().getSpecialiteter().clear();
         transportModel.getIntyg().getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens);
-        Utlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
+        TsDiabetesUtlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getSpecialiteter().size());
         assertEquals(specialistkompetens, skapadAv.getSpecialiteter().get(0));
@@ -106,7 +106,7 @@ public class TransportToInternalConverterTest {
         RegisterTSDiabetesType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().getSkapadAv().getBefattningar().clear();
         transportModel.getIntyg().getGrundData().getSkapadAv().getBefattningar().add(befattning);
-        Utlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
+        TsDiabetesUtlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getBefattningar().size());
         assertEquals(code, skapadAv.getBefattningar().get(0));
@@ -118,7 +118,7 @@ public class TransportToInternalConverterTest {
         RegisterTSDiabetesType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().getSkapadAv().getBefattningar().clear();
         transportModel.getIntyg().getGrundData().getSkapadAv().getBefattningar().add(befattningskod);
-        Utlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
+        TsDiabetesUtlatande res = TransportToInternalConverter.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getBefattningar().size());
         assertEquals(befattningskod, skapadAv.getBefattningar().get(0));

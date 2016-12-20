@@ -32,7 +32,7 @@ import org.junit.Test;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioNotFoundException;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
@@ -59,7 +59,7 @@ public class InternalToTransportConverterTest {
 
     @Test
     public void testConvert() throws ScenarioNotFoundException {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().setSkapadAv(buildHosPersonal(SPECIALIST_KOMPETENS));
 
         RegisterTSDiabetesType res = InternalToTransportConverter.convert(utlatande);
@@ -80,7 +80,7 @@ public class InternalToTransportConverterTest {
 
     @Test
     public void testConvertWithMillisInTimestamp() throws ScenarioNotFoundException {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().setSigneringsdatum(LocalDateTime.of(2012, 8, 2, 10, 9, 0, 123));
 
         RegisterTSDiabetesType res = InternalToTransportConverter.convert(utlatande);
@@ -89,7 +89,7 @@ public class InternalToTransportConverterTest {
 
     @Test
     public void testConvertNullSpecialistkompetens() throws ScenarioNotFoundException {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().setSkapadAv(buildHosPersonal(null));
         RegisterTSDiabetesType res = InternalToTransportConverter.convert(utlatande);
         SkapadAv skapadAv = res.getIntyg().getGrundData().getSkapadAv();
@@ -100,7 +100,7 @@ public class InternalToTransportConverterTest {
     public void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException {
         String specialistkompetens1 = "Kirurgi";
         String specialistkompetens2 = "Allergi";
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens1);
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens2);
@@ -115,7 +115,7 @@ public class InternalToTransportConverterTest {
     public void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException {
         final String befattning = "203010";
         final String description = "Läkare legitimerad, specialiseringstjänstgöring";
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
         utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattning);
         RegisterTSDiabetesType res = InternalToTransportConverter.convert(utlatande);
@@ -127,7 +127,7 @@ public class InternalToTransportConverterTest {
     @Test
     public void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException {
         String befattningskod = "kod";
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
         utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattningskod);
         RegisterTSDiabetesType res = InternalToTransportConverter.convert(utlatande);
@@ -140,7 +140,7 @@ public class InternalToTransportConverterTest {
     public void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
         final String version = "03";
         final String utgava = "07";
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.setTextVersion(version + "." + utgava);
         RegisterTSDiabetesType res = InternalToTransportConverter.convert(utlatande);
         assertEquals(version, res.getIntyg().getVersion());
@@ -151,7 +151,7 @@ public class InternalToTransportConverterTest {
     public void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
         final String defaultVersion = "02";
         final String defaultUtgava = "06";
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.setTextVersion(null);
         RegisterTSDiabetesType res = InternalToTransportConverter.convert(utlatande);
         assertEquals(defaultVersion, res.getIntyg().getVersion());

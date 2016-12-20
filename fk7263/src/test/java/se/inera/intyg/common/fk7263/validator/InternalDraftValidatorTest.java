@@ -40,7 +40,7 @@ import com.google.common.base.Joiner;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 
@@ -61,7 +61,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void testValidate() throws Exception {
         for (se.inera.intyg.common.fk7263.utils.Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            Utlatande utlatande = scenario.asInternalModel();
+            Fk7263Utlatande utlatande = scenario.asInternalModel();
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
             assertEquals(
                     "Error in scenario " + scenario.getName() + "\n"
@@ -80,7 +80,7 @@ public class InternalDraftValidatorTest {
     public void testValidateWithErrors() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
 
-            Utlatande utlatande = scenario.asInternalModel();
+            Fk7263Utlatande utlatande = scenario.asInternalModel();
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
             assertEquals("Error in scenario " + scenario.getName() + "\n",

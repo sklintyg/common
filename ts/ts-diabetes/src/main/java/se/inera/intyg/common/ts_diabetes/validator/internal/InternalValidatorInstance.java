@@ -34,7 +34,7 @@ import se.inera.intyg.common.ts_diabetes.model.internal.Diabetes;
 import se.inera.intyg.common.ts_diabetes.model.internal.Hypoglykemier;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
 
 /**
@@ -55,13 +55,13 @@ public class InternalValidatorInstance {
     }
 
     /**
-     * Validates an internal draft of an {@link Utlatande} (this means the object being validated is not necessarily
+     * Validates an internal draft of an {@link TsDiabetesUtlatande} (this means the object being validated is not necessarily
      * complete).
      *
-     * @param utlatande an internal {@link Utlatande}
+     * @param utlatande an internal {@link TsDiabetesUtlatande}
      * @return a {@link ValidateDraftResponseHolder} with a status and a list of validationErrors
      */
-    public ValidateDraftResponse validate(Utlatande utlatande) {
+    public ValidateDraftResponse validate(TsDiabetesUtlatande utlatande) {
 
         if (utlatande == null) {
             ValidatorUtil.addValidationError(validationMessages, "utlatande", ValidationMessageType.OTHER, "ts-diabetes.validation.utlatande.missing");

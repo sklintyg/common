@@ -36,7 +36,7 @@ import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 public class WebcertModelFactoryTest {
 
@@ -52,11 +52,11 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateCopy() throws Exception {
 
-        Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+        Fk7263Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
 
         CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-1", false, false);
 
-        Utlatande copy = factory.createCopy(copyData, utlatande);
+        Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
 
         assertNotNull(copy);
 
@@ -80,7 +80,7 @@ public class WebcertModelFactoryTest {
 
     @Test(expected = ConverterException.class)
     public void testCreateCopyCertificateIdMissing() throws Exception {
-        Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+        Fk7263Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
 
         CreateDraftCopyHolder copyData = createDraftCopyHolder("", false, false);
 
@@ -90,11 +90,11 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateCopyWithNewPatientData() throws Exception {
 
-        Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+        Fk7263Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
 
         CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-2", true, false);
 
-        Utlatande copy = factory.createCopy(copyData, utlatande);
+        Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
 
         assertNotNull(copy);
 
@@ -111,13 +111,13 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateCopyWithNewPatientPersonId() throws Exception {
 
-        Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+        Fk7263Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
 
         CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-3", false, true);
 
         assertEquals("19121212-1212", utlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
 
-        Utlatande copy = factory.createCopy(copyData, utlatande);
+        Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
 
         assertNotNull(copy);
 
@@ -132,7 +132,7 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV2Format() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
-        Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
+        Fk7263Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
         assertEquals(5, UtlatandeToIntyg.convert(draft).getSvar().size());
     }
 
@@ -172,9 +172,9 @@ public class WebcertModelFactoryTest {
         return copyData;
     }
 
-    private static Utlatande readUtlatandeFromFile(String file) throws Exception {
+    private static Fk7263Utlatande readUtlatandeFromFile(String file) throws Exception {
         String utlatandeSrc = readStringFromFile(file);
-        return new CustomObjectMapper().readValue(utlatandeSrc, Utlatande.class);
+        return new CustomObjectMapper().readValue(utlatandeSrc, Fk7263Utlatande.class);
     }
 
     private static String readStringFromFile(String filePath) {

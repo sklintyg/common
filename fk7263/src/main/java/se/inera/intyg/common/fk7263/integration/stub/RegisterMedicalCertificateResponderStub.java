@@ -42,7 +42,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 import se.inera.intyg.common.support.validate.CertificateValidationException;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.skl.skltpservices.adapter.fk.regmedcert.Vard2FkValidator;
 
 /**
@@ -70,7 +70,7 @@ public class RegisterMedicalCertificateResponderStub implements RegisterMedicalC
 
         try {
             validateTransport(request);
-            Utlatande utlatande = TransportToInternal.convert(request.getLakarutlatande());
+            Fk7263Utlatande utlatande = TransportToInternal.convert(request.getLakarutlatande());
             String id = utlatande.getId();
 
             if ("error".equals(id)) {

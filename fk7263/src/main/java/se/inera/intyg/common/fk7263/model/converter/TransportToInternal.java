@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 
 /**
@@ -51,10 +51,10 @@ public final class TransportToInternal {
     private TransportToInternal() {
     }
 
-    public static Utlatande convert(LakarutlatandeType source) throws ConverterException {
+    public static Fk7263Utlatande convert(LakarutlatandeType source) throws ConverterException {
         LOGGER.debug("Converting transport to internal model");
 
-        Utlatande utlatande = new Utlatande();
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         utlatande.setId(source.getLakarutlatandeId());
         utlatande.setTyp(Fk7263EntryPoint.MODULE_ID);
 
@@ -137,7 +137,7 @@ public final class TransportToInternal {
         return fromDate;
     }
 
-    private static void populateWithVardkontakt(Utlatande utlatande, VardkontaktType source) {
+    private static void populateWithVardkontakt(Fk7263Utlatande utlatande, VardkontaktType source) {
         switch (source.getVardkontakttyp()) {
         case MIN_TELEFONKONTAKT_MED_PATIENTEN:
             utlatande.setTelefonkontaktMedPatienten(new InternalDate(source.getVardkontaktstid()));
@@ -150,7 +150,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void populateWithReferens(Utlatande utlatande, ReferensType source) throws ConverterException {
+    private static void populateWithReferens(Fk7263Utlatande utlatande, ReferensType source) throws ConverterException {
         switch (source.getReferenstyp()) {
         case ANNAT:
             utlatande.setAnnanReferens(new InternalDate(source.getDatum()));
@@ -163,7 +163,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void populateWithAktivitetType(Utlatande utlatande, AktivitetType source) throws ConverterException {
+    private static void populateWithAktivitetType(Fk7263Utlatande utlatande, AktivitetType source) throws ConverterException {
         if (source.getAktivitetskod() == null) {
             return;
         }
@@ -211,7 +211,7 @@ public final class TransportToInternal {
 
     }
 
-    private static void populateWithSysselsattning(Utlatande utlatande, List<SysselsattningType> sysselsattnings) throws ConverterException {
+    private static void populateWithSysselsattning(Fk7263Utlatande utlatande, List<SysselsattningType> sysselsattnings) throws ConverterException {
         for (SysselsattningType sysselsattning : sysselsattnings) {
             switch (sysselsattning.getTypAvSysselsattning()) {
             case NUVARANDE_ARBETE:
@@ -230,7 +230,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void populateWithDiagnose(Utlatande utlatande, MedicinsktTillstandType source) throws ConverterException {
+    private static void populateWithDiagnose(Fk7263Utlatande utlatande, MedicinsktTillstandType source) throws ConverterException {
         if (source == null) {
             return;
         }
@@ -325,7 +325,7 @@ public final class TransportToInternal {
         return patient;
     }
 
-    private static void populateWithFunktionstillstand(Utlatande utlatande, FunktionstillstandType source) throws ConverterException {
+    private static void populateWithFunktionstillstand(Fk7263Utlatande utlatande, FunktionstillstandType source) throws ConverterException {
 
         switch (source.getTypAvFunktionstillstand()) {
         case AKTIVITET:
@@ -343,7 +343,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void populateWithPrognos(Utlatande utlatande, ArbetsformagaType source) throws ConverterException {
+    private static void populateWithPrognos(Fk7263Utlatande utlatande, ArbetsformagaType source) throws ConverterException {
 
         if (source.getPrognosangivelse() != null || source.getMotivering() != null) {
             if (source.getPrognosangivelse() != null) {
@@ -375,7 +375,7 @@ public final class TransportToInternal {
      * @param source
      *            source
      */
-    private static void populateWithArbetsformaga(Utlatande utlatande, FunktionstillstandType source) {
+    private static void populateWithArbetsformaga(Fk7263Utlatande utlatande, FunktionstillstandType source) {
         for (ArbetsformagaNedsattningType nedsattning : source.getArbetsformaga().getArbetsformagaNedsattning()) {
             if (nedsattning.getNedsattningsgrad() != null && nedsattning.getVaraktighetFrom() != null && nedsattning.getVaraktighetTom() != null) {
                 switch (nedsattning.getNedsattningsgrad()) {

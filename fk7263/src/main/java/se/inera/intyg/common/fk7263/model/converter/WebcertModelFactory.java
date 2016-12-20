@@ -27,7 +27,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Factory for creating an editable model.
@@ -40,14 +40,14 @@ public class WebcertModelFactory {
      *
      * @param newDraftData
      *            {@link CreateNewDraftHolder}
-     * @return {@link Utlatande} or throws a ConverterException if something unforeseen happens
+     * @return {@link Fk7263Utlatande} or throws a ConverterException if something unforeseen happens
      * @throws ConverterException
      */
-    public Utlatande createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
+    public Fk7263Utlatande createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
 
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        Utlatande template = new Utlatande();
+        Fk7263Utlatande template = new Fk7263Utlatande();
 
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(template.getGrundData(), newDraftData);
@@ -66,7 +66,7 @@ public class WebcertModelFactory {
         return template;
     }
 
-    public Utlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
+    public Fk7263Utlatande createCopy(CreateDraftCopyHolder copyData, Fk7263Utlatande template) throws ConverterException {
 
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), template.getId());
 
@@ -78,7 +78,7 @@ public class WebcertModelFactory {
         return template;
     }
 
-    private void populateWithId(Utlatande utlatande, String utlatandeId) throws ConverterException {
+    private void populateWithId(Fk7263Utlatande utlatande, String utlatandeId) throws ConverterException {
         if (Strings.isNullOrEmpty(utlatandeId)) {
             throw new ConverterException("No certificateID found");
         }
@@ -86,7 +86,7 @@ public class WebcertModelFactory {
         utlatande.setId(utlatandeId);
     }
 
-    private void resetDataInCopy(Utlatande utlatande) {
+    private void resetDataInCopy(Fk7263Utlatande utlatande) {
         utlatande.getGrundData().setSigneringsdatum(null);
     }
 }

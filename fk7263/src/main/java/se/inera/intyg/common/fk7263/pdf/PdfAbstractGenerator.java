@@ -39,7 +39,7 @@ import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * @author andreaskaltenbach
@@ -200,7 +200,7 @@ public abstract class PdfAbstractGenerator {
 
     public static final String PDF_TEMPLATE = "pdf/RFV7263_009_J_003_statisk.pdf";
 
-    protected Utlatande intyg;
+    protected Fk7263Utlatande intyg;
     protected ByteArrayOutputStream outputStream;
     protected AcroFields fields;
 

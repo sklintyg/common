@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import se.inera.intyg.common.support.model.*;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Created by eriklupander on 15-04-08.
@@ -74,22 +74,22 @@ public class ArbetsformagaToGiltighetTest {
         assertNull(giltighet);
     }
 
-    private Utlatande getUtlatandeWithSingleNedsattning() {
-        Utlatande utlatande = new Utlatande();
+    private Fk7263Utlatande getUtlatandeWithSingleNedsattning() {
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         utlatande.setNedsattMed100(new InternalLocalDateInterval(new InternalDate(fromDate1), new InternalDate(toDate1)));
         return utlatande;
     }
 
-    private Utlatande getUtlatandeWithMultipleNedsattningar() {
-        Utlatande utlatande = new Utlatande();
+    private Fk7263Utlatande getUtlatandeWithMultipleNedsattningar() {
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         utlatande.setNedsattMed100(new InternalLocalDateInterval(new InternalDate(fromDate1), new InternalDate(toDate1)));
         utlatande.setNedsattMed75(new InternalLocalDateInterval(new InternalDate(fromDate2), new InternalDate(toDate2)));
         utlatande.setNedsattMed50(new InternalLocalDateInterval(new InternalDate(fromDate3), new InternalDate(toDate3)));
         return utlatande;
     }
 
-    private Utlatande getUtlatandeWithInvalidDate() {
-        Utlatande utlatande = new Utlatande();
+    private Fk7263Utlatande getUtlatandeWithInvalidDate() {
+        Fk7263Utlatande utlatande = new Fk7263Utlatande();
         InternalLocalDateInterval internalLocalDateInterval = new InternalLocalDateInterval("2015-08-01", "2015-08-44");
         utlatande.setNedsattMed25(internalLocalDateInterval);
         return utlatande;

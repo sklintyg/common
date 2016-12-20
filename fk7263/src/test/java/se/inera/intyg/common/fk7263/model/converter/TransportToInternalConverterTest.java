@@ -36,7 +36,7 @@ import org.springframework.core.io.ClassPathResource;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,7 +71,7 @@ public class TransportToInternalConverterTest {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "intyg-med-blanksteg.xml");
 
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -91,7 +91,7 @@ public class TransportToInternalConverterTest {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy-maximalt-fk7263-transport.xml");
 
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -110,7 +110,7 @@ public class TransportToInternalConverterTest {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy-minimalt-fk7263-transport.xml");
 
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -130,7 +130,7 @@ public class TransportToInternalConverterTest {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy-fk7263-without-prognoskod-transport.xml");
 
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -150,7 +150,7 @@ public class TransportToInternalConverterTest {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy-fk7263-with-ksh97.xml");
 
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -179,7 +179,7 @@ public class TransportToInternalConverterTest {
     public void testScenario1() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario1.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -202,7 +202,7 @@ public class TransportToInternalConverterTest {
     public void testScenario2() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario2.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -225,7 +225,7 @@ public class TransportToInternalConverterTest {
     public void testScenario3() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario3.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -248,7 +248,7 @@ public class TransportToInternalConverterTest {
     public void testScenario4() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario4.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -271,7 +271,7 @@ public class TransportToInternalConverterTest {
     public void testScenario5() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario5.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -294,7 +294,7 @@ public class TransportToInternalConverterTest {
     public void testScenario6() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario6.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -317,7 +317,7 @@ public class TransportToInternalConverterTest {
     public void testScenario7() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario7.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -340,7 +340,7 @@ public class TransportToInternalConverterTest {
     public void testScenario8() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario8.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -364,7 +364,7 @@ public class TransportToInternalConverterTest {
     public void testScenario9() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario9.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -387,7 +387,7 @@ public class TransportToInternalConverterTest {
     public void testScenario10() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario10.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -411,7 +411,7 @@ public class TransportToInternalConverterTest {
     public void testScenario11() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario11.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -435,7 +435,7 @@ public class TransportToInternalConverterTest {
     public void testScenario12() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario12.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -459,7 +459,7 @@ public class TransportToInternalConverterTest {
     public void testScenario13() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario13.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -482,7 +482,7 @@ public class TransportToInternalConverterTest {
     public void testScenario14() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario14.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -505,7 +505,7 @@ public class TransportToInternalConverterTest {
     public void testScenario15() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario15.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON
@@ -529,7 +529,7 @@ public class TransportToInternalConverterTest {
     public void testScenario16() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
                 + "legacy/scenario16.xml");
-        Utlatande internalModel = TransportToInternal
+        Fk7263Utlatande internalModel = TransportToInternal
                 .convert(utlatandeElement.getValue());
 
         // serialize utlatande to JSON and compare with expected JSON

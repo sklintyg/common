@@ -44,7 +44,7 @@ import se.inera.intyg.common.support.validate.CertificateValidationException;
 import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
 import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator;
 
 public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalCertificateResponderInterface {
@@ -72,7 +72,7 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
 
         try {
             validateTransport(registerMedicalCertificate);
-            Utlatande utlatande = TransportToInternal.convert(registerMedicalCertificate.getLakarutlatande());
+            Fk7263Utlatande utlatande = TransportToInternal.convert(registerMedicalCertificate.getLakarutlatande());
 
             String xml = xmlToString(registerMedicalCertificate);
             CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);

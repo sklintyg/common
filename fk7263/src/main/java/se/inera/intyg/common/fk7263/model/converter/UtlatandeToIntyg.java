@@ -33,7 +33,7 @@ import com.google.common.base.Joiner;
 
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
@@ -99,14 +99,14 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(Utlatande source) {
+    public static Intyg convert(Fk7263Utlatande source) {
         Intyg intyg = getIntyg(source);
         intyg.setTyp(getTypAvIntyg(source));
         intyg.getSvar().addAll(getSvar(source));
         return intyg;
     }
 
-    private static TypAvIntyg getTypAvIntyg(Utlatande source) {
+    private static TypAvIntyg getTypAvIntyg(Fk7263Utlatande source) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
         typAvIntyg.setCode(source.getTyp().toUpperCase());
         typAvIntyg.setCodeSystem(KV_UTLATANDETYP_INTYG_CODE_SYSTEM);
@@ -114,7 +114,7 @@ public final class UtlatandeToIntyg {
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(Utlatande source) {
+    private static List<Svar> getSvar(Fk7263Utlatande source) {
         List<Svar> svars = new ArrayList<>();
 
         int sjukskrivningInstans = 1;
@@ -210,7 +210,7 @@ public final class UtlatandeToIntyg {
         return svars;
     }
 
-    private static Svar createAtgard(Utlatande source) {
+    private static Svar createAtgard(Fk7263Utlatande source) {
         SvarBuilder svarBuilder = aSvar(ATGARD_INOM_SJUKVARDEN_SVAR_10004);
         if (!isNullOrEmpty(source.getAtgardInomSjukvarden())) {
             svarBuilder = svarBuilder.withDelsvar(ATGARD_INOM_SJUKVARDEN_DELSVAR_10004_1, source.getAtgardInomSjukvarden());
@@ -222,7 +222,7 @@ public final class UtlatandeToIntyg {
         return svarBuilder.build();
     }
 
-    private static Svar createRekommendation(Utlatande source) {
+    private static Svar createRekommendation(Fk7263Utlatande source) {
         SvarBuilder svarBuilder = aSvar(REKOMMENDATION_KONTAKT_SVAR_10003)
                 .withDelsvar(REKOMMENDATION_KONTAKT_DELSVAR_AF_10003_1, String.valueOf(source.isRekommendationKontaktArbetsformedlingen()))
                 .withDelsvar(REKOMMENDATION_KONTAKT_DELSVAR_FHV_10003_2, String.valueOf(source.isRekommendationKontaktForetagshalsovarden()));
@@ -232,7 +232,7 @@ public final class UtlatandeToIntyg {
         return svarBuilder.build();
     }
 
-    private static String buildOvrigaUpplysningar(Utlatande source) {
+    private static String buildOvrigaUpplysningar(Fk7263Utlatande source) {
         String annanRef = null;
         String prognosBedomning = null;
         String ovrigKommentar = null;
@@ -253,7 +253,7 @@ public final class UtlatandeToIntyg {
         return !isNullOrEmpty(ret) ? ret : null;
     }
 
-    private static Svar createPrognosSvar(Utlatande source) {
+    private static Svar createPrognosSvar(Fk7263Utlatande source) {
         PrognosBedomning bedomning = source.getPrognosBedomning();
         SvarBuilder svar = aSvar(ARBETSFORMAGA_PROGNOS_SVAR_10006);
         switch (bedomning) {
@@ -270,7 +270,7 @@ public final class UtlatandeToIntyg {
         }
     }
 
-    private static Svar createRehabiliteringSvar(Utlatande source) {
+    private static Svar createRehabiliteringSvar(Fk7263Utlatande source) {
         Rehabilitering rehab = source.getRehabilitering();
         SvarBuilder svar = aSvar(REHABILITERING_SVAR_10005);
         switch (rehab) {
@@ -285,11 +285,11 @@ public final class UtlatandeToIntyg {
         }
     }
 
-    private static Svar createDiagnosFritextSvar(Utlatande source) {
+    private static Svar createDiagnosFritextSvar(Fk7263Utlatande source) {
         return aSvar(DIAGNOS_FRITEXT_SVAR_10001).withDelsvar(DIAGNOS_FRITEXT_DELSVAR_10001_1, source.getDiagnosBeskrivning()).build();
     }
 
-    private static Svar createDiagnosSvar(Utlatande source) {
+    private static Svar createDiagnosSvar(Fk7263Utlatande source) {
         SvarBuilder svarBuilder = aSvar(DIAGNOS_SVAR_6);
         if (source.getDiagnosKodsystem1() != null) {
             svarBuilder = svarBuilder.withDelsvar(DIAGNOS_DELSVAR_6_2,

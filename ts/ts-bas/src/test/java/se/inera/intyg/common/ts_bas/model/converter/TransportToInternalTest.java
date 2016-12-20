@@ -30,7 +30,7 @@ import org.junit.Test;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
@@ -67,7 +67,7 @@ public class TransportToInternalTest {
     public void testConvert() throws Exception {
         RegisterTSBasType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().setSkapadAv(buildSkapadAv());
-        Utlatande res = TransportToInternal.convert(transportModel.getIntyg());
+        TsBasUtlatande res = TransportToInternal.convert(transportModel.getIntyg());
         assertEquals(LocalDateTime.of(2013, 8, 12, 15, 57, 0), res.getGrundData().getSigneringsdatum());
         HoSPersonal hosPersonal = res.getGrundData().getSkapadAv();
         assertEquals(ENHETSNAMN, hosPersonal.getVardenhet().getEnhetsnamn());
@@ -89,7 +89,7 @@ public class TransportToInternalTest {
         RegisterTSBasType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().getSkapadAv().getSpecialiteter().clear();
         transportModel.getIntyg().getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens);
-        Utlatande res = TransportToInternal.convert(transportModel.getIntyg());
+        TsBasUtlatande res = TransportToInternal.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getSpecialiteter().size());
         assertEquals(specialistkompetens, skapadAv.getSpecialiteter().get(0));
@@ -102,7 +102,7 @@ public class TransportToInternalTest {
         RegisterTSBasType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().getSkapadAv().getBefattningar().clear();
         transportModel.getIntyg().getGrundData().getSkapadAv().getBefattningar().add(befattning);
-        Utlatande res = TransportToInternal.convert(transportModel.getIntyg());
+        TsBasUtlatande res = TransportToInternal.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getBefattningar().size());
         assertEquals(code, skapadAv.getBefattningar().get(0));
@@ -114,7 +114,7 @@ public class TransportToInternalTest {
         RegisterTSBasType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
         transportModel.getIntyg().getGrundData().getSkapadAv().getBefattningar().clear();
         transportModel.getIntyg().getGrundData().getSkapadAv().getBefattningar().add(befattningskod);
-        Utlatande res = TransportToInternal.convert(transportModel.getIntyg());
+        TsBasUtlatande res = TransportToInternal.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getBefattningar().size());
         assertEquals(befattningskod, skapadAv.getBefattningar().get(0));

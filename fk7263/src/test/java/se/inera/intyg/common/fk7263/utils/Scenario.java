@@ -20,6 +20,7 @@
 package se.inera.intyg.common.fk7263.utils;
 
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 
 /**
@@ -66,5 +67,5 @@ public interface Scenario {
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */
-    se.inera.intyg.common.fk7263.model.internal.Utlatande asInternalModel() throws ScenarioNotFoundException;
+    Fk7263Utlatande asInternalModel() throws ScenarioNotFoundException;
 }

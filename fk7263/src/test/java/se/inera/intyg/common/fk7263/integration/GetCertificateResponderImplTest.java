@@ -53,7 +53,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 
 /**
@@ -93,7 +93,7 @@ public class GetCertificateResponderImplTest {
     @Test
     public void getCertificate() throws Exception {
         String document = FileUtils.readFileToString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getFile());
-        Utlatande utlatande = objectMapper.readValue(document, Utlatande.class);
+        Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
         CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
         File file = new ClassPathResource("GetCertificateResponderImplTest/fk7263.xml").getFile();
         String xmlFile = FileUtils.readFileToString(file);
@@ -147,7 +147,7 @@ public class GetCertificateResponderImplTest {
     public void getRevokedCertificate() throws Exception {
 
         String document = FileUtils.readFileToString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getFile());
-        Utlatande utlatande = objectMapper.readValue(document, Utlatande.class);
+        Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
         CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
         certificate.setRevoked(true);
 

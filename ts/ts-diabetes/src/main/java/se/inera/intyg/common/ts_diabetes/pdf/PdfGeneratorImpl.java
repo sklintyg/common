@@ -52,7 +52,7 @@ import se.inera.intyg.common.ts_diabetes.model.internal.Hypoglykemier;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
@@ -60,7 +60,7 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 
-public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
+public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
 
     @Autowired(required = false)
     private IntygTextsService intygTexts;
@@ -189,7 +189,7 @@ public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
     }
 
     @Override
-    public String generatePdfFilename(Utlatande utlatande) {
+    public String generatePdfFilename(TsDiabetesUtlatande utlatande) {
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
 
         final String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
@@ -197,7 +197,7 @@ public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
     }
 
     @Override
-    public byte[] generatePDF(Utlatande utlatande, ApplicationOrigin applicationOrigin) throws PdfGeneratorException {
+    public byte[] generatePDF(TsDiabetesUtlatande utlatande, ApplicationOrigin applicationOrigin) throws PdfGeneratorException {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -228,7 +228,7 @@ public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
         }
     }
 
-    private String getPdfPath(Utlatande utlatande) throws PdfGeneratorException {
+    private String getPdfPath(TsDiabetesUtlatande utlatande) throws PdfGeneratorException {
         String textVersion = utlatande.getTextVersion();
         if (textVersion == null) {
             return PDF_PATH_V02_U06;
@@ -260,14 +260,14 @@ public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
      * Method for filling out the fields of a pdf with data from the internal model.
      *
      * @param utlatande
-     *            {@link se.inera.intyg.common.ts_diabetes.model.internal.Utlatande} containing data for
+     *            {@link TsDiabetesUtlatande} containing data for
      *            populating the pdf
      * @param fields
      *            The fields of the pdf
      * @throws DocumentException
      * @throws IOException
      */
-    private void populatePdfFields(Utlatande utlatande, AcroFields fields) throws IOException, DocumentException {
+    private void populatePdfFields(TsDiabetesUtlatande utlatande, AcroFields fields) throws IOException, DocumentException {
         populatePatientInfo(utlatande.getGrundData().getPatient(), fields);
         populateIntygAvser(utlatande.getIntygAvser(), fields);
         populateIdkontroll(utlatande.getVardkontakt(), fields);
@@ -378,7 +378,7 @@ public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
         OVRIG_BESKRIVNING.setField(fields, kommentar);
     }
 
-    private void populateAvslut(Utlatande utlatande, AcroFields fields) throws IOException, DocumentException {
+    private void populateAvslut(TsDiabetesUtlatande utlatande, AcroFields fields) throws IOException, DocumentException {
         INTYGSDATUM.setField(fields, utlatande.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern("yyMMdd")));
         Vardenhet vardenhet = utlatande.getGrundData().getSkapadAv().getVardenhet();
         VARDINRATTNINGENS_NAMN.setField(fields, vardenhet.getEnhetsnamn());
@@ -395,7 +395,7 @@ public class PdfGeneratorImpl implements PdfGenerator<Utlatande> {
         populateAvslutSpecialist(utlatande, fields);
     }
 
-    private void populateAvslutSpecialist(Utlatande utlatande, AcroFields fields) throws IOException, DocumentException {
+    private void populateAvslutSpecialist(TsDiabetesUtlatande utlatande, AcroFields fields) throws IOException, DocumentException {
         List<String> specialiteter = utlatande.getGrundData().getSkapadAv().getSpecialiteter();
         if (specialiteter.size() > 0) {
 

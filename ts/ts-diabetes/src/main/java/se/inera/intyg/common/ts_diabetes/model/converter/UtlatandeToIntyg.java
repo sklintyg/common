@@ -99,7 +99,7 @@ import se.inera.intyg.common.ts_diabetes.model.internal.Diabetes;
 import se.inera.intyg.common.ts_diabetes.model.internal.Hypoglykemier;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
@@ -117,7 +117,7 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(Utlatande source) {
+    public static Intyg convert(TsDiabetesUtlatande source) {
         Intyg intyg = InternalConverterUtil.getIntyg(source);
         complementArbetsplatskodIfMissing(intyg);
         intyg.setTyp(getTypAvIntyg());
@@ -140,7 +140,7 @@ public final class UtlatandeToIntyg {
         }
     }
 
-    private static List<Svar> getSvar(Utlatande source) {
+    private static List<Svar> getSvar(TsDiabetesUtlatande source) {
         List<Svar> svars = new ArrayList<>();
 
         if (source.getIntygAvser() != null) {

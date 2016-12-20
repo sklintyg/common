@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.*;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
@@ -58,8 +58,8 @@ public class ScenarioTest {
         for (Scenario scenario : transportScenarios) {
             Scenario internalScenario = getScenarioByName(scenario.getName(), internalScenarios);
 
-            Utlatande expected = internalScenario.asInternalModel();
-            Utlatande actual = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
+            TsDiabetesUtlatande expected = internalScenario.asInternalModel();
+            TsDiabetesUtlatande actual = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
 
             ReflectionAssert.assertLenientEquals(expected, actual);
         }

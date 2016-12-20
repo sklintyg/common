@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.*;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.ObjectFactory;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
@@ -104,7 +104,7 @@ public class RoundTripTest {
 
     @Test
     public void testConvertToRivtaV2() throws Exception {
-        Utlatande internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
+        TsBasUtlatande internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
         RegisterCertificateType actual = new RegisterCertificateType();
         actual.setIntyg(UtlatandeToIntyg.convert(internal));
 

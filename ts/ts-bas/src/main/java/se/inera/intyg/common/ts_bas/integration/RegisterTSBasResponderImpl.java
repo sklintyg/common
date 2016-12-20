@@ -41,7 +41,7 @@ import se.inera.intyg.common.support.validate.CertificateValidationException;
 import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.common.ts_bas.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.model.converter.util.ConverterUtil;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.validator.transport.TransportValidatorInstance;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.*;
 import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
@@ -72,7 +72,7 @@ public class RegisterTSBasResponderImpl implements RegisterTSBasResponderInterfa
 
         try {
             validateTransport(registerTsBas);
-            Utlatande utlatande = TransportToInternal.convert(registerTsBas.getIntyg());
+            TsBasUtlatande utlatande = TransportToInternal.convert(registerTsBas.getIntyg());
 
             String xml = xmlToString(registerTsBas);
             CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);

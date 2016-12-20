@@ -34,7 +34,7 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
@@ -66,7 +66,7 @@ public class UtlatandeToIntygTest {
         final String patientPostnummer = "patientPostnummer";
         final String patientPostort = "patientPostort";
 
-        Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
+        TsDiabetesUtlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
                 skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
                 vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
                 null, null);
@@ -113,7 +113,7 @@ public class UtlatandeToIntygTest {
     public void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
-        Utlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
+        TsDiabetesUtlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertNotNull(intyg.getRelation());
@@ -127,7 +127,7 @@ public class UtlatandeToIntygTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testAddIntygAvserSvar() {
-        Utlatande utlatande = buildUtlatande();
+        TsDiabetesUtlatande utlatande = buildUtlatande();
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.A1);
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.TRAKTOR);
 
@@ -152,7 +152,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertComplementsArbetsplatskodIfNull() {
         final String arbetsplatskod = null;
-        Utlatande utlatande = buildUtlatande(arbetsplatskod);
+        TsDiabetesUtlatande utlatande = buildUtlatande(arbetsplatskod);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertTrue(StringUtils.isNotBlank(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()));
@@ -161,7 +161,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertComplementsArbetsplatskodIfBlank() {
         final String arbetsplatskod = " ";
-        Utlatande utlatande = buildUtlatande(arbetsplatskod);
+        TsDiabetesUtlatande utlatande = buildUtlatande(arbetsplatskod);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertTrue(StringUtils.isNotBlank(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()));
@@ -170,7 +170,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertComplementsArbetsplatskodDoesNotOverride() {
         final String arbetsplatskod = "000000";
-        Utlatande utlatande = buildUtlatande(arbetsplatskod);
+        TsDiabetesUtlatande utlatande = buildUtlatande(arbetsplatskod);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertEquals(arbetsplatskod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
@@ -179,7 +179,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertSetsVersionFromTextVersion() {
         final String textVersion = "3.7";
-        Utlatande utlatande = buildUtlatande();
+        TsDiabetesUtlatande utlatande = buildUtlatande();
         utlatande.setTextVersion(textVersion);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
@@ -189,7 +189,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
         final String defaultVersion = "2.6";
-        Utlatande utlatande = buildUtlatande();
+        TsDiabetesUtlatande utlatande = buildUtlatande();
         utlatande.setTextVersion(null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
@@ -200,30 +200,30 @@ public class UtlatandeToIntygTest {
         assertEquals(defaultVersion, intyg.getVersion());
     }
 
-    private Utlatande buildUtlatande() {
+    private TsDiabetesUtlatande buildUtlatande() {
         return buildUtlatande(null, null);
     }
 
-    private Utlatande buildUtlatande(String arbetsplatskod) {
+    private TsDiabetesUtlatande buildUtlatande(String arbetsplatskod) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", "patientPersonId",
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
                 "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
                 "patientPostnummer", "patientPostort", null, null);
     }
 
-    private Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
+    private TsDiabetesUtlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", "patientPersonId",
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
                 "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
                 "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
-    private Utlatande buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
+    private TsDiabetesUtlatande buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
             String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
             String patientPostort, RelationKod relationKod, String relationIntygsId) {
-        Utlatande utlatande = new Utlatande();
+        TsDiabetesUtlatande utlatande = new TsDiabetesUtlatande();
         utlatande.setId(intygsId);
         GrundData grundData = new GrundData();
         HoSPersonal skapadAv = new HoSPersonal();

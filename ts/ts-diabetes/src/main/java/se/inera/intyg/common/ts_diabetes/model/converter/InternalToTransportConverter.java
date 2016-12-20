@@ -41,7 +41,7 @@ public final class InternalToTransportConverter {
     private InternalToTransportConverter() {
     }
 
-    public static RegisterTSDiabetesType convert(Utlatande utlatande) {
+    public static RegisterTSDiabetesType convert(TsDiabetesUtlatande utlatande) {
         RegisterTSDiabetesType registerTsDiabetes = new RegisterTSDiabetesType();
         TSDiabetesIntyg result = new TSDiabetesIntyg();
 

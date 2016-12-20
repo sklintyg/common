@@ -26,19 +26,19 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Created by marced on 18/08/16.
  */
 public class PdfDefaultGenerator extends PdfAbstractGenerator {
 
-    public PdfDefaultGenerator(Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin)
             throws PdfGeneratorException {
         this(intyg, statuses, applicationOrigin, true);
     }
 
-    protected PdfDefaultGenerator(Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean flatten)
+    protected PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean flatten)
             throws PdfGeneratorException {
         try {
             this.intyg = intyg;

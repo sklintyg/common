@@ -56,7 +56,7 @@ import se.inera.intyg.common.util.integration.integration.json.CustomObjectMappe
 import se.inera.intyg.common.ts_bas.integration.RegisterTSBasResponderImpl;
 import se.inera.intyg.common.ts_bas.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.model.converter.WebcertModelFactoryImpl;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.pdf.PdfGeneratorImpl;
 import se.inera.intyg.common.ts_bas.utils.*;
 import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
@@ -114,8 +114,8 @@ public class TsBasModuleApiTest {
 
     @Test
     public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(ApplicationOrigin.class))).thenReturn(new byte[] {});
-        when(pdfGenerator.generatePdfFilename(any(Utlatande.class))).thenReturn("filename");
+        when(pdfGenerator.generatePDF(any(TsBasUtlatande.class), any(ApplicationOrigin.class))).thenReturn(new byte[] {});
+        when(pdfGenerator.generatePdfFilename(any(TsBasUtlatande.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
             moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG);
         }
@@ -129,7 +129,7 @@ public class TsBasModuleApiTest {
         String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), internalHolder);
 
         assertNotNull(holder);
-        Utlatande utlatande = objectMapper.readValue(holder, Utlatande.class);
+        TsBasUtlatande utlatande = objectMapper.readValue(holder, TsBasUtlatande.class);
         assertEquals(true, utlatande.getSyn().getSynfaltsdefekter());
     }
 
@@ -318,7 +318,7 @@ public class TsBasModuleApiTest {
     @Test
     public void testGetUtlatandeFromXml() throws Exception {
         String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
-        Utlatande res = moduleApi.getUtlatandeFromXml(xml);
+        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml);
 
         assertNotNull(res);
     }
@@ -331,7 +331,7 @@ public class TsBasModuleApiTest {
 
     @Test
     public void getAdditionalInfoFromUtlatandeTest() throws Exception {
-        Utlatande utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
         String result = moduleApi.getAdditionalInfo(intyg);

@@ -38,7 +38,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.ts_bas.integration.RegisterTSBasResponderImpl;
 import se.inera.intyg.common.ts_bas.model.converter.*;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.*;
@@ -50,7 +50,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
  *
  */
-public class TsBasModuleApi extends TsParentModuleApi<Utlatande> {
+public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApi.class);
 
@@ -70,7 +70,7 @@ public class TsBasModuleApi extends TsParentModuleApi<Utlatande> {
     private XslTransformer xslTransformer;
 
     public TsBasModuleApi() {
-        super(Utlatande.class);
+        super(TsBasUtlatande.class);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class TsBasModuleApi extends TsParentModuleApi<Utlatande> {
     }
 
     @Override
-    public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
+    public TsBasUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
         RegisterTSBasType jaxbObject = JAXB.unmarshal(new StringReader(xml),
                 RegisterTSBasType.class);
         try {
@@ -152,7 +152,7 @@ public class TsBasModuleApi extends TsParentModuleApi<Utlatande> {
 
     private CertificateResponse convert(GetTSBasResponseType response, boolean revoked) throws ModuleException {
         try {
-            Utlatande utlatande = TransportToInternal.convert(response.getIntyg());
+            TsBasUtlatande utlatande = TransportToInternal.convert(response.getIntyg());
             String internalModel = toInternalModelResponse(utlatande);
 
             CertificateMetaData metaData = TsBasMetaDataConverter.toCertificateMetaData(response.getMeta(), response.getIntyg());
@@ -163,7 +163,7 @@ public class TsBasModuleApi extends TsParentModuleApi<Utlatande> {
     }
 
     @Override
-    protected Intyg utlatandeToIntyg(Utlatande utlatande) throws ConverterException {
+    protected Intyg utlatandeToIntyg(TsBasUtlatande utlatande) throws ConverterException {
         return UtlatandeToIntyg.convert(utlatande);
     }
 }

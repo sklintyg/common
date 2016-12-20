@@ -37,12 +37,12 @@ public final class TransportToInternalConverter {
     private TransportToInternalConverter() {
     }
 
-    public static Utlatande convert(TSDiabetesIntyg transport) throws ConverterException {
+    public static TsDiabetesUtlatande convert(TSDiabetesIntyg transport) throws ConverterException {
         if (transport == null) {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
 
-        Utlatande result = new Utlatande();
+        TsDiabetesUtlatande result = new TsDiabetesUtlatande();
 
         result.setId(transport.getIntygsId());
         result.setTyp(TsDiabetesEntryPoint.MODULE_ID);

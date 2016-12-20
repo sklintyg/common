@@ -35,7 +35,7 @@ import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.ts_bas.model.internal.Utlatande;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,7 +51,7 @@ public class WebcertModelFactoryTest {
     public void testCreateEditableModel() throws Exception {
         when(intygTexts.getLatestVersion(eq(TsBasEntryPoint.MODULE_ID))).thenReturn("version");
 
-        Utlatande utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
+        TsBasUtlatande utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
         assertNotNull(utlatande);
         assertEquals(TsBasEntryPoint.MODULE_ID, utlatande.getTyp());
@@ -70,13 +70,13 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV2Format() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
-        Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
+        TsBasUtlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
         assertTrue(CollectionUtils.isEmpty(UtlatandeToIntyg.convert(draft).getSvar()));
     }
 
     @Test(expected = ConverterException.class)
     public void testCreateCopyCertificateIdMissing() throws Exception {
-        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), new Utlatande());
+        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), new TsBasUtlatande());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {

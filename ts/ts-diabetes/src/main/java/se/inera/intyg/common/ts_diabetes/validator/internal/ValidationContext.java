@@ -20,14 +20,14 @@
 package se.inera.intyg.common.ts_diabetes.validator.internal;
 
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 
 public class ValidationContext {
 
-    private final Utlatande utlatande;
+    private final TsDiabetesUtlatande utlatande;
 
-    public ValidationContext(Utlatande utlatande) {
+    public ValidationContext(TsDiabetesUtlatande utlatande) {
         this.utlatande = utlatande;
     }
 

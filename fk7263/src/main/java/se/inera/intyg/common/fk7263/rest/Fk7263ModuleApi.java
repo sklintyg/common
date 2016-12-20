@@ -70,7 +70,7 @@ import se.inera.intyg.common.fk7263.model.converter.InternalToTransport;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
 import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.util.Fk7263ModelCompareUtil;
 import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
 import se.inera.intyg.common.fk7263.pdf.PdfEmployeeGenerator;
@@ -83,6 +83,8 @@ import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
@@ -152,7 +154,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
         try {
-            Utlatande intyg = getInternal(internalModel);
+            Fk7263Utlatande intyg = getInternal(internalModel);
             PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin);
             return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(false));
         } catch (PdfGeneratorException e) {
@@ -168,7 +170,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields)
             throws ModuleException {
         try {
-            Utlatande intyg = getInternal(internalModel);
+            Fk7263Utlatande intyg = getInternal(internalModel);
             PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin, optionalFields);
             return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(true));
         } catch (PdfGeneratorException e) {
@@ -195,7 +197,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
             throws ModuleException {
         try {
-            Utlatande internal = getInternal(template);
+            Fk7263Utlatande internal = getInternal(template);
             return toInteralModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, internal));
         } catch (ConverterException e) {
             LOG.error("Could not create a new internal Webcert model", e);
@@ -272,7 +274,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public String transformToStatisticsService(String inputXml) throws ModuleException {
-        Utlatande utlatande = getUtlatandeFromXml(inputXml);
+        Fk7263Utlatande utlatande = getUtlatandeFromXml(inputXml);
         Intyg intyg = getIntygFromUtlatande(utlatande);
         RegisterCertificateType type = new RegisterCertificateType();
         type.setIntyg(intyg);
@@ -311,12 +313,12 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
-        Utlatande oldUtlatande;
-        Utlatande newUtlatande;
+        Fk7263Utlatande oldUtlatande;
+        Fk7263Utlatande newUtlatande;
 
         try {
-            oldUtlatande = objectMapper.readValue(persistedState, Utlatande.class);
-            newUtlatande = objectMapper.readValue(currentState, Utlatande.class);
+            oldUtlatande = objectMapper.readValue(persistedState, Fk7263Utlatande.class);
+            newUtlatande = objectMapper.readValue(currentState, Fk7263Utlatande.class);
         } catch (IOException e) {
             throw new ModuleException(e);
         }
@@ -383,12 +385,12 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
-        return objectMapper.readValue(utlatandeJson, Utlatande.class);
+    public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
+        return objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
     }
 
     @Override
-    public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
+    public Fk7263Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         RegisterMedicalCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml),
                 RegisterMedicalCertificateType.class);
         try {
@@ -401,7 +403,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     private CertificateResponse convert(GetMedicalCertificateForCareResponseType response, boolean revoked) throws ModuleException {
         try {
-            Utlatande utlatande = TransportToInternal.convert(response.getLakarutlatande());
+            Fk7263Utlatande utlatande = TransportToInternal.convert(response.getLakarutlatande());
             String internalModel = objectMapper.writeValueAsString(utlatande);
             CertificateMetaData metaData = ClinicalProcessCertificateMetaTypeConverter.toCertificateMetaData(response.getMeta());
             return new CertificateResponse(internalModel, utlatande, metaData, revoked);
@@ -474,12 +476,11 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     // - - - - - Private transformation methods for building responses - - - - - //
 
-    private se.inera.intyg.common.fk7263.model.internal.Utlatande getInternal(String internalModel)
+    private Fk7263Utlatande getInternal(String internalModel)
             throws ModuleException {
 
         try {
-            se.inera.intyg.common.fk7263.model.internal.Utlatande utlatande = objectMapper.readValue(internalModel,
-                    se.inera.intyg.common.fk7263.model.internal.Utlatande.class);
+            Fk7263Utlatande utlatande = objectMapper.readValue(internalModel, Fk7263Utlatande.class);
 
             // Explicitly populate the giltighet interval since it is information derived from
             // the arbetsformaga but needs to be serialized into the Utkast model.
@@ -494,7 +495,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
             throws ModuleException {
         try {
-            Utlatande intyg = getInternal(internalModel);
+            Fk7263Utlatande intyg = getInternal(internalModel);
             WebcertModelFactoryUtil.updateSkapadAv(intyg, hosPerson, signingDate);
             return toInteralModelResponse(intyg);
         } catch (ModuleException e) {
@@ -505,7 +506,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     private String updateInternal(String internalModel, Patient patient)
             throws ModuleException {
         try {
-            Utlatande intyg = getInternal(internalModel);
+            Fk7263Utlatande intyg = getInternal(internalModel);
             WebcertModelFactoryUtil.populateWithPatientInfo(intyg.getGrundData(), patient);
             return toInteralModelResponse(intyg);
         } catch (ModuleException | ConverterException e) {
@@ -513,8 +514,7 @@ public class Fk7263ModuleApi implements ModuleApi {
         }
     }
 
-    private String toInteralModelResponse(
-            se.inera.intyg.common.fk7263.model.internal.Utlatande internalModel) throws ModuleException {
+    private String toInteralModelResponse(Fk7263Utlatande internalModel) throws ModuleException {
         try {
             StringWriter writer = new StringWriter();
             objectMapper.writeValue(writer, internalModel);
@@ -530,7 +530,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Map<String, List<String>> getModuleSpecificArendeParameters(se.inera.intyg.common.support.model.common.internal.Utlatande utlatande,
+    public Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande,
             List<String> frageIds) {
         throw new UnsupportedOperationException();
     }
@@ -539,7 +539,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder)
             throws ModuleException {
         try {
-            Utlatande internal = getInternal(internalModelHolder);
+            Fk7263Utlatande internal = getInternal(internalModelHolder);
             internal.setKontaktMedFk(false);
             internal.setNedsattMed100(null);
             internal.setNedsattMed25(null);
@@ -554,7 +554,7 @@ public class Fk7263ModuleApi implements ModuleApi {
             internal.setJournaluppgifter(null);
             internal.setAnnanReferens(null);
             internal.setAnnanReferensBeskrivning(null);
-            se.inera.intyg.common.support.model.common.internal.Relation relation = draftCopyHolder.getRelation();
+            Relation relation = draftCopyHolder.getRelation();
             relation.setSistaGiltighetsDatum(internal.getGiltighet().getTom());
             draftCopyHolder.setRelation(relation);
 
@@ -566,9 +566,9 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Intyg getIntygFromUtlatande(se.inera.intyg.common.support.model.common.internal.Utlatande utlatande) throws ModuleException {
+    public Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException {
         try {
-            return UtlatandeToIntyg.convert((Utlatande) utlatande);
+            return UtlatandeToIntyg.convert((Fk7263Utlatande) utlatande);
         } catch (Exception e) {
             LOG.error("Could not get intyg from utlatande: {}", e.getMessage());
             throw new ModuleException("Could not get intyg from utlatande", e);
@@ -623,8 +623,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String createRevokeRequest(se.inera.intyg.common.support.model.common.internal.Utlatande utlatande,
-            se.inera.intyg.common.support.model.common.internal.HoSPersonal skapatAv, String meddelande) throws ModuleException {
+    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
         RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
         request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 

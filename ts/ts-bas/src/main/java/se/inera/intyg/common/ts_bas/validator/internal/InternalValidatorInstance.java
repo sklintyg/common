@@ -46,14 +46,14 @@ public class InternalValidatorInstance {
     }
 
     /**
-     * Validates an internal draft of an {@link Utlatande} (this means the object being validated is not necessarily
+     * Validates an internal draft of an {@link TsBasUtlatande} (this means the object being validated is not necessarily
      * complete).
      *
      * @param utlatande
-     *            an internal {@link Utlatande}
+     *            an internal {@link TsBasUtlatande}
      * @return a {@link ValidateDraftResponseHolder} with a status and a list of validationErrors
      */
-    public ValidateDraftResponse validate(Utlatande utlatande) {
+    public ValidateDraftResponse validate(TsBasUtlatande utlatande) {
 
         if (utlatande == null) {
             ValidatorUtil.addValidationError(validationMessages, "utlatande", ValidationMessageType.EMPTY, "ts-bas.validation.utlatande.missing");

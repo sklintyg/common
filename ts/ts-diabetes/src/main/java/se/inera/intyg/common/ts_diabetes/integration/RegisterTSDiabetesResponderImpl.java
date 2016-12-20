@@ -39,7 +39,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.validate.CertificateValidationException;
 import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.common.ts_diabetes.model.converter.TransportToInternalConverter;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.util.ConverterUtil;
 import se.inera.intyg.common.ts_diabetes.validator.transport.TransportValidatorInstance;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.*;
@@ -62,7 +62,7 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
 
         try {
             validate(parameters);
-            Utlatande utlatande = TransportToInternalConverter.convert(parameters.getIntyg());
+            TsDiabetesUtlatande utlatande = TransportToInternalConverter.convert(parameters.getIntyg());
             String xml = xmlToString(parameters);
 
             CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);

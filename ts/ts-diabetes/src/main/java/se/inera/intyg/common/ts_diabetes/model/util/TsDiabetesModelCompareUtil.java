@@ -20,12 +20,12 @@
 package se.inera.intyg.common.ts_diabetes.model.util;
 
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
-import se.inera.intyg.common.ts_diabetes.model.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 
-public class TsDiabetesModelCompareUtil implements ModelCompareUtil<Utlatande> {
+public class TsDiabetesModelCompareUtil implements ModelCompareUtil<TsDiabetesUtlatande> {
 
     @Override
-    public boolean isValidForNotification(Utlatande utlatande) {
+    public boolean isValidForNotification(TsDiabetesUtlatande utlatande) {
         // Until someone actually specifies metrics for this, we assume TS-diabetes is always valid for change notifications.
         return true;
     }

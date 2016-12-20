@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import se.inera.intyg.common.fk7263.model.internal.Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
@@ -89,9 +89,9 @@ public class Fk7263InternalToNotification {
         LOG.debug("Creating CertificateStatusUpdateForCareType for certificate {}, event {}", notificationMessage.getIntygsId(),
                 notificationMessage.getHandelse());
 
-        Utlatande utlatandeSource;
+        Fk7263Utlatande utlatandeSource;
         try {
-            utlatandeSource = objectMapper.readValue(notificationMessage.getUtkast(), Utlatande.class);
+            utlatandeSource = objectMapper.readValue(notificationMessage.getUtkast(), Fk7263Utlatande.class);
         } catch (IOException e) {
             throw new ModuleException("Failed to deserialize internal model", e);
         }
@@ -123,20 +123,20 @@ public class Fk7263InternalToNotification {
         utlatandeType.setTypAvUtlatande(typAvUtlatande);
     }
 
-    private void decorateWithUtlatandeId(UtlatandeType utlatandeType, Utlatande utlatandeSource) {
+    private void decorateWithUtlatandeId(UtlatandeType utlatandeType, Fk7263Utlatande utlatandeSource) {
         UtlatandeId utlatandeId = new UtlatandeId();
         utlatandeId.setRoot(INTYGSID_ROOT);
         utlatandeId.setExtension(utlatandeSource.getId());
         utlatandeType.setUtlatandeId(utlatandeId);
     }
 
-    private void decorateWithSigneringsDatum(UtlatandeType utlatandeType, Utlatande utlatandeSource) {
+    private void decorateWithSigneringsDatum(UtlatandeType utlatandeType, Fk7263Utlatande utlatandeSource) {
         if (utlatandeSource.getGrundData().getSigneringsdatum() != null) {
             utlatandeType.setSigneringsdatum(utlatandeSource.getGrundData().getSigneringsdatum());
         }
     }
 
-    private void decorateWithPatient(UtlatandeType utlatandeType, Utlatande utlatandeSource) {
+    private void decorateWithPatient(UtlatandeType utlatandeType, Fk7263Utlatande utlatandeSource) {
         PersonId personId = new PersonId();
         personId.setExtension(utlatandeSource.getGrundData().getPatient().getPersonId().getPersonnummer());
         personId.setRoot(utlatandeSource.getGrundData().getPatient().getPersonId().isSamordningsNummer()
@@ -148,7 +148,7 @@ public class Fk7263InternalToNotification {
         utlatandeType.setPatient(patientType);
     }
 
-    private void decorateWithSkapadAv(UtlatandeType utlatandeType, Utlatande utlatandeSource) {
+    private void decorateWithSkapadAv(UtlatandeType utlatandeType, Fk7263Utlatande utlatandeSource) {
         HoSPersonal vardpersonReferens = utlatandeSource.getGrundData().getSkapadAv();
 
         HosPersonal hoSPerson = new HosPersonal();
@@ -184,7 +184,7 @@ public class Fk7263InternalToNotification {
         utlatandeType.setHandelse(handelseType);
     }
 
-    private void decorateWithOptionalDiagnos(UtlatandeType utlatandeType, Utlatande utlatandeSource) {
+    private void decorateWithOptionalDiagnos(UtlatandeType utlatandeType, Fk7263Utlatande utlatandeSource) {
 
         String diagnosKod = utlatandeSource.getDiagnosKod();
 
@@ -218,7 +218,7 @@ public class Fk7263InternalToNotification {
         utlatandeType.setDiagnos(diagnos);
     }
 
-    private void decorateWithOptionalArbetsformagor(UtlatandeType utlatandeType, Utlatande utlatandeSource) {
+    private void decorateWithOptionalArbetsformagor(UtlatandeType utlatandeType, Fk7263Utlatande utlatandeSource) {
 
         List<Arbetsformaga> arbetsformagor = utlatandeType.getArbetsformaga();
 
