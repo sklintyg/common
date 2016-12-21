@@ -50,18 +50,8 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                                     templateOptions: {label: 'KV_FKMU_0001.ANNAT', hideKompletteringText: true}
                                 }
                             ]
-                        }, {
-                            key: 'annatGrundForMUBeskrivning',
-                            type: 'single-text',
-                            className: 'fold-animation',
-                            hideExpression: '!model.annatGrundForMU',
-                            templateOptions: {
-                                label: 'DFR_1.3',
-                                help: 'DFR_1.3',
-                                indent: true,
-                                kompletteringKey: 'annatGrundForMU'
-                            }
                         },
+                        FactoryTemplates.annatGrundForMUBeskrivning,
 
                         //Fråga 2 -----
                         {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2'}},

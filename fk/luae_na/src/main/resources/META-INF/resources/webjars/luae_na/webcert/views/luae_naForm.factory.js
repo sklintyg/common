@@ -58,19 +58,8 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                                     }
                                 }
                             ]
-                        }, {
-                            key: 'annatGrundForMUBeskrivning',
-                            type: 'single-text-vertical',
-                            className: 'fold-animation',
-                            hideExpression: '!model.annatGrundForMU',
-                            templateOptions: {
-                                label: 'DFR_1.3',
-                                help: 'DFR_1.3',
-                                required: true,
-                                size: 'full',
-                                kompletteringKey: 'annatGrundForMU'
-                            }
                         },
+                        FactoryTemplates.annatGrundForMUBeskrivning,
                         {
                             key: 'kannedomOmPatient',
                             type: 'singleDate',

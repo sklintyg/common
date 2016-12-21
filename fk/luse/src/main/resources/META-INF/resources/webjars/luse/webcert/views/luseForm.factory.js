@@ -55,21 +55,8 @@ angular.module('luse').factory('luse.FormFactory', [
                                 }
                             }
                         ]
-                    }, {
-                        key: 'annatGrundForMUBeskrivning',
-                        type: 'single-text-vertical',
-                        className: 'fold-animation',
-                        hideExpression: '!model.annatGrundForMU',
-                        templateOptions: {
-                            label: 'DFR_1.3',
-                            help: 'DFR_1.3',
-                            required: true,
-                            size: 'full',
-                            hideWhenEmpty: true,
-                            forceLine: true,
-                            kompletteringKey: 'annatGrundForMU'
-                        }
                     },
+                    FactoryTemplates.annatGrundForMUBeskrivning,
                     {
                         key: 'motiveringTillInteBaseratPaUndersokning',
                         type: 'multi-text',

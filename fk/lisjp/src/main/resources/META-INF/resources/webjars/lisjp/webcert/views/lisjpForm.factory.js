@@ -73,19 +73,9 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                     }
                                 }
                             ]
-                        }, {
-                            key: 'annatGrundForMUBeskrivning',
-                            type: 'single-text',
-                            className: 'fold-animation',
-                            hideExpression: '!model.annatGrundForMU',
-                            templateOptions: {
-                                label: 'DFR_1.3',
-                                help: 'DFR_1.3',
-                                indent: true,
-                                kompletteringKey: 'annatGrundForMU',
-                                required: true
-                            }
-                        }, {
+                        },
+                        FactoryTemplates.annatGrundForMUBeskrivning,
+                        {
                             key: 'motiveringTillInteBaseratPaUndersokning',
                             type: 'multi-text',
                             className: 'fold-animation',
