@@ -402,7 +402,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.patient.postadress.missing': 'Postadress saknas.',
         'common.validation.patient.postnummer.missing': 'Postnummer saknas.',
         'common.validation.patient.postort.missing': 'Postort saknas.',
-        'common.validation.postnummer.incorrect-format': 'Postnummer har fel format',
+        'common.validation.postnummer.incorrect-format': 'Postnummer måste anges med fem siffror',
 
         'common.validation.boolean.empty': 'Du måste välja minst ett alternativ.',
         'common.validation.check-group.empty': 'Du måste välja minst ett alternativ.',

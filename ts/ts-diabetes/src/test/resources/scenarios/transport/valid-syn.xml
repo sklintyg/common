@@ -61,7 +61,7 @@
                 <fornamn>Johnny</fornamn>
                 <efternamn>Appleseed</efternamn>
                 <postadress>Testvägen 12</postadress>
-                <postnummer>123456</postnummer>
+                <postnummer>12345</postnummer>
                 <postort>Testort</postort>
             </patient>
         </grundData>

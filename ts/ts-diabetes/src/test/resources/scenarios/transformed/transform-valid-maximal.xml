@@ -37,7 +37,7 @@
          <p:fornamn>Herr</p:fornamn>
          <p:efternamn>Dundersjuk</p:efternamn>
          <p:postadress>Testvägen 12</p:postadress>
-         <p:postnummer>123456</p:postnummer>
+         <p:postnummer>12345</p:postnummer>
          <p:postort>Testort</p:postort>
       </p:patient>
       <p:skapadAv>

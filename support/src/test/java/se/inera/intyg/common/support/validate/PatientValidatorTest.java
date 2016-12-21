@@ -27,6 +27,7 @@ import org.junit.Test;
 
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
 public class PatientValidatorTest {
 
@@ -73,6 +74,20 @@ public class PatientValidatorTest {
         assertEquals("Expected 1 validation errors", 1, validations.size());
         assertEquals("Expected validation failure for postnummer", "patient.grunddata.patient.postnummer", validations.get(0).getField());
         assertEquals(validations.get(0).getField(), "patient.grunddata.patient.postnummer", validations.get(0).getField());
+        assertEquals("Expected EMPTY for postort", ValidationMessageType.EMPTY, validations.get(0).getType());
+    }
+
+    @Test
+    public void failPatientInvalidPostnummer() {
+        Patient patient = new Patient();
+        patient.setPostadress("Testadress");
+        patient.setPostnummer("123456");
+        patient.setPostort("Postort");
+        List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
+        PatientValidator.validate(patient, validations);
+        assertEquals("Expected 1 validation errors", 1, validations.size());
+        assertEquals("Expected validation failure for postort", "patient.grunddata.patient.postnummer", validations.get(0).getField());
+        assertEquals("Expected INVALID_FORMAT for postort", ValidationMessageType.INVALID_FORMAT, validations.get(0).getType());
     }
 
     @Test(expected=RuntimeException.class)

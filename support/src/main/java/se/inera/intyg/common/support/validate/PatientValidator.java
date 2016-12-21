@@ -32,6 +32,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
  */
 public final class PatientValidator {
 
+    private static final StringValidator STRING_VALIDATOR = new StringValidator();
+
     private PatientValidator() {
     }
 
@@ -41,6 +43,10 @@ public final class PatientValidator {
         }
         validateString(validationMessages, patient.getPostadress(), "patient.grunddata.patient.postadress");
         validateString(validationMessages, patient.getPostnummer(), "patient.grunddata.patient.postnummer");
+        if (!StringUtils.isBlank(patient.getPostnummer()) && !STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
+            validationMessages.add(new ValidationMessage("patient.grunddata.patient.postnummer", ValidationMessageType.INVALID_FORMAT,
+                    "common.validation.postnummer.incorrect-format"));
+        }
         validateString(validationMessages, patient.getPostort(), "patient.grunddata.patient.postort");
     }
 
