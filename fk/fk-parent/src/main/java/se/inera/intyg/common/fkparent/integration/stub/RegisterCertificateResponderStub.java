@@ -49,16 +49,10 @@ public final class RegisterCertificateResponderStub implements RegisterCertifica
     @Autowired(required = false)
     private MedicalCertificatesStore store;
 
-    private boolean throwException = false;
-
     @Override
     public RegisterCertificateResponseType registerCertificate(String logicalAddress, RegisterCertificateType parameters) {
         LOGGER.debug("fk-parent RegisterCertificate responding");
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
-        if (throwException) {
-            LOGGER.debug("Throwing fake exception");
-            throw new RuntimeException();
-        }
         ResultType resultType = new ResultType();
 
         try {
@@ -76,14 +70,6 @@ public final class RegisterCertificateResponderStub implements RegisterCertifica
         }
         response.setResult(resultType);
         return response;
-    }
-
-    public boolean isThrowException() {
-        return throwException;
-    }
-
-    public void setThrowException(boolean throwException) {
-        this.throwException = throwException;
     }
 
 }

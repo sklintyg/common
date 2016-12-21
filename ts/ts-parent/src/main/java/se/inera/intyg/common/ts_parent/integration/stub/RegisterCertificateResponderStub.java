@@ -44,11 +44,13 @@ import javax.xml.ws.Provider;
 import javax.xml.ws.ServiceMode;
 import javax.xml.ws.WebServiceProvider;
 
-import com.google.common.base.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
+
+import com.google.common.base.Charsets;
+import com.google.common.base.Throwables;
 
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
@@ -56,15 +58,11 @@ import se.riv.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ResultType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 
-import com.google.common.base.Throwables;
-
 @WebServiceProvider
 @ServiceMode(value = javax.xml.ws.Service.Mode.MESSAGE)
 public final class RegisterCertificateResponderStub implements Provider<SOAPMessage> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateResponderStub.class);
-
-    private boolean throwException = false;
 
     @Autowired
     private TSCertificateStore tsCertificatesStore;
@@ -82,11 +80,6 @@ public final class RegisterCertificateResponderStub implements Provider<SOAPMess
 
     public RegisterCertificateResponseType registerCertificate(RegisterCertificateType request) {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
-
-        if (throwException) {
-            LOGGER.debug("Throwing fake exception");
-            throw new RuntimeException();
-        }
 
         Utlatande utlatande = request.getUtlatande();
         String id = utlatande.getUtlatandeId().getExtension();
@@ -106,14 +99,6 @@ public final class RegisterCertificateResponderStub implements Provider<SOAPMess
         ResultType result = new ResultType();
         result.setResultCode(ResultCodeType.OK);
         return result;
-    }
-
-    public boolean isThrowException() {
-        return throwException;
-    }
-
-    public void setThrowException(boolean throwException) {
-        this.throwException = throwException;
     }
 
     @Override
