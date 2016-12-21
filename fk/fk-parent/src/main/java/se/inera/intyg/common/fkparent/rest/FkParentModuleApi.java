@@ -315,8 +315,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String createRevokeRequest(Utlatande utlatande, se.inera.intyg.common.support.model.common.internal.HoSPersonal skapatAv,
-            String meddelande) throws ModuleException {
+    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
         try {
             StringWriter writer = new StringWriter();
             JAXB.marshal(InternalToRevoke.convert(utlatande, skapatAv, meddelande), writer);

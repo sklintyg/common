@@ -30,38 +30,54 @@ import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.fkparent.support.ResultTypeUtil;
+import se.inera.intyg.common.luae_na.model.converter.SvarIdHelperImpl;
+import se.inera.intyg.common.luae_na.model.converter.WebcertModelFactoryImpl;
+import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
+import se.inera.intyg.common.luae_na.utils.ScenarioFinder;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.fkparent.support.ResultTypeUtil;
-import se.inera.intyg.common.luae_na.model.converter.SvarIdHelperImpl;
-import se.inera.intyg.common.luae_na.model.converter.WebcertModelFactoryImpl;
-import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
-import se.inera.intyg.common.luae_na.utils.ScenarioFinder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponseType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.*;
+import se.riv.clinicalprocess.healthcond.certificate.v2.ErrorIdType;
+import se.riv.clinicalprocess.healthcond.certificate.v2.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.v2.ResultType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LuaenaModuleApiTest {
@@ -204,7 +220,7 @@ public class LuaenaModuleApiTest {
         final String intygId = "intygId";
 
         GrundData gd = new GrundData();
-        gd.setPatient(new se.inera.intyg.common.support.model.common.internal.Patient());
+        gd.setPatient(new Patient());
         gd.getPatient().setPersonId(new Personnummer("191212121212"));
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);

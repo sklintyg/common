@@ -22,11 +22,15 @@ package se.inera.intyg.common.fk7263.pdf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,13 +42,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 
-import se.inera.intyg.common.support.model.*;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.LocalDateInterval;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 
 /**
  * @author andreaskaltenbach
@@ -72,7 +79,7 @@ public class PdfEmployeeGeneratorTest {
     public void testPdfFileName() throws Exception {
         final Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
-        se.inera.intyg.common.support.model.common.internal.Patient patient = new se.inera.intyg.common.support.model.common.internal.Patient();
+        Patient patient = new Patient();
         patient.setPersonId(new Personnummer("19121212-1212"));
         intyg.getGrundData().setPatient(patient);
         intyg.setGiltighet(new LocalDateInterval(LocalDate.parse("2016-08-15"), LocalDate.parse("2016-10-30")));

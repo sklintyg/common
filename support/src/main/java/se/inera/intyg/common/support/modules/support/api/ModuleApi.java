@@ -20,17 +20,21 @@
 package se.inera.intyg.common.support.modules.support.api;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-
-import java.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 
@@ -216,8 +220,7 @@ public interface ModuleApi {
      * @param meddelande voluntary message of why the certificate was revoked
      * @return the XML request as a String
      */
-    String createRevokeRequest(Utlatande utlatande, se.inera.intyg.common.support.model.common.internal.HoSPersonal skapatAv, String meddelande)
-            throws ModuleException;
+    String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException;
 
     /** Returns an instance of the particular sub class of Utlatande that this module handles. */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;

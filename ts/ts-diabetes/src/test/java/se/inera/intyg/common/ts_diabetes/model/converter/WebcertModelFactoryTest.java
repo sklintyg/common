@@ -40,10 +40,15 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 
@@ -86,7 +91,7 @@ public class WebcertModelFactoryTest {
         final LocalDateTime signingDate = LocalDateTime.now();
 
         TsDiabetesUtlatande utlatande = new TsDiabetesUtlatande();
-        utlatande.getGrundData().setSkapadAv(new se.inera.intyg.common.support.model.common.internal.HoSPersonal());
+        utlatande.getGrundData().setSkapadAv(new HoSPersonal());
         HoSPersonal hosPerson = createHosPersonal();
         WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
 

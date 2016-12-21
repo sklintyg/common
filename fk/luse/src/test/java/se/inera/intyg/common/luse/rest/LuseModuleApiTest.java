@@ -30,10 +30,20 @@ import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_SVAR_ID_7;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID_7;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
@@ -41,21 +51,16 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.support.modules.support.api.exception.*;
-import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.fkparent.support.ResultTypeUtil;
 import se.inera.intyg.common.luse.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luse.model.converter.WebcertModelFactoryImpl;
@@ -63,11 +68,33 @@ import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.luse.utils.ScenarioFinder;
 import se.inera.intyg.common.luse.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luse.validator.InternalDraftValidatorImpl;
-import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.*;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
+import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponseType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.*;
+import se.riv.clinicalprocess.healthcond.certificate.v2.ErrorIdType;
+import se.riv.clinicalprocess.healthcond.certificate.v2.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.v2.ResultType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LuseModuleApiTest {
@@ -350,7 +377,7 @@ public class LuseModuleApiTest {
         final String intygId = "intygId";
 
         GrundData gd = new GrundData();
-        gd.setPatient(new se.inera.intyg.common.support.model.common.internal.Patient());
+        gd.setPatient(new Patient());
         gd.getPatient().setPersonId(new Personnummer("191212121212"));
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);

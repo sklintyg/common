@@ -27,7 +27,10 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intygstjanster.ts.services.types.v1.II;
 import se.inera.intygstjanster.ts.services.v1.DiabetesTypVarden;
+import se.inera.intygstjanster.ts.services.v1.Patient;
 import se.inera.intygstjanster.ts.services.v1.SkapadAv;
+import se.inera.intygstjanster.ts.services.v1.Vardenhet;
+import se.inera.intygstjanster.ts.services.v1.Vardgivare;
 
 public class TransportToInternalUtilTest {
 
@@ -54,7 +57,7 @@ public class TransportToInternalUtilTest {
         final String befattning1 = "befattning1";
         final String befattning2 = "befattning2";
         se.inera.intygstjanster.ts.services.v1.GrundData grundData = new se.inera.intygstjanster.ts.services.v1.GrundData();
-        se.inera.intygstjanster.ts.services.v1.Patient patient = new se.inera.intygstjanster.ts.services.v1.Patient();
+        Patient patient = new Patient();
         patient.setPersonId(new II());
         patient.getPersonId().setExtension("19121212-1212");
         grundData.setPatient(patient);
@@ -65,8 +68,8 @@ public class TransportToInternalUtilTest {
         skapadAv.getSpecialiteter().add(specialisering2);
         skapadAv.getBefattningar().add(befattning1);
         skapadAv.getBefattningar().add(befattning2);
-        se.inera.intygstjanster.ts.services.v1.Vardenhet vardenhet = new se.inera.intygstjanster.ts.services.v1.Vardenhet();
-        se.inera.intygstjanster.ts.services.v1.Vardgivare vardgivare = new se.inera.intygstjanster.ts.services.v1.Vardgivare();
+        Vardenhet vardenhet = new Vardenhet();
+        Vardgivare vardgivare = new Vardgivare();
         vardgivare.setVardgivarid(new II());
         vardenhet.setVardgivare(vardgivare);
         vardenhet.setEnhetsId(new II());
@@ -86,15 +89,15 @@ public class TransportToInternalUtilTest {
     @Test
     public void testBuildSkapadAvWithoutBefattningskodAndSpecialisering() {
         se.inera.intygstjanster.ts.services.v1.GrundData grundData = new se.inera.intygstjanster.ts.services.v1.GrundData();
-        se.inera.intygstjanster.ts.services.v1.Patient patient = new se.inera.intygstjanster.ts.services.v1.Patient();
+        Patient patient = new Patient();
         patient.setPersonId(new II());
         patient.getPersonId().setExtension("19121212-1212");
         grundData.setPatient(patient);
         grundData.setSigneringsTidstampel("2016-10-11T12:12:44");
         SkapadAv skapadAv = new SkapadAv();
         skapadAv.setPersonId(new II());
-        se.inera.intygstjanster.ts.services.v1.Vardenhet vardenhet = new se.inera.intygstjanster.ts.services.v1.Vardenhet();
-        se.inera.intygstjanster.ts.services.v1.Vardgivare vardgivare = new se.inera.intygstjanster.ts.services.v1.Vardgivare();
+        Vardenhet vardenhet = new Vardenhet();
+        Vardgivare vardgivare = new Vardgivare();
         vardgivare.setVardgivarid(new II());
         vardenhet.setVardgivare(vardgivare);
         vardenhet.setEnhetsId(new II());
