@@ -79,8 +79,8 @@ angular.module('common').constant('common.messages', {
         'common.modal.bankid.signed': 'Intyget är nu signerat.',
 
         'common.modal.mbankid.heading' : 'Signera med Mobilt BankID',
-        'common.modal.mbankid.open': 'Öppna appen för Mobilt BankID på din enhet där du har ditt Mobila BankID.',
-        'common.modal.mbankid.signing': 'Intyget signeras, Intyget signeras, vänligen skriv in din kod på din enhet där du har ditt Mobila BankID.',
+        'common.modal.mbankid.open': 'Starta Mobilt BankID på den enhet där det är installerat.',
+        'common.modal.mbankid.signing': 'Skriv in din säkerhetskod på den enhet där Mobilt BankID är startat.',
         'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
         'common.modal.mbankid.signed': 'Intyget är nu signerat.',
 
