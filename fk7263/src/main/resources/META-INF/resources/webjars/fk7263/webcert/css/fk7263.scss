@@ -72,8 +72,9 @@ This is to avoid leaking module specific style rules outside of it's intended co
 
   .edit-form {
     textarea#currentWork.form-control {
-      overflow-y: hidden;
       padding: 2px 4px;
+      overflow-y: hidden;
+      resize: none;
       width: 100%;
     }
   }

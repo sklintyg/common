@@ -4,7 +4,7 @@
         <div class="form-group">
             <label class="control-label">Planerad eller pågående behandling eller åtgärd inom sjukvården (ange
                 vilken)</label>
-                  <textarea id="measuresCurrent" class="form-control" name="measures.current" rows='2'
+                  <textarea id="measuresCurrent" class="form-control" name="measures.current" rows="2" auto-expand="true"
                             ng-model="model.atgardInomSjukvarden" wc-maxlength ng-trim="false"
                             maxlength="{{viewState.inputLimits.atgardInomSjukvarden}}"
                             ng-blur="validate()"></textarea>
@@ -12,7 +12,7 @@
 
         <div class="form-group">
             <label class="control-label">Annan åtgärd (ange vilken)</label>
-                  <textarea id="measuresOther" class="form-control" name="measures.other" rows='2'
+                  <textarea id="measuresOther" class="form-control" name="measures.other" rows="2" auto-expand="true"
                             ng-model="model.annanAtgard" wc-maxlength ng-trim="false"
                             maxlength="{{viewState.inputLimits.annanAtgard}}"
                             ng-blur="validate()"></textarea>

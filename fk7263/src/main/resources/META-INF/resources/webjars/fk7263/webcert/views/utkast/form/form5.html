@@ -12,7 +12,7 @@
     <wc-fmb-help-display related-form-id="FALT5" fmb-states="fmbViewState" field-name="AKTIVITETSBEGRANSNING">
       <wc-validation-wrapper field-type="multi-text"
                              validations="viewState.getValidationErrors('aktivitetsbegransning')">
-        <textarea id="activityLimitation" class="form-control" name="activityLimitation" rows='10'
+        <textarea id="activityLimitation" class="form-control" name="activityLimitation" rows="10" auto-expand="true"
                   ng-model="model.aktivitetsbegransning" wc-maxlength ng-trim="false"
                   maxlength="{{viewState.inputLimits.aktivitetsbegransning}}"
                   ng-blur="validate()"></textarea>

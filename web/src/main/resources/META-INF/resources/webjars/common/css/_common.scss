@@ -590,8 +590,9 @@ label {
 
 .edit-form {
     textarea.form-control {
-        padding: 4px 6px;
         overflow-y: hidden;
+        padding: 4px 6px;
+        resize: none;
     }
 }
 

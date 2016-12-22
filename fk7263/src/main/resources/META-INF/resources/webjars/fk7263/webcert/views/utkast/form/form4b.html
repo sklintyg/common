@@ -75,7 +75,7 @@
             <div class="otherText indent" ng-if="basedOnState.check.annanReferens">
                 <wc-validation-wrapper field-type="multi-text" validations="viewState.getValidationErrors('annat')">
                     <span>Ange vad:</span> *<br>
-                    <textarea id="informationBasedOnOtherText" name="informationBasedOn.otherText" rows='2'
+                    <textarea id="informationBasedOnOtherText" name="informationBasedOn.otherText" rows="2" auto-expand="true"
                               class='form-control otherInformation' ng-model="model.annanReferensBeskrivning"
                               ng-change="viewState.limitOtherField('annanReferensBeskrivning')"
                               ng-blur="validate()"></textarea>
