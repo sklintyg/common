@@ -69,7 +69,6 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                         {
                             key: 'underlag',
                             type: 'underlag',
-                            className: 'slide-animation',
                             hideExpression: '!model.underlagFinns',
                             templateOptions: {
                                 maxUnderlag: 3,
@@ -116,7 +115,6 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                         },
                         {
                             key: 'diagnosForNyBedomning',
-                            className: 'fold-animation',
                             type: 'multi-text',
                             templateOptions: {
                                 label: 'DFR_45.2',
@@ -233,7 +231,6 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                         {
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
-                            className: 'fold-animation',
                             hideExpression: '!model.kontaktMedFk',
                             templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk'}
                         }

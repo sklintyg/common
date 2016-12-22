@@ -60,7 +60,6 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3'}},
                         {
                             key: 'underlag', type: 'underlag',
-                            className: 'slide-animation',
                             hideExpression: '!model.underlagFinns',
                             templateOptions: {
                                 underlagsTyper: [
@@ -131,7 +130,6 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
-                            className: 'fold-animation',
                             hideExpression: '!model.kontaktMedFk',
                             templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk'}
                         }

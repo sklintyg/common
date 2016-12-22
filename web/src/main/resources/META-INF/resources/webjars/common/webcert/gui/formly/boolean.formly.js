@@ -4,6 +4,9 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         'extends': 'validation-on-change',
         name: 'boolean',
+        defaultOptions: {
+            className: 'fold-animation'
+        },
         templateUrl: '/web/webjars/common/webcert/gui/formly/boolean.formly.html',
         controller: ['$scope', 'common.AtticHelper', function($scope, AtticHelper) {
             // Restore data model value form attic if exists

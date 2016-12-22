@@ -4,6 +4,9 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'underlag',
         templateUrl: '/web/webjars/common/webcert/gui/formly/underlag.formly.html',
+        defaultOptions: {
+            className: 'slide-animation'
+        },
         controller: ['$scope', '$timeout', 'common.dynamicLabelService', 'common.ObjectHelper', 'common.ArendeListViewStateService',
             'common.UtkastValidationService',
         function($scope, $timeout, dynamicLabelService, objectHelper, ArendeListViewState, UtkastValidationService) {

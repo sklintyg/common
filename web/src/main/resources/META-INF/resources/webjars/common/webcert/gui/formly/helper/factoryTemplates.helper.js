@@ -131,7 +131,6 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
             annatGrundForMUBeskrivning: {
                 key: 'annatGrundForMUBeskrivning',
                 type: 'single-text-vertical',
-                className: 'fold-animation',
                 hideExpression: '!model.annatGrundForMU',
                 templateOptions: {
                     label: 'DFR_1.3',

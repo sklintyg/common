@@ -60,7 +60,6 @@ angular.module('luse').factory('luse.FormFactory', [
                     {
                         key: 'motiveringTillInteBaseratPaUndersokning',
                         type: 'multi-text',
-                        className: 'fold-animation',
                         hideExpression: 'model.undersokningAvPatienten || !( model.journaluppgifter || model.anhorigsBeskrivningAvPatienten || model.annatGrundForMU)',
                         templateOptions: {
                             bold: 'bold',
@@ -77,7 +76,6 @@ angular.module('luse').factory('luse.FormFactory', [
                     {
                         key: 'underlag',
                         type: 'underlag',
-                        className: 'slide-animation',
                         hideExpression: '!model.underlagFinns',
                         templateOptions: {
                             maxUnderlag: 3,
@@ -121,7 +119,6 @@ angular.module('luse').factory('luse.FormFactory', [
                     },
                     {
                         key: 'diagnosForNyBedomning',
-                        className: 'fold-animation',
                         type: 'multi-text',
                         templateOptions: {
                             label: 'DFR_45.2',
@@ -228,7 +225,6 @@ angular.module('luse').factory('luse.FormFactory', [
                     {
                         key: 'anledningTillKontakt',
                         type: 'multi-text',
-                        className: 'fold-animation',
                         hideExpression: '!model.kontaktMedFk',
                         templateOptions: {label: 'DFR_26.2', hideWhenEmpty: true, kompletteringKey: 'kontaktMedFk'}
                     }

@@ -78,7 +78,6 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         {
                             key: 'motiveringTillInteBaseratPaUndersokning',
                             type: 'multi-text',
-                            className: 'fold-animation',
                             hideExpression: 'model.undersokningAvPatienten || !(model.telefonkontaktMedPatienten || model.journaluppgifter || model.annatGrundForMU)',
                             templateOptions: {
                                 bold: 'bold',
@@ -113,13 +112,11 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         },
                         {
                             key: 'nuvarandeArbete', type: 'multi-text',
-                            className: 'fold-animation',
                             hideExpression: '!model.sysselsattning["NUVARANDE_ARBETE"]',
                             templateOptions: {label: 'FRG_29', required: true}
                         },
                         {
                             key: 'arbetsmarknadspolitisktProgram', type: 'multi-text',
-                            className: 'fold-animation',
                             hideExpression: '!model.sysselsattning["PROGRAM"]',
                             templateOptions: {label: 'FRG_30', required: true}
                         }
@@ -230,7 +227,6 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                     }
                                 },{
                                     key: 'motiveringTillTidigtStartdatumForSjukskrivning', type: 'multi-text',
-                                    className: 'fold-animation',
                                     hideExpression: function($viewValue, $modelValue, scope) {
                                         var hide = true;
                                         var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
@@ -263,7 +259,6 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         },
                         {
                             key: 'arbetstidsforlaggning', type: 'boolean',
-                            className: 'fold-animation',
                             hideExpression: function($viewValue, $modelValue, scope) {
 
                                 if (scope.model.avstangningSmittskydd) {
@@ -288,7 +283,6 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         },
                         {
                             key: 'arbetstidsforlaggningMotivering', type: 'multi-text',
-                            className: 'fold-animation',
                             hideExpression: function($viewValue, $modelValue, scope) {
                                 if (scope.model.avstangningSmittskydd) {
                                     return true;
@@ -388,7 +382,6 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         }, {
                             key: 'arbetslivsinriktadeAtgarderBeskrivning',
                             type: 'multi-text',
-                            className: 'fold-animation',
                             hideExpression: function($viewValue, $modelValue, scope) {
                                 var hide = true;
                                 angular.forEach(scope.model.arbetslivsinriktadeAtgarder, function(atgard, key) {
@@ -423,7 +416,6 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         {
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
-                            className: 'fold-animation',
                             hideExpression: '!model.kontaktMedFk',
                             templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk'}
                         }

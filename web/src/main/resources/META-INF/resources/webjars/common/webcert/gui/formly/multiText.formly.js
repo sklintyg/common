@@ -4,6 +4,9 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         'extends': 'validation-on-blur',
         name: 'multi-text',
+        defaultOptions: {
+            className: 'fold-animation'
+        },
         templateUrl: '/web/webjars/common/webcert/gui/formly/multiText.formly.html',
         controller: ['$scope', 'common.ObjectHelper', 'common.AtticHelper', function($scope, ObjectHelper, AtticHelper) {
 
