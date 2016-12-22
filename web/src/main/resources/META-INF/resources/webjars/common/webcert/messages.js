@@ -32,7 +32,6 @@ angular.module('common').constant('common.messages', {
         'common.canceldontrevoke': 'Avbryt, makulera ej',
         'common.goback': 'Tillbaka',
         'common.revoke': 'Makulera',
-        'common.revokeandreplace': 'Makulera och ersätt',
         'common.sign': 'Signera intyget',
         'common.signsend': 'Signera och skicka',
         'common.send': 'Skicka',
