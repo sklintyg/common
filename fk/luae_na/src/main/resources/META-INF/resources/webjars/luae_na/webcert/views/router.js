@@ -30,7 +30,11 @@ angular.module('luae_na').config(function($stateProvider) {
             views : {
                 'content@' : {
                     templateUrl: intygsTypPath + 'views/utkast/utkast.html',
-                    controller: 'luae_na.EditCertCtrl'
+                    controller: 'smi.EditCertCtrl',
+                    resolve: {
+                        ViewState: 'luae_na.EditCertCtrl.ViewStateService',
+                        FormFactory: 'luae_na.FormFactory'
+                    }
                 },
 
                 'wcHeader@luae_na-edit' : {

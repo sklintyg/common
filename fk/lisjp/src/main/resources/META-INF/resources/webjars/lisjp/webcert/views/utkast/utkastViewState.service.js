@@ -30,7 +30,7 @@ angular.module('lisjp').service('lisjp.EditCertCtrl.ViewStateService',
 
             this.reset = function() {
                 CommonViewState.reset();
-                CommonViewState.intyg.type = $state.current.data.intygType;
+                CommonViewState.intyg.type = 'lisjp';
                 this.setDraftModel(IntygModel._members.build());
                 return this;
             };

@@ -25,12 +25,16 @@ angular.module('lisjp').config(function($stateProvider) {
 
     $stateProvider.
         state('lisjp-edit', {
-            data: { defaultActive : 'index', intygType: 'lisjp' },
+            data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
             url : '/lisjp/edit/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:sjf',
             views : {
                 'content@' : {
                     templateUrl: intygsTypPath + 'views/utkast/utkast.html',
-                    controller: 'lisjp.EditCertCtrl'
+                    controller: 'smi.EditCertCtrl',
+                    resolve: {
+                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
+                        FormFactory: 'lisjp.FormFactory'
+                    }
                 },
 
                 'wcHeader@lisjp-edit' : {

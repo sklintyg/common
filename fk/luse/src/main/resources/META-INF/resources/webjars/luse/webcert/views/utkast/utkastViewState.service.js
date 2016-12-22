@@ -31,7 +31,7 @@ angular.module('luse').service('luse.EditCertCtrl.ViewStateService',
 
             this.reset = function() {
                 CommonViewState.reset();
-                CommonViewState.intyg.type = $state.current.data.intygType;
+                CommonViewState.intyg.type = 'luse';
                 this.setDraftModel(IntygModel._members.build());
                 return this;
             };

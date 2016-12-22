@@ -30,7 +30,11 @@ angular.module('luse').config(function($stateProvider) {
             views : {
                 'content@' : {
                     templateUrl: intygsTypPath + 'views/utkast/utkast.html',
-                    controller: 'luse.EditCertCtrl'
+                    controller: 'smi.EditCertCtrl',
+                    resolve: {
+                        ViewState: 'luse.EditCertCtrl.ViewStateService',
+                        FormFactory: 'luse.FormFactory'
+                    }
                 },
 
                 'wcHeader@luse-edit' : {

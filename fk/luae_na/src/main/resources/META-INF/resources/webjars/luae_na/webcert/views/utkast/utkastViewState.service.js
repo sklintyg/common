@@ -52,7 +52,7 @@ angular.module('luae_na').service('luae_na.EditCertCtrl.ViewStateService',
 
             this.reset = function() {
                 CommonViewState.reset();
-                CommonViewState.intyg.type = $state.current.data.intygType;
+                CommonViewState.intyg.type = 'luae_na';
                 this.setDraftModel(IntygModel._members.build());
                 return this;
             };

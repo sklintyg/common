@@ -31,7 +31,7 @@ angular.module('luae_fs').service('luae_fs.EditCertCtrl.ViewStateService',
 
             this.reset = function() {
                 CommonViewState.reset();
-                CommonViewState.intyg.type = $state.current.data.intygType;
+                CommonViewState.intyg.type = 'luae_fs';
                 this.setDraftModel(IntygModel._members.build());
                 return this;
             };
