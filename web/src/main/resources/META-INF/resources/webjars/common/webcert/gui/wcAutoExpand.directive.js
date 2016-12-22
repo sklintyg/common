@@ -39,7 +39,7 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
             // Merge defaults with user preferences
             for(var i in scope.attrs){
                 if(attrs[i]){
-                    scope.attrs[i] = parseInt(attrs[i]);
+                    scope.attrs[i] = parseInt(attrs[i], 10);
                 }
             }
 
@@ -49,7 +49,7 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
             }
 
             var node = element[0];
-            var rows = parseInt(scope.attrs['rows']);
+            var rows = parseInt(scope.attrs.rows, 10);
             var lineHeight = _getLineHeight(node, rows);
 
             // user input, copy, paste, cut occurrences
@@ -68,8 +68,9 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
                 // element is visible if at least one of those values is not 0
                 return node.offsetHeight || node.offsetWidth;
             }, function(newVal, oldVal){
-                if(newVal && !oldVal)
+                if(newVal && !oldVal) {
                     adjust();
+                }
             });
 
             // browser resize occurrence
@@ -79,9 +80,15 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
             adjust();
 
             function adjust() {
-                if (isNaN(lineHeight)) lineHeight = _getLineHeight(node);
-                if (!(node.offsetHeight || node.offsetWidth)) return;
-                if (node.scrollHeight <= node.clientHeight) node.style.height = '0px';
+                if (isNaN(lineHeight)) {
+                    lineHeight = _getLineHeight(node);
+                }
+                if (!(node.offsetHeight || node.offsetWidth)) {
+                    return;
+                }
+                if (node.scrollHeight <= node.clientHeight) {
+                    node.style.height = '0px';
+                }
                 var h = node.scrollHeight + // actual height defined by content
                     node.offsetHeight - // border size compensation
                     node.clientHeight; //       -- || --
