@@ -1,11 +1,17 @@
-angular.module('luae_fs').controller('luae_fs.EditCert.FormlyCtrl',
-    ['$scope', 'luae_fs.EditCertCtrl.ViewStateService', 'luae_fs.FormFactory', 'common.TillaggsfragorHelper', 'common.ArendeListViewStateService',
-        function FormlyCtrl($scope, viewState, formFactory, tillaggsfragorHelper, ArendeListViewState) {
+angular.module('common').controller('smi.EditCert.FormlyCtrl',
+    ['$scope', '$state', 'ViewState', 'FormFactory', 'common.TillaggsfragorHelper', 'common.ArendeListViewStateService',
+     'common.fmbViewState',
+        function FormlyCtrl($scope, $state, viewState, formFactory, tillaggsfragorHelper, ArendeListViewState, fmbViewState) {
+
             'use strict';
 
             $scope.viewState = viewState;
 
             $scope.model = viewState.intygModel;
+
+            if($state.current.data.useFmb) {
+                viewState.fmbViewState = fmbViewState.state;
+            }
 
             // hasKompletteringar needs to be here since a formly wrapper (validationGroup.formly.js) currently can not have a controller
             $scope.options = {

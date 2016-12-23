@@ -21,7 +21,6 @@ angular.module('luae_fs').config(function($stateProvider) {
     'use strict';
 
     var commonPath = '/web/webjars/common/webcert/';
-    var intygsTypPath = '/web/webjars/luae_fs/webcert/';
 
     $stateProvider.
         state('luae_fs-edit', {
@@ -29,7 +28,7 @@ angular.module('luae_fs').config(function($stateProvider) {
             url : '/luae_fs/edit/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:sjf',
             views : {
                 'content@' : {
-                    templateUrl: intygsTypPath + 'views/utkast/utkast.html',
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'luae_fs.EditCertCtrl.ViewStateService',
@@ -53,8 +52,12 @@ angular.module('luae_fs').config(function($stateProvider) {
                 },
 
                 'formly@luae_fs-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/formly.html',
-                    controller: 'luae_fs.EditCert.FormlyCtrl'
+                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
+                    controller: 'smi.EditCert.FormlyCtrl',
+                    resolve: {
+                        ViewState: 'luae_fs.EditCertCtrl.ViewStateService',
+                        FormFactory: 'luae_fs.FormFactory'
+                    }
                 },
 
                 'fragasvar@luae_fs-edit' : {

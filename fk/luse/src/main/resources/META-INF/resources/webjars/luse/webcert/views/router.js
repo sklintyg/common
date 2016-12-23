@@ -21,7 +21,6 @@ angular.module('luse').config(function($stateProvider) {
     'use strict';
 
     var commonPath = '/web/webjars/common/webcert/';
-    var intygsTypPath = '/web/webjars/luse/webcert/';
 
     $stateProvider.
         state('luse-edit', {
@@ -29,7 +28,7 @@ angular.module('luse').config(function($stateProvider) {
             url : '/luse/edit/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:sjf',
             views : {
                 'content@' : {
-                    templateUrl: intygsTypPath + 'views/utkast/utkast.html',
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'luse.EditCertCtrl.ViewStateService',
@@ -53,8 +52,12 @@ angular.module('luse').config(function($stateProvider) {
                 },
 
                 'formly@luse-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/formly.html',
-                    controller: 'luse.EditCert.FormlyCtrl'
+                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
+                    controller: 'smi.EditCert.FormlyCtrl',
+                    resolve: {
+                        ViewState: 'luse.EditCertCtrl.ViewStateService',
+                        FormFactory: 'luse.FormFactory'
+                    }
                 },
 
                 'fragasvar@luse-edit' : {

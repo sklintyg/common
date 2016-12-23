@@ -21,7 +21,6 @@ angular.module('lisjp').config(function($stateProvider) {
     'use strict';
 
     var commonPath = '/web/webjars/common/webcert/';
-    var intygsTypPath = '/web/webjars/lisjp/webcert/';
 
     $stateProvider.
         state('lisjp-edit', {
@@ -29,7 +28,7 @@ angular.module('lisjp').config(function($stateProvider) {
             url : '/lisjp/edit/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:sjf',
             views : {
                 'content@' : {
-                    templateUrl: intygsTypPath + 'views/utkast/utkast.html',
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
@@ -53,8 +52,12 @@ angular.module('lisjp').config(function($stateProvider) {
                 },
 
                 'formly@lisjp-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/formly.html',
-                    controller: 'lisjp.EditCert.FormlyCtrl'
+                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
+                    controller: 'smi.EditCert.FormlyCtrl',
+                    resolve: {
+                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
+                        FormFactory: 'lisjp.FormFactory'
+                    }
                 },
 
                 'fragasvar@lisjp-edit' : {

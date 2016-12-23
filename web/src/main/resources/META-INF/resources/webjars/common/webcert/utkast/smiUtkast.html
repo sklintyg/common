@@ -1,5 +1,5 @@
 <a id="top"></a>
-<div class="fk-sit-common-ns luae_fs-ns" id="edit-luae_fs">
+<div class="fk-sit-common-ns {{viewState.common.intyg.type}}-ns" id="edit-{{viewState.common.intyg.type}}">
   <!--  both webcert-multicol-container1 and webcert-multicol-container2 are required, see comment on the webcert-multicol-container1 class -->
   <div class="webcert-multicol-container1 webcert-multicol-background-grey" ng-class="{'collapsed' : viewState.common.collapsedHeader}" wc-size-target>
     <div class="webcert-multicol-container2 webcert-multicol-background-white">
@@ -47,7 +47,7 @@
 
       </div>
       <div ng-if="!(viewState.common.error.activeErrorMessageKey || viewState.common.deleted)">
-        <div class="webcert-col webcert-col-secondary print-hide" wc-authority feature="hanteraFragor" intygstyp="{{widgetState.certificateType}}" ui-view="fragasvar"></div>
+        <div class="webcert-col webcert-col-secondary webcert-multicol-background-grey print-hide" wc-authority feature="hanteraFragor" intygstyp="{{widgetState.certificateType}}" ui-view="fragasvar"></div>
       </div>
     </div>
   </div>

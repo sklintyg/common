@@ -24,7 +24,7 @@ describe('lisjpFormFactory', function() {
     var lispFormFactory;
     var $scope;
 
-    beforeEach(angular.mock.module('htmlTemplates', 'common', 'lisjp'));
+    beforeEach(angular.mock.module('common', 'lisjp'));
     beforeEach(inject(['$compile', '$rootScope', 'lisjp.FormFactory', 'lisjp.Domain.IntygModel',
         function($compile, $rootScope, _lisjpFormFactory_, _lisjpIntygModel_) {
         lispFormFactory = _lisjpFormFactory_;
