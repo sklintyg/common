@@ -68,8 +68,12 @@ angular.module('lisjp').config(function($stateProvider) {
             url:'/intyg/lisjp/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:signed&:sjf',
             views: {
                 'intyg@webcert.intyg.fk' : {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'lisjp.ViewCertCtrl'
+                    templateUrl: commonPath + 'intyg/smiIntyg.html',
+                    controller: 'smi.ViewCertCtrl',
+                    resolve: {
+                        ViewState: 'lisjp.IntygController.ViewStateService',
+                        FormFactory: 'lisjp.FormFactory'
+                    }
                 },
                 'fragasvar@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
@@ -86,8 +90,12 @@ angular.module('lisjp').config(function($stateProvider) {
             url: '/fragasvar/lisjp/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'lisjp.ViewCertCtrl'
+                    templateUrl: commonPath + 'intyg/smiIntyg.html',
+                    controller: 'smi.ViewCertCtrl',
+                    resolve: {
+                        ViewState: 'lisjp.IntygController.ViewStateService',
+                        FormFactory: 'lisjp.FormFactory'
+                    }
                 },
                 'fragasvar@webcert.fragasvar' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',

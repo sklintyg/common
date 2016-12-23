@@ -68,8 +68,12 @@ angular.module('luae_fs').config(function($stateProvider) {
             url:'/intyg/luae_fs/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:signed&:sjf',
             views: {
                 'intyg@webcert.intyg.fk' : {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'luae_fs.ViewCertCtrl'
+                    templateUrl: commonPath + 'intyg/smiIntyg.html',
+                    controller: 'smi.ViewCertCtrl',
+                    resolve: {
+                        ViewState: 'luae_fs.IntygController.ViewStateService',
+                        FormFactory: 'luae_fs.FormFactory'
+                    }
                 },
                 'fragasvar@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
@@ -86,8 +90,12 @@ angular.module('luae_fs').config(function($stateProvider) {
             url: '/fragasvar/luae_fs/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'luae_fs.ViewCertCtrl'
+                    templateUrl: commonPath + 'intyg/smiIntyg.html',
+                    controller: 'smi.ViewCertCtrl',
+                    resolve: {
+                        ViewState: 'luae_fs.IntygController.ViewStateService',
+                        FormFactory: 'luae_fs.FormFactory'
+                    }
                 },
                 'fragasvar@webcert.fragasvar' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',

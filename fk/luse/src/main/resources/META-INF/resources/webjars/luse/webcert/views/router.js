@@ -68,8 +68,12 @@ angular.module('luse').config(function($stateProvider) {
             url:'/intyg/luse/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:signed&:sjf',
             views: {
                 'intyg@webcert.intyg.fk' : {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'luse.ViewCertCtrl'
+                    templateUrl: commonPath + 'intyg/smiIntyg.html',
+                    controller: 'smi.ViewCertCtrl',
+                    resolve: {
+                        ViewState: 'luse.IntygController.ViewStateService',
+                        FormFactory: 'luse.FormFactory'
+                    }
                 },
                 'fragasvar@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
@@ -86,8 +90,12 @@ angular.module('luse').config(function($stateProvider) {
             url: '/fragasvar/luse/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'luse.ViewCertCtrl'
+                    templateUrl: commonPath + 'intyg/smiIntyg.html',
+                    controller: 'smi.ViewCertCtrl',
+                    resolve: {
+                        ViewState: 'luse.IntygController.ViewStateService',
+                        FormFactory: 'luse.FormFactory'
+                    }
                 },
                 'fragasvar@webcert.fragasvar' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',

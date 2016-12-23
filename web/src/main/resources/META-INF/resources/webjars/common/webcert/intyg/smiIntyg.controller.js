@@ -1,8 +1,8 @@
-angular.module('luae_na').controller('luae_na.ViewCertCtrl',
-    [ '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygProxy',
-        'common.messageService', 'common.UserModel', 'luae_na.IntygController.ViewStateService',
-        'luae_na.FormFactory', 'common.dynamicLabelService', 'common.ObjectHelper',
-        function($log, $rootScope, $stateParams, $scope, IntygProxy,
+angular.module('common').controller('smi.ViewCertCtrl',
+    [ '$log', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
+        'common.messageService', 'common.UserModel', 'ViewState',
+        'FormFactory', 'common.dynamicLabelService', 'common.ObjectHelper',
+        function($log, $rootScope, $stateParams, $scope, $state, IntygProxy,
             messageService, UserModel, ViewState, formFactory, DynamicLabelService, ObjectHelper) {
             'use strict';
 
@@ -30,7 +30,7 @@ angular.module('luae_na').controller('luae_na.ViewCertCtrl',
              * Private
              */
             function loadIntyg() {
-                $log.debug('Loading certificate ' + $stateParams.certificateId);
+                $log.debug('Loading intyg ' + $stateParams.certificateId);
                 var sjf = ObjectHelper.isDefined($stateParams.sjf) ? $stateParams.sjf : false;
                 IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type, sjf, function(result) {
                     ViewState.common.doneLoading = true;
@@ -68,7 +68,6 @@ angular.module('luae_na').controller('luae_na.ViewCertCtrl',
                     $scope.intygBackup.showBackupInfo = true;
                 });
             }
-
             loadIntyg();
 
             /**
@@ -76,10 +75,11 @@ angular.module('luae_na').controller('luae_na.ViewCertCtrl',
              * @type {{}}
              */
             $scope.intygBackup = {intyg: null, showBackupInfo: false};
-            var unbindFastEventFail = $rootScope.$on('luae_na.ViewCertCtrl.load.failed', function(event, intyg) {
+            var unbindFastEventFail = $rootScope.$on($state.current.data.intygType+'.ViewCertCtrl.load.failed', function(event, intyg) {
                 $scope.intygBackup.intyg = intyg;
             });
             $scope.$on('$destroy', unbindFastEventFail);
 
             $scope.$on('loadCertificate', loadIntyg);
-        }]);
+
+		}]);
