@@ -142,7 +142,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .size(KATEGORI_FULL_WIDTH, 52f)
                 .withBorders(Rectangle.BOX);
 
-        //Use a variable for yOffset to minimize use of magic numbers for offsets
+        // Use a variable for yOffset to minimize use of magic numbers for offsets
         float checkBoxYOffset = 2;
 
         // Special case of first topLabel
@@ -385,7 +385,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         FkFieldGroup fraga3 = new FkFieldGroup("3. " + getText("FRG_6.RBK"))
                 .offset(KATEGORI_OFFSET_X, 24f).size(KATEGORI_FULL_WIDTH, 76.2f)
                 .withBorders(Rectangle.BOX);
-        Diagnos currentDiagnos = safeGetDiagnos(intyg, 0);
+        Diagnos currentDiagnos = safeGetDiagnos(intyg.getDiagnoser(), 0);
         FkValueField diagnos1 = new FkValueField(currentDiagnos.getDiagnosBeskrivning())
                 .size(140f, 11f)
                 .withTopPadding(2f)
@@ -399,7 +399,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         fraga3.addChild(diagnos1);
         fraga3.addChild(diagnosKodField1);
 
-        currentDiagnos = safeGetDiagnos(intyg, 1);
+        currentDiagnos = safeGetDiagnos(intyg.getDiagnoser(), 1);
         FkValueField diagnos2 = new FkValueField(currentDiagnos.getDiagnosBeskrivning())
                 .size(140f, 9f).offset(0f, 11f)
                 .withValueTextAlignment(PdfPCell.ALIGN_TOP).withBorders(Rectangle.BOX);
@@ -408,7 +408,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         fraga3.addChild(diagnos2);
         fraga3.addChild(diagnosKodField2);
 
-        currentDiagnos = safeGetDiagnos(intyg, 2);
+        currentDiagnos = safeGetDiagnos(intyg.getDiagnoser(), 2);
         FkValueField diagnos3 = new FkValueField(currentDiagnos.getDiagnosBeskrivning())
                 .size(140f, 9f).offset(0f, 20f)
                 .withBorders(Rectangle.BOX).withValueTextAlignment(PdfPCell.ALIGN_TOP);

@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import com.google.common.collect.ImmutableList;
+
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
@@ -29,8 +32,6 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.SitUtlatande;
 
 /**
  * Base class with common methods used by SMI type PDF definition construction.
@@ -81,9 +82,9 @@ public class FkBasePdfDefinitionBuilder {
         return date != null ? date.getDate() : "";
     }
 
-    protected Diagnos safeGetDiagnos(SitUtlatande intyg, int index) {
-        if (index < intyg.getDiagnoser().size()) {
-            return intyg.getDiagnoser().get(index);
+    protected Diagnos safeGetDiagnos(ImmutableList<Diagnos> diagnoser, int index) {
+        if (index < diagnoser.size()) {
+            return diagnoser.get(index);
         }
         return Diagnos.create("", "", "", "");
     }

@@ -18,17 +18,17 @@
  */
 package se.inera.intyg.common.lisjp.model.util;
 
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.fkparent.model.util.FkParentModelCompareUtil;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 
 public class LisjpModelCompareUtil extends FkParentModelCompareUtil implements ModelCompareUtil<LisjpUtlatande> {
 
     @Override
     public boolean isValidForNotification(LisjpUtlatande utlatande) {
-        return diagnosesAreValid(utlatande)
+        return diagnosesAreValid(utlatande.getDiagnoser())
                 && datesAreValid(utlatande.getUndersokningAvPatienten(), utlatande.getTelefonkontaktMedPatienten(), utlatande.getJournaluppgifter(),
                         utlatande.getAnnatGrundForMU())
                 && sjukskrivningarAreValid(utlatande);

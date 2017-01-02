@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.luae_fs.model.util;
 
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.fkparent.model.util.FkParentModelCompareUtil;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
+import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 
 public class LuaefsModelCompareUtil extends FkParentModelCompareUtil implements ModelCompareUtil<LuaefsUtlatande> {
 
     @Override
     public boolean isValidForNotification(LuaefsUtlatande utlatande) {
-        return diagnosesAreValid(utlatande)
+        return diagnosesAreValid(utlatande.getDiagnoser())
                 && datesAreValid(utlatande.getAnnatGrundForMU(), utlatande.getJournaluppgifter(), utlatande.getAnhorigsBeskrivningAvPatienten(),
                         utlatande.getUndersokningAvPatienten(), utlatande.getKannedomOmPatient());
     }

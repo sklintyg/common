@@ -18,7 +18,25 @@
  */
 package se.inera.intyg.common.luae_fs.model.internal;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ID_JSON_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 
 import java.util.List;
 
@@ -29,15 +47,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.fkparent.model.internal.*;
-import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_LuaefsUtlatande.Builder.class)
-public abstract class LuaefsUtlatande implements Utlatande, SitUtlatande {
+public abstract class LuaefsUtlatande implements Utlatande {
 
     @Override
     public abstract String getId();
@@ -52,7 +72,6 @@ public abstract class LuaefsUtlatande implements Utlatande, SitUtlatande {
     public String getTyp() {
         return LuaefsEntryPoint.MODULE_ID;
     }
-
 
     // - - - - - - - - - - - - - - - - - - - - - -
     // Kategori 1 – Grund för medicinskt underlag
@@ -80,7 +99,6 @@ public abstract class LuaefsUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract InternalDate getKannedomOmPatient();
 
-
     // - - - - - - - - - - - - - - - - - - - - - -
     // Kategori 2 - Andra medicinska utredningar och underlag
     // - - - - - - - - - - - - - - - - - - - - - -
@@ -96,16 +114,13 @@ public abstract class LuaefsUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract ImmutableList<Underlag> getUnderlag();
 
-
     // - - - - - - - - - - - - - - - - - - - - - -
     // Kategori 3 - Diagnos
     // - - - - - - - - - - - - - - - - - - - - - -
     // Fråga 6 Typ av diagnos
     // Fråga 6.1 - Diagnostext
     // Fråga 6.2 - Diagnoskod för ICD-10
-    @Override
     public abstract ImmutableList<Diagnos> getDiagnoser();
-
 
     // - - - - - - - - - - - - - - - - - - - - - -
     // Kategori 4 - Funktionsnedsättning
@@ -120,7 +135,6 @@ public abstract class LuaefsUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract String getFunktionsnedsattningPaverkan();
 
-
     // - - - - - - - - - - - - - - - - - - - - - -
     // Kategori 5 - Övrigt
     // - - - - - - - - - - - - - - - - - - - - - -
@@ -128,7 +142,6 @@ public abstract class LuaefsUtlatande implements Utlatande, SitUtlatande {
     // Fråga 25.1 - Typ av övriga upplysningar
     @Nullable
     public abstract String getOvrigt();
-
 
     // - - - - - - - - - - - - - - - - - - - - - -
     // Kategori 6 - Kontakt
@@ -141,13 +154,11 @@ public abstract class LuaefsUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract String getAnledningTillKontakt();
 
-
     // - - - - - - - - - - - - - - - - - - - - - -
     // Tilläggsfrågor
     // - - - - - - - - - - - - - - - - - - - - - -
     @Nullable
     public abstract ImmutableList<Tillaggsfraga> getTillaggsfragor();
-
 
     /*
      * Retrieve a builder from an existing LuaefsUtlatande object. The builder can then be used

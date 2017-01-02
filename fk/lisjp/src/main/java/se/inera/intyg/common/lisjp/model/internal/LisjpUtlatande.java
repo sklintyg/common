@@ -60,7 +60,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.SitUtlatande;
 import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -69,7 +68,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_LisjpUtlatande.Builder.class)
-public abstract class LisjpUtlatande implements Utlatande, SitUtlatande {
+public abstract class LisjpUtlatande implements Utlatande {
 
     @Override
     public String getTyp() {
@@ -104,7 +103,7 @@ public abstract class LisjpUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract InternalDate getAnnatGrundForMU();
 
-    // Fråga  1.3 Annan grund för MU
+    // Fråga 1.3 Annan grund för MU
     @Nullable
     public abstract String getAnnatGrundForMUBeskrivning();
 
@@ -129,7 +128,6 @@ public abstract class LisjpUtlatande implements Utlatande, SitUtlatande {
 
     // Kategori 3 - Diagnos
     // Fråga 6
-    @Override
     public abstract ImmutableList<Diagnos> getDiagnoser();
 
     // Kategori 4 - Sjukdomens konsekvenser
@@ -219,11 +217,11 @@ public abstract class LisjpUtlatande implements Utlatande, SitUtlatande {
 
     public static Builder builder() {
         return new AutoValue_LisjpUtlatande.Builder()
-            .setDiagnoser(ImmutableList.<Diagnos> of())
-            .setSjukskrivningar(ImmutableList.<Sjukskrivning> of())
-            .setSysselsattning(ImmutableList.<Sysselsattning> of())
-            .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder> of())
-            .setTillaggsfragor(ImmutableList.<Tillaggsfraga>of());
+                .setDiagnoser(ImmutableList.<Diagnos> of())
+                .setSjukskrivningar(ImmutableList.<Sjukskrivning> of())
+                .setSysselsattning(ImmutableList.<Sysselsattning> of())
+                .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder> of())
+                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of());
     }
 
     @AutoValue.Builder
@@ -265,6 +263,7 @@ public abstract class LisjpUtlatande implements Utlatande, SitUtlatande {
         public Builder setSysselsattning(List<Sysselsattning> sysselsattning) {
             return setSysselsattning(ImmutableList.copyOf(sysselsattning));
         }
+
         /* package private */
         abstract Builder setSysselsattning(ImmutableList<Sysselsattning> sysselsattning);
 
@@ -298,6 +297,7 @@ public abstract class LisjpUtlatande implements Utlatande, SitUtlatande {
         public Builder setSjukskrivningar(List<Sjukskrivning> sjukskrivningar) {
             return setSjukskrivningar(ImmutableList.copyOf(sjukskrivningar));
         }
+
         /* package private */
         abstract Builder setSjukskrivningar(ImmutableList<Sjukskrivning> sjukskrivningar);
 
@@ -324,7 +324,7 @@ public abstract class LisjpUtlatande implements Utlatande, SitUtlatande {
             return setArbetslivsinriktadeAtgarder(ImmutableList.copyOf(arbetslivsinriktadeAtgarder));
         }
 
-        /* package private*/
+        /* package private */
         abstract Builder setArbetslivsinriktadeAtgarder(ImmutableList<ArbetslivsinriktadeAtgarder> arbetslivsinriktadeAtgarder);
 
         @JsonProperty(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44)

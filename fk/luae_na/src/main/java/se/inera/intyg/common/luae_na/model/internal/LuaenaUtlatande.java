@@ -18,36 +18,70 @@
  */
 package se.inera.intyg.common.luae_na.model.internal;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_JSON_ID_18;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOSGRUND_SVAR_JSON_ID_7;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ID_JSON_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_JSON_ID_5;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
-
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.SitUtlatande;
-import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+
 @AutoValue
 @JsonDeserialize(builder = AutoValue_LuaenaUtlatande.Builder.class)
-public abstract class LuaenaUtlatande implements Utlatande, SitUtlatande {
+public abstract class LuaenaUtlatande implements Utlatande {
 
     @Override
     public abstract String getId();
 
     @Override
     public String getTyp() {
-       return LuaenaEntryPoint.MODULE_ID;
+        return LuaenaEntryPoint.MODULE_ID;
     }
 
     @Override
@@ -92,7 +126,6 @@ public abstract class LuaenaUtlatande implements Utlatande, SitUtlatande {
 
     // Kategori 4 - Diagnos
     // Fråga 6
-    @Override
     public abstract ImmutableList<Diagnos> getDiagnoser();
 
     // Fråga 7.1
@@ -116,36 +149,36 @@ public abstract class LuaenaUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract String getFunktionsnedsattningKommunikation();
 
- // Fråga 10
+    // Fråga 10
     @Nullable
     public abstract String getFunktionsnedsattningKoncentration();
 
- // Fråga 11
+    // Fråga 11
     @Nullable
     public abstract String getFunktionsnedsattningPsykisk();
 
- // Fråga 12
+    // Fråga 12
     @Nullable
     public abstract String getFunktionsnedsattningSynHorselTal();
 
- // Fråga 13
+    // Fråga 13
     @Nullable
     public abstract String getFunktionsnedsattningBalansKoordination();
 
- // Fråga 14
+    // Fråga 14
     @Nullable
     public abstract String getFunktionsnedsattningAnnan();
 
- // Kategori 6 - AktivitetsbegränsningBeskrivning
+    // Kategori 6 - AktivitetsbegränsningBeskrivning
     // Fråga 17
     @Nullable
     public abstract String getAktivitetsbegransning();
 
- // Fråga 18
+    // Fråga 18
     @Nullable
     public abstract String getAvslutadBehandling();
 
- // Kategori 7 – Medicinska behandlingar/åtgärder
+    // Kategori 7 – Medicinska behandlingar/åtgärder
     // Fråga 19
     @Nullable
     public abstract String getPagaendeBehandling();
@@ -158,7 +191,7 @@ public abstract class LuaenaUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract String getSubstansintag();
 
- // Kategori 8 – Medicinska förutsättningar för arbete
+    // Kategori 8 – Medicinska förutsättningar för arbete
     // Fråga 22.1
     @Nullable
     public abstract String getMedicinskaForutsattningarForArbete();
@@ -171,7 +204,7 @@ public abstract class LuaenaUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract String getForslagTillAtgard();
 
- // Kategori 9 - Övrigt
+    // Kategori 9 - Övrigt
     // Fråga 25
     @Nullable
     public abstract String getOvrigt();
@@ -181,22 +214,22 @@ public abstract class LuaenaUtlatande implements Utlatande, SitUtlatande {
     @Nullable
     public abstract Boolean getKontaktMedFk();
 
- // Fråga 26.2
+    // Fråga 26.2
     @Nullable
     public abstract String getAnledningTillKontakt();
 
- // Tilläggsfrågor
+    // Tilläggsfrågor
     public abstract ImmutableList<Tillaggsfraga> getTillaggsfragor();
 
-    /* Retrieve a builder from an existing LuaenaUtlatande object. The builder can then be used
-    to create a new copy with modified attributes. */
+    /*
+     * Retrieve a builder from an existing LuaenaUtlatande object. The builder can then be used
+     * to create a new copy with modified attributes.
+     */
     public abstract Builder toBuilder();
 
     public static Builder builder() {
-        return new AutoValue_LuaenaUtlatande.Builder().
-                setUnderlag(ImmutableList.<Underlag> of()).
-                setDiagnoser(ImmutableList.<Diagnos> of()).
-                setTillaggsfragor(ImmutableList.<Tillaggsfraga>of());
+        return new AutoValue_LuaenaUtlatande.Builder().setUnderlag(ImmutableList.<Underlag> of()).setDiagnoser(ImmutableList.<Diagnos> of())
+                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of());
     }
 
     @AutoValue.Builder

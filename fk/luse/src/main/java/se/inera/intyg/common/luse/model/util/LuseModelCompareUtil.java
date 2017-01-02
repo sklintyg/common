@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.luse.model.util;
 
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.fkparent.model.util.FkParentModelCompareUtil;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
+import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 
 public class LuseModelCompareUtil extends FkParentModelCompareUtil implements ModelCompareUtil<LuseUtlatande> {
 
     @Override
     public boolean isValidForNotification(LuseUtlatande utlatande) {
-        return diagnosesAreValid(utlatande)
+        return diagnosesAreValid(utlatande.getDiagnoser())
                 && datesAreValid(utlatande.getAnnatGrundForMU(), utlatande.getJournaluppgifter(), utlatande.getAnhorigsBeskrivningAvPatienten(),
                         utlatande.getUndersokningAvPatienten(), utlatande.getKannedomOmPatient());
     }

@@ -32,15 +32,16 @@ import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableList;
 
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.SitUtlatande;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FkParentModelCompareUtilTest {
@@ -66,10 +67,9 @@ public class FkParentModelCompareUtilTest {
 
     @Test
     public void testDiagnosesAreValid() {
-        SitUtlatande source = mock(SitUtlatande.class);
-        when(source.getDiagnoser()).thenReturn(
-                ImmutableList.of(buildDiagnos(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM), buildDiagnos(VALID_CODE_2, VALID_CODE_2_CODE_SYSTEM)));
-        boolean res = compareUtil.diagnosesAreValid(source);
+        ImmutableList<Diagnos> diagnoser = ImmutableList.of(buildDiagnos(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM),
+                buildDiagnos(VALID_CODE_2, VALID_CODE_2_CODE_SYSTEM));
+        boolean res = compareUtil.diagnosesAreValid(diagnoser);
 
         assertTrue(res);
         verify(moduleService).validateDiagnosisCode(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM);
@@ -78,10 +78,9 @@ public class FkParentModelCompareUtilTest {
 
     @Test
     public void testDiagnosesAreValidFalse() {
-        SitUtlatande source = mock(SitUtlatande.class);
-        when(source.getDiagnoser()).thenReturn(
-                ImmutableList.of(buildDiagnos(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM), buildDiagnos(INVALID_CODE, VALID_CODE_2_CODE_SYSTEM)));
-        boolean res = compareUtil.diagnosesAreValid(source);
+        ImmutableList<Diagnos> diagnoser = ImmutableList.of(buildDiagnos(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM),
+                buildDiagnos(INVALID_CODE, VALID_CODE_2_CODE_SYSTEM));
+        boolean res = compareUtil.diagnosesAreValid(diagnoser);
 
         assertFalse(res);
         verify(moduleService).validateDiagnosisCode(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM);
@@ -90,10 +89,8 @@ public class FkParentModelCompareUtilTest {
 
     @Test
     public void testDiagnosesAreValidIgnoresEmptyCodes() {
-        SitUtlatande source = mock(SitUtlatande.class);
-        when(source.getDiagnoser()).thenReturn(
-                ImmutableList.of(buildDiagnos(null, VALID_CODE_1_CODE_SYSTEM)));
-        boolean res = compareUtil.diagnosesAreValid(source);
+        ImmutableList<Diagnos> diagnoser = ImmutableList.of(buildDiagnos(null, VALID_CODE_1_CODE_SYSTEM));
+        boolean res = compareUtil.diagnosesAreValid(diagnoser);
 
         assertTrue(res);
         verifyZeroInteractions(moduleService);

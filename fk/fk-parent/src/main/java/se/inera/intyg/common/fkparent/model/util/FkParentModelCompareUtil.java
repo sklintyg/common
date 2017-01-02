@@ -21,18 +21,19 @@ package se.inera.intyg.common.fkparent.model.util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.ImmutableList;
+
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.SitUtlatande;
 
 public abstract class FkParentModelCompareUtil {
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
 
-    public boolean diagnosesAreValid(SitUtlatande utlatande) {
-        for (Diagnos newDiagnos :  utlatande.getDiagnoser()) {
+    public boolean diagnosesAreValid(ImmutableList<Diagnos> diagnoser) {
+        for (Diagnos newDiagnos : diagnoser) {
             if (!diagnoseCodeValid(newDiagnos)) {
                 return false;
             }
