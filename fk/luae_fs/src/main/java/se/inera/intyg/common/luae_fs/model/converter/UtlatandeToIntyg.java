@@ -18,24 +18,48 @@
  */
 package se.inera.intyg.common.luae_fs.model.converter;
 
+import static se.inera.intyg.common.fkparent.model.converter.InternalToTransportUtil.handleDiagnosSvar;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_DELSVAR_ID_2;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_ID_2;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_ID_25;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_DELSVAR_ID_3;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_ID_3;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_CODE_SYSTEM;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_DATUM_DELSVAR_ID_4;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_ID_4;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_TYP_DELSVAR_ID_4;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
-import static se.inera.intyg.common.fkparent.model.converter.InternalToTransportUtil.handleDiagnosSvar;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import com.google.common.base.Joiner;
+
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
@@ -67,7 +91,8 @@ public final class UtlatandeToIntyg {
         if (source.getUndersokningAvPatienten() != null) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId, RespConstants.ReferensTyp.UNDERSOKNING.label))
+                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
+                                    RespConstants.ReferensTyp.UNDERSOKNING.label))
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getUndersokningAvPatienten().asLocalDate().toString())
                     .build());
         }
@@ -80,7 +105,8 @@ public final class UtlatandeToIntyg {
         if (source.getAnhorigsBeskrivningAvPatienten() != null) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.transportId, RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.label))
+                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.transportId,
+                                    RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.label))
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getAnhorigsBeskrivningAvPatienten().asLocalDate().toString())
                     .build());
         }
@@ -115,10 +141,9 @@ public final class UtlatandeToIntyg {
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15, FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15, source.getFunktionsnedsattningDebut());
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16, FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16, source.getFunktionsnedsattningPaverkan());
 
-
         /* End complex object */
 
-        addIfNotBlank(svars, OVRIGT_SVAR_ID_25, OVRIGT_DELSVAR_ID_25, source.getOvrigt());
+        addIfNotBlank(svars, OVRIGT_SVAR_ID_25, OVRIGT_DELSVAR_ID_25, buildOvrigaUpplysningar(source));
 
         if (source.getKontaktMedFk() != null) {
             if (source.getKontaktMedFk() && !StringUtils.isBlank(source.getAnledningTillKontakt())) {
@@ -134,6 +159,25 @@ public final class UtlatandeToIntyg {
         }
 
         return svars;
+    }
+
+    // Original taken and then modified from luse/../UtlatandeToIntyg.java, INTYG-3024
+    private static String buildOvrigaUpplysningar(LuaefsUtlatande source) {
+        String motiveringTillInteBaseratPaUndersokning = null;
+        String ovrigt = null;
+
+        // Since INTYG-2949, we have to concatenate information in the Övrigt-fält again...
+        if (!StringUtils.isBlank(source.getMotiveringTillInteBaseratPaUndersokning())) {
+            motiveringTillInteBaseratPaUndersokning = "Motivering till varför utlåtandet inte baseras på undersökning av patienten: "
+                    + source.getMotiveringTillInteBaseratPaUndersokning();
+        }
+
+        if (!StringUtils.isBlank(source.getOvrigt())) {
+            ovrigt = source.getOvrigt();
+        }
+
+        String ret = Joiner.on("\n").skipNulls().join(motiveringTillInteBaseratPaUndersokning, ovrigt);
+        return !StringUtils.isBlank(ret) ? ret : null;
     }
 
 }

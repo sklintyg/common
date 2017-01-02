@@ -90,6 +90,9 @@ public abstract class LuaefsUtlatande implements Utlatande {
     @Nullable
     public abstract InternalDate getAnnatGrundForMU();
 
+    @Nullable
+    public abstract String getMotiveringTillInteBaseratPaUndersokning();
+
     // Fråga 1.3 Vilken annan grund finns för MU
     @Nullable
     public abstract String getAnnatGrundForMUBeskrivning();
@@ -202,6 +205,9 @@ public abstract class LuaefsUtlatande implements Utlatande {
 
         @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
         public abstract Builder setAnnatGrundForMUBeskrivning(String annatGrundForMUBeskrivning);
+
+        @JsonProperty(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
+        public abstract Builder setMotiveringTillInteBaseratPaUndersokning(String motiveringTillInteBaseratPaUndersokning);
 
         // Fråga 2
         @JsonProperty(KANNEDOM_SVAR_JSON_ID_2)

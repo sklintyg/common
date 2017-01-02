@@ -81,7 +81,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Joiner;
 
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -89,6 +88,7 @@ import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
@@ -178,7 +178,8 @@ public final class UtlatandeToIntyg {
                                 source.getPrognos().getTyp().getLabel()))
                         .withDelsvar(PROGNOS_DAGAR_TILL_ARBETE_DELSVAR_ID_39,
                                 aCV(PROGNOS_DAGAR_TILL_ARBETE_CODE_SYSTEM, source.getPrognos().getDagarTillArbete().getId(),
-                                        source.getPrognos().getDagarTillArbete().getLabel())).build());
+                                        source.getPrognos().getDagarTillArbete().getLabel()))
+                        .build());
             } else {
                 svars.add(aSvar(PROGNOS_SVAR_ID_39).withDelsvar(PROGNOS_BESKRIVNING_DELSVAR_ID_39,
                         aCV(PROGNOS_CODE_SYSTEM, source.getPrognos().getTyp().getId(),
@@ -189,14 +190,16 @@ public final class UtlatandeToIntyg {
 
         int arbetslivsinriktadeAtgarderInstans = 1;
         for (ArbetslivsinriktadeAtgarder atgarder : source.getArbetslivsinriktadeAtgarder()) {
-            svars.add(aSvar(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, arbetslivsinriktadeAtgarderInstans++).withDelsvar(ARBETSLIVSINRIKTADE_ATGARDER_VAL_DELSVAR_ID_40,
-                    aCV(ARBETSLIVSINRIKTADE_ATGARDER_CODE_SYSTEM, atgarder.getTyp().getId(), atgarder.getTyp().getLabel())).build());
+            svars.add(aSvar(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, arbetslivsinriktadeAtgarderInstans++)
+                    .withDelsvar(ARBETSLIVSINRIKTADE_ATGARDER_VAL_DELSVAR_ID_40,
+                            aCV(ARBETSLIVSINRIKTADE_ATGARDER_CODE_SYSTEM, atgarder.getTyp().getId(), atgarder.getTyp().getLabel()))
+                    .build());
         }
 
-        addIfNotBlank(svars, ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44, ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_DELSVAR_ID_44, source.getArbetslivsinriktadeAtgarderBeskrivning());
+        addIfNotBlank(svars, ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44, ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_DELSVAR_ID_44,
+                source.getArbetslivsinriktadeAtgarderBeskrivning());
 
         addIfNotBlank(svars, OVRIGT_SVAR_ID_25, OVRIGT_DELSVAR_ID_25, buildOvrigaUpplysningar(source));
-
 
         if (source.getKontaktMedFk() != null) {
             if (source.getKontaktMedFk() && !StringUtils.isBlank(source.getAnledningTillKontakt())) {
@@ -218,14 +221,16 @@ public final class UtlatandeToIntyg {
         int grundForMUInstans = 1;
         if (source.getUndersokningAvPatienten() != null && source.getUndersokningAvPatienten().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++).withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId, RespConstants.ReferensTyp.UNDERSOKNING.label))
+                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
+                            RespConstants.ReferensTyp.UNDERSOKNING.label))
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getUndersokningAvPatienten().asLocalDate().toString())
                     .build());
         }
 
         if (source.getTelefonkontaktMedPatienten() != null && source.getTelefonkontaktMedPatienten().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++).withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.TELEFONKONTAKT.transportId, RespConstants.ReferensTyp.TELEFONKONTAKT.label))
+                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.TELEFONKONTAKT.transportId,
+                            RespConstants.ReferensTyp.TELEFONKONTAKT.label))
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getTelefonkontaktMedPatienten().asLocalDate().toString())
                     .build());
         }
@@ -244,6 +249,7 @@ public final class UtlatandeToIntyg {
         }
     }
 
+    // Original taken and then modified from luse/../UtlatandeToIntyg.java, INTYG-3024
     private static String buildOvrigaUpplysningar(LisjpUtlatande source) {
         String motiveringTillInteBaseratPaUndersokning = null;
         String motiveringTillTidigSjukskrivning = null;

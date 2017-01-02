@@ -107,16 +107,19 @@ public abstract class LuaenaUtlatande implements Utlatande {
     @Nullable
     public abstract String getAnnatGrundForMUBeskrivning();
 
- // Fråga 2
+    @Nullable
+    public abstract String getMotiveringTillInteBaseratPaUndersokning();
+
+    // Fråga 2
     @Nullable
     public abstract InternalDate getKannedomOmPatient();
 
- // Kategori 2 – Andra medicinska utredningar och underlag
+    // Kategori 2 – Andra medicinska utredningar och underlag
     // Fråga 3
     @Nullable
     public abstract Boolean getUnderlagFinns();
 
- // Fråga 4
+    // Fråga 4
     public abstract ImmutableList<Underlag> getUnderlag();
 
     // Kategori 3 - Sjukdomsförlopp
@@ -257,6 +260,9 @@ public abstract class LuaenaUtlatande implements Utlatande {
 
         @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
         public abstract Builder setAnnatGrundForMU(InternalDate annatGrundForMU);
+
+        @JsonProperty(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
+        public abstract Builder setMotiveringTillInteBaseratPaUndersokning(String motiveringTillInteBaseratPaUndersokning);
 
         @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
         public abstract Builder setAnnatGrundForMUBeskrivning(String annatGrundForMUBeskrivning);

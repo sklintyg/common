@@ -14,31 +14,32 @@ angular.module('luae_na').factory('luae_na.Domain.IntygModel',
                         'grundData': grundData,
 
                         // Kategori 1 Grund för medicinskt underlag
-                        'undersokningAvPatienten':undefined,
-                        'journaluppgifter':undefined,
-                        'anhorigsBeskrivningAvPatienten':undefined,
-                        'annatGrundForMU':undefined,
-                        'annatGrundForMUBeskrivning':undefined,
-                        'kannedomOmPatient':undefined,
+                        'undersokningAvPatienten': undefined,
+                        'journaluppgifter': undefined,
+                        'anhorigsBeskrivningAvPatienten': undefined,
+                        'annatGrundForMU': undefined,
+                        'annatGrundForMUBeskrivning': undefined,
+                        'motiveringTillInteBaseratPaUndersokning': undefined,
+                        'kannedomOmPatient': undefined,
 
                         // Kategori 2 Andra medicinska utredningar och underlag
-                        'underlagFinns':undefined,
-                        'underlag':new ModelAttr('underlag', {
+                        'underlagFinns': undefined,
+                        'underlag': new ModelAttr('underlag', {
                             fromTransform: ModelTransform.underlagFromTransform,
                             toTransform: ModelTransform.underlagToTransform
                         }),
 
                         // Kategori 3 Sjukdomsförlopp
-                        'sjukdomsforlopp':undefined,
+                        'sjukdomsforlopp': undefined,
 
                         // Ketegori 4 diagnos
-                        'diagnoser':new ModelAttr('diagnoser', {
+                        'diagnoser': new ModelAttr('diagnoser', {
                             fromTransform: ModelTransform.diagnosFromTransform,
                             toTransform: ModelTransform.diagnosToTransform
                         }),
                         'diagnosgrund': undefined,
                         'nyBedomningDiagnosgrund': undefined,
-                        'diagnosForNyBedomning' : undefined,
+                        'diagnosForNyBedomning': undefined,
 
                         // Ketagori 5 Funktionsnedsättning
                         'funktionsnedsattningIntellektuell': undefined,
@@ -61,17 +62,17 @@ angular.module('luae_na').factory('luae_na.Domain.IntygModel',
                         // Kategori 8 Medicinska förutsättningar för arbete
                         'medicinskaForutsattningarForArbete': undefined,
                         'formagaTrotsBegransning': undefined,
-                        'forslagTillAtgard':undefined,
+                        'forslagTillAtgard': undefined,
 
                         // Kategori 9 Övrigt
                         'ovrigt': undefined,
 
                         // Kategori 10 Kontakt
-                        'kontaktMedFk' : new ModelAttr( 'kontaktMedFk', { defaultValue : false }),
+                        'kontaktMedFk': new ModelAttr('kontaktMedFk', {defaultValue: false}),
                         'anledningTillKontakt': undefined,
 
                         // Kategori 9999 Tilläggsfrågor
-                        'tillaggsfragor': [ new ModelAttr( 'tillaggsfragor', { defaultValue : [] }) ]
+                        'tillaggsfragor': [new ModelAttr('tillaggsfragor', {defaultValue: []})]
                     });
                 },
                 update: function update(content, parent) {
@@ -82,7 +83,7 @@ angular.module('luae_na').factory('luae_na.Domain.IntygModel',
                 }
 
             }, {
-                build : function(){
+                build: function() {
                     return new DraftModel(new LuaeNaModel());
                 }
             });

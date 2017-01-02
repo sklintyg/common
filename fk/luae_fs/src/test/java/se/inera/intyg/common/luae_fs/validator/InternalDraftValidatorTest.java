@@ -18,12 +18,29 @@
  */
 package se.inera.intyg.common.luae_fs.validator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
+import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -34,22 +51,6 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
-
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Magnus Ekstrand on 2016-04-20.
@@ -103,6 +104,7 @@ public class InternalDraftValidatorTest {
         LuaefsUtlatande utlatande = builderTemplate
                 .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
                 .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(2)))
+                .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
                 .build();
 
         validator.validateGrundForMU(utlatande, validationMessages);
@@ -128,6 +130,7 @@ public class InternalDraftValidatorTest {
     public void validateGrundForMU_IngenKannedomOmPatient() throws Exception {
         LuaefsUtlatande utlatande = builderTemplate
                 .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
+                .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
                 .build();
 
         validator.validateGrundForMU(utlatande, validationMessages);
@@ -159,6 +162,7 @@ public class InternalDraftValidatorTest {
         LuaefsUtlatande utlatande = builderTemplate
                 .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
                 .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
+                .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
                 .build();
 
         validator.validateGrundForMU(utlatande, validationMessages);
@@ -192,6 +196,7 @@ public class InternalDraftValidatorTest {
         LuaefsUtlatande utlatande = builderTemplate
                 .setAnnatGrundForMU(new InternalDate(LocalDate.now().minusDays(2)))
                 .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
+                .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
                 .build();
 
         validator.validateGrundForMU(utlatande, validationMessages);
@@ -203,11 +208,63 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void validateGroundForMUChecksMotiveringTillInteBaseratPaUndersokningIfAnhorigBeskrivning() throws Exception {
+        // given
+        LuaefsUtlatande withAnhorigBeskrivning = builderTemplate
+                .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(3)))
+                .build();
+        // when
+        validator.validateGrundForMU(withAnhorigBeskrivning, validationMessages);
+
+        // then
+        assertEquals(1, validationMessages.size());
+        assertValidationMessageField("grundformu.motiveringTillInteBaseratPaUndersokning", 0);
+        assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+    }
+
+    @Test
+    public void validateGroundForMUChecksMotiveringTillInteBaseratPaUndersokningIfAnnatGrund() throws Exception {
+        // given
+        LuaefsUtlatande withAnnatGrund = builderTemplate
+                .setAnnatGrundForMU(new InternalDate(LocalDate.now().minusDays(2)))
+                .setAnnatGrundForMUBeskrivning("måste finnas, om annatGrundForMU är satt")
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(3)))
+                .build();
+
+        // when
+        validator.validateGrundForMU(withAnnatGrund, validationMessages);
+
+        // then
+        assertEquals(1, validationMessages.size());
+        assertValidationMessageField("grundformu.motiveringTillInteBaseratPaUndersokning", 0);
+        assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+    }
+
+    @Test
+    public void validateGroundForMUChecksMotiveringTillInteBaseratPaUndersokningIfJournalUppgifter() throws Exception {
+        // given
+        LuaefsUtlatande withJournalUppgifter = builderTemplate
+                .setJournaluppgifter(new InternalDate(LocalDate.now().minusDays(2)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(3)))
+                .build();
+
+        // when
+        validator.validateGrundForMU(withJournalUppgifter, validationMessages);
+
+        // then
+        assertEquals(1, validationMessages.size());
+        assertValidationMessageField("grundformu.motiveringTillInteBaseratPaUndersokning", 0);
+        assertValidationMessageType(ValidationMessageType.EMPTY, 0);
+    }
+
+    @Test
     public void validateGrundForMUKannedomOmPatientFramtidaDatum() throws Exception {
         LuaefsUtlatande utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
+                .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
                 .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(2)))
                 .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now().plusDays(5)))
+                .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
                 .build();
 
         validator.validateGrundForMU(utlatande, validationMessages);

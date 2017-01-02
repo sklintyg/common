@@ -18,12 +18,29 @@
  */
 package se.inera.intyg.common.luae_na.validator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
+import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -34,22 +51,6 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
-
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -80,6 +81,7 @@ public class InternalDraftValidatorTest {
                 .setId(INTYG_ID)
                 .setGrundData(buildGrundData(LocalDateTime.now()))
                 .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
+                .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
                 .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(2)))
                 .setUnderlagFinns(false)
                 .setSjukdomsforlopp("sjukdomsforlopp")
@@ -195,7 +197,6 @@ public class InternalDraftValidatorTest {
         assertEquals(0, res.getValidationErrors().size());
     }
 
-
     @Test
     public void validateGrundForMUAnnanGrundBeskrivningNotAnnanGrundDatum() throws Exception {
         LuaenaUtlatande utlatande = builderTemplate
@@ -225,6 +226,67 @@ public class InternalDraftValidatorTest {
 
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("grundformu.annat", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateGroundForMUChecksMotiveringTillInteBaseratPaUndersokningIfAnhorigBeskrivning() throws Exception {
+        // given
+        LuaenaUtlatande withAnhorigBeskrivning = builderTemplate
+                .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(3)))
+                .setMotiveringTillInteBaseratPaUndersokning(null)
+                .build();
+
+        // when
+        ValidateDraftResponse res = validator.validateDraft(withAnhorigBeskrivning);
+
+        // then
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals(0, res.getValidationWarnings().size());
+        assertEquals("grundformu.motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
+        assertEquals(null, res.getValidationErrors().get(0).getMessage());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateGroundForMUChecksMotiveringTillInteBaseratPaUndersokningIfAnnatGrund() throws Exception {
+        // given
+        LuaenaUtlatande withAnnatGrund = builderTemplate
+                .setAnnatGrundForMU(new InternalDate(LocalDate.now().minusDays(2)))
+                .setAnnatGrundForMUBeskrivning("måste finnas, om annatGrundForMU är satt")
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(3)))
+                .setMotiveringTillInteBaseratPaUndersokning(null)
+                .build();
+
+        // when
+        ValidateDraftResponse res = validator.validateDraft(withAnnatGrund);
+
+        // then
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals(0, res.getValidationWarnings().size());
+        assertEquals("grundformu.motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
+        assertEquals(null, res.getValidationErrors().get(0).getMessage());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateGroundForMUChecksMotiveringTillInteBaseratPaUndersokningIfJournalUppgifter() throws Exception {
+        // given
+        LuaenaUtlatande withJournalUppgifter = builderTemplate
+                .setJournaluppgifter(new InternalDate(LocalDate.now().minusDays(2)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(3)))
+                .setMotiveringTillInteBaseratPaUndersokning(null)
+                .build();
+
+        // when
+        ValidateDraftResponse res = validator.validateDraft(withJournalUppgifter);
+
+        // then
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals(0, res.getValidationWarnings().size());
+        assertEquals("grundformu.motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
+        assertEquals(null, res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 

@@ -5,12 +5,12 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
 
 
             var categoryNames = {
-                1:'grundformu',
-                2:'underlag',
-                3:'diagnos',
-                4:'funktionsnedsattning',
-                5:'ovrigt',
-                6:'kontakt'
+                1: 'grundformu',
+                2: 'underlag',
+                3: 'diagnos',
+                4: 'funktionsnedsattning',
+                5: 'ovrigt',
+                6: 'kontakt'
             };
 
             var formFields = [
@@ -52,6 +52,21 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                             ]
                         },
                         FactoryTemplates.annatGrundForMUBeskrivning,
+                        {
+                            key: 'motiveringTillInteBaseratPaUndersokning',
+                            type: 'multi-text',
+                            className: 'fold-animation',
+                            hideExpression: 'model.undersokningAvPatienten || !(model.anhorigsBeskrivningAvPatienten || model.journaluppgifter || model.annatGrundForMU)',
+                            templateOptions: {
+                                bold: 'bold',
+                                forceHeadingTypeLabel: true,
+                                staticLabelId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
+                                subTextId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
+                                subTextDynId: 'FRG_25',
+                                hideWhenEmpty: true,
+                                required: true
+                            }
+                        },
 
                         //Fråga 2 -----
                         {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2'}},

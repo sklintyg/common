@@ -4,16 +4,16 @@ angular.module('luae_na').factory('luae_na.FormFactory',
             'use strict';
 
             var categoryNames = {
-                1:'grundformu',
-                2:'underlag',
-                3:'sjukdomsforlopp',
-                4:'diagnos',
-                5:'funktionsnedsattning',
-                6:'aktivitetsbegransning',
-                7:'medicinskabehandlingar',
-                8:'medicinskaforutsattningarforarbete',
-                9:'ovrigt',
-                10:'kontakt'
+                1: 'grundformu',
+                2: 'underlag',
+                3: 'sjukdomsforlopp',
+                4: 'diagnos',
+                5: 'funktionsnedsattning',
+                6: 'aktivitetsbegransning',
+                7: 'medicinskabehandlingar',
+                8: 'medicinskaforutsattningarforarbete',
+                9: 'ovrigt',
+                10: 'kontakt'
             };
 
             var formFields = [
@@ -60,6 +60,21 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                             ]
                         },
                         FactoryTemplates.annatGrundForMUBeskrivning,
+                        {
+                            key: 'motiveringTillInteBaseratPaUndersokning',
+                            type: 'multi-text',
+                            className: 'fold-animation',
+                            hideExpression: 'model.undersokningAvPatienten || !(model.anhorigsBeskrivningAvPatienten || model.journaluppgifter || model.annatGrundForMU)',
+                            templateOptions: {
+                                bold: 'bold',
+                                forceHeadingTypeLabel: true,
+                                staticLabelId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
+                                subTextId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
+                                subTextDynId: 'FRG_25',
+                                hideWhenEmpty: true,
+                                required: true
+                            }
+                        }, {},
                         {
                             key: 'kannedomOmPatient',
                             type: 'singleDate',

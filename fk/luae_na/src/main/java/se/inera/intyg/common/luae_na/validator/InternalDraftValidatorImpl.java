@@ -18,21 +18,25 @@
  */
 package se.inera.intyg.common.luae_na.validator;
 
-import com.google.common.base.Strings;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Strings;
+
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
+import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
+import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
-import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LuaenaUtlatande> {
 
@@ -76,8 +80,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
     }
 
-
-
     private void validateGrundForMU(LuaenaUtlatande utlatande, List<ValidationMessage> validationMessages) {
 
         if (utlatande.getUndersokningAvPatienten() == null && utlatande.getJournaluppgifter() == null
@@ -92,10 +94,22 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
             ValidatorUtilFK.validateGrundForMuDate(utlatande.getJournaluppgifter(), validationMessages, ValidatorUtilFK.GrundForMu.JOURNALUPPGIFTER);
         }
         if (utlatande.getAnhorigsBeskrivningAvPatienten() != null) {
-            ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnhorigsBeskrivningAvPatienten(), validationMessages, ValidatorUtilFK.GrundForMu.ANHORIGSBESKRIVNING);
+            ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnhorigsBeskrivningAvPatienten(), validationMessages,
+                    ValidatorUtilFK.GrundForMu.ANHORIGSBESKRIVNING);
         }
         if (utlatande.getAnnatGrundForMU() != null) {
             ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, ValidatorUtilFK.GrundForMu.ANNAT);
+        }
+
+        // INTYG-3314
+        boolean existsOtherMU = Stream.of(
+                utlatande.getJournaluppgifter(),
+                utlatande.getAnhorigsBeskrivningAvPatienten(),
+                utlatande.getAnnatGrundForMU()).filter(Objects::nonNull).findAny().isPresent();
+        if (utlatande.getUndersokningAvPatienten() == null
+                && existsOtherMU
+                && StringUtils.isBlank(utlatande.getMotiveringTillInteBaseratPaUndersokning())) {
+            ValidatorUtil.addValidationError(validationMessages, "grundformu.motiveringTillInteBaseratPaUndersokning", ValidationMessageType.EMPTY);
         }
 
         // R2
@@ -111,7 +125,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
         if (utlatande.getKannedomOmPatient() == null) {
             ValidatorUtil.addValidationError(validationMessages, "grundformu.kannedomOmPatient", ValidationMessageType.EMPTY);
         } else {
-            boolean dateIsValid = ValidatorUtil.validateDateAndWarnIfFuture(utlatande.getKannedomOmPatient(), validationMessages, "grundformu.kannedomOmPatient");
+            boolean dateIsValid = ValidatorUtil.validateDateAndWarnIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
+                    "grundformu.kannedomOmPatient");
             if (dateIsValid) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
                         && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getUndersokningAvPatienten().asLocalDate())) {

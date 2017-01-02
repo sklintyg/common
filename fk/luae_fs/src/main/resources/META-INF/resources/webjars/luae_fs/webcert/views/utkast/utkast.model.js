@@ -19,19 +19,19 @@ angular.module('luae_fs').factory('luae_fs.Domain.IntygModel',
                         'anhorigsBeskrivningAvPatienten': undefined,    //KV_FKMU_0001_4
                         'annatGrundForMU': undefined,                   //KV_FKMU_0001_5
                         'annatGrundForMUBeskrivning': undefined,
-                        'kannedomOmPatient':undefined,
+                        'motiveringTillInteBaseratPaUndersokning': undefined,
+                        'kannedomOmPatient': undefined,
 
                         // Kategori 2 Andra medicinska utredningar och underlag
-                        'underlagFinns':undefined,
-                        'underlag':new ModelAttr('underlag', {
+                        'underlagFinns': undefined,
+                        'underlag': new ModelAttr('underlag', {
                             fromTransform: ModelTransform.underlagFromTransform,
                             toTransform: ModelTransform.underlagToTransform
                         }),
 
 
-
                         // Kategori 3 diagnos
-                        'diagnoser':new ModelAttr('diagnoser', {
+                        'diagnoser': new ModelAttr('diagnoser', {
                             fromTransform: ModelTransform.diagnosFromTransform,
                             toTransform: ModelTransform.diagnosToTransform
                         }),
@@ -45,13 +45,12 @@ angular.module('luae_fs').factory('luae_fs.Domain.IntygModel',
                         'ovrigt': undefined,
 
                         // Kategori 6 Kontakt
-                        'kontaktMedFk': new ModelAttr( 'kontaktMedFk', { defaultValue : false }), // 26.1
+                        'kontaktMedFk': new ModelAttr('kontaktMedFk', {defaultValue: false}), // 26.1
                         'anledningTillKontakt': undefined, //26.2
 
 
-
                         // Kategori 9999 Tilläggsfrågor
-                        'tillaggsfragor': new ModelAttr( 'tillaggsfragor', { defaultValue : [] })
+                        'tillaggsfragor': new ModelAttr('tillaggsfragor', {defaultValue: []})
                     });
                 },
                 update: function update(content, parent) {
@@ -62,7 +61,7 @@ angular.module('luae_fs').factory('luae_fs.Domain.IntygModel',
                 }
 
             }, {
-                build : function(){
+                build: function() {
                     return new DraftModel(new LuaeFsModel());
                 }
             });
