@@ -20,6 +20,8 @@ package se.inera.intyg.common.fkparent.model.validator;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
@@ -60,8 +62,14 @@ public final class InternalToSchematronValidatorTestUtil {
         return sw.toString();
     }
 
+    public static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse, List<String> ignoredFields) {
+        return (int) internalValidationResponse.getValidationErrors().stream()
+                .filter(e -> !ignoredFields.contains(e.getField()))
+                .count();
+    }
+
     public static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
-        return internalValidationResponse.getValidationErrors().size();
+        return getNumberOfInternalValidationErrors(internalValidationResponse, Collections.emptyList());
     }
 
     public static int getNumberOfTransportValidationErrors(SchematronOutputType result) {

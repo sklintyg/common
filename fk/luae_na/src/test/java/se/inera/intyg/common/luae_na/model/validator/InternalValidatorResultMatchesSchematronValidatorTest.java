@@ -39,22 +39,27 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import com.helger.commons.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
-import se.inera.intyg.common.luae_na.utils.*;
+import se.inera.intyg.common.luae_na.utils.Scenario;
+import se.inera.intyg.common.luae_na.utils.ScenarioFinder;
+import se.inera.intyg.common.luae_na.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luae_na.validator.InternalDraftValidatorImpl;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 
 /**
@@ -80,6 +85,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
     // Used for labeling tests.
     private static String name;
+
+    /*
+     * Due to the existence of virtual intyg fields in Webcert, there is a discrepancy between the numbers of errors in
+     * the schematron validation vs the Webcert validation. Thus those fields should be ignored for the purposes of
+     * comparing the internal (Webcert) validation and the schematron validation of intyg.
+     */
+    private static final ImmutableList<String> IGNORED_FIELDS = ImmutableList.of();
 
     static {
         // avoid com.helger debug log
@@ -170,7 +182,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         if (fail) {
             assertEquals(String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
                     name, transportValidationErrors, internalValidationErrors),
-                    getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse));
+                    getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse, IGNORED_FIELDS));
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
                     name),
                     internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));

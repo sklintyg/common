@@ -39,28 +39,34 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import com.helger.commons.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
-import se.inera.intyg.common.luse.utils.*;
+import se.inera.intyg.common.luse.utils.Scenario;
+import se.inera.intyg.common.luse.utils.ScenarioFinder;
+import se.inera.intyg.common.luse.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luse.validator.InternalDraftValidatorImpl;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 
 /**
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test runner,
  * uses test data from internal/scenarios and transport/scenarios, so in order to create new tests, just add
  * corresponding json- and XML-files in these directories.
+ * 
  * @author erik
  *
  */
@@ -79,6 +85,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
     // Used for labeling tests.
     private static String name;
+
+    /*
+     * Due to the existence of virtual intyg fields in Webcert, there is a discrepancy between the numbers of errors in
+     * the schematron validation vs the Webcert validation. Thus those fields should be ignored for the purposes of
+     * comparing the internal (Webcert) validation and the schematron validation of intyg.
+     */
+    private static final ImmutableList<String> IGNORED_FIELDS = ImmutableList.of();
 
     static {
         // avoid com.helger debug log
@@ -102,7 +115,9 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
     /**
      * Process test data and supply it to the test.
-     * The format for the test data needs to be: {name to display for current test, the scenario to test, expected outcome of the test}.
+     * The format for the test data needs to be: {name to display for current test, the scenario to test, expected
+     * outcome of the test}.
+     * 
      * @return Collection<Object[]>
      * @throws ScenarioNotFoundException
      */
@@ -138,8 +153,10 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
     /**
      * Perform internal and schematron validation on the supplied Scenario.
+     * 
      * @param scenario
-     * @param fail Whether the test should expect validation errors or not.
+     * @param fail
+     *            Whether the test should expect validation errors or not.
      * @throws Exception
      */
     private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
@@ -165,7 +182,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         if (fail) {
             assertEquals(String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
                     name, transportValidationErrors, internalValidationErrors),
-                    getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse));
+                    getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse, IGNORED_FIELDS));
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
                     name),
                     internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
