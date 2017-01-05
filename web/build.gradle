@@ -14,7 +14,7 @@ node {
     version = '6.6.0'
     download = true
     distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
-    workDir = projectDir
+    workDir = rootProject.projectDir
     nodeModulesDir = rootProject.projectDir
 }
 
