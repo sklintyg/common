@@ -7,7 +7,6 @@ include ':common-support'
 include ':common-web'
 include ':integration-util'
 include ':common-schemas'
-include ':common-specifications'
 include ':common-services'
 
 include ':fk7263'
@@ -26,7 +25,6 @@ project(':common-support').projectDir = "$rootDir/support" as File
 project(':common-web').projectDir = "$rootDir/web" as File
 project(':integration-util').projectDir = "$rootDir/util/integration-util" as File
 project(':common-schemas').projectDir = "$rootDir/schemas" as File
-project(':common-specifications').projectDir = "$rootDir/specifications" as File
 project(':common-services').projectDir = "$rootDir/services" as File
 project(':fk-parent').projectDir = "$rootDir/fk/fk-parent" as File
 project(':luse').projectDir = "$rootDir/fk/luse" as File
