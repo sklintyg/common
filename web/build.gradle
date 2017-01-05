@@ -4,6 +4,7 @@ apply plugin: 'com.moowork.grunt'
 
 def webappOutputDir = 'build/'
 def webappTestOutputDir = 'build/karma/'
+def gruntBinary = rootProject.projectDir.path + '/node_modules/grunt-cli/bin/grunt'
 
 grunt {
     colors = System.properties['gruntColors'] ? System.properties['gruntColors'].toBoolean() : true
@@ -14,7 +15,7 @@ node {
     download = true
     distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
     workDir = projectDir
-    nodeModulesDir = projectDir
+    nodeModulesDir = rootProject.projectDir
 }
 
 sourceSets {
@@ -33,7 +34,7 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
     inputs.files(configurations.compile)
     outputs.dir(webappTestOutputDir)
 
-    script = file('node_modules/grunt-cli/bin/grunt')
+    script = file(gruntBinary)
     args = [ 'test', "--outputDir=${webappTestOutputDir}", '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '') ]
 }
 
@@ -46,7 +47,7 @@ task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
     inputs.files(configurations.compile)
     outputs.dir(webappOutputDir)
 
-    script = file('node_modules/grunt-cli/bin/grunt')
+    script = file(gruntBinary)
     args = ['default', "--outputDir=${webappOutputDir}"]
 }
 
@@ -55,7 +56,7 @@ jar.dependsOn(jsInclude)
 task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall]) {
     outputs.upToDateWhen { false }
 
-    script = file('node_modules/grunt-cli/bin/grunt')
+    script = file(gruntBinary)
     args = ['lint']
 }
 

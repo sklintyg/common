@@ -18,14 +18,17 @@
         "jasmine-core": "2.5.2",
         "jit-grunt": "0.10.0",
         "karma": "^1.0.0",
-        "karma-coverage": "^1.1.1",
         "karma-chrome-launcher": "^2.0.0",
+        "karma-coverage": "^1.1.1",
         "karma-firefox-launcher": "^1.0.0",
         "karma-jasmine": "^1.0.2",
         "karma-junit-reporter": "^1.1.0",
         "karma-mocha-reporter": "^2.2.0",
         "karma-ng-html2js-preprocessor": "^1.0.0",
         "karma-phantomjs-launcher": "^1.0.2",
-        "time-grunt": "1.4.0"
+        "karma-read-json": "^1.1.0",
+        "karma-scss-preprocessor": "^1.0.1",
+        "time-grunt": "1.4.0",
+        "tv4": "^1.2.7"
     }
 }
