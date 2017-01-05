@@ -4,10 +4,8 @@ ext {
     intygTransportstyrelsenSchemasVersion = "1.0.4"
     rivtaClinicalprocessSchemasVersion = "2.0"
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"
-    rivtaItintegrationMonitoringSchemasVersion = "1.0.0.4"
 
     autovalueVersion = "1.1"
-    activeMqVersion = "5.13.4"
     commonsCodecVersion = "1.10"
     commonsCollectionsVersion = "3.2.1"
     commonsIoVersion = "2.4"
@@ -21,8 +19,6 @@ ext {
     phSchematronVersion = "3.0.1"
     saxonVersion = "9.6.0-4"
     servletApiVersion = "2.5"
-    slf4jVersion = "1.7.21"
-    springSecuritySaml2CoreVersion = "1.0.1.RELEASE"
     springVersion = "4.2.2.RELEASE"
 
     jsonAssertVersion = "1.2.0"
