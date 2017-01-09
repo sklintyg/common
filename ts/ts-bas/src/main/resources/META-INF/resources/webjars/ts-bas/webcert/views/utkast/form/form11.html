@@ -59,7 +59,7 @@
         <div ng-show="viewState.intygModel.narkotikaLakemedel.lakarordineratLakemedelsbruk == true">
           <wc-validation-wrapper field-type="multi-text" validations="viewState.getValidationErrors('getLakemedelOchDos')">
             <p><span dynamic-label key="DFR_26.1.RBK"></span> *</p>
-            <textarea class="form-control" data-ng-model="viewState.intygModel.narkotikaLakemedel.lakemedelOchDos" auto-expand="true"
+            <textarea class="form-control" data-ng-model="viewState.intygModel.narkotikaLakemedel.lakemedelOchDos" auto-expand
                       id="beskrivningNarkotikalakemedel" wc-maxlength ng-trim="false"
                       maxlength="{{viewState.inputLimits.lakemedelOchDos}}" rows="4"
                       ng-blur="validate()"></textarea>
