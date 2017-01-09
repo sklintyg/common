@@ -61,23 +61,23 @@ angular.module('common').constant('common.messages', {
         'common.about.cookies': '<p>Så kallade kakor (cookies) används för att underlätta för besökaren på webbplatsen. En kaka är en textfil som lagras på din dator och som innehåller information. Denna webbplats använder så kallade sessionskakor. Sessionskakor lagras temporärt i din dators minne under tiden du är inne på en webbsida. Sessionskakor försvinner när du stänger din webbläsare. Ingen personlig information om dig sparas vid användning av sessionskakor.</p><p>Om du inte accepterar användandet av kakor kan du stänga av det via din webbläsares säkerhetsinställningar. Du kan även ställa in webbläsaren så att du får en varning varje gång webbplatsen försöker sätta en kaka på din dator.</p><p><strong>Observera!</strong> Om du stänger av kakor i din webbläsare kan du inte logga in i Webcert.</p><p>Allmän information om kakor (cookies) och lagen om elektronisk kommunikation finns på Post- och telestyrelsens webbplats.</p><p><a href="https://www.pts.se/sv/Privat/Internet/Skydd-av-uppgifter/Fragor-och-svar-om-kakor-for-anvandare1/" target="_blank">Mer om kakor (cookies) på Post- och telestyrelsens webbplats</a></p>',
 
         // avtal/terms
-        'avtal.title.text' : 'Godkännande av användarvillkor',
-        'avtal.approve.label' : 'Jag godkänner villkoren',
-        'avtal.print.label' : 'Skriv ut',
-        'avtal.logout.label' : 'Logga ut',
+        'avtal.title.text': 'Godkännande av användarvillkor',
+        'avtal.approve.label': 'Jag godkänner villkoren',
+        'avtal.print.label': 'Skriv ut',
+        'avtal.logout.label': 'Logga ut',
 
         // labels for common modal dialogs
-        'common.title.sign' : 'Signera intyget',
+        'common.title.sign': 'Signera intyget',
 
-        'common.modal.label.discard_draft' : 'Ta bort utkast',
+        'common.modal.label.discard_draft': 'Ta bort utkast',
         'common.modal.label.confirm_sign': 'Signera intyget',
-        'common.modal.bankid.heading' : 'Signera med BankID',
+        'common.modal.bankid.heading': 'Signera med BankID',
         'common.modal.bankid.open': 'Öppna programmet för BankID på din dator.',
         'common.modal.bankid.signing': 'Intyget signeras, vänligen skriv in din kod.',
         'common.modal.bankid.noclient': 'BankID-programmet svarar inte. Kontrollera att programmet är startat och att du har internetanslutning.  Försök sedan igen.',
         'common.modal.bankid.signed': 'Intyget är nu signerat.',
 
-        'common.modal.mbankid.heading' : 'Signera med Mobilt BankID',
+        'common.modal.mbankid.heading': 'Signera med Mobilt BankID',
         'common.modal.mbankid.open': 'Starta Mobilt BankID på den enhet där det är installerat.',
         'common.modal.mbankid.signing': 'Skriv in din säkerhetskod på den enhet där Mobilt BankID är startat.',
         'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
@@ -96,13 +96,13 @@ angular.module('common').constant('common.messages', {
         'intyg.status.sent': 'Mottaget',
         'intyg.status.received': 'Signerat',
 
-        'intyg.status.patient.name.changed' : 'Observera att patientens namn har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn.',
-        'intyg.status.patient.address.changed' : 'Observera att patientens adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya adress.',
-        'intyg.status.patient.name.and.address.changed' : 'Observera att patientens namn och adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn och adress.',
+        'intyg.status.patient.name.changed': 'Observera att patientens namn har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn.',
+        'intyg.status.patient.address.changed': 'Observera att patientens adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya adress.',
+        'intyg.status.patient.name.and.address.changed': 'Observera att patientens namn och adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn och adress.',
 
         // Revoke status messages (type agnostic)
-        'intyg.status.revoke.requested' : '<strong>Status:</strong> Intyget är makulerat.',
-        'intyg.status.revoke.confirmed' : '<strong>Status:</strong> Intyget är makulerat.',
+        'intyg.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
+        'intyg.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.',
 
         // draft utkast header form status messages
         'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
@@ -118,7 +118,7 @@ angular.module('common').constant('common.messages', {
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
         'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
 
-        'intyg.makulera.help' : 'Orsak till makulering ska anges eftersom Försäkringskassans handläggare behöver den informationen för att bedöma patientens rätt till ersättning.',
+        'intyg.makulera.help': 'Orsak till makulering ska anges eftersom Försäkringskassans handläggare behöver den informationen för att bedöma patientens rätt till ersättning.',
 
         // wc-common-directives-resources
         'nav.label.loggedinas': 'Inloggad som:',
@@ -259,7 +259,7 @@ angular.module('common').constant('common.messages', {
         'luse.label.makulera.confirmation': 'Läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
         'luse.label.kopiera.text': 'Skapar en kopia av befintligt intyg. Det nya utkastet (kopian) kan ändras och signeras.',
 
-        'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning': 'Motivering till varför utlåtandet inte baseras på undersökning av patienten',
+        'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning': 'Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten',
         'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info': 'Information överförs till fältet {0} vid signering.',
 
         'luae_na.label.status.sent': 'Intyget är signerat och har skickats till Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via 1177.se.',
@@ -293,36 +293,36 @@ angular.module('common').constant('common.messages', {
         'ts-diabetes.label.kopiera.text': 'Skapar en kopia av befintligt intyg. Det nya utkastet (kopian) kan ändras och signeras.',
 
         // Validation messages
-        'luse.validation.grund-for-mu.incorrect_combination_annat_beskrivning' : 'Fritextfältet som hör till alternativet Annat under \'Uppgifterna i intyget baseras på\' får endast fyllas i om \'Annan referens valts\'.',
+        'luse.validation.grund-for-mu.incorrect_combination_annat_beskrivning': 'Fritextfältet som hör till alternativet Annat under \'Uppgifterna i intyget baseras på\' får endast fyllas i om \'Annan referens valts\'.',
         'luse.validation.grund-for-mu.kannedom.after': 'Får inte vara senare än \'{0}\'',
-        'luse.validation.underlagfinns.incorrect_combination' : 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
+        'luse.validation.underlagfinns.incorrect_combination': 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
         'luse.validation.underlag.too_many': 'För många underlag. Detta fel kan ej åtgärdas av användaren. Påbörja ett nytt utkast och rapportera felet till Inera Kundtjänst.',
         'luse.validation.underlag.missing': 'Du måste ange ett underlag.',
-        'luse.validation.underlag.incorrect_format' : 'Fel typ av underlag',
+        'luse.validation.underlag.incorrect_format': 'Fel typ av underlag',
         'luse.validation.underlag.date.missing': 'Du måste ange datum för underlaget.',
         'luse.validation.underlag.hamtas-fran.missing': 'Du måste ange var Försäkringskassan kan få information om utredningen.',
         'luse.validation.underlag.date.incorrect_format': 'Fel datumformat för underlag',
-        'luse.validation.diagnosfornybedomning.incorrect_combination' : 'Om \'Finns det skäl att göra en ny bedömning av diagnosen?\' besvarats med \'Nej\' får inte \'Diagnos för ny bedömning\' fyllas i',
-        'luse.validation.kontakt.incorrect_combination' : 'Anledning till kontakt kan endast fyllas i om \'kontakt med FK önskas\' är vald.',
+        'luse.validation.diagnosfornybedomning.incorrect_combination': 'Om \'Finns det skäl att göra en ny bedömning av diagnosen?\' besvarats med \'Nej\' får inte \'Diagnos för ny bedömning\' fyllas i',
+        'luse.validation.kontakt.incorrect_combination': 'Anledning till kontakt kan endast fyllas i om \'kontakt med FK önskas\' är vald.',
 
-        'luae_na.validation.grund-for-mu.incorrect_combination_annat_beskrivning' : 'Fritextfältet som hör till alternativet Annat under \'Uppgifterna i intyget baseras på\' får endast fyllas i om \'Annan referens\' valts.',
+        'luae_na.validation.grund-for-mu.incorrect_combination_annat_beskrivning': 'Fritextfältet som hör till alternativet Annat under \'Uppgifterna i intyget baseras på\' får endast fyllas i om \'Annan referens\' valts.',
         'luae_na.validation.grund-for-mu.kannedom.after': 'Får inte vara senare än \'{0}\'',
         //'luae_na.validation.grund-for-mu.kannedom.after.undersokning': '\'Kännedom om patienten\' får inte vara senare än datum för \'Min undersökning av patienten\'',
         //'luae_na.validation.grund-for-mu.kannedom.after.anhorigsbeskrivning': '\'Kännedom om patienten\' får inte vara senare än datum för \'Anhörigs beskrivning av patienten\'',
-        'luae_na.validation.underlagfinns.incorrect_combination' : 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
+        'luae_na.validation.underlagfinns.incorrect_combination': 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
         'luae_na.validation.underlag.missing': 'Du måste ange ett underlag.',
-        'luae_na.validation.underlag.incorrect_format' : 'Fel typ av underlag',
+        'luae_na.validation.underlag.incorrect_format': 'Fel typ av underlag',
         'luae_na.validation.underlag.date.missing': 'Du måste ange datum för underlaget.',
         'luae_na.validation.underlag.hamtas-fran.missing': 'Du måste ange var Försäkringskassan kan få information om utredningen.',
         'luae_na.validation.underlag.date.incorrect_format': 'Fel datumformat för underlag',
-        'luae_na.validation.diagnosfornybedomning.incorrect_combination' : 'Om \'Finns det skäl att göra en ny bedömning av diagnosen?\' besvarats med \'Nej\' får inte \'Diagnos för ny bedömning\' fyllas i',
-        'luae_na.validation.kontakt.incorrect_combination' : 'Anledning till kontakt kan endast fyllas i om \'kontakt med FK önskas\' är vald.',
+        'luae_na.validation.diagnosfornybedomning.incorrect_combination': 'Om \'Finns det skäl att göra en ny bedömning av diagnosen?\' besvarats med \'Nej\' får inte \'Diagnos för ny bedömning\' fyllas i',
+        'luae_na.validation.kontakt.incorrect_combination': 'Anledning till kontakt kan endast fyllas i om \'kontakt med FK önskas\' är vald.',
 
         'luae_fs.validation.grund-for-mu.annat.beskrivning.invalid_combination': 'Om inte alternativet Annat är angett får inte beskrivningsfältet anges',
-        'luae_fs.validation.underlagfinns.incorrect_combination' : 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
+        'luae_fs.validation.underlagfinns.incorrect_combination': 'Om frågan \'Finns det andra medicinska utredningar eller underlag\' besvarats med nej får underlag inte anges.',
         'luae_fs.validation.grund-for-mu.kannedom.after': 'Får inte vara senare än \'{0}\'',
         'luae_fs.validation.underlag.missing': 'Du måste ange ett underlag.',
-        'luae_fs.validation.underlag.incorrect_format' : 'Fel typ av underlag',
+        'luae_fs.validation.underlag.incorrect_format': 'Fel typ av underlag',
         'luae_fs.validation.underlagfinns.missing': 'Frågan \'Finns det andra medicinska utredningar eller underlag\' måste besvaras',
         'luae_fs.validation.underlag.date.missing': 'Du måste ange datum för underlaget.',
         'luae_fs.validation.underlag.hamtas-fran.missing': 'Du måste ange var Försäkringskassan kan få information om utredningen.',
@@ -385,7 +385,7 @@ angular.module('common').constant('common.messages', {
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
         //common.sit.* messages are candidates for a fk-common messages.js
-        'common.sit.label.sjukskrivning.hoursperweek' :'Patienten arbetar i snitt',
+        'common.sit.label.sjukskrivning.hoursperweek': 'Patienten arbetar i snitt',
         'common.sit.help.sjukskrivning.hoursperweek': 'Ange hur många timmar patienten arbetar i snitt per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.',
         'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE',
         'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',
@@ -441,7 +441,7 @@ angular.module('common').constant('common.messages', {
 
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
-        'common.error.authorization_problem' : '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
+        'common.error.authorization_problem': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
         'common.error.cantconnect': '<strong>Kunde inte kontakta servern.</strong>',
         'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',
         'common.error.certificateinvalid': '<strong>Intyget är inte korrekt ifyllt.</strong>',
@@ -453,10 +453,10 @@ angular.module('common').constant('common.messages', {
         'common.error.sign.not_ready_yet': '<strong>Intyget är nu signerat.</strong><br>Tyvärr kan inte intyget visas än då det behandlas. Prova att ladda om sidan lite senare. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
         'common.error.sign.concurrent_modification': '<strong>Det går inte att signera utkastet.</strong><br/>Utkastet har ändrats av en annan användare sedan du började arbeta på det. Ladda om sidan, kontrollera att uppgifterna stämmer och försök signera igen.<br/>Utkastet ändrades av ${name}.',
         'common.error.sign.authorization': '<strong>Intyget kunde inte signeras.</strong><br/>Du saknar behörighet att signera detta intyg.',
-        'common.error.sign.indeterminate.identity':'<strong>Intyget kunde inte signeras.</strong><br/>Det verkar som att du valt en annan identitet att signera med än den du loggade in med. Du måste identifiera dig på samma sätt som när du loggade in. Kontrollera om du har valt rätt och prova igen.',
-        'common.error.sign.grp.already_in_progress':'<strong>Intyget kunde inte signeras.</strong><br/>En inloggning eller underskrift för det här personnumret är redan påbörjad, tryck avbryt i BankID säkerhetsapp och försök igen.',
-        'common.error.sign.grp.cancel':'<strong>Intyget kunde inte signeras.</strong><br/>Åtgärden avbruten.',
-        'common.error.sign.grp.expired_transaction':'<strong>Intyget kunde inte signeras.</strong><br/>Inget svar från klienten. Kontrollera att du har startat din BankID säkerhetsapp, följ instruktionerna och försök igen.',
+        'common.error.sign.indeterminate.identity': '<strong>Intyget kunde inte signeras.</strong><br/>Det verkar som att du valt en annan identitet att signera med än den du loggade in med. Du måste identifiera dig på samma sätt som när du loggade in. Kontrollera om du har valt rätt och prova igen.',
+        'common.error.sign.grp.already_in_progress': '<strong>Intyget kunde inte signeras.</strong><br/>En inloggning eller underskrift för det här personnumret är redan påbörjad, tryck avbryt i BankID säkerhetsapp och försök igen.',
+        'common.error.sign.grp.cancel': '<strong>Intyget kunde inte signeras.</strong><br/>Åtgärden avbruten.',
+        'common.error.sign.grp.expired_transaction': '<strong>Intyget kunde inte signeras.</strong><br/>Inget svar från klienten. Kontrollera att du har startat din BankID säkerhetsapp, följ instruktionerna och försök igen.',
         'common.error.unknown_internal_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Försök igen senare.',
         'common.error.data_not_found': '<strong>Intyget kunde inte hittas.</strong><br>Intyget är borttaget eller så saknas behörighet.',
         'common.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand Nationell kundservice på 0771-251010.',
