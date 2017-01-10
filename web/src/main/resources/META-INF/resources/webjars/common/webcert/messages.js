@@ -387,9 +387,9 @@ angular.module('common').constant('common.messages', {
         //common.sit.* messages are candidates for a fk-common messages.js
         'common.sit.label.sjukskrivning.hoursperweek': 'Patienten arbetar i snitt',
         'common.sit.help.sjukskrivning.hoursperweek': 'Ange hur många timmar patienten arbetar i snitt per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.',
-        'common.sit.label.valj-version-icd-10': 'Välj version av ICD-10-SE',
-        'common.sit.label.diagnoskodverk.fullstandig': 'Fullständig version',
-        'common.sit.label.diagnoskodverk.primarvard': 'Primärvårdsversion',
+        'common.sit.label.valj-version-icd-10': 'Välj kodverk:',
+        'common.sit.label.diagnoskodverk.fullstandig': 'ICD-10-SE',
+        'common.sit.label.diagnoskodverk.primarvard': 'KSH97-P (Primärvård)',
         'common.sit.client-validation.underlag.max-extra-underlag': 'Du kan inte lägga till fler utredningar, max antal är %0st',
         'common.label.patient': 'Patientens adressuppgifter',
         'common.label.vardenhet': 'Vårdenhetens adress',
