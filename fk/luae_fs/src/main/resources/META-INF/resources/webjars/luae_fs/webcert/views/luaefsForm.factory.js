@@ -116,12 +116,12 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {
                             key: 'funktionsnedsattningDebut',
                             type: 'multi-text',
-                            templateOptions: {label: 'DFR_15.1'}
+                            templateOptions: {label: 'DFR_15.1', required: true }
                         },
                         {
                             key: 'funktionsnedsattningPaverkan',
                             type: 'multi-text',
-                            templateOptions: {label: 'DFR_16.1'}
+                            templateOptions: {label: 'DFR_16.1', required: true }
                         }
 
                     ]
