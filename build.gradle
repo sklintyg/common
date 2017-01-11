@@ -9,7 +9,6 @@ ext {
     commonsCodecVersion = "1.10"
     commonsCollectionsVersion = "3.2.1"
     commonsIoVersion = "2.4"
-    commonsLangVersion = "3.1"
     cxfVersion = "3.1.3"
     fkEIntygAdapterVersion = "2.2-RC2-INTYG"
     guavaVersion = "20.0"

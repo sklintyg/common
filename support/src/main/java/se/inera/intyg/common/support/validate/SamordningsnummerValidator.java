@@ -22,8 +22,6 @@ import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 import java.time.LocalDate;
 
-import org.apache.commons.lang3.CharUtils;
-
 /**
  * Performs validation of a 'Samordningsnummer'.
  *
@@ -42,7 +40,7 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
      */
     public static boolean isSamordningsNummer(String personNummer) {
         char dateDigit = personNummer.charAt(SAMORDNING_MONTH_INDEX);
-        return CharUtils.toIntValue(dateDigit) >= SAMORDNING_MONTH_VALUE_MIN;
+        return Character.getNumericValue(dateDigit) >= SAMORDNING_MONTH_VALUE_MIN;
     }
 
     /**

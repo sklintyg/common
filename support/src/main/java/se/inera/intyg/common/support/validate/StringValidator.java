@@ -18,11 +18,7 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-
-import org.apache.commons.lang3.time.DateUtils;
+import java.time.Year;
 
 import com.google.common.base.Strings;
 
@@ -67,14 +63,6 @@ public class StringValidator {
     }
 
     private boolean isYearInFuture(String source) {
-        Date date;
-        try {
-            date = DateUtils.parseDate(source, YEAR_FORMAT);
-        } catch (ParseException pe) {
-            return false;
-        }
-        Calendar now = Calendar.getInstance();
-        now.get(Calendar.YEAR);
-        return date.after(now.getTime());
+        return Year.parse(source).isAfter(Year.now());
     }
 }
