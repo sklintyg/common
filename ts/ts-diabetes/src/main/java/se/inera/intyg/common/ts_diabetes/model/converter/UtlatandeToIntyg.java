@@ -87,7 +87,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.ModelException;
@@ -134,7 +135,7 @@ public final class UtlatandeToIntyg {
     }
 
     private static void complementArbetsplatskodIfMissing(Intyg intyg) {
-        if (StringUtils.isBlank(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension())) {
+        if (Strings.nullToEmpty(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()).trim().isEmpty()) {
             intyg.getSkapadAv().getEnhet().getArbetsplatskod().setExtension(NOT_AVAILABLE);
         }
     }
@@ -220,7 +221,7 @@ public final class UtlatandeToIntyg {
             }
             // CHECKSTYLE:ON EmptyBlock
         }
-        if (StringUtils.isNotBlank(source.getAnnanBehandlingBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getAnnanBehandlingBeskrivning()).trim().isEmpty()) {
             diabetesBehandling.withDelsvar(ANNAN_BEHANDLING_DELSVAR_ID_19, source.getAnnanBehandlingBeskrivning());
         }
         if (CollectionUtils.isNotEmpty(diabetesBehandling.delSvars)) {
@@ -243,7 +244,7 @@ public final class UtlatandeToIntyg {
             allvarligHypoglykemi.withDelsvar(FOREKOMST_ALLVARLIG_HYPOGLYKEMI_DELSVAR_ID_39,
                     source.getAllvarligForekomst().toString());
         }
-        if (StringUtils.isNotBlank(source.getAllvarligForekomstBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getAllvarligForekomstBeskrivning()).trim().isEmpty()) {
             allvarligHypoglykemi.withDelsvar(ANTAL_EPISODER_ALLVARLIG_HYPOGLYKEMI_DELSVAR_ID_39,
                     source.getAllvarligForekomstBeskrivning());
         }
@@ -255,7 +256,7 @@ public final class UtlatandeToIntyg {
             allvarligHypoglykemiTrafiken.withDelsvar(FOREKOMST_ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_DELSVAR_ID_40,
                     source.getAllvarligForekomstTrafiken().toString());
         }
-        if (StringUtils.isNotBlank(source.getAllvarligForekomstTrafikBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getAllvarligForekomstTrafikBeskrivning()).trim().isEmpty()) {
             allvarligHypoglykemiTrafiken.withDelsvar(ANTAL_EPISODER_TIDPUNKT_ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_DELSVAR_ID_40,
                     source.getAllvarligForekomstTrafikBeskrivning());
         }

@@ -23,8 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
+import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -683,13 +682,13 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         StringBuilder ovrigt = new StringBuilder();
 
-        if (!StringUtils.isBlank(intyg.getMotiveringTillInteBaseratPaUndersokning())) {
+        if (!Strings.nullToEmpty(intyg.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
             ovrigt.append("Motivering till varför utlåtandet inte baseras på undersökning av patienten: ")
                     .append(intyg.getMotiveringTillInteBaseratPaUndersokning())
                     .append("\n");
         }
 
-        if (!StringUtils.isBlank(intyg.getOvrigt())) {
+        if (!Strings.nullToEmpty(intyg.getOvrigt()).trim().isEmpty()) {
             ovrigt.append(intyg.getOvrigt());
         }
 

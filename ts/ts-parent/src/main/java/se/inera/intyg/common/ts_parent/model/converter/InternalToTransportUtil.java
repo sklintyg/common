@@ -24,10 +24,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -35,7 +35,12 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intygstjanster.ts.services.types.v1.II;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intygstjanster.ts.services.v1.DiabetesTypVarden;
+import se.inera.intygstjanster.ts.services.v1.GrundData;
+import se.inera.intygstjanster.ts.services.v1.Patient;
+import se.inera.intygstjanster.ts.services.v1.SkapadAv;
+import se.inera.intygstjanster.ts.services.v1.Vardenhet;
+import se.inera.intygstjanster.ts.services.v1.Vardgivare;
 
 public final class InternalToTransportUtil {
 
@@ -65,7 +70,7 @@ public final class InternalToTransportUtil {
     }
 
     public static Optional<String> getVersion(Utlatande source) {
-        if (StringUtils.isBlank(source.getTextVersion())) {
+        if (Strings.nullToEmpty(source.getTextVersion()).trim().isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(source.getTextVersion());

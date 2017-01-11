@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ts_diabetes.model.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -26,11 +27,15 @@ import java.time.LocalDateTime;
 
 import javax.xml.bind.JAXBElement;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
@@ -154,7 +159,7 @@ public class UtlatandeToIntygTest {
         TsDiabetesUtlatande utlatande = buildUtlatande(arbetsplatskod);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-        assertTrue(StringUtils.isNotBlank(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()));
+        assertFalse(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension().trim().isEmpty());
     }
 
     @Test
@@ -163,7 +168,7 @@ public class UtlatandeToIntygTest {
         TsDiabetesUtlatande utlatande = buildUtlatande(arbetsplatskod);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-        assertTrue(StringUtils.isNotBlank(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()));
+        assertFalse(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension().trim().isEmpty());
     }
 
     @Test

@@ -35,30 +35,39 @@ import java.time.LocalDateTime;
 
 import javax.xml.bind.JAXB;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.w3.wsaddressing10.AttributedURIType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
+import se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificateResponderImpl;
+import se.inera.intyg.common.fk7263.model.converter.InternalToTransport;
+import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
+import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificateResponderImpl;
-import se.inera.intyg.common.fk7263.model.converter.*;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
@@ -190,7 +199,7 @@ public class Fk7263ModuleApiTest {
 
     @Test
     public void testSendCertificateWhenRecipientIsOtherThanFk() throws Exception {
-        String xml = marshall(FileUtils.readFileToString(new ClassPathResource(TESTFILE_UTLATANDE).getFile()));
+        String xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
 
         AttributedURIType address = new AttributedURIType();
         address.setValue("logicalAddress");
@@ -211,7 +220,7 @@ public class Fk7263ModuleApiTest {
 
     @Test
     public void testSendFullCertificateWhenRecipientIsFk() throws Exception {
-        String xml = marshall(FileUtils.readFileToString(new ClassPathResource(TESTFILE_UTLATANDE).getFile()));
+        String xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
 
         AttributedURIType address = new AttributedURIType();
         address.setValue("logicalAddress");
@@ -232,7 +241,7 @@ public class Fk7263ModuleApiTest {
 
     @Test
     public void testSendMinimalCertificateWhenRecipientIsFk() throws Exception {
-        String xml = marshall(FileUtils.readFileToString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getFile()));
+        String xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8));
 
         AttributedURIType address = new AttributedURIType();
         address.setValue("logicalAddress");
@@ -409,7 +418,7 @@ public class Fk7263ModuleApiTest {
 
     @Test
     public void testRegisterCertificateAlreadyExists() throws Exception {
-        String json = FileUtils.readFileToString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getFile());
+        String json = Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
 
         AttributedURIType address = new AttributedURIType();
         address.setValue("logicalAddress");
@@ -431,7 +440,7 @@ public class Fk7263ModuleApiTest {
 
     @Test
     public void testRegisterCertificateGenericInfoResult() throws Exception {
-        String json = FileUtils.readFileToString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getFile());
+        String json = Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
 
         AttributedURIType address = new AttributedURIType();
         address.setValue("logicalAddress");

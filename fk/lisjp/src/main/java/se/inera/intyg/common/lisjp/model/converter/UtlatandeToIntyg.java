@@ -77,9 +77,8 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
@@ -157,7 +156,7 @@ public final class UtlatandeToIntyg {
                 source.getForsakringsmedicinsktBeslutsstod());
 
         if (source.getArbetstidsforlaggning() != null) {
-            if (source.getArbetstidsforlaggning() && !StringUtils.isBlank(source.getArbetstidsforlaggningMotivering())) {
+            if (source.getArbetstidsforlaggning() && !Strings.nullToEmpty(source.getArbetstidsforlaggningMotivering()).trim().isEmpty()) {
                 svars.add(aSvar(ARBETSTIDSFORLAGGNING_SVAR_ID_33)
                         .withDelsvar(ARBETSTIDSFORLAGGNING_OM_DELSVAR_ID_33, source.getArbetstidsforlaggning().toString())
                         .withDelsvar(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33, source.getArbetstidsforlaggningMotivering()).build());
@@ -202,7 +201,7 @@ public final class UtlatandeToIntyg {
         addIfNotBlank(svars, OVRIGT_SVAR_ID_25, OVRIGT_DELSVAR_ID_25, buildOvrigaUpplysningar(source));
 
         if (source.getKontaktMedFk() != null) {
-            if (source.getKontaktMedFk() && !StringUtils.isBlank(source.getAnledningTillKontakt())) {
+            if (source.getKontaktMedFk() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26, source.getKontaktMedFk().toString())
                         .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, source.getAnledningTillKontakt()).build());
             } else {
@@ -256,23 +255,23 @@ public final class UtlatandeToIntyg {
         String ovrigt = null;
 
         // Since INTYG-2949, we have to concatenate information in the Övrigt-fält again...
-        if (!StringUtils.isBlank(source.getMotiveringTillInteBaseratPaUndersokning())) {
+        if (!Strings.nullToEmpty(source.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
             motiveringTillInteBaseratPaUndersokning = "Motivering till varför utlåtandet inte baseras på undersökning av patienten: "
                     + source.getMotiveringTillInteBaseratPaUndersokning();
         }
 
         // INTYG-3207 motiveringTillTidigtStartdatumForSjukskrivning
-        if (!StringUtils.isBlank(source.getMotiveringTillTidigtStartdatumForSjukskrivning())) {
+        if (!Strings.nullToEmpty(source.getMotiveringTillTidigtStartdatumForSjukskrivning()).trim().isEmpty()) {
             motiveringTillTidigSjukskrivning = "Orsak för att starta perioden mer än 7 dagar bakåt i tiden: "
                     + source.getMotiveringTillTidigtStartdatumForSjukskrivning();
         }
 
-        if (!StringUtils.isBlank(source.getOvrigt())) {
+        if (!Strings.nullToEmpty(source.getOvrigt()).trim().isEmpty()) {
             ovrigt = source.getOvrigt();
         }
 
         String ret = Joiner.on("\n").skipNulls().join(motiveringTillInteBaseratPaUndersokning, motiveringTillTidigSjukskrivning, ovrigt);
-        return !StringUtils.isBlank(ret) ? ret : null;
+        return !ret.trim().isEmpty() ? ret : null;
     }
 
 }

@@ -20,17 +20,32 @@ package se.inera.intyg.common.ts_diabetes.model.converter;
 
 import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 
-import se.inera.intyg.common.ts_diabetes.model.internal.*;
+import se.inera.intyg.common.ts_diabetes.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intygstjanster.ts.services.v1.BedomningTypDiabetes;
 import se.inera.intygstjanster.ts.services.v1.Diabetes;
 import se.inera.intygstjanster.ts.services.v1.Hypoglykemier;
+import se.inera.intygstjanster.ts.services.v1.IdentifieringsVarden;
+import se.inera.intygstjanster.ts.services.v1.IdentitetStyrkt;
+import se.inera.intygstjanster.ts.services.v1.IntygsAvserTypDiabetes;
+import se.inera.intygstjanster.ts.services.v1.Korkortsbehorighet;
+import se.inera.intygstjanster.ts.services.v1.KorkortsbehorighetTsDiabetes;
+import se.inera.intygstjanster.ts.services.v1.SynfunktionDiabetes;
+import se.inera.intygstjanster.ts.services.v1.SynskarpaMedKorrektion;
+import se.inera.intygstjanster.ts.services.v1.SynskarpaUtanKorrektion;
+import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 public final class InternalToTransportConverter {
 
@@ -58,7 +73,7 @@ public final class InternalToTransportConverter {
             result.setSynfunktion(readSynfunktionDiabetes(utlatande.getSyn()));
         }
 
-        if (StringUtils.isNotBlank(utlatande.getTextVersion())) {
+        if (!Strings.nullToEmpty(utlatande.getTextVersion()).trim().isEmpty()) {
             String[] versionInfo = utlatande.getTextVersion().split(DELIMITER_REGEXP);
             result.setUtgava(String.format("%02d", Integer.parseInt(versionInfo[1])));
             result.setVersion(String.format("%02d", Integer.parseInt(versionInfo[0])));

@@ -24,9 +24,6 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.File;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -34,13 +31,16 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificateforcare.v1.GetMedicalCertificateForCareRequestType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificateforcare.v1.GetMedicalCertificateForCareResponseType;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
 
@@ -174,8 +174,7 @@ public class GetMedicalCertificateForCareResponderImplTest {
         certificate.setId(INTYG_ID);
         certificate.setType("fk7263");
         certificate.setCivicRegistrationNumber(PERSON_ID);
-        File file = new ClassPathResource("GetMedicalCertificateForCareResponderImplTest/fk7263.xml").getFile();
-        String xmlFile = FileUtils.readFileToString(file);
+        String xmlFile = Resources.toString(new ClassPathResource("GetMedicalCertificateForCareResponderImplTest/fk7263.xml").getURL(), Charsets.UTF_8);
         certificate.setOriginalCertificate(xmlFile);
         return certificate;
     }

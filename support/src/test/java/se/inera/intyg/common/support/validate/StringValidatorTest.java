@@ -28,20 +28,6 @@ import org.junit.Test;
 public class StringValidatorTest {
 
     @Test
-    public void testValidateStringIsNumbers() {
-        final String numbers = "2011";
-        final String other = "abd43";
-        final String decimal = "2.2";
-        final String wrongDelimiterDecimal = "2,2";
-
-        StringValidator validator = new StringValidator();
-        assertTrue(validator.validateStringIsNumber(numbers));
-        assertFalse(validator.validateStringIsNumber(other));
-        assertTrue(validator.validateStringIsNumber(decimal));
-        assertFalse(validator.validateStringIsNumber(wrongDelimiterDecimal));
-    }
-
-    @Test
     public void testValidateStringIsYear() {
         final String nineteenEleven = "1911";
         final String twentyEleven = "2011";
@@ -76,7 +62,6 @@ public class StringValidatorTest {
     @Test
     public void testValidateNullStringGenerates() {
         StringValidator validator = new StringValidator();
-        assertFalse(validator.validateStringIsNumber(null));
         assertFalse(validator.validateStringIsYear(null));
     }
 }

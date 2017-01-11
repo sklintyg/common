@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.SortedMap;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.primitives.Ints;
 
 /**
  * Data container for the texts used in certificates.
@@ -77,7 +77,7 @@ public final class IntygTexts {
     }
 
     private void validateVersion(String version) {
-        if (version == null || !Arrays.stream(version.split(DELIMITER)).allMatch(s -> StringUtils.isNumeric(s))) {
+        if (version == null || !Arrays.stream(version.split(DELIMITER)).allMatch(s -> Ints.tryParse(s) != null)) {
             throw new IllegalArgumentException("Version " + version + " is not in format 'x.x.x.x'");
         }
     }

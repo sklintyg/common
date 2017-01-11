@@ -18,7 +18,12 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import static se.inera.intyg.common.support.Constants.*;
+import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
+import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
+import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
+import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 import java.time.LocalDate;
 import java.time.temporal.Temporal;
@@ -28,16 +33,32 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.services.BefattningService;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.*;
-import se.riv.clinicalprocess.healthcond.certificate.v2.*;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.ArbetsplatsKod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.Befattning;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.HsaId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.PersonId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.TypAvRelation;
+import se.riv.clinicalprocess.healthcond.certificate.v2.Enhet;
+import se.riv.clinicalprocess.healthcond.certificate.v2.HosPersonal;
+import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v2.MeddelandeReferens;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Patient;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Relation;
+import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
 
@@ -193,7 +214,7 @@ public final class InternalConverterUtil {
     }
 
     public static void addIfNotBlank(List<Svar> svars, String svarsId, String delsvarsId, String content) {
-        if (!StringUtils.isBlank(content)) {
+        if (!Strings.nullToEmpty(content).trim().isEmpty()) {
             svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content).build());
         }
     }

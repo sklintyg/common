@@ -25,21 +25,23 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
+import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
-import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 
 /**
  * Created by eriklupander on 2016-04-20.
@@ -89,7 +91,7 @@ public class WebcertModelFactoryTest {
         // this to follow schema during CertificateStatusUpdateForCareV2
         when(intygTextsService.getLatestVersion(LuaefsEntryPoint.MODULE_ID)).thenReturn("1.0");
         LuaefsUtlatande draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
-        assertTrue(CollectionUtils.isEmpty(InternalToTransport.convert(draft).getIntyg().getSvar()));
+        assertTrue(InternalToTransport.convert(draft).getIntyg().getSvar().isEmpty());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {

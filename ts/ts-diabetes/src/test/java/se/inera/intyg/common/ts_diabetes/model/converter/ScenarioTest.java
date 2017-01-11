@@ -26,7 +26,9 @@ import org.unitils.reflectionassert.ReflectionAssert;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
-import se.inera.intyg.common.ts_diabetes.utils.*;
+import se.inera.intyg.common.ts_diabetes.utils.Scenario;
+import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
+import se.inera.intyg.common.ts_diabetes.utils.ScenarioNotFoundException;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 public class ScenarioTest {
@@ -65,12 +67,7 @@ public class ScenarioTest {
     }
 
     private Scenario getScenarioByName(String name, List<Scenario> scenarios) {
-        for (Scenario scenario : scenarios) {
-            if (name.equalsIgnoreCase(scenario.getName())) {
-                return scenario;
-            }
-        }
-
-        throw new IllegalArgumentException("No such scenario found");
+        return scenarios.stream().filter(s -> name.equalsIgnoreCase(s.getName())).findAny()
+                .orElseThrow(() -> new IllegalArgumentException("No such scenario found"));
     }
 }

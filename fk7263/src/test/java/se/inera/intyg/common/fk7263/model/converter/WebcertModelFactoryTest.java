@@ -24,18 +24,25 @@ import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
-import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 
 public class WebcertModelFactoryTest {
 
@@ -180,7 +187,7 @@ public class WebcertModelFactoryTest {
         try {
             LOG.info("Reading test data from: {}", filePath);
             ClassPathResource resource = new ClassPathResource(filePath);
-            return IOUtils.toString(resource.getInputStream(), "UTF-8");
+            return Resources.toString(resource.getURL(), Charsets.UTF_8);
         } catch (IOException e) {
             LOG.error("Could not read test data from: {}, error {}", filePath, e.getMessage());
             return null;

@@ -18,7 +18,10 @@
  */
 package se.inera.intyg.common.support.xml;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
@@ -98,7 +100,8 @@ public class SchemaValidatorBuilder {
 
     private String getLastPathSegment(String path) {
         if (path.contains("/")) {
-            return StringUtils.substringAfterLast(path, "/");
+            String[] splitString = path.split("/");
+            return splitString[splitString.length - 1];
         }
         return path;
     }

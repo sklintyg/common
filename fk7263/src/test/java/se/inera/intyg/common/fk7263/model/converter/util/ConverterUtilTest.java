@@ -20,15 +20,16 @@ package se.inera.intyg.common.fk7263.model.converter.util;
 
 import java.io.IOException;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-
 
 public class ConverterUtilTest {
 
@@ -47,8 +48,7 @@ public class ConverterUtilTest {
 
     private static String readRequestFromFile(String filePath) {
         try {
-            ClassPathResource resource = new ClassPathResource(filePath);
-            return IOUtils.toString(resource.getInputStream(), "UTF-8");
+            return Resources.toString(new ClassPathResource(filePath).getURL(), Charsets.UTF_8);
         } catch (IOException e) {
             return null;
         }

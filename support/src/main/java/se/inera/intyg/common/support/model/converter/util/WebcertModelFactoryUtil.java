@@ -20,7 +20,8 @@ package se.inera.intyg.common.support.model.converter.util;
 
 import java.time.LocalDateTime;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -95,43 +96,43 @@ public final class WebcertModelFactoryUtil {
             mergedPatient.setPersonId(existingPatient.getPersonId());
         }
 
-        if (StringUtils.isNotBlank(newPatient.getFornamn())) {
+        if (!Strings.nullToEmpty(newPatient.getFornamn()).trim().isEmpty()) {
             mergedPatient.setFornamn(newPatient.getFornamn());
         } else {
             mergedPatient.setFornamn(existingPatient.getFornamn());
         }
 
         // Name
-        if (StringUtils.isNotBlank(newPatient.getMellannamn())) {
+        if (!Strings.nullToEmpty(newPatient.getMellannamn()).trim().isEmpty()) {
             mergedPatient.setMellannamn(newPatient.getMellannamn());
         } else {
             mergedPatient.setMellannamn(existingPatient.getMellannamn());
         }
 
-        if (StringUtils.isNotBlank(newPatient.getEfternamn())) {
+        if (!Strings.nullToEmpty(newPatient.getEfternamn()).trim().isEmpty()) {
             mergedPatient.setEfternamn(newPatient.getEfternamn());
         } else {
             mergedPatient.setEfternamn(existingPatient.getEfternamn());
         }
 
-        if (StringUtils.isNotBlank(newPatient.getFullstandigtNamn())) {
+        if (!Strings.nullToEmpty(newPatient.getFullstandigtNamn()).trim().isEmpty()) {
             mergedPatient.setFullstandigtNamn(newPatient.getFullstandigtNamn());
         } else {
             mergedPatient.setFullstandigtNamn(existingPatient.getFullstandigtNamn());
         }
 
         // Address
-        if (StringUtils.isNotBlank(newPatient.getPostadress())) {
+        if (!Strings.nullToEmpty(newPatient.getPostadress()).trim().isEmpty()) {
             mergedPatient.setPostadress(newPatient.getPostadress());
         } else {
             mergedPatient.setPostadress(existingPatient.getPostadress());
         }
-        if (StringUtils.isNotBlank(newPatient.getPostnummer())) {
+        if (!Strings.nullToEmpty(newPatient.getPostnummer()).trim().isEmpty()) {
             mergedPatient.setPostnummer(newPatient.getPostnummer());
         } else {
             mergedPatient.setPostnummer(existingPatient.getPostnummer());
         }
-        if (StringUtils.isNotBlank(newPatient.getPostort())) {
+        if (!Strings.nullToEmpty(newPatient.getPostort()).trim().isEmpty()) {
             mergedPatient.setPostort(newPatient.getPostort());
         } else {
             mergedPatient.setPostort(existingPatient.getPostort());
@@ -141,16 +142,16 @@ public final class WebcertModelFactoryUtil {
     }
 
     private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
-        if (StringUtils.isBlank(target.getPostadress())) {
+        if (Strings.nullToEmpty(target.getPostadress()).trim().isEmpty()) {
             target.setPostadress(source.getPostadress());
         }
-        if (StringUtils.isBlank(target.getPostnummer())) {
+        if (Strings.nullToEmpty(target.getPostnummer()).trim().isEmpty()) {
             target.setPostnummer(source.getPostnummer());
         }
-        if (StringUtils.isBlank(target.getPostort())) {
+        if (Strings.nullToEmpty(target.getPostort()).trim().isEmpty()) {
             target.setPostort(source.getPostort());
         }
-        if (StringUtils.isBlank(target.getTelefonnummer())) {
+        if (Strings.nullToEmpty(target.getTelefonnummer()).trim().isEmpty()) {
             target.setTelefonnummer(source.getTelefonnummer());
         }
 

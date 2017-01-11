@@ -20,13 +20,31 @@ package se.inera.intyg.common.fk7263.validator;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.*;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsuppgiftType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.FunktionstillstandType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.MedicinsktTillstandType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Nedsattningsgrad;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Prognosangivelse;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ReferensType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Referenstyp;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.SysselsattningType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvFunktionstillstand;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvSysselsattning;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.VardkontaktType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Vardkontakttyp;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
+import se.inera.intyg.common.fk7263.schemas.insuranceprocess.healthreporting.validator.PatientValidator;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.fk7263.schemas.insuranceprocess.healthreporting.validator.PatientValidator;
 
 /**
  * Validates presence and validity of formal external model properties such as OID's. Preferably this validation should
@@ -109,7 +127,7 @@ public class ProgrammaticTransportValidator extends AbstractValidator {
 
     private void validateUtlatande() {
         String id = utlatande.getLakarutlatandeId();
-        if (id == null || StringUtils.isEmpty(id)) {
+        if (Strings.isNullOrEmpty(id)) {
             addValidationError("Head: Utlatande Id is mandatory!");
         }
 

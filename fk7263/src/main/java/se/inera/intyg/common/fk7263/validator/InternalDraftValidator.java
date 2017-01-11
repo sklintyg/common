@@ -21,19 +21,22 @@ package se.inera.intyg.common.fk7263.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Strings;
+import com.google.common.primitives.Ints;
+
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.support.validate.StringValidator;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 public class InternalDraftValidator {
 
@@ -41,8 +44,6 @@ public class InternalDraftValidator {
 
     @Autowired(required = false)
     private WebcertModuleService moduleService;
-
-    private static final StringValidator STRING_VALIDATOR = new StringValidator();
 
     public ValidateDraftResponse validateDraft(Fk7263Utlatande utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
@@ -94,7 +95,7 @@ public class InternalDraftValidator {
         if (utlatande.getAnnanReferens() != null && !utlatande.getAnnanReferens().isValidDate()) {
             ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.referenser", ValidationMessageType.INVALID_FORMAT);
         }
-        if (utlatande.getAnnanReferens() != null && StringUtils.isBlank(utlatande.getAnnanReferensBeskrivning())) {
+        if (utlatande.getAnnanReferens() != null && Strings.nullToEmpty(utlatande.getAnnanReferensBeskrivning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.annat", ValidationMessageType.EMPTY);
         }
         if (utlatande.getJournaluppgifter() != null && !utlatande.getJournaluppgifter().isValidDate()) {
@@ -107,7 +108,7 @@ public class InternalDraftValidator {
         // If field 4 annat satt or field 10 går ej att bedömma is set then
         // field 13 should contain data.
         if (utlatande.getPrognosBedomning() == PrognosBedomning.arbetsformagaPrognosGarInteAttBedoma
-                && StringUtils.isBlank(utlatande.getArbetsformagaPrognosGarInteAttBedomaBeskrivning())) {
+                && Strings.nullToEmpty(utlatande.getArbetsformagaPrognosGarInteAttBedomaBeskrivning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "prognos.arbetsformagaPrognosGarInteAttBedomaBeskrivning", ValidationMessageType.EMPTY);
         }
     }
@@ -129,13 +130,13 @@ public class InternalDraftValidator {
         if (!utlatande.isAvstangningSmittskydd()) {
             if (!utlatande.isNuvarandeArbete() && !utlatande.isArbetsloshet() && !utlatande.isForaldrarledighet()) {
                 ValidatorUtil.addValidationError(validationMessages, "sysselsattning", ValidationMessageType.EMPTY);
-            } else if (utlatande.isNuvarandeArbete() && StringUtils.isBlank(utlatande.getNuvarandeArbetsuppgifter())) {
+            } else if (utlatande.isNuvarandeArbete() && Strings.nullToEmpty(utlatande.getNuvarandeArbetsuppgifter()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "sysselsattning.nuvarandearbetsuppgifter", ValidationMessageType.EMPTY);
             }
         }
 
         // validate 8b - regardless of smittskydd
-        if (utlatande.getTjanstgoringstid() != null && !STRING_VALIDATOR.validateStringIsNumber(utlatande.getTjanstgoringstid())) {
+        if (utlatande.getTjanstgoringstid() != null && Ints.tryParse(utlatande.getTjanstgoringstid()) == null) {
             ValidatorUtil.addValidationError(validationMessages, "nedsattning", ValidationMessageType.OTHER,
                     "fk7263.validation.nedsattning.tjanstgoringstid");
         }
@@ -188,7 +189,7 @@ public class InternalDraftValidator {
     private void validateAktivitetsbegransning(Fk7263Utlatande utlatande, List<ValidationMessage> validationMessages) {
         // Fält 5 Aktivitetsbegränsning relaterat till diagnos och funktionsnedsättning
         String aktivitetsbegransning = utlatande.getAktivitetsbegransning();
-        if (!utlatande.isAvstangningSmittskydd() && StringUtils.isBlank(aktivitetsbegransning)) {
+        if (!utlatande.isAvstangningSmittskydd() && Strings.nullToEmpty(aktivitetsbegransning).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "aktivitetsbegransning", ValidationMessageType.EMPTY);
         }
     }
@@ -196,7 +197,7 @@ public class InternalDraftValidator {
     private void validateFunktionsnedsattning(Fk7263Utlatande utlatande, List<ValidationMessage> validationMessages) {
         // Fält 4 - vänster Check that we got a funktionsnedsattning element
         String funktionsnedsattning = utlatande.getFunktionsnedsattning();
-        if (!utlatande.isAvstangningSmittskydd() && StringUtils.isBlank(funktionsnedsattning)) {
+        if (!utlatande.isAvstangningSmittskydd() && Strings.nullToEmpty(funktionsnedsattning).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "funktionsnedsattning", ValidationMessageType.EMPTY);
         }
     }
@@ -210,9 +211,9 @@ public class InternalDraftValidator {
             return;
         }
 
-        if (!StringUtils.isBlank(utlatande.getDiagnosKod())) {
+        if (!Strings.nullToEmpty(utlatande.getDiagnosKod()).trim().isEmpty()) {
             String kodsystem = utlatande.getDiagnosKodsystem1();
-            if (StringUtils.isBlank(kodsystem)) {
+            if (Strings.nullToEmpty(kodsystem).trim().isEmpty()) {
                 // Default to ICD-10
                 kodsystem = Diagnoskodverk.ICD_10_SE.name();
             }
@@ -223,9 +224,9 @@ public class InternalDraftValidator {
         }
 
         // Validate bidiagnos 1
-        if (!StringUtils.isBlank(utlatande.getDiagnosKod2())) {
+        if (!Strings.nullToEmpty(utlatande.getDiagnosKod2()).trim().isEmpty()) {
             String kodsystem = utlatande.getDiagnosKodsystem2();
-            if (StringUtils.isBlank(kodsystem)) {
+            if (Strings.nullToEmpty(kodsystem).trim().isEmpty()) {
                 // Default to ICD-10
                 kodsystem = Diagnoskodverk.ICD_10_SE.name();
             }
@@ -233,9 +234,9 @@ public class InternalDraftValidator {
         }
 
         // Validate bidiagnos 2
-        if (!StringUtils.isBlank(utlatande.getDiagnosKod3())) {
+        if (!Strings.nullToEmpty(utlatande.getDiagnosKod3()).trim().isEmpty()) {
             String kodsystem = utlatande.getDiagnosKodsystem3();
-            if (StringUtils.isBlank(kodsystem)) {
+            if (Strings.nullToEmpty(kodsystem).trim().isEmpty()) {
                 // Default to ICD-10
                 kodsystem = Diagnoskodverk.ICD_10_SE.name();
             }
@@ -258,7 +259,7 @@ public class InternalDraftValidator {
 
     private void validateOvrigaRekommendationer(Fk7263Utlatande utlatande, List<ValidationMessage> validationMessages) {
         // Fält 6a - If Övrigt is checked, something must be entered.
-        if (utlatande.isRekommendationOvrigtCheck() && StringUtils.isBlank(utlatande.getRekommendationOvrigt())) {
+        if (utlatande.isRekommendationOvrigtCheck() && Strings.nullToEmpty(utlatande.getRekommendationOvrigt()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "rekommendationer.rekommendationovrigt", ValidationMessageType.EMPTY,
                     "fk7263.validation.rekommendationer.ovriga");
         }

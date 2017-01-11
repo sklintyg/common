@@ -120,7 +120,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
@@ -171,7 +172,7 @@ public final class UtlatandeToIntyg {
     }
 
     private static void complementArbetsplatskodIfMissing(Intyg intyg) {
-        if (StringUtils.isBlank(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension())) {
+        if (Strings.nullToEmpty(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()).trim().isEmpty()) {
             intyg.getSkapadAv().getEnhet().getArbetsplatskod().setExtension(NOT_AVAILABLE);
         }
     }
@@ -311,7 +312,7 @@ public final class UtlatandeToIntyg {
             funktionsnedsattning.withDelsvar(FOREKOMST_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12,
                     source.getFunktionsnedsattning().toString());
         }
-        if (StringUtils.isNotBlank(source.getBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getBeskrivning()).trim().isEmpty()) {
             funktionsnedsattning.withDelsvar(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getBeskrivning());
         }
         if (CollectionUtils.isNotEmpty(funktionsnedsattning.delSvars)) {
@@ -336,7 +337,7 @@ public final class UtlatandeToIntyg {
                 riskfaktorerStroke.withDelsvar(FOREKOMST_RISKFAKTORER_STROKE_DELSVAR_ID_16,
                         source.getRiskfaktorerStroke().toString());
             }
-            if (StringUtils.isNotBlank(source.getBeskrivningRiskfaktorer())) {
+            if (!Strings.nullToEmpty(source.getBeskrivningRiskfaktorer()).trim().isEmpty()) {
                 riskfaktorerStroke.withDelsvar(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID_16,
                         source.getBeskrivningRiskfaktorer());
             }
@@ -382,7 +383,7 @@ public final class UtlatandeToIntyg {
             medvetandestorning.withDelsvar(FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID_21,
                     source.getMedvetandestorning().toString());
         }
-        if (StringUtils.isNotBlank(source.getBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getBeskrivning()).trim().isEmpty()) {
             medvetandestorning.withDelsvar(TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID_21,
                     source.getBeskrivning());
         }
@@ -415,7 +416,7 @@ public final class UtlatandeToIntyg {
             lakemedel.withDelsvar(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26,
                     source.getLakarordineratLakemedelsbruk().toString());
         }
-        if (StringUtils.isNotBlank(source.getLakemedelOchDos())) {
+        if (!Strings.nullToEmpty(source.getLakemedelOchDos()).trim().isEmpty()) {
             lakemedel.withDelsvar(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26, source.getLakemedelOchDos());
         }
         if (CollectionUtils.isNotEmpty(lakemedel.delSvars)) {
@@ -432,13 +433,13 @@ public final class UtlatandeToIntyg {
             sjukhusvard.withDelsvar(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30,
                     source.getSjukhusEllerLakarkontakt().toString());
         }
-        if (StringUtils.isNotBlank(source.getTidpunkt())) {
+        if (!Strings.nullToEmpty(source.getTidpunkt()).trim().isEmpty()) {
             sjukhusvard.withDelsvar(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, source.getTidpunkt());
         }
-        if (StringUtils.isNotBlank(source.getVardinrattning())) {
+        if (!Strings.nullToEmpty(source.getVardinrattning()).trim().isEmpty()) {
             sjukhusvard.withDelsvar(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, source.getVardinrattning());
         }
-        if (StringUtils.isNotBlank(source.getAnledning())) {
+        if (!Strings.nullToEmpty(source.getAnledning()).trim().isEmpty()) {
             sjukhusvard.withDelsvar(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, source.getAnledning());
         }
         if (CollectionUtils.isNotEmpty(sjukhusvard.delSvars)) {
@@ -455,7 +456,7 @@ public final class UtlatandeToIntyg {
             medicinering.withDelsvar(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31,
                     source.getStadigvarandeMedicinering().toString());
         }
-        if (StringUtils.isNotBlank(source.getBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getBeskrivning()).trim().isEmpty()) {
             medicinering.withDelsvar(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31, source.getBeskrivning());
         }
         if (CollectionUtils.isNotEmpty(medicinering.delSvars)) {

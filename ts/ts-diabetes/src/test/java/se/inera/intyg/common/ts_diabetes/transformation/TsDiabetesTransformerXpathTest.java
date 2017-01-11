@@ -20,17 +20,44 @@ package se.inera.intyg.common.ts_diabetes.transformation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.*;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.AKTIVITET_FOREKOMST_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.ENHET_ID_XPATH;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.ENHET_POSTADRESS_XPATH;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.ENHET_POSTNUMMER_XPATH;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.ENHET_VARDINRATTNINGENS_NAMN_XPATH;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.ID_KONTROLL_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.INTYG_AVSER_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.OBSERVATION_BESKRIVNING_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.OBSERVATION_FOREKOMST_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.OBSERVATION_FOREKOMST_VARDE_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.OBSERVATION_TID_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.OBSERVATION_VARDE_CODE_LATERALITET;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.REKOMMENDATION_BESKRIVNING_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.REKOMMENDATION_VARDE_BOOL_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.REKOMMENDATION_VARDE_CODE_TEMPLATE;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.VARDGIVARE_ID_XPATH;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.VARDGIVARE_NAMN_XPATH;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.booleanXPath;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.dateXPath;
+import static se.inera.intyg.common.ts_diabetes.transformation.XPathExpressions.stringXPath;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import javax.xml.bind.*;
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
-import javax.xml.parsers.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.xpath.*;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -38,12 +65,26 @@ import org.springframework.util.xml.SimpleNamespaceContext;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
-import se.inera.intyg.common.ts_parent.transformation.test.*;
+import se.inera.intyg.common.ts_parent.transformation.test.BooleanXPathExpression;
+import se.inera.intyg.common.ts_parent.transformation.test.StringXPathExpression;
+import se.inera.intyg.common.ts_parent.transformation.test.XPathEvaluator;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intygstjanster.ts.services.v1.Diabetes;
+import se.inera.intygstjanster.ts.services.v1.Hypoglykemier;
+import se.inera.intygstjanster.ts.services.v1.KorkortsbehorighetTsDiabetes;
+import se.inera.intygstjanster.ts.services.v1.Patient;
+import se.inera.intygstjanster.ts.services.v1.SkapadAv;
+import se.inera.intygstjanster.ts.services.v1.SynfunktionDiabetes;
+import se.inera.intygstjanster.ts.services.v1.SynskarpaMedKorrektion;
+import se.inera.intygstjanster.ts.services.v1.SynskarpaUtanKorrektion;
+import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
+import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 
@@ -59,19 +100,19 @@ public class TsDiabetesTransformerXpathTest {
     @Test
     public void testMaximaltIntyg() throws IOException, ParserConfigurationException, JAXBException, XPathExpressionException, SAXException,
             TransformerException {
-        performTest(new ClassPathResource("scenarios/transport/transform-valid-maximal.xml").getFile());
+        performTest(new ClassPathResource("scenarios/transport/transform-valid-maximal.xml"));
     }
 
     @Test
     public void testMinimaltIntyg() throws IOException, ParserConfigurationException, JAXBException, XPathExpressionException, SAXException,
             TransformerException {
-        performTest(new ClassPathResource("scenarios/transport/transform-valid-minimal.xml").getFile());
+        performTest(new ClassPathResource("scenarios/transport/transform-valid-minimal.xml"));
     }
 
-    private void performTest(File file) throws ParserConfigurationException, JAXBException, SAXException,
+    private void performTest(ClassPathResource cpr) throws ParserConfigurationException, JAXBException, SAXException,
             IOException, TransformerException, XPathExpressionException {
-        String xmlContent = FileUtils.readFileToString(file);
-        TSDiabetesIntyg utlatande = JAXB.unmarshal(file, RegisterTSDiabetesType.class).getIntyg();
+        String xmlContent = Resources.toString(cpr.getURL(), Charsets.UTF_8);
+        TSDiabetesIntyg utlatande = JAXB.unmarshal(cpr.getFile(), RegisterTSDiabetesType.class).getIntyg();
         String transformed = transformer.transform(xmlContent);
         // Create an xPath evaluator that operates on the transport model.
         XPathEvaluator xPath = createXPathEvaluator(transformed);

@@ -18,21 +18,22 @@
  */
 package se.inera.intyg.common.lisjp.model.converter;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Strings;
+
+import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande.Builder;
+import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
-import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande.Builder;
-import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 
 /**
  * Factory for creating an editable model.
@@ -85,7 +86,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
     }
 
     private void populateWithId(Builder utlatande, String utlatandeId) throws ConverterException {
-        if (StringUtils.isBlank(utlatandeId)) {
+        if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
             throw new ConverterException("No certificateID found");
         }
         utlatande.setId(utlatandeId);

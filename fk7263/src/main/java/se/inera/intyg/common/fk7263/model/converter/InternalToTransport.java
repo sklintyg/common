@@ -18,15 +18,12 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 
 import iso.v21090.dt.v1.CD;
 import iso.v21090.dt.v1.II;
@@ -85,11 +82,11 @@ public final class InternalToTransport {
         register.getLakarutlatande().setPatient(patientToJaxb(source.getGrundData().getPatient()));
         register.getLakarutlatande().setSkapadAvHosPersonal(hosPersonalToJaxb(source.getGrundData().getSkapadAv()));
 
-        if (!isEmpty(source.getSjukdomsforlopp())) {
+        if (!Strings.isNullOrEmpty(source.getSjukdomsforlopp())) {
             register.getLakarutlatande().setBedomtTillstand(sjukdomsforloppToJaxb(source.getSjukdomsforlopp()));
         }
 
-        if (!isEmpty(source.getDiagnosKod())) {
+        if (!Strings.isNullOrEmpty(source.getDiagnosKod())) {
             register.getLakarutlatande().setMedicinsktTillstand(toMedicinsktTillstand(source.getDiagnosKod(), source.getDiagnosKodsystem1()));
             buildMedicinsktTillstandBeskrivning(register.getLakarutlatande().getMedicinsktTillstand(), source);
         }
@@ -100,7 +97,7 @@ public final class InternalToTransport {
 
         convertVardkontakter(register, source);
 
-        if (!isEmpty(source.getFunktionsnedsattning())) {
+        if (!Strings.isNullOrEmpty(source.getFunktionsnedsattning())) {
             register.getLakarutlatande().getFunktionstillstand()
                     .add(toFunktionstillstand(source.getFunktionsnedsattning(), TypAvFunktionstillstand.KROPPSFUNKTION));
         }
@@ -117,7 +114,7 @@ public final class InternalToTransport {
     private static void buildMedicinsktTillstandBeskrivning(MedicinsktTillstandType tillstand, Fk7263Utlatande source) {
         List<String> parts = new ArrayList<>();
         // Beskrivning huvuddiagnos
-        if (!isEmpty(source.getDiagnosBeskrivning1())) {
+        if (!Strings.isNullOrEmpty(source.getDiagnosBeskrivning1())) {
             parts.add(source.getDiagnosBeskrivning1());
         }
         if (source.getSamsjuklighet() != null && source.getSamsjuklighet()) {
@@ -125,11 +122,11 @@ public final class InternalToTransport {
         }
         // Bidiagnoser
         String bidiagnoser = buildDiagnoser(source);
-        if (!isEmpty(bidiagnoser)) {
+        if (!Strings.isNullOrEmpty(bidiagnoser)) {
             parts.add(bidiagnoser);
         }
         // Text från fält2
-        if (!isEmpty(source.getDiagnosBeskrivning())) {
+        if (!Strings.isNullOrEmpty(source.getDiagnosBeskrivning())) {
             parts.add(source.getDiagnosBeskrivning());
         }
         if (!parts.isEmpty()) {
@@ -143,14 +140,14 @@ public final class InternalToTransport {
         String diagnos1 = "";
         String diagnos2 = "";
 
-        if (!isEmpty(source.getDiagnosKod2()) && !isEmpty(source.getDiagnosBeskrivning2())) {
+        if (!Strings.isNullOrEmpty(source.getDiagnosKod2()) && !Strings.isNullOrEmpty(source.getDiagnosBeskrivning2())) {
             diagnos1 = source.getDiagnosKod2() + " " + source.getDiagnosBeskrivning2();
         }
 
-        if (!isEmpty(source.getDiagnosKod3()) && !isEmpty(source.getDiagnosBeskrivning3())) {
+        if (!Strings.isNullOrEmpty(source.getDiagnosKod3()) && !Strings.isNullOrEmpty(source.getDiagnosBeskrivning3())) {
             diagnos2 = source.getDiagnosKod3() + " " + source.getDiagnosBeskrivning3();
         }
-        return Joiner.on(". ").skipNulls().join(Stream.of(diagnos1, diagnos2).map(StringUtils::trimToNull).toArray());
+        return Joiner.on(". ").skipNulls().join(Stream.of(diagnos1, diagnos2).map(Strings::emptyToNull).toArray());
     }
 
     private static String buildKommentar(Fk7263Utlatande source) {
@@ -160,7 +157,7 @@ public final class InternalToTransport {
         String arbetstidsforlaggning = null;
 
         // Falt4b
-        if (!isEmpty(source.getAnnanReferensBeskrivning())) {
+        if (!Strings.isNullOrEmpty(source.getAnnanReferensBeskrivning())) {
             annanRef = "4b: " + source.getAnnanReferensBeskrivning();
         }
         // Falt8b
@@ -169,25 +166,25 @@ public final class InternalToTransport {
             arbetstidsforlaggning = "8b: " + buildArbetstidsforlaggning(source);
         }
         // Falt10
-        if (!isEmpty(source.getArbetsformagaPrognosGarInteAttBedomaBeskrivning())) {
+        if (!Strings.isNullOrEmpty(source.getArbetsformagaPrognosGarInteAttBedomaBeskrivning())) {
             prognosBedomning = "10: " + source.getArbetsformagaPrognosGarInteAttBedomaBeskrivning();
         }
-        if (!isEmpty(source.getKommentar())) {
+        if (!Strings.isNullOrEmpty(source.getKommentar())) {
             ovrigKommentar = source.getKommentar();
         }
         String ret = Joiner.on(". ").skipNulls().join(annanRef, arbetstidsforlaggning, prognosBedomning, ovrigKommentar);
-        return !isEmpty(ret) ? ret : null;
+        return !Strings.isNullOrEmpty(ret) ? ret : null;
     }
 
     private static String buildArbetstidsforlaggning(Fk7263Utlatande source) {
         List<String> parts = new ArrayList<>();
-        if (!isEmpty(source.getNedsattMed25Beskrivning())) {
+        if (!Strings.isNullOrEmpty(source.getNedsattMed25Beskrivning())) {
             parts.add(source.getNedsattMed25Beskrivning());
         }
-        if (!isEmpty(source.getNedsattMed50Beskrivning())) {
+        if (!Strings.isNullOrEmpty(source.getNedsattMed50Beskrivning())) {
             parts.add(source.getNedsattMed50Beskrivning());
         }
-        if (!isEmpty(source.getNedsattMed75Beskrivning())) {
+        if (!Strings.isNullOrEmpty(source.getNedsattMed75Beskrivning())) {
             parts.add(source.getNedsattMed75Beskrivning());
         }
         return Joiner.on(". ").join(parts);
@@ -204,7 +201,7 @@ public final class InternalToTransport {
 
         ArbetsformagaType arbetsformagaType = new ArbetsformagaType();
 
-        if (!isEmpty(source.getArbetsformagaPrognos())) {
+        if (!Strings.isNullOrEmpty(source.getArbetsformagaPrognos())) {
             arbetsformagaType.setMotivering(source.getArbetsformagaPrognos());
         }
 
@@ -230,7 +227,7 @@ public final class InternalToTransport {
         arbetsformagaType.getSysselsattning().addAll(convertSysselsattnings(source));
 
         // attach arbetsuppgift if available
-        if (source.isNuvarandeArbete() && !isEmpty(source.getNuvarandeArbetsuppgifter())) {
+        if (source.isNuvarandeArbete() && !Strings.isNullOrEmpty(source.getNuvarandeArbetsuppgifter())) {
             ArbetsuppgiftType arbetsuppgift = new ArbetsuppgiftType();
             arbetsuppgift.setTypAvArbetsuppgift(source.getNuvarandeArbetsuppgifter());
             arbetsformagaType.setArbetsuppgift(arbetsuppgift);
@@ -370,7 +367,7 @@ public final class InternalToTransport {
             aktivitets.add(foretagshalsovarden);
         }
 
-        if (source.isRekommendationOvrigtCheck() || !isEmpty(source.getRekommendationOvrigt())) {
+        if (source.isRekommendationOvrigtCheck() || !Strings.isNullOrEmpty(source.getRekommendationOvrigt())) {
             AktivitetType ovrigt = new AktivitetType();
             ovrigt.setAktivitetskod(Aktivitetskod.OVRIGT);
             ovrigt.setBeskrivning(source.getRekommendationOvrigt());
