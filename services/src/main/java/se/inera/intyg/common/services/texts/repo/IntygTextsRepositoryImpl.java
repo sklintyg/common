@@ -89,13 +89,11 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     public void update() {
         try {
             Files.walk(Paths.get(fileDirectory)).filter(IntygTextsRepositoryImpl::isIntygTextsFile).forEach((file) -> {
-                InputStream fileInSt = null;
-                try {
-                    fileInSt = Files.newInputStream(file);
+                try (InputStream fileInSt = Files.newInputStream(file)){
                     LOG.debug("Updating intygtexts versions for " + file.getFileName());
                     Document doc = DocumentBuilderFactory.newInstance()
                             .newDocumentBuilder()
-                            .parse(Files.newInputStream(file));
+                            .parse(fileInSt);
 
                     Element root = doc.getDocumentElement();
                     String version = root.getAttribute("version");
@@ -114,14 +112,6 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
                     LOG.error("Bad file in directory {}: {}", fileDirectory, e);
                 } catch (IOException | ParserConfigurationException | SAXException e) {
                     LOG.error("Error while reading file {}", file.getFileName(), e);
-                } finally {
-                    if (fileInSt != null) {
-                        try {
-                            fileInSt.close();
-                        } catch (IOException e) {
-                            LOG.error("Error while closing file {}", file.getFileName(), e);
-                        }
-                    }
                 }
             });
         } catch (IOException e) {
