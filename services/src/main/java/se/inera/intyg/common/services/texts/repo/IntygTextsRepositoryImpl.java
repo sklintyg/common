@@ -89,7 +89,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     public void update() {
         try {
             Files.walk(Paths.get(fileDirectory)).filter(IntygTextsRepositoryImpl::isIntygTextsFile).forEach((file) -> {
-                try (InputStream fileInSt = Files.newInputStream(file)){
+                try (InputStream fileInSt = Files.newInputStream(file)) {
                     LOG.debug("Updating intygtexts versions for " + file.getFileName());
                     Document doc = DocumentBuilderFactory.newInstance()
                             .newDocumentBuilder()
