@@ -18,13 +18,16 @@
  */
 package se.inera.intyg.common.fkparent.pdf.model;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.Utilities;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPCellEvent;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -44,6 +47,7 @@ public class FkLabel extends PdfComponent<FkLabel> {
     private float fixedLeading = 0.0f;
     private float multipliedLeading = 1.0f;
     private float topPadding = 1f;
+    private int backgroundColor = -1;
 
     public FkLabel(String label) {
         this.label = label;
@@ -75,6 +79,11 @@ public class FkLabel extends PdfComponent<FkLabel> {
         return this;
     }
 
+    public FkLabel backgroundColor(int r, int g, int b) {
+        this.backgroundColor = (r << 24) + (g << 16) + (b << 8);
+        return this;
+    }
+
     @Override
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
         PdfPTable table = new PdfPTable(1);
@@ -91,11 +100,30 @@ public class FkLabel extends PdfComponent<FkLabel> {
         labelCell.setVerticalAlignment(verticalAlignment);
         labelCell.setPaddingTop(Utilities.millimetersToPoints(topPadding));
         labelCell.setLeading(fixedLeading, multipliedLeading);
+        if (backgroundColor != -1) {
+            labelCell.setCellEvent(new RoundedBorder());
+           // labelCell.setBackgroundColor(new BaseColor(backgroundColor >> 24 & 0xFF, backgroundColor >> 16 & 0xFF, backgroundColor >> 8 & 0xFF));
+        }
+
         table.addCell(labelCell);
 
         table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(x), Utilities.millimetersToPoints(y), writer.getDirectContent());
 
         super.render(document, writer, x, y);
+    }
+
+    class RoundedBorder implements PdfPCellEvent {
+        public void cellLayout(PdfPCell cell, Rectangle rect, PdfContentByte[] canvas) {
+            PdfContentByte cb = canvas[PdfPTable.BACKGROUNDCANVAS];
+            cb.setColorFill(new BaseColor(backgroundColor >> 24 & 0xFF, backgroundColor >> 16 & 0xFF, backgroundColor >> 8 & 0xFF));
+            cb.roundRectangle(
+                    rect.getLeft() - 8f,
+                    rect.getBottom() + 8f,
+                    rect.getWidth() + 16,
+                    rect.getHeight(),
+                    12);
+            cb.fill();
+        }
     }
 
 }
