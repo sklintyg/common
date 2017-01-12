@@ -90,8 +90,8 @@ angular.module('ts-bas').controller('ts-bas.IntygController',
 
                         $scope.pdfUrl = '/moduleapi/intyg/ts-bas/' + ViewState.intygModel.id + '/pdf';
 
-                        $rootScope.$emit('ts-bas.ViewCertCtrl.load', result);
-                   
+                        $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel);
+
                     } else {
                         $log.debug('Got error while loading intyg - invalid data');
                         ViewState.common.activeErrorMessageKey = 'common.error.data_not_found';
