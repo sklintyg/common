@@ -6,9 +6,6 @@ ext {
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"
 
     autovalueVersion = "1.1"
-    commonsCodecVersion = "1.10"
-    commonsCollectionsVersion = "3.2.1"
-    commonsIoVersion = "2.4"
     cxfVersion = "3.1.3"
     fkEIntygAdapterVersion = "2.2-RC2-INTYG"
     guavaVersion = "20.0"
@@ -57,7 +54,6 @@ subprojects {
 
     dependencies {
         testCompile "junit:junit:4.+"
-        testCompile "commons-io:commons-io:${commonsIoVersion}"
         testCompile "org.mockito:mockito-core:${mockitoVersion}"
         testCompile "org.skyscreamer:jsonassert:${jsonAssertVersion}"
         testCompile "org.springframework:spring-test:${springVersion}"

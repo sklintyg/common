@@ -18,17 +18,21 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_2_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_BESKRIVNING_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_DELSVAR_ID_6;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
 
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
 
 public final class InternalToTransportUtil {
@@ -63,7 +67,7 @@ public final class InternalToTransportUtil {
                 throw new IllegalArgumentException();
             }
         }
-        if (CollectionUtils.isNotEmpty(diagnosSvar.delSvars)) {
+        if (!diagnosSvar.delSvars.isEmpty()) {
             svars.add(diagnosSvar.build());
         }
     }

@@ -8,12 +8,10 @@ dependencies {
     compile project(":common-schemas")
 
     compile "com.itextpdf:itextpdf:${itextVersion}"
-    compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
     compile "com.helger:ph-schematron:${phSchematronVersion}"
     compile "org.springframework:spring-tx:${springVersion}"
 
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
 
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "commons-io:commons-io:${commonsIoVersion}"
 }

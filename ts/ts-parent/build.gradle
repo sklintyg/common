@@ -8,7 +8,6 @@ dependencies {
     compile project(":common-schemas")
 
     compile "com.itextpdf:itextpdf:${itextVersion}"
-    compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
     compile "com.helger:ph-schematron:${phSchematronVersion}"
     compile "org.springframework:spring-tx:${springVersion}"
 

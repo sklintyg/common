@@ -119,8 +119,6 @@ import static se.inera.intyg.common.ts_parent.model.converter.InternalToTranspor
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
@@ -295,7 +293,7 @@ public final class UtlatandeToIntyg {
                 synskarpa.withDelsvar(BINOKULART_MED_KORREKTION_DELSVAR_ID_8, source.getBinokulart().getMedKorrektion().toString());
             }
         }
-        if (CollectionUtils.isNotEmpty(synskarpa.delSvars)) {
+        if (!synskarpa.delSvars.isEmpty()) {
             svars.add(synskarpa.build());
         }
 
@@ -315,7 +313,7 @@ public final class UtlatandeToIntyg {
         if (!Strings.nullToEmpty(source.getBeskrivning()).trim().isEmpty()) {
             funktionsnedsattning.withDelsvar(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getBeskrivning());
         }
-        if (CollectionUtils.isNotEmpty(funktionsnedsattning.delSvars)) {
+        if (!funktionsnedsattning.delSvars.isEmpty()) {
             svars.add(funktionsnedsattning.build());
         }
         addIfNotNull(svars, OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID_13, OTILLRACKLIG_RORELSEFORMAGA_DELSVAR_ID_13,
@@ -341,7 +339,7 @@ public final class UtlatandeToIntyg {
                 riskfaktorerStroke.withDelsvar(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID_16,
                         source.getBeskrivningRiskfaktorer());
             }
-            if (CollectionUtils.isNotEmpty(riskfaktorerStroke.delSvars)) {
+            if (!riskfaktorerStroke.delSvars.isEmpty()) {
                 svars.add(riskfaktorerStroke.build());
             }
         }
@@ -369,7 +367,7 @@ public final class UtlatandeToIntyg {
         if (source.getInsulin() != null) {
             diabetesBehandling.withDelsvar(INSULINBEHANDLING_DELSVAR_ID_19, source.getInsulin().toString());
         }
-        if (CollectionUtils.isNotEmpty(diabetesBehandling.delSvars)) {
+        if (!diabetesBehandling.delSvars.isEmpty()) {
             svars.add(diabetesBehandling.build());
         }
     }
@@ -387,7 +385,7 @@ public final class UtlatandeToIntyg {
             medvetandestorning.withDelsvar(TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID_21,
                     source.getBeskrivning());
         }
-        if (CollectionUtils.isNotEmpty(medvetandestorning.delSvars)) {
+        if (!medvetandestorning.delSvars.isEmpty()) {
             svars.add(medvetandestorning.build());
         }
     }
@@ -407,7 +405,7 @@ public final class UtlatandeToIntyg {
             missbrukBeroende.withDelsvar(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25,
                     source.getProvtagningBehovs().toString());
         }
-        if (CollectionUtils.isNotEmpty(missbrukBeroende.delSvars)) {
+        if (!missbrukBeroende.delSvars.isEmpty()) {
             svars.add(missbrukBeroende.build());
         }
 
@@ -419,7 +417,7 @@ public final class UtlatandeToIntyg {
         if (!Strings.nullToEmpty(source.getLakemedelOchDos()).trim().isEmpty()) {
             lakemedel.withDelsvar(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26, source.getLakemedelOchDos());
         }
-        if (CollectionUtils.isNotEmpty(lakemedel.delSvars)) {
+        if (!lakemedel.delSvars.isEmpty()) {
             svars.add(lakemedel.build());
         }
     }
@@ -442,7 +440,7 @@ public final class UtlatandeToIntyg {
         if (!Strings.nullToEmpty(source.getAnledning()).trim().isEmpty()) {
             sjukhusvard.withDelsvar(ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, source.getAnledning());
         }
-        if (CollectionUtils.isNotEmpty(sjukhusvard.delSvars)) {
+        if (!sjukhusvard.delSvars.isEmpty()) {
             svars.add(sjukhusvard.build());
         }
     }
@@ -459,7 +457,7 @@ public final class UtlatandeToIntyg {
         if (!Strings.nullToEmpty(source.getBeskrivning()).trim().isEmpty()) {
             medicinering.withDelsvar(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31, source.getBeskrivning());
         }
-        if (CollectionUtils.isNotEmpty(medicinering.delSvars)) {
+        if (!medicinering.delSvars.isEmpty()) {
             svars.add(medicinering.build());
         }
     }

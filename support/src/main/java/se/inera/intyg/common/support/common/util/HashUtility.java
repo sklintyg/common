@@ -22,11 +22,11 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
+import com.google.common.io.BaseEncoding;
 
 public final class HashUtility {
 
@@ -64,7 +64,7 @@ public final class HashUtility {
         try {
             MSG_DIGEST.update(payload.getBytes("UTF-8"));
             byte[] digest = MSG_DIGEST.digest();
-            return new String(Hex.encodeHex(digest));
+            return new String(BaseEncoding.base16().lowerCase().encode(digest));
         } catch (UnsupportedEncodingException e) {
             throw new IllegalStateException(e);
         }

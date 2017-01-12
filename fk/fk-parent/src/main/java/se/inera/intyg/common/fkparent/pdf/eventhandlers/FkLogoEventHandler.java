@@ -20,10 +20,10 @@ package se.inera.intyg.common.fkparent.pdf.eventhandlers;
 
 import java.io.IOException;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import com.google.common.io.ByteStreams;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
@@ -49,7 +49,7 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
         this.activeToPage = activeToPage;
         try {
             Resource resource = new ClassPathResource(logoPath);
-            fkLogo = Image.getInstance(IOUtils.toByteArray(resource.getInputStream()));
+            fkLogo = Image.getInstance(ByteStreams.toByteArray(resource.getInputStream()));
             fkLogo.scalePercent(LINEAR_SCALE);
         } catch (IOException e) {
             throw new DocumentException("Unable to initialise FkLogoEventHandler: " + e.getMessage());

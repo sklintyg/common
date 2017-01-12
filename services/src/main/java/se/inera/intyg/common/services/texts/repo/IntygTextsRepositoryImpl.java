@@ -38,7 +38,6 @@ import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -152,7 +151,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
      */
     private Properties getTextVersionProperties(Path file) {
 
-        String baseName = FilenameUtils.getBaseName(file.getFileName().toString());
+        String baseName = com.google.common.io.Files.getNameWithoutExtension(file.getFileName().toString());
         final Path propertiesFilePath = file.resolveSibling(baseName + ".properties");
         Properties props = new Properties();
         try {

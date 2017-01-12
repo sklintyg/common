@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -160,7 +159,7 @@ public final class InternalToTransport {
         BedomningTypBas bedomning = new BedomningTypBas();
         bedomning.setBehovAvLakareSpecialistKompetens(source.getLakareSpecialKompetens());
         bedomning.setKanInteTaStallning(source.getKanInteTaStallning());
-        if (CollectionUtils.isNotEmpty(source.getKorkortstyp())) {
+        if (!source.getKorkortstyp().isEmpty()) {
             bedomning.getKorkortstyp().addAll(convertToKorkortsbehorighetTsBas(source.getKorkortstyp()));
         }
         return bedomning;

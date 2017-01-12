@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
@@ -144,7 +143,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     }
 
     private void validateSysselsattning(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (CollectionUtils.isEmpty(utlatande.getSysselsattning())
+        if (utlatande.getSysselsattning() == null
                 || !utlatande.getSysselsattning().stream().anyMatch(e -> e.getTyp() != null)) {
             ValidatorUtil.addValidationError(validationMessages, "sysselsattning", ValidationMessageType.EMPTY);
         } else {
