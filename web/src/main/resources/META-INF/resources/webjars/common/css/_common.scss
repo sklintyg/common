@@ -742,8 +742,15 @@ input.ng-invalid-date {
 .intyg-body .komplettering {
     display: table;
     padding: 0 10px;
-    margin-top: 0px;
-    margin-bottom: 7px;
+    margin: 0;
+}
+
+.intyg-body .komplettering-margin-top {
+    margin-top: 10px;
+}
+
+.intyg-body .komplettering-margin-bottom {
+    margin-bottom: 10px;
 }
 
 .intyg-body .validation {

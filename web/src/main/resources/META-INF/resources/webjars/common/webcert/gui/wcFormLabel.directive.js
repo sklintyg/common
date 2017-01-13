@@ -25,6 +25,7 @@ angular.module('common').directive('wcFormLabel',
             return {
                 restrict: 'EA',
                 scope: {
+                    'key': '=',
                     'to': '=',
                     'frageId': '@'
                 },

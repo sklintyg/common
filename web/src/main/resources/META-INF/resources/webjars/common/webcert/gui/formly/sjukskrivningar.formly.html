@@ -3,6 +3,8 @@
     <span dynamic-label key="{{to.label}}.RBK"></span> *
   </h4>
 
+  <wc-utkast-komplettering key="{{options.key}}" komplettering-key="{{to.kompletteringKey}}" margin-bottom="true"></wc-utkast-komplettering>
+
   <div class="sjukskrivningar-section">
     <span dynamic-label key="{{to.label}}.HLP"></span>
   </div>
@@ -72,8 +74,7 @@
         </div>
       </div>
 
-      <wc-field-validation field-type="sjukskrivning_period"
-                           validations="validationsForPeriod[field]">
+      <wc-field-validation field-type="sjukskrivning_period" validations="validationsForPeriod[field]">
       </wc-field-validation>
 
       <div class="col-lg-pull-none pull-right fold-animation fold-slide-animation"
@@ -82,8 +83,6 @@
       </div>
 
     </div>
-
-    <wc-field-komplettering key="{{options.key}}" komplettering-key="{{to.kompletteringKey}}"></wc-field-komplettering>
 
     <div ng-if="viewstate.totalDays" class="fold-animation fold-slide-animation">
       Intyget motsvarar en period på {{viewstate.totalDays}} dagar.

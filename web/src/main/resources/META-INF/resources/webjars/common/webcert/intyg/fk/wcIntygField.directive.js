@@ -35,10 +35,10 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
 
                 // Update structure holding field and category mapping
                 scope.viewState = IntygViewStateService;
-                scope.viewState.setCategoryField(scope.categoryKey, scope.field.key || scope.field.templateOptions.kompletteringGroup);
+                scope.viewState.setCategoryField(scope.categoryKey, scope.field && (scope.field.key || (scope.field.templateOptions && scope.field.templateOptions.kompletteringGroup)));
 
                 scope.showField = function(field){
-                    return !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
+                    return field.templateOptions && !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
                 };
 
                 scope.showFieldLine = function(field, nextField) {
@@ -49,7 +49,7 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                         if (field.type === 'info' || field.type === 'headline') {
                             return false;
                         }
-                        if (field.templateOptions.label && field.templateOptions.label.indexOf('KV_') === 0) {
+                        if (field.templateOptions && field.templateOptions.label && field.templateOptions.label.indexOf('KV_') === 0) {
                             return false;
                         }
 
@@ -71,7 +71,7 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                         return true;
                     } else {
                         // Always line on these fields
-                        if(field.templateOptions.forceLine){
+                        if(field.templateOptions && field.templateOptions.forceLine){
                             return true;
                         }
 
