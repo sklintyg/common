@@ -44,7 +44,7 @@ angular.module('common').directive('wcIntygLabel',
                     forceNoH5After: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/gui/wcIntygLabel.directive.html',
-                link: function(scope, element, attrs) {
+                link: function(scope, element, attrs) { // jshint ignore:line
 
                     if (!scope.field) {
                         $log.debug('field argument is not defined');
