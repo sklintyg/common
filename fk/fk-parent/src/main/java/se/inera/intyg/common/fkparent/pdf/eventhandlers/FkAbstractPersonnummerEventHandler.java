@@ -18,11 +18,7 @@
  */
 package se.inera.intyg.common.fkparent.pdf.eventhandlers;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.Utilities;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -38,9 +34,15 @@ public abstract class FkAbstractPersonnummerEventHandler extends PdfPageEventHel
     // Table with (in mm)
     private static final float TABLE_WIDTH = 30f;
     private String personnummer;
+    private Font font = PdfConstants.FONT_STAMPER_LABEL;
 
     public FkAbstractPersonnummerEventHandler(String personnummer) {
         this.personnummer = personnummer;
+    }
+
+    public FkAbstractPersonnummerEventHandler(String personnummer, Font font) {
+        this.personnummer = personnummer;
+        this.font = font;
     }
 
     protected abstract int getActiveFromPage();
@@ -67,7 +69,7 @@ public abstract class FkAbstractPersonnummerEventHandler extends PdfPageEventHel
         if (writer.getPageNumber() >= getActiveFromPage() && writer.getPageNumber() <= getActiveToPage()) {
 
             // Page 2+
-            table.addCell(new Phrase("Personnummer", PdfConstants.FONT_STAMPER_LABEL));
+            table.addCell(new Phrase("Personnummer", font));
             table.completeRow();
             table.addCell(new Phrase(String.valueOf(personnummer), PdfConstants.FONT_VALUE_TEXT));
 

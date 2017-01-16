@@ -18,15 +18,7 @@
  */
 package se.inera.intyg.common.fkparent.pdf.model;
 
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.RectangleReadOnly;
-import com.itextpdf.text.Utilities;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -54,6 +46,7 @@ public class FkCheckbox extends PdfComponent<FkCheckbox> {
     private final boolean isChecked;
 
     private int verticalAlignment = PdfPCell.ALIGN_MIDDLE;
+    private float topPadding = 0f;
 
     public FkCheckbox(String fieldLabel, boolean isChecked) {
         this.fieldLabel = fieldLabel;
@@ -67,6 +60,11 @@ public class FkCheckbox extends PdfComponent<FkCheckbox> {
 
     public FkCheckbox withVerticalAlignment(int alignment) {
         this.verticalAlignment = alignment;
+        return this;
+    }
+
+    public FkCheckbox withTopPadding(float topPadding) {
+        this.topPadding = topPadding;
         return this;
     }
 
@@ -84,6 +82,9 @@ public class FkCheckbox extends PdfComponent<FkCheckbox> {
         checkboxCell.setUseAscender(true);
         checkboxCell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         checkboxCell.setVerticalAlignment(verticalAlignment);
+        if (verticalAlignment == Element.ALIGN_TOP) {
+            checkboxCell.setPaddingTop(Utilities.millimetersToPoints(topPadding));
+        }
         table.addCell(checkboxCell);
 
         // labelCell

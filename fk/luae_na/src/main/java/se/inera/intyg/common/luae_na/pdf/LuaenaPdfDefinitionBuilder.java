@@ -799,7 +799,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .withTopLabel("Vårdenhetens namn, adress och telefon."));
 
         // Somewhat hacky, add a label outside the category box.
-        fraga11.addChild(new FkLabel("Underskriften omfattar samtliga uppgifter i intyget")
+        fraga11.addChild(new FkLabel("Underskriften omfattar samtliga uppgifter i intyget.")
                 .offset(3f, 92f)
                 .size(KATEGORI_FULL_WIDTH - 6, 10f)
                 .withVerticalAlignment(PdfPCell.ALIGN_TOP)

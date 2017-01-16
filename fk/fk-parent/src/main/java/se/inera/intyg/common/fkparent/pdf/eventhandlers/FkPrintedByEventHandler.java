@@ -29,14 +29,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
+// CHECKSTYLE:OFF MagicNumber
 /**
  * Outputs certificate id and source application text in the right margin, rotated 90 deg.
  */
 public class FkPrintedByEventHandler extends PdfPageEventHelper {
 
-    private static final float PRINTEDBY_X = Utilities.millimetersToPoints(200f);
-    private static final float PRINTEDBY_Y = Utilities.millimetersToPoints(80f);
     private static final float ROTATION = 90f;
+
+    private float printedbyX = Utilities.millimetersToPoints(200f);
+    private float printedbyY = Utilities.millimetersToPoints(80f);
     private String intygsId;
     private String applicationOriginText;
 
@@ -45,13 +47,21 @@ public class FkPrintedByEventHandler extends PdfPageEventHelper {
         this.applicationOriginText = applicationOriginText;
     }
 
+    public FkPrintedByEventHandler(String intygsId, String applicationOriginText, float printedbyX, float printedbyY) {
+        this.intygsId = intygsId;
+        this.applicationOriginText = applicationOriginText;
+        this.printedbyX = Utilities.millimetersToPoints(printedbyX);
+        this.printedbyY = Utilities.millimetersToPoints(printedbyY);
+    }
+
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
         PdfContentByte canvas = writer.getDirectContentUnder();
 
         ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER,
-                new Phrase(String.format("Intygs-ID: %s. %s", intygsId, applicationOriginText), PdfConstants.FONT_STAMPER_LABEL), PRINTEDBY_X, PRINTEDBY_Y,
+                new Phrase(String.format("Intygs-ID: %s. %s", intygsId, applicationOriginText), PdfConstants.FONT_STAMPER_LABEL), printedbyX, printedbyY,
                 ROTATION);
 
     }
 }
+// CHECKSTYLE:ON MagicNumber

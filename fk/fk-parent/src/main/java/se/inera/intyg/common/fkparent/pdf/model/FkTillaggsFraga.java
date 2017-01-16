@@ -18,11 +18,7 @@
  */
 package se.inera.intyg.common.fkparent.pdf.model;
 
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
@@ -33,17 +29,26 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 public class FkTillaggsFraga extends PdfComponent<FkTillaggsFraga> {
     private String label;
     private String value;
+    private float indentationLeft = 2f;
+    private float indentationRight = 2f;
 
     public FkTillaggsFraga(String label, String value) {
         this.label = label;
         this.value = value;
     }
 
+    public FkTillaggsFraga(String label, String value, float indentationLeft, float indentationRight) {
+        this.label = label;
+        this.value = value;
+        this.indentationLeft = Utilities.millimetersToPoints(indentationLeft);
+        this.indentationRight = Utilities.millimetersToPoints(indentationRight);
+    }
+
     @Override
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
         Paragraph p = new Paragraph();
-        p.setIndentationLeft(2f);
-        p.setIndentationRight(2f);
+        p.setIndentationLeft(indentationLeft);
+        p.setIndentationRight(indentationRight);
         p.setKeepTogether(true);
 
         p.add(Chunk.NEWLINE);

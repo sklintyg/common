@@ -40,10 +40,10 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 // CHECKSTYLE:OFF MagicNumber
 public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
 
-    private static final float DIAGNOSCODEPART_WIDTH = 7.8f;
-    private String fieldLabel;
     private final String value;
 
+    private float diagnoscodepartWidth = 7.8f;
+    private String fieldLabel;
     private boolean withTopLabel = false;
 
     public FkDiagnosKodField(String value) {
@@ -59,6 +59,11 @@ public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
         return this;
     }
 
+    public FkDiagnosKodField withPartWidth(float width) {
+        diagnoscodepartWidth = width;
+        return this;
+    }
+
     @Override
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
         final PdfContentByte canvas = writer.getDirectContent();
@@ -69,16 +74,16 @@ public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
             code[b++] = c;
         }
         float[] columnWidths = new float[] {
-                Utilities.millimetersToPoints(DIAGNOSCODEPART_WIDTH),
-                Utilities.millimetersToPoints(DIAGNOSCODEPART_WIDTH),
-                Utilities.millimetersToPoints(DIAGNOSCODEPART_WIDTH),
-                Utilities.millimetersToPoints(DIAGNOSCODEPART_WIDTH),
-                Utilities.millimetersToPoints(DIAGNOSCODEPART_WIDTH) };
+                Utilities.millimetersToPoints(diagnoscodepartWidth),
+                Utilities.millimetersToPoints(diagnoscodepartWidth),
+                Utilities.millimetersToPoints(diagnoscodepartWidth),
+                Utilities.millimetersToPoints(diagnoscodepartWidth),
+                Utilities.millimetersToPoints(diagnoscodepartWidth) };
 
         table.setTotalWidth(columnWidths);
         for (int a = 1; a < 5; a++) {
-            canvas.moveTo(Utilities.millimetersToPoints(x + DIAGNOSCODEPART_WIDTH * a), Utilities.millimetersToPoints(y - height));
-            canvas.lineTo(Utilities.millimetersToPoints(x + DIAGNOSCODEPART_WIDTH * a), Utilities.millimetersToPoints(y - height + 2.5f));
+            canvas.moveTo(Utilities.millimetersToPoints(x + diagnoscodepartWidth * a), Utilities.millimetersToPoints(y - height));
+            canvas.lineTo(Utilities.millimetersToPoints(x + diagnoscodepartWidth * a), Utilities.millimetersToPoints(y - height + 2.5f));
         }
 
         for (char c : code) {

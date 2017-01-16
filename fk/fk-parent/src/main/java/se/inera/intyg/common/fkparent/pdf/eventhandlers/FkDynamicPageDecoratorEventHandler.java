@@ -94,7 +94,6 @@ public class FkDynamicPageDecoratorEventHandler extends PdfPageEventHelper {
         rect.setBorderWidth(Utilities.millimetersToPoints(BORDER_WIDTH));
         rect.setBorderColor(BaseColor.BLACK);
         writer.getDirectContent().rectangle(rect);
-
     }
 
 }

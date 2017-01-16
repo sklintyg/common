@@ -28,6 +28,7 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
  */
 public class FkPage extends PdfComponent<FkPage> {
     private String pageTitle;
+    private float indentationLeft = 2f;
 
     public FkPage() {
         // Default constructor
@@ -37,6 +38,11 @@ public class FkPage extends PdfComponent<FkPage> {
         this.pageTitle = pageTitle;
     }
 
+    public FkPage(String pageTitle, float indentationLeft) {
+        this.pageTitle = pageTitle;
+        this.indentationLeft = Utilities.millimetersToPoints(indentationLeft);
+    }
+
     @Override
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
 
@@ -44,7 +50,7 @@ public class FkPage extends PdfComponent<FkPage> {
 
         if (pageTitle != null) {
             Paragraph header = new Paragraph(pageTitle, PdfConstants.FONT_PAGETITLE);
-            header.setIndentationLeft(2f);
+            header.setIndentationLeft(indentationLeft);
             document.add(header);
         }
 

@@ -30,19 +30,19 @@ import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 
+// CHECKSTYLE:OFF MagicNumber
 /**
- * Generic fk-logo stamper. It's rendered at a fixed position, but page interval is configurable.
+ * Generic fk-logo stamper.
  */
 public class FkLogoEventHandler extends PdfPageEventHelper {
-    private static String logoPath = "images/forsakringskassans_logotyp.jpg";
-    private static final float LINEAR_SCALE = 0.253f * 100f;
-    private static final float LEFT_OFFSET = Utilities.millimetersToPoints(16f);
-    private static final float TOP_OFFSET = Utilities.millimetersToPoints(20f);
 
+    private static String logoPath = "images/forsakringskassans_logotyp.jpg";
+
+    private float linearScale = 0.253f * 100f;
+    private float leftOffset = Utilities.millimetersToPoints(16f);
+    private float topOffset = Utilities.millimetersToPoints(20f);
     private int activeFromPage;
     private int activeToPage;
-    private float offsetX;
-    private float offsetY;
     private Image fkLogo = null;
 
     /**
@@ -67,7 +67,7 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
      * @param activeToPage
      *      To page number.
      * @param offsetX
-     *      The default X offset is {@link FkLogoEventHandler#LEFT_OFFSET} (16 mm), but since this may vary slightly amongst
+     *      The default X offset is {@link FkLogoEventHandler#leftOffset} (16 mm), but since this may vary slightly amongst
      *      FK intyg, one can optionally adjust this offset by the supplied number of millimeters. E.g. - to move the FK
      *      logotype 2 millimeters to the left, supplied -2.0f as offsetX.
      * @param offsetY
@@ -78,13 +78,41 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
     public FkLogoEventHandler(int activeFromPage, int activeToPage, float offsetX, float offsetY) throws DocumentException {
         this.activeFromPage = activeFromPage;
         this.activeToPage = activeToPage;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
+        this.leftOffset = Utilities.millimetersToPoints(16f - offsetX);
+        this.topOffset = Utilities.millimetersToPoints(20f - offsetY);
 
+        initLogo();
+    }
+
+    /**
+     * Constructs an Eventhandler for rendering the FK logotype on the specified pages, with offsets from top left corner.
+     *
+     * @param activeFromPage
+     *      From page number to render FK logo, inclusive. 1-indexed.
+     * @param activeToPage
+     *      To page number.
+     * @param leftOffset
+     *      Offset in x-axis, as used in other
+     * @param leftOffset
+     *      The default Y offset, see offsetX for details.
+     * @throws DocumentException
+     *      If the image couldn't be read or other iText-related exception.
+     */
+    public FkLogoEventHandler(int activeFromPage, int activeToPage, float linearScale, float leftOffset, float topOffset) throws DocumentException {
+        this.activeFromPage = activeFromPage;
+        this.activeToPage = activeToPage;
+        this.linearScale = linearScale;
+        this.leftOffset = Utilities.millimetersToPoints(leftOffset);
+        this.topOffset = Utilities.millimetersToPoints(topOffset);
+
+        initLogo();
+    }
+
+    private void initLogo() throws DocumentException {
         try {
             Resource resource = new ClassPathResource(logoPath);
             fkLogo = Image.getInstance(ByteStreams.toByteArray(resource.getInputStream()));
-            fkLogo.scalePercent(LINEAR_SCALE);
+            fkLogo.scalePercent(linearScale);
         } catch (IOException e) {
             throw new DocumentException("Unable to initialise FkLogoEventHandler: " + e.getMessage());
         }
@@ -101,7 +129,7 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
         if (writer.getPageNumber() >= activeFromPage && writer.getPageNumber() <= activeToPage) {
 
             try {
-                fkLogo.setAbsolutePosition(LEFT_OFFSET + Utilities.millimetersToPoints(offsetX), document.getPageSize().getTop() - TOP_OFFSET + Utilities.millimetersToPoints(offsetY));
+                fkLogo.setAbsolutePosition(leftOffset, document.getPageSize().getTop() - topOffset);
                 writer.getDirectContent().addImage(fkLogo);
             } catch (DocumentException e) {
                 throw new RuntimeException(e);
@@ -110,3 +138,4 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
         }
     }
 }
+// CHECKSTYLE:ON MagicNumber

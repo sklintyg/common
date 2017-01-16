@@ -29,27 +29,36 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
+// CHECKSTYLE:OFF MagicNumber
 /**
  * Stamps the fk form issue version info on each page (left side margin).
  */
 public class FkFormIdentityEventHandler extends PdfPageEventHelper {
 
-    private static final float FORMID_X = Utilities.millimetersToPoints(12f);
-    private static final float FORMID_Y = Utilities.millimetersToPoints(8.5f);
-
-    private static final float SCANID_X = Utilities.millimetersToPoints(12f);
-    private static final float SCANID_Y = Utilities.millimetersToPoints(118f);
     private static final float ROTATION = 90f;
 
     private String formId;
     private String blankettId;
     private final String blankettVersion;
+    private float formidX = Utilities.millimetersToPoints(12f);
+    private float formidY = Utilities.millimetersToPoints(8.5f);
+    private float scanidX = Utilities.millimetersToPoints(12f);
+    private float scanidY = Utilities.millimetersToPoints(118f);
 
     public FkFormIdentityEventHandler(String formId, String blankettId, String blankettVersion) {
-        // FormId is static
         this.formId = formId;
         this.blankettId = blankettId;
         this.blankettVersion = blankettVersion;
+    }
+
+    public FkFormIdentityEventHandler(String formId, String blankettId, String blankettVersion, float formidX, float formidY, float scanidX, float scanidY) {
+        this.formId = formId;
+        this.blankettId = blankettId;
+        this.blankettVersion = blankettVersion;
+        this.formidX = Utilities.millimetersToPoints(formidX);
+        this.formidY = Utilities.millimetersToPoints(formidY);
+        this.scanidX = Utilities.millimetersToPoints(scanidX);
+        this.scanidY = Utilities.millimetersToPoints(scanidY);
     }
 
     /**
@@ -62,9 +71,9 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
     public void onEndPage(PdfWriter writer, Document document) {
         PdfContentByte canvas = writer.getDirectContentUnder();
 
-        ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(formId, PdfConstants.FONT_FORM_ID_LABEL), FORMID_X, FORMID_Y, ROTATION);
+        ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(formId, PdfConstants.FONT_FORM_ID_LABEL), formidX, formidY, ROTATION);
         ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT,
-                new Phrase(buildPageScanId(blankettId, blankettVersion, writer.getPageNumber()), PdfConstants.FONT_PAGESCAN_ID), SCANID_X, SCANID_Y, ROTATION);
+                new Phrase(buildPageScanId(blankettId, blankettVersion, writer.getPageNumber()), PdfConstants.FONT_PAGESCAN_ID), scanidX, scanidY, ROTATION);
 
     }
 
@@ -90,3 +99,4 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
     }
 
 }
+// CHECKSTYLE:ON MagicNumber

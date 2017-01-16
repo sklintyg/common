@@ -18,11 +18,7 @@
  */
 package se.inera.intyg.common.fkparent.pdf.model;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.Utilities;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -42,9 +38,15 @@ public class FkFieldGroup extends PdfComponent<FkFieldGroup> {
     private static final float CATEGORY_LABEL_HEIGHT_MM = 15f;
     private static final float CATEGORY_LABEL_BORDER_MARGIN_MM = 1f;
     private String label;
+    private Font font = PdfConstants.FONT_FRAGERUBRIK;
 
     public FkFieldGroup(String label) {
         this.label = label;
+    }
+
+    public FkFieldGroup withFont(Font font) {
+        this.font = font;
+        return this;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class FkFieldGroup extends PdfComponent<FkFieldGroup> {
         table.setTotalWidth(Utilities.millimetersToPoints(width));
 
         // labelCell
-        PdfPCell labelCell = new PdfPCell(new Phrase(label, PdfConstants.FONT_FRAGERUBRIK));
+        PdfPCell labelCell = new PdfPCell(new Phrase(label, font));
         labelCell.setFixedHeight(Utilities.millimetersToPoints(CATEGORY_LABEL_HEIGHT_MM));
         labelCell.setBorder(Rectangle.NO_BORDER);
         labelCell.setUseAscender(true); // needed to make vertical alignment correct

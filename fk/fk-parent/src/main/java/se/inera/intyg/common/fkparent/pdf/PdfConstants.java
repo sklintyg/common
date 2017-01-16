@@ -46,15 +46,19 @@ public final class PdfConstants {
     private static final String TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH = "/fonts/FiraSans-Regular.ttf";
 
     public static final Font FONT_FRAGERUBRIK;
+    public static final Font FONT_FRAGERUBRIK_SMALL;
     public static final Font FONT_PAGETITLE;
     public static final Font FONT_VALUE_TEXT;
     public static final Font FONT_VALUE_TEXT_ARIAL_COMPATIBLE;
     public static final Font FONT_VALUE_TEXT_OVERFLOWINFO_ARIAL_COMPATIBLE;
 
     public static final Font FONT_INLINE_FIELD_LABEL;
+    public static final Font FONT_INLINE_FIELD_LABEL_LARGE;
     public static final Font FONT_INLINE_FIELD_LABEL_SMALL;
 
+    public static final Font FONT_BOLD_10;
     public static final Font FONT_BOLD_9;
+    public static final Font FONT_BOLD_8;
     public static final Font FONT_PAGESCAN_ID;
     public static final Font FONT_FORM_ID_LABEL;
 
@@ -66,6 +70,7 @@ public final class PdfConstants {
         try {
 
             FONT_FRAGERUBRIK = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 11f, Font.NORMAL);
+            FONT_FRAGERUBRIK_SMALL = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 9.5f, Font.NORMAL);
             FONT_PAGETITLE = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 11f, Font.NORMAL);
 
             FONT_VALUE_TEXT = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10.5f, Font.NORMAL);
@@ -83,8 +88,11 @@ public final class PdfConstants {
 
             FONT_INLINE_FIELD_LABEL = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 8.5f, Font.NORMAL);
             FONT_INLINE_FIELD_LABEL_SMALL = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 8f, Font.NORMAL);
+            FONT_INLINE_FIELD_LABEL_LARGE = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 9.5f, Font.NORMAL);
 
+            FONT_BOLD_10 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10f, Font.NORMAL);
             FONT_BOLD_9 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 9f, Font.NORMAL);
+            FONT_BOLD_8 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 8f, Font.NORMAL);
 
         } catch (DocumentException | IOException e) {
             throw new RuntimeException("Failed to initialize fonts", e);

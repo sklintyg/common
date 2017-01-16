@@ -20,12 +20,8 @@ package se.inera.intyg.common.fkparent.pdf.model;
 
 import java.util.List;
 
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -40,15 +36,22 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
  * Created by marced on 2016-10-24.
  */
 public class FkOverflowPage extends FkPage {
-    private static final float INDENTATION_LEFT = 2f;
-    private static final float INDENTATION_RIGHT = 2f;
     private static final float FULL_WIDTH = 100f;
 
     private FkPdfDefinition model;
+    private float indentationLeft = 2f;
+    private float indentationRight = 2f;
 
     public FkOverflowPage(String pageTitle, FkPdfDefinition model) {
         super(pageTitle);
         this.model = model;
+    }
+
+    public FkOverflowPage(String pageTitle, FkPdfDefinition model, float indentationLeft, float indentationRight) {
+        super(pageTitle, indentationLeft);
+        this.model = model;
+        this.indentationLeft = Utilities.millimetersToPoints(indentationLeft);
+        this.indentationRight = Utilities.millimetersToPoints(indentationRight);
     }
 
     @Override
@@ -72,12 +75,13 @@ public class FkOverflowPage extends FkPage {
         table.setWidthPercentage(FULL_WIDTH);
         // Important, we want to make sure label and text is kept together
         table.setSplitRows(false);
+        table.setHorizontalAlignment(Element.ALIGN_LEFT);
         table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 
         for (FkOverflowableValueField item : overflowingComponents) {
             Paragraph p = new Paragraph();
-            p.setIndentationLeft(INDENTATION_LEFT);
-            p.setIndentationRight(INDENTATION_RIGHT);
+            p.setIndentationLeft(indentationLeft);
+            p.setIndentationRight(indentationRight);
             p.setKeepTogether(true);
 
             p.add(Chunk.NEWLINE);
@@ -86,7 +90,12 @@ public class FkOverflowPage extends FkPage {
 
             p.add(new Phrase(item.getOverFlowingText(), PdfConstants.FONT_VALUE_TEXT_ARIAL_COMPATIBLE));
 
-            table.addCell(p);
+            // Needed to make the indentation work. Otherwise the Paragraph will be cast to a Phrase which has no indentation
+            PdfPCell cell = new PdfPCell();
+            cell.setBorder(Rectangle.NO_BORDER);
+            cell.addElement(p);
+
+            table.addCell(cell);
 
         }
         document.add(table);

@@ -23,17 +23,24 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
+import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.lisjp.pdf.LisjpPdfDefinitionBuilder;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.rest.FkParentModuleApi;
 import se.inera.intyg.common.lisjp.model.converter.*;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
@@ -46,6 +53,8 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApi.class);
 
+    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukpenning";
+
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
 
     public LisjpModuleApi() {
@@ -57,7 +66,19 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
      */
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
-        throw new RuntimeException("Not implemented");
+
+        try {
+            LisjpUtlatande luseIntyg = getInternal(internalModel);
+            LisjpPdfDefinitionBuilder builder = new LisjpPdfDefinitionBuilder();
+            IntygTexts texts = getTexts(LisjpEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
+
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts);
+            Personnummer personId = luseIntyg.getGrundData().getPatient().getPersonId();
+            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition), PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
+        } catch (PdfGeneratorException e) {
+            LOG.error("Failed to generate PDF for certificate!", e);
+            throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
+        }
     }
 
     @Override
