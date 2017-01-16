@@ -52,7 +52,6 @@ import java.util.Map;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -209,9 +208,7 @@ public class LuaefsModuleApiTest {
 
     @Test
     public void testRegisterCertificate() throws IOException, ModuleException {
-
-        final String json = FileUtils
-                .readFileToString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getFile());
+        final String json = Resources.toString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
 
         LuaefsUtlatande utlatande = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(json);
         when(objectMapper.readValue(json, LuaefsUtlatande.class)).thenReturn(utlatande);
@@ -266,9 +263,7 @@ public class LuaefsModuleApiTest {
 
     @Test
     public void testCreateRenewalFromTemplate() throws Exception {
-
-        final String json = FileUtils
-                .readFileToString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getFile());
+        final String json = Resources.toString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
         CreateDraftCopyHolder draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
 
         final String renewalFromTemplate = moduleApi.createRenewalFromTemplate(draftCertificateHolder, json);
@@ -281,9 +276,7 @@ public class LuaefsModuleApiTest {
 
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
-
-        final String json = FileUtils
-                .readFileToString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getFile());
+        final String json = Resources.toString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
         CreateDraftCopyHolder draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
 
         final String renewalFromTemplate = moduleApi.createNewInternalFromTemplate(draftCertificateHolder, json);
@@ -312,7 +305,7 @@ public class LuaefsModuleApiTest {
 
         RegisterCertificateResponseType result = createReturnVal(ResultCodeType.ERROR);
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(result);
-        final String json = FileUtils.readFileToString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getFile());
+        final String json = Resources.toString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
 
         moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
     }
@@ -325,9 +318,7 @@ public class LuaefsModuleApiTest {
      */
     @Test
     public void testUpdateBeforeSave() throws IOException, ModuleException {
-
-        final String json = FileUtils
-                .readFileToString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getFile());
+        final String json = Resources.toString(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
 
         LuaefsUtlatande utlatandeBeforeSave = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(json);
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());

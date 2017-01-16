@@ -20,7 +20,7 @@ package se.inera.intyg.common.support.validate;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
@@ -42,7 +42,7 @@ public final class PatientValidator {
         }
         validateString(validationMessages, patient.getPostadress(), "patient.grunddata.patient.postadress");
         validateString(validationMessages, patient.getPostnummer(), "patient.grunddata.patient.postnummer");
-        if (!StringUtils.isBlank(patient.getPostnummer()) && !STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
+        if (!Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty() && !STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
             validationMessages.add(new ValidationMessage("patient.grunddata.patient.postnummer", ValidationMessageType.INVALID_FORMAT,
                     "common.validation.postnummer.incorrect-format"));
         }
@@ -50,7 +50,7 @@ public final class PatientValidator {
     }
 
     private static void validateString(List<ValidationMessage> validationMessages, String text, String field) {
-        if (StringUtils.isBlank(text)) {
+        if (Strings.nullToEmpty(text).trim().isEmpty()) {
             validationMessages.add(new ValidationMessage(field, ValidationMessageType.EMPTY));
         }
     }

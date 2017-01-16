@@ -7,6 +7,8 @@
     </label>
   </div>
 
+  <wc-utkast-komplettering key="{{options.key}}"></wc-utkast-komplettering>
+
   <div data-ng-repeat="choice in to.choices">
     <label class="radio">
       <input id="{{options.key}}-{{choice}}" type="radio" name="{{options.key}}" class="big-radio" ng-model="model[options.key]" value="{{choice}}">

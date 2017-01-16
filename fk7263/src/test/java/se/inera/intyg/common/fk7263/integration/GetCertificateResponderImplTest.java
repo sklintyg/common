@@ -28,12 +28,9 @@ import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.ER
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.INFO;
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.OK;
 
-import java.io.File;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,19 +39,22 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ErrorIdEnum;
+import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.integration.module.exception.MissingConsentException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 
 /**
  * @author andreaskaltenbach
@@ -92,11 +92,10 @@ public class GetCertificateResponderImplTest {
 
     @Test
     public void getCertificate() throws Exception {
-        String document = FileUtils.readFileToString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getFile());
+        String document = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
         Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
         CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
-        File file = new ClassPathResource("GetCertificateResponderImplTest/fk7263.xml").getFile();
-        String xmlFile = FileUtils.readFileToString(file);
+        String xmlFile = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/fk7263.xml").getURL(), Charsets.UTF_8);
         certificate.setOriginalCertificate(xmlFile);
 
         when(moduleContainer.getCertificate(certificateId, civicRegistrationNumber, true)).thenReturn(certificate);
@@ -145,8 +144,7 @@ public class GetCertificateResponderImplTest {
 
     @Test
     public void getRevokedCertificate() throws Exception {
-
-        String document = FileUtils.readFileToString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getFile());
+        String document = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
         Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
         CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
         certificate.setRevoked(true);

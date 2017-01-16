@@ -38,8 +38,6 @@ import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +47,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
@@ -120,8 +120,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     }
 
     protected LocalDate getDate(Element root, String id) {
-        String date = root.getAttribute(id);
-        return StringUtils.isBlank(date) ? null : LocalDate.parse(date);
+        String date = Strings.nullToEmpty(root.getAttribute(id)).trim();
+        return date.isEmpty() ? null : LocalDate.parse(date);
     }
 
     protected SortedMap<String, String> getTexter(Element element) {
@@ -151,7 +151,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
      */
     private Properties getTextVersionProperties(Path file) {
 
-        String baseName = FilenameUtils.getBaseName(file.getFileName().toString());
+        String baseName = com.google.common.io.Files.getNameWithoutExtension(file.getFileName().toString());
         final Path propertiesFilePath = file.resolveSibling(baseName + ".properties");
         Properties props = new Properties();
         try {

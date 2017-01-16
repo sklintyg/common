@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.fkparent.model.util;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -55,7 +55,7 @@ public abstract class FkParentModelCompareUtil {
     }
 
     private boolean diagnoseCodeValid(Diagnos diagnosKod) {
-        if (StringUtils.isBlank(diagnosKod.getDiagnosKod())) {
+        if (Strings.nullToEmpty(diagnosKod.getDiagnosKod()).trim().isEmpty()) {
             return true;
         } else {
             return moduleService.validateDiagnosisCode(diagnosKod.getDiagnosKod(), diagnosKod.getDiagnosKodSystem());

@@ -33,8 +33,6 @@ angular.module('common').controller('common.IntygHeader',
             $scope.intygstyp = intygType;
             $scope.intygsnamn = moduleService.getModuleName(intygType);
 
-            $scope.patient = {};
-
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
@@ -53,14 +51,6 @@ angular.module('common').controller('common.IntygHeader',
             $scope.showEmployerPrintBtn = function() {
                 return $scope.arbetsgivarUtskrift;
             };
-
-            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
-                // Listen when a certificate is loaded and make a
-                // control if a patient's name or address has been changed.
-                $scope.patient.changedName = CommonViewState.patient.hasChangedName(intyg, $stateParams);
-                $scope.patient.changedAddress = CommonViewState.patient.hasChangedAddress(intyg, $stateParams);
-            });
-            $scope.$on('$destroy', unbindFastEvent);
 
             $scope.makuleratIntyg = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;

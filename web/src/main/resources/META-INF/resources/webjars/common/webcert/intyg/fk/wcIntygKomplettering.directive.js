@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcIntygFieldKomplettering',
+angular.module('common').directive('wcIntygKomplettering',
     [ 'common.IntygViewStateService',
         function(IntygViewStateService) {
             'use strict';
@@ -34,13 +34,15 @@ angular.module('common').directive('wcIntygFieldKomplettering',
 
             return {
                 restrict: 'AE',
-                templateUrl: '/web/webjars/common/webcert/intyg/fk/wcIntygFieldKomplettering.directive.html',
+                templateUrl: '/web/webjars/common/webcert/gui/wcKomplettering.directive.html',
                 scope: {
                     categoryKey: '@',
-                    fieldKey: '@'
+                    fieldKey: '@',
+                    marginTop: '=',
+                    marginBottom: '='
                 },
                 link: function(scope) {
-                    scope.hasFieldKomplettering = function() {
+                    scope.hasKomplettering = function() {
                         // lookup if there's a field having a status PENDING_INTERNAL_ACTION
                         var category = IntygViewStateService.getCategory(scope.categoryKey);
                         return _hasFieldKomplettering(category, scope.fieldKey);

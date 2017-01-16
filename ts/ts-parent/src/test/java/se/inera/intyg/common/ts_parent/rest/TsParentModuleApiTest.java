@@ -18,44 +18,70 @@
  */
 package se.inera.intyg.common.ts_parent.rest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.xml.bind.JAXB;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.w3.wsaddressing10.AttributedURIType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.support.modules.support.api.exception.*;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.ts_parent.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
@@ -65,8 +91,8 @@ public class TsParentModuleApiTest {
 
     private static final String INTYG_ID = "test-id";
     private static final String LOGICAL_ADDRESS = "logicalAddress";
-    private static File getCertificateFile;
-    private static File revokeCertificateFile;
+    private static ClassPathResource getCertificateFile;
+    private static ClassPathResource revokeCertificateFile;
     private static Utlatande utlatande;
     private static String json;
 
@@ -94,9 +120,9 @@ public class TsParentModuleApiTest {
 
     @BeforeClass
     public static void set() throws Exception {
-        getCertificateFile = new ClassPathResource("getCertificate.xml").getFile();
-        revokeCertificateFile = new ClassPathResource("revokeCertificate.xml").getFile();
-        json = FileUtils.readFileToString(new ClassPathResource("utlatande.json").getFile(), Charsets.UTF_8);
+        getCertificateFile = new ClassPathResource("getCertificate.xml");
+        revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
+        json = Resources.toString(new ClassPathResource("utlatande.json").getURL(), Charsets.UTF_8);
         utlatande = new CustomObjectMapper().readValue(json, TestUtlatande.class);
     }
 
@@ -307,27 +333,27 @@ public class TsParentModuleApiTest {
 
     @Test
     public void testGetAdditionalInfo() throws Exception {
-        Intyg intyg = JAXB.unmarshal(getCertificateFile, GetCertificateResponseType.class).getIntyg();
+        Intyg intyg = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class).getIntyg();
         assertEquals("C1, C1E, C", moduleApi.getAdditionalInfo(intyg));
     }
 
     @Test
     public void testGetAdditionalInfoConverterException() throws Exception {
-        Intyg intyg = JAXB.unmarshal(getCertificateFile, GetCertificateResponseType.class).getIntyg();
+        Intyg intyg = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class).getIntyg();
         intyg.getSvar().get(0).getDelsvar().get(0).getContent().clear();
         assertNull(moduleApi.getAdditionalInfo(intyg));
     }
 
     @Test
     public void testGetAdditionalInfoNoTypes() throws Exception {
-        Intyg intyg = JAXB.unmarshal(getCertificateFile, GetCertificateResponseType.class).getIntyg();
+        Intyg intyg = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class).getIntyg();
         intyg.getSvar().clear();
         assertNull(moduleApi.getAdditionalInfo(intyg));
     }
 
     @Test
     public void testRevokeCertificate() throws Exception {
-        String xmlBody = FileUtils.readFileToString(revokeCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
         RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
         revokeResponse.setResult(ResultOfCallUtil.okResult());
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
@@ -344,7 +370,7 @@ public class TsParentModuleApiTest {
 
     @Test(expected = ExternalServiceCallException.class)
     public void testRevokeCertificateResponseError() throws Exception {
-        String xmlBody = FileUtils.readFileToString(revokeCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
         RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
         revokeResponse.setResult(ResultOfCallUtil.failResult("error"));
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))

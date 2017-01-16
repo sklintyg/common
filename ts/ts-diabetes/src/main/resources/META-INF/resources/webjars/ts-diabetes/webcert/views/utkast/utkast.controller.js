@@ -32,7 +32,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.UtkastController',
             $scope.viewState = viewState;
 
             // Page state
-            $scope.user = UserModel.user;
+            $scope.userModel = UserModel;
 
             $scope.categoryNames = {
                 99: 'intygAvser',

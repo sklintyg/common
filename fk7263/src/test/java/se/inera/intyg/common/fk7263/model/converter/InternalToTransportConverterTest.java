@@ -24,27 +24,42 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import javax.xml.bind.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.io.FileUtils;
-import org.custommonkey.xmlunit.*;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.Difference;
+import org.custommonkey.xmlunit.DifferenceConstants;
+import org.custommonkey.xmlunit.DifferenceListener;
+import org.custommonkey.xmlunit.ElementNameAndTextQualifier;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.utils.ModelAssert;
+import se.inera.intyg.common.fk7263.utils.Scenario;
+import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 import se.inera.intyg.common.support.Constants;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.utils.*;
 
 /**
  * @author marced, andreaskaltenbach
@@ -79,8 +94,8 @@ public class InternalToTransportConverterTest {
         marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = FileUtils.readFileToString(new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.xml")
-                .getFile());
+        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.xml")
+                .getURL(), Charsets.UTF_8);
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);
@@ -105,8 +120,8 @@ public class InternalToTransportConverterTest {
         marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = FileUtils.readFileToString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-transport.xml")
-                .getFile());
+        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-transport.xml")
+                .getURL(), Charsets.UTF_8);
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);
@@ -131,8 +146,8 @@ public class InternalToTransportConverterTest {
         marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = FileUtils.readFileToString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.xml")
-                .getFile());
+        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.xml")
+                .getURL(), Charsets.UTF_8);
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);
@@ -157,8 +172,8 @@ public class InternalToTransportConverterTest {
         marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = FileUtils.readFileToString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport.xml")
-                .getFile());
+        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport.xml")
+                .getURL(), Charsets.UTF_8);
 
         XMLUnit.setIgnoreWhitespace(true);
         Diff diff = new Diff(expectation, stringWriter.toString());
@@ -194,8 +209,8 @@ public class InternalToTransportConverterTest {
         marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = FileUtils.readFileToString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
-                .getFile());
+        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
+                .getURL(), Charsets.UTF_8);
 
         XMLUnit.setIgnoreWhitespace(true);
         Diff diff = new Diff(expectation, stringWriter.toString());
@@ -218,8 +233,8 @@ public class InternalToTransportConverterTest {
         marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = FileUtils.readFileToString(new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-transport.xml")
-                .getFile());
+        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-transport.xml")
+                .getURL(), Charsets.UTF_8);
 
         XMLUnit.setIgnoreWhitespace(true);
         Diff diff = new Diff(expectation, stringWriter.toString());
@@ -266,13 +281,14 @@ public class InternalToTransportConverterTest {
     }
 
     private JAXBElement<?> wrapJaxb(RegisterMedicalCertificateType ws) {
-        JAXBElement<?> jaxbElement = new JAXBElement<RegisterMedicalCertificateType>(
+        JAXBElement<?> jaxbElement = new JAXBElement<>(
                 new QName("urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3", "RegisterMedicalCertificate"),
                 RegisterMedicalCertificateType.class, ws);
         return jaxbElement;
     }
 
     private class NamespacePrefixNameIgnoringListener implements DifferenceListener {
+        @Override
         public int differenceFound(Difference difference) {
             if (DifferenceConstants.NAMESPACE_PREFIX_ID == difference.getId()) {
                 // differences in namespace prefix IDs are ok (eg. 'ns1' vs 'ns2'), as long as the namespace URI is the
@@ -283,6 +299,7 @@ public class InternalToTransportConverterTest {
             }
         }
 
+        @Override
         public void skippedComparison(Node control, Node test) {
         }
     }

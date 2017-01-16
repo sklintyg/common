@@ -7,6 +7,8 @@
     </h4>
   </div>
 
+  <wc-utkast-komplettering key="{{options.key}}" komplettering-key="{{to.kompletteringKey}}" margin-bottom="true"></wc-utkast-komplettering>
+
   <wc-validation-group field-type="radio-group"
                        validations="formState.viewState.common.validation.messagesByField[options.key]"
                        kompletteringar="hasKompletteringar()">
@@ -38,7 +40,6 @@
 
     </div>
 
-    <wc-field-komplettering key="{{options.key}}" komplettering-key="{{to.kompletteringKey}}"></wc-field-komplettering>
 
   </wc-validation-group>
 

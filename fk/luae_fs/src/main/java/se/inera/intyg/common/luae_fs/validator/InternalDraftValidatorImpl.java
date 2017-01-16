@@ -23,8 +23,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
@@ -108,17 +109,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
                 utlatande.getAnnatGrundForMU()).filter(Objects::nonNull).findAny().isPresent();
         if (utlatande.getUndersokningAvPatienten() == null
                 && existsOtherMU
-                && StringUtils.isBlank(utlatande.getMotiveringTillInteBaseratPaUndersokning())) {
+                && Strings.nullToEmpty(utlatande.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "grundformu.motiveringTillInteBaseratPaUndersokning", ValidationMessageType.EMPTY);
         }
 
         // R2
-        if (utlatande.getAnnatGrundForMU() != null && StringUtils.isBlank(utlatande.getAnnatGrundForMUBeskrivning())) {
+        if (utlatande.getAnnatGrundForMU() != null && Strings.nullToEmpty(utlatande.getAnnatGrundForMUBeskrivning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "grundformu.annatGrundForMUBeskrivning", ValidationMessageType.EMPTY);
         }
 
         // R3
-        if (utlatande.getAnnatGrundForMU() == null && !StringUtils.isEmpty(utlatande.getAnnatGrundForMUBeskrivning())) {
+        if (utlatande.getAnnatGrundForMU() == null && !Strings.isNullOrEmpty(utlatande.getAnnatGrundForMUBeskrivning())) {
             ValidatorUtil.addValidationError(validationMessages, "grundformu.annat", ValidationMessageType.EMPTY,
                     "luae_fs.validation.grund-for-mu.annat.beskrivning.invalid_combination");
         }
@@ -198,18 +199,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
     }
 
     void validateFunktionsnedsattning(LuaefsUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (StringUtils.isBlank(utlatande.getFunktionsnedsattningDebut())) {
+        if (Strings.nullToEmpty(utlatande.getFunktionsnedsattningDebut()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "funktionsnedsattning.funktionsnedsattningDebut", ValidationMessageType.EMPTY,
                     "luae_fs.validation.funktionsnedsattning.debut.missing");
         }
-        if (StringUtils.isBlank(utlatande.getFunktionsnedsattningPaverkan())) {
+        if (Strings.nullToEmpty(utlatande.getFunktionsnedsattningPaverkan()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "funktionsnedsattning.funktionsnedsattningPaverkan", ValidationMessageType.EMPTY,
                     "luae_fs.validation.funktionsnedsattning.paverkan.missing");
         }
     }
 
     void validateKontakt(LuaefsUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getKontaktMedFk() != null && !utlatande.getKontaktMedFk() && !StringUtils.isBlank(utlatande.getAnledningTillKontakt())) {
+        if (utlatande.getKontaktMedFk() != null && !utlatande.getKontaktMedFk() && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "kontakt", ValidationMessageType.EMPTY,
                     "luae_fs.validation.kontakt.invalid_combination");
         }

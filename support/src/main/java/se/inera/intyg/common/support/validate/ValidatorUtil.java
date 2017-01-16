@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
@@ -133,28 +134,28 @@ public final class ValidatorUtil {
     }
 
     public static void validateVardenhet(GrundData grundData, List<ValidationMessage> validationMessages) {
-        if (StringUtils.isBlank(grundData.getSkapadAv().getVardenhet().getPostadress())) {
+        if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostadress()).trim().isEmpty()) {
             addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postadress", ValidationMessageType.EMPTY);
         }
 
-        if (StringUtils.isBlank(grundData.getSkapadAv().getVardenhet().getPostnummer())) {
+        if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostnummer()).trim().isEmpty()) {
             addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.EMPTY);
         } else if (!STRING_VALIDATOR.validateStringAsPostalCode(grundData.getSkapadAv().getVardenhet().getPostnummer())) {
             addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.INVALID_FORMAT,
                     "common.validation.postnummer.incorrect-format");
         }
 
-        if (StringUtils.isBlank(grundData.getSkapadAv().getVardenhet().getPostort())) {
+        if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostort()).trim().isEmpty()) {
             addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postort", ValidationMessageType.EMPTY);
         }
 
-        if (StringUtils.isBlank(grundData.getSkapadAv().getVardenhet().getTelefonnummer())) {
+        if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getTelefonnummer()).trim().isEmpty()) {
             addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.telefonnummer", ValidationMessageType.EMPTY);
         }
     }
 
     public static boolean isBlankButNotNull(String stringFromField) {
-        return !StringUtils.isEmpty(stringFromField) && StringUtils.isBlank(stringFromField);
+        return !Strings.isNullOrEmpty(stringFromField) && stringFromField.trim().isEmpty();
     }
 
     /**

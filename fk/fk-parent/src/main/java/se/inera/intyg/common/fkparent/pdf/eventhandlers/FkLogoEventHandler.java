@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.fkparent.pdf.eventhandlers;
 
+import com.google.common.io.ByteStreams;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -83,7 +83,7 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
 
         try {
             Resource resource = new ClassPathResource(logoPath);
-            fkLogo = Image.getInstance(IOUtils.toByteArray(resource.getInputStream()));
+            fkLogo = Image.getInstance(ByteStreams.toByteArray(resource.getInputStream()));
             fkLogo.scalePercent(LINEAR_SCALE);
         } catch (IOException e) {
             throw new DocumentException("Unable to initialise FkLogoEventHandler: " + e.getMessage());

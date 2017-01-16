@@ -20,10 +20,8 @@ package se.inera.intyg.common.fk7263.model.internal;
 
 import static java.lang.String.join;
 
-import java.util.Arrays;
-import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -457,9 +455,8 @@ public class Fk7263Utlatande implements Utlatande {
     }
 
     public String getForskrivarkodOchArbetsplatskod() {
-        return StringUtils.trimToNull(StringUtils
-                .join(Arrays.asList(getGrundData().getSkapadAv().getForskrivarKod(), getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod()).stream()
-                        .filter(Objects::nonNull).toArray(), " - "));
+        return Strings.emptyToNull(Joiner.on(" - ").skipNulls()
+                .join(getGrundData().getSkapadAv().getForskrivarKod(), getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod()).trim());
     }
 
     public String getNamnfortydligandeOchAdress() {

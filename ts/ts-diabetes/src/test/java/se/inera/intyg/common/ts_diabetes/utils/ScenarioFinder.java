@@ -25,7 +25,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXB;
 
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
@@ -152,7 +151,7 @@ public class ScenarioFinder {
          */
         @Override
         public String getName() {
-            return FilenameUtils.getBaseName(scenarioFile.getName());
+            return scenarioFile.getName().split("\\.")[0];
         }
 
         /**
@@ -161,9 +160,9 @@ public class ScenarioFinder {
         @Override
         public RegisterTSDiabetesType asTransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(scenarioFile, TRANSPORT_MODEL_PATH), RegisterTSDiabetesType.class);
+                return JAXB.unmarshal(getTransportModelFor(getName(), TRANSPORT_MODEL_PATH), RegisterTSDiabetesType.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "transport", e);
+                throw new ScenarioNotFoundException(getName(), "transport", e);
             }
         }
 
@@ -173,9 +172,9 @@ public class ScenarioFinder {
         @Override
         public RegisterCertificateType asRivtaV2TransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(scenarioFile, RIVTA_V2_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
+                return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V2_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "rivta v2 transport", e);
+                throw new ScenarioNotFoundException(getName(), "rivta v2 transport", e);
             }
         }
 
@@ -186,10 +185,10 @@ public class ScenarioFinder {
         public se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asTransformedTransportModel()
                 throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(scenarioFile, TRANSFORMED_TRANSPORT_MODEL_PATH),
+                return JAXB.unmarshal(getTransportModelFor(getName(), TRANSFORMED_TRANSPORT_MODEL_PATH),
                         se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "transformed transport", e);
+                throw new ScenarioNotFoundException(getName(), "transformed transport", e);
             }
         }
 
@@ -200,28 +199,25 @@ public class ScenarioFinder {
         public TsDiabetesUtlatande asInternalModel()
                 throws ScenarioNotFoundException {
             try {
-                return new CustomObjectMapper().readValue(getInternalModelFor(scenarioFile), TsDiabetesUtlatande.class);
+                return new CustomObjectMapper().readValue(getInternalModelFor(getName()), TsDiabetesUtlatande.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "internal MI", e);
+                throw new ScenarioNotFoundException(getName(), "internal MI", e);
             }
         }
 
     }
 
-    private static File getTransportModelFor(File otherModel, String path) throws IOException {
-        String filenameWithoutExt = FilenameUtils.removeExtension(otherModel.getName());
+    private static File getTransportModelFor(String name, String path) throws IOException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        File retFile = context.getResource(path + filenameWithoutExt + TRANSPORT_MODEL_EXT).getFile();
+        File retFile = context.getResource(path + name + TRANSPORT_MODEL_EXT).getFile();
         context.close();
         return retFile;
     }
 
-    private static File getInternalModelFor(File otherModel) throws IOException {
-        String filenameWithoutExt = FilenameUtils.removeExtension(otherModel.getName());
+    private static File getInternalModelFor(String name) throws IOException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        File retFile = context.getResource(INTERNAL_MODEL_PATH + filenameWithoutExt + INTERNAL_MODEL_EXT).getFile();
+        File retFile = context.getResource(INTERNAL_MODEL_PATH + name + INTERNAL_MODEL_EXT).getFile();
         context.close();
         return retFile;
     }
-
 }

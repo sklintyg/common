@@ -18,16 +18,21 @@
  */
 package se.inera.intyg.common.support.services;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+
+import com.google.common.base.Strings;
 
 public class BefattningService {
 
@@ -94,10 +99,10 @@ public class BefattningService {
     }
 
     public static Optional<String> getDescriptionFromCode(String code) {
-        return instance != null && StringUtils.isNotBlank(code) ? Optional.ofNullable(instance.codeToDescription.get(code.trim())) : Optional.empty();
+        return instance != null && !Strings.nullToEmpty(code).trim().isEmpty() ? Optional.ofNullable(instance.codeToDescription.get(code.trim())) : Optional.empty();
     }
 
     public static Optional<String> getCodeFromDescription(String description) {
-        return instance != null && StringUtils.isNotBlank(description) ? Optional.ofNullable(instance.descriptionToCode.get(description.trim())) : Optional.empty();
+        return instance != null && !Strings.nullToEmpty(description).trim().isEmpty() ? Optional.ofNullable(instance.descriptionToCode.get(description.trim())) : Optional.empty();
     }
 }

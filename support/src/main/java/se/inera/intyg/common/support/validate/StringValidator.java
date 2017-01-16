@@ -18,14 +18,9 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static org.apache.commons.lang3.math.NumberUtils.isNumber;
+import java.time.Year;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
+import com.google.common.base.Strings;
 
 /**
  * Validator intended for use in draft validation,
@@ -39,17 +34,6 @@ public class StringValidator {
     private static final String POSTALCODE_FORMAT = "\\d{3}\\s?\\d{2}";
 
     /**
-     * Validates that a given <code>String</code> contains numbers.
-     *
-     * @param source
-     *            the string, should not be null
-     * @return true if the string is a number, false otherwise
-     */
-    public boolean validateStringIsNumber(String source) {
-        return isNumber(source);
-    }
-
-    /**
      * Validate that a given String contains a year of the format yyyy,<br/>
      * and that the year it contains is in the general vicinity of current date i.e 19xx-20xx,<br/>
      * and that the year if otherwise valid is not set in the future.
@@ -59,7 +43,7 @@ public class StringValidator {
      * @return true if the string is a valid year, false otherwise
      */
     public boolean validateStringIsYear(String source) {
-        if (StringUtils.isBlank(source)) {
+        if (Strings.isNullOrEmpty(source)) {
             return false;
         }
         if (!source.matches(CENTURY)) {
@@ -79,14 +63,6 @@ public class StringValidator {
     }
 
     private boolean isYearInFuture(String source) {
-        Date date;
-        try {
-            date = DateUtils.parseDate(source, YEAR_FORMAT);
-        } catch (ParseException pe) {
-            return false;
-        }
-        Calendar now = Calendar.getInstance();
-        now.get(Calendar.YEAR);
-        return date.after(now.getTime());
+        return Year.parse(source).isAfter(Year.now());
     }
 }

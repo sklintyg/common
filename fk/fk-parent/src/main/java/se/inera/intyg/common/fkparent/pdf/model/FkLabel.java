@@ -47,7 +47,7 @@ public class FkLabel extends PdfComponent<FkLabel> {
     private float fixedLeading = 0.0f;
     private float multipliedLeading = 1.0f;
     private float topPadding = 1f;
-    private int backgroundColor = -1;
+    private BaseColor backgroundColor = null;
     private boolean backgroundRounded = false;
 
     public FkLabel(String label) {
@@ -81,7 +81,7 @@ public class FkLabel extends PdfComponent<FkLabel> {
     }
 
     public FkLabel backgroundColor(int r, int g, int b) {
-        this.backgroundColor = (r << 24) + (g << 16) + (b << 8);
+        this.backgroundColor = new BaseColor(r, g, b);
         return this;
     }
 
@@ -106,12 +106,11 @@ public class FkLabel extends PdfComponent<FkLabel> {
         labelCell.setVerticalAlignment(verticalAlignment);
         labelCell.setPaddingTop(Utilities.millimetersToPoints(topPadding));
         labelCell.setLeading(fixedLeading, multipliedLeading);
-        if (backgroundColor != -1) {
-            BaseColor baseColor = new BaseColor(backgroundColor >> 24 & 0xFF, backgroundColor >> 16 & 0xFF, backgroundColor >> 8 & 0xFF);
+        if (backgroundColor != null) {
             if (backgroundRounded) {
-                labelCell.setCellEvent(new RoundedBorder(baseColor));
+                labelCell.setCellEvent(new RoundedBorder(backgroundColor));
             } else {
-                labelCell.setBackgroundColor(baseColor);
+                labelCell.setBackgroundColor(backgroundColor);
             }
         }
 
@@ -130,15 +129,22 @@ public class FkLabel extends PdfComponent<FkLabel> {
      *
      * The color is read from the outer class.
      */
-    private class RoundedBorder implements PdfPCellEvent {
+    private static class RoundedBorder implements PdfPCellEvent {
 
-        private float leftOffset = -8f, bottomOffset  = 8f, widthPadding = 16f, heightPadding = 0f, cornerRadius = 12f;
+        private static final float DEFAULT_LEFT_OFFSET = -8f;
+        private static final float DEFAULT_BOTTOM_OFFSET = 8f;
+        private static final float WIDTH_PADDING = 16f;
+        private static final float HEIGHT_PADDING = 0f;
+        private static final float CORDER_RADIUS = 12f;
+
+        private float leftOffset = DEFAULT_LEFT_OFFSET, bottomOffset  = DEFAULT_BOTTOM_OFFSET, widthPadding = WIDTH_PADDING, heightPadding = HEIGHT_PADDING, cornerRadius = CORDER_RADIUS;
         private BaseColor backgroundColor;
 
-        public RoundedBorder(BaseColor backgroundColor) {
+        RoundedBorder(BaseColor backgroundColor) {
             this.backgroundColor = backgroundColor;
         }
 
+        @Override
         public void cellLayout(PdfPCell cell, Rectangle rect, PdfContentByte[] canvas) {
             PdfContentByte cb = canvas[PdfPTable.BACKGROUNDCANVAS];
             cb.setColorFill(backgroundColor);

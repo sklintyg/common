@@ -138,7 +138,7 @@ angular.module('fk7263').config(function($stateProvider) {
         }).
         state('webcert.intyg.fk.fk7263', {
             data: { defaultActive : 'index', intygType: 'fk7263' },
-            url:'/intyg/fk7263/:certificateId?:patientId&:hospName&:signed&:sjf',
+            url:'/intyg/fk7263/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:signed&:sjf',
             views: {
                 'intyg@webcert.intyg.fk' : {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',

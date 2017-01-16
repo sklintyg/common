@@ -40,7 +40,6 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +47,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.w3.wsaddressing10.AttributedURIType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 
 import iso.v21090.dt.v1.CD;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
@@ -435,7 +435,7 @@ public class Fk7263ModuleApi implements ModuleApi {
             throws ModuleException {
         RegisterMedicalCertificateType request = originalRequest;
         // This is a special case when recipient is Forsakringskassan. See JIRA issue WEBCERT-1442.
-        if (!StringUtils.isEmpty(recipientId) && recipientId.equalsIgnoreCase(PartKod.FKASSA.getValue())) {
+        if (!Strings.isNullOrEmpty(recipientId) && recipientId.equalsIgnoreCase(PartKod.FKASSA.getValue())) {
             request = whenFkIsRecipientThenSetCodeSystemToICD10(request);
         }
 

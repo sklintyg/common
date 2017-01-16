@@ -25,12 +25,12 @@ import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
@@ -187,14 +187,14 @@ public class Fk7263InternalToNotification {
 
         String diagnosKod = utlatandeSource.getDiagnosKod();
 
-        if (StringUtils.isBlank(diagnosKod)) {
+        if (Strings.nullToEmpty(diagnosKod).trim().isEmpty()) {
             LOG.debug("Diagnos code was not found in utlatande");
             return;
         }
 
         // Default diagnosKodverk is ICD-10-SE
         String diagnosKodsystem = utlatandeSource.getDiagnosKodsystem1();
-        Diagnoskodverk diagnosKodverk = StringUtils.isNotBlank(diagnosKodsystem) ? Diagnoskodverk.valueOf(diagnosKodsystem)
+        Diagnoskodverk diagnosKodverk = !Strings.nullToEmpty(diagnosKodsystem).trim().isEmpty() ? Diagnoskodverk.valueOf(diagnosKodsystem)
                 : Diagnoskodverk.ICD_10_SE;
 
         if (!moduleService.validateDiagnosisCode(diagnosKod, diagnosKodverk)) {
@@ -204,7 +204,7 @@ public class Fk7263InternalToNotification {
 
         // Set this to empty string if not found
         String diagnosBeskrivning = utlatandeSource.getDiagnosBeskrivning1();
-        diagnosBeskrivning = StringUtils.isNotBlank(diagnosBeskrivning) ? diagnosBeskrivning : "";
+        diagnosBeskrivning = !Strings.nullToEmpty(diagnosBeskrivning).trim().isEmpty() ? diagnosBeskrivning : "";
 
         Diagnos diagnos = new Diagnos();
         diagnos.setCode(diagnosKod);

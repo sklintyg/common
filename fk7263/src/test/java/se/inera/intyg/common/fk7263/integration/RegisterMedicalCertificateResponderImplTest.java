@@ -25,31 +25,47 @@ import static org.mockito.Mockito.mock;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import javax.xml.bind.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import iso.v21090.dt.v1.CD;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.*;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.FunktionstillstandType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Nedsattningsgrad;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Prognosangivelse;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ReferensType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Referenstyp;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvFunktionstillstand;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Vardkontakttyp;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ErrorIdEnum;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
-import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
-import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
-import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
 import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
+import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
+import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
+import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
+import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RegisterMedicalCertificateResponderImplTest {
@@ -87,7 +103,7 @@ public class RegisterMedicalCertificateResponderImplTest {
                 new StreamSource(file.getInputStream()), RegisterMedicalCertificateType.class);
         request = registerMedicalCertificate.getValue();
 
-        xml = FileUtils.readFileToString(file.getFile());
+        xml = Resources.toString(file.getURL(), Charsets.UTF_8);
         utlatande = TransportToInternal.convert(request.getLakarutlatande());
         certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
         certificateHolder.setOriginalCertificate(xml);

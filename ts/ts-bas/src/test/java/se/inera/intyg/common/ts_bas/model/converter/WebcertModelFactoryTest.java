@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -32,9 +31,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
@@ -71,7 +75,7 @@ public class WebcertModelFactoryTest {
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV2Format() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
         TsBasUtlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
-        assertTrue(CollectionUtils.isEmpty(UtlatandeToIntyg.convert(draft).getSvar()));
+        assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
     }
 
     @Test(expected = ConverterException.class)

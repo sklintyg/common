@@ -56,9 +56,10 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
     /**
      * Constructs a new instance that uses the default placement of the page numbering, e.g. {@link PageNumberingEventHandler#DEFAULT_MARGIN_LEFT} mm from the left and
      * {@link PageNumberingEventHandler#DEFAULT_MARGIN_TOP} mm from the top.
+     *
      */
     public PageNumberingEventHandler() {
-
+        // Intentionally empty, use this when you want the default margins.
     }
 
     /**

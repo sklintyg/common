@@ -24,21 +24,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.CMYKColor;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfStamper;
 
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * @author andreaskaltenbach
@@ -523,7 +527,7 @@ public abstract class PdfAbstractGenerator {
             parts.add(intyg.getKommentar());
         }
 
-        return StringUtils.trimToNull(Joiner.on(". ").join(parts));
+        return Strings.emptyToNull(Joiner.on(". ").join(parts).trim());
     }
 
     private String buildOtherDiagnoses() {
@@ -544,7 +548,7 @@ public abstract class PdfAbstractGenerator {
         if (intyg.getSamsjuklighet() != null && intyg.getSamsjuklighet()) {
             parts.add("Samsjuklighet föreligger");
         }
-        return StringUtils.trimToNull(Joiner.on(", ").join(parts));
+        return Strings.emptyToNull(Joiner.on(", ").join(parts).trim());
     }
 
     private boolean isValidString(String string) {

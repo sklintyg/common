@@ -31,7 +31,7 @@ angular.module('ts-bas').controller('ts-bas.UtkastController',
              **********************************************************************************/
 
             $scope.viewState = viewState.reset();
-            $scope.user = UserModel.user;
+            $scope.userModel = UserModel;
 
             $scope.categoryNames = {
                 99: 'intygAvser',

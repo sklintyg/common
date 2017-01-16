@@ -80,7 +80,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
 
                         $scope.pdfUrl = '/moduleapi/intyg/ts-diabetes/' + ViewState.intygModel.id + '/pdf';
 
-                        $rootScope.$emit('ts-diabetes.ViewCertCtrl.load', result);
+                        $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel);
 
                     } else {
                         ViewState.common.activeErrorMessageKey = 'common.error.data_not_found';

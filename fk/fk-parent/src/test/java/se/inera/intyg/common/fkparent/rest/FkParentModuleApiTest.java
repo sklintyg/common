@@ -18,60 +18,100 @@
  */
 package se.inera.intyg.common.fkparent.rest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXB;
 import javax.xml.transform.Source;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.core.io.ClassPathResource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 
-import se.inera.intyg.common.support.common.enumerations.PartKod;
-import se.inera.intyg.common.support.model.StatusKod;
-import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
-import se.inera.intyg.common.support.modules.support.api.exception.*;
-import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
-import se.inera.intyg.common.fkparent.model.converter.*;
+import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
+import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
+import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.support.ResultTypeUtil;
-import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.*;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.*;
-import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.*;
+import se.inera.intyg.common.support.common.enumerations.PartKod;
+import se.inera.intyg.common.support.model.StatusKod;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.model.util.ModelCompareUtil;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
+import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.Part;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.Statuskod;
-import se.riv.clinicalprocess.healthcond.certificate.v2.*;
+import se.riv.clinicalprocess.healthcond.certificate.v2.ErrorIdType;
+import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v2.IntygsStatus;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FkParentModuleApiTest {
 
     private static final String INTYG_ID = "test-id";
     private static final String LOGICAL_ADDRESS = "logicalAddress";
-    private static File registerCertificateFile;
-    private static File getCertificateFile;
-    private static File revokeCertificateFile;
+    private static ClassPathResource registerCertificateFile;
+    private static ClassPathResource getCertificateFile;
+    private static ClassPathResource revokeCertificateFile;
     private static Utlatande utlatande;
     private static String json;
 
@@ -108,9 +148,9 @@ public class FkParentModuleApiTest {
 
     @BeforeClass
     public static void set() throws Exception {
-        registerCertificateFile = new ClassPathResource("registerCertificate.xml").getFile();
-        getCertificateFile = new ClassPathResource("getCertificate.xml").getFile();
-        revokeCertificateFile = new ClassPathResource("revokeCertificate.xml").getFile();
+        registerCertificateFile = new ClassPathResource("registerCertificate.xml");
+        getCertificateFile = new ClassPathResource("getCertificate.xml");
+        revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
         utlatande = IntygTestDataBuilder.getUtlatande();
         json = new CustomObjectMapper().writeValueAsString(utlatande);
     }
@@ -184,7 +224,7 @@ public class FkParentModuleApiTest {
 
     @Test(expected = ExternalServiceCallException.class)
     public void testSendCertificateToRecipientResponseError() throws Exception {
-        String xmlBody = FileUtils.readFileToString(registerCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
 
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.TECHNICAL_ERROR, "error"));
@@ -194,7 +234,7 @@ public class FkParentModuleApiTest {
 
     @Test(expected = ExternalServiceCallException.class)
     public void testSendCertificateToRecipientSoapFault() throws Exception {
-        String xmlBody = FileUtils.readFileToString(registerCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
                 .thenThrow(mock(SOAPFaultException.class));
@@ -203,7 +243,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testSendCertificateToRecipientResponseResultMissing() throws Exception {
-        String xmlBody = FileUtils.readFileToString(registerCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
                 .thenReturn(new RegisterCertificateResponseType());
@@ -213,7 +253,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testSendCertificateToRecipient() throws Exception {
-        String xmlBody = FileUtils.readFileToString(registerCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
 
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.okResult());
@@ -250,7 +290,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testGetCertificate() throws Exception {
-        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile, GetCertificateResponseType.class);
+        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
@@ -266,7 +306,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testGetCertificateRevoked() throws Exception {
-        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile, GetCertificateResponseType.class);
+        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
         IntygsStatus revokedStatus = new IntygsStatus();
         revokedStatus.setPart(new Part());
         revokedStatus.getPart().setCode(PartKod.HSVARD.name());
@@ -285,7 +325,7 @@ public class FkParentModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testGetCertificateConvertException() throws Exception {
-        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile, GetCertificateResponseType.class);
+        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
@@ -302,7 +342,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testRegisterCertificate() throws Exception {
-        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile, RegisterCertificateType.class);
+        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.okResult());
@@ -320,7 +360,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testRegisterCertificateResponseError() throws Exception {
-        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile, RegisterCertificateType.class);
+        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
@@ -336,7 +376,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testRegisterCertificateAlreadyExists() throws Exception {
-        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile, RegisterCertificateType.class);
+        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
@@ -352,7 +392,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testRegisterCertificateOtherInfoResult() throws Exception {
-        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile, RegisterCertificateType.class);
+        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Other info"));
@@ -438,7 +478,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testGetUtlatandeFromXml() throws Exception {
-        String xmlBody = FileUtils.readFileToString(registerCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
         Utlatande res = moduleApi.getUtlatandeFromXml(xmlBody);
         assertNotNull(res);
@@ -447,14 +487,14 @@ public class FkParentModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testGetUtlatandeFromXmlConverterException() throws Exception {
-        String xmlBody = FileUtils.readFileToString(registerCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
         moduleApi.getUtlatandeFromXml(xmlBody);
     }
 
     @Test
     public void testGetIntygFromUtlatande() throws Exception {
-        Intyg intyg = JAXB.unmarshal(registerCertificateFile, RegisterCertificateType.class).getIntyg();
+        Intyg intyg = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class).getIntyg();
         doReturn(intyg).when(moduleApi).utlatandeToIntyg(any(Utlatande.class));
         Intyg res = moduleApi.getIntygFromUtlatande(new TestUtlatande());
         assertNotNull(res);
@@ -476,7 +516,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testvalidateXml() throws Exception {
-        String xmlBody = FileUtils.readFileToString(registerCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
         when(validator.validateSchematron(any(Source.class))).thenReturn(new SchematronOutputType());
         ValidateXmlResponse res = moduleApi.validateXml(xmlBody);
         assertNotNull(res);
@@ -510,7 +550,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testRevokeCertificate() throws Exception {
-        String xmlBody = FileUtils.readFileToString(revokeCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
         RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
         revokeResponse.setResult(ResultTypeUtil.okResult());
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
@@ -524,7 +564,7 @@ public class FkParentModuleApiTest {
 
     @Test(expected = ExternalServiceCallException.class)
     public void testRevokeCertificateResponseError() throws Exception {
-        String xmlBody = FileUtils.readFileToString(revokeCertificateFile, Charsets.UTF_8);
+        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
         RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
         revokeResponse.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);

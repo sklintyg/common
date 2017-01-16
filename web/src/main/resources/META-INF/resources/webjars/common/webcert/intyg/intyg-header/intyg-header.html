@@ -100,7 +100,7 @@
                   intygstyp="{{intygstyp}}"
                   id="copyBtn"
                   class="btn btn-info"
-                  ng-if="!viewState.common.common.sekretessmarkering"
+                  ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue && !viewState.common.common.sekretessmarkering"
                   ng-click="copy(viewState.intygModel)"
                   uib-popover="{{copyBtnTooltipText}}"
                   popover-trigger="mouseenter"
@@ -157,21 +157,15 @@
         <span ng-if="viewState.common.intygProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
         <span ng-if="!viewState.common.intygProperties.isSent && !viewState.common.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
         <span ng-if="!viewState.common.intygProperties.isSent && viewState.common.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
-
       </div>
 
-      <div ng-if="patient.changedName || patient.changedAddress" class="alert alert-info alert-column">
-        <span id="intyg-djupintegration-name-changed" ng-if="patient.changedName && !patient.changedAddress" message key="intyg.status.patient.name.changed"></span>
-        <span id="intyg-djupintegration-address-changed" ng-if="!patient.changedName && patient.changedAddress" message key="intyg.status.patient.address.changed"></span>
-        <span id="intyg-djupintegration-name-and-address-changed" ng-if="patient.changedName && patient.changedAddress" message key="intyg.status.patient.name.and.address.changed"></span>
-      </div>
+      <div wc-patient-info-change-message></div>
 
       <div ng-if="viewState.common.intygProperties.isRevoked || viewState.common.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"
            style="margin-right: 20px; max-width: 530px;">
         <span ng-if="viewState.common.isIntygOnRevokeQueue" id="certificate-revoked-it-message-text" message key="intyg.status.revoke.requested"></span>
         <span ng-if="viewState.common.intygProperties.isRevoked && (!viewState.common.isIntygOnRevokeQueue || viewState.common.isIntygOnRevokeQueue == 'undefined')" id="certificate-revoked-on-queue-it-message-text" message key="intyg.status.revoke.confirmed"></span>
       </div>
-
 
     </div>
   </div>

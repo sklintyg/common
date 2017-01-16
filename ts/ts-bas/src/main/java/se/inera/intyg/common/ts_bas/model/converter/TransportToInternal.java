@@ -24,7 +24,6 @@ import static se.inera.intyg.common.ts_parent.model.converter.TransportToInterna
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,7 +116,7 @@ public final class TransportToInternal {
     private static void buildBedomning(TsBasUtlatande internal, BedomningTypBas source) {
         internal.getBedomning().setKanInteTaStallning(source.isKanInteTaStallning());
         internal.getBedomning().setLakareSpecialKompetens(source.getBehovAvLakareSpecialistKompetens());
-        if (CollectionUtils.isNotEmpty(source.getKorkortstyp())) {
+        if (source.getKorkortstyp() != null && !source.getKorkortstyp().isEmpty()) {
             internal.getBedomning().getKorkortstyp().addAll(convertBedomningKorkortstyp(source.getKorkortstyp()));
         }
     }

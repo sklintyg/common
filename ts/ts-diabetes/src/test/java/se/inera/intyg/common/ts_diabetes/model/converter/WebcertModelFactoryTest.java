@@ -29,7 +29,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -112,7 +111,7 @@ public class WebcertModelFactoryTest {
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV2Format() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
         TsDiabetesUtlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
-        assertTrue(CollectionUtils.isEmpty(UtlatandeToIntyg.convert(draft).getSvar()));
+        assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
     }
 
     @Test(expected = ConverterException.class)

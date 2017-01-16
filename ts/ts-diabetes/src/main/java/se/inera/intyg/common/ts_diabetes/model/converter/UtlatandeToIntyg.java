@@ -86,8 +86,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.ModelException;
@@ -134,7 +133,7 @@ public final class UtlatandeToIntyg {
     }
 
     private static void complementArbetsplatskodIfMissing(Intyg intyg) {
-        if (StringUtils.isBlank(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension())) {
+        if (Strings.nullToEmpty(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()).trim().isEmpty()) {
             intyg.getSkapadAv().getEnhet().getArbetsplatskod().setExtension(NOT_AVAILABLE);
         }
     }
@@ -220,10 +219,10 @@ public final class UtlatandeToIntyg {
             }
             // CHECKSTYLE:ON EmptyBlock
         }
-        if (StringUtils.isNotBlank(source.getAnnanBehandlingBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getAnnanBehandlingBeskrivning()).trim().isEmpty()) {
             diabetesBehandling.withDelsvar(ANNAN_BEHANDLING_DELSVAR_ID_19, source.getAnnanBehandlingBeskrivning());
         }
-        if (CollectionUtils.isNotEmpty(diabetesBehandling.delSvars)) {
+        if (!diabetesBehandling.delSvars.isEmpty()) {
             svars.add(diabetesBehandling.build());
         }
     }
@@ -243,11 +242,11 @@ public final class UtlatandeToIntyg {
             allvarligHypoglykemi.withDelsvar(FOREKOMST_ALLVARLIG_HYPOGLYKEMI_DELSVAR_ID_39,
                     source.getAllvarligForekomst().toString());
         }
-        if (StringUtils.isNotBlank(source.getAllvarligForekomstBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getAllvarligForekomstBeskrivning()).trim().isEmpty()) {
             allvarligHypoglykemi.withDelsvar(ANTAL_EPISODER_ALLVARLIG_HYPOGLYKEMI_DELSVAR_ID_39,
                     source.getAllvarligForekomstBeskrivning());
         }
-        if (CollectionUtils.isNotEmpty(allvarligHypoglykemi.delSvars)) {
+        if (!allvarligHypoglykemi.delSvars.isEmpty()) {
             svars.add(allvarligHypoglykemi.build());
         }
         InternalConverterUtil.SvarBuilder allvarligHypoglykemiTrafiken = aSvar(ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_SVAR_ID_40);
@@ -255,11 +254,11 @@ public final class UtlatandeToIntyg {
             allvarligHypoglykemiTrafiken.withDelsvar(FOREKOMST_ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_DELSVAR_ID_40,
                     source.getAllvarligForekomstTrafiken().toString());
         }
-        if (StringUtils.isNotBlank(source.getAllvarligForekomstTrafikBeskrivning())) {
+        if (!Strings.nullToEmpty(source.getAllvarligForekomstTrafikBeskrivning()).trim().isEmpty()) {
             allvarligHypoglykemiTrafiken.withDelsvar(ANTAL_EPISODER_TIDPUNKT_ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_DELSVAR_ID_40,
                     source.getAllvarligForekomstTrafikBeskrivning());
         }
-        if (CollectionUtils.isNotEmpty(allvarligHypoglykemiTrafiken.delSvars)) {
+        if (!allvarligHypoglykemiTrafiken.delSvars.isEmpty()) {
             svars.add(allvarligHypoglykemiTrafiken.build());
         }
         addIfNotNull(svars, EGENKONTROLLER_BLODSOCKER_SVAR_ID_41, EGENKONTROLLER_BLODSOCKER_DELSVAR_ID_41,
@@ -284,7 +283,7 @@ public final class UtlatandeToIntyg {
             }
             // CHECKSTYLE:ON EmptyBlock
         }
-        if (CollectionUtils.isNotEmpty(allvarligHypoglykemiVakenTid.delSvars)) {
+        if (!allvarligHypoglykemiVakenTid.delSvars.isEmpty()) {
             svars.add(allvarligHypoglykemiVakenTid.build());
         }
     }
@@ -323,7 +322,7 @@ public final class UtlatandeToIntyg {
                 synskarpa.withDelsvar(BINOKULART_MED_KORREKTION_DELSVAR_ID_8, source.getBinokulart().getMedKorrektion().toString());
             }
         }
-        if (CollectionUtils.isNotEmpty(synskarpa.delSvars)) {
+        if (!synskarpa.delSvars.isEmpty()) {
             svars.add(synskarpa.build());
         }
         addIfNotNull(svars, DUBBELSEENDE_SVAR_ID_6, DUBBELSEENDE_DELSVAR_ID_6, source.getDiplopi());

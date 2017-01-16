@@ -22,10 +22,10 @@ angular.module('common').directive('wcIntygLabel',
         function($log, dynamicLabelService) {
             'use strict';
 
-            function _onLabelsUpdated(scope, frageId) {
+            function _onLabelsUpdated(scope, frageId, label) {
                 if (dynamicLabelService.hasProperty(frageId + '.RBK')) {
                     scope.h4Label = frageId + '.RBK';
-                    if (!dynamicLabelService.hasProperty(scope.wcIntygLabel + '.RBK')) {
+                    if (!dynamicLabelService.hasProperty(label + '.RBK')) {
                         scope.h5Label = null;
                     }
                 }
@@ -39,44 +39,60 @@ angular.module('common').directive('wcIntygLabel',
                 restrict: 'A',
                 replace: true,
                 scope: {
-                    wcIntygLabel: '=',
-                    staticLabelId: '=',
-                    forceNoH5After: '=',
-                    forceNoH4Before: '='
+                    field: '=',
+                    forceNoH4Before: '=',
+                    forceNoH5After: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/gui/wcIntygLabel.directive.html',
-                link: function(scope, element, attrs) {
-                    if (typeof scope.wcIntygLabel !== 'string') {
-                        $log.debug('wcIntygLabel argument is not a string');
+                link: function(scope, element, attrs) { // jshint ignore:line
+
+                    if (!scope.field) {
+                        $log.debug('field argument is not defined');
                         return;
                     }
 
-                    scope.h5Label = scope.wcIntygLabel + '.RBK';
+                    scope.noH4Before = false;
                     scope.noH5After = false;
-                    if (scope.forceNoH5After === true) {
-                        scope.noH5After = true;
-                    }
 
-                    if (scope.wcIntygLabel.substring(0, 4) === 'DFR_') {
-                        var questionIds = scope.wcIntygLabel.substring(4).split('.');
-                        if (questionIds.length === 2 && questionIds[1] === '1') {
-                            var frageId = 'FRG_' + questionIds[0];
-                            scope.$on('dynamicLabels.updated', angular.bind(this, _onLabelsUpdated, scope, frageId));
+                    scope.staticLabelId = scope.field.templateOptions && scope.field.templateOptions.staticLabelId;
+
+                    if (scope.field.type === 'check-multi-text') {
+                        scope.h4Label = scope.field.templateOptions && 'FRG_' + scope.field.templateOptions.frgId + '.RBK';
+                        scope.h5Label = scope.field.templateOptions && 'DFR_' + scope.field.templateOptions.frgId + '.1.RBK';
+                    } else {
+                        var wcIntygLabel = scope.field.templateOptions && scope.field.templateOptions.label;
+                        if (typeof wcIntygLabel !== 'string') {
+                            $log.debug('wcIntygLabel is not a string');
+                            return;
                         }
-                    }
-                    else if (scope.wcIntygLabel.substring(0, 4) === 'FRG_') {
-                        scope.h4Label = scope.h5Label;
-                        scope.h5Label = null;
-                        scope.noH5After = true;
-                        if (scope.forceNoH5After === false) {
-                            scope.noH5After = false;
+
+                        scope.h5Label = wcIntygLabel + '.RBK';
+
+                        if (wcIntygLabel.substring(0, 4) === 'DFR_') {
+                            var questionIds = wcIntygLabel.substring(4).split('.');
+                            if (questionIds.length === 2 && questionIds[1] === '1') {
+                                var frageId = 'FRG_' + questionIds[0];
+                                scope.$on('dynamicLabels.updated', angular.bind(this, _onLabelsUpdated, scope, frageId, wcIntygLabel));
+                            }
+                        }
+                        else if (wcIntygLabel.substring(0, 4) === 'FRG_') {
+                            scope.h4Label = scope.h5Label;
+                            scope.h5Label = null;
                         }
                     }
 
                     if (scope.forceNoH4Before === true) {
+                        scope.noH4Before = false;
+                    }
+                    else if (!scope.h4Label && scope.h5Label) {
                         scope.noH4Before = true;
-                    } else if (!scope.h4Label && scope.h5Label) {
-                        scope.noH4Before = true;
+                    }
+
+                    if (scope.forceNoH5After === true) {
+                        scope.noH5After = false;
+                    }
+                    else if (scope.h4Label && !scope.h5Label) {
+                        scope.noH5After = true;
                     }
 
                 }

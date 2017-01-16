@@ -19,15 +19,14 @@
 package se.inera.intyg.common.fk7263.utils;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXB;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
 
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
@@ -39,11 +38,11 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.Regi
  */
 public class ScenarioFinder {
 
-    private static final File TRANSPORT_MODEL_PATH = new File("src/test/resources/scenarios/transport");
+    private static final String TRANSPORT_MODEL_PATH = "classpath:/scenarios/transport/";
 
-    private static final File RIVTA_V2_TRANSPORT_MODEL_PATH = new File("src/test/resources/scenarios/rivtav2");
+    private static final String RIVTA_V2_TRANSPORT_MODEL_PATH = "classpath:/scenarios/rivtav2/";
 
-    private static final File INTERNAL_MODEL_PATH = new File("src/test/resources/scenarios/internal");
+    private static final String INTERNAL_MODEL_PATH = "classpath:/scenarios/internal/";
 
     private static final String TRANSPORT_MODEL_EXT = ".xml";
 
@@ -75,19 +74,24 @@ public class ScenarioFinder {
         return getScenarios(scenarioWithWildcards + INTERNAL_MODEL_EXT, INTERNAL_MODEL_PATH, "internal");
     }
 
-    private static List<Scenario> getScenarios(String scenarioWithWildcards, File scenarioPath, String model)
+    public static List<Scenario> getScenarios(String scenarioWithWildcards, String scenarioPath, String model)
             throws ScenarioNotFoundException {
-        FilenameFilter filter = new WildcardFileFilter(scenarioWithWildcards);
-        File[] files = scenarioPath.listFiles(filter);
-        if (files == null || files.length == 0) {
-            throw new ScenarioNotFoundException(scenarioWithWildcards, model);
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
+        try {
+            Resource[] resources = context.getResources(scenarioPath + scenarioWithWildcards);
+            ArrayList<Scenario> result = new ArrayList<>();
+            if (resources.length < 1) {
+                throw new ScenarioNotFoundException(scenarioPath + scenarioWithWildcards, model);
+            }
+            for (Resource r : resources) {
+                result.add(new FileBasedScenario(r.getFile()));
+            }
+            return result;
+        } catch (IOException e) {
+            throw new ScenarioNotFoundException(scenarioPath + scenarioWithWildcards, model);
+        } finally {
+            context.close();
         }
-
-        ArrayList<Scenario> result = new ArrayList<>();
-        for (File file : files) {
-            result.add(new FileBasedScenario(file));
-        }
-        return result;
     }
 
     /**
@@ -116,14 +120,16 @@ public class ScenarioFinder {
         return getScenario(filename + INTERNAL_MODEL_EXT, INTERNAL_MODEL_PATH, "internal ");
     }
 
-    private static Scenario getScenario(String filename, File scenarioPath, String model)
+    private static Scenario getScenario(String filename, String scenarioPath, String model)
             throws ScenarioNotFoundException {
-        File file = new File(scenarioPath, filename);
-        if (!file.exists() || !file.isFile()) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
+        try {
+            return new FileBasedScenario(context.getResource(scenarioPath + filename).getFile());
+        } catch (IOException e) {
             throw new ScenarioNotFoundException(filename, model);
+        } finally {
+            context.close();
         }
-
-        return new FileBasedScenario(file);
     }
 
     /**
@@ -143,7 +149,7 @@ public class ScenarioFinder {
          */
         @Override
         public String getName() {
-            return FilenameUtils.getBaseName(scenarioFile.getName());
+            return scenarioFile.getName().split("\\.")[0];
         }
 
         /**
@@ -152,9 +158,9 @@ public class ScenarioFinder {
         @Override
         public RegisterMedicalCertificateType asTransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(scenarioFile, TRANSPORT_MODEL_PATH), RegisterMedicalCertificateType.class);
+                return JAXB.unmarshal(getTransportModelFor(getName(), TRANSPORT_MODEL_PATH), RegisterMedicalCertificateType.class);
             } catch (Exception e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "transport", e);
+                throw new ScenarioNotFoundException(getName(), "transport", e);
             }
         }
 
@@ -164,9 +170,9 @@ public class ScenarioFinder {
         @Override
         public RegisterCertificateType asRivtaV2TransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(scenarioFile, RIVTA_V2_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
+                return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V2_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
             } catch (Exception e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "rivta v2 transport", e);
+                throw new ScenarioNotFoundException(getName(), "rivta v2 transport", e);
             }
         }
 
@@ -177,21 +183,25 @@ public class ScenarioFinder {
         public Fk7263Utlatande asInternalModel()
                 throws ScenarioNotFoundException {
             try {
-                return new CustomObjectMapper().readValue(getInternalModelFor(scenarioFile), Fk7263Utlatande.class);
+                return new CustomObjectMapper().readValue(getInternalModelFor(getName()), Fk7263Utlatande.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "internal", e);
+                throw new ScenarioNotFoundException(getName(), "internal", e);
             }
         }
 
     }
 
-    private static File getTransportModelFor(File otherModel, File path) {
-        String filenameWithoutExt = FilenameUtils.removeExtension(otherModel.getName());
-        return new File(path, filenameWithoutExt + TRANSPORT_MODEL_EXT);
+    private static File getTransportModelFor(String name, String path) throws IOException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
+        File retFile = context.getResource(path + name + TRANSPORT_MODEL_EXT).getFile();
+        context.close();
+        return retFile;
     }
 
-    private static File getInternalModelFor(File otherModel) {
-        String filenameWithoutExt = FilenameUtils.removeExtension(otherModel.getName());
-        return new File(INTERNAL_MODEL_PATH, filenameWithoutExt + INTERNAL_MODEL_EXT);
+    private static File getInternalModelFor(String name) throws IOException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
+        File retFile = context.getResource(INTERNAL_MODEL_PATH + name + INTERNAL_MODEL_EXT).getFile();
+        context.close();
+        return retFile;
     }
 }

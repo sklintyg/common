@@ -1,10 +1,11 @@
-<div ng-class="{'intyg-field' : field.type != 'headline'}" ng-attr-id="{{field.key && 'form_'+field.key || undefined}}">
+<div ng-attr-id="{{field.key && 'form_'+field.key || undefined}}">
 
-  <div wc-intyg-label="field.templateOptions.label" static-label-id="field.templateOptions.staticLabelId" ng-if="showField(field)" force-no-h5-after="field.templateOptions.noH5After" ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
-
-  <wc-intyg-field-komplettering ng-if="field.type !== 'check-multi-text'" category-key="{{categoryKey}}" field-key="{{field.key}}"></wc-intyg-field-komplettering>
+  <div ng-if="showField(field)" wc-intyg-label field="field" force-no-h5-after="field.templateOptions.noH5After"
+       ng-attr-id="{{field.templateOptions.id && 'form_'+field.templateOptions.id || undefined}}"></div>
 
   <div ng-if="field.key && showField(field)" field-selective-view="field" field-model="intygModel">
+
+    <wc-intyg-komplettering category-key="{{categoryKey}}" field-key="{{field.key}}" margin-bottom="true"></wc-intyg-komplettering>
 
     <div ng-switch="field.type">
       <div ng-switch-when="date">
@@ -39,13 +40,6 @@
         <span id="{{field.key}}" ng-if="!intygModel[field.key] || intygModel[field.key].length === 0" class="not-entered"><span message key="common.notset"></span></span>
       </div>
       <div ng-switch-when="check-multi-text">
-        <h4>
-          <span dynamic-label key="FRG_{{field.templateOptions.frgId}}.RBK"></span>
-        </h4>
-        <h5>
-          <span dynamic-label key="DFR_{{field.templateOptions.frgId}}.1.RBK"></span>
-        </h5>
-        <wc-intyg-field-komplettering category-key="{{categoryKey}}" field-key="{{field.key}}"></wc-intyg-field-komplettering>
         <span id="{{field.key}}" ng-if="intygModel[field.key]">{{intygModel[field.key]}}</span>
         <span id="{{field.key}}" ng-if="!intygModel[field.key]" class="not-entered"><span message key="common.notset"></span></span>
       </div>

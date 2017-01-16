@@ -34,14 +34,22 @@ import java.util.Map;
 import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 
+import autovalue.shaded.com.google.common.common.primitives.Ints;
+import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
+import se.inera.intyg.common.fkparent.model.converter.InternalToRevoke;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
+import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
+import se.inera.intyg.common.fkparent.model.validator.XmlValidator;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -65,13 +73,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
-import se.inera.intyg.common.fkparent.model.converter.InternalToRevoke;
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
-import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
-import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
-import se.inera.intyg.common.fkparent.model.validator.XmlValidator;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateType;
@@ -169,7 +170,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
-        if (xmlBody == null || StringUtils.isEmpty(logicalAddress)) {
+        if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
             throw new ModuleException("Request does not contain the original xml");
         }
         RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
@@ -413,7 +414,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     private boolean isTillaggsFraga(String frageId) {
         try {
-            return StringUtils.isNumeric(frageId) && Integer.parseInt(frageId) >= TILLAGGSFRAGOR_START;
+            Integer parsedInt = Ints.tryParse(frageId);
+            return parsedInt != null && parsedInt >= TILLAGGSFRAGOR_START;
         } catch (NumberFormatException e) {
             return false;
         }

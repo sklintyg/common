@@ -18,21 +18,26 @@
  */
 package se.inera.intyg.common.fkparent.model.validator;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Strings;
+
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 
 
 /**
@@ -88,11 +93,11 @@ public class ValidatorUtilFK {
             /* R8 För delfråga 6.2 ska diagnoskod anges med så många positioner som möjligt, men minst tre positioner (t.ex. F32).
                R9 För delfråga 6.2 ska diagnoskod anges med minst fyra positioner då en psykisk diagnos anges.
                Med psykisk diagnos avses alla diagnoser som börjar med Z73 eller med F (dvs. som tillhör F-kapitlet i ICD-10). */
-            if (StringUtils.isBlank(diagnos.getDiagnosKod())) {
+            if (Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnoser." + i + ".diagnoskod", ValidationMessageType.EMPTY,
                         "common.validation.diagnos" + i + ".missing");
             } else {
-                String trimDiagnoskod = StringUtils.trim(diagnos.getDiagnosKod()).toUpperCase();
+                String trimDiagnoskod = diagnos.getDiagnosKod().trim().toUpperCase();
                 if ((trimDiagnoskod.startsWith("Z73") || trimDiagnoskod.startsWith("F"))
                         && trimDiagnoskod.length() < MIN_SIZE_PSYKISK_DIAGNOS) {
                     ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnoser." + i + ".diagnoskod", ValidationMessageType.INVALID_FORMAT,
@@ -108,7 +113,7 @@ public class ValidatorUtilFK {
                             "common.validation.diagnos" + i + ".invalid", validationMessages);
                 }
             }
-            if (StringUtils.isBlank(diagnos.getDiagnosBeskrivning())) {
+            if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnoser." + i + ".diagnosbeskrivning", ValidationMessageType.EMPTY,
                         "common.validation.diagnos" + i + ".description.missing");
             }

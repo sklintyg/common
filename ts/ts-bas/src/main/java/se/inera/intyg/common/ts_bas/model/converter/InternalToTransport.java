@@ -25,10 +25,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_bas.model.internal.Bedomning;
@@ -111,7 +111,7 @@ public final class InternalToTransport {
 
         utlatande.setIntygsTyp(TsBasEntryPoint.MODULE_ID);
 
-        if (StringUtils.isNotBlank(source.getTextVersion())) {
+        if (!Strings.nullToEmpty(source.getTextVersion()).trim().isEmpty()) {
             String[] versionInfo = source.getTextVersion().split(DELIMITER_REGEXP);
             utlatande.setUtgava(String.format("%02d", Integer.parseInt(versionInfo[1])));
             utlatande.setVersion(String.format("%02d", Integer.parseInt(versionInfo[0])));
@@ -159,7 +159,7 @@ public final class InternalToTransport {
         BedomningTypBas bedomning = new BedomningTypBas();
         bedomning.setBehovAvLakareSpecialistKompetens(source.getLakareSpecialKompetens());
         bedomning.setKanInteTaStallning(source.getKanInteTaStallning());
-        if (CollectionUtils.isNotEmpty(source.getKorkortstyp())) {
+        if (!source.getKorkortstyp().isEmpty()) {
             bedomning.getKorkortstyp().addAll(convertToKorkortsbehorighetTsBas(source.getKorkortstyp()));
         }
         return bedomning;

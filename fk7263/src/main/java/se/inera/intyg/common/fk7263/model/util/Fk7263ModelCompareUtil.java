@@ -21,12 +21,13 @@ package se.inera.intyg.common.fk7263.model.util;
 import java.util.Arrays;
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Strings;
+
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Util for checking a models consistency in different states.
@@ -111,8 +112,8 @@ public class Fk7263ModelCompareUtil {
     }
 
     private boolean diagnoseBeskrivningDiffer(String oldBeskrivning, String newBeskrivning) {
-        if ((!StringUtils.isEmpty(oldBeskrivning) && StringUtils.isEmpty(newBeskrivning))
-                || (StringUtils.isEmpty(oldBeskrivning) && !StringUtils.isEmpty(newBeskrivning))) {
+        if ((!Strings.isNullOrEmpty(oldBeskrivning) && Strings.isNullOrEmpty(newBeskrivning))
+                || (Strings.isNullOrEmpty(oldBeskrivning) && !Strings.isNullOrEmpty(newBeskrivning))) {
             return true;
         } else if (oldBeskrivning != null && newBeskrivning != null && !oldBeskrivning.equals(newBeskrivning)) {
             return true;

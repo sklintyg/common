@@ -18,22 +18,23 @@
  */
 package se.inera.intyg.common.luse.validator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
+import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
+import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
-import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUtlatande> {
 
@@ -99,16 +100,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         // INTYG-2949
         if (utlatande.getUndersokningAvPatienten() == null && (utlatande.getJournaluppgifter() != null
                 || utlatande.getAnhorigsBeskrivningAvPatienten() != null || utlatande.getAnnatGrundForMU() != null)
-                && StringUtils.isBlank(utlatande.getMotiveringTillInteBaseratPaUndersokning())) {
+                && Strings.nullToEmpty(utlatande.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "grundformu.motiveringTillInteBaseratPaUndersokning", ValidationMessageType.EMPTY);
         }
 
         // R2
-        if (utlatande.getAnnatGrundForMU() != null && StringUtils.isBlank(utlatande.getAnnatGrundForMUBeskrivning())) {
+        if (utlatande.getAnnatGrundForMU() != null && Strings.nullToEmpty(utlatande.getAnnatGrundForMUBeskrivning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "grundformu.annatGrundForMUBeskrivning", ValidationMessageType.EMPTY);
         }
         // R3
-        if (utlatande.getAnnatGrundForMU() == null && !StringUtils.isEmpty(utlatande.getAnnatGrundForMUBeskrivning())) {
+        if (utlatande.getAnnatGrundForMU() == null && !Strings.isNullOrEmpty(utlatande.getAnnatGrundForMUBeskrivning())) {
             ValidatorUtil.addValidationError(validationMessages, "grundformu.annat", ValidationMessageType.INCORRECT_COMBINATION,
                     "luse.validation.grund-for-mu.incorrect_combination_annat_beskrivning");
         }
@@ -175,7 +176,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                 ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".datum", ValidationMessageType.INVALID_FORMAT,
                         "luse.validation.underlag.date.incorrect_format");
             }
-            if (StringUtils.isBlank(underlag.getHamtasFran())) {
+            if (Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".hamtasFran", ValidationMessageType.EMPTY,
                         "luse.validation.underlag.hamtas-fran.missing");
             }
@@ -183,39 +184,39 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
     }
 
     private void validateSjukdomsforlopp(LuseUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (StringUtils.isBlank(utlatande.getSjukdomsforlopp())) {
+        if (Strings.nullToEmpty(utlatande.getSjukdomsforlopp()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "sjukdomsforlopp", ValidationMessageType.EMPTY);
         }
     }
 
     private void validateAktivitetsbegransning(LuseUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (StringUtils.isBlank(utlatande.getAktivitetsbegransning())) {
+        if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "aktivitetsbegransning", ValidationMessageType.EMPTY);
         }
     }
 
     private void validateMedicinskaForutsattningarForArbete(LuseUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (StringUtils.isBlank(utlatande.getMedicinskaForutsattningarForArbete())) {
+        if (Strings.nullToEmpty(utlatande.getMedicinskaForutsattningarForArbete()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "medicinskaforutsattningarforarbete", ValidationMessageType.EMPTY);
         }
     }
 
     private void validateFunktionsnedsattning(LuseUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // Fält 4 - vänster Check that we got a funktionsnedsattning element
-        if (StringUtils.isBlank(utlatande.getFunktionsnedsattningAnnan())
-                && StringUtils.isBlank(utlatande.getFunktionsnedsattningBalansKoordination())
-                && StringUtils.isBlank(utlatande.getFunktionsnedsattningIntellektuell())
-                && StringUtils.isBlank(utlatande.getFunktionsnedsattningKommunikation())
-                && StringUtils.isBlank(utlatande.getFunktionsnedsattningKoncentration())
-                && StringUtils.isBlank(utlatande.getFunktionsnedsattningPsykisk())
-                && StringUtils.isBlank(utlatande.getFunktionsnedsattningSynHorselTal())) {
+        if (Strings.nullToEmpty(utlatande.getFunktionsnedsattningAnnan()).trim().isEmpty()
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattningBalansKoordination()).trim().isEmpty()
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattningIntellektuell()).trim().isEmpty()
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattningKommunikation()).trim().isEmpty()
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattningKoncentration()).trim().isEmpty()
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattningPsykisk()).trim().isEmpty()
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattningSynHorselTal()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "funktionsnedsattning", ValidationMessageType.EMPTY);
         }
     }
 
     private void validateDiagnosgrund(LuseUtlatande utlatande, List<ValidationMessage> validationMessages) {
 
-        if (StringUtils.isBlank(utlatande.getDiagnosgrund())) {
+        if (Strings.nullToEmpty(utlatande.getDiagnosgrund()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnosgrund", ValidationMessageType.EMPTY);
         }
 
@@ -225,7 +226,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
 
         // R13
         if (utlatande.getNyBedomningDiagnosgrund() != null && utlatande.getNyBedomningDiagnosgrund()
-                && StringUtils.isBlank(utlatande.getDiagnosForNyBedomning())) {
+                && Strings.nullToEmpty(utlatande.getDiagnosForNyBedomning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnosForNyBedomning", ValidationMessageType.EMPTY);
         }
         // R14 Inverted test of R13
@@ -238,7 +239,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
 
     private void validateKontaktMedFk(LuseUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // R11
-        if ((utlatande.getKontaktMedFk() == null || !utlatande.getKontaktMedFk()) && !StringUtils.isBlank(utlatande.getAnledningTillKontakt())) {
+        if ((utlatande.getKontaktMedFk() == null || !utlatande.getKontaktMedFk()) && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "Kontakt", ValidationMessageType.INCORRECT_COMBINATION,
                     "luse.validation.kontakt.incorrect_combination");
         }

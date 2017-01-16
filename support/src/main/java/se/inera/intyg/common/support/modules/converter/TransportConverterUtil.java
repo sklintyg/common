@@ -24,11 +24,12 @@ import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -259,7 +260,7 @@ public final class TransportConverterUtil {
 
         String pnr = source.getPersonId().getExtension();
         patient.setPersonId(Personnummer.createValidatedPersonnummerWithDash(pnr).orElse(new Personnummer(pnr)));
-        if (StringUtils.isBlank(source.getMellannamn())) {
+        if (Strings.nullToEmpty(source.getMellannamn()).trim().isEmpty()) {
             patient.setFullstandigtNamn(source.getFornamn() + " " + source.getEfternamn());
         } else {
             patient.setFullstandigtNamn(source.getFornamn() + " " + source.getMellannamn() + " " + source.getEfternamn());

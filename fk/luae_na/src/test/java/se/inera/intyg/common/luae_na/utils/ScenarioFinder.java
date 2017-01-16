@@ -25,7 +25,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXB;
 
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
@@ -150,7 +149,7 @@ public final class ScenarioFinder {
          */
         @Override
         public String getName() {
-            return FilenameUtils.getBaseName(scenarioFile.getName());
+            return scenarioFile.getName().split("\\.")[0];
         }
 
         /**
@@ -159,9 +158,9 @@ public final class ScenarioFinder {
         @Override
         public RegisterCertificateType asTransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(scenarioFile), RegisterCertificateType.class);
+                return JAXB.unmarshal(getTransportModelFor(getName()), RegisterCertificateType.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "transport", e);
+                throw new ScenarioNotFoundException(getName(), "transport", e);
             }
         }
 
@@ -172,26 +171,24 @@ public final class ScenarioFinder {
         public LuaenaUtlatande asInternalModel()
                 throws ScenarioNotFoundException {
             try {
-                return new CustomObjectMapper().readValue(getInternalModelFor(scenarioFile), LuaenaUtlatande.class);
+                return new CustomObjectMapper().readValue(getInternalModelFor(getName()), LuaenaUtlatande.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(scenarioFile.getName(), "internal", e);
+                throw new ScenarioNotFoundException(getName(), "internal", e);
             }
         }
 
     }
 
-    private static File getTransportModelFor(File otherModel) throws IOException {
-        String filenameWithoutExt = FilenameUtils.removeExtension(otherModel.getName());
+    private static File getTransportModelFor(String name) throws IOException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        File retFile = context.getResource(TRANSPORT_MODEL_PATH + filenameWithoutExt + TRANSPORT_MODEL_EXT).getFile();
+        File retFile = context.getResource(TRANSPORT_MODEL_PATH + name + TRANSPORT_MODEL_EXT).getFile();
         context.close();
         return retFile;
     }
 
-    private static File getInternalModelFor(File otherModel) throws IOException {
-        String filenameWithoutExt = FilenameUtils.removeExtension(otherModel.getName());
+    private static File getInternalModelFor(String name) throws IOException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        File retFile = context.getResource(INTERNAL_MODEL_PATH + filenameWithoutExt + INTERNAL_MODEL_EXT).getFile();
+        File retFile = context.getResource(INTERNAL_MODEL_PATH + name + INTERNAL_MODEL_EXT).getFile();
         context.close();
         return retFile;
     }
