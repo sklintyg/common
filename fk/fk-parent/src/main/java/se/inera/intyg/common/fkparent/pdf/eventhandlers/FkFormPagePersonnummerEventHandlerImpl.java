@@ -24,8 +24,30 @@ package se.inera.intyg.common.fkparent.pdf.eventhandlers;
  */
 // CHECKSTYLE:OFF MagicNumber
 public class FkFormPagePersonnummerEventHandlerImpl extends FkAbstractPersonnummerEventHandler {
+
+    private static final float DEFAULT_X_OFFSET = 152f;
+    private static final float DEFAULT_Y_OFFSET = 9f;
+
+    private float offsetX = 0.0f;
+    private float offsetY = 0.0f;
+
     public FkFormPagePersonnummerEventHandlerImpl(String personnummer) {
         super(personnummer);
+    }
+
+    public FkFormPagePersonnummerEventHandlerImpl(String personnummer, float offsetX, float offsetY) {
+        super(personnummer);
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+    }
+
+    public FkFormPagePersonnummerEventHandlerImpl withOffsetX(float offsetX) {
+        this.offsetX = offsetX;
+        return this;
+    }
+    public FkFormPagePersonnummerEventHandlerImpl withOffsetY(float offsetY) {
+        this.offsetY = offsetY;
+        return this;
     }
 
     @Override
@@ -40,11 +62,11 @@ public class FkFormPagePersonnummerEventHandlerImpl extends FkAbstractPersonnumm
 
     @Override
     protected float getXOffset() {
-        return 152f;
+        return DEFAULT_X_OFFSET + offsetX;
     }
 
     @Override
     protected float getYOffset() {
-        return 9f;
+        return DEFAULT_Y_OFFSET + offsetY;
     }
 }

@@ -60,7 +60,12 @@ import java.util.List;
 
 /**
  * Contructs a object graph of PdfComponents that represents a LUAENA intyg.
- * Created by marced on 18/08/16.
+ * Created by eriklup on 11/01/17.
+ *
+ * Derived directly from the LUSE PDF definition. The main differences are:
+ * <li>All misc parts in the header has been offset by 2 millimeters to the left compared to LUSE.</li>
+ * <li>The kategori 1 and kategori 2 sections on page 1 are approx 6.3 mm lower than their LUSE counterparts.</li>
+ * <li>The descriptionary text has gotten a grey background with rounded corners</li>
  */
 // CHECKSTYLE:OFF MagicNumber
 // CHECKSTYLE:OFF MethodLength
@@ -78,7 +83,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     private static final float FRAGA_8_DELFRAGA_HEIGHT = 27f;
 
-    private static final float FRAGA_9_DELFRAGA_HEIGHT = 28f;
+    private static final float FRAGA_9_DELFRAGA_HEIGHT = 23.5f;
 
     private static final float CHECKBOXROW_DEFAULT_HEIGHT = 9f;
     private static final float CHECKBOX_DEFAULT_WIDTH = 72.2f;
@@ -91,13 +96,13 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             FkPdfDefinition def = new FkPdfDefinition();
 
             // Add page envent handlers
-            def.addPageEvent(new PageNumberingEventHandler());
+            def.addPageEvent(new PageNumberingEventHandler(180.3f, 6.4f));
             def.addPageEvent(new FkFormIdentityEventHandler(intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID), intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID), intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
-            def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
+            def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer(), -2.0f, 0.0f));
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
 
-            def.addPageEvent(new FkLogoEventHandler(1, 1));
+            def.addPageEvent(new FkLogoEventHandler(1, 1, -2f, 0f));
             def.addPageEvent(new FkLogoEventHandler(5, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarutlåtande", "för aktivitetsersättning vid nedsatt arbetsförmåga"));
 
@@ -136,7 +141,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         // START KATEGORI 1. (Utlåtandet är baserat på....)
         FkFieldGroup fraga1 = new FkFieldGroup("1. " + getText("FRG_1.RBK"))
-                .offset(KATEGORI_OFFSET_X, 150f)
+                .offset(KATEGORI_OFFSET_X, 156.3f)
                 .size(KATEGORI_FULL_WIDTH, 52f)
                 .withBorders(Rectangle.BOX);
 
@@ -208,7 +213,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         allElements.add(fraga1);
 
         FkFieldGroup fraga2 = new FkFieldGroup("2. " + getText("FRG_3.RBK"))
-                .offset(KATEGORI_OFFSET_X, 215f)
+                .offset(KATEGORI_OFFSET_X, 222.3f)
                 .size(KATEGORI_FULL_WIDTH, 63f)
                 .withBorders(Rectangle.BOX);
         fraga2.addChild(new FkCheckbox("Nej", intyg.getUnderlagFinns() != null && !intyg.getUnderlagFinns())
@@ -285,7 +290,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         // Meta information text(s) etc.
 
         FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
-                .offset(20f, 60f)
+                .offset(18f, 60f)
                 .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
                 .withVerticalAlignment(Element.ALIGN_MIDDLE)
                 .size(70f, 12f)
@@ -308,12 +313,12 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         allElements.add(inteKannerPatientenText);
 
         FkLabel mainHeader = new FkLabel("Läkarutlåtande")
-                .offset(107.5f, 10f)
+                .offset(105.5f, 10f)
                 .size(40, 12f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .withFont(PdfConstants.FONT_FRAGERUBRIK);
         FkLabel subHeader = new FkLabel("för aktivitetsersättning vid nedsatt arbetsförmåga")
-                .offset(107.5f, 14f)
+                .offset(105.5f, 14f)
                 .size(80, 15)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .withFont(PdfConstants.FONT_BOLD_9);
@@ -321,12 +326,12 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         allElements.add(subHeader);
 
         FkLabel patientNamnLbl = new FkLabel("Patientens namn")
-                .offset(107.5f, 18f)
+                .offset(105.5f, 18f)
                 .size(62.5f, 15)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .withFont(PdfConstants.FONT_STAMPER_LABEL);
         FkLabel patientPnrLbl = new FkLabel("Personnummer")
-                .offset(170f, 18f)
+                .offset(168f, 18f)
                 .size(35f, 15f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .withFont(PdfConstants.FONT_STAMPER_LABEL);
@@ -334,11 +339,11 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         allElements.add(patientPnrLbl);
 
         FkLabel patientNamn = new FkLabel(intyg.getGrundData().getPatient().getFullstandigtNamn())
-                .offset(107.5f, 22f)
+                .offset(105.5f, 22f)
                 .size(62.5f, 15)
                 .withVerticalAlignment(Element.ALIGN_TOP);
         FkLabel patientPnr = new FkLabel(intyg.getGrundData().getPatient().getPersonId().getPersonnummer())
-                .offset(170f, 22f)
+                .offset(168f, 22f)
                 .size(35f, 15f).withFont(PdfConstants.FONT_VALUE_TEXT)
                 .withVerticalAlignment(Element.ALIGN_TOP);
         allElements.add(patientNamn);
@@ -346,7 +351,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         if (showFkAddress) {
             FkLabel skickaBlankettenTillLbl = new FkLabel("Skicka blanketten till")
-                    .offset(113.2f, 37.5f)
+                    .offset(111.2f, 37.5f)
                     .size(35f, 5f)
                     .withVerticalAlignment(Element.ALIGN_TOP)
                     .withFont(PdfConstants.FONT_STAMPER_LABEL);
@@ -355,11 +360,11 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             FkLabel inlasningsCentralRad1 = new FkLabel("Försäkringskassans inläsningscentral")
                     .withVerticalAlignment(Element.ALIGN_TOP)
                     .size(60f, 6f)
-                    .offset(113.2f, 42f);
+                    .offset(111.2f, 42f);
             FkLabel inlasningsCentralRad2 = new FkLabel("839 88 Östersund")
                     .withVerticalAlignment(Element.ALIGN_TOP)
                     .size(60f, 6f)
-                    .offset(113.2f, 48.75f);
+                    .offset(111.2f, 48.75f);
 
             allElements.add(inlasningsCentralRad1);
             allElements.add(inlasningsCentralRad2);
@@ -368,9 +373,10 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         FkLabel luaenaDescriptonText = new FkLabel(getText("FRM_2.RBK"))
                 .withLeading(0.0f, 1.2f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
-                .offset(19.5f, 77.5f)
+                .offset(17.5f, 77.5f)
                 .size(174f, 60f)
-                .backgroundColor(245, 245, 245);
+                .backgroundColor(244, 244, 244)
+                .backgroundRounded(true);
 
         allElements.add(luaenaDescriptonText);
 
@@ -382,7 +388,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         // Diagnos/diagnoser för sjukdom som orsakar nedsatt arbetsförmåga
         FkFieldGroup fraga3 = new FkFieldGroup("3. " + getText("FRG_6.RBK"))
-                .offset(KATEGORI_OFFSET_X, 24f).size(KATEGORI_FULL_WIDTH, 76.2f)
+                .offset(KATEGORI_OFFSET_X, 26f).size(KATEGORI_FULL_WIDTH, 76.2f)
                 .withBorders(Rectangle.BOX);
         Diagnos currentDiagnos = safeGetDiagnos(intyg.getDiagnoser(), 0);
         FkValueField diagnos1 = new FkValueField(currentDiagnos.getDiagnosBeskrivning())
@@ -450,7 +456,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         // Fraga 4. Bakgrund - beskriv kortfattat förloppet för aktuella sjukdomar
         FkFieldGroup fraga4 = new FkFieldGroup("4. " + getText("FRG_5.RBK"))
-                .offset(KATEGORI_OFFSET_X, 113f)
+                .offset(KATEGORI_OFFSET_X, 116f)
                 .size(KATEGORI_FULL_WIDTH, 22.5f)
                 .withBorders(Rectangle.BOX);
 
@@ -462,7 +468,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         // Fraga 5. Funktionsnedsättning - beskriv undersökningsfynd
         FkFieldGroup fraga5 = new FkFieldGroup("5. " + getText("DFR_10.1.RBK"))
-                .offset(KATEGORI_OFFSET_X, 151.5f)
+                .offset(KATEGORI_OFFSET_X, 154f)
                 .size(KATEGORI_FULL_WIDTH, 135f)
                 .withBorders(Rectangle.BOX);
         float fraga5YOffset = 0;
@@ -530,7 +536,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         // --------------------------------------------------------------------------
         float fraga5YOffset = 0;
         FkFieldGroup fraga5 = new FkFieldGroup("")
-                .offset(KATEGORI_OFFSET_X, 21.5f)
+                .offset(KATEGORI_OFFSET_X, 19f)
                 .size(KATEGORI_FULL_WIDTH, 101f)
                 .withBorders(Rectangle.BOX);
 
@@ -588,7 +594,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         // Fraga 7.Medicinsk behandling --------------------------------------------------------------------------
         FkFieldGroup fraga7 = new FkFieldGroup("7. " + getText("KAT_7.RBK"))
-                .offset(KATEGORI_OFFSET_X, 181.2f)
+                .offset(KATEGORI_OFFSET_X, 178.7f)
                 .size(KATEGORI_FULL_WIDTH, 110.2f)
                 .withBorders(Rectangle.BOX);
 
@@ -649,8 +655,8 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         // Fraga 8. Medicinska forutsattningar
         // --------------------------------------------------------------------------
         FkFieldGroup fraga8 = new FkFieldGroup("8. " + getText("KAT_8.RBK"))
-                .offset(KATEGORI_OFFSET_X, 25.5f)
-                .size(KATEGORI_FULL_WIDTH, 54f)
+                .offset(KATEGORI_OFFSET_X, 26f)
+                .size(KATEGORI_FULL_WIDTH, 81f) // 27*3
                 .withBorders(Rectangle.BOX);
 
         fraga8.addChild(new FkLabel(getText("FRG_22.RBK"))
@@ -672,12 +678,22 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .offset(0f, FRAGA_8_DELFRAGA_HEIGHT + 4f)
                 .size(KATEGORI_FULL_WIDTH, FRAGA_8_DELFRAGA_HEIGHT - 4f));
 
+        fraga8.addChild(new FkLabel(getText("FRG_24.RBK"))
+                .offset(0, FRAGA_8_DELFRAGA_HEIGHT*2)
+                .size(KATEGORI_FULL_WIDTH, 4f)
+                .withTopPadding(0.5f)
+                .withVerticalAlignment(PdfPCell.TOP)
+                .withBorders(Rectangle.TOP));
+        fraga8.addChild(new FkOverflowableValueField(intyg.getFormagaTrotsBegransning(), getText("FRG_24.RBK"))
+                .offset(0f, FRAGA_8_DELFRAGA_HEIGHT*2 + 4f)
+                .size(KATEGORI_FULL_WIDTH, FRAGA_8_DELFRAGA_HEIGHT - 4f));
+
         allElements.add(fraga8);
 
         // Fraga 9. Övriga upplysningar --------------------------------------------------------------------------
         FkFieldGroup fraga9 = new FkFieldGroup("9. " + getText("FRG_25.RBK"))
-                .offset(KATEGORI_OFFSET_X, 93f)
-                .size(KATEGORI_FULL_WIDTH, 27f)
+                .offset(KATEGORI_OFFSET_X, 120.9f)
+                .size(KATEGORI_FULL_WIDTH, 22.5f)
                 .withBorders(Rectangle.BOX);
 
         StringBuilder ovrigt = new StringBuilder();
@@ -702,7 +718,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         // Fraga 10. Kontakt med FK --------------------------------------------------------------------------
         FkFieldGroup fraga10 = new FkFieldGroup("10. " + getText("FRG_26.RBK"))
-                .offset(KATEGORI_OFFSET_X, 133.5f)
+                .offset(KATEGORI_OFFSET_X, 156.5f)
                 .size(KATEGORI_FULL_WIDTH, 22.5f)
                 .withBorders(Rectangle.BOX);
         // Jag önskar att Försäkringskassan kontaktar mig
@@ -719,7 +735,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         // Fraga 11. Underskrift --------------------------------------------------------------------------
         FkFieldGroup fraga11 = new FkFieldGroup("11. Underskrift")
-                .offset(KATEGORI_OFFSET_X, 170f)
+                .offset(KATEGORI_OFFSET_X, 192.8f)
                 .size(KATEGORI_FULL_WIDTH, 85.5f)
                 .withBorders(Rectangle.BOX);
 
@@ -787,7 +803,8 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .offset(3f, 92f)
                 .size(KATEGORI_FULL_WIDTH - 6, 10f)
                 .withVerticalAlignment(PdfPCell.ALIGN_TOP)
-                .backgroundColor(245, 245, 245));
+                .backgroundColor(245, 245, 245)
+                .backgroundRounded(true));
 
         allElements.add(fraga11);
 

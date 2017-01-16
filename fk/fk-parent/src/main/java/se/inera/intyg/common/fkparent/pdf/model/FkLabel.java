@@ -48,6 +48,7 @@ public class FkLabel extends PdfComponent<FkLabel> {
     private float multipliedLeading = 1.0f;
     private float topPadding = 1f;
     private int backgroundColor = -1;
+    private boolean backgroundRounded = false;
 
     public FkLabel(String label) {
         this.label = label;
@@ -84,6 +85,11 @@ public class FkLabel extends PdfComponent<FkLabel> {
         return this;
     }
 
+    public FkLabel backgroundRounded(boolean backgroundRounded) {
+        this.backgroundRounded = backgroundRounded;
+        return this;
+    }
+
     @Override
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
         PdfPTable table = new PdfPTable(1);
@@ -101,8 +107,12 @@ public class FkLabel extends PdfComponent<FkLabel> {
         labelCell.setPaddingTop(Utilities.millimetersToPoints(topPadding));
         labelCell.setLeading(fixedLeading, multipliedLeading);
         if (backgroundColor != -1) {
-            labelCell.setCellEvent(new RoundedBorder());
-           // labelCell.setBackgroundColor(new BaseColor(backgroundColor >> 24 & 0xFF, backgroundColor >> 16 & 0xFF, backgroundColor >> 8 & 0xFF));
+            BaseColor baseColor = new BaseColor(backgroundColor >> 24 & 0xFF, backgroundColor >> 16 & 0xFF, backgroundColor >> 8 & 0xFF);
+            if (backgroundRounded) {
+                labelCell.setCellEvent(new RoundedBorder(baseColor));
+            } else {
+                labelCell.setBackgroundColor(baseColor);
+            }
         }
 
         table.addCell(labelCell);
@@ -112,16 +122,32 @@ public class FkLabel extends PdfComponent<FkLabel> {
         super.render(document, writer, x, y);
     }
 
-    class RoundedBorder implements PdfPCellEvent {
+    /**
+     * Implementation of PdfPCellEvent that renders a colored background with Rounded borders for the attached PdfPCell.
+     *
+     * Uses sensible defaults, but may need to be augmented with builder or constructor for fine-granular control of offsets
+     * and rounding.
+     *
+     * The color is read from the outer class.
+     */
+    private class RoundedBorder implements PdfPCellEvent {
+
+        private float leftOffset = -8f, bottomOffset  = 8f, widthPadding = 16f, heightPadding = 0f, cornerRadius = 12f;
+        private BaseColor backgroundColor;
+
+        public RoundedBorder(BaseColor backgroundColor) {
+            this.backgroundColor = backgroundColor;
+        }
+
         public void cellLayout(PdfPCell cell, Rectangle rect, PdfContentByte[] canvas) {
             PdfContentByte cb = canvas[PdfPTable.BACKGROUNDCANVAS];
-            cb.setColorFill(new BaseColor(backgroundColor >> 24 & 0xFF, backgroundColor >> 16 & 0xFF, backgroundColor >> 8 & 0xFF));
+            cb.setColorFill(backgroundColor);
             cb.roundRectangle(
-                    rect.getLeft() - 8f,
-                    rect.getBottom() + 8f,
-                    rect.getWidth() + 16,
-                    rect.getHeight(),
-                    12);
+                    rect.getLeft() + leftOffset,
+                    rect.getBottom() + bottomOffset,
+                    rect.getWidth() + widthPadding,
+                    rect.getHeight() + heightPadding,
+                    cornerRadius);
             cb.fill();
         }
     }

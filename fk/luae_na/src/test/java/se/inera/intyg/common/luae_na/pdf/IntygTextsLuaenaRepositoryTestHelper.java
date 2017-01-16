@@ -55,8 +55,7 @@ public class IntygTextsLuaenaRepositoryTestHelper extends IntygTextsRepositoryIm
             List tillaggsFragor = this.getTillaggsfragor(e);
 
             Properties prop = new Properties();
-            // TODO Fix the text below, it's still LUSE
-            prop.putAll(ImmutableMap.of("formId", "FK 7801 (001 F 001) Fastställd av Försäkringskassan (TEST)", "blankettId", "7801", "blankettVersion", "01"));
+            prop.putAll(ImmutableMap.of("formId", "FK 7801 (001 F 001) Fastställd av Försäkringskassan", "blankettId", "7801", "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {

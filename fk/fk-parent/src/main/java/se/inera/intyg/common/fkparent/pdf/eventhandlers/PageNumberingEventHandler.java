@@ -42,10 +42,38 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 public class PageNumberingEventHandler extends PdfPageEventHelper {
     private static final int WIDTH = 30;
     private static final int HEIGHT = 16;
+
+    private static final float DEFAULT_MARGIN_LEFT = 181f;
+    private static final float DEFAULT_MARGIN_TOP = 8f;
+
+    private float marginTop = DEFAULT_MARGIN_TOP;
+    private float marginLeft = DEFAULT_MARGIN_LEFT;
     /**
      * The template with the issueInfoTemplate number of pages.
      */
-    PdfTemplate total;
+    private PdfTemplate total;
+
+    /**
+     * Constructs a new instance that uses the default placement of the page numbering, e.g. {@link PageNumberingEventHandler#DEFAULT_MARGIN_LEFT} mm from the left and
+     * {@link PageNumberingEventHandler#DEFAULT_MARGIN_TOP} mm from the top.
+     */
+    public PageNumberingEventHandler() {
+
+    }
+
+    /**
+     * Use this constructor to optionally override the placing of the page numbering. Uses margin from the left and the top
+     * of the page, in millimeters.
+     *
+     * @param marginLeft
+     *      Margin from the left edge of the page, in millimeters.
+     * @param marginTop
+     *      Margin from the top of the page, in millimeters.
+     */
+    public PageNumberingEventHandler(float marginLeft, float marginTop) {
+        this.marginTop = marginTop;
+        this.marginLeft = marginLeft;
+    }
 
     /**
      * Creates the PdfTemplate that will hold the issueInfoTemplate number of pages.
@@ -79,7 +107,7 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
             cell.setBorder(Rectangle.NO_BORDER);
             table.addCell(cell);
 
-            table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(181f), document.getPageSize().getTop() - Utilities.millimetersToPoints(8f),
+            table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(marginLeft), document.getPageSize().getTop() - Utilities.millimetersToPoints(marginTop),
                     writer.getDirectContent());
 
         } catch (DocumentException de) {
