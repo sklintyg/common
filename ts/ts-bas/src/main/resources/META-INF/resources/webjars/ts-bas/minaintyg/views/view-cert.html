@@ -108,17 +108,20 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
         <form id="view-as-pdf" action="{{downloadAsPdfLink}}" method="get" target="_blank" name="pdfForm">
           <p class="btn-row">
-            <button id="sendCertificateBtn" type="button" ng-click="send()" class="btn btn-success"
-                    title="{{messageService.getProperty('ts-bas.button.send.certificate.title')}}">
+            <button type="button" id="sendCertificateBtn" ng-click="send()" class="btn btn-success" title="{{messageService.getProperty('ts-bas.button.send.certificate.title')}}">
               <message key="ts-button.detail.send" />
             </button>
-            <button id="downloadprint" type="submit" ng-click="document.pdfForm.submit()" class="btn btn-inverse">
+            <button type="submit" id="downloadprint" ng-click="document.pdfForm.submit()" class="btn btn-inverse">
               <message key="modules.button.save.as.pdf" />
+            </button>
+            <button type="button" id="archiveCertificateBtn" ng-click="openArchiveDialog(cert)" class="btn btn-inverse" title="{{messageService.getProperty('button.alt.archive')}}">
+              <span message key="button.archive"></span>
             </button>
           </p>
         </form>
       </div>
     </div>
+
     <section id="certificate" class="certificate">
       <span class="hide" id="certId" title="{{cert.id}}"></span> <span class="hide" id="certType"
                                                                        title="{{cert.typ}}"></span>
@@ -126,23 +129,16 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="cert">
             <div class="cert-titlebar">
-              <img class="cert-icon" alt="" ng-src="/web/webjars/ts-bas/minaintyg/img/ts-bas.png" />
               <div class="row">
+                <img class="cert-icon" alt="" ng-src="/web/webjars/ts-bas/minaintyg/img/ts-bas.png" />
                 <div class="col-xs-6 col-sm-7 col-md-8 col-lg-8">
                   <h2 class="cert-title">
                     <span>{{moduleService.getModuleName(cert.typ)}}</span>
                   </h2>
                 </div>
-                <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 issue"">
+                <div class="col-xs-6 col-sm-5 col-md-4 col-lg-4 issue text-right">
                   <span class="cert-titlebar-value">{{cert.grundData.signeringsdatum | date:'shortDate'}}</span>
                   <span><span message key="ts-bas.label.issued"></span></span>
-                </div>
-                <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 archive hidden-xs">
-                  <a role="button" data-toggle="modal" id="archiveBtn" title="{{messageService.getProperty('button.alt.archive')}}"
-                     ng-click="openArchiveDialog(cert)">
-                    <span class="glyphicon glyphicon-folder-close white"></span>
-                    <!-- <img alt="Arkivera intyg" src="/img/archive-icon.gif" /> -->
-                  </a>
                 </div>
               </div>
             </div>
@@ -154,8 +150,7 @@
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <span class="tag"><message key="ts-bas.label.civicnumber" /></span> <span id="patient-crn">{{cert.grundData.patient.personId}}</span>
                 </div>
-                <div
-                    class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-6 col-sm-offset-6 col-md-offset-6 col-lg-offset-6 margin-top-5px">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-6 col-sm-offset-6 col-md-offset-6 col-lg-offset-6 margin-top-5px">
                   <span class="tag"><message key="ts-bas.label.identitet" /></span>
                   <span id="identitet" dynamic-label key="IDENTITET_{{cert.vardkontakt.idkontroll}}.RBK"></span>
                 </div>
@@ -171,18 +166,9 @@
               <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <span class="tag"><dynamic-label key="KAT_99.RBK" /></span>
-
                   <span class="text no-padding-bottom">
                       <span id="intygAvser" class="cert-answer">{{view.intygAvser}}</span>
                   </span>
-
-                </div>
-                <div class="col-xs-6 hidden-sm hidden-md hidden-lg pull-right">
-                  <button type="button" class="btn btn-primary pull-right" ata-toggle="modal"
-                          title="{{messageService.getProperty('button.alt.archive')}}"
-                          ng-click="openArchiveDialog(cert)">
-                    <span class="glyphicon glyphicon-folder-close white"></span>
-                  </button>
                 </div>
               </div>
             </div>
