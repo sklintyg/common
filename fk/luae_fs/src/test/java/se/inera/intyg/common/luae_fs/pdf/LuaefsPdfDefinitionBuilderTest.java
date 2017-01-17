@@ -68,9 +68,9 @@ public class LuaefsPdfDefinitionBuilderTest {
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("luae_fs", "1.0");
 
-        //intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuaefsUtlatande.class));
+        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuaefsUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/fullt_utlatande.json").getFile(), LuaefsUtlatande.class));
-        //intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overflow_utlatande.json").getFile(), LuaefsUtlatande.class));
+        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overflow_utlatande.json").getFile(), LuaefsUtlatande.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("luae_fs", "1.0");
     }

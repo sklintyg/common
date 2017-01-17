@@ -62,6 +62,9 @@
   "tillaggsfragor": [],
   "kannedomOmPatient": "2015-01-07",
   "undersokningAvPatienten": "2015-09-09",
+  "journaluppgifter": "2016-02-02",
+  "anhorigsBeskrivningAvPatienten": "2015-12-12",
+  "annatGrundForMU": "2016-02-04",
   "funktionsnedsattningDebut": "Skoldansen",
   "funktionsnedsattningPaverkan": "Haltar när han dansar",
   "diagnoser": [
@@ -69,7 +72,20 @@
       "diagnosBeskrivning": "Klämskada skuldra",
       "diagnosKodSystem": "ICD_10_SE",
       "diagnosKod": "S47"
+    },
+    {
+      "diagnosBeskrivning": "Icke specificerad akut infektion i nedre luftvägarna",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosKod": "J229"
+    },
+    {
+      "diagnosBeskrivning": "Psykiska störningar och beteendestörningar orsakade av cannabis, akut intoxikation",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosKod": "F120"
     }
   ],
-  "kontaktMedFk": false
+  "kontaktMedFk": true,
+  "annatGrundForMUBeskrivning" : "Långa diskussioner över vårdens chattkanal.",
+  "anledningTillKontakt": "Ser gärna över sin situation avseende resor till från arbetet. ",
+  "ovrigt": "Patienten känner stor oro över sin danskarriär, undrar om det är möjligt att få förtidspension."
 }

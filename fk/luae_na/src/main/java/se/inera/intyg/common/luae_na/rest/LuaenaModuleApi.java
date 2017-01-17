@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 public class LuaenaModuleApi extends FkParentModuleApi<LuaenaUtlatande> {
     private static final Logger LOG = LoggerFactory.getLogger(LuaenaModuleApi.class);
 
-    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning_nedsatt_arbetsformaga";
+    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning_nedsatt_arbetsformaga";
 
     public LuaenaModuleApi() {
         super(LuaenaUtlatande.class);
@@ -57,12 +57,12 @@ public class LuaenaModuleApi extends FkParentModuleApi<LuaenaUtlatande> {
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
         try {
-            LuaenaUtlatande luseIntyg = getInternal(internalModel);
+            LuaenaUtlatande luaenaIntyg = getInternal(internalModel);
             LuaenaPdfDefinitionBuilder builder = new LuaenaPdfDefinitionBuilder();
-            IntygTexts texts = getTexts(LuaenaEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
+            IntygTexts texts = getTexts(LuaenaEntryPoint.MODULE_ID, luaenaIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts);
-            Personnummer personId = luseIntyg.getGrundData().getPatient().getPersonId();
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaenaIntyg, statuses, applicationOrigin, texts);
+            Personnummer personId = luaenaIntyg.getGrundData().getPatient().getPersonId();
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition), PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

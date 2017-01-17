@@ -62,8 +62,11 @@
   "tillaggsfragor": [],
   "kannedomOmPatient": "2015-01-07",
   "undersokningAvPatienten": "2015-09-09",
-  "funktionsnedsattningDebut": "Skoldansen",
-  "funktionsnedsattningPaverkan": "Haltar när han dansar",
+  "journaluppgifter": "2016-02-02",
+  "anhorigsBeskrivningAvPatienten": "2015-12-12",
+  "annatGrundForMU": "2016-02-04",
+  "funktionsnedsattningDebut": "Skoldansen. Arbetsplatsolycka där patienten fastnade med höger hand i en vals 2014-07-09. Omhändertogs initialt på akutmottagningen AVC Södra \u00c4lvsborgs sjukhus i Borås. Vävnadsförluster i 3:e och 4:e fingret. Nedsatt kraft, känsel och funktion i handen, smärtsyndom i hela höger arm. Sedan några månader depression som har varit svår att behandla medikamentellt. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt.",
+  "funktionsnedsattningPaverkan": "Haltar när han dansar. Arbetsplatsolycka där patienten fastnade med höger hand i en vals 2014-07-09. Omhändertogs initialt på akutmottagningen AVC Södra \u00c4lvsborgs sjukhus i Borås. Vävnadsförluster i 3:e och 4:e fingret. Nedsatt kraft, känsel och funktion i handen, smärtsyndom i hela höger arm. Sedan några månader depression som har varit svår att behandla medikamentellt. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt.",
   "diagnoser": [
     {
       "diagnosBeskrivning": "Klämskada skuldra",
@@ -71,5 +74,8 @@
       "diagnosKod": "S47"
     }
   ],
-  "kontaktMedFk": false
+  "kontaktMedFk": true,
+  "annatGrundForMUBeskrivning" : "Patienten sökte upp mig på tennisklubben. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt.",
+  "anledningTillKontakt": "Ser gärna över sin situation avseende resor till från arbetet. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt.",
+  "ovrigt": "Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt.. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt. Patientens tillstånd bedöms behöva en ny bedömning om 12 månader för att avgöra grad av arbetsförmåga, men till åtminstone viss del kommer patientens arbetsförmåga att vara fortsatt nedsatt."
 }

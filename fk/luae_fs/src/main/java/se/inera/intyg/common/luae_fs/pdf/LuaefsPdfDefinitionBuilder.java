@@ -60,12 +60,7 @@ import java.util.List;
 
 /**
  * Contructs a object graph of PdfComponents that represents a LUAE_FS intyg.
- * Created by eriklup on 11/01/17.
- *
- * Derived directly from the LUSE PDF definition. The main differences are:
- * <li>All misc parts in the header has been offset by 2 millimeters to the left compared to LUSE.</li>
- * <li>The kategori 1 and kategori 2 sections on page 1 are approx 6.3 mm lower than their LUSE counterparts.</li>
- * <li>The descriptionary text has gotten a grey background with rounded corners</li>
+ * Created by eriklup on 16/01/17.
  */
 // CHECKSTYLE:OFF MagicNumber
 // CHECKSTYLE:OFF MethodLength
@@ -73,15 +68,6 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     private static final float KATEGORI_FULL_WIDTH = 180f;
     private static final float KATEGORI_OFFSET_X = 15f;
-
-    public static final float CHECKBOX_UNDER_TOPLABEL_PADDING = 1.5f;
-    private static final float FRAGA_5_DELFRAGA_HEIGHT = 25f;
-    private static final float FRAGA_5_DELFRAGA_RUBRIK_HEIGHT = 9f;
-
-    private static final float FRAGA_7_DELFRAGA_HEIGHT = 22f;
-    private static final float FRAGA_7_DELFRAGA_RUBRIK_HEIGHT = 5f;
-
-    private static final float FRAGA_8_DELFRAGA_HEIGHT = 27f;
 
     private static final float FRAGA_9_DELFRAGA_HEIGHT = 23.5f;
 
@@ -102,7 +88,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
 
-            def.addPageEvent(new FkLogoEventHandler(1, 1, -2f, 0f));
+            def.addPageEvent(new FkLogoEventHandler(1, 1, -3f, 0.8f));
             def.addPageEvent(new FkLogoEventHandler(3, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(3, def.getPageMargins(), "Läkarutlåtande", "för aktivitetsersättning vid förlängd skolgång"));
 
@@ -215,11 +201,11 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .size(KATEGORI_FULL_WIDTH, 63f)
                 .withBorders(Rectangle.BOX);
         fraga2.addChild(new FkCheckbox("Nej", intyg.getUnderlagFinns() != null && !intyg.getUnderlagFinns())
-                .offset(0, 0)
+                .offset(1f, 0)
                 .withCellWith(6f)
                 .size(20.5f, CHECKBOXROW_DEFAULT_HEIGHT));
         fraga2.addChild(new FkCheckbox("Ja, fyll i nedan.", safeBoolean(intyg.getUnderlagFinns()))
-                .offset(21.5f, 0)
+                .offset(22.5f, 0)
                 .size(40f, CHECKBOXROW_DEFAULT_HEIGHT));
 
         // This is just so that we dont have to enter all y offsets manually
@@ -297,21 +283,21 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         allElements.add(elektroniskKopia);
 
         FkLabel fortsBladText = new FkLabel("Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
-                .offset(17.5f, 20.5f)
+                .offset(15f, 20.5f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .size(67f, 10f)
                 .withLeading(.0f, 1.2f);
         allElements.add(fortsBladText);
 
         FkLabel inteKannerPatientenText = new FkLabel("Om du inte känner patienten ska hen styrka sin\nidentitet genom legitimation med foto (SOSFS 2005:29).")
-                .offset(17.5f, 31.5f)
+                .offset(15f, 31.5f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .size(76f, 10f)
                 .withLeading(.0f, 1.2f);
         allElements.add(inteKannerPatientenText);
 
         FkLabel mainHeader = new FkLabel("Läkarutlåtande")
-                .offset(105.5f, 10f)
+                .offset(105.5f, 9.5f)
                 .size(40, 12f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .withFont(PdfConstants.FONT_FRAGERUBRIK);
@@ -374,7 +360,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         FkLabel luaefsDescriptonText = new FkLabel(getText("FRM_2.RBK"))
                 .withLeading(0.0f, 1.2f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
-                .offset(17.5f, 77.5f)
+                .offset(17.5f, 82.5f)
                 .size(174f, 60f)
                 .backgroundColor(244, 244, 244)
                 .backgroundRounded(true);
