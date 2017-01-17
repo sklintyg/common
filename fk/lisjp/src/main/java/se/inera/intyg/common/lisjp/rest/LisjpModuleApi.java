@@ -18,11 +18,14 @@
  */
 package se.inera.intyg.common.lisjp.rest;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -32,9 +35,19 @@ import se.inera.intyg.common.lisjp.model.converter.*;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
+
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 
 public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApi.class);
+
+    private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
+
     public LisjpModuleApi() {
         super(LisjpUtlatande.class);
     }
@@ -80,5 +93,32 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
                         moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
                 .collect(Collectors.toList());
         return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
+    }
+
+    @Override
+    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+        List<DatePeriodType> periods  = intyg.getSvar().stream()
+                .filter(svar -> BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32.equals(svar.getId()))
+                .map(Svar::getDelsvar)
+                .flatMap(List::stream)
+                .filter(delsvar -> delsvar != null && BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32.equals(delsvar.getId()))
+                .map(delsvar -> { try {
+                    return TransportConverterUtil.getDatePeriodTypeContent(delsvar);
+                } catch (ConverterException ce) {
+                    LOG.error("Failed retrieving additionalInfo for certificate {}: {}",
+                            intyg.getIntygsId().getExtension(), ce.getMessage());
+                    return null;
+                }
+                })
+                .filter(Objects::nonNull)
+                .sorted(PERIOD_START)
+                .collect(Collectors.toList());
+
+        if (periods.isEmpty()) {
+            LOG.error("Failed retrieving additionalInfo for certificate {}: Found no periods.", intyg.getIntygsId().getExtension());
+            return null;
+        }
+
+        return periods.get(0).getStart().toString() + " - " + periods.get(periods.size() - 1).getEnd().toString();
     }
 }

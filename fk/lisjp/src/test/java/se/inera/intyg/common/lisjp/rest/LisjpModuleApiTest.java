@@ -18,10 +18,8 @@
  */
 package se.inera.intyg.common.lisjp.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -36,8 +34,10 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -58,8 +58,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
+import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.fkparent.support.ResultTypeUtil;
 import se.inera.intyg.common.lisjp.model.converter.SvarIdHelperImpl;
+import se.inera.intyg.common.lisjp.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.utils.ScenarioFinder;
@@ -81,6 +83,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateType;
@@ -89,12 +92,13 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.Regi
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponseType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.ErrorIdType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.ResultCodeType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.ResultType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v2.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LisjpModuleApiTest {
+
+    public static final String TESTFILE_UTLATANDE = "internal/scenarios/pass-flera-sysselsattningar.json";
 
     private static final String LOGICAL_ADDRESS = "logical address";
 
@@ -388,7 +392,7 @@ public class LisjpModuleApiTest {
         assertNotNull(res);
         assertNotEquals("", res);
     }
-
+    
     @Test
     public void testGetModuleSpecificArendeParameters() throws Exception {
         LisjpUtlatande utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
@@ -408,6 +412,122 @@ public class LisjpModuleApiTest {
         assertNotNull(res.get(ARBETSTIDSFORLAGGNING_SVAR_ID_33));
         assertEquals(1, res.get(ARBETSTIDSFORLAGGNING_SVAR_ID_33).size());
         assertEquals(ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, res.get(ARBETSTIDSFORLAGGNING_SVAR_ID_33).get(0));
+    }
+
+    @Test
+    public void getAdditionalInfoFromUtlatandeTest() throws Exception {
+        LisjpUtlatande utlatande = getUtlatandeFromFile();
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+
+        String result = moduleApi.getAdditionalInfo(intyg);
+
+        assertEquals("2015-12-07 - 2015-12-10", result);
+    }
+
+    @Test
+    public void getAdditionalInfoOneTimePeriodTest() throws ModuleException {
+        final String fromString = "2015-12-12";
+        final String toString = "2016-03-02";
+        LocalDate from = LocalDate.parse(fromString);
+        LocalDate to = LocalDate.parse(toString);
+        Intyg intyg = new Intyg();
+        intyg.setIntygsId(new IntygId());
+        intyg.getIntygsId().setExtension("intygsId");
+        Svar s = new Svar();
+        s.setId("32");
+        Svar.Delsvar delsvar = new Svar.Delsvar();
+        delsvar.setId("32.2");
+        delsvar.getContent().add(aDatePeriod(from, to));
+        s.getDelsvar().add(delsvar);
+        intyg.getSvar().add(s);
+
+        String result = moduleApi.getAdditionalInfo(intyg);
+
+        assertEquals(fromString + " - " + toString, result);
+    }
+
+    @Test
+    public void getAdditionalInfoMultiplePeriodsTest() throws ModuleException {
+        final String fromString = "2015-12-12";
+        final String middleDate1 = "2015-12-13";
+        final String middleDate2 = "2015-12-14";
+        final String middleDate3 = "2015-12-15";
+        final String middleDate4 = "2015-12-16";
+        final String toString = "2016-03-02";
+        LocalDate from = LocalDate.parse(fromString);
+        LocalDate to = LocalDate.parse(toString);
+        Intyg intyg = new Intyg();
+        intyg.setIntygsId(new IntygId());
+        intyg.getIntygsId().setExtension("intygsId");
+        Svar s = new Svar();
+        s.setId("32");
+        Svar.Delsvar delsvar = new Svar.Delsvar();
+        delsvar.setId("32.2");
+        delsvar.getContent().add(aDatePeriod(LocalDate.parse(middleDate2), LocalDate.parse(middleDate3)));
+        s.getDelsvar().add(delsvar);
+        Svar s2 = new Svar();
+        s2.setId("32");
+        Svar.Delsvar delsvar2 = new Svar.Delsvar();
+        delsvar2.setId("32.2");
+        delsvar2.getContent().add(aDatePeriod(LocalDate.parse(middleDate4), to));
+        s2.getDelsvar().add(delsvar2);
+        Svar s3 = new Svar();
+        s3.setId("32");
+        Svar.Delsvar delsvar3 = new Svar.Delsvar();
+        delsvar3.setId("32.2");
+        delsvar3.getContent().add(aDatePeriod(from, LocalDate.parse(middleDate1)));
+        s3.getDelsvar().add(delsvar3);
+        intyg.getSvar().add(s);
+        intyg.getSvar().add(s2);
+        intyg.getSvar().add(s3);
+
+        String result = moduleApi.getAdditionalInfo(intyg);
+
+        assertEquals(fromString + " - " + toString, result);
+    }
+
+    @Test
+    public void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
+        final String fromString = "2015-12-12";
+        final String toString = "2016-03-02";
+        LocalDate from = LocalDate.parse(fromString);
+        LocalDate to = LocalDate.parse(toString);
+        Intyg intyg = new Intyg();
+        intyg.setIntygsId(new IntygId());
+        intyg.getIntygsId().setExtension("intygsId");
+        Svar s = new Svar();
+        s.setId("30"); // wrong SvarId
+        Svar.Delsvar delsvar = new Svar.Delsvar();
+        delsvar.setId("32.2");
+        delsvar.getContent().add(aDatePeriod(from, to));
+        s.getDelsvar().add(delsvar);
+        intyg.getSvar().add(s);
+
+        String result = moduleApi.getAdditionalInfo(intyg);
+
+        assertNull(result);
+    }
+
+    @Test
+    public void getAdditionalInfoDelSvarNotFoundTest() throws ModuleException {
+        final String fromString = "2015-12-12";
+        final String toString = "2016-03-02";
+        LocalDate from = LocalDate.parse(fromString);
+        LocalDate to = LocalDate.parse(toString);
+        Intyg intyg = new Intyg();
+        intyg.setIntygsId(new IntygId());
+        intyg.getIntygsId().setExtension("intygsId");
+        Svar s = new Svar();
+        s.setId("32");
+        Svar.Delsvar delsvar = new Svar.Delsvar();
+        delsvar.setId("32.1"); // wrong delsvarId
+        delsvar.getContent().add(aDatePeriod(from, to));
+        s.getDelsvar().add(delsvar);
+        intyg.getSvar().add(s);
+
+        String result = moduleApi.getAdditionalInfo(intyg);
+
+        assertNull(result);
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {
@@ -446,4 +566,10 @@ public class LisjpModuleApiTest {
         retVal.setResult(value);
         return retVal;
     }
+
+    private LisjpUtlatande getUtlatandeFromFile() throws IOException {
+        return new CustomObjectMapper().readValue(new ClassPathResource(
+                TESTFILE_UTLATANDE).getFile(), LisjpUtlatande.class);
+    }
+
 }
