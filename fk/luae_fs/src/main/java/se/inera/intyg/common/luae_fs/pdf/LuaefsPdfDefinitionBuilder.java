@@ -69,7 +69,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     private static final float KATEGORI_FULL_WIDTH = 180f;
     private static final float KATEGORI_OFFSET_X = 15f;
 
-    private static final float FRAGA_9_DELFRAGA_HEIGHT = 23.5f;
+    private static final float FRAGA_5_DELFRAGA_HEIGHT = 20.5f;
 
     private static final float CHECKBOXROW_DEFAULT_HEIGHT = 9f;
     private static final float CHECKBOX_DEFAULT_WIDTH = 72.2f;
@@ -96,7 +96,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addChild(createPage2(intyg));
 
             // Only add tillaggsfragor page if there are some
-            if (intyg.getTillaggsfragor().size() > 0) {
+            if (intyg.getTillaggsfragor() != null && intyg.getTillaggsfragor().size() > 0) {
                 def.addChild(createPage5(intyg));
             }
 
@@ -218,7 +218,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             String datum = "";
             String hamtasFran = null;
 
-            if (i < intyg.getUnderlag().size()) {
+            if (intyg.getUnderlag() != null && i < intyg.getUnderlag().size()) {
                 Underlag underlag = intyg.getUnderlag().get(i);
                 label = underlag.getTyp() != null ? underlag.getTyp().getLabel() : "";
                 datum = underlag.getDatum() != null ? underlag.getDatum().getDate() : "";
@@ -436,9 +436,9 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
 
         // Fraga 5. Övriga upplysningar --------------------------------------------------------------------------
-        FkFieldGroup fraga9 = new FkFieldGroup("5. " + getText("FRG_25.RBK"))
+        FkFieldGroup fraga5 = new FkFieldGroup("5. " + getText("FRG_25.RBK"))
                 .offset(KATEGORI_OFFSET_X, 136f)
-                .size(KATEGORI_FULL_WIDTH, 20.5f)
+                .size(KATEGORI_FULL_WIDTH, FRAGA_5_DELFRAGA_HEIGHT)
                 .withBorders(Rectangle.BOX);
 
         StringBuilder ovrigt = new StringBuilder();
@@ -454,394 +454,110 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         }
 
         // OBS: Övrigt fältet skall behålla radbytformattering eftersom detta kan vara sammanslaget med motiveringstext
-        fraga9.addChild(new FkOverflowableValueField(ovrigt.toString(), getText("FRG_25.RBK"))
+        fraga5.addChild(new FkOverflowableValueField(ovrigt.toString(), getText("FRG_25.RBK"))
                 .offset(0f, 0f)
-                .size(KATEGORI_FULL_WIDTH, FRAGA_9_DELFRAGA_HEIGHT)
+                .size(KATEGORI_FULL_WIDTH, FRAGA_5_DELFRAGA_HEIGHT)
                 .keepNewLines());
 
-        allElements.add(fraga9);
+        allElements.add(fraga5);
+
 
         // Fraga 6. Kontakt med FK --------------------------------------------------------------------------
-        FkFieldGroup fraga10 = new FkFieldGroup("6. " + getText("FRG_26.RBK"))
+        FkFieldGroup fraga6 = new FkFieldGroup("6. " + getText("FRG_26.RBK"))
                 .offset(KATEGORI_OFFSET_X, 166.7f)
                 .size(KATEGORI_FULL_WIDTH, 22.5f)
                 .withBorders(Rectangle.BOX);
         // Jag önskar att Försäkringskassan kontaktar mig
-        fraga10.addChild(new FkCheckbox(getText("DFR_26.1.RBK"), safeBoolean(intyg.getKontaktMedFk()))
+        fraga6.addChild(new FkCheckbox(getText("DFR_26.1.RBK"), safeBoolean(intyg.getKontaktMedFk()))
                 .offset(0f, 0f)
                 .size(KATEGORI_FULL_WIDTH, 9f)
                 .withBorders(Rectangle.BOTTOM));
-        fraga10.addChild(new FkOverflowableValueField(intyg.getAnledningTillKontakt(), getText("DFR_26.2.RBK"))
+        fraga6.addChild(new FkOverflowableValueField(intyg.getAnledningTillKontakt(), getText("DFR_26.2.RBK"))
                 .offset(0f, 9f)
                 .size(KATEGORI_FULL_WIDTH, 15.5f)
                 .showLabelOnTop());
 
-        allElements.add(fraga10);
+        allElements.add(fraga6);
 
         // Fraga 7. Underskrift --------------------------------------------------------------------------
-        FkFieldGroup fraga11 = new FkFieldGroup("7. Underskrift")
+        FkFieldGroup fraga7 = new FkFieldGroup("7. Underskrift")
                 .offset(KATEGORI_OFFSET_X, 201.2f)
                 .size(KATEGORI_FULL_WIDTH, 78f)
                 .withBorders(Rectangle.BOX);
 
-        fraga11.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)))
+        fraga7.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)))
                 .offset(0f, 0f)
                 .size(45f, 11f)
                 .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
                 .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
                 .withTopLabel("Datum"));
-        fraga11.addChild(new FkValueField("")
+        fraga7.addChild(new FkValueField("")
                 .offset(45f, 0f)
                 .size(KATEGORI_FULL_WIDTH - 45f, 11f)
                 .withBorders(Rectangle.BOTTOM)
                 .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
                 .withTopLabel("Läkarens namnteckning"));
 
-        fraga11.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getFullstandigtNamn())
+        fraga7.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getFullstandigtNamn())
                 .offset(0f, 11f)
                 .size(KATEGORI_FULL_WIDTH, 11f)
                 .withBorders(Rectangle.BOTTOM)
                 .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
                 .withTopLabel("Namnförtydligande"));
 
-        fraga11.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getBefattningar()))
+        fraga7.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getBefattningar()))
                 .offset(0f, 22f)
                 .size(90f, 13f)
                 .withValueTextAlignment(PdfPCell.ALIGN_TOP)
                 .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
                 .withTopLabel("Befattning"));
-        fraga11.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getSpecialiteter()))
+        fraga7.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getSpecialiteter()))
                 .offset(90f, 22f)
                 .size(KATEGORI_FULL_WIDTH - 90f, 13f)
                 .withBorders(Rectangle.BOTTOM)
                 .withValueTextAlignment(PdfPCell.ALIGN_TOP)
                 .withTopLabel("Eventuell specialistkompetens"));
         // skapadAv.personId is always a hsa-id
-        fraga11.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getPersonId())
+        fraga7.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getPersonId())
                 .offset(0f, 35f)
                 .size(90f, 9f)
                 .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
                 .withBorders(Rectangle.BOTTOM + Rectangle.RIGHT)
                 .withTopLabel("Läkarens HSA-id"));
-        fraga11.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod())
+        fraga7.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod())
                 .offset(90f, 35f)
                 .size(KATEGORI_FULL_WIDTH - 90f, 9f)
                 .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
                 .withBorders(Rectangle.BOTTOM)
                 .withTopLabel("Arbetsplatskod"));
         // We only have an hsa-Id - so we never fill this field
-        fraga11.addChild(new FkValueField("")
+        fraga7.addChild(new FkValueField("")
                 .offset(0f, 44f)
                 .size(KATEGORI_FULL_WIDTH, 9f)
                 .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
                 .withBorders(Rectangle.BOTTOM)
                 .withTopLabel("Läkarens personnummer. Anges endast om du som läkare saknar HSA-id."));
 
-        fraga11.addChild(new FkValueField(buildVardEnhetAdress(intyg.getGrundData().getSkapadAv().getVardenhet()))
+        fraga7.addChild(new FkValueField(buildVardEnhetAdress(intyg.getGrundData().getSkapadAv().getVardenhet()))
                 .offset(0f, 54f)
                 .size(KATEGORI_FULL_WIDTH, 22.5f)
                 .withValueTextAlignment(PdfPCell.ALIGN_TOP)
                 .withTopLabel("Vårdenhetens namn, adress och telefon."));
 
         // Somewhat hacky, add a label outside the category box.
-        fraga11.addChild(new FkLabel("Underskriften omfattar samtliga uppgifter i intyget")
+        fraga7.addChild(new FkLabel("Underskriften omfattar samtliga uppgifter i intyget")
                 .offset(3f, 81.5f)
                 .size(KATEGORI_FULL_WIDTH - 6, 10f)
                 .withVerticalAlignment(PdfPCell.ALIGN_TOP)
                 .backgroundColor(245, 245, 245)
                 .backgroundRounded(true));
 
-        allElements.add(fraga11);
+        allElements.add(fraga7);
 
         FkPage thisPage = new FkPage();
         thisPage.getChildren().addAll(allElements);
         return thisPage;
     }
-
-//    private FkPage createPage3(LuaefsUtlatande intyg) throws IOException, DocumentException {
-//
-//        List<PdfComponent> allElements = new ArrayList<>();
-//
-//        // Fraga 5. (Fortsattning fran sida 2 - ingen rubrik)
-//        // --------------------------------------------------------------------------
-//        float fraga5YOffset = 0;
-//        FkFieldGroup fraga5 = new FkFieldGroup("")
-//                .offset(KATEGORI_OFFSET_X, 19f)
-//                .size(KATEGORI_FULL_WIDTH, 101f)
-//                .withBorders(Rectangle.BOX);
-//
-//        // Sinnesfunktioner och smärta
-//        fraga5.addChild(
-//                new FkLabel(getText("FRG_12.RBK"))
-//                        .offset(0, fraga5YOffset)
-//                        .size(KATEGORI_FULL_WIDTH, FRAGA_5_DELFRAGA_RUBRIK_HEIGHT)
-//                        .withBorders(Rectangle.BOX));
-//        fraga5YOffset += FRAGA_5_DELFRAGA_RUBRIK_HEIGHT;
-//
-//        fraga5.addChild(new FkOverflowableValueField(intyg.getFunktionsnedsattningSynHorselTal(), getText("FRG_12.RBK"))
-//                .offset(0f, fraga5YOffset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_5_DELFRAGA_HEIGHT));
-//        fraga5YOffset += FRAGA_5_DELFRAGA_HEIGHT;
-//
-//        // Balans, koordination och motorik
-//        fraga5.addChild(new FkLabel(getText("FRG_13.RBK"))
-//                .offset(0, fraga5YOffset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_5_DELFRAGA_RUBRIK_HEIGHT)
-//                .withBorders(Rectangle.BOX));
-//        fraga5YOffset += FRAGA_5_DELFRAGA_RUBRIK_HEIGHT;
-//
-//        fraga5.addChild(new FkOverflowableValueField(intyg.getFunktionsnedsattningBalansKoordination(), getText("FRG_13.RBK"))
-//                .offset(0f, fraga5YOffset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_5_DELFRAGA_HEIGHT));
-//        fraga5YOffset += FRAGA_5_DELFRAGA_HEIGHT;
-//
-//        // Annan kroppslig funktion
-//        fraga5.addChild(new FkLabel(getText("FRG_14.RBK"))
-//                .offset(0, fraga5YOffset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_5_DELFRAGA_RUBRIK_HEIGHT)
-//                .withBorders(Rectangle.BOX));
-//        fraga5YOffset += FRAGA_5_DELFRAGA_RUBRIK_HEIGHT;
-//
-//        fraga5.addChild(new FkOverflowableValueField(intyg.getFunktionsnedsattningAnnan(), getText("FRG_14.RBK"))
-//                .offset(0f, fraga5YOffset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_5_DELFRAGA_HEIGHT));
-//
-//        allElements.add(fraga5);
-//
-//        // Fraga 6.Aktivitetsbegränsningar --------------------------------------------------------------------------
-//        FkFieldGroup fraga6 = new FkFieldGroup("6. " + getText("FRG_17.RBK"))
-//                .offset(KATEGORI_OFFSET_X, 138.5f)
-//                .size(KATEGORI_FULL_WIDTH, 29.2f)
-//                .withBorders(Rectangle.BOX);
-//
-//        // Ge konkreta exempel
-//        fraga6.addChild(new FkOverflowableValueField(intyg.getAktivitetsbegransning(), getText("DFR_17.1.RBK"))
-//                .offset(0f, 0f)
-//                .size(KATEGORI_FULL_WIDTH, 32f)
-//                .showLabelOnTop());
-//
-//        allElements.add(fraga6);
-//
-//        // Fraga 7.Medicinsk behandling --------------------------------------------------------------------------
-//        FkFieldGroup fraga7 = new FkFieldGroup("7. " + getText("KAT_7.RBK"))
-//                .offset(KATEGORI_OFFSET_X, 178.7f)
-//                .size(KATEGORI_FULL_WIDTH, 110.2f)
-//                .withBorders(Rectangle.BOX);
-//
-//        float fraga7Offset = 0f;
-//        fraga7.addChild(new FkLabel(getText("FRG_18.RBK") + ". " + getText("DFR_18.1.RBK"))
-//                .offset(0, fraga7Offset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_7_DELFRAGA_RUBRIK_HEIGHT + 2f));
-//        fraga7Offset += FRAGA_7_DELFRAGA_RUBRIK_HEIGHT + 2f;
-//
-//        fraga7.addChild(new FkOverflowableValueField(intyg.getAvslutadBehandling(), getText("FRG_18.RBK") + ". " + getText("DFR_18.1.RBK"))
-//                .offset(0f, fraga7Offset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_7_DELFRAGA_HEIGHT)
-//                .withBorders(Rectangle.BOTTOM));
-//        fraga7Offset += FRAGA_7_DELFRAGA_HEIGHT;
-//
-//        fraga7.addChild(new FkLabel(getText("FRG_19.RBK") + ". " + getText("DFR_19.1.RBK"))
-//                .offset(0, fraga7Offset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_7_DELFRAGA_RUBRIK_HEIGHT));
-//        fraga7Offset += FRAGA_7_DELFRAGA_RUBRIK_HEIGHT;
-//
-//        fraga7.addChild(new FkOverflowableValueField(intyg.getPagaendeBehandling(), getText("FRG_19.RBK") + ". " + getText("DFR_19.1.RBK"))
-//                .offset(0f, fraga7Offset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_7_DELFRAGA_HEIGHT)
-//                .withBorders(Rectangle.BOTTOM));
-//        fraga7Offset += FRAGA_7_DELFRAGA_HEIGHT;
-//
-//        fraga7.addChild(new FkLabel(getText("FRG_20.RBK") + ". " + getText("DFR_20.1.RBK"))
-//                .offset(0, fraga7Offset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_7_DELFRAGA_RUBRIK_HEIGHT));
-//        fraga7Offset += FRAGA_7_DELFRAGA_RUBRIK_HEIGHT;
-//
-//        fraga7.addChild(new FkOverflowableValueField(intyg.getPlaneradBehandling(), getText("FRG_20.RBK") + ". " + getText("DFR_20.1.RBK"))
-//                .offset(0f, fraga7Offset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_7_DELFRAGA_HEIGHT)
-//                .withBorders(Rectangle.BOTTOM));
-//        fraga7Offset += FRAGA_7_DELFRAGA_HEIGHT;
-//
-//        fraga7.addChild(new FkLabel(getText("FRG_21.RBK") + " (" + getText("DFR_21.1.RBK") + ")")
-//                .offset(0, fraga7Offset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_7_DELFRAGA_RUBRIK_HEIGHT));
-//        fraga7Offset += FRAGA_7_DELFRAGA_RUBRIK_HEIGHT;
-//
-//        fraga7.addChild(new FkOverflowableValueField(intyg.getSubstansintag(), getText("FRG_21.RBK") + " (" + getText("DFR_21.1.RBK") + ")")
-//                .offset(0f, fraga7Offset)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_7_DELFRAGA_HEIGHT));
-//
-//        allElements.add(fraga7);
-//
-//        FkPage thisPage = new FkPage();
-//        thisPage.getChildren().addAll(allElements);
-//        return thisPage;
-//
-//    }
-//
-//    private FkPage createPage4(LuaefsUtlatande intyg) throws IOException, DocumentException {
-//
-//        List<PdfComponent> allElements = new ArrayList<>();
-//        // Fraga 8. Medicinska forutsattningar
-//        // --------------------------------------------------------------------------
-//        FkFieldGroup fraga8 = new FkFieldGroup("8. " + getText("KAT_8.RBK"))
-//                .offset(KATEGORI_OFFSET_X, 26f)
-//                .size(KATEGORI_FULL_WIDTH, 81f) // 27*3
-//                .withBorders(Rectangle.BOX);
-//
-//        fraga8.addChild(new FkLabel(getText("FRG_22.RBK"))
-//                .offset(0, 0)
-//                .size(KATEGORI_FULL_WIDTH, 6.5f)
-//                .withTopPadding(0.5f)
-//                .withVerticalAlignment(PdfPCell.TOP));
-//        fraga8.addChild(new FkOverflowableValueField(intyg.getMedicinskaForutsattningarForArbete(), getText("FRG_22.RBK"))
-//                .offset(0f, 6.5f)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_8_DELFRAGA_HEIGHT - 6.5f));
-//
-//        fraga8.addChild(new FkLabel(getText("FRG_23.RBK"))
-//                .offset(0, FRAGA_8_DELFRAGA_HEIGHT)
-//                .size(KATEGORI_FULL_WIDTH, 4f)
-//                .withTopPadding(0.5f)
-//                .withVerticalAlignment(PdfPCell.TOP)
-//                .withBorders(Rectangle.TOP));
-//        fraga8.addChild(new FkOverflowableValueField(intyg.getFormagaTrotsBegransning(), getText("FRG_23.RBK"))
-//                .offset(0f, FRAGA_8_DELFRAGA_HEIGHT + 4f)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_8_DELFRAGA_HEIGHT - 4f));
-//
-//        fraga8.addChild(new FkLabel(getText("FRG_24.RBK"))
-//                .offset(0, FRAGA_8_DELFRAGA_HEIGHT * 2)
-//                .size(KATEGORI_FULL_WIDTH, 4f)
-//                .withTopPadding(0.5f)
-//                .withVerticalAlignment(PdfPCell.TOP)
-//                .withBorders(Rectangle.TOP));
-//        fraga8.addChild(new FkOverflowableValueField(intyg.getFormagaTrotsBegransning(), getText("FRG_24.RBK"))
-//                .offset(0f, FRAGA_8_DELFRAGA_HEIGHT * 2 + 4f)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_8_DELFRAGA_HEIGHT - 4f));
-//
-//        allElements.add(fraga8);
-//
-//        // Fraga 9. Övriga upplysningar --------------------------------------------------------------------------
-//        FkFieldGroup fraga9 = new FkFieldGroup("9. " + getText("FRG_25.RBK"))
-//                .offset(KATEGORI_OFFSET_X, 120.9f)
-//                .size(KATEGORI_FULL_WIDTH, 22.5f)
-//                .withBorders(Rectangle.BOX);
-//
-//        StringBuilder ovrigt = new StringBuilder();
-//
-//        if (!StringUtils.isBlank(intyg.getMotiveringTillInteBaseratPaUndersokning())) {
-//            ovrigt.append("Motivering till varför utlåtandet inte baseras på undersökning av patienten: ")
-//                    .append(intyg.getMotiveringTillInteBaseratPaUndersokning())
-//                    .append("\n");
-//        }
-//
-//        if (!StringUtils.isBlank(intyg.getOvrigt())) {
-//            ovrigt.append(intyg.getOvrigt());
-//        }
-//
-//        // OBS: Övrigt fältet skall behålla radbytformattering eftersom detta kan vara sammanslaget med motiveringstext
-//        fraga9.addChild(new FkOverflowableValueField(ovrigt.toString(), getText("FRG_25.RBK"))
-//                .offset(0f, 0f)
-//                .size(KATEGORI_FULL_WIDTH, FRAGA_9_DELFRAGA_HEIGHT)
-//                .keepNewLines());
-//
-//        allElements.add(fraga9);
-//
-//        // Fraga 10. Kontakt med FK --------------------------------------------------------------------------
-//        FkFieldGroup fraga10 = new FkFieldGroup("10. " + getText("FRG_26.RBK"))
-//                .offset(KATEGORI_OFFSET_X, 156.5f)
-//                .size(KATEGORI_FULL_WIDTH, 22.5f)
-//                .withBorders(Rectangle.BOX);
-//        // Jag önskar att Försäkringskassan kontaktar mig
-//        fraga10.addChild(new FkCheckbox(getText("DFR_26.1.RBK"), safeBoolean(intyg.getKontaktMedFk()))
-//                .offset(0f, 0f)
-//                .size(KATEGORI_FULL_WIDTH, 9f)
-//                .withBorders(Rectangle.BOTTOM));
-//        fraga10.addChild(new FkOverflowableValueField(intyg.getAnledningTillKontakt(), getText("DFR_26.2.RBK"))
-//                .offset(0f, 9f)
-//                .size(KATEGORI_FULL_WIDTH, 15.5f)
-//                .showLabelOnTop());
-//
-//        allElements.add(fraga10);
-//
-//        // Fraga 11. Underskrift --------------------------------------------------------------------------
-//        FkFieldGroup fraga11 = new FkFieldGroup("11. Underskrift")
-//                .offset(KATEGORI_OFFSET_X, 192.8f)
-//                .size(KATEGORI_FULL_WIDTH, 85.5f)
-//                .withBorders(Rectangle.BOX);
-//
-//        fraga11.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)))
-//                .offset(0f, 0f)
-//                .size(45f, 11f)
-//                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-//                .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
-//                .withTopLabel("Datum"));
-//        fraga11.addChild(new FkValueField("")
-//                .offset(45f, 0f)
-//                .size(KATEGORI_FULL_WIDTH - 45f, 11f)
-//                .withBorders(Rectangle.BOTTOM)
-//                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-//                .withTopLabel("Läkarens namnteckning"));
-//
-//        fraga11.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getFullstandigtNamn())
-//                .offset(0f, 11f)
-//                .size(KATEGORI_FULL_WIDTH, 11f)
-//                .withBorders(Rectangle.BOTTOM)
-//                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-//                .withTopLabel("Namnförtydligande"));
-//
-//        fraga11.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getBefattningar()))
-//                .offset(0f, 22f)
-//                .size(90f, 13f)
-//                .withValueTextAlignment(PdfPCell.ALIGN_TOP)
-//                .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
-//                .withTopLabel("Befattning"));
-//        fraga11.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getSpecialiteter()))
-//                .offset(90f, 22f)
-//                .size(KATEGORI_FULL_WIDTH - 90f, 13f)
-//                .withBorders(Rectangle.BOTTOM)
-//                .withValueTextAlignment(PdfPCell.ALIGN_TOP)
-//                .withTopLabel("Eventuell specialistkompetens"));
-//        // skapadAv.personId is always a hsa-id
-//        fraga11.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getPersonId())
-//                .offset(0f, 35f)
-//                .size(90f, 9f)
-//                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-//                .withBorders(Rectangle.BOTTOM + Rectangle.RIGHT)
-//                .withTopLabel("Läkarens HSA-id"));
-//        fraga11.addChild(new FkValueField(intyg.getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod())
-//                .offset(90f, 35f)
-//                .size(KATEGORI_FULL_WIDTH - 90f, 9f)
-//                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-//                .withBorders(Rectangle.BOTTOM)
-//                .withTopLabel("Arbetsplatskod"));
-//        // We only have an hsa-Id - so we never fill this field
-//        fraga11.addChild(new FkValueField("")
-//                .offset(0f, 44f)
-//                .size(KATEGORI_FULL_WIDTH, 9f)
-//                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-//                .withBorders(Rectangle.BOTTOM)
-//                .withTopLabel("Läkarens personnummer. Anges endast om du som läkare saknar HSA-id."));
-//
-//        fraga11.addChild(new FkValueField(buildVardEnhetAdress(intyg.getGrundData().getSkapadAv().getVardenhet()))
-//                .offset(0f, 54f)
-//                .size(KATEGORI_FULL_WIDTH, 30f)
-//                .withValueTextAlignment(PdfPCell.ALIGN_TOP)
-//                .withTopLabel("Vårdenhetens namn, adress och telefon."));
-//
-//        // Somewhat hacky, add a label outside the category box.
-//        fraga11.addChild(new FkLabel("Underskriften omfattar samtliga uppgifter i intyget")
-//                .offset(3f, 92f)
-//                .size(KATEGORI_FULL_WIDTH - 6, 10f)
-//                .withVerticalAlignment(PdfPCell.ALIGN_TOP)
-//                .backgroundColor(245, 245, 245)
-//                .backgroundRounded(true));
-//
-//        allElements.add(fraga11);
-//
-//        FkPage thisPage = new FkPage();
-//        thisPage.getChildren().addAll(allElements);
-//        return thisPage;
-//    }
 
     private FkPage createPage5(LuaefsUtlatande intyg) throws IOException, DocumentException {
 
