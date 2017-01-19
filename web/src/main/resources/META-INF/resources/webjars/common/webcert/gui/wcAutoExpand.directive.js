@@ -114,7 +114,7 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
     }
 
     function _getLineHeight(node, rows){
-        var lineHeightThreshold = 1.5;
+        var lineHeightThreshold = 1.55;
 
         var computedStyle = $window.getComputedStyle(node);
         var lineHeightStyle = computedStyle.lineHeight;
