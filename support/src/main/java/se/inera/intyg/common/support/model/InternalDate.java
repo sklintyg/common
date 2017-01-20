@@ -122,6 +122,10 @@ public class InternalDate {
         return date.matches(DATE_FORMAT);
     }
 
+    public boolean isCorrectFormat() {
+        return date.matches(DATE_FORMAT);
+    }
+
     /**
      * Determine whether an InternalDate is outside the allowed interval minDate < theDate < future.
      *

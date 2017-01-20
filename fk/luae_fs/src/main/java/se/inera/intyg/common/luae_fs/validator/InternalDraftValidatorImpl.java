@@ -183,9 +183,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
             if (underlag.getDatum() == null) {
                 ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".datum", ValidationMessageType.EMPTY,
                         "luae_fs.validation.underlag.date.missing");
-            } else if (!underlag.getDatum().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".datum", ValidationMessageType.INVALID_FORMAT,
-                        "luae_fs.validation.underlag.date.incorrect_format");
+            } else {
+                ValidatorUtil.validateDate(underlag.getDatum(), validationMessages, "grundformu.underlag." + i + ".datum");
             }
             if (underlag.getHamtasFran() == null || underlag.getHamtasFran().trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".hamtasFran", ValidationMessageType.EMPTY,

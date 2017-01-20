@@ -72,11 +72,11 @@ public class InternalDraftValidator {
     }
 
     private void validateVardkontakter(Fk7263Utlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getTelefonkontaktMedPatienten() != null && !utlatande.getTelefonkontaktMedPatienten().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.telefonkontakt", ValidationMessageType.INVALID_FORMAT);
+        if (utlatande.getTelefonkontaktMedPatienten() != null) {
+            ValidatorUtil.validateDate(utlatande.getTelefonkontaktMedPatienten(), validationMessages, "intygbaseratpa.telefonkontakt");
         }
-        if (utlatande.getUndersokningAvPatienten() != null && !utlatande.getUndersokningAvPatienten().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.undersokning", ValidationMessageType.INVALID_FORMAT);
+        if (utlatande.getUndersokningAvPatienten() != null) {
+            ValidatorUtil.validateDate(utlatande.getUndersokningAvPatienten(), validationMessages, "intygbaseratpa.undersokning");
         }
     }
 
@@ -92,14 +92,14 @@ public class InternalDraftValidator {
             }
         }
 
-        if (utlatande.getAnnanReferens() != null && !utlatande.getAnnanReferens().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.referenser", ValidationMessageType.INVALID_FORMAT);
+        if (utlatande.getAnnanReferens() != null) {
+            ValidatorUtil.validateDate(utlatande.getAnnanReferens(), validationMessages, "intygbaseratpa.referenser");
         }
         if (utlatande.getAnnanReferens() != null && Strings.nullToEmpty(utlatande.getAnnanReferensBeskrivning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.annat", ValidationMessageType.EMPTY);
         }
-        if (utlatande.getJournaluppgifter() != null && !utlatande.getJournaluppgifter().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.journaluppgifter", ValidationMessageType.INVALID_FORMAT);
+        if (utlatande.getJournaluppgifter() != null) {
+            ValidatorUtil.validateDate(utlatande.getJournaluppgifter(), validationMessages, "intygbaseratpa.journaluppgifter");
         }
     }
 

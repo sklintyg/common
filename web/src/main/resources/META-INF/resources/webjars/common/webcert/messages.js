@@ -301,7 +301,6 @@ angular.module('common').constant('common.messages', {
         'luse.validation.underlag.incorrect_format': 'Fel typ av underlag',
         'luse.validation.underlag.date.missing': 'Du måste ange datum för underlaget.',
         'luse.validation.underlag.hamtas-fran.missing': 'Du måste ange var Försäkringskassan kan få information om utredningen.',
-        'luse.validation.underlag.date.incorrect_format': 'Fel datumformat för underlag',
         'luse.validation.diagnosfornybedomning.incorrect_combination': 'Om \'Finns det skäl att göra en ny bedömning av diagnosen?\' besvarats med \'Nej\' får inte \'Diagnos för ny bedömning\' fyllas i',
         'luse.validation.kontakt.incorrect_combination': 'Anledning till kontakt kan endast fyllas i om \'kontakt med FK önskas\' är vald.',
 
@@ -314,7 +313,6 @@ angular.module('common').constant('common.messages', {
         'luae_na.validation.underlag.incorrect_format': 'Fel typ av underlag',
         'luae_na.validation.underlag.date.missing': 'Du måste ange datum för underlaget.',
         'luae_na.validation.underlag.hamtas-fran.missing': 'Du måste ange var Försäkringskassan kan få information om utredningen.',
-        'luae_na.validation.underlag.date.incorrect_format': 'Fel datumformat för underlag',
         'luae_na.validation.diagnosfornybedomning.incorrect_combination': 'Om \'Finns det skäl att göra en ny bedömning av diagnosen?\' besvarats med \'Nej\' får inte \'Diagnos för ny bedömning\' fyllas i',
         'luae_na.validation.kontakt.incorrect_combination': 'Anledning till kontakt kan endast fyllas i om \'kontakt med FK önskas\' är vald.',
 
@@ -326,7 +324,6 @@ angular.module('common').constant('common.messages', {
         'luae_fs.validation.underlagfinns.missing': 'Frågan \'Finns det andra medicinska utredningar eller underlag\' måste besvaras',
         'luae_fs.validation.underlag.date.missing': 'Du måste ange datum för underlaget.',
         'luae_fs.validation.underlag.hamtas-fran.missing': 'Du måste ange var Försäkringskassan kan få information om utredningen.',
-        'luae_fs.validation.underlag.date.incorrect_format': 'Fel datumformat för underlag',
         'luae_fs.validation.kontakt.invalid_combination': 'Anledning får inte fyllas i när man svarat nej på kontakt.',
         'luae_fs.validation.diagnos.max-diagnoser': 'Du kan endast ange upp till tre st diagnoser.',
         'luae_fs.validation.funktionsnedsattning.debut.missing': 'Funktionsnedsättningens debut och utveckling måste fyllas i.',
@@ -414,6 +411,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
         'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
         'common.validation.date_out_of_range': 'Datum får inte ligga för långt fram eller tillbaka i tiden.',
+        'common.validation.date_invalid': 'Ogiltigt datum',
         'common.validation.future.datum': 'Observera att du valt ett datum framåt i tiden.',
         'common.validation.diagnos.missing': 'Huvuddiagnos måste anges',
         'common.validation.diagnos0.missing': 'ICD-10 kod saknas på huvuddiagnosen.',
@@ -438,6 +436,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.sjukskrivning_period.halften.invalid_format': 'Datum för nedsatt arbetsförmåga med 50% har angetts på felaktigt format.',
         'common.validation.sjukskrivning_period.tre_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format.',
         'common.validation.sjukskrivning_period.helt_nedsatt.invalid_format': 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format.',
+        'common.validation.underlag.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
 
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',

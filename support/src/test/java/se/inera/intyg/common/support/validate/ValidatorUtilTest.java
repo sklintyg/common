@@ -18,18 +18,20 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import org.junit.Test;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
 /**
  * Created by eriklupander on 2016-11-24.
@@ -42,6 +44,24 @@ public class ValidatorUtilTest {
         boolean valid = ValidatorUtil.validateDate(new InternalDate("2016-01-02"), errors, "testfield");
         assertTrue(valid);
         assertEquals(0, errors.size());
+    }
+
+    @Test
+    public void testDateValidationForInvalidDateCorrectFormat() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        boolean valid = ValidatorUtil.validateDate(new InternalDate("2016-02-30"), errors, "testfield");
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertEquals("common.validation.date_invalid", errors.get(0).getMessage());
+    }
+
+    @Test
+    public void testDateValidationForInvalidDate() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        boolean valid = ValidatorUtil.validateDate(new InternalDate("notADate"), errors, "testfield");
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertNull(errors.get(0).getMessage());
     }
 
     @Test

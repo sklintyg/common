@@ -94,7 +94,11 @@ public final class ValidatorUtil {
         }
 
         if (!date.isValidDate()) {
-            addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT);
+            if (date.isCorrectFormat()) {
+                addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT, "common.validation.date_invalid");
+            } else {
+                addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT);
+            }
             return false;
         }
 
