@@ -27,7 +27,6 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.validation.bedomning.sjukskrivningar.perioden_fjardedel.invalid_format': '25% nedsatt: Felaktigt datumformat.',
         'lisjp.validation.bedomning.sjukskrivningar.perioden_fjardedel.overlap': '25% nedsatt: Datumintervall överlappar.',
         'lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum': 'Det startdatum du angett är mer än <strong>en vecka före dagens datum</strong>. Du bör kontrollera att tidsperioderna är korrekta.',
-        'lisjp.validation.atgarder.missing': 'Åtgärder måste väljas eller Inte aktuellt.',
         'lisjp.validation.atgarder.inte_aktuellt_no_combine': 'Inte aktuellt kan inte kombineras med andra val.', // Should never happen because GUI should block this combination
         'lisjp.validation.atgarder.invalid_combination': 'Beskrivning för arbetslivsinriktade åtgärder kan inte kombineras med åtgärd på detta sätt.', // Should never happen because GUI should block this combination
         'lisjp.validation.atgarder.too-many': 'För många val på åtgärder.', // Should never happen because GUI should block this combination

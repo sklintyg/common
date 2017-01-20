@@ -18,23 +18,26 @@
  */
 package se.inera.intyg.common.lisjp.validator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -47,19 +50,17 @@ import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
-
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -831,7 +832,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.atgarder.missing", res.getValidationErrors().get(0).getMessage());
+        assertEquals("atgarder.arbetslivsinriktadeAtgarder", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
