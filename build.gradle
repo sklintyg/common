@@ -124,7 +124,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'lus
 }
 
 configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp'].contains(it.name) }) {
-    task unzipWebjars(type: Copy) {
+    task unzipWebjars(type: Copy, dependsOn: ":common-web:build") {
         description 'Copies common-web from the classpath and expands it so that we can use their static resources with karma'
         into "$buildDir/webjars/"
         from {
