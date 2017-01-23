@@ -68,7 +68,7 @@ angular.module('common').factory('common.messageService',
 
         function _format(source, params) {
             angular.forEach(params,function (param, i) {
-                source = source.replace(new RegExp("\\{" + i + "\\}", "g"), param);
+                source = source.replace(new RegExp('\\{' + i + '\\}', 'g'), param);
             });
             return source;
         }
