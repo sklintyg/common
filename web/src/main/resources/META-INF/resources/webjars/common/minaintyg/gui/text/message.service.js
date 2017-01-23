@@ -32,34 +32,45 @@ angular.module('common').factory('common.messageService',
 
         var _messageResources = null;
 
-        function _getProperty(key, language, defaultValue, fallbackToDefaultLanguage) {
+        function _getProperty(key, params, defaultValue, language, fallbackToDefaultLanguage) {
             var value;
 
-            if (typeof language === 'undefined') {
+            if (!language) {
                 language = $rootScope.lang;
+                if (!language && fallbackToDefaultLanguage) {
+                    language = $rootScope.DEFAULT_LANG;
+                }
             }
 
-            value = _getPropertyInLanguage(language, key);
-            if (typeof value === 'undefined') {
-                // use fallback attr value if defined
-                if (fallbackToDefaultLanguage) {
-                    value = _getPropertyInLanguage($rootScope.DEFAULT_LANG, key);
+            if (language) {
+                value = _getPropertyInLanguage(language, key, params);
+                if (value === null || value === undefined) {
+                    value = defaultValue === null || defaultValue === undefined ?
+                    '[Missing "' + key + '"]' : defaultValue;
                 }
-                if (typeof value === 'undefined') {
-                    // use fallback attr value if defined
-                    value = (typeof defaultValue === 'undefined') ? '[Missing "' + key + '"]' : defaultValue;
-                }
+            } else {
+                value = '[Missing language]';
             }
+
             return value;
         }
 
-        function _getPropertyInLanguage(lang, key) {
+        function _getPropertyInLanguage(lang, key, params) {
             _checkResources();
-            return _lookupProperty(_messageResources[lang], key);
+            var message = _messageResources[lang][key];
+
+            if (message && params) {
+                message = _format(message, params);
+            }
+
+            return message;
         }
 
-        function _lookupProperty(resources, key) {
-            return resources[key];
+        function _format(source, params) {
+            angular.forEach(params,function (param, i) {
+                source = source.replace(new RegExp("\\{" + i + "\\}", "g"), param);
+            });
+            return source;
         }
 
         function _addResources(resources) {

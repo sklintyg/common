@@ -43,20 +43,17 @@ angular.module('common').directive('message',
                             useLanguage = $rootScope.lang;
                         }
 
-                        result = messageService.getProperty(normalizedKey, useLanguage, attr.fallback,
-                            (typeof attr.fallbackDefaultLang !== 'undefined'));
-
+                        var parameters = [];
                         if (typeof scope.param !== 'undefined') {
-                            $log.debug(scope.param);
-                            result = result.replace('%0', scope.param);
-                        } else {
-                            if (typeof scope.params !== 'undefined') {
-                                var myparams = scope.params;
-                                for (var i = 0; i < myparams.length; i++) {
-                                    result = result.replace('%' + i, myparams[i]);
-                                }
-                            }
+                            parameters.push(scope.param);
                         }
+                        else if (typeof scope.params !== 'undefined') {
+                            parameters.push.apply(parameters, scope.params);
+                        }
+
+                        result = messageService.getProperty(normalizedKey, parameters, useLanguage, attr.fallback, (typeof attr.fallbackDefaultLang !== 'undefined'));
+
+
 
                         // now get the value to display..
                         scope.resultValue = result;
