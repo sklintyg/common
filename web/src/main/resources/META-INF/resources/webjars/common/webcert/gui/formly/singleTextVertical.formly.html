@@ -3,7 +3,7 @@
     <label class="form-control-label">
         <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
         <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
-        {{to.required ? '*' : ''}}
+        <span class="required">{{to.required ? '*' : ''}}</span>
     </label>
     <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.help}}.HLP"></span>
   </div>

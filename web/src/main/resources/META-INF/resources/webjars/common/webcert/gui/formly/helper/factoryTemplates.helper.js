@@ -22,6 +22,9 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
     function(ObjectHelper, UserModel) {
         'use strict';
 
+        var singleTextAdressLabelColSize = 2;
+        var singleTextLabelColSize = 2;
+
         return {
             adress: {
                 wrapper: 'wc-field-static',
@@ -34,7 +37,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             staticLabel: 'Postadress',
                             disabled: UserModel.isDjupintegration(),
                             size: 'full',
-                            labelColSize: 3,
+                            labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
                             maxlength: 500,
                             required: true
@@ -47,7 +50,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             staticLabel: 'Postnummer',
                             disabled: UserModel.isDjupintegration(),
                             size: '5',
-                            labelColSize: 3,
+                            labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
                             maxlength: 6,
                             required: true
@@ -59,7 +62,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         templateOptions: {
                             staticLabel: 'Postort',
                             disabled: UserModel.isDjupintegration(),
-                            labelColSize: 3,
+                            labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
                             maxlength: 100,
                             required: true
@@ -70,7 +73,11 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         hideExpression: function() {
                             return UserModel.isDjupintegration();
                         },
-                        templateOptions: {formType: 'horizontal', labelColSize: 3, hideFromSigned: true}
+                        templateOptions: {
+                            formType: 'horizontal',
+                            labelColSize: singleTextAdressLabelColSize,
+                            hideFromSigned: true
+                        }
                     }
                 ]
             },
@@ -87,7 +94,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         templateOptions: {
                             staticLabel: 'Postadress',
                             size: 'full',
-                            labelColSize: 3,
+                            labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
                             maxlength: 500,
                             required: true
@@ -99,7 +106,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         templateOptions: {
                             staticLabel: 'Postnummer',
                             size: '5',
-                            labelColSize: 3,
+                            labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
                             maxlength: 6,
                             required: true
@@ -110,7 +117,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         type: 'single-text',
                         templateOptions: {
                             staticLabel: 'Postort',
-                            labelColSize: 3,
+                            labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
                             required: true
                         }
@@ -120,7 +127,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         type: 'single-text',
                         templateOptions: {
                             staticLabel: 'Telefonnummer',
-                            labelColSize: 3,
+                            labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
                             maxlength: 100,
                             required: true

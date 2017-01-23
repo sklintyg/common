@@ -112,14 +112,14 @@ a {
 
 .banner-margin {
     margin-top: 60px;
-    max-width: 800px;
+    max-width: 1024px;
 }
 
 
 /* Commonly used for all intygsmodules */
 
 .edit-form {
-    max-width: 800px;
+    max-width: 1024px;
 }
 
 #visa-vad-som-saknas-lista h3 span {
@@ -136,7 +136,7 @@ a {
 /* Commonly used */
 
 .certificate {
-    max-width: 800px;
+    max-width: 1024px;
 }
 
 
@@ -219,7 +219,7 @@ a {
 }
 
 .intyg-block {
-    margin: 0 0px 40px 0;
+    margin: 0 0px 5px 0;
     -webkit-border-radius: 6px 6px 6px 6px;
     -moz-border-radius: 6px 6px 6px 6px;
     border-radius: 6px 6px 6px 6px;
@@ -257,6 +257,10 @@ a {
         max-width: 600px;
         vertical-align: baseline;
         font-weight: normal;
+
+        &.label__no-break {
+            white-space: nowrap;
+        }
     }
     .checkbox {
         padding-left: 20px;
@@ -300,7 +304,7 @@ a {
     }
     &__content {
         display: block;
-        padding: 20px;
+        padding: 12px 14px 12px 14px;
         background-color: $mercury;
         -webkit-border-radius: 4px 4px 4px 4px;
         -moz-border-radius: 4px 4px 4px 4px;
@@ -349,6 +353,9 @@ ul.padded-list {
     }
 }
 
+.ul__thin-bullet {
+    padding-left: 20px;
+}
 
 /* Unused. Remove */
 
@@ -558,8 +565,8 @@ label {
         border: 2px solid $color_apple_blossom_approx;
     }
     .grouperror, .groupkomplettering {
-        margin-left: -10px;
-        padding: 10px;
+        margin: 0 -5px 0 -5px;
+        padding: 8px;
         -webkit-border-radius: 4px 4px 4px 4px;
         -moz-border-radius: 4px 4px 4px 4px;
         border-radius: 4px 4px 4px 4px;
@@ -809,9 +816,9 @@ TD .validation {
         display: none !important;
     }
     textarea.form-control {
-        max-width: 700px;
+        max-width: 1000px;
     }
     textarea#currentWork.form-control {
-        max-width: 682px;
+        max-width: 782px;
     }
 }
