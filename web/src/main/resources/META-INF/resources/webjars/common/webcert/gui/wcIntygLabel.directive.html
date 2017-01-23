@@ -2,10 +2,10 @@
   <h4 ng-if="staticLabelId">
     <span message key="{{staticLabelId}}"></span>
   </h4>
-  <h4 ng-if="h4Label" ng-class="{noH5After : !noH5After}">
+  <h4 ng-if="h4Label" ng-class="{'noH5After' : !noH5After}">
     <span dynamic-label key="{{h4Label}}"></span>
   </h4>
   <h5 ng-if="h5Label" class="padding-top-medium">
-    <span dynamic-label key="{{h5Label}}" ng-class="{noH4Before : !noH4Before}"></span>
+    <span dynamic-label key="{{h5Label}}" ng-class="{'noH4Before' : !noH4Before}"></span>
   </h5>
 </div>

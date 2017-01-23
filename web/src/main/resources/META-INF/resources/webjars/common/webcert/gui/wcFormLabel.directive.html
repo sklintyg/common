@@ -7,7 +7,7 @@
     <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
     <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
   </h4>
-  <wc-utkast-komplettering ng-if="(frageId && delFrageId || frageId && !delFrageId) && !to.forceHeadingTypeLabel" key="{{key}}" margin-bottom="true"></wc-utkast-komplettering>
+  <wc-utkast-komplettering ng-if="frageId && !to.forceHeadingTypeLabel" key="{{key}}" margin-bottom="true"></wc-utkast-komplettering>
 
   <h5 ng-if="delFrageId && !to.forceHeadingTypeLabel">
     <span ng-if="delFrageId" dynamic-label key="{{delFrageId}}.RBK"></span>
