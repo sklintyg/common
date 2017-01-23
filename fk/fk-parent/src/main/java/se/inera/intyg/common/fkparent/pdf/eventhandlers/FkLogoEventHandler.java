@@ -56,31 +56,8 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
      *      If the image couldn't be read or other iText-related exception.
      */
     public FkLogoEventHandler(int activeFromPage, int activeToPage) throws DocumentException {
-         this(activeFromPage, activeToPage, 0f, 0f);
-    }
-
-    /**
-     * Constructs an Eventhandler for rendering the FK logotype on the specified pages, with adjustable offsets.
-     *
-     * @param activeFromPage
-     *      From page number to render FK logo, inclusive. 1-indexed.
-     * @param activeToPage
-     *      To page number.
-     * @param offsetX
-     *      The default X offset is {@link FkLogoEventHandler#leftOffset} (16 mm), but since this may vary slightly amongst
-     *      FK intyg, one can optionally adjust this offset by the supplied number of millimeters. E.g. - to move the FK
-     *      logotype 2 millimeters to the left, supplied -2.0f as offsetX.
-     * @param offsetY
-     *      The default Y offset, see offsetX for details.
-     * @throws DocumentException
-     *      If the image couldn't be read or other iText-related exception.
-     */
-    public FkLogoEventHandler(int activeFromPage, int activeToPage, float offsetX, float offsetY) throws DocumentException {
         this.activeFromPage = activeFromPage;
         this.activeToPage = activeToPage;
-        this.leftOffset = Utilities.millimetersToPoints(16f - offsetX);
-        this.topOffset = Utilities.millimetersToPoints(20f - offsetY);
-
         initLogo();
     }
 

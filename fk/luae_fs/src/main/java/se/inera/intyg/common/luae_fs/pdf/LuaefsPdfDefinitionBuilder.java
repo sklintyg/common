@@ -88,7 +88,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
 
-            def.addPageEvent(new FkLogoEventHandler(1, 1, -3f, 0.8f));
+            def.addPageEvent(new FkLogoEventHandler(1, 1, 0.253f * 100f, 13f, 20.8f));
             def.addPageEvent(new FkLogoEventHandler(3, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(3, def.getPageMargins(), "Läkarutlåtande", "för aktivitetsersättning vid förlängd skolgång"));
 

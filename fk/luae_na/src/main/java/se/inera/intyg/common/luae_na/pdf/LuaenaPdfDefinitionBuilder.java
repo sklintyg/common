@@ -102,7 +102,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
 
-            def.addPageEvent(new FkLogoEventHandler(1, 1, -2f, 0f));
+            def.addPageEvent(new FkLogoEventHandler(1, 1, 0.253f * 100f, 14f, 20f));
             def.addPageEvent(new FkLogoEventHandler(5, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarutlåtande", "för aktivitetsersättning vid nedsatt arbetsförmåga"));
 
