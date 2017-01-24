@@ -44,37 +44,44 @@ angular.module('common').factory('common.ArendeLegacyService',
         }
 
         function _convertFragasvarToArende(fs) {
-            var arende = {
-                fraga: {
-                    internReferens: fs.internReferens,
-                    frageStallare: fs.frageStallare,
-                    amne: _convertAmneFragasvarToArende(fs.amne),
-                    meddelande: fs.frageText,
-                    meddelandeRubrik: fs.meddelandeRubrik,
-                    externaKontakter: fs.externaKontakter,
-                    intygId: fs.intygsReferens.intygsId,
-                    kompletteringar: fs.kompletteringar,
-                    status: fs.status,
-                    vidarebefordrad: fs.vidarebefordrad,
-                    vardaktorNamn: fs.vardAktorNamn,
-                    timestamp: fs.frageSkickadDatum
-                },
-                svar: {
-                    internReferens: fs.internReferens,
-                    frageStallare: _convertSvarFragestallare(fs.frageStallare),
-                    amne: _convertAmneFragasvarToArende(fs.amne),
-                    meddelande: fs.svarsText,
-                    meddelandeRubrik: fs.meddelandeRubrik,
-                    intygId: fs.intygsReferens.intygsId,
-                    kompletteringar: fs.kompletteringar,
-                    status: fs.status,
-                    vidarebefordrad: fs.vidarebefordrad,
-                    vardaktorNamn: fs.vardAktorNamn,
-                    svarSkickadDatum: fs.svarSkickadDatum
-                },
-                senasteHandelseDatum: fs.senasteHandelseDatum,
-                paminnelser: []
-            };
+            var fragaSvar = fs.fragaSvar;
+
+            var arende = null;
+
+            if(fragaSvar) {
+                arende = {
+                    fraga: {
+                        internReferens: fragaSvar.internReferens,
+                        frageStallare: fragaSvar.frageStallare,
+                        amne: _convertAmneFragasvarToArende(fragaSvar.amne),
+                        meddelande: fragaSvar.frageText,
+                        meddelandeRubrik: fragaSvar.meddelandeRubrik,
+                        externaKontakter: fragaSvar.externaKontakter,
+                        intygId: fragaSvar.intygsReferens.intygsId,
+                        kompletteringar: fragaSvar.kompletteringar,
+                        status: fragaSvar.status,
+                        vidarebefordrad: fragaSvar.vidarebefordrad,
+                        vardaktorNamn: fragaSvar.vardAktorNamn,
+                        timestamp: fragaSvar.frageSkickadDatum
+                    },
+                    svar: {
+                        internReferens: fragaSvar.internReferens,
+                        frageStallare: _convertSvarFragestallare(fragaSvar.frageStallare),
+                        amne: _convertAmneFragasvarToArende(fragaSvar.amne),
+                        meddelande: fragaSvar.svarsText,
+                        meddelandeRubrik: fragaSvar.meddelandeRubrik,
+                        intygId: fragaSvar.intygsReferens.intygsId,
+                        kompletteringar: fragaSvar.kompletteringar,
+                        status: fragaSvar.status,
+                        vidarebefordrad: fragaSvar.vidarebefordrad,
+                        vardaktorNamn: fragaSvar.vardAktorNamn,
+                        svarSkickadDatum: fragaSvar.svarSkickadDatum
+                    },
+                    answeredWithIntyg: fs.answeredWithIntyg,
+                    senasteHandelseDatum: fragaSvar.senasteHandelseDatum,
+                    paminnelser: []
+                };
+            }
             return arende;
         }
 

@@ -59,11 +59,11 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.svarSkickadDatum = arendeListItem.arende.svar.svarSkickadDatum;
                 this.vardaktorNamn = arendeListItem.arende.svar.vardaktorNamn;
 
-                this.besvaradMedIntyg = arendeListItem.arende.besvaradMedIntyg;
-                if(this.besvaradMedIntyg){
+                this.answeredWithIntyg = arendeListItem.arende.answeredWithIntyg;
+                if(this.answeredWithIntyg){
                     // besvaradmedintyg overrides these fields when available
-                    this.vardaktorNamn = this.besvaradMedIntyg.namnetPaSkapareAvIntyg;
-                    this.svarSkickadDatum = this.besvaradMedIntyg.skickatDatum;
+                    this.vardaktorNamn = this.answeredWithIntyg.namnetPaSkapareAvIntyg;
+                    this.svarSkickadDatum = this.answeredWithIntyg.skickatDatum;
                 }
 
                 // From ArendeListItem

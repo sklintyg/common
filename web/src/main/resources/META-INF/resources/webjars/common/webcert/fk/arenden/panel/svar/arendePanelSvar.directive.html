@@ -36,7 +36,7 @@
         </div>
         <div id="{{panelId}}-{{arendeSvar.internReferens}}-meddelande" class="arende-block-body">
           {{arendeSvar.meddelande}}
-          <div ng-if="arendeSvar.besvaradMedIntyg">
+          <div ng-if="arendeSvar.answeredWithIntyg">
             <span message key="common.arende.svar.besvaradmedintyg"></span><br>
             <button class="btn btn-link btn-link__purelink" ng-click='goToIntyg()' ><span message key="common.arende.svar.go"></span></button>
           </div>
