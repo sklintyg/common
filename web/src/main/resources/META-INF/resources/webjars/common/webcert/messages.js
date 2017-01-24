@@ -172,6 +172,9 @@ angular.module('common').constant('common.messages', {
         'common.arende.fraga.amne.ovrigt': 'Övrigt',
         'common.arende.fraga.amne.paminn': 'Påminnelse',
 
+        'common.arende.svar.besvaradmedintyg': 'Frågan är besvarad med ett nytt intyg.',
+        'common.arende.svar.go': 'Gå vidare till intyget',
+
         // Används bara av fk7263 (ArendeLegacyProxy)
         'common.arende.fraga.amne.makulering_av_lakarintyg': 'Makulering av läkarintyg',
         'common.arende.fraga.amne.arbetstidsforlaggning': 'Arbetstidsförläggning',

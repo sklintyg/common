@@ -59,6 +59,11 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.svarSkickadDatum = arendeListItem.arende.svar.svarSkickadDatum;
                 this.vardaktorNamn = arendeListItem.arende.svar.vardaktorNamn;
 
+                // besvaradmedintyg overrides
+                this.besvaradMedIntyg = arendeListItem.arende.besvaradMedIntyg;
+                this.vardaktorNamn = this.besvaradMedIntyg.namnetPaSkapareAvIntyg;
+                this.svarSkickadDatum = this.besvaradMedIntyg.skickatDatum;
+
                 // From ArendeListItem
                 this.answerDisabled = arendeListItem.answerDisabled;
                 this.answerDisabledReason = arendeListItem.answerDisabledReason;

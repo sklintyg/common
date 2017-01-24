@@ -55,11 +55,15 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.showAnswerPanel = function() {
                         var hasMeddelandeIsClosed = ArendeSvar.meddelande && ArendeSvar.status === 'CLOSED';
                         var cannotKomplettera = ArendeSvar.answerKompletteringWithText || hasMeddelandeIsClosed;
-                        return (ArendeSvar.amne !== 'KOMPLT') || (ArendeSvar.amne === 'KOMPLT' && cannotKomplettera);
+                        return (ArendeSvar.amne !== 'KOMPLT') ||
+                            (ArendeSvar.amne === 'KOMPLT' && (cannotKomplettera || ObjectHelper.isDefined(ArendeSvar.besvaradMedIntyg)));
                     };
 
                     $scope.showAnswer = function() {
-                        return (ArendeSvar.status === 'CLOSED' && ArendeSvar.meddelande) || (ArendeSvar.status === 'ANSWERED');
+                        // If closed and has a meddelande it is answered by message
+                        // If closed and has besvaradMedIntyg object it was answered with intyg
+                        return (ArendeSvar.status === 'CLOSED' && (ArendeSvar.meddelande || ObjectHelper.isDefined(ArendeSvar.besvaradMedIntyg))) ||
+                            (ArendeSvar.status === 'ANSWERED');
                     };
 
                     $scope.showKompletteringControls = function() {
@@ -120,6 +124,10 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.abortTextAnswer = function() {
                         //Should we empty the svarstext input field?
                         ArendeSvar.answerKompletteringWithText = false;
+                    };
+
+                    $scope.goToIntyg = function() {
+                        $state.go('webcert.intyg.fk.' + ArendeSvar.intygProperties.type, {certificateId: ArendeSvar.besvaradMedIntyg.intygsId});
                     };
                 }
             };

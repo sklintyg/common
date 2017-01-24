@@ -139,6 +139,11 @@ $font-3: sans-serif;
   &:hover {
     color: $btn-link-hover-color;
   }
+
+  &__purelink {
+    padding: 0;
+    margin: -1px;
+  }
 }
 
 .btn-inverse {
