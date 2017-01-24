@@ -54,7 +54,7 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
 
             // user input, copy, paste, cut occurrences
             element.on('input', adjust);
-            element.on('change', adjust);
+            element.on('keyup', adjust);
 
             if (ctrl){
                 // view value changed from ngModelController - textarea content changed via javascript
@@ -100,7 +100,7 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
 
             function cleanUp() {
                 element.off('input', adjust);
-                element.off('change', adjust);
+                element.off('keyup', adjust);
 
                 angular.element($window).off('resize', adjust);
             }
