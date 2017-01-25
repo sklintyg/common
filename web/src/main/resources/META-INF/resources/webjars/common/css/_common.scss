@@ -212,14 +212,18 @@ a {
 
 /* Common for intygstyper */
 
-.intyg-block-single {
-    padding-left: 20px;
+.intyg-block-single__content {
     background-color: $mercury;
     border: 1px solid $color_iron_approx;
+    padding: 12px 14px 12px 14px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    border-radius: 4px 4px 4px 4px;
 }
 
 .intyg-block {
-    margin: 0 0px 5px 0;
+    margin: 0 0px 0px 0;
+    padding-bottom: 20px;
     -webkit-border-radius: 6px 6px 6px 6px;
     -moz-border-radius: 6px 6px 6px 6px;
     border-radius: 6px 6px 6px 6px;
@@ -230,7 +234,7 @@ a {
     }
     h4 {
         font-size: 16px;
-        padding-bottom: 15px;
+        padding-bottom: 10px;
         line-height: 19px;
         &.intyg-field-number {
             float: right;
@@ -291,13 +295,6 @@ a {
         padding-bottom: 10px;
     }
     .title-single {
-        background: none;
-        -webkit-border-radius: 0 0 0 0;
-        -moz-border-radius: 0 0 0 0;
-        border-radius: 0 0 0 0;
-        border: 0;
-        display: inline-block;
-        padding: 10px 10px;
         vertical-align: middle;
         margin: 0;
         cursor: pointer;
@@ -772,14 +769,20 @@ TD .validation {
     margin-bottom: 10px;
 }
 
-.formly-field {
+.intyg-block .formly-field {
     &:not(:nth-last-child(2)) {
-        padding-bottom: 15px;
+        padding-bottom: 20px;
         &.small-gap {
             padding-bottom: 5px;
         }
     }
     &.formly-field-headline {
+        padding-bottom: 0;
+    }
+    &.formly-field-single-text, &.formly-field-check-multi-text {
+        padding-bottom: 10px;
+    }
+    &.formly-field-single-text:nth-last-child(2), &.formly-field-check-multi-text:nth-last-child(2) {
         padding-bottom: 0;
     }
 }

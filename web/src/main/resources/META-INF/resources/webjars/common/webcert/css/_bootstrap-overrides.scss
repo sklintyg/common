@@ -308,8 +308,17 @@ $font-3: sans-serif;
   padding-bottom: 15px;
 }
 
+.form-group:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 .form-group--small-gap {
   padding-bottom: 5px;
+}
+
+.radio:last-child, .checkbox:last-child {
+  margin-bottom: 0;
 }
 
 /* ---------------------------------------

@@ -85,7 +85,7 @@ $header-fix-panel-popover-color: #333;
   .control-label {
     font-size: 18px;
     line-height:29px;
-    padding-bottom: 16px;
+    padding-bottom: 4px;
     //so that the absolute positioned toggle button doesn't flow over content
     //the padding will case line break before that happens
     padding-right: 130px;
@@ -99,7 +99,7 @@ $header-fix-panel-popover-color: #333;
 }
 
 .header-fix-panel {
-  padding: 10px 0 0 30px;
+  padding: 10px 0 7px 30px;
   border-bottom: 1px solid $header-fix-panel-border-bottom-color;
   background-color: $header-fix-panel-background-color;
   -ms-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
@@ -111,6 +111,7 @@ $header-fix-panel-popover-color: #333;
 .header-fix-panel__title {
   display: inline-block;
   margin-right: 20px;
+  padding: 0;
 }
 
 .header-fix-panel__title .popover {
