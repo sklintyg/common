@@ -207,6 +207,13 @@
   .utkast-footer {
     margin-bottom: 50px;
   }
+  .fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    background: #fff;
+    width: 45%;
+    padding-bottom: 20px;
+  }
 
   p {
     margin: 0;

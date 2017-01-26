@@ -18,14 +18,29 @@
  */
 
 angular.module('common').controller('common.UtkastFooter',
-    ['$scope',
+    ['$scope', '$timeout',
         'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
-        'common.UtkastViewStateService', 'common.anchorScrollService', 'common.UtkastService',
-        function($scope,
-            UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, anchorScrollService, UtkastService) {
+        'common.UtkastViewStateService', 'common.UtkastService',
+        function($scope, $timeout,
+            UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService) {
             'use strict';
 
             var viewState = $scope.viewState;
+
+            var firstSignAttempt = true;
+
+            /*
+             Validation errors (boxes/borders) will not appear in the DOM until clicking 'signera/visa vad som saknas'. This will push existing content in the users current viewport down
+             and is very confusing. To fix this, we temporarily fixate the footer while the current angular digestloop renders the validation errors, and then scrolls
+             back to bottom of page and un-fixate the footer. Since we want these DOM changes to take effect immediately - we cannot rely on angular using ng-class
+             or similar since that would be a part of the digest loop, so it's done with jquery. (see INTYG-3504, INTYG-3508)
+             */
+            function toggleFixedFooter(enable) {
+                $('#utkast-footer').toggleClass('fixed-bottom', enable);
+                if (!enable) {
+                    $('html, body').scrollTop($(document).height());
+                }
+            }
 
             /**
              * Handle vidarebefordra dialog
@@ -41,15 +56,28 @@ angular.module('common').controller('common.UtkastFooter',
             };
 
             $scope.checkMissing = function() {
+
                 if($scope.signingWithSITHSInProgress){
                     return false;
                 }
 
                 if(!viewState.common.intyg.isComplete || $scope.certForm.$dirty){
+
+                    if (firstSignAttempt) {
+                        toggleFixedFooter(true);
+                    }
+
                     CommonViewState.setShowComplete();
                     UtkastService.save();
                     //anchorScrollService.scrollTo('bottom');
                     UtkastValidationService.filterValidationMessages();
+                    if (firstSignAttempt) {
+                        //give current digestloop a chance to render validation errors before scrolling to bottom of page again.
+                        $timeout(function() {
+                            toggleFixedFooter(false);
+                        }, 100);
+                        firstSignAttempt = false;
+                    }
                     return false;
                 }
 
