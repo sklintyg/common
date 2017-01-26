@@ -118,6 +118,12 @@ angular.module('common').constant('common.messages', {
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
         'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
 
+        'draft.notify.check-missing': 'Visa om någon information saknas',
+        'draft.notify.check-missing.help': 'Visa om och vilken information utkastet saknar.',
+        'draft.notify.button': 'Skicka ett e-mail med en länk till den läkare som ska signera intyget',
+        'draft.notify.help': 'Skapar ett e-mail i din mailklient innehållande direktlänk till utkastet.',
+        'draft.notify.hide-missing.button': 'Dölj information som saknas',
+
         'intyg.makulera.help': 'Orsak till makulering ska anges eftersom Försäkringskassans handläggare behöver den informationen för att bedöma patientens rätt till ersättning.',
 
         // wc-common-directives-resources

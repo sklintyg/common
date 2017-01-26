@@ -40,13 +40,9 @@ angular.module('common').controller('common.UtkastFooter',
                     viewState.draftModel, viewState.common);
             };
 
-            /**
-             * Action to sign the certificate draft and return to Webcert again.
-             */
-            $scope.sign = function() {
-
+            $scope.checkMissing = function() {
                 if($scope.signingWithSITHSInProgress){
-                    return;
+                    return false;
                 }
 
                 if(!viewState.common.intyg.isComplete || $scope.certForm.$dirty){
@@ -54,8 +50,21 @@ angular.module('common').controller('common.UtkastFooter',
                     UtkastService.save();
                     //anchorScrollService.scrollTo('bottom');
                     UtkastValidationService.filterValidationMessages();
+                    return false;
+                }
+
+                return true;
+            };
+
+            /**
+             * Action to sign the certificate draft and return to Webcert again.
+             */
+            $scope.sign = function() {
+
+                if(!$scope.checkMissing()){
                     return;
                 }
+
                 UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
                     function(result) {
                         if (result.newVersion) {
