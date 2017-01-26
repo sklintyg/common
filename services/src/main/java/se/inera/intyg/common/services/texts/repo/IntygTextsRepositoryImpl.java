@@ -154,7 +154,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         String baseName = com.google.common.io.Files.getNameWithoutExtension(file.getFileName().toString());
         final Path propertiesFilePath = file.resolveSibling(baseName + ".properties");
         Properties props = new Properties();
-        try (InputStream fileInSt = Files.newInputStream(file)) {
+        try (InputStream fileInSt = Files.newInputStream(propertiesFilePath)) {
             props.load(fileInSt);
             LOG.debug("Loaded " + props.stringPropertyNames().size() + " properties for " + propertiesFilePath);
         } catch (IOException e) {
