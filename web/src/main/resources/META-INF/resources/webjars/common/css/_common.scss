@@ -190,7 +190,7 @@ a {
 /* Used by webcert. Leave here for now */
 
 .webcert-multicol .certificate {
-    max-width: 600px;
+    max-width: 1000px;
 }
 
 /* main view class styles targeting just the intyg view side should use */
@@ -324,10 +324,9 @@ a {
         border-radius: 4px 4px 4px 4px;
     }
     hr {
-        border-top:1px solid #B2B2B2;
         border-bottom: 1px solid #FFFFFF;
-        margin-left: -20px;
-        margin-right: -20px;
+        margin-left: -14px;
+        margin-right: -14px;
     }
 }
 
@@ -391,7 +390,6 @@ div.infobox {
     border-radius: 4px 4px 4px 4px;
     color: $white;
     padding: 20px;
-    margin-right: 30px;
     h3 {
         font-size: 16px;
         padding: 0;
