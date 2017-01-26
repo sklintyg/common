@@ -63,7 +63,9 @@ angular.module('common').directive('arendePanelFraga',
                         // Flooring because previous calcs can generate half pixels which will screw calcs in
                         // anchorscroll and make scrolling get stuck in IE when
                         // window height is even
-                        anchorScroll.scrollTo(target, Math.floor(offset));
+                        offset = Math.floor(offset);
+
+                        anchorScroll.scrollTo(target, offset);
                     };
                 }
             };
