@@ -24,6 +24,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Utilities;
+import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -52,6 +53,9 @@ public final class PdfGenerator {
             document.setMargins(model.getPageMargins()[0], model.getPageMargins()[1], model.getPageMargins()[2], model.getPageMargins()[3]);
 
             PdfWriter writer = PdfWriter.getInstance(document, bos);
+
+            //Add preference to viewer applications to NOT scale when printing (it's just a hint, the user can change this)
+            writer.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
 
             // Add specified event handlers
             for (PdfPageEventHelper eventHelper : model.getPageEvents()) {
