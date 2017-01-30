@@ -145,7 +145,6 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                     required: true,
                     size: 'full',
                     hideWhenEmpty: true,
-                    forceLine: true,
                     kompletteringKey: 'annatGrundForMU'
                 }
             }

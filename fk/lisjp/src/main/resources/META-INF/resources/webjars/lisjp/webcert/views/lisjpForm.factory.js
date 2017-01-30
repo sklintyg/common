@@ -118,7 +118,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         {
                             key: 'arbetsmarknadspolitisktProgram', type: 'multi-text',
                             hideExpression: '!model.sysselsattning["PROGRAM"]',
-                            templateOptions: {label: 'FRG_30', required: true}
+                            templateOptions: {label: 'FRG_30', required: true, hideWhenEmpty: true }
                         }
                     ]
                 },
@@ -166,7 +166,8 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 {
                                     key: 'funktionsnedsattning', type: 'multi-text', templateOptions: {
                                     label: 'DFR_35.1',
-                                    required: 'FRG_ONLY'
+                                    required: 'FRG_ONLY',
+                                    forceDividerAfter: true
                                 }
                                 }
                             ]
@@ -195,7 +196,12 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                     templateOptions: {category: 5, categoryName: categoryNames[5]},
                     hideExpression: 'model.avstangningSmittskydd',
                     fieldGroup: [
-                        {key: 'pagaendeBehandling', type: 'multi-text', templateOptions: {label: 'DFR_19.1'}},
+                        {key: 'pagaendeBehandling', type: 'multi-text',
+                            templateOptions: {
+                                label: 'DFR_19.1',
+                                forceDividerAfter: true
+                            }
+                        },
                         {key: 'planeradBehandling', type: 'multi-text', templateOptions: {label: 'DFR_20.1'}}
                     ]
                 },
@@ -223,7 +229,8 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                             'TRE_FJARDEDEL',
                                             'HELT_NEDSATT'
                                         ],
-                                        required: true
+                                        required: true,
+                                        forceDividerAfter: true
                                     }
                                 },{
                                     key: 'motiveringTillTidigtStartdatumForSjukskrivning', type: 'multi-text',
@@ -254,7 +261,10 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         {
                             key: 'forsakringsmedicinsktBeslutsstod',
                             type: 'multi-text',
-                            templateOptions: {label: 'DFR_37.1'},
+                            templateOptions: {
+                                label: 'DFR_37.1',
+                                forceDividerAfter: true
+                            },
                             hideExpression: 'model.avstangningSmittskydd'
                         },
                         {
@@ -289,9 +299,20 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 }
                                 return scope.model.arbetstidsforlaggning !== true;
                             },
-                            templateOptions: {label: 'DFR_33.2', kompletteringKey: 'arbetstidsforlaggning', required: true}
+                            templateOptions: {
+                                label: 'DFR_33.2',
+                                kompletteringKey: 'arbetstidsforlaggning',
+                                required: true,
+                                hideWhenEmpty: true,
+                                forceDividerAfter: true
+                            }
                         },
-                        {key: 'arbetsresor', type: 'boolean', templateOptions: {label: 'DFR_34.1'}, hideExpression: 'model.avstangningSmittskydd'},
+                        {key: 'arbetsresor', type: 'boolean',
+                            templateOptions: {
+                                label: 'DFR_34.1'
+                            },
+                            hideExpression: 'model.avstangningSmittskydd'
+                        },
                         {
                             key: 'prognos', type: 'prognos',
                             hideExpression: 'model.avstangningSmittskydd',
@@ -417,7 +438,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
                             hideExpression: '!model.kontaktMedFk',
-                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk'}
+                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk', hideWhenEmpty: true }
                         }
                     ]
                 },

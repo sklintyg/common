@@ -26,6 +26,7 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
             replace: true,
             scope: {
                 categoryKey: '@',
+                prevField: '=',
                 field: '=',
                 nextField: '=',
                 intygModel: '='
@@ -41,7 +42,22 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                     return field.templateOptions && !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
                 };
 
-                scope.showFieldLine = function(field, nextField) {
+                scope.showFieldLine = function(prevField, field, nextField) {
+
+                    // Check that we have even loaded a intyg
+                    if(!scope.intygModel.id){
+                        return false;
+                    }
+
+                    // Check overrides
+                    if(field.templateOptions) {
+                        if(field.templateOptions.forceDividerAfter){
+                            return true;
+                        } else if(field.templateOptions.forceNoDividerAfter) {
+                            return false;
+                        }
+                    }
+
                     var showField = scope.showField(field);
 
                     if(showField){
@@ -63,6 +79,9 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                                 scope.intygModel.underlag.length === 0) {
                                 return false;
                             }
+                            if(ObjectHelper.isDefined(nextField) && !scope.intygModel[nextField.key]) {
+                                return false;
+                            }
                         }
                         else {
                             return false;
@@ -71,7 +90,7 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                         return true;
                     } else {
                         // Always line on these fields
-                        if(field.templateOptions && field.templateOptions.forceLine){
+                        if(field.templateOptions && field.templateOptions.forceDividerAfter){
                             return true;
                         }
 

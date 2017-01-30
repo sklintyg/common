@@ -26,7 +26,7 @@
         </div>
       </div>
       <div ng-switch-when="checkbox-inline">
-        <div ng-switch="intygModel[field.key]">
+        <div ng-switch="intygModel[field.key] == true">
           <span id="{{field.key}}-Ja" ng-switch-when="true">Ja</span>
           <span id="{{field.key}}-Nej" ng-switch-when="false">Nej</span>
         </div>
@@ -84,6 +84,6 @@
     </div>
   </div>
 
-  <hr ng-if="!$last && showFieldLine(field, nextField)">
+  <hr ng-if="!$last && showFieldLine(prevField, field, nextField)">
 
 </div>
