@@ -60,7 +60,7 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.patientname': 'Patientens namn:',
         'ts-bas.label.issued': 'Inkom till Mina intyg',
         'ts-bas.label.civicnumber': 'Personnr:',
-        'ts-bas.label.issuer': 'Utfärdare:',
+        'ts-bas.label.issuer': 'Vårdgivare:',
         'ts-bas.label.period': 'Period:',
         'ts-bas.label.errorpagetitle': 'Ett problem har uppstått',
 

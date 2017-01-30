@@ -71,7 +71,7 @@ angular.module('luae_fs').constant('luae_fs.messages', {
         'luae_fs.label.patientname': 'Patientens namn',
         'luae_fs.label.issued': 'Inkom till Mina intyg',
         'luae_fs.label.civicnumber': 'Personnummer',
-        'luae_fs.label.issuer': 'Utfärdare',
+        'luae_fs.label.issuer': 'Vårdgivare',
         'luae_fs.label.period': 'Period',
         'luae_fs.label.unit': 'Enhet',
         'luae_fs.label.yes': 'Ja',

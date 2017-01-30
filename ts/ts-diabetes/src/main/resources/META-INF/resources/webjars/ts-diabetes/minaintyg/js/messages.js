@@ -65,7 +65,7 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.label.patientname': 'Patientens namn:',
         'ts-diabetes.label.issued': 'Inkom till Mina intyg',
         'ts-diabetes.label.civicnumber': 'Personnr:',
-        'ts-diabetes.label.issuer': 'Utfärdare:',
+        'ts-diabetes.label.issuer': 'Vårdgivare:',
         'ts-diabetes.label.period': 'Period:',
         'ts-diabetes.label.errorpagetitle': 'Ett problem har uppstått',
 

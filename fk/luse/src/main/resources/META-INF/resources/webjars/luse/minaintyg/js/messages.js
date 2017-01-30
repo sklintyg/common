@@ -63,7 +63,7 @@ angular.module('luse').constant('luse.messages', {
         'luse.label.patientname': 'Patientens namn',
         'luse.label.issued': 'Inkom till Mina intyg',
         'luse.label.civicnumber': 'Personnummer',
-        'luse.label.issuer': 'Utfärdare',
+        'luse.label.issuer': 'Vårdgivare',
         'luse.label.period': 'Period',
         'luse.label.unit': 'Enhet',
         'luse.label.yes': 'Ja',

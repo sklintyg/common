@@ -46,7 +46,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.label.patientname': 'Patientens namn',
         'fk7263.label.issued': 'Inkom till Mina intyg',
         'fk7263.label.civicnumber': 'Personnummer',
-        'fk7263.label.issuer': 'Utfärdare',
+        'fk7263.label.issuer': 'Vårdgivare',
         'fk7263.label.period': 'Period',
         'fk7263.label.unit': 'Enhet',
         'fk7263.label.smittskydd': 'Avstängning enligt smittskyddslagen på grund av smitta (fält 1)',

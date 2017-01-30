@@ -59,7 +59,7 @@ angular.module('luae_na').constant('luae_na.messages', {
         'luae_na.label.patientname': 'Patientens namn',
         'luae_na.label.issued': 'Inkom till Mina intyg',
         'luae_na.label.civicnumber': 'Personnummer',
-        'luae_na.label.issuer': 'Utfärdare',
+        'luae_na.label.issuer': 'Vårdgivare',
         'luae_na.label.period': 'Period',
         'luae_na.label.unit': 'Enhet',
         'luae_na.label.yes': 'Ja',
