@@ -38,26 +38,52 @@ describe('wcIntygField Directive', function() {
 
             $scope.$digest();
             $scope = element.isolateScope();
+
+            $scope.intygModel = {
+                id: 'test', // <-- must be present or showFieldLine will bail with false response
+                key: 'testmodel' // <-- property name must match key in nextfield or showFieldLine returns false
+            };
         }]));
 
 
-    it('should display svarstext if present', function() {
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{}})).toBeTruthy();
-        expect($scope.showFieldLine({type:'info',templateOptions:{label:'FRG_1'}},{templateOptions:{}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'info',templateOptions:{label:'FRG_1'}},{templateOptions:{}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'KV_001_002'}},{templateOptions:{}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_1.1'}})).toBeTruthy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_1.2'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_1.10'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_1.11'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.1'}})).toBeTruthy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.2'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.3'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.4'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.10'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.11'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.12'}})).toBeFalsy();
-        expect($scope.showFieldLine({type:'date',templateOptions:{label:'FRG_1'}},{templateOptions:{label:'DFR_10.99'}})).toBeFalsy();
+    it('should display line if present', function() {
+
+        // Show line for non-info or headline types
+        var prevField;
+        var nextField = {key:'key', templateOptions:{}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeTruthy();
+        expect($scope.showFieldLine(prevField, {type:'info',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        expect($scope.showFieldLine(prevField, {type:'info',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+
+        // Don't show line for KV_ labels
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'KV_001_002'}}, nextField)).toBeFalsy();
+
+        // Show line for DFR X.1 labels
+        // key is needed because nextfields that fail a key check in intygmodel return false (see matching key in intygmodel setup)
+        nextField = {key:'key', templateOptions:{label:'DFR_1.1'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeTruthy();
+        nextField = {key:'key', templateOptions:{label:'DFR_1.2'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_1.10'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_1.11'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_10.1'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeTruthy();
+        nextField = {key:'key', templateOptions:{label:'DFR_10.2'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_10.3'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_10.4'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_10.10'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_10.11'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_10.12'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
+        nextField = {key:'key', templateOptions:{label:'DFR_10.99'}};
+        expect($scope.showFieldLine(prevField, {type:'date',templateOptions:{label:'FRG_1'}}, nextField)).toBeFalsy();
     });
 
     it('should display svarstext depending on show options', function() {

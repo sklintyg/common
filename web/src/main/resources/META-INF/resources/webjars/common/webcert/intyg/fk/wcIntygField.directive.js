@@ -42,7 +42,8 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                     return field.templateOptions && !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
                 };
 
-                scope.showFieldLine = function(prevField, field, nextField) {
+                scope.showFieldLine = function(prevField, field, nextField) { // jshint ignore:line
+                    // Ignored cyclomatic complexity because splitting this function up wouldn't help readability much here
 
                     // Check that we have even loaded a intyg
                     if(!scope.intygModel.id){
@@ -88,14 +89,9 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                         }
 
                         return true;
-                    } else {
-                        // Always line on these fields
-                        if(field.templateOptions && field.templateOptions.forceDividerAfter){
-                            return true;
-                        }
-
-                        return false;
                     }
+
+                    return false;
                 };
             }
         };
