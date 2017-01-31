@@ -42,9 +42,7 @@
         <div class="form-group">
           <button type="button" id="vidarebefordraEjHanterad" class="btn"
                   ng-class="{'btn-success': !viewState.draftModel.vidarebefordrad, 'btn-default btn-secondary' : viewState.draftModel.vidarebefordrad}"
-                  title="Skicka mejl med en länk till utkastet för att informera den läkare som ska signera det."
-                  ng-click="vidarebefordraUtkast()">
-          <span class="glyphicon glyphicon-share-alt"
+                  ng-click="vidarebefordraUtkast()"><span class="glyphicon glyphicon-share-alt"
                 ng-class="{'forward-active': !viewState.draftModel.vidarebefordrad, 'forward-inactive': viewState.draftModel.vidarebefordrad}"></span>
              <span message key="draft.notify.button"></span>
           </button>

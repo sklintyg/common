@@ -120,7 +120,7 @@ angular.module('common').constant('common.messages', {
 
         'draft.notify.check-missing': 'Visa om någon information saknas',
         'draft.notify.check-missing.help': 'Visa om och vilken information utkastet saknar.',
-        'draft.notify.button': 'Skicka ett e-mail med en länk till den läkare som ska signera intyget',
+        'draft.notify.button': 'Vidarebefordra utkast',
         'draft.notify.help': 'Skapar ett e-mail i din mailklient innehållande direktlänk till utkastet.',
         'draft.notify.hide-missing.button': 'Dölj information som saknas',
 

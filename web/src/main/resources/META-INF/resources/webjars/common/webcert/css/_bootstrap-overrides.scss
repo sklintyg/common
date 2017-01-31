@@ -77,6 +77,7 @@ $font-3: sans-serif;
 .btn {
   line-height: 18px;
   padding: 7px 12px;
+  text-overflow: ellipsis;
 }
 
 .btn-secondary {
