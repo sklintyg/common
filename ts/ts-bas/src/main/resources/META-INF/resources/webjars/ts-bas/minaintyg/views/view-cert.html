@@ -62,45 +62,12 @@
           <div message key="ts-bas.label.pagedescription.archive"></div>
         </div>
         <br>
-        <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px"
-                data-toggle="collapse">
+        <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px" data-toggle="collapse">
           <span message key="ts-bas.label.status.{{!isCollapsed1}}"></span>
         </button>
-
       </div>
       <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-        <h2>
-          <span message key="ts-bas.label.latestevent"></span>
-        </h2>
-
-        <!-- Show if no events to show -->
-        <div ng-show="cert.status.length<1">
-          <p>
-            <span message key="ts-bas.label.latestevent.noevents"></span>
-          </p>
-        </div>
-
-        <!-- Show if more than one event exists -->
-        <div ng-show="cert.status.length>0" id="latest-certificate-event">
-          <span message key="ts-bas.status.{{cert.status[0].type}}"></span>
-          <span message key="ts-bas.target.{{cert.status[0].target}}"></span><span>s system</span>
-          <span class="certificate-event-timestamp pull-right">{{cert.status[0].timestamp | date:'short'}}</span>
-          <div uib-collapse="!isCollapsedCertEvents" class="collapse">
-            <div ng-repeat="status in cert.status" ng-switch on="$index > 0">
-              <div ng-switch-when="true">
-                <span message key="ts-bas.status.{{cert.status[0].type}}"></span>
-                <span message key="ts-bas.target.{{cert.status[0].target}}"></span><span>s system</span>
-                <span class="certificate-event-timestamp pull-right">{{status.timestamp | date:'short'}}</span><br>
-              </div>
-            </div>
-          </div>
-          <p>
-            <button type="button" class="btn-link btn-link-link" ng-show="cert.status.length>1"
-                    ng-click="isCollapsedCertEvents = !isCollapsedCertEvents" data-toggle="collapse">
-              <span message key="ts-bas.label.showevents.{{!isCollapsedCertEvents }}"></span>
-            </button>
-          </p>
-        </div>
+        <latest-events cert-id="{{cert.id}}" statuses="cert.status"></latest-events>
       </div>
     </div>
 
@@ -123,8 +90,7 @@
     </div>
 
     <section id="certificate" class="certificate">
-      <span class="hide" id="certId" title="{{cert.id}}"></span> <span class="hide" id="certType"
-                                                                       title="{{cert.typ}}"></span>
+      <span class="hide" id="certId" title="{{cert.id}}"></span> <span class="hide" id="certType" title="{{cert.typ}}"></span>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="cert">

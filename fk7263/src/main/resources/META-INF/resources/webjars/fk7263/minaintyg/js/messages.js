@@ -34,7 +34,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
         'fk7263.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
         'fk7263.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'fk7263.label.pagedescription.archive': 'För att arkivera intyget klickar du på symbolen Arkivera intyg <span class="glyphicon glyphicon-folder-close"></span>.',
+        'fk7263.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
 
         'fk7263.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'fk7263.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',

@@ -52,7 +52,7 @@ angular.module('luse').constant('luse.messages', {
         'luse.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
         'luse.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
         'luse.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'luse.label.pagedescription.archive': 'För att arkivera intyget klickar du på symbolen Arkivera intyg <span class="glyphicon glyphicon-folder-close"></span>.',
+        'luse.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
 
         'luse.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'luse.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
