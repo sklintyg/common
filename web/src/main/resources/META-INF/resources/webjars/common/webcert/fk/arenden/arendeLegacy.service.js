@@ -37,13 +37,13 @@ angular.module('common').factory('common.ArendeLegacyService',
         function _convertFragasvarListToArendeList(list) {
             var converted = [];
             angular.forEach(list, function(fs) {
-                var arende = _convertFragasvarToArende(fs);
+                var arende = _convertListFragasvarToArende(fs);
                 converted.push(arende);
             });
             return converted;
         }
 
-        function _convertFragasvarToArende(fs) {
+        function _convertListFragasvarToArende(fs) {
             var fragaSvar = fs.fragaSvar;
 
             var arende = null;
@@ -85,10 +85,52 @@ angular.module('common').factory('common.ArendeLegacyService',
             return arende;
         }
 
+        function _convertFragasvarToArende(fs) {
+
+            var arende = null;
+
+            if(fs) {
+                arende = {
+                    fraga: {
+                        internReferens: fs.internReferens,
+                        frageStallare: fs.frageStallare,
+                        amne: _convertAmneFragasvarToArende(fs.amne),
+                        meddelande: fs.frageText,
+                        meddelandeRubrik: fs.meddelandeRubrik,
+                        externaKontakter: fs.externaKontakter,
+                        intygId: fs.intygsReferens.intygsId,
+                        kompletteringar: fs.kompletteringar,
+                        status: fs.status,
+                        vidarebefordrad: fs.vidarebefordrad,
+                        vardaktorNamn: fs.vardAktorNamn,
+                        timestamp: fs.frageSkickadDatum
+                    },
+                    svar: {
+                        internReferens: fs.internReferens,
+                        frageStallare: _convertSvarFragestallare(fs.frageStallare),
+                        amne: _convertAmneFragasvarToArende(fs.amne),
+                        meddelande: fs.svarsText,
+                        meddelandeRubrik: fs.meddelandeRubrik,
+                        intygId: fs.intygsReferens.intygsId,
+                        kompletteringar: fs.kompletteringar,
+                        status: fs.status,
+                        vidarebefordrad: fs.vidarebefordrad,
+                        vardaktorNamn: fs.vardAktorNamn,
+                        svarSkickadDatum: fs.svarSkickadDatum
+                    },
+                    answeredWithIntyg: fs.answeredWithIntyg,
+                    senasteHandelseDatum: fs.senasteHandelseDatum,
+                    paminnelser: []
+                };
+            }
+            return arende;
+        }
+
         return {
             convertAmneArendeToFragasvar: _convertAmneArendeToFragasvar,
             convertFragasvarListToArendeList: _convertFragasvarListToArendeList,
-            convertFragasvarToArende: _convertFragasvarToArende
+            convertFragasvarToArende: _convertFragasvarToArende,
+            convertListFragasvarToArende: _convertListFragasvarToArende
         };
 
     });
