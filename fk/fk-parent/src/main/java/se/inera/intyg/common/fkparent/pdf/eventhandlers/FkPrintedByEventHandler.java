@@ -47,13 +47,6 @@ public class FkPrintedByEventHandler extends PdfPageEventHelper {
         this.applicationOriginText = applicationOriginText;
     }
 
-    public FkPrintedByEventHandler(String intygsId, String applicationOriginText, float printedbyX, float printedbyY) {
-        this.intygsId = intygsId;
-        this.applicationOriginText = applicationOriginText;
-        this.printedbyX = Utilities.millimetersToPoints(printedbyX);
-        this.printedbyY = Utilities.millimetersToPoints(printedbyY);
-    }
-
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
         PdfContentByte canvas = writer.getDirectContentUnder();

@@ -40,11 +40,6 @@ public abstract class FkAbstractPersonnummerEventHandler extends PdfPageEventHel
         this.personnummer = personnummer;
     }
 
-    public FkAbstractPersonnummerEventHandler(String personnummer, Font font) {
-        this.personnummer = personnummer;
-        this.font = font;
-    }
-
     protected abstract int getActiveFromPage();
 
     protected abstract int getActiveToPage();

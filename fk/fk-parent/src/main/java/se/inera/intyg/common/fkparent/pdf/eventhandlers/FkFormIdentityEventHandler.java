@@ -51,17 +51,6 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
         this.blankettVersion = blankettVersion;
     }
 
-    public FkFormIdentityEventHandler(String formId, String blankettId, String blankettVersion, float formidX, float formidY, float scanidX,
-            float scanidY) {
-        this.formId = formId;
-        this.blankettId = blankettId;
-        this.blankettVersion = blankettVersion;
-        this.formidX = Utilities.millimetersToPoints(formidX);
-        this.formidY = Utilities.millimetersToPoints(formidY);
-        this.scanidX = Utilities.millimetersToPoints(scanidX);
-        this.scanidY = Utilities.millimetersToPoints(scanidY);
-    }
-
     /**
      * Stamps the fk issue info on each page.
      *
