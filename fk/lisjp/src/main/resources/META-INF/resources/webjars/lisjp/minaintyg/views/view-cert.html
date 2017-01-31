@@ -15,29 +15,26 @@
         <p>
           <div class="mi-text" message key="lisjp.label.pageingress"></div>
 
-          <div collapse="!isCollapsed1" class="collapse mi-text">
-	          <div message key="lisjp.label.pagedescription.sendcertificate.header"></div>
-			  <div message key="lisjp.label.pagedescription.sendcertificate"></div>
-	          <!--
-	          <div message key="lisjp.label.pagedescription.certificate.to.employer.header"></div>
-	          <div message key="lisjp.label.pagedescription.certificate.to.employer"></div>
-	           -->
-			  <div message key="lisjp.label.pagedescription.save.or.print.certificate.header"></div>
-	          <div message key="lisjp.label.pagedescription.save.or.print.certificate"></div>
-	          <a class="glyphicon glyphicon-question-sign more-info" ng-click="isCollapsedPDF = !isCollapsedPDF" title="{{messageService.getProperty('common.title.helptext.moreinfo')}}"></a>
-      		  <div collapse="!isCollapsedPDF" class="well well-sm margin-top-5px"><span message key="lisjp.helptext.readpdfhelp"></span></div>
-	          <div message key="lisjp.label.pagedescription.sickness.benefit.header"></div>
-	          <div message key="lisjp.label.pagedescription.sickness.benefit"></div>
-	          <div message key="lisjp.label.pagedescription.error.in.certificate.header"></div>
-	          <div message key="lisjp.label.pagedescription.error.in.certificate"></div>
-	          <div message key="lisjp.label.pagedescription.archive.header"></div>
-	          <div message key="lisjp.label.pagedescription.archive"></div>
+          <div uib-collapse="!isCollapsed1" class="collapse mi-text">
+            <div message key="lisjp.label.pagedescription.sendcertificate.header"></div>
+            <div message key="lisjp.label.pagedescription.sendcertificate"></div>
+            <div message key="lisjp.label.pagedescription.save.or.print.certificate.header"></div>
+            <div message key="lisjp.label.pagedescription.save.or.print.certificate"></div>
+            <a class="glyphicon glyphicon-question-sign more-info" ng-click="isCollapsedPDF = !isCollapsedPDF" title="{{messageService.getProperty('common.title.helptext.moreinfo')}}"></a>
+            <div uib-collapse="!isCollapsedPDF" class="well well-sm margin-top-5px">
+              <span message key="lisjp.helptext.readpdfhelp"></span>
+            </div>
+            <div message key="lisjp.label.pagedescription.sickness.benefit.header"></div>
+            <div message key="lisjp.label.pagedescription.sickness.benefit"></div>
+            <div message key="lisjp.label.pagedescription.error.in.certificate.header"></div>
+            <div message key="lisjp.label.pagedescription.error.in.certificate"></div>
+            <div message key="lisjp.label.pagedescription.archive.header"></div>
+            <div message key="lisjp.label.pagedescription.archive"></div>
           </div>
-          <br>
-          <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px" data-toggle="collapse">
-            <span message key="lisjp.label.status.{{!isCollapsed1}}"></span>
-          </button>
         </p>
+        <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px" data-toggle="collapse">
+          <span message key="lisjp.label.status.{{!isCollapsed1}}"></span>
+        </button>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
         <latest-events cert-id="{{cert.id}}" statuses="cert.filteredStatuses"></latest-events>

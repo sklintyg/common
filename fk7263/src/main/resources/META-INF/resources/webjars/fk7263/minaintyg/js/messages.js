@@ -22,7 +22,7 @@ angular.module('fk7263').constant('fk7263.messages', {
     'sv': {
         // Labels
         'fk7263.label.pagetitle': 'Granska och skicka intyg',
-        'fk7263.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Försäkringskassan, du kan även skriva ut och spara intyget.<br>',
+        'fk7263.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Försäkringskassan, du kan även spara intyget som en PDF på din dator.<br>',
         'fk7263.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
         'fk7263.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Försäkringskassan eller en annan mottagare.<br>',
         'fk7263.label.pagedescription.certificate.to.employer.header': '<h2>Intyg till arbetsgivare</h2>',
@@ -32,9 +32,9 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.label.pagedescription.sickness.benefit.header': '<h2>Vill du ansöka om sjukpenning?</h2>',
         'fk7263.label.pagedescription.sickness.benefit': 'Det gör du enklast på <a href="http://www.forsakringskassan.se/sjuk" target="_blank">www.forsakringskassan.se/sjuk</a>. Där kan du läsa mer om sjukpenning och hur du ansöker.<br>',
         'fk7263.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
-        'fk7263.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
+        'fk7263.label.pagedescription.error.in.certificate': 'För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
         'fk7263.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'fk7263.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
+        'fk7263.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
 
         'fk7263.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'fk7263.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',

@@ -31,11 +31,10 @@
 	          <div message key="fk7263.label.pagedescription.archive.header"></div>
 	          <div message key="fk7263.label.pagedescription.archive"></div>
           </div>
-          <br>
-          <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px" data-toggle="collapse">
-            <span message key="fk7263.label.status.{{!isCollapsed1}}"></span>
-          </button>
         </p>
+        <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px" data-toggle="collapse">
+          <span message key="fk7263.label.status.{{!isCollapsed1}}"></span>
+        </button>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
         <latest-events cert-id="{{cert.id}}" statuses="cert.filteredStatuses"></latest-events>

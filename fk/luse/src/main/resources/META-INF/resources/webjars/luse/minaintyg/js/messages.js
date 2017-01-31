@@ -45,18 +45,16 @@ angular.module('luse').constant('luse.messages', {
         'luse.label.latestevent.noevents': 'Inga händelser',
 
         'luse.label.pagetitle': 'Granska och skicka intyg',
-        'luse.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Försäkringskassan.<br>',
-
+        'luse.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Försäkringskassan, du kan även spara intyget som en PDF på din dator.<br>',
         'luse.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
         'luse.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Försäkringskassan eller en annan mottagare.<br>',
         'luse.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
-        'luse.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
+        'luse.label.pagedescription.error.in.certificate': 'För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
         'luse.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'luse.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
+        'luse.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
 
         'luse.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'luse.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
-
         'luse.label.showevents.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa färre händelser',
         'luse.label.showevents.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa alla händelser',
 
