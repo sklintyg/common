@@ -74,7 +74,7 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                                 hideWhenEmpty: true,
                                 required: true
                             }
-                        }, {},
+                        },
                         {
                             key: 'kannedomOmPatient',
                             type: 'singleDate',
