@@ -21,8 +21,8 @@
  * wcField directive. Used to abstract common layout for full-layout form fields in intyg modules
  */
 angular.module('common').directive('wcUtkastErrorSummary',
-    [ 'common.anchorScrollService',
-        function(anchorScrollService) {
+    [ 'common.anchorScrollService', 'common.UtkastViewStateService', 'common.UtkastValidationViewState',
+        function(anchorScrollService, CommonViewState, utkastValidationViewState) {
             'use strict';
 
             return {
@@ -33,6 +33,11 @@ angular.module('common').directive('wcUtkastErrorSummary',
                 controller: function($scope) {
                     $scope.scrollTo = function(message) {
                         anchorScrollService.scrollTo('anchor-' + message);
+                    };
+
+                    $scope.hideMissing = function(){
+                        CommonViewState.setShowComplete(false);
+                        utkastValidationViewState.reset();
                     };
                 }
             };
