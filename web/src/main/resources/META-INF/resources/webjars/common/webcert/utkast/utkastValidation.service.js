@@ -18,8 +18,8 @@
  */
 
 angular.module('common').factory('common.UtkastValidationService',
-    ['$log', 'common.UtkastValidationViewState', 'common.UtkastValidationProxy', 'common.UtkastViewStateService',
-        function($log, ValidationViewState, UtkastValidationProxy, CommonViewState) {
+    ['$log', '$rootScope', 'common.UtkastValidationViewState', 'common.UtkastValidationProxy', 'common.UtkastViewStateService',
+        function($log, $rootScope, ValidationViewState, UtkastValidationProxy, CommonViewState) {
             'use strict';
             function _validate(utkastModel) {
                 UtkastValidationProxy.validateUtkast(
@@ -100,6 +100,7 @@ angular.module('common').factory('common.UtkastValidationService',
                     }
                     ValidationViewState.messagesByField[field].push(message);
                 });
+                $rootScope.$emit('validation.messages-updated');
             }
 
             return {

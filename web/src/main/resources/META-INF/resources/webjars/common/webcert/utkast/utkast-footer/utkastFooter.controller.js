@@ -18,29 +18,14 @@
  */
 
 angular.module('common').controller('common.UtkastFooter',
-    ['$scope', '$timeout',
+    ['$scope', '$rootScope', '$timeout',
         'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
         'common.UtkastViewStateService', 'common.UtkastService',
-        function($scope, $timeout,
+        function($scope, $rootScope, $timeout,
             UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService) {
             'use strict';
 
             var viewState = $scope.viewState;
-
-            var firstSignAttempt = true;
-
-            /*
-             Validation errors (boxes/borders) will not appear in the DOM until clicking 'signera/visa vad som saknas'. This will push existing content in the users current viewport down
-             and is very confusing. To fix this, we temporarily fixate the footer while the current angular digestloop renders the validation errors, and then scrolls
-             back to bottom of page and un-fixate the footer. Since we want these DOM changes to take effect immediately - we cannot rely on angular using ng-class
-             or similar since that would be a part of the digest loop, so it's done with jquery. (see INTYG-3504, INTYG-3508)
-             */
-            function toggleFixedFooter(enable) {
-                $('#utkast-footer').toggleClass('fixed-bottom', enable);
-                if (!enable) {
-                    $('html, body').scrollTop($(document).height());
-                }
-            }
 
             /**
              * Handle vidarebefordra dialog
@@ -55,6 +40,7 @@ angular.module('common').controller('common.UtkastFooter',
                     viewState.draftModel, viewState.common);
             };
 
+
             $scope.checkMissing = function() {
 
                 if($scope.signingWithSITHSInProgress){
@@ -63,21 +49,10 @@ angular.module('common').controller('common.UtkastFooter',
 
                 if(!viewState.common.intyg.isComplete || $scope.certForm.$dirty){
 
-                    if (firstSignAttempt) {
-                        toggleFixedFooter(true);
-                    }
-
                     CommonViewState.setShowComplete();
                     UtkastService.save();
-                    //anchorScrollService.scrollTo('bottom');
                     UtkastValidationService.filterValidationMessages();
-                    if (firstSignAttempt) {
-                        //give current digestloop a chance to render validation errors before scrolling to bottom of page again.
-                        $timeout(function() {
-                            toggleFixedFooter(false);
-                        }, 100);
-                        firstSignAttempt = false;
-                    }
+
                     return false;
                 }
 
@@ -88,7 +63,6 @@ angular.module('common').controller('common.UtkastFooter',
              * Action to sign the certificate draft and return to Webcert again.
              */
             $scope.sign = function() {
-
                 if(!$scope.checkMissing()){
                     return;
                 }
@@ -101,6 +75,20 @@ angular.module('common').controller('common.UtkastFooter',
                     }
                 );
             };
+
+            /**
+             * Whenever a validation round is completed, scroll (back) to bottom if the current element with
+             * focus is the signera button - i.e we must just have clicked it.
+             *
+             */
+            var unbindFastEvent = $rootScope.$on('validation.messages-updated', function (event) {
+                if($(':focus').attr('id') === 'signera-utkast-button') {
+                    $timeout(function() {
+                        $('html, body').scrollTop($(document).height());
+                    }, 200);
+                }
+            });
+            $scope.$on('$destroy', unbindFastEvent);
 
         }
     ]
