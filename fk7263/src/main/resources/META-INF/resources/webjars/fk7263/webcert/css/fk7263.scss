@@ -70,6 +70,14 @@ This is to avoid leaking module specific style rules outside of it's intended co
     position: relative;
   }
 
+  .form15 {
+    .form-horizontal {
+      .form-group {
+        padding-top: 10px;
+      }
+    }
+  }
+
   .edit-form {
     textarea#currentWork.form-control {
       padding: 2px 4px;

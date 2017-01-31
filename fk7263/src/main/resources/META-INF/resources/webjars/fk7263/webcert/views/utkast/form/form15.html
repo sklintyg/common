@@ -1,4 +1,4 @@
-<div class="">
+<div class="form15">
     <a id="anchor-vardenhet" name="anchor.vardenhet"></a>
 
     <div wc-field field-label="fk7263.label.vardenhet" field-number="15"
@@ -14,59 +14,58 @@
             frågor om HSA att uppdatera informationen.
         </div>
 
-        <div class="form-horizontal">
-            <div class="form-group">
-                <wc-validation-wrapper field-type="single-text" label-col-size="3" validations="viewState.getValidationErrors('grunddata.skapadav.vardenhet.postadress')">
-                    <div class="row">
-                        <label class="col-xs-3 control-label">Postadress *</label>
-                        <div class="col-xs-9">
-                            <input type="text" class="form-control input-full" id="clinicInfoPostalAddress"
-                                   name="clinicInfo.postalAddress"
-                                   ng-model="model.grundData.skapadAv.vardenhet.postadress"
-                                   ng-blur="validate()">
-                        </div>
-                    </div>
-                </wc-validation-wrapper>
-            </div>
-            <div class="form-group">
-                <wc-validation-wrapper field-type="single-text" label-col-size="3" validations="viewState.getValidationErrors('grunddata.skapadav.vardenhet.postnummer')">
-                    <div class="row">
-                        <label class="col-xs-3 control-label">Postnummer *</label>
 
-                        <div class="col-xs-9">
-                            <input type="text" class="form-control input-5" id="clinicInfoPostalCode"
-                                   name="clinicInfo.postalCode" ng-model="model.grundData.skapadAv.vardenhet.postnummer"
-                                   ng-blur="validate()">
-                        </div>
-                    </div>
-                </wc-validation-wrapper>
-            </div>
+      <div class="form-horizontal">
+          <wc-validation-wrapper field-type="single-text" label-col-size="3" validations="viewState.getValidationErrors('grunddata.skapadav.vardenhet.postadress')">
             <div class="form-group">
-                <wc-validation-wrapper field-type="single-text" label-col-size="3" validations="viewState.getValidationErrors('grunddata.skapadav.vardenhet.postort')">
-                    <div class="row">
-                        <label class="col-xs-3 control-label">Postort *</label>
-
-                        <div class="col-xs-9">
-                            <input type="text" class="form-control" id="clinicInfoPostalCity" name="clinicInfo.postalCity"
-                                   ng-model="model.grundData.skapadAv.vardenhet.postort"
-                                   ng-blur="validate()">
-                        </div>
-                    </div>
-                </wc-validation-wrapper>
-            </div>
-            <div class="form-group">
-                <wc-validation-wrapper field-type="single-text" label-col-size="3" validations="viewState.getValidationErrors('grunddata.skapadav.vardenhet.telefonnummer')">
-                  <div class="row">
-                      <label class="col-xs-3 control-label">Telefonnummer *</label>
-
-                      <div class="col-xs-9">
-                          <input type="text" class="form-control" id="clinicInfoPhone" name="clinicInfo.phone"
-                                 ng-model="model.grundData.skapadAv.vardenhet.telefonnummer"
-                                 ng-blur="validate()">
-                      </div>
+                  <label class="col-md-3 control-label label__no-break">Postadress *</label>
+                  <div class="col-md-9">
+                      <input type="text" class="form-control input-full" id="clinicInfoPostalAddress"
+                             name="clinicInfo.postalAddress"
+                             ng-model="model.grundData.skapadAv.vardenhet.postadress"
+                             ng-blur="validate()">
                   </div>
-                </wc-validation-wrapper>
             </div>
-        </div>
+          </wc-validation-wrapper>
+
+
+          <wc-validation-wrapper field-type="single-text" label-col-size="3" validations="viewState.getValidationErrors('grunddata.skapadav.vardenhet.postnummer')">
+            <div class="form-group">
+                  <label class="col-md-3 control-label label__no-break">Postnummer *</label>
+
+                  <div class="col-md-9">
+                      <input type="text" class="form-control input-5" id="clinicInfoPostalCode"
+                             name="clinicInfo.postalCode" ng-model="model.grundData.skapadAv.vardenhet.postnummer"
+                             ng-blur="validate()">
+                  </div>
+            </div>
+          </wc-validation-wrapper>
+
+
+          <wc-validation-wrapper field-type="single-text" label-col-size="3" validations="viewState.getValidationErrors('grunddata.skapadav.vardenhet.postort')">
+            <div class="form-group">
+                  <label class="col-md-3 control-label label__no-break">Postort *</label>
+
+                  <div class="col-md-9">
+                      <input type="text" class="form-control" id="clinicInfoPostalCity" name="clinicInfo.postalCity"
+                             ng-model="model.grundData.skapadAv.vardenhet.postort"
+                             ng-blur="validate()">
+                  </div>
+            </div>
+          </wc-validation-wrapper>
+
+
+          <wc-validation-wrapper field-type="single-text" label-col-size="3" validations="viewState.getValidationErrors('grunddata.skapadav.vardenhet.telefonnummer')">
+            <div class="form-group">
+                <label class="col-md-3 control-label label__no-break">Telefonnummer *</label>
+
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="clinicInfoPhone" name="clinicInfo.phone"
+                           ng-model="model.grundData.skapadAv.vardenhet.telefonnummer"
+                           ng-blur="validate()">
+                </div>
+            </div>
+          </wc-validation-wrapper>
+      </div>
     </div>
 </div>
