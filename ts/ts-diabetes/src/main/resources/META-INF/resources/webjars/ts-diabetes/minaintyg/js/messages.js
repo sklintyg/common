@@ -48,20 +48,21 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.label.pagetitle.step1': 'Skicka intyg - steg 1 av 2',
         'ts-diabetes.label.pagetitle.step2': 'Skicka intyg - steg 2 av 2',
 
-        'ts-diabetes.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även skriva ut eller spara intyget.<br>',
+        'ts-diabetes.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även spara intyget som en PDF på din dator.<br>',
         'ts-diabetes.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
         'ts-diabetes.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Transportstyrelsen.',
         'ts-diabetes.label.pagedescription.save.or.print.certificate.header': '<h2>Spara eller skriva ut</h2>',
         'ts-diabetes.label.pagedescription.save.or.print.certificate': 'Klicka på knappen Spara som PDF för att spara eller skriva ut ditt intyg. Intyget öppnas eller laddas ner som en pdf-fil som du kan spara på din dator eller skriva ut.',
         'ts-diabetes.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
-        'ts-diabetes.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
+        'ts-diabetes.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i ditt intyg ska du kontakta den som utfärdat ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
         'ts-diabetes.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'ts-diabetes.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
+        'ts-diabetes.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
 
         'ts-diabetes.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'ts-diabetes.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
         'ts-diabetes.label.showevents.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa färre händelser',
         'ts-diabetes.label.showevents.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa alla händelser',
+
         'ts-diabetes.label.patientname': 'Patientens namn:',
         'ts-diabetes.label.issued': 'Inkom till Mina intyg',
         'ts-diabetes.label.civicnumber': 'Personnr:',
@@ -77,7 +78,6 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.label.date': 'Datum',
         'ts-diabetes.label.contactinfo': 'Namn och kontaktuppgifter till vårdenheten',
         'ts-diabetes.label.ej-angivet': 'Ej ifyllt',
-
         'ts-diabetes.label.bedomning.kan-inte-ta-stallning': 'Kan inte ta ställning',
 
         'ts-diabetes.confirm.label.pagetitle': 'Skicka intyg - steg 2 av 3',

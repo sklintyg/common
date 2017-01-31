@@ -43,31 +43,30 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.pagetitle.step1': 'Skicka intyg - steg 1 av 2',
         'ts-bas.label.pagetitle.step2': 'Skicka intyg - steg 2 av 2',
 
-        'ts-bas.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även skriva ut eller spara intyget.<br>',
+        'ts-bas.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även spara intyget som en PDF på din dator.<br>',
         'ts-bas.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
         'ts-bas.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Transportstyrelsen.',
         'ts-bas.label.pagedescription.save.or.print.certificate.header': '<h2>Spara eller skriva ut</h2>',
         'ts-bas.label.pagedescription.save.or.print.certificate': 'Klicka på knappen Spara som PDF för att spara eller skriva ut ditt intyg. Intyget öppnas eller laddas ner som en pdf-fil som du kan spara på din dator eller skriva ut.',
         'ts-bas.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
-        'ts-bas.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
+        'ts-bas.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i ditt intyg ska du kontakta den som utfärdat ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
         'ts-bas.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'ts-bas.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
+        'ts-bas.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
 
         'ts-bas.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'ts-bas.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
         'ts-bas.label.showevents.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa färre händelser',
         'ts-bas.label.showevents.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa alla händelser',
+
         'ts-bas.label.patientname': 'Patientens namn:',
         'ts-bas.label.issued': 'Inkom till Mina intyg',
         'ts-bas.label.civicnumber': 'Personnr:',
         'ts-bas.label.issuer': 'Vårdgivare:',
         'ts-bas.label.period': 'Period:',
         'ts-bas.label.errorpagetitle': 'Ett problem har uppstått',
-
         'ts-bas.label.confirmedby': 'Ovanstående uppgifter och bedömningar bekräftas',
         'ts-bas.label.date': 'Datum',
         'ts-bas.label.contactinfo': 'Namn och kontaktuppgifter till vårdenheten',
-
         'ts-bas.label.bedomning-info-ej-angivet': 'Ej ifyllt',
 
         'ts-bas.label.latestevent': 'Senaste händelse',
