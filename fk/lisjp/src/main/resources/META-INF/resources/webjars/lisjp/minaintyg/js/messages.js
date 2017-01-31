@@ -53,7 +53,7 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
         'lisjp.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
         'lisjp.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'lisjp.label.pagedescription.archive': 'För att arkivera intyget klickar du på symbolen Arkivera intyg <span class="glyphicon glyphicon-folder-close"></span>.',
+        'lisjp.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
 
         'lisjp.helptext.readpdfhelp': '<b>Läsa en pdf-fil</b><br/>PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna pdf-filer behöver du en pdf-läsare exempelvis. <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
         'lisjp.label.patientname': 'Patientens namn',

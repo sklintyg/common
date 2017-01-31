@@ -56,7 +56,7 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
         'ts-diabetes.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
         'ts-diabetes.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'ts-diabetes.label.pagedescription.archive': 'För att arkivera intyget klickar du på symbolen Arkivera intyg <span class="glyphicon glyphicon-folder-close"></span>.',
+        'ts-diabetes.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
 
         'ts-diabetes.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'ts-diabetes.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',

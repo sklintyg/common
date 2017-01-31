@@ -56,7 +56,7 @@ angular.module('luae_fs').constant('luae_fs.messages', {
         'luae_fs.label.showevents.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa alla händelser',
 
         'luae_fs.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'luae_fs.label.pagedescription.archive': 'För att arkivera intyget klickar du på symbolen Arkivera intyg <span class="glyphicon glyphicon-folder-close"></span>.',
+        'luae_fs.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
         'luae_fs.label.pagedescription.certificate.to.employer.header': '<h2>Intyg till arbetsgivare</h2>',
         'luae_fs.label.pagedescription.certificate.to.employer': 'Du har möjlighet att anpassa läkarintyget om du ska lämna läkarintyget till din arbetsgivare. Du anpassar intyget genom att välja om du vill visa alla uppgifter i intyget eller om du vill dölja vissa delar. Klicka på knappen Anpassa intyget för att välja vilken information du vill dela.',
         'luae_fs.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',

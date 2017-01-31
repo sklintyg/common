@@ -51,7 +51,7 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
         'ts-bas.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i läkarintyget så ska du kontakta den som utfärdat ditt läkarintyg.',
         'ts-bas.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'ts-bas.label.pagedescription.archive': 'För att arkivera intyget klickar du på symbolen Arkivera intyg <span class="glyphicon glyphicon-folder-close"></span>.',
+        'ts-bas.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera',
 
         'ts-bas.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'ts-bas.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
