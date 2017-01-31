@@ -18,16 +18,11 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
+import com.google.common.base.Strings;
+import com.google.common.primitives.Doubles;
+import com.google.common.primitives.Ints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -35,6 +30,11 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Common utils used for validation.
@@ -285,5 +285,17 @@ public final class ValidatorUtil {
 
     private static Predicate<ValidationMessage> isValidationError() {
         return vm -> vm.getType() != ValidationMessageType.WARN;
+    }
+
+    /**
+     * Checks if the supplied string - if not null - is a parsable Integer or Float/Double.
+     *
+     * @param tjanstgoringstid
+     *      A string that should represent a number such as 40 or 37.5.
+     * @return
+     *      true if invalid, false if valid.
+     */
+    public static boolean isInvalidTjanstgoringstid(String tjanstgoringstid) {
+        return tjanstgoringstid != null && (Ints.tryParse(tjanstgoringstid) == null && Doubles.tryParse(tjanstgoringstid) == null);
     }
 }

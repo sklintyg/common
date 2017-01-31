@@ -18,20 +18,19 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by eriklupander on 2016-11-24.
@@ -106,7 +105,30 @@ public class ValidatorUtilTest {
         boolean valid = ValidatorUtil.validateDateAndWarnIfFuture(new InternalDate("notADate"), errors, "testfield");
         assertFalse(valid);
         assertEquals(1, errors.size());
-    //    assertEquals(assertEquals("common.validation.future.datum", errors.get(0).getMessage());)
+    }
+
+    @Test
+    public void testTjansgoringsTidHeltalIsNotInvalid() {
+        boolean result = ValidatorUtil.isInvalidTjanstgoringstid("40");
+        assertFalse(result);
+    }
+
+    @Test
+    public void testTjansgoringsTidDecimaltalWithDotIsNotInvalid() {
+        boolean result = ValidatorUtil.isInvalidTjanstgoringstid("37.5");
+        assertFalse(result);
+    }
+
+    @Test
+    public void testTjansgoringsTidDecimaltalWithCommaIsInvalid() {
+        boolean result = ValidatorUtil.isInvalidTjanstgoringstid("37,5");
+        assertTrue(result);
+    }
+
+    @Test
+    public void testTjansgoringsTidNonNumberIsInvalid() {
+        boolean result = ValidatorUtil.isInvalidTjanstgoringstid("trettiosjukommafem");
+        assertTrue(result);
     }
 
 }
