@@ -18,16 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.validator;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.common.base.Strings;
-import com.google.common.primitives.Ints;
-
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
@@ -37,6 +31,9 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InternalDraftValidator {
 
@@ -136,7 +133,7 @@ public class InternalDraftValidator {
         }
 
         // validate 8b - regardless of smittskydd
-        if (utlatande.getTjanstgoringstid() != null && Ints.tryParse(utlatande.getTjanstgoringstid()) == null) {
+        if (ValidatorUtil.isInvalidTjanstgoringstid(utlatande.getTjanstgoringstid())) {
             ValidatorUtil.addValidationError(validationMessages, "nedsattning", ValidationMessageType.OTHER,
                     "fk7263.validation.nedsattning.tjanstgoringstid");
         }
