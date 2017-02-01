@@ -6,7 +6,7 @@
     <h3 class="intyg-block__heading">
       <span ng-if="fieldLabel" message key="{{fieldLabel}}"></span>
       <span ng-if="fieldDynamicLabel" dynamic-label key="{{fieldDynamicLabel}}"></span>
-      {{fieldRequired ? '*' : ''}}
+      <span class="required">{{fieldRequired ? '*' : ''}}</span>
     </h3>
     <div class="inline-block" ng-if="fieldHelpText != undefined || fieldDynamicHelpText != undefined" wc-help-mark field-help-text="{{fieldHelpText}}" field-dynamic-help-text="{{fieldDynamicHelpText}}"></div>
   </div>

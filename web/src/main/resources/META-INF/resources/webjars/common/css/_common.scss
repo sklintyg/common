@@ -749,11 +749,11 @@ input.ng-invalid-date {
 .intyg-body .validation {
     display: table;
     padding: 0 10px;
-    margin-top: 10px;
+    margin-top: 5px;
     margin-bottom: 0;
 }
 
-TD .validation {
+.intyg-body td .validation {
     margin-top: 0;
     margin-bottom: 10px;
 }

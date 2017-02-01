@@ -14,7 +14,7 @@
                  ng-model="viewState.intygModel.narkotikaLakemedel.teckenMissbruk" ng-change="validate()"></td>
       <td><input name="narkotikalakemedela" type="radio" ng-value="false"
                  ng-model="viewState.intygModel.narkotikaLakemedel.teckenMissbruk" ng-change="validate()"></td>
-      <td><span dynamic-label key="DFR_25.1.RBK"></span> *</td>
+      <td><span dynamic-label key="DFR_25.1.RBK"></span> <span class="required">*</span></td>
     </tr>
     <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('teckenMissbruk')"></wc-field-validation></td></tr>
     <tr>
@@ -22,7 +22,7 @@
                  ng-model="viewState.intygModel.narkotikaLakemedel.foremalForVardinsats" ng-change="validate()"></td>
       <td><input name="narkotikalakemedelb" type="radio" ng-value="false"
                  ng-model="viewState.intygModel.narkotikaLakemedel.foremalForVardinsats" ng-change="validate()"></td>
-      <td><span dynamic-label key="DFR_25.2.RBK"></span> *</td>
+      <td><span dynamic-label key="DFR_25.2.RBK"></span> <span class="required">*</span></td>
     </tr>
     <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('vardinsats')"></wc-field-validation></td></tr>
     <tr ng-show="viewState.intygModel.narkotikaLakemedel.teckenMissbruk || viewState.intygModel.narkotikaLakemedel.foremalForVardinsats">
@@ -30,7 +30,7 @@
       <td>
         <p>
           <wc-validation-group field-type="radio-group" validations="viewState.getValidationErrors('provtagningBehovs')">
-            <span dynamic-label key="DFR_25.3.RBK"></span> *
+            <span dynamic-label key="DFR_25.3.RBK"></span> <span class="required">*</span>
             <label class="radio">
               <input name="narkotikalakemedelb2" type="radio" ng-value="true"
                      ng-model="viewState.intygModel.narkotikaLakemedel.provtagningBehovs" ng-change="validate()">
@@ -54,11 +54,11 @@
       <td><input name="narkotikalakemedelc" type="radio" ng-value="false"
                  ng-model="viewState.intygModel.narkotikaLakemedel.lakarordineratLakemedelsbruk" ng-change="validate()"></td>
       <td>
-        <p><span dynamic-label key="FRG_26.RBK"></span> *</p>
+        <p><span dynamic-label key="FRG_26.RBK"></span> <span class="required">*</span></p>
 
         <div ng-show="viewState.intygModel.narkotikaLakemedel.lakarordineratLakemedelsbruk == true">
           <wc-validation-wrapper field-type="multi-text" validations="viewState.getValidationErrors('getLakemedelOchDos')">
-            <p><span dynamic-label key="DFR_26.1.RBK"></span> *</p>
+            <p><span dynamic-label key="DFR_26.1.RBK"></span> <span class="required">*</span></p>
             <textarea class="form-control" data-ng-model="viewState.intygModel.narkotikaLakemedel.lakemedelOchDos" auto-expand
                       id="beskrivningNarkotikalakemedel" wc-maxlength ng-trim="false"
                       maxlength="{{viewState.inputLimits.lakemedelOchDos}}" rows="4"

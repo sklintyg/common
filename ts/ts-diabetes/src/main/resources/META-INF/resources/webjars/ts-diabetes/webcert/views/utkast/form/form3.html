@@ -34,7 +34,7 @@
         <input id="synan" name="syna" type="radio" ng-value="false" ng-model="viewState.intygModel.syn.separatOgonlakarintyg" ng-change="validate()">
       </td>
       <td>
-        <span dynamic-label key="FRG_43.RBK"></span><span> *</span>
+        <span dynamic-label key="FRG_43.RBK"></span><span> <span class="required">*</span></span>
       </td>
     </tr>
     <tr>
@@ -70,7 +70,7 @@
       </td>
       <td>
         <span dynamic-label key="FRG_44.RBK"></span>
-        <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false">*</span>
+        <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false"><span class="required">*</span></span>
       </td>
     </tr>
     <tr>
@@ -92,7 +92,7 @@
           <tr>
             <th></th>
             <th>Utan korrektion
-              <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false">*</span>
+              <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false"><span class="required">*</span></span>
               <span wc-help-mark field-help-text="ts-diabetes.helptext.synfunktioner.utan-korrektion"></span>
             </th>
             <th>Med korrektion
@@ -162,7 +162,7 @@
       </td>
       <td>
         <span dynamic-label key="FRG_6.RBK"></span>
-        <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false">*</span>
+        <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false"><span class="required">*</span></span>
       </td>
     </tr>
     <tr>

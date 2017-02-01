@@ -15,12 +15,12 @@
       <td><input id="diabetesan" name="diabetesa" type="radio" ng-value="false"
                  ng-model="viewState.intygModel.diabetes.harDiabetes" ng-change="validate()"></td>
       <td>
-        <p><span dynamic-label key="FRG_17.RBK"></span> *</p>
+        <p><span dynamic-label key="FRG_17.RBK"></span> <span class="required">*</span></p>
 
         <div ng-show="viewState.intygModel.diabetes.harDiabetes">
           <p>
             <wc-validation-group field-type="radio-group" validations="viewState.getValidationErrors('diabetestyp')">
-              <span dynamic-label key="FRG_18.RBK"></span> *
+              <span dynamic-label key="FRG_18.RBK"></span> <span class="required">*</span>
               <label class="radio">
                 <input id="diabetestyp1" name="diabetestyp" type="radio" value="DIABETES_TYP_1"
                        ng-model="viewState.intygModel.diabetes.diabetesTyp" ng-change="validate()">
@@ -36,7 +36,7 @@
 
           <wc-validation-group field-type="check-group" validations="viewState.getValidationErrors('diabetestyp.behandlingstyp')">
             <div ng-show="viewState.intygModel.diabetes.diabetesTyp == 'DIABETES_TYP_2'">
-              <span dynamic-label key="FRG_19.RBK"></span> *
+              <span dynamic-label key="FRG_19.RBK"></span> <span class="required">*</span>
               <label class="checkbox">
                 <input id="diabetestreat1" name="diabetestreat1" type="checkbox"
                        ng-model="viewState.intygModel.diabetes.kost" ng-change="validate()">

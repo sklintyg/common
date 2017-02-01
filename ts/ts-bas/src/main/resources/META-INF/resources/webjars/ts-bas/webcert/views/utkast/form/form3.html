@@ -16,11 +16,11 @@
       <td><input id="funktionsnedsattningan" name="funktionsnedsattninga" type="radio"
                  ng-value="false" ng-model="viewState.intygModel.funktionsnedsattning.funktionsnedsattning"
                  ng-change="validate()"></td>
-      <td><p><span dynamic-label key="FRG_12.RBK"></span> *</p>
+      <td><p><span dynamic-label key="FRG_12.RBK"></span> <span class="required">*</span></p>
 
         <div ng-show="viewState.intygModel.funktionsnedsattning.funktionsnedsattning">
           <wc-validation-wrapper field-type="multi-text" validations="viewState.getValidationErrors('funktionsnedsattningbeskrivning')">
-            <p><span dynamic-label key="DFR_12.2.RBK"></span> *</p>
+            <p><span dynamic-label key="DFR_12.2.RBK"></span> <span class="required">*</span></p>
             <textarea id="funktionsnedsattning" class="form-control" name="funktionsnedsattning"
                       rows='5' wc-maxlength ng-trim="false" maxlength="{{viewState.inputLimits.funktionsnedsattning}}"
                       ng-model="viewState.intygModel.funktionsnedsattning.beskrivning"
@@ -38,7 +38,7 @@
                  ng-value="false" ng-model="viewState.intygModel.funktionsnedsattning.otillrackligRorelseformaga"
                  ng-change="validate()">
       </td>
-      <td><span dynamic-label key="FRG_13.RBK"></span> *</td>
+      <td><span dynamic-label key="FRG_13.RBK"></span> <span class="required">*</span></td>
     </tr>
     <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('otillrackligrorelseformaga')"></wc-field-validation></td></tr>
   </table>

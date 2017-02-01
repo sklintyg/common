@@ -16,7 +16,7 @@
                  ng-model="viewState.intygModel.syn.synfaltsdefekter" ng-change="validate()"></td>
       <td><input id="synan" name="syna" type="radio" ng-value="false"
                  ng-model="viewState.intygModel.syn.synfaltsdefekter" ng-change="validate()"></td>
-      <td><span dynamic-label key="FRG_3.RBK"></span> *</td>
+      <td><span dynamic-label key="FRG_3.RBK"></span> <span class="required">*</span></td>
     </tr>
     <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('teckensynfaltsdefekter')"></wc-field-validation></td></tr>
     <tr>
@@ -24,7 +24,7 @@
                  ng-model="viewState.intygModel.syn.nattblindhet" ng-change="validate()"></td>
       <td><input id="synbn" name="synb" type="radio" ng-value="false"
                  ng-model="viewState.intygModel.syn.nattblindhet" ng-change="validate()"></td>
-      <td><span dynamic-label key="FRG_4.RBK"></span> *</td>
+      <td><span dynamic-label key="FRG_4.RBK"></span> <span class="required">*</span></td>
     </tr>
     <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('nattblindhet')"></wc-field-validation></td></tr>
     <tr>
@@ -35,7 +35,7 @@
                  ng-model="viewState.intygModel.syn.progressivOgonsjukdom" ng-change="validate()">
       </td>
       <td>
-        <p><span dynamic-label key="FRG_5.RBK"></span> *</p>
+        <p><span dynamic-label key="FRG_5.RBK"></span> <span class="required">*</span></p>
       </td>
     </tr>
     <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('progressivogonsjukdom')"></wc-field-validation></td></tr>
@@ -50,7 +50,7 @@
       </td>
       <td><input id="syndn" name="synd" type="radio" ng-value="false" ng-model="viewState.intygModel.syn.diplopi" ng-change="validate()">
       </td>
-      <td><span dynamic-label key="FRG_6.RBK"></span> *</td>
+      <td><span dynamic-label key="FRG_6.RBK"></span> <span class="required">*</span></td>
     </tr>
     <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('diplopi')"></wc-field-validation></td></tr>
     <tr>
@@ -58,7 +58,7 @@
       </td>
       <td><input id="synen" name="syne" type="radio" ng-value="false" ng-model="viewState.intygModel.syn.nystagmus" ng-change="validate()">
       </td>
-      <td><span dynamic-label key="FRG_7.RBK"></span> *</td>
+      <td><span dynamic-label key="FRG_7.RBK"></span> <span class="required">*</span></td>
     </tr>
     <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('nystagmus')"></wc-field-validation></td></tr>
     <tr>
@@ -72,7 +72,7 @@
         <table class="table table-form">
           <tr>
             <th></th>
-            <th><span message key="ts-bas.label.syn.utan-korrektion"></span> * <span wc-help-mark
+            <th><span message key="ts-bas.label.syn.utan-korrektion"></span> <span class="required">*</span> <span wc-help-mark
                                                                                   field-help-text="ts-bas.helptext.synfunktioner.utan-korrektion" />
             </th>
             <th><span message key="ts-bas.label.syn.med-korrektion"></span><span wc-help-mark

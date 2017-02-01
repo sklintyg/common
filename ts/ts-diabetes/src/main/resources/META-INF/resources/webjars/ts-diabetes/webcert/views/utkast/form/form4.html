@@ -9,7 +9,7 @@
   <table class="table table-form">
     <tr>
       <td colspan="3">
-        <p><span dynamic-label key="FRG_33.RBK"></span> *</p>
+        <p><span dynamic-label key="FRG_33.RBK"></span> <span class="required">*</span></p>
 
         <div class="form-group">
           <wc-validation-group field-type="check-group" validations="viewState.getValidationErrors('bedomning')">
@@ -43,7 +43,7 @@
       <td class="text-center">
         <input id="bedomningn" name="bedomning" type="radio" ng-value="false" ng-model="viewState.intygModel.bedomning.lamplighetInnehaBehorighet" ng-change="validate()">
       </td>
-      <td><span dynamic-label key="FRG_45.RBK"></span> *</td>
+      <td><span dynamic-label key="FRG_45.RBK"></span> <span class="required">*</span></td>
     </tr>
     <tr>
       <td colspan="3">

@@ -16,11 +16,11 @@
       <td><input name="medicineringa" type="radio" ng-value="false"
                  ng-model="viewState.intygModel.medicinering.stadigvarandeMedicinering" ng-change="validate()"></td>
       <td>
-        <p><span dynamic-label key="FRG_31.RBK"></span> *</p>
+        <p><span dynamic-label key="FRG_31.RBK"></span> <span class="required">*</span></p>
 
         <div ng-show="viewState.intygModel.medicinering.stadigvarandeMedicinering">
           <wc-validation-wrapper field-type="multi-text" validations="viewState.getValidationErrors('medicineringBeskrivning')">
-            <p><span dynamic-label key="DFR_31.2.RBK"></span> *</p>
+            <p><span dynamic-label key="DFR_31.2.RBK"></span> <span class="required">*</span></p>
             <textarea class="form-control" data-ng-model="viewState.intygModel.medicinering.beskrivning" wc-maxlength ng-trim="false"
                       id="beskrivningMedicinering" maxlength="{{viewState.inputLimits.medicinering}}" rows="4" auto-expand
                       ng-blur="validate()"></textarea>
