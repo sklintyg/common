@@ -173,7 +173,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                 ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".datum", ValidationMessageType.EMPTY,
                         "luse.validation.underlag.date.missing");
             } else {
-                ValidatorUtil.validateDate(underlag.getDatum(), validationMessages, "grundformu.underlag." + i + ".datum");
+                ValidatorUtil.validateDate(underlag.getDatum(), validationMessages, "grundformu.underlag." + i + ".datum", null);
             }
             if (Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".hamtasFran", ValidationMessageType.EMPTY,

@@ -23,6 +23,12 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
+import org.junit.Test;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +46,7 @@ public class ValidatorUtilTest {
     @Test
     public void testDateValidationForValidDate() {
         List<ValidationMessage> errors = new ArrayList<>();
-        boolean valid = ValidatorUtil.validateDate(new InternalDate("2016-01-02"), errors, "testfield");
+        boolean valid = ValidatorUtil.validateDate(new InternalDate("2016-01-02"), errors, "testfield", null);
         assertTrue(valid);
         assertEquals(0, errors.size());
     }
@@ -48,7 +54,7 @@ public class ValidatorUtilTest {
     @Test
     public void testDateValidationForInvalidDateCorrectFormat() {
         List<ValidationMessage> errors = new ArrayList<>();
-        boolean valid = ValidatorUtil.validateDate(new InternalDate("2016-02-30"), errors, "testfield");
+        boolean valid = ValidatorUtil.validateDate(new InternalDate("2016-02-30"), errors, "testfield", null);
         assertFalse(valid);
         assertEquals(1, errors.size());
         assertEquals("common.validation.date_invalid", errors.get(0).getMessage());
@@ -57,16 +63,26 @@ public class ValidatorUtilTest {
     @Test
     public void testDateValidationForInvalidDate() {
         List<ValidationMessage> errors = new ArrayList<>();
-        boolean valid = ValidatorUtil.validateDate(new InternalDate("notADate"), errors, "testfield");
+        boolean valid = ValidatorUtil.validateDate(new InternalDate("notADate"), errors, "testfield", null);
         assertFalse(valid);
         assertEquals(1, errors.size());
         assertNull(errors.get(0).getMessage());
     }
 
     @Test
+    public void testDateValidationForInvalidDateWithMessage() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        final String message = "message";
+        boolean valid = ValidatorUtil.validateDate(new InternalDate("notADate"), errors, "testfield", message);
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertEquals(message, errors.get(0).getMessage());
+    }
+
+    @Test
     public void testDateValidationForEmptyDate() {
         List<ValidationMessage> errors = new ArrayList<>();
-        boolean valid = ValidatorUtil.validateDate(null, errors, "testfield");
+        boolean valid = ValidatorUtil.validateDate(null, errors, "testfield", null);
         assertFalse(valid);
         assertEquals(1, errors.size());
         assertEquals("testfield", errors.get(0).getField());
@@ -129,6 +145,52 @@ public class ValidatorUtilTest {
     public void testTjansgoringsTidNonNumberIsInvalid() {
         boolean result = ValidatorUtil.isInvalidTjanstgoringstid("trettiosjukommafem");
         assertTrue(result);
+    }
+
+    @Test
+    public void testValidateInternalDateIntervalInvalidDate() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        boolean valid = ValidatorUtil.validateInternalDateInterval(new InternalLocalDateInterval("2016-02-30", "2016-03-01"), errors, "testField", null);
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertEquals("common.validation.date_invalid", errors.get(0).getMessage());
+
+        errors = new ArrayList<>();
+        valid = ValidatorUtil.validateInternalDateInterval(new InternalLocalDateInterval("2016-01-10", "2016-02-30"), errors, "testField", null);
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertEquals("common.validation.date_invalid", errors.get(0).getMessage());
+    }
+
+    @Test
+    public void testValidateInternalDateIntervalInvalidFormat() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        boolean valid = ValidatorUtil.validateInternalDateInterval(new InternalLocalDateInterval("2099-02", "2016-03-01"), errors, "testField", null);
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertNull(errors.get(0).getMessage());
+
+        errors = new ArrayList<>();
+        valid = ValidatorUtil.validateInternalDateInterval(new InternalLocalDateInterval("2016-01-10", "2100-0"), errors, "testField", null);
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertNull(errors.get(0).getMessage());
+    }
+
+    @Test
+    public void testValidateInternalDateIntervalInvalidFormatWithMessage() {
+        List<ValidationMessage> errors = new ArrayList<>();
+        final String message = "message";
+        boolean valid = ValidatorUtil.validateInternalDateInterval(new InternalLocalDateInterval("2099-02", "2016-03-01"), errors, "testField", message);
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertEquals(message, errors.get(0).getMessage());
+
+        errors = new ArrayList<>();
+        valid = ValidatorUtil.validateInternalDateInterval(new InternalLocalDateInterval("2016-01-10", "2100-0"), errors, "testField", message);
+        assertFalse(valid);
+        assertEquals(1, errors.size());
+        assertEquals(message, errors.get(0).getMessage());
     }
 
 }
