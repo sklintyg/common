@@ -38,6 +38,7 @@ public class InternalDate {
     private static final InternalDate MIN_DATE = new InternalDate("1900-01-01");
     private static final InternalDate MAX_DATE = new InternalDate("2099-12-12");
     private static final String DATE_FORMAT = "[1-2][0-9]{3,3}(-((0[1-9])|(1[0-2]))(-((0[1-9])|([1-2][0-9])|(3[0-1]))))";
+    private static final String GENERAL_DATE_FORMAT = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
     private static final DateTimeFormatter PARSER = DateTimeFormatter.ISO_DATE;
 
     private String date;
@@ -123,7 +124,7 @@ public class InternalDate {
     }
 
     public boolean isCorrectFormat() {
-        return date.matches(DATE_FORMAT);
+        return date.matches(GENERAL_DATE_FORMAT);
     }
 
     /**
