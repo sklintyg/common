@@ -328,10 +328,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             } else {
 
                 boolean fromDateValid = ValidatorUtil.validateDate(sjukskrivning.getPeriod().getFrom(), validationMessages,
-                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from");
+                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".from", null);
 
                 boolean toDateValid = ValidatorUtil.validateDate(sjukskrivning.getPeriod().getTom(), validationMessages,
-                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".tom");
+                        "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId() + ".tom", null);
 
                 if (fromDateValid && toDateValid && !sjukskrivning.getPeriod().isValid()) {
                     ValidatorUtil.addValidationError(validationMessages,

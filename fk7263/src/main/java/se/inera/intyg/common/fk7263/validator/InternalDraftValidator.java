@@ -18,10 +18,15 @@
  */
 package se.inera.intyg.common.fk7263.validator;
 
-import com.google.common.base.Strings;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
@@ -31,9 +36,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InternalDraftValidator {
 
@@ -70,10 +72,10 @@ public class InternalDraftValidator {
 
     private void validateVardkontakter(Fk7263Utlatande utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getTelefonkontaktMedPatienten() != null) {
-            ValidatorUtil.validateDate(utlatande.getTelefonkontaktMedPatienten(), validationMessages, "intygbaseratpa.telefonkontakt");
+            ValidatorUtil.validateDate(utlatande.getTelefonkontaktMedPatienten(), validationMessages, "intygbaseratpa.telefonkontakt", null);
         }
         if (utlatande.getUndersokningAvPatienten() != null) {
-            ValidatorUtil.validateDate(utlatande.getUndersokningAvPatienten(), validationMessages, "intygbaseratpa.undersokning");
+            ValidatorUtil.validateDate(utlatande.getUndersokningAvPatienten(), validationMessages, "intygbaseratpa.undersokning", null);
         }
     }
 
@@ -90,13 +92,13 @@ public class InternalDraftValidator {
         }
 
         if (utlatande.getAnnanReferens() != null) {
-            ValidatorUtil.validateDate(utlatande.getAnnanReferens(), validationMessages, "intygbaseratpa.referenser");
+            ValidatorUtil.validateDate(utlatande.getAnnanReferens(), validationMessages, "intygbaseratpa.referenser", null);
         }
         if (utlatande.getAnnanReferens() != null && Strings.nullToEmpty(utlatande.getAnnanReferensBeskrivning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.annat", ValidationMessageType.EMPTY);
         }
         if (utlatande.getJournaluppgifter() != null) {
-            ValidatorUtil.validateDate(utlatande.getJournaluppgifter(), validationMessages, "intygbaseratpa.journaluppgifter");
+            ValidatorUtil.validateDate(utlatande.getJournaluppgifter(), validationMessages, "intygbaseratpa.journaluppgifter", null);
         }
     }
 
@@ -160,25 +162,21 @@ public class InternalDraftValidator {
         }
         // if the interval is not null and either from or tom is invalid, raise validation error
         // use independent conditions to check this to be able to give specific validation errors for each case
-        if (intervals[nedsattmed100Index] != null && !intervals[nedsattmed100Index].isValid()) {
-            ValidatorUtil.addValidationError(validationMessages, "nedsattning.nedsattMed100", ValidationMessageType.INVALID_FORMAT,
-                    "fk7263.validation.nedsattning.nedsattmed100.incorrect-format");
-            success = false;
+        if (intervals[nedsattmed100Index] != null) {
+            success &= ValidatorUtil.validateInternalDateInterval(intervals[nedsattmed100Index], validationMessages,
+                    "nedsattning.nedsattMed100", "fk7263.validation.nedsattning.nedsattmed100.incorrect-format");
         }
-        if (intervals[nedsattmed75Index] != null && !intervals[nedsattmed75Index].isValid()) {
-            ValidatorUtil.addValidationError(validationMessages, "nedsattning.nedsattMed75", ValidationMessageType.INVALID_FORMAT,
-                    "fk7263.validation.nedsattning.nedsattmed75.incorrect-format");
-            success = false;
+        if (intervals[nedsattmed75Index] != null) {
+            success &= ValidatorUtil.validateInternalDateInterval(intervals[nedsattmed75Index], validationMessages,
+                    "nedsattning.nedsattMed75", "fk7263.validation.nedsattning.nedsattmed75.incorrect-format");
         }
-        if (intervals[nedsattmed50Index] != null && !intervals[nedsattmed50Index].isValid()) {
-            ValidatorUtil.addValidationError(validationMessages, "nedsattning.nedsattMed50", ValidationMessageType.INVALID_FORMAT,
-                    "fk7263.validation.nedsattning.nedsattmed50.incorrect-format");
-            success = false;
+        if (intervals[nedsattmed50Index] != null) {
+            success &= ValidatorUtil.validateInternalDateInterval(intervals[nedsattmed50Index], validationMessages,
+                    "nedsattning.nedsattMed50", "fk7263.validation.nedsattning.nedsattmed50.incorrect-format");
         }
-        if (intervals[nedsattmed25Index] != null && !intervals[nedsattmed25Index].isValid()) {
-            ValidatorUtil.addValidationError(validationMessages, "nedsattning.nedsattMed25", ValidationMessageType.INVALID_FORMAT,
-                    "fk7263.validation.nedsattning.nedsattmed25.incorrect-format");
-            success = false;
+        if (intervals[nedsattmed25Index] != null) {
+            success &= ValidatorUtil.validateInternalDateInterval(intervals[nedsattmed25Index], validationMessages,
+                    "nedsattning.nedsattMed25", "fk7263.validation.nedsattning.nedsattmed25.incorrect-format");
         }
         return success;
     }

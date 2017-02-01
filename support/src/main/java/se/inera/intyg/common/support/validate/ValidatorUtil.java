@@ -83,10 +83,12 @@ public final class ValidatorUtil {
      *      List of validationMessages. Any validation errors and/or warnings are added to this list.
      * @param field
      *      Field identifier, used if a validation entry has to be added.
+     * @param message
+     *      Special message for field, null if it does not exist.
      * @return
      *      True if valid, false otherwise.
      */
-    public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field) {
+    public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field, String message) {
 
         if (date == null) {
             addValidationError(validationMessages, field, ValidationMessageType.EMPTY);
@@ -96,6 +98,8 @@ public final class ValidatorUtil {
         if (!date.isValidDate()) {
             if (date.isCorrectFormat()) {
                 addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT, "common.validation.date_invalid");
+            } else if (message != null) {
+                addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT, message);
             } else {
                 addValidationError(validationMessages, field, ValidationMessageType.INVALID_FORMAT);
             }
@@ -111,7 +115,31 @@ public final class ValidatorUtil {
     }
 
     /**
-     * Performs the normal date validation {@link ValidatorUtil#validateDate(InternalDate, List, String)} as well as
+     * Validates that the supplied interval is parsable and reasonable. Reasonable is defined as somewhere between
+     * {@link InternalDate#MIN_DATE} and {@link InternalDate#MAX_DATE}, typically 1900-01-01 to 2099-12-31.
+     *
+     * @param interval
+     *      InteralLocalDateInterval to validate.
+     * @param validationMessages
+     *      List of validationMessages. Any validation errors and/or warnings are added to this list.
+     * @param field
+     *      Field identifier, used if a validation entry has to be added.
+     * @param message
+     *      Special message for field, null if it does not exist.
+     * @return
+     *      True if valid, false otherwise.
+     */
+    public static boolean validateInternalDateInterval(InternalLocalDateInterval interval, List<ValidationMessage> validationMessages, String field, String message) {
+        if (interval == null || interval.getTom() == null || interval.getFrom() == null) {
+            addValidationError(validationMessages, field, ValidationMessageType.EMPTY);
+            return false;
+        }
+        return validateDate(interval.getFrom(), validationMessages, field, message)
+                && validateDate(interval.getTom(), validationMessages, field, message);
+    }
+
+    /**
+     * Performs the normal date validation {@link ValidatorUtil#validateDate(InternalDate, List, String, String)} as well as
      * checking if the supplied date is in the future. If future, a {@link ValidationMessage} of type {@link ValidationMessageType#WARN}
      * is added to the supplied list of validationMessages.
      *
@@ -122,10 +150,10 @@ public final class ValidatorUtil {
      * @param field
      *      Field identifier, used if a validation entry has to be added.
      * @return
-     *      True if date was valid according to {@link ValidatorUtil#validateDate(InternalDate, List, String)}.
+     *      True if date was valid according to {@link ValidatorUtil#validateDate(InternalDate, List, String, String)}.
      */
     public static boolean validateDateAndWarnIfFuture(InternalDate date, List<ValidationMessage> validationMessages, String field) {
-        boolean isValid = validateDate(date, validationMessages, field);
+        boolean isValid = validateDate(date, validationMessages, field, null);
 
 
         // For structurally valid dates, check if it is a future date
