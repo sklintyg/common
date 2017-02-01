@@ -47,7 +47,7 @@
       </td>
       <td><span dynamic-label key="FRG_38.RBK"></span> *</td>
     </tr>
-    <tr>
+    <tr ng-show="viewState.intygModel.hypoglykemier.teckenNedsattHjarnfunktion">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('saknarFormagaKannaVarningstecken')"></wc-field-validation>
       </td>
@@ -61,7 +61,7 @@
       </td>
       <td><span dynamic-label key="FRG_39.RBK"></span> *</td>
     </tr>
-    <tr>
+    <tr ng-show="viewState.intygModel.hypoglykemier.teckenNedsattHjarnfunktion">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('allvarligForekomst')"></wc-field-validation>
       </td>
@@ -94,7 +94,7 @@
       </td>
       <td><span dynamic-label key="FRG_40.RBK"></span> *</td>
     </tr>
-    <tr>
+    <tr ng-show="viewState.intygModel.hypoglykemier.teckenNedsattHjarnfunktion">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('allvarligForekomstTrafiken')"></wc-field-validation>
       </td>
@@ -116,11 +116,9 @@
       </td>
     </tr>
     <tr ng-show="viewState.korkortd">
-      <td></td>
-      <td></td>
-      <td>
-        <h5 class="inline-heading">För innehav av behörigheterna C1, C1E, C, CE, D1, D1E, D, DE och
-        taxiförarlegitimation ska även fråga f-g besvaras</h5>
+      <td colspan="3">
+        <h4 class="inline-heading">För innehav av behörigheterna C1, C1E, C, CE, D1, D1E, D, DE och
+        taxiförarlegitimation ska även fråga f-g besvaras</h4>
       </td>
     </tr>
     <!-- 2f -->

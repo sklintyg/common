@@ -336,13 +336,12 @@
 
               <!-- 16 ovrigt -->
               <div wc-field field-dynamic-label="KAT_16.RBK" filled="true">
-                <p ng-show="viewState.intygModel.kommentar.length > 0">
-                  <span id="kommentar"><span class="intyg-answer">{{viewState.intygModel.kommentar}}</span></span>
-                </p>
-
-                <p class="intyg-answer" ng-show="!viewState.intygModel.kommentar" id="kommentarEjAngivet">
-                  <span message key="ts-bas.label.bedomning-info-ej-angivet"></span>
-                </p>
+                <span ng-if="viewState.intygModel.kommentar.length > 0">
+                  <span id="kommentar" class="intyg-answer">{{viewState.intygModel.kommentar}}</span>
+                </span>
+                <span ng-if="!viewState.intygModel.kommentar" id="kommentarEjAngivet">
+                  <span class="intyg-answer" message key="ts-bas.label.bedomning-info-ej-angivet"></span>
+                </span>
               </div>
 
               <!-- Bedomning -->
