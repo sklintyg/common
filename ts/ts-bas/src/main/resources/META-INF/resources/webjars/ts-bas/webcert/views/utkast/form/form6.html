@@ -18,6 +18,6 @@
         <p><span dynamic-label key="FRG_20.RBK"></span> <span class="required">*</span></p>
       </td>
     </tr>
-    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('neurologiskSjukdom')"></wc-field-validation></td></tr>
+    <tr ng-show="viewState.getValidationErrors('neurologiskSjukdom')" class="last-validation"><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('neurologiskSjukdom')"></wc-field-validation></td></tr>
   </table>
 </div>

@@ -17,7 +17,8 @@
       <td>
         <p><span dynamic-label key="FRG_17.RBK"></span> <span class="required">*</span></p>
 
-        <div ng-show="viewState.intygModel.diabetes.harDiabetes">
+        <div ng-show="viewState.intygModel.diabetes.harDiabetes"
+             class="last-validation">
           <p>
             <wc-validation-group field-type="radio-group" validations="viewState.getValidationErrors('diabetestyp')">
               <span dynamic-label key="FRG_18.RBK"></span> <span class="required">*</span>
@@ -63,6 +64,8 @@
         </div>
       </td>
     </tr>
-    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('hardiabetes')"></wc-field-validation></td></tr>
+    <tr ng-show="viewState.getValidationErrors('hardiabetes')" class="last-validation">
+      <td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('hardiabetes')"></wc-field-validation></td>
+    </tr>
   </table>
 </div>

@@ -28,6 +28,6 @@
         </div>
       </td>
     </tr>
-    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('stadigvarandeMedicinering')"></wc-field-validation></td></tr>
+    <tr ng-show="viewState.getValidationErrors('stadigvarandeMedicinering')" class="last-validation"><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('stadigvarandeMedicinering')"></wc-field-validation></td></tr>
   </table>
 </div>

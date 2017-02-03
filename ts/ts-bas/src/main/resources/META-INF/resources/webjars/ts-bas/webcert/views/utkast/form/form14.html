@@ -60,6 +60,6 @@
         </table>
       </td>
     </tr>
-    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('sjukhusEllerLakarkontakt')"></wc-field-validation></td></tr>
+    <tr ng-show="viewState.getValidationErrors('sjukhusEllerLakarkontakt')" class="last-validation"><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('sjukhusEllerLakarkontakt')"></wc-field-validation></td></tr>
   </table>
 </div>

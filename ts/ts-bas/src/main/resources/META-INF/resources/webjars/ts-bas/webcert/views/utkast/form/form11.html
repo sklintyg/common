@@ -67,6 +67,6 @@
         </div>
       </td>
     </tr>
-    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('lakarordineratLakemedelsbruk')"></wc-field-validation></td></tr>
+    <tr ng-show="viewState.getValidationErrors('lakarordineratLakemedelsbruk')" class="last-validation"><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('lakarordineratLakemedelsbruk')"></wc-field-validation></td></tr>
   </table>
 </div>

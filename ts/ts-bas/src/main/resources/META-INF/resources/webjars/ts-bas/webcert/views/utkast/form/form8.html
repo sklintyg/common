@@ -16,6 +16,6 @@
                  ng-model="viewState.intygModel.njurar.nedsattNjurfunktion" ng-change="validate()"></td>
       <td><span dynamic-label key="FRG_22.RBK"></span> <span class="required">*</span></td>
     </tr>
-    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('nedsattNjurfunktion')"></wc-field-validation></td></tr>
+    <tr ng-show="viewState.getValidationErrors('nedsattNjurfunktion')" class="last-validation"><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('nedsattNjurfunktion')"></wc-field-validation></td></tr>
   </table>
 </div>

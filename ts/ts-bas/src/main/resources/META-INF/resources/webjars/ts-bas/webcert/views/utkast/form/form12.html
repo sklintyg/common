@@ -16,6 +16,6 @@
                  ng-model="viewState.intygModel.psykiskt.psykiskSjukdom" ng-change="validate()"></td>
       <td><span dynamic-label key="FRG_27.RBK"></span> <span class="required">*</span></td>
     </tr>
-    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('psykiskSjukdom')"></wc-field-validation></td></tr>
+    <tr ng-show="viewState.getValidationErrors('psykiskSjukdom')" class="last-validation"><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('psykiskSjukdom')"></wc-field-validation></td></tr>
   </table>
 </div>
