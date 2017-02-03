@@ -258,6 +258,7 @@ $font-3: sans-serif;
 /* ---------------------------------------
  * Alert overrides
  * --------------------------------------- */
+
 .alert {
   padding-right: 22px;
   max-width: 993px;
@@ -318,9 +319,11 @@ $font-3: sans-serif;
   padding-bottom: 5px;
 }
 
+/*
 .radio:last-child, .checkbox:last-child {
   margin-bottom: 0;
 }
+*/
 
 /* ---------------------------------------
  * Nav overrides

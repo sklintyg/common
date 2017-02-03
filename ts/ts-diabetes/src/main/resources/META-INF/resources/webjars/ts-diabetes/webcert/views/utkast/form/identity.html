@@ -9,7 +9,7 @@
 
   <div class="form-group">
     <wc-validation-group field-type="check-group" validations="viewState.getValidationErrors('identitet')">
-      <div class="clearfix">
+      <div class="row clearfix">
         <label class="radio checkbox-columns col-md-6" ng-repeat="v in viewState.identitet">
           <input id="identity{{$index}}" name="identity{{$index}}" type="radio" value="{{v.id}}" ng-model="viewState.intygModel.vardkontakt.idkontroll" ng-change="validate()">
           <span>{{v.label}}</span>
@@ -17,7 +17,7 @@
       </div>
     </wc-validation-group>
   </div>
-  <div class="alert alert-info">
+  <div class="alert alert-info no-margin">
     <span dynamic-label key="FRM_1.RBK" style="white-space:pre-line"></span>
   </div>
 </div>

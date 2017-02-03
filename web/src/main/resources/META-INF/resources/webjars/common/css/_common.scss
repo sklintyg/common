@@ -754,8 +754,12 @@ input.ng-invalid-date {
 }
 
 .intyg-body td .validation {
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin-top: 3px;
+    margin-bottom: 12px;
+}
+
+td .last-validation .validation, .last-validation td .validation {
+    margin: 0;
 }
 
 .intyg-block .formly-field {

@@ -34,7 +34,7 @@
       </td>
       <td><span dynamic-label key="FRG_37.RBK"></span> <span class="required">*</span></td>
     </tr>
-    <tr>
+    <tr ng-class="{'last-validation': !viewState.intygModel.hypoglykemier.teckenNedsattHjarnfunktion}">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('teckenNedsattHjarnfunktion')"></wc-field-validation>
       </td>
@@ -94,7 +94,8 @@
       </td>
       <td><span dynamic-label key="FRG_40.RBK"></span> <span class="required">*</span></td>
     </tr>
-    <tr ng-show="viewState.intygModel.hypoglykemier.teckenNedsattHjarnfunktion">
+    <tr ng-show="viewState.intygModel.hypoglykemier.teckenNedsattHjarnfunktion"
+        ng-class="{'last-validation': !viewState.korkortd}">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('allvarligForekomstTrafiken')"></wc-field-validation>
       </td>
@@ -133,7 +134,11 @@
       </td>
       <td><span dynamic-label key="FRG_41.RBK"></span> <span class="required">*</span></td>
     </tr>
-    <tr><td colspan="3"><wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('egenkontrollBlodsocker')"></wc-field-validation></td></tr>
+    <tr ng-show="viewState.korkortd">
+      <td colspan="3">
+        <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('egenkontrollBlodsocker')"></wc-field-validation>
+      </td>
+    </tr>
 
     <!-- 2g -->
     <tr ng-show="viewState.korkortd">
@@ -147,11 +152,14 @@
       </td>
       <td><span dynamic-label key="FRG_42.RBK"></span> <span class="required">*</span></td>
     </tr>
-    <tr>
+    <tr class="last-validation">
       <td colspan="3">
-        <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('allvarligForekomstVakenTid')"></wc-field-validation></td></tr>
+        <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('allvarligForekomstVakenTid')"></wc-field-validation>
+      </td>
+    </tr>
 
-    <tr ng-show="viewState.intygModel.hypoglykemier.allvarligForekomstVakenTid == true">
+    <tr ng-show="viewState.intygModel.hypoglykemier.allvarligForekomstVakenTid == true"
+        class="last-validation">
       <td colspan="2"></td>
       <td>
         <div class="controls form-inline webcert-top-padding-section">

@@ -44,9 +44,6 @@ Table styles pertaining to layout. Shared between the ts certificate modules.
   > tbody > tr {
     > td {
       @extend %table-padding-alignment;
-      > input[type=radio] {
-        margin-top: 0;
-      }
     }
     > th {
       @extend %table-padding-alignment;

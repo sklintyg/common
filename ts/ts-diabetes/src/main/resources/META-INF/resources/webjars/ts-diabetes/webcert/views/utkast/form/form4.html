@@ -11,7 +11,7 @@
       <td colspan="3">
         <p><span dynamic-label key="FRG_33.RBK"></span> <span class="required">*</span></p>
 
-        <div class="form-group">
+        <div class="form-group last-validation">
           <wc-validation-group field-type="check-group" validations="viewState.getValidationErrors('bedomning')">
             <label class="radio">
               <input id="behorighet_bedomning" name="behorighet" type="radio" ng-value="false" ng-model="viewState.intygModel.bedomning.kanInteTaStallning" ng-change="validate()">
@@ -45,7 +45,7 @@
       </td>
       <td><span dynamic-label key="FRG_45.RBK"></span> <span class="required">*</span></td>
     </tr>
-    <tr>
+    <tr class="last-validation">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('lamplighetInnehaBehorighet')"></wc-field-validation>
       </td>

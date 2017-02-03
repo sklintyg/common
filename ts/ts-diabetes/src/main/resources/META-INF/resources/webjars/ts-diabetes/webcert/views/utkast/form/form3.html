@@ -37,7 +37,7 @@
         <span dynamic-label key="FRG_43.RBK"></span><span> <span class="required">*</span></span>
       </td>
     </tr>
-    <tr>
+    <tr ng-show="viewState.getValidationErrors('separatOgonlakarintyg')">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('separatOgonlakarintyg')"></wc-field-validation>
       </td>
@@ -73,7 +73,7 @@
         <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false"><span class="required">*</span></span>
       </td>
     </tr>
-    <tr>
+    <tr data-ng-hide="viewState.intygModel.syn.separatOgonlakarintyg">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('provningUtanAnmarkning')"></wc-field-validation>
       </td>
@@ -165,7 +165,8 @@
         <span ng-if="viewState.intygModel.syn.separatOgonlakarintyg === false"><span class="required">*</span></span>
       </td>
     </tr>
-    <tr>
+    <tr ng-show="viewState.getValidationErrors('diplopi')"
+        class="last-validation">
       <td colspan="3">
         <wc-field-validation field-type="radio-group" validations="viewState.getValidationErrors('diplopi')"></wc-field-validation>
       </td>
