@@ -88,21 +88,23 @@ angular.module('common').service('common.ArendeListViewStateService',
                     // Update kompletteringar in the common intyg view state
                     var kompletteringar = {};
                     angular.forEach(arende.fraga.kompletteringar, function(komplettering) {
-                        komplettering.amne = arende.fraga.amne;
-                        komplettering.status = arende.fraga.status;
-
                         var key = komplettering.jsonPropertyHandle;
-                        if (key === 'tillaggsfragor') {
-                            var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
-                            if (tillaggsfragor) {
-                                for (var i = 0; i < tillaggsfragor.length; i++) {
-                                    if (tillaggsfragor[i].id === komplettering.frageId) {
-                                        key += '[' + i + '].svar';
+                        if (key) {
+                            // Update amne och status
+                            komplettering.amne = arende.fraga.amne;
+                            komplettering.status = arende.fraga.status;
+
+                            if (key === 'tillaggsfragor') {
+
+                                var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
+                                if (tillaggsfragor) {
+                                    for (var i = 0; i < tillaggsfragor.length; i++) {
+                                        if (tillaggsfragor[i].id === komplettering.frageId) {
+                                            key += '[' + i + '].svar';
+                                        }
                                     }
                                 }
                             }
-                        }
-                        if (key) {
                             if (!kompletteringar[key]) {
                                 kompletteringar[key] = [];
                             }

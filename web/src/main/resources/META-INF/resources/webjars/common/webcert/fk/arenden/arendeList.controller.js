@@ -28,11 +28,12 @@ angular.module('common').controller('common.ArendeListCtrl',
                     angular.forEach(result, function(arende) {
                         if (arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
                             angular.forEach(arende.fraga.kompletteringar, function (komplettering) {
-                                komplettering.amne = arende.fraga.amne;
-                                komplettering.status = arende.fraga.status;
-
                                 var key = komplettering.jsonPropertyHandle;
                                 if (key) {
+                                    // Uppdatera ämne och status
+                                    komplettering.amne = arende.fraga.amne;
+                                    komplettering.status = arende.fraga.status;
+
                                     if (key === 'tillaggsfragor') {
                                         var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
                                         if (tillaggsfragor) {
