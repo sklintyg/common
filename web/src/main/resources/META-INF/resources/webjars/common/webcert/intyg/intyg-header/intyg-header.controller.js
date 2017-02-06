@@ -20,10 +20,10 @@
 angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService', 'common.messageService',
         'common.moduleService', 'common.PrintService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
-        'common.IntygSend', 'common.IntygCopyFornya', 'common.IntygMakulera', 'common.IntygViewStateService', 'common.statService', 'common.ObjectHelper',
+        'common.IntygSend', 'common.IntygCopyFornya', 'common.IntygMakulera', 'common.IntygViewStateService',
 
         function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService, moduleService, PrintService, IntygCopyRequestModel,
-            IntygFornyaRequestModel, User, UserModel, IntygSend, IntygCopyFornya, IntygMakulera, CommonViewState, statService, ObjectHelper) {
+            IntygFornyaRequestModel, User, UserModel, IntygSend, IntygCopyFornya, IntygMakulera, CommonViewState) {
 
             'use strict';
 
@@ -37,8 +37,8 @@ angular.module('common').controller('common.IntygHeader',
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
 
-            $scope.copyBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.kopiera.text');
-            $scope.fornyaBtnTooltipText = messageService.getProperty($scope.intygstyp+'.label.fornya.text');
+            $scope.copyBtnTooltipText = messageService.getProperty('common.copy.tooltip');
+            $scope.fornyaBtnTooltipText = messageService.getProperty('common.fornya.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
             $scope.showPrintBtn = function() {

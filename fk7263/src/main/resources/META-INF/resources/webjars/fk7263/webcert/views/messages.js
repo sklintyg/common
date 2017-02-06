@@ -96,8 +96,6 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.label.status.sent': 'Intyget är signerat och har skickats till Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via 1177.se.',
         'fk7263.label.status.recieved': 'Intyget är signerat, skickat och mottaget av Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via 1177.se.',
         'fk7263.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via 1177.se. Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning. Om patienten inte har möjlighet att skicka intyget elektroniskt till Försäkringskassan kan du skicka intyget direkt till Försäkringskassan åt patienten.',
-        'fk7263.label.kopiera.text': 'Skapar en kopia av befintligt intyg. Det nya utkastet (kopian) kan ändras och signeras.',
-        'fk7263.label.fornya.text': 'Förnya ett befintligt intyg. Det förnyade utkastet kan ändras och signeras.',
         'fk7263.label.transfertoovrigt': 'Informationen överförs till "Övriga upplysningar" vid signering. Tecken kvar påverkas av antalet tecken tillförda i samtliga fält.',
         'fk7263.vardkontakt.undersokning': 'Min undersökning av patienten den ',
         'fk7263.vardkontakt.telefonkontakt': 'Min telefonkontakt med patienten den ',
@@ -107,6 +105,14 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.nedsattningsgrad.nedsatt_med_3_4': 'Nedsatt med 3/4',
         'fk7263.nedsattningsgrad.nedsatt_med_1_2': 'Nedsatt med hälften',
         'fk7263.nedsattningsgrad.nedsatt_med_1_4': 'Nedsatt med 1/4',
+
+        'fk7263.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.<br><br>' +
+            'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
+            '<ul><li>Information om sjukskrivningsperiod.</li>' +
+            '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
+            '<li>Referenser som intyget baseras på.</li></ul>',
+
+        'fk7263.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.',
 
         //Help texts
         'fk7263.helptext.smittskydd': 'Fylls i om patienten måste avstå från sitt arbete på grund av:<ul><li>Intygsskrivande läkares beslut enligt smittskyddslagen.</li><li>Läkarundersökning eller hälsokontroll som syftar till att klarlägga om hon eller han är smittad av en allmänfarlig sjukdom eller om personen har en sjukdom, en smitta, ett sår eller annan skada som gör att hon eller han inte får hantera livsmedel.</li>',

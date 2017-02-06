@@ -95,6 +95,10 @@ angular.module('common').factory('common.IntygCopyFornya',
                 });
             }
 
+            function _copyMessageKey(intygsTyp) {
+                return (intygsTyp && intygsTyp.toLowerCase() === 'fk7263' ? intygsTyp : 'common')  + '.modal.copy.text';
+            }
+
             function _copy(viewState, intygCopyRequest, isOtherCareUnit) {
                 var copyDialog;
                 // Create preference and model representative
@@ -148,6 +152,7 @@ angular.module('common').factory('common.IntygCopyFornya',
                         },
                         button1text: 'common.copy',
                         button2text: 'common.cancel',
+                        bodyText: _copyMessageKey(copyDialogModel.intygTyp),
                         autoClose: false
                     });
 
@@ -168,6 +173,9 @@ angular.module('common').factory('common.IntygCopyFornya',
                 return null;
             }
 
+            function _fornyaMessageKey(intygsTyp) {
+                return (intygsTyp && intygsTyp.toLowerCase() === 'fk7263' ? intygsTyp : 'common')  + '.modal.fornya.text';
+            }
 
             function _fornya(viewState, intygFornyaRequest, isOtherCareUnit) {
                 var fornyaDialog;
@@ -221,6 +229,7 @@ angular.module('common').factory('common.IntygCopyFornya',
                         },
                         button1text: 'common.fornya',
                         button2text: 'common.cancel',
+                        bodyText: _fornyaMessageKey(fornyaDialogModel.intygTyp),
                         autoClose: false
                     });
 
