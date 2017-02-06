@@ -5,7 +5,7 @@
 
         <a class="soclink" href="http://www.socialstyrelsen.se/riktlinjer/forsakringsmedicinsktbeslutsstod"
            target="_blank" title="Öppnar Socialstyrelsens beslutstöd för angiven huvuddiagnos">Socialstyrelsens
-            försäkringsmedicinska beslutsstöd</a>
+            försäkringsmedicinska beslutsstöd <img src="/img/link_icon.png"/></a>
 
         <div class="form-group">
             <label class="radio-inline">
@@ -29,7 +29,7 @@
             <wc-validation-wrapper field-type="multi-text" validations="viewState.getValidationErrors('arbetsformagaprognosgarinteattbedomabeskrivning')">
 
                 <div class="indent form-inline" ng-show="showInteAttBedoma()">
-                    Förtydligande: * <input type="text"
+                    Förtydligande: <span class="required">*</span> <input type="text"
                                           name="capacityForWork.forecastText"
                                           ng-model="model.arbetsformagaPrognosGarInteAttBedomaBeskrivning"
                                           id="capacityForWorkForecastText"

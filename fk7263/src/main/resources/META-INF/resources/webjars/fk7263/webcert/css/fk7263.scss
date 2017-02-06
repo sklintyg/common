@@ -28,7 +28,7 @@ This is to avoid leaking module specific style rules outside of it's intended co
     background-image: $socialstyrelsen-background-image;
     background-repeat: no-repeat;
     padding: 0 0 3px 25px;
-    display: block;
+    display: inline-block;
   }
 
   .intyg-body {
