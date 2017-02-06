@@ -32,21 +32,23 @@ angular.module('common').controller('common.ArendeListCtrl',
                                 komplettering.status = arende.fraga.status;
 
                                 var key = komplettering.jsonPropertyHandle;
-                                if (key === 'tillaggsfragor') {
-                                    var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
-                                    if (tillaggsfragor) {
-                                        for (var i = 0; i < tillaggsfragor.length; i++) {
-                                            if (tillaggsfragor[i].id === komplettering.frageId) {
-                                                key += '[' + i + '].svar';
+                                if (key) {
+                                    if (key === 'tillaggsfragor') {
+                                        var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
+                                        if (tillaggsfragor) {
+                                            for (var i = 0; i < tillaggsfragor.length; i++) {
+                                                if (tillaggsfragor[i].id === komplettering.frageId) {
+                                                    key += '[' + i + '].svar';
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                if (!kompletteringar[key]) {
-                                    kompletteringar[key] = [];
-                                }
+                                    if (!kompletteringar[key]) {
+                                        kompletteringar[key] = [];
+                                    }
 
-                                kompletteringar[key].push(komplettering);
+                                    kompletteringar[key].push(komplettering);
+                                }
                             });
                         }
                     });
