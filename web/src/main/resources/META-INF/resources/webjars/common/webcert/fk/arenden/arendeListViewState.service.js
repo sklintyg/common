@@ -52,7 +52,7 @@ angular.module('common').service('common.ArendeListViewStateService',
             };
 
             this.hasKompletteringar = function(key) {
-                if (this.common.kompletteringar[key]) {
+                if (key && this.common.kompletteringar[key]) {
                     return this.common.kompletteringar[key].length > 0;
                 }
                 return false;
@@ -75,8 +75,10 @@ angular.module('common').service('common.ArendeListViewStateService',
                         var key = kmplt.jsonPropertyHandle;
 
                         // Reset and update with latest
-                        this.common.kompletteringar[key] = [];
-                        this.common.kompletteringar[key].push(kmplt);
+                        if (key) {
+                            this.common.kompletteringar[key] = [];
+                            this.common.kompletteringar[key].push(kmplt);
+                        }
                     }, this);
                 }, this);
             };
@@ -100,11 +102,13 @@ angular.module('common').service('common.ArendeListViewStateService',
                                 }
                             }
                         }
-                        if (!kompletteringar[key]) {
-                            kompletteringar[key] = [];
-                        }
+                        if (key) {
+                            if (!kompletteringar[key]) {
+                                kompletteringar[key] = [];
+                            }
 
-                        kompletteringar[key].push(komplettering);
+                            kompletteringar[key].push(komplettering);
+                        }
                     });
                     this.updateKompletteringar(kompletteringar);
                 }
