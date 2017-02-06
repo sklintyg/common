@@ -36,7 +36,11 @@ angular.module('common').constant('common.messages', {
         'common.signsend': 'Signera och skicka',
         'common.send': 'Skicka',
         'common.copy': 'Kopiera',
+        'common.copy.tooltip': 'Ett nytt utkast skapas på den vårdenhet du är inloggad på. All information i det befintliga intyget följer med till utkastet.',
         'common.fornya': 'Förnya',
+        'common.fornya.tooltip': 'Om du vill förlänga en sjukskrivning kan du förnya intyget. Viss information från det befintliga intyget följer med till det nya utkastet.',
+        'common.show': 'Visa',
+        'common.show.tooltip': 'Visa intyget.',
         'common.delete': 'Radera',
         'common.sign.intyg': 'Signera intyget',
         'common.button.save.as.pdf': 'Skriv ut',
@@ -71,6 +75,7 @@ angular.module('common').constant('common.messages', {
 
         'common.modal.label.discard_draft': 'Ta bort utkast',
         'common.modal.label.confirm_sign': 'Signera intyget',
+
         'common.modal.bankid.heading': 'Signera med BankID',
         'common.modal.bankid.open': 'Öppna programmet för BankID på din dator.',
         'common.modal.bankid.signing': 'Intyget signeras, vänligen skriv in din kod.',
@@ -82,6 +87,15 @@ angular.module('common').constant('common.messages', {
         'common.modal.mbankid.signing': 'Skriv in din säkerhetskod på den enhet där Mobilt BankID är startat.',
         'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
         'common.modal.mbankid.signed': 'Intyget är nu signerat.',
+
+        // Text in copy and fornya (renew) modal dialogs
+        'common.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.',
+
+        'common.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.<br><br>' +
+            'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
+            '<ul><li>Information om sjukskrivningsperiod.</li>' +
+            '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
+            '<li>Referenser som intyget baseras på.</li></ul>',
 
         // common intyg view messages
         'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',

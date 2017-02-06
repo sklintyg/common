@@ -190,27 +190,23 @@ angular.module('common').factory('common.dialogService',
             /*jshint maxcomplexity:35*/
 
             // setup options defaults if parameters aren't included
-            options.bodyText = (options.bodyText === undefined) ? '' : options.bodyText;
-            options.button1text = (options.button1text === undefined) ? 'common.ok' : options.button1text;
-            options.button2text = (options.button2text === undefined) ? 'common.cancel' : options.button2text;
-            options.button3text = (options.button3text === undefined) ? undefined : options.button3text;
-            options.button3visible =
-                options.button3visible === undefined ? options.button3text !== undefined : options.button3visible;
-            options.button1id = (options.button1id === undefined) ? 'button1' + options.dialogId : options.button1id;
-            options.button2id = (options.button2id === undefined) ? 'button2' + options.dialogId : options.button2id;
-            options.button3id = (options.button3id === undefined) ? 'button3' + options.dialogId : options.button3id;
-            options.autoClose = (options.autoClose === undefined) ? true : options.autoClose;
-            options.templateUrl =
-                (options.templateUrl === undefined) ? '/app/partials/common-dialog.html' : options.templateUrl;
-            options.model = (options.model === undefined) ? {} : options.model;
+            options.bodyText = options.bodyText === undefined ? '' : options.bodyText;
+            options.button1text = options.button1text === undefined ? 'common.ok' : options.button1text;
+            options.button2text = options.button2text === undefined ? 'common.cancel' : options.button2text;
+            options.button3text = options.button3text === undefined ? undefined : options.button3text;
+            options.button3visible = options.button3visible === undefined ? options.button3text !== undefined : options.button3visible;
+            options.button1id = options.button1id === undefined ? 'button1' + options.dialogId : options.button1id;
+            options.button2id = options.button2id === undefined ? 'button2' + options.dialogId : options.button2id;
+            options.button3id = options.button3id === undefined ? 'button3' + options.dialogId : options.button3id;
+            options.autoClose = options.autoClose === undefined ? true : options.autoClose;
+            options.templateUrl = options.templateUrl === undefined ? '/app/partials/common-dialog.html' : options.templateUrl;
+            options.model = options.model === undefined ? {} : options.model;
 
             // setup model defaults if parameters aren't included
-            options.model.errormessageid =
-                (options.model.errormessageid ? options.model.errormessageid : 'common.error.cantconnect');
-            options.model.acceptprogressdone =
-                (options.model.acceptprogressdone ? options.model.acceptprogressdone : true);
-            options.model.focus = (options.model.focus ? options.model.focus : false);
-            options.model.showerror = (options.model.showerror ? options.model.showerror : false);
+            options.model.errormessageid = options.model.errormessageid ? options.model.errormessageid : 'common.error.cantconnect';
+            options.model.acceptprogressdone = options.model.acceptprogressdone ? options.model.acceptprogressdone : true;
+            options.model.focus = options.model.focus ? options.model.focus : false;
+            options.model.showerror = options.model.showerror ? options.model.showerror : false;
         }
 
         function dialogCustomState( options ) {
