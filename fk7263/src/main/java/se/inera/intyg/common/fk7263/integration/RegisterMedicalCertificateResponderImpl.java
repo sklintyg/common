@@ -84,8 +84,10 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
         } catch (CertificateAlreadyExistsException e) {
             response.setResult(ResultOfCallUtil.infoResult(CERTIFICATE_ALREADY_EXISTS));
             String certificateId = registerMedicalCertificate.getLakarutlatande().getLakarutlatandeId();
-            String issuedBy =  registerMedicalCertificate.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getEnhetsId().getExtension();
-            LOGGER.warn(LogMarkers.VALIDATION, "Validation warning for intyg " + certificateId + " issued by " + issuedBy + ": Certificate already exists - ignored.");
+            String issuedBy = registerMedicalCertificate.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getEnhetsId()
+                    .getExtension();
+            LOGGER.warn(LogMarkers.VALIDATION,
+                    "Validation warning for intyg " + certificateId + " issued by " + issuedBy + ": Certificate already exists - ignored.");
 
         } catch (CertificateValidationException | ConverterException e) {
             response.setResult(ResultOfCallUtil.failResult(e.getMessage()));
@@ -94,8 +96,10 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
         } catch (InvalidCertificateException e) {
             response.setResult(ResultOfCallUtil.applicationErrorResult("Invalid certificate ID"));
             String certificateId = registerMedicalCertificate.getLakarutlatande().getLakarutlatandeId();
-            String issuedBy =  registerMedicalCertificate.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getEnhetsId().getExtension();
-            LOGGER.error(LogMarkers.VALIDATION, "Failed to create Certificate with id " + certificateId + " issued by " + issuedBy + ": Certificate ID already exists for another person.");
+            String issuedBy = registerMedicalCertificate.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getEnhetsId()
+                    .getExtension();
+            LOGGER.error(LogMarkers.VALIDATION, "Failed to create Certificate with id " + certificateId + " issued by " + issuedBy
+                    + ": Certificate ID already exists for another person.");
 
         } catch (JAXBException e) {
             LOGGER.error("JAXB error in Webservice: ", e);

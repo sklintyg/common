@@ -146,7 +146,8 @@ public final class UtlatandeToIntyg {
             for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
                 IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
                 svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
-                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1, aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
+                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
                         .build());
             }
         }
@@ -177,7 +178,8 @@ public final class UtlatandeToIntyg {
             try {
                 svars.add(aSvar(AR_FOR_DIABETESDIAGNOS_SVAR_ID_35)
                         .withDelsvar(AR_FOR_DIABETESDIAGNOS_DELSVAR_ID_35,
-                                aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(source.getObservationsperiod())))).build());
+                                aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(source.getObservationsperiod()))))
+                        .build());
             } catch (IllegalArgumentException e) {
                 /*
                  * During conversion for CertificateStatusUpdateForCare v2

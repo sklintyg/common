@@ -59,7 +59,8 @@ public class FkPrintedByEventHandler extends PdfPageEventHelper {
         PdfContentByte canvas = writer.getDirectContentUnder();
 
         ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER,
-                new Phrase(String.format("Intygs-ID: %s. %s", intygsId, applicationOriginText), PdfConstants.FONT_STAMPER_LABEL), printedbyX, printedbyY,
+                new Phrase(String.format("Intygs-ID: %s. %s", intygsId, applicationOriginText), PdfConstants.FONT_STAMPER_LABEL),
+                printedbyX, printedbyY,
                 ROTATION);
 
     }

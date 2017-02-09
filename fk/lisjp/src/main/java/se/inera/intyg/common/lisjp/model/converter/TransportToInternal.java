@@ -201,12 +201,14 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleArbetslivsinriktadeAtgarder(List<ArbetslivsinriktadeAtgarder> arbetslivsinriktadeAtgarder, Svar svar) throws ConverterException {
+    private static void handleArbetslivsinriktadeAtgarder(List<ArbetslivsinriktadeAtgarder> arbetslivsinriktadeAtgarder, Svar svar)
+            throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case ARBETSLIVSINRIKTADE_ATGARDER_VAL_DELSVAR_ID_40:
                 String arbetslivsinriktadeAtgarderValKod = getCVSvarContent(delsvar).getCode();
-                arbetslivsinriktadeAtgarder.add(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.fromId(arbetslivsinriktadeAtgarderValKod)));
+                arbetslivsinriktadeAtgarder.add(ArbetslivsinriktadeAtgarder
+                        .create(ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.fromId(arbetslivsinriktadeAtgarderValKod)));
                 break;
             default:
                 throw new IllegalArgumentException();
@@ -214,7 +216,8 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleArbetslivsinriktadeAtgarderBeskrivning(LisjpUtlatande.Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleArbetslivsinriktadeAtgarderBeskrivning(LisjpUtlatande.Builder utlatande, Svar svar)
+            throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_DELSVAR_ID_44:

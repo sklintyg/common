@@ -87,7 +87,8 @@ public final class InternalToTransport {
         }
 
         if (!Strings.isNullOrEmpty(source.getDiagnosKod())) {
-            register.getLakarutlatande().setMedicinsktTillstand(toMedicinsktTillstand(source.getDiagnosKod(), source.getDiagnosKodsystem1()));
+            register.getLakarutlatande()
+                    .setMedicinsktTillstand(toMedicinsktTillstand(source.getDiagnosKod(), source.getDiagnosKodsystem1()));
             buildMedicinsktTillstandBeskrivning(register.getLakarutlatande().getMedicinsktTillstand(), source);
         }
 
@@ -103,7 +104,8 @@ public final class InternalToTransport {
         }
 
         // add arbetsformaga to aktivitetsbegransing
-        FunktionstillstandType aktivitetsbegransing = toFunktionstillstand(source.getAktivitetsbegransning(), TypAvFunktionstillstand.AKTIVITET);
+        FunktionstillstandType aktivitetsbegransing = toFunktionstillstand(source.getAktivitetsbegransning(),
+                TypAvFunktionstillstand.AKTIVITET);
         aktivitetsbegransing.setArbetsformaga(toArbetsformaga(source));
 
         register.getLakarutlatande().getFunktionstillstand().add(aktivitetsbegransing);

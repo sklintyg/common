@@ -183,7 +183,8 @@ public final class UtlatandeToIntyg {
             for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
                 IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
                 svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
-                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1, aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
+                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
                         .build());
             }
         }
@@ -217,7 +218,8 @@ public final class UtlatandeToIntyg {
         buildMedvetandestorningSvar(source.getMedvetandestorning(), svars);
 
         if (source.getNjurar() != null) {
-            addIfNotNull(svars, NEDSATT_NJURFUNKTION_SVAR_ID_22, NEDSATT_NJURFUNKTION_DELSVAR_ID_22, source.getNjurar().getNedsattNjurfunktion());
+            addIfNotNull(svars, NEDSATT_NJURFUNKTION_SVAR_ID_22, NEDSATT_NJURFUNKTION_DELSVAR_ID_22,
+                    source.getNjurar().getNedsattNjurfunktion());
         }
 
         if (source.getKognitivt() != null) {

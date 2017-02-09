@@ -76,7 +76,8 @@ public class BefattningService {
                 } else if (codeToDescription.containsKey(values[0])) {
                     LOG.error("Ignoring code " + values[0] + " with description " + values[1] + " since code already exists in file.");
                 } else if (descriptionToCode.containsKey(values[1])) {
-                    LOG.error("Ignoring code " + values[0] + " with description " + values[1] + " since description already exists in file.");
+                    LOG.error("Ignoring code " + values[0] + " with description "
+                            + values[1] + " since description already exists in file.");
                 } else {
                     codeToDescription.put(values[0], values[1]);
                     descriptionToCode.put(values[1], values[0]);
@@ -99,10 +100,16 @@ public class BefattningService {
     }
 
     public static Optional<String> getDescriptionFromCode(String code) {
-        return instance != null && !Strings.nullToEmpty(code).trim().isEmpty() ? Optional.ofNullable(instance.codeToDescription.get(code.trim())) : Optional.empty();
+        return instance != null
+                && !Strings.nullToEmpty(code).trim().isEmpty()
+                ? Optional.ofNullable(instance.codeToDescription.get(code.trim()))
+                : Optional.empty();
     }
 
     public static Optional<String> getCodeFromDescription(String description) {
-        return instance != null && !Strings.nullToEmpty(description).trim().isEmpty() ? Optional.ofNullable(instance.descriptionToCode.get(description.trim())) : Optional.empty();
+        return instance != null
+                && !Strings.nullToEmpty(description).trim().isEmpty()
+                ? Optional.ofNullable(instance.descriptionToCode.get(description.trim()))
+                : Optional.empty();
     }
 }

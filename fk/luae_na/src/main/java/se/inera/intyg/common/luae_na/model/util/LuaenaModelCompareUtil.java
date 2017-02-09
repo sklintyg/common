@@ -27,7 +27,8 @@ public class LuaenaModelCompareUtil extends FkParentModelCompareUtil implements 
     @Override
     public boolean isValidForNotification(LuaenaUtlatande utlatande) {
         return diagnosesAreValid(utlatande.getDiagnoser())
-                && datesAreValid(utlatande.getAnnatGrundForMU(), utlatande.getJournaluppgifter(), utlatande.getAnhorigsBeskrivningAvPatienten(),
+                && datesAreValid(utlatande.getAnnatGrundForMU(), utlatande.getJournaluppgifter(),
+                        utlatande.getAnhorigsBeskrivningAvPatienten(),
                         utlatande.getUndersokningAvPatienten(), utlatande.getKannedomOmPatient());
     }
 

@@ -39,7 +39,9 @@ public class ValidateDraftResponse {
         this(status, validationErrors, new ArrayList<>());
     }
 
-    public ValidateDraftResponse(ValidationStatus status, List<ValidationMessage> validationErrors, List<ValidationMessage> validationWarnings) {
+    public ValidateDraftResponse(ValidationStatus status,
+                                 List<ValidationMessage> validationErrors,
+                                 List<ValidationMessage> validationWarnings) {
         Assert.notNull(status, "'status' must not be null");
         Assert.notNull(validationErrors, "'validationErrors' must not be null");
         Assert.notNull(validationWarnings, "'validationWarnings' must not be null");

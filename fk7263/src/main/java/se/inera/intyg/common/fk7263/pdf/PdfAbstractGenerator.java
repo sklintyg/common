@@ -210,7 +210,7 @@ public abstract class PdfAbstractGenerator {
     public String generatePdfFilename(boolean isCustomized) {
         Personnummer personId = intyg.getGrundData().getPatient().getPersonId();
         String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
-        String prefix =  isCustomized ? "anpassat_" : "";
+        String prefix = isCustomized ? "anpassat_" : "";
         String intygstyp = "fk7263";
         return String.format("%slakarintyg_%s_%s.pdf", prefix, intygstyp, personnummerString);
     }
@@ -268,10 +268,12 @@ public abstract class PdfAbstractGenerator {
 
     // Mark this document as a copy of an electronically signed document
     protected void markAsElectronicCopy(PdfStamper pdfStamper) throws DocumentException, IOException {
-        mark(pdfStamper, ELECTRONIC_COPY_WATERMARK_TEXT, MARK_AS_COPY_START_X, MARK_AS_COPY_START_Y, MARK_AS_COPY_HEIGTH, MARK_AS_COPY_WIDTH);
+        mark(pdfStamper, ELECTRONIC_COPY_WATERMARK_TEXT, MARK_AS_COPY_START_X, MARK_AS_COPY_START_Y, MARK_AS_COPY_HEIGTH,
+                MARK_AS_COPY_WIDTH);
     }
 
-    protected void mark(PdfStamper pdfStamper, String watermarkText, int startX, int startY, int height, int width) throws DocumentException, IOException {
+    protected void mark(PdfStamper pdfStamper, String watermarkText, int startX, int startY, int height, int width)
+            throws DocumentException, IOException {
         PdfContentByte addOverlay;
         addOverlay = pdfStamper.getOverContent(1);
         addOverlay.saveState();
@@ -295,7 +297,8 @@ public abstract class PdfAbstractGenerator {
         ct.go();
     }
 
-    protected void createRightMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text) throws DocumentException, IOException {
+    protected void createRightMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text)
+            throws DocumentException, IOException {
         PdfContentByte addOverlay;
         BaseFont bf = BaseFont.createFont();
         // Do text
@@ -386,6 +389,7 @@ public abstract class PdfAbstractGenerator {
         }
 
     }
+
     protected void fillCapacityRelativeToOtherThanNuvarandeArbete() {
 
         setField(UNEMPLOYMENT, intyg.isArbetsloshet());

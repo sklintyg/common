@@ -54,16 +54,19 @@ public class InternalValidatorInstance {
     }
 
     /**
-     * Validates an internal draft of an {@link TsDiabetesUtlatande} (this means the object being validated is not necessarily
+     * Validates an internal draft of an {@link TsDiabetesUtlatande} (this means the object being validated is not
+     * necessarily
      * complete).
      *
-     * @param utlatande an internal {@link TsDiabetesUtlatande}
+     * @param utlatande
+     *            an internal {@link TsDiabetesUtlatande}
      * @return a {@link ValidateDraftResponseHolder} with a status and a list of validationErrors
      */
     public ValidateDraftResponse validate(TsDiabetesUtlatande utlatande) {
 
         if (utlatande == null) {
-            ValidatorUtil.addValidationError(validationMessages, "utlatande", ValidationMessageType.OTHER, "ts-diabetes.validation.utlatande.missing");
+            ValidatorUtil.addValidationError(validationMessages, "utlatande", ValidationMessageType.OTHER,
+                    "ts-diabetes.validation.utlatande.missing");
         } else {
             context = new ValidationContext(utlatande);
             PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
@@ -96,7 +99,8 @@ public class InternalValidatorInstance {
 
         if (ValidatorUtil.isNotNullTrue(hypoglykemier.getTeckenNedsattHjarnfunktion())) {
             if (hypoglykemier.getSaknarFormagaKannaVarningstecken() == null) {
-                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.saknarFormagaKannaVarningstecken", ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.saknarFormagaKannaVarningstecken",
+                        ValidationMessageType.EMPTY);
             }
 
             if (hypoglykemier.getAllvarligForekomst() == null) {
@@ -104,7 +108,8 @@ public class InternalValidatorInstance {
             }
 
             if (hypoglykemier.getAllvarligForekomstTrafiken() == null) {
-                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.allvarligForekomstTrafiken", ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.allvarligForekomstTrafiken",
+                        ValidationMessageType.EMPTY);
             }
         }
 
@@ -120,9 +125,12 @@ public class InternalValidatorInstance {
 
         if (ValidatorUtil.isNotNullTrue(hypoglykemier.getAllvarligForekomstVakenTid())) {
             if (hypoglykemier.getAllvarligForekomstVakenTidObservationstid() == null) {
-                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.allvarligForekomstVakenTidObservationstid", ValidationMessageType.EMPTY);
-            } else if (hypoglykemier.getAllvarligForekomstVakenTidObservationstid().beforeMinDateOrInFuture(LocalDate.now().minusYears(1))) {
-                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.allvarligForekomstVakenTidObservationstid", ValidationMessageType.INVALID_FORMAT,
+                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.allvarligForekomstVakenTidObservationstid",
+                        ValidationMessageType.EMPTY);
+            } else if (hypoglykemier.getAllvarligForekomstVakenTidObservationstid()
+                    .beforeMinDateOrInFuture(LocalDate.now().minusYears(1))) {
+                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.allvarligForekomstVakenTidObservationstid",
+                        ValidationMessageType.INVALID_FORMAT,
                         "ts-diabetes.validation.hypoglykemier.allvarlig-forekomst-vaken-tid.observationstid.incorrect-date");
             }
         }
@@ -133,7 +141,8 @@ public class InternalValidatorInstance {
             }
 
             if (hypoglykemier.getAllvarligForekomstVakenTid() == null) {
-                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.allvarligForekomstVakenTid", ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationError(validationMessages, "hypoglykemier.allvarligForekomstVakenTid",
+                        ValidationMessageType.EMPTY);
             }
         }
 
@@ -155,7 +164,8 @@ public class InternalValidatorInstance {
             ValidatorUtil.addValidationError(validationMessages, "bedomning", ValidationMessageType.EMPTY);
             return;
         }
-        if (bedomning.getKorkortstyp().isEmpty() && (bedomning.getKanInteTaStallning() == null || ValidatorUtil.isNotNullFalse(bedomning.getKanInteTaStallning()))) {
+        if (bedomning.getKorkortstyp().isEmpty()
+                && (bedomning.getKanInteTaStallning() == null || ValidatorUtil.isNotNullFalse(bedomning.getKanInteTaStallning()))) {
             ValidatorUtil.addValidationError(validationMessages, "bedomning", ValidationMessageType.EMPTY);
         }
 
@@ -187,7 +197,8 @@ public class InternalValidatorInstance {
 
         boolean annanBehandling = diabetes.getAnnanBehandlingBeskrivning() != null
                 && !diabetes.getAnnanBehandlingBeskrivning().isEmpty();
-        if (!(ValidatorUtil.isNotNullTrue(diabetes.getEndastKost()) || ValidatorUtil.isNotNullTrue(diabetes.getTabletter()) || ValidatorUtil.isNotNullTrue(diabetes.getInsulin()) || annanBehandling)) {
+        if (!(ValidatorUtil.isNotNullTrue(diabetes.getEndastKost()) || ValidatorUtil.isNotNullTrue(diabetes.getTabletter())
+                || ValidatorUtil.isNotNullTrue(diabetes.getInsulin()) || annanBehandling)) {
             ValidatorUtil.addValidationError(validationMessages, "diabetes.behandling", ValidationMessageType.EMPTY,
                     "ts-diabetes.validation.diabetes.behandling.missing");
         }
@@ -241,7 +252,8 @@ public class InternalValidatorInstance {
 
                 if (syn.getHoger().getMedKorrektion() != null) {
                     if (syn.getHoger().getMedKorrektion() < 0.0 || syn.getHoger().getMedKorrektion() > 2.0) {
-                        ValidatorUtil.addValidationError(validationMessages, "syn.hoger.medKorrektion", ValidationMessageType.INVALID_FORMAT,
+                        ValidatorUtil.addValidationError(validationMessages, "syn.hoger.medKorrektion",
+                                ValidationMessageType.INVALID_FORMAT,
                                 "ts-diabetes.validation.syn.out-of-bounds");
                     }
                 }
@@ -254,12 +266,13 @@ public class InternalValidatorInstance {
 
                 if (syn.getVanster().getUtanKorrektion() < 0.0 || syn.getVanster().getUtanKorrektion() > 2.0) {
                     ValidatorUtil.addValidationError(validationMessages, "syn.vanster.utanKorrektion", ValidationMessageType.INVALID_FORMAT,
-                                "ts-diabetes.validation.syn.out-of-bounds");
+                            "ts-diabetes.validation.syn.out-of-bounds");
                 }
 
                 if (syn.getVanster().getMedKorrektion() != null) {
                     if (syn.getVanster().getMedKorrektion() < 0.0 || syn.getVanster().getMedKorrektion() > 2.0) {
-                        ValidatorUtil.addValidationError(validationMessages, "syn.vanster.medKorrektion", ValidationMessageType.INVALID_FORMAT,
+                        ValidatorUtil.addValidationError(validationMessages, "syn.vanster.medKorrektion",
+                                ValidationMessageType.INVALID_FORMAT,
                                 "ts-diabetes.validation.syn.out-of-bounds");
                     }
                 }
@@ -270,13 +283,15 @@ public class InternalValidatorInstance {
 
             } else {
                 if (syn.getBinokulart().getUtanKorrektion() < 0.0 || syn.getBinokulart().getUtanKorrektion() > 2.0) {
-                    ValidatorUtil.addValidationError(validationMessages, "syn.binokulart.utanKorrektion", ValidationMessageType.INVALID_FORMAT,
+                    ValidatorUtil.addValidationError(validationMessages, "syn.binokulart.utanKorrektion",
+                            ValidationMessageType.INVALID_FORMAT,
                             "ts-diabetes.validation.syn.out-of-bounds");
                 }
 
                 if (syn.getBinokulart().getMedKorrektion() != null) {
                     if (syn.getBinokulart().getMedKorrektion() < 0.0 || syn.getBinokulart().getMedKorrektion() > 2.0) {
-                        ValidatorUtil.addValidationError(validationMessages, "syn.binokulart.medKorrektion", ValidationMessageType.INVALID_FORMAT,
+                        ValidatorUtil.addValidationError(validationMessages, "syn.binokulart.medKorrektion",
+                                ValidationMessageType.INVALID_FORMAT,
                                 "ts-diabetes.validation.syn.out-of-bounds");
                     }
                 }

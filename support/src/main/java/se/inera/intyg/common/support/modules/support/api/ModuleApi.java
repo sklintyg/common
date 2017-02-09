@@ -80,11 +80,14 @@ public interface ModuleApi {
      *            The context from which this method was called (i.e Webcert or MinaIntyg)
      *
      * @param optionalFields
-     *            The optional field references to include in the pdf. The format, meaning and syntax of the optionalFields id's is determined within each implementing module project.
+     *            The optional field references to include in the pdf.
+     *            The format, meaning and syntax of the optionalFields id's is determined within each implementing module project.
 
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
-    PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields) throws ModuleException;
+    PdfResponse pdfEmployer(String internalModel, List<Status> statuses,
+                            ApplicationOrigin applicationOrigin,
+                            List<String> optionalFields) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}

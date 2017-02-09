@@ -72,10 +72,14 @@ public class InternalDraftValidator {
 
     private void validateVardkontakter(Fk7263Utlatande utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getTelefonkontaktMedPatienten() != null) {
-            ValidatorUtil.validateDate(utlatande.getTelefonkontaktMedPatienten(), validationMessages, "intygbaseratpa.telefonkontakt", null);
+            ValidatorUtil.validateDate(utlatande.getTelefonkontaktMedPatienten(), validationMessages, "intygbaseratpa.telefonkontakt",
+                    null);
         }
         if (utlatande.getUndersokningAvPatienten() != null) {
-            ValidatorUtil.validateDate(utlatande.getUndersokningAvPatienten(), validationMessages, "intygbaseratpa.undersokning", null);
+            ValidatorUtil.validateDate(utlatande.getUndersokningAvPatienten(),
+                    validationMessages,
+                    "intygbaseratpa.undersokning",
+                    null);
         }
     }
 
@@ -98,7 +102,8 @@ public class InternalDraftValidator {
             ValidatorUtil.addValidationError(validationMessages, "intygbaseratpa.annat", ValidationMessageType.EMPTY);
         }
         if (utlatande.getJournaluppgifter() != null) {
-            ValidatorUtil.validateDate(utlatande.getJournaluppgifter(), validationMessages, "intygbaseratpa.journaluppgifter", null);
+            ValidatorUtil.validateDate(utlatande.getJournaluppgifter(), validationMessages, ""
+                    + "intygbaseratpa.journaluppgifter", null);
         }
     }
 
@@ -108,7 +113,8 @@ public class InternalDraftValidator {
         // field 13 should contain data.
         if (utlatande.getPrognosBedomning() == PrognosBedomning.arbetsformagaPrognosGarInteAttBedoma
                 && Strings.nullToEmpty(utlatande.getArbetsformagaPrognosGarInteAttBedomaBeskrivning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "prognos.arbetsformagaPrognosGarInteAttBedomaBeskrivning", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "prognos.arbetsformagaPrognosGarInteAttBedomaBeskrivning",
+                    ValidationMessageType.EMPTY);
         }
     }
 
@@ -130,7 +136,8 @@ public class InternalDraftValidator {
             if (!utlatande.isNuvarandeArbete() && !utlatande.isArbetsloshet() && !utlatande.isForaldrarledighet()) {
                 ValidatorUtil.addValidationError(validationMessages, "sysselsattning", ValidationMessageType.EMPTY);
             } else if (utlatande.isNuvarandeArbete() && Strings.nullToEmpty(utlatande.getNuvarandeArbetsuppgifter()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, "sysselsattning.nuvarandearbetsuppgifter", ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationError(validationMessages, "sysselsattning.nuvarandearbetsuppgifter",
+                        ValidationMessageType.EMPTY);
             }
         }
 
@@ -142,8 +149,8 @@ public class InternalDraftValidator {
 
         // Check that from and tom is valid in all present intervals before doing more checks
         if (isValidDateInIntervals(validationMessages, utlatande)) {
-            validateIntervals(validationMessages, "nedsattning.arbetsformaga", utlatande.getNedsattMed100(), utlatande.getNedsattMed75(),
-                    utlatande.getNedsattMed50(), utlatande.getNedsattMed25());
+            validateIntervals(validationMessages, "nedsattning.arbetsformaga", utlatande.getNedsattMed100(),
+                    utlatande.getNedsattMed75(), utlatande.getNedsattMed50(), utlatande.getNedsattMed25());
         }
     }
 
@@ -212,10 +219,11 @@ public class InternalDraftValidator {
                 // Default to ICD-10
                 kodsystem = Diagnoskodverk.ICD_10_SE.name();
             }
-            validateDiagnosKod(utlatande.getDiagnosKod(), kodsystem, "diagnos.diagnosKod", "fk7263.validation.diagnos.invalid", validationMessages);
+            validateDiagnosKod(utlatande.getDiagnosKod(), kodsystem, "diagnos.diagnosKod",
+                    "fk7263.validation.diagnos.invalid", validationMessages);
         } else {
-            ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnosKod", ValidationMessageType.EMPTY,
-                    "fk7263.validation.diagnos.missing");
+            ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnosKod",
+                    ValidationMessageType.EMPTY, "fk7263.validation.diagnos.missing");
         }
 
         // Validate bidiagnos 1
@@ -225,7 +233,8 @@ public class InternalDraftValidator {
                 // Default to ICD-10
                 kodsystem = Diagnoskodverk.ICD_10_SE.name();
             }
-            validateDiagnosKod(utlatande.getDiagnosKod2(), kodsystem, "diagnos.diagnosKod2", "fk7263.validation.diagnos2.invalid", validationMessages);
+            validateDiagnosKod(utlatande.getDiagnosKod2(), kodsystem,
+                    "diagnos.diagnosKod2", "fk7263.validation.diagnos2.invalid", validationMessages);
         }
 
         // Validate bidiagnos 2
@@ -235,12 +244,14 @@ public class InternalDraftValidator {
                 // Default to ICD-10
                 kodsystem = Diagnoskodverk.ICD_10_SE.name();
             }
-            validateDiagnosKod(utlatande.getDiagnosKod3(), kodsystem, "diagnos.diagnosKod3", "fk7263.validation.diagnos3.invalid", validationMessages);
+            validateDiagnosKod(utlatande.getDiagnosKod3(), kodsystem,
+                    "diagnos.diagnosKod3", "fk7263.validation.diagnos3.invalid", validationMessages);
         }
 
     }
 
-    private void validateDiagnosKod(String diagnosKod, String kodsystem, String field, String msgKey, List<ValidationMessage> validationMessages) {
+    private void validateDiagnosKod(String diagnosKod, String kodsystem, String field, String msgKey,
+            List<ValidationMessage> validationMessages) {
         // if moduleService is not available, skip this validation
         if (moduleService == null) {
             LOG.warn("Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
@@ -270,7 +281,8 @@ public class InternalDraftValidator {
      *            intervals
      * @return booleans
      */
-    protected boolean validateIntervals(List<ValidationMessage> validationMessages, String fieldId, InternalLocalDateInterval... intervals) {
+    protected boolean validateIntervals(List<ValidationMessage> validationMessages, String fieldId,
+            InternalLocalDateInterval... intervals) {
         if (intervals == null || ValidatorUtil.allNulls(intervals)) {
             ValidatorUtil.addValidationError(validationMessages, fieldId, ValidationMessageType.EMPTY,
                     "fk7263.validation.nedsattning.choose-at-least-one");

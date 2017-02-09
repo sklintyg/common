@@ -65,7 +65,8 @@ public class SchemaValidatorBuilder {
      * @param classPathResouce
      *            The XSD classpath resource path.
      *
-     * @return The {@link javax.xml.transform.Source} representation of the resource. Useful when calling {@link #build(javax.xml.transform.Source)} if the
+     * @return The {@link javax.xml.transform.Source} representation of the resource.
+     * Useful when calling {@link #build(javax.xml.transform.Source)} if the
      *         specified resource is the root source.
      *
      * @throws java.io.IOException

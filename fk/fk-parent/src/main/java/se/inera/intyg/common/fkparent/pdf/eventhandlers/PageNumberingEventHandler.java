@@ -42,7 +42,8 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
     private PdfTemplate total;
 
     /**
-     * Constructs a new instance that uses the default placement of the page numbering, e.g. {@link PageNumberingEventHandler#DEFAULT_MARGIN_LEFT} mm from the left and
+     * Constructs a new instance that uses the default placement of the page numbering, e.g.
+     * {@link PageNumberingEventHandler#DEFAULT_MARGIN_LEFT} mm from the left and
      * {@link PageNumberingEventHandler#DEFAULT_MARGIN_TOP} mm from the top.
      *
      */
@@ -51,13 +52,14 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
     }
 
     /**
-     * Use this constructor to optionally override the placing of the page numbering. Uses margin from the left and the top
+     * Use this constructor to optionally override the placing of the page numbering. Uses margin from the left and the
+     * top
      * of the page, in millimeters.
      *
      * @param marginLeft
-     *      Margin from the left edge of the page, in millimeters.
+     *            Margin from the left edge of the page, in millimeters.
      * @param marginTop
-     *      Margin from the top of the page, in millimeters.
+     *            Margin from the top of the page, in millimeters.
      */
     public PageNumberingEventHandler(float marginLeft, float marginTop) {
         this.marginTop = marginTop;
@@ -96,7 +98,8 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
             cell.setBorder(Rectangle.NO_BORDER);
             table.addCell(cell);
 
-            table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(marginLeft), document.getPageSize().getTop() - Utilities.millimetersToPoints(marginTop),
+            table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(marginLeft),
+                    document.getPageSize().getTop() - Utilities.millimetersToPoints(marginTop),
                     writer.getDirectContent());
 
         } catch (DocumentException de) {
@@ -115,7 +118,8 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
         // CHECKSTYLE:OFF MagicNumber
         ColumnText.showTextAligned(total,
                 Element.ALIGN_LEFT,
-                new Phrase("(" + Integer.toString(writer.getPageNumber() - 1) + ")", PdfConstants.FONT_PAGE_NUMBERING), 0, Utilities.millimetersToPoints(1f),
+                new Phrase("(" + Integer.toString(writer.getPageNumber() - 1) + ")", PdfConstants.FONT_PAGE_NUMBERING), 0,
+                Utilities.millimetersToPoints(1f),
                 0);
     }
 }

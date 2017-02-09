@@ -103,7 +103,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
                     SortedMap<String, String> texts = getTexter(root);
                     List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor(doc);
 
-                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, getTextVersionProperties(file));
+                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor,
+                            getTextVersionProperties(file));
                     if (!intygTexts.contains(newIntygTexts)) {
                         LOG.debug("Adding new version of {} with version name {}", intygsTyp, version);
                         intygTexts.add(newIntygTexts);
@@ -145,9 +146,6 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
     /**
      * Retrieve the corresponding property file for a intyg texts xml file.
-     *
-     * @param file
-     * @return
      */
     private Properties getTextVersionProperties(Path file) {
 
@@ -166,9 +164,6 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
     /**
      * Determines if the given file is a intyg texts XML source file candidate.
-     *
-     * @param file
-     * @return
      */
     private static boolean isIntygTextsFile(Path file) {
         return Files.isRegularFile(file) && file.getFileName().toString().toLowerCase().endsWith(TEXTDATA_FILE_EXTENSION);

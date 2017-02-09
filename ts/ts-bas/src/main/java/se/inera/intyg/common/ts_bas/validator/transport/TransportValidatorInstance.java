@@ -54,7 +54,6 @@ public class TransportValidatorInstance {
         return validationErrors;
     }
 
-
     public List<String> getValidationErrors() {
         return validationErrors;
     }
@@ -78,7 +77,8 @@ public class TransportValidatorInstance {
         }
         // Vardenhet
         if (utlatande.getGrundData().getSkapadAv().getVardenhet() != null) {
-            checkId(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getRoot(), Constants.HSA_ID_OID, "vardenhet.enhetsId");
+            checkId(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getRoot(), Constants.HSA_ID_OID,
+                    "vardenhet.enhetsId");
         }
         // vardgivare
         if (utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare() != null) {
@@ -203,7 +203,8 @@ public class TransportValidatorInstance {
      * {@link #success()}ful.
      */
     enum AssertionResult {
-        SUCCESS(true), FAILURE(false);
+        SUCCESS(true),
+        FAILURE(false);
 
         private final boolean assertSuccessful;
 

@@ -85,13 +85,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         }
 
         if (utlatande.getUndersokningAvPatienten() != null) {
-            ValidatorUtilFK.validateGrundForMuDate(utlatande.getUndersokningAvPatienten(), validationMessages, ValidatorUtilFK.GrundForMu.UNDERSOKNING);
+            ValidatorUtilFK.validateGrundForMuDate(utlatande.getUndersokningAvPatienten(), validationMessages,
+                    ValidatorUtilFK.GrundForMu.UNDERSOKNING);
         }
         if (utlatande.getJournaluppgifter() != null) {
-            ValidatorUtilFK.validateGrundForMuDate(utlatande.getJournaluppgifter(), validationMessages, ValidatorUtilFK.GrundForMu.JOURNALUPPGIFTER);
+            ValidatorUtilFK.validateGrundForMuDate(utlatande.getJournaluppgifter(), validationMessages,
+                    ValidatorUtilFK.GrundForMu.JOURNALUPPGIFTER);
         }
         if (utlatande.getAnhorigsBeskrivningAvPatienten() != null) {
-            ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnhorigsBeskrivningAvPatienten(), validationMessages, ValidatorUtilFK.GrundForMu.ANHORIGSBESKRIVNING);
+            ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnhorigsBeskrivningAvPatienten(), validationMessages,
+                    ValidatorUtilFK.GrundForMu.ANHORIGSBESKRIVNING);
         }
         if (utlatande.getAnnatGrundForMU() != null) {
             ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, ValidatorUtilFK.GrundForMu.ANNAT);
@@ -101,7 +104,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         if (utlatande.getUndersokningAvPatienten() == null && (utlatande.getJournaluppgifter() != null
                 || utlatande.getAnhorigsBeskrivningAvPatienten() != null || utlatande.getAnnatGrundForMU() != null)
                 && Strings.nullToEmpty(utlatande.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "grundformu.motiveringTillInteBaseratPaUndersokning", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "grundformu.motiveringTillInteBaseratPaUndersokning",
+                    ValidationMessageType.EMPTY);
         }
 
         // R2
@@ -117,7 +121,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         if (utlatande.getKannedomOmPatient() == null) {
             ValidatorUtil.addValidationError(validationMessages, "grundformu.kannedomOmPatient", ValidationMessageType.EMPTY);
         } else {
-            boolean dateIsValid = ValidatorUtil.validateDateAndWarnIfFuture(utlatande.getKannedomOmPatient(), validationMessages, "grundformu.kannedomOmPatient");
+            boolean dateIsValid = ValidatorUtil.validateDateAndWarnIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
+                    "grundformu.kannedomOmPatient");
             if (dateIsValid) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
                         && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getUndersokningAvPatienten().asLocalDate())) {
@@ -125,7 +130,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                             "luse.validation.grund-for-mu.kannedom.after", "KV_FKMU_0001.UNDERSOKNING.RBK");
                 }
                 if (utlatande.getAnhorigsBeskrivningAvPatienten() != null && utlatande.getAnhorigsBeskrivningAvPatienten().isValidDate()
-                        && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getAnhorigsBeskrivningAvPatienten().asLocalDate())) {
+                        && utlatande.getKannedomOmPatient().asLocalDate()
+                                .isAfter(utlatande.getAnhorigsBeskrivningAvPatienten().asLocalDate())) {
                     ValidatorUtil.addValidationError(validationMessages, "grundformu.kannedomOmPatient", ValidationMessageType.OTHER,
                             "luse.validation.grund-for-mu.kannedom.after", "KV_FKMU_0001.ANHORIG.RBK");
                 }
@@ -148,7 +154,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         }
 
         if (utlatande.getUnderlag().size() > MAX_UNDERLAG) {
-            ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag", ValidationMessageType.OTHER, "luse.validation.underlag.too_many");
+            ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag", ValidationMessageType.OTHER,
+                    "luse.validation.underlag.too_many");
         }
         for (int i = 0; i < utlatande.getUnderlag().size(); i++) {
             Underlag underlag = utlatande.getUnderlag().get(i);
@@ -166,7 +173,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                     && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK.getId())
                     && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS.getId())
                     && !(underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.OVRIGT.getId()))) {
-                ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".typ", ValidationMessageType.INVALID_FORMAT,
+                ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".typ",
+                        ValidationMessageType.INVALID_FORMAT,
                         "luse.validation.underlag.incorrect_format");
             }
             if (underlag.getDatum() == null) {
@@ -176,7 +184,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                 ValidatorUtil.validateDate(underlag.getDatum(), validationMessages, "grundformu.underlag." + i + ".datum", null);
             }
             if (Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".hamtasFran", ValidationMessageType.EMPTY,
+                ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".hamtasFran",
+                        ValidationMessageType.EMPTY,
                         "luse.validation.underlag.hamtas-fran.missing");
             }
         }
@@ -231,14 +240,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         // R14 Inverted test of R13
         if ((utlatande.getNyBedomningDiagnosgrund() == null || !utlatande.getNyBedomningDiagnosgrund())
                 && !Strings.isNullOrEmpty(utlatande.getDiagnosForNyBedomning())) {
-            ValidatorUtil.addValidationError(validationMessages, "diagnos.nyBedomningDiagnosgrund", ValidationMessageType.INCORRECT_COMBINATION,
+            ValidatorUtil.addValidationError(validationMessages, "diagnos.nyBedomningDiagnosgrund",
+                    ValidationMessageType.INCORRECT_COMBINATION,
                     "luse.validation.diagnosfornybedomning.incorrect_combination");
         }
     }
 
     private void validateKontaktMedFk(LuseUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // R11
-        if ((utlatande.getKontaktMedFk() == null || !utlatande.getKontaktMedFk()) && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
+        if ((utlatande.getKontaktMedFk() == null || !utlatande.getKontaktMedFk())
+                && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "Kontakt", ValidationMessageType.INCORRECT_COMBINATION,
                     "luse.validation.kontakt.incorrect_combination");
         }

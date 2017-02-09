@@ -259,7 +259,8 @@ public class ProgrammaticTransportValidator extends AbstractValidator {
 
     private void validateSmittskyddRelated() {
         // Fält 1 - no rule
-        inSmittskydd = findAktivitetWithCode(utlatande.getAktivitet(), Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null ? true : false;
+        inSmittskydd = findAktivitetWithCode(utlatande.getAktivitet(), Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null ? true
+                : false;
 
         // Must be set as this element contains a lot of mandatory
         // information
@@ -286,8 +287,10 @@ public class ProgrammaticTransportValidator extends AbstractValidator {
             if (medTillstand.getTillstandskod() == null
                     || medTillstand.getTillstandskod().getCodeSystemName() == null
                     || !(medTillstand.getTillstandskod().getCodeSystemName().equalsIgnoreCase(Diagnoskodverk.ICD_10_SE.getCodeSystemName())
-                    ||   medTillstand.getTillstandskod().getCodeSystemName().equalsIgnoreCase(Diagnoskodverk.KSH_97_P.getCodeSystemName()))) {
-                addValidationError("Wrong code system name for medicinskt tillstand - tillstandskod (diagnoskod)! Should be ICD-10 OR KSH97P");
+                            || medTillstand.getTillstandskod().getCodeSystemName()
+                                    .equalsIgnoreCase(Diagnoskodverk.KSH_97_P.getCodeSystemName()))) {
+                addValidationError(
+                        "Wrong code system name for medicinskt tillstand - tillstandskod (diagnoskod)! Should be ICD-10 OR KSH97P");
             }
             // Fält 2 - Medicinskt tillstånd beskrivning - optional
 
@@ -375,7 +378,8 @@ public class ProgrammaticTransportValidator extends AbstractValidator {
         // Fält 8a - Check that we at least got one choice
         if (!inSmittskydd) {
             if (inArbete == null && inArbetslos == null && inForaldraledig == null) {
-                addValidationError("No sysselsattning element found for field 8a! Nuvarande arbete, arbestloshet or foraldraledig should be set.");
+                addValidationError(
+                        "No sysselsattning element found for field 8a! Nuvarande arbete, arbestloshet or foraldraledig should be set.");
             }
         }
 

@@ -96,7 +96,6 @@ public class PdfGeneratorImpl implements PdfGenerator<TsBasUtlatande> {
 
     private static final CheckGroupField<IntygAvserKategori> INTYG_AVSER;
 
-
     static {
         INTYG_AVSER = new CheckGroupField<>();
         INTYG_AVSER.addField(IntygAvserKategori.C1, "Falt_10");
@@ -240,14 +239,14 @@ public class PdfGeneratorImpl implements PdfGenerator<TsBasUtlatande> {
 
             // Decorate PDF depending on the origin of the pdf-call
             switch (applicationOrigin) {
-                case MINA_INTYG:
-                    createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), MINA_INTYG_MARGIN_TEXT);
-                    break;
-                case WEBCERT:
-                    createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), WEBCERT_MARGIN_TEXT);
-                    break;
-                default:
-                    break;
+            case MINA_INTYG:
+                createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), MINA_INTYG_MARGIN_TEXT);
+                break;
+            case WEBCERT:
+                createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), WEBCERT_MARGIN_TEXT);
+                break;
+            default:
+                break;
             }
 
             pdfStamper.close();
@@ -271,7 +270,8 @@ public class PdfGeneratorImpl implements PdfGenerator<TsBasUtlatande> {
         return texts.getProperties().getProperty(PDF_PATH_PROPERTY_KEY, PDF_PATH_V06U07);
     }
 
-    private void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text) throws DocumentException, IOException {
+    private void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text)
+            throws DocumentException, IOException {
         PdfContentByte addOverlay;
         BaseFont bf = BaseFont.createFont();
         // Do text
@@ -298,7 +298,8 @@ public class PdfGeneratorImpl implements PdfGenerator<TsBasUtlatande> {
      * @throws DocumentException
      * @throws IOException
      */
-    private void populatePdfFields(TsBasUtlatande utlatande, AcroFields fields, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
+    private void populatePdfFields(TsBasUtlatande utlatande, AcroFields fields, ApplicationOrigin applicationOrigin)
+            throws IOException, DocumentException {
         populatePatientInfo(utlatande.getGrundData().getPatient(), fields);
         populateIntygAvser(utlatande.getIntygAvser(), fields);
         populateIdkontroll(utlatande.getVardkontakt(), fields);

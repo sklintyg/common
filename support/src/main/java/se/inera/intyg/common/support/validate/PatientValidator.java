@@ -42,9 +42,10 @@ public final class PatientValidator {
         }
         validateString(validationMessages, patient.getPostadress(), "patient.grunddata.patient.postadress");
         validateString(validationMessages, patient.getPostnummer(), "patient.grunddata.patient.postnummer");
-        if (!Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty() && !STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
-            validationMessages.add(new ValidationMessage("patient.grunddata.patient.postnummer", ValidationMessageType.INVALID_FORMAT,
-                    "common.validation.postnummer.incorrect-format"));
+        if (!Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()
+                && !STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
+            validationMessages.add(new ValidationMessage("patient.grunddata.patient.postnummer",
+                    ValidationMessageType.INVALID_FORMAT, "common.validation.postnummer.incorrect-format"));
         }
         validateString(validationMessages, patient.getPostort(), "patient.grunddata.patient.postort");
     }

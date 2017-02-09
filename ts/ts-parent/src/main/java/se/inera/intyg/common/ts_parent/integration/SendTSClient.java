@@ -46,12 +46,14 @@ import com.google.common.base.Throwables;
 
 public class SendTSClient {
 
-    private static final String REGISTER_NAMESPACE = "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1:RegisterCertificate";
+    private static final String REGISTER_NAMESPACE =
+            "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1:RegisterCertificate";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SendTSClient.class);
 
     private static final QName PORT_NAME =
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:1:rivtabp21", "RegisterCertificateResponderPort");
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:1:rivtabp21",
+            "RegisterCertificateResponderPort");
 
     private final RegisterCertificateResponderService service;
 

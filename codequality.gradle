@@ -14,20 +14,6 @@ subprojects {
     checkstyleMain.source = "src/main/java" // Explicitly disable generated code
     checkstyleTest.enabled = false
 
-    // PMD ==================================================================
-
-    apply plugin: 'pmd'
-
-    pmd {
-        ignoreFailures = false
-        ruleSetFiles = rootProject.files("$rootProject.projectDir/build-tools/src/main/resources/pmd/pmdRuleSet.xml")
-        ruleSets = []
-        sourceSets = [ sourceSets.main ]
-    }
-
-    pmdMain.onlyIf { project.hasProperty('codeQuality') }
-    pmdTest.enabled = false
-
     // Errorprone ===========================================================
 
     apply plugin: 'net.ltgt.errorprone-base'

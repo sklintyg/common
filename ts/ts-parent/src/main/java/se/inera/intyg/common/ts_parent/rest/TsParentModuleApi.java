@@ -132,7 +132,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String template)
-          throws ModuleException {
+            throws ModuleException {
         return createNewInternalFromTemplate(draftCopyHolder, template);
     }
 
@@ -164,7 +164,8 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields)
+    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
+            List<String> optionalFields)
             throws ModuleException {
         throw new ModuleException("Feature not supported");
     }

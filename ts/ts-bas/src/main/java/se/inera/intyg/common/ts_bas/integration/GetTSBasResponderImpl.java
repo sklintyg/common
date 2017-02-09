@@ -81,13 +81,15 @@ public class GetTSBasResponderImpl implements GetTSBasResponderInterface {
                 return response;
             }
             if (certificate.isDeletedByCareGiver()) {
-                response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, String.format("Certificate '%s' has been deleted by care giver", certificateId)));
+                response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
+                        String.format("Certificate '%s' has been deleted by care giver", certificateId)));
             } else {
                 response.setMeta(createCertificateMetaType(certificate));
                 attachCertificateDocument(certificate, response);
                 if (certificate.isRevoked()) {
                     LOGGER.info("Certificate {} has been revoked", certificateId);
-                    response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED, String.format("Certificate '%s' has been revoked", certificateId)));
+                    response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
+                            String.format("Certificate '%s' has been revoked", certificateId)));
                 } else {
                     response.setResultat(ResultTypeUtil.okResult());
                 }
@@ -101,7 +103,8 @@ public class GetTSBasResponderImpl implements GetTSBasResponderInterface {
 
     private void attachCertificateDocument(CertificateHolder certificate, GetTSBasResponseType response) {
         try {
-            TSBasIntyg tsBasIntyg = JAXB.unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSBasType.class).getIntyg();
+            TSBasIntyg tsBasIntyg = JAXB.unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSBasType.class)
+                    .getIntyg();
             response.setIntyg(tsBasIntyg);
         } catch (Exception e) {
             Throwables.propagate(e);

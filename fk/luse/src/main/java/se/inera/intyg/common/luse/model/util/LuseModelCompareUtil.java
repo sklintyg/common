@@ -27,7 +27,8 @@ public class LuseModelCompareUtil extends FkParentModelCompareUtil implements Mo
     @Override
     public boolean isValidForNotification(LuseUtlatande utlatande) {
         return diagnosesAreValid(utlatande.getDiagnoser())
-                && datesAreValid(utlatande.getAnnatGrundForMU(), utlatande.getJournaluppgifter(), utlatande.getAnhorigsBeskrivningAvPatienten(),
+                && datesAreValid(utlatande.getAnnatGrundForMU(), utlatande.getJournaluppgifter(),
+                        utlatande.getAnhorigsBeskrivningAvPatienten(),
                         utlatande.getUndersokningAvPatienten(), utlatande.getKannedomOmPatient());
     }
 

@@ -64,7 +64,8 @@ public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
 
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts);
             Personnummer personId = luseIntyg.getGrundData().getPatient().getPersonId();
-            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition), PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
+            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
+                    PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
@@ -72,7 +73,8 @@ public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
     }
 
     @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields)
+    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
+            List<String> optionalFields)
             throws ModuleException {
         throw new RuntimeException("Not implemented");
     }

@@ -35,7 +35,9 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     public static final String MODULE_ID = "fk7263";
     public static final String MODULE_NAME = "Läkarintyg FK 7263";
     public static final String MODULE_DESCRIPTION = "Läkarintyg enligt 3 kap, 8 § lagen (1962:381) om allmän försäkring";
+    // CHECKSTYLE:OFF LineLength
     private static final String MODULE_DETAILED_DESCRIPTION = "Läkarintyget används av Försäkringskassan för att bedöma om patienten har rätt till sjukpenning. Av intyget ska det framgå hur sjukdomen påverkar patientens arbetsförmåga och hur länge patienten behöver vara sjukskriven.";
+    // CHECKSTYLE:ON LineLength
 
     @Autowired
     private Fk7263ModuleApi moduleApi;

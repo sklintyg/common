@@ -35,8 +35,8 @@ public interface RootValidator {
     String getRoot();
 
     /**
-     * Performs validation of the {@link se.inera.intyg.common.support.model} <code>extension</code> of the <code>root</code> that this validator
-     * supports.
+     * Performs validation of the {@link se.inera.intyg.common.support.model} <code>extension</code> of the <code>root</code>
+     * that this validator supports.
      *
      * @param extension The extension to validate.
      * @return A list of validation messages. An empty string if validation was successful.

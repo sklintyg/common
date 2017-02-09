@@ -67,7 +67,8 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a non-empty String from a Delsvar.
      *
-     * @param delsvar The Delsvar to parse.
+     * @param delsvar
+     *            The Delsvar to parse.
      *
      * @return The non-empty String content of the Delsvar.
      */
@@ -80,7 +81,9 @@ public final class TransportConverterUtil {
 
     /**
      * Attempt to parse a CVType from a Delsvar.
-     * @param delsvar The Delsvar to parse.
+     *
+     * @param delsvar
+     *            The Delsvar to parse.
      * @return CVType
      * @throws ConverterException
      */
@@ -134,6 +137,7 @@ public final class TransportConverterUtil {
 
     /**
      * Attempt to parse a {@link DatePeriodType} from a {@link Delsvar}.
+     *
      * @param delsvar
      * @throws ConverterException
      */
@@ -256,7 +260,6 @@ public final class TransportConverterUtil {
         patient.setPostort(source.getPostort());
         patient.setPostnummer(source.getPostnummer());
         patient.setPostadress(source.getPostadress());
-
 
         String pnr = source.getPersonId().getExtension();
         patient.setPersonId(Personnummer.createValidatedPersonnummerWithDash(pnr).orElse(new Personnummer(pnr)));

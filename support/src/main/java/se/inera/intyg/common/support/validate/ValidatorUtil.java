@@ -46,7 +46,7 @@ public final class ValidatorUtil {
     private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtil.class);
     private static final StringValidator STRING_VALIDATOR = new StringValidator();
 
-    public static final int BASE_10 = 10;
+    private static final int BASE_10 = 10;
 
     private ValidatorUtil() {
     }
@@ -129,7 +129,10 @@ public final class ValidatorUtil {
      * @return
      *      True if valid, false otherwise.
      */
-    public static boolean validateInternalDateInterval(InternalLocalDateInterval interval, List<ValidationMessage> validationMessages, String field, String message) {
+    public static boolean validateInternalDateInterval(InternalLocalDateInterval interval,
+                                                       List<ValidationMessage> validationMessages,
+                                                       String field,
+                                                       String message) {
         if (interval == null || interval.getTom() == null || interval.getFrom() == null) {
             addValidationError(validationMessages, field, ValidationMessageType.EMPTY);
             return false;
@@ -173,7 +176,8 @@ public final class ValidatorUtil {
         if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostnummer()).trim().isEmpty()) {
             addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.EMPTY);
         } else if (!STRING_VALIDATOR.validateStringAsPostalCode(grundData.getSkapadAv().getVardenhet().getPostnummer())) {
-            addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.INVALID_FORMAT,
+            addValidationError(validationMessages,
+                    "vardenhet.grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.INVALID_FORMAT,
                     "common.validation.postnummer.incorrect-format");
         }
 
@@ -182,7 +186,8 @@ public final class ValidatorUtil {
         }
 
         if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getTelefonnummer()).trim().isEmpty()) {
-            addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.telefonnummer", ValidationMessageType.EMPTY);
+            addValidationError(validationMessages,
+                    "vardenhet.grunddata.skapadAv.vardenhet.telefonnummer", ValidationMessageType.EMPTY);
         }
     }
 
@@ -198,7 +203,8 @@ public final class ValidatorUtil {
         return validationMessages.isEmpty() ? ValidationStatus.VALID : ValidationStatus.INVALID;
     }
 
-    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg, String dynamicLabel) {
+    public static void addValidationError(List<ValidationMessage> validationMessages, String field,
+                                          ValidationMessageType type, String msg, String dynamicLabel) {
 
         // Bit of a hack - but make sure no WARN types are added to the ERROR list.
         if (type == ValidationMessageType.WARN) {
@@ -218,7 +224,8 @@ public final class ValidatorUtil {
      * @param msg
      *            a String with an error code for the front end implementation
      */
-    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg) {
+    public static void addValidationError(List<ValidationMessage> validationMessages, String field,
+                                          ValidationMessageType type, String msg) {
         validationMessages.add(new ValidationMessage(field, type, msg));
         LOG.debug(field + " " + msg);
     }
@@ -252,7 +259,8 @@ public final class ValidatorUtil {
      * @param errorCode
      *            the errorCode to log in validation errors
      */
-    public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field, String errorCode) {
+    public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning,
+                                                            String field, String errorCode) {
         if (beskrivning == null || beskrivning.isEmpty()) {
             addValidationError(validationMessages, field, ValidationMessageType.EMPTY, errorCode);
             LOG.debug(field + " " + errorCode);

@@ -85,7 +85,7 @@ public final class TransportToInternalConverter {
     private static void readSyn(Syn syn, SynfunktionDiabetes synfunktion) {
 
         if (synfunktion != null) {
-            //syn.setSeparatOgonlakarintyg(synfunktion.isFinnsSeparatOgonlakarintyg());
+            // syn.setSeparatOgonlakarintyg(synfunktion.isFinnsSeparatOgonlakarintyg());
             syn.setBinokulart(readBinokulart(synfunktion));
             syn.setDiplopi(synfunktion.isHarDiplopi());
             syn.setHoger(readHoger(synfunktion));
@@ -124,8 +124,10 @@ public final class TransportToInternalConverter {
         hypoglykemier.setAllvarligForekomstTrafiken(source.isHarAllvarligForekomstTrafiken());
         if (source.isHarAllvarligForekomstVakenTid() != null) {
             hypoglykemier.setAllvarligForekomstVakenTid(source.isHarAllvarligForekomstVakenTid());
-            if (source.isHarAllvarligForekomstVakenTid() && InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()) != null) {
-                hypoglykemier.setAllvarligForekomstVakenTidObservationstid(InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()));
+            if (source.isHarAllvarligForekomstVakenTid()
+                    && InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()) != null) {
+                hypoglykemier.setAllvarligForekomstVakenTidObservationstid(
+                        InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()));
             }
         }
         hypoglykemier.setEgenkontrollBlodsocker(source.isGenomforEgenkontrollBlodsocker());

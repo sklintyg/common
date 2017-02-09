@@ -117,7 +117,8 @@ public final class TransportToInternal {
     public static LocalDate getValidToDate(List<ArbetsformagaNedsattningType> source) {
         LocalDate toDate = null;
         for (ArbetsformagaNedsattningType nedsattning : source) {
-            LocalDateInterval nextObservationsperiod = new LocalDateInterval(nedsattning.getVaraktighetFrom(), nedsattning.getVaraktighetTom());
+            LocalDateInterval nextObservationsperiod = new LocalDateInterval(nedsattning.getVaraktighetFrom(),
+                    nedsattning.getVaraktighetTom());
             if (toDate == null || toDate.isBefore(nextObservationsperiod.getFrom())) {
                 toDate = nextObservationsperiod.getTom();
             }
@@ -128,7 +129,8 @@ public final class TransportToInternal {
     public static LocalDate getValidFromDate(List<ArbetsformagaNedsattningType> source) {
         LocalDate fromDate = null;
         for (ArbetsformagaNedsattningType nedsattning : source) {
-            LocalDateInterval nextObservationsperiod = new LocalDateInterval(nedsattning.getVaraktighetFrom(), nedsattning.getVaraktighetTom());
+            LocalDateInterval nextObservationsperiod = new LocalDateInterval(nedsattning.getVaraktighetFrom(),
+                    nedsattning.getVaraktighetTom());
             if (fromDate == null || fromDate.isAfter(nextObservationsperiod.getFrom())) {
                 fromDate = nextObservationsperiod.getFrom();
             }
@@ -210,7 +212,8 @@ public final class TransportToInternal {
 
     }
 
-    private static void populateWithSysselsattning(Fk7263Utlatande utlatande, List<SysselsattningType> sysselsattnings) throws ConverterException {
+    private static void populateWithSysselsattning(Fk7263Utlatande utlatande, List<SysselsattningType> sysselsattnings)
+            throws ConverterException {
         for (SysselsattningType sysselsattning : sysselsattnings) {
             switch (sysselsattning.getTypAvSysselsattning()) {
             case NUVARANDE_ARBETE:
@@ -236,7 +239,7 @@ public final class TransportToInternal {
         utlatande.setDiagnosBeskrivning(source.getBeskrivning());
         utlatande.setDiagnosKod(source.getTillstandskod().getCode());
         Diagnoskodverk kodverk = Diagnoskodverk.getEnumByCodeSystem(source.getTillstandskod().getCodeSystem());
-        if (source.getTillstandskod().getCodeSystem() != null &&  kodverk != null) {
+        if (source.getTillstandskod().getCodeSystem() != null && kodverk != null) {
             utlatande.setDiagnosKodsystem1(kodverk.name());
         } else {
             utlatande.setDiagnosKodsystem1(Diagnoskodverk.ICD_10_SE.name());
@@ -376,7 +379,8 @@ public final class TransportToInternal {
      */
     private static void populateWithArbetsformaga(Fk7263Utlatande utlatande, FunktionstillstandType source) {
         for (ArbetsformagaNedsattningType nedsattning : source.getArbetsformaga().getArbetsformagaNedsattning()) {
-            if (nedsattning.getNedsattningsgrad() != null && nedsattning.getVaraktighetFrom() != null && nedsattning.getVaraktighetTom() != null) {
+            if (nedsattning.getNedsattningsgrad() != null && nedsattning.getVaraktighetFrom() != null
+                    && nedsattning.getVaraktighetTom() != null) {
                 switch (nedsattning.getNedsattningsgrad()) {
                 case HELT_NEDSATT:
                     utlatande.setNedsattMed100(makeInterval(nedsattning));

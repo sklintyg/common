@@ -125,33 +125,39 @@ public final class UtlatandeToIntyg {
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
                             aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
                                     RespConstants.ReferensTyp.UNDERSOKNING.label))
-                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getUndersokningAvPatienten().asLocalDate().toString())
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+                            source.getUndersokningAvPatienten().asLocalDate().toString())
                     .build());
         }
         if (source.getJournaluppgifter() != null) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.JOURNAL.transportId, RespConstants.ReferensTyp.JOURNAL.label))
-                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getJournaluppgifter().asLocalDate().toString()).build());
+                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.JOURNAL.transportId,
+                                    RespConstants.ReferensTyp.JOURNAL.label))
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getJournaluppgifter().asLocalDate().toString())
+                    .build());
         }
         if (source.getAnhorigsBeskrivningAvPatienten() != null) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
                             aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.transportId,
                                     RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.label))
-                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getAnhorigsBeskrivningAvPatienten().asLocalDate().toString())
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+                            source.getAnhorigsBeskrivningAvPatienten().asLocalDate().toString())
                     .build());
         }
         if (source.getAnnatGrundForMU() != null) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANNAT.transportId, RespConstants.ReferensTyp.ANNAT.label))
+                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANNAT.transportId,
+                                    RespConstants.ReferensTyp.ANNAT.label))
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1, source.getAnnatGrundForMU().asLocalDate().toString())
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, source.getAnnatGrundForMUBeskrivning()).build());
         }
 
         if (source.getKannedomOmPatient() != null) {
-            svars.add(aSvar(KANNEDOM_SVAR_ID_2).withDelsvar(KANNEDOM_DELSVAR_ID_2, source.getKannedomOmPatient().asLocalDate().toString()).build());
+            svars.add(aSvar(KANNEDOM_SVAR_ID_2).withDelsvar(KANNEDOM_DELSVAR_ID_2, source.getKannedomOmPatient().asLocalDate().toString())
+                    .build());
         }
 
         if (source.getUnderlagFinns() != null) {
@@ -201,7 +207,8 @@ public final class UtlatandeToIntyg {
                 source.getFunktionsnedsattningSynHorselTal());
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13, FUNKTIONSNEDSATTNING_BALANSKOORDINATION_DELSVAR_ID_13,
                 source.getFunktionsnedsattningBalansKoordination());
-        addIfNotBlank(svars, FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14, FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14, source.getFunktionsnedsattningAnnan());
+        addIfNotBlank(svars, FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14, FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_ID_14,
+                source.getFunktionsnedsattningAnnan());
         addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_DELSVAR_ID_17, source.getAktivitetsbegransning());
         addIfNotBlank(svars, AVSLUTADBEHANDLING_SVAR_ID_18, AVSLUTADBEHANDLING_DELSVAR_ID_18, source.getAvslutadBehandling());
         addIfNotBlank(svars, PAGAENDEBEHANDLING_SVAR_ID_19, PAGAENDEBEHANDLING_DELSVAR_ID_19, source.getPagaendeBehandling());
@@ -209,7 +216,8 @@ public final class UtlatandeToIntyg {
         addIfNotBlank(svars, SUBSTANSINTAG_SVAR_ID_21, SUBSTANSINTAG_DELSVAR_ID_21, source.getSubstansintag());
         addIfNotBlank(svars, MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22, MEDICINSKAFORUTSATTNINGARFORARBETE_DELSVAR_ID_22,
                 source.getMedicinskaForutsattningarForArbete());
-        addIfNotBlank(svars, FORMAGATROTSBEGRANSNING_SVAR_ID_23, FORMAGATROTSBEGRANSNING_DELSVAR_ID_23, source.getFormagaTrotsBegransning());
+        addIfNotBlank(svars, FORMAGATROTSBEGRANSNING_SVAR_ID_23, FORMAGATROTSBEGRANSNING_DELSVAR_ID_23,
+                source.getFormagaTrotsBegransning());
         addIfNotBlank(svars, FORSLAG_TILL_ATGARD_SVAR_ID_24, FORSLAG_TILL_ATGARD_DELSVAR_ID_24, source.getForslagTillAtgard());
         addIfNotBlank(svars, OVRIGT_SVAR_ID_25, OVRIGT_DELSVAR_ID_25, buildOvrigaUpplysningar(source));
 
@@ -218,7 +226,8 @@ public final class UtlatandeToIntyg {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26, source.getKontaktMedFk().toString())
                         .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, source.getAnledningTillKontakt()).build());
             } else {
-                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26, source.getKontaktMedFk().toString()).build());
+                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26, source.getKontaktMedFk().toString())
+                        .build());
             }
         }
 

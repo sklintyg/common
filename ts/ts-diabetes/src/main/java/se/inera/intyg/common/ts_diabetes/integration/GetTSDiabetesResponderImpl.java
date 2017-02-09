@@ -69,11 +69,13 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
                 response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
                         String.format("Certificate '%s' has been deleted by care giver", certificateId)));
             } else {
-                TSDiabetesIntyg tsDiabetesIntyg = JAXB.unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSDiabetesType.class).getIntyg();
+                TSDiabetesIntyg tsDiabetesIntyg = JAXB
+                        .unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSDiabetesType.class).getIntyg();
                 response.setIntyg(tsDiabetesIntyg);
                 response.setMeta(createMetaData(certificate));
                 if (certificate.isRevoked()) {
-                    response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED, String.format("Certificate '%s' has been revoked", parameters.getIntygsId())));
+                    response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
+                            String.format("Certificate '%s' has been revoked", parameters.getIntygsId())));
                 } else {
                     response.setResultat(ResultTypeUtil.okResult());
                 }

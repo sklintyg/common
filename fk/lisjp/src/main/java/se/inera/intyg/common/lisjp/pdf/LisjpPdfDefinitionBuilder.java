@@ -74,7 +74,8 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     private static final float CHECKBOXROW_DEFAULT_HEIGHT = 8.5f;
     private static final float CHECKBOX_DEFAULT_WIDTH = 72.2f;
 
-    public FkPdfDefinition buildPdfDefinition(LisjpUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, IntygTexts intygTexts)
+    public FkPdfDefinition buildPdfDefinition(LisjpUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
+            IntygTexts intygTexts)
             throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
@@ -87,9 +88,11 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                     intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID),
                     intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION),
                     16f, 21f, 16f, 124f));
-            def.addPageEvent(new LisjpFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer(),
-                    PdfConstants.FONT_FORM_ID_LABEL));
-            def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
+            def.addPageEvent(
+                    new LisjpFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer(),
+                            PdfConstants.FONT_FORM_ID_LABEL));
+            def.addPageEvent(
+                    new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin), 192f, 75f));
             def.addPageEvent(new FkLogoEventHandler(1, 1, 22.3f, 18f, 23f));
             def.addPageEvent(new FkLogoEventHandler(5, 99));
@@ -123,7 +126,8 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     }
 
-    private FkPage createPage1(LisjpUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
+    private FkPage createPage1(LisjpUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin)
+            throws IOException, DocumentException {
         List<PdfComponent> allElements = new ArrayList<>();
 
         boolean showFkAddress;
@@ -141,9 +145,10 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .size(KATEGORI_FULL_WIDTH, 13f)
                 .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
                 .withBorders(Rectangle.BOX);
-        fraga1.addChild(new FkCheckbox(getText("FRG_27.RBK"), (intyg.getAvstangningSmittskydd() == null) ? false : intyg.getAvstangningSmittskydd())
-                .offset(0f, 2f)
-                .size(KATEGORI_FULL_WIDTH, CHECKBOXROW_DEFAULT_HEIGHT));
+        fraga1.addChild(
+                new FkCheckbox(getText("FRG_27.RBK"), (intyg.getAvstangningSmittskydd() == null) ? false : intyg.getAvstangningSmittskydd())
+                        .offset(0f, 2f)
+                        .size(KATEGORI_FULL_WIDTH, CHECKBOXROW_DEFAULT_HEIGHT));
         allElements.add(fraga1);
 
         // START KATEGORI 1. (Utlåtandet är baserat på....)
@@ -330,20 +335,22 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .withBorders(Rectangle.BOX, BaseColor.RED);
         allElements.add(elektroniskKopia);
 
-        FkLabel fortsBladText = new FkLabel("Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
-                .offset(20f, 24f)
-                .withVerticalAlignment(Element.ALIGN_TOP)
-                .size(75f, 10f)
-                .withLeading(.0f, 1.2f)
-                .withFont(PdfConstants.FONT_INLINE_FIELD_LABEL_LARGE);
+        FkLabel fortsBladText = new FkLabel(
+                "Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
+                        .offset(20f, 24f)
+                        .withVerticalAlignment(Element.ALIGN_TOP)
+                        .size(75f, 10f)
+                        .withLeading(.0f, 1.2f)
+                        .withFont(PdfConstants.FONT_INLINE_FIELD_LABEL_LARGE);
         allElements.add(fortsBladText);
 
-        FkLabel inteKannerPatientenText = new FkLabel("Om du inte känner patienten ska hen styrka\nsin identitet genom legitimation med foto\n(SOSFS 2005:29).")
-                .offset(20f, 35.5f)
-                .withVerticalAlignment(Element.ALIGN_TOP)
-                .size(70f, 15f)
-                .withLeading(.0f, 1.2f)
-                .withFont(PdfConstants.FONT_INLINE_FIELD_LABEL_LARGE);
+        FkLabel inteKannerPatientenText = new FkLabel(
+                "Om du inte känner patienten ska hen styrka\nsin identitet genom legitimation med foto\n(SOSFS 2005:29).")
+                        .offset(20f, 35.5f)
+                        .withVerticalAlignment(Element.ALIGN_TOP)
+                        .size(70f, 15f)
+                        .withLeading(.0f, 1.2f)
+                        .withFont(PdfConstants.FONT_INLINE_FIELD_LABEL_LARGE);
         allElements.add(inteKannerPatientenText);
 
         FkLabel mainHeader = new FkLabel("Läkarintyg")
@@ -571,10 +578,11 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .size(21f, 9f)
                 .withBorders(Rectangle.BOTTOM));
 
-        fraga8p4.addChild(new FkCheckbox("Ja. Fyll i nedan.", intyg.getArbetstidsforlaggning() != null ? intyg.getArbetstidsforlaggning() : false)
-                .offset(21f, 2f)
-                .size(KATEGORI_FULL_WIDTH - 21f, 9f)
-                .withBorders(Rectangle.BOTTOM));
+        fraga8p4.addChild(
+                new FkCheckbox("Ja. Fyll i nedan.", intyg.getArbetstidsforlaggning() != null ? intyg.getArbetstidsforlaggning() : false)
+                        .offset(21f, 2f)
+                        .size(KATEGORI_FULL_WIDTH - 21f, 9f)
+                        .withBorders(Rectangle.BOTTOM));
 
         fraga8p4.addChild(new FkOverflowableValueField(intyg.getArbetstidsforlaggningMotivering(), getText("DFR_33.2.RBK"))
                 .offset(0, 11f)
@@ -589,27 +597,31 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
                 .withBorders(Rectangle.BOX);
 
-        fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.STOR_SANNOLIKHET.RBK"), PrognosTyp.MED_STOR_SANNOLIKHET.equals(intyg.getPrognos().getTyp()))
-                .offset(0f, 1f)
-                .size(KATEGORI_FULL_WIDTH, 6.5f));
+        fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.STOR_SANNOLIKHET.RBK"),
+                PrognosTyp.MED_STOR_SANNOLIKHET.equals(intyg.getPrognos().getTyp()))
+                        .offset(0f, 1f)
+                        .size(KATEGORI_FULL_WIDTH, 6.5f));
 
-        fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.ATER_X_ANTAL_DGR.RBK"), PrognosTyp.ATER_X_ANTAL_DGR.equals(intyg.getPrognos().getTyp()))
-                .offset(0f, 7.5f)
-                .size(135f, 6.5f));
+        fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.ATER_X_ANTAL_DGR.RBK"),
+                PrognosTyp.ATER_X_ANTAL_DGR.equals(intyg.getPrognos().getTyp()))
+                        .offset(0f, 7.5f)
+                        .size(135f, 6.5f));
 
         fraga9.addChild(
-                new FkValueField(PrognosTyp.ATER_X_ANTAL_DGR.equals(intyg.getPrognos().getTyp()) ? intyg.getPrognos().getDagarTillArbete().getLabel() : "")
-                        .offset(135f, 7.5f)
-                        .size(KATEGORI_FULL_WIDTH - 135f, 6.5f));
+                new FkValueField(PrognosTyp.ATER_X_ANTAL_DGR.equals(intyg.getPrognos().getTyp())
+                        ? intyg.getPrognos().getDagarTillArbete().getLabel() : "")
+                                .offset(135f, 7.5f)
+                                .size(KATEGORI_FULL_WIDTH - 135f, 6.5f));
 
         fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.SANNOLIKT_INTE.RBK"),
                 PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.equals(intyg.getPrognos().getTyp()))
                         .offset(0f, 14f)
                         .size(KATEGORI_FULL_WIDTH, 6.5f));
 
-        fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.PROGNOS_OKLAR.RBK"), PrognosTyp.PROGNOS_OKLAR.equals(intyg.getPrognos().getTyp()))
-                .offset(0f, 20.5f)
-                .size(KATEGORI_FULL_WIDTH, 6.5f));
+        fraga9.addChild(
+                new FkCheckbox(getText("KV_FKMU_0006.PROGNOS_OKLAR.RBK"), PrognosTyp.PROGNOS_OKLAR.equals(intyg.getPrognos().getTyp()))
+                        .offset(0f, 20.5f)
+                        .size(KATEGORI_FULL_WIDTH, 6.5f));
 
         allElements.add(fraga9);
 
@@ -632,9 +644,10 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                                 .size(63.5f, 8.5f));
         fraga10.addChild(new FkCheckbox(getText("KV_FKMU_0004.OMFORDELNING.RBK"),
                 intyg.getArbetslivsinriktadeAtgarder().stream().map(ArbetslivsinriktadeAtgarder::getTyp)
-                        .anyMatch(atgard -> ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER.equals(atgard)))
-                                .offset(106.5f, 0f)
-                                .size(63.5f, 8.5f));
+                        .anyMatch(atgard -> ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER
+                                .equals(atgard)))
+                                        .offset(106.5f, 0f)
+                                        .size(63.5f, 8.5f));
 
         // row 1
         fraga10.addChild(new FkCheckbox(getText("KV_FKMU_0004.ARBETSANPASSNING.RBK"),
@@ -673,14 +686,16 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         // row 3
         fraga10.addChild(new FkCheckbox(getText("KV_FKMU_0004.BESOK_ARBETSPLATS.RBK"),
                 intyg.getArbetslivsinriktadeAtgarder().stream().map(ArbetslivsinriktadeAtgarder::getTyp)
-                        .anyMatch(atgard -> ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.equals(atgard)))
-                                .offset(0f, 25.5f)
-                                .size(43f, 8.5f));
+                        .anyMatch(
+                                atgard -> ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN.equals(atgard)))
+                                        .offset(0f, 25.5f)
+                                        .size(43f, 8.5f));
         fraga10.addChild(new FkCheckbox(getText("KV_FKMU_0004.KONTAKT_FHV.RBK"),
                 intyg.getArbetslivsinriktadeAtgarder().stream().map(ArbetslivsinriktadeAtgarder::getTyp)
-                        .anyMatch(atgard -> ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD.equals(atgard)))
-                                .offset(43f, 25.5f)
-                                .size(KATEGORI_FULL_WIDTH - 43f, 8.5f));
+                        .anyMatch(atgard -> ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD
+                                .equals(atgard)))
+                                        .offset(43f, 25.5f)
+                                        .size(KATEGORI_FULL_WIDTH - 43f, 8.5f));
 
         fraga10.addChild(new FkOverflowableValueField(intyg.getArbetslivsinriktadeAtgarderBeskrivning(), getText("FRG_44.RBK"))
                 .offset(0f, 34f)

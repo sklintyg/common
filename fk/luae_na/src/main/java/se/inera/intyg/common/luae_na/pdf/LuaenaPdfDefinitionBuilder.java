@@ -88,7 +88,8 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     private static final float CHECKBOXROW_DEFAULT_HEIGHT = 9f;
     private static final float CHECKBOX_DEFAULT_WIDTH = 72.2f;
 
-    public FkPdfDefinition buildPdfDefinition(LuaenaUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, IntygTexts intygTexts)
+    public FkPdfDefinition buildPdfDefinition(LuaenaUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
+            IntygTexts intygTexts)
             throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
@@ -97,14 +98,19 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler(180.3f, 6.4f));
-            def.addPageEvent(new FkFormIdentityEventHandler(intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID), intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID), intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
-            def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer(), -2.0f, 0.0f));
-            def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
+            def.addPageEvent(new FkFormIdentityEventHandler(intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID),
+                    intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID),
+                    intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
+            def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer(),
+                    -2.0f, 0.0f));
+            def.addPageEvent(
+                    new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
 
             def.addPageEvent(new FkLogoEventHandler(1, 1, 0.253f * 100f, 14f, 20f));
             def.addPageEvent(new FkLogoEventHandler(5, 99));
-            def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarutlåtande", "för aktivitetsersättning vid nedsatt arbetsförmåga"));
+            def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarutlåtande",
+                    "för aktivitetsersättning vid nedsatt arbetsförmåga"));
 
             def.addChild(createPage1(intyg, statuses, applicationOrigin));
             def.addChild(createPage2(intyg));
@@ -127,7 +133,8 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     }
 
-    private FkPage createPage1(LuaenaUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
+    private FkPage createPage1(LuaenaUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin)
+            throws IOException, DocumentException {
         List<PdfComponent> allElements = new ArrayList<>();
 
         boolean showFkAddress;
@@ -298,18 +305,20 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .withBorders(Rectangle.BOX, BaseColor.RED);
         allElements.add(elektroniskKopia);
 
-        FkLabel fortsBladText = new FkLabel("Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
-                .offset(17.5f, 20.5f)
-                .withVerticalAlignment(Element.ALIGN_TOP)
-                .size(67f, 10f)
-                .withLeading(.0f, 1.2f);
+        FkLabel fortsBladText = new FkLabel(
+                "Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
+                        .offset(17.5f, 20.5f)
+                        .withVerticalAlignment(Element.ALIGN_TOP)
+                        .size(67f, 10f)
+                        .withLeading(.0f, 1.2f);
         allElements.add(fortsBladText);
 
-        FkLabel inteKannerPatientenText = new FkLabel("Om du inte känner patienten ska hen styrka sin\nidentitet genom legitimation med foto (SOSFS 2005:29).")
-                .offset(17.5f, 31.5f)
-                .withVerticalAlignment(Element.ALIGN_TOP)
-                .size(76f, 10f)
-                .withLeading(.0f, 1.2f);
+        FkLabel inteKannerPatientenText = new FkLabel(
+                "Om du inte känner patienten ska hen styrka sin\nidentitet genom legitimation med foto (SOSFS 2005:29).")
+                        .offset(17.5f, 31.5f)
+                        .withVerticalAlignment(Element.ALIGN_TOP)
+                        .size(76f, 10f)
+                        .withLeading(.0f, 1.2f);
         allElements.add(inteKannerPatientenText);
 
         FkLabel mainHeader = new FkLabel("Läkarutlåtande")
@@ -820,7 +829,8 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         // Sida 5 ar en extrasida, har lagger vi ev tillaggsfragor
         for (int i = 0; i < intyg.getTillaggsfragor().size(); i++) {
             Tillaggsfraga tillaggsfraga = intyg.getTillaggsfragor().get(i);
-            allElements.add(new FkTillaggsFraga((i + 1) + ". " + getText("DFR_" + tillaggsfraga.getId() + ".1.RBK"), tillaggsfraga.getSvar()));
+            allElements
+                    .add(new FkTillaggsFraga((i + 1) + ". " + getText("DFR_" + tillaggsfraga.getId() + ".1.RBK"), tillaggsfraga.getSvar()));
         }
 
         FkPage thisPage = new FkPage("Tilläggsfrågor");

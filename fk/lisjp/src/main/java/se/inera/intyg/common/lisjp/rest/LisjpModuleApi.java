@@ -74,7 +74,8 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts);
             Personnummer personId = luseIntyg.getGrundData().getPatient().getPersonId();
-            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition), PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
+            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
+                    PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
@@ -82,7 +83,8 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     }
 
     @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields)
+    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
+            List<String> optionalFields)
             throws ModuleException {
         throw new RuntimeException("Not implemented");
     }
@@ -118,18 +120,19 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
     @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        List<DatePeriodType> periods  = intyg.getSvar().stream()
+        List<DatePeriodType> periods = intyg.getSvar().stream()
                 .filter(svar -> BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32.equals(svar.getId()))
                 .map(Svar::getDelsvar)
                 .flatMap(List::stream)
                 .filter(delsvar -> delsvar != null && BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32.equals(delsvar.getId()))
-                .map(delsvar -> { try {
-                    return TransportConverterUtil.getDatePeriodTypeContent(delsvar);
-                } catch (ConverterException ce) {
-                    LOG.error("Failed retrieving additionalInfo for certificate {}: {}",
-                            intyg.getIntygsId().getExtension(), ce.getMessage());
-                    return null;
-                }
+                .map(delsvar -> {
+                    try {
+                        return TransportConverterUtil.getDatePeriodTypeContent(delsvar);
+                    } catch (ConverterException ce) {
+                        LOG.error("Failed retrieving additionalInfo for certificate {}: {}",
+                                intyg.getIntygsId().getExtension(), ce.getMessage());
+                        return null;
+                    }
                 })
                 .filter(Objects::nonNull)
                 .sorted(PERIOD_START)

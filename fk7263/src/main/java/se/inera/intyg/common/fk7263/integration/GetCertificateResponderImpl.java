@@ -118,7 +118,8 @@ public class GetCertificateResponderImpl implements
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = db.newDocument();
 
-            RegisterMedicalCertificateType registerMedicalCertificate = JAXB.unmarshal(new StringReader(certificate.getOriginalCertificate()),
+            RegisterMedicalCertificateType registerMedicalCertificate = JAXB.unmarshal(
+                    new StringReader(certificate.getOriginalCertificate()),
                     RegisterMedicalCertificateType.class);
             JAXBElement<RegisterMedicalCertificateType> registerMedicalCertificateElement = objectFactory
                     .createRegisterMedicalCertificate(registerMedicalCertificate);

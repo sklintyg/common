@@ -29,7 +29,8 @@ public class LisjpModelCompareUtil extends FkParentModelCompareUtil implements M
     @Override
     public boolean isValidForNotification(LisjpUtlatande utlatande) {
         return diagnosesAreValid(utlatande.getDiagnoser())
-                && datesAreValid(utlatande.getUndersokningAvPatienten(), utlatande.getTelefonkontaktMedPatienten(), utlatande.getJournaluppgifter(),
+                && datesAreValid(utlatande.getUndersokningAvPatienten(), utlatande.getTelefonkontaktMedPatienten(),
+                        utlatande.getJournaluppgifter(),
                         utlatande.getAnnatGrundForMU())
                 && sjukskrivningarAreValid(utlatande);
     }

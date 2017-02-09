@@ -128,7 +128,8 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
                 throw new ModuleException("getMedicalCertificateForCare WS call: VALIDATION_ERROR :"
                         + diabetesResponseType.getResultat().getResultText());
             default:
-                throw new ModuleException("getMedicalCertificateForCare WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
+                throw new ModuleException(
+                        "getMedicalCertificateForCare WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
             }
         default:
             throw new ModuleException("getMedicalCertificateForCare WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());

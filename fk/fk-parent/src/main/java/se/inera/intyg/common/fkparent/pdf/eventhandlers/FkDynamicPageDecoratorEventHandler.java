@@ -81,15 +81,18 @@ public class FkDynamicPageDecoratorEventHandler extends PdfPageEventHelper {
 
     private void drawIntygsNamn(PdfWriter writer, Document document) {
 
-        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(intygsNamnRow1, PdfConstants.FONT_FRAGERUBRIK), INTYG_NAME_X,
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(intygsNamnRow1, PdfConstants.FONT_FRAGERUBRIK),
+                INTYG_NAME_X,
                 document.getPageSize().getTop() - INTYG_NAME_ROW1_Y_OFFSET, 0);
-        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(intygsNamnRow2, PdfConstants.FONT_BOLD_9), INTYG_NAME_X,
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(intygsNamnRow2, PdfConstants.FONT_BOLD_9),
+                INTYG_NAME_X,
                 document.getPageSize().getTop() - INTYG_NAME_ROW2_Y_OFFSET, 0);
     }
 
     private void drawBorder(PdfWriter writer, Document document) {
         Rectangle p = document.getPageSize();
-        Rectangle rect = new Rectangle(p.getLeft(pageMargins[0]), p.getBottom(pageMargins[3]), p.getRight(pageMargins[1]), p.getTop(pageMargins[2]));
+        Rectangle rect = new Rectangle(p.getLeft(pageMargins[0]), p.getBottom(pageMargins[3]), p.getRight(pageMargins[1]),
+                p.getTop(pageMargins[2]));
         rect.setBorder(Rectangle.BOX);
         rect.setBorderWidth(Utilities.millimetersToPoints(BORDER_WIDTH));
         rect.setBorderColor(BaseColor.BLACK);

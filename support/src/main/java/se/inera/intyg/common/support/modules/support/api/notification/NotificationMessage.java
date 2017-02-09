@@ -41,9 +41,12 @@ public class NotificationMessage {
 
     private String reference;
 
-    // The reason why this is an Object is that when serializing with @JsonRawValue (below), it works as intended even
-    // if this is a string. However, deserializing doesn't work without the deserialized json in this attribute being
-    // quoted. A String getter and an JsonNode setter, both working with an Object attribute, works.
+    // The reason why this is an Object is that when serializing with
+    // @JsonRawValue (below), it works as intended even
+    // if this is a string. However, deserializing doesn't work without the
+    // deserialized json in this attribute being
+    // quoted. A String getter and an JsonNode setter, both working with an
+    // Object attribute, works.
     private Object utkastJson;
 
     private FragorOchSvar fragaSvar;
@@ -53,8 +56,9 @@ public class NotificationMessage {
     private ArendeCount mottagnaFragor;
 
     // CHECKSTYLE:OFF ParameterNumber
-    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse, String logiskAdress,
-            String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor, ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
+    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
+            String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
+            ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
         super();
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
@@ -76,8 +80,9 @@ public class NotificationMessage {
 
     @Override
     public String toString() {
-        return "NotificationMessage [intygsId=" + intygsId + ", intygsTyp=" + intygsTyp + ", logiskAdress=" + logiskAdress + ", handelseTid="
-                + handelseTid + ", handelse=" + handelse + ", version=" + version + ", ref=" + getReference() + "]";
+        return "NotificationMessage [intygsId=" + intygsId + ", intygsTyp=" + intygsTyp + ", logiskAdress="
+                + logiskAdress + ", handelseTid=" + handelseTid + ", handelse=" + handelse + ", version=" + version
+                + ", ref=" + getReference() + "]";
     }
 
     public String getIntygsId() {

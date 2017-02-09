@@ -152,7 +152,8 @@ public class Fk7263ModuleApi implements ModuleApi {
      * {@inheritDoc}
      */
     @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields)
+    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
+            List<String> optionalFields)
             throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
@@ -229,12 +230,15 @@ public class Fk7263ModuleApi implements ModuleApi {
                 return convert(response, true);
             default:
                 LOG.error("Error of type {} occured when retrieving certificate '{}': {}", errorId, certificateId, resultText);
-                throw new ModuleException("Error of type " + errorId + " occured when retrieving certificate " + certificateId + ", " + resultText);
+                throw new ModuleException(
+                        "Error of type " + errorId + " occured when retrieving certificate " + certificateId + ", " + resultText);
             }
         default:
-            LOG.error("An unidentified error occured when retrieving certificate '{}': {}", certificateId, response.getResult().getResultText());
+            LOG.error("An unidentified error occured when retrieving certificate '{}': {}", certificateId,
+                    response.getResult().getResultText());
             throw new ModuleException(
-                    "An unidentified error occured when retrieving certificate " + certificateId + ", " + response.getResult().getResultText());
+                    "An unidentified error occured when retrieving certificate " + certificateId + ", "
+                            + response.getResult().getResultText());
         }
     }
 
@@ -319,7 +323,8 @@ public class Fk7263ModuleApi implements ModuleApi {
      * This is a special case to solve JIRA issue https://inera-certificate.atlassian.net/browse/WEBCERT-1442.
      * It should be removed when Forsakringskassan can handle code system name correctly.
      */
-    RegisterMedicalCertificateType whenFkIsRecipientThenSetCodeSystemToICD10(final RegisterMedicalCertificateType request) throws ModuleException {
+    RegisterMedicalCertificateType whenFkIsRecipientThenSetCodeSystemToICD10(final RegisterMedicalCertificateType request)
+            throws ModuleException {
 
         LOG.debug("Recipient of RegisterMedicalCertificate certificate is Försäkringskassan");
         LOG.debug("Set element 'lakarutlatande/medicinsktTillstand/tillstandsKod/codeSystemName' to value 'ICD-10'");
@@ -357,7 +362,8 @@ public class Fk7263ModuleApi implements ModuleApi {
         } else {
             try {
                 // tillstandskod is not mandatory when smittskydd is true, just try to set it.
-                request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod().setCodeSystemName(Diagnoskodverk.ICD_10_SE.getCodeSystemName());
+                request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod()
+                        .setCodeSystemName(Diagnoskodverk.ICD_10_SE.getCodeSystemName());
 
             } catch (NullPointerException npe) {
                 LOG.debug("No tillstandskod element found in request data. "
@@ -417,7 +423,8 @@ public class Fk7263ModuleApi implements ModuleApi {
         return foundAktivitet;
     }
 
-    private void sendCertificateToRecipient(RegisterMedicalCertificateType originalRequest, final String logicalAddress, final String recipientId)
+    private void sendCertificateToRecipient(RegisterMedicalCertificateType originalRequest, final String logicalAddress,
+            final String recipientId)
             throws ModuleException {
         RegisterMedicalCertificateType request = originalRequest;
         // This is a special case when recipient is Forsakringskassan. See JIRA issue WEBCERT-1442.
@@ -562,12 +569,13 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        List<DatePeriodType> periods  = intyg.getSvar().stream()
+        List<DatePeriodType> periods = intyg.getSvar().stream()
                 .filter(svar -> BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32.equals(svar.getId()))
                 .map(Svar::getDelsvar)
                 .flatMap(List::stream)
                 .filter(delsvar -> delsvar != null && BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32.equals(delsvar.getId()))
-                .map(delsvar -> { try {
+                .map(delsvar -> {
+                    try {
                         return TransportConverterUtil.getDatePeriodTypeContent(delsvar);
                     } catch (ConverterException ce) {
                         LOG.error("Failed retrieving additionalInfo for certificate {}: {}",

@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.luae_fs.model.internal;
 
+// CHECKSTYLE:OFF LineLength
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15;
@@ -37,6 +38,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
+// CHECKSTYLE:ON LineLength
 
 import java.util.List;
 

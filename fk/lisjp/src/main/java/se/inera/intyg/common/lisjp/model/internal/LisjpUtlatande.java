@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.lisjp.model.internal;
 
+// CHECKSTYLE:OFF LineLength
+
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
@@ -49,6 +51,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28;
+
+// CHECKSTYLE:ON LineLength
 
 import java.util.List;
 

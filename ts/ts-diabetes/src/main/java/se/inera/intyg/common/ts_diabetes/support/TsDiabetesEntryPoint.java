@@ -34,7 +34,9 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
     public static final String MODULE_ID = "ts-diabetes";
     public static final String MODULE_NAME = "Transportstyrelsens läkarintyg, diabetes";
     public static final String MODULE_DESCRIPTION = "Läkarintyg diabetes avseende lämpligheten att inneha körkort m.m.";
+    // CHECKSTYLE:OFF LineLength
     private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg, diabetes ska användas vid diabetessjukdom. Föreskrivna krav på läkarens specialistkompetens vid diabetessjukdom framgår av 17 kap. i Transportstyrelsens föreskrifter (TSFS 2010:125) och allmänna råd om medicinska krav för innehav av körkort m.m.</p>Information om Transportstyrelsens föreskrifter finns på <a href=\"http://www.transportstyrelsen.se\" target=\"_blank\">www.transportstyrelsen.se</a>.";
+    // CHECKSTYLE:ON LineLength
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1031";
 
     @Autowired

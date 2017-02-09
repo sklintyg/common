@@ -51,7 +51,8 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
         this.blankettVersion = blankettVersion;
     }
 
-    public FkFormIdentityEventHandler(String formId, String blankettId, String blankettVersion, float formidX, float formidY, float scanidX, float scanidY) {
+    public FkFormIdentityEventHandler(String formId, String blankettId, String blankettVersion, float formidX, float formidY, float scanidX,
+            float scanidY) {
         this.formId = formId;
         this.blankettId = blankettId;
         this.blankettVersion = blankettVersion;
@@ -71,9 +72,11 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
     public void onEndPage(PdfWriter writer, Document document) {
         PdfContentByte canvas = writer.getDirectContentUnder();
 
-        ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(formId, PdfConstants.FONT_FORM_ID_LABEL), formidX, formidY, ROTATION);
+        ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(formId, PdfConstants.FONT_FORM_ID_LABEL), formidX, formidY,
+                ROTATION);
         ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT,
-                new Phrase(buildPageScanId(blankettId, blankettVersion, writer.getPageNumber()), PdfConstants.FONT_PAGESCAN_ID), scanidX, scanidY, ROTATION);
+                new Phrase(buildPageScanId(blankettId, blankettVersion, writer.getPageNumber()), PdfConstants.FONT_PAGESCAN_ID), scanidX,
+                scanidY, ROTATION);
 
     }
 

@@ -240,7 +240,8 @@ public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
         return texts.getProperties().getProperty(PDF_PATH_PROPERTY_KEY, PDF_PATH_V02_U06);
     }
 
-    private void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text) throws DocumentException, IOException {
+    private void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text)
+            throws DocumentException, IOException {
         PdfContentByte addOverlay;
         BaseFont bf = BaseFont.createFont();
         // Do text

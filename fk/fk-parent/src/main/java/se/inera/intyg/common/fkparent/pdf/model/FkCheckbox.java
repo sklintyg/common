@@ -99,13 +99,15 @@ public class FkCheckbox extends PdfComponent<FkCheckbox> {
         labelCell.setVerticalAlignment(verticalAlignment);
         table.addCell(labelCell);
 
-        table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(x), Utilities.millimetersToPoints(y), writer.getDirectContent());
+        table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(x),
+                Utilities.millimetersToPoints(y), writer.getDirectContent());
         super.render(document, writer, x, y);
     }
 
     private Image createCheckbox(PdfContentByte canvas, boolean isChecked) throws BadElementException {
 
-        final PdfTemplate template = canvas.createTemplate(CHECKBOX_DIMENSIONS_IN_POINTS.getWidth(), CHECKBOX_DIMENSIONS_IN_POINTS.getHeight());
+        final PdfTemplate template = canvas.createTemplate(CHECKBOX_DIMENSIONS_IN_POINTS.getWidth(),
+                CHECKBOX_DIMENSIONS_IN_POINTS.getHeight());
         Rectangle rect = new Rectangle(0, 0, CHECKBOX_DIMENSIONS_IN_POINTS.getWidth(), CHECKBOX_DIMENSIONS_IN_POINTS.getHeight());
         rect.setBorder(Rectangle.BOX);
         rect.setBorderWidth(CHECKBOX_BORDER_WIDTH);

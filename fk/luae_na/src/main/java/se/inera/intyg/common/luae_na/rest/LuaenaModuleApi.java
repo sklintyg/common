@@ -63,7 +63,8 @@ public class LuaenaModuleApi extends FkParentModuleApi<LuaenaUtlatande> {
 
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaenaIntyg, statuses, applicationOrigin, texts);
             Personnummer personId = luaenaIntyg.getGrundData().getPatient().getPersonId();
-            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition), PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
+            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
+                    PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
@@ -71,7 +72,8 @@ public class LuaenaModuleApi extends FkParentModuleApi<LuaenaUtlatande> {
     }
 
     @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields)
+    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
+            List<String> optionalFields)
             throws ModuleException {
         throw new RuntimeException("Not implemented");
     }

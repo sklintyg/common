@@ -58,7 +58,8 @@ public class TransportValidatorInstance {
         }
         // Vardenhet
         if (utlatande.getGrundData().getSkapadAv().getVardenhet() != null) {
-            checkId(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getRoot(), Constants.HSA_ID_OID, "vardenhet.enhetsId");
+            checkId(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getRoot(), Constants.HSA_ID_OID,
+                    "vardenhet.enhetsId");
         }
         // vardgivare
         if (utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare() != null) {
@@ -66,6 +67,7 @@ public class TransportValidatorInstance {
                     "vardgivarId");
         }
     }
+
     private void checkId(String id, String expected, String field) {
         if (!id.equals(expected)) {
             validationErrors.add(String.format("Root for %s should be %s but was %s", field, expected, id));
@@ -80,12 +82,14 @@ public class TransportValidatorInstance {
         if (getContext().isHogreContext()) {
             if (utlatande.getHypoglykemier().isGenomforEgenkontrollBlodsocker() == null) {
                 validationErrors
-                        .add("'Egenkontroll av blodsocker' must be present when intygAvser contains any of [C1, C1E, C, CE, D1, D1E, D, DE or TAXI]");
+                        .add("'Egenkontroll av blodsocker' must be present when intygAvser contains any of "
+                                + "C1, C1E, C, CE, D1, D1E, D, DE or TAXI]");
             }
 
             if (utlatande.getHypoglykemier().isHarAllvarligForekomstVakenTid() == null) {
                 validationErrors
-                        .add("'Allvarlig förekomst av hypoglykemi vaken tid' must be present when intygAvser contains any of [C1, C1E, C, CE, D1, D1E, D, DE or TAXI]");
+                        .add("'Allvarlig förekomst av hypoglykemi vaken tid' must be present when intygAvser contains any of "
+                                + "[C1, C1E, C, CE, D1, D1E, D, DE or TAXI]");
             }
         }
     }

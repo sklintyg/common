@@ -24,7 +24,8 @@ import com.itextpdf.text.pdf.*;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 /**
- * Field component that can handle overflowing texts. Text that could not be written within the components dimensions is truncated and the remainder is kept for
+ * Field component that can handle overflowing texts. Text that could not be written within the components dimensions is
+ * truncated and the remainder is kept for
  * later use (rendered on dynamic pages).
  *
  * Created by marced on 2016-10-20.
@@ -142,7 +143,8 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
         return index < value.length() && value.substring(index, index + 1).matches(WHITESPACE_REGEXP);
     }
 
-    private int findFittingLength(PdfContentByte canvas, Rectangle boundingRect, String text, String overflowInfoText) throws DocumentException {
+    private int findFittingLength(PdfContentByte canvas, Rectangle boundingRect, String text, String overflowInfoText)
+            throws DocumentException {
         boolean foundFittingLength = false;
         int length = text.length();
         while (length > 0 && !foundFittingLength) {
@@ -166,7 +168,8 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
         return length;
     }
 
-    private int writeText(PdfContentByte canvas, Rectangle boundingRect, String text, String overflowInfoText, boolean simulate) throws DocumentException {
+    private int writeText(PdfContentByte canvas, Rectangle boundingRect, String text, String overflowInfoText, boolean simulate)
+            throws DocumentException {
         ColumnText ct = new ColumnText(canvas);
 
         ct.setSimpleColumn(boundingRect);

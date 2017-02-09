@@ -53,12 +53,13 @@ public class GetMedicalCertificateForCareResponderImpl implements GetMedicalCert
 
     @Override
     public GetMedicalCertificateForCareResponseType getMedicalCertificateForCare(String logicalAddress,
-                                                                                 GetMedicalCertificateForCareRequestType request) {
+            GetMedicalCertificateForCareRequestType request) {
 
         GetMedicalCertificateForCareResponseType response = new GetMedicalCertificateForCareResponseType();
 
         String certificateId = request.getCertificateId();
-        Personnummer nationalIdentityNumber = request.getNationalIdentityNumber() != null ? new Personnummer(request.getNationalIdentityNumber())
+        Personnummer nationalIdentityNumber = request.getNationalIdentityNumber() != null
+                ? new Personnummer(request.getNationalIdentityNumber())
                 : null;
 
         CertificateHolder certificate = null;
@@ -80,7 +81,8 @@ public class GetMedicalCertificateForCareResponderImpl implements GetMedicalCert
                 attachCertificateDocument(certificate, response);
                 if (certificate.isRevoked()) {
                     response.setResult(
-                            ResultTypeUtil.errorResult(ErrorIdType.REVOKED, String.format("Certificate '%s' has been revoked", certificateId)));
+                            ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
+                                    String.format("Certificate '%s' has been revoked", certificateId)));
                 } else {
                     response.setResult(ResultTypeUtil.okResult());
                 }
@@ -100,7 +102,8 @@ public class GetMedicalCertificateForCareResponderImpl implements GetMedicalCert
             response.setLakarutlatande(jaxbObject.getLakarutlatande());
 
         } catch (Exception e) {
-            LOGGER.error("Error while converting in getMedicalCertificate for id: {} with stacktrace: {}", certificate.getId(), e.getStackTrace());
+            LOGGER.error("Error while converting in getMedicalCertificate for id: {} with stacktrace: {}", certificate.getId(),
+                    e.getStackTrace());
             Throwables.propagate(e);
         }
     }

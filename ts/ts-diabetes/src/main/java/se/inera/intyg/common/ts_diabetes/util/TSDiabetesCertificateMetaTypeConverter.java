@@ -38,16 +38,18 @@ public final class TSDiabetesCertificateMetaTypeConverter {
         metaData.setCertificateType(tsDiabetesIntyg.getIntygsTyp());
         metaData.setIssuerName(tsDiabetesIntyg.getGrundData().getSkapadAv().getFullstandigtNamn());
         metaData.setFacilityName(tsDiabetesIntyg.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
-        metaData.setSignDate(LocalDateTime.parse(tsDiabetesIntyg.getGrundData().getSigneringsTidstampel(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        metaData.setSignDate(
+                LocalDateTime.parse(tsDiabetesIntyg.getGrundData().getSigneringsTidstampel(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         metaData.setAdditionalInfo(intygMeta.getAdditionalInfo());
-        metaData.setAvailable(intygMeta.getAvailable().toLowerCase().equals("true"));
+        metaData.setAvailable("true".equals(intygMeta.getAvailable().toLowerCase()));
         List<Status> statuses = toStatusList(intygMeta.getStatus());
         metaData.setStatus(statuses);
         return metaData;
     }
 
     public static List<Status> toStatusList(List<IntygStatus> certificateStatuses) {
-        List<Status> statuses = certificateStatuses != null ? new ArrayList<>(certificateStatuses.size()) : Collections.<Status>emptyList();
+        List<Status> statuses = certificateStatuses != null ? new ArrayList<>(certificateStatuses.size())
+                : Collections.<Status> emptyList();
         if (certificateStatuses != null) {
             for (IntygStatus certificateStatus : certificateStatuses) {
                 if (certificateStatus != null) {

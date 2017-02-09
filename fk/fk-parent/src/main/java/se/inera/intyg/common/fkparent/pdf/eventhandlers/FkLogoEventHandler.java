@@ -49,11 +49,11 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
      * Constructs an Eventhandler for rendering the FK logotype on the specified pages.
      *
      * @param activeFromPage
-     *      From page number to render FK logo, inclusive. 1-indexed.
+     *            From page number to render FK logo, inclusive. 1-indexed.
      * @param activeToPage
-     *      To page number.
+     *            To page number.
      * @throws DocumentException
-     *      If the image couldn't be read or other iText-related exception.
+     *             If the image couldn't be read or other iText-related exception.
      */
     public FkLogoEventHandler(int activeFromPage, int activeToPage) throws DocumentException {
         this.activeFromPage = activeFromPage;
@@ -62,20 +62,22 @@ public class FkLogoEventHandler extends PdfPageEventHelper {
     }
 
     /**
-     * Constructs an Eventhandler for rendering the FK logotype on the specified pages, with offsets from top left corner.
+     * Constructs an Eventhandler for rendering the FK logotype on the specified pages, with offsets from top left
+     * corner.
      *
      * @param activeFromPage
-     *      From page number to render FK logo, inclusive. 1-indexed.
+     *            From page number to render FK logo, inclusive. 1-indexed.
      * @param activeToPage
-     *      To page number.
+     *            To page number.
      * @param leftOffset
-     *      Offset in x-axis, as used in other
+     *            Offset in x-axis, as used in other
      * @param leftOffset
-     *      The default Y offset, see offsetX for details.
+     *            The default Y offset, see offsetX for details.
      * @throws DocumentException
-     *      If the image couldn't be read or other iText-related exception.
+     *             If the image couldn't be read or other iText-related exception.
      */
-    public FkLogoEventHandler(int activeFromPage, int activeToPage, float linearScale, float leftOffset, float topOffset) throws DocumentException {
+    public FkLogoEventHandler(int activeFromPage, int activeToPage, float linearScale, float leftOffset, float topOffset)
+            throws DocumentException {
         this.activeFromPage = activeFromPage;
         this.activeToPage = activeToPage;
         this.linearScale = linearScale;

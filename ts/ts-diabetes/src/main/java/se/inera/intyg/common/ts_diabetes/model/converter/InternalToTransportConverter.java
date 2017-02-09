@@ -97,7 +97,8 @@ public final class InternalToTransportConverter {
         result.setSynskarpaMedKorrektion(readMedKorrektion(syn));
         result.setSynskarpaUtanKorrektion(readUtanKorrektion(syn));
         result.setFinnsSynfaltsprovning(syn.getSynfaltsprovning() != null && syn.getSynfaltsprovning());
-        result.setSynfaltsprovningUtanAnmarkning(syn.getSynfaltsprovningUtanAnmarkning() != null && syn.getSynfaltsprovningUtanAnmarkning());
+        result.setSynfaltsprovningUtanAnmarkning(
+                syn.getSynfaltsprovningUtanAnmarkning() != null && syn.getSynfaltsprovningUtanAnmarkning());
         result.setFinnsProvningOgatsRorlighet(syn.getProvningOgatsRorlighet() != null && syn.getProvningOgatsRorlighet());
         return result;
     }

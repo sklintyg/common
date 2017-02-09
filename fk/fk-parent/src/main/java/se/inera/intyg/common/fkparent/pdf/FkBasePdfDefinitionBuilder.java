@@ -45,7 +45,6 @@ public class FkBasePdfDefinitionBuilder {
     protected static final String PROPERTY_KEY_BLANKETT_ID = "blankettId";
     protected static final String PROPERTY_KEY_BLANKETT_VERSION = "blankettVersion";
 
-
     protected IntygTexts intygTexts;
 
     protected String getPrintedByText(ApplicationOrigin applicationOrigin) {
@@ -63,15 +62,17 @@ public class FkBasePdfDefinitionBuilder {
         String text = intygTexts.getTexter().get(key);
         if (text == null) {
             // Not finding a text is considered fatal
-            throw new IllegalArgumentException(intygTexts.getIntygsTyp() + " (version " + intygTexts.getVersion() + ") dynamic text for key '" + key
-                    + "' requested for PDF but was not found. Please check text sources / question id's");
+            throw new IllegalArgumentException(
+                    intygTexts.getIntygsTyp() + " (version " + intygTexts.getVersion() + ") dynamic text for key '" + key
+                            + "' requested for PDF but was not found. Please check text sources / question id's");
         }
         return text;
     }
 
     protected boolean isSentToFk(List<Status> statuses) {
         return statuses != null && statuses.stream().filter(Objects::nonNull)
-                .filter(s -> CertificateState.SENT.equals(s.getType()) && PartKod.FKASSA.getValue().equals(s.getTarget())).findAny().isPresent();
+                .filter(s -> CertificateState.SENT.equals(s.getType()) && PartKod.FKASSA.getValue().equals(s.getTarget())).findAny()
+                .isPresent();
     }
 
     protected String nullSafeString(String string) {

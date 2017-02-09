@@ -229,16 +229,16 @@ public final class InternalConverterUtil {
         DatePeriodType period = new DatePeriodType();
         period.setStart(from);
         period.setEnd(tom);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "datePeriod"), DatePeriodType.class, null,
-                period);
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "datePeriod"),
+                DatePeriodType.class, null, period);
     }
 
     public static JAXBElement<PartialDateType> aPartialDate(PartialDateTypeFormatEnum format, Temporal partial) {
         PartialDateType partialDate = new PartialDateType();
         partialDate.setFormat(format);
         partialDate.setValue(partial);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "partialDate"), PartialDateType.class, null,
-                partialDate);
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "partialDate"),
+                PartialDateType.class, null, partialDate);
     }
 
     public static JAXBElement<CVType> aCV(String codeSystem, String code, String displayName) {
@@ -246,7 +246,8 @@ public final class InternalConverterUtil {
         cv.setCodeSystem(codeSystem);
         cv.setCode(code);
         cv.setDisplayName(displayName);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "cv"), CVType.class, null, cv);
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "cv"),
+                CVType.class, null, cv);
     }
 
     public static SvarBuilder aSvar(String id) {

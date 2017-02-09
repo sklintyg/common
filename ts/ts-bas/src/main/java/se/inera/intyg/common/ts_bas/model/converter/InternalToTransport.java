@@ -168,7 +168,8 @@ public final class InternalToTransport {
     private static Collection<? extends KorkortsbehorighetTsBas> convertToKorkortsbehorighetTsBas(Set<BedomningKorkortstyp> source) {
         List<KorkortsbehorighetTsBas> behorigheter = new ArrayList<>();
         for (BedomningKorkortstyp typ : source) {
-            behorigheter.add(KorkortsbehorighetTsBas.fromValue(Korkortsbehorighet.fromValue(KorkortsbehorighetKod.valueOf(typ.name()).name())));
+            behorigheter
+                    .add(KorkortsbehorighetTsBas.fromValue(Korkortsbehorighet.fromValue(KorkortsbehorighetKod.valueOf(typ.name()).name())));
         }
         return behorigheter;
     }
@@ -218,7 +219,8 @@ public final class InternalToTransport {
 
         IntygsAvserTypBas intygAvser = new IntygsAvserTypBas();
         for (IntygAvserKategori kat : source.getKorkortstyp()) {
-            intygAvser.getKorkortstyp().add(KorkortsbehorighetTsBas.fromValue(Korkortsbehorighet.fromValue(KorkortsbehorighetKod.valueOf(kat.name()).name())));
+            intygAvser.getKorkortstyp()
+                    .add(KorkortsbehorighetTsBas.fromValue(Korkortsbehorighet.fromValue(KorkortsbehorighetKod.valueOf(kat.name()).name())));
         }
         return intygAvser;
     }
@@ -263,8 +265,10 @@ public final class InternalToTransport {
         syn.setHarProgressivOgonsjukdom(source.getProgressivOgonsjukdom());
         syn.setHarSynfaltsdefekt(source.getSynfaltsdefekter());
 
-        syn.setSynskarpaMedKorrektion(buildSynskarpaMedKorrektion(source.getHogerOga().getMedKorrektion(), source.getVansterOga().getMedKorrektion(),
-                source.getBinokulart().getMedKorrektion(), source.getHogerOga().getKontaktlins(), source.getVansterOga().getKontaktlins()));
+        syn.setSynskarpaMedKorrektion(
+                buildSynskarpaMedKorrektion(source.getHogerOga().getMedKorrektion(), source.getVansterOga().getMedKorrektion(),
+                        source.getBinokulart().getMedKorrektion(), source.getHogerOga().getKontaktlins(),
+                        source.getVansterOga().getKontaktlins()));
 
         syn.setSynskarpaUtanKorrektion(buildSynskarpaUtanKorrektion(source.getHogerOga().getUtanKorrektion(), source.getVansterOga()
                 .getUtanKorrektion(), source.getBinokulart().getUtanKorrektion()));
@@ -282,7 +286,8 @@ public final class InternalToTransport {
         return synUtanKorrektion;
     }
 
-    private static SynskarpaMedKorrektion buildSynskarpaMedKorrektion(Double hoger, Double vanster, Double binokulart, Boolean kontaktlinsHoger,
+    private static SynskarpaMedKorrektion buildSynskarpaMedKorrektion(Double hoger, Double vanster, Double binokulart,
+            Boolean kontaktlinsHoger,
             Boolean kontaktlinsVanster) {
         if (hoger == null && vanster == null && binokulart == null && kontaktlinsHoger == null && kontaktlinsVanster == null) {
             return null;
