@@ -336,20 +336,15 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             watcher: {
                                 expression: 'model.prognos.typ',
                                 listener: function _prognosTypListener(field, newValue, oldValue, scope, stopWatching) {
-                                    $log.debug('Updating prognos.');
                                     var model = scope.model;
                                     if (newValue === 'ATER_X_ANTAL_DGR') {
-                                        $log.debug('restoring from attic.');
                                         model.restoreFromAttic('prognos.dagarTillArbete');
                                     } else {
                                         if (oldValue === 'ATER_X_ANTAL_DGR') {
-                                            $log.debug('updating to attic.');
                                             model.updateToAttic('prognos.dagarTillArbete');
                                         }
 
-                                        $log.debug('clearing model value, before:', model.prognos.dagarTillArbete);
                                         model.clear('prognos.dagarTillArbete');
-                                        $log.debug('clearing model value, after:', model.prognos.dagarTillArbete);
                                     }
                                 }
                             }

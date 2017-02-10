@@ -60,8 +60,20 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                         workFactor = 0.25;
                     }
 
-                    this.periods[period].hoursPerWeek = this.hoursPerWeek * workFactor;
+                    this.periods[period].hoursPerWeek = this.calculateWorkHours(this.hoursPerWeek, workFactor);
                 }
+            };
+
+            this.calculateWorkHours = function(hoursPerWeek, workFactor) {
+                var parsedHours;
+                if(typeof hoursPerWeek === 'string'){
+                    parsedHours = parseFloat(hoursPerWeek.replace(',', '.'));
+                } else if(typeof hoursPerWeek === 'number'){
+                    parsedHours = hoursPerWeek;
+                }
+                var workHours = parsedHours * workFactor;
+                workHours = Math.round((workHours + 0.00001) * 100) / 100;
+                return workHours;
             };
 
             this.updateCheckBox = function(period) {

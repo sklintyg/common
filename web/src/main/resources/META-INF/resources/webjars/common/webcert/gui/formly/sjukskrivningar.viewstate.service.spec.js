@@ -129,5 +129,25 @@ describe('sjukskrivningar', function() {
         expect(model.HALFTEN.period.tom).toBe(undefined);
     });
 
+    it('Should be able to calculate total workhours from a decimal number', function() {
+        var result = SjukskrivningarViewState.calculateWorkHours('40', 0);
+        expect(result).toBe(0);
+        result = SjukskrivningarViewState.calculateWorkHours('40', 0.25);
+        expect(result).toBe(10);
+        result = SjukskrivningarViewState.calculateWorkHours('40', 0.75);
+        expect(result).toBe(30);
+        result = SjukskrivningarViewState.calculateWorkHours('35', 0.75);
+        expect(result).toBe(26.25);
+        result = SjukskrivningarViewState.calculateWorkHours('35.5', 0.25);
+        expect(result).toBe(8.88);
+        result = SjukskrivningarViewState.calculateWorkHours('35,5', 0.75);
+        expect(result).toBe(26.63);
+        result = SjukskrivningarViewState.calculateWorkHours('35,5', 0.25);
+        expect(result).toBe(8.88);
+        result = SjukskrivningarViewState.calculateWorkHours(35.5, 0.25);
+        expect(result).toBe(8.88);
+        result = SjukskrivningarViewState.calculateWorkHours(35, 0.75);
+        expect(result).toBe(26.25);
+    });
 });
 
