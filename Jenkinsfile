@@ -1,11 +1,11 @@
 #!groovy
 
 def buildVersion = "3.2.${BUILD_NUMBER}"
-def buildRoot = JOB_BASE_NAME.replaceAll("/-.*/", "") // Keep everything up to the first dash
+def buildRoot = JOB_BASE_NAME.replaceAll(~/-.*/, "") // Keep everything up to the first dash
 
 stage('checkout') {
     node {
-        echo "buildRoot" + buildRoot
+        echo "buildRoot: " + buildRoot
         git url: "https://github.com/sklintyg/common.git", branch: GIT_BRANCH
         util.run { checkout scm }
     }
