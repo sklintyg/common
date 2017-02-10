@@ -40,6 +40,19 @@ angular.module('common').controller('common.UtkastFooter',
                     viewState.draftModel, viewState.common);
             };
 
+            /**
+             * Handle the problem of jumping /scolling of content in regard to clicking sign/visa fel.
+             * We need to store the buttons position asap (mousedown) because validation triggered onblur will
+             * change the DOM before the ng-click (mouse-down+ some time + mouseup = click) event happens.
+             */
+            var savedElementTop  = 0;
+            var lastClickedButtonId = null;
+
+            $scope.initValidationSequence = function(btnId) {
+                lastClickedButtonId = btnId;
+                //Save the current top of the button clicked
+                savedElementTop = $('#' + lastClickedButtonId).offset().top - $(window).scrollTop();
+            };
 
             $scope.checkMissing = function() {
 
@@ -77,14 +90,19 @@ angular.module('common').controller('common.UtkastFooter',
             };
 
             /**
-             * Whenever a validation round is completed, scroll (back) to bottom if the current element with
-             * focus is the signera button - i.e we must just have clicked it.
-             *
+             * Whenever a validation round is completed, either directly by clicking a button or by bluring a validated field -
+             * scroll (back) to where we were before 'content-changed-above' scrolling occurred.
              */
-            var unbindFastEvent = $rootScope.$on('validation.messages-updated', function (event) {
-                if($(':focus').attr('id') === 'signera-utkast-button') {
+            var unbindFastEvent = $rootScope.$on('validation.messages-updated', function () {
+                var focusedElement = $(':focus');
+                var focusedElementId = focusedElement.attr('id');
+                if(lastClickedButtonId === focusedElementId) {
+                    //Need a timeout here so that the focused button has appeared in it's new position
                     $timeout(function() {
-                        $('html, body').scrollTop($(document).height());
+                        if (savedElementTop > 0) {
+                            //restore scroll position
+                            $(window).scrollTop(focusedElement.offset().top - savedElementTop);
+                        }
                     }, 200);
                 }
             });
