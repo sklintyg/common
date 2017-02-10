@@ -467,6 +467,14 @@ $font-3: sans-serif;
 }
 
 /* ---------------------------------------
+ * ui-select overrides
+ * --------------------------------------- */
+
+/* fix click on caret not opening select box bug */
+.ui-select-toggle { z-index: 1; }
+.caret { z-index: -1; }
+
+/* ---------------------------------------
  * breakpoint overrides
  * --------------------------------------- */
 @media (min-width: 768px) {
