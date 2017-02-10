@@ -1,6 +1,6 @@
 angular.module('luae_fs').factory('luae_fs.FormFactory',
-    ['luae_fs.FormFactoryHelper', 'common.UserModel', 'common.FactoryTemplatesHelper',
-        function(FactoryHelper, UserModel, FactoryTemplates) {
+    ['luae_fs.FormFactoryHelper', 'common.UserModel', 'common.FactoryTemplatesHelper', 'common.DateUtilsService',
+        function(FactoryHelper, UserModel, FactoryTemplates, dateUtils) {
             'use strict';
 
 
@@ -32,22 +32,26 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                                 {
                                     key: 'undersokningAvPatienten',
                                     type: 'date',
-                                    templateOptions: {label: 'KV_FKMU_0001.UNDERSOKNING'}
+                                    templateOptions: {label: 'KV_FKMU_0001.UNDERSOKNING',
+                                        maxDate: dateUtils.todayAsYYYYMMDD()}
                                 },
                                 {
                                     key: 'journaluppgifter',
                                     type: 'date',
-                                    templateOptions: {label: 'KV_FKMU_0001.JOURNALUPPGIFTER'}
+                                    templateOptions: {label: 'KV_FKMU_0001.JOURNALUPPGIFTER',
+                                        maxDate: dateUtils.todayAsYYYYMMDD()}
                                 },
                                 {
                                     key: 'anhorigsBeskrivningAvPatienten',
                                     type: 'date',
-                                    templateOptions: {label: 'KV_FKMU_0001.ANHORIG'}
+                                    templateOptions: {label: 'KV_FKMU_0001.ANHORIG',
+                                        maxDate: dateUtils.todayAsYYYYMMDD()}
                                 },
                                 {
                                     key: 'annatGrundForMU',
                                     type: 'date',
-                                    templateOptions: {label: 'KV_FKMU_0001.ANNAT', hideKompletteringText: true}
+                                    templateOptions: {label: 'KV_FKMU_0001.ANNAT', hideKompletteringText: true,
+                                        maxDate: dateUtils.todayAsYYYYMMDD()}
                                 }
                             ]
                         },

@@ -1,6 +1,6 @@
 angular.module('luae_na').factory('luae_na.FormFactory',
-    ['luae_na.FormFactoryHelper', 'common.UserModel', 'common.FactoryTemplatesHelper',
-        function(FactoryHelper, UserModel, FactoryTemplates) {
+    ['luae_na.FormFactoryHelper', 'common.UserModel', 'common.FactoryTemplatesHelper', 'common.DateUtilsService',
+        function(FactoryHelper, UserModel, FactoryTemplates, dateUtils) {
             'use strict';
 
             var categoryNames = {
@@ -39,22 +39,26 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                                     type: 'date',
                                     className: 'small-gap',
                                     templateOptions: {
-                                        label: 'KV_FKMU_0001.UNDERSOKNING', hideWhenEmpty: true
+                                        label: 'KV_FKMU_0001.UNDERSOKNING', hideWhenEmpty: true,
+                                        maxDate: dateUtils.todayAsYYYYMMDD()
                                     }
                                 }, {
                                     key: 'journaluppgifter', type: 'date', className: 'small-gap', templateOptions: {
-                                        label: 'KV_FKMU_0001.JOURNALUPPGIFTER', hideWhenEmpty: true
+                                        label: 'KV_FKMU_0001.JOURNALUPPGIFTER', hideWhenEmpty: true,
+                                        maxDate: dateUtils.todayAsYYYYMMDD()
                                     }
                                 }, {
                                     key: 'anhorigsBeskrivningAvPatienten',
                                     className: 'small-gap',
                                     type: 'date',
                                     templateOptions: {
-                                        label: 'KV_FKMU_0001.ANHORIG', hideWhenEmpty: true
+                                        label: 'KV_FKMU_0001.ANHORIG', hideWhenEmpty: true,
+                                        maxDate: dateUtils.todayAsYYYYMMDD()
                                     }
                                 }, {
                                     key: 'annatGrundForMU', type: 'date', templateOptions: {
-                                        label: 'KV_FKMU_0001.ANNAT', hideWhenEmpty: true, hideKompletteringText: true
+                                        label: 'KV_FKMU_0001.ANNAT', hideWhenEmpty: true, hideKompletteringText: true,
+                                        maxDate: dateUtils.todayAsYYYYMMDD()
                                     }
                                 }
                             ]

@@ -1,6 +1,10 @@
 angular.module('lisjp').factory('lisjp.FormFactory',
-    ['$log', '$timeout', 'common.DateUtilsService', 'common.ObjectHelper', 'common.UserModel', 'common.FactoryTemplatesHelper',
-        function($log, $timeout, DateUtils, ObjectHelper, UserModel, FactoryTemplates) {
+    ['$log', '$timeout',
+        'common.DateUtilsService', 'common.ObjectHelper', 'common.UserModel',
+        'common.FactoryTemplatesHelper', 'common.DateUtilsService',
+        function($log, $timeout,
+            DateUtils, ObjectHelper, UserModel,
+            FactoryTemplates, dateUtils) {
             'use strict';
 
             var categoryNames = {
@@ -54,22 +58,23 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             fieldGroup: [
                                 {
                                     key: 'undersokningAvPatienten', type: 'date', className: 'small-gap',
-                                    templateOptions: {label: 'KV_FKMU_0001.UNDERSOKNING', hideWhenEmpty: true}
+                                    templateOptions: {label: 'KV_FKMU_0001.UNDERSOKNING', hideWhenEmpty: true, maxDate: dateUtils.todayAsYYYYMMDD()}
                                 },
                                 {
                                     key: 'telefonkontaktMedPatienten', type: 'date', className: 'small-gap',
-                                    templateOptions: {label: 'KV_FKMU_0001.TELEFONKONTAKT', hideWhenEmpty: true}
+                                    templateOptions: {label: 'KV_FKMU_0001.TELEFONKONTAKT', hideWhenEmpty: true, maxDate: dateUtils.todayAsYYYYMMDD()}
                                 },
                                 {
                                     key: 'journaluppgifter', type: 'date', className: 'small-gap',
-                                    templateOptions: {label: 'KV_FKMU_0001.JOURNALUPPGIFTER', hideWhenEmpty: true}
+                                    templateOptions: {label: 'KV_FKMU_0001.JOURNALUPPGIFTER', hideWhenEmpty: true, maxDate: dateUtils.todayAsYYYYMMDD()}
                                 },
                                 {
                                     key: 'annatGrundForMU', type: 'date',
                                     templateOptions: {
                                         label: 'KV_FKMU_0001.ANNAT',
                                         hideWhenEmpty: true,
-                                        hideKompletteringText: true
+                                        hideKompletteringText: true,
+                                        maxDate: dateUtils.todayAsYYYYMMDD()
                                     }
                                 }
                             ]
