@@ -340,7 +340,7 @@
                 <span ng-if="viewState.intygModel.kommentar.length > 0">
                   <span id="kommentar" class="intyg-answer">{{viewState.intygModel.kommentar}}</span>
                 </span>
-                <span ng-if="!viewState.intygModel.kommentar" id="kommentarEjAngivet">
+                <span ng-show="!viewState.intygModel.kommentar" id="kommentarEjAngivet">
                   <span class="intyg-answer" message key="ts-bas.label.bedomning-info-ej-angivet"></span>
                 </span>
               </div>
