@@ -32,7 +32,6 @@ buildscript {
 
     dependencies {
         classpath 'se.inera.intyg:gradle-intyg-plugin:1.1-SNAPSHOT'
-        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.+'
         classpath 'com.moowork.gradle:gradle-node-plugin:0.+'
         classpath 'com.moowork.gradle:gradle-grunt-plugin:0.+'
     }
@@ -67,6 +66,13 @@ subprojects {
 
     checkstyle {
         configProperties = ['package_name': 'common']
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.projectName", "Intyg Common"
+            property "sonar.projectKey", "intyg-common"
+        }
     }
 
     task createVersionPropertyFile(type: VersionPropertyFileTask)
@@ -177,5 +183,3 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp'].con
 task tagRelease(type: TagReleaseTask)
 
 task testReport(type: SharedTestReportTask)
-
-apply from: file("codequality.gradle")
