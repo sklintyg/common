@@ -1,5 +1,3 @@
-description = 'Parent for fk-intyg'
-
 dependencies {
     compile project(":common-support")
     compile project(":common-web")

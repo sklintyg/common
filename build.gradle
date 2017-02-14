@@ -23,6 +23,24 @@ ext {
     xmlUnitVersion = "1.4"
 }
 
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases/" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath 'se.inera.intyg:gradle-intyg-plugin:1.0.+'
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.+'
+        classpath 'org.ajoberstar:gradle-git:1.+'
+        classpath 'com.moowork.gradle:gradle-node-plugin:0.+'
+        classpath 'com.moowork.gradle:gradle-grunt-plugin:0.+'
+        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.+'
+    }
+}
+
 allprojects {
     group = 'se.inera.intyg.common'
     version = System.properties['buildVersion'] ?: '0-SNAPSHOT'
@@ -33,6 +51,21 @@ allprojects {
 }
 
 subprojects {
+    repositories {
+        mavenLocal()
+        maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases/" }
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+
+    dependencies {
+        testCompile "junit:junit:4.+"
+        testCompile "org.mockito:mockito-core:${mockitoVersion}"
+        testCompile "org.skyscreamer:jsonassert:${jsonAssertVersion}"
+        testCompile "org.springframework:spring-test:${springVersion}"
+        testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
+        testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
+    }
+
     apply plugin: 'java'
 
     sourceCompatibility = 1.8
@@ -50,21 +83,6 @@ subprojects {
         repository(url: "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases") {
             authentication(userName: System.properties['nexusUsername'], password: System.properties['nexusPassword'])
         }
-    }
-
-    dependencies {
-        testCompile "junit:junit:4.+"
-        testCompile "org.mockito:mockito-core:${mockitoVersion}"
-        testCompile "org.skyscreamer:jsonassert:${jsonAssertVersion}"
-        testCompile "org.springframework:spring-test:${springVersion}"
-        testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
-        testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
-    }
-
-    repositories {
-        mavenLocal()
-        maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases/" }
-        maven { url "http://repo.maven.apache.org/maven2" }
     }
 }
 
@@ -124,6 +142,14 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'lus
 }
 
 configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp'].contains(it.name) }) {
+    configurations {
+        jstests
+    }
+
+    dependencies {
+        jstests project(':common-web')
+    }
+
     task unzipWebjars(type: Copy, dependsOn: ":common-web:build") {
         description 'Copies common-web from the classpath and expands it so that we can use their static resources with karma'
         into "$buildDir/webjars/"
@@ -148,14 +174,6 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp'].con
     }
 
     test.dependsOn(jsTests)
-
-    configurations {
-        jstests
-    }
-
-    dependencies {
-        jstests project(':common-web')
-    }
 }
 
 task tagRelease(type: TagReleaseTask)
@@ -163,21 +181,3 @@ task tagRelease(type: TagReleaseTask)
 task testReport(type: SharedTestReportTask)
 
 apply from: file("codequality.gradle")
-
-buildscript {
-    dependencies {
-        classpath 'se.inera.intyg:gradle-intyg-plugin:1.0.+'
-        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.+'
-        classpath 'org.ajoberstar:gradle-git:1.+'
-        classpath 'com.moowork.gradle:gradle-node-plugin:0.+'
-        classpath 'com.moowork.gradle:gradle-grunt-plugin:0.+'
-        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.+'
-    }
-
-    repositories {
-        mavenLocal()
-        maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases/" }
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-}

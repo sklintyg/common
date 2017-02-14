@@ -1,5 +1,3 @@
-description = 'Intyg Common (Läkarintyg aktivitetsersättning vid förlängd skolgång)'
-
 dependencies {
   compile project(':fk-parent')
 }

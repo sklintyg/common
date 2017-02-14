@@ -1,5 +1,3 @@
-description = 'Intyg Common (Schemas)'
-
 dependencies {
   compile project(':common-support')
 
