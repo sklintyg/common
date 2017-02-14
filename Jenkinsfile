@@ -5,7 +5,6 @@ def buildRoot = JOB_BASE_NAME.replaceAll(/-.*/, "") // Keep everything up to the
 
 stage('checkout') {
     node {
-        echo "buildRoot: " + buildRoot
         git url: "https://github.com/sklintyg/common.git", branch: GIT_BRANCH
         util.run { checkout scm }
     }
