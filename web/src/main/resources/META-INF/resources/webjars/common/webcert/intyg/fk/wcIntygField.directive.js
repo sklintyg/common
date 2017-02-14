@@ -39,7 +39,19 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                 scope.viewState.setCategoryField(scope.categoryKey, scope.field && (scope.field.key || (scope.field.templateOptions && scope.field.templateOptions.kompletteringGroup)));
 
                 scope.showField = function(field){
-                    return field.templateOptions && !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
+
+                    // Edge cases
+                    var edge = true;
+                    switch (field.key)
+                    {
+                    case 'underlag':
+                        if(scope.intygModel[field.key] && scope.intygModel[field.key].length === 0){
+                            edge = false;
+                        }
+                        break;
+                    }
+
+                    return edge && field.templateOptions && !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
                 };
 
                 scope.showFieldLine = function(prevField, field, nextField) { // jshint ignore:line
@@ -80,9 +92,9 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                                 scope.intygModel.underlag.length === 0) {
                                 return false;
                             }
-                            if(ObjectHelper.isDefined(nextField) && !scope.intygModel[nextField.key]) {
+                            /*if(ObjectHelper.isDefined(nextField) && !scope.intygModel[nextField.key]) {
                                 return false;
-                            }
+                            }*/
                         }
                         else {
                             return false;

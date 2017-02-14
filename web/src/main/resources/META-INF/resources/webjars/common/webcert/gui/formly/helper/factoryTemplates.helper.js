@@ -18,8 +18,8 @@
  */
 
 angular.module('common').factory('common.FactoryTemplatesHelper', [
-    'common.ObjectHelper', 'common.UserModel',
-    function(ObjectHelper, UserModel) {
+    'common.ObjectHelper', 'common.UserModel', 'common.DateUtilsService',
+    function(ObjectHelper, UserModel, dateUtils) {
         'use strict';
 
         var singleTextAdressLabelColSize = 2;
@@ -135,6 +135,41 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                     }
                 ]
             },
+            grundForMU: {
+                wrapper: 'validationGroup',  templateOptions: {
+                    type: 'check-group',
+                    validationGroup: 'baserasPa',
+                    kompletteringGroup: 'baseratPa'
+                },
+                fieldGroup: [
+                    {
+                        key: 'undersokningAvPatienten', type: 'date', className: 'small-gap', templateOptions: {
+                        label: 'KV_FKMU_0001.UNDERSOKNING',
+                        hideWhenEmpty: true,
+                        maxDate: dateUtils.todayAsYYYYMMDD()
+                    }
+                    }, {
+                        key: 'journaluppgifter', type: 'date', className: 'small-gap', templateOptions: {
+                            label: 'KV_FKMU_0001.JOURNALUPPGIFTER',
+                            hideWhenEmpty: true,
+                            maxDate: dateUtils.todayAsYYYYMMDD()
+                        }
+                    }, {
+                        key: 'anhorigsBeskrivningAvPatienten', type: 'date', className: 'small-gap', templateOptions: {
+                            label: 'KV_FKMU_0001.ANHORIG',
+                            hideWhenEmpty: true,
+                            maxDate: dateUtils.todayAsYYYYMMDD()
+                        }
+                    }, {
+                        key: 'annatGrundForMU', type: 'date', templateOptions: {
+                            label: 'KV_FKMU_0001.ANNAT',
+                            hideWhenEmpty: true,
+                            hideKompletteringText: true,
+                            maxDate: dateUtils.todayAsYYYYMMDD()
+                        }
+                    }
+                ]
+            },
             annatGrundForMUBeskrivning: {
                 key: 'annatGrundForMUBeskrivning',
                 type: 'single-text-vertical',
@@ -145,6 +180,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                     required: true,
                     size: 'full',
                     hideWhenEmpty: true,
+                    forceDividerAfter: true,
                     kompletteringKey: 'annatGrundForMU'
                 }
             }
