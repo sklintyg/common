@@ -1,6 +1,5 @@
 rootProject.name = 'common'
 
-include ':common-build-tools'
 include ':logging-util'
 
 include ':common-support'
@@ -19,7 +18,6 @@ include ':ts-parent'
 include ':ts-bas'
 include ':ts-diabetes'
 
-project(':common-build-tools').projectDir = "$rootDir/build-tools" as File
 project(':logging-util').projectDir = "$rootDir/util/logging-util" as File
 project(':common-support').projectDir = "$rootDir/support" as File
 project(':common-web').projectDir = "$rootDir/web" as File
