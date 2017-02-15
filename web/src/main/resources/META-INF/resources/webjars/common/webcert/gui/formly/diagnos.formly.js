@@ -4,9 +4,9 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
-        controller: ['$scope', '$log', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService',
+        controller: ['$scope', '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService',
             'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService', 'common.UtkastValidationService',
-            function($scope, $log, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService,
+            function($scope, $log, $timeout, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService,
                 ArendeListViewState, UtkastValidationService) {
 
                 var formState = $scope.formState;
@@ -211,7 +211,10 @@ angular.module('common').run(function(formlyConfig) {
                 });
 
                 $scope.validate = function() {
-                    UtkastValidationService.validate($scope.model);
+                    //The timeout here allows the model to be updated (via typeahead selection) before sending it for validation
+                    $timeout(function() {
+                        UtkastValidationService.validate($scope.model);
+                    }, 100);
                 };
             }
         ]
