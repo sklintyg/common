@@ -79,7 +79,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 }
                             ]
                         },
-                        FactoryTemplates.annatGrundForMUBeskrivning,
+                        FactoryTemplates.annatGrundForMUBeskrivningNoLine,
                         {
                             key: 'motiveringTillInteBaseratPaUndersokning',
                             type: 'multi-text',
@@ -118,7 +118,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         {
                             key: 'nuvarandeArbete', type: 'multi-text',
                             hideExpression: '!model.sysselsattning["NUVARANDE_ARBETE"]',
-                            templateOptions: {label: 'FRG_29', required: true}
+                            templateOptions: {label: 'FRG_29', required: true, hideWhenEmpty: true}
                         },
                         {
                             key: 'arbetsmarknadspolitisktProgram', type: 'multi-text',
@@ -267,8 +267,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             key: 'forsakringsmedicinsktBeslutsstod',
                             type: 'multi-text',
                             templateOptions: {
-                                label: 'DFR_37.1',
-                                forceDividerAfter: true
+                                label: 'DFR_37.1'
                             },
                             hideExpression: 'model.avstangningSmittskydd'
                         },
@@ -308,8 +307,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 label: 'DFR_33.2',
                                 kompletteringKey: 'arbetstidsforlaggning',
                                 required: true,
-                                hideWhenEmpty: true,
-                                forceDividerAfter: true
+                                hideWhenEmpty: true
                             }
                         },
                         {key: 'arbetsresor', type: 'boolean',

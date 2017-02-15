@@ -44,12 +44,31 @@ angular.module('common').directive('wcIntygCategory', ['common.IntygViewStateSer
                 fieldDynamicLabel: '@',
                 fieldLabel: '@',
                 filled: '@?',
-                categoryKey: '@'
+                categoryName: '@',
+                categoryKey: '@',
+                intygModel: '='
             },
             link: function(scope) {
                 if (scope.filled === undefined) {
                     scope.filled = 'true';
                 }
+
+                scope.showCategory = function() {
+                    if(scope.intygModel.avstangningSmittskydd)
+                    {
+                        switch(scope.categoryName){
+                            case 'smittbararpenning':
+                            case 'diagnos':
+                            case 'bedomning':
+                            case 'ovrigt':
+                                return true;
+                        }
+
+                        return false;
+                    }
+
+                    return true;
+                };
 
                 scope.hasCategoryKomplettering = function() {
                     // We need to make sure our model is up to date

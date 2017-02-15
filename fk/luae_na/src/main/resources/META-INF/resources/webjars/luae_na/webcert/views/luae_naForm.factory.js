@@ -102,6 +102,7 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                             templateOptions: {
                                 label: 'DFR_45.2',
                                 required: true,
+                                hideWhenEmpty: true,
                                 kompletteringKey: 'nyBedomningDiagnosgrund'
                             },
                             hideExpression: '!model.nyBedomningDiagnosgrund'
@@ -215,7 +216,7 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
                             hideExpression: '!model.kontaktMedFk',
-                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk'}
+                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk', hideWhenEmpty: true }
                         }
                     ]
                 },

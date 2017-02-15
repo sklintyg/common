@@ -183,6 +183,20 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                     forceDividerAfter: true,
                     kompletteringKey: 'annatGrundForMU'
                 }
+            },
+            annatGrundForMUBeskrivningNoLine: {
+                key: 'annatGrundForMUBeskrivning',
+                type: 'single-text-vertical',
+                hideExpression: '!model.annatGrundForMU',
+                templateOptions: {
+                    label: 'DFR_1.3',
+                    help: 'DFR_1.3',
+                    required: true,
+                    size: 'full',
+                    hideWhenEmpty: true,
+                    forceNoDividerAfter: true,
+                    kompletteringKey: 'annatGrundForMU'
+                }
             }
         };
     }]);
