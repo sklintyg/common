@@ -31,26 +31,21 @@ buildscript {
     }
 
     dependencies {
-        classpath 'se.inera.intyg:gradle-intyg-plugin:1.1-SNAPSHOT'
+        classpath 'se.inera.intyg:gradle-intyg-plugin:1.0.+'
         classpath 'com.moowork.gradle:gradle-node-plugin:0.+'
         classpath 'com.moowork.gradle:gradle-grunt-plugin:0.+'
     }
 }
 
 allprojects {
-    group = 'se.inera.intyg.common'
-    version = System.properties['buildVersion'] ?: '0-SNAPSHOT'
-
-    apply plugin: 'inera-intyg'
-    apply plugin: 'maven'
-}
-
-subprojects {
     repositories {
         mavenLocal()
         maven { url "https://build-inera.nordicmedtest.se/nexus/content/repositories/releases/" }
         maven { url "http://repo.maven.apache.org/maven2" }
     }
+
+    apply plugin: 'inera-intyg'
+    apply plugin: 'maven'
 
     dependencies {
         testCompile "junit:junit:4.+"
@@ -60,6 +55,9 @@ subprojects {
         testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
         testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
     }
+
+    group = 'se.inera.intyg.common'
+    version = System.properties['buildVersion'] ?: '0-SNAPSHOT'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -122,15 +120,23 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'lus
 
     jar.dependsOn(jsInclude)
 
-    task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall]) {
-        outputs.upToDateWhen { false }
-
-        script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
-                "--npmDir=${rootProject.projectDir}", 'lint']
+    task unzipBuildTools(type: Copy) {
+        into "${rootProject.buildDir}/build-tools/"
+        from {
+            def intygJar = project.rootProject.buildscript.configurations.classpath.find { it.name.contains("gradle-intyg") }
+            zipTree(intygJar)
+        }
     }
 
-    jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
+    // task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
+    //     outputs.upToDateWhen { false }
+
+    //     script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
+    //     args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
+    //             "--npmDir=${rootProject.projectDir}", 'lint']
+    // }
+
+    // jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
 
     jar {
         exclude '**/*.scss'
@@ -140,9 +146,9 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'lus
         exclude '**/karma*.conf.ci.js'
     }
 
-    afterEvaluate {
-        checkstyleMain.dependsOn jsCodeQuality
-    }
+    // afterEvaluate {
+    //     checkstyleMain.dependsOn jsCodeQuality
+    // }
 }
 
 configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp'].contains(it.name) }) {

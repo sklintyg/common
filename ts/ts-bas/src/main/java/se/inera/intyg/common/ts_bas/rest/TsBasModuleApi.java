@@ -133,9 +133,8 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
             default:
                 throw new ModuleException("getTSBas WS call: ERROR :" + response.getResultat().getResultText());
             }
-        default:
-            throw new ModuleException("getTSBas WS call: ERROR :" + response.getResultat().getResultText());
         }
+        throw new ModuleException("getTSBas WS call: ERROR :" + response.getResultat().getResultText());
     }
 
     @Override

@@ -402,8 +402,6 @@ public final class InternalToTransport {
             case rehabiliteringEjAktuell:
                 rehab.setAktivitetskod(Aktivitetskod.ARBETSLIVSINRIKTAD_REHABILITERING_AR_EJ_AKTUELL);
                 break;
-            default:
-                break;
             }
             aktivitets.add(rehab);
         }

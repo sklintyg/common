@@ -54,9 +54,8 @@ public final class TransportToInternalUtil {
             return DiabetesKod.DIABETES_TYP_1;
         case TYP_2:
             return DiabetesKod.DIABETES_TYP_2;
-        default:
-            throw new IllegalArgumentException(kod.name());
         }
+        throw new IllegalArgumentException(kod.name());
     }
 
     public static String getTextVersion(String version, String utgava) {

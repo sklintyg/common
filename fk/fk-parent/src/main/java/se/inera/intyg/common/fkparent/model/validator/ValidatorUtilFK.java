@@ -73,9 +73,8 @@ public class ValidatorUtilFK {
                 return GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
             case TELEFONKONTAKT:
                 return GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
-            default:
-                return "annat";
             }
+            return "annat";
         }
     }
 

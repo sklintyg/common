@@ -51,12 +51,20 @@ task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
 
 jar.dependsOn(jsInclude)
 
-task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall]) {
-    outputs.upToDateWhen { false }
-
-    script = file(gruntBinary)
-    args = ['lint']
+task unzipBuildTools(type: Copy) {
+    into "$buildDir/build-tools/"
+    from {
+        def intygJar = project.rootProject.buildscript.configurations.classpath.find { it.name.contains("gradle-intyg") }
+        zipTree(intygJar)
+    }
 }
 
-checkstyleMain.dependsOn jsCodeQuality
-jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
+// task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
+//     outputs.upToDateWhen { false }
+
+//     script = file(gruntBinary)
+//     args = ['lint']
+// }
+
+// checkstyleMain.dependsOn jsCodeQuality
+// jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }

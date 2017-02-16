@@ -146,8 +146,6 @@ public final class TransportToInternal {
         case MIN_UNDERSOKNING_AV_PATIENTEN:
             utlatande.setUndersokningAvPatienten(new InternalDate(source.getVardkontaktstid()));
             break;
-        default:
-            break;
         }
     }
 
