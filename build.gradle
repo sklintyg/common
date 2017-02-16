@@ -128,15 +128,15 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'lus
         }
     }
 
-    // task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
-    //     outputs.upToDateWhen { false }
+    task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
+        outputs.upToDateWhen { false }
 
-    //     script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-    //     args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
-    //             "--npmDir=${rootProject.projectDir}", 'lint']
-    // }
+        script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
+        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
+                "--npmDir=${rootProject.projectDir}", 'lint']
+    }
 
-    // jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
+    jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
 
     jar {
         exclude '**/*.scss'
@@ -146,9 +146,9 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'lus
         exclude '**/karma*.conf.ci.js'
     }
 
-    // afterEvaluate {
-    //     checkstyleMain.dependsOn jsCodeQuality
-    // }
+    afterEvaluate {
+        checkstyleMain.dependsOn jsCodeQuality
+    }
 }
 
 configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp'].contains(it.name) }) {
