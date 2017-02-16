@@ -91,6 +91,19 @@ angular.module('common').directive('wcIntygField', ['$log', '$rootScope', 'commo
                         return true;
                     }
 
+                    function checkForceDividerOptions() {
+                        // Check overrides
+                        if(field.templateOptions) {
+                            if(field.templateOptions.forceDividerAfter){
+                                return true;
+                            } else if(field.templateOptions.forceNoDividerAfter) {
+                                return false;
+                            }
+                        }
+
+                        return null;
+                    }
+
                     // Check that we have even loaded a intyg
                     if(!scope.intygModel.id){
                         return false;
@@ -116,14 +129,7 @@ angular.module('common').directive('wcIntygField', ['$log', '$rootScope', 'commo
                             }
                         }
 
-                        // Check overrides
-                        if(field.templateOptions) {
-                            if(field.templateOptions.forceDividerAfter){
-                                return true;
-                            } else if(field.templateOptions.forceNoDividerAfter) {
-                                return false;
-                            }
-                        }
+                        checkForceDividerOptions();
 
                         return analyzeNextField(nextField);
                     }
@@ -134,14 +140,7 @@ angular.module('common').directive('wcIntygField', ['$log', '$rootScope', 'commo
                         }
                     }
 
-                    // Check overrides
-                    if(field.templateOptions) {
-                        if(field.templateOptions.forceDividerAfter){
-                            return true;
-                        } else if(field.templateOptions.forceNoDividerAfter) {
-                            return false;
-                        }
-                    }
+                    checkForceDividerOptions();
 
                     return false;
                 };

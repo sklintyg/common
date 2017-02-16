@@ -59,12 +59,12 @@ task unzipBuildTools(type: Copy) {
     }
 }
 
-// task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
-//     outputs.upToDateWhen { false }
+ task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
+     outputs.upToDateWhen { false }
 
-//     script = file(gruntBinary)
-//     args = ['lint']
-// }
+     script = file(gruntBinary)
+     args = ['lint']
+ }
 
-// checkstyleMain.dependsOn jsCodeQuality
-// jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
+ checkstyleMain.dependsOn jsCodeQuality
+ jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
