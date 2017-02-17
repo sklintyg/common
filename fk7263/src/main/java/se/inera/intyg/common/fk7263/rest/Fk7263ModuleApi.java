@@ -233,13 +233,12 @@ public class Fk7263ModuleApi implements ModuleApi {
                 throw new ModuleException(
                         "Error of type " + errorId + " occured when retrieving certificate " + certificateId + ", " + resultText);
             }
-        default:
-            LOG.error("An unidentified error occured when retrieving certificate '{}': {}", certificateId,
-                    response.getResult().getResultText());
-            throw new ModuleException(
-                    "An unidentified error occured when retrieving certificate " + certificateId + ", "
-                            + response.getResult().getResultText());
         }
+        LOG.error("An unidentified error occured when retrieving certificate '{}': {}", certificateId,
+                response.getResult().getResultText());
+        throw new ModuleException(
+                "An unidentified error occured when retrieving certificate " + certificateId + ", "
+                        + response.getResult().getResultText());
     }
 
     @Override

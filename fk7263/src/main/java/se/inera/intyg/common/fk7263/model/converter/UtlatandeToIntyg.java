@@ -279,9 +279,8 @@ public final class UtlatandeToIntyg {
             return svar.withDelsvar(ARBETSFORMAGA_PROGNOS_DELSVAR_10006_2, String.valueOf(true)).build();
         case arbetsformagaPrognosGarInteAttBedoma:
             return svar.withDelsvar(ARBETSFORMAGA_PROGNOS_DELSVAR_10006_3, String.valueOf(true)).build();
-        default:
-            return aSvar(ARBETSFORMAGA_PROGNOS_SVAR_10006).withDelsvar(ARBETSFORMAGA_PROGNOS_DELSVAR_10006_3, true).build();
         }
+        return aSvar(ARBETSFORMAGA_PROGNOS_SVAR_10006).withDelsvar(ARBETSFORMAGA_PROGNOS_DELSVAR_10006_3, true).build();
     }
 
     private static Svar createRehabiliteringSvar(Fk7263Utlatande source) {
@@ -294,9 +293,8 @@ public final class UtlatandeToIntyg {
             return svar.withDelsvar(REHABILITERING_DELSVAR_10005_1, String.valueOf(false)).build();
         case rehabiliteringGarInteAttBedoma:
             return svar.withDelsvar(REHABILITERING_DELSVAR_10005_2, String.valueOf(true)).build();
-        default:
-            return aSvar(REHABILITERING_SVAR_10005).withDelsvar(REHABILITERING_DELSVAR_10005_2, true).build();
         }
+        return aSvar(REHABILITERING_SVAR_10005).withDelsvar(REHABILITERING_DELSVAR_10005_2, true).build();
     }
 
     private static Svar createDiagnosFritextSvar(Fk7263Utlatande source) {

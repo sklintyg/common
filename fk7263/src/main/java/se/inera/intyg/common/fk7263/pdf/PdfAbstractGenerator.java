@@ -353,7 +353,6 @@ public abstract class PdfAbstractGenerator {
             case arbetsformagaPrognosGarInteAttBedoma:
                 checkField(WORK_CAPACITY_FORECAST_UNKNOWN);
                 break;
-            default:
             }
         }
     }
@@ -407,8 +406,6 @@ public abstract class PdfAbstractGenerator {
                 break;
             case rehabiliteringGarInteAttBedoma:
                 setField(RECOMMENDATION_REHAB_UNKNOWN, true);
-                break;
-            default:
                 break;
             }
         }

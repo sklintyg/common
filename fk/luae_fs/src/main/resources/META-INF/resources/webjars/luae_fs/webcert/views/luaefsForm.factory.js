@@ -20,41 +20,8 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                     templateOptions: {category: 1, categoryName: categoryNames[1]},
                     fieldGroup: [
                         //Fråga 1 -----
-                        {type: 'headline', templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5: false}},
-                        {
-                            wrapper: 'validationGroup',
-                            templateOptions: {
-                                type: 'check-group',
-                                validationGroup: 'baserasPa',
-                                kompletteringGroup: 'baseratPa'
-                            },
-                            fieldGroup: [
-                                {
-                                    key: 'undersokningAvPatienten',
-                                    type: 'date',
-                                    templateOptions: {label: 'KV_FKMU_0001.UNDERSOKNING',
-                                        maxDate: dateUtils.todayAsYYYYMMDD()}
-                                },
-                                {
-                                    key: 'journaluppgifter',
-                                    type: 'date',
-                                    templateOptions: {label: 'KV_FKMU_0001.JOURNALUPPGIFTER',
-                                        maxDate: dateUtils.todayAsYYYYMMDD()}
-                                },
-                                {
-                                    key: 'anhorigsBeskrivningAvPatienten',
-                                    type: 'date',
-                                    templateOptions: {label: 'KV_FKMU_0001.ANHORIG',
-                                        maxDate: dateUtils.todayAsYYYYMMDD()}
-                                },
-                                {
-                                    key: 'annatGrundForMU',
-                                    type: 'date',
-                                    templateOptions: {label: 'KV_FKMU_0001.ANNAT', hideKompletteringText: true,
-                                        maxDate: dateUtils.todayAsYYYYMMDD()}
-                                }
-                            ]
-                        },
+                        {type: 'headline', templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5After: true}},
+                        FactoryTemplates.grundForMU,
                         FactoryTemplates.annatGrundForMUBeskrivning,
                         {
                             key: 'motiveringTillInteBaseratPaUndersokning',
@@ -76,7 +43,9 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2'}},
 
                         // Underlag
-                        {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3'}},
+                        {
+                            key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3' }
+                        },
                         {
                             key: 'underlag', type: 'underlag',
                             hideExpression: '!model.underlagFinns',
@@ -92,7 +61,11 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                                     'SPECIALISTKLINIK',
                                     'VARD_UTOMLANDS',
                                     'OVRIGT_UTLATANDE'], //KV_FKMU_005
-                                label: 'FRG_4', typLabel: 'DFR_4.1', datumLabel: 'DFR_4.2', hamtasFranLabel: 'DFR_4.3'
+                                label: 'FRG_4',
+                                typLabel: 'DFR_4.1',
+                                datumLabel: 'DFR_4.2',
+                                hamtasFranLabel: 'DFR_4.3',
+                                hideWhenEmpty: true
                             },
                             watcher: {
                                 expression: 'model.underlagFinns',
@@ -150,7 +123,7 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
                             hideExpression: '!model.kontaktMedFk',
-                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk'}
+                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk', hideWhenEmpty: true }
                         }
                     ]
                 },

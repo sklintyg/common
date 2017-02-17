@@ -48,8 +48,7 @@ public enum StatusKod {
             return CertificateState.DELETED;
         case RESTOR:
             return CertificateState.RESTORED;
-        default:
-            return null;
         }
+        return null;
     }
 }

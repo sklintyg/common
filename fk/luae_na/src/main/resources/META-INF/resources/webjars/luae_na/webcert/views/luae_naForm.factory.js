@@ -26,43 +26,7 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                             type: 'headline',
                             templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5After: false, required: true}
                         },
-                        {
-                            wrapper: 'validationGroup',
-                            templateOptions: {
-                                type: 'check-group',
-                                validationGroup: 'baserasPa',
-                                kompletteringGroup: 'baseratPa'
-                            },
-                            fieldGroup: [
-                                {
-                                    key: 'undersokningAvPatienten',
-                                    type: 'date',
-                                    className: 'small-gap',
-                                    templateOptions: {
-                                        label: 'KV_FKMU_0001.UNDERSOKNING', hideWhenEmpty: true,
-                                        maxDate: dateUtils.todayAsYYYYMMDD()
-                                    }
-                                }, {
-                                    key: 'journaluppgifter', type: 'date', className: 'small-gap', templateOptions: {
-                                        label: 'KV_FKMU_0001.JOURNALUPPGIFTER', hideWhenEmpty: true,
-                                        maxDate: dateUtils.todayAsYYYYMMDD()
-                                    }
-                                }, {
-                                    key: 'anhorigsBeskrivningAvPatienten',
-                                    className: 'small-gap',
-                                    type: 'date',
-                                    templateOptions: {
-                                        label: 'KV_FKMU_0001.ANHORIG', hideWhenEmpty: true,
-                                        maxDate: dateUtils.todayAsYYYYMMDD()
-                                    }
-                                }, {
-                                    key: 'annatGrundForMU', type: 'date', templateOptions: {
-                                        label: 'KV_FKMU_0001.ANNAT', hideWhenEmpty: true, hideKompletteringText: true,
-                                        maxDate: dateUtils.todayAsYYYYMMDD()
-                                    }
-                                }
-                            ]
-                        },
+                        FactoryTemplates.grundForMU,
                         FactoryTemplates.annatGrundForMUBeskrivning,
                         {
                             key: 'motiveringTillInteBaseratPaUndersokning',
@@ -138,6 +102,7 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                             templateOptions: {
                                 label: 'DFR_45.2',
                                 required: true,
+                                hideWhenEmpty: true,
                                 kompletteringKey: 'nyBedomningDiagnosgrund'
                             },
                             hideExpression: '!model.nyBedomningDiagnosgrund'
@@ -251,7 +216,7 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
                             hideExpression: '!model.kontaktMedFk',
-                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk'}
+                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk', hideWhenEmpty: true }
                         }
                     ]
                 },

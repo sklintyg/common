@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcIntygField', ['$rootScope', 'common.ObjectHelper', 'common.IntygViewStateService',
-    function($rootScope, ObjectHelper, IntygViewStateService) {
+angular.module('common').directive('wcIntygField', ['$log', '$rootScope', 'common.ObjectHelper', 'common.IntygViewStateService',
+    function($log, $rootScope, ObjectHelper, IntygViewStateService) {
         'use strict';
 
         return {
@@ -39,37 +39,37 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                 scope.viewState.setCategoryField(scope.categoryKey, scope.field && (scope.field.key || (scope.field.templateOptions && scope.field.templateOptions.kompletteringGroup)));
 
                 scope.showField = function(field){
-                    return field.templateOptions && !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
-                };
 
-                scope.showFieldLine = function(prevField, field, nextField) { // jshint ignore:line
-                    // Ignored cyclomatic complexity because splitting this function up wouldn't help readability much here
+                    if(scope.intygModel.avstangningSmittskydd)
+                    {
+                        switch(field.key){
+                        case 'avstangningSmittskydd':
+                        case 'diagnoser':
+                        case 'sjukskrivningar':
+                        case 'ovrigt':
+                            return true;
+                        }
 
-                    // Check that we have even loaded a intyg
-                    if(!scope.intygModel.id){
                         return false;
                     }
 
-                    // Check overrides
-                    if(field.templateOptions) {
-                        if(field.templateOptions.forceDividerAfter){
-                            return true;
-                        } else if(field.templateOptions.forceNoDividerAfter) {
-                            return false;
+                    // Edge cases
+                    var edge = true;
+                    switch (field.key)
+                    {
+                    case 'underlag':
+                        if(scope.intygModel[field.key] && scope.intygModel[field.key].length === 0){
+                            edge = false;
                         }
+                        break;
                     }
 
-                    var showField = scope.showField(field);
+                    return edge && field.templateOptions && !field.templateOptions.hideFromSigned && (!field.templateOptions.hideWhenEmpty || scope.intygModel[field.key]);
+                };
 
-                    if(showField){
-                        // No lines after these fields
-                        if (field.type === 'info' || field.type === 'headline') {
-                            return false;
-                        }
-                        if (field.templateOptions && field.templateOptions.label && field.templateOptions.label.indexOf('KV_') === 0) {
-                            return false;
-                        }
+                scope.showFieldLine = function(prevField, field, nextField) {
 
+                    function analyzeNextField(nextField){
                         if (nextField) {
                             var exp = /DFR_[0-9]+\.([2-9]|[1-9][0-9]+)/;
                             if (exp.exec(nextField.templateOptions.label)) {
@@ -80,7 +80,7 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
                                 scope.intygModel.underlag.length === 0) {
                                 return false;
                             }
-                            if(ObjectHelper.isDefined(nextField) && !scope.intygModel[nextField.key]) {
+                            if(field.key === 'sysselsattning' && (!scope.intygModel.nuvarandeArbete && !scope.intygModel.arbetsmarknadspolitisktProgram)) {
                                 return false;
                             }
                         }
@@ -90,6 +90,57 @@ angular.module('common').directive('wcIntygField', ['$rootScope', 'common.Object
 
                         return true;
                     }
+
+                    function checkForceDividerOptions() {
+                        // Check overrides
+                        if(field.templateOptions) {
+                            if(field.templateOptions.forceDividerAfter){
+                                return true;
+                            } else if(field.templateOptions.forceNoDividerAfter) {
+                                return false;
+                            }
+                        }
+
+                        return null;
+                    }
+
+                    // Check that we have even loaded a intyg
+                    if(!scope.intygModel.id){
+                        return false;
+                    }
+
+                    //$log.log(field.key + ':' + field.templateOptions.forceNoDividerAfter);
+
+                    var showField = scope.showField(field);
+
+                    if(showField){
+
+                        // No lines after these fields
+                        if (field.type === 'info' || field.type === 'headline') {
+                            return false;
+                        }
+                        if (field.templateOptions && field.templateOptions.label && field.templateOptions.label.indexOf('KV_') === 0) {
+                            return false;
+                        }
+
+                        if(scope.intygModel.avstangningSmittskydd) {
+                            if (field.type === 'sjukskrivningar') {
+                                return false;
+                            }
+                        }
+
+                        checkForceDividerOptions();
+
+                        return analyzeNextField(nextField);
+                    }
+
+                    if(!scope.intygModel.avstangningSmittskydd) {
+                        if (field.key === 'arbetstidsforlaggningMotivering') {
+                            return true;
+                        }
+                    }
+
+                    checkForceDividerOptions();
 
                     return false;
                 };

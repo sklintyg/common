@@ -64,9 +64,8 @@ public final class InternalToTransportUtil {
             return DiabetesTypVarden.TYP_1;
         case DIABETES_TYP_2:
             return DiabetesTypVarden.TYP_2;
-        default:
-            throw new IllegalArgumentException(kod.name());
         }
+        throw new IllegalArgumentException(kod.name());
     }
 
     public static Optional<String> getVersion(Utlatande source) {

@@ -18,9 +18,9 @@
  */
 
 angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
-    ['$scope', '$log', '$http', 'fk7263.EditCertCtrl.ViewStateService', 'fk7263.diagnosService', 'common.fmbService', 'common.fmbViewState',
+    ['$scope', '$log', '$timeout', '$http', 'fk7263.EditCertCtrl.ViewStateService', 'fk7263.diagnosService', 'common.fmbService', 'common.fmbViewState',
         'fk7263.EditCertCtrl.Helper', 'common.MonitoringLogService', 'common.UtkastValidationService',
-        function($scope, $log, $http, viewState, diagnosService, fmbService, fmbViewState, helper, monitoringService, UtkastValidationService) {
+        function($scope, $log, $timeout, $http, viewState, diagnosService, fmbService, fmbViewState, helper, monitoringService, UtkastValidationService) {
             'use strict';
             var model = viewState.intygModel;
             $scope.model = model;
@@ -299,6 +299,12 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
             };
 
             $scope.validate = function() {
-                UtkastValidationService.validate(model);
+                //The timeout here allows the model to be updated (via typeahead selection) before sending it for
+                // validation and to avoid race-conditions between type-ahead selection and onBlur validation process.
+                // See also INTYG-3557, INTYG-3553
+                $timeout(function() {
+                    UtkastValidationService.validate(model);
+                }, 300);
+
             };
         }]);
