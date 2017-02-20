@@ -25,12 +25,12 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioNotFoundException;
@@ -50,11 +50,6 @@ public class InternalToTransportConverterTest {
     private static final List<String> SPECIALIST_KOMPETENS = Arrays.asList("a", "b", "c");
     private static final String FULLSTANDIGT_NAMN = "test testorsson";
     private static final String PERSONID = "personid";
-
-    @BeforeClass
-    public static void setup() throws Exception {
-        new BefattningService().init();
-    }
 
     @Test
     public void testConvert() throws ScenarioNotFoundException {

@@ -25,18 +25,18 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioNotFoundException;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
 import se.inera.intygstjanster.ts.services.types.v1.II;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intygstjanster.ts.services.v1.SkapadAv;
+import se.inera.intygstjanster.ts.services.v1.Vardenhet;
+import se.inera.intygstjanster.ts.services.v1.Vardgivare;
 
 public class TransportToInternalConverterTest {
 
@@ -51,11 +51,6 @@ public class TransportToInternalConverterTest {
     private static final List<String> SPECIALIST_KOMPETENS = Arrays.asList("a", "b", "c");
     private static final String FULLSTANDIGT_NAMN = "test testorsson";
     private static final String PERSONID = "personid";
-
-    @BeforeClass
-    public static void setup() throws Exception {
-        new BefattningService().init();
-    }
 
     @Test
     public void testConvert() throws Exception {

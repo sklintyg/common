@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -34,19 +32,18 @@ import org.springframework.core.io.Resource;
 
 import com.google.common.base.Strings;
 
-public class BefattningService {
+public final class BefattningService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BefattningService.class);
     private static final String CSV_SEPARATOR = ";";
 
-    private static BefattningService instance;
+    private static Map<String, String> codeToDescription;
+    private static Map<String, String> descriptionToCode;
 
-    private Map<String, String> codeToDescription;
-    private Map<String, String> descriptionToCode;
+    private BefattningService() {
+    }
 
-    @PostConstruct
-    public void init() {
-        instance = this;
+    static {
         codeToDescription = new HashMap<>();
         descriptionToCode = new HashMap<>();
 
@@ -60,14 +57,16 @@ public class BefattningService {
             Resource resource = new DefaultResourceLoader().getResource(fileUrl);
 
             if (!resource.exists()) {
-                LOG.error("Could not load file since the resource '{}' does not exists", fileUrl);
-                return;
+                String message = "Could not load file since the resource '" + fileUrl + "' does not exists";
+                LOG.error(message);
+                throw new RuntimeException(message);
             }
 
             br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
-            String line = br.readLine(); // skip headers
+            br.readLine(); // skip headers
             int i = 1;
 
+            String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(CSV_SEPARATOR);
 
@@ -100,16 +99,14 @@ public class BefattningService {
     }
 
     public static Optional<String> getDescriptionFromCode(String code) {
-        return instance != null
-                && !Strings.nullToEmpty(code).trim().isEmpty()
-                ? Optional.ofNullable(instance.codeToDescription.get(code.trim()))
+        return !Strings.nullToEmpty(code).trim().isEmpty()
+                ? Optional.ofNullable(codeToDescription.get(code.trim()))
                 : Optional.empty();
     }
 
     public static Optional<String> getCodeFromDescription(String description) {
-        return instance != null
-                && !Strings.nullToEmpty(description).trim().isEmpty()
-                ? Optional.ofNullable(instance.descriptionToCode.get(description.trim()))
+        return !Strings.nullToEmpty(description).trim().isEmpty()
+                ? Optional.ofNullable(descriptionToCode.get(description.trim()))
                 : Optional.empty();
     }
 }

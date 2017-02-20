@@ -18,19 +18,20 @@
  */
 package se.inera.intyg.common.util.integration.schema.adapter;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
-
 
 /**
  * @author andreaskaltenbach
  */
 public final class PartialDateAdapter {
 
-    public static final int YEAR_LENGTH = 4;
-    public static final int YEAR_MONTH_LENGTH = 7;
+    private static final int YEAR_LENGTH = 4;
+    private static final int YEAR_MONTH_LENGTH = 7;
 
     private PartialDateAdapter() {
     }
@@ -54,11 +55,11 @@ public final class PartialDateAdapter {
         if (temporal == null) {
             return null;
         } else if (temporal.isSupported(ChronoField.DAY_OF_MONTH)) {
-            return ((LocalDate) temporal).format(DateTimeFormatter.ISO_DATE);
+            return LocalDate.from(temporal).format(DateTimeFormatter.ISO_DATE);
         } else if (temporal.isSupported(ChronoField.MONTH_OF_YEAR)) {
-            return ((YearMonth) temporal).toString();
+            return temporal.toString();
         } else {
-            return ((Year) temporal).toString();
+            return temporal.toString();
         }
     }
 }

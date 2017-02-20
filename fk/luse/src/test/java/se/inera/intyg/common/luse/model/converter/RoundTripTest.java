@@ -32,7 +32,6 @@ import javax.xml.namespace.QName;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -41,13 +40,10 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import se.inera.intyg.common.luse.model.converter.InternalToTransport;
-import se.inera.intyg.common.luse.model.converter.TransportToInternal;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.luse.utils.Scenario;
 import se.inera.intyg.common.luse.utils.ScenarioFinder;
 import se.inera.intyg.common.luse.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
@@ -59,11 +55,6 @@ public class RoundTripTest {
 
     @SuppressWarnings("unused") // It is actually used to name the test
     private String name;
-
-    @BeforeClass
-    public static void setup() throws Exception {
-        new BefattningService().init();
-    }
 
     public RoundTripTest(String name, Scenario scenario) {
         this.scenario = scenario;

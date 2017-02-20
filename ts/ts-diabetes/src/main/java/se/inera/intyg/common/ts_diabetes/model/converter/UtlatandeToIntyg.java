@@ -141,15 +141,13 @@ public final class UtlatandeToIntyg {
     private static List<Svar> getSvar(TsDiabetesUtlatande source) {
         List<Svar> svars = new ArrayList<>();
 
-        if (source.getIntygAvser() != null) {
-            int intygAvserInstans = 1;
-            for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
-                IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
-                svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
-                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
-                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
-                        .build());
-            }
+        int intygAvserInstans = 1;
+        for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
+            IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
+            svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
+                    .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
+                            aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                    .build());
         }
 
         if (source.getVardkontakt() != null && source.getVardkontakt().getIdkontroll() != null) {
@@ -335,17 +333,15 @@ public final class UtlatandeToIntyg {
             return;
         }
         int behorighetInstans = 1;
-        if (source.getKorkortstyp() != null) {
-            for (BedomningKorkortstyp korkortstyp : source.getKorkortstyp()) {
-                KorkortsbehorighetKod korkortsbehorighet = KorkortsbehorighetKod.valueOf(korkortstyp.name());
-                svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
-                        .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
-                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
-                        .build());
-            }
+        for (BedomningKorkortstyp korkortstyp : source.getKorkortstyp()) {
+            KorkortsbehorighetKod korkortsbehorighet = KorkortsbehorighetKod.valueOf(korkortstyp.name());
+            svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
+                    .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
+                            aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
+                    .build());
         }
         if (source.getKanInteTaStallning() != null && source.getKanInteTaStallning()) {
-            svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
+            svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans)
                     .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
                             aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, KorkortsbehorighetKod.KANINTETEASTALLNING.getCode(),
                                     KorkortsbehorighetKod.KANINTETEASTALLNING.getDescription()))

@@ -178,18 +178,16 @@ public final class UtlatandeToIntyg {
     private static List<Svar> getSvar(TsBasUtlatande source) {
         List<Svar> svars = new ArrayList<>();
 
-        if (source.getIntygAvser() != null) {
-            int intygAvserInstans = 1;
-            for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
-                IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
-                svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
-                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
-                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
-                        .build());
-            }
+        int intygAvserInstans = 1;
+        for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
+            IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
+            svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
+                    .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
+                            aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                    .build());
         }
 
-        if (source.getVardkontakt() != null && source.getVardkontakt().getIdkontroll() != null) {
+        if (source.getVardkontakt().getIdkontroll() != null) {
             IdKontrollKod idKontroll = IdKontrollKod.valueOf(source.getVardkontakt().getIdkontroll());
             svars.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID_2)
                     .withDelsvar(IDENTITET_STYRKT_GENOM_ID_2,
@@ -199,52 +197,38 @@ public final class UtlatandeToIntyg {
 
         buildSynSvar(source.getSyn(), svars);
 
-        if (source.getHorselBalans() != null) {
-            addIfNotNull(svars, BALANSRUBBNINGAR_YRSEL_SVAR_ID_10, BALANSRUBBNINGAR_YRSEL_DELSVAR_ID_10,
-                    source.getHorselBalans().getBalansrubbningar());
-            addIfNotNull(svars, UPPFATTA_SAMTALSTAMMA_SVAR_ID_11, UPPFATTA_SAMTALSTAMMA_DELSVAR_ID_11,
-                    source.getHorselBalans().getSvartUppfattaSamtal4Meter());
-        }
+        addIfNotNull(svars, BALANSRUBBNINGAR_YRSEL_SVAR_ID_10, BALANSRUBBNINGAR_YRSEL_DELSVAR_ID_10,
+                source.getHorselBalans().getBalansrubbningar());
+        addIfNotNull(svars, UPPFATTA_SAMTALSTAMMA_SVAR_ID_11, UPPFATTA_SAMTALSTAMMA_DELSVAR_ID_11,
+                source.getHorselBalans().getSvartUppfattaSamtal4Meter());
 
         buildFunktionsnedsattningSvar(source.getFunktionsnedsattning(), svars);
         buildHjartKarlSvar(source.getHjartKarl(), svars);
         buildDiabetesSvar(source.getDiabetes(), svars);
 
-        if (source.getNeurologi() != null) {
-            addIfNotNull(svars, TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID_20, TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID_20,
-                    source.getNeurologi().getNeurologiskSjukdom());
-        }
+        addIfNotNull(svars, TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID_20, TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID_20,
+                source.getNeurologi().getNeurologiskSjukdom());
 
         buildMedvetandestorningSvar(source.getMedvetandestorning(), svars);
 
-        if (source.getNjurar() != null) {
-            addIfNotNull(svars, NEDSATT_NJURFUNKTION_SVAR_ID_22, NEDSATT_NJURFUNKTION_DELSVAR_ID_22,
-                    source.getNjurar().getNedsattNjurfunktion());
-        }
+        addIfNotNull(svars, NEDSATT_NJURFUNKTION_SVAR_ID_22, NEDSATT_NJURFUNKTION_DELSVAR_ID_22,
+                source.getNjurar().getNedsattNjurfunktion());
 
-        if (source.getKognitivt() != null) {
-            addIfNotNull(svars, TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID_23, TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_DELSVAR_ID_23,
-                    source.getKognitivt().getSviktandeKognitivFunktion());
-        }
+        addIfNotNull(svars, TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID_23, TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_DELSVAR_ID_23,
+                source.getKognitivt().getSviktandeKognitivFunktion());
 
-        if (source.getSomnVakenhet() != null) {
-            addIfNotNull(svars, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_ID_24,
-                    source.getSomnVakenhet().getTeckenSomnstorningar());
-        }
+        addIfNotNull(svars, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_ID_24,
+                source.getSomnVakenhet().getTeckenSomnstorningar());
 
         buildNarkotikaLakemedelSvar(source.getNarkotikaLakemedel(), svars);
 
-        if (source.getPsykiskt() != null) {
-            addIfNotNull(svars, PSYKISK_SJUKDOM_STORNING_SVAR_ID_27, PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27,
-                    source.getPsykiskt().getPsykiskSjukdom());
-        }
+        addIfNotNull(svars, PSYKISK_SJUKDOM_STORNING_SVAR_ID_27, PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27,
+                source.getPsykiskt().getPsykiskSjukdom());
 
-        if (source.getUtvecklingsstorning() != null) {
-            addIfNotNull(svars, PSYKISK_UTVECKLINGSSTORNING_SVAR_ID_28, PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28,
-                    source.getUtvecklingsstorning().getPsykiskUtvecklingsstorning());
-            addIfNotNull(svars, ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID_29, ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29,
-                    source.getUtvecklingsstorning().getHarSyndrom());
-        }
+        addIfNotNull(svars, PSYKISK_UTVECKLINGSSTORNING_SVAR_ID_28, PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28,
+                source.getUtvecklingsstorning().getPsykiskUtvecklingsstorning());
+        addIfNotNull(svars, ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID_29, ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29,
+                source.getUtvecklingsstorning().getHarSyndrom());
 
         buildSjukhusvardSvar(source.getSjukhusvard(), svars);
         buildMedicineringSvar(source.getMedicinering(), svars);
@@ -469,17 +453,15 @@ public final class UtlatandeToIntyg {
             return;
         }
         int behorighetInstans = 1;
-        if (source.getKorkortstyp() != null) {
-            for (BedomningKorkortstyp korkortstyp : source.getKorkortstyp()) {
-                KorkortsbehorighetKod korkortsbehorighet = KorkortsbehorighetKod.valueOf(korkortstyp.name());
-                svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
-                        .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
-                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
-                        .build());
-            }
+        for (BedomningKorkortstyp korkortstyp : source.getKorkortstyp()) {
+            KorkortsbehorighetKod korkortsbehorighet = KorkortsbehorighetKod.valueOf(korkortstyp.name());
+            svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
+                    .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
+                            aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
+                    .build());
         }
         if (source.getKanInteTaStallning() != null && source.getKanInteTaStallning()) {
-            svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
+            svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans)
                     .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
                             aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, KorkortsbehorighetKod.KANINTETEASTALLNING.getCode(),
                                     KorkortsbehorighetKod.KANINTETEASTALLNING.getDescription()))

@@ -105,9 +105,15 @@ public final class InternalToTransportConverter {
 
     private static SynskarpaUtanKorrektion readUtanKorrektion(Syn syn) {
         SynskarpaUtanKorrektion result = new SynskarpaUtanKorrektion();
-        result.setBinokulart(syn.getBinokulart() != null ? syn.getBinokulart().getUtanKorrektion() : null);
-        result.setHogerOga(syn.getHoger() != null ? syn.getHoger().getUtanKorrektion() : null);
-        result.setVansterOga(syn.getVanster() != null ? syn.getVanster().getUtanKorrektion() : null);
+        if (syn.getBinokulart() != null && syn.getBinokulart().getUtanKorrektion() != null) {
+            result.setBinokulart(syn.getBinokulart().getUtanKorrektion());
+        }
+        if (syn.getHoger() != null && syn.getHoger().getUtanKorrektion() != null) {
+            result.setHogerOga(syn.getHoger().getUtanKorrektion());
+        }
+        if (syn.getVanster() != null && syn.getVanster().getUtanKorrektion() != null) {
+            result.setVansterOga(syn.getVanster().getUtanKorrektion());
+        }
         return result;
     }
 

@@ -148,8 +148,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
      * Retrieve the corresponding property file for a intyg texts xml file.
      */
     private Properties getTextVersionProperties(Path file) {
-
-        String baseName = com.google.common.io.Files.getNameWithoutExtension(file.getFileName().toString());
+        String baseName = com.google.common.io.Files.getNameWithoutExtension(file.getName(file.getNameCount() - 1).toString());
         final Path propertiesFilePath = file.resolveSibling(baseName + ".properties");
         Properties props = new Properties();
         try (InputStream fileInSt = Files.newInputStream(propertiesFilePath)) {
@@ -166,7 +165,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
      * Determines if the given file is a intyg texts XML source file candidate.
      */
     private static boolean isIntygTextsFile(Path file) {
-        return Files.isRegularFile(file) && file.getFileName().toString().toLowerCase().endsWith(TEXTDATA_FILE_EXTENSION);
+        return Files.isRegularFile(file)
+                && file.getName(file.getNameCount() - 1).toString().toLowerCase().endsWith(TEXTDATA_FILE_EXTENSION);
     }
 
     private Tillaggsfraga getTillaggsFraga(Element element) {

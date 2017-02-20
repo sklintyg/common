@@ -280,8 +280,12 @@ public final class InternalToTransport {
             return null;
         }
         SynskarpaUtanKorrektion synUtanKorrektion = new SynskarpaUtanKorrektion();
-        synUtanKorrektion.setHogerOga(hoger);
-        synUtanKorrektion.setVansterOga(vanster);
+        if (hoger != null) {
+            synUtanKorrektion.setHogerOga(hoger);
+        }
+        if (vanster != null) {
+            synUtanKorrektion.setVansterOga(vanster);
+        }
         synUtanKorrektion.setBinokulart(binokulart);
         return synUtanKorrektion;
     }

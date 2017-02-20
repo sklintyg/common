@@ -32,7 +32,6 @@ import javax.xml.namespace.QName;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -41,13 +40,10 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import se.inera.intyg.common.luae_na.model.converter.InternalToTransport;
-import se.inera.intyg.common.luae_na.model.converter.TransportToInternal;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.luae_na.utils.Scenario;
 import se.inera.intyg.common.luae_na.utils.ScenarioFinder;
 import se.inera.intyg.common.luae_na.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
@@ -63,11 +59,6 @@ public class RoundTripTest {
     public RoundTripTest(String name, Scenario scenario) {
         this.scenario = scenario;
         this.name = name;
-    }
-
-    @BeforeClass
-    public static void setup() throws Exception {
-        new BefattningService().init();
     }
 
     @Parameters(name = "{index}: Scenario: {0}")

@@ -28,34 +28,8 @@ import org.junit.Test;
 
 public class BefattningServiceTest {
 
-    private BefattningService befattningService = new BefattningService();
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void initTest() throws Exception {
-        befattningService.init();
-        Field field1 = BefattningService.class.getDeclaredField("codeToDescription");
-        Field field2 = BefattningService.class.getDeclaredField("descriptionToCode");
-        field1.setAccessible(true);
-        field2.setAccessible(true);
-        Map<String, String> codeToDescription = (Map<String, String>) field1.get(befattningService);
-        Map<String, String> descriptionToCode = (Map<String, String>) field2.get(befattningService);
-        assertEquals(209, codeToDescription.size());
-        assertEquals(209, descriptionToCode.size());
-    }
-
-    @Test
-    public void getWhenBeanNotPresent() throws Exception {
-        Field beanInstance = BefattningService.class.getDeclaredField("instance");
-        beanInstance.setAccessible(true);
-        beanInstance.set(befattningService, null);
-        assertFalse(BefattningService.getDescriptionFromCode("203010").isPresent());
-        assertFalse(BefattningService.getCodeFromDescription("Läkare legitimerad, specialiseringstjänstgöring").isPresent());
-    }
-
     @Test
     public void getDescriptionFromCodeTest() throws Exception {
-        befattningService.init();
         assertEquals("Läkare legitimerad, specialiseringstjänstgöring", BefattningService.getDescriptionFromCode("203010").get());
         assertEquals("Överläkare", BefattningService.getDescriptionFromCode("201010").get());
         assertEquals("Distriktssköterska", BefattningService.getDescriptionFromCode("206011").get());
@@ -72,7 +46,6 @@ public class BefattningServiceTest {
 
     @Test
     public void getCodeFromDescriptionTest() throws Exception {
-        befattningService.init();
         assertEquals("203010", BefattningService.getCodeFromDescription("Läkare legitimerad, specialiseringstjänstgöring").get());
         assertEquals("201010", BefattningService.getCodeFromDescription("Överläkare").get());
         assertEquals("206011", BefattningService.getCodeFromDescription("Distriktssköterska").get());

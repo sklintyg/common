@@ -250,7 +250,6 @@ public final class UtlatandeToIntyg {
         String annanRef = null;
         String prognosBedomning = null;
         String ovrigKommentar = null;
-        String arbetstidsforlaggning = null;
 
         // Falt4b
         if (!isNullOrEmpty(source.getAnnanReferensBeskrivning())) {
@@ -263,7 +262,7 @@ public final class UtlatandeToIntyg {
         if (!isNullOrEmpty(source.getKommentar())) {
             ovrigKommentar = source.getKommentar();
         }
-        String ret = Joiner.on(". ").skipNulls().join(annanRef, arbetstidsforlaggning, prognosBedomning, ovrigKommentar);
+        String ret = Joiner.on(". ").skipNulls().join(annanRef, prognosBedomning, ovrigKommentar);
         return !isNullOrEmpty(ret) ? ret : null;
     }
 

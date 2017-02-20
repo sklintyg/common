@@ -128,10 +128,9 @@ public final class RegisterCertificateResponderStub implements Provider<SOAPMess
                 RegisterCertificateType registerCertificateType = JAXB.unmarshal(is, RegisterCertificateType.class);
                 registerCertificate(registerCertificateType);
 
-                if (registerCertificateType != null) {
-                    String id = registerCertificateType.getUtlatande().getUtlatandeId().getExtension();
-                    LOGGER.debug("UtlatandeID received in stub: {}", id);
-                }
+                String id = registerCertificateType.getUtlatande().getUtlatandeId().getExtension();
+                LOGGER.debug("UtlatandeID received in stub: {}", id);
+
                 result.setTextContent("OK");
             }
             response.saveChanges();
