@@ -56,8 +56,6 @@ public final class PartialDateAdapter {
             return null;
         } else if (temporal.isSupported(ChronoField.DAY_OF_MONTH)) {
             return LocalDate.from(temporal).format(DateTimeFormatter.ISO_DATE);
-        } else if (temporal.isSupported(ChronoField.MONTH_OF_YEAR)) {
-            return temporal.toString();
         } else {
             return temporal.toString();
         }
