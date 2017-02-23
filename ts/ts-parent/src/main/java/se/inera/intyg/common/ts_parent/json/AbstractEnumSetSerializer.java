@@ -27,14 +27,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * Helper class that instructs Jackson to parse {@link EnumSet}s to JSON as follows.
- * <p/>
+ *
  * <code>[{type: "ENUM1", selected : true}, {type: "ENUM2", selected : false}, {type: "ENUM3", selected : false}]</code>
- * <p/>
+ *
  * for a EnumSet containing <code>ENUM1</code> out of an enum with the enum values <code>ENUM1</code>,
  * <code>ENUM2</code> and <code>ENUM3</code>
- * <p/>
+ *
  * A concrete class must be created for the specific enum type to use:
- * <p/>
+ *
  * <pre>
  * public static class EnumTypeEnumSetSerializer extends AbstractEnumSetSerializer&lt;EnumType&gt; {
  *     protected EnumTypeEnumSetSerializer() {
@@ -42,9 +42,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  *     }
  * }
  * </pre>
- * <p/>
+ *
  * Annotate your EnumSet with:
- * <p/>
+ *
  * <code>@JsonSerialize(using = EnumTypeEnumSetSerializer.class)</code>
  *
  * @param <E> An enum type.

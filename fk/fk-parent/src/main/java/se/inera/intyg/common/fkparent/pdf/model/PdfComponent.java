@@ -28,10 +28,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * Base class for all components of the pdf.
- * <p/>
+ *
  * The PdfComponent framework was developed to make it easier to programatically build an (almost) identical copy of a
  * sample FK (xfa) pdf.
- * <p/>
+ *
  * The resulting structure is a object-graph where all childrens positions are relative to it's parent.
  * <ul>
  * Good to know:
@@ -42,7 +42,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * <li>To avoid having extensive constructor arguments, all but the core properties of a component are set using a
  * builder pattern.</li>
  * </ul>
- * <p/>
+ *
  *
  * @param <T>
  *            The subtype
@@ -115,7 +115,7 @@ public abstract class PdfComponent<T extends PdfComponent> {
 
     /**
      * Define border for this component.
-     * <p/>
+     *
      * Combinations of Rectangle.XXX constants are supported, such as
      * Rectangle.TOP + Rectangle.LEFT. Most common is to use Rectangle.BOX
      *
@@ -131,7 +131,7 @@ public abstract class PdfComponent<T extends PdfComponent> {
 
     /**
      * Define border with a specific color for this component.
-     * <p/>
+     *
      * Combinations of Rectangle.XXX constants are supported, such as
      * Rectangle.TOP + Rectangle.LEFT. Most common is to use Rectangle.BOX
      *
