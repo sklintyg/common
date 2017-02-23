@@ -128,7 +128,15 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.print = function(intyg, isEmployeeCopy) {
+
+
+                //When all types support pdf - remove all traces/support/code related to html printing, e.g printservice etc
                 if (CommonViewState.intygProperties.isRevoked) {
+                    //The if-clause is a temporary condition for types that support pdf makulerat printing until all types supports it.
+                    if (CommonViewState.intygProperties.type === 'luse') {
+                        window.open($scope.pdfUrl, '_blank');
+                        return;
+                    }
                     var customHeader = intyg.grundData.patient.fullstandigtNamn + ' - ' + intyg.grundData.patient.personId;
                     PrintService.printWebPageWithCustomTitle(intyg.id, intygType, customHeader);
                 } else if (isEmployeeCopy) {

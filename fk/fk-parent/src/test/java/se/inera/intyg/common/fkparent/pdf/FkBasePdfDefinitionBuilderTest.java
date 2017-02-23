@@ -32,6 +32,7 @@ import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 /**
  * Created by marced on 2016-10-25.
@@ -57,6 +58,26 @@ public class FkBasePdfDefinitionBuilderTest {
 
         statuses.add(new Status(CertificateState.SENT, PartKod.FKASSA.getValue(), LocalDateTime.now()));
         assertTrue(builder.isSentToFk(statuses));
+
+    }
+
+    @Test
+    public void testIsMakulerad() throws Exception {
+
+        assertFalse(builder.isMakulerad(null));
+
+        List<Status> statuses = new ArrayList<>();
+        assertFalse(builder.isMakulerad(statuses));
+
+        statuses.add(new Status(null, null, LocalDateTime.now()));
+        assertFalse(builder.isMakulerad(statuses));
+
+        statuses.add(new Status(CertificateState.SENT, null, LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.RECEIVED, null, LocalDateTime.now()));
+        assertFalse(builder.isMakulerad(statuses));
+
+        statuses.add(new Status(CertificateState.CANCELLED, PartKod.FKASSA.getValue(), LocalDateTime.now()));
+        assertTrue(builder.isMakulerad(statuses));
 
     }
 

@@ -70,7 +70,7 @@ public class LusePdfDefinitionBuilderTest {
         intygsTextRepositoryHelper.update();
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("luse", "1.0");
-
+        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/fullt_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overfyllnad_utlatande.json").getFile(), LuseUtlatande.class));
@@ -91,6 +91,10 @@ public class LusePdfDefinitionBuilderTest {
 
         generate("sent", statuses, ApplicationOrigin.MINA_INTYG);
         generate("sent", statuses, ApplicationOrigin.WEBCERT);
+        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
+
+
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {

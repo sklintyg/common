@@ -42,6 +42,7 @@ import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkFormPagePersonnummerEv
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkLogoEventHandler;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkOverflowPagePersonnummerEventHandlerImpl;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkPrintedByEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.IntygStateWatermarker;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.PageNumberingEventHandler;
 import se.inera.intyg.common.fkparent.pdf.model.FkCheckbox;
 import se.inera.intyg.common.fkparent.pdf.model.FkDiagnosKodField;
@@ -100,13 +101,19 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(
                     new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
-            def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
+            boolean isUtkast = isUtkast(intyg);
+            if (!isUtkast) {
+                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
+            }
+
+            def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses)));
+
 
             def.addPageEvent(new FkLogoEventHandler(1, 1));
             def.addPageEvent(new FkLogoEventHandler(5, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarutlåtande", "för sjukersättning"));
 
-            def.addChild(createPage1(intyg, statuses, applicationOrigin));
+            def.addChild(createPage1(intyg, isUtkast, statuses, applicationOrigin));
             def.addChild(createPage2(intyg));
             def.addChild(createPage3(intyg));
             def.addChild(createPage4(intyg));
@@ -127,7 +134,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     }
 
-    private FkPage createPage1(LuseUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    private FkPage createPage1(LuseUtlatande intyg, boolean isUtkast, List<Status> statuses, ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
         List<PdfComponent> allElements = new ArrayList<>();
 
@@ -138,7 +145,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         } else {
             showFkAddress = !isSentToFk(statuses);
         }
-        addPage1MiscFields(intyg, showFkAddress, allElements);
+        addPage1MiscFields(intyg, isUtkast, showFkAddress, allElements);
 
         // START KATEGORI 1. (Utlåtandet är baserat på....)
         FkFieldGroup fraga1 = new FkFieldGroup("1. " + getText("FRG_1.RBK"))
@@ -287,18 +294,19 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         return thisPage;
     }
 
-    private void addPage1MiscFields(LuseUtlatande intyg, boolean showFkAddress, List<PdfComponent> allElements) throws IOException {
+    private void addPage1MiscFields(LuseUtlatande intyg, boolean isUtkast, boolean showFkAddress, List<PdfComponent> allElements)
+            throws IOException {
         // Meta information text(s) etc.
-
-        FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
-                .offset(20f, 60f)
-                .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
-                .withVerticalAlignment(Element.ALIGN_MIDDLE)
-                .size(70f, 12f)
-                .withFont(PdfConstants.FONT_BOLD_9)
-                .withBorders(Rectangle.BOX, BaseColor.RED);
-        allElements.add(elektroniskKopia);
-
+        if (!isUtkast) {
+            FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
+                    .offset(20f, 60f)
+                    .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
+                    .withVerticalAlignment(Element.ALIGN_MIDDLE)
+                    .size(70f, 12f)
+                    .withFont(PdfConstants.FONT_BOLD_9)
+                    .withBorders(Rectangle.BOX, BaseColor.RED);
+            allElements.add(elektroniskKopia);
+        }
         FkLabel fortsBladText = new FkLabel(
                 "Använd fortsättningsblad som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
                         .offset(17.5f, 20.5f)
@@ -730,12 +738,13 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .size(KATEGORI_FULL_WIDTH, 85.5f)
                 .withBorders(Rectangle.BOX);
 
-        fraga11.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)))
-                .offset(0f, 0f)
-                .size(45f, 11f)
-                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-                .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
-                .withTopLabel("Datum"));
+        fraga11.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum() != null
+                ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "")
+                        .offset(0f, 0f)
+                        .size(45f, 11f)
+                        .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
+                        .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
+                        .withTopLabel("Datum"));
         fraga11.addChild(new FkValueField("")
                 .offset(45f, 0f)
                 .size(KATEGORI_FULL_WIDTH - 45f, 11f)

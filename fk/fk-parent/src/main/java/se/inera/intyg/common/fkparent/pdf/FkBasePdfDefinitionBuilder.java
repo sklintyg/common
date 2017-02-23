@@ -30,6 +30,7 @@ import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
@@ -73,6 +74,16 @@ public class FkBasePdfDefinitionBuilder {
         return statuses != null && statuses.stream().filter(Objects::nonNull)
                 .filter(s -> CertificateState.SENT.equals(s.getType()) && PartKod.FKASSA.getValue().equals(s.getTarget())).findAny()
                 .isPresent();
+    }
+
+    protected boolean isMakulerad(List<Status> statuses) {
+        return statuses != null && statuses.stream().filter(Objects::nonNull)
+                .filter(s -> CertificateState.CANCELLED.equals(s.getType())).findAny()
+                .isPresent();
+    }
+
+    protected boolean isUtkast(Utlatande utlatande) {
+        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
     }
 
     protected String nullSafeString(String string) {
