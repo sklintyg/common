@@ -111,7 +111,10 @@ angular.module('common').controller('common.UtkastHeader',
              */
             $scope.print = function() {
                 //The if-clause is a temporary condition for types that support pdf draft printing until all types supports it.
-                if (CommonViewState.intyg.type === 'luse') {
+                if (CommonViewState.intyg.type === 'luse' ||
+                    CommonViewState.intyg.type === 'luae_na' ||
+                    CommonViewState.intyg.type === 'luae_fs' ||
+                    CommonViewState.intyg.type === 'lisjp') {
                     window.open($scope.pdfUrl, '_blank');
                     return;
                 }

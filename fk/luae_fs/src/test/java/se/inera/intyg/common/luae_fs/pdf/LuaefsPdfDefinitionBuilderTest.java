@@ -68,6 +68,7 @@ public class LuaefsPdfDefinitionBuilderTest {
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("luae_fs", "1.0");
 
+        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LuaefsUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuaefsUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/fullt_utlatande.json").getFile(), LuaefsUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overflow_utlatande.json").getFile(), LuaefsUtlatande.class));
@@ -88,13 +89,18 @@ public class LuaefsPdfDefinitionBuilderTest {
 
         generate("sent", statuses, ApplicationOrigin.MINA_INTYG);
         generate("sent", statuses, ApplicationOrigin.WEBCERT);
+
+        //generate makulerat version
+        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
+
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LuaefsUtlatande intyg : intygList) {
             FkPdfDefinition foo = luaefsPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(luaefsPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts));
+                    .generatePdf(foo);
 
             assertNotNull(generatorResult);
 
@@ -105,10 +111,6 @@ public class LuaefsPdfDefinitionBuilderTest {
     private void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix) throws IOException {
         String dir = "build/tmp";// TODO: System.getProperty("pdfOutput.dir") only existed in POM file - need to find a
                                  // way in gradle;
-        if (dir == null) {
-            return;
-        }
-
         File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix, "luae_fs.pdf"));
         FileOutputStream fop = new FileOutputStream(file);
 

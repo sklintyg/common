@@ -26,6 +26,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -39,6 +40,7 @@ public class IntygStateWatermarker extends PdfPageEventHelper {
     private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
     private static final String CANCELLED_WATERMARK_TEXT = "MAKULERAT";
     private static final int ROTATION = 45;
+    private static final float FILL_OPACITY = 0.5f;
 
     private boolean isUtkast;
     private boolean isMakulerad;
@@ -64,7 +66,12 @@ public class IntygStateWatermarker extends PdfPageEventHelper {
             return;
         }
 
-        PdfContentByte canvas = writer.getDirectContentUnder();
+        PdfContentByte canvas = writer.getDirectContent();
+        // temporary set a new fillstate to allow transparancy output
+        canvas.saveState();
+        PdfGState gs1 = new PdfGState();
+        gs1.setFillOpacity(FILL_OPACITY);
+        canvas.setGState(gs1);
 
         // Center the watermark text
         final Rectangle pageSize = writer.getPageSize();
@@ -72,5 +79,6 @@ public class IntygStateWatermarker extends PdfPageEventHelper {
         final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
 
         ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, watermark, x, y, ROTATION);
+        canvas.restoreState();
     }
 }

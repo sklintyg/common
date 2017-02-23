@@ -1,0 +1,51 @@
+{
+  "typ": "luae_na",
+  "tillaggsfragor": [],
+  "medicinskaForutsattningarForArbete": "",
+  "funktionsnedsattningKommunikation": "",
+  "nyBedomningDiagnosgrund": false,
+  "aktivitetsbegransning": "",
+  "diagnosgrund": "",
+  "diagnoser": [],
+  "underlag": [],
+  "sjukdomsforlopp": "",
+  "underlagFinns": false,
+  "kannedomOmPatient": "",
+  "undersokningAvPatienten": "",
+  "textVersion": "1.0",
+  "grundData": {
+    "patient": {
+      "samordningsNummer": false,
+      "efternamn": "Olsson",
+      "fornamn": "Olivia",
+      "fullstandigtNamn": "Olivia Olsson",
+      "personId": "19270310-4321",
+      "postadress": "Adressen",
+      "postnummer": "11111",
+      "postort": "Testorten"
+    },
+    "skapadAv": {
+      "vardenhet": {
+        "arbetsplatsKod": "45312",
+        "vardgivare": {
+          "vardgivarnamn": "Vårdgivaren",
+          "vardgivarid": "SE2321000016-39KJ"
+        },
+        "epost": "ve1@vg1.se",
+        "telefonnummer": "0812341234",
+        "postort": "Stadby",
+        "postnummer": "100 10",
+        "postadress": "Enhetsg. 1",
+        "enhetsnamn": "Vårdenheten",
+        "enhetsid": "SE2321000016-H489"
+      },
+      "specialiteter": [],
+      "befattningar": [],
+      "forskrivarKod": "09874321",
+      "fullstandigtNamn": "Karl Karlsson",
+      "personId": "SE2321000016-6G5R"
+    },
+    "signeringsdatum": ""
+  },
+  "id": "utkast-intygs-id-1"
+}

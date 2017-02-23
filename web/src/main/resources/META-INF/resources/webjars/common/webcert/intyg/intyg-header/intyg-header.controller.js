@@ -133,7 +133,10 @@ angular.module('common').controller('common.IntygHeader',
                 //When all types support pdf - remove all traces/support/code related to html printing, e.g printservice etc
                 if (CommonViewState.intygProperties.isRevoked) {
                     //The if-clause is a temporary condition for types that support pdf makulerat printing until all types supports it.
-                    if (CommonViewState.intygProperties.type === 'luse') {
+                    if (CommonViewState.intygProperties.type === 'luse' ||
+                        CommonViewState.intygProperties.type === 'luae_na' ||
+                        CommonViewState.intygProperties.type === 'luae_fs' ||
+                        CommonViewState.intygProperties.type === 'lisjp') {
                         window.open($scope.pdfUrl, '_blank');
                         return;
                     }

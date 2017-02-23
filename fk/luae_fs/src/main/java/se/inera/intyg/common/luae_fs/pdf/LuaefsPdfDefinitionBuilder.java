@@ -18,12 +18,18 @@
  */
 package se.inera.intyg.common.luae_fs.pdf;
 
-import autovalue.shaded.org.apache.commons.lang.StringUtils;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
+
+import autovalue.shaded.org.apache.commons.lang.StringUtils;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
@@ -36,6 +42,7 @@ import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkFormPagePersonnummerEv
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkLogoEventHandler;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkOverflowPagePersonnummerEventHandlerImpl;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkPrintedByEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.IntygStateWatermarker;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.PageNumberingEventHandler;
 import se.inera.intyg.common.fkparent.pdf.model.FkCheckbox;
 import se.inera.intyg.common.fkparent.pdf.model.FkDiagnosKodField;
@@ -52,11 +59,6 @@ import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Contructs a object graph of PdfComponents that represents a LUAE_FS intyg.
@@ -91,14 +93,19 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                     -2.0f, 0.0f));
             def.addPageEvent(
                     new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
-            def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
 
+            boolean isUtkast = isUtkast(intyg);
+            if (!isUtkast) {
+                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
+            }
+
+            def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses)));
             def.addPageEvent(new FkLogoEventHandler(1, 1, 0.253f * 100f, 13f, 20.8f));
             def.addPageEvent(new FkLogoEventHandler(3, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(3, def.getPageMargins(), "Läkarutlåtande",
                     "för aktivitetsersättning vid förlängd skolgång"));
 
-            def.addChild(createPage1(intyg, statuses, applicationOrigin));
+            def.addChild(createPage1(intyg, isUtkast, statuses, applicationOrigin));
             def.addChild(createPage2(intyg));
 
             // Only add tillaggsfragor page if there are some
@@ -117,7 +124,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     }
 
-    private FkPage createPage1(LuaefsUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    private FkPage createPage1(LuaefsUtlatande intyg, boolean isUtkast, List<Status> statuses, ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
         List<PdfComponent> allElements = new ArrayList<>();
 
@@ -128,7 +135,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         } else {
             showFkAddress = !isSentToFk(statuses);
         }
-        addPage1MiscFields(intyg, showFkAddress, allElements);
+        addPage1MiscFields(intyg, isUtkast, showFkAddress, allElements);
 
         // START KATEGORI 1. (Utlåtandet är baserat på....)
         FkFieldGroup fraga1 = new FkFieldGroup("1. " + getText("FRG_1.RBK"))
@@ -277,17 +284,21 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         return thisPage;
     }
 
-    private void addPage1MiscFields(LuaefsUtlatande intyg, boolean showFkAddress, List<PdfComponent> allElements) throws IOException {
-        // Meta information text(s) etc.
+    private void addPage1MiscFields(LuaefsUtlatande intyg, boolean isUtkast, boolean showFkAddress, List<PdfComponent> allElements)
+            throws IOException {
 
-        FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
-                .offset(18f, 60f)
-                .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
-                .withVerticalAlignment(Element.ALIGN_MIDDLE)
-                .size(70f, 12f)
-                .withFont(PdfConstants.FONT_BOLD_9)
-                .withBorders(Rectangle.BOX, BaseColor.RED);
-        allElements.add(elektroniskKopia);
+        // Meta information text(s) etc.
+        if (!isUtkast) {
+            FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
+                    .offset(18f, 60f)
+                    .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
+                    .withVerticalAlignment(Element.ALIGN_MIDDLE)
+                    .size(70f, 12f)
+                    .withFont(PdfConstants.FONT_BOLD_9)
+                    .withBorders(Rectangle.BOX, BaseColor.RED);
+            allElements.add(elektroniskKopia);
+        }
+
 
         FkLabel fortsBladText = new FkLabel(
                 "Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
@@ -490,7 +501,8 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .size(KATEGORI_FULL_WIDTH, 78f)
                 .withBorders(Rectangle.BOX);
 
-        fraga7.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)))
+        fraga7.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum() != null
+                ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "")
                 .offset(0f, 0f)
                 .size(45f, 11f)
                 .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)

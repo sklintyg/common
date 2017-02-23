@@ -67,7 +67,7 @@ public class LisjpPdfDefinitionBuilderTest {
         intygsTextRepositoryHelper.update();
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("lisjp", "1.0");
-
+        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatande.class));
@@ -88,13 +88,18 @@ public class LisjpPdfDefinitionBuilderTest {
 
         generate("sent", statuses, ApplicationOrigin.MINA_INTYG);
         generate("sent", statuses, ApplicationOrigin.WEBCERT);
+
+        //generate makulerat version
+        statuses.clear();
+        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LisjpUtlatande intyg : intygList) {
             FkPdfDefinition foo = lisjpPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(lisjpPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts));
+                    .generatePdf(foo);
 
             assertNotNull(generatorResult);
 
@@ -105,10 +110,6 @@ public class LisjpPdfDefinitionBuilderTest {
     private void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix) throws IOException {
         String dir = "build/tmp";// TODO: System.getProperty("pdfOutput.dir") only existed in POM file - need to find a
                                  // way in gradle;
-        if (dir == null) {
-            return;
-        }
-
         File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix, "lisjp.pdf"));
         FileOutputStream fop = new FileOutputStream(file);
 

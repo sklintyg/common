@@ -36,9 +36,30 @@ import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.pdf.FkBasePdfDefinitionBuilder;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
-import se.inera.intyg.common.fkparent.pdf.eventhandlers.*;
-import se.inera.intyg.common.fkparent.pdf.model.*;
-import se.inera.intyg.common.lisjp.model.internal.*;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkDynamicPageDecoratorEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkFormIdentityEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkFormPagePersonnummerEventHandlerImpl;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkLogoEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkOverflowPagePersonnummerEventHandlerImpl;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.FkPrintedByEventHandler;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.IntygStateWatermarker;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.PageNumberingEventHandler;
+import se.inera.intyg.common.fkparent.pdf.model.FkCheckbox;
+import se.inera.intyg.common.fkparent.pdf.model.FkDiagnosKodField;
+import se.inera.intyg.common.fkparent.pdf.model.FkFieldGroup;
+import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
+import se.inera.intyg.common.fkparent.pdf.model.FkOverflowPage;
+import se.inera.intyg.common.fkparent.pdf.model.FkOverflowableValueField;
+import se.inera.intyg.common.fkparent.pdf.model.FkPage;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.fkparent.pdf.model.FkTillaggsFraga;
+import se.inera.intyg.common.fkparent.pdf.model.FkValueField;
+import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -69,18 +90,23 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(
                         intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
-            def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
+            boolean isUtkast = isUtkast(intyg);
+            if (!isUtkast) {
+                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
+            }
+
+            def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses)));
             def.addPageEvent(new FkLogoEventHandler(1, 1, 0.233f * 100f, 13f, 22.5f));
             def.addPageEvent(new FkLogoEventHandler(5, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarintyg", "för sjukpenning"));
 
-            def.addChild(createPage1(intyg, statuses, applicationOrigin));
+            def.addChild(createPage1(intyg, isUtkast, statuses, applicationOrigin));
             def.addChild(createPage2(intyg));
             def.addChild(createPage3(intyg));
             def.addChild(createPage4(intyg));
 
             // Only add tillaggsfragor page if there are some
-            if (intyg.getTillaggsfragor().size() > 0) {
+            if (intyg.getTillaggsfragor() != null && intyg.getTillaggsfragor().size() > 0) {
                 def.addChild(createPage5(intyg));
             }
 
@@ -95,7 +121,7 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     }
 
-    private FkPage createPage1(LisjpUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    private FkPage createPage1(LisjpUtlatande intyg, boolean isUtkast, List<Status> statuses, ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
         List<PdfComponent> allElements = new ArrayList<>();
 
@@ -106,7 +132,7 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         } else {
             showFkAddress = !isSentToFk(statuses);
         }
-        addPage1MiscFields(intyg, showFkAddress, allElements);
+        addPage1MiscFields(intyg, isUtkast, showFkAddress, allElements);
 
         // Smittskydd
         FkFieldGroup fraga1 = new FkFieldGroup("1. " + getText("KAT_10.RBK"))
@@ -291,18 +317,19 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         return thisPage;
     }
 
-    private void addPage1MiscFields(LisjpUtlatande intyg, boolean showFkAddress, List<PdfComponent> allElements) throws IOException {
+    private void addPage1MiscFields(LisjpUtlatande intyg, boolean isUtkast, boolean showFkAddress, List<PdfComponent> allElements)
+            throws IOException {
         // Meta information text(s) etc.
-
-        FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
-                .offset(14f, 50f)
-                .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
-                .withVerticalAlignment(Element.ALIGN_MIDDLE)
-                .size(70f, 12f)
-                .withFont(PdfConstants.FONT_BOLD_9)
-                .withBorders(Rectangle.BOX, BaseColor.RED);
-        allElements.add(elektroniskKopia);
-
+        if (!isUtkast) {
+            FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
+                    .offset(14f, 50f)
+                    .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
+                    .withVerticalAlignment(Element.ALIGN_MIDDLE)
+                    .size(70f, 12f)
+                    .withFont(PdfConstants.FONT_BOLD_9)
+                    .withBorders(Rectangle.BOX, BaseColor.RED);
+            allElements.add(elektroniskKopia);
+        }
         FkLabel fortsBladText = new FkLabel(
                 "Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
                 .offset(14f, 24f)
@@ -564,30 +591,30 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .size(KATEGORI_FULL_WIDTH, 29.5f)
                 .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
                 .withBorders(Rectangle.BOX);
-
+        final PrognosTyp prognosTyp = intyg.getPrognos() == null ? null : intyg.getPrognos().getTyp();
         fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.STOR_SANNOLIKHET.RBK"),
-                    PrognosTyp.MED_STOR_SANNOLIKHET.equals(intyg.getPrognos().getTyp()))
+                    PrognosTyp.MED_STOR_SANNOLIKHET.equals(prognosTyp))
                 .offset(0f, 1.2f)
                 .size(KATEGORI_FULL_WIDTH, 6.8f));
 
         fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.ATER_X_ANTAL_DGR.RBK"),
-                    PrognosTyp.ATER_X_ANTAL_DGR.equals(intyg.getPrognos().getTyp()))
+                    PrognosTyp.ATER_X_ANTAL_DGR.equals(prognosTyp))
                 .offset(0f, 8f)
                 .size(135f, 6.9f));
 
         fraga9.addChild(
-                new FkValueField(PrognosTyp.ATER_X_ANTAL_DGR.equals(intyg.getPrognos().getTyp())
+                new FkValueField(PrognosTyp.ATER_X_ANTAL_DGR.equals(prognosTyp)
                     ? intyg.getPrognos().getDagarTillArbete().getLabel() : "")
                         .offset(137f, 6f)
                         .size(KATEGORI_FULL_WIDTH - 135f, 6.9f));
 
         fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.SANNOLIKT_INTE.RBK"),
-                PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.equals(intyg.getPrognos().getTyp()))
+                PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.equals(prognosTyp))
                         .offset(0f, 14.8f)
                         .size(KATEGORI_FULL_WIDTH, 6.9f));
 
         fraga9.addChild(new FkCheckbox(getText("KV_FKMU_0006.PROGNOS_OKLAR.RBK"),
-                    PrognosTyp.PROGNOS_OKLAR.equals(intyg.getPrognos().getTyp()))
+                    PrognosTyp.PROGNOS_OKLAR.equals(prognosTyp))
                 .offset(0f, 21.8f)
                 .size(KATEGORI_FULL_WIDTH, 6.9f));
 
@@ -733,12 +760,13 @@ public class LisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
                 .withBorders(Rectangle.BOX);
 
-        fraga13.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)))
-                .offset(0f, 0f)
-                .size(45f, 11f)
-                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-                .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
-                .withTopLabel("Datum"));
+        fraga13.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum() != null
+                ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "")
+                        .offset(0f, 0f)
+                        .size(45f, 11f)
+                        .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
+                        .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
+                        .withTopLabel("Datum"));
         fraga13.addChild(new FkValueField("")
                 .offset(45f, 0f)
                 .size(KATEGORI_FULL_WIDTH - 45f, 11f)

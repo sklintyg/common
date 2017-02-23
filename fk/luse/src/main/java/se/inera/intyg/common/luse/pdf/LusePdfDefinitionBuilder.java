@@ -119,7 +119,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addChild(createPage4(intyg));
 
             // Only add tillaggsfragor page if there are some
-            if (intyg.getTillaggsfragor().size() > 0) {
+            if (intyg.getTillaggsfragor() != null && intyg.getTillaggsfragor().size() > 0) {
                 def.addChild(createPage5(intyg));
             }
 
