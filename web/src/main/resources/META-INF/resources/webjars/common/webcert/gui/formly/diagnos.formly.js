@@ -134,6 +134,7 @@ angular.module('common').run(function(formlyConfig) {
                     diagnoseModel.diagnosKod = $item.value;
                     diagnoseModel.diagnosBeskrivning = $item.beskrivning;
                     diagnoseModel.diagnosKodSystem = formState.diagnosKodSystem;
+                    $scope.diagnosKodNoResults = [];
                     $scope.form.$setDirty();
                     fmbService.updateFmbText(index, $item.value);
                 };
