@@ -155,7 +155,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
         try {
-            return new PdfResponse(pdfGenerator.generatePDF(getInternal(internalModel), applicationOrigin),
+            return new PdfResponse(pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin),
                     pdfGenerator.generatePdfFilename(getInternal(internalModel)));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

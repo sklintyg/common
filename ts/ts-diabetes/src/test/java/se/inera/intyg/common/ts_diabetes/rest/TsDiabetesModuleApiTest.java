@@ -30,40 +30,59 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 
 import java.io.StringWriter;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBException;
-import javax.xml.soap.*;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.ts_diabetes.integration.RegisterTSDiabetesResponderImpl;
 import se.inera.intyg.common.ts_diabetes.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.pdf.PdfGeneratorImpl;
-import se.inera.intyg.common.ts_diabetes.utils.*;
+import se.inera.intyg.common.ts_diabetes.utils.Scenario;
+import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
+import se.inera.intyg.common.ts_diabetes.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
-import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.*;
-import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.*;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponderInterface;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponseType;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesType;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponderInterface;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponseType;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
 import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
 import se.inera.intygstjanster.ts.services.v1.IntygMeta;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.IntygId;
@@ -124,7 +143,8 @@ public class TsDiabetesModuleApiTest {
 
     @Test
     public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(TsDiabetesUtlatande.class), any(ApplicationOrigin.class))).thenReturn(new byte[] {});
+        when(pdfGenerator.generatePDF(any(TsDiabetesUtlatande.class), any(List.class), any(ApplicationOrigin.class)))
+                .thenReturn(new byte[] {});
         when(pdfGenerator.generatePdfFilename(any(TsDiabetesUtlatande.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
             moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG);

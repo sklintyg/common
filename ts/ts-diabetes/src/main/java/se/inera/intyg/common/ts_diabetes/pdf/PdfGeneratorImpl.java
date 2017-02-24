@@ -32,7 +32,6 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PRIndirectReference;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfIndirectReference;
 import com.itextpdf.text.pdf.PdfName;
@@ -41,6 +40,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -57,30 +57,66 @@ import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
+import se.inera.intyg.common.ts_parent.pdf.BasePdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 
-public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
-
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<TsDiabetesUtlatande> {
 
     private static final String PDF_PATH_V02_U06 = "pdf/TSTRK1031-V02U06.pdf";
-
-    // Constants for printing ID and origin in left margin
-    private static final int MARGIN_TEXT_START_X = 46;
-    private static final int MARGIN_TEXT_START_Y = 137;
-    private static final int MARGIN_TEXT_FONTSIZE = 7;
-    private static final String MINA_INTYG_MARGIN_TEXT = "Intyget är utskrivet från Mina Intyg.";
-    private static final String WEBCERT_MARGIN_TEXT = "Intyget är utskrivet från Webcert.";
-
     private static final StringField INVANARE_ADRESS_FALT1 = new StringField("Falt__1");
     private static final StringField INVANARE_ADRESS_FALT2 = new StringField("Falt__2");
     private static final StringField INVANARE_ADRESS_FALT3 = new StringField("Falt__3");
     private static final StringField INVANARE_PERSONNUMMER = new StringField("Falt__4");
-
     private static final CheckGroupField<IntygAvserKategori> INTYG_AVSER;
     private static final String SPECIALIST_I_ALLMANMEDICIN_TITLE = "Specialist i allmänmedicin";
+    private static final CheckField ID_KONTROLL_IDKORT = new CheckField("Falt_20");
+    private static final CheckField ID_KONTROLL_FORETAG_TJANSTEKORT = new CheckField("Falt_21");
+    private static final CheckField ID_KONTROLL_SVENSKT_KORKORT = new CheckField("Falt_22");
+    private static final CheckField ID_KONTROLL_PERSONLIG_KANNEDOM = new CheckField("Falt_23");
+    private static final CheckField ID_KONTROLL_FORSAKRAN = new CheckField("Falt_24");
+    private static final CheckField ID_KONTROLL_PASS = new CheckField("Falt_25");
+    private static final StringField DIABETES_AR_FOR_DIAGNOS = new StringField("Falt__31");
+    private static final CheckField DIABETES_TYP_1 = new CheckField("Falt_32");
+    private static final CheckField DIABETES_TYP_2 = new CheckField("Falt_33");
+    private static final CheckField DIABETIKER_ENBART_KOST = new CheckField("Falt_34");
+    private static final CheckField DIABETIKER_TABLETTBEHANDLING = new CheckField("Falt_35");
+    private static final CheckField DIABETIKER_INSULINBEHANDLING = new CheckField("Falt_36");
+    private static final CheckField DIABETIKER_INSULINBEHANDLING_SEDAN_CHECK = new CheckField("Falt_37");
+    private static final StringField DIABETIKER_INSULINBEHANDLING_SEDAN = new StringField("Falt__38");
+    private static final StringField DIABETIKER_ANNAN_BEHANDLING = new StringField("Falt__39");
+    private static final YesNoField KUNSKAP_ATGARD_HYPOGLYKEMI = new YesNoField("Falt_40", "Falt_41");
+    private static final YesNoField HYPOGLYKEMIER_MED_TECKEN_PA_NEDSATT_HJARNFUNKTION = new YesNoField("Falt_44",
+            "Falt_45");
+    private static final YesNoField SAKNAR_FORMAGA_KANNA_HYPOGLYKEMI = new YesNoField("Falt_48", "Falt_49");
+    private static final YesNoField ALLVARLIG_HYPOGLYKEMI = new YesNoField("Falt_27", "Falt_28");
+    private static final StringField ALLVARLIG_HYPOGLYKEMI_ANTAL = new StringField("Falt__50");
+    private static final YesNoField ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN = new YesNoField("Falt_51", "Falt_52");
+    private static final StringField ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_BESKRIVNING = new StringField("Falt__501");
+    private static final YesNoField EGENOVERVAKNING_BLODGLUKOS = new YesNoField("Falt_53", "Falt_54");
+    private static final YesNoField ALLVARLIG_HYPOGLYKEMI_VAKET_TILLSTAND = new YesNoField("Falt_55", "Falt_56");
+    private static final StringField ALLVARLIG_HYPOGLYKEMI_VAKET_TILLSTAND_DATUM = new StringField("Falt__61");
+    private static final YesNoField OGONLAKARINTYG = new YesNoField("Falt_62", "Falt_63");
+    private static final YesNoField SYNFALTSUNDERSOKNING = new YesNoField("Falt_64", "Falt_65");
+    private static final DecimalField EJ_KORRIGERAD_SYNSKARPA_HOGER = new DecimalField("Falt__66", "Falt__67");
+    private static final DecimalField EJ_KORRIGERAD_SYNSKARPA_VANSTER = new DecimalField("Falt__70", "Falt__71");
+    private static final DecimalField EJ_KORRIGERAD_SYNSKARPA_BINOKULART = new DecimalField("Falt__74", "Falt__75");
+    private static final DecimalField KORRIGERAD_SYNSKARPA_HOGER = new DecimalField("Falt__68", "Falt__69");
+    private static final DecimalField KORRIGERAD_SYNSKARPA_VANSTER = new DecimalField("Falt__72", "Falt__73");
+    private static final DecimalField KORRIGERAD_SYNSKARPA_BINOKULART = new DecimalField("Falt__76", "Falt__77");
+    private static final YesNoField DIPLOPI = new YesNoField("Falt_78", "Falt_79");
+    private static final CheckGroupField<BedomningKorkortstyp> BEDOMNING;
+    private static final CheckField BEDOMNING_INTE_TA_STALLNING = new CheckField("Falt_91");
+    private static final YesNoField LAMPLIGHET_INNEHA_BEHORIGHET_TILL_KORNINGAR_OCH_ARBETSFORMER = new YesNoField(
+            "Falt_92", "Falt_93");
+    private static final StringField OVRIG_BESKRIVNING = new StringField("FaltDiv6");
+    private static final StringField BEDOMNING_BOR_UNDERSOKAS_SPECIALIST = new StringField("Falt__94");
+    private static final StringField INTYGSDATUM = new StringField("Falt__95");
+    private static final StringField VARDINRATTNINGENS_NAMN = new StringField("Falt__96");
+    private static final StringField ADRESS_OCH_ORT = new StringField("Falt__97");
+    private static final StringField TELEFON = new StringField("Falt__98");
+    private static final StringField NAMNFORTYDLIGANDE = new StringField("Falt__101");
+    private static final StringField SPECIALISTKOMPETENS_BESKRVNING = new StringField("Falt__102");
 
     static {
         INTYG_AVSER = new CheckGroupField<>();
@@ -102,49 +138,6 @@ public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
         INTYG_AVSER.addField(IntygAvserKategori.TAXI, "Falt_19");
     }
 
-    private static final CheckField ID_KONTROLL_IDKORT = new CheckField("Falt_20");
-    private static final CheckField ID_KONTROLL_FORETAG_TJANSTEKORT = new CheckField("Falt_21");
-    private static final CheckField ID_KONTROLL_SVENSKT_KORKORT = new CheckField("Falt_22");
-    private static final CheckField ID_KONTROLL_PERSONLIG_KANNEDOM = new CheckField("Falt_23");
-    private static final CheckField ID_KONTROLL_FORSAKRAN = new CheckField("Falt_24");
-    private static final CheckField ID_KONTROLL_PASS = new CheckField("Falt_25");
-
-    private static final StringField DIABETES_AR_FOR_DIAGNOS = new StringField("Falt__31");
-    private static final CheckField DIABETES_TYP_1 = new CheckField("Falt_32");
-    private static final CheckField DIABETES_TYP_2 = new CheckField("Falt_33");
-
-    private static final CheckField DIABETIKER_ENBART_KOST = new CheckField("Falt_34");
-    private static final CheckField DIABETIKER_TABLETTBEHANDLING = new CheckField("Falt_35");
-    private static final CheckField DIABETIKER_INSULINBEHANDLING = new CheckField("Falt_36");
-    private static final CheckField DIABETIKER_INSULINBEHANDLING_SEDAN_CHECK = new CheckField("Falt_37");
-    private static final StringField DIABETIKER_INSULINBEHANDLING_SEDAN = new StringField("Falt__38");
-    private static final StringField DIABETIKER_ANNAN_BEHANDLING = new StringField("Falt__39");
-
-    private static final YesNoField KUNSKAP_ATGARD_HYPOGLYKEMI = new YesNoField("Falt_40", "Falt_41");
-    private static final YesNoField HYPOGLYKEMIER_MED_TECKEN_PA_NEDSATT_HJARNFUNKTION = new YesNoField("Falt_44",
-            "Falt_45");
-    private static final YesNoField SAKNAR_FORMAGA_KANNA_HYPOGLYKEMI = new YesNoField("Falt_48", "Falt_49");
-    private static final YesNoField ALLVARLIG_HYPOGLYKEMI = new YesNoField("Falt_27", "Falt_28");
-    private static final StringField ALLVARLIG_HYPOGLYKEMI_ANTAL = new StringField("Falt__50");
-    private static final YesNoField ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN = new YesNoField("Falt_51", "Falt_52");
-    private static final StringField ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_BESKRIVNING = new StringField("Falt__501");
-
-    private static final YesNoField EGENOVERVAKNING_BLODGLUKOS = new YesNoField("Falt_53", "Falt_54");
-    private static final YesNoField ALLVARLIG_HYPOGLYKEMI_VAKET_TILLSTAND = new YesNoField("Falt_55", "Falt_56");
-    private static final StringField ALLVARLIG_HYPOGLYKEMI_VAKET_TILLSTAND_DATUM = new StringField("Falt__61");
-
-    private static final YesNoField OGONLAKARINTYG = new YesNoField("Falt_62", "Falt_63");
-    private static final YesNoField SYNFALTSUNDERSOKNING = new YesNoField("Falt_64", "Falt_65");
-    private static final DecimalField EJ_KORRIGERAD_SYNSKARPA_HOGER = new DecimalField("Falt__66", "Falt__67");
-    private static final DecimalField EJ_KORRIGERAD_SYNSKARPA_VANSTER = new DecimalField("Falt__70", "Falt__71");
-    private static final DecimalField EJ_KORRIGERAD_SYNSKARPA_BINOKULART = new DecimalField("Falt__74", "Falt__75");
-    private static final DecimalField KORRIGERAD_SYNSKARPA_HOGER = new DecimalField("Falt__68", "Falt__69");
-    private static final DecimalField KORRIGERAD_SYNSKARPA_VANSTER = new DecimalField("Falt__72", "Falt__73");
-    private static final DecimalField KORRIGERAD_SYNSKARPA_BINOKULART = new DecimalField("Falt__76", "Falt__77");
-    private static final YesNoField DIPLOPI = new YesNoField("Falt_78", "Falt_79");
-
-    private static final CheckGroupField<BedomningKorkortstyp> BEDOMNING;
-
     static {
         BEDOMNING = new CheckGroupField<>();
         BEDOMNING.addField(BedomningKorkortstyp.AM, "Falt_108");
@@ -165,24 +158,9 @@ public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
         BEDOMNING.addField(BedomningKorkortstyp.TAXI, "Falt_90");
     }
 
-    private static final CheckField BEDOMNING_INTE_TA_STALLNING = new CheckField("Falt_91");
-
-    private static final YesNoField LAMPLIGHET_INNEHA_BEHORIGHET_TILL_KORNINGAR_OCH_ARBETSFORMER = new YesNoField(
-            "Falt_92", "Falt_93");
-
-    private static final StringField OVRIG_BESKRIVNING = new StringField("FaltDiv6");
-
-    private static final StringField BEDOMNING_BOR_UNDERSOKAS_SPECIALIST = new StringField("Falt__94");
-
-    private static final StringField INTYGSDATUM = new StringField("Falt__95");
-    private static final StringField VARDINRATTNINGENS_NAMN = new StringField("Falt__96");
-    private static final StringField ADRESS_OCH_ORT = new StringField("Falt__97");
-    private static final StringField TELEFON = new StringField("Falt__98");
-    private static final StringField NAMNFORTYDLIGANDE = new StringField("Falt__101");
-
-    private static final StringField SPECIALISTKOMPETENS_BESKRVNING = new StringField("Falt__102");
-
     private final boolean formFlattening;
+    @Autowired(required = false)
+    private IntygTextsService intygTexts;
 
     public PdfGeneratorImpl(boolean formFlattening) {
         this.formFlattening = formFlattening;
@@ -197,7 +175,8 @@ public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
     }
 
     @Override
-    public byte[] generatePDF(TsDiabetesUtlatande utlatande, ApplicationOrigin applicationOrigin) throws PdfGeneratorException {
+    public byte[] generatePDF(TsDiabetesUtlatande utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin)
+            throws PdfGeneratorException {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -207,17 +186,12 @@ public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
             AcroFields fields = pdfStamper.getAcroFields();
             populatePdfFields(utlatande, fields);
 
-            // Decorate PDF depending on the origin of the pdf-call
-            switch (applicationOrigin) {
-            case MINA_INTYG:
-                createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), MINA_INTYG_MARGIN_TEXT);
-                break;
-            case WEBCERT:
-                createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), WEBCERT_MARGIN_TEXT);
-                break;
-            default:
-                break;
+            // Decorate PDF depending on the origin of the pdf-call and the status of the utlatande
+            if (!isUtkast(utlatande)) {
+                createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), applicationOrigin);
             }
+            // Add applicable watermarks
+            addWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(utlatande), isMakulerad(statuses));
 
             pdfStamper.close();
 
@@ -238,23 +212,6 @@ public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
             return PDF_PATH_V02_U06;
         }
         return texts.getProperties().getProperty(PDF_PATH_PROPERTY_KEY, PDF_PATH_V02_U06);
-    }
-
-    private void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text)
-            throws DocumentException, IOException {
-        PdfContentByte addOverlay;
-        BaseFont bf = BaseFont.createFont();
-        // Do text
-        for (int i = 1; i <= numberOfPages; i++) {
-            addOverlay = pdfStamper.getOverContent(i);
-            addOverlay.saveState();
-            addOverlay.beginText();
-            addOverlay.setFontAndSize(bf, MARGIN_TEXT_FONTSIZE);
-            addOverlay.setTextMatrix(0, 1, -1, 0, MARGIN_TEXT_START_X, MARGIN_TEXT_START_Y);
-            addOverlay.showText(String.format("Intygs-ID: %s. %s", id, text));
-            addOverlay.endText();
-            addOverlay.restoreState();
-        }
     }
 
     /**
@@ -294,6 +251,10 @@ public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
     }
 
     private void populateIdkontroll(Vardkontakt vardkontakt, AcroFields fields) throws IOException, DocumentException {
+        if (vardkontakt == null || vardkontakt.getIdkontroll() == null) {
+            return;
+        }
+
         if (vardkontakt.getIdkontroll().equals(IdKontrollKod.ID_KORT.name())) {
             ID_KONTROLL_IDKORT.setField(fields, true);
         } else if (vardkontakt.getIdkontroll().equals(IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.name())) {
@@ -380,7 +341,8 @@ public class PdfGeneratorImpl implements PdfGenerator<TsDiabetesUtlatande> {
     }
 
     private void populateAvslut(TsDiabetesUtlatande utlatande, AcroFields fields) throws IOException, DocumentException {
-        INTYGSDATUM.setField(fields, utlatande.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern("yyMMdd")));
+        INTYGSDATUM.setField(fields, utlatande.getGrundData().getSigneringsdatum() != null
+                ? utlatande.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern("yyMMdd")) : "");
         Vardenhet vardenhet = utlatande.getGrundData().getSkapadAv().getVardenhet();
         VARDINRATTNINGENS_NAMN.setField(fields, vardenhet.getEnhetsnamn());
         String adressOrt = String.format("%s, %s, %s", vardenhet.getPostort(), vardenhet.getPostadress(), vardenhet.getPostnummer());

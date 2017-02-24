@@ -20,20 +20,32 @@ package se.inera.intyg.common.ts_bas.pdf;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.core.io.ClassPathResource;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.common.enumerations.PartKod;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.Scenario;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PdfGeneratorTest {
@@ -44,10 +56,13 @@ public class PdfGeneratorTest {
     @InjectMocks
     private PdfGeneratorImpl pdfGen = new PdfGeneratorImpl(true);
 
+    private ObjectMapper objectMapper = new CustomObjectMapper();
+    private List<Status> defaultStatuses;
+
     @Test
     public void testGeneratePdf() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), ApplicationOrigin.MINA_INTYG);
+            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG);
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario);
         }
@@ -55,18 +70,39 @@ public class PdfGeneratorTest {
 
     @Test
     public void testGenerateWebcertPdf() throws Exception {
-            Scenario s = ScenarioFinder.getInternalScenario("valid-maximal");
-            byte[] pdf = pdfGen.generatePDF(s.asInternalModel(), ApplicationOrigin.WEBCERT);
-            writePdfToFile(pdf);
+        Scenario s = ScenarioFinder.getInternalScenario("valid-maximal");
+        byte[] pdf = pdfGen.generatePDF(s.asInternalModel(), defaultStatuses, ApplicationOrigin.WEBCERT);
+        writePdfToFile(pdf, "webcert-default");
     }
 
-    private void writePdfToFile(byte[] pdf) throws IOException {
+    @Test
+    public void testGenerateWebcertDraftPdf() throws Exception {
+        final TsBasUtlatande tsBasUtlatande = objectMapper.readValue(new ClassPathResource("PdfGenerator/utkast_utlatande.json").getFile(),
+                TsBasUtlatande.class);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT);
+        writePdfToFile(pdf, "webcert-utkast");
+    }
+
+    @Test
+    public void testGenerateWebcertMakuleratPdf() throws Exception {
+        final TsBasUtlatande tsBasUtlatande = objectMapper.readValue(new ClassPathResource("PdfGenerator/utlatande.json").getFile(),
+                TsBasUtlatande.class);
+        List<Status> statuses = new ArrayList<>();
+        statuses.add(new Status(CertificateState.SENT, PartKod.TRANSP.getValue(), LocalDateTime.now()));
+        // generate makulerat version
+        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT);
+        writePdfToFile(pdf, "webcert-makulerat");
+    }
+
+    private void writePdfToFile(byte[] pdf, String prefix) throws IOException {
         String dir = System.getProperty("pdfOutput.dir");
         if (dir == null) {
             return;
         }
 
-        File file = new File(String.format("%s/%s_%s.pdf", dir, "webcert", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+        File file = new File(
+                String.format("%s/%s_%s.pdf", dir, prefix, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();
@@ -82,7 +118,8 @@ public class PdfGeneratorTest {
             return;
         }
 
-        File file = new File(String.format("%s/%s_%s.pdf", dir, scenario.getName(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+        File file = new File(String.format("%s/%s_%s.pdf", dir, scenario.getName(),
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();

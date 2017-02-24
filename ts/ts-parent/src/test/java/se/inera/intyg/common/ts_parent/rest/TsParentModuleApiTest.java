@@ -36,6 +36,7 @@ import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXB;
 
@@ -95,28 +96,21 @@ public class TsParentModuleApiTest {
     private static ClassPathResource revokeCertificateFile;
     private static Utlatande utlatande;
     private static String json;
-
-    @Mock
-    private InternalDraftValidator<Utlatande> internalDraftValidator;
-
-    @Mock
-    private WebcertModelFactory<Utlatande> webcertModelFactory;
-
-    @Mock
-    private PdfGenerator<Utlatande> pdfGenerator;
-
-    @Mock
-    private ModelCompareUtil<Utlatande> modelCompareUtil;
-
-    @Mock
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-
-    @Spy
-    private ObjectMapper objectMapper = new CustomObjectMapper();
-
     @SuppressWarnings("unchecked")
     @InjectMocks
     TsParentModuleApi<Utlatande> moduleApi = mock(TsParentModuleApi.class, Mockito.CALLS_REAL_METHODS);
+    @Mock
+    private InternalDraftValidator<Utlatande> internalDraftValidator;
+    @Mock
+    private WebcertModelFactory<Utlatande> webcertModelFactory;
+    @Mock
+    private PdfGenerator<Utlatande> pdfGenerator;
+    @Mock
+    private ModelCompareUtil<Utlatande> modelCompareUtil;
+    @Mock
+    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+    @Spy
+    private ObjectMapper objectMapper = new CustomObjectMapper();
 
     @BeforeClass
     public static void set() throws Exception {
@@ -190,23 +184,26 @@ public class TsParentModuleApiTest {
         moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), json);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testPdf() throws Exception {
         final ApplicationOrigin applicationOrigin = ApplicationOrigin.INTYGSTJANST;
         final String fileName = "file name";
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(ApplicationOrigin.class))).thenReturn(new byte[0]);
+        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class))).thenReturn(new byte[0]);
         when(pdfGenerator.generatePdfFilename(any(Utlatande.class))).thenReturn(fileName);
 
         PdfResponse res = moduleApi.pdf(json, new ArrayList<>(), applicationOrigin);
         assertNotNull(res);
         assertEquals(fileName, res.getFilename());
-        verify(pdfGenerator).generatePDF(any(Utlatande.class), eq(applicationOrigin));
+        verify(pdfGenerator).generatePDF(any(Utlatande.class), any(List.class), eq(applicationOrigin));
         verify(pdfGenerator).generatePdfFilename(any(Utlatande.class));
     }
 
+    @SuppressWarnings("unchecked")
     @Test(expected = ModuleSystemException.class)
     public void testPdfPdfGeneratorException() throws Exception {
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(ApplicationOrigin.class))).thenThrow(new PdfGeneratorException("error"));
+        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class)))
+                .thenThrow(new PdfGeneratorException("error"));
 
         moduleApi.pdf(json, new ArrayList<>(), ApplicationOrigin.INTYGSTJANST);
     }
@@ -361,7 +358,8 @@ public class TsParentModuleApiTest {
 
         moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
         ArgumentCaptor<AttributedURIType> attributedUriCaptor = ArgumentCaptor.forClass(AttributedURIType.class);
-        ArgumentCaptor<RevokeMedicalCertificateRequestType> parametersCaptor = ArgumentCaptor.forClass(RevokeMedicalCertificateRequestType.class);
+        ArgumentCaptor<RevokeMedicalCertificateRequestType> parametersCaptor = ArgumentCaptor
+                .forClass(RevokeMedicalCertificateRequestType.class);
         verify(revokeCertificateClient).revokeMedicalCertificate(attributedUriCaptor.capture(), parametersCaptor.capture());
         assertNotNull(parametersCaptor.getValue());
         assertEquals(LOGICAL_ADDRESS, attributedUriCaptor.getValue().getValue());

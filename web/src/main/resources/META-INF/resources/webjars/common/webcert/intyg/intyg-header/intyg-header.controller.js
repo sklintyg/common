@@ -136,7 +136,9 @@ angular.module('common').controller('common.IntygHeader',
                     if (CommonViewState.intygProperties.type === 'luse' ||
                         CommonViewState.intygProperties.type === 'luae_na' ||
                         CommonViewState.intygProperties.type === 'luae_fs' ||
-                        CommonViewState.intygProperties.type === 'lisjp') {
+                        CommonViewState.intygProperties.type === 'lisjp' ||
+                        CommonViewState.intygProperties.type === 'ts-bas' ||
+                        CommonViewState.intygProperties.type === 'ts-diabetes') {
                         window.open($scope.pdfUrl, '_blank');
                         return;
                     }

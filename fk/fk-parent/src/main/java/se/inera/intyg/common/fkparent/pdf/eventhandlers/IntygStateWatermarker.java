@@ -36,7 +36,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 public class IntygStateWatermarker extends PdfPageEventHelper {
 
-    private static final Font FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.LIGHT_GRAY);
+    private static final Font FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
     private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
     private static final String CANCELLED_WATERMARK_TEXT = "MAKULERAT";
     private static final int ROTATION = 45;

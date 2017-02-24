@@ -1,0 +1,32 @@
+{
+  "id": "987654321",
+  "typ": "ts-diabetes",
+  "textVersion": "2.6",
+  "grundData": {
+    "skapadAv": {
+      "personId": "SE0000000000-1333",
+      "fullstandigtNamn": "Doktor Thompson",
+      "vardenhet": {
+        "enhetsid": "SE0000000000-1337",
+        "enhetsnamn": "Vårdenhet Väst",
+        "postadress": "Enhetsvägen 12",
+        "postnummer": "54321",
+        "postort": "Tumba",
+        "telefonnummer": "08-1337",
+        "vardgivare": {
+          "vardgivarid": "SE0000000000-HAHAHHSAA",
+          "vardgivarnamn": "Vårdgivarnamn"
+        }
+      }
+    },
+    "patient": {
+      "personId": "19121212-1212",
+      "fullstandigtNamn": "Johnny Appleseed",
+      "fornamn": "Johnny",
+      "efternamn": "Appleseed",
+      "postadress": "Testvägen 12",
+      "postnummer": "12345",
+      "postort": "Testort"
+    }
+  }
+}
