@@ -50,14 +50,14 @@ import se.inera.intyg.common.util.integration.integration.json.CustomObjectMappe
  * Generate variants of a LISJP pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
  * of the resulting pdf files, as we don't have any way of programmatically assert the content of the pdf.
  */
-public class LisjpPdfDefinitionBuilderTest {
+public class DefaultLisjpPdfDefinitionBuilderTest {
 
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     private IntygTextsServiceImpl intygTextsService;
     private List<LisjpUtlatande> intygList = new ArrayList<>();
 
-    private LisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new LisjpPdfDefinitionBuilder();
+    private DefaultLisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new DefaultLisjpPdfDefinitionBuilder();
     private IntygTexts intygTexts;
 
     @Before
