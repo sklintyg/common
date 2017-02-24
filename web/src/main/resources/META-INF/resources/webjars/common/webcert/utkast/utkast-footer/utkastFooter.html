@@ -35,7 +35,8 @@
         <button type="button" id="show-missing-btn" class="btn btn-success"
                 ng-keydown="initValidationSequence('show-missing-btn')"
                 ng-mousedown="initValidationSequence('show-missing-btn')"
-                ng-click="checkMissing()">
+                ng-click="checkMissing()"
+                ng-disabled="viewState.common.intyg.isComplete">
           <span message key="draft.notify.check-missing"></span>
         </button>
         <span wc-help-mark field-help-text="draft.notify.check-missing.help"></span>
