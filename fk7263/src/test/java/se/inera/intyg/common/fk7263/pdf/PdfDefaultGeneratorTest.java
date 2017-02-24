@@ -40,6 +40,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 
+import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -122,6 +123,30 @@ public class PdfDefaultGeneratorTest {
         // generate PDF
         byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT,  "-normal");
+    }
+
+    @Test
+    public void testWCWriteUtkastPdf() throws Exception {
+
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
+        intyg.getGrundData().setSigneringsdatum(null);
+        // generate PDF
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, false).getBytes();
+        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT,  "-UTKAST-normal");
+    }
+
+    @Test
+    public void testWCWriteMakuleradPdf() throws Exception {
+
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
+
+        //Add a makulerat state
+        List<Status> statuses = new ArrayList<>();
+        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+
+        // generate PDF
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, false).getBytes();
+        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT,  "-MAKULERAT-normal");
     }
 
     @Test

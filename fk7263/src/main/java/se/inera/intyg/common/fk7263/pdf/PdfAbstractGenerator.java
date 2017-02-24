@@ -23,18 +23,22 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.CMYKColor;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfStamper;
 
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
@@ -42,6 +46,7 @@ import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 
 /**
@@ -72,6 +77,13 @@ public abstract class PdfAbstractGenerator {
     // Right margin texts
     protected static final String MINA_INTYG_MARGIN_TEXT = "Intyget är utskrivet från Mina Intyg.";
     protected static final String WEBCERT_MARGIN_TEXT = "Intyget är elektroniskt undertecknat. Intyget är utskrivet från Webcert.";
+
+    private static final Font INTYG_STATEWATERMARK_FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
+    private static final String INTYG_STATEWATERMARK_DRAFT_TEXT = "UTKAST";
+    private static final String INTYG_STATEWATERMARK_CANCELLED_TEXT = "MAKULERAT";
+    private static final int INTYG_STATEWATERMARK_ROTATION = 45;
+    private static final float INTYG_STATEWATERMARK_FILL_OPACITY = 0.5f;
+
 
     // Constants for printing ID and origin in right margin
     private static final int MARGIN_TEXT_START_X = 565;
@@ -297,6 +309,49 @@ public abstract class PdfAbstractGenerator {
         ct.go();
     }
 
+    public static boolean isMakulerad(List<Status> statuses) {
+        return statuses != null && statuses.stream().filter(Objects::nonNull)
+                .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
+    }
+
+    public static boolean isUtkast(Utlatande utlatande) {
+        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
+    }
+
+    public void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad) {
+        Phrase watermark;
+
+        if (isUtkast) {
+            watermark = new Phrase(INTYG_STATEWATERMARK_DRAFT_TEXT, INTYG_STATEWATERMARK_FONT);
+        } else if (isMakulerad) {
+            watermark = new Phrase(INTYG_STATEWATERMARK_CANCELLED_TEXT, INTYG_STATEWATERMARK_FONT);
+        } else {
+            // No watermark to add
+            return;
+        }
+
+        PdfContentByte over;
+        Rectangle pageSize;
+        // loop over every page
+        for (int i = 1; i <= nrPages; i++) {
+
+            over = stamper.getOverContent(i);
+            over.saveState();
+            PdfGState gs1 = new PdfGState();
+            gs1.setFillOpacity(INTYG_STATEWATERMARK_FILL_OPACITY);
+            over.setGState(gs1);
+
+            // Center the watermark text
+            pageSize = over.getPdfDocument().getPageSize();
+            final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
+            final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
+
+            ColumnText.showTextAligned(over, Element.ALIGN_CENTER, watermark, x, y, INTYG_STATEWATERMARK_ROTATION);
+            over.restoreState();
+        }
+    }
+
+
     protected void createRightMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text)
             throws DocumentException, IOException {
         PdfContentByte addOverlay;
@@ -326,7 +381,8 @@ public abstract class PdfAbstractGenerator {
 
     protected void fillSignerNameAndAddress() {
         fillText(SIGN_NAME, intyg.getNamnfortydligandeOchAdress());
-        fillText(SIGN_DATE, intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)));
+        fillText(SIGN_DATE, intyg.getGrundData().getSigneringsdatum() != null
+                ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "");
     }
 
     protected void fillTravel() {

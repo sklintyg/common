@@ -66,6 +66,8 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
 
             switch (applicationOrigin) {
             case MINA_INTYG:
+
+                //In MI mode, we dont care about isUtkast or not - since only signed intyg are available
                 generateMIPdfWithOptionalFields(selectedOptionalFields);
                 // perform additional decoration for MI originated pdf
                 maskSendToFkInformation(pdfStamper);
@@ -86,11 +88,18 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
                 mark(pdfStamper, WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
                         MARK_AS_EMPLOYER_WC_HEIGTH, MARK_AS_EMPLOYER_WC_WIDTH);
 
-                createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
+                if (!isUtkast(intyg)) {
+                    createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
+                }
+
                 break;
             default:
                 break;
             }
+
+            // Add applicable watermarks
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(intyg), isMakulerad(statuses));
+
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();

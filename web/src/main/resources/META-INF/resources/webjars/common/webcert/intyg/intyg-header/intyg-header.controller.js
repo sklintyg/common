@@ -138,7 +138,8 @@ angular.module('common').controller('common.IntygHeader',
                         CommonViewState.intygProperties.type === 'luae_fs' ||
                         CommonViewState.intygProperties.type === 'lisjp' ||
                         CommonViewState.intygProperties.type === 'ts-bas' ||
-                        CommonViewState.intygProperties.type === 'ts-diabetes') {
+                        CommonViewState.intygProperties.type === 'ts-diabetes' ||
+                        CommonViewState.intygProperties.type === 'fk7263') {
                         window.open($scope.pdfUrl, '_blank');
                         return;
                     }

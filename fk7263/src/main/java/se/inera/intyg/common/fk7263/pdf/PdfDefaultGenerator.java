@@ -24,9 +24,9 @@ import java.util.List;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Created by marced on 18/08/16.
@@ -52,7 +52,7 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
 
             switch (applicationOrigin) {
             case MINA_INTYG:
-                // perform additional decoration for MI originated pdf
+                // perform additional decoration for MI originated pdf (no need to check isUtkast in MI)
                 maskSendToFkInformation(pdfStamper);
                 markAsElectronicCopy(pdfStamper);
                 createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), MINA_INTYG_MARGIN_TEXT);
@@ -63,12 +63,20 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
                     maskSendToFkInformation(pdfStamper);
                     markAsElectronicCopy(pdfStamper);
                 }
-                createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
-                createSignatureNotRequiredField(pdfStamper, pdfReader.getNumberOfPages());
+
+                if (!isUtkast(intyg)) {
+                    //Only signed intyg prints should have these decorations
+                    createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
+                    createSignatureNotRequiredField(pdfStamper, pdfReader.getNumberOfPages());
+                }
+
                 break;
             default:
                 break;
             }
+
+            // Add applicable watermarks
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(intyg), isMakulerad(statuses));
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();

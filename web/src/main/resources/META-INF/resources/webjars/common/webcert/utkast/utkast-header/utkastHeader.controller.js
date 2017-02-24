@@ -116,7 +116,8 @@ angular.module('common').controller('common.UtkastHeader',
                     CommonViewState.intyg.type === 'luae_fs' ||
                     CommonViewState.intyg.type === 'lisjp' ||
                     CommonViewState.intyg.type === 'ts-bas' ||
-                    CommonViewState.intyg.type === 'ts-diabetes') {
+                    CommonViewState.intyg.type === 'ts-diabetes' ||
+                    CommonViewState.intyg.type === 'fk7263') {
                     window.open($scope.pdfUrl, '_blank');
                     return;
                 }

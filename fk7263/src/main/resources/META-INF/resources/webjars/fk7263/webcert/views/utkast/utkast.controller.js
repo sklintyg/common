@@ -68,6 +68,10 @@ angular.module('fk7263').controller('fk7263.EditCertCtrl',
             // Get the certificate draft from the server.
             UtkastService.load(viewState).then(function(intygModel) {
 
+                //Expose pdf download link
+                $scope.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
+
+
                 fmbService.updateFmbTextsForAllDiagnoses([
                     {diagnosKod: intygModel.diagnosKod},
                     {diagnosKod: intygModel.diagnosKod2},
