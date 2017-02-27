@@ -98,9 +98,9 @@ public class LuaefsPdfDefinitionBuilderTest {
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LuaefsUtlatande intyg : intygList) {
-            FkPdfDefinition foo = luaefsPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts);
+            FkPdfDefinition pdfDefinition = luaefsPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(foo);
+                    .generatePdf(pdfDefinition);
 
             assertNotNull(generatorResult);
 
