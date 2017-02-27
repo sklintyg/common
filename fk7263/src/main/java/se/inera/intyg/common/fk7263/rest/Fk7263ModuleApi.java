@@ -18,14 +18,38 @@
  */
 package se.inera.intyg.common.fk7263.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-import iso.v21090.dt.v1.CD;
+import static se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.w3.wsaddressing10.AttributedURIType;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+
+import iso.v21090.dt.v1.CD;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
@@ -37,10 +61,14 @@ import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.ri
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
-import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificateforcare.v1.GetMedicalCertificateForCareRequestType;
-import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificateforcare.v1.GetMedicalCertificateForCareResponderInterface;
-import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificateforcare.v1.GetMedicalCertificateForCareResponseType;
-import se.inera.intyg.common.fk7263.model.converter.*;
+import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
+import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponderInterface;
+import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponseType;
+import se.inera.intyg.common.fk7263.model.converter.ArbetsformagaToGiltighet;
+import se.inera.intyg.common.fk7263.model.converter.InternalToTransport;
+import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
+import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
+import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.util.Fk7263ModelCompareUtil;
 import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
@@ -61,7 +89,13 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
@@ -72,27 +106,6 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
-
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS;
-import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 
 /**
  * @author andreaskaltenbach, marced
@@ -120,7 +133,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     private Fk7263ModelCompareUtil modelCompareUtil;
 
     @Autowired(required = false)
-    private GetMedicalCertificateForCareResponderInterface getMedicalCertificateForCareResponderInterface;
+    private GetMedicalCertificateResponderInterface getMedicalCertificateResponderInterface;
 
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
@@ -211,12 +224,12 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException {
-        GetMedicalCertificateForCareRequestType request = new GetMedicalCertificateForCareRequestType();
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, PartKod partCode) throws ModuleException {
+        GetMedicalCertificateRequestType request = new GetMedicalCertificateRequestType();
         request.setCertificateId(certificateId);
+        request.setPart(partCode.name());
 
-        GetMedicalCertificateForCareResponseType response = getMedicalCertificateForCareResponderInterface
-                .getMedicalCertificateForCare(logicalAddress, request);
+        GetMedicalCertificateResponseType response = getMedicalCertificateResponderInterface.getMedicalCertificate(logicalAddress, request);
 
         switch (response.getResult().getResultCode()) {
         case INFO:
@@ -391,7 +404,7 @@ public class Fk7263ModuleApi implements ModuleApi {
         }
     }
 
-    private CertificateResponse convert(GetMedicalCertificateForCareResponseType response, boolean revoked) throws ModuleException {
+    private CertificateResponse convert(GetMedicalCertificateResponseType response, boolean revoked) throws ModuleException {
         try {
             Fk7263Utlatande utlatande = TransportToInternal.convert(response.getLakarutlatande());
             String internalModel = objectMapper.writeValueAsString(utlatande);

@@ -294,7 +294,7 @@ public class FkParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS);
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertFalse(res.isRevoked());
@@ -316,7 +316,7 @@ public class FkParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS);
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertTrue(res.isRevoked());
@@ -329,7 +329,7 @@ public class FkParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS);
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
     }
 
     @Test(expected = ModuleException.class)
@@ -337,7 +337,7 @@ public class FkParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
                 .thenThrow(mock(SOAPFaultException.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS);
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
     }
 
     @Test

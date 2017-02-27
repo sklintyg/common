@@ -29,11 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Throwables;
 
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
-import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificateforcare.v1.GetMedicalCertificateForCareRequestType;
-import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificateforcare.v1.GetMedicalCertificateForCareResponderInterface;
-import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificateforcare.v1.GetMedicalCertificateForCareResponseType;
+import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
+import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponderInterface;
+import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponseType;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter.ModelConverter;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.utils.ResultTypeUtil;
+import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
@@ -44,18 +45,18 @@ import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 /**
  * @author andreaskaltenbach
  */
-public class GetMedicalCertificateForCareResponderImpl implements GetMedicalCertificateForCareResponderInterface {
+public class GetMedicalCertificateResponderImpl implements GetMedicalCertificateResponderInterface {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetMedicalCertificateForCareResponderImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetMedicalCertificateResponderImpl.class);
 
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
 
     @Override
-    public GetMedicalCertificateForCareResponseType getMedicalCertificateForCare(String logicalAddress,
-            GetMedicalCertificateForCareRequestType request) {
+    public GetMedicalCertificateResponseType getMedicalCertificate(String logicalAddress,
+            GetMedicalCertificateRequestType request) {
 
-        GetMedicalCertificateForCareResponseType response = new GetMedicalCertificateForCareResponseType();
+        GetMedicalCertificateResponseType response = new GetMedicalCertificateResponseType();
 
         String certificateId = request.getCertificateId();
         Personnummer nationalIdentityNumber = request.getNationalIdentityNumber() != null
@@ -73,7 +74,7 @@ public class GetMedicalCertificateForCareResponderImpl implements GetMedicalCert
                 response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
                 return response;
             }
-            if (certificate.isDeletedByCareGiver()) {
+            if (PartKod.HSVARD.name().equals(request.getPart()) && certificate.isDeletedByCareGiver()) {
                 response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
                         String.format("Certificate '%s' has been deleted by care giver", certificateId)));
             } else {
@@ -94,7 +95,7 @@ public class GetMedicalCertificateForCareResponderImpl implements GetMedicalCert
 
     }
 
-    protected void attachCertificateDocument(CertificateHolder certificate, GetMedicalCertificateForCareResponseType response) {
+    protected void attachCertificateDocument(CertificateHolder certificate, GetMedicalCertificateResponseType response) {
         try {
 
             RegisterMedicalCertificateType jaxbObject = JAXB.unmarshal(new StringReader(certificate.getOriginalCertificate()),
@@ -107,5 +108,4 @@ public class GetMedicalCertificateForCareResponderImpl implements GetMedicalCert
             Throwables.propagate(e);
         }
     }
-
 }

@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
@@ -110,7 +111,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, PartKod partCode) throws ModuleException {
         GetTSDiabetesType type = new GetTSDiabetesType();
         type.setIntygsId(certificateId);
 
@@ -125,14 +126,14 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
             case REVOKED:
                 return convert(diabetesResponseType, true);
             case VALIDATION_ERROR:
-                throw new ModuleException("getMedicalCertificateForCare WS call: VALIDATION_ERROR :"
+                throw new ModuleException("GetTSDiabetes WS call: VALIDATION_ERROR :"
                         + diabetesResponseType.getResultat().getResultText());
             default:
                 throw new ModuleException(
-                        "getMedicalCertificateForCare WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
+                        "GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
             }
         }
-        throw new ModuleException("getMedicalCertificateForCare WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
+        throw new ModuleException("GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
     }
 
     @Override

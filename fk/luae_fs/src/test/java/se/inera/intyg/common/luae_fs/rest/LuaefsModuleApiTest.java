@@ -182,7 +182,7 @@ public class LuaefsModuleApiTest {
         GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.SENTTO, PartKod.FKASSA);
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
-        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS);
+        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, PartKod.INVANA);
         assertFalse(response.isRevoked());
     }
 
@@ -192,7 +192,7 @@ public class LuaefsModuleApiTest {
         GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.CANCEL, PartKod.FKASSA);
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
-        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS);
+        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, PartKod.INVANA);
         assertTrue(response.isRevoked());
     }
 
@@ -202,8 +202,7 @@ public class LuaefsModuleApiTest {
         doThrow(ex).when(getCertificateResponderInterface).getCertificate(anyString(),
                 any());
 
-        moduleApi.getCertificate("id", LOGICAL_ADDRESS);
-
+        moduleApi.getCertificate("id", LOGICAL_ADDRESS, PartKod.INVANA);
     }
 
     @Test

@@ -52,6 +52,7 @@ import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.XmlValidator;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -199,9 +200,10 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, PartKod partCode) throws ModuleException {
         GetCertificateType request = new GetCertificateType();
         request.setIntygsId(getIntygsId(certificateId));
+        // Set the part when 2.1 arrives.
 
         try {
             return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));

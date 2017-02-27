@@ -19,16 +19,16 @@
   -->
 
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:gcr="urn:riv:clinicalprocess:healthcond:certificate:GetCertificateForCareResponder:1">
+                xmlns:gcr="urn:riv:clinicalprocess:healthcond:certificate:GetMedicalCertificateResponder:1">
 
   <xsl:include href="transform/clinicalprocess-healthcond-certificate/general-transform.xslt"/>
 
   <xsl:template name="response">
-    <gcr:GetMedicalCertificateForCareResponse>
+    <gcr:GetMedicalCertificateResponse>
       <gcr:result>
         <xsl:call-template name="result"/>
       </gcr:result>
-    </gcr:GetMedicalCertificateForCareResponse>
+    </gcr:GetMedicalCertificateResponse>
   </xsl:template>
 
 </xsl:stylesheet>

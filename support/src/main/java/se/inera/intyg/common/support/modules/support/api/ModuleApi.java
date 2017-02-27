@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -81,13 +82,14 @@ public interface ModuleApi {
      *
      * @param optionalFields
      *            The optional field references to include in the pdf.
-     *            The format, meaning and syntax of the optionalFields id's is determined within each implementing module project.
-
+     *            The format, meaning and syntax of the optionalFields id's is determined within each implementing
+     *            module project.
+     *
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      */
     PdfResponse pdfEmployer(String internalModel, List<Status> statuses,
-                            ApplicationOrigin applicationOrigin,
-                            List<String> optionalFields) throws ModuleException;
+            ApplicationOrigin applicationOrigin,
+            List<String> optionalFields) throws ModuleException;
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
@@ -157,10 +159,12 @@ public interface ModuleApi {
      * @param certificateId
      *            The certificate id.
      * @param logicalAddress
-     *            Logical address of receiving system, i.e Intygstjansten
+     *            Logical address of receiving system, i.e Intygstjansten.
+     * @param partCode
+     *            PartKod for the requester.
      * @return internal model of the certificate
      */
-    CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException;
+    CertificateResponse getCertificate(String certificateId, String logicalAddress, PartKod partCode) throws ModuleException;
 
     /**
      * Determine whether a notification about changed state in a certificate should be sent,
@@ -217,9 +221,12 @@ public interface ModuleApi {
     /**
      * Create a revoke request using the Utlatande and the HoSPersonal.
      *
-     * @param utlatande the information regarding the certificate
-     * @param skapatAv the person who revoked
-     * @param meddelande voluntary message of why the certificate was revoked
+     * @param utlatande
+     *            the information regarding the certificate
+     * @param skapatAv
+     *            the person who revoked
+     * @param meddelande
+     *            voluntary message of why the certificate was revoked
      * @return the XML request as a String
      */
     String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException;

@@ -29,20 +29,28 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.ts_bas.integration.RegisterTSBasResponderImpl;
-import se.inera.intyg.common.ts_bas.model.converter.*;
+import se.inera.intyg.common.ts_bas.model.converter.InternalToTransport;
+import se.inera.intyg.common.ts_bas.model.converter.TransportToInternal;
+import se.inera.intyg.common.ts_bas.model.converter.TsBasMetaDataConverter;
+import se.inera.intyg.common.ts_bas.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
-import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.*;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.*;
+import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponderInterface;
+import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponseType;
+import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasType;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponderInterface;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponseType;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 
@@ -114,7 +122,7 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, PartKod partCode) throws ModuleException {
         GetTSBasType request = new GetTSBasType();
         request.setIntygsId(certificateId);
 

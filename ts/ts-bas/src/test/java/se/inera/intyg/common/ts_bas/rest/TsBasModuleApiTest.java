@@ -54,6 +54,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -300,7 +301,7 @@ public class TsBasModuleApiTest {
         Mockito.when(getTSBasResponderInterface.getTSBas(Mockito.eq("TS"), Mockito.any(GetTSBasType.class)))
                 .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS");
+        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", PartKod.INVANA);
         assertNotNull(internal);
     }
 
@@ -313,7 +314,7 @@ public class TsBasModuleApiTest {
         Mockito.when(getTSBasResponderInterface.getTSBas(Mockito.eq("TS"), Mockito.any(GetTSBasType.class)))
                 .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS");
+        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", PartKod.INVANA);
         assertNotNull(internal);
     }
 
@@ -324,7 +325,7 @@ public class TsBasModuleApiTest {
         Mockito.when(getTSBasResponderInterface.getTSBas(Mockito.eq("TS"), Mockito.any(GetTSBasType.class)))
                 .thenReturn(result);
 
-        moduleApi.getCertificate("cert-id", "TS");
+        moduleApi.getCertificate("cert-id", "TS", PartKod.INVANA);
     }
 
     @Test(expected = ModuleException.class)
@@ -334,7 +335,7 @@ public class TsBasModuleApiTest {
         Mockito.when(getTSBasResponderInterface.getTSBas(Mockito.eq("TS"), Mockito.any(GetTSBasType.class)))
                 .thenReturn(result);
 
-        moduleApi.getCertificate("cert-id", "TS");
+        moduleApi.getCertificate("cert-id", "TS", PartKod.INVANA);
     }
 
     @Test
