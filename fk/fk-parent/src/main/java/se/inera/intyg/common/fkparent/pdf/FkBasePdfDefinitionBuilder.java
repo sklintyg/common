@@ -18,12 +18,7 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import com.google.common.collect.ImmutableList;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.common.enumerations.PartKod;
@@ -33,6 +28,9 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Base class with common methods used by SMI type PDF definition construction.
@@ -71,15 +69,13 @@ public class FkBasePdfDefinitionBuilder {
     }
 
     protected boolean isSentToFk(List<Status> statuses) {
-        return statuses != null && statuses.stream().filter(Objects::nonNull)
-                .filter(s -> CertificateState.SENT.equals(s.getType()) && PartKod.FKASSA.getValue().equals(s.getTarget())).findAny()
-                .isPresent();
+        return statuses != null && statuses.stream()
+                .anyMatch(s -> CertificateState.SENT.equals(s.getType()) && PartKod.FKASSA.getValue().equals(s.getTarget()));
     }
 
     protected boolean isMakulerad(List<Status> statuses) {
-        return statuses != null && statuses.stream().filter(Objects::nonNull)
-                .filter(s -> CertificateState.CANCELLED.equals(s.getType())).findAny()
-                .isPresent();
+        return statuses != null && statuses.stream()
+                .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
     protected boolean isUtkast(Utlatande utlatande) {
