@@ -170,16 +170,6 @@ angular.module('common').factory('common.IntygProxy',
             });
         }
 
-        function _logPrint(intygsId, intygsTyp, onSuccess, onError) {
-            $log.debug('_logPrint, intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/loggautskrift';
-            $http.post(restPath, intygsId).success(function(data) {
-                onSuccess(data);
-            }).error(function(error) {
-                _handleError(onError, error);
-            });
-        }
-
         // Return public API for the service
         return {
             getIntyg: _getIntyg,
@@ -188,7 +178,6 @@ angular.module('common').factory('common.IntygProxy',
             sendIntyg: _sendIntyg,
             copyIntyg: _fornyaOrCopyIntyg('copy'),
             fornyaIntyg: _fornyaOrCopyIntyg('fornya'),
-            answerWithIntyg: _answerWithIntyg,
-            logPrint: _logPrint
+            answerWithIntyg: _answerWithIntyg
         };
     }]);

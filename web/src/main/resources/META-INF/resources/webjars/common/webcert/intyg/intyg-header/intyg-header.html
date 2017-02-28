@@ -1,10 +1,7 @@
 <div>
-  <div wc-print-header title="{{intygsnamn}}" print-message-id="print.label.{{viewState.common.intygProperties.printStatus}}"
-       intygs-id="viewState.common.intygModel.id"></div>
-
   <!-- error message -->
   <div id="intyg-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
-       class="alert alert-danger alert-column print-hide">
+       class="alert alert-danger alert-column">
 
     <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
       <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
@@ -25,7 +22,7 @@
   </div>
 
   <div ng-show="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
-    <div class="print-hide">
+    <div>
       <div class="form-group">
         <div class="inline-block" style="margin-right:10px"
              wc-intyg-patient-namn-personnummer
@@ -146,7 +143,7 @@
 
       <div wc-secrecy-mark-message person-id="viewState.intygModel.grundData.patient.personId" type="intyg"></div>
 
-      <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column print-hide">
+      <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column">
         <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>
       </div>
 

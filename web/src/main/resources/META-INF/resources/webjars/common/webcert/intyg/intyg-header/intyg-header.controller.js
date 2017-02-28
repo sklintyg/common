@@ -19,10 +19,10 @@
 
 angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService', 'common.messageService',
-        'common.moduleService', 'common.PrintService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
+        'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
         'common.IntygSend', 'common.IntygCopyFornya', 'common.IntygMakulera', 'common.IntygViewStateService',
 
-        function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService, moduleService, PrintService, IntygCopyRequestModel,
+        function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService, moduleService, IntygCopyRequestModel,
             IntygFornyaRequestModel, User, UserModel, IntygSend, IntygCopyFornya, IntygMakulera, CommonViewState) {
 
             'use strict';
@@ -128,24 +128,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.print = function(intyg, isEmployeeCopy) {
-
-
-                //When all types support pdf - remove all traces/support/code related to html printing, e.g printservice etc
-                if (CommonViewState.intygProperties.isRevoked) {
-                    //The if-clause is a temporary condition for types that support pdf makulerat printing until all types supports it.
-                    if (CommonViewState.intygProperties.type === 'luse' ||
-                        CommonViewState.intygProperties.type === 'luae_na' ||
-                        CommonViewState.intygProperties.type === 'luae_fs' ||
-                        CommonViewState.intygProperties.type === 'lisjp' ||
-                        CommonViewState.intygProperties.type === 'ts-bas' ||
-                        CommonViewState.intygProperties.type === 'ts-diabetes' ||
-                        CommonViewState.intygProperties.type === 'fk7263') {
-                        window.open($scope.pdfUrl, '_blank');
-                        return;
-                    }
-                    var customHeader = intyg.grundData.patient.fullstandigtNamn + ' - ' + intyg.grundData.patient.personId;
-                    PrintService.printWebPageWithCustomTitle(intyg.id, intygType, customHeader);
-                } else if (isEmployeeCopy) {
+                if (isEmployeeCopy) {
                     window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
                 } else {
                     window.open($scope.pdfUrl, '_blank');

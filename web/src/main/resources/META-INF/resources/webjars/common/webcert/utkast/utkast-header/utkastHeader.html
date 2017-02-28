@@ -1,10 +1,4 @@
-<div wc-print-header title="{{intygsnamn}}" print-message-id="print.label.draft" intygs-id="intyg.id"></div>
-<div class="print-show">
-  <label class="control-label">{{viewState.intygModel.grundData.patient.fullstandigtNamn}} -
-    {{viewState.intygModel.grundData.patient.personId | PersonIdFormatter}}</label>
-</div>
-
-<div class="header-fix-top print-hide" wc-size-source="viewState.common.headerSize">
+<div class="header-fix-top" wc-size-source="viewState.common.headerSize">
   <div class="header-wrapper menucollapse" ng-hide="viewState.common.collapsedHeader">
     <div ui-view="wcHeader"></div>
   </div>

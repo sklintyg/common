@@ -19,10 +19,10 @@
 
 angular.module('common').controller('common.UtkastHeader',
     ['$scope', '$log', '$stateParams', '$timeout', '$window',
-        'common.messageService', 'common.moduleService', 'common.PrintService', 'common.UtkastProxy', 'common.statService',
+        'common.messageService', 'common.moduleService', 'common.UtkastProxy', 'common.statService',
         'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService', 'common.UtkastService',
         function($scope, $log, $stateParams, $timeout, $window,
-            messageService, moduleService, PrintService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService) {
+            messageService, moduleService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService) {
             'use strict';
 
             $scope.intygsnamn = moduleService.getModuleName(CommonViewState.intyg.type);
@@ -107,27 +107,10 @@ angular.module('common').controller('common.UtkastHeader',
             };
 
             /**
-             * Print draft. Supplies the PrintService with patient name and id as a customHeader string.
+             * Print draft.
              */
             $scope.print = function() {
-                //The if-clause is a temporary condition for types that support pdf draft printing until all types supports it.
-                if (CommonViewState.intyg.type === 'luse' ||
-                    CommonViewState.intyg.type === 'luae_na' ||
-                    CommonViewState.intyg.type === 'luae_fs' ||
-                    CommonViewState.intyg.type === 'lisjp' ||
-                    CommonViewState.intyg.type === 'ts-bas' ||
-                    CommonViewState.intyg.type === 'ts-diabetes' ||
-                    CommonViewState.intyg.type === 'fk7263') {
-                    window.open($scope.pdfUrl, '_blank');
-                    return;
-                }
-                //When all types support pdf - remove all traces/support/code related to html printing, e.g printservice etc
-                var customHeader = $scope.viewState.intygModel.grundData.patient.fullstandigtNamn + ' - ' +
-                    $scope.viewState.intygModel.grundData.patient.personId;
-
-                PrintService.printWebPageWithCustomTitle($scope.viewState.intygModel.id, CommonViewState.intyg.type, customHeader);
-
-
+                window.open($scope.pdfUrl, '_blank');
             };
 
 
