@@ -2,6 +2,7 @@ dependencies {
   compile project(':logging-util')
 
   compile "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
+  compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
 
   compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
   compile "com.google.guava:guava:${guavaVersion}"

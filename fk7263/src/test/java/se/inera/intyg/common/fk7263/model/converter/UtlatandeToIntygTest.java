@@ -36,7 +36,7 @@ import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.*;
 import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;

@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.support.peristence.dao.util;
 
-import se.inera.intyg.common.support.modules.support.api.dto.InvalidPersonNummerException;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class DaoUtil {
     private DaoUtil() { }

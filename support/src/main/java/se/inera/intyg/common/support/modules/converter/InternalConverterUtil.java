@@ -18,29 +18,14 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
-import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
-import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
-import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
-import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
-
-import java.time.LocalDate;
-import java.time.temporal.Temporal;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
 import com.google.common.base.Strings;
-
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.ArbetsplatsKod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.Befattning;
 import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
@@ -61,6 +46,20 @@ import se.riv.clinicalprocess.healthcond.certificate.v2.Relation;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+import java.time.LocalDate;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
+import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
+import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
+import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 /**
  * Provides utility methods for converting domain objects from internal Java format to transport format.
@@ -152,7 +151,7 @@ public final class InternalConverterUtil {
 
     public static PersonId getPersonId(Personnummer pnr) {
         PersonId personId = new PersonId();
-        personId.setRoot(pnr.isSamordningsNummer() ? SAMORDNING_ID_OID : PERSON_ID_OID);
+        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(pnr) ? SAMORDNING_ID_OID : PERSON_ID_OID);
         personId.setExtension(pnr.getPersonnummerWithoutDash());
         return personId;
     }

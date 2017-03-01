@@ -20,7 +20,7 @@ package se.inera.intyg.common.support.modules.support.api;
 
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
  * The module API defines methods that allows an module to invoke methods on the Module container.

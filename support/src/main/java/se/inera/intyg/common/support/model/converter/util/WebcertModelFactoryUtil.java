@@ -18,10 +18,7 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
-import java.time.LocalDateTime;
-
 import com.google.common.base.Strings;
-
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -29,7 +26,10 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.time.LocalDateTime;
 
 public final class WebcertModelFactoryUtil {
 
@@ -92,7 +92,7 @@ public final class WebcertModelFactoryUtil {
 
         // Only accept valid personnr or samordningsnummer as new personId
         if (newPatient.getPersonId() != null && (Personnummer.createValidatedPersonnummerWithDash(newPatient.getPersonId()).isPresent()
-                || newPatient.getPersonId().isSamordningsNummer())) {
+                || SamordningsnummerValidator.isSamordningsNummer(newPatient.getPersonId()))) {
             mergedPatient.setPersonId(newPatient.getPersonId());
         } else {
             mergedPatient.setPersonId(existingPatient.getPersonId());

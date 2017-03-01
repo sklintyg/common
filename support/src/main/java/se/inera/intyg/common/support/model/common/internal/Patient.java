@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import java.util.Objects;
+import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
+import se.inera.intyg.schemas.contract.Personnummer;
 
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import java.util.Objects;
 
 public class Patient {
 
@@ -69,7 +70,7 @@ public class Patient {
         if (personId == null) {
             throw new IllegalStateException("No person id has been set");
         }
-        return personId.isSamordningsNummer();
+        return SamordningsnummerValidator.isSamordningsNummer(personId);
     }
 
     public Personnummer getPersonId() {

@@ -18,24 +18,27 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import com.google.common.base.Joiner;
-
 import iso.v21090.dt.v1.II;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.builder.CertificateMetaTypeBuilder;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author andreaskaltenbach
@@ -135,7 +138,8 @@ public final class ModelConverter {
 
         II patientIdHolder = new II();
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        patientIdHolder.setRoot(personId.isSamordningsNummer() ? Constants.SAMORDNING_ID_OID : Constants.PERSON_ID_OID);
+        patientIdHolder
+                .setRoot(SamordningsnummerValidator.isSamordningsNummer(personId) ? Constants.SAMORDNING_ID_OID : Constants.PERSON_ID_OID);
         patientIdHolder.setExtension(personId.getPersonnummer());
         patient.setPersonId(patientIdHolder);
 

@@ -18,9 +18,12 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
+import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.time.LocalDate;
+
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 /**
  * Performs validation of a 'Samordningsnummer'.
@@ -38,9 +41,18 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
      * @param personNummer the civic registration number
      * @return true if the civic registration number is a 'samordningsnummer', otherwise false
      */
-    public static boolean isSamordningsNummer(String personNummer) {
-        char dateDigit = personNummer.charAt(SAMORDNING_MONTH_INDEX);
-        return Character.getNumericValue(dateDigit) >= SAMORDNING_MONTH_VALUE_MIN;
+    public static boolean isSamordningsNummer(Personnummer personNummer) {
+
+        // In order to determine if a personnummer is a samordningsnummer, we need to have a normalized yyyyMMdd-NNNN
+        // number. If we cannot parse the encapsulated string, it certainly isn't a personnummer.
+        try {
+            String normalizedPersonnummer = personNummer.getNormalizedPnr();
+            char dateDigit = normalizedPersonnummer.charAt(SAMORDNING_MONTH_INDEX);
+            return Character.getNumericValue(dateDigit) >= SAMORDNING_MONTH_VALUE_MIN;
+        } catch (InvalidPersonNummerException e) {
+            // An invalid personnummer cannot be a samordningsnummer.
+            return false;
+        }
     }
 
     /**
@@ -53,12 +65,18 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
 
     /**
      * Samordningsnummer have 60 added to the day. In order to calculate the birth day
-     * of the citizen, this needs to be substracted.
+     * of the citizen, this needs to be subtracted.
      */
     // CHECKSTYLE:OFF MagicNumber
     @Override
-    protected LocalDate getBirthDay(String personNummer) {
-        if (!isSamordningsNummer(personNummer)) {
+    protected LocalDate getBirthDay(String birthDate) {
+        String personNummer = birthDate;
+        // In case we got a birthDate YYMMdd or YYYYMMdd we normalize it before checking if it is a samordningsnummer.
+        if (personNummer != null && (personNummer.trim().length() == 6 || personNummer.trim().length() == 8) && isNumeric(personNummer)) {
+            personNummer = personNummer + "-0000";
+        }
+
+        if (!isSamordningsNummer(new Personnummer(personNummer))) {
             throw new IllegalArgumentException("personNummer " + personNummer + " is not a valid 'samordningsnummer");
         }
 
@@ -69,5 +87,14 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
         return super.getBirthDay(sb.toString());
     }
     // CHECKSTYLE:ON MagicNumber
+
+    private boolean isNumeric(String personnummer) {
+        try {
+            Integer.parseInt(personnummer);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
 }

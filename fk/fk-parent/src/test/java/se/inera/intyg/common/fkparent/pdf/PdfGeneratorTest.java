@@ -19,7 +19,7 @@
 package se.inera.intyg.common.fkparent.pdf;
 
 import org.junit.Test;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.*;
 import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;

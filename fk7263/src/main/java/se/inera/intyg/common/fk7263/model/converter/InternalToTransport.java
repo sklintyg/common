@@ -18,13 +18,8 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-
 import iso.v21090.dt.v1.CD;
 import iso.v21090.dt.v1.II;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
@@ -59,6 +54,11 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public final class InternalToTransport {
 
@@ -516,7 +516,8 @@ public final class InternalToTransport {
         PatientType patientType = new PatientType();
         patientType.setFullstandigtNamn(source.getFullstandigtNamn());
         II id = new II();
-        id.setRoot(source.getPersonId().isSamordningsNummer() ? Constants.SAMORDNING_ID_OID : Constants.PERSON_ID_OID);
+        id.setRoot(SamordningsnummerValidator.isSamordningsNummer(source.getPersonId()) ? Constants.SAMORDNING_ID_OID
+                : Constants.PERSON_ID_OID);
         id.setExtension(source.getPersonId().getPersonnummer());
         patientType.setPersonId(id);
         return patientType;

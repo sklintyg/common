@@ -18,20 +18,11 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
-import static se.inera.intyg.common.support.Constants.KV_HANDELSE_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
-
-import java.io.IOException;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.Constants;
@@ -42,6 +33,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
+import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.Arbetsformaga;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.CertificateStatusUpdateForCareType;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.Enhet;
@@ -59,6 +51,13 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v1.PQ;
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.PersonId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.TypAvUtlatande;
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.UtlatandeId;
+
+import java.io.IOException;
+import java.util.List;
+
+import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
+import static se.inera.intyg.common.support.Constants.KV_HANDELSE_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
 
 public class Fk7263InternalToNotification {
 
@@ -138,7 +137,7 @@ public class Fk7263InternalToNotification {
     private void decorateWithPatient(UtlatandeType utlatandeType, Fk7263Utlatande utlatandeSource) {
         PersonId personId = new PersonId();
         personId.setExtension(utlatandeSource.getGrundData().getPatient().getPersonId().getPersonnummer());
-        personId.setRoot(utlatandeSource.getGrundData().getPatient().getPersonId().isSamordningsNummer()
+        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(utlatandeSource.getGrundData().getPatient().getPersonId())
                 ? Constants.SAMORDNING_ID_OID
                 : Constants.PERSON_ID_OID);
         Patient patientType = new Patient();

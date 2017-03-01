@@ -21,7 +21,7 @@ package se.inera.intyg.common.fkparent.model.converter;
 import java.time.LocalDateTime;
 
 import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class IntygTestDataBuilder {
 

@@ -29,7 +29,7 @@ import org.junit.Test;
 
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.common.support.modules.support.api.dto.Personnummer;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intygstjanster.ts.services.v1.DiabetesTypVarden;
 
