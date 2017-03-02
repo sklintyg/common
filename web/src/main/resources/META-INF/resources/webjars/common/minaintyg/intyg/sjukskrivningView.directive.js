@@ -25,12 +25,39 @@ angular.module('common').directive('sjukskrivningView',
             restrict: 'A',
             replace: true,
             scope: {
-                sjukskrivningView: '@',
                 fieldModel: '='
             },
             templateUrl: '/web/webjars/common/minaintyg/intyg/sjukskrivningView.directive.html',
-            link: function(scope, element, attrs) {
+            link: function(scope) {
                 scope.grader = [0,1,2,3];
+
+                scope.getSjuksrivningsgrad = function(grad) {
+                    if (scope.hasSjukskrivning(grad)) {
+                        return scope.fieldModel.sjukskrivningar[grad].sjukskrivningsgrad;
+                    }
+
+                    return 'UNKNOWN';
+                };
+
+                scope.getSjuksrivningFrom = function(grad) {
+                    if (scope.hasSjukskrivning(grad)) {
+                        return scope.fieldModel.sjukskrivningar[grad].period.from;
+                    }
+                };
+
+                scope.getSjuksrivningTom = function(grad) {
+                    if (scope.hasSjukskrivning(grad)) {
+                        return scope.fieldModel.sjukskrivningar[grad].period.tom;
+                    }
+                };
+
+                scope.hasSjukskrivning = function(grad) {
+                    if (scope.fieldModel.sjukskrivningar && scope.fieldModel.sjukskrivningar[grad]) {
+                        return true;
+                    }
+                    return false;
+                };
+
             }
         };
     });

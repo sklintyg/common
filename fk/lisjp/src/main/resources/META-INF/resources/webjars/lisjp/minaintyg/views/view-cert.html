@@ -40,6 +40,7 @@
         <latest-events cert-id="{{cert.id}}" statuses="cert.filteredStatuses"></latest-events>
       </div>
     </div>
+
     <div class="row">
     	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 	    	<form id="view-as-pdf" action="{{downloadAsPdfLink}}" name="pdfForm" method="get" target="_blank">
@@ -120,181 +121,217 @@
             <div class="intyg-body">
 
               <!-- Smittbärarpenning-->
-              <div mi-category category-label="KAT_10.RBK">
-                <div mi-field field-dynamic-label="FRG_27" filled="true">
-                  <span ng-show="cert.avstangningSmittskydd">
-                    <span id="avstangningsmittskydd-yes" message key="lisjp.label.yes"></span>
-                  </span>
-                  <span ng-show="!cert.avstangningSmittskydd">
-                    <span id="avstangningsmittskydd-no" message key="lisjp.label.no"></span>
-                  </span>
+              <lisjp-show-category category-key="10" intyg-model="cert">
+                <div mi-category category-label="KAT_10.RBK">
+                  <div mi-field field-dynamic-label="FRG_27" filled="true">
+                    <span ng-show="cert.avstangningSmittskydd">
+                      <span id="avstangningsmittskydd-yes" message key="lisjp.label.yes"></span>
+                    </span>
+                    <span ng-show="!cert.avstangningSmittskydd">
+                      <span id="avstangningsmittskydd-no" message key="lisjp.label.no"></span>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </lisjp-show-category>
 
               <!-- Grund för medicinskt underlag -->
-              <div mi-category category-label="KAT_1.RBK">
-                <div mi-field field-dynamic-label="FRG_1"
-                     filled="cert.undersokningAvPatienten!=null || cert.telefonkontaktMedPatienten!=null || cert.journaluppgifter!=null || cert.annatGrundForMU!=null">
-                  <ul class="padded-list">
-                    <li ng-show="cert.undersokningAvPatienten!=null">
-                      <div id="undersokningAvPatienten">
-                        <span dynamic-label key="KV_FKMU_0001.UNDERSOKNING.RBK"></span><span> | {{cert.undersokningAvPatienten | date:'longDate' }}</span>
+              <lisjp-show-category category-key="1" intyg-model="cert">
+                <div mi-category category-label="KAT_1.RBK">
+                  <div mi-field field-dynamic-label="FRG_1"
+                       filled="cert.undersokningAvPatienten!=null || cert.telefonkontaktMedPatienten!=null || cert.journaluppgifter!=null || cert.annatGrundForMU!=null">
+                    <ul class="padded-list">
+                      <li ng-show="cert.undersokningAvPatienten!=null">
+                        <div id="undersokningAvPatienten">
+                          <span dynamic-label key="KV_FKMU_0001.UNDERSOKNING.RBK"></span><span> | {{cert.undersokningAvPatienten | date:'longDate' }}</span>
+                        </div>
+                      </li>
+                      <li ng-show="cert.telefonkontaktMedPatienten !=null">
+                        <div id="telefonkontaktMedPatienten">
+                          <span dynamic-label key="KV_FKMU_0001.TELEFONKONTAKT.RBK"></span><span> | {{cert.telefonkontaktMedPatienten | date:'longDate' }}</span>
+                        </div>
+                      </li>
+                      <li ng-show="cert.journaluppgifter!=null">
+                        <div id="journaluppgifter">
+                          <span dynamic-label key="KV_FKMU_0001.JOURNALUPPGIFTER.RBK"></span><span> | {{cert.journaluppgifter | date:'longDate' }}</span>
+                        </div>
+                      </li>
+                      <li ng-show="cert.annatGrundForMU!=null">
+                        <div id="annatGrundForMU">
+                          <span dynamic-label key="KV_FKMU_0001.ANNAT.RBK"></span><span> | {{cert.annatGrundForMU | date:'longDate' }}</span>
+                        </div>
+                      </li>
+                      <span dynamic-label key="DFR_1.3.RBK" ng-show="cert.annatGrundForMUBeskrivning!=null"></span>
+                      <div ng-show="cert.annatGrundForMUBeskrivning!=null">
+                          {{cert.annatGrundForMUBeskrivning}}
                       </div>
-                    </li>
-                    <li ng-show="cert.telefonkontaktMedPatienten !=null">
-                      <div id="telefonkontaktMedPatienten">
-                        <span dynamic-label key="KV_FKMU_0001.TELEFONKONTAKT.RBK"></span><span> | {{cert.telefonkontaktMedPatienten | date:'longDate' }}</span>
-                      </div>
-                    </li>
-                    <li ng-show="cert.journaluppgifter!=null">
-                      <div id="journaluppgifter">
-                        <span dynamic-label key="KV_FKMU_0001.JOURNALUPPGIFTER.RBK"></span><span> | {{cert.journaluppgifter | date:'longDate' }}</span>
-                      </div>
-                    </li>
-                    <li ng-show="cert.annatGrundForMU!=null">
-                      <div id="annatGrundForMU">
-                        <span dynamic-label key="KV_FKMU_0001.ANNAT.RBK"></span><span> | {{cert.annatGrundForMU | date:'longDate' }}</span>
-                      </div>
-                    </li>
-                    <span dynamic-label key="DFR_1.3.RBK" ng-show="cert.annatGrundForMUBeskrivning!=null"></span>
-                    <div ng-show="cert.annatGrundForMUBeskrivning!=null">
-                        {{cert.annatGrundForMUBeskrivning}}
-                    </div>
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              </lisjp-show-category>
 
               <!-- Sysselsättning -->
-              <div mi-category category-label="KAT_2.RBK">
-                <div mi-field field-dynamic-label="DFR_28.1" filled="true">
-                  <ul id="sysselsattning">
-                    <li ng-repeat="sys in cert.sysselsattning">
-                      <span dynamic-label key="KV_FKMU_0002.{{sys.typ}}.RBK"></span>
-                    </li>
-                  </ul>
+              <lisjp-show-category category-key="2" intyg-model="cert">
+                <div mi-category category-label="KAT_2.RBK">
+                  <div mi-field field-dynamic-label="DFR_28.1" filled="true">
+                    <ul id="sysselsattning">
+                      <li ng-repeat="sys in cert.sysselsattning">
+                        <span dynamic-label key="KV_FKMU_0002.{{sys.typ}}.RBK"></span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div mi-field field-dynamic-label="DFR_29.1" filled="cert.nuvarandeArbete">
+                    {{cert.nuvarandeArbete}}
+                  </div>
+                  <div mi-field field-dynamic-label="DFR_30.1" filled="cert.arbetsmarknadspolitisktProgram">
+                    {{cert.arbetsmarknadspolitisktProgram}}
+                  </div>
                 </div>
-                <div mi-field field-dynamic-label="DFR_29.1" filled="cert.nuvarandeArbete">
-                  {{cert.nuvarandeArbete}}
-                </div>
-                <div mi-field field-dynamic-label="DFR_30.1" filled="cert.arbetsmarknadspolitisktProgram">
-                  {{cert.arbetsmarknadspolitisktProgram}}
-                </div>
-              </div>
+              </lisjp-show-category>
 
               <!-- Diagnos -->
-              <div mi-category category-label="KAT_3.RBK">
-                <div mi-field field-dynamic-label="FRG_6" filled="cert.diagnoser.length">
-                  <div class="row">
-                    <div class="col-xs-4">
-                      <label class="bold">
-                        <span dynamic-label key="DFR_6.2.RBK"></span>
-                      </label>
-                    </div>
-                    <div class="col-xs-8">
-                      <label class="bold">
-                        <span dynamic-label key="DFR_6.1.RBK"></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="row" ng-repeat="diagnos in cert.diagnoser">
-                    <div class="col-xs-4" id="diagnosKod{{$index}}">
-                      {{diagnos.diagnosKod}}
-                    </div>
-                    <div class="col-xs-8" id="diagnosBeskrivning{{$index}}" class="multiline">
-                      {{diagnos.diagnosBeskrivning}}
+              <lisjp-show-category category-key="3" intyg-model="cert">
+                <div mi-category category-label="KAT_3.RBK">
+                  <div lisjp-show-field field-name="diagnoser" intyg-model="cert">
+                    <div mi-field field-dynamic-label="FRG_6" filled="cert.diagnoser.length > 0">
+                      <div class="row">
+                        <div class="col-xs-4">
+                          <label class="bold">
+                            <span dynamic-label key="DFR_6.2.RBK"></span>
+                          </label>
+                        </div>
+                        <div class="col-xs-8">
+                          <label class="bold">
+                            <span dynamic-label key="DFR_6.1.RBK"></span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="row" ng-repeat="diagnos in cert.diagnoser">
+                        <div class="col-xs-4" id="diagnosKod{{$index}}">
+                          {{diagnos.diagnosKod}}
+                        </div>
+                        <div class="col-xs-8" id="diagnosBeskrivning{{$index}}" class="multiline">
+                          {{diagnos.diagnosBeskrivning}}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </lisjp-show-category>
 
               <!-- Sjukdomens konsekvenser -->
-              <div mi-category category-label="KAT_4.RBK">
-                <div mi-field field-dynamic-label="DFR_35.1" filled="cert.funktionsnedsattning">
-                  <div id="funktionsnedsattning">{{cert.funktionsnedsattning}}</div>
-                </div>
-                <div mi-field field-dynamic-label="DFR_17.1" filled="cert.aktivitetsbegransning">
-                  <div id="aktivitetsbegransning">{{cert.aktivitetsbegransning}}</div>
-                </div>
-              </div>
-
-              <!-- Medicinska behandlingar/åtgärder -->
-              <div mi-category category-label="KAT_5.RBK">
-                <div mi-field field-dynamic-label="DFR_19.1" filled="cert.pagaendeBehandling">
-                  <div id="pagaendeBehandling">{{cert.pagaendeBehandling}}</div>
-                </div>
-                <div mi-field field-dynamic-label="DFR_20.1" filled="cert.planeradBehandling">
-                  <div id="planeradBehandling">{{cert.planeradBehandling}}</div>
-                </div>
-              </div>
-
-              <!-- Bedömning -->
-              <div mi-category category-label="KAT_6.RBK">
-                <div mi-field field-dynamic-label="FRG_32" filled="cert.sjukskrivningar">
-                  <div id="sjukskrivningar" sjukskrivning-view="sjukskrivningar" field-model="cert"></div>
-                </div>
-                <div mi-field field-dynamic-label="DFR_37.1" filled="cert.forsakringsmedicinsktBeslutsstod">
-                    <div id="forsakringsmedicinsktBeslutsstod" class="multiline">{{cert.forsakringsmedicinsktBeslutsstod}}</div>
-                </div>
-                <div mi-field field-dynamic-label="DFR_33.1" filled="cert.arbetstidsforlaggning != undefined">
-                  <div boolean-view="arbetstidsforlaggning" field-model="cert"></div>
-                </div>
-                <div mi-field field-dynamic-label="DFR_33.2" filled="cert.arbetstidsforlaggningMotivering">
-                  <div id="arbetstidsforlaggningMotivering" class="multiline">{{cert.arbetstidsforlaggningMotivering}}</div>
-                </div>
-                <div mi-field field-dynamic-label="DFR_34.1" filled="cert.arbetsresor != undefined">
-                  <div boolean-view="arbetsresor" field-model="cert"></div>
-                </div>
-                <div mi-field field-dynamic-label="DFR_39.1" filled="cert.prognos.typ">
-                  <div id="prognosTyp">
-                    <span dynamic-label key="KV_FKMU_0006.{{cert.prognos.typ}}.RBK"></span>
-                    <span ng-show="cert.prognos.dagarTillArbete" dynamic-label key="KV_FKMU_0007.{{cert.prognos.dagarTillArbete}}.RBK"></span>
+              <lisjp-show-category category-key="4" intyg-model="cert">
+                <div mi-category category-label="KAT_4.RBK">
+                  <div mi-field field-dynamic-label="DFR_35.1" filled="cert.funktionsnedsattning">
+                    <div id="funktionsnedsattning">{{cert.funktionsnedsattning}}</div>
+                  </div>
+                  <div mi-field field-dynamic-label="DFR_17.1" filled="cert.aktivitetsbegransning">
+                    <div id="aktivitetsbegransning">{{cert.aktivitetsbegransning}}</div>
                   </div>
                 </div>
-              </div>
+              </lisjp-show-category>
+
+              <!-- Medicinska behandlingar/åtgärder -->
+              <lisjp-show-category category-key="5" intyg-model="cert">
+                <div mi-category category-label="KAT_5.RBK">
+                  <div mi-field field-dynamic-label="DFR_19.1" filled="cert.pagaendeBehandling">
+                    <div id="pagaendeBehandling">{{cert.pagaendeBehandling}}</div>
+                  </div>
+                  <div mi-field field-dynamic-label="DFR_20.1" filled="cert.planeradBehandling">
+                    <div id="planeradBehandling">{{cert.planeradBehandling}}</div>
+                  </div>
+                </div>
+              </lisjp-show-category>
+
+              <!-- Bedömning -->
+              <lisjp-show-category category-key="6" intyg-model="cert">
+                <div mi-category mi-category category-label="KAT_6.RBK">
+                  <lisjp-show-field field-name="sjukskrivningar" intyg-model="cert">
+                    <div mi-field field-dynamic-label="FRG_32" filled="cert.sjukskrivningar.length > 0">
+                      <div id="sjukskrivningar" sjukskrivning-view field-model="cert"></div>
+                    </div>
+                  </lisjp-show-field>
+                  <lisjp-show-field field-name="forsakringsmedicinsktBeslutsstod" intyg-model="cert">
+                    <div mi-field field-dynamic-label="DFR_37.1" filled="cert.forsakringsmedicinsktBeslutsstod">
+                        <div id="forsakringsmedicinsktBeslutsstod" class="multiline">{{cert.forsakringsmedicinsktBeslutsstod}}</div>
+                    </div>
+                  </lisjp-show-field>
+                  <lisjp-show-field field-name="arbetstidsforlaggning" intyg-model="cert">
+                    <div mi-field field-dynamic-label="DFR_33.1" filled="cert.arbetstidsforlaggning != undefined">
+                      <div boolean-view="arbetstidsforlaggning" field-model="cert"></div>
+                    </div>
+                  </lisjp-show-field>
+                  <lisjp-show-field field-name="arbetstidsforlaggningMotivering" intyg-model="cert">
+                    <div mi-field field-dynamic-label="DFR_33.2" filled="cert.arbetstidsforlaggningMotivering">
+                      <div id="arbetstidsforlaggningMotivering" class="multiline">{{cert.arbetstidsforlaggningMotivering}}</div>
+                    </div>
+                  </lisjp-show-field>
+                  <lisjp-show-field field-name="arbetsresor" intyg-model="cert">
+                    <div mi-field field-dynamic-label="DFR_34.1" filled="cert.arbetsresor != undefined">
+                      <div boolean-view="arbetsresor" field-model="cert"></div>
+                    </div>
+                  </lisjp-show-field>
+                  <lisjp-show-field field-name="prognos" intyg-model="cert">
+                    <div mi-field field-dynamic-label="DFR_39.1" filled="cert.prognos.typ">
+                      <div id="prognosTyp">
+                        <span dynamic-label key="KV_FKMU_0006.{{cert.prognos.typ}}.RBK"></span>
+                        <span ng-show="cert.prognos.dagarTillArbete" dynamic-label key="KV_FKMU_0007.{{cert.prognos.dagarTillArbete}}.RBK"></span>
+                      </div>
+                    </div>
+                  </lisjp-show-field>
+                </div>
+              </lisjp-show-category>
 
               <!-- Åtgärder -->
-              <div mi-category category-label="KAT_7.RBK">
-                <div mi-field field-dynamic-label="FRG_40" filled="cert.arbetslivsinriktadeAtgarder">
-                  <ul id="arbetslivsinriktadeAtgarder">
-                    <li ng-repeat="atgard in cert.arbetslivsinriktadeAtgarder">
-                       <span dynamic-label key="KV_FKMU_0004.{{atgard.typ}}.RBK"></span>
-                    </li>
-                  </ul>
+              <lisjp-show-category category-key="7" intyg-model="cert">
+                <div mi-category category-label="KAT_7.RBK">
+                  <div mi-field field-dynamic-label="FRG_40" filled="cert.arbetslivsinriktadeAtgarder">
+                    <ul id="arbetslivsinriktadeAtgarder">
+                      <li ng-repeat="atgard in cert.arbetslivsinriktadeAtgarder">
+                         <span dynamic-label key="KV_FKMU_0004.{{atgard.typ}}.RBK"></span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div mi-field field-dynamic-label="FRG_44" filled="cert.arbetslivsinriktadeAtgarderBeskrivning">
+                    <div id="arbetslivsinriktadeAtgarderBeskrivning" class="multiline">{{cert.arbetslivsinriktadeAtgarderBeskrivning}}</div>
+                  </div>
                 </div>
-                <div mi-field field-dynamic-label="FRG_44" filled="cert.arbetslivsinriktadeAtgarderBeskrivning">
-                  <div id="arbetslivsinriktadeAtgarderBeskrivning" class="multiline">{{cert.arbetslivsinriktadeAtgarderBeskrivning}}</div>
-                </div>
-              </div>
+              </lisjp-show-category>
 
               <!--  Övrigt -->
-              <div mi-category category-label="KAT_8.RBK">
-                <div mi-field field-dynamic-label="DFR_25.1" filled="cert.ovrigt">
-                  <!--  leave  as div tag for IE8 magic bug. using span crashes angular.. -->
-                  <div id="kommentar" class="tag multiline">{{cert.ovrigt}}</div>
+              <lisjp-show-category category-key="8" intyg-model="cert">
+                <div mi-category category-label="KAT_8.RBK">
+                  <div mi-field field-dynamic-label="DFR_25.1" filled="cert.ovrigt">
+                    <!--  leave  as div tag for IE8 magic bug. using span crashes angular.. -->
+                    <div id="kommentar" class="tag multiline">{{cert.ovrigt}}</div>
+                  </div>
                 </div>
-              </div>
+              </lisjp-show-category>
 
               <!-- Kontakt med fk-->
-              <div mi-category category-label="KAT_9.RBK">
-                <div mi-field field-dynamic-label="DFR_26.1" filled="true">
-                  <span ng-show="cert.kontaktMedFk">
-                    <span id="kontaktFk-yes" message key="lisjp.label.yes"></span>
-                  </span>
-                  <span ng-show="!cert.kontaktMedFk">
-                    <span id="kontaktFk-no" message key="lisjp.label.no"></span>
-                  </span>
+              <lisjp-show-category category-key="9" intyg-model="cert">
+                <div mi-category category-label="KAT_9.RBK">
+                  <div mi-field field-dynamic-label="DFR_26.1" filled="true">
+                    <span ng-show="cert.kontaktMedFk">
+                      <span id="kontaktFk-yes" message key="lisjp.label.yes"></span>
+                    </span>
+                    <span ng-show="!cert.kontaktMedFk">
+                      <span id="kontaktFk-no" message key="lisjp.label.no"></span>
+                    </span>
+                  </div>
+                  <div mi-field field-dynamic-label="DFR_26.2" filled="cert.anledningTillKontakt">
+                    <div id="anledningtillkontakt" class="multiline">{{cert.anledningTillKontakt}}</div>
+                  </div>
                 </div>
-                <div mi-field field-dynamic-label="DFR_26.2" filled="cert.anledningTillKontakt">
-                  <div id="anledningtillkontakt" class="multiline">{{cert.anledningTillKontakt}}</div>
-                </div>
-              </div>
+              </lisjp-show-category>
 
-              <div mi-category category-label="KAT_9999.RBK">
-                <div mi-field field-dynamic-label="DFR_{{tillaggsfraga.id}}.1"
-                     ng-repeat="tillaggsfraga in cert.tillaggsfragor" filled="tillaggsfraga.svar">
-                  <div id="tillaggsfraga_{{$index}}" class="multiline">{{tillaggsfraga.svar}}</div>
+              <lisjp-show-category category-key="6" intyg-model="cert">
+                <div mi-category category-label="KAT_9999.RBK">
+                  <div mi-field field-dynamic-label="DFR_{{tillaggsfraga.id}}.1"
+                       ng-repeat="tillaggsfraga in cert.tillaggsfragor" filled="tillaggsfraga.svar">
+                    <div id="tillaggsfraga_{{$index}}" class="multiline">{{tillaggsfraga.svar}}</div>
+                  </div>
                 </div>
-              </div>
+              </lisjp-show-category>
 
               <!-- META vara kvar ?-->
               <!--div mi-field field-dynamic-label="lisjp.label.workcodes" filled="cert.forskrivarkodOchArbetsplatskod">
