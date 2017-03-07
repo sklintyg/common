@@ -417,7 +417,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 });
                                 return hide;
                             },
-                            templateOptions: {label: 'FRG_44', required: true}
+                            templateOptions: {label: 'FRG_44', required: false}
                         }
                     ]
                 },
