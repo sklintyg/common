@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fkparent.support;
+package se.inera.intyg.common.support.integration.converter.util;
 
 import se.riv.clinicalprocess.healthcond.certificate.v2.*;
 

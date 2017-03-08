@@ -59,7 +59,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import org.springframework.core.io.ClassPathResource;
-import se.inera.intyg.common.fkparent.support.ResultTypeUtil;
+import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.lisjp.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.lisjp.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.model.converter.WebcertModelFactoryImpl;

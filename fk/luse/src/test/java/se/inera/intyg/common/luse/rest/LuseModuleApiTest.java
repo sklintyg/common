@@ -60,7 +60,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import se.inera.intyg.common.fkparent.support.ResultTypeUtil;
+import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.luse.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luse.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;

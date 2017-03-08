@@ -68,7 +68,7 @@ import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
 import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
 import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
-import se.inera.intyg.common.fkparent.support.ResultTypeUtil;
+import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
