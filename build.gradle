@@ -2,7 +2,7 @@ ext {
     intygClinicalprocessSchematronVersion = "1.0.8"
     intygCertificateSchemasVersion = "1.0.5"
     intygTransportstyrelsenSchemasVersion = "1.0.4"
-    rivtaClinicalprocessSchemasVersion = "2.0.1-beta2"
+    rivtaClinicalprocessSchemasVersion = "3.0.0-beta2"
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"
 
     schemasContractVersion = "2.1.4"
