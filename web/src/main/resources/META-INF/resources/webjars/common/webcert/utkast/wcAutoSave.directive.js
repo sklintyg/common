@@ -87,13 +87,26 @@ angular.module('common').directive('wcAutoSave', ['$timeout', '$window', '$log',
                     }
                 });
 
-                // When leaving the view perform save if needed and cancel any outstanding save request.
+                // When leaving the view cancel any outstanding save request.
                 $scope.$on('$destroy', function() {
-                    if (form.$dirty) {
-                        save({autoSave: true, destroy:$scope.destroyList});
-                    }
                     $timeout.cancel(savePromise);
                 });
+
+                // Whenever a ui-router state change is initialized, we make sure to cancel any ongoing auto-save promise
+                // and if the form is dirty, we issue a new save.
+                // The reason for using $stateChangeStart and not $destroy is that the $destroy is used by various
+                // components including the attic handler, which on destroy for a given DOM element will also null
+                // the underlying field in our model, resulting in an empty utkast being saved effectively destroying
+                // all content of the utkast. $stateChangeStart runs _before_ any $destroy events are published so as
+                // long as we can issue our save request here (if dirty), it's going to be unaffected by the $destroy
+                // teardown of the viewstate model.
+                $scope.$on('$stateChangeStart',
+                    function(){
+                        $timeout.cancel(savePromise);
+                        if(form.$dirty) {
+                            UtkastService.save({autoSave: true});
+                        }
+                    });
             }
         };
     }]

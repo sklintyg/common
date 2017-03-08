@@ -14,6 +14,9 @@ angular.module('common').factory('common.AtticHelper', [function() {
         },
 
         updateToAttic: function($scope, model, optionsKey) {
+
+            // This $destroy is invoked whenever a form element is removed from the DOM and we want to push the
+            // change to the underlying model.
             $scope.$on('$destroy', function() {
                 _updateToAtticImmediate(model, optionsKey);
             });

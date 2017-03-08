@@ -227,6 +227,13 @@ angular.module('common').factory('common.UtkastService',
                 intygState.viewState.common.error.saveErrorMessage = null;
                 intygState.viewState.common.error.saveErrorCode = null;
 
+                // We MAY have left the page (e.g. saving on back from utkast view.
+                // In that case, we can just ignore everything...
+                if (ObjectHelper.isEmpty(intygState.viewState.draftModel)) {
+                    _saveFinally(extras);
+                    return;
+                }
+
                 // Update draft version
                 intygState.viewState.draftModel.version = data.version;
 
@@ -248,6 +255,13 @@ angular.module('common').factory('common.UtkastService',
 
             // This function is called if save fails
             function _saveFailed(intygState, extras, error) {
+
+                // If we have left the scope of the utkast view, just clean and return.
+                if (ObjectHelper.isEmpty(intygState.viewState.draftModel)) {
+                    _saveFinally(extras);
+                    return;
+                }
+
                 // Show error message if save fails
 
                 var errorCode;
