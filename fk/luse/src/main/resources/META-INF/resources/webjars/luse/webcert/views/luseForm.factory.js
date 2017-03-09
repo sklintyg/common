@@ -49,8 +49,8 @@ angular.module('luse').factory('luse.FormFactory', [
                         type: 'underlag',
                         hideExpression: '!model.underlagFinns',
                         templateOptions: {
-                            maxUnderlag: 3,
-                            underlagsTyper: ['NEUROPSYKIATRISKT',
+                            underlagsTyper: [
+                                'NEUROPSYKIATRISKT',
                                 'HABILITERING',
                                 'ARBETSTERAPEUT',
                                 'FYSIOTERAPEUT',

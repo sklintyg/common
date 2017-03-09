@@ -43,11 +43,10 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2'}},
 
                         // Underlag
+                        {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3' }},
                         {
-                            key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3' }
-                        },
-                        {
-                            key: 'underlag', type: 'underlag',
+                            key: 'underlag',
+                            type: 'underlag',
                             hideExpression: '!model.underlagFinns',
                             templateOptions: {
                                 underlagsTyper: [
@@ -60,12 +59,11 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                                     'SKOLHALSOVARD',
                                     'SPECIALISTKLINIK',
                                     'VARD_UTOMLANDS',
-                                    'OVRIGT_UTLATANDE'], //KV_FKMU_005
-                                label: 'FRG_4',
-                                typLabel: 'DFR_4.1',
+                                    'OVRIGT_UTLATANDE'
+                                ], //KV_FKMU_005
+                                typLabel: 'FRG_4',
                                 datumLabel: 'DFR_4.2',
-                                hamtasFranLabel: 'DFR_4.3',
-                                hideWhenEmpty: true
+                                hamtasFranLabel: 'DFR_4.3'
                             },
                             watcher: {
                                 expression: 'model.underlagFinns',
@@ -98,7 +96,7 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {
                             key: 'funktionsnedsattningPaverkan',
                             type: 'multi-text',
-                            templateOptions: {label: 'DFR_16.1', required: true }
+                            templateOptions: {label: 'FRG_16', required: true }
                         }
 
                     ]
