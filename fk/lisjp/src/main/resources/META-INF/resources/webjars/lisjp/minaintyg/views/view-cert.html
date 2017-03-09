@@ -48,6 +48,9 @@
 	            <button id="sendCertificateBtn" type="button" ng-click="send()" class="btn btn-success" title="{{messageService.getProperty('lisjp.button.send.certificate.title')}}">
 	              <span message key="lisjp.button.send.certificate"></span>
 	            </button>
+              <button type="button" id="customizeCertificateBtn" ng-click="customizeCertificate()" class="btn btn-primary" title="{{messageService.getProperty('lisjp.button.customize.certificate.title')}}">
+                <span message key="lisjp.button.customize.certificate"></span>
+              </button>
 	            <button id="downloadprint" type="submit" ng-click="document.pdfForm.submit()" class="btn btn-inverse">
 	              <span message key="modules.button.save.as.pdf"></span>
 	            </button>

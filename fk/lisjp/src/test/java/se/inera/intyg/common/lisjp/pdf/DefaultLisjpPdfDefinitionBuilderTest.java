@@ -48,35 +48,14 @@ import static org.junit.Assert.assertNotNull;
  * Generate variants of a LISJP pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
  * of the resulting pdf files, as we don't have any way of programmatically assert the content of the pdf.
  */
-public class DefaultLisjpPdfDefinitionBuilderTest {
-
-    private ObjectMapper objectMapper = new CustomObjectMapper();
-
-    private IntygTextsServiceImpl intygTextsService;
-    private List<LisjpUtlatande> intygList = new ArrayList<>();
+public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest{
 
     private DefaultLisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new DefaultLisjpPdfDefinitionBuilder();
-    private IntygTexts intygTexts;
-
-    @Before
-    public void initTexts() throws IOException {
-        intygTextsService = new IntygTextsServiceImpl();
-        IntygTextsLisjpRepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsLisjpRepositoryTestHelper();
-        intygsTextRepositoryHelper.update();
-        ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
-        intygTextsService.getIntygTextsPojo("lisjp", "1.0");
-        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatande.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatande.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatande.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatande.class));
-
-        intygTexts = intygTextsService.getIntygTextsPojo("lisjp", "1.0");
-    }
 
     @Test
     public void testGenerateNotSentToFK() throws Exception {
-        generate("unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG);
-        generate("unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT);
+        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG);
+        generate("default-unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT);
     }
 
     @Test
@@ -84,13 +63,13 @@ public class DefaultLisjpPdfDefinitionBuilderTest {
         List<Status> statuses = new ArrayList<>();
         statuses.add(new Status(CertificateState.SENT, PartKod.FKASSA.getValue(), LocalDateTime.now()));
 
-        generate("sent", statuses, ApplicationOrigin.MINA_INTYG);
-        generate("sent", statuses, ApplicationOrigin.WEBCERT);
+        generate("default-sent", statuses, ApplicationOrigin.MINA_INTYG);
+        generate("default-sent", statuses, ApplicationOrigin.WEBCERT);
 
         //generate makulerat version
         statuses.clear();
         statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
-        generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
+        generate("default-sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
@@ -105,17 +84,6 @@ public class DefaultLisjpPdfDefinitionBuilderTest {
         }
     }
 
-    private void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix) throws IOException {
-        String dir = "build/tmp";// TODO: System.getProperty("pdfOutput.dir") only existed in POM file - need to find a
-                                 // way in gradle;
-        File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix, "lisjp.pdf"));
-        FileOutputStream fop = new FileOutputStream(file);
 
-        file.createNewFile();
-
-        fop.write(pdf);
-        fop.flush();
-        fop.close();
-    }
 
 }

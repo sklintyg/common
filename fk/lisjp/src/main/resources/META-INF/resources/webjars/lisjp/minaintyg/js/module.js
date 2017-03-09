@@ -9,8 +9,17 @@ angular.module('lisjp').config(function($stateProvider) {
             templateUrl: '/web/webjars/lisjp/minaintyg/views/view-cert.html',
             controller: 'lisjp.ViewCertCtrl',
             data : { title: 'Läkarintyg för sjukpenning', keepInboxTabActive: true }
-        }).
-        state('lisjp-recipients', {
+        }).state('lisjp-customize', {
+            url: '/lisjp/customize/:certificateId',
+            templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf.html',
+            controller: 'lisjp.CustomizePdfCtrl',
+            data: {title: 'Anpassa intyget till arbetsgivare', keepInboxTabActive: true}
+        }).state('lisjp-customize-summary', {
+            url: '/lisjp/customize/:certificateId/summary',
+            templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf-summary.html',
+            controller: 'lisjp.CustomizePdfSummaryCtrl',
+            data: {title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true}
+        }).state('lisjp-recipients', {
             url : '/lisjp/recipients',
             templateUrl: '/web/webjars/lisjp/minaintyg/views/recipients.html',
             controller: 'common.SendCertWizardCtrl',

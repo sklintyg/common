@@ -31,6 +31,13 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
         pdfDefinition.addChild(createPage2(intyg));
         pdfDefinition.addChild(createPage3(intyg));
         pdfDefinition.addChild(createPage4(intyg));
+        // Only add tillaggsfragor page if there are some (and at least one is selected in the optionalFields)
+        if (intyg.getTillaggsfragor() != null && intyg.getTillaggsfragor().size() > 0) {
+            final FkPage tillaggsfragorPage = tillaggsfragorPage(intyg, optionalFields);
+            if (tillaggsfragorPage != null) {
+                pdfDefinition.addChild(tillaggsfragorPage);
+            }
+        }
     }
 
     private FkPage createPage1(LisjpUtlatande intyg)

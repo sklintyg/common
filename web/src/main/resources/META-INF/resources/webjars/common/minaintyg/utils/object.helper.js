@@ -9,11 +9,23 @@ angular.module('common').factory('common.ObjectHelper',
             isEmpty: function(value) {
                 return value === null || typeof value === 'undefined' || value === '';
             },
-            returnJoinedArrayOrNull: function(value) {
-                return value !== null && value !== undefined ? value.join(', ') : null;
-            },
-            valueOrNull: function(value) {
-                return value !== null && value !== undefined ? value : null;
+            isModelValue: function(value) {
+                if (angular.isUndefined(value)) {
+                    return false;
+                }
+
+                if (angular.isString(value)) {
+                    return value.length > 0;
+                }
+
+                if (angular.isArray(value)) {
+                    return value.length > 0;
+                }
+                if (angular.isObject(value)) {
+                    return true;
+                }
+
+                return !!value;
             }
         };
     }

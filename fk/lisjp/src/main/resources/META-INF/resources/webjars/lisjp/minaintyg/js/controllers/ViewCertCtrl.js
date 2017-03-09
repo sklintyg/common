@@ -1,8 +1,8 @@
 angular.module('lisjp').controller('lisjp.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService',
+        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'lisjp.customizeViewstate',
         function($location, $log, $rootScope, $stateParams, $scope, listCertService, certificateService, dialogService,
-            messageService, moduleService) {
+            messageService, moduleService, customizeViewstate) {
             'use strict';
 
             $scope.cert = {};
@@ -95,6 +95,11 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
 
             $scope.backToViewCertificate = function() {
                 $location.path('/lisjp/view/' + $stateParams.certificateId);
+            };
+
+            $scope.customizeCertificate = function() {
+                customizeViewstate.resetModel();
+                $location.path('/lisjp/customize/' + $stateParams.certificateId);
             };
 
             // expose calculated static link for pdf download

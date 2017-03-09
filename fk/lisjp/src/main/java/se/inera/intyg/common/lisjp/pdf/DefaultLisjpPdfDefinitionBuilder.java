@@ -28,6 +28,13 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         pdfDefinition.addChild(createPage2(intyg));
         pdfDefinition.addChild(createPage3(intyg));
         pdfDefinition.addChild(createPage4(intyg));
+        // Only add tillaggsfragor page if there are some
+        if (intyg.getTillaggsfragor() != null && intyg.getTillaggsfragor().size() > 0) {
+            final FkPage tillaggsfragorPage = tillaggsfragorPage(intyg, null);
+            if (tillaggsfragorPage != null) {
+                pdfDefinition.addChild(tillaggsfragorPage);
+            }
+        }
     }
 
     private FkPage createPage1(LisjpUtlatande intyg, boolean isUtkast, List<Status> statuses, ApplicationOrigin applicationOrigin)

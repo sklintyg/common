@@ -15,3 +15,163 @@
     padding-right: 20px;
 }
 
+.customize-pdf-header {
+    padding:10px 0px;
+}
+
+.selectable-field-list {
+    padding-top:10px;
+}
+.selectable-field-list h2.title {
+    padding: 10px 5px 0 5px;
+}
+.selectable-field-wrapper .inclusion {
+    padding: 10px 20px;
+    text-align: right;
+
+}
+
+.selectable-field-wrapper .inclusion .mandatory {
+    font-weight: normal;
+    color: #000;
+    padding:0;
+}
+.selectable-field-wrapper .inclusion.unselected label {
+    color:#888; !important;
+}
+
+.selectable-field-wrapper  .title.unselected h3,
+.selectable-field-wrapper  .title.unselected h4 {
+    color:#888 !important;
+}
+.selectable-field-wrapper  .text.unselected {
+    opacity:0.5;
+}
+
+.body-row.selectable-field-wrapper .row.title {
+    display:block;
+    margin:0;
+    padding:0;
+}
+
+
+.selectable-field-wrapper.summary {
+    margin: 0 0 5px 0;
+    border-radius: 0;
+}
+
+/**  summary list overrides */
+.selectable-field-wrapper.summary .text {
+   padding:20px 20px;
+}
+
+.selectable-field-wrapper.summary .text  label {
+    font-weight: normal !important;
+}
+.selectable-field-wrapper .title.summary {
+
+    padding: 20px 40px;
+    background-color: transparent;
+
+    border-radius: 0;
+}
+
+.selectable-field-wrapper .title.summary h3 {
+    color: #333333;
+    font-weight: normal !important;
+
+}
+.customize-pdf-summary-info {
+    padding-top:40px;
+}
+
+.customize-pdf-summary-info span.fk-info{
+    display: inline-block;
+    line-height: 2em;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+
+
+
+.customize-pdf-header {
+    padding:10px 0px;
+}
+
+.selectable-field-list {
+    padding-top:10px;
+}
+.selectable-field-list h2.title {
+    padding: 10px 5px 0 5px;
+}
+.selectable-field-wrapper .inclusion {
+    padding: 10px 20px;
+    text-align: right;
+
+}
+
+.selectable-field-wrapper .inclusion .mandatory {
+    font-weight: normal;
+    color: #000;
+    padding:0;
+}
+.selectable-field-wrapper .inclusion.unselected label {
+    color:#888; !important;
+}
+
+.selectable-field-wrapper  .title.unselected h3,
+.selectable-field-wrapper  .title.unselected h4 {
+    color:#888 !important;
+}
+.selectable-field-wrapper  .text.unselected {
+    opacity:0.5;
+}
+
+.body-row.selectable-field-wrapper .row.title {
+    display:block;
+    margin:0;
+    padding:0;
+}
+
+
+.selectable-field-wrapper.summary {
+    margin: 0 0 5px 0;
+    border-radius: 0;
+}
+
+/**  summary list overrides */
+.selectable-field-wrapper.summary .text {
+   padding:20px 20px;
+}
+
+.selectable-field-wrapper.summary .text label {
+    font-weight: normal !important;
+}
+.selectable-field-wrapper .title.summary {
+
+    padding: 20px 40px;
+    background-color: transparent;
+
+    border-radius: 0;
+}
+
+.selectable-field-wrapper .title.summary h3 {
+    color: #333333;
+    font-weight: normal !important;
+
+}
+.customize-pdf-summary-info {
+    padding-top:40px;
+}
+
+.customize-pdf-summary-info span.fk-info{
+    display: inline-block;
+    line-height: 2em;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+
+
+

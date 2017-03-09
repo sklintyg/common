@@ -1,0 +1,162 @@
+angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
+    'use strict';
+
+
+    /**
+     * Service that holds state and logic about which categories and fields that have values and their selection state.
+     */
+
+    var _fieldConfig = {
+
+        'avstangningSmittskydd': { mandatory: false, selected: true, fields: ['avstangningSmittskydd'] },
+        'grund': {
+            mandatory: false, selected: true,
+            fields: [
+                'undersokningAvPatienten',
+                'telefonkontaktMedPatienten',
+                'journaluppgifter',
+                'annatGrundForMU',
+                'annatGrundForMUBeskrivning',
+                'motiveringTillInteBaseratPaUndersokning'
+            ]
+        },
+        'funktionsnedsattning': { mandatory: false, selected: true, fields: ['funktionsnedsattning'] },
+        'aktivitetsbegransning': { mandatory: false, selected: true, fields: ['aktivitetsbegransning'], warn: true },
+        'diagnoser': { mandatory: false, selected: true, fields: ['diagnoser'] },
+        'pagaendeBehandling': { mandatory: false, selected: true, fields: ['pagaendeBehandling'] },
+        'planeradBehandling': { mandatory: false, selected: true, fields: ['planeradBehandling']},
+        'forsakringsmedicinsktBeslutsstod': {mandatory: false, selected: true, fields: ['forsakringsmedicinsktBeslutsstod'] },
+        'arbetstidsforlaggningMotivering': { mandatory: false, selected: true, fields: ['arbetstidsforlaggningMotivering'], warn: true },
+        'ovrigt': { mandatory: false, selected: true, fields: ['ovrigt']},
+        'kontaktMedFk': { mandatory: false, selected: true, fields: ['kontaktMedFk']},
+        'anledningTillKontakt': {mandatory: false, selected: true, fields: ['anledningTillKontakt']},
+        'sysselsattningOptional': { id:'sysselsattningOptional', mandatory: false, selected: true,
+            fields: [sysselsattningsTypResolver(['PROGRAM','STUDIER','ARBETSSOKANDE', 'FORALDRALEDIG'])]
+        },
+
+        //Mandatory fields
+        'sysselsattningMandatory': { id:'sysselsattningMandatory', mandatory: true, selected: true, fields: [sysselsattningsTypResolver(['NUVARANDE_ARBETE'])]},
+        'sjukskrivningar': {  mandatory: true, selected: true, fields: ['sjukskrivningar'] },
+        'arbetstidsforlaggning': {  mandatory: true, selected: true, fields: ['arbetstidsforlaggning'] },
+        'arbetsresor': {  mandatory: true, selected: true, fields: ['arbetsresor'] },
+        'prognos': {  mandatory: true, selected: true, fields: ['prognos'] },
+        'arbetslivsinriktadeAtgarder': {  mandatory: true, selected: true, fields: ['arbetslivsinriktadeAtgarder'] },
+        'arbetslivsinriktadeAtgarderBeskrivning': {  mandatory: true, selected: true, fields: ['arbetslivsinriktadeAtgarderBeskrivning'] },
+        'tillaggsfragor': [] //is dynamically configured after cert has been loaded
+    };
+
+    // Return a function that given a certificate model, determines if it contains
+    // any of the specified sysselsattnings types
+    function sysselsattningsTypResolver(typer) {
+        return function checkIfCertHasAnyOfTypes(cert) {
+            var result = false;
+            angular.forEach(cert.sysselsattning, function(s) {
+                angular.forEach(typer, function(st) {
+                    if (s.typ === st) {
+                        result = true;
+                    }
+                });
+            });
+            return result;
+        };
+
+    }
+    // Return a function that given a certificate model, determines if it contains
+    // an answer to the specified tillaggsfraga
+    function tillaggsfragaResolver(frageId) {
+        return function checkIfCertHasValueForFragaWithId(cert) {
+            var result = false;
+            angular.forEach(cert.tillaggsfragor, function(fraga) {
+
+                if (fraga.id === frageId && fraga.svar!=='') {
+                    result = true;
+                }
+            });
+            return result;
+        };
+
+    }
+    //Create initial model
+    var fieldConfig = angular.copy(_fieldConfig);
+
+    function _getUnselected() {
+        var unselectedFieldNames = [];
+        angular.forEach(fieldConfig, function(fc, key) {
+            if (angular.isArray(fc)) {
+                angular.forEach(fc, function(nestedFc, key) {
+                    if (!nestedFc.selected) {
+                        unselectedFieldNames.push(key);
+                    }
+                });
+            } else if (!fc.selected) {
+                unselectedFieldNames.push(key);
+            }
+        });
+        return unselectedFieldNames;
+    }
+
+    function _addOptional(field, fieldName, selectedOptionalFields) {
+        if (!field.mandatory && field.selected && field.hasValue) {
+            if (field.id) {
+                selectedOptionalFields.push(field.id);
+            } else {
+                selectedOptionalFields.push(fieldName);
+            }
+
+        }
+    }
+
+    function _getSelectedOptionalFields() {
+        var selectedOptionalFields = [];
+        angular.forEach(fieldConfig, function(fc, key) {
+            if (angular.isArray(fc)) {
+                angular.forEach(fc, function(nestedFc, key) {
+                    _addOptional(nestedFc, key, selectedOptionalFields);
+                });
+            } else {
+                _addOptional(fc, key, selectedOptionalFields);
+            }
+        });
+        return selectedOptionalFields;
+    }
+
+    //Tillaggsfragor are dynamically added to the model _after_ the certificate has been loaded
+    //We need to add field config for these dynamically (and just once)
+    function _addTillaggsFragor(tillaggsfragor) {
+        if (tillaggsfragor && fieldConfig.tillaggsfragor.length === 0) {
+            angular.forEach(tillaggsfragor, function(fraga, key) {
+                fieldConfig.tillaggsfragor.push({
+                    mandatory: false,
+                    selected: true,
+                    id: fraga.id,
+                    fields: [ tillaggsfragaResolver(fraga.id) ]
+                });
+            });
+        }
+    }
+
+    //Expose public api for this service
+    return {
+        resetModel: function() {
+            fieldConfig = angular.copy(_fieldConfig);
+        },
+
+        addTillaggsFragor: function(fragor) {
+            _addTillaggsFragor(fragor);
+        },
+
+        getModel: function() {
+            return fieldConfig;
+        },
+
+        getUnselected: function() {
+            return _getUnselected();
+        },
+
+        getSelectedOptionalFields: function() {
+            return _getSelectedOptionalFields();
+        }
+
+
+    };
+});

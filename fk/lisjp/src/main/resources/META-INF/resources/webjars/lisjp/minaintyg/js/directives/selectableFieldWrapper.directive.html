@@ -1,0 +1,59 @@
+<div>
+  <div class="body-row selectable-field-wrapper" ng-class="{'summary': summary}" ng-if="showContent()">
+
+    <!-- Selection mode -->
+    <div ng-if="!summary">
+    <div class="row title">
+      <!-- field header title -->
+
+      <span class="col-xs-9" mi-intyg-label="fieldDynamicLabel" ng-class="{'unselected': !fc.selected}"></span>
+
+      <!-- mandatory / checkbox -->
+      <div class="inclusion col-xs-3 pull-right" ng-class="{'unselected': !fc.selected}">
+
+        <div ng-if="fc.mandatory">
+          <span class="mandatory" message key="lisjp.customize.label.mandatory"></span>
+          <span class="asterix">*</span>
+        </div>
+        <div ng-if="!fc.mandatory">
+          <label for="select-option-{{::$id}}">
+            <span message key="lisjp.customize.label.optional"></span>
+          </label>
+          <input id="select-option-{{::$id}}" type="checkbox" ng-model="fc.selected">
+        </div>
+      </div>
+    </div>
+      <div uib-collapse="!(!fc.mandatory && fc.warn && !fc.selected)">
+        <div id="unselected-option-{{::$id}}-warning" class="alert alert-warning" style="margin:20px">
+          {{::warningMessageUnselected}}
+        </div>
+      </div>
+
+      <!-- Actual field content-->
+      <span class="text" ng-class="{'unselected': !fc.selected && !summary}" ng-transclude></span>
+    </div>
+
+
+    <!-- summary mode -->
+    <div ng-if="summary" class="row">
+      <div class="col-xs-5">
+        <span class="summary" mi-intyg-label="fieldDynamicLabel"></span>
+      </div>
+
+      <div class="col-xs-6">
+
+        <!-- Actual field content-->
+        <span class="text" ng-class="{'unselected': !fc.selected && !summary}" ng-transclude></span>
+
+      </div>
+
+      <div ng-if="fc.warn && !fc.selected" class="col-xs-1" style="padding: 20px 20px;">
+        <span  uib-tooltip="{{::warningMessageUnselected}}">
+                    <i class="glyphicon glyphicon-warning-sign gi-2x"></i>
+        </span>
+      </div>
+    </div>
+
+
+  </div>
+</div>
