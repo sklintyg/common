@@ -267,7 +267,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             key: 'forsakringsmedicinsktBeslutsstod',
                             type: 'multi-text',
                             templateOptions: {
-                                label: 'DFR_37.1'
+                                label: 'FRG_37'
                             },
                             hideExpression: 'model.avstangningSmittskydd'
                         },
