@@ -152,7 +152,7 @@ angular.module('luse').factory('luse.FormFactory', [
                 fieldGroup: [{
                     key: 'aktivitetsbegransning',
                     type: 'multi-text',
-                    templateOptions: {label: 'DFR_17.1', required: true}
+                    templateOptions: {label: 'FRG_17', required: true}
                 }]
             },
             {
@@ -172,9 +172,9 @@ angular.module('luse').factory('luse.FormFactory', [
                     {
                         key: 'medicinskaForutsattningarForArbete',
                         type: 'multi-text',
-                        templateOptions: {label: 'DFR_22.1', required: true}
+                        templateOptions: {label: 'FRG_22', required: true}
                     },
-                    {key: 'formagaTrotsBegransning', type: 'multi-text', templateOptions: {label: 'DFR_23.1'}}
+                    {key: 'formagaTrotsBegransning', type: 'multi-text', templateOptions: {label: 'FRG_23'}}
                 ]
             },
             {
