@@ -40,10 +40,10 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         },
 
                         //Fråga 2 -----
-                        {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2'}},
+                        {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2', required: true}},
 
                         // Underlag
-                        {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3' }},
+                        {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true }},
                         {
                             key: 'underlag',
                             type: 'underlag',
@@ -76,7 +76,7 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                     wrapper: 'wc-field',
                     templateOptions: {category: 3, categoryName: categoryNames[3]},
                     fieldGroup: [
-                        {type: 'headline', templateOptions: {label: 'FRG_6', level: 4, noH5: false}},
+                        {type: 'headline', templateOptions: {label: 'FRG_6', level: 4, noH5: false, required: true}},
                         {
                             key: 'diagnoser',
                             type: 'diagnos',
