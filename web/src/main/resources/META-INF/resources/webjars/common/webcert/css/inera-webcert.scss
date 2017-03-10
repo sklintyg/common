@@ -177,6 +177,9 @@
     &#intygType {
       max-width: none;
       width: auto;
+      display: inline-block;
+      height: 32px;
+      vertical-align: middle;
     }
   }
 
@@ -922,4 +925,20 @@ wc cookie banner css.
 
 .forward-inactive {
   color: black;
+}
+
+.bottom-padding-big {
+  padding-bottom: 30px;
+}
+
+.bottom-padding-medium {
+  padding-bottom: 20px;
+}
+
+.bottom-padding-small {
+  padding-bottom: 5px;
+}
+
+.bottom-padding-tiny {
+  padding-bottom: 2px;
 }
