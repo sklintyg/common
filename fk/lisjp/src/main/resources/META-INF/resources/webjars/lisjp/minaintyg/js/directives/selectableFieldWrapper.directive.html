@@ -16,10 +16,10 @@
           <span class="asterix">*</span>
         </div>
         <div ng-if="!fc.mandatory">
-          <label for="select-option-{{::$id}}">
+          <label for="select-option-{{::fieldDynamicLabel}}">
             <span message key="lisjp.customize.label.optional"></span>
           </label>
-          <input id="select-option-{{::$id}}" type="checkbox" ng-model="fc.selected">
+          <input id="select-option-{{::fieldDynamicLabel}}" type="checkbox" ng-model="fc.selected">
         </div>
       </div>
     </div>
