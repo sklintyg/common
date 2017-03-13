@@ -462,6 +462,7 @@ angular.module('common').constant('common.messages', {
         'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',
         'common.error.certificateinvalid': '<strong>Intyget är inte korrekt ifyllt.</strong>',
         'common.error.certificateinvalidstate': '<strong>Intyget är inte ett utkast.</strong>Inga operationer kan utföras på det längre.',
+        'common.error.certificate_revoked': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare makulerat intyget medan du arbetat på samma post. Ladda om sidan och försök igen',
         'common.error.internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Ladda om sidan och försök igen. Kontakta supporten om problemet kvarstår.',
         'common.error.invalid_state': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma utkast. Ladda om sidan och försök igen',
         'common.error.sign.general': '<strong>Intyget kunde inte signeras.</strong><br>Försök igen senare.',
