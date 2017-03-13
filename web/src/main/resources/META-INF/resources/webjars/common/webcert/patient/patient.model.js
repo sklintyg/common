@@ -42,6 +42,7 @@ angular.module('common').service('common.PatientModel',
                 this.postadress = null;
                 this.postnummer = null;
                 this.postort = null;
+                this.avliden = null;
                 return this;
             };
             this.update = function(patientResponse) {
@@ -55,6 +56,7 @@ angular.module('common').service('common.PatientModel',
                 this.postadress = patientResponse.postadress;
                 this.postnummer = patientResponse.postnummer;
                 this.postort = patientResponse.postort;
+                this.avliden = patientResponse.avliden;
                 return this.isValid();
             };
 

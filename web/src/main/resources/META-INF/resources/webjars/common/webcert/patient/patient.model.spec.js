@@ -44,6 +44,7 @@ describe('PatientModel', function() {
             expect(PatientModel.postadress).toBeNull();
             expect(PatientModel.postnummer).toBeNull();
             expect(PatientModel.postort).toBeNull();
+            expect(PatientModel.avliden).toBeNull();
         });
     });
 });
