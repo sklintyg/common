@@ -1,10 +1,9 @@
 <div class="row">
   <div data-ng-repeat="grad in grader" ng-if="hasSjukskrivning(grad)">
-    <div class="col-xs-3">
-      <span dynamic-label
-            key="KV_FKMU_0003.{{getSjuksrivningsgrad(grad)}}.RBK"></span>
+    <div id="grad_{{getSjuksrivningsgrad(grad)}}" class="col-xs-3">
+      <span dynamic-label key="KV_FKMU_0003.{{getSjuksrivningsgrad(grad)}}.RBK"></span>
     </div>
-    <div class="col-xs-9">
+    <div id="datum_{{getSjuksrivningsgrad(grad)}}" class="col-xs-9">
       från och med <strong>{{getSjuksrivningFrom(grad)}}</strong> till och med <strong>{{getSjuksrivningTom(grad)}}</strong>
     </div>
     <div class="clearfix"></div>

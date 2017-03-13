@@ -327,7 +327,7 @@
                 </div>
               </lisjp-show-category>
 
-              <lisjp-show-category category-key="6" intyg-model="cert">
+              <lisjp-show-category category-key="9999" intyg-model="cert">
                 <div mi-category category-label="KAT_9999.RBK">
                   <div mi-field field-dynamic-label="DFR_{{tillaggsfraga.id}}.1"
                        ng-repeat="tillaggsfraga in cert.tillaggsfragor" filled="tillaggsfraga.svar">
@@ -335,12 +335,6 @@
                   </div>
                 </div>
               </lisjp-show-category>
-
-              <!-- META vara kvar ?-->
-              <!--div mi-field field-dynamic-label="lisjp.label.workcodes" filled="cert.forskrivarkodOchArbetsplatskod">
-                <!--  leave  as div tag for IE8 magic bug. using span crashes angular.. -->
-                <!--div id="forskrivarkodOchArbetsplatskod">{{cert.forskrivarkodOchArbetsplatskod}}</div-->
-              <!--/div-->
 
               <div class="row padding-bottom-30px">
                 <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
