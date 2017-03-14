@@ -456,7 +456,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
         return utlatande.getAvstangningSmittskydd() != null && utlatande.getAvstangningSmittskydd();
     }
 
-    private static <T> boolean containsUnique(List<T> list){
+    private static <T> boolean containsUnique(List<T> list) {
         Set<T> set = new HashSet<>();
         return list.stream().allMatch(t -> set.add(t));
     }

@@ -127,8 +127,8 @@ public class ValidatorUtilFK {
                         ValidationMessageType.EMPTY,
                         "common.validation.diagnos" + i + ".description.missing");
             }
-            if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty() &&
-                    !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
+            if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty()
+                    && !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
                 ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnoser.diagnoskod",
                         ValidationMessageType.INCORRECT_COMBINATION,
                         "common.validation.diagnos.invalid_combination");
