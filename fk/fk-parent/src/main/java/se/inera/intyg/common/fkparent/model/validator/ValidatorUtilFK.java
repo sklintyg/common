@@ -86,6 +86,9 @@ public class ValidatorUtilFK {
             return;
         }
 
+        // Alla diagnoser måste härröra från samma kodverk, använd huvuddiagnosens kodverk som bas.
+        String kodverk = Strings.nullToEmpty(diagnoser.get(0).getDiagnosKodSystem()).trim();
+
         for (int i = 0; i < diagnoser.size(); i++) {
             Diagnos diagnos = diagnoser.get(i);
 
@@ -123,6 +126,12 @@ public class ValidatorUtilFK {
                 ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnoser." + i + ".diagnosbeskrivning",
                         ValidationMessageType.EMPTY,
                         "common.validation.diagnos" + i + ".description.missing");
+            }
+            if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty() &&
+                    !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
+                ValidatorUtil.addValidationError(validationMessages, "diagnos.diagnoser.diagnoskod",
+                        ValidationMessageType.INCORRECT_COMBINATION,
+                        "common.validation.diagnos.invalid_combination");
             }
         }
     }

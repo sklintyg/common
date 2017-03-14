@@ -1,5 +1,5 @@
 {
-  "typ": "lisjp",
+  "typ": "luae_fs",
   "id": "1234567",
   "textVersion": "1",
   "grundData": {
@@ -41,44 +41,24 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
+  "underlag": [],
+  "underlagFinns": false,
   "tillaggsfragor": [],
-  "arbetslivsinriktadeAtgarder": [
-    {
-      "typ": "OVRIGA_ATGARDER"
-    }
-  ],
-  "prognos": {
-    "typ": "PROGNOS_OKLAR"
-  },
-  "arbetsresor": true,
-  "arbetstidsforlaggningMotivering": "Kan bara jobba på nätterna.",
-  "arbetstidsforlaggning": true,
-  "forsakringsmedicinsktBeslutsstod": "överskrider inte FMB",
-  "sjukskrivningar": [
-    {
-      "period": {
-        "from": "2015-12-07",
-        "tom": "2015-12-10"
-      },
-      "sjukskrivningsgrad": "TRE_FJARDEDEL"
-    }
-  ],
-  "aktivitetsbegransning": "Kommer inte in i bilen",
-  "funktionsnedsattning": "Haltar när han dansar",
+  "kannedomOmPatient": "2015-01-07",
+  "undersokningAvPatienten": "2015-09-09",
+  "funktionsnedsattningDebut": "Skoldansen",
+  "funktionsnedsattningPaverkan": "Haltar när han dansar",
   "diagnoser": [
     {
       "diagnosBeskrivning": "Klämskada skuldra",
       "diagnosKodSystem": "ICD_10_SE",
       "diagnosKod": "S47"
-    }
-  ],
-  "nuvarandeArbete": "Smed",
-  "sysselsattning": [
+    },
     {
-      "typ": "NUVARANDE_ARBETE"
+      "diagnosBeskrivning": "Kolera",
+      "diagnosKodSystem": "KSH_97_P",
+      "diagnosKod": "A00-"
     }
-  ],
-  "annatGrundForMUBeskrivning": "Barndomsvän",
-  "annatGrundForMU": "2015-12-07",
-  "undersokningAvPatienten": "2015-12-08"
+
+  ]
 }

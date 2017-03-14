@@ -48,9 +48,9 @@ import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK.GrundForMu
 public class ValidatorUtilFKTest {
 
     private static final String VALID_CODE_1 = "A00";
-    private static final String VALID_CODE_1_CODE_SYSTEM = "ICD";
+    private static final String ICD_CODE_SYSTEM = "ICD";
     private static final String VALID_CODE_2 = "A01";
-    private static final String VALID_CODE_2_CODE_SYSTEM = "KSH";
+    private static final String KSH_CODE_SYSTEM = "KSH";
     private static final String INVALID_CODE = "sdfds";
 
     @Mock
@@ -61,25 +61,42 @@ public class ValidatorUtilFKTest {
 
     @Before
     public void setup() {
-        when(moduleService.validateDiagnosisCode(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM)).thenReturn(true);
-        when(moduleService.validateDiagnosisCode(VALID_CODE_2, VALID_CODE_2_CODE_SYSTEM)).thenReturn(true);
+        //Valid with ICD
+        when(moduleService.validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM)).thenReturn(true);
+        when(moduleService.validateDiagnosisCode(VALID_CODE_2, ICD_CODE_SYSTEM)).thenReturn(true);
+
+        //Valid with KSH
+        when(moduleService.validateDiagnosisCode(VALID_CODE_2, KSH_CODE_SYSTEM)).thenReturn(true);
+
         when(moduleService.validateDiagnosisCode(eq(INVALID_CODE), anyString())).thenReturn(false);
     }
 
     @Test
     public void testDiagnosesAreValid() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, VALID_CODE_2_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertTrue(validationMessages.isEmpty());
-        verify(moduleService).validateDiagnosisCode(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM);
-        verify(moduleService).validateDiagnosisCode(VALID_CODE_2, VALID_CODE_2_CODE_SYSTEM);
+        verify(moduleService).validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM);
+        verify(moduleService).validateDiagnosisCode(VALID_CODE_2, ICD_CODE_SYSTEM);
+    }
+
+    @Test
+    public void testDiagnoesMustHaveSameCodeSystem() {
+        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, KSH_CODE_SYSTEM, "besk"));
+        List<ValidationMessage> validationMessages = new ArrayList<>();
+        validatorUtil.validateDiagnose(source, validationMessages);
+
+        // The codes are valid in themselves, but the combination is not.
+        assertTrue(validationMessages.size() == 1);
+        verify(moduleService).validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM);
+        verify(moduleService).validateDiagnosisCode(VALID_CODE_2, KSH_CODE_SYSTEM);
     }
 
     @Test
     public void testDiagnosesAreValidFalse() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos(INVALID_CODE, VALID_CODE_1_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, VALID_CODE_2_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays.asList(buildDiagnos(INVALID_CODE, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -87,8 +104,8 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnos.diagnoser", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.invalid", validationMessages.get(0).getMessage());
-        verify(moduleService).validateDiagnosisCode(INVALID_CODE, VALID_CODE_1_CODE_SYSTEM);
-        verify(moduleService).validateDiagnosisCode(VALID_CODE_2, VALID_CODE_2_CODE_SYSTEM);
+        verify(moduleService).validateDiagnosisCode(INVALID_CODE, ICD_CODE_SYSTEM);
+        verify(moduleService).validateDiagnosisCode(VALID_CODE_2, ICD_CODE_SYSTEM);
     }
 
     @Test
@@ -117,7 +134,7 @@ public class ValidatorUtilFKTest {
 
     @Test
     public void testDiagnosesAreValidDiagnoskodMissing() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos(null, VALID_CODE_1_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays.asList(buildDiagnos(null, ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -130,7 +147,7 @@ public class ValidatorUtilFKTest {
 
     @Test
     public void testDiagnosesAreValidDiagnosBeskrivingMissing() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM, null));
+        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, null));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -138,12 +155,12 @@ public class ValidatorUtilFKTest {
         assertEquals("diagnos.diagnoser.0.diagnosbeskrivning", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.description.missing", validationMessages.get(0).getMessage());
-        verify(moduleService).validateDiagnosisCode(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM);
+        verify(moduleService).validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM);
     }
 
     @Test
     public void testDiagnosesAreValidZ73TooShort() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos("Z73", VALID_CODE_1_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays.asList(buildDiagnos("Z73", ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -156,7 +173,7 @@ public class ValidatorUtilFKTest {
 
     @Test
     public void testDiagnosesAreValidFTooShort() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos("f3", VALID_CODE_1_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays.asList(buildDiagnos("f3", ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -169,7 +186,7 @@ public class ValidatorUtilFKTest {
 
     @Test
     public void testDiagnosesAreValidTooShort() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos("A0", VALID_CODE_1_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays.asList(buildDiagnos("A0", ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -182,7 +199,7 @@ public class ValidatorUtilFKTest {
 
     @Test
     public void testDiagnosesAreValidTooLong() {
-        List<Diagnos> source = Arrays.asList(buildDiagnos("A02345", VALID_CODE_1_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays.asList(buildDiagnos("A02345", ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
@@ -196,7 +213,7 @@ public class ValidatorUtilFKTest {
     @Test
     public void testDiagnosesAreValidModuleServiceMissing() {
         ReflectionTestUtils.setField(validatorUtil, "moduleService", null);
-        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, VALID_CODE_1_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, VALID_CODE_2_CODE_SYSTEM, "besk"));
+        List<Diagnos> source = Arrays.asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"), buildDiagnos(VALID_CODE_2, ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 

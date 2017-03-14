@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -58,6 +59,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -398,9 +400,11 @@ public class InternalDraftValidatorTest {
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.sysselsattning.too-many", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals(2, res.getValidationErrors().size());
+        List<String> errorMessages = res.getValidationErrors().stream().map(it -> it.getMessage()).collect(Collectors.toList());
+
+        assertTrue(errorMessages.contains("lisjp.validation.sysselsattning.too-many"));
+        assertTrue(errorMessages.contains("lisjp.validation.sysselsattning.invalid_combination"));
     }
 
 
@@ -499,6 +503,24 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void validateSjukskrivningSjukskrivingsgradSameCodeNotAllowed() throws Exception {
+        InternalLocalDateInterval date1 = new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                new InternalDate(LocalDate.now().plusDays(2)));
+        InternalLocalDateInterval date2 = new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(4)),
+                new InternalDate(LocalDate.now().plusDays(6)));
+
+        LisjpUtlatande utlatande = builderTemplate
+                .setSjukskrivningar(Arrays.asList(
+                        Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, date1),
+                        Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, date2)))
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals("lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.invalid_combination",
+                res.getValidationErrors().get(0).getMessage());
+    }
+        @Test
     public void validateSjukskrivningPeriodMissing() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
                 .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, null)))
@@ -879,20 +901,6 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateAtgarderAktuellBeskrivningMissing() throws Exception {
-        LisjpUtlatande utlatande = builderTemplate
-                .setArbetslivsinriktadeAtgarder(Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
-                .setArbetslivsinriktadeAtgarderBeskrivning(null)
-                .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("atgarder.arbetslivsinriktadeAtgarderBeskrivning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
     public void validateAtgarderAktuell() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
                 .setArbetslivsinriktadeAtgarder(Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
@@ -922,10 +930,28 @@ public class InternalDraftValidatorTest {
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.atgarder.too-many", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        List<String> errors = res.getValidationErrors()
+                .stream().map(ValidationMessage::getMessage).collect(Collectors.toList());
+        assertEquals(2, res.getValidationErrors().size());
+        assertTrue("Expected too-many", errors.contains("lisjp.validation.atgarder.too-many"));
+        assertTrue("Expected invalid_combination",
+                errors.contains("lisjp.validation.atgarder.typ.invalid_combination"));
     }
+
+        @Test
+        public void validateAtgarderTypSameCodeNotAllowed() throws Exception {
+            LisjpUtlatande utlatande = builderTemplate
+                    .setArbetslivsinriktadeAtgarder(Arrays.asList(
+                            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
+                            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT)))
+                    .build();
+
+            ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+            assertEquals(1, res.getValidationErrors().size());
+            assertEquals("lisjp.validation.atgarder.typ.invalid_combination",
+                    res.getValidationErrors().get(0).getMessage());
+        }
 
     @Test
     public void validateKontaktNull() throws Exception {

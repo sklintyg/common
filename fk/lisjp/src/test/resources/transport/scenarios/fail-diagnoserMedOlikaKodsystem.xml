@@ -70,37 +70,17 @@
       <instans>1</instans>
       <delsvar id="1.1">
         <ns3:cv>
-          <ns3:code>TELEFONKONTAKT</ns3:code>
+          <ns3:code>UNDERSOKNING</ns3:code>
           <ns3:codeSystem>KV_FKMU_0001</ns3:codeSystem>
         </ns3:cv>
       </delsvar>
       <delsvar id="1.2">2015-12-08</delsvar>
-    </svar>
-    <svar id="1">
-      <instans>2</instans>
-      <delsvar id="1.1">
-        <ns3:cv>
-          <ns3:code>ANNAT</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0001</ns3:codeSystem>
-        </ns3:cv>
-      </delsvar>
-      <delsvar id="1.2">2015-12-07</delsvar>
-      <delsvar id="1.3">Barndomsvän</delsvar>
     </svar>
     <svar id="28">
       <instans>1</instans>
       <delsvar id="28.1">
         <ns3:cv>
           <ns3:code>NUVARANDE_ARBETE</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0002</ns3:codeSystem>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="28">
-      <instans>2</instans>
-      <delsvar id="28.1">
-        <ns3:cv>
-          <ns3:code>STUDIER</ns3:code>
           <ns3:codeSystem>KV_FKMU_0002</ns3:codeSystem>
         </ns3:cv>
       </delsvar>
@@ -114,6 +94,13 @@
         <ns3:cv>
           <ns3:code>S47</ns3:code>
           <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
+        </ns3:cv>
+      </delsvar>
+      <delsvar id="6.3">Kolera</delsvar>
+      <delsvar id="6.4">
+        <ns3:cv>
+          <ns3:code>A00-</ns3:code>
+          <ns3:codeSystem>1.2.752.116.1.3.1.4.1</ns3:codeSystem>
         </ns3:cv>
       </delsvar>
     </svar>
@@ -136,38 +123,6 @@
         <ns3:datePeriod>
           <ns3:start>2015-12-07</ns3:start>
           <ns3:end>2015-12-10</ns3:end>
-        </ns3:datePeriod>
-      </delsvar>
-    </svar>
-    <svar id="32">
-      <instans>2</instans>
-      <delsvar id="32.1">
-        <ns3:cv>
-          <ns3:code>HALFTEN</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0003</ns3:codeSystem>
-          <ns3:displayName>50%</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-      <delsvar id="32.2">
-        <ns3:datePeriod>
-          <ns3:start>2015-12-12</ns3:start>
-          <ns3:end>2015-12-14</ns3:end>
-        </ns3:datePeriod>
-      </delsvar>
-    </svar>
-    <svar id="32">
-      <instans>3</instans>
-      <delsvar id="32.1">
-        <ns3:cv>
-          <ns3:code>EN_FJARDEDEL</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0003</ns3:codeSystem>
-          <ns3:displayName>25%</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-      <delsvar id="32.2">
-        <ns3:datePeriod>
-          <ns3:start>2015-12-15</ns3:start>
-          <ns3:end>2015-12-20</ns3:end>
         </ns3:datePeriod>
       </delsvar>
     </svar>
@@ -194,15 +149,6 @@
       <delsvar id="40.1">
         <ns3:cv>
           <ns3:code>OVRIGA_ATGARDER</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0004</ns3:codeSystem>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="40">
-      <instans>2</instans>
-      <delsvar id="40.1">
-        <ns3:cv>
-          <ns3:code>KONFLIKTHANTERING</ns3:code>
           <ns3:codeSystem>KV_FKMU_0004</ns3:codeSystem>
         </ns3:cv>
       </delsvar>

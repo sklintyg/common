@@ -18,28 +18,21 @@
  */
 package se.inera.intyg.common.lisjp.validator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
+import se.inera.intyg.common.lisjp.model.internal.*;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
-import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpUtlatande> {
 
@@ -151,6 +144,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                 || !utlatande.getSysselsattning().stream().anyMatch(e -> e.getTyp() != null)) {
             ValidatorUtil.addValidationError(validationMessages, "sysselsattning", ValidationMessageType.EMPTY);
         } else {
+
+            // R5
+            if (!containsUnique(utlatande.getSysselsattning()
+                    .stream().map(Sysselsattning::getTyp).collect(Collectors.toList()))) {
+                ValidatorUtil.addValidationError(validationMessages, "sysselsattning",
+                        ValidationMessageType.INCORRECT_COMBINATION,
+                        "lisjp.validation.sysselsattning.invalid_combination");
+            }
 
             // R9
             if (Strings.nullToEmpty(utlatande.getNuvarandeArbete()).trim().isEmpty()
@@ -282,6 +283,15 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                 ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.EMPTY,
                         "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.invalid_combination");
             }
+
+            // R22
+            if (!containsUnique(utlatande.getSjukskrivningar().stream()
+                    .map(Sjukskrivning::getSjukskrivningsgrad).collect(Collectors.toList()))) {
+                ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar",
+                        ValidationMessageType.INCORRECT_COMBINATION,
+                        "lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.invalid_combination");
+            }
+
         }
     }
 
@@ -386,7 +396,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                         "lisjp.validation.atgarder.inte_aktuellt_no_combine");
             }
 
-            // R36 If INTE_AKTUELLT is checked utlatande.getArbetslivsinriktadeAtgarderBeskrivning() must not be
+            // R27 If INTE_AKTUELLT is checked utlatande.getArbetslivsinriktadeAtgarderBeskrivning() must not be
             // answered
             if (utlatande.getArbetslivsinriktadeAtgarder().stream()
                     .anyMatch(e -> e.getTyp() == ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)
@@ -395,18 +405,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                         "lisjp.validation.atgarder.invalid_combination");
             }
 
-            // R35 If other choices than INTE_AKTUELLT are checked beskrivning åtgärder is required
-            if (utlatande.getArbetslivsinriktadeAtgarder().stream()
-                    .anyMatch(e -> e.getTyp() != null && e.getTyp() != ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)
-                    && Strings.nullToEmpty(utlatande.getArbetslivsinriktadeAtgarderBeskrivning()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, "atgarder.arbetslivsinriktadeAtgarderBeskrivning",
-                        ValidationMessageType.EMPTY);
-            }
-
             // No more than 10 entries are allowed
             if (utlatande.getArbetslivsinriktadeAtgarder().size() > MAX_ARBETSLIVSINRIKTADE_ATGARDER) {
                 ValidatorUtil.addValidationError(validationMessages, "atgarder", ValidationMessageType.EMPTY,
                         "lisjp.validation.atgarder.too-many");
+            }
+
+            // R29
+            if (!containsUnique(utlatande.getArbetslivsinriktadeAtgarder()
+                    .stream().map(ArbetslivsinriktadeAtgarder::getTyp).collect(Collectors.toList()))) {
+                ValidatorUtil.addValidationError(validationMessages, "atgarder",
+                        ValidationMessageType.INCORRECT_COMBINATION,
+                        "lisjp.validation.atgarder.typ.invalid_combination");
             }
         }
     }
@@ -444,5 +454,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
     private boolean isAvstangningSmittskydd(LisjpUtlatande utlatande) {
         return utlatande.getAvstangningSmittskydd() != null && utlatande.getAvstangningSmittskydd();
+    }
+
+    private static <T> boolean containsUnique(List<T> list){
+        Set<T> set = new HashSet<>();
+        return list.stream().allMatch(t -> set.add(t));
     }
 }
