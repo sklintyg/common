@@ -35,6 +35,7 @@ angular.module('common').service('common.IntygViewStateService',
                 defaultRecipient: undefined,
                 isSent: false,
                 isRevoked: false,
+                isPatientDeceased: false,
                 newPatientId: false // FK only for now. Consider making specific viewState services for each intyg as with utkast
             };
 
@@ -119,6 +120,7 @@ angular.module('common').service('common.IntygViewStateService',
 
             this.intygProperties.isSent = IntygHelper.isSentToTarget(result.statuses, targetName);
             this.intygProperties.isRevoked = IntygHelper.isRevoked(result.statuses);
+            this.intygProperties.isPatientDeceased = result.deceased;
 
             if (typeof result.relations !== 'undefined') {
                 this.intygProperties.relations = result.relations;

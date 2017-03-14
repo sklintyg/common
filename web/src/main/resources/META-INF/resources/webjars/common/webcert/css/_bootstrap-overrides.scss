@@ -30,6 +30,7 @@ $btn-link-hover-color: #31b2be;
 $btn-inverse-color: #fff;
 $btn-inverse-background-color: #3f3f3f;
 $btn-inverse-background-focus-and-hover-color: #656565;
+$btn-default-color: #e0e0e0;
 $btn-danger-color: #ac2925;
 $btn-danger-color-hover: #c12e2a;
 $alert-warning-color: #8a6d3b;
@@ -114,6 +115,10 @@ $font-3: sans-serif;
 %btn-info-common {
   @extend %btn-common;
   background-color: $btn-info-common-background-color;
+}
+
+.btn-default {
+  background-color: $btn-default-color;
 }
 
 .btn-info {
