@@ -89,9 +89,13 @@
                        ng-blur="validate()">
               </wc-validation-wrapper>
             </td>
-            <td><input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('hogeroga.medkorrektion')">
+              <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
                        id="synHogerOgaMedKorrektion" ng-model="viewState.intygModel.syn.hogerOga.medKorrektion" maxlength="4"
-                       ng-blur="validate()"></td>
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
             <td><input type="checkbox" id="synHogerOgaKontaktlins" ng-model="viewState.intygModel.syn.hogerOga.kontaktlins" ng-change="validate()"></td>
           </tr>
           <tr>
@@ -103,9 +107,13 @@
                        ng-blur="validate()">
               </wc-validation-wrapper>
             </td>
-            <td><input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('vansteroga.medkorrektion')">
+              <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
                        id="synVansterOgaMedKorrektion" ng-model="viewState.intygModel.syn.vansterOga.medKorrektion" maxlength="4"
-                       ng-blur="validate()"></td>
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
             <td><input type="checkbox" id="synVasterOgaKontaktlins" ng-model="viewState.intygModel.syn.vansterOga.kontaktlins"
                        ng-change="validate()"></td>
           </tr>
@@ -118,9 +126,13 @@
                        ng-blur="validate()">
               </wc-validation-wrapper>
             </td>
-            <td><input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
+            <td>
+              <wc-validation-wrapper field-type="single-text" validations="viewState.getValidationErrors('binokulart.medkorrektion')">
+                <input type="text" class="form-control small-decimal" wc-decimal-number wc-decimal-max-numbers="2"
                        id="synBinokulartMedKorrektion" ng-model="viewState.intygModel.syn.binokulart.medKorrektion" maxlength="4"
-                       ng-blur="validate()"></td>
+                       ng-blur="validate()">
+              </wc-validation-wrapper>
+            </td>
             <td></td>
           </tr>
         </table>
