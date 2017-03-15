@@ -13,7 +13,7 @@
     <span ng-if="delFrageId" dynamic-label key="{{delFrageId}}.RBK"></span>
     <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
     <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
-    <span class="required">{{to.required == true ? '*' : ''}}</span>
+    <span ng-if="!frageId" class="required">{{to.required == true ? '*' : ''}}</span>
     <span ng-if="delFrageId" wc-help-mark field-dynamic-help-text="{{delFrageId}}.HLP"></span>
     <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
   </h5>
