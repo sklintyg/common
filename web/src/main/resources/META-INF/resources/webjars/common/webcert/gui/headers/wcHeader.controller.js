@@ -38,6 +38,10 @@ angular.module('common').controller('common.wcHeaderController',
                 vardgivare: []
             };
 
+            $scope.unitInactive = function() {
+                return $scope.user.user.valdVardenhet.inactive;
+            };
+
             $scope.setTestMode = function(){
                 $rootScope.testModeActive = !$rootScope.testModeActive;
             };

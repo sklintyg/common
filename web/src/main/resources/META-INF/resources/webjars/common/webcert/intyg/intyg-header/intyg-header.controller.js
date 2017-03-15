@@ -32,7 +32,6 @@ angular.module('common').controller('common.IntygHeader',
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
             $scope.intygsnamn = moduleService.getModuleName(intygType);
-
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
@@ -71,7 +70,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showKopieraButton = function() {
-                return !$scope.makuleratIntyg() && !$scope.viewState.common.common.sekretessmarkering && !$scope.isPatientDeceased();
+                return !$scope.makuleratIntyg() && !$scope.viewState.common.common.sekretessmarkering && !$scope.isPatientDeceased() && !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit);
             };
 
             $scope.showFornyaButton = function() {
