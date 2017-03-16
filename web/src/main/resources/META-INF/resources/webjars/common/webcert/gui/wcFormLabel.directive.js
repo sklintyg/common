@@ -34,6 +34,7 @@ angular.module('common').directive('wcFormLabel',
                 link: function(scope) {
 
                     scope.frageId = scope.to.frageId;
+                    scope.hlpFrageId = null;
 
                     if (scope.to.label){
                         var questionIds = scope.to.label.substring(4).split('.');
@@ -41,6 +42,7 @@ angular.module('common').directive('wcFormLabel',
                         // Setup FrågeID FRG
                         if (!scope.frageId && scope.to.label.substring(0, 4) === 'FRG_') {
                             scope.frageId = 'FRG_' + questionIds[0];
+                            scope.hlpFrageId = scope.frageId;
                         }
 
                         // Setup DelFrågeId DFR
@@ -48,6 +50,7 @@ angular.module('common').directive('wcFormLabel',
                             scope.delFrageId = scope.to.label;
                             if (questionIds.length === 2 && questionIds[1] === '1') {
                                 scope.frageId = 'FRG_' + questionIds[0];
+                                scope.hlpFrageId = scope.frageId;
                             }
                         }
 
