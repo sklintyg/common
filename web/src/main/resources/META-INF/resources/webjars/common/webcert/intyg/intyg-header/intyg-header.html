@@ -40,7 +40,7 @@
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
-                  ng-if="visaSkickaKnappen()"
+                  ng-if="showSkickaButton()"
                   ng-click="send()">
             <span message key="{{intygstyp}}.button.send"></span>
           </button>

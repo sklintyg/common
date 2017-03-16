@@ -41,23 +41,33 @@ angular.module('common').controller('common.IntygHeader',
             $scope.fornyaBtnTooltipText = messageService.getProperty('common.fornya.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
+            $scope.makuleratIntyg = function(){
+                return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
+            };
+
             $scope.isPatientDeceased = function() {
                 return $scope.viewState.common.intygProperties.isPatientDeceased;
+            };
+
+            $scope.isSentIntyg = function(){
+                return $scope.viewState.common.intygProperties.isSent ||
+                    $scope.viewState.common.isIntygOnSendQueue;
+            };
+
+            $scope.showSkickaButton = function(){
+                return !$scope.isSentIntyg() &&
+                    !$scope.makuleratIntyg() && !$scope.isPatientDeceased();
             };
 
             $scope.showPrintBtn = function() {
                 if ($scope.showEmployerPrintBtn()) {
                     return false;
                 }
-                return $scope.utskrift && !$scope.isPatientDeceased() && !$scope.makuleratIntyg();
+                return $scope.utskrift;
             };
 
             $scope.showEmployerPrintBtn = function() {
-                return $scope.arbetsgivarUtskrift && !$scope.isPatientDeceased();
-            };
-
-            $scope.makuleratIntyg = function(){
-                return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
+                return $scope.arbetsgivarUtskrift;
             };
 
             $scope.showKopieraButton = function() {
@@ -66,16 +76,6 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.showFornyaButton = function() {
                 return $scope.intygstyp === 'fk7263' && $scope.showKopieraButton();
-            };
-
-            $scope.visaSkickaKnappen = function(){
-                return !$scope.isSentIntyg() &&
-                  !$scope.makuleratIntyg() && !$scope.isPatientDeceased();
-            };
-
-            $scope.isSentIntyg = function(){
-                return $scope.viewState.common.intygProperties.isSent ||
-                    $scope.viewState.common.isIntygOnSendQueue;
             };
 
             $scope.send = function() {
