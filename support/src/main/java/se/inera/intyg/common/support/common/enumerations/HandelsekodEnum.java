@@ -21,10 +21,11 @@ package se.inera.intyg.common.support.common.enumerations;
 import java.util.stream.Stream;
 
 /**
- * Handelsekod for notification schema v2.
+ * Handelsekod for notification schema v2 and later.
  */
 public enum HandelsekodEnum {
 
+    // Codes introduced in v2
     SKAPAT("SKAPAT", "Intygsutkast skapas"),
     SIGNAT("SIGNAT", "Intyg signerat"),
     SKICKA("SKICKA", "Intyg skickat till mottagare"),
@@ -35,7 +36,10 @@ public enum HandelsekodEnum {
     NYFRFV("NYFRFV", "Ny fråga från vården"),
     HANFRFV("HANFRFV", "Hanterad fråga från vården"),
     HANFRFM("HANFRFM", "Hanterad fråga från mottagare"),
-    ANDRAT("ANDRAT", "Intygsutkast ändrat");
+    ANDRAT("ANDRAT", "Intygsutkast ändrat"),
+
+    // Codes introduced in v2.1
+    KFSIGN("KFSIGN", "Intygsutkast klart för signering");
 
     private final String value;
     private final String description;

@@ -102,6 +102,8 @@ angular.module('common').constant('common.messages', {
             '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
             '<li>Referenser som intyget baseras på.</li></ul>',
 
+        'common.modal.marked.ready.notification.sent': 'Observera att utkastet saknar obligatoriska uppgifter. Om du inte kan fylla i mer information kan du ändå markera intyget som klart för signering. Läkaren kommer då behöva komplettera intyget med de saknade uppgifterna innan det går att signera.',
+
         // common intyg view messages
         'common.label.ovanstaende-har-bekraftats': 'Ovanstående uppgifter och bedömningar bekräftas',
         'common.label.kontakt-info': 'Namn och kontaktuppgifter till vårdenheten',
@@ -142,6 +144,9 @@ angular.module('common').constant('common.messages', {
         'draft.notify.button': 'Vidarebefordra utkast',
         'draft.notify.help': 'Skapar ett e-mail i din mailklient innehållande direktlänk till utkastet.',
         'draft.notify.hide-missing.button': 'Dölj information som saknas',
+
+        'draft.notifyready.button': 'Markera som klart för signering',
+        'modal.title.notifyjournalsystem': 'Markera utkast som klart för signering',
 
         'intyg.makulera.help': 'Orsak till makulering ska anges eftersom Försäkringskassans handläggare behöver den informationen för att bedöma patientens rätt till ersättning.',
 

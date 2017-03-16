@@ -41,6 +41,16 @@ angular.module('common').controller('common.UtkastFooter',
             };
 
             /**
+             * Handle notifieraUtkast, dvs. notifering till journalsystem via statusuppdatering
+             */
+            $scope.notifieraUtkast = function() {
+                    UtkastNotifyService.notifyJournalsystem(viewState.intygModel.id, viewState.common.intyg.type,
+                        viewState.draftModel, viewState.common, function() {
+                            viewState.redoSignerasNotifieringDatum = true;
+                        });
+            };
+
+            /**
              * Handle the problem of jumping /scolling of content in regard to clicking sign/visa fel.
              * We need to store the buttons position asap (mousedown) because validation triggered onblur will
              * change the DOM before the ng-click (mouse-down+ some time + mouseup = click) event happens.

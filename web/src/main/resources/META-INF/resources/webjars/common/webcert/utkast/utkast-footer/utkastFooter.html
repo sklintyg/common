@@ -42,6 +42,21 @@
         <span wc-help-mark field-help-text="draft.notify.check-missing.help"></span>
       </div>
 
+
+
+      <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
+      <div wc-authority="NOTIFIERING_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
+        <button ng-if="!viewState.redoSignerasNotifieringDatum" type="button" id="statusuppdateringBtn" class="btn btn-success" ng-click="notifieraUtkast()">
+          <span message key="draft.notifyready.button"></span>
+        </button>
+        <div ng-if="viewState.redoSignerasNotifieringDatum">
+          <span class="glyphicon glyphicon-check ng-scope"></span>
+          <span>Utkastet är sparat och markerat som klart för signering.</span>
+        </div>
+      </div>
+
+
+
       <!-- Notifiera läkare genom att vidarebefordra -->
       <div wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
         <div class="form-group">

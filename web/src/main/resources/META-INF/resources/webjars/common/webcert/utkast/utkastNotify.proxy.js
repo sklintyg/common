@@ -41,8 +41,23 @@ angular.module('common').factory('common.UtkastNotifyProxy',
                 });
             }
 
+            /**
+             * Ask the backend to send a status update to the journalsystem that the draft is ready to be signed
+             */
+            function _sendNotificationStatusUpdate(intygId, intygType, intygVersion, callback, errorCallback) {
+                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/redoattsignera';
+                $http.put(restPath, {}).success(function(data) {
+                    $log.debug('sendNotificationStatusUpdate data:' + data);
+                    callback(data);
+                }).error(function(data, status) {
+                    $log.error('error ' + status);
+                    errorCallback(data);
+                });
+            }
+
             // Return public API for the service
             return {
-                setNotifyState: _setNotifyState
+                setNotifyState: _setNotifyState,
+                sendNotificationStatusUpdate : _sendNotificationStatusUpdate
             };
         }]);

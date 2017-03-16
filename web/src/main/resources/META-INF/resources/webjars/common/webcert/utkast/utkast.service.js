@@ -124,6 +124,7 @@ angular.module('common').factory('common.UtkastService',
                         dynamicLabelService.updateDynamicLabels(intygsTyp, utkastData.latestTextVersion).then(
                             function(labels) {
                                 viewState.relations = utkastData.relations;
+                                viewState.redoSignerasNotifieringDatum = !ObjectHelper.isEmpty(utkastData.markedReadyToSignDateTime);
                                 viewState.common.intyg.isKomplettering = utkastData.content.grundData.relation !== undefined && utkastData.content.grundData.relation.relationKod === 'KOMPLT';
 
                                 // update model here so controls dependent on correct models at startup has the right values first

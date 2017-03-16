@@ -246,6 +246,81 @@ angular.module('common').factory('common.UtkastNotifyService',
                 return link;
             }
 
+            // Notifiering till journalsystem hanteras i backend
+            function _notifyJournalsystem(intygId, intygType, utkast, updateState, successCallback) {
+
+                if (!updateState.intyg.isComplete) {
+                    _showNotifyJournalsystemDialog('notifyjournalsystem',
+                        messageService.getProperty('common.modal.marked.ready.notification.sent'),
+                        function() { // Send notification, e.g. "yes"
+                            utkastNotifyProxy.sendNotificationStatusUpdate(intygId, intygType, utkast.version,
+                                function() {
+                                    // The callback should update the viewstate.
+                                    successCallback();
+                                }, function() {
+                                    console.error('Send notification failed!');
+                                });
+                        },
+                        function() { // no
+                            $log.debug('no');
+                        }
+                    );
+                } else {
+                     utkastNotifyProxy.sendNotificationStatusUpdate(intygId, intygType, utkast.version,
+                         function() {
+                             console.info('Send notification success!');
+                             successCallback();
+                         }, function(err) {
+                             console.error('Send notification failed!');
+                         });
+                }
+            }
+
+
+            function _showNotifyJournalsystemDialog(title, bodyText, yesCallback, noCallback,
+                callback) {
+
+                var DialogInstanceCtrl = function($scope, $uibModalInstance, title, bodyText, yesCallback, noCallback
+                    ) {
+                    $scope.title = title;
+                    $scope.bodyText = bodyText;
+                    $scope.yes = function(result) {
+                        yesCallback();
+                        $uibModalInstance.close(result);
+                    };
+                    $scope.no = function() {
+                        noCallback();
+                        $uibModalInstance.close('cancel');
+                    };
+                };
+
+                var msgbox = $uibModal.open({
+                    templateUrl: '/app/partials/notifiering-journalsystem-dialog.html',
+                    controller: DialogInstanceCtrl,
+                    resolve: {
+                        title: function() {
+                            return angular.copy(title);
+                        },
+                        bodyText: function() {
+                            return angular.copy(bodyText);
+                        },
+                        yesCallback: function() {
+                            return yesCallback;
+                        },
+                        noCallback: function() {
+                            return noCallback;
+                        }
+                    }
+                });
+
+                msgbox.result.then(function(result) {
+                    if (callback) {
+                        callback(result);
+                    }
+                }, function() {
+                });
+            }
+
 
 
             // Return public API for the service
@@ -253,6 +328,7 @@ angular.module('common').factory('common.UtkastNotifyService',
                 notifyUtkast: _notifyUtkast,
                 onNotifyChange: _onNotifyChange,
                 showNotifyPreferenceDialog: _showNotifyPreferenceDialog,
-                buildNotifyDoctorMailToLink: _buildNotifyDoctorMailToLink
+                buildNotifyDoctorMailToLink: _buildNotifyDoctorMailToLink,
+                notifyJournalsystem: _notifyJournalsystem
             };
         }]);
