@@ -14,7 +14,7 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
             $scope.doneLoading = false;
 
             $scope.send = function() {
-                $location.path('/lisjp/recipients').search({ module: 'lisjp', defaultRecipient: 'FK'});
+                $location.path('/send/lisjp/' + $stateParams.certificateId + '/FK');
             };
 
             $scope.visibleStatuses = [ 'SENT' ];

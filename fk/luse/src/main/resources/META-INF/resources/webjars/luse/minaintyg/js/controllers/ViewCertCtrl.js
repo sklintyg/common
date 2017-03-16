@@ -14,7 +14,7 @@ angular.module('luse').controller('luse.ViewCertCtrl',
             $scope.doneLoading = false;
 
             $scope.send = function() {
-                $location.path('/luse/recipients').search({ module: 'luse', defaultRecipient: 'FK'});
+                $location.path('/send/luse/' + $stateParams.certificateId + '/FK');
             };
 
             $scope.visibleStatuses = [ 'SENT' ];

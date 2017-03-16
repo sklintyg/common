@@ -42,7 +42,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
             };
 
             $scope.send = function() {
-                $location.path('/ts-diabetes/recipients').search({ module: 'ts-diabetes', defaultRecipient: 'TS'});
+                $location.path('/send/ts-diabetes/' + $stateParams.certificateId + '/TS');
             };
 
             $scope.opts = {

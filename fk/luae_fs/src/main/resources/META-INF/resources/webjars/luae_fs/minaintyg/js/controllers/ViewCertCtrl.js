@@ -14,7 +14,7 @@ angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
             $scope.doneLoading = false;
 
             $scope.send = function() {
-                $location.path('/luae_fs/recipients').search({ module: 'luae_fs', defaultRecipient: 'FK'});
+                $location.path('/send/luae_fs/' + $stateParams.certificateId + '/FK');
             };
 
             $scope.visibleStatuses = [ 'SENT' ];
