@@ -40,8 +40,6 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.false': 'NEJ',
 
         'ts-bas.label.pagetitle': 'Granska och skicka intyg',
-        'ts-bas.label.pagetitle.step1': 'Skicka intyg - steg 1 av 2',
-        'ts-bas.label.pagetitle.step2': 'Skicka intyg - steg 2 av 2',
 
         'ts-bas.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även spara intyget som en PDF på din dator.<br>',
         'ts-bas.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
@@ -73,26 +71,12 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.latestevent.noevents': 'Inga händelser',
         'ts-bas.label.latestevent.showall': 'Visa alla händelser',
 
-        'ts-bas.confirm.label.summarypagedesc': 'Du har valt att skicka följande intyg: ',
-        'ts-bas.confirm.label.recipienttitle': 'Mottagare: ',
-        'ts-bas.confirm.label.verifytext': 'Kontrollera att uppgifterna ovan stämmer och tryck på Skicka.',
-        'ts-bas.confirm.message.alreadysent': '<strong>Observera!</strong> Intyget har redan skickats till: <br>',
 
         'ts-bas.button.send': 'Skicka',
         'ts-bas.button.send.certificate.title': 'Skicka detta intyg till Transportstyrelsen.',
         'ts-bas.button.sendtofk': 'Skicka',
         'ts-bas.button.goback': 'Tillbaka',
         'ts-bas.button.cancel': 'Avbryt',
-
-        'ts-bas.fishbone.label.granska-skicka': 'Granska och skicka',
-        'ts-bas.fishbone.label.bekraftelse': 'Bekräftelse',
-
-        'ts-bas.target.mi': 'Försäkringsbolaget',
-        'ts-bas.target.ts': 'Transportstyrelsen',
-
-        'ts-bas.sent.label.pageinformation': 'Intyget har nu skickats och nedan presenteras försändelsen.',
-        'ts-bas.sent.label.result': 'Mottagare av intyget: ',
-        'ts-bas.sent.button.backtocertificate': 'Tillbaka till intyget',
 
         'ts-button.detail.send': 'Skicka',
         'ts-bas.message.certifits-basloading': 'Hämtar intyg...',

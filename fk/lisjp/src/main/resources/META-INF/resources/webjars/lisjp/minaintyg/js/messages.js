@@ -1,14 +1,6 @@
 /* jshint maxlen: false */
 angular.module('lisjp').constant('lisjp.messages', {
     'sv': {
-        'lisjp.recipient.label.pagetitle': 'Skicka intyg - steg 1 av 3',
-        'lisjp.recipient.label.selectrecipents': 'Här ser du de mottagare som du kan skicka intyget till elektroniskt. Välj önskad mottagare och klicka sedan på knappen Nästa för att gå vidare till nästa steg.',
-        'lisjp.recipient.label.recipientlisttitle': 'Myndigheter och försäkringsbolag',
-        'lisjp.recipient.label.recipientlisttitle.others': 'Myndigheter och försäkringsbolag',
-        'lisjp.recipient.label.missing.recipients-1': 'Om du saknar din mottagare i listan beror det troligen på att mottagaren inte kan ta emot elektroniska läkarintyg. Du kan då ',
-        'lisjp.recipient.label.missing.recipients-2': ' och skicka det per post istället.',
-
-
         'lisjp.button.customize.certificate': 'Anpassa intyget till arbetsgivare',
         'lisjp.button.customize.certificate.title': 'Anpassa detta intyg för att lämna till arbetsgivaren.',
         // Anpassat intyg
@@ -35,19 +27,6 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.customize.summary.leave.no': 'Nej, stanna kvar',
 
 
-
-        'lisjp.confirm.label.pagetitle': 'Skicka intyg - steg 2 av 3',
-        'lisjp.confirm.label.certrowtitle': 'Intyg',
-        'lisjp.confirm.label.recipienttitle': 'Mottagare',
-        'lisjp.confirm.label.summarypagedesc': '<p><b>Du har valt att skicka det här intyget.</b></p>',
-        'lisjp.confirm.label.verifytext': 'Kontrollera att uppgifterna ovan stämmer och tryck "Skicka"',
-        'lisjp.confirm.message.alreadysent': '<strong>Observera!</strong> Intyget har redan skickats till: <br>',
-
-        'lisjp.sent.label.pagetitle': 'Skicka intyg - steg 3 av 3',
-        'lisjp.sent.label.pageinformation': 'Intyget har nu skickats och nedan presenteras försändelsen.',
-        'lisjp.sent.label.result': 'Mottagare av intyget: <br>',
-        'lisjp.sent.label.infoaboutrecipients': 'Observera att olika mottagare har olika tider när dom kan se det inskickade intyget.',
-        'lisjp.sent.button.backtocertificate': 'Tillbaka till intyget',
         'lisjp.label.latestevent': 'Senaste händelse',
         'lisjp.label.latestevent.noevents': 'Inga händelser',
         'lisjp.history.label.pagetitle': 'Intygets alla händelser',
@@ -58,7 +37,6 @@ angular.module('lisjp').constant('lisjp.messages', {
 
         'lisjp.inbox.complementaryinfo': 'Intygsperiod',
 
-        'lisjp.button.sendtofk': 'Skicka till Försäkringskassan',
         'lisjp.button.send.certificate': 'Skicka',
         'lisjp.button.send.certificate.title': 'Skicka detta intyg till en eller flera mottagare.',
 
@@ -98,16 +76,11 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.label.contactinfo': 'Namn och kontaktuppgifter till vårdenheten',
 
         'lisjp.message.certificateloading': 'Hämtar intyg...',
-        'lisjp.recipients.label.pagetitle': 'Skicka intyg - välj mottagare',
         'lisjp.button.send': 'Skicka',
         'lisjp.button.cancel': 'Avbryt',
         'lisjp.button.goback': 'Tillbaka',
         'lisjp.button.next': 'Nästa',
         'lisjp.button.previous': 'Föregående steg',
-
-        'lisjp.fishbone.label.valj-mottagare': 'Välj mottagare',
-        'lisjp.fishbone.label.granska-skicka': 'Granska och skicka',
-        'lisjp.fishbone.label.bekraftelse': 'Bekräftelse',
 
         'lisjp.vardkontakt.5880005': 'Min undersökning av patienten den %0',
         'lisjp.vardkontakt.undersokning': 'Min undersökning av patienten den ',
@@ -122,8 +95,7 @@ angular.module('lisjp').constant('lisjp.messages', {
 
         'lisjp.error.generic': 'Intyget kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
         'lisjp.error.couldnotsend': 'Intyget kunde inte skickas till Försäkringskassan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'lisjp.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'lisjp.error.failedreceiverecipients': 'Kunde inte ladda mottagarlistan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
+        'lisjp.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
     },
     'en': {
         'lisjp.label.pagetitle': 'Show Certificate'

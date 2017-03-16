@@ -109,7 +109,6 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.label.latestevent': 'Senaste händelse',
         'fk7263.label.latestevent.noevents': 'Inga händelser',
 
-        'fk7263.button.sendtofk': 'Skicka till Försäkringskassan',
         'fk7263.button.send.certificate': 'Skicka',
         'fk7263.button.send.certificate.title': 'Skicka detta intyg till en eller flera mottagare.',
         'fk7263.button.customize.certificate': 'Anpassa intyget till arbetsgivare',
@@ -120,32 +119,6 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.button.goback': 'Tillbaka',
         'fk7263.button.next': 'Nästa',
         'fk7263.button.previous': 'Föregående steg',
-
-        'fk7263.fishbone.label.valj-mottagare': 'Välj mottagare',
-        'fk7263.fishbone.label.granska-skicka': 'Granska och skicka',
-        'fk7263.fishbone.label.bekraftelse': 'Bekräftelse',
-
-        'fk7263.recipient.label.pagetitle': 'Skicka intyg - steg 1 av 3',
-        'fk7263.recipient.label.selectrecipents': 'Här ser du de mottagare som du kan skicka intyget till elektroniskt. Välj önskad mottagare och klicka sedan på knappen Nästa för att gå vidare till nästa steg.',
-        'fk7263.recipient.label.recipientlisttitle': 'Myndigheter och försäkringsbolag',
-        'fk7263.recipient.label.recipientlisttitle.others': 'Myndigheter och försäkringsbolag',
-        'fk7263.recipient.label.missing.recipients-1': 'Om du saknar din mottagare i listan beror det troligen på att mottagaren inte kan ta emot elektroniska läkarintyg. Du kan då ',
-        'fk7263.recipient.label.missing.recipients-2': ' och skicka det per post istället.',
-
-        'fk7263.recipients.label.pagetitle': 'Skicka intyg - välj mottagare',
-
-        'fk7263.confirm.label.pagetitle': 'Skicka intyg - steg 2 av 3',
-        'fk7263.confirm.label.certrowtitle': 'Intyg',
-        'fk7263.confirm.label.recipienttitle': 'Mottagare',
-        'fk7263.confirm.label.summarypagedesc': '<p><b>Du har valt att skicka det här intyget.</b></p>',
-        'fk7263.confirm.label.verifytext': 'Kontrollera att uppgifterna ovan stämmer och tryck "Skicka"',
-        'fk7263.confirm.message.alreadysent': '<strong>Observera!</strong> Intyget har redan skickats till: <br>',
-
-        'fk7263.sent.label.pagetitle': 'Skicka intyg - steg 3 av 3',
-        'fk7263.sent.label.pageinformation': 'Intyget har nu skickats och nedan presenteras försändelsen.',
-        'fk7263.sent.label.result': 'Mottagare av intyget: <br>',
-        'fk7263.sent.label.infoaboutrecipients': 'Observera att olika mottagare har olika tider när dom kan se det inskickade intyget.',
-        'fk7263.sent.button.backtocertificate': 'Tillbaka till intyget',
 
         'fk7263.target.fk': 'Försäkringskassan',
         'fk7263.target.afa': 'AFA Försäkring',
@@ -199,8 +172,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         // Errors
         'fk7263.error.generic': 'Intyget kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
         'fk7263.error.couldnotsend': 'Intyget kunde inte skickas till Försäkringskassan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'fk7263.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'fk7263.error.failedreceiverecipients': 'Kunde inte ladda mottagarlistan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
+        'fk7263.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
     },
     'en': {
         'fk7263.label.pagetitle': 'Show Certificate'

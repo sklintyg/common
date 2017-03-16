@@ -1,24 +1,6 @@
 /* jshint maxlen: false */
 angular.module('luae_na').constant('luae_na.messages', {
     'sv': {
-        'luae_na.recipient.label.pagetitle': 'Skicka intyg - steg 1 av 3',
-        'luae_na.recipient.label.selectrecipents': 'Här ser du de mottagare som du kan skicka intyget till elektroniskt. Välj önskad mottagare och klicka sedan på knappen Nästa för att gå vidare till nästa steg.',
-        'luae_na.recipient.label.recipientlisttitle': 'Myndigheter och försäkringsbolag',
-        'luae_na.recipient.label.recipientlisttitle.others': 'Myndigheter och försäkringsbolag',
-        'luae_na.recipient.label.missing.recipients-1': 'Om du saknar din mottagare i listan beror det troligen på att mottagaren inte kan ta emot elektroniska läkarintyg. Du kan då ',
-        'luae_na.recipient.label.missing.recipients-2': ' och skicka det per post istället.',
-
-        'luae_na.confirm.label.pagetitle': 'Skicka intyg - steg 2 av 3',
-        'luae_na.confirm.label.certrowtitle': 'Intyg',
-        'luae_na.confirm.label.recipienttitle': 'Mottagare',
-        'luae_na.confirm.label.summarypagedesc': '<p><b>Du har valt att skicka det här intyget.</b></p>',
-        'luae_na.confirm.label.verifytext': 'Kontrollera att uppgifterna ovan stämmer och tryck "Skicka"',
-        'luae_na.confirm.message.alreadysent': '<strong>Observera!</strong> Intyget har redan skickats till: <br>',
-
-        'luae_na.sent.label.pagetitle': 'Skicka intyg - steg 3 av 3',
-        'luae_na.sent.label.pageinformation': 'Intyget har nu skickats och nedan presenteras försändelsen.',
-        'luae_na.sent.label.result': 'Mottagare av intyget: <br>',
-        'luae_na.sent.label.infoaboutrecipients': 'Observera att olika mottagare har olika tider när dom kan se det inskickade intyget.',
         'luae_na.sent.button.backtocertificate': 'Tillbaka till intyget',
         'luae_na.label.latestevent': 'Senaste händelse',
         'luae_na.label.latestevent.noevents': 'Inga händelser',
@@ -30,7 +12,6 @@ angular.module('luae_na').constant('luae_na.messages', {
 
         'luae_na.inbox.complementaryinfo': 'Intygsperiod',
 
-        'luae_na.button.sendtofk': 'Skicka till Försäkringskassan',
         'luae_na.button.send.certificate': 'Skicka',
         'luae_na.button.send.certificate.title': 'Skicka detta intyg till en eller flera mottagare.',
 
@@ -71,21 +52,15 @@ angular.module('luae_na').constant('luae_na.messages', {
         'luae_na.label.contactinfo': 'Namn och kontaktuppgifter till vårdenheten',
 
         'luae_na.message.certificateloading': 'Hämtar intyg...',
-        'luae_na.recipients.label.pagetitle': 'Skicka intyg - välj mottagare',
         'luae_na.button.send': 'Skicka',
         'luae_na.button.cancel': 'Avbryt',
         'luae_na.button.goback': 'Tillbaka',
         'luae_na.button.next': 'Nästa',
         'luae_na.button.previous': 'Föregående steg',
 
-        'luae_na.fishbone.label.valj-mottagare': 'Välj mottagare',
-        'luae_na.fishbone.label.granska-skicka': 'Granska och skicka',
-        'luae_na.fishbone.label.bekraftelse': 'Bekräftelse',
-
         'luae_na.error.generic': 'Intyget kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
         'luae_na.error.couldnotsend': 'Intyget kunde inte skickas till Försäkringskassan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'luae_na.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'luae_na.error.failedreceiverecipients': 'Kunde inte ladda mottagarlistan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
+        'luae_na.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
     },
     'en': {
         'luae_na.label.pagetitle': 'Show Certificate'

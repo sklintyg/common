@@ -11,29 +11,11 @@ angular.module('luae_na').config(function($stateProvider) {
             controller: 'luae_na.ViewCertCtrl',
             data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true }
         }).
-        state('luae_na-recipients', {
-            url : '/luae_na/recipients',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/recipients.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Skicka intyg till mottagare' }
-        }).
         state('luae_na-statushistory', {
             url : '/luae_na/statushistory',
             templateUrl: '/web/webjars/luae_na/minaintyg/views/status-history.html',
             controller: 'luae_na.ViewCertCtrl',
             data : { title: 'Alla intygets händelser' }
-        }).
-        state('luae_na-summary', {
-            url : '/luae_na/summary',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/send-summary.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Kontrollera och skicka intyget' }
-        }).
-        state('luae_na-sent', {
-            url : '/luae_na/sent',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/sent-cert.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Intyget har skickats' }
         }).
         state('luae_na-fel', {
             url : '/luae_na/fel/:errorCode',

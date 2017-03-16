@@ -11,29 +11,11 @@ angular.module('luse').config(function($stateProvider) {
             controller: 'luse.ViewCertCtrl',
             data : { title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true }
         }).
-        state('luse-recipients', {
-            url : '/luse/recipients',
-            templateUrl: '/web/webjars/luse/minaintyg/views/recipients.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Skicka intyg till mottagare' }
-        }).
         state('luse-statushistory', {
             url : '/luse/statushistory',
             templateUrl: '/web/webjars/luse/minaintyg/views/status-history.html',
             controller: 'luse.ViewCertCtrl',
             data : { title: 'Alla intygets händelser' }
-        }).
-        state('luse-summary', {
-            url : '/luse/summary',
-            templateUrl: '/web/webjars/luse/minaintyg/views/send-summary.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Kontrollera och skicka intyget' }
-        }).
-        state('luse-sent', {
-            url : '/luse/sent',
-            templateUrl: '/web/webjars/luse/minaintyg/views/sent-cert.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Intyget har skickats' }
         }).
         state('luse-fel', {
             url : '/luse/fel/:errorCode',

@@ -41,29 +41,11 @@ angular.module('fk7263').config(function($stateProvider) {
             controller: 'fk7263.CustomizeCertSummaryCtrl',
             data : { title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true}
         }).
-        state('fk7263-recipients', {
-            url : '/fk7263/recipients',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/recipients.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Skicka intyg till mottagare' }
-        }).
         state('fk7263-statushistory', {
             url : '/fk7263/statushistory',
             templateUrl: '/web/webjars/fk7263/minaintyg/views/status-history.html',
             controller: 'fk7263.ViewCertCtrl',
             data : { title: 'Alla intygets händelser' }
-        }).
-        state('fk7263-summary', {
-            url : '/fk7263/summary',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/send-summary.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Kontrollera och skicka intyget' }
-        }).
-        state('fk7263-sent', {
-            url : '/fk7263/sent',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/sent-cert.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Intyget har skickats' }
         }).
         state('fk7263-fel', {
             url : '/fk7263/fel/:errorCode',

@@ -19,29 +19,12 @@ angular.module('lisjp').config(function($stateProvider) {
             templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf-summary.html',
             controller: 'lisjp.CustomizePdfSummaryCtrl',
             data: {title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true}
-        }).state('lisjp-recipients', {
-            url : '/lisjp/recipients',
-            templateUrl: '/web/webjars/lisjp/minaintyg/views/recipients.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Skicka intyg till mottagare' }
         }).
         state('lisjp-statushistory', {
             url : '/lisjp/statushistory',
             templateUrl: '/web/webjars/lisjp/minaintyg/views/status-history.html',
             controller: 'lisjp.ViewCertCtrl',
             data : { title: 'Alla intygets händelser' }
-        }).
-        state('lisjp-summary', {
-            url : '/lisjp/summary',
-            templateUrl: '/web/webjars/lisjp/minaintyg/views/send-summary.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Kontrollera och skicka intyget' }
-        }).
-        state('lisjp-sent', {
-            url : '/lisjp/sent',
-            templateUrl: '/web/webjars/lisjp/minaintyg/views/sent-cert.html',
-            controller: 'common.SendCertWizardCtrl',
-            data : { title: 'Intyget har skickats' }
         }).
         state('lisjp-fel', {
             url : '/lisjp/fel/:errorCode',
