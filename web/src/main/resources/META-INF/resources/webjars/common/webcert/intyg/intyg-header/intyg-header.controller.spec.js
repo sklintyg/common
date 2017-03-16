@@ -161,21 +161,21 @@ describe('IntygHeaderCtrl', function() {
 
         describe('makulerat button', function() {
             it('should be shown if intyg is not already makulerat or on queue to be makulerat', function() {
-                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.isIntygOnRevokeQueue = true;
                 $scope.viewState.common.intygProperties.isRevoked = false;
+                expect($scope.makuleratIntyg()).toBeTruthy();
+
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = true;
+                expect($scope.makuleratIntyg()).toBeTruthy();
+
+                $scope.viewState.common.isIntygOnRevokeQueue = true;
+                $scope.viewState.common.intygProperties.isRevoked = true;
                 expect($scope.makuleratIntyg()).toBeTruthy();
             });
             it('should not be shown if intyg is already makulerat or on queue to be makulerat', function() {
-                $scope.viewState.common.isIntygOnRevokeQueue = true;
-                $scope.viewState.common.intygProperties.isRevoked = false;
-                expect($scope.makuleratIntyg()).toBeFalsy();
-
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
-                $scope.viewState.common.intygProperties.isRevoked = true;
-                expect($scope.makuleratIntyg()).toBeFalsy();
-
-                $scope.viewState.common.isIntygOnRevokeQueue = true;
-                $scope.viewState.common.intygProperties.isRevoked = true;
+                $scope.viewState.common.intygProperties.isRevoked = false;
                 expect($scope.makuleratIntyg()).toBeFalsy();
             });
         });
