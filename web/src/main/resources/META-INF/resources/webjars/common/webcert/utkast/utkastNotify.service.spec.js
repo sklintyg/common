@@ -70,7 +70,7 @@ describe('UtkastNotifyService', function() {
                 version: 4,
                 vidarebefordrad: false
             };
-            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId?sjf=false').respond(200, utkastResponse);
+            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId').respond(200, utkastResponse);
             $httpBackend.flush();
             $timeout.flush();
 
@@ -102,7 +102,7 @@ describe('UtkastNotifyService', function() {
                 version: 4,
                 vidarebefordrad: false
             };
-            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId?sjf=false').respond(200, utkastResponse);
+            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId').respond(200, utkastResponse);
             $httpBackend.flush();
             $timeout.flush();
 
@@ -130,7 +130,7 @@ describe('UtkastNotifyService', function() {
                 version: 4,
                 vidarebefordrad: false
             };
-            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId?sjf=false').respond(200, utkastResponse);
+            $httpBackend.expectGET('/moduleapi/utkast/intygsTyp/intygsId').respond(200, utkastResponse);
             $httpBackend.flush();
             $timeout.flush();
 

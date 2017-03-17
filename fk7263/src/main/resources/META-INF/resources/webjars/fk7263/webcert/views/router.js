@@ -29,7 +29,7 @@ angular.module('fk7263').config(function($stateProvider) {
     $stateProvider.
         state('fk7263-edit', {
             data: { defaultActive : 'index' },
-            url : '/fk7263/edit/:certificateId?:patientId&:hospName&:sjf',
+            url : '/fk7263/edit/:certificateId',
             views : {
                 'content@' : {
                     templateUrl: intygsTypPath + 'views/utkast/utkast.wrapper.html'
@@ -138,7 +138,7 @@ angular.module('fk7263').config(function($stateProvider) {
         }).
         state('webcert.intyg.fk.fk7263', {
             data: { defaultActive : 'index', intygType: 'fk7263' },
-            url:'/intyg/fk7263/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:signed&:sjf',
+            url:'/intyg/fk7263/:certificateId',
             views: {
                 'intyg@webcert.intyg.fk' : {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',

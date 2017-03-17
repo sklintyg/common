@@ -120,15 +120,7 @@ angular.module('common').controller('common.IntygHeader',
                     buildIntygRequestModel({
                         intygId: intyg.id,
                         intygType: intygType,
-                        patientPersonnummer: intyg.grundData.patient.personId,
-                        nyttPatientPersonnummer: $stateParams.patientId,
-                        fornamn: $stateParams.fornamn,
-                        efternamn: $stateParams.efternamn,
-                        mellannamn: $stateParams.mellannamn,
-                        postadress: $stateParams.postadress,
-                        postnummer: $stateParams.postnummer,
-                        postort: $stateParams.postort,
-                        coherentJournaling: $stateParams.sjf
+                        patientPersonnummer: intyg.grundData.patient.personId
                     }),
                     isOtherCareUnit
                 );

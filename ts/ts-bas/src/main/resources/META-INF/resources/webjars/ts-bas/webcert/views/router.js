@@ -136,7 +136,7 @@ angular.module('ts-bas').config(function($stateProvider) {
         }).
         state('webcert.intyg.ts.bas', {
             data: { defaultActive: 'index', intygType: 'ts-bas' },
-            url: '/intyg/ts-bas/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:signed&:sjf',
+            url: '/intyg/ts-bas/:certificateId',
             views: {
                 'intyg@webcert.intyg.ts': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',

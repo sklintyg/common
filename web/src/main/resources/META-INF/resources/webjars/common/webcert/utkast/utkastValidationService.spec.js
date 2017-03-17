@@ -31,10 +31,8 @@ describe('UtkastValidationService', function() {
     beforeEach(angular.mock.module('common', function($provide) {
     }));
 
-    beforeEach(angular.mock.inject(['common.UtkastValidationService', 'common.UtkastViewStateService',
-        '$httpBackend', '$rootScope',
-        function(_utkastValidationService_, _commonViewState_,
-            _$httpBackend_, _$rootScope_) {
+    beforeEach(angular.mock.inject(['common.UtkastValidationService', 'common.UtkastViewStateService', '$httpBackend', '$rootScope',
+        function(_utkastValidationService_, _commonViewState_, _$httpBackend_, _$rootScope_) {
             utkastValidationService = _utkastValidationService_;
             commonViewState = _commonViewState_;
             $httpBackend = _$httpBackend_;

@@ -35,12 +35,9 @@ angular.module('common').factory('common.IntygProxy',
         /*
          * Load certificate details from the server.
          */
-        function _getIntyg(intygsId, intygsTyp, sjf, onSuccess, onError) {
+        function _getIntyg(intygsId, intygsTyp, onSuccess, onError) {
             $log.debug('_getCertificate id:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId;
-            if (sjf !== undefined) {
-                restPath = restPath + '?sjf=' + sjf;
-            }
             $http.get(restPath).success(function(data) {
                 $log.debug('_getCertificate data:' + data);
                 onSuccess(data);

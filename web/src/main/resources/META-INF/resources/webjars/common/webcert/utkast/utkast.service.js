@@ -110,9 +110,8 @@ angular.module('common').factory('common.UtkastService',
                 var intygsTyp = viewState.common.intyg.type;
                 CommonViewState.doneLoading = false;
                 var def = $q.defer();
-                var sjf = ObjectHelper.isDefined($stateParams.sjf) ? $stateParams.sjf : false;
 
-                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, sjf, function(utkastData) {
+                UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, function(utkastData) {
 
                     // check that the certs status is not signed
                     if (utkastData.status === 'SIGNED') {
@@ -126,7 +125,7 @@ angular.module('common').factory('common.UtkastService',
                             function(labels) {
                                 viewState.relations = utkastData.relations;
                                 viewState.common.intyg.isKomplettering = utkastData.content.grundData.relation !== undefined && utkastData.content.grundData.relation.relationKod === 'KOMPLT';
-                                
+
                                 // update model here so controls dependent on correct models at startup has the right values first
                                 viewState.common.update(viewState.draftModel, utkastData);
 
@@ -145,7 +144,7 @@ angular.module('common').factory('common.UtkastService',
                                     // No need to wait for PatientProxy to check patient, run finish method right away.
                                     _finishLoadingUtkast(viewState, intygsTyp, def);
                                 }
-                                
+
                             }, function(error) {
                                 CommonViewState.doneLoading = true;
                                 CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);
@@ -167,7 +166,7 @@ angular.module('common').factory('common.UtkastService',
                 if (ObjectHelper.isDefined(intygModel.grundData.relation) &&
                     ObjectHelper.isDefined(intygModel.grundData.relation.relationIntygsId) &&
                     ObjectHelper.isDefined(intygModel.grundData.relation.meddelandeId)) {
-                    IntygProxy.getIntyg(intygModel.grundData.relation.relationIntygsId, viewState.common.intyg.type, false,
+                    IntygProxy.getIntyg(intygModel.grundData.relation.relationIntygsId, viewState.common.intyg.type,
                         function(result) {
                             if (result !== null && result !== '') {
                                 var parentIntyg = result.contents;

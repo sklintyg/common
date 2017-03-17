@@ -51,9 +51,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
             function loadIntyg() {
                 $log.debug('Loading certificate ' + $stateParams.certificateId);
 
-                var sjf = ObjectHelper.isDefined($stateParams.sjf) ? $stateParams.sjf : false;
-
-                IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type, sjf, function(result) {
+                IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type, function(result) {
                     ViewState.common.doneLoading = true;
                     if (result !== null && result !== '') {
                         ViewState.intygModel = result.contents;

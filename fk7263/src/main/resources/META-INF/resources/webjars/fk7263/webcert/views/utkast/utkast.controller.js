@@ -82,7 +82,7 @@ angular.module('fk7263').controller('fk7263.EditCertCtrl',
                 if (ObjectHelper.isDefined(intygModel.grundData.relation) &&
                     ObjectHelper.isDefined(intygModel.grundData.relation.relationIntygsId) &&
                     ObjectHelper.isDefined(intygModel.grundData.relation.meddelandeId)) {
-                    IntygProxy.getIntyg(intygModel.grundData.relation.relationIntygsId, viewState.common.intyg.type, false,
+                    IntygProxy.getIntyg(intygModel.grundData.relation.relationIntygsId, viewState.common.intyg.type,
                         function(result) {
                             if (result !== null && result !== '') {
                                 var parentIntyg = result.contents;

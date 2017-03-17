@@ -173,14 +173,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                             IntygCopyRequestModel.build({
                                 intygId: $scope.parentViewState.intyg.id,
                                 intygType: ArendeSvar.intygProperties.type,
-                                patientPersonnummer: $scope.parentViewState.intyg.grundData.patient.personId,
-                                nyttPatientPersonnummer: $stateParams.patientId,
-                                fornamn: $stateParams.fornamn,
-                                efternamn: $stateParams.efternamn,
-                                mellannamn: $stateParams.mellannamn,
-                                postadress: $stateParams.postadress,
-                                postnummer: $stateParams.postnummer,
-                                postort: $stateParams.postort
+                                patientPersonnummer: $scope.parentViewState.intyg.grundData.patient.personId
                             }), function(result) {
 
                                 ArendeSvar.updateInProgress = false;

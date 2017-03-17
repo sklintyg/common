@@ -18,8 +18,8 @@
  */
 
 angular.module('common').service('common.UtkastViewStateService',
-    ['$stateParams', '$window', 'common.ViewStateService', 'common.User', 'common.UtkastValidationViewState',
-        function($stateParams, $window, commonViewStateService, commonUser, utkastValidationViewState) {
+    ['$window', 'common.ViewStateService', 'common.User', 'common.UtkastValidationViewState', 'common.UserModel',
+        function($window, commonViewStateService, commonUser, utkastValidationViewState, UserModel) {
         'use strict';
 
         this.reset = function() {
@@ -37,7 +37,9 @@ angular.module('common').service('common.UtkastViewStateService',
             this.showComplete = false;
             this.hsaInfoMissing = false;
             this.vidarebefordraInProgress = false;
-            this.hospName = $stateParams.hospName;
+            if (UserModel.user !== undefined && UserModel.user.parameters !== undefined) {
+                this.hospName = UserModel.user.parameters.responsibleHospName;
+            }
             this.deleted = false;
             this.isSigned = false;
             this.textVersionUpdated = false;
