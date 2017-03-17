@@ -25,7 +25,7 @@ angular.module('lisjp').config(function($stateProvider) {
     $stateProvider.
         state('lisjp-edit', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
-            url : '/lisjp/edit/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:sjf',
+            url : '/lisjp/edit/:certificateId',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -68,7 +68,7 @@ angular.module('lisjp').config(function($stateProvider) {
         }).
         state('webcert.intyg.fk.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
-            url:'/intyg/lisjp/:certificateId?:patientId&:hospName&:fornamn&:efternamn&:mellannamn&:postadress&:postnummer&:postort&:signed&:sjf',
+            url:'/intyg/lisjp/:certificateId',
             views: {
                 'intyg@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'intyg/smiIntyg.html',

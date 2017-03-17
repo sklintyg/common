@@ -143,7 +143,7 @@ describe('UtkastService', function() {
                 content: utkastContent,
                 status: 'SIGNED'
             };
-            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=false').respond(200, response);
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId').respond(200, response);
             $httpBackend.flush();
             $timeout.flush();
 
@@ -166,7 +166,7 @@ describe('UtkastService', function() {
                 content: utkastContent
             };
 
-            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=false').respond(200, response);
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId').respond(200, response);
             $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
             expect(viewState.common.doneLoading).toBeFalsy();
@@ -209,7 +209,7 @@ describe('UtkastService', function() {
                 }
             };
 
-            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=false').respond(200, response);
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId').respond(200, response);
             $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puChangedResponse);
             $httpBackend.flush();
             expect(viewState.common.doneLoading).toBeFalsy();
@@ -254,7 +254,7 @@ describe('UtkastService', function() {
                 relations: [],
                 content: utkastContentKomplt
             };
-            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygIdKomplt?sjf=false').respond(200, response);
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygIdKomplt').respond(200, response);
             $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
             expect(viewState.common.doneLoading).toBeFalsy();
@@ -270,10 +270,10 @@ describe('UtkastService', function() {
             expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
         });
 
+        /* TODO: REMOVE?! THIS IS NOT SOMETHING THTAT FRONTEND SHOULD HANDLE
         it ('successful utkast load with sjf', function () {
 
             $stateParams.certificateId = 'testIntygId';
-            $stateParams.sjf = true;
             var promise = utkastService.load(viewState);
             var resultData;
             promise.then(function(data) {
@@ -285,7 +285,7 @@ describe('UtkastService', function() {
                 relations: [],
                 content: utkastContent
             };
-            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=true').respond(200, response);
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId').respond(200, response);
             $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
             $httpBackend.expectPOST('/moduleapi/utkast/testIntyg/testIntygId/validate').respond(200, {messages:[]});
@@ -293,6 +293,7 @@ describe('UtkastService', function() {
             $httpBackend.flush();
             expect(resultData.braIntygsData).toBe('bra');
         });
+        */
 
         it ('unsuccessful utkast load', function () {
             spyOn($rootScope,'$broadcast').and.callThrough();
@@ -306,7 +307,7 @@ describe('UtkastService', function() {
             });
 
             utkastContent.braIntygsData = 'bra';
-            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId?sjf=false').respond(500, {errorCode:'AUTHORIZATION_PROBLEM'});
+            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId').respond(500, {errorCode:'AUTHORIZATION_PROBLEM'});
             expect(viewState.common.doneLoading).toBeFalsy();
             $httpBackend.flush();
 

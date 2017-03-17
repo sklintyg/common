@@ -34,7 +34,7 @@ angular.module('common').factory('common.UtkastNotifyService',
             function _notifyUtkast(intygId, intygType, utkast, updateState) {
 
                 // Fetch DraftModel to get hold of enhetsNamn and vardgivareNamn
-                utkastProxy.getUtkast(intygId, intygType, false, function(draft) {
+                utkastProxy.getUtkast(intygId, intygType, function(draft) {
                         var utkastNotifyRequest = {
                             intygId: intygId,
                             intygType: intygType,

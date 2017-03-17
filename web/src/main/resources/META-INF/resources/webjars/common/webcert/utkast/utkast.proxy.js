@@ -37,12 +37,9 @@ angular.module('common').factory('common.UtkastProxy',
         /**
          * Get a utkast with the specified id from the server.
          */
-        function _getUtkast(intygsId, intygsTyp, sjf, onSuccess, onError) {
+        function _getUtkast(intygsId, intygsTyp, onSuccess, onError) {
             $log.debug('_getDraft intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId;
-            if (sjf !== undefined) {
-                restPath = restPath + '?sjf=' + sjf;
-            }
             $http.get(restPath).
                 success(function(data) {
                     $log.debug('_getDraft data: ' + data);

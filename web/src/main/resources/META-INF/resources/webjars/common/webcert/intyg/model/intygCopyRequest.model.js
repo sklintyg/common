@@ -28,20 +28,12 @@ angular.module('common').factory('common.IntygCopyRequestModel',
         /**
          * Constructor
          *
-         * parameters intygId, intygType, patientPersonnummer, nyttPatientPersonnummer, fornamn, mellannamn, efternamn, postadress, postnummer, postort, coherentJournaling
+         * parameters intygId, intygType, patientPersonnummer
          */
         function IntygCopyRequestModel(data) {
             this.intygId = data.intygId;
             this.intygType = data.intygType;
             this.patientPersonnummer = data.patientPersonnummer;
-            this.nyttPatientPersonnummer = data.nyttPatientPersonnummer;
-            this.fornamn = data.fornamn;
-            this.mellannamn = data.mellannamn;
-            this.efternamn = data.efternamn;
-            this.postadress = data.postadress;
-            this.postnummer = data.postnummer;
-            this.postort = data.postort;
-            this.coherentJournaling = data.coherentJournaling;
         }
 
         IntygCopyRequestModel.build = function(data) {

@@ -25,7 +25,7 @@ angular.module('common').factory('common.IntygFornyaRequestModel', [
         /**
          * Constructor
          *
-         * parameters intygId, intygType, patientPersonnummer, nyttPatientPersonnummer, fornamn, mellannamn, efternamn, postadress, postnummer, postort
+         * parameters intygId, intygType, patientPersonnummer
          *
          * @inherits IntygCopyRequestModel
          */
