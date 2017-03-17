@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('lisjpShowCategory',
+angular.module('lisjp').directive('categoryWrapper',
     function() {
         'use strict';
 
