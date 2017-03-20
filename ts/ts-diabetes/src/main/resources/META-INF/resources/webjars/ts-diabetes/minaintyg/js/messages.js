@@ -81,6 +81,7 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.detail.send': 'Skicka',
         'ts-diabetes.message.certificateloading': 'Hämtar intyg...',
 
+        'ts-diabetes.compact-header.complementaryinfo-prefix': 'Avser behörighet:',
 
         'ts-diabetes.button.send': 'Skicka',
         'ts-diabetes.button.cancel': 'Avbryt',

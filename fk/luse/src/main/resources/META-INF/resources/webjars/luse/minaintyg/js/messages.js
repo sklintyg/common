@@ -12,6 +12,7 @@ angular.module('luse').constant('luse.messages', {
         'luse.target.skandia': 'Skandia',
 
         'luse.inbox.complementaryinfo': 'Intygsperiod',
+        'luse.compact-header.complementaryinfo-prefix': 'Avser diagnos:',
 
         'luse.button.send': 'Skicka',
         'luse.button.cancel': 'Avbryt',

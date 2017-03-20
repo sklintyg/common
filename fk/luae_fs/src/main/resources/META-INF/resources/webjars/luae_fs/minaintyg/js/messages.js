@@ -11,6 +11,7 @@ angular.module('luae_fs').constant('luae_fs.messages', {
         'luae_fs.target.skandia': 'Skandia',
 
         'luae_fs.inbox.complementaryinfo': 'Intygsperiod',
+        'luae_fs.compact-header.complementaryinfo-prefix': 'Avser diagnos:',
 
         'luae_fs.button.send': 'Skicka',
         'luae_fs.button.send.certificate': 'Skicka',

@@ -77,6 +77,7 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.button.sendtofk': 'Skicka',
         'ts-bas.button.goback': 'Tillbaka',
         'ts-bas.button.cancel': 'Avbryt',
+        'ts-bas.compact-header.complementaryinfo-prefix': 'Avser behörighet:',
 
         'ts-button.detail.send': 'Skicka',
         'ts-bas.message.certifits-basloading': 'Hämtar intyg...',

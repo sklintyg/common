@@ -166,6 +166,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.helptext.readpdfhelp': '<b>Läsa en pdf-fil</b><br/>PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna pdf-filer behöver du en pdf-läsare exempelvis. <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
         'fk7263.history.label.pagetitle': 'Intygets alla händelser',
         'fk7263.inbox.complementaryinfo': 'Intygsperiod',
+        'fk7263.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:',
         'fk7263.message.certificateloading': 'Hämtar intyg...',
         'fk7263.status.sent': 'Mottaget av',
 

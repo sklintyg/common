@@ -36,6 +36,7 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.target.skandia': 'Skandia',
 
         'lisjp.inbox.complementaryinfo': 'Intygsperiod',
+        'lisjp.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:',
 
         'lisjp.button.send.certificate': 'Skicka',
         'lisjp.button.send.certificate.title': 'Skicka detta intyg till en eller flera mottagare.',

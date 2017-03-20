@@ -11,6 +11,7 @@ angular.module('luae_na').constant('luae_na.messages', {
         'luae_na.target.skandia': 'Skandia',
 
         'luae_na.inbox.complementaryinfo': 'Intygsperiod',
+        'luae_na.compact-header.complementaryinfo-prefix': 'Avser diagnos:',
 
         'luae_na.button.send.certificate': 'Skicka',
         'luae_na.button.send.certificate.title': 'Skicka detta intyg till en eller flera mottagare.',
