@@ -39,7 +39,7 @@ angular.module('common').controller('common.wcHeaderController',
             };
 
             $scope.unitInactive = function() {
-                return $scope.user.user.valdVardenhet.inactive;
+                return $scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit;
             };
 
             $scope.setTestMode = function(){
