@@ -70,17 +70,19 @@
               </div>
 
             </div>
-          </div>
+            <div class="clearfix"></div>
 
-          <!-- Error/info messages -->
-          <div class="row">
-            <div wc-secrecy-mark-message person-id="viewState.intygModel.grundData.patient.personId"
+            <!-- Error/info messages -->
+            <div wc-secrecy-mark-message
+                 person-id="viewState.intygModel.grundData.patient.personId"
                  type="utkast"></div>
-            <div ng-show="viewState.common.error.saveErrorCode != null" class="col-md-7">
-              <div class="alert alert-danger">
+
+            <div ng-show="viewState.common.error.saveErrorCode != null" class="padding-top-medium">
+              <div class="alert alert-danger no-margin">
                 <span ng-bind-html="viewState.common.error.saveErrorMessage"></span>
               </div>
             </div>
+
           </div>
 
         </div>
