@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.google.common.base.Strings;
@@ -61,6 +62,8 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
@@ -135,7 +138,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
     }
 
-    protected FkFieldGroup fraga1(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga1(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga1 = new FkFieldGroup("1. " + getText("KAT_10.RBK"))
                 .offset(KATEGORI_OFFSET_X, 81f)
                 .size(KATEGORI_FULL_WIDTH, 13.5f)
@@ -149,7 +152,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga1;
     }
 
-    protected FkFieldGroup fraga2(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga2(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga2 = new FkFieldGroup("2. " + getText("FRG_1.RBK"))
                 .offset(KATEGORI_OFFSET_X, 108f)
                 .size(KATEGORI_FULL_WIDTH, 43f)
@@ -218,7 +221,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga2;
     }
 
-    protected FkFieldGroup fraga3(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga3(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga3 = new FkFieldGroup("3. " + getText("FRG_28.RBK"))
                 .offset(KATEGORI_OFFSET_X, 164.5f)
                 .size(KATEGORI_FULL_WIDTH, 67.5f)
@@ -226,13 +229,16 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .withBorders(Rectangle.BOX);
         //Sysselsattning = nuvarande arbete & arbetsbeskrivning = obligatoriskt
         fraga3.addChild(new FkCheckbox(getText("KV_FKMU_0002.NUVARANDE_ARBETE.RBK"),
-                intyg.getSysselsattning().stream().map(Sysselsattning::getTyp)
-                        .anyMatch(typ -> Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE.equals(typ)))
-                                .offset(0f, 0f)
-                                .size(27.5f, 22.5f)
-                                .withBorders(Rectangle.BOTTOM + Rectangle.RIGHT)
-                                .withVerticalAlignment(Element.ALIGN_TOP)
-                                .withTopPadding(2f));
+                intyg.getSysselsattning() != null
+                    && intyg.getSysselsattning().stream()
+                            .filter(Objects::nonNull)
+                            .map(Sysselsattning::getTyp)
+                            .anyMatch(typ -> Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE.equals(typ)))
+                .offset(0f, 0f)
+                .size(27.5f, 22.5f)
+                .withBorders(Rectangle.BOTTOM + Rectangle.RIGHT)
+                .withVerticalAlignment(Element.ALIGN_TOP)
+                .withTopPadding(2f));
         fraga3.addChild(new FkOverflowableValueField(intyg.getNuvarandeArbete(), getText("FRG_29.RBK"))
                 .offset(27.5f, 0f)
                 .size(KATEGORI_FULL_WIDTH - 27.5f, 22.5f)
@@ -277,7 +283,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga3;
     }
 
-    protected FkFieldGroup fraga4(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga4(LisjpUtlatande intyg, List<String> optionalFields) {
         // Diagnos/diagnoser för sjukdom som orsakar nedsatt arbetsförmåga
         FkFieldGroup fraga4 = new FkFieldGroup("4. " + getText("FRG_6.RBK"))
                 .offset(KATEGORI_OFFSET_X, 245.5f)
@@ -335,7 +341,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga4;
     }
 
-    protected FkFieldGroup fraga5(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga5(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga5 = new FkFieldGroup("5. " + getText("FRG_35.RBK"))
                 .offset(KATEGORI_OFFSET_X, 28.5f)
                 .size(KATEGORI_FULL_WIDTH, 43f)
@@ -351,7 +357,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga5;
     }
 
-    protected FkFieldGroup fraga6(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga6(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga6 = new FkFieldGroup("6. " + getText("FRG_17.RBK"))
                 .offset(KATEGORI_OFFSET_X, 84f)
                 .size(KATEGORI_FULL_WIDTH, 43f)
@@ -359,7 +365,8 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .withBorders(Rectangle.BOX);
 
         fraga6.addChild(
-                new FkOverflowableValueField(shouldPrint(OPT_AKTIVITETSBEGRANSNING, optionalFields) ? intyg.getAktivitetsbegransning() : "",
+                new FkOverflowableValueField(shouldPrint(OPT_AKTIVITETSBEGRANSNING, optionalFields) ? intyg.getAktivitetsbegransning() : ""
+                        ,
                         getText("DFR_17.1.RBK"))
                                 .offset(0f, 0f)
                                 .size(KATEGORI_FULL_WIDTH, 43f)
@@ -367,7 +374,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga6;
     }
 
-    protected FkFieldGroup fraga7(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga7(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga7 = new FkFieldGroup("7. " + getText("KAT_5.RBK"))
                 .offset(KATEGORI_OFFSET_X, 140f)
                 .size(KATEGORI_FULL_WIDTH, 72f)
@@ -391,7 +398,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga7;
     }
 
-    protected FkFieldGroup fraga8p1(LisjpUtlatande intyg) {
+    FkFieldGroup fraga8p1(LisjpUtlatande intyg) {
         FkFieldGroup fraga8 = new FkFieldGroup("8. " + getText("FRG_32.RBK"))
                 .offset(KATEGORI_OFFSET_X, 225f)
                 .size(KATEGORI_FULL_WIDTH, 36f)
@@ -399,18 +406,24 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .withBorders(Rectangle.BOX);
 
         Optional<Sjukskrivning> sjuk100 = intyg.getSjukskrivningar().stream()
-                .filter(s -> s.getSjukskrivningsgrad().equals(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT)).findAny();
+                .filter(s -> Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT.equals(s.getSjukskrivningsgrad())).findAny();
         fraga8.addChild(new FkCheckbox(getText("KV_FKMU_0003.HELT_NEDSATT.RBK"), sjuk100.isPresent())
                 .offset(0f, 0f)
                 .size(82.5f, 9f)
                 .withBorders(Rectangle.BOTTOM));
-        fraga8.addChild(new FkValueField(sjuk100.isPresent() ? nullSafeString(sjuk100.get().getPeriod().getFrom()) : "")
+        fraga8.addChild(new FkValueField(sjuk100.map(Sjukskrivning::getPeriod)
+                        .map(InternalLocalDateInterval::getFrom)
+                        .map(InternalDate::getDate)
+                        .orElse(""))
                 .offset(82.5f, 0f)
                 .size(45f, 9f)
                 .withTopLabel("från och med (år, månad, dag)")
                 .withBorders(Rectangle.BOTTOM)
                 .withValueTextAlignment(PdfPCell.ALIGN_MIDDLE));
-        fraga8.addChild(new FkValueField(sjuk100.isPresent() ? nullSafeString(sjuk100.get().getPeriod().getTom()) : "")
+        fraga8.addChild(new FkValueField(sjuk100.map(Sjukskrivning::getPeriod)
+                        .map(InternalLocalDateInterval::getTom)
+                        .map(InternalDate::getDate)
+                        .orElse(""))
                 .offset(127.5f, 0f)
                 .size(52.5f, 9f)
                 .withTopLabel("till och med (år, månad, dag)")
@@ -423,12 +436,18 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .offset(0f, 9f)
                 .size(82.5f, 9f)
                 .withBorders(Rectangle.BOTTOM));
-        fraga8.addChild(new FkValueField(sjuk75.isPresent() ? nullSafeString(sjuk75.get().getPeriod().getFrom()) : "")
+        fraga8.addChild(new FkValueField(sjuk75.map(Sjukskrivning::getPeriod)
+                        .map(InternalLocalDateInterval::getFrom)
+                        .map(InternalDate::getDate)
+                        .orElse(""))
                 .offset(82.5f, 9f)
                 .size(45f, 9f)
                 .withBorders(Rectangle.BOTTOM)
                 .withValueTextAlignment(PdfPCell.ALIGN_MIDDLE));
-        fraga8.addChild(new FkValueField(sjuk75.isPresent() ? nullSafeString(sjuk75.get().getPeriod().getTom()) : "")
+        fraga8.addChild(new FkValueField(sjuk75.map(Sjukskrivning::getPeriod)
+                        .map(InternalLocalDateInterval::getTom)
+                        .map(InternalDate::getDate)
+                        .orElse(""))
                 .offset(127.5f, 9f)
                 .size(52.5f, 9f)
                 .withBorders(Rectangle.BOTTOM)
@@ -440,12 +459,18 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .offset(0f, 18f)
                 .size(82.5f, 9f)
                 .withBorders(Rectangle.BOTTOM));
-        fraga8.addChild(new FkValueField(sjuk50.isPresent() ? nullSafeString(sjuk50.get().getPeriod().getFrom()) : "")
+        fraga8.addChild(new FkValueField(sjuk50.map(Sjukskrivning::getPeriod)
+                        .map(InternalLocalDateInterval::getFrom)
+                        .map(InternalDate::getDate)
+                        .orElse(""))
                 .offset(82.5f, 18f)
                 .size(45f, 9f)
                 .withBorders(Rectangle.BOTTOM)
                 .withValueTextAlignment(PdfPCell.ALIGN_MIDDLE));
-        fraga8.addChild(new FkValueField(sjuk50.isPresent() ? nullSafeString(sjuk50.get().getPeriod().getTom()) : "")
+        fraga8.addChild(new FkValueField(sjuk50.map(Sjukskrivning::getPeriod)
+                        .map(InternalLocalDateInterval::getTom)
+                        .map(InternalDate::getDate)
+                        .orElse(""))
                 .offset(127.5f, 18f)
                 .size(52.5f, 9f)
                 .withBorders(Rectangle.BOTTOM)
@@ -457,18 +482,24 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .offset(0f, 27f)
                 .size(82.5f, 9f)
                 .withBorders(Rectangle.BOTTOM));
-        fraga8.addChild(new FkValueField(sjuk25.isPresent() ? nullSafeString(sjuk25.get().getPeriod().getFrom()) : "")
+        fraga8.addChild(new FkValueField(sjuk25.map(Sjukskrivning::getPeriod)
+                        .map(InternalLocalDateInterval::getFrom)
+                        .map(InternalDate::getDate)
+                        .orElse(""))
                 .offset(82.5f, 27f)
                 .size(45f, 9f)
                 .withValueTextAlignment(PdfPCell.ALIGN_MIDDLE));
-        fraga8.addChild(new FkValueField(sjuk25.isPresent() ? nullSafeString(sjuk25.get().getPeriod().getTom()) : "")
+        fraga8.addChild(new FkValueField(sjuk25.map(Sjukskrivning::getPeriod)
+                        .map(InternalLocalDateInterval::getTom)
+                        .map(InternalDate::getDate)
+                        .orElse(""))
                 .offset(127.5f, 27f)
                 .size(52.5f, 9f)
                 .withValueTextAlignment(PdfPCell.ALIGN_MIDDLE));
         return fraga8;
     }
 
-    protected FkOverflowableValueField fraga8p2(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkOverflowableValueField fraga8p2(LisjpUtlatande intyg, List<String> optionalFields) {
         return new FkOverflowableValueField(
                 shouldPrint(OPT_FORSAKRINGSMEDICINSKS_BESLUTSTOD, optionalFields) ? intyg.getForsakringsmedicinsktBeslutsstod() : "",
                 getText("FRG_37.RBK"))
@@ -478,14 +509,14 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                         .showLabelOnTop();
     }
 
-    protected FkCheckbox fraga8p3(LisjpUtlatande intyg) {
+    FkCheckbox fraga8p3(LisjpUtlatande intyg) {
         return new FkCheckbox(getText("FRG_34.RBK"), intyg.getArbetsresor() != null ? intyg.getArbetsresor() : false)
                 .offset(KATEGORI_OFFSET_X, 27f)
                 .size(KATEGORI_FULL_WIDTH, 13.5f)
                 .withBorders(Rectangle.BOX);
     }
 
-    protected FkValueField fraga8p4(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkValueField fraga8p4(LisjpUtlatande intyg, List<String> optionalFields) {
         // Enligt krav skall ja/nej alltid skrivas ut. Däremot är motiveringsfälet valbart
         FkValueField fraga8p4 = new FkValueField("")
                 .offset(KATEGORI_OFFSET_X, 43f)
@@ -515,7 +546,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga8p4;
     }
 
-    protected FkFieldGroup fraga9(LisjpUtlatande intyg) {
+    FkFieldGroup fraga9(LisjpUtlatande intyg) {
         FkFieldGroup fraga9 = new FkFieldGroup("9. " + getText("FRG_39.RBK"))
                 .offset(KATEGORI_OFFSET_X, 90f)
                 .size(KATEGORI_FULL_WIDTH, 29.5f)
@@ -533,7 +564,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                         .size(135f, 6.9f));
 
         fraga9.addChild(
-                new FkValueField(PrognosTyp.ATER_X_ANTAL_DGR.equals(prognosTyp)
+                new FkValueField(PrognosTyp.ATER_X_ANTAL_DGR.equals(prognosTyp) && intyg.getPrognos().getDagarTillArbete() != null
                         ? intyg.getPrognos().getDagarTillArbete().getLabel() : "")
                                 .offset(137f, 6f)
                                 .size(KATEGORI_FULL_WIDTH - 135f, 6.9f));
@@ -550,7 +581,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga9;
     }
 
-    protected FkFieldGroup fraga10(LisjpUtlatande intyg) {
+    FkFieldGroup fraga10(LisjpUtlatande intyg) {
         FkFieldGroup fraga10 = new FkFieldGroup("10. " + getText("FRG_40.RBK"))
                 .offset(KATEGORI_OFFSET_X, 133f)
                 .size(KATEGORI_FULL_WIDTH, 76.5f)
@@ -631,7 +662,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga10;
     }
 
-    protected FkFieldGroup fraga11(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga11(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga11 = new FkFieldGroup("11. " + getText("FRG_25.RBK"))
                 .offset(KATEGORI_OFFSET_X, 223f)
                 .size(KATEGORI_FULL_WIDTH, 40.5f)
@@ -659,7 +690,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga11;
     }
 
-    protected FkFieldGroup fraga12(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga12(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga12 = new FkFieldGroup("12. " + getText("FRG_26.RBK"))
                 .offset(KATEGORI_OFFSET_X, 29.5f)
                 .size(KATEGORI_FULL_WIDTH, 22.5f)
@@ -680,7 +711,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga12;
     }
 
-    protected FkFieldGroup fraga13(LisjpUtlatande intyg) {
+    FkFieldGroup fraga13(LisjpUtlatande intyg) {
         FkFieldGroup fraga13 = new FkFieldGroup("13. Underskrift")
                 .offset(KATEGORI_OFFSET_X, 65.5f)
                 .size(KATEGORI_FULL_WIDTH, 85.5f)
@@ -840,7 +871,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         }
     }
 
-    protected void printElectronicCopy(List<PdfComponent> allElements) {
+    void printElectronicCopy(List<PdfComponent> allElements) {
         FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
                 .offset(14f, 50f)
                 .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
@@ -851,7 +882,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         allElements.add(elektroniskKopia);
     }
 
-    protected void printMinimalElectronicCopy(List<PdfComponent> allElements) {
+    void printMinimalElectronicCopy(List<PdfComponent> allElements) {
         FkLabel elektroniskKopia = new FkLabel(PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT)
                 .offset(14f, 50f)
                 .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
@@ -862,7 +893,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         allElements.add(elektroniskKopia);
     }
 
-    protected FkPage tillaggsfragorPage(LisjpUtlatande intyg, List<String> optionalFields) throws IOException, DocumentException {
+    FkPage tillaggsfragorPage(LisjpUtlatande intyg, List<String> optionalFields) throws IOException, DocumentException {
 
         List<PdfComponent> allElements = new ArrayList<>();
 
