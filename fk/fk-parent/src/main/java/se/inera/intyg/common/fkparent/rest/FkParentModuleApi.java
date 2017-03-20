@@ -300,12 +300,6 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        // currently not used
-        return null;
-    }
-
-    @Override
     public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
         RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
         RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);

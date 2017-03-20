@@ -401,6 +401,26 @@ public class LuaefsModuleApiTest {
         assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, res.get(AKTIVITETSBEGRANSNING_SVAR_ID_17).get(0));
     }
 
+    @Test
+    public void testGetAdditionalInfo() throws Exception {
+        Intyg intyg = ScenarioFinder.getInternalScenario("pass-minimal").asTransportModel().getIntyg();
+
+        String additionalInfo = moduleApi.getAdditionalInfo(intyg);
+
+        assertNotNull(additionalInfo);
+        assertEquals("Klämskada skuldra", additionalInfo);
+    }
+
+    @Test
+    public void testGetAdditionalInfoHuvuddiganos() throws Exception {
+        Intyg intyg = ScenarioFinder.getInternalScenario("pass-diagnos-med-bidiagnoser").asTransportModel().getIntyg();
+
+        String additionalInfo = moduleApi.getAdditionalInfo(intyg);
+
+        assertNotNull(additionalInfo);
+        assertEquals("Klämskada skuldra", additionalInfo);
+    }
+
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final PartKod part)
             throws IOException, ModuleException {
         GetCertificateResponseType response = new GetCertificateResponseType();

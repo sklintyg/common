@@ -544,11 +544,6 @@ public class FkParentModuleApiTest {
     }
 
     @Test
-    public void testGetAdditionalInfo() throws Exception {
-        assertNull(moduleApi.getAdditionalInfo(new Intyg()));
-    }
-
-    @Test
     public void testRevokeCertificate() throws Exception {
         String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
         RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();

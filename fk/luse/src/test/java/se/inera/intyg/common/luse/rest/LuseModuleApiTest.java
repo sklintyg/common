@@ -93,6 +93,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.Regi
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.ErrorIdType;
+import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v2.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.ResultType;
 
@@ -411,6 +412,26 @@ public class LuseModuleApiTest {
         assertNotNull(res.get(PLANERADBEHANDLING_SVAR_ID_20));
         assertEquals(1, res.get(PLANERADBEHANDLING_SVAR_ID_20).size());
         assertEquals(PLANERADBEHANDLING_SVAR_JSON_ID_20, res.get(PLANERADBEHANDLING_SVAR_ID_20).get(0));
+    }
+
+    @Test
+    public void testGetAdditionalInfo() throws Exception {
+        Intyg intyg = ScenarioFinder.getInternalScenario("pass-minimal").asTransportModel().getIntyg();
+
+        String additionalInfo = moduleApi.getAdditionalInfo(intyg);
+
+        assertNotNull(additionalInfo);
+        assertEquals("Skada på multipla böjmuskler och deras senor på handleds- och handnivå", additionalInfo);
+    }
+
+    @Test
+    public void testGetAdditionalInfoHuvuddiagnos() throws Exception {
+        Intyg intyg = ScenarioFinder.getInternalScenario("pass-diagnos-med-bidiagnoser").asTransportModel().getIntyg();
+
+        String additionalInfo = moduleApi.getAdditionalInfo(intyg);
+
+        assertNotNull(additionalInfo);
+        assertEquals("Skada på multipla böjmuskler och deras senor på handleds- och handnivå", additionalInfo);
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {

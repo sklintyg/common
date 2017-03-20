@@ -21,6 +21,7 @@ package se.inera.intyg.common.luse.rest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,4 +109,17 @@ public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
         return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
     }
 
+    @Override
+    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+        try {
+            ImmutableList<Diagnos> diagnoser = transportToInternal(intyg).getDiagnoser();
+            if (!diagnoser.isEmpty()) {
+                return diagnoser.get(0).getDiagnosBeskrivning();
+            } else {
+                return null;
+            }
+        } catch (ConverterException e) {
+            throw new ModuleException("Could convert Intyg to Utlatande and as a result could not get additional info", e);
+        }
+    }
 }

@@ -18,12 +18,8 @@
  */
 package se.inera.intyg.common.lisjp.rest;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
-
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -38,23 +34,22 @@ import se.inera.intyg.common.lisjp.model.converter.InternalToTransport;
 import se.inera.intyg.common.lisjp.model.converter.TransportToInternal;
 import se.inera.intyg.common.lisjp.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.pdf.AbstractLisjpPdfDefinitionBuilder;
 import se.inera.intyg.common.lisjp.pdf.DefaultLisjpPdfDefinitionBuilder;
 import se.inera.intyg.common.lisjp.pdf.EmployeeLisjpPdfDefinitionBuilder;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
 
 public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
@@ -113,30 +108,17 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
     @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        List<DatePeriodType> periods = intyg.getSvar().stream()
-                .filter(svar -> BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32.equals(svar.getId()))
-                .map(Svar::getDelsvar)
-                .flatMap(List::stream)
-                .filter(delsvar -> delsvar != null && BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32.equals(delsvar.getId()))
-                .map(delsvar -> {
-                    try {
-                        return TransportConverterUtil.getDatePeriodTypeContent(delsvar);
-                    } catch (ConverterException ce) {
-                        LOG.error("Failed retrieving additionalInfo for certificate {}: {}",
-                                intyg.getIntygsId().getExtension(), ce.getMessage());
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .sorted(Comparator.comparing(DatePeriodType::getStart))
-                .collect(Collectors.toList());
+        try {
+            return transportToInternal(intyg).getSjukskrivningar().stream()
+                    .map(Sjukskrivning::getPeriod)
+                    .sorted(Comparator.comparing(InternalLocalDateInterval::fromAsLocalDate))
+                    .reduce((a, b) -> new InternalLocalDateInterval(a.getFrom(), b.getTom()))
+                    .map(interval -> interval.getFrom().toString() + " - " + interval.getTom().toString())
+                    .orElse(null);
 
-        if (periods.isEmpty()) {
-            LOG.error("Failed retrieving additionalInfo for certificate {}: Found no periods.", intyg.getIntygsId().getExtension());
-            return null;
+        } catch (ConverterException e) {
+            throw new ModuleException("Could not convert Intyg to Utlatande and as a result could not get additional info", e);
         }
-
-        return periods.get(0).getStart().toString() + " - " + periods.get(periods.size() - 1).getEnd().toString();
     }
 
     private PdfResponse generatePdf(AbstractLisjpPdfDefinitionBuilder builder, List<Status> statuses, String internalModel,
