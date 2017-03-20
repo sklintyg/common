@@ -123,6 +123,7 @@ describe('IntygHeaderCtrl', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;
+                $scope.user = {user: {}};
                 expect($scope.showKopieraButton()).toBeTruthy();
             });
             it('should not be shown if makulerat, sekretessmarkerat or patient deceased', function() {
@@ -141,6 +142,14 @@ describe('IntygHeaderCtrl', function() {
                 $scope.viewState.common.intygProperties.isPatientDeceased = true;
                 expect($scope.showKopieraButton()).toBeFalsy();
             });
+            it('should not be shown if unit is inactive', function() {
+                $scope.viewState.common.common.sekretessmarkering = false;
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = false;
+                $scope.viewState.common.intygProperties.isPatientDeceased = false;
+                $scope.user = {user: {parameters: {inactiveUnit: true}}};
+                expect($scope.showKopieraButton()).toBeFalsy();
+            });
         });
 
         describe('fornya button', function() {
@@ -149,12 +158,23 @@ describe('IntygHeaderCtrl', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;
+                $scope.user = {user: {}};
 
                 $scope.intygstyp = 'fk7263';
                 expect($scope.showFornyaButton()).toBeTruthy();
             });
             it('should not be shown if makulerat, sekretessmarkerat or patient deceased', function() {
                 $scope.intygstyp = 'luae_na';
+                expect($scope.showFornyaButton()).toBeFalsy();
+            });
+            it('should not be shown if unit is inactive', function() {
+                $scope.viewState.common.common.sekretessmarkering = false;
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = false;
+                $scope.viewState.common.intygProperties.isPatientDeceased = false;
+                $scope.user = {user: {parameters: {inactiveUnit: true}}};
+
+                $scope.intygstyp = 'fk7263';
                 expect($scope.showFornyaButton()).toBeFalsy();
             });
         });

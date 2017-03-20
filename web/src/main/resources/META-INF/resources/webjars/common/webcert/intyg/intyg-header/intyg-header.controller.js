@@ -70,7 +70,10 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showKopieraButton = function() {
-                return !$scope.makuleratIntyg() && !$scope.viewState.common.common.sekretessmarkering && !$scope.isPatientDeceased() && !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit);
+                return !$scope.makuleratIntyg() &&
+                    !$scope.viewState.common.common.sekretessmarkering &&
+                    !$scope.isPatientDeceased() &&
+                    !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit);
             };
 
             $scope.showFornyaButton = function() {
