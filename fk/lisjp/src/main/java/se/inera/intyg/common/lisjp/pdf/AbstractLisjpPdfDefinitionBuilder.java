@@ -885,9 +885,9 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     void printMinimalElectronicCopy(List<PdfComponent> allElements) {
         FkLabel elektroniskKopia = new FkLabel(PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT)
                 .offset(14f, 50f)
-                .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
+                .withHorizontalAlignment(PdfPCell.ALIGN_LEFT)
                 .withVerticalAlignment(Element.ALIGN_MIDDLE)
-                .size(150f, 12f)
+                .size(145f, 12f)
                 .withFont(PdfConstants.FONT_BOLD_9)
                 .withBorders(Rectangle.BOX, BaseColor.RED);
         allElements.add(elektroniskKopia);
