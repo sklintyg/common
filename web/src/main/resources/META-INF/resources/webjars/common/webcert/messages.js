@@ -146,7 +146,9 @@ angular.module('common').constant('common.messages', {
         'draft.notify.hide-missing.button': 'Dölj information som saknas',
 
         'draft.notifyready.button': 'Markera som klart för signering',
+        'draft.notifyready.text': 'Utkastet är sparat och markerat som klart för signering.',
         'modal.title.notifyjournalsystem': 'Markera utkast som klart för signering',
+
 
         'intyg.makulera.help': 'Orsak till makulering ska anges eftersom Försäkringskassans handläggare behöver den informationen för att bedöma patientens rätt till ersättning.',
 

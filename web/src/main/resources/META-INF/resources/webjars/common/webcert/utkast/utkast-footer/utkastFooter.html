@@ -46,12 +46,12 @@
 
       <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
       <div wc-authority="NOTIFIERING_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
-        <button ng-if="!viewState.redoSignerasNotifieringDatum" type="button" id="statusuppdateringBtn" class="btn btn-success" ng-click="notifieraUtkast()">
+        <button ng-if="!viewState.klarForSigneraDatum" type="button" id="statusuppdateringBtn" class="btn btn-success" ng-click="notifieraUtkast()">
           <span message key="draft.notifyready.button"></span>
         </button>
-        <div ng-if="viewState.redoSignerasNotifieringDatum">
+        <div ng-if="viewState.klarForSigneraDatum">
           <span class="glyphicon glyphicon-check ng-scope"></span>
-          <span>Utkastet är sparat och markerat som klart för signering.</span>
+          <span id="draft-marked-ready-text" message key="draft.notifyready.text"></span>
         </div>
       </div>
 
