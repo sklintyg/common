@@ -365,8 +365,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .withBorders(Rectangle.BOX);
 
         fraga6.addChild(
-                new FkOverflowableValueField(shouldPrint(OPT_AKTIVITETSBEGRANSNING, optionalFields) ? intyg.getAktivitetsbegransning() : ""
-                        ,
+                new FkOverflowableValueField(shouldPrint(OPT_AKTIVITETSBEGRANSNING, optionalFields) ? intyg.getAktivitetsbegransning() : "",
                         getText("DFR_17.1.RBK"))
                                 .offset(0f, 0f)
                                 .size(KATEGORI_FULL_WIDTH, 43f)
@@ -882,8 +881,8 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         allElements.add(elektroniskKopia);
     }
 
-    void printMinimalElectronicCopy(List<PdfComponent> allElements) {
-        FkLabel elektroniskKopia = new FkLabel(PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT)
+    void printMinimalElectronicCopy(List<PdfComponent> allElements, String text) {
+        FkLabel elektroniskKopia = new FkLabel(text)
                 .offset(14f, 50f)
                 .withHorizontalAlignment(PdfPCell.ALIGN_LEFT)
                 .withVerticalAlignment(Element.ALIGN_MIDDLE)

@@ -1,5 +1,7 @@
 package se.inera.intyg.common.lisjp.pdf;
 
+import static se.inera.intyg.common.fkparent.pdf.PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,9 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  */
 public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitionBuilder {
 
+    static final String CUSTOMIZED_ELECTRONIC_COPY_WATERMARK_TEXT =
+            "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort.";
+
     private List<String> optionalFields;
 
     public EmployeeLisjpPdfDefinitionBuilder(List<String> optionalFields) {
@@ -27,7 +32,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
     @Override
     void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatande intyg, boolean isUtkast, List<Status> statuses,
             ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
-        pdfDefinition.addChild(createPage1(intyg));
+        pdfDefinition.addChild(createPage1(intyg, applicationOrigin));
         pdfDefinition.addChild(createPage2(intyg));
         pdfDefinition.addChild(createPage3(intyg));
         pdfDefinition.addChild(createPage4(intyg));
@@ -40,11 +45,28 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
         }
     }
 
-    private FkPage createPage1(LisjpUtlatande intyg)
+    private boolean hasDeselectedOptionalFields() {
+        return this.optionalFields != null && this.optionalFields.stream().anyMatch(f -> f.startsWith("!"));
+    }
+
+    private void printCopyText(List<PdfComponent> allElements, LisjpUtlatande intyg, ApplicationOrigin applicationOrigin) {
+        if (applicationOrigin.equals(ApplicationOrigin.MINA_INTYG)) {
+            if (!hasDeselectedOptionalFields()) {
+                printElectronicCopy(allElements);
+            } else {
+                printMinimalElectronicCopy(allElements, CUSTOMIZED_ELECTRONIC_COPY_WATERMARK_TEXT);
+            }
+        } else {
+            printMinimalElectronicCopy(allElements, MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT);
+        }
+    }
+
+    private FkPage createPage1(LisjpUtlatande intyg, ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
         List<PdfComponent> allElements = new ArrayList<>();
 
-        printMinimalElectronicCopy(allElements);
+
+        printCopyText(allElements, intyg, applicationOrigin);
         addPage1MiscFields(intyg, false, allElements);
 
         allElements.add(fraga1(intyg, optionalFields));

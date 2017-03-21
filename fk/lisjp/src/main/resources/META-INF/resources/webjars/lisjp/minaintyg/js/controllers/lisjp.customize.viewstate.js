@@ -85,11 +85,15 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
             if (angular.isArray(fc)) {
                 angular.forEach(fc, function(nestedFc, key) {
                     if (!nestedFc.selected) {
-                        unselectedFieldNames.push(key);
+                        if (nestedFc.id) {
+                            unselectedFieldNames.push(nestedFc.id);
+                        } else {
+                            unselectedFieldNames.push(key);
+                        }
                     }
                 });
             } else if (!fc.selected) {
-                unselectedFieldNames.push(key);
+                    unselectedFieldNames.push(key);
             }
         });
         return unselectedFieldNames;
@@ -135,7 +139,20 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
         }
     }
 
+    function _getSendModel() {
+        var sendModel = _getSelectedOptionalFields();
+        var unselected = _getUnselected();
+        angular.forEach(unselected, function(field) {
+            //! prefix indicates 'not'.. This is so that the backend can determine if any field (that was selectable) has been
+            // deselected so that the correct watermarktext can be displayed
+            sendModel.push('!' + field);
+        });
+        return sendModel;
+
+    }
     //Expose public api for this service
+
+
     return {
         resetModel: function() {
             fieldConfig = angular.copy(_fieldConfig);
@@ -153,10 +170,9 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
             return _getUnselected();
         },
 
-        getSelectedOptionalFields: function() {
-            return _getSelectedOptionalFields();
+        getSendModel: function() {
+            return _getSendModel();
         }
-
 
     };
 });

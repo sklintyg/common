@@ -84,15 +84,15 @@ public class EmployeeLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitio
         // generate makulerat version
         statuses.clear();
         statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
-        generate("employee-makulerat-all-optional", statuses, ApplicationOrigin.WEBCERT, allOptionalFields);
+        generate("employee-makulerat", statuses, ApplicationOrigin.WEBCERT, allOptionalFields);
     }
 
     @Test
-    public void testGenerateWithNOOptionalFields() throws Exception {
+    public void testGenerateWithUnselectedOptionalField() throws Exception {
 
         List<Status> statuses = new ArrayList<>();
-        generate("employee-no-optional", statuses, ApplicationOrigin.MINA_INTYG, Collections.emptyList());
-        generate("employee-no-optional", statuses, ApplicationOrigin.WEBCERT, Collections.emptyList());
+        generate("employee-unselected-optional-diagnose", statuses, ApplicationOrigin.MINA_INTYG, Arrays.asList("!" + OPT_DIAGNOSER));
+        generate("employee-minimal", statuses, ApplicationOrigin.WEBCERT, null);
 
     }
 

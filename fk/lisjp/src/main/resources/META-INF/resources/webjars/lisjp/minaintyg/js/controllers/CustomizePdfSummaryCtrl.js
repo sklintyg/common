@@ -78,7 +78,7 @@ angular.module('lisjp').controller('lisjp.CustomizePdfSummaryCtrl',
 
             $scope.submit = function() {
                 var inputs = '';
-                var fields = customizeViewstate.getSelectedOptionalFields();
+                var fields = customizeViewstate.getSendModel();
 
                 angular.forEach(fields, function(item) {
                     inputs += _addInput('selectedOptionalFields', item);
