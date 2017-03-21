@@ -28,36 +28,36 @@ public class FkFormPagePersonnummerEventHandlerImpl extends FkAbstractPersonnumm
     private static final float DEFAULT_X_OFFSET = 152f;
     private static final float DEFAULT_Y_OFFSET = 9f;
 
-    private float offsetX = 0.0f;
-    private float offsetY = 0.0f;
+    private final float offsetX;
+    private final float offsetY;
+
+    private final int activeFromPage;
+    private final int activeToPage;
 
     public FkFormPagePersonnummerEventHandlerImpl(String personnummer) {
-        super(personnummer);
+        this(personnummer, 0f, 0f);
     }
 
     public FkFormPagePersonnummerEventHandlerImpl(String personnummer, float offsetX, float offsetY) {
+        this(personnummer, offsetX, offsetY, 2, 4);
+    }
+
+    public FkFormPagePersonnummerEventHandlerImpl(String personnummer, float offsetX, float offsetY, int activeFromPage, int activeToPage) {
         super(personnummer);
         this.offsetX = offsetX;
         this.offsetY = offsetY;
-    }
-
-    public FkFormPagePersonnummerEventHandlerImpl withOffsetX(float offsetX) {
-        this.offsetX = offsetX;
-        return this;
-    }
-    public FkFormPagePersonnummerEventHandlerImpl withOffsetY(float offsetY) {
-        this.offsetY = offsetY;
-        return this;
+        this.activeFromPage = activeFromPage;
+        this.activeToPage = activeToPage;
     }
 
     @Override
     protected int getActiveFromPage() {
-        return 2;
+        return activeFromPage;
     }
 
     @Override
     protected int getActiveToPage() {
-        return 4;
+        return activeToPage;
     }
 
     @Override

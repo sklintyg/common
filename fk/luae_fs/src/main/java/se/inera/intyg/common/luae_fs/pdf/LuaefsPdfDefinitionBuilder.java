@@ -90,9 +90,9 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                     intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID),
                     intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer(),
-                    -2.0f, 0.0f));
+                    -2.0f, 0.0f, 2, 2));
             def.addPageEvent(
-                    new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
+                    new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer(), 3));
 
             boolean isUtkast = isUtkast(intyg);
             if (!isUtkast) {
@@ -299,7 +299,6 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             allElements.add(elektroniskKopia);
         }
 
-
         FkLabel fortsBladText = new FkLabel(
                 "Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
                         .offset(15f, 20.5f)
@@ -503,11 +502,11 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         fraga7.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum() != null
                 ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "")
-                .offset(0f, 0f)
-                .size(45f, 11f)
-                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-                .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
-                .withTopLabel("Datum"));
+                        .offset(0f, 0f)
+                        .size(45f, 11f)
+                        .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
+                        .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
+                        .withTopLabel("Datum"));
         fraga7.addChild(new FkValueField("")
                 .offset(45f, 0f)
                 .size(KATEGORI_FULL_WIDTH - 45f, 11f)

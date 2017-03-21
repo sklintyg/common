@@ -24,27 +24,45 @@ package se.inera.intyg.common.fkparent.pdf.eventhandlers;
  */
 // CHECKSTYLE:OFF MagicNumber
 public class FkOverflowPagePersonnummerEventHandlerImpl extends FkAbstractPersonnummerEventHandler {
+    private final int activeFromPage;
+    private final int activeToPage;
+    private final float xOffset;
+    private final float yOffset;
+
     public FkOverflowPagePersonnummerEventHandlerImpl(String personnummer) {
+        this(personnummer, 5);
+    }
+
+    public FkOverflowPagePersonnummerEventHandlerImpl(String personnummer, int activeFromPage) {
+        this(personnummer, activeFromPage, 999, 170f, 18f);
+    }
+
+    private FkOverflowPagePersonnummerEventHandlerImpl(String personnummer, int activeFromPage, int activeToPage, float xOffset,
+            float yOffset) {
         super(personnummer);
+        this.activeFromPage = activeFromPage;
+        this.activeToPage = activeToPage;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
     }
 
     @Override
     protected int getActiveFromPage() {
-        return 5;
+        return activeFromPage;
     }
 
     @Override
     protected int getActiveToPage() {
-        return 999;
+        return activeToPage;
     }
 
     @Override
     protected float getXOffset() {
-        return 170f;
+        return xOffset;
     }
 
     @Override
     protected float getYOffset() {
-        return 18f;
+        return yOffset;
     }
 }

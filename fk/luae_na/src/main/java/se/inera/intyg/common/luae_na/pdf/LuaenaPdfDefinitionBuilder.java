@@ -73,10 +73,9 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 // CHECKSTYLE:OFF MethodLength
 public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
+    public static final float CHECKBOX_UNDER_TOPLABEL_PADDING = 1.5f;
     private static final float KATEGORI_FULL_WIDTH = 180f;
     private static final float KATEGORI_OFFSET_X = 15f;
-
-    public static final float CHECKBOX_UNDER_TOPLABEL_PADDING = 1.5f;
     private static final float FRAGA_5_DELFRAGA_HEIGHT = 25f;
     private static final float FRAGA_5_DELFRAGA_RUBRIK_HEIGHT = 9f;
 
@@ -762,10 +761,10 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         fraga11.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum() != null
                 ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "")
                         .offset(0f, 0f)
-                .size(45f, 11f)
-                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-                .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
-                .withTopLabel("Datum"));
+                        .size(45f, 11f)
+                        .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
+                        .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
+                        .withTopLabel("Datum"));
         fraga11.addChild(new FkValueField("")
                 .offset(45f, 0f)
                 .size(KATEGORI_FULL_WIDTH - 45f, 11f)
