@@ -292,11 +292,13 @@ public class FkParentModuleApiTest {
     public void testGetCertificate() throws Exception {
         GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
+        doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
         CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
+        assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
         assertFalse(res.isRevoked());
         ArgumentCaptor<GetCertificateType> parametersCaptor = ArgumentCaptor.forClass(GetCertificateType.class);
         verify(getCertificateResponderInterface).getCertificate(eq(LOGICAL_ADDRESS), parametersCaptor.capture());
@@ -314,11 +316,13 @@ public class FkParentModuleApiTest {
         revokedStatus.getStatus().setCode(StatusKod.CANCEL.name());
         getCertificateResponse.getIntyg().getStatus().add(revokedStatus);
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
+        doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
         CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
+        assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
         assertTrue(res.isRevoked());
         verify(getCertificateResponderInterface).getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class));
     }

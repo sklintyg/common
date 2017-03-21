@@ -64,6 +64,7 @@ public class TransportConverterUtilTest {
         String enhetsnamn = "enhetsnamn";
         final LocalDateTime signeringstidpunkt = LocalDateTime.now().minusDays(1);
         final LocalDateTime statustidpunkt = LocalDateTime.now();
+        final String additionalInfo = "Additional Info";
         Intyg intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension(intygId);
@@ -82,7 +83,7 @@ public class TransportConverterUtilTest {
         status.setTidpunkt(statustidpunkt);
         intyg.getStatus().add(status);
 
-        CertificateMetaData res = TransportConverterUtil.getMetaData(intyg);
+        CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, additionalInfo);
         assertNotNull(res);
         assertEquals(intygId, res.getCertificateId());
         assertEquals(intygstyp.toLowerCase(), res.getCertificateType());
@@ -93,6 +94,7 @@ public class TransportConverterUtilTest {
         assertEquals(CertificateState.SENT, res.getStatus().get(0).getType());
         assertEquals("FK", res.getStatus().get(0).getTarget());
         assertEquals(statustidpunkt, res.getStatus().get(0).getTimestamp());
+        assertEquals(additionalInfo, res.getAdditionalInfo());
     }
 
     @Test

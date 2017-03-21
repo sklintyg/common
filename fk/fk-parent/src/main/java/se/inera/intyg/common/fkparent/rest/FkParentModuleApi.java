@@ -365,7 +365,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         try {
             T utlatande = transportToInternal(response.getIntyg());
             String internalModel = toInternalModelResponse(utlatande);
-            CertificateMetaData metaData = TransportConverterUtil.getMetaData(response.getIntyg());
+            CertificateMetaData metaData = TransportConverterUtil.getMetaData(response.getIntyg(), getAdditionalInfo(response.getIntyg()));
             boolean revoked = response.getIntyg().getStatus().stream()
                     .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
             return new CertificateResponse(internalModel, utlatande, metaData, revoked);

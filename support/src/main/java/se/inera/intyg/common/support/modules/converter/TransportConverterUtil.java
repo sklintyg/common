@@ -188,7 +188,7 @@ public final class TransportConverterUtil {
         return grundData;
     }
 
-    public static CertificateMetaData getMetaData(Intyg source) {
+    public static CertificateMetaData getMetaData(Intyg source, String additionalInfo) {
         CertificateMetaData metaData = new CertificateMetaData();
         metaData.setCertificateId(source.getIntygsId().getExtension());
         metaData.setCertificateType(source.getTyp().getCode().toLowerCase());
@@ -196,6 +196,7 @@ public final class TransportConverterUtil {
         metaData.setFacilityName(source.getSkapadAv().getEnhet().getEnhetsnamn());
         metaData.setSignDate(source.getSigneringstidpunkt());
         metaData.setStatus(getStatusList(source.getStatus()));
+        metaData.setAdditionalInfo(additionalInfo);
         return metaData;
     }
 
