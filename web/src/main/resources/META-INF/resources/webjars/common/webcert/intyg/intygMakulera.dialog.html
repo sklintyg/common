@@ -8,8 +8,8 @@
   <div class="form-group">
     <div style="padding-bottom: 10px"><span message key="{{bodyTextId}}"></span></div>
   </div>
-  <div class="form-group">
-    <p>Varför makulerar du intyget? <span ng-if="model.showQuestionMark" wc-help-mark field-help-text="intyg.makulera.help"></span></p>
+  <div class="form-group makulera-choices">
+    Varför makulerar du intyget? <span ng-if="model.showQuestionMark" wc-help-mark field-help-text="intyg.makulera.help"></span><br>
     <div ng-repeat="reason in model.choices">
       <label class="radio big-radio-label">
         <input id="reason-{{reason.value}}" name="reason-{{reason.value}}" type="radio" class="big-radio"
