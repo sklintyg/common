@@ -66,7 +66,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showEmployerPrintBtn = function() {
-                return $scope.arbetsgivarUtskrift;
+                return $scope.arbetsgivarUtskrift && !$scope.makuleratIntyg();
             };
 
             $scope.showKopieraButton = function() {

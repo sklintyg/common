@@ -98,7 +98,14 @@ describe('IntygHeaderCtrl', function() {
             it('should not be shown if allowed as feature and employer button is shown', function() {
                 $scope.utskrift = true;
                 $scope.arbetsgivarUtskrift = true;
+                $scope.viewState.common.intygProperties.isRevoked = false;
                 expect($scope.showPrintBtn()).toBeFalsy();
+            });
+            it('should be shown if allowed as feature and intyg is revoked', function() {
+                $scope.utskrift = true;
+                $scope.arbetsgivarUtskrift = true;
+                $scope.viewState.common.intygProperties.isRevoked = true;
+                expect($scope.showPrintBtn()).toBeTruthy();
             });
             it('should not be shown if not allowed as feature', function() {
                 $scope.utskrift = false;
@@ -113,6 +120,11 @@ describe('IntygHeaderCtrl', function() {
             });
             it('should not be shown if not allowed as feature', function() {
                 $scope.arbetsgivarUtskrift = false;
+                expect($scope.showEmployerPrintBtn()).toBeFalsy();
+            });
+            it('should not be shown if allowed as feature but intyg is revoked', function() {
+                $scope.arbetsgivarUtskrift = true;
+                $scope.viewState.common.intygProperties.isRevoked = true;
                 expect($scope.showEmployerPrintBtn()).toBeFalsy();
             });
         });
