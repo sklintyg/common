@@ -22,6 +22,7 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
         'fk7263.EditCertCtrl.Helper', 'common.MonitoringLogService', 'common.UtkastValidationService',
         function($scope, $log, $timeout, $http, viewState, diagnosService, fmbService, fmbViewState, helper, monitoringService, UtkastValidationService) {
             'use strict';
+
             var model = viewState.intygModel;
             $scope.model = model;
 
@@ -301,6 +302,77 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
                 return totalLength;
             };
 
+            /**
+             * The minimum number of characters that must be available if fields in
+             * the next diagnosis row shall be enabled
+             */
+            var minimumInputLength = 15;
+
+            function isInputLimitReached() {
+                return ($scope.viewState.inputLimits.diagnosBeskrivning - $scope.getTotalDiagnosBeskrivningLength()) < minimumInputLength;
+            }
+
+            /**
+             * Returns true if all elements in array (i.e values) are values
+             */
+            function hasValues(values) {
+                if (!Array.isArray(values)) {
+                    return false;
+                }
+
+                var result = true;
+                angular.forEach(values, function(value) {
+                    if (!value) {
+                        result = false;
+                    }
+                });
+
+                return result;
+            }
+
+            function disableDiagnose(code, description) {
+                var disable = false;
+                if (isInputLimitReached()) {
+                    disable = !hasValues([code, description]);
+                }
+
+                return disable;
+            }
+
+            /**
+             * Decide if diagnosis code and description field #2 shall be disabled or not.
+             * @returns true/false
+             */
+            $scope.disableDiagnose2 = function() {
+                var m = $scope.model;
+
+                var disable = true;
+                if (hasValues([m.diagnosKod, m.diagnosBeskrivning1])) {
+                    disable = disableDiagnose(m.diagnosKod2, m.diagnosBeskrivning2);
+                } else {
+                    disable = !hasValues([m.diagnosKod2, m.diagnosBeskrivning2]);
+                }
+
+                return disable;
+            }
+
+            /**
+             * Decide if diagnosis code and description field #3 shall be disabled or not.
+             * @returns true/false
+             */
+            $scope.disableDiagnose3 = function() {
+                var m = $scope.model;
+
+                var disable = true;
+                if (hasValues([m.diagnosKod2, m.diagnosBeskrivning2])) {
+                    disable = disableDiagnose(m.diagnosKod3, m.diagnosBeskrivning3);
+                } else {
+                    disable = !hasValues([m.diagnosKod3, m.diagnosBeskrivning3]);
+                }
+
+                return disable;
+            };
+
             $scope.validate = function() {
                 //The timeout here allows the model to be updated (via typeahead selection) before sending it for
                 // validation and to avoid race-conditions between type-ahead selection and onBlur validation process.
@@ -308,6 +380,6 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
                 $timeout(function() {
                     UtkastValidationService.validate(model);
                 }, 300);
-
             };
+
         }]);
