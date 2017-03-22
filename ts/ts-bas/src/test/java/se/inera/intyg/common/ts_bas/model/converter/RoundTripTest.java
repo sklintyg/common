@@ -43,8 +43,8 @@ import se.inera.intyg.common.ts_bas.utils.*;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.ObjectFactory;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @RunWith(Parameterized.class)
 public class RoundTripTest {

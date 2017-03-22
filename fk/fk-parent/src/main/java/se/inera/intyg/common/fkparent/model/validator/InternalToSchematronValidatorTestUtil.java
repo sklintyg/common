@@ -35,7 +35,7 @@ import com.helger.schematron.svrl.SVRLHelper;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 public final class InternalToSchematronValidatorTestUtil {
     private InternalToSchematronValidatorTestUtil() {

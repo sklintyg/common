@@ -18,19 +18,18 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class InternalToTransportUtilTest {
 

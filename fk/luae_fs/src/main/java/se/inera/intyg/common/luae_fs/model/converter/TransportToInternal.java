@@ -58,10 +58,10 @@ import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande.Builder;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
 

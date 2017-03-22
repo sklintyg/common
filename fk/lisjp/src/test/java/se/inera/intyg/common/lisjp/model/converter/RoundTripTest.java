@@ -48,7 +48,7 @@ import se.inera.intyg.common.lisjp.utils.ScenarioFinder;
 import se.inera.intyg.common.lisjp.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 @RunWith(Parameterized.class)
 public class RoundTripTest {

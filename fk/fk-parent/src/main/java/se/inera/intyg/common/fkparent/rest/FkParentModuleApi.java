@@ -18,31 +18,13 @@
  */
 package se.inera.intyg.common.fkparent.rest;
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_START;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
-
+import autovalue.shaded.com.google.common.common.primitives.Ints;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-
-import autovalue.shaded.com.google.common.common.primitives.Ints;
 import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.converter.InternalToRevoke;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
@@ -74,18 +56,34 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
-import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponderInterface;
-import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateResponseType;
-import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v1.GetCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v1.RevokeCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.IntygId;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
+
+import javax.xml.bind.JAXB;
+import javax.xml.ws.soap.SOAPFaultException;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_START;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 
 public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleApi {
 
@@ -203,6 +201,11 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     public CertificateResponse getCertificate(String certificateId, String logicalAddress, PartKod partCode) throws ModuleException {
         GetCertificateType request = new GetCertificateType();
         request.setIntygsId(getIntygsId(certificateId));
+
+        Part part = new Part();
+        part.setCode(partCode.getValue());
+        part.setDisplayName(partCode.getDisplayName());
+        request.setPart(part);
         // Set the part when 2.1 arrives.
 
         try {

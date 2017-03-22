@@ -26,26 +26,26 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.ArbetsplatsKod;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.Befattning;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.HsaId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.IntygId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.PartialDateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.PartialDateTypeFormatEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.PersonId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.Specialistkompetens;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.TypAvRelation;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Enhet;
-import se.riv.clinicalprocess.healthcond.certificate.v2.HosPersonal;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.MeddelandeReferens;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Patient;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Relation;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PersonId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvRelation;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
+import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.MeddelandeReferens;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Patient;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Relation;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -138,7 +138,7 @@ public final class InternalConverterUtil {
     }
 
     private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient) {
-        Patient patient = new se.riv.clinicalprocess.healthcond.certificate.v2.Patient();
+        Patient patient = new se.riv.clinicalprocess.healthcond.certificate.v3.Patient();
         patient.setEfternamn(sourcePatient.getEfternamn());
         patient.setFornamn(emptyStringIfNull(sourcePatient.getFornamn()));
         patient.setMellannamn(sourcePatient.getMellannamn());

@@ -49,7 +49,7 @@ import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.validator.InternalDraftValidatorImpl;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConverterTest {

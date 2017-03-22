@@ -40,8 +40,8 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.ts_bas.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class UtlatandeToIntygTest {
 

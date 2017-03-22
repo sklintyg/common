@@ -18,28 +18,27 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
+import com.google.common.base.Joiner;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
+import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getIntyg;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.base.Joiner;
-
-import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
-import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
 
 public final class UtlatandeToIntyg {
 

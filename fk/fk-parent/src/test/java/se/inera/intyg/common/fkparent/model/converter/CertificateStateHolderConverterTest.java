@@ -31,7 +31,7 @@ import org.junit.Test;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
-import se.riv.clinicalprocess.healthcond.certificate.v2.IntygsStatus;
+import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 
 public class CertificateStateHolderConverterTest {
 
