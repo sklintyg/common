@@ -354,7 +354,7 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
                 }
 
                 return disable;
-            }
+            };
 
             /**
              * Decide if diagnosis code and description field #3 shall be disabled or not.
