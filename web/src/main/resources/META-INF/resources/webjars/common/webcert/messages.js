@@ -443,6 +443,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.date.empty': 'Fältet får inte vara tomt.',
         'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
+        'common.validation.date-period.invalid_order': 'Startdatum får inte vara efter slutdatum.',
         'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
         'common.validation.date_out_of_range': 'Datum får inte ligga för långt fram eller tillbaka i tiden.',
         'common.validation.date_invalid': 'Ogiltigt datum',
