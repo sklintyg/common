@@ -228,7 +228,7 @@ public final class InternalConverterUtil {
         DatePeriodType period = new DatePeriodType();
         period.setStart(from);
         period.setEnd(tom);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "datePeriod"),
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "datePeriod"),
                 DatePeriodType.class, null, period);
     }
 
@@ -236,7 +236,7 @@ public final class InternalConverterUtil {
         PartialDateType partialDate = new PartialDateType();
         partialDate.setFormat(format);
         partialDate.setValue(partial);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "partialDate"),
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "partialDate"),
                 PartialDateType.class, null, partialDate);
     }
 
@@ -245,7 +245,7 @@ public final class InternalConverterUtil {
         cv.setCodeSystem(codeSystem);
         cv.setCode(code);
         cv.setDisplayName(displayName);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:2", "cv"),
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "cv"),
                 CVType.class, null, cv);
     }
 
