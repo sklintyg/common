@@ -53,9 +53,10 @@ angular.module('lisjp').directive('categoryWrapper',
                         case 'smittbararpenning':
                         case 'diagnos':
                         case 'bedomning':
-                            return true;
                         case 'ovrigt':
-                            return scope.intygModel.ovrigt && scope.intygModel.ovrigt.length > 0 ? true : false;
+                            return true;
+                        case 'tillaggsfragor':
+                            return scope.intygModel.tillaggsfragor && scope.intygModel.tillaggsfragor.length > 0;
                         }
 
                         return false;

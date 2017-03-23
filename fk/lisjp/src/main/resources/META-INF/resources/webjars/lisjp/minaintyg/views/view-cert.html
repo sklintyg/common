@@ -328,12 +328,13 @@
               </category-wrapper>
 
               <category-wrapper category-key="9999" intyg-model="cert">
-                <div mi-category category-label="KAT_9999.RBK">
-                  <div mi-field field-dynamic-label="DFR_{{tillaggsfraga.id}}.1"
-                       ng-repeat="tillaggsfraga in cert.tillaggsfragor" filled="tillaggsfraga.svar">
-                    <div id="tillaggsfraga_{{$index}}" class="multiline">{{tillaggsfraga.svar}}</div>
+                  <div mi-category category-label="KAT_9999.RBK">
+                    <field-wrapper field-name="tillaggsfragor" intyg-model="cert">
+                      <div mi-field field-dynamic-label="DFR_{{tillaggsfraga.id}}.1" ng-repeat="tillaggsfraga in cert.tillaggsfragor" filled="tillaggsfraga.svar">
+                        <div id="tillaggsfraga_{{$index}}" class="multiline">{{tillaggsfraga.svar}}</div>
+                      </div>
+                    </field-wrapper>
                   </div>
-                </div>
               </category-wrapper>
 
               <div class="row padding-bottom-30px">

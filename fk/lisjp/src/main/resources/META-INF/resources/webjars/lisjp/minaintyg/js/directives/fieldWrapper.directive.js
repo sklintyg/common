@@ -41,6 +41,8 @@ angular.module('lisjp').directive('fieldWrapper',
                         case 'sjukskrivningar':
                         case 'ovrigt':
                             return true;
+                        case 'tillaggsfragor':
+                            return scope.intygModel.tillaggsfragor && scope.intygModel.tillaggsfragor.length > 0;
                         }
                         return false;
                     }
