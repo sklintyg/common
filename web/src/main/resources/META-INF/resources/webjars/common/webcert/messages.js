@@ -39,6 +39,8 @@ angular.module('common').constant('common.messages', {
         'common.copy.tooltip': 'Ett nytt utkast skapas på den vårdenhet du är inloggad på. All information i det befintliga intyget följer med till utkastet.',
         'common.fornya': 'Förnya',
         'common.fornya.tooltip': 'Om du vill förlänga en sjukskrivning kan du förnya intyget. Viss information från det befintliga intyget följer med till det nya utkastet.',
+        'common.ersatt': 'Ersätt',
+        'common.ersatt.tooltip': 'Om intyget innehåller felaktiga uppgifter, eller om ny information inkommit, kan du ersätta ett intyg. All information i det befintliga intyget följer med till utkastet.',
         'common.show': 'Visa',
         'common.show.tooltip': 'Visa intyget.',
         'common.delete': 'Radera',

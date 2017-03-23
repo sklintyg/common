@@ -68,6 +68,10 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.befattningar': 'Befattningar',
         'ts-bas.label.signera': 'Signera',
 
+        'ts-bas.modal.ersatt.text':'<p>Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt, skapas ett utkast med samma information som i det ursprungliga intyget. Uppgifterna i det nya utkastet går att ändra innan det signeras. Ett ersatt intyg är endast tillgängligt att läsa och skriva ut. På det ersatta intyget kommer en länk finnas till det nya intyget.</p>' +
+        '<p><b>Notera</b>: Om intyget innehåller ett allvarligt fel, till exempel om intyget är utfärdat på fel patient bör du istället makulera intyget. Det kommer då inte vara tillgängligt för invånaren via Mina intyg.</p>',
+
+
         // Labels for showing signed intyg
         'ts-bas.label.syn.binokulart': 'Binokulärt',
         'ts-bas.label.syn.vanster-oga': 'Vänster öga',

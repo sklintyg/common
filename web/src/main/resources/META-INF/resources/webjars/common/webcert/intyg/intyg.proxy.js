@@ -92,24 +92,7 @@ angular.module('common').factory('common.IntygProxy',
             return payload;
         }
 
-        function _makuleraErsattIntyg(intygCopyRequest, revokeMessage, onSuccess, onError) {
-            $log.debug('_revokeSigneratIntyg: ' + intygCopyRequest.intygId + ' intygsTyp: ' + intygCopyRequest.intygTyp);
-            var restPath = '/moduleapi/intyg/' + intygCopyRequest.intygType + '/' + intygCopyRequest.intygId + '/aterkallaersatt';
-
-            var payload = {
-                copyIntygRequest: buildPayloadFromCopyIntygRequest(intygCopyRequest),
-                revokeSignedIntygParameter: revokeMessage
-            };
-
-            $http.post(restPath, payload).success(function(utkastResponse) {
-                onSuccess(utkastResponse);
-                statService.refreshStat();
-            }).error(function(error) {
-                _handleError(onError, error);
-            });
-        }
-
-        function _fornyaOrCopyIntyg(action) {
+        function _createIntygCopyActionType(action) {
             var restEndpoint;
 
             switch (action) {
@@ -119,11 +102,14 @@ angular.module('common').factory('common.IntygProxy',
             case 'fornya':
                 restEndpoint = 'fornya';
                 break;
+            case 'ersatt':
+                restEndpoint = 'ersatt';
+                break;
             default:
-                throw new Error('common.IntygProxy#_fornyaOrCopyIntyg: Unknown action parameter', action);
+                throw new Error('common.IntygProxy#_executeIntygCopyActionType: Unknown action parameter', action);
             }
 
-            return function doFornyaOrCopyIntyg(intygCopyRequest, onSuccess, onError) {
+            return function doIntygCopyAction(intygCopyRequest, onSuccess, onError) {
                 $log.debug(action + ' intyg' + intygCopyRequest.intygType + ', ' + intygCopyRequest.intygId);
 
                 var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
@@ -171,10 +157,10 @@ angular.module('common').factory('common.IntygProxy',
         return {
             getIntyg: _getIntyg,
             makuleraIntyg: _makuleraIntyg,
-            makuleraErsattIntyg: _makuleraErsattIntyg,
             sendIntyg: _sendIntyg,
-            copyIntyg: _fornyaOrCopyIntyg('copy'),
-            fornyaIntyg: _fornyaOrCopyIntyg('fornya'),
+            copyIntyg: _createIntygCopyActionType('copy'),
+            fornyaIntyg: _createIntygCopyActionType('fornya'),
+            ersattIntyg: _createIntygCopyActionType('ersatt'),
             answerWithIntyg: _answerWithIntyg
         };
     }]);

@@ -20,7 +20,7 @@
 describe('IntygCopyService', function() {
     'use strict';
 
-    var IntygCopyFornya;
+    var IntygCopyActions;
     var $httpBackend;
     var $state;
     var $timeout;
@@ -43,10 +43,10 @@ describe('IntygCopyService', function() {
         });
     });
 
-    beforeEach(angular.mock.inject(['common.IntygCopyFornya', '$httpBackend', '$state', '$timeout',
+    beforeEach(angular.mock.inject(['common.IntygCopyActions', '$httpBackend', '$state', '$timeout',
         'common.dialogService', 'common.UserModel',
-        function(_IntygCopyFornya_, _$httpBackend_, _$state_, _$timeout_, _dialogService_, _UserModel_) {
-            IntygCopyFornya = _IntygCopyFornya_;
+        function(_IntygCopyActions_, _$httpBackend_, _$state_, _$timeout_, _dialogService_, _UserModel_) {
+            IntygCopyActions = _IntygCopyActions_;
             $httpBackend = _$httpBackend_;
             $state = _$state_;
             $timeout = _$timeout_;
@@ -96,27 +96,27 @@ describe('IntygCopyService', function() {
 
         it('should immediately request a utkast copy of intyg if the copy preference is set', function() {
 
-            UserModel.setAnvandarPreference(IntygCopyFornya.COPY_DIALOG_PREFERENCE, true);
+            UserModel.setAnvandarPreference(IntygCopyActions.COPY_DIALOG_PREFERENCE, true);
 
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygCopyFornya.copy($scope.viewState, intyg);
+            IntygCopyActions.copy($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
             expect(dialogService.showDialog).not.toHaveBeenCalled();
             expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
 
-            UserModel.setAnvandarPreference(IntygCopyFornya.COPY_DIALOG_PREFERENCE, false);
+            UserModel.setAnvandarPreference(IntygCopyActions.COPY_DIALOG_PREFERENCE, false);
         });
 
         it('should show the copy dialog if the copy preference is not set', function() {
 
-            UserModel.setAnvandarPreference(IntygCopyFornya.COPY_DIALOG_PREFERENCE, false);
+            UserModel.setAnvandarPreference(IntygCopyActions.COPY_DIALOG_PREFERENCE, false);
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygCopyFornya.copy($scope.viewState, intyg);
+            IntygCopyActions.copy($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
 
@@ -125,27 +125,41 @@ describe('IntygCopyService', function() {
 
         it('should immediately request a fornya utkast of intyg if the fornya preference is set', function() {
 
-            UserModel.setAnvandarPreference(IntygCopyFornya.FORNYA_DIALOG_PREFERENCE, true);
+            UserModel.setAnvandarPreference(IntygCopyActions.FORNYA_DIALOG_PREFERENCE, true);
 
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/fornya/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygCopyFornya.fornya($scope.viewState, intyg);
+            IntygCopyActions.fornya($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
             expect(dialogService.showDialog).not.toHaveBeenCalled();
             expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
 
-            UserModel.setAnvandarPreference(IntygCopyFornya.FORNYA_DIALOG_PREFERENCE, false);
+            UserModel.setAnvandarPreference(IntygCopyActions.FORNYA_DIALOG_PREFERENCE, false);
         });
 
         it('should show the fornya dialog if the copy preference is not set', function() {
 
-            UserModel.setAnvandarPreference(IntygCopyFornya.FORNYA_DIALOG_PREFERENCE, false);
+            UserModel.setAnvandarPreference(IntygCopyActions.FORNYA_DIALOG_PREFERENCE, false);
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/fornya/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygCopyFornya.fornya($scope.viewState, intyg);
+            IntygCopyActions.fornya($scope.viewState, intyg);
+            $httpBackend.flush();
+            $timeout.flush();
+
+            expect(dialogService.showDialog).toHaveBeenCalled();
+
+        });
+
+        it('should show the ersatt dialog and send request if dialogbutton clicked', function() {
+
+
+            $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/ersatt/').respond(
+                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
+            );
+            IntygCopyActions.ersatt($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
 
@@ -173,7 +187,7 @@ describe('IntygCopyService', function() {
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygCopyFornya.__test__.createCopyDraft(intyg, onSuccess, onError);
+            IntygCopyActions.__test__.createCopyDraft(intyg, onSuccess, onError);
             $httpBackend.flush();
 
             expect(onSuccess).toHaveBeenCalledWith({'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'});

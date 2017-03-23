@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.IntygCopyFornya',
+angular.module('common').factory('common.IntygCopyActions',
     [ '$log', '$stateParams',
         'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.UserModel', 'common.User', 'common.IntygHelper', 'common.PersonIdValidatorService',
         function($log, $stateParams, dialogService, IntygProxy, authorityService, UserModel, userService, IntygHelper, PersonIdValidatorService) {
@@ -39,6 +39,10 @@ angular.module('common').factory('common.IntygCopyFornya',
             var fornyaDialogModel = angular.copy(copyDialogModel);
             fornyaDialogModel.errormessageid = 'error.failedtofornyaintyg';
 
+            var ersattDialogModel = angular.copy(copyDialogModel);
+            ersattDialogModel.errormessageid = 'error.failedtoersattintyg';
+
+
             function resetViewStateErrorKeys (viewState) {
                 viewState.activeErrorMessageKey = null;
                 viewState.inlineErrorMessageKey = null;
@@ -50,6 +54,10 @@ angular.module('common').factory('common.IntygCopyFornya',
 
             function hideFornyaDialogError () {
                 fornyaDialogModel.showerror = null;
+            }
+            
+            function hideErsattDialogError () {
+                ersattDialogModel.showerror = null;
             }
 
             function dialogButton1Click (options) {
@@ -250,6 +258,54 @@ angular.module('common').factory('common.IntygCopyFornya',
                 return null;
             }
 
+            function _ersatt(viewState, intygErsattRequest, isOtherCareUnit) {
+
+                ersattDialogModel.otherCareUnit = isOtherCareUnit;
+                ersattDialogModel.patientId = PersonIdValidatorService.validate($stateParams.patientId);
+                ersattDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
+                ersattDialogModel.intygTyp = intygErsattRequest.intygType;
+
+               var ersattDialog = dialogService.showDialog({
+                        dialogId: 'ersatt-dialog',
+                        titleId: 'label.ersattintyg',
+                        templateUrl: '/app/partials/ersatt-dialog.html',
+                        model: ersattDialogModel,
+                        button1click: function () {
+                            dialogButton1Click({
+                                requestType: 'ersatt',
+                                requestData: intygErsattRequest,
+                                requestFn: _createErsattDraft,
+                                viewState: viewState,
+                                dialogModel: ersattDialogModel,
+                                closeDialog: function (result) {
+                                    ersattDialog.close(result);
+                                }
+                            });
+                        },
+                        button2click: function(modalInstance){
+                            modalInstance.close();
+                        },
+                        button1text: 'common.ersatt',
+                        button2text: 'common.cancel',
+                        bodyText: ersattDialogModel.intygTyp + ".modal.ersatt.text",
+                        autoClose: false
+                    });
+
+                ersattDialog.opened.then(function() {
+                    ersattDialog.isOpen = true;
+                    }, function() {
+                    ersattDialog.isOpen = false;
+                    });
+
+                ersattDialog.result.then(
+                        hideErsattDialogError,
+                        hideErsattDialogError
+                    );
+
+                return ersattDialog;
+
+            }
+
             function _createFornyaDraft(intygFornyaRequest, onSuccess, onError) {
                 IntygProxy.fornyaIntyg(intygFornyaRequest, function(data) {
                     $log.debug('Successfully requested fornyad draft');
@@ -278,12 +334,27 @@ angular.module('common').factory('common.IntygCopyFornya',
                 });
             }
 
+            function _createErsattDraft(intygErsattRequest, onSuccess, onError) {
+                IntygProxy.ersattIntyg(intygErsattRequest, function(data) {
+                    $log.debug('Successfully requested ersatt copy draft');
+                    if(onSuccess) {
+                        onSuccess(data);
+                    }
+                }, function(error) {
+                    $log.debug('Create ersatt copy failed: ' + error.message);
+                    if (onError) {
+                        onError(error.errorCode);
+                    }
+                });
+            }
+
             // Return public API for the service
             return {
                 COPY_DIALOG_PREFERENCE: _COPY_DIALOG_PREFERENCE,
                 FORNYA_DIALOG_PREFERENCE: _FORNYA_DIALOG_PREFERENCE,
                 copy: _copy,
                 fornya: _fornya,
+                ersatt: _ersatt,
 
                 __test__: {
                     createCopyDraft: _createCopyDraft
