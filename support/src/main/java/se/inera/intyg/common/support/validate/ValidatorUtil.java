@@ -18,11 +18,18 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Strings;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -31,11 +38,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 /**
  * Common utils used for validation.
  *
@@ -43,10 +45,9 @@ import java.util.stream.Collectors;
  */
 public final class ValidatorUtil {
 
+    public static final int BASE_10 = 10;
     private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtil.class);
     private static final StringValidator STRING_VALIDATOR = new StringValidator();
-
-    public static final int BASE_10 = 10;
 
     private ValidatorUtil() {
     }
@@ -54,7 +55,8 @@ public final class ValidatorUtil {
     /**
      * Calculates the modulo 10 checksum of a numeric string (the luhn algorithm).
      *
-     * @param number A numeric string (in order to support leading zeroes).
+     * @param number
+     *            A numeric string (in order to support leading zeroes).
      * @return The modulo 10 checksum.
      */
     public static int calculateMod10(String number) {
@@ -78,15 +80,15 @@ public final class ValidatorUtil {
      * {@link InternalDate#MIN_DATE} and {@link InternalDate#MAX_DATE}, typically 1900-01-01 to 2099-12-31.
      *
      * @param date
-     *      Date to validate.
+     *            Date to validate.
      * @param validationMessages
-     *      List of validationMessages. Any validation errors and/or warnings are added to this list.
+     *            List of validationMessages. Any validation errors and/or warnings are added to this list.
      * @param field
-     *      Field identifier, used if a validation entry has to be added.
+     *            Field identifier, used if a validation entry has to be added.
      * @param message
-     *      Special message for field, null if it does not exist.
+     *            Special message for field, null if it does not exist.
      * @return
-     *      True if valid, false otherwise.
+     *         True if valid, false otherwise.
      */
     public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field, String message) {
 
@@ -119,42 +121,56 @@ public final class ValidatorUtil {
      * {@link InternalDate#MIN_DATE} and {@link InternalDate#MAX_DATE}, typically 1900-01-01 to 2099-12-31.
      *
      * @param interval
-     *      InteralLocalDateInterval to validate.
+     *            InteralLocalDateInterval to validate.
      * @param validationMessages
-     *      List of validationMessages. Any validation errors and/or warnings are added to this list.
+     *            List of validationMessages. Any validation errors and/or warnings are added to this list.
      * @param field
-     *      Field identifier, used if a validation entry has to be added.
+     *            Field identifier, used if a validation entry has to be added.
      * @param message
-     *      Special message for field, null if it does not exist.
+     *            Special message for field, null if it does not exist.
      * @return
-     *      True if valid, false otherwise.
+     *         True if valid, false otherwise.
      */
-    public static boolean validateInternalDateInterval(InternalLocalDateInterval interval, List<ValidationMessage> validationMessages, String field, String message) {
+    public static boolean validateInternalDateInterval(InternalLocalDateInterval interval, List<ValidationMessage> validationMessages,
+            String field, String message) {
         if (interval == null || interval.getTom() == null || interval.getFrom() == null) {
             addValidationError(validationMessages, field, ValidationMessageType.EMPTY);
             return false;
         }
         return validateDate(interval.getFrom(), validationMessages, field, message)
-                && validateDate(interval.getTom(), validationMessages, field, message);
+                && validateDate(interval.getTom(), validationMessages, field, message)
+                && validateInterval(interval.getFrom(), interval.getTom(), validationMessages, field);
+    }
+
+    private static boolean validateInterval(InternalDate start, InternalDate end, List<ValidationMessage> validationMessages,
+            String field) {
+        if (start.asLocalDate().isAfter(end.asLocalDate())) {
+            addValidationError(validationMessages, field, ValidationMessageType.INCORRECT_COMBINATION,
+                    "common.validation.date-period.invalid_order");
+            return false;
+        }
+        return true;
     }
 
     /**
-     * Performs the normal date validation {@link ValidatorUtil#validateDate(InternalDate, List, String, String)} as well as
-     * checking if the supplied date is in the future. If future, a {@link ValidationMessage} of type {@link ValidationMessageType#WARN}
+     * Performs the normal date validation {@link ValidatorUtil#validateDate(InternalDate, List, String, String)} as
+     * well as
+     * checking if the supplied date is in the future. If future, a {@link ValidationMessage} of type
+     * {@link ValidationMessageType#WARN}
      * is added to the supplied list of validationMessages.
      *
      * @param date
-     *      Date to validate.
+     *            Date to validate.
      * @param validationMessages
-     *      List of validationMessages. Any validation errors and/or warnings are added to this list.
+     *            List of validationMessages. Any validation errors and/or warnings are added to this list.
      * @param field
-     *      Field identifier, used if a validation entry has to be added.
+     *            Field identifier, used if a validation entry has to be added.
      * @return
-     *      True if date was valid according to {@link ValidatorUtil#validateDate(InternalDate, List, String, String)}.
+     *         True if date was valid according to
+     *         {@link ValidatorUtil#validateDate(InternalDate, List, String, String)}.
      */
     public static boolean validateDateAndWarnIfFuture(InternalDate date, List<ValidationMessage> validationMessages, String field) {
         boolean isValid = validateDate(date, validationMessages, field, null);
-
 
         // For structurally valid dates, check if it is a future date
         // Note that being in the future doesn't make it invalid per se, only WARN
@@ -173,7 +189,8 @@ public final class ValidatorUtil {
         if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostnummer()).trim().isEmpty()) {
             addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.EMPTY);
         } else if (!STRING_VALIDATOR.validateStringAsPostalCode(grundData.getSkapadAv().getVardenhet().getPostnummer())) {
-            addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.INVALID_FORMAT,
+            addValidationError(validationMessages, "vardenhet.grunddata.skapadAv.vardenhet.postnummer",
+                    ValidationMessageType.INVALID_FORMAT,
                     "common.validation.postnummer.incorrect-format");
         }
 
@@ -198,7 +215,8 @@ public final class ValidatorUtil {
         return validationMessages.isEmpty() ? ValidationStatus.VALID : ValidationStatus.INVALID;
     }
 
-    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg, String dynamicLabel) {
+    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg,
+            String dynamicLabel) {
 
         // Bit of a hack - but make sure no WARN types are added to the ERROR list.
         if (type == ValidationMessageType.WARN) {
@@ -218,7 +236,8 @@ public final class ValidatorUtil {
      * @param msg
      *            a String with an error code for the front end implementation
      */
-    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type, String msg) {
+    public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type,
+            String msg) {
         validationMessages.add(new ValidationMessage(field, type, msg));
         LOG.debug(field + " " + msg);
     }
@@ -252,7 +271,8 @@ public final class ValidatorUtil {
      * @param errorCode
      *            the errorCode to log in validation errors
      */
-    public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field, String errorCode) {
+    public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field,
+            String errorCode) {
         if (beskrivning == null || beskrivning.isEmpty()) {
             addValidationError(validationMessages, field, ValidationMessageType.EMPTY, errorCode);
             LOG.debug(field + " " + errorCode);
@@ -267,29 +287,6 @@ public final class ValidatorUtil {
             return AssertionResult.FAILURE;
         }
         return AssertionResult.SUCCESS;
-    }
-
-    /**
-     * Since the validator assertions doesn't throw exceptions on assertion failure, they instead return an assertion
-     * result. This might be used to implement conditional logic based on if an assertion {@link #failed()} or was
-     * {@link #success()}ful.
-     */
-    public enum AssertionResult {
-        SUCCESS(true), FAILURE(false);
-
-        private final boolean assertSuccessful;
-
-        AssertionResult(boolean assertSuccessfull) {
-            this.assertSuccessful = assertSuccessfull;
-        }
-
-        public boolean failed() {
-            return !assertSuccessful;
-        }
-
-        public boolean success() {
-            return assertSuccessful;
-        }
     }
 
     public static boolean isNotNullTrue(Boolean bool) {
@@ -319,11 +316,35 @@ public final class ValidatorUtil {
      * Checks if the supplied string - if not null - is a parsable Integer or Float/Double.
      *
      * @param tjanstgoringstid
-     *      A string that should represent a number such as 40 or 37.5.
+     *            A string that should represent a number such as 40 or 37.5.
      * @return
-     *      true if invalid, false if valid.
+     *         true if invalid, false if valid.
      */
     public static boolean isInvalidTjanstgoringstid(String tjanstgoringstid) {
         return tjanstgoringstid != null && (Ints.tryParse(tjanstgoringstid) == null && Doubles.tryParse(tjanstgoringstid) == null);
+    }
+
+    /**
+     * Since the validator assertions doesn't throw exceptions on assertion failure, they instead return an assertion
+     * result. This might be used to implement conditional logic based on if an assertion {@link #failed()} or was
+     * {@link #success()}ful.
+     */
+    public enum AssertionResult {
+        SUCCESS(true),
+        FAILURE(false);
+
+        private final boolean assertSuccessful;
+
+        AssertionResult(boolean assertSuccessfull) {
+            this.assertSuccessful = assertSuccessfull;
+        }
+
+        public boolean failed() {
+            return !assertSuccessful;
+        }
+
+        public boolean success() {
+            return assertSuccessful;
+        }
     }
 }
