@@ -55,8 +55,6 @@ angular.module('lisjp').directive('categoryWrapper',
                         case 'bedomning':
                         case 'ovrigt':
                             return true;
-                        case 'tillaggsfragor':
-                            return scope.intygModel.tillaggsfragor && scope.intygModel.tillaggsfragor.length > 0;
                         }
 
                         return false;
