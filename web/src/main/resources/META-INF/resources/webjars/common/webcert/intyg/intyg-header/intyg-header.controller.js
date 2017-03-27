@@ -28,6 +28,7 @@ angular.module('common').controller('common.IntygHeader',
             'use strict';
 
             var intygType = $state.current.data.intygType;
+            var _intygActionDialog = null;
 
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
@@ -44,17 +45,8 @@ angular.module('common').controller('common.IntygHeader',
             $scope.makuleratIntyg = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
             };
-            $scope.isErsattIntyg = function(){
-                /*
-                - a relationItem without kod is a root parent.
-                - kod describes the relation to the following item
-                - items in the list before a specific item is a child to that item, items after are parents
-
-
-
-
-                 */
-                return false;
+            $scope.isReplaced = function(){
+                return  angular.isObject($scope.viewState.common.intygProperties.replacedByRelation);
             };
 
 
@@ -69,7 +61,7 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.showSkickaButton = function(){
                 return !$scope.isSentIntyg() &&
-                    !$scope.makuleratIntyg() && !$scope.isPatientDeceased();
+                    !$scope.makuleratIntyg() && !$scope.isPatientDeceased() && !$scope.isReplaced();
             };
 
             $scope.showPrintBtn = function() {
@@ -86,12 +78,12 @@ angular.module('common').controller('common.IntygHeader',
             $scope.showKopieraButton = function() {
                 return !$scope.makuleratIntyg() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
-                    !$scope.isPatientDeceased() &&
+                    !$scope.isPatientDeceased() && !$scope.isReplaced() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit);
             };
 
             $scope.showErsattButton = function() {
-                return !$scope.makuleratIntyg() && !$scope.isErsattIntyg() &&
+                return !$scope.makuleratIntyg() && !$scope.isReplaced() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit);
@@ -139,7 +131,7 @@ angular.module('common').controller('common.IntygHeader',
                     return;
                 }
                 var isOtherCareUnit = User.getValdVardenhet().id !== intyg.grundData.skapadAv.vardenhet.enhetsid;
-                intygServiceMethod($scope.viewState,
+                _intygActionDialog = intygServiceMethod($scope.viewState,
                     buildIntygRequestModel({
                         intygId: intyg.id,
                         intygType: intygType,
@@ -168,6 +160,15 @@ angular.module('common').controller('common.IntygHeader',
                     window.open($scope.pdfUrl, '_blank');
                 }
             };
+
+            //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)
+            // - make sure it's closed properly
+            $scope.$on('$destroy', function() {
+                if (_intygActionDialog) {
+                    _intygActionDialog.close();
+                    _intygActionDialog = undefined;
+                }
+            });
 
         }
     ]
