@@ -25,9 +25,6 @@
 
   <xsl:template name="response">
     <lc:ListCertificatesForCareResponse>
-      <lc:result>
-        <xsl:call-template name="result"/>
-      </lc:result>
     </lc:ListCertificatesForCareResponse>
   </xsl:template>
 
