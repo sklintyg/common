@@ -12,7 +12,9 @@
           <span id="wc-header-location-care-unit" class="location" ng-if="user.valdVardgivare" wc-authority role="!PRIVATLAKARE"> - {{user.valdVardenhet.namn}}</span><br>
         </span>
         <span id="inactiveWarning" class="otherLocations" ng-show="unitInactive()">
-            <span class="glyphicon glyphicon-exclamation-sign"></span> OBS! Enheten är markerad som inaktiv i journalsystemet.
+            <span class="glyphicon glyphicon-exclamation-sign glyph-background">
+              <span class="inner"></span>  
+            </span> OBS! Enheten är markerad som inaktiv i journalsystemet.
         </span>
         <span id="otherLocations" class="otherLocations" wc-authority="ATKOMST_ANDRA_ENHETER"
               ng-show="hasOtherLocationsStats()"><span class="bold">{{otherLocationsStatsCount()}}</span> ej hanterade frågor och ej signerade utkast på andra vårdenheter.</span>
