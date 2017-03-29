@@ -7,6 +7,9 @@
   <xsl:template name="response">
      <lc:ListCertificatesForCitizenResponse>
        <lc:intygsLista />
+       <lc:result>
+         <xsl:call-template name="result"/>
+       </lc:result>
      </lc:ListCertificatesForCitizenResponse>
    </xsl:template>
 

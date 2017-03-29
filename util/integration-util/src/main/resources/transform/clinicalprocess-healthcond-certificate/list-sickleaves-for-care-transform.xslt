@@ -27,6 +27,9 @@
     <gcr:ListSickLeavesForCareResponse>
       <gcr:sjukfallLista>
       </gcr:sjukfallLista>
+      <gcr:result>
+        <xsl:call-template name="result"/>
+      </gcr:result>
     </gcr:ListSickLeavesForCareResponse>
   </xsl:template>
 
