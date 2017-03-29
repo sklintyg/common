@@ -52,9 +52,9 @@ public interface Scenario {
     RegisterTSDiabetesType asTransportModel() throws ScenarioNotFoundException;
 
     /**
-     * Returns the scenario as a rivta v2 transport model.
+     * Returns the scenario as a rivta v3 transport model.
      *
-     * @return The scenario as a rivta v2 transport model.
+     * @return The scenario as a rivta v3 transport model.
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */

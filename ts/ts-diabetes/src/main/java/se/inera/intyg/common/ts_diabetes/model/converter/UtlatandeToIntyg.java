@@ -180,7 +180,7 @@ public final class UtlatandeToIntyg {
                         .build());
             } catch (IllegalArgumentException e) {
                 /*
-                 * During conversion for CertificateStatusUpdateForCare v2
+                 * During conversion for CertificateStatusUpdateForCare v3
                  * the utlatande might still be an utkast, meaning dates might
                  * be invalid - in that case conversion skips them.
                  */
@@ -212,7 +212,7 @@ public final class UtlatandeToIntyg {
                         aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(source.getInsulinBehandlingsperiod()))));
             } catch (IllegalArgumentException e) {
                 /*
-                 * During conversion for CertificateStatusUpdateForCare v2
+                 * During conversion for CertificateStatusUpdateForCare v3
                  * the utlatande might still be an utkast, meaning dates might
                  * be invalid - in that case conversion skips them.
                  */
@@ -276,7 +276,7 @@ public final class UtlatandeToIntyg {
                         source.getAllvarligForekomstVakenTidObservationstid().asLocalDate().toString());
             } catch (ModelException | IllegalArgumentException e) {
                 /*
-                 * During conversion for CertificateStatusUpdateForCare v2
+                 * During conversion for CertificateStatusUpdateForCare v3
                  * the utlatande might still be an utkast, meaning dates might
                  * be invalid - in that case conversion skips them.
                  */

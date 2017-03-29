@@ -174,7 +174,7 @@ public class ScenarioFinder {
             try {
                 return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V2_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(getName(), "rivta v2 transport", e);
+                throw new ScenarioNotFoundException(getName(), "rivta v3 transport", e);
             }
         }
 
