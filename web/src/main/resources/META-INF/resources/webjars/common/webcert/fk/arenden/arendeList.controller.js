@@ -13,9 +13,14 @@ angular.module('common').controller('common.ArendeListCtrl',
             $scope.viewState = ArendeListViewState;
             $scope.arendeList = [];
 
-            // Load
+            $scope.$on('$destroy', function (){
+                //Since ArendeListViewState is a service that's used elsewhere we need to clean up
+                //loaded state related to this instance
+                ArendeListViewState.reset();
+            });
 
             function fetchArenden(intygId, intygProperties) {
+
                 ArendeProxy.getArenden(intygId, intygProperties.type, function (result) {
                     $log.debug('getArendeForCertificate:success data:' + result);
                     ArendeListViewState.doneLoading = true;
@@ -23,6 +28,7 @@ angular.module('common').controller('common.ArendeListCtrl',
 
                     $scope.arendeList = ArendeHelper.createListItemsFromArenden(result);
 
+                    ArendeListViewState.setArendeList($scope.arendeList);
                     // Merge all kompletteringar and set in ArendeListViewState
                     var kompletteringar = {};
                     angular.forEach(result, function(arende) {

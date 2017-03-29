@@ -6,10 +6,15 @@
 </div>
 <div class="modal-body">
   <div class="form-group">
-    <div style="padding-bottom: 10px"><span message key="{{bodyTextId}}"></span></div>
+    <div style="padding-bottom: 10px">
+      <span message key="label.makulera.body.common-header"></span>
+      <span ng-if="model.hasUnhandledArenden" message key="label.makulera.body.has-arenden.addition"></span>
+      <br><br>
+      <span message key="label.makulera.body.common-footer"></span>
+    </div>
   </div>
   <div class="form-group makulera-choices">
-    Varför makulerar du intyget? <span ng-if="model.showQuestionMark" wc-help-mark field-help-text="intyg.makulera.help"></span><br>
+    Varför makulerar du intyget? <span ng-if="model.isFkIntyg" wc-help-mark field-help-text="intyg.makulera.help"></span><br>
     <div ng-repeat="reason in model.choices">
       <label class="radio big-radio-label">
         <input id="reason-{{reason.value}}" name="reason-{{reason.value}}" type="radio" class="big-radio"

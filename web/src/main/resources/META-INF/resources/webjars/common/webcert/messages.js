@@ -68,7 +68,10 @@ angular.module('common').constant('common.messages', {
 
         // makulera
         'label.makulera': 'Makulera intyg',
-        'label.makulera.body': 'Intyg som innehåller allvarliga fel kan makuleras. Exempel på ett allvarligt fel är om intyget är utfärdat för fel patient. Om intyget har skickats elektroniskt till en mottagare kommer mottagaren att informeras om makuleringen.<br><br>Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, ska det inte makuleras. Du kan då välja att skapa ett nytt intyg genom att använda funktionen Kopiera och korrigera de felaktiga uppgifterna.',
+        'label.makulera.body.common-header': 'Intyg som innehåller allvarliga fel kan makuleras. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om intyget har skickats elektroniskt till en mottagare kommer mottagaren att informeras om makuleringen. Invånaren kommer på Mina intyg, som nås via 1177.se, inte längre se intyget.',
+        'label.makulera.body.has-arenden.addition': 'Om du går vidare och makulerar intyget kommer dina ej hanterade frågor och svar markeras som hanterade.',
+        'label.makulera.body.common-footer': '<b>Notera</b>: Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, ska det inte makuleras. Du bör då ersätta intyget med ett nytt genom att använda dig av funktionen "Ersätta" och korrigera eller lägga till de uppgifter du önskar.',
+
         'label.makulera.confirmation': 'Kvittens - Återtaget intyg',
 
         // avtal/terms
