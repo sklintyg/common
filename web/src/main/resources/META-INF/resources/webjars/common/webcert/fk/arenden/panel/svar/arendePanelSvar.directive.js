@@ -53,7 +53,7 @@ angular.module('common').directive('arendePanelSvar',
                     }, true);
 
                     $scope.showAnswerPanel = function() {
-                        if (ArendeSvar.answerKompletteringWithText === false && ArendeSvar.status === 'PENDING_INTERNAL_ACTION') {
+                        if (ArendeSvar.amne === 'KOMPLT' && ArendeSvar.answerKompletteringWithText === false && ArendeSvar.status === 'PENDING_INTERNAL_ACTION') {
                             return false;
                         }
                         
