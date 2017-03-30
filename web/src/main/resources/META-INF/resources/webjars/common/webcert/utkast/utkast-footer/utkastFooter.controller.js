@@ -46,7 +46,7 @@ angular.module('common').controller('common.UtkastFooter',
             $scope.notifieraUtkast = function() {
                     UtkastNotifyService.notifyJournalsystem(viewState.intygModel.id, viewState.common.intyg.type,
                         viewState.draftModel, viewState.common, function() {
-                            viewState.klarForSigneraDatum = true;
+                            viewState.klartForSigneringDatum = true;
                         });
             };
 
