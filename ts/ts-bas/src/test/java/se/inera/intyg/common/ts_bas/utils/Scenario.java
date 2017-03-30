@@ -20,7 +20,7 @@ package se.inera.intyg.common.ts_bas.utils;
 
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a scenario:
@@ -57,7 +57,7 @@ public interface Scenario {
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */
-    RegisterCertificateType asRivtaV2TransportModel() throws ScenarioNotFoundException;
+    RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException;
 
     /**
      * Returns the scenario as a transformed transport model.

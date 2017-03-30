@@ -32,7 +32,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 public class RegisterCertificateTestValidator {
-    private static final String RESPONDER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_2.0.xsd";
+    private static final String RESPONDER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.0.xsd";
     private static final String GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.0.xsd";
     private static final String TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.0.xsd";
 
@@ -55,7 +55,7 @@ public class RegisterCertificateTestValidator {
             generalSchema.newValidator().validate(xmlSource);
             return true;
         } catch (Exception ex) {
-            LOG.error("Error: {}", ex);
+            LOG.error("Error: " + ex.getMessage(), ex);
             return false;
         }
     }

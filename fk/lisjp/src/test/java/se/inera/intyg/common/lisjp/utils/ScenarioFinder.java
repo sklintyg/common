@@ -30,7 +30,7 @@ import org.springframework.core.io.Resource;
 
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Finds and creates scenarios based on scenario files placed in src/test/resources.

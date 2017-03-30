@@ -31,7 +31,7 @@ import org.springframework.core.io.Resource;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Finds and creates scenarios based on scenario files placed in src/test/resources.
@@ -40,7 +40,7 @@ public class ScenarioFinder {
 
     private static final String TRANSPORT_MODEL_PATH = "classpath:/scenarios/transport/";
 
-    private static final String RIVTA_V2_TRANSPORT_MODEL_PATH = "classpath:/scenarios/rivtav2/";
+    private static final String RIVTA_V3_TRANSPORT_MODEL_PATH = "classpath:/scenarios/rivtav3/";
 
     private static final String INTERNAL_MODEL_PATH = "classpath:/scenarios/internal/";
 
@@ -168,9 +168,9 @@ public class ScenarioFinder {
          * {@inheritDoc}
          */
         @Override
-        public RegisterCertificateType asRivtaV2TransportModel() throws ScenarioNotFoundException {
+        public RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V2_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
+                return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V3_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
             } catch (Exception e) {
                 throw new ScenarioNotFoundException(getName(), "rivta v3 transport", e);
             }

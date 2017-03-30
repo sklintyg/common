@@ -47,7 +47,7 @@ import se.inera.intyg.common.lisjp.utils.Scenario;
 import se.inera.intyg.common.lisjp.utils.ScenarioFinder;
 import se.inera.intyg.common.lisjp.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 @RunWith(Parameterized.class)
@@ -127,7 +127,7 @@ public class RoundTripTest {
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
         JAXBElement<?> jaxbElement = new JAXBElement<>(
-                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:2", "RegisterCertificate"),
+                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
                 RegisterCertificateType.class, ws);
         return jaxbElement;
     }

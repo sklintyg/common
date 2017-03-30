@@ -43,7 +43,7 @@ import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 import se.inera.intyg.common.fk7263.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
@@ -65,7 +65,7 @@ public class RoundTripTest {
 
     private CustomObjectMapper objectMapper = new CustomObjectMapper();
     private ObjectFactory objectFactory = new ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory rivtav2ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory();
+    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
     private static Marshaller marshaller;
 
     private static final List<String> IGNORED_JSON_PROPERTIES = Arrays.asList("arbetsformagaPrognosGarInteAttBedomaBeskrivning",
@@ -116,15 +116,15 @@ public class RoundTripTest {
     }
 
     @Test
-    public void testConvertToRivtaV2() throws Exception {
+    public void testConvertToRivtaV3() throws Exception {
         Fk7263Utlatande internal = TransportToInternal.convert(scenario.asTransportModel().getLakarutlatande());
         RegisterCertificateType actual = new RegisterCertificateType();
         actual.setIntyg(UtlatandeToIntyg.convert(internal));
 
         StringWriter expected = new StringWriter();
         StringWriter actualSw = new StringWriter();
-        marshaller.marshal(rivtav2ObjectFactory.createRegisterCertificate(scenario.asRivtaV2TransportModel()), expected);
-        marshaller.marshal(rivtav2ObjectFactory.createRegisterCertificate(actual), actualSw);
+        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);
