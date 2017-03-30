@@ -103,6 +103,44 @@
     <svar id="17">
       <delsvar id="17.1">Kommer inte in i bilen</delsvar>
     </svar>
+    <svar id="32">
+      <instans>1</instans>
+      <delsvar id="32.1">
+        <ns3:cv>
+          <ns3:code>HELT_NEDSATT</ns3:code>
+          <ns3:codeSystem>KV_FKMU_0003</ns3:codeSystem>
+          <ns3:displayName>100%</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+      <delsvar id="32.2">
+        <ns3:datePeriod>
+          <ns3:start>2015-12-07</ns3:start>
+          <ns3:end>2015-12-10</ns3:end>
+        </ns3:datePeriod>
+      </delsvar>
+    </svar>
+
+    <svar id="32">
+      <instans>1</instans>
+      <delsvar id="32.1">
+        <ns3:cv>
+          <ns3:code>HALFTEN</ns3:code>
+          <ns3:codeSystem>KV_FKMU_0003</ns3:codeSystem>
+          <ns3:displayName>50%</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+      <delsvar id="32.2">
+        <ns3:datePeriod>
+          <ns3:start>2015-12-12</ns3:start>
+          <ns3:end>2015-12-20</ns3:end>
+        </ns3:datePeriod>
+      </delsvar>
+    </svar>
+
+    <svar id="33">
+      <delsvar id="33.1">true</delsvar>
+      <delsvar id="33.2">Kan bara jobba på nätterna.</delsvar>
+    </svar>
     <svar id="37">
       <delsvar id="37.1">Överskrider inte FMB</delsvar>
     </svar>
