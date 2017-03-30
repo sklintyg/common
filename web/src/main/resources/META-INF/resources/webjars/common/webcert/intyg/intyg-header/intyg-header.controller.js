@@ -79,7 +79,8 @@ angular.module('common').controller('common.IntygHeader',
                 return !$scope.makuleratIntyg() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() && !$scope.isReplaced() &&
-                    !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit);
+                    !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
+                    ($scope.user.user.parameters === undefined || $scope.user.user.parameters.copyOk);
             };
 
             $scope.showErsattButton = function() {
