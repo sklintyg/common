@@ -203,10 +203,9 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         request.setIntygsId(getIntygsId(certificateId));
 
         Part part = new Part();
-        part.setCode(partCode.getValue());
-        part.setDisplayName(partCode.getDisplayName());
+        part.setCode(partCode.name());
+        part.setCodeSystem("769bb12b-bd9f-4203-a5cd-fd14f2eb3b80");
         request.setPart(part);
-        // Set the part when 2.1 arrives.
 
         try {
             return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));
