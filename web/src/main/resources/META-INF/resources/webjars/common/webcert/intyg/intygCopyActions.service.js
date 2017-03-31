@@ -286,7 +286,7 @@ angular.module('common').factory('common.IntygCopyActions',
                             modalInstance.close();
                         },
                         button1text: 'common.ersatt',
-                        button2text: 'common.cancel',
+                        button2text: 'common.ersatt.cancel',
                         bodyText: ersattDialogModel.intygTyp + '.modal.ersatt.text',
                         autoClose: false
                     });

@@ -40,6 +40,7 @@ angular.module('common').constant('common.messages', {
         'common.fornya': 'Förnya',
         'common.fornya.tooltip': 'Om du vill förlänga en sjukskrivning kan du förnya intyget. Viss information från det befintliga intyget följer med till det nya utkastet.',
         'common.ersatt': 'Ersätt',
+        'common.ersatt.cancel': 'Avbryt, ersätt ej',
         'common.ersatt.tooltip': 'Om intyget innehåller felaktiga uppgifter, eller om ny information inkommit, kan du ersätta ett intyg. All information i det befintliga intyget följer med till utkastet.',
         'common.show': 'Visa',
         'common.show.tooltip': 'Visa intyget.',
