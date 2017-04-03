@@ -97,7 +97,7 @@ angular.module('common').factory('common.IntygMakulera',
                     this.push({
                         label: label,
                         value: key,
-                        placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)'
+                        placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)...'
                     });
                 }, dialogMakuleraModel.choices);
 
