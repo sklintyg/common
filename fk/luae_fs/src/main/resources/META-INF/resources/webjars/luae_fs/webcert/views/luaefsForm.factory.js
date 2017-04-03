@@ -20,7 +20,7 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                     templateOptions: {category: 1, categoryName: categoryNames[1]},
                     fieldGroup: [
                         //Fråga 1 -----
-                        {type: 'headline', templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5After: true}},
+                        {type: 'headline', templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5After: true, required: true}},
                         FactoryTemplates.grundForMU,
                         FactoryTemplates.annatGrundForMUBeskrivning,
                         {
