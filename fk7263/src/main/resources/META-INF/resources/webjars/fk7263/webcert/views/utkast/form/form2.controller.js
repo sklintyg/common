@@ -303,10 +303,10 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
             };
 
             /**
-             * The minimum number of characters that must be available if fields in
-             * the next diagnosis row shall be enabled
+             * The minimum number of characters that must be available if fields
+             * in next diagnosis row shall be enabled.
              */
-            var minimumInputLength = 15;
+            var minimumInputLength = 1;
 
             function isInputLimitReached() {
                 return ($scope.viewState.inputLimits.diagnosBeskrivning - $scope.getTotalDiagnosBeskrivningLength()) < minimumInputLength;
@@ -320,40 +320,21 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
                     return false;
                 }
 
-                var result = true;
-                angular.forEach(values, function(value) {
-                    if (!value) {
-                        result = false;
-                    }
+                return values.some(function(value) {
+                    return !!value;
                 });
-
-                return result;
             }
-
-            function disableDiagnose(code, description) {
-                var disable = false;
-                if (isInputLimitReached()) {
-                    disable = !hasValues([code, description]);
-                }
-
-                return disable;
-            }
-
+            
             /**
              * Decide if diagnosis code and description field #2 shall be disabled or not.
              * @returns true/false
              */
             $scope.disableDiagnose2 = function() {
                 var m = $scope.model;
-
-                var disable = true;
-                if (hasValues([m.diagnosKod, m.diagnosBeskrivning1])) {
-                    disable = disableDiagnose(m.diagnosKod2, m.diagnosBeskrivning2);
-                } else {
-                    disable = !hasValues([m.diagnosKod2, m.diagnosBeskrivning2]);
+                if (hasValues([m.diagnosKod2, m.diagnosBeskrivning2])) {
+                    return false;
                 }
-
-                return disable;
+                return !hasValues([m.diagnosKod, m.diagnosBeskrivning1]) || isInputLimitReached();
             };
 
             /**
@@ -362,15 +343,10 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
              */
             $scope.disableDiagnose3 = function() {
                 var m = $scope.model;
-
-                var disable = true;
-                if (hasValues([m.diagnosKod2, m.diagnosBeskrivning2])) {
-                    disable = disableDiagnose(m.diagnosKod3, m.diagnosBeskrivning3);
-                } else {
-                    disable = !hasValues([m.diagnosKod3, m.diagnosBeskrivning3]);
+                if (hasValues([m.diagnosKod3, m.diagnosBeskrivning3])) {
+                    return false;
                 }
-
-                return disable;
+                return !hasValues([m.diagnosKod2, m.diagnosBeskrivning2]) || isInputLimitReached();
             };
 
             $scope.validate = function() {
