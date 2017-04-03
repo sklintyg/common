@@ -45,7 +45,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
         }
     }
 
-    private boolean hasDeselectedOptionalFields() {
+    public boolean hasDeselectedOptionalFields() {
         return this.optionalFields != null && this.optionalFields.stream().anyMatch(f -> f.startsWith("!"));
     }
 
