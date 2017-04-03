@@ -962,11 +962,18 @@ wc cookie banner css.
   margin-top: 10px;
 }
 
-
 .continue-btn:disabled{
-  background-color:#F0F0F0 ;
+  background-color:#F0F0F0;
+  border: 1px solid;
+  border-color: #D3D3D3;
+  border-radius: 4px;
+  color: #9B9B9B;
 }
 
 .continue-btn:disabled:disabled{
-  background-color:#F0F0F0 ;
+  background-color:#F0F0F0;
+  border: 1px solid;
+  border-color: #D3D3D3;
+  border-radius: 4px;
+  color: #9B9B9B;
 }
