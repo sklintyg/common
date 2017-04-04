@@ -126,7 +126,7 @@ angular.module('common').factory('common.IntygCopyActions',
                     }, function(errorCode) {
                         if (errorCode === 'DATA_NOT_FOUND') {
                             viewState.inlineErrorMessageKey = 'error.failedtocopyintyg.personidnotfound';
-                        } else  if (errorCode === 'INVALID_STATE_REPLACED') {
+                        } else if (errorCode === 'INVALID_STATE_REPLACED') {
                             viewState.inlineErrorMessageKey = 'error.failedtocopyintyg.replaced';
                         } else {
                             viewState.inlineErrorMessageKey = 'error.failedtocopyintyg';
@@ -204,7 +204,7 @@ angular.module('common').factory('common.IntygCopyActions',
                     }, function(errorCode) {
                         if (errorCode === 'DATA_NOT_FOUND') {
                             viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.personidnotfound';
-                        } else  if (errorCode === 'INVALID_STATE_REPLACED') {
+                        } else if (errorCode === 'INVALID_STATE_REPLACED') {
                             viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.replaced';
                         } else {
                             viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg';
