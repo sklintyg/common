@@ -23,18 +23,20 @@ describe('IntygHeaderCtrl', function() {
     var $scope;
     var $controller;
     var $state;
+    var UserModel;
 
     beforeEach(function() {
 
         module('common', function($provide) {
-            $provide.value('common.ObjectHelper', jasmine.createSpyObj('common.ObjectHelper', ['isEmpty']));
         });
 
-        inject(function($rootScope, _$controller_, _$state_) {
+        inject(['$rootScope', '$controller', '$state', 'common.UserModel',
+            function($rootScope, _$controller_, _$state_, _UserModel_) {
             $scope = $rootScope.$new();
             $controller = _$controller_;
             $state = _$state_;
-        });
+            UserModel = _UserModel_;
+        }]);
     });
 
     describe('header show button logic', function() {
@@ -58,6 +60,8 @@ describe('IntygHeaderCtrl', function() {
                     }
                 }
             };
+
+            UserModel.setUser({parameters:{}});
 
             $controller('common.IntygHeader', {$scope: $scope});
         });
@@ -135,7 +139,7 @@ describe('IntygHeaderCtrl', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;
-                $scope.user = {user: {}};
+                UserModel.user = {};
                 expect($scope.showKopieraButton()).toBeTruthy();
             });
             it('should not be shown if makulerat, sekretessmarkerat or patient deceased', function() {
@@ -159,7 +163,7 @@ describe('IntygHeaderCtrl', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;
-                $scope.user = {user: {parameters: {inactiveUnit: true}}};
+                UserModel.user = {parameters: {inactiveUnit: true}};
                 expect($scope.showKopieraButton()).toBeFalsy();
             });
         });
@@ -170,7 +174,7 @@ describe('IntygHeaderCtrl', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;
-                $scope.user = {user: {}};
+                UserModel.user = {};
 
                 $scope.intygstyp = 'fk7263';
                 expect($scope.showFornyaButton()).toBeTruthy();
@@ -184,7 +188,7 @@ describe('IntygHeaderCtrl', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;
-                $scope.user = {user: {parameters: {inactiveUnit: true}}};
+                UserModel.user = {parameters: {inactiveUnit: true}};
 
                 $scope.intygstyp = 'fk7263';
                 expect($scope.showFornyaButton()).toBeFalsy();

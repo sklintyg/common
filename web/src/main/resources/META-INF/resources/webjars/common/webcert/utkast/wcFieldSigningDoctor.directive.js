@@ -29,8 +29,8 @@ angular.module('common').directive('wcFieldSigningDoctor',
             return {
                 restrict: 'A',
                 controller: function($scope) {
-                    $scope.show = UserModel.user.parameters !== undefined && UserModel.user.parameters.responsibleHospName !== undefined && UserModel.user.parameters.responsibleHospName !== '';
-                    $scope.hospName = UserModel.user.parameters !== undefined ? UserModel.user.parameters.responsibleHospName : '';
+                    $scope.show = !!UserModel.getIntegrationParam('responsibleHospName'); // !! converts non-empty string to bool
+                    $scope.hospName = UserModel.getIntegrationParam('responsibleHospName');
                 },
                 templateUrl: '/web/webjars/common/webcert/utkast/wcFieldSigningDoctor.directive.html'
             };

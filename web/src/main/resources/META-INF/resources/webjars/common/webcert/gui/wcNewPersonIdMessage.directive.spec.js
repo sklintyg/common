@@ -22,7 +22,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     var $scope;
     var element;
-    var $stateParams;
+    var UserModel;
 
     var samordningsNummer = '19540187-5769';
     var personNummer1 = '19121212-1212';
@@ -31,10 +31,8 @@ describe('wcNewPersonIdMessageDirective', function() {
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', '$stateParams',
-        function($compile, $rootScope, _$stateParams_) {
-            $stateParams = _$stateParams_;
-
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', 'common.UserModel',
+        function($compile, $rootScope, _UserModel_) {
             $scope = $rootScope.$new();
 
             $rootScope.lang = 'sv';
@@ -50,10 +48,14 @@ describe('wcNewPersonIdMessageDirective', function() {
                 }
             };
 
+            UserModel = _UserModel_;
+
+            UserModel.setUser({parameters: {}});
+            
         }]));
 
     it('should not display new personnummer text', function() {
-        $stateParams.patientId = personNummer1;
+        UserModel.user.parameters.alternateSsn = personNummer1;
         $scope.viewState.intygModel.grundData.patient.personId = personNummer1;
         $scope.$digest();
 
@@ -61,7 +63,7 @@ describe('wcNewPersonIdMessageDirective', function() {
     });
 
     it('should display new personnummer text', function() {
-        $stateParams.patientId = personNummer1;
+        UserModel.user.parameters.alternateSsn = personNummer1;
         $scope.viewState.intygModel.grundData.patient.personId = personNummer2;
         $scope.$digest();
 
@@ -69,7 +71,7 @@ describe('wcNewPersonIdMessageDirective', function() {
     });
 
     it('should display new personnummer text', function() {
-        $stateParams.patientId = personNummer1;
+        UserModel.user.parameters.alternateSsn = personNummer1;
         $scope.viewState.intygModel.grundData.patient.personId = samordningsNummer;
         $scope.$digest();
 
@@ -77,7 +79,7 @@ describe('wcNewPersonIdMessageDirective', function() {
     });
 
     it('should display new samordningsnummer text', function() {
-        $stateParams.patientId = samordningsNummer;
+        UserModel.user.parameters.alternateSsn = samordningsNummer;
         $scope.viewState.intygModel.grundData.patient.personId = personNummer1;
         $scope.$digest();
 
@@ -85,7 +87,7 @@ describe('wcNewPersonIdMessageDirective', function() {
     });
 
     it('should display new samordningsnummer text for new reservnr for existing samordningnr', function() {
-        $stateParams.patientId = '555555-5555';
+        UserModel.user.parameters.alternateSsn = '555555-5555';
         $scope.viewState.intygModel.grundData.patient.personId = samordningsNummer;
         $scope.$digest();
 
@@ -93,7 +95,7 @@ describe('wcNewPersonIdMessageDirective', function() {
     });
 
     it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
-        $stateParams.patientId = 'A123456FFFF';
+        UserModel.user.parameters.alternateSsn = 'A123456FFFF';
         $scope.viewState.intygModel.grundData.patient.personId = personNummer1;
         $scope.$digest();
 

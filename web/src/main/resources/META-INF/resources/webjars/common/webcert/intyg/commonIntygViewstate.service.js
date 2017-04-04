@@ -18,7 +18,10 @@
  */
 
 angular.module('common').service('common.IntygViewStateService',
-    ['$log', 'common.ViewStateService', 'common.IntygHelper', 'common.ObjectHelper', 'common.UserModel', function($log, commonViewStateService, IntygHelper, ObjectHelper, UserModel) {
+    ['$log',
+        'common.ViewStateService', 'common.IntygHelper', 'common.ObjectHelper', 'common.UserModel',
+        function($log,
+            commonViewStateService, IntygHelper, ObjectHelper, UserModel) {
         'use strict';
 
         this.reset = function() {
@@ -154,12 +157,11 @@ angular.module('common').service('common.IntygViewStateService',
             hasChangedName: function(intygModel) {
                 if (ObjectHelper.isDefined(intygModel) &&
                     ObjectHelper.isDefined(intygModel.grundData) &&
-                    ObjectHelper.isDefined(UserModel.user.parameters) &&
-                    ObjectHelper.isDefined(UserModel.user.parameters.fornamn) &&
-                    ObjectHelper.isDefined(UserModel.user.parameters.efternamn)) {
+                    ObjectHelper.isDefined(UserModel.getIntegrationParam('fornamn')) &&
+                    ObjectHelper.isDefined(UserModel.getIntegrationParam('efternamn'))) {
 
-                    return intygModel.grundData.patient.fornamn !== UserModel.user.parameters.fornamn ||
-                        intygModel.grundData.patient.efternamn !== UserModel.user.parameters.efternamn;
+                    return intygModel.grundData.patient.fornamn !== UserModel.getIntegrationParam('fornamn') ||
+                        intygModel.grundData.patient.efternamn !== UserModel.getIntegrationParam('efternamn');
                 }
                 return false;
             },
@@ -172,14 +174,13 @@ angular.module('common').service('common.IntygViewStateService',
             hasChangedAddress: function(intygModel) {
                 if (ObjectHelper.isDefined(intygModel) &&
                     ObjectHelper.isDefined(intygModel.grundData) &&
-                    ObjectHelper.isDefined(UserModel.user.parameters) &&
-                    ObjectHelper.isDefined(UserModel.user.parameters.postort) &&
-                    ObjectHelper.isDefined(UserModel.user.parameters.postadress) &&
-                    ObjectHelper.isDefined(UserModel.user.parameters.postnummer)) {
+                    ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) &&
+                    ObjectHelper.isDefined(UserModel.getIntegrationParam('postadress')) &&
+                    ObjectHelper.isDefined(UserModel.getIntegrationParam('postnummer'))) {
 
-                    return intygModel.grundData.patient.postort !== UserModel.user.parameters.postort ||
-                        intygModel.grundData.patient.postadress !== UserModel.user.parameters.postadress ||
-                        intygModel.grundData.patient.postnummer !== UserModel.user.parameters.postnummer;
+                    return intygModel.grundData.patient.postort !== UserModel.getIntegrationParam('postort') ||
+                        intygModel.grundData.patient.postadress !== UserModel.getIntegrationParam('postadress') ||
+                        intygModel.grundData.patient.postnummer !== UserModel.getIntegrationParam('postnummer');
                 }
                 return false;
             }

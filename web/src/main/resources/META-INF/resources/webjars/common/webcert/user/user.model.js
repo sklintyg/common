@@ -17,8 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.UserModel',
-    function() {
+angular.module('common').factory('common.UserModel',[
+    '$log', 'common.ObjectHelper',
+    function($log, ObjectHelper) {
         'use strict';
 
         function _checkRequestOrigin(user, privilegeConfig, intygsTypContext) {
@@ -66,6 +67,26 @@ angular.module('common').factory('common.UserModel',
                 } else {
                     return null;
                 }
+            },
+
+            getIntegrationParam: function(paramName) {
+
+                if(!ObjectHelper.isDefined(this.user)){
+                    $log.error('Invalid user object');
+                    return null;
+                }
+
+                if(!ObjectHelper.isDefined(this.user.parameters)){
+                    return null; // User is probably not integrated, fail silently
+                }
+
+                var paramValue = this.user.parameters[paramName];
+                if(!ObjectHelper.isDefined(paramValue)){
+                    $log.error('Invalid paramName');
+                    return null;
+                }
+
+                return paramValue;
             },
 
             setUser: function(user) {
@@ -228,4 +249,4 @@ angular.module('common').factory('common.UserModel',
 
         };
     }
-);
+]);

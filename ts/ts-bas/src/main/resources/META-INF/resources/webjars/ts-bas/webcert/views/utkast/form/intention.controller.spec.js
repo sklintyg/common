@@ -17,37 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('ts-bas.Utkast.Form17Controller', function() {
+describe('ts-bas.Utkast.Intention', function() {
     'use strict';
 
-    var ManageCertView;
-    var User;
-    var wcFocus;
-    var utkastNotifyService;
-    var anchorScrollService;
-
-
     beforeEach(angular.mock.module('common','ts-bas', function($provide) {
-        ManageCertView = jasmine.createSpyObj('common.ManageCertView', [ 'load' ]);
-        User = {};
-        wcFocus = {};
-        $provide.value('common.ManageCertView', ManageCertView);
-        $provide.value('common.UserModel', User);
-        $provide.value('common.wcFocus', wcFocus);
-        $provide.value('common.utkastNotifyService', utkastNotifyService);
-        $provide.value('common.anchorScrollService', anchorScrollService);
+        $provide.value('ts-bas.UtkastController.ViewStateService', {});
     }));
 
-    var $scope, ctrl;
+    var $scope;
 
     beforeEach(angular.mock.inject([
         '$controller',
         '$rootScope',
-        function($controller, $rootScope) {
-        $scope = $rootScope.$new();
-
-        ctrl = $controller('ts-bas.Utkast.IntentionController', { $scope: $scope });
-    }]));
+        'ts-bas.UtkastController.ViewStateService',
+        'ts-bas.Domain.IntygModel',
+        function($controller, $rootScope, viewState, IntygModel) {
+            $scope = $rootScope.$new();
+            var model = IntygModel._members.build();
+            viewState.intygModel = model.content;
+            $controller('ts-bas.Utkast.IntentionController', { $scope: $scope });
+        }]));
 
     // --- intention
     it('should show extra fields when some "korkortstyp"-options are selected', function() {

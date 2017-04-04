@@ -18,11 +18,13 @@
  */
 
 angular.module('common').controller('common.IntygHeader',
-    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService', 'common.messageService',
+    ['$rootScope', '$scope', '$log', '$state', '$stateParams',
+        'common.authorityService', 'common.featureService', 'common.messageService',
         'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.IntygErsattRequestModel', 'common.User', 'common.UserModel',
         'common.IntygSend', 'common.IntygCopyActions', 'common.IntygMakulera', 'common.IntygViewStateService',
 
-        function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService, moduleService, IntygCopyRequestModel,
+        function($rootScope, $scope, $log, $state, $stateParams,
+            authorityService, featureService, messageService, moduleService, IntygCopyRequestModel,
             IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel, IntygSend, IntygCopyActions, IntygMakulera, CommonViewState) {
 
             'use strict';
@@ -86,7 +88,7 @@ angular.module('common').controller('common.IntygHeader',
                 return !$scope.makuleratIntyg() && !$scope.isReplaced() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() &&
-                    !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit);
+                    !UserModel.getIntegrationParam('inactiveUnit');
             };
 
             $scope.showFornyaButton = function() {

@@ -39,7 +39,7 @@ angular.module('common').controller('common.wcHeaderController',
             };
 
             $scope.unitInactive = function() {
-                return $scope.user.parameters !== undefined && $scope.user.parameters.inactiveUnit;
+                return UserModel.getIntegrationParam('inactiveUnit');
             };
 
             $scope.setTestMode = function(){

@@ -37,9 +37,7 @@ angular.module('common').service('common.UtkastViewStateService',
             this.showComplete = false;
             this.hsaInfoMissing = false;
             this.vidarebefordraInProgress = false;
-            if (UserModel.user !== undefined && UserModel.user.parameters !== undefined) {
-                this.hospName = UserModel.user.parameters.responsibleHospName;
-            }
+            this.hospName = UserModel.getIntegrationParam('responsibleHospName');
             this.deleted = false;
             this.isSigned = false;
             this.textVersionUpdated = false;

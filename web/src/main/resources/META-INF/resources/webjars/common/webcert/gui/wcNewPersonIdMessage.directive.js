@@ -22,8 +22,8 @@
  * Broadcast a intyg.loaded event on rootscope when the intyg is loaded to update the message.
  */
 angular.module('common').directive('wcNewPersonIdMessage', [
-    '$stateParams', 'common.PersonIdValidatorService', 'common.messageService',
-    function($stateParams, personIdValidator, messageService) {
+    '$stateParams', 'common.PersonIdValidatorService', 'common.messageService', 'common.UserModel', 'common.ObjectHelper',
+    function($stateParams, personIdValidator, messageService, UserModel, ObjectHelper) {
         'use strict';
 
         return {
@@ -47,10 +47,6 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                     $scope.message = messageService.getProperty(messageId, {reserve: number}, messageId);
                 }
 
-                function isDefined(data) {
-                    return typeof data !== 'undefined' && data !== '';
-                }
-
                 function modelHasValidPatient(intygModel) {
                     return intygModel && intygModel.grundData && intygModel.grundData.patient;
                 }
@@ -72,11 +68,11 @@ angular.module('common').directive('wcNewPersonIdMessage', [
 
                 var updateShowFlag = function() {
                     $scope.show = false;
-                    if (isDefined($stateParams.patientId) &&
+                    var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
+                    if (ObjectHelper.isDefined(alternatePatientSSn) &&
                         modelHasValidPatient($scope.viewState.intygModel)) {
 
                         var intygPersonnummer = $scope.viewState.intygModel.grundData.patient.personId;
-                        var alternatePatientSSn = $stateParams.patientId;
                         decideMessageToShow(intygPersonnummer, alternatePatientSSn);
                     }
                 };
