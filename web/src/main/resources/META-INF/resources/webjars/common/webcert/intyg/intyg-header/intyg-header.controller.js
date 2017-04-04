@@ -60,8 +60,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showSkickaButton = function(){
-                return !$scope.isSentIntyg() &&
-                    !$scope.makuleratIntyg() && !$scope.isPatientDeceased() && !$scope.isReplaced();
+                return !$scope.isSentIntyg() && !$scope.makuleratIntyg() && !$scope.isReplaced();
             };
 
             $scope.showPrintBtn = function() {
