@@ -83,6 +83,15 @@ describe('arendeHantera', function() {
         expect(element.find('INPUT').length).toBe(0);
     });
 
+    it('Should not be possible to change to unhandled status if KOMPLETTERING and have answerered with intyg', function() {
+        $scope.arendeListItem.arende.fraga.amne = 'KOMPLT';
+        $scope.arendeListItem.arende.fraga.status = 'CLOSED';
+        $scope.arendeListItem.arende.answeredWithIntyg = {};
+        $scope.$apply();
+        expect($scope.showHandleToggle()).toBeFalsy();
+        expect(element.find('INPUT').length).toBe(0);
+    });
+
     it('Should save unhandled status', function() {
         var responsArende = angular.copy(arende);
         responsArende.fraga.status = 'PENDING_EXTERNAL_ACTION';

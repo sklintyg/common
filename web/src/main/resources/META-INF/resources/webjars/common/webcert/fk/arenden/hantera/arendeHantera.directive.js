@@ -41,17 +41,27 @@ angular.module('common').directive('arendeHantera',
                 controller: function($scope, $element, $attrs) {
 
                     $scope.showHandleToggle = function() {
-                        //Special case - fraga from FK on revoked intyg and not handled already: allow to mark as unhandled (see INTYG-3617)
-                        if ($scope.parentViewState.intygProperties.isRevoked &&
-                            $scope.arendeListItem.arende.fraga.frageStallare === 'FK' &&
-                            $scope.arendeListItem.arende.fraga.status !== 'CLOSED') {
+                        var arendeModel = $scope.arendeListItem;
+                        var isRevoked = $scope.parentViewState.intygProperties.isRevoked;
+
+                        //Special case - fraga from FK on revoked intyg and not handled already: allow to mark as handled (see INTYG-3617)
+                        if (isRevoked && arendeModel.arende.fraga.frageStallare === 'FK' && arendeModel.arende.fraga.status !== 'CLOSED') {
                             return true;
                         }
-                        //Normal logic determining if toggle should be available
-                        return !$scope.parentViewState.intygProperties.isRevoked &&
-                            // Enforce business rule FS-011, from FK + answer should remain closed
-                            ($scope.arendeListItem.arende.fraga.frageStallare === 'WC' ||
-                            !$scope.arendeListItem.arende.svar.meddelande);
+
+                        //Rule 1: Revoked intyg can't be toggled at all
+                        if (isRevoked) {
+                            return false;
+                        }
+
+                        //Rule 2: Handled komplettering answered with new intyg can not be toggled back to unhandled (See INTYG-3792)
+                        if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'CLOSED' &&
+                                angular.isObject(arendeModel.arende.answeredWithIntyg)) {
+                            return false;
+                        }
+
+                        // Enforce default business rule FS-011, from FK + answer should remain closed
+                        return arendeModel.arende.fraga.frageStallare === 'WC' || !arendeModel.arende.svar.meddelande;
                     };
 
                     $scope.handledFunction = function(newState) {
