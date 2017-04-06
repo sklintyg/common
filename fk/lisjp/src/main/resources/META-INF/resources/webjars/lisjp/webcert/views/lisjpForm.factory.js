@@ -26,7 +26,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                     wrapper: 'wc-field',
                     templateOptions: {category: 10, categoryName: categoryNames[10]},
                     fieldGroup: [
-                        {key: 'avstangningSmittskydd', type: 'checkbox-inline', templateOptions: {label: 'FRG_27'}}
+                        {key: 'avstangningSmittskydd', type: 'checkbox-inline', templateOptions: {label: 'FRG_27', bold: true}}
                     ]
                 },
                 {
