@@ -18,12 +18,14 @@
  */
 package se.inera.intyg.common.support.modules.support.api.notification;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Amneskod;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
-
-import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
 
 public class NotificationMessage {
 
@@ -55,10 +57,29 @@ public class NotificationMessage {
 
     private ArendeCount mottagnaFragor;
 
+    private Amneskod amne;
+
+    private LocalDate sistaSvarsDatum;
+
+    public NotificationMessage() {
+        // Needed for deserialization
+    }
+
     // CHECKSTYLE:OFF ParameterNumber
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
-            String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
-            ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
+                               String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
+                               ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
+
+        this(intygsId, intygsTyp, handelseTid, handelse,
+                logiskAdress, utkastJson, fragaSvar, skickadeFragor,
+                mottagnaFragor, version, reference, null, null);
+    }
+
+    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
+                               String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
+                               ArendeCount mottagnaFragor, SchemaVersion version, String reference, Amneskod amne,
+                               LocalDate sistaSvarsDatum) {
+
         super();
         this.intygsId = intygsId;
         this.intygsTyp = intygsTyp;
@@ -70,19 +91,25 @@ public class NotificationMessage {
         this.skickadeFragor = skickadeFragor;
         this.mottagnaFragor = mottagnaFragor;
         this.version = version;
-        this.setReference(reference);
+        this.reference = reference;
+        this.amne = amne;
+        this.sistaSvarsDatum = sistaSvarsDatum;
     }
     // CHECKSTYLE:ON ParameterNumber
 
-    public NotificationMessage() {
-        // Needed for deserialization
-    }
-
     @Override
     public String toString() {
-        return "NotificationMessage [intygsId=" + intygsId + ", intygsTyp=" + intygsTyp + ", logiskAdress="
-                + logiskAdress + ", handelseTid=" + handelseTid + ", handelse=" + handelse + ", version=" + version
-                + ", ref=" + getReference() + "]";
+        return "NotificationMessage{" +
+                "intygsId='" + intygsId + '\'' +
+                ", intygsTyp='" + intygsTyp + '\'' +
+                ", logiskAdress='" + logiskAdress + '\'' +
+                ", handelseTid=" + handelseTid +
+                ", handelse=" + handelse +
+                ", version=" + version +
+                ", reference='" + reference + '\'' +
+                ", amne=" + amne +
+                ", sistaSvarsDatum=" + sistaSvarsDatum +
+                '}';
     }
 
     public String getIntygsId() {
@@ -172,6 +199,22 @@ public class NotificationMessage {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public Amneskod getAmne() {
+        return amne;
+    }
+
+    public void setAmne(Amneskod amne) {
+        this.amne = amne;
+    }
+
+    public LocalDate getSistaSvarsDatum() {
+        return sistaSvarsDatum;
+    }
+
+    public void setSistaSvarsDatum(LocalDate sistaSvarsDatum) {
+        this.sistaSvarsDatum = sistaSvarsDatum;
     }
 
 }
