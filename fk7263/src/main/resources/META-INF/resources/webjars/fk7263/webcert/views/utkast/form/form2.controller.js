@@ -313,7 +313,8 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
             }
 
             /**
-             * Returns true if all elements in array (i.e values) are values
+             * Returns true if the supplied values argument is an Array that contains at least one element that
+             * can be coerced into a boolean true value.
              */
             function hasValues(values) {
                 if (!Array.isArray(values)) {
