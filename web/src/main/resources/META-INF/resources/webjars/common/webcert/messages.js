@@ -49,7 +49,7 @@ angular.module('common').constant('common.messages', {
         'common.button.save.as.pdf': 'Skriv ut',
         'common.button.save.as.pdf.full': 'Fullständigt intyg',
         'common.button.save.as.pdf.mininmal': 'Minimalt intyg',
-        'common.button.save.as.pdf.mininmal.title': 'Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare',
+        'common.button.save.as.pdf.mininmal.title': 'Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare.',
 
         'common.alert.newpersonid': 'Patienten har ett nytt personnummer: <b>${person}</b>',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>. Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret',
