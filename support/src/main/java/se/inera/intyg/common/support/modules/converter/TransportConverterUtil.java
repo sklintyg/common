@@ -18,19 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.Status;
@@ -44,15 +36,20 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.Befattning;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.Specialistkompetens;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Enhet;
-import se.riv.clinicalprocess.healthcond.certificate.v2.HosPersonal;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.IntygsStatus;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar.Delsvar;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
+import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
+import javax.xml.bind.JAXBElement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
@@ -246,14 +243,14 @@ public final class TransportConverterUtil {
         return vardenhet;
     }
 
-    public static Vardgivare getVardgivare(se.riv.clinicalprocess.healthcond.certificate.v2.Vardgivare source) {
+    public static Vardgivare getVardgivare(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare source) {
         Vardgivare vardgivare = new Vardgivare();
         vardgivare.setVardgivarid(source.getVardgivareId().getExtension());
         vardgivare.setVardgivarnamn(source.getVardgivarnamn());
         return vardgivare;
     }
 
-    public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v2.Patient source) {
+    public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source) {
         Patient patient = new Patient();
         patient.setEfternamn(source.getEfternamn());
         patient.setFornamn(source.getFornamn());
@@ -276,8 +273,8 @@ public final class TransportConverterUtil {
         return getOne(source.getRelation());
     }
 
-    private static Relation getOne(List<se.riv.clinicalprocess.healthcond.certificate.v2.Relation> source) {
-        se.riv.clinicalprocess.healthcond.certificate.v2.Relation sourceRelation = source.get(0);
+    private static Relation getOne(List<se.riv.clinicalprocess.healthcond.certificate.v3.Relation> source) {
+        se.riv.clinicalprocess.healthcond.certificate.v3.Relation sourceRelation = source.get(0);
         Relation relation = new Relation();
         relation.setRelationIntygsId(sourceRelation.getIntygsId().getExtension());
         String sourceTyp = sourceRelation.getTyp().getCode();

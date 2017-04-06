@@ -52,8 +52,6 @@
     "typ": "PROGNOS_OKLAR"
   },
   "arbetsresor": true,
-  "arbetstidsforlaggningMotivering": "Kan bara jobba på nätterna.",
-  "arbetstidsforlaggning": true,
   "forsakringsmedicinsktBeslutsstod": "överskrider inte FMB",
   "sjukskrivningar": [
   ],

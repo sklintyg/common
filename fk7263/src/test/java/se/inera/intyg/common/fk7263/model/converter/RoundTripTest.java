@@ -18,35 +18,45 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertTrue;
-
-import java.io.StringWriter;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.xml.bind.*;
-
-import org.custommonkey.xmlunit.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.Difference;
+import org.custommonkey.xmlunit.DifferenceConstants;
+import org.custommonkey.xmlunit.DifferenceListener;
+import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.skyscreamer.jsonassert.*;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.skyscreamer.jsonassert.JSONCompareResult;
 import org.skyscreamer.jsonassert.comparator.DefaultComparator;
 import org.w3c.dom.Node;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.utils.*;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.PartialDateType;
+import se.inera.intyg.common.fk7263.utils.Scenario;
+import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
+import se.inera.intyg.common.fk7263.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class RoundTripTest {
@@ -55,7 +65,7 @@ public class RoundTripTest {
 
     private CustomObjectMapper objectMapper = new CustomObjectMapper();
     private ObjectFactory objectFactory = new ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory rivtav2ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory();
+    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
     private static Marshaller marshaller;
 
     private static final List<String> IGNORED_JSON_PROPERTIES = Arrays.asList("arbetsformagaPrognosGarInteAttBedomaBeskrivning",
@@ -106,15 +116,15 @@ public class RoundTripTest {
     }
 
     @Test
-    public void testConvertToRivtaV2() throws Exception {
+    public void testConvertToRivtaV3() throws Exception {
         Fk7263Utlatande internal = TransportToInternal.convert(scenario.asTransportModel().getLakarutlatande());
         RegisterCertificateType actual = new RegisterCertificateType();
         actual.setIntyg(UtlatandeToIntyg.convert(internal));
 
         StringWriter expected = new StringWriter();
         StringWriter actualSw = new StringWriter();
-        marshaller.marshal(rivtav2ObjectFactory.createRegisterCertificate(scenario.asRivtaV2TransportModel()), expected);
-        marshaller.marshal(rivtav2ObjectFactory.createRegisterCertificate(actual), actualSw);
+        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);

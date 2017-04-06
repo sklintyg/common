@@ -19,7 +19,7 @@
 package se.inera.intyg.common.luae_na.utils;
 
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a scenario:

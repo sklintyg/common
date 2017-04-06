@@ -1,8 +1,8 @@
 ext {
-    intygClinicalprocessSchematronVersion = "1.0.10"
+    intygClinicalprocessSchematronVersion = "1.0.12"
     intygCertificateSchemasVersion = "1.0.5"
     intygTransportstyrelsenSchemasVersion = "1.0.4"
-    rivtaClinicalprocessSchemasVersion = "3.0.0-beta3"
+    rivtaClinicalprocessSchemasVersion = "3.0.0-RC2.1"
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"
 
     schemasContractVersion = "2.1.4"
@@ -35,6 +35,7 @@ buildscript {
     dependencies {
         classpath 'se.inera.intyg:gradle-intyg-plugin:1.0.+'
         classpath 'com.moowork.gradle:gradle-node-plugin:1.1.1'
+        classpath 'net.ltgt.gradle:gradle-apt-plugin:0.10'
     }
 }
 
@@ -47,6 +48,8 @@ allprojects {
 
     apply plugin: 'inera-intyg'
     apply plugin: 'maven'
+    apply plugin: 'idea'
+    apply plugin: 'net.ltgt.apt'
 
     dependencies {
         testCompile "junit:junit:4.+"

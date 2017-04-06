@@ -42,9 +42,9 @@ import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.*;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.ObjectFactory;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @RunWith(Parameterized.class)
 public class RoundTripTest {
@@ -53,7 +53,7 @@ public class RoundTripTest {
 
     private CustomObjectMapper objectMapper = new CustomObjectMapper();
     private ObjectFactory objectFactory = new ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory rivtav2ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory();
+    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
     private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory transformedObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory();
     private static Marshaller marshaller;
     private static XslTransformer transformer;
@@ -103,15 +103,15 @@ public class RoundTripTest {
     }
 
     @Test
-    public void testConvertToRivtav2() throws Exception {
+    public void testConvertToRivtav3() throws Exception {
         TsDiabetesUtlatande internal = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
         RegisterCertificateType actual = new RegisterCertificateType();
         actual.setIntyg(UtlatandeToIntyg.convert(internal));
 
         StringWriter expected = new StringWriter();
         StringWriter actualSw = new StringWriter();
-        marshaller.marshal(rivtav2ObjectFactory.createRegisterCertificate(scenario.asRivtaV2TransportModel()), expected);
-        marshaller.marshal(rivtav2ObjectFactory.createRegisterCertificate(actual), actualSw);
+        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);

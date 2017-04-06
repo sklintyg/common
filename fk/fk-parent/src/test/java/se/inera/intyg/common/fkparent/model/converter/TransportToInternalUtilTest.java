@@ -29,7 +29,7 @@ import java.util.List;
 import org.junit.Test;
 
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public class TransportToInternalUtilTest {
 

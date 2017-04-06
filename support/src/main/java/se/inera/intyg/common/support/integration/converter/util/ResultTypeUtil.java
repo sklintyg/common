@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.support.integration.converter.util;
 
-import se.riv.clinicalprocess.healthcond.certificate.v2.*;
+import se.riv.clinicalprocess.healthcond.certificate.v3.*;
 
 public final class ResultTypeUtil {
 

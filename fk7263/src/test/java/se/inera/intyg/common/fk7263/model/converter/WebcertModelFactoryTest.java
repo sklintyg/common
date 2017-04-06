@@ -136,8 +136,8 @@ public class WebcertModelFactoryTest {
     }
 
     @Test
-    public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV2Format() throws ConverterException {
-        // this to follow schema during CertificateStatusUpdateForCareV2
+    public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format() throws ConverterException {
+        // this to follow schema during CertificateStatusUpdateForCareV3
         Fk7263Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
         assertEquals(5, UtlatandeToIntyg.convert(draft).getSvar().size());
     }

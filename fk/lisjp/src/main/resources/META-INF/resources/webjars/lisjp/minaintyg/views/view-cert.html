@@ -124,7 +124,7 @@
             <div class="intyg-body">
 
               <!-- Smittbärarpenning-->
-              <lisjp-show-category category-key="10" intyg-model="cert">
+              <category-wrapper category-key="10" intyg-model="cert">
                 <div mi-category category-label="KAT_10.RBK">
                   <div mi-field field-dynamic-label="FRG_27" filled="true">
                     <span ng-show="cert.avstangningSmittskydd">
@@ -135,10 +135,10 @@
                     </span>
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!-- Grund för medicinskt underlag -->
-              <lisjp-show-category category-key="1" intyg-model="cert">
+              <category-wrapper category-key="1" intyg-model="cert">
                 <div mi-category category-label="KAT_1.RBK">
                   <div mi-field field-dynamic-label="FRG_1"
                        filled="cert.undersokningAvPatienten!=null || cert.telefonkontaktMedPatienten!=null || cert.journaluppgifter!=null || cert.annatGrundForMU!=null">
@@ -170,10 +170,10 @@
                     </ul>
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!-- Sysselsättning -->
-              <lisjp-show-category category-key="2" intyg-model="cert">
+              <category-wrapper category-key="2" intyg-model="cert">
                 <div mi-category category-label="KAT_2.RBK">
                   <div mi-field field-dynamic-label="DFR_28.1" filled="true">
                     <ul id="sysselsattning">
@@ -189,12 +189,12 @@
                     {{cert.arbetsmarknadspolitisktProgram}}
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!-- Diagnos -->
-              <lisjp-show-category category-key="3" intyg-model="cert">
+              <category-wrapper category-key="3" intyg-model="cert">
                 <div mi-category category-label="KAT_3.RBK">
-                  <div lisjp-show-field field-name="diagnoser" intyg-model="cert">
+                  <div field-wrapper field-name="diagnoser" intyg-model="cert">
                     <div mi-field field-dynamic-label="FRG_6" filled="cert.diagnoser.length > 0">
                       <div class="row">
                         <div class="col-xs-4">
@@ -219,10 +219,10 @@
                     </div>
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!-- Sjukdomens konsekvenser -->
-              <lisjp-show-category category-key="4" intyg-model="cert">
+              <category-wrapper category-key="4" intyg-model="cert">
                 <div mi-category category-label="KAT_4.RBK">
                   <div mi-field field-dynamic-label="DFR_35.1" filled="cert.funktionsnedsattning">
                     <div id="funktionsnedsattning">{{cert.funktionsnedsattning}}</div>
@@ -231,10 +231,10 @@
                     <div id="aktivitetsbegransning">{{cert.aktivitetsbegransning}}</div>
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!-- Medicinska behandlingar/åtgärder -->
-              <lisjp-show-category category-key="5" intyg-model="cert">
+              <category-wrapper category-key="5" intyg-model="cert">
                 <div mi-category category-label="KAT_5.RBK">
                   <div mi-field field-dynamic-label="DFR_19.1" filled="cert.pagaendeBehandling">
                     <div id="pagaendeBehandling">{{cert.pagaendeBehandling}}</div>
@@ -243,49 +243,49 @@
                     <div id="planeradBehandling">{{cert.planeradBehandling}}</div>
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!-- Bedömning -->
-              <lisjp-show-category category-key="6" intyg-model="cert">
+              <category-wrapper category-key="6" intyg-model="cert">
                 <div mi-category mi-category category-label="KAT_6.RBK">
-                  <lisjp-show-field field-name="sjukskrivningar" intyg-model="cert">
+                  <field-wrapper field-name="sjukskrivningar" intyg-model="cert">
                     <div mi-field field-dynamic-label="FRG_32" filled="cert.sjukskrivningar.length > 0">
                       <div id="sjukskrivningar" sjukskrivning-view field-model="cert"></div>
                     </div>
-                  </lisjp-show-field>
-                  <lisjp-show-field field-name="forsakringsmedicinsktBeslutsstod" intyg-model="cert">
+                  </field-wrapper>
+                  <field-wrapper field-name="forsakringsmedicinsktBeslutsstod" intyg-model="cert">
                     <div mi-field field-dynamic-label="DFR_37.1" filled="cert.forsakringsmedicinsktBeslutsstod">
                         <div id="forsakringsmedicinsktBeslutsstod" class="multiline">{{cert.forsakringsmedicinsktBeslutsstod}}</div>
                     </div>
-                  </lisjp-show-field>
-                  <lisjp-show-field field-name="arbetstidsforlaggning" intyg-model="cert">
+                  </field-wrapper>
+                  <field-wrapper field-name="arbetstidsforlaggning" intyg-model="cert">
                     <div mi-field field-dynamic-label="DFR_33.1" filled="cert.arbetstidsforlaggning != undefined">
                       <div boolean-view="arbetstidsforlaggning" field-model="cert"></div>
                     </div>
-                  </lisjp-show-field>
-                  <lisjp-show-field field-name="arbetstidsforlaggningMotivering" intyg-model="cert">
+                  </field-wrapper>
+                  <field-wrapper field-name="arbetstidsforlaggningMotivering" intyg-model="cert">
                     <div mi-field field-dynamic-label="DFR_33.2" filled="cert.arbetstidsforlaggningMotivering">
                       <div id="arbetstidsforlaggningMotivering" class="multiline">{{cert.arbetstidsforlaggningMotivering}}</div>
                     </div>
-                  </lisjp-show-field>
-                  <lisjp-show-field field-name="arbetsresor" intyg-model="cert">
+                  </field-wrapper>
+                  <field-wrapper field-name="arbetsresor" intyg-model="cert">
                     <div mi-field field-dynamic-label="DFR_34.1" filled="cert.arbetsresor != undefined">
                       <div boolean-view="arbetsresor" field-model="cert"></div>
                     </div>
-                  </lisjp-show-field>
-                  <lisjp-show-field field-name="prognos" intyg-model="cert">
+                  </field-wrapper>
+                  <field-wrapper field-name="prognos" intyg-model="cert">
                     <div mi-field field-dynamic-label="DFR_39.1" filled="cert.prognos.typ">
                       <div id="prognosTyp">
                         <span dynamic-label key="KV_FKMU_0006.{{cert.prognos.typ}}.RBK"></span>
                         <span ng-show="cert.prognos.dagarTillArbete" dynamic-label key="KV_FKMU_0007.{{cert.prognos.dagarTillArbete}}.RBK"></span>
                       </div>
                     </div>
-                  </lisjp-show-field>
+                  </field-wrapper>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!-- Åtgärder -->
-              <lisjp-show-category category-key="7" intyg-model="cert">
+              <category-wrapper category-key="7" intyg-model="cert">
                 <div mi-category category-label="KAT_7.RBK">
                   <div mi-field field-dynamic-label="FRG_40" filled="cert.arbetslivsinriktadeAtgarder">
                     <ul id="arbetslivsinriktadeAtgarder">
@@ -298,20 +298,20 @@
                     <div id="arbetslivsinriktadeAtgarderBeskrivning" class="multiline">{{cert.arbetslivsinriktadeAtgarderBeskrivning}}</div>
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!--  Övrigt -->
-              <lisjp-show-category category-key="8" intyg-model="cert">
+              <category-wrapper category-key="8" intyg-model="cert">
                 <div mi-category category-label="KAT_8.RBK">
                   <div mi-field field-dynamic-label="DFR_25.1" filled="cert.ovrigt">
                     <!--  leave  as div tag for IE8 magic bug. using span crashes angular.. -->
                     <div id="kommentar" class="tag multiline">{{cert.ovrigt}}</div>
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <!-- Kontakt med fk-->
-              <lisjp-show-category category-key="9" intyg-model="cert">
+              <category-wrapper category-key="9" intyg-model="cert">
                 <div mi-category category-label="KAT_9.RBK">
                   <div mi-field field-dynamic-label="DFR_26.1" filled="true">
                     <span ng-show="cert.kontaktMedFk">
@@ -325,16 +325,17 @@
                     <div id="anledningtillkontakt" class="multiline">{{cert.anledningTillKontakt}}</div>
                   </div>
                 </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
-              <lisjp-show-category category-key="9999" intyg-model="cert">
-                <div mi-category category-label="KAT_9999.RBK">
-                  <div mi-field field-dynamic-label="DFR_{{tillaggsfraga.id}}.1"
-                       ng-repeat="tillaggsfraga in cert.tillaggsfragor" filled="tillaggsfraga.svar">
-                    <div id="tillaggsfraga_{{$index}}" class="multiline">{{tillaggsfraga.svar}}</div>
+              <category-wrapper category-key="9999" intyg-model="cert">
+                  <div mi-category category-label="KAT_9999.RBK">
+                    <field-wrapper field-name="tillaggsfragor" intyg-model="cert">
+                      <div mi-field field-dynamic-label="DFR_{{tillaggsfraga.id}}.1" ng-repeat="tillaggsfraga in cert.tillaggsfragor" filled="tillaggsfraga.svar">
+                        <div id="tillaggsfraga_{{$index}}" class="multiline">{{tillaggsfraga.svar}}</div>
+                      </div>
+                    </field-wrapper>
                   </div>
-                </div>
-              </lisjp-show-category>
+              </category-wrapper>
 
               <div class="row padding-bottom-30px">
                 <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">

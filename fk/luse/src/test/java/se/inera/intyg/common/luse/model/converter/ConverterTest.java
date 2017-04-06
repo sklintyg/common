@@ -47,7 +47,7 @@ import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestVal
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.luse.validator.InternalDraftValidatorImpl;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConverterTest {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns2:RegisterCertificate xmlns="urn:riv:clinicalprocess:healthcond:certificate:2" xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:2" xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:2">
+<ns2:RegisterCertificate xmlns="urn:riv:clinicalprocess:healthcond:certificate:3" xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3" xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
   <ns2:intyg>
     <intygs-id>
       <ns3:root>123456789</ns3:root>
@@ -105,10 +105,6 @@
     </svar>
     <svar id="37">
       <delsvar id="37.1">Överskrider inte FMB</delsvar>
-    </svar>
-    <svar id="33">
-      <delsvar id="33.1">true</delsvar>
-      <delsvar id="33.2">Kan bara jobba på nätterna.</delsvar>
     </svar>
     <svar id="34">
       <delsvar id="34.1">true</delsvar>

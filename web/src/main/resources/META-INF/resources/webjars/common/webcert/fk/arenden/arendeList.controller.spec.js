@@ -336,6 +336,7 @@ describe('ArendeListCtrl', function() {
 
             expect(ArendenViewState.hasKompletteringar('arbetsresor')).toBeTruthy();
             expect(ArendenViewState.hasKompletteringar('diagnos')).toBeFalsy();
+            expect(ArendenViewState.hasUnhandledItems()).toBeTruthy();
         });
     });
 

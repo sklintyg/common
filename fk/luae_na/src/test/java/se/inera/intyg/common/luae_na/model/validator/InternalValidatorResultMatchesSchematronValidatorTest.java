@@ -60,7 +60,7 @@ import se.inera.intyg.common.luae_na.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test runner,

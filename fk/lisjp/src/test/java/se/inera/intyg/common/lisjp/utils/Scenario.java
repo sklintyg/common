@@ -19,7 +19,7 @@
 package se.inera.intyg.common.lisjp.utils;
 
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a scenario:

@@ -47,9 +47,9 @@ import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestVal
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.validator.InternalDraftValidatorImpl;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConverterTest {

@@ -46,7 +46,7 @@ import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.*;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.*;
 import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten and Mina-Intyg).

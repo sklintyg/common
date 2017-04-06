@@ -40,8 +40,8 @@ import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
 import se.inera.intyg.common.fkparent.model.internal.*;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.ObjectFactory;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public class TransportToInternalTest {
 

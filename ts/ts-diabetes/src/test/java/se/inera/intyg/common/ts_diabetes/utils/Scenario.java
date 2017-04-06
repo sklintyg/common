@@ -20,7 +20,7 @@ package se.inera.intyg.common.ts_diabetes.utils;
 
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a scenario:
@@ -52,13 +52,13 @@ public interface Scenario {
     RegisterTSDiabetesType asTransportModel() throws ScenarioNotFoundException;
 
     /**
-     * Returns the scenario as a rivta v2 transport model.
+     * Returns the scenario as a rivta v3 transport model.
      *
-     * @return The scenario as a rivta v2 transport model.
+     * @return The scenario as a rivta v3 transport model.
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */
-    RegisterCertificateType asRivtaV2TransportModel() throws ScenarioNotFoundException;
+    RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException;
 
     /**
      * Returns the scenario as a transformed transport model.

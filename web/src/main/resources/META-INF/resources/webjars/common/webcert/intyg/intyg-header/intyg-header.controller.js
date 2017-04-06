@@ -19,15 +19,16 @@
 
 angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService', 'common.messageService',
-        'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.User', 'common.UserModel',
-        'common.IntygSend', 'common.IntygCopyFornya', 'common.IntygMakulera', 'common.IntygViewStateService',
+        'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.IntygErsattRequestModel', 'common.User', 'common.UserModel',
+        'common.IntygSend', 'common.IntygCopyActions', 'common.IntygMakulera', 'common.IntygViewStateService',
 
         function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService, moduleService, IntygCopyRequestModel,
-            IntygFornyaRequestModel, User, UserModel, IntygSend, IntygCopyFornya, IntygMakulera, CommonViewState) {
+            IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel, IntygSend, IntygCopyActions, IntygMakulera, CommonViewState) {
 
             'use strict';
 
             var intygType = $state.current.data.intygType;
+            var _intygActionDialog = null;
 
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
@@ -38,11 +39,16 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.copyBtnTooltipText = messageService.getProperty('common.copy.tooltip');
             $scope.fornyaBtnTooltipText = messageService.getProperty('common.fornya.tooltip');
+            $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
             $scope.makuleratIntyg = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
             };
+            $scope.isReplaced = function(){
+                return  angular.isObject($scope.viewState.common.intygProperties.replacedByRelation);
+            };
+
 
             $scope.isPatientDeceased = function() {
                 return $scope.viewState.common.intygProperties.isPatientDeceased;
@@ -54,8 +60,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showSkickaButton = function(){
-                return !$scope.isSentIntyg() &&
-                    !$scope.makuleratIntyg() && !$scope.isPatientDeceased();
+                return !$scope.isSentIntyg() && !$scope.makuleratIntyg() && !$scope.isReplaced();
             };
 
             $scope.showPrintBtn = function() {
@@ -71,6 +76,14 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.showKopieraButton = function() {
                 return !$scope.makuleratIntyg() &&
+                    !$scope.viewState.common.common.sekretessmarkering &&
+                    !$scope.isPatientDeceased() && !$scope.isReplaced() &&
+                    !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
+                    ($scope.user.user.parameters === undefined || $scope.user.user.parameters.copyOk);
+            };
+
+            $scope.showErsattButton = function() {
+                return !$scope.makuleratIntyg() && !$scope.isReplaced() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit);
@@ -112,13 +125,13 @@ angular.module('common').controller('common.IntygHeader',
                 });
             };
 
-            function fornyaOrCopy (intyg, intygServiceMethod, buildIntygRequestModel) {
+            function intygCopyAction (intyg, intygServiceMethod, buildIntygRequestModel) {
                 if (intyg === undefined || intyg.grundData === undefined) {
                     $log.debug('intyg or intyg.grundData is undefined. Aborting fornya.');
                     return;
                 }
                 var isOtherCareUnit = User.getValdVardenhet().id !== intyg.grundData.skapadAv.vardenhet.enhetsid;
-                intygServiceMethod($scope.viewState,
+                _intygActionDialog = intygServiceMethod($scope.viewState,
                     buildIntygRequestModel({
                         intygId: intyg.id,
                         intygType: intygType,
@@ -129,11 +142,15 @@ angular.module('common').controller('common.IntygHeader',
             }
 
             $scope.fornya = function(intyg) {
-                return fornyaOrCopy(intyg, IntygCopyFornya.fornya, IntygFornyaRequestModel.build);
+                return intygCopyAction(intyg, IntygCopyActions.fornya, IntygFornyaRequestModel.build);
             };
 
             $scope.copy = function(intyg) {
-                return fornyaOrCopy(intyg, IntygCopyFornya.copy, IntygCopyRequestModel.build);
+                return intygCopyAction(intyg, IntygCopyActions.copy, IntygCopyRequestModel.build);
+            };
+
+            $scope.ersatt = function(intyg) {
+                return intygCopyAction(intyg, IntygCopyActions.ersatt, IntygErsattRequestModel.build);
             };
 
             $scope.print = function(intyg, isEmployeeCopy) {
@@ -143,6 +160,15 @@ angular.module('common').controller('common.IntygHeader',
                     window.open($scope.pdfUrl, '_blank');
                 }
             };
+
+            //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)
+            // - make sure it's closed properly
+            $scope.$on('$destroy', function() {
+                if (_intygActionDialog) {
+                    _intygActionDialog.close();
+                    _intygActionDialog = undefined;
+                }
+            });
 
         }
     ]

@@ -53,7 +53,11 @@ angular.module('common').directive('arendePanelSvar',
                     }, true);
 
                     $scope.showAnswerPanel = function() {
-                        var hasMeddelandeIsClosed = ArendeSvar.meddelande && ArendeSvar.status === 'CLOSED';
+                        if (ArendeSvar.amne === 'KOMPLT' && ArendeSvar.answerKompletteringWithText === false && ArendeSvar.status === 'PENDING_INTERNAL_ACTION') {
+                            return false;
+                        }
+                        
+                        var hasMeddelandeIsClosed = ObjectHelper.isEmpty(ArendeSvar.meddelande) === false && ArendeSvar.status === 'CLOSED';
                         var cannotKomplettera = ArendeSvar.answerKompletteringWithText || hasMeddelandeIsClosed;
                         return (ArendeSvar.amne !== 'KOMPLT') ||
                             (ArendeSvar.amne === 'KOMPLT' && (cannotKomplettera || ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg)));
@@ -62,7 +66,8 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.showAnswer = function() {
                         // If closed and has a meddelande it is answered by message
                         // If closed and has answeredWithIntyg object it was answered with intyg
-                        return (ArendeSvar.status === 'CLOSED' && (ArendeSvar.meddelande || ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
+                        return (ArendeSvar.status === 'CLOSED' &&
+                            (ObjectHelper.isEmpty(ArendeSvar.meddelande) === false || ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
                             (ArendeSvar.status === 'ANSWERED');
                     };
 

@@ -72,7 +72,7 @@ public abstract class PdfAbstractGenerator {
     private static final int WATERMARK_TEXT_PADDING = 10;
     private static final int WATERMARK_FONTSIZE = 11;
 
-    protected static final String ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg";
+    protected static final String ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg.";
 
     // Right margin texts
     protected static final String MINA_INTYG_MARGIN_TEXT = "Intyget är utskrivet från Mina Intyg.";

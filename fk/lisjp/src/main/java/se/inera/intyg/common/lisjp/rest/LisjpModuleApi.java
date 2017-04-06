@@ -48,15 +48,15 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApi.class);
 
-    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukpenning";
-    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "anpassat_lakarutlatande_sjukpenning";
+    private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";
+    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "anpassat_lakarintyg_sjukpenning";
 
     public LisjpModuleApi() {
         super(LisjpUtlatande.class);
@@ -73,8 +73,10 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> optionalFields) throws ModuleException {
-        return generatePdf(new EmployeeLisjpPdfDefinitionBuilder(optionalFields), statuses, internalModel, applicationOrigin,
-                MINIMAL_CERTIFICATE_FILE_PREFIX);
+        final EmployeeLisjpPdfDefinitionBuilder builder = new EmployeeLisjpPdfDefinitionBuilder(optionalFields);
+        String fileNamePrefix = getEmployerCopyFilePrefix(builder, applicationOrigin);
+        return generatePdf(builder, statuses, internalModel, applicationOrigin,
+                fileNamePrefix);
     }
 
     @Override
@@ -134,6 +136,18 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
+        }
+    }
+
+    private String getEmployerCopyFilePrefix(EmployeeLisjpPdfDefinitionBuilder builder, ApplicationOrigin applicationOrigin) {
+        if (applicationOrigin.equals(ApplicationOrigin.MINA_INTYG)) {
+            if (!builder.hasDeselectedOptionalFields()) {
+                return CERTIFICATE_FILE_PREFIX;
+            } else {
+                return MINIMAL_CERTIFICATE_FILE_PREFIX;
+            }
+        } else {
+            return MINIMAL_CERTIFICATE_FILE_PREFIX;
         }
     }
 

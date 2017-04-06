@@ -19,8 +19,8 @@
 
 angular.module('common').factory('common.IntygMakulera',
     [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel', 'common.IntygHelper',
-        'common.IntygViewStateService', 
-        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper, CommonViewState) {
+        'common.IntygViewStateService', 'common.ArendeListViewStateService',
+        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper, CommonViewState, ArendeListViewStateService) {
             'use strict';
 
             // Makulera dialog setup
@@ -60,7 +60,7 @@ angular.module('common').factory('common.IntygMakulera',
 
             function _makulera(intyg, confirmationMessage, onSuccess) {
                 // Only show tooltip for FK-intyg
-                var showQuestionMark = CommonViewState.defaultRecipient === 'FK' ? true : false;
+                var isFkIntyg = CommonViewState.defaultRecipient === 'FK' ? true : false;
 
                 function isMakuleraEnabled(model) {
                     return model.makuleraProgressDone && // model.ersattProgressDone &&
@@ -73,7 +73,8 @@ angular.module('common').factory('common.IntygMakulera',
                 }
 
                 var dialogMakuleraModel = {
-                    showQuestionMark: showQuestionMark,
+                    isFkIntyg: isFkIntyg,
+                    hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
                     isMakuleraEnabled: isMakuleraEnabled,
                     makuleraProgressDone: true,
                     focus: false,
@@ -96,7 +97,7 @@ angular.module('common').factory('common.IntygMakulera',
                     this.push({
                         label: label,
                         value: key,
-                        placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)'
+                        placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)...'
                     });
                 }, dialogMakuleraModel.choices);
 
@@ -113,7 +114,6 @@ angular.module('common').factory('common.IntygMakulera',
                     button1id: 'button1makulera-dialog',
                     button3text: 'common.canceldontrevoke',
                     button3id: 'button3makulera-dialog',
-                    bodyTextId: 'label.makulera.body',
                     autoClose: false
                 });
 

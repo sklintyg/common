@@ -18,6 +18,13 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.util.List;
+
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_1_DELSVAR_ID_6;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6;
@@ -27,13 +34,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
-
-import java.util.List;
-
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
 
 public final class InternalToTransportUtil {
     private InternalToTransportUtil() {

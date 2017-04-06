@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
 import se.inera.intyg.common.fkparent.model.internal.*;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public class TransportToInternalTest {
 

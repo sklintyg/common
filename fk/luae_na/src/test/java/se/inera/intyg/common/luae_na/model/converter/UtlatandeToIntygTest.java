@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class UtlatandeToIntygTest {
 

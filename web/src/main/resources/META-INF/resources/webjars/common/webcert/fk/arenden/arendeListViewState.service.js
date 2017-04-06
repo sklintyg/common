@@ -28,6 +28,7 @@ angular.module('common').service('common.ArendeListViewStateService',
                 this.showTemplate = true;
 
                 this.intyg = {};
+                this.arendeList = [];
                 this.intygProperties = {
                     isLoaded: false,
                     isSent: false,
@@ -49,6 +50,22 @@ angular.module('common').service('common.ArendeListViewStateService',
 
             this.setIntygType = function(type) {
                 this.intygProperties.type = type;
+            };
+
+            this.setArendeList = function(list) {
+                this.arendeList = list;
+            };
+
+            this.hasUnhandledItems = function() {
+                var result = false;
+
+                if (angular.isArray(this.arendeList)) {
+                    angular.forEach(this.arendeList, function(arendeListItem) {
+                        result = result || arendeListItem.arende.fraga.status !== 'CLOSED';
+                    });
+                }
+
+                return result;
             };
 
             this.hasKompletteringar = function(key) {

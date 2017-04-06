@@ -41,6 +41,13 @@ angular.module('common').directive('arendeHantera',
                 controller: function($scope, $element, $attrs) {
 
                     $scope.showHandleToggle = function() {
+                        //Special case - fraga from FK on revoked intyg and not handled already: allow to mark as unhandled (see INTYG-3617)
+                        if ($scope.parentViewState.intygProperties.isRevoked &&
+                            $scope.arendeListItem.arende.fraga.frageStallare === 'FK' &&
+                            $scope.arendeListItem.arende.fraga.status !== 'CLOSED') {
+                            return true;
+                        }
+                        //Normal logic determining if toggle should be available
                         return !$scope.parentViewState.intygProperties.isRevoked &&
                             // Enforce business rule FS-011, from FK + answer should remain closed
                             ($scope.arendeListItem.arende.fraga.frageStallare === 'WC' ||

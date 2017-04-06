@@ -103,10 +103,10 @@ import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.PartialDateTypeFormatEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v2.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
@@ -180,7 +180,7 @@ public final class UtlatandeToIntyg {
                         .build());
             } catch (IllegalArgumentException e) {
                 /*
-                 * During conversion for CertificateStatusUpdateForCare v2
+                 * During conversion for CertificateStatusUpdateForCare v3
                  * the utlatande might still be an utkast, meaning dates might
                  * be invalid - in that case conversion skips them.
                  */
@@ -212,7 +212,7 @@ public final class UtlatandeToIntyg {
                         aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(source.getInsulinBehandlingsperiod()))));
             } catch (IllegalArgumentException e) {
                 /*
-                 * During conversion for CertificateStatusUpdateForCare v2
+                 * During conversion for CertificateStatusUpdateForCare v3
                  * the utlatande might still be an utkast, meaning dates might
                  * be invalid - in that case conversion skips them.
                  */
@@ -276,7 +276,7 @@ public final class UtlatandeToIntyg {
                         source.getAllvarligForekomstVakenTidObservationstid().asLocalDate().toString());
             } catch (ModelException | IllegalArgumentException e) {
                 /*
-                 * During conversion for CertificateStatusUpdateForCare v2
+                 * During conversion for CertificateStatusUpdateForCare v3
                  * the utlatande might still be an utkast, meaning dates might
                  * be invalid - in that case conversion skips them.
                  */

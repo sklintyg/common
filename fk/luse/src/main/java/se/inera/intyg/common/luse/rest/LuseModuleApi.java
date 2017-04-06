@@ -42,8 +42,8 @@ import se.inera.intyg.common.luse.model.converter.*;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.luse.pdf.LusePdfDefinitionBuilder;
 import se.inera.intyg.common.luse.support.LuseEntryPoint;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v2.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.v2.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
     private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApi.class);

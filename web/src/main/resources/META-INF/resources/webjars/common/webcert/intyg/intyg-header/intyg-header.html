@@ -21,6 +21,8 @@
     </div>
   </div>
 
+  <div wc-intyg-replaced-message></div>
+
   <div ng-show="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
     <div>
       <div class="form-group">
@@ -114,6 +116,22 @@
                   popover-placement="auto top">
             Förnya
           </button>
+          <button type="button"
+                  wc-authority="ERSATTA_INTYG"
+                  request-origin="!UTHOPP"
+                  intygstyp="{{intygstyp}}"
+                  id="ersattBtn"
+                  class="btn btn-info"
+                  ng-if="showErsattButton()"
+                  ng-click="ersatt(viewState.intygModel)"
+                  uib-popover="{{ersattBtnTooltipText}}"
+                  popover-trigger="mouseenter"
+                  popover-popup-delay="300"
+                  popover-append-to-body="true"
+                  popover-placement="auto top">
+            Ersätt
+          </button>
+
           <button type="button"
                   wc-authority="MAKULERA_INTYG"
                   request-origin="!UTHOPP"

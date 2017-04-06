@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum SchemaVersion {
-    VERSION_1("V1"), VERSION_2("V2");
+    VERSION_1("V1"), VERSION_3("V3");
 
     private final String version;
 
