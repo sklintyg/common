@@ -18,7 +18,7 @@
  */
 
 angular.module('fk7263').controller('fk7263.EditCert.Form1Ctrl',
-    ['$scope', '$log', , '$timeout', 'fk7263.EditCertCtrl.ViewStateService', 'common.UtkastValidationService',
+    ['$scope', '$log', '$timeout', 'fk7263.EditCertCtrl.ViewStateService', 'common.UtkastValidationService',
         function ($scope, $log, $timeout, viewState, UtkastValidationService) {
             'use strict';
             var model = viewState.intygModel;
