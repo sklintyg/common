@@ -51,10 +51,10 @@ import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
 import se.inera.intyg.common.fk7263.pdf.PdfEmployeeGenerator;
 import se.inera.intyg.common.fk7263.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter.ClinicalProcessCertificateMetaTypeConverter;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -221,10 +221,10 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, PartKod partCode) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
         GetMedicalCertificateRequestType request = new GetMedicalCertificateRequestType();
         request.setCertificateId(certificateId);
-        request.setPart(partCode.name());
+        request.setPart(recipientId);
 
         GetMedicalCertificateResponseType response = getMedicalCertificateResponderInterface.getMedicalCertificate(logicalAddress, request);
 
@@ -437,7 +437,7 @@ public class Fk7263ModuleApi implements ModuleApi {
             throws ModuleException {
         RegisterMedicalCertificateType request = originalRequest;
         // This is a special case when recipient is Forsakringskassan. See JIRA issue WEBCERT-1442.
-        if (!Strings.isNullOrEmpty(recipientId) && recipientId.equalsIgnoreCase(PartKod.FKASSA.getValue())) {
+        if (!Strings.isNullOrEmpty(recipientId) && recipientId.equalsIgnoreCase(Fk7263EntryPoint.DEFAULT_RECIPIENT_ID)) {
             request = whenFkIsRecipientThenSetCodeSystemToICD10(request);
         }
 

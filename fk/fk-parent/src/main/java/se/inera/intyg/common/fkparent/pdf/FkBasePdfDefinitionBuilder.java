@@ -20,8 +20,8 @@ package se.inera.intyg.common.fkparent.pdf;
 
 import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
@@ -70,7 +70,8 @@ public class FkBasePdfDefinitionBuilder {
 
     protected boolean isSentToFk(List<Status> statuses) {
         return statuses != null && statuses.stream()
-                .anyMatch(s -> CertificateState.SENT.equals(s.getType()) && PartKod.FKASSA.getValue().equals(s.getTarget()));
+                .anyMatch(s -> CertificateState.SENT.equals(s.getType())
+                        && FkAbstractModuleEntryPoint.DEFAULT_RECIPIENT_ID.equals(s.getTarget()));
     }
 
     protected boolean isMakulerad(List<Status> statuses) {

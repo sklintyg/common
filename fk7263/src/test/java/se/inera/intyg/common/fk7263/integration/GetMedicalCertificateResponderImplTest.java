@@ -37,7 +37,6 @@ import com.google.common.io.Resources;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponseType;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
@@ -50,6 +49,8 @@ public class GetMedicalCertificateResponderImplTest {
 
     private static final Personnummer PERSON_ID = new Personnummer("19121212-1212");
     private static final String INTYG_ID = "123456";
+    private static final String HSVARD_RECIPIENT_ID = "HSVARD";
+    private static final String INVANA_RECIPIENT_ID = "INVANA";
 
     @InjectMocks
     private GetMedicalCertificateResponderImpl responder;
@@ -126,7 +127,7 @@ public class GetMedicalCertificateResponderImplTest {
         when(moduleContainer.getCertificate(INTYG_ID, PERSON_ID, false)).thenReturn(certificateHolder);
 
         GetMedicalCertificateRequestType request = createGetMedicalCertificateRequest();
-        request.setPart(PartKod.HSVARD.name());
+        request.setPart(HSVARD_RECIPIENT_ID);
         GetMedicalCertificateResponseType response = responder.getMedicalCertificate(null, request);
 
         assertEquals(ResultCodeType.ERROR, response.getResult().getResultCode());
@@ -143,7 +144,7 @@ public class GetMedicalCertificateResponderImplTest {
         when(moduleContainer.getCertificate(INTYG_ID, PERSON_ID, false)).thenReturn(certificateHolder);
 
         GetMedicalCertificateRequestType request = createGetMedicalCertificateRequest();
-        request.setPart(PartKod.INVANA.name());
+        request.setPart(INVANA_RECIPIENT_ID);
 
         GetMedicalCertificateResponseType response = responder.getMedicalCertificate(null, request);
 
@@ -210,7 +211,7 @@ public class GetMedicalCertificateResponderImplTest {
         GetMedicalCertificateRequestType parameters = new GetMedicalCertificateRequestType();
         parameters.setCertificateId(INTYG_ID);
         parameters.setNationalIdentityNumber(PERSON_ID.getPersonnummer());
-        parameters.setPart(PartKod.INVANA.name());
+        parameters.setPart(INVANA_RECIPIENT_ID);
         return parameters;
     }
 }

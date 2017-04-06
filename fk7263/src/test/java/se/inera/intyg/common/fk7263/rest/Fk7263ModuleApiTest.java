@@ -57,6 +57,7 @@ import se.inera.intyg.common.fk7263.model.converter.InternalToTransport;
 import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -228,7 +229,6 @@ public class Fk7263ModuleApiTest {
         RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
         response.setResult(ResultOfCallUtil.okResult());
 
-        // When
         when(registerMedicalCertificateClient.registerMedicalCertificate(
                 any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
@@ -249,12 +249,11 @@ public class Fk7263ModuleApiTest {
         RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
         response.setResult(ResultOfCallUtil.okResult());
 
-        // When
         when(registerMedicalCertificateClient.registerMedicalCertificate(
                 any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
-        fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FK");
+        fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FKASSA");
 
         // Verify
         verify(registerMedicalCertificateClient).registerMedicalCertificate(eq(address), any(RegisterMedicalCertificateType.class));
@@ -267,7 +266,7 @@ public class Fk7263ModuleApiTest {
         address.setValue("logicalAddress");
 
         // Then
-        fk7263ModuleApi.sendCertificateToRecipient(null, "logicalAddress", "FK");
+        fk7263ModuleApi.sendCertificateToRecipient(null, "logicalAddress", "FKASSA");
     }
 
     @Test

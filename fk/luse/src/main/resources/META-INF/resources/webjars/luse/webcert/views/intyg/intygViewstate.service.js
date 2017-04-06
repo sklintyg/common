@@ -7,7 +7,7 @@ angular.module('luse').service('luse.IntygController.ViewStateService',
 
             this.reset = function() {
                 this.common.reset();
-                this.common.defaultRecipient = 'FK';
+                this.common.defaultRecipient = 'FKASSA';
                 this.common.intygProperties.type = 'luse';
             };
 

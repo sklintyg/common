@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -87,7 +86,7 @@ public class TransportConverterUtilTest {
         intyg.setSigneringstidpunkt(signeringstidpunkt);
         IntygsStatus status = new IntygsStatus();
         status.setPart(new Part());
-        status.getPart().setCode(PartKod.FKASSA.name());
+        status.getPart().setCode("FKASSA");
         status.setStatus(new Statuskod());
         status.getStatus().setCode(StatusKod.SENTTO.name());
         status.setTidpunkt(statustidpunkt);
@@ -102,7 +101,7 @@ public class TransportConverterUtilTest {
         assertEquals(signeringstidpunkt, res.getSignDate());
         assertEquals(1, res.getStatus().size());
         assertEquals(CertificateState.SENT, res.getStatus().get(0).getType());
-        assertEquals("FK", res.getStatus().get(0).getTarget());
+        assertEquals("FKASSA", res.getStatus().get(0).getTarget());
         assertEquals(statustidpunkt, res.getStatus().get(0).getTimestamp());
         assertEquals(additionalInfo, res.getAdditionalInfo());
     }

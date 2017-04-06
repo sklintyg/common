@@ -116,9 +116,9 @@ angular.module('common').service('common.IntygViewStateService',
         this.updateIntygProperties = function(result) {
             var targetName;
             if(this.intygProperties.type === 'ts-bas' || this.intygProperties.type === 'ts-diabetes') {
-                targetName = 'TS';
+                targetName = 'TRANSP';
             } else {
-                targetName = 'FK';
+                targetName = 'FKASSA';
             }
 
             this.intygProperties.isSent = IntygHelper.isSentToTarget(result.statuses, targetName);

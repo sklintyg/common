@@ -31,7 +31,7 @@ import se.inera.intyg.common.ts_bas.rest.TsBasModuleApi;
 public class TsBasEntryPoint implements ModuleEntryPoint {
 
     // CHECKSTYLE:OFF LineLength
-    private static final String DEFAULT_RECIPIENT_ID = "TS";
+    private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     public static final String MODULE_ID = "ts-bas";
     public static final String MODULE_NAME = "Transportstyrelsens läkarintyg";
     public static final String MODULE_DESCRIPTION = "Läkarintyg - avseende högre körkortsbehörigheter eller taxiförarlegitimation - på begäran av Transportstyrelsen";

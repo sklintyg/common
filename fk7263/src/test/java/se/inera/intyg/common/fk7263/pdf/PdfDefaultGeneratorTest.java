@@ -40,7 +40,6 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -54,6 +53,7 @@ import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
  */
 public class PdfDefaultGeneratorTest {
 
+    private static final String HSVARD_RECIPIENT_ID = "HSVARD";
     private static File fk7263Pdf;
     private static File fk7263Json;
     private static File fk7263falt9bortaJson;
@@ -142,7 +142,7 @@ public class PdfDefaultGeneratorTest {
 
         //Add a makulerat state
         List<Status> statuses = new ArrayList<>();
-        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
 
         // generate PDF
         byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, false).getBytes();

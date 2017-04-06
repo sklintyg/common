@@ -38,7 +38,6 @@ import org.springframework.core.io.ClassPathResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -50,6 +49,8 @@ import se.inera.intyg.common.util.integration.integration.json.CustomObjectMappe
 @RunWith(MockitoJUnitRunner.class)
 public class PdfGeneratorTest {
 
+    private static final String TRANSPORTSTYRELSEN_RECIPIENT_ID = "TRANSP";
+    private static final String HSVARD_RECIPIENT_ID = "HSVARD";
     @InjectMocks
     private PdfGeneratorImpl pdfGen = new PdfGeneratorImpl(true);
 
@@ -86,9 +87,9 @@ public class PdfGeneratorTest {
                 new ClassPathResource("PdfGenerator/ts-diabetes-utlatande.json").getFile(),
                 TsDiabetesUtlatande.class);
         List<Status> statuses = new ArrayList<>();
-        statuses.add(new Status(CertificateState.SENT, PartKod.TRANSP.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.SENT, TRANSPORTSTYRELSEN_RECIPIENT_ID, LocalDateTime.now()));
         // generate makulerat version
-        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
         byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT);
         writePdfToFile(pdf, "webcert-makulerat");
 

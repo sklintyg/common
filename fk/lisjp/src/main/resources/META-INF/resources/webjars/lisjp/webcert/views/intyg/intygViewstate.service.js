@@ -7,7 +7,7 @@ angular.module('lisjp').service('lisjp.IntygController.ViewStateService',
 
             this.reset = function() {
                 this.common.reset();
-                this.common.defaultRecipient = 'FK';
+                this.common.defaultRecipient = 'FKASSA';
                 this.common.intygProperties.type = 'lisjp';
             };
 

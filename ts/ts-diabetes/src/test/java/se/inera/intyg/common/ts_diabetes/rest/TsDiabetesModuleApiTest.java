@@ -51,7 +51,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -355,7 +354,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(Mockito.eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", PartKod.INVANA);
+        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
         assertNotNull(internal);
     }
 
@@ -368,7 +367,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(Mockito.eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", PartKod.INVANA);
+        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
         assertNotNull(internal);
     }
 
@@ -379,7 +378,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(Mockito.eq("TS"), Mockito.any(GetTSDiabetesType.class)))
         .thenReturn(result);
 
-        moduleApi.getCertificate("cert-id", "TS", PartKod.INVANA);
+        moduleApi.getCertificate("cert-id", "TS", "INVANA");
     }
 
     @Test(expected = ModuleException.class)
@@ -389,7 +388,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(Mockito.eq("TS"), Mockito.any(GetTSDiabetesType.class)))
         .thenReturn(result);
 
-        moduleApi.getCertificate("cert-id", "TS", PartKod.INVANA);
+        moduleApi.getCertificate("cert-id", "TS", "INVANA");
     }
 
     @Test

@@ -37,7 +37,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -46,7 +45,6 @@ import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -57,6 +55,7 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  * of the resulting pdf files, as we don't have any easy way of programmatically assert the content of the pdf.
  */
 public class EmployeeLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest {
+    private static final String HSVARD_RECIPIENT_ID = "HSVARD";
     List<String> allOptionalFields = Arrays.asList(
             OPT_SMITTSKYDD,
             OPT_GRUND_FOR_MU,
@@ -83,7 +82,7 @@ public class EmployeeLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitio
 
         // generate makulerat version
         statuses.clear();
-        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
         generate("employee-makulerat", statuses, ApplicationOrigin.WEBCERT, allOptionalFields);
     }
 

@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -208,7 +207,7 @@ public final class TransportConverterUtil {
     public static Status getStatus(IntygsStatus certificateStatus) {
         return new Status(
                 StatusKod.valueOf(certificateStatus.getStatus().getCode()).toCertificateState(),
-                PartKod.valueOf(certificateStatus.getPart().getCode()).getValue(),
+                certificateStatus.getPart().getCode(),
                 certificateStatus.getTidpunkt());
     }
 

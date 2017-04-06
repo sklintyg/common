@@ -21,15 +21,19 @@ package se.inera.intyg.common.luae_fs.pdf;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -43,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * Generate variants of a LUAENA pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
@@ -50,6 +55,7 @@ import static org.junit.Assert.assertNotNull;
  * 
  * @author marced
  */
+@RunWith(MockitoJUnitRunner.class)
 public class LuaefsPdfDefinitionBuilderTest {
 
     private ObjectMapper objectMapper = new CustomObjectMapper();
@@ -57,7 +63,12 @@ public class LuaefsPdfDefinitionBuilderTest {
     private IntygTextsServiceImpl intygTextsService;
     private List<LuaefsUtlatande> intygList = new ArrayList<>();
 
+    @Mock
+    FkAbstractModuleEntryPoint entryPoint;
+
+    @InjectMocks
     private LuaefsPdfDefinitionBuilder luaefsPdfDefinitionBuilder = new LuaefsPdfDefinitionBuilder();
+
     private IntygTexts intygTexts;
 
     @Before
@@ -74,6 +85,8 @@ public class LuaefsPdfDefinitionBuilderTest {
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overflow_utlatande.json").getFile(), LuaefsUtlatande.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("luae_fs", "1.0");
+
+        when(entryPoint.getDefaultRecipient()).thenReturn("FKASSA");
     }
 
     @Test
@@ -85,13 +98,13 @@ public class LuaefsPdfDefinitionBuilderTest {
     @Test
     public void testGenerateAlreadySentTOFK() throws Exception {
         List<Status> statuses = new ArrayList<>();
-        statuses.add(new Status(CertificateState.SENT, PartKod.FKASSA.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.SENT, "FKASSA", LocalDateTime.now()));
 
         generate("sent", statuses, ApplicationOrigin.MINA_INTYG);
         generate("sent", statuses, ApplicationOrigin.WEBCERT);
 
         //generate makulerat version
-        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.CANCELLED, "HSVARD", LocalDateTime.now()));
         generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
 
     }

@@ -20,6 +20,7 @@ package se.inera.intyg.common.luse.pdf;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,14 +31,18 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -53,13 +58,20 @@ import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
  * 
  * @author marced
  */
+@RunWith(MockitoJUnitRunner.class)
 public class LusePdfDefinitionBuilderTest {
 
+    private static final String FKASSA_RECIPIENT_ID = "FKASSA";
+    private static final String HSVARD_RECIPIENT_ID = "HSVARD";
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     private IntygTextsServiceImpl intygTextsService;
     private List<LuseUtlatande> intygList = new ArrayList<>();
 
+    @Mock
+    FkAbstractModuleEntryPoint entryPoint;
+
+    @InjectMocks
     private LusePdfDefinitionBuilder lusePdfDefinitionBuilder = new LusePdfDefinitionBuilder();
     private IntygTexts intygTexts;
 
@@ -76,6 +88,8 @@ public class LusePdfDefinitionBuilderTest {
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overfyllnad_utlatande.json").getFile(), LuseUtlatande.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("luse", "1.0");
+
+        when(entryPoint.getDefaultRecipient()).thenReturn("FKASSA");
     }
 
     @Test
@@ -87,11 +101,11 @@ public class LusePdfDefinitionBuilderTest {
     @Test
     public void testGenerateAlreadySentTOFK() throws Exception {
         List<Status> statuses = new ArrayList<>();
-        statuses.add(new Status(CertificateState.SENT, PartKod.FKASSA.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.SENT, FKASSA_RECIPIENT_ID, LocalDateTime.now()));
 
         generate("sent", statuses, ApplicationOrigin.MINA_INTYG);
         generate("sent", statuses, ApplicationOrigin.WEBCERT);
-        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
         generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
 
 

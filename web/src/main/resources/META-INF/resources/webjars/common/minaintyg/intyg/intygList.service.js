@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.IntygListService',
-    function($http, $log) {
+angular.module('common').factory('common.IntygListService', ['$rootScope', '$http', '$log',
+    function($rootScope, $http, $log) {
         'use strict';
 
         // cached certificates response
@@ -92,6 +92,17 @@ angular.module('common').factory('common.IntygListService',
             });
         }
 
+        function _getKnownRecipients(callback) {
+            $log.debug('getting all available recipients');
+            $http.get('/api/certificates/recipients/list').success(function(data) {
+                $rootScope.$broadcast('recipients.updated');
+                callback(data);
+            }).error(function(data, status) {
+                $log.error('error ' + status);
+                callback(null);
+            });
+        }
+
         // Return public API for our service
         return {
             getCertificates: _getCertificates,
@@ -99,6 +110,7 @@ angular.module('common').factory('common.IntygListService',
             archiveCertificate: _archiveCertificate,
             restoreCertificate: _restoreCertificate,
             selectedCertificate: _selectedCertificate,
-            emptyCache: _emptyCache
+            emptyCache: _emptyCache,
+            getKnownRecipients: _getKnownRecipients
         };
-    });
+    }]);

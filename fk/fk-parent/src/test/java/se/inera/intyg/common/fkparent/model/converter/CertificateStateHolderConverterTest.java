@@ -59,11 +59,11 @@ public class CertificateStateHolderConverterTest {
         final LocalDateTime timestamp4 = LocalDateTime.now().minusDays(1);
         final LocalDateTime timestamp5 = LocalDateTime.now().minusDays(1);
         List<CertificateStateHolder> source = new ArrayList<>();
-        source.add(new CertificateStateHolder("FK", CertificateState.CANCELLED, timestamp1));
-        source.add(new CertificateStateHolder("TS", CertificateState.RECEIVED, timestamp2));
-        source.add(new CertificateStateHolder("HV", CertificateState.SENT, timestamp3));
-        source.add(new CertificateStateHolder("MI", CertificateState.DELETED, timestamp4));
-        source.add(new CertificateStateHolder("FK", CertificateState.RESTORED, timestamp5));
+        source.add(new CertificateStateHolder("FKASSA", CertificateState.CANCELLED, timestamp1));
+        source.add(new CertificateStateHolder("TRANSP", CertificateState.RECEIVED, timestamp2));
+        source.add(new CertificateStateHolder("HSVARD", CertificateState.SENT, timestamp3));
+        source.add(new CertificateStateHolder("INVANA", CertificateState.DELETED, timestamp4));
+        source.add(new CertificateStateHolder("FKASSA", CertificateState.RESTORED, timestamp5));
         List<IntygsStatus> res = CertificateStateHolderConverter.toIntygsStatusType(source);
 
         assertNotNull(res);
@@ -88,14 +88,14 @@ public class CertificateStateHolderConverterTest {
     @Test(expected = IllegalArgumentException.class)
     public void testToIntygsStatusTypeInvalidStatus() {
         List<CertificateStateHolder> source = new ArrayList<>();
-        source.add(new CertificateStateHolder("FK", CertificateState.UNHANDLED, LocalDateTime.now()));
+        source.add(new CertificateStateHolder("FKASSA", CertificateState.UNHANDLED, LocalDateTime.now()));
         CertificateStateHolderConverter.toIntygsStatusType(source);
     }
 
     @Test
     public void testToIntygsStatusTypeSetsCodeSystemAndDisplayNameOfStatus() {
         List<CertificateStateHolder> source = new ArrayList<>();
-        source.add(new CertificateStateHolder("FK", CertificateState.SENT, LocalDateTime.now()));
+        source.add(new CertificateStateHolder("FKASSA", CertificateState.SENT, LocalDateTime.now()));
         List<IntygsStatus> res = CertificateStateHolderConverter.toIntygsStatusType(source);
 
         assertNotNull(res);
@@ -107,12 +107,11 @@ public class CertificateStateHolderConverterTest {
     @Test
     public void testToIntygsStatusTypeSetsCodeSystemAndDisplayNameOfPart() {
         List<CertificateStateHolder> source = new ArrayList<>();
-        source.add(new CertificateStateHolder("FK", CertificateState.SENT, LocalDateTime.now()));
+        source.add(new CertificateStateHolder("FKASSA", CertificateState.SENT, LocalDateTime.now()));
         List<IntygsStatus> res = CertificateStateHolderConverter.toIntygsStatusType(source);
 
         assertNotNull(res);
         assertEquals("FKASSA", res.get(0).getPart().getCode());
         assertEquals("769bb12b-bd9f-4203-a5cd-fd14f2eb3b80", res.get(0).getPart().getCodeSystem());
-        assertEquals("Försäkringskassan", res.get(0).getPart().getDisplayName());
     }
 }

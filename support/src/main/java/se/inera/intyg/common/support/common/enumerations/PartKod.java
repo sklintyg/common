@@ -22,10 +22,10 @@ import java.util.stream.Stream;
 
 public enum PartKod {
 
-    FKASSA("FK", "Försäkringskassan"),
-    HSVARD("HV", "Hälso- och sjukvården"),
-    INVANA("MI", "Invånaren"),
-    TRANSP("TS", "Transportstyrelsen");
+    FKASSA("FKASSA", "Försäkringskassan"),
+    HSVARD("HSVARD", "Hälso- och sjukvården"),
+    INVANA("INVANA", "Invånaren"),
+    TRANSP("TRANSP", "Transportstyrelsen");
 
     private final String value;
     private final String displayName;

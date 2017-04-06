@@ -37,7 +37,6 @@ import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.utils.ScenarioFinder;
 import se.inera.intyg.common.lisjp.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.lisjp.validator.InternalDraftValidatorImpl;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -219,7 +218,7 @@ public class LisjpModuleApiTest {
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any())).thenReturn(createGetCertificateResponseType());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
 
-        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, PartKod.INVANA);
+        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
 
         ArgumentCaptor<GetCertificateType> captor = ArgumentCaptor.forClass(GetCertificateType.class);
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
@@ -234,7 +233,7 @@ public class LisjpModuleApiTest {
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
                 .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
-        moduleApi.getCertificate(certificateId, logicalAddress, PartKod.INVANA);
+        moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
         fail();
     }
 

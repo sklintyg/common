@@ -25,11 +25,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.core.io.ClassPathResource;
@@ -38,7 +34,6 @@ import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
 import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
 import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -47,12 +42,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
@@ -86,20 +76,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FkParentModuleApiTest {
@@ -292,7 +272,7 @@ public class FkParentModuleApiTest {
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
@@ -308,7 +288,7 @@ public class FkParentModuleApiTest {
         GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
         IntygsStatus revokedStatus = new IntygsStatus();
         revokedStatus.setPart(new Part());
-        revokedStatus.getPart().setCode(PartKod.HSVARD.name());
+        revokedStatus.getPart().setCode("HSVARD");
         revokedStatus.setStatus(new Statuskod());
         revokedStatus.getStatus().setCode(StatusKod.CANCEL.name());
         getCertificateResponse.getIntyg().getStatus().add(revokedStatus);
@@ -316,7 +296,7 @@ public class FkParentModuleApiTest {
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
@@ -330,7 +310,7 @@ public class FkParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
     }
 
     @Test(expected = ModuleException.class)
@@ -338,7 +318,7 @@ public class FkParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
                 .thenThrow(mock(SOAPFaultException.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, PartKod.INVANA);
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
     }
 
     @Test

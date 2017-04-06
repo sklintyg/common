@@ -30,7 +30,7 @@ import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 
 public class Fk7263EntryPoint implements ModuleEntryPoint {
 
-    public static final String DEFAULT_RECIPIENT_ID = "FK";
+    public static final String DEFAULT_RECIPIENT_ID = "FKASSA";
 
     public static final String MODULE_ID = "fk7263";
     public static final String MODULE_NAME = "Läkarintyg FK 7263";

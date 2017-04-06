@@ -18,25 +18,19 @@
  */
 package se.inera.intyg.common.support.modules.support.api;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The module API defines methods that interact with one of the tree models that every module handles:
@@ -97,7 +91,7 @@ public interface ModuleApi {
      *
      * @param draftCertificateHolder
      *            The id of the new internal model, the {@link HoSPersonal} and
-     *            {@link se.inera.intyg.common.support.modules.support.api.dto.Patient} data.
+     *            {@link se.inera.intyg.common.support.model.common.internal.Patient;} data.
      *
      * @return A new instance of the internal model.
      */
@@ -105,11 +99,11 @@ public interface ModuleApi {
 
     /**
      * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
-     * parameter and {@link InternalModelHolder} template.
+     * parameter and template.
      *
      * @param draftCopyHolder
      *            The id of the new internal model, the {@link HoSPersonal} and optional
-     *            {@link se.inera.intyg.common.support.modules.support.api.dto.Patient} data.
+     *            {@link se.inera.intyg.common.support.model.common.internal.Patient;} data.
      * @param template
      *            An internal model used as a template for the new internal model.
      *
@@ -160,11 +154,11 @@ public interface ModuleApi {
      *            The certificate id.
      * @param logicalAddress
      *            Logical address of receiving system, i.e Intygstjansten.
-     * @param partCode
-     *            PartKod for the requester.
+     * @param recipientId
+     *            Recipient id for the requester.
      * @return internal model of the certificate
      */
-    CertificateResponse getCertificate(String certificateId, String logicalAddress, PartKod partCode) throws ModuleException;
+    CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException;
 
     /**
      * Determine whether a notification about changed state in a certificate should be sent,

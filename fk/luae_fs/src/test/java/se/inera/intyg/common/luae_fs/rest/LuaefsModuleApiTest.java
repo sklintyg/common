@@ -36,7 +36,6 @@ import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.luae_fs.utils.ScenarioFinder;
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -176,20 +175,20 @@ public class LuaefsModuleApiTest {
     @Test
     public void testGetCertificate() throws Exception {
 
-        GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.SENTTO, PartKod.FKASSA);
+        GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.SENTTO, "FKASSA");
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
-        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, PartKod.INVANA);
+        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
         assertFalse(response.isRevoked());
     }
 
     @Test
     public void testGetCertificateWhenRevoked() throws Exception {
 
-        GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.CANCEL, PartKod.FKASSA);
+        GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.CANCEL, "FKASSA");
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
-        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, PartKod.INVANA);
+        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
         assertTrue(response.isRevoked());
     }
 
@@ -199,7 +198,7 @@ public class LuaefsModuleApiTest {
         doThrow(ex).when(getCertificateResponderInterface).getCertificate(anyString(),
                 any());
 
-        moduleApi.getCertificate("id", LOGICAL_ADDRESS, PartKod.INVANA);
+        moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
     }
 
     @Test
@@ -418,7 +417,7 @@ public class LuaefsModuleApiTest {
         assertEquals("Klämskada skuldra", additionalInfo);
     }
 
-    private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final PartKod part)
+    private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)
             throws IOException, ModuleException {
         GetCertificateResponseType response = new GetCertificateResponseType();
 
@@ -426,20 +425,20 @@ public class LuaefsModuleApiTest {
         Utlatande utlatandeFromXml = moduleApi.getUtlatandeFromXml(xmlContents);
         Intyg intyg = moduleApi.getIntygFromUtlatande(utlatandeFromXml);
 
-        intyg.getStatus().add(createStatus(statusKod.name(), part.name()));
+        intyg.getStatus().add(createStatus(statusKod.name(), part));
 
         response.setIntyg(intyg);
 
         return response;
     }
 
-    private IntygsStatus createStatus(String statuskod, String partkod) {
+    private IntygsStatus createStatus(String statuskod, String recipientID) {
         IntygsStatus intygsStatus = new IntygsStatus();
         Statuskod sk = new Statuskod();
         sk.setCode(statuskod);
         intygsStatus.setStatus(sk);
         Part part = new Part();
-        part.setCode(partkod);
+        part.setCode(recipientID);
         intygsStatus.setPart(part);
         intygsStatus.setTidpunkt(LocalDateTime.now());
         return intygsStatus;

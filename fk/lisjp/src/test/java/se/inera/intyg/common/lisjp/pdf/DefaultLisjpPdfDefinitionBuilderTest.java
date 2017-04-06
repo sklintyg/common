@@ -18,39 +18,46 @@
  */
 package se.inera.intyg.common.lisjp.pdf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
-import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * Generate variants of a LISJP pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
  * of the resulting pdf files, as we don't have any way of programmatically assert the content of the pdf.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest{
 
+    @Mock
+    FkAbstractModuleEntryPoint entryPoint;
+
+    @InjectMocks
     private DefaultLisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new DefaultLisjpPdfDefinitionBuilder();
+
+    @Before
+    public void setup() {
+        when(entryPoint.getDefaultRecipient()).thenReturn("FKASSA");
+    }
 
     @Test
     public void testGenerateNotSentToFK() throws Exception {
@@ -61,14 +68,14 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
     @Test
     public void testGenerateAlreadySentTOFK() throws Exception {
         List<Status> statuses = new ArrayList<>();
-        statuses.add(new Status(CertificateState.SENT, PartKod.FKASSA.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.SENT, "FKASSA", LocalDateTime.now()));
 
         generate("default-sent", statuses, ApplicationOrigin.MINA_INTYG);
         generate("default-sent", statuses, ApplicationOrigin.WEBCERT);
 
         //generate makulerat version
         statuses.clear();
-        statuses.add(new Status(CertificateState.CANCELLED, PartKod.HSVARD.getValue(), LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.CANCELLED, "HSVARD", LocalDateTime.now()));
         generate("default-sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
     }
 

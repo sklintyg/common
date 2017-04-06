@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
@@ -87,11 +86,9 @@ public final class CertificateStateHolderConverter {
     }
 
     private static Part toPart(String target) {
-        PartKod partKod = PartKod.fromValue(target);
         Part part = new Part();
-        part.setCode(partKod.name());
+        part.setCode(target);
         part.setCodeSystem(KV_PART_CODE_SYSTEM);
-        part.setDisplayName(partKod.getDisplayName());
         return part;
     }
 }

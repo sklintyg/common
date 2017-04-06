@@ -34,7 +34,6 @@ import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertifica
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponseType;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter.ModelConverter;
 import se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.utils.ResultTypeUtil;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
@@ -48,6 +47,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 public class GetMedicalCertificateResponderImpl implements GetMedicalCertificateResponderInterface {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetMedicalCertificateResponderImpl.class);
+    public static final String HSVARD = "HSVARD";
 
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
@@ -74,7 +74,7 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
                 response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
                 return response;
             }
-            if (PartKod.HSVARD.name().equals(request.getPart()) && certificate.isDeletedByCareGiver()) {
+            if (HSVARD.equals(request.getPart()) && certificate.isDeletedByCareGiver()) {
                 response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
                         String.format("Certificate '%s' has been deleted by care giver", certificateId)));
             } else {

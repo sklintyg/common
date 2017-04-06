@@ -42,7 +42,7 @@ import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfStamper;
 
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
@@ -234,7 +234,7 @@ public abstract class PdfAbstractGenerator {
     protected boolean isCertificateSentToFK(List<Status> statuses) {
         if (statuses != null) {
             for (Status status : statuses) {
-                if (isTargetEqualTo(status, PartKod.FKASSA.getValue()) && isTypeEqualTo(status, CertificateState.SENT)) {
+                if (isTargetEqualTo(status, Fk7263EntryPoint.DEFAULT_RECIPIENT_ID) && isTypeEqualTo(status, CertificateState.SENT)) {
                     return true;
                 }
             }

@@ -34,7 +34,6 @@ import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.luse.utils.ScenarioFinder;
 import se.inera.intyg.common.luse.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luse.validator.InternalDraftValidatorImpl;
-import se.inera.intyg.common.support.common.enumerations.PartKod;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -218,7 +217,7 @@ public class LuseModuleApiTest {
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any())).thenReturn(createGetCertificateResponseType());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
 
-        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, PartKod.INVANA);
+        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
 
         ArgumentCaptor<GetCertificateType> captor = ArgumentCaptor.forClass(GetCertificateType.class);
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
@@ -233,7 +232,7 @@ public class LuseModuleApiTest {
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
                 .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
-        moduleApi.getCertificate(certificateId, logicalAddress, PartKod.INVANA);
+        moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
     }
 
     @Test

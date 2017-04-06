@@ -27,7 +27,7 @@ angular.module('fk7263').service('fk7263.IntygController.ViewStateService',
 
             this.reset = function() {
                 this.common.reset();
-                this.common.defaultRecipient = 'FK';
+                this.common.defaultRecipient = 'FKASSA';
                 this.common.intygProperties.type = 'fk7263';
             };
 
