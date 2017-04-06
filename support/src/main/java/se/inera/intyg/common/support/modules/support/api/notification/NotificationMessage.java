@@ -99,17 +99,17 @@ public class NotificationMessage {
 
     @Override
     public String toString() {
-        return "NotificationMessage{" +
-                "intygsId='" + intygsId + '\'' +
-                ", intygsTyp='" + intygsTyp + '\'' +
-                ", logiskAdress='" + logiskAdress + '\'' +
-                ", handelseTid=" + handelseTid +
-                ", handelse=" + handelse +
-                ", version=" + version +
-                ", reference='" + reference + '\'' +
-                ", amne=" + amne +
-                ", sistaSvarsDatum=" + sistaSvarsDatum +
-                '}';
+        return "NotificationMessage{"
+                + "intygsId='" + intygsId + '\''
+                + ", intygsTyp='" + intygsTyp + '\''
+                + ", logiskAdress='" + logiskAdress + '\''
+                + ", handelseTid=" + handelseTid
+                + ", handelse=" + handelse
+                + ", version=" + version
+                + ", reference='" + reference + '\''
+                + ", amne=" + amne
+                + ", sistaSvarsDatum=" + sistaSvarsDatum
+                + '}';
     }
 
     public String getIntygsId() {
