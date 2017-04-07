@@ -87,17 +87,10 @@ angular.module('common').constant('common.messages', {
         'common.modal.label.discard_draft': 'Ta bort utkast',
         'common.modal.label.confirm_sign': 'Signera intyget',
 
-        'common.modal.bankid.heading': 'Signera med BankID',
-        'common.modal.bankid.open': 'Öppna programmet för BankID på din dator.',
-        'common.modal.bankid.signing': 'Intyget signeras, vänligen skriv in din kod.',
-        'common.modal.bankid.noclient': 'BankID-programmet svarar inte. Kontrollera att programmet är startat och att du har internetanslutning.  Försök sedan igen.',
-        'common.modal.bankid.signed': 'Intyget är nu signerat.',
-
-        'common.modal.mbankid.heading': 'Signera med Mobilt BankID',
-        'common.modal.mbankid.open': 'Starta Mobilt BankID på den enhet där det är installerat.',
-        'common.modal.mbankid.signing': 'Skriv in din säkerhetskod på den enhet där Mobilt BankID är startat.',
-        'common.modal.mbankid.noclient': 'Mobilt BankID-appen svarar inte. Kontrollera att appen är startad och att du har internetanslutning.  Försök sedan igen.',
-        'common.modal.mbankid.signed': 'Intyget är nu signerat.',
+        'common.modal.label.signing': 'Ditt intyg signeras.',
+        'common.modal.label.signing.seconds': 'Detta kan ta några sekunder.',
+        'common.modal.label.signing.open.bankid': 'Om ditt BankID säkerhetsprogram inte öppnas automatiskt kan du behöva starta det själv.',
+        'common.modal.label.signing.open.mobilt.bankid': 'Starta mobilt BankID på den enhet du har det installerat.',
 
         // Text in copy and fornya (renew) modal dialogs
         'common.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.',

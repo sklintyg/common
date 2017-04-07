@@ -176,8 +176,6 @@ describe('UtkastSignService', function() {
     describe('Signera bankid', function() {
         var intygId = 123, biljettId = 12345, version = 5;
 
-        var dialogState;
-
         beforeEach(function() {
             User.getUser().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
             User.getUser().authenticationMethod = 'BANKID';
@@ -190,21 +188,7 @@ describe('UtkastSignService', function() {
 
             UserModel.authenticationMethod = function() {
                 return 'BANKID';
-            }
-
-            // var openedDefered = $q.defer(),
-            //     resultDefered = $q.defer();
-            // dialogState = {
-            //     model: {},
-            //     opened: openedDefered.promise,
-            //     result: resultDefered.promise,
-            //     close: jasmine.createSpy('close')
-            // };
-            // dialogService.showDialog = jasmine.createSpy('showDialog').and.callFake(function() {
-            //     openedDefered.resolve();
-            //     resultDefered.resolve();
-            //     return dialogState;
-            // });
+            };
         });
 
         afterEach(function() {
