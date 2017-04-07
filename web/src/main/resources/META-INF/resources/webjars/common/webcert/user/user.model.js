@@ -156,6 +156,10 @@ angular.module('common').factory('common.UserModel',[
                 return this.user !== undefined && this.user.authenticationMethod !== undefined && this.user.authenticationMethod === authenticationMethod;
             },
 
+            authenticationMethod: function _authenticationMethod() {
+                return this.user.authenticationMethod;
+            },
+
             hasAuthorities: function() {
                 return this.user !== undefined && this.user.authorities !== undefined;
             },

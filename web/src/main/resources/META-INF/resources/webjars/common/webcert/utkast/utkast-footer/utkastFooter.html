@@ -13,6 +13,11 @@
               ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif" />
         <span message key="common.{{viewState.common.intyg.isKomplettering ? 'signsend' : 'sign'}}"></span>
       </button>
+
+      <!-- Om personen har loggat in med BANK ID skall vi visa en liten extra text -->
+      <p ng-if="user.authenticationMethod === 'BANK_ID'">
+        <span>Om ditt BankID säkerhetsprogram inte öppnas automatiskt kan du behöva starta det själv.</span>
+      </p>
     </div>
 
     <!-- Vårdadmin -->
