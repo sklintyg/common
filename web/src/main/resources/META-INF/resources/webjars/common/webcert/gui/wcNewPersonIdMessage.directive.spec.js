@@ -62,6 +62,15 @@ describe('wcNewPersonIdMessageDirective', function() {
         expect($(element).find('span').text()).toBe('');
     });
 
+    it('should not display any personnummer text when personnummer is empty string', function() {
+        UserModel.user.parameters.alternateSsn = '';
+        $scope.viewState.intygModel.grundData.patient.personId = personNummer1;
+        $scope.$digest();
+
+        expect($(element).find('span').text()).toBe('');
+    });
+
+
     it('should display new personnummer text', function() {
         UserModel.user.parameters.alternateSsn = personNummer1;
         $scope.viewState.intygModel.grundData.patient.personId = personNummer2;
