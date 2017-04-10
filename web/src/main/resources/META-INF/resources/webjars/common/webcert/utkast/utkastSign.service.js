@@ -76,7 +76,6 @@ angular.module('common').factory('common.UtkastSignService',
              */
             function _confirmSigneraMedBankID(signModel, intygsTyp, intygsId, version, deferred) {
 
-
                 var templates = {
                     'MOBILT_BANK_ID': '/app/views/signeraBankIdDialog/signera.mobiltbankid.dialog.html',
                     'BANK_ID': '/app/views/signeraBankIdDialog/signera.bankid.dialog.html'
@@ -87,11 +86,6 @@ angular.module('common').factory('common.UtkastSignService',
 
                     // Resolve which modal template to use (BankID or Mobilt BankID differs somewhat)
                     var templateUrl = templates[UserModel.authenticationMethod()];
-                    // if (UserModel.hasAuthenticationMethod('MOBILT_BANK_ID')){
-                    //     templateUrl = '/app/views/signeraBankIdDialog/signera.mobiltbankid.dialog.html';
-                    // } else {
-                    //     templateUrl = '/app/views/signeraBankIdDialog/signera.bankid.dialog.html';
-                    // }
                     _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openBankIDSigningModal(templateUrl));
 
                 }, function(error) {
@@ -110,6 +104,7 @@ angular.module('common').factory('common.UtkastSignService',
                     templateUrl: templateUrl,
                     backdrop: 'static',
                     keyboard: false,
+                    windowClass: 'bankid-signera-modal',
                     controller: function($scope, $uibModalInstance, ticketStatus) {
 
                         $scope.close = function() {
