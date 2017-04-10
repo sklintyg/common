@@ -69,7 +69,7 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                 var updateShowFlag = function() {
                     $scope.show = false;
                     var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
-                    if (ObjectHelper.isDefined(alternatePatientSSn) && alternatePatientSSn !== "" &&
+                    if (ObjectHelper.isDefined(alternatePatientSSn) && alternatePatientSSn !== '' &&
                         modelHasValidPatient($scope.viewState.intygModel)) {
 
                         var intygPersonnummer = $scope.viewState.intygModel.grundData.patient.personId;
