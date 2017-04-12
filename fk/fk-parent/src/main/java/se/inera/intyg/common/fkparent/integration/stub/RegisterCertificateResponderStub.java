@@ -43,6 +43,9 @@ public final class RegisterCertificateResponderStub implements RegisterCertifica
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateResponderStub.class);
 
+    //Configuring a recipient with this logicalAdress will return error
+    private static final String FAILURE_ADRESS = "fail-adress";
+
     @Autowired(required = false)
     private MedicalCertificatesStore store;
 
@@ -53,6 +56,9 @@ public final class RegisterCertificateResponderStub implements RegisterCertifica
         ResultType resultType = new ResultType();
 
         try {
+            if (logicalAddress.equals(FAILURE_ADRESS)) {
+                throw new IllegalArgumentException("logicalAdress " + FAILURE_ADRESS + " is meant to fail!");
+            }
             HashMap<String, String> properties = new HashMap<>();
             Intyg intyg = parameters.getIntyg();
             String pnr = intyg.getPatient().getPersonId().getExtension();
