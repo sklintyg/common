@@ -172,7 +172,7 @@ angular.module('common').factory('common.UtkastService',
                             if (result !== null && result !== '') {
                                 var parentIntyg = result.contents;
                                 var intygMeta = {
-                                    isSent: IntygHelper.isSentToTarget(result.statuses, 'FK'),
+                                    isSent: IntygHelper.isSentToTarget(result.statuses, 'FKASSA'),
                                     isRevoked: IntygHelper.isRevoked(result.statuses),
                                     forceUseProvidedIntyg: true,
                                     meddelandeId: intygModel.grundData.relation.meddelandeId,

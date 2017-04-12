@@ -60,7 +60,7 @@ angular.module('common').factory('common.IntygMakulera',
 
             function _makulera(intyg, confirmationMessage, onSuccess) {
                 // Only show tooltip for FK-intyg
-                var isFkIntyg = CommonViewState.defaultRecipient === 'FK' ? true : false;
+                var isFkIntyg = CommonViewState.defaultRecipient === 'FKASSA' ? true : false;
 
                 function isMakuleraEnabled(model) {
                     return model.makuleraProgressDone && // model.ersattProgressDone &&

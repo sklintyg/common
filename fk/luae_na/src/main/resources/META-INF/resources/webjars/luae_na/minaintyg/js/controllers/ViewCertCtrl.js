@@ -14,7 +14,7 @@ angular.module('luae_na').controller('luae_na.ViewCertCtrl',
             $scope.doneLoading = false;
 
             $scope.send = function() {
-                $location.path('/send/luae_na/' + $stateParams.certificateId + '/FK');
+                $location.path('/send/luae_na/' + $stateParams.certificateId + '/FKASSA');
             };
 
             $scope.visibleStatuses = [ 'SENT' ];
