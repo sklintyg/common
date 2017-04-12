@@ -43,7 +43,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
             // Navigation
 
             $scope.send = function() {
-                $location.path('/send/fk7263/' + $stateParams.certificateId + '/FK');
+                $location.path('/send/fk7263/' + $stateParams.certificateId + '/FKASSA');
             };
 
             $scope.showStatusHistory = function() {

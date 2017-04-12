@@ -42,7 +42,7 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
             };
 
             $scope.send = function() {
-                $location.path('/send/ts-bas/' + $stateParams.certificateId + '/TS');
+                $location.path('/send/ts-bas/' + $stateParams.certificateId + '/TRANSP');
             };
 
             $scope.opts = {
