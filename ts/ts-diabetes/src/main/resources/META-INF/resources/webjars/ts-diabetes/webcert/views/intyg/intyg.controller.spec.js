@@ -148,7 +148,7 @@ describe('ts-diabetes.IntygController', function() {
                             'lamplighetInnehaBehorighet' : true
                         }
                     },
-                    statuses:[{type:'RECEIVED', target:'MI', timestamp:'2015-04-15T09:37:17.932'}],
+                    statuses:[{type:'RECEIVED', target:'HSVARD', timestamp:'2015-04-15T09:37:17.932'}],
                     revoked:false
                 });
             }
