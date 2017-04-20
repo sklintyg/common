@@ -251,7 +251,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                     .offset(72.3f, yOffset)
                     .size(50f, CHECKBOXROW_DEFAULT_HEIGHT)
                     .withBorders(Rectangle.TOP)
-                    .withTopLabel("datum (år, månad, dag"));
+                    .withTopLabel("datum (år, månad, dag)"));
 
             // Bifogas Ja/Nej är bara till för manuell/fysisk/pappers ifyllnad och skall därför alltid vara ej ifylld i
             // vårt fall.
