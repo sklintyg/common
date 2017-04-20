@@ -18,15 +18,16 @@
  */
 
 angular.module('common').directive('wcUtkastPatientAddressUpdater',
-    ['$timeout', '$log', 'common.PatientProxy',
-    function($timeout, $log, PatientProxy) {
+    ['$timeout', '$log', 'common.PatientProxy', 'common.UtkastValidationService',
+    function($timeout, $log, PatientProxy, UtkastValidationService) {
     'use strict';
 
     return {
         restrict: 'E',
         scope: {
             patientModel: '=',
-            form: '='
+            form: '=',
+            validationFn: '='
         },
         templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastPatientAddressUpdater.directive.html',
         controller: function($scope) {
@@ -47,6 +48,7 @@ angular.module('common').directive('wcUtkastPatientAddressUpdater',
                         $scope.patientModel.postnummer = patientResult.postnummer;
                         $scope.patientModel.postort = patientResult.postort;
                         $scope.form.$setDirty();
+                        $scope.validationFn();
 
                     }, function() { // not found
                         $scope.fetchingPatientData = false;

@@ -1,4 +1,4 @@
-describe('Directive: wcUtkastPatientAdddressUpdater', function() {
+fdescribe('Directive: wcUtkastPatientAddressUpdater', function() {
     'use strict';
     var $compile;
     var $scope;
@@ -33,8 +33,10 @@ describe('Directive: wcUtkastPatientAdddressUpdater', function() {
             postort: 'Visby'
         };
         $scope.form = jasmine.createSpyObj('', [ '$setDirty' ]);
+        $scope.validate = function() {};
+        spyOn($scope, 'validate').and.callFake(function(){});
 
-        element = $compile(angular.element('<wc-utkast-patient-address-updater patient-model="patientModel" form="form"/>'))($scope);
+        element = $compile(angular.element('<wc-utkast-patient-address-updater patient-model="patientModel" form="form" validation-fn="validate" />'))($scope);
         $scope.$digest();
 
         elementScope = element.isolateScope() || element.scope();
@@ -59,6 +61,7 @@ describe('Directive: wcUtkastPatientAdddressUpdater', function() {
         expect(elementScope.patientModel.postnummer).toEqual('22222');
         expect(elementScope.patientModel.postort).toEqual('Stockholm');
         expect($scope.form.$setDirty).toHaveBeenCalled();
+        expect($scope.validate).toHaveBeenCalled();
 
     });
 
