@@ -56,8 +56,11 @@ angular.module('common').factory('common.dialogService',
          bodyTextId: message id of body text
          bodyText: body text (can be used instead of or in addition to bodyTextId
          button1id: (optional) html id attribute of button 1
+         button1icon: (optional) icon class for button 1
          button2id: (optional) html id attribute of button 2
+         button2icon: (optional) icon class for button 2
          button3id: (optional) html id attribute of button 3
+         button3icon: (optional) icon class for button 3
          button1click: (optional) function on button 1 click
          button2click: (optional) function on button 2 click
          button3click: (optional) function on button 3 click
@@ -89,7 +92,12 @@ angular.module('common').factory('common.dialogService',
             // setup options defaults if parameters aren't included
             options.bodyText = (options.bodyText === undefined) ? '' : options.bodyText;
             options.button1text = (options.button1text === undefined) ? 'common.ok' : options.button1text;
+            //If button1 is a default OK button, set the default ok icon unless other is specified
+            options.button1icon = (options.button1icon === undefined && options.button1text === 'common.ok') ? 'icon-ok' : options.button1icon;
+
             options.button2text = (options.button2text === undefined) ? 'common.cancel' : options.button2text;
+            //If button2 is a default cancel button, set the default x icon unless other is specified
+            options.button2icon = (options.button2icon === undefined && options.button2text === 'common.cancel') ? 'icon-cancel' : options.button2icon;
             options.button3text = (options.button3text === undefined) ? undefined : options.button3text;
             options.button3visible = options.button3visible === undefined ? options.button3text !== undefined :
                 options.button3visible;
@@ -106,7 +114,7 @@ angular.module('common').factory('common.dialogService',
 
             // Create controller to setup dialog
             var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId, bodyText,
-                button1id, button2id, button3id, button1click, button2click, button3click, button3visible, button1text,
+                button1id, button1icon, button2id, button2icon, button3id, button3icon, button1click, button2click, button3click, button3visible, button1text,
                 button2text, button3text, autoClose) {
 
                 $scope.model = model;
@@ -137,12 +145,16 @@ angular.module('common').factory('common.dialogService',
                 } else {
                     $scope.button3visible = false;
                 }
-                $scope.button1text = button1text;
-                $scope.button2text = button2text;
-                $scope.button3text = button3text;
                 $scope.button1id = button1id;
+                $scope.button1text = button1text;
+                $scope.button1icon = button1icon;
                 $scope.button2id = button2id;
+                $scope.button2text = button2text;
+                $scope.button2icon = button2icon;
                 $scope.button3id = button3id;
+                $scope.button3text = button3text;
+                $scope.button3icon = button3icon;
+
             };
 
             // Open dialog box using specified options, template and controller
@@ -169,11 +181,20 @@ angular.module('common').factory('common.dialogService',
                     button1id: function() {
                         return angular.copy(options.button1id);
                     },
+                    button1icon: function() {
+                        return angular.copy(options.button1icon);
+                    },
                     button2id: function() {
                         return angular.copy(options.button2id);
                     },
+                    button2icon: function() {
+                        return angular.copy(options.button2icon);
+                    },
                     button3id: function() {
                         return angular.copy(options.button3id);
+                    },
+                    button3icon: function() {
+                        return angular.copy(options.button3icon);
                     },
                     button1click: function() {
                         return options.button1click;
