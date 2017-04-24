@@ -44,10 +44,11 @@ angular.module('common').factory('common.UtkastNotifyProxy',
             /**
              * Ask the backend to send a status update to the journalsystem that the draft is ready to be signed
              */
-            function _sendNotificationStatusUpdate(intygId, intygType, intygVersion, callback, errorCallback) {
-                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/redoattsignera';
+            function _sendNotificationStatusUpdate(intygId, intygType, utkast, callback, errorCallback) {
+                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + utkast.version + '/redoattsignera';
                 $http.put(restPath, {}).success(function(data) {
                     $log.debug('sendNotificationStatusUpdate data:' + data);
+                    utkast.version++;
                     callback(data);
                 }).error(function(data, status) {
                     $log.error('error ' + status);

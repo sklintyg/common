@@ -253,10 +253,9 @@ angular.module('common').factory('common.UtkastNotifyService',
                     _showNotifyJournalsystemDialog('notifyjournalsystem',
                         messageService.getProperty('common.modal.marked.ready.notification.sent'),
                         function() { // Send notification, e.g. "yes"
-                            utkastNotifyProxy.sendNotificationStatusUpdate(intygId, intygType, utkast.version,
+                            utkastNotifyProxy.sendNotificationStatusUpdate(intygId, intygType, utkast,
                                 function() {
                                     // The callback should update the viewstate.
-                                    utkast.version++;
                                     successCallback();
                                 }, function() {
                                     $log.error('Send notification failed!');
@@ -267,10 +266,9 @@ angular.module('common').factory('common.UtkastNotifyService',
                         }
                     );
                 } else {
-                     utkastNotifyProxy.sendNotificationStatusUpdate(intygId, intygType, utkast.version,
+                     utkastNotifyProxy.sendNotificationStatusUpdate(intygId, intygType, utkast,
                          function() {
                              $log.debug('Send notification success!');
-                             utkast.version++;
                              successCallback();
                          }, function(err) {
                              $log.debug('Send notification failed!');
