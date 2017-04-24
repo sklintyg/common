@@ -73,8 +73,27 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 };
 
                 $scope.onDatepickerInputFieldBlur = function() {
+                    clearInvalidMinDateClassOnEmptyDate();
                     $scope.onBlur();
                 };
+
+                function clearInvalidMinDateClassOnEmptyDate(){
+                    if($scope.targetModel === ''){
+                        var target = angular.element(document).find('#undersokningAvPatientenDate');
+                        target.removeClass('ng-invalid-min-date');
+                    }
+                }
+
+                function hasInvalidMinDate(){
+                    var target = angular.element(document).find('#undersokningAvPatientenDate');
+                    var classList = target['0'].classList;
+                    angular.forEach(classList, function(element) {
+                        if(element.toLowerCase() === 'ng-invalid-min-date'){
+                            return true;
+                        }
+                    }, this);
+                    return false;
+                }
 
                 this.datepickerPopupScope = {};
                 this.overrideRender = $scope.overrideRender;
