@@ -256,6 +256,7 @@ angular.module('common').factory('common.UtkastNotifyService',
                             utkastNotifyProxy.sendNotificationStatusUpdate(intygId, intygType, utkast.version,
                                 function() {
                                     // The callback should update the viewstate.
+                                    utkast.version++;
                                     successCallback();
                                 }, function() {
                                     $log.error('Send notification failed!');
@@ -269,6 +270,7 @@ angular.module('common').factory('common.UtkastNotifyService',
                      utkastNotifyProxy.sendNotificationStatusUpdate(intygId, intygType, utkast.version,
                          function() {
                              $log.debug('Send notification success!');
+                             utkast.version++;
                              successCallback();
                          }, function(err) {
                              $log.debug('Send notification failed!');
