@@ -170,6 +170,7 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 var minimumDate = '1900-01-01';
 
                 ngModel.$validators.maxDate = function() {
+                    clearInvalidMaxDateClass();
                     return checkDate(maximumDate, ngModel.$viewValue);
                 };
 
@@ -182,6 +183,12 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                     var target = angular.element(document).find('#undersokningAvPatientenDate');
                     target.removeClass('ng-invalid-min-date');
                 }
+
+                function clearInvalidMaxDateClass(){
+                    var target = angular.element(document).find('#undersokningAvPatientenDate');
+                    target.removeClass('ng-invalid-max-date');
+                }
+
             }
         };
     }]);
