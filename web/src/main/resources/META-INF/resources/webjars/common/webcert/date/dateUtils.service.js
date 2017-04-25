@@ -368,7 +368,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
         dateReg : _dateReg,
         dateRegDashesOptional: _dateRegDashesOptional,
         parseDayCodes: _parseDayCodes,
-        parseMonthCode: _parseMonthCode
+        parseMonthCode: _parseMonthCode,
+        isDateEmptyOrValidAndBefore: _isDateEmptyOrValidAndBefore
     };
 
 });
