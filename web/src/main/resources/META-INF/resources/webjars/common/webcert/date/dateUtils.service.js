@@ -345,8 +345,7 @@ angular.module('common').factory('common.DateUtilsService', function() {
             return false;
         }
         return !moment(mdate2).isAfter(mdate1);
-    };
-
+    }
 
     return {
         isDate: _isDate,
