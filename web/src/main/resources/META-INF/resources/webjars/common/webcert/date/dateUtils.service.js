@@ -331,6 +331,23 @@ angular.module('common').factory('common.DateUtilsService', function() {
         }];
     }
 
+    function _isDateEmptyOrValidAndBefore(date1, date2){
+        if (!date1 || !date2) {
+            // consider empty models to be valid
+            return true;
+        }
+
+        // conversion returns null if date is invalid
+        var mdate1 = _convertDateStrict(date1);
+        var mdate2 = _convertDateStrict(date2);
+
+        if(!mdate1 || !mdate2) {
+            return false;
+        }
+        return !moment(mdate2).isAfter(mdate1);
+    };
+
+
     return {
         isDate: _isDate,
         toMoment: _toMoment,
@@ -352,7 +369,8 @@ angular.module('common').factory('common.DateUtilsService', function() {
         dateReg : _dateReg,
         dateRegDashesOptional: _dateRegDashesOptional,
         parseDayCodes: _parseDayCodes,
-        parseMonthCode: _parseMonthCode
+        parseMonthCode: _parseMonthCode,
+        isDateEmptyOrValidAndBefore: _isDateEmptyOrValidAndBefore
     };
 
 });

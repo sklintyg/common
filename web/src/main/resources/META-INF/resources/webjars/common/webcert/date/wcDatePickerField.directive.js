@@ -91,20 +91,6 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
     .directive('wcDatePickerFieldInput', ['$log', 'common.DateUtilsService',
     function($log, dateUtils ) {
         'use strict';
-        var checkDate = function(date1, date2){
-        	if (!date1 || !date2) {
-                // consider empty models to be valid
-                return true;
-            }
-
-            var mdate1 = moment(date1);
-            var mdate2 = moment(date2);
-
-            if(!mdate1.isValid() || !mdate2.isValid()) {
-                return true;
-            }
-            return !moment(mdate2).isAfter(mdate1);
-        };
         return {
             priority:10,
             restrict: 'A',
@@ -170,24 +156,12 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 var minimumDate = '1900-01-01';
 
                 ngModel.$validators.maxDate = function() {
-                    clearInvalidMaxDateClass();
-                    return checkDate(maximumDate, ngModel.$viewValue);
+                    return dateUtils.isDateEmptyOrValidAndBefore(maximumDate, ngModel.$viewValue);
                 };
 
                 ngModel.$validators.minDate = function() {
-                    clearInvalidMinDateClass();
-                    return checkDate(ngModel.$viewValue, minimumDate);
+                    return dateUtils.isDateEmptyOrValidAndBefore(ngModel.$viewValue, minimumDate);
                 };
-
-                function clearInvalidMinDateClass(){
-                    var target = angular.element(document).find('#undersokningAvPatientenDate');
-                    target.removeClass('ng-invalid-min-date');
-                }
-
-                function clearInvalidMaxDateClass(){
-                    var target = angular.element(document).find('#undersokningAvPatientenDate');
-                    target.removeClass('ng-invalid-max-date');
-                }
 
             }
         };
