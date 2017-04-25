@@ -215,6 +215,16 @@ angular.module('common').constant('common.messages', {
         'common.arende.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
         'common.arende.help.handled': 'Tidigare frågor och svar är sådana som redan har besvarats eller hanterats på något sätt.',
 
+        'common.arende.draft.normal': '',
+        'common.arende.draft.dirty': '',
+        'common.arende.draft.saved': 'Sparat <span class="glyphicon glyphicon glyphicon-ok-sign"></span>',
+        'common.arende.draft.failed': 'Kunde inte spara, på grund av ett tekniskt fel. Försök igen senare. <span class="glyphicon glyphicon glyphicon-exclamation-sign"></span>',
+        'common.arende.draft.delete.answer.title': 'Radera påbörjat svar',
+        'common.arende.draft.delete.answer.body': 'Är du säker på att du vill radera ditt påbörjade svar?',
+        'common.arende.draft.delete.question.title': 'Radera påbörjad fråga',
+        'common.arende.draft.delete.question.body': 'Är du säker på att du vill radera din påbörjade fråga?',
+        'common.arende.draft.delete.yes': 'Ja, radera',
+
         // intyg module messages. Used by several intyg modules.
         'modules.label.field': 'Fält',
         'modules.label.blank': '- ej ifyllt',

@@ -2,7 +2,7 @@
 
   <!-- Arende button -->
   <div class="form-group"
-       ng-show="getNewArendeState() == 'new'"
+       ng-show="getNewArendeState() == 'new' && draftLoaded"
        wc-check-vardenhet
        wc-authority feature="skapaNyFraga" intygstyp="{{localViewState.parentViewState.intygProperties.type}}"
        vardenhet="{{intyg.grundData.skapadAv.vardenhet.enhetsid}}">
@@ -25,17 +25,11 @@
   </div>
 
   <!-- New question form -->
-  <div ng-show="localViewState.arendeNewOpen">
+  <div ng-show="localViewState.arendeNewOpen && draftLoaded" arende-draft-auto-save intyg-id="localViewState.parentViewState.intyg.id" amne="arendeNewModel.chosenTopic.value" text="arendeNewModel.frageText" save-state="arendeNewModel.saveState">
     <div class="form-group">
       <div class="alert alert-info">
         Här kan du föra en dialog med Försäkringskassan om ett intyg. Medicinsk information ska endast skickas via signerade intyg.
       </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label">Fråga</label>
-    <textarea wc-maxlength ng-trim="false" maxlength="2000" rows="13" class="form-control"
-              ng-model="arendeNewModel.frageText" wc-focus-me="localViewState.focusArende"
-              id="arendeNewModelText"></textarea>
     </div>
     <div class="form-group" id="arendeNewModelForm">
       <label class="control-label">Ämne</label>
@@ -43,6 +37,17 @@
         <select id="new-question-topic" class="form-control" ng-model="arendeNewModel.chosenTopic"
                 ng-options="c.label for c in arendeNewModel.topics track by c.value"></select>
       </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Fråga</label>
+      <textarea wc-maxlength ng-trim="false" maxlength="2000" rows="13" class="form-control"
+              ng-model="arendeNewModel.frageText" wc-focus-me="localViewState.focusArende"
+              id="arendeNewModelText"></textarea>
+      <!--<span class="counter" style="float: right;" message key="common.arende.draft.{{arendeNewModel.saveState}}"></span>-->
+      <span class="counter push-right" ng-switch="arendeNewModel.saveState">
+          <span ng-switch-when="saved" class="span-success" message key="common.arende.draft.saved"></span>
+          <span ng-switch-when="failed" class="span-error" message key="common.arende.draft.failed"></span>
+      </span>
     </div>
 
     <!-- error message occuring when inteacting with server for this FragaSvar-->
@@ -62,7 +67,7 @@
       </button>
 
       <!-- Avbryt -->
-      <button type="button" class="btn btn-info" ng-click="toggleArendeForm()" id="cancelArendeBtn">Avbryt
+      <button type="button" class="btn btn-info" ng-click="cancelQuestion()" id="cancelArendeBtn">Avbryt
         fråga
       </button>
     </div>

@@ -27,9 +27,10 @@
 angular.module('common').directive('arendePanelSvar',
     [ '$window', '$log', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper', 'common.ErrorHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.pingService', 'common.FocusElementService',
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.FocusElementService', 'common.ArendeDraftProxy',
+        'common.dialogService',
         function($window, $log, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService, ObjectHelper,
-            ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, pingService, focusElement) {
+            ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, focusElement, ArendeDraftProxy, DialogService) {
             'use strict';
 
             return {
@@ -48,15 +49,11 @@ angular.module('common').directive('arendePanelSvar',
                     var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
                     $scope.arendeSvar = ArendeSvar;
 
-                    $scope.$watch('arendeSvar', function() {
-                        pingService.registerUserAction('edited-arende-details');
-                    }, true);
-
                     $scope.showAnswerPanel = function() {
                         if (ArendeSvar.amne === 'KOMPLT' && ArendeSvar.answerKompletteringWithText === false && ArendeSvar.status === 'PENDING_INTERNAL_ACTION') {
                             return false;
                         }
-                        
+
                         var hasMeddelandeIsClosed = ObjectHelper.isEmpty(ArendeSvar.meddelande) === false && ArendeSvar.status === 'CLOSED';
                         var cannotKomplettera = ArendeSvar.answerKompletteringWithText || hasMeddelandeIsClosed;
                         return (ArendeSvar.amne !== 'KOMPLT') ||
@@ -129,6 +126,28 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.abortTextAnswer = function() {
                         //Should we empty the svarstext input field?
                         ArendeSvar.answerKompletteringWithText = false;
+                    };
+
+                    $scope.deleteArendeDraft = function() {
+                        DialogService.showDialog({
+                            dialogId: 'delete-arende-draft-dialog',
+                            titleId: 'common.arende.draft.delete.answer.title',
+                            templateUrl: '/app/partials/arende-draft-dialog.html',
+                            model: {},
+                            button1click: function (modalInstance) {
+                                ArendeSvar.meddelande = '';
+                                ArendeSvar.draftState = 'normal';
+                                ArendeDraftProxy.deleteDraft($scope.parentViewState.intyg.id, ArendeSvar.fragaInternReferens, function() {}, function() {});
+                                modalInstance.close();
+                            },
+                            button2click: function(modalInstance){
+                                modalInstance.close();
+                            },
+                            button1text: 'common.arende.draft.delete.yes',
+                            button2text: 'common.cancel',
+                            bodyText: 'common.arende.draft.delete.answer.body',
+                            autoClose: false
+                        });
                     };
 
                     $scope.goToIntyg = function() {

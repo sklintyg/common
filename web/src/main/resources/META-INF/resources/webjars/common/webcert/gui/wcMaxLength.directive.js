@@ -44,7 +44,7 @@ angular.module('common').directive('wcMaxlength',
                     scope[counterName] = attrs.maxlength;
 
                     var counter = angular.
-                        element('<div class="counter">Tecken kvar: {{' + counterName + '}}</div>');
+                        element('<span class="counter">Tecken kvar: {{' + counterName + '}}</span>');
                     $compile(counter)(scope);
                     element.after(counter);
 

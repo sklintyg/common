@@ -11,7 +11,7 @@
   </div>
 
   <!-- Svarsdelen -->
-  <div ng-if="showAnswerPanel()" class="fold-animation">
+  <div ng-if="showAnswerPanel()" class="fold-animation" arende-draft-auto-save intyg-id="parentViewState.intyg.id" text="arendeSvar.meddelande" save-state="arendeSvar.draftState" question-id="arendeSvar.fragaInternReferens">
     <div class="panel-container">
       <div ng-if="showAnswer()" class="arende-block" ng-class="{'arende-block-handled': arendeSvar.status == 'CLOSED',
             'arende-block-fk' : (arendeSvar.frageStallare | lowercase) == 'wc',
@@ -68,12 +68,17 @@
              ng-show="parentViewState.arendeSvar.intygProperties.kompletteringOnly">
           Här kan du föra en dialog med Försäkringskassan om ett intyg. Medicinsk information ska endast skickas via signerade intyg. När du signerat och skickar intyget till Försäkringskassan följer ditt meddelande som du skrivit med.
         </div> -->
+                      <!--wc-arende-draft-state draft-state="arendeSvar.draftState"-->
 
         <div class="controls">
           <div class="form-group" ng-show="isAnswerAllowed()">
             <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
                       class="form-control col-md-9 arende-block-wc" ng-model="arendeSvar.meddelande"
                       id="answerText-{{arendeSvar.fragaInternReferens}}"></textarea>
+            <span class="counter push-right" ng-switch="arendeSvar.draftState">
+                <span ng-switch-when="saved" class="span-success" message key="common.arende.draft.saved"></span>
+                <span ng-switch-when="failed" class="span-error" message key="common.arende.draft.failed"></span>
+            </span>
           </div>
           <div class="webintyg-top-padding-section">
             <!-- error message occuring when interacting with server for this FragaSvar-->
@@ -91,6 +96,9 @@
             <button type="button" class="btn btn-info" ng-click="abortTextAnswer()"
                     ng-show="arendeSvar.answerKompletteringWithText"
                     id="abortAnswerBtn-{{qa.internReferens}}"> Avbryt
+            </button>
+            <button type="button" class="btn btn-info" ng-click="deleteArendeDraft()"
+                    ng-disabled="!arendeSvar.meddelande"> Radera påbörjat svar
             </button>
           </div>
         </div>

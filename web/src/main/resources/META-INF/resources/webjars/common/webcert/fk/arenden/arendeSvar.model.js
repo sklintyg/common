@@ -31,6 +31,7 @@ angular.module('common').factory('common.ArendeSvarModel',
              */
             function ArendeSvarModel(parentViewState, arendeListItem) {
                 this.answerKompletteringWithText = false;
+                this.draftState = undefined;
                 this.update(parentViewState, arendeListItem);
             }
 
@@ -54,7 +55,7 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.fragaMeddelande = arendeListItem.arende.fraga.meddelande;
 
                 // From svar
-                this.meddelande = arendeListItem.arende.svar.meddelande;
+                this.meddelande = arendeListItem.arende.svar.meddelande || arendeListItem.arende.draftText;
                 this.internReferens = arendeListItem.arende.svar.internReferens;
                 this.svarSkickadDatum = arendeListItem.arende.svar.svarSkickadDatum;
                 this.vardaktorNamn = arendeListItem.arende.svar.vardaktorNamn;

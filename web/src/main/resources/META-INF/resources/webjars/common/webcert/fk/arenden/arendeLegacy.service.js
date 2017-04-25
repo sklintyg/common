@@ -79,7 +79,8 @@ angular.module('common').factory('common.ArendeLegacyService',
                     },
                     answeredWithIntyg: fs.answeredWithIntyg,
                     senasteHandelseDatum: fragaSvar.senasteHandelseDatum,
-                    paminnelser: []
+                    paminnelser: [],
+                    draftText: fs.answerDraft
                 };
             }
             return arende;

@@ -25,12 +25,11 @@
  * arendeNew directive. Common directive for new arende form.
  */
 angular.module('common').directive('arendeNew',
-    [ '$window', '$log', '$timeout', '$state', '$stateParams',
-        'common.User', 'common.statService', 'common.ObjectHelper', 'common.ErrorHelper',
-        'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper', 'common.ArendeListItemModel', 'common.pingService',
-        function($window, $log, $timeout, $state, $stateParams,
-            User, statService, ObjectHelper, ErrorHelper,
-                 ArendeProxy, ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, pingService) {
+    [ '$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', 'common.User', 'common.statService', 'common.ObjectHelper',
+        'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper',
+        'common.ArendeListItemModel', 'common.ArendeDraftProxy', 'common.dialogService',
+        function($window, $log, $timeout, $state, $stateParams, $rootScope, User, statService, ObjectHelper, ErrorHelper, ArendeProxy,
+            ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, ArendeDraftProxy, DialogService) {
             'use strict';
 
             return {
@@ -51,16 +50,33 @@ angular.module('common').directive('arendeNew',
                     // Create model
                     var arendeNewModel = ArendeNewModel.build($scope.parentViewState.intygProperties.type);
                     $scope.arendeNewModel = arendeNewModel;
+                    $scope.draftLoaded = false;
 
-                    //Any change to the arendeNewModel indicates user interaction
-                    $scope.$watch('arendeNewModel', function() {
-                        pingService.registerUserAction('entering-nytt-arende-text');
-                    }, true);
+                    $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
+
+                        if (!isNotSent()) {
+                            ArendeDraftProxy.getDraft(intyg.id, function(data) {
+                                if (data.text !== undefined) {
+                                    $scope.arendeNewModel.frageText = data.text;
+                                }
+                                if (data.amne !== undefined) {
+                                    angular.forEach($scope.arendeNewModel.topics, function(topic) {
+                                        if (topic.value === data.amne) {
+                                            $scope.arendeNewModel.chosenTopic = topic;
+                                            return;
+                                        }
+                                    });
+                                }
+                                ArendeNewViewState.arendeNewOpen = true;
+                            }, function(data) {
+                            });
+                        }
+                        $scope.draftLoaded = true;
+                    });
 
                     /**
                      * Exposed interactions
                      */
-
                     function isNew() {
                         var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
                         var newArendeFormClosed = !ArendeNewViewState.arendeNewOpen;
@@ -97,11 +113,36 @@ angular.module('common').directive('arendeNew',
 
                     $scope.toggleArendeForm = function() {
                         ArendeNewViewState.arendeNewOpen = !ArendeNewViewState.arendeNewOpen;
-                        if(ArendeNewViewState.arendeNewOpen) {
-                            arendeNewModel.reset();
+
+                        if (ArendeNewViewState.arendeNewOpen) {
                             ArendeNewViewState.focusQuestion = true;
+                        } else {
+                            arendeNewModel.reset();
+                            ArendeDraftProxy.deleteQuestionDraft(ArendeNewViewState.parentViewState.intyg.id, function() { }, function(data) {
+                                $log.warn('Could not delete the question draft');
+                            });
                         }
                         ArendeNewViewState.showSentMessage = false;
+                    };
+
+                    $scope.cancelQuestion = function() {
+                        DialogService.showDialog({
+                            dialogId: 'delete-arende-draft-dialog',
+                            titleId: 'common.arende.draft.delete.question.title',
+                            templateUrl: '/app/partials/arende-draft-dialog.html',
+                            model: {},
+                            button1click: function (modalInstance) {
+                                $scope.toggleArendeForm();
+                                modalInstance.close();
+                            },
+                            button2click: function(modalInstance){
+                                modalInstance.close();
+                            },
+                            button1text: 'common.arende.draft.delete.yes',
+                            button2text: 'common.cancel',
+                            bodyText: 'common.arende.draft.delete.question.body',
+                            autoClose: false
+                        });
                     };
 
                     $scope.dismissSentMessage = function() {
@@ -144,8 +185,8 @@ angular.module('common').directive('arendeNew',
 
                     $scope.isArendeValidForSubmit = function() {
                         var validToSend = arendeNewModel.chosenTopic.value &&
-                                            !ObjectHelper.isEmpty(arendeNewModel.frageText) &&
-                                            !ArendeNewViewState.updateInProgress;
+                            !ObjectHelper.isEmpty(arendeNewModel.frageText) &&
+                            !ArendeNewViewState.updateInProgress;
 
                         ArendeNewViewState.sendButtonToolTip = 'Skicka frågan';
                         if (!validToSend) {
