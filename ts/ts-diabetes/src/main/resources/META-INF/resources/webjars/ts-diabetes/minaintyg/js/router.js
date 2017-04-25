@@ -27,7 +27,8 @@ angular.module('ts-diabetes').config(function($stateProvider) {
             url :'/ts-diabetes/view/:certificateId',
             templateUrl: '/web/webjars/ts-diabetes/minaintyg/views/view-cert.html',
             controller: 'ts-diabetes.ViewCertCtrl',
-            data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true}
+            data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true},
+            ncyBreadcrumb: { label: 'Läkarintyg Transportstyrelsen diabetes' }
         }).
         state('ts-diabetes-visafel', {
             url :'/ts-diabetes/visafel/:errorCode',
