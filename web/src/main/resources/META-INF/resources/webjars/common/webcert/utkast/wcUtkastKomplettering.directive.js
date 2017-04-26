@@ -26,7 +26,7 @@ angular.module('common').directive('wcUtkastKomplettering',
                 restrict: 'AE',
                 transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/gui/wcKomplettering.directive.html',
+                templateUrl: '/web/webjars/common/webcert/gui/wcUtkastKomplettering.directive.html',
                 require: '?^^wcField',
                 scope: {
                     key: '@',

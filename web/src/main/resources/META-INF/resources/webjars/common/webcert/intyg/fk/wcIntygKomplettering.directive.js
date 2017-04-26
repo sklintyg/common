@@ -34,7 +34,7 @@ angular.module('common').directive('wcIntygKomplettering',
 
             return {
                 restrict: 'AE',
-                templateUrl: '/web/webjars/common/webcert/gui/wcKomplettering.directive.html',
+                templateUrl: '/web/webjars/common/webcert/gui/wcUtkastKomplettering.directive.html',
                 scope: {
                     categoryKey: '@',
                     fieldKey: '@',
