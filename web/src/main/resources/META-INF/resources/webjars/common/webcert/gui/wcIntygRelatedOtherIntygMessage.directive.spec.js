@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('wcIntygReplacedMessageDirective', function() {
+describe('wcIntygRelatedOtherIntygMessageDirective', function() {
     'use strict';
 
     var $scope;
@@ -26,35 +26,39 @@ describe('wcIntygReplacedMessageDirective', function() {
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
         $scope = $rootScope.$new();
 
         $rootScope.lang = 'sv';
 
-        $scope.viewState = {
-            common: {
-                intygProperties: {
-                    replacedByRelation: {}
+        $scope.viewState =
+        {
+            some: {
+                path: {
+                    to: {
+                        relation: {}
+                    }
                 }
             }
         };
-        element = $compile('<div wc-intyg-replaced-message></div>')($scope);
+        element = $compile(
+            '<div wc-intyg-related-other-intyg-message="\'ersatts av\'" view-state="viewState" relation="viewState.some.path.to.relation"></div>'
+        )($scope);
 
-    } ]));
+    }]));
 
-    it('should display warning message when replacedByRelation exists', function() {
-        $scope.viewState.common.intygProperties.replacedByRelation.intygsId = '1234';
+    it('should display warning message when relation exists', function() {
         $scope.$digest();
 
-        expect(element.scope().showMessage).toBe(true);
-        expect($(element).find('span').text()).toContain('Intyget har ersatts');
+        expect(element.isolateScope().showMessage).toBe(true);
+        expect($(element).find('span').text()).toContain('Intyget har ersatts av');
     });
 
-    it('should NOT display warning message when replacedByRelation is missing ', function() {
-        $scope.viewState.common.intygProperties.replacedByRelation = undefined;
+    it('should NOT display warning message when relation is missing ', function() {
+        $scope.viewState.some.path.to.relation = undefined;
         $scope.$digest();
 
-        expect(element.scope().showMessage).toBe(false);
+        expect(element.isolateScope().showMessage).toBe(false);
     });
 
 });

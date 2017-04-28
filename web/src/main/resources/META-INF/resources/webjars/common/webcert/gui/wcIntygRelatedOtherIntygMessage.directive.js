@@ -21,7 +21,7 @@
  * Show message that this intyg has a newer replacement and a link to that intyg..
  * Broadcast a intyg.loaded event on rootscope when the intyg is loaded to update the message.
  */
-angular.module('common').directive('wcIntygReplacedMessage', [
+angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
     '$location',
     function($location) {
         'use strict';
@@ -30,7 +30,7 @@ angular.module('common').directive('wcIntygReplacedMessage', [
             restrict: 'A',
             replace: true,
             scope: {
-                message: '=wcIntygReplacedMessage',
+                message: '=wcIntygRelatedOtherIntygMessage',
                 viewState: '='
             },
             link: function($scope, $element, $attributes) {
@@ -62,6 +62,6 @@ angular.module('common').directive('wcIntygReplacedMessage', [
                 };
 
             },
-            templateUrl: '/web/webjars/common/webcert/gui/wcIntygReplacedMessage.directive.html'
+            templateUrl: '/web/webjars/common/webcert/gui/wcIntygRelatedOtherIntygMessage.directive.html'
         };
     }]);
