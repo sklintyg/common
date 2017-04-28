@@ -27,7 +27,8 @@ angular.module('ts-bas').config(function($stateProvider) {
             url :'/ts-bas/view/:certificateId',
             templateUrl: '/web/webjars/ts-bas/minaintyg/views/view-cert.html',
             controller: 'ts-bas.ViewCertCtrl',
-            data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true}
+            data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,
+            breadcrumb: ['inkorg', 'intyg']}
         }).
         state('ts-bas-visafel', {
             url :'/ts-bas/visafel/:errorCode',

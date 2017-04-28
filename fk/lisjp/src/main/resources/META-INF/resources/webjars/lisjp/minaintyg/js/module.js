@@ -8,17 +8,20 @@ angular.module('lisjp').config(function($stateProvider) {
             url :'/lisjp/view/:certificateId',
             templateUrl: '/web/webjars/lisjp/minaintyg/views/view-cert.html',
             controller: 'lisjp.ViewCertCtrl',
-            data : { title: 'Läkarintyg för sjukpenning', keepInboxTabActive: true }
+            data : { title: 'Läkarintyg för sjukpenning', keepInboxTabActive: true,
+            breadcrumb: ['inkorg', 'intyg']}
         }).state('lisjp-customize', {
             url: '/lisjp/customize/:certificateId',
             templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf.html',
             controller: 'lisjp.CustomizePdfCtrl',
-            data: {title: 'Anpassa intyget till arbetsgivare', keepInboxTabActive: true}
+            data: {title: 'Anpassa intyget till arbetsgivare', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg', 'anpassa']}
         }).state('lisjp-customize-summary', {
             url: '/lisjp/customize/:certificateId/summary',
             templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf-summary.html',
             controller: 'lisjp.CustomizePdfSummaryCtrl',
-            data: {title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true}
+            data: {title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg', 'anpassa']}
         }).
         state('lisjp-statushistory', {
             url : '/lisjp/statushistory',

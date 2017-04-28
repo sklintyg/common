@@ -1,49 +1,47 @@
-<mi-page-head></mi-page-head>
+<mi-page-head>
+  <mi-breadcrumb></mi-breadcrumb>
+  <!-- Content -->
+  <div class="row">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+      <h1 ng-focus="pagefocus" tabindex="-1">
+        <span id="viewCertificateHeader" message key="luae_fs.label.pagetitle"></span>
+      </h1>
+      <p>
+      <div class="mi-text" message key="luae_fs.label.pageingress"></div>
+
+      <div collapse="!isCollapsed1" class="collapse mi-text">
+        <div message key="luae_fs.label.pagedescription.sendcertificate.header"></div>
+        <div message key="luae_fs.label.pagedescription.sendcertificate"></div>
+        <div message key="luae_fs.label.pagedescription.save.or.print.certificate.header"></div>
+        <div message key="luae_fs.label.pagedescription.save.or.print.certificate"></div>
+        <a class="glyphicon glyphicon-question-sign more-info" ng-click="isCollapsedPDF = !isCollapsedPDF"
+           title="{{messageService.getProperty('common.title.helptext.moreinfo')}}"></a>
+        <div collapse="!isCollapsedPDF" class="well well-sm margin-top-5px"><span message
+                                                                                  key="luae_fs.helptext.readpdfhelp"></span>
+        </div>
+        <div message key="luae_fs.label.pagedescription.sickness.benefit.header"></div>
+        <div message key="luae_fs.label.pagedescription.sickness.benefit"></div>
+        <div message key="luae_fs.label.pagedescription.error.in.certificate.header"></div>
+        <div message key="luae_fs.label.pagedescription.error.in.certificate"></div>
+        <div message key="luae_fs.label.pagedescription.archive.header"></div>
+        <div message key="luae_fs.label.pagedescription.archive"></div>
+      </div>
+      </p>
+      <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px"
+              data-toggle="collapse">
+        <span message key="luae_fs.label.status.{{!isCollapsed1}}"></span>
+      </button>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+      <latest-events cert-id="{{cert.id}}" statuses="cert.filteredStatuses"></latest-events>
+    </div>
+  </div>
+</mi-page-head>
 <div class="container">
   <div class="row-fluid">
-    <div id="backnav" class="row-fluid">
-      <a class="backlink" href="/web/start/#/"> <span message key="luae_fs.button.goback"></span>
-      </a>
-    </div>
 
     <div mi-spinner label="luae_fs.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
 
-      <!-- Content -->
-      <div class="row">
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
-          <h1 ng-focus="pagefocus" tabindex="-1">
-            <span id="viewCertificateHeader" message key="luae_fs.label.pagetitle"></span>
-          </h1>
-          <p>
-          <div class="mi-text" message key="luae_fs.label.pageingress"></div>
-
-          <div collapse="!isCollapsed1" class="collapse mi-text">
-            <div message key="luae_fs.label.pagedescription.sendcertificate.header"></div>
-            <div message key="luae_fs.label.pagedescription.sendcertificate"></div>
-            <div message key="luae_fs.label.pagedescription.save.or.print.certificate.header"></div>
-            <div message key="luae_fs.label.pagedescription.save.or.print.certificate"></div>
-            <a class="glyphicon glyphicon-question-sign more-info" ng-click="isCollapsedPDF = !isCollapsedPDF"
-               title="{{messageService.getProperty('common.title.helptext.moreinfo')}}"></a>
-            <div collapse="!isCollapsedPDF" class="well well-sm margin-top-5px"><span message
-                                                                                      key="luae_fs.helptext.readpdfhelp"></span>
-            </div>
-            <div message key="luae_fs.label.pagedescription.sickness.benefit.header"></div>
-            <div message key="luae_fs.label.pagedescription.sickness.benefit"></div>
-            <div message key="luae_fs.label.pagedescription.error.in.certificate.header"></div>
-            <div message key="luae_fs.label.pagedescription.error.in.certificate"></div>
-            <div message key="luae_fs.label.pagedescription.archive.header"></div>
-            <div message key="luae_fs.label.pagedescription.archive"></div>
-          </div>
-          </p>
-          <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px"
-                  data-toggle="collapse">
-            <span message key="luae_fs.label.status.{{!isCollapsed1}}"></span>
-          </button>
-        </div>
-        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-          <latest-events cert-id="{{cert.id}}" statuses="cert.filteredStatuses"></latest-events>
-        </div>
-      </div>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form id="view-as-pdf" action="{{downloadAsPdfLink}}" name="pdfForm" method="get" target="_blank">

@@ -9,7 +9,8 @@ angular.module('luae_na').config(function($stateProvider) {
             url :'/luae_na/view/:certificateId',
             templateUrl: '/web/webjars/luae_na/minaintyg/views/view-cert.html',
             controller: 'luae_na.ViewCertCtrl',
-            data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true }
+            data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg'] }
         }).
         state('luae_na-statushistory', {
             url : '/luae_na/statushistory',

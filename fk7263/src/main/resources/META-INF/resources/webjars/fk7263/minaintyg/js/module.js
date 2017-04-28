@@ -27,19 +27,22 @@ angular.module('fk7263').config(function($stateProvider) {
             url :'/fk7263/view/:certificateId',
             templateUrl: '/web/webjars/fk7263/minaintyg/views/view-cert.html',
             controller: 'fk7263.ViewCertCtrl',
-            data : { title: 'Läkarintyg FK7263', keepInboxTabActive: true}
+            data : { title: 'Läkarintyg FK7263', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg']}
         }).
         state('fk7263-customize', {
             url :'/fk7263/customize/:certificateId',
             templateUrl: '/web/webjars/fk7263/minaintyg/views/customize-cert.html',
             controller: 'fk7263.CustomizeCertCtrl',
-            data : { title: 'Anpassa intyget till arbetsgivare', keepInboxTabActive: true}
+            data : { title: 'Anpassa intyget till arbetsgivare', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg', 'anpassa']}
         }).
         state('fk7263-customize-summary', {
             url :'/fk7263/customize/:certificateId/summary',
             templateUrl: '/web/webjars/fk7263/minaintyg/views/customize-cert-summary.html',
             controller: 'fk7263.CustomizeCertSummaryCtrl',
-            data : { title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true}
+            data : { title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg', 'anpassa']}
         }).
         state('fk7263-statushistory', {
             url : '/fk7263/statushistory',
