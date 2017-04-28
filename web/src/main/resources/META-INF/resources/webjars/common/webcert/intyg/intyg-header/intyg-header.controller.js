@@ -98,7 +98,8 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showFornyaButton = function() {
-                return $scope.intygstyp === 'fk7263' && $scope.showKopieraButton();
+                return ($scope.intygstyp === 'fk7263' || $scope.intygstyp === 'lisjp') &&
+                    $scope.showKopieraButton();
             };
 
             $scope.send = function() {
