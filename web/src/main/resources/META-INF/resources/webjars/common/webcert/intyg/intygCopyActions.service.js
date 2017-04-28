@@ -97,6 +97,8 @@ angular.module('common').factory('common.IntygCopyActions',
                         dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg.personidnotfound';
                     } else if (errorCode === 'INVALID_STATE_REPLACED') {
                         dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg.replaced';
+                    } else if (errorCode === 'INVALID_STATE_COMPLEMENT') {
+                        dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg.complemented';
                     } else {
                         dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg';
                     }

@@ -131,6 +131,9 @@ angular.module('common').service('common.IntygViewStateService',
             if (typeof result.replacedByRelation !== 'undefined') {
                 this.intygProperties.replacedByRelation = result.replacedByRelation;
             }
+            if (typeof result.complementedByRelation !== 'undefined') {
+                this.intygProperties.complementedByRelation = result.complementedByRelation;
+            }
         };
 
         this.updateActiveError = function(error, signed) {

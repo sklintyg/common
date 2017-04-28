@@ -51,6 +51,9 @@ angular.module('common').controller('common.IntygHeader',
                 return  angular.isObject($scope.viewState.common.intygProperties.replacedByRelation);
             };
 
+            $scope.isComplemented = function() {
+                return angular.isObject($scope.viewState.common.intygProperties.complementedByRelation)
+            }
 
             $scope.isPatientDeceased = function() {
                 return $scope.viewState.common.intygProperties.isPatientDeceased;
@@ -79,13 +82,14 @@ angular.module('common').controller('common.IntygHeader',
             $scope.showKopieraButton = function() {
                 return !$scope.makuleratIntyg() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
-                    !$scope.isPatientDeceased() && !$scope.isReplaced() &&
+                    !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
                     ($scope.user.user.parameters === undefined || $scope.user.user.parameters.copyOk);
             };
 
             $scope.showErsattButton = function() {
                 return !$scope.makuleratIntyg() && !$scope.isReplaced() &&
+                        !$scope.isComplemented() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() &&
                     !UserModel.getIntegrationParam('inactiveUnit') &&

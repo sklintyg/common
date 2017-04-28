@@ -29,16 +29,25 @@ angular.module('common').directive('wcIntygReplacedMessage', [
         return {
             restrict: 'A',
             replace: true,
-            scope: true,
-            controller: function($scope) {
-
-                $scope.showMessage = false;
-                $scope.relation = undefined;
+            scope: {
+                message: '=wcIntygReplacedMessage',
+                viewState: '='
+            },
+            link: function($scope, $element, $attributes) {
 
                 var updateMessage = function() {
-                    $scope.relation = $scope.viewState.common.intygProperties.replacedByRelation;
+                    $scope.relation = $scope.$eval($attributes.relation);
                     $scope.showMessage = angular.isObject($scope.relation);
                 };
+
+                // intyg data may be loaded now, or it may be loaded later.
+                $scope.$watch($attributes.relation, updateMessage);
+                updateMessage();
+            },
+            controller: function($scope) {
+
+                $scope.relation = undefined;
+                $scope.showMessage = false;
 
                 $scope.gotoIntyg = function($event) {
                     if($event) {
@@ -52,9 +61,6 @@ angular.module('common').directive('wcIntygReplacedMessage', [
                     }
                 };
 
-                // intyg data may be loaded now, or it may be loaded later.
-                updateMessage();
-                $scope.$watch('viewState.common.intygProperties.replacedByRelation', updateMessage);
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcIntygReplacedMessage.directive.html'
         };
