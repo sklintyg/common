@@ -20,7 +20,7 @@
 // Add formly base types to separate module since they need to execute before the types which extends them.
 angular.module('common.formlyBaseTypes', []);
 
-angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'formly', 'common.formlyBaseTypes' ]);
+angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'formly', 'common.formlyBaseTypes', 'common.dynamiclink' ]);
 
 // Inject language resources
 angular.module('common').run([ 'common.messageService', 'common.messages',

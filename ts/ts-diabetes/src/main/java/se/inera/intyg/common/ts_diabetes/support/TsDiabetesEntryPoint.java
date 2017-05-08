@@ -18,15 +18,14 @@
  */
 package se.inera.intyg.common.ts_diabetes.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 import se.inera.intyg.common.ts_diabetes.rest.TsDiabetesModuleApi;
+
+import java.util.Map;
 
 public class TsDiabetesEntryPoint implements ModuleEntryPoint {
 
@@ -35,7 +34,7 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
     public static final String MODULE_NAME = "Transportstyrelsens läkarintyg, diabetes";
     public static final String MODULE_DESCRIPTION = "Läkarintyg diabetes avseende lämpligheten att inneha körkort m.m.";
     // CHECKSTYLE:OFF LineLength
-    private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg, diabetes ska användas vid diabetessjukdom. Föreskrivna krav på läkarens specialistkompetens vid diabetessjukdom framgår av 17 kap. i Transportstyrelsens föreskrifter (TSFS 2010:125) och allmänna råd om medicinska krav för innehav av körkort m.m.</p>Information om Transportstyrelsens föreskrifter finns på <a href=\"http://www.transportstyrelsen.se\" target=\"_blank\">www.transportstyrelsen.se</a>.";
+    private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg, diabetes ska användas vid diabetessjukdom. Föreskrivna krav på läkarens specialistkompetens vid diabetessjukdom framgår av 17 kap. i Transportstyrelsens föreskrifter (TSFS 2010:125) och allmänna råd om medicinska krav för innehav av körkort m.m.</p>Information om Transportstyrelsens föreskrifter finns på <LINK:transportstyrelsen>.";
     // CHECKSTYLE:ON LineLength
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1031";
 

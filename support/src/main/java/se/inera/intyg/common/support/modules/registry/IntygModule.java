@@ -61,6 +61,13 @@ public class IntygModule implements Comparable<IntygModule> {
         return detailedDescription;
     }
 
+    /**
+     * The detailed description is mutable since we may need to replace dynamic links.
+     */
+    public void setDetailedDescription(String detailedDescription) {
+        this.detailedDescription = detailedDescription;
+    }
+
     public String getCssPath() {
         return cssPath;
     }
