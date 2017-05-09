@@ -30,18 +30,20 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
             restrict: 'A',
             replace: true,
             scope: {
-                message: '=wcIntygRelatedOtherIntygMessage',
+                textBeforeRelation: '@',
                 viewState: '='
             },
             link: function($scope, $element, $attributes) {
 
+                var completePathToRelationOnScope = 'viewState.common.intygProperties.' + $attributes.relation;
+
                 var updateMessage = function() {
-                    $scope.relation = $scope.$eval($attributes.relation);
+                    $scope.relation = $scope.$eval(completePathToRelationOnScope);
                     $scope.showMessage = angular.isObject($scope.relation);
                 };
 
                 // intyg data may be loaded now, or it may be loaded later.
-                $scope.$watch($attributes.relation, updateMessage);
+                $scope.$watch(completePathToRelationOnScope, updateMessage);
                 updateMessage();
             },
             controller: function($scope) {
@@ -50,14 +52,16 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
                 $scope.showMessage = false;
 
                 $scope.gotoIntyg = function($event) {
-                    if($event) {
+                    if ($event) {
                         $event.preventDefault();
                     }
                     //Go to either edit or view intyg
                     if ($scope.relation.status === 'DRAFT_INCOMPLETE' || $scope.relation.status === 'DRAFT_COMPLETE') {
-                        $location.path('/' + $scope.viewState.common.intygProperties.type + '/edit/' + $scope.relation.intygsId);
+                        $location.path(
+                            '/' + $scope.viewState.common.intygProperties.type + '/edit/' + $scope.relation.intygsId);
                     } else {
-                        $location.path('/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.relation.intygsId);
+                        $location.path(
+                            '/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.relation.intygsId);
                     }
                 };
 

@@ -21,14 +21,16 @@
     </div>
   </div>
 
-  <div wc-intyg-related-other-intyg-message="'ersatts av'"
+  <div wc-intyg-related-other-intyg-message
        view-state="viewState"
-       relation="viewState.common.intygProperties.replacedByRelation">
+       text-before-relation="ersatts av"
+       relation="replacedByRelation">
   </div>
 
-  <div wc-intyg-related-other-intyg-message="'kompletterats av'"
+  <div wc-intyg-related-other-intyg-message
        view-state="viewState"
-       relation="viewState.common.intygProperties.complementedByRelation">
+       text-before-relation="kompletterats av"
+       relation="complementedByRelation">
   </div>
 
   <div ng-show="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">

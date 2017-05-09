@@ -52,8 +52,8 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.isComplemented = function() {
-                return angular.isObject($scope.viewState.common.intygProperties.complementedByRelation)
-            }
+                return angular.isObject($scope.viewState.common.intygProperties.complementedByRelation);
+            };
 
             $scope.isPatientDeceased = function() {
                 return $scope.viewState.common.intygProperties.isPatientDeceased;

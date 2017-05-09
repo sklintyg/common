@@ -33,16 +33,14 @@ describe('wcIntygRelatedOtherIntygMessageDirective', function() {
 
         $scope.viewState =
         {
-            some: {
-                path: {
-                    to: {
-                        relation: {}
-                    }
+            common: {
+                intygProperties: {
+                    relation: {}
                 }
             }
         };
         element = $compile(
-            '<div wc-intyg-related-other-intyg-message="\'ersatts av\'" view-state="viewState" relation="viewState.some.path.to.relation"></div>'
+            '<div wc-intyg-related-other-intyg-message text-before-relation="ersatts av" view-state="viewState" relation="relation"></div>'
         )($scope);
 
     }]));
@@ -55,7 +53,7 @@ describe('wcIntygRelatedOtherIntygMessageDirective', function() {
     });
 
     it('should NOT display warning message when relation is missing ', function() {
-        $scope.viewState.some.path.to.relation = undefined;
+        $scope.viewState.common.intygProperties.relation = undefined;
         $scope.$digest();
 
         expect(element.isolateScope().showMessage).toBe(false);
