@@ -51,8 +51,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         config: {
             // configurable paths
-            src_root: SRC_DIR + 'webjars/common/',
-            dest_root: DEST_DIR + 'webjars/common/'
+            srcRoot: SRC_DIR + 'webjars/common/',
+            destRoot: DEST_DIR + 'webjars/common/'
         },
         bower: {
             install: {
@@ -133,21 +133,21 @@ module.exports = function(grunt) {
             dist: {
                 files: [ {
                     expand: true,
-                    cwd: '<%= config.src_root %>css/',
+                    cwd: '<%= config.srcRoot %>css/',
                     src: [ '*.scss' ],
-                    dest: '<%= config.dest_root %>css/',
+                    dest: '<%= config.destRoot %>css/',
                     ext: '.css'
                 }, {
                     expand: true,
-                    cwd: '<%= config.src_root %>minaintyg/',
+                    cwd: '<%= config.srcRoot %>minaintyg/',
                     src: [ '*.scss' ],
-                    dest: '<%= config.dest_root %>minaintyg/',
+                    dest: '<%= config.destRoot %>minaintyg/',
                     ext: '.css'
                 }, {
                     expand: true,
-                    cwd: '<%= config.src_root %>webcert/css/',
+                    cwd: '<%= config.srcRoot %>webcert/css/',
                     src: [ '*.scss' ],
-                    dest: '<%= config.dest_root %>webcert/css/',
+                    dest: '<%= config.destRoot %>webcert/css/',
                     ext: '.css'
                 } ]
             }
@@ -162,7 +162,7 @@ module.exports = function(grunt) {
                 ]
             },
             dist: {
-                src: '<%= config.dest_root %>/minaintyg/*.css'
+                src: '<%= config.destRoot %>/minaintyg/*.css'
             }
         },
 
@@ -183,8 +183,8 @@ module.exports = function(grunt) {
                     endtag: '// endinjector'
                 },
                 files: {
-                        '<%= config.src_root %>minaintyg/mi-common.scss': [
-                        '<%= config.src_root %>minaintyg/components/**/!(_variables).{scss,sass}'
+                        '<%= config.srcRoot %>minaintyg/mi-common.scss': [
+                        '<%= config.srcRoot %>minaintyg/components/**/!(_variables).{scss,sass}'
                     ]
                 }
             }
