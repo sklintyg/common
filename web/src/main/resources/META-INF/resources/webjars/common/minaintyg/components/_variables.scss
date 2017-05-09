@@ -1,0 +1,9 @@
+// Since we don't have a way to share variables in MI with common (and don't want a cyclic dependancy) some
+// key mi variables must be re-defined here so that component scss files can use them
+$mi-spinner-color: #0F6EDC;
+$mi-intyg-body-bg: #fff;
+$mi-box-shadow-color: #ddd;
+$mi-intyg-header-bg: #43799A;
+$mi-intyg-header-color: #fff;
+
+$text-muted: #777;

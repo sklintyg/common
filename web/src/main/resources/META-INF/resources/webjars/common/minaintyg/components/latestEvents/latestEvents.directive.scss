@@ -1,0 +1,22 @@
+.latest-events {
+  .lastevent-header {
+    font-weight: bold
+  }
+
+  .event-row {
+    display: inline-block;
+    padding: 0.9em;
+  }
+
+  .event-row-tight {
+    display: inline-block;
+  }
+
+  .event-text {
+    padding-left: 1em;
+  }
+
+  .stripe-dark {
+    background-color: #ededed;
+  }
+}

@@ -3,6 +3,8 @@
     "version": "0.0.1",
     "devDependencies": {
         "grunt": "^1.0.1",
+        "autoprefixer": "^6.7.7",
+        "cssnano": "^3.10.0",
         "grunt-angular-templates": "^1.1.0",
         "grunt-bower-task": "0.4.0",
         "grunt-cli": "^1.2.0",
@@ -12,7 +14,9 @@
         "grunt-karma": "^1.0.0",
         "grunt-lcov-merge": "^1.2.3",
         "grunt-ng-annotate": "^2.0.2",
+        "grunt-injector": "^1.1.0",
         "grunt-sass": "^1.1.0",
+        "grunt-postcss": "^0.8.0",
         "grunt-sass-lint": "0.2.0",
         "grunt-wiredep": "3.0.0",
         "jasmine-core": "2.5.2",

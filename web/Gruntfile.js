@@ -25,7 +25,8 @@ module.exports = function(grunt) {
     require('jit-grunt')(grunt, {
         bower: 'grunt-bower-task',
         configureProxies: 'grunt-connect-proxy',
-        ngtemplates: 'grunt-angular-templates'
+        ngtemplates: 'grunt-angular-templates',
+        postcss: 'grunt-postcss'
     });
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/';
@@ -48,7 +49,11 @@ module.exports = function(grunt) {
     }));
 
     grunt.initConfig({
-
+        config: {
+            // configurable paths
+            src_root: SRC_DIR + 'webjars/common/',
+            dest_root: DEST_DIR + 'webjars/common/'
+        },
         bower: {
             install: {
                 options: {
@@ -126,23 +131,64 @@ module.exports = function(grunt) {
             options: {
             },
             dist: {
-                files: [{
+                files: [ {
                     expand: true,
-                    cwd: SRC_DIR + 'webjars/common/css/',
-                    src: ['*.scss'],
-                    dest: DEST_DIR + 'webjars/common/css/',
+                    cwd: '<%= config.src_root %>css/',
+                    src: [ '*.scss' ],
+                    dest: '<%= config.dest_root %>css/',
                     ext: '.css'
-                },
-                {
+                }, {
                     expand: true,
-                    cwd: SRC_DIR + 'webjars/common/webcert/css/',
-                    src: ['*.scss'],
-                    dest: DEST_DIR + 'webjars/common/webcert/css/',
+                    cwd: '<%= config.src_root %>minaintyg/',
+                    src: [ '*.scss' ],
+                    dest: '<%= config.dest_root %>minaintyg/',
                     ext: '.css'
-                }]
+                }, {
+                    expand: true,
+                    cwd: '<%= config.src_root %>webcert/css/',
+                    src: [ '*.scss' ],
+                    dest: '<%= config.dest_root %>webcert/css/',
+                    ext: '.css'
+                } ]
             }
         },
 
+        postcss: {
+            options: {
+                map: false,
+                processors: [
+                    require('autoprefixer')({browsers: ['last 2 versions', 'ie 9']}), // add vendor prefixes
+                    require('cssnano')() // minify the result
+                ]
+            },
+            dist: {
+                src: '<%= config.dest_root %>/minaintyg/*.css'
+            }
+        },
+
+        injector: {
+            options: {
+                lineEnding: grunt.util.linefeed,
+                addRootSlash: false
+            },
+
+            // Inject component scss into app.scss
+            sass: {
+                options: {
+                    transform: function(filePath) {
+                        filePath = filePath.replace(SRC_DIR + 'webjars/common/minaintyg/', '');
+                        return '@import \'' + filePath + '\';';
+                    },
+                    starttag: '// injector',
+                    endtag: '// endinjector'
+                },
+                files: {
+                        '<%= config.src_root %>minaintyg/mi-common.scss': [
+                        '<%= config.src_root %>minaintyg/components/**/!(_variables).{scss,sass}'
+                    ]
+                }
+            }
+        },
         ngAnnotate: {
             options: {
                 singleQuotes: true
@@ -204,7 +250,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', [ 'bower', 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'sass' ]);
+    grunt.registerTask('default', [ 'bower', 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'injector:sass', 'sass', 'postcss' ]);
     grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg' ]);
     grunt.registerTask('lint-webcert', [ 'jshint:webcert' ]);
     grunt.registerTask('lint', [ 'jshint' ]);
