@@ -1,8 +1,8 @@
 angular.module('lisjp').controller('lisjp.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'lisjp.customizeViewstate',
+        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'lisjp.customizeViewstate', 'lisjp.viewConfigFactory',
         function($location, $log, $rootScope, $stateParams, $scope, listCertService, certificateService, dialogService,
-            messageService, moduleService, customizeViewstate) {
+            messageService, moduleService, customizeViewstate, viewConfigFactory) {
             'use strict';
 
             $scope.cert = {};
@@ -122,4 +122,6 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
             });
 
             $scope.pagefocus = true;
+
+            $scope.uvConfig = viewConfigFactory.getViewConfig();
         }]);

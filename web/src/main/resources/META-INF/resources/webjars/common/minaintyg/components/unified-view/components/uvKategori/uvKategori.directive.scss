@@ -1,0 +1,18 @@
+uv-kategori {
+  display: block;
+  padding-top: 20px;
+
+  h2 {
+    background: $mi-intyg-header-bg;
+    color: $mi-intyg-header-color;
+    padding: 15px;
+    margin: 0;
+
+  }
+
+  .kategori-body {
+    background: $mi-intyg-body-bg;
+    padding: 0 15px 15px 15px;
+    box-shadow: 0 3px 5px $mi-box-shadow-color;
+  }
+}

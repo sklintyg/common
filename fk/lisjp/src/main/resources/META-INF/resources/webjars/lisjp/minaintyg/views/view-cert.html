@@ -41,7 +41,6 @@
   <div class="row-fluid">
 
     <div mi-spinner label="lisjp.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
-
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form id="view-as-pdf" action="{{downloadAsPdfLink}}" name="pdfForm" method="get" target="_blank">
@@ -66,6 +65,10 @@
           </form>
         </div>
       </div>
+
+      <hr>
+      <uv-render-components config="uvConfig" view-data="cert"></uv-render-components>
+      <hr>
 
       <div id="certificate" class="certificate">
         <span class="hide" id="certId" title="{{cert.id}}"></span>
