@@ -36,7 +36,7 @@ angular.module('lisjp').directive('uvSysselsattning',
                         return undefined;
                     }
 
-                }
+                };
             }
 
         };

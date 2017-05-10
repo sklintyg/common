@@ -49,7 +49,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                 type: 'uv-del-fraga',
                 labelKey: 'KV_FKMU_0001.ANNAT.RBK',
                 components: [ {
-                    type: 'uv-simple-value',
+                    type: 'uv-simple-value'
                 } ]
 
             } ]
