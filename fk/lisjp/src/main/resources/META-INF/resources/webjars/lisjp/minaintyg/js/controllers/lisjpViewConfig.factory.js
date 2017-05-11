@@ -10,7 +10,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
             components: [ {
                 type: 'uv-del-fraga',
                 components: [ {
-                    type: 'uv-simple-value',
+                    type: 'uv-boolean-value',
                     modelProp: 'avstangningSmittskydd'
                 } ]
             } ]
@@ -49,7 +49,16 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                 type: 'uv-del-fraga',
                 labelKey: 'KV_FKMU_0001.ANNAT.RBK',
                 components: [ {
-                    type: 'uv-simple-value'
+                    type: 'uv-simple-value',
+                    modelProp: 'annatGrundForMU'
+                } ]
+
+            }, {
+                type: 'uv-del-fraga',
+                labelKey: 'DFR_1.3.RBK',
+                components: [ {
+                    type: 'uv-simple-value',
+                    modelProp: 'annatGrundForMUBeskrivning'
                 } ]
 
             } ]
@@ -61,7 +70,9 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
             type: 'uv-fraga',
             labelKey: 'FRG_28.RBK',
             components: [ {
-                type: 'sysselsattning',
+                type: 'uv-list',
+                labelKey: 'KV_FKMU_0002.{var}.RBK',
+                listKey: 'typ',
                 modelProp: 'sysselsattning'
             }, {
                 type: 'uv-fraga',
@@ -70,10 +81,13 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                     type: 'uv-simple-value',
                     modelProp: 'nuvarandeArbete'
                 } ]
-            }, {
-                type: 'uv-simple-value',
-                labelKey: 'DFR_30.1.RBK',
-                modelProp: 'arbetsmarknadspolitisktProgram'
+            },  {
+                type: 'uv-fraga',
+                labelKey: 'FRG_30.RBK',
+                components: [ {
+                    type: 'uv-simple-value',
+                    modelProp: 'arbetsmarknadspolitisktProgram'
+                } ]
             } ]
         } ]
     } ];

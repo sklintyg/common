@@ -1,4 +1,4 @@
-/*
+/*!
  * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -17,27 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('lisjp').directive('uvSysselsattning',
-    function() {
-        'use strict';
+uv-boolean-value {
+  display: block;
 
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                viewData: '='
-            },
-            templateUrl: '/web/webjars/lisjp/minaintyg/js/directives/uvSysselsattning.directive.html',
-            link: function($scope) {
-                $scope.getValue = function () {
-                    if (angular.isDefined($scope.viewData)) {
-                        return $scope.viewData[$scope.config.modelProp];
-                    } else {
-                        return undefined;
-                    }
+  h4 {
+    font-size: 14px;
+  }
 
-                };
-            }
-
-        };
-    });
+  .value {
+    padding-left:15px;
+  }
+}

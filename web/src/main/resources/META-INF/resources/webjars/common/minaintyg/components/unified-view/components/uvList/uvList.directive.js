@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('lisjp').directive('uvSysselsattning',
+angular.module('common').directive('uvList',
     function() {
         'use strict';
 
@@ -27,11 +27,26 @@ angular.module('lisjp').directive('uvSysselsattning',
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/lisjp/minaintyg/js/directives/uvSysselsattning.directive.html',
+            templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvList/uvList.directive.html',
             link: function($scope) {
                 $scope.getValue = function () {
                     if (angular.isDefined($scope.viewData)) {
-                        return $scope.viewData[$scope.config.modelProp];
+
+                        var listData = $scope.viewData[$scope.config.modelProp];
+
+                        var finalListData = [];
+
+                        // Use labelKey as pattern if a {var} is present, otherwise just use the list as is
+                        if($scope.config.labelKey.indexOf('{var}') !== -1 && listData) {
+                            finalListData = listData.map(function(item){
+                                var result = $scope.config.labelKey;
+                                return result.replace('{var}', item[$scope.config.listKey]);
+                            });
+                        } else {
+                            finalListData = listData;
+                        }
+
+                        return finalListData;
                     } else {
                         return undefined;
                     }
