@@ -24,16 +24,12 @@ angular.module('common').directive('miCompactCertificateBody', [ 'common.moduleS
         restrict: 'E',
         scope: {
             certMetaModel: '=',
-            onViewClick: '&',
-            onArchiveClick: '&'
+            onViewClick: '&?',
+            onArchiveClick: '&?'
         },
         templateUrl: '/web/webjars/common/minaintyg/components/miCompactCertificateBody/miCompactCertificateBody.directive.html',
         controller: function($scope) {
-
             $scope.messageService = messageService;
-            $scope.getModuleName = function() {
-                return moduleService.getModuleName($scope.certMetaModel.type);
-            };
         }
     };
 } ]);

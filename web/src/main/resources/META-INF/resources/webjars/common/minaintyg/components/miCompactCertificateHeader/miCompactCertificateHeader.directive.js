@@ -28,7 +28,7 @@ angular.module('common').directive('miCompactCertificateHeader', [ 'common.modul
         templateUrl: '/web/webjars/common/minaintyg/components/miCompactCertificateHeader/miCompactCertificateHeader.directive.html',
         controller: function($scope) {
             $scope.getModuleName = function() {
-                return moduleService.getModuleName($scope.certMetaModel.type);
+                return $scope.certMetaModel && moduleService.getModuleName($scope.certMetaModel.type);
             };
         }
     };
