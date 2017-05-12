@@ -71,8 +71,8 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
             labelKey: 'FRG_28.RBK',
             components: [ {
                 type: 'uv-list',
-                labelKey: 'KV_FKMU_0002.{var}.RBK',
-                listKey: 'typ',
+                labelKey: 'KV_FKMU_0002.{var}.RBK', // {var} is a placeholder for sysselsattning.typ values
+                listKey: 'typ', // name of property on modelProp to use on each row
                 modelProp: 'sysselsattning'
             }, {
                 type: 'uv-fraga',
@@ -88,6 +88,19 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                     type: 'uv-simple-value',
                     modelProp: 'arbetsmarknadspolitisktProgram'
                 } ]
+            } ]
+        } ]
+    }, {
+        type: 'uv-kategori',
+        labelKey: 'KAT_3.RBK',
+        components: [ {
+            type: 'uv-fraga',
+            labelKey: 'FRG_6.RBK',
+            components: [ {
+                type: 'uv-table',
+                headers: ['DFR_6.2.RBK', 'DFR_6.1.RBK'], // labels for th cells
+                valueProps: ['diagnosKod', 'diagnosBeskrivning'], // properties on diagnoser entries to use in each rows cells
+                modelProp: 'diagnoser'
             } ]
         } ]
     } ];

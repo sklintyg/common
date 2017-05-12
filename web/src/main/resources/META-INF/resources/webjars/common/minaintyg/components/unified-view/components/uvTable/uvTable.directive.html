@@ -1,0 +1,12 @@
+<table id="{{config.modelProp}}">
+  <tr>
+    <th ng-repeat="header in config.headers">
+        <span dynamic-label key="{{header}}"></span>
+    </th>
+  </tr>
+  <tr ng-repeat="value in getValue() track by $index">
+    <td ng-repeat="valueProp in config.valueProps" id="{{valueProp}}{{$index}}" class="multiline">
+      {{value[valueProp]}}
+    </td>
+  </tr>
+</table>
