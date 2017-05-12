@@ -23,6 +23,7 @@ angular.module('ts-bas').service('ts-bas.IntygController.ViewStateService',
             'use strict';
 
             this.common = CommonViewState;
+            this.intygModel = {}; //INTYG-3950
 
             this.reset = function() {
                 this.common.reset();
