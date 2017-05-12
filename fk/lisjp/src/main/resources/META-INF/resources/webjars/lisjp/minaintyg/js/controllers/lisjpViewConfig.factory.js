@@ -63,22 +63,26 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
     }, {
         type: 'uv-kategori',
         labelKey: 'KAT_2.RBK',
-        components: [ {
-            type: 'uv-fraga',
-            labelKey: 'FRG_28.RBK'
-            }, {
-                type: 'uv-list',
-                labelKey: 'KV_FKMU_0002.{var}.RBK', // {var} is a placeholder for sysselsattning.typ values
-                listKey: 'typ', // name of property on modelProp to use on each row
-                modelProp: 'sysselsattning'
-            }, {
+        components: [
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_28.RBK',
+                components: [ {
+                    type: 'uv-list',
+                    labelKey: 'KV_FKMU_0002.{var}.RBK', // {var} is a placeholder for sysselsattning.typ values
+                    listKey: 'typ', // name of property on modelProp to use on each row
+                    modelProp: 'sysselsattning'
+                } ]
+            },
+            {
                 type: 'uv-fraga',
                 labelKey: 'FRG_29.RBK',
                 components: [ {
                     type: 'uv-simple-value',
                     modelProp: 'nuvarandeArbete'
                 } ]
-            }, {
+            },
+            {
                 type: 'uv-fraga',
                 labelKey: 'FRG_30.RBK',
                 components: [{
@@ -192,7 +196,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                             type: 'uv-simple-value',
                             modelProp: 'prognos.typ'
                         } ]
-                    },
+                    }
                 ]
             }
         ]
@@ -257,7 +261,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
         type: 'uv-kategori',
         labelKey: 'KAT_9999.RBK',
         components: [
-            // needs custom component
+            // TODO: needs custom component
         ]
     } ];
 
