@@ -77,6 +77,9 @@ angular.module('common').directive('arendeNew',
                     /**
                      * Exposed interactions
                      */
+                    function isSjf() {
+                        return User.getUser().parameters.sjf;
+                    }
                     function isNew() {
                         var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
                         var newArendeFormClosed = !ArendeNewViewState.arendeNewOpen;
@@ -101,7 +104,9 @@ angular.module('common').directive('arendeNew',
 
                     $scope.getNewArendeState = function() {
                         var newArendeState = 'none';
-                        if(isNew()) {
+                        if(isSjf()) {
+                            newArendeState = 'sjf';
+                        } else if(isNew()) {
                             newArendeState = 'new';
                         } else if(isNotSent()) {
                             newArendeState = 'not-sent';

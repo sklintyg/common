@@ -41,7 +41,16 @@ describe('arendeNew', function() {
 
     // Load the webcert module and mock away everything that is not necessary.
     beforeEach(angular.mock.module('common', function($provide) {
-        $provide.value('common.User', { getVardenhetFilterList: function() { return []; } });
+        $provide.value('common.User', {
+            getVardenhetFilterList: function() { return []; },
+            getUser: function() {
+                return {
+                    parameters: {
+                        sjf: false
+                    }
+                };
+            }
+        });
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat']));
         $provide.value('$stateParams', { certificateId: 'intygsid' });
         $provide.value('common.ArendeDraftProxy', { deleteQuestionDraft: function() {}});
