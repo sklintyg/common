@@ -17,8 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('uvTable',
-    function() {
+angular.module('common').directive('uvTable', [
+    'common.dynamicLabelService',
+    function(dynamicLabelService) {
         'use strict';
 
         return {
@@ -29,14 +30,52 @@ angular.module('common').directive('uvTable',
             },
             templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvTable/uvTable.directive.html',
             link: function($scope) {
-                $scope.getValue = function () {
-                    if (angular.isDefined($scope.viewData)) {
-                        return $scope.viewData[$scope.config.modelProp];
-                    } else {
-                        return undefined;
-                    }
+
+                $scope.viewModel = {
+                    modelProp: 'sjukskrivning',
+                    headers: [],
+                    rows: [
+                        {valueProps: ['25%', 'value11', 'value12']},
+                        {valueProps: ['50%', 'value21', 'value22']},
+                        {valueProps: ['75%', 'value31', 'value32']},
+                        {valueProps: ['100%', 'value41', 'value42']}
+                    ]
                 };
+
+                $scope.$watch('viewData', function(current, previous){
+
+                    if (angular.isDefined(current[$scope.config.modelProp])) {
+
+                        // Convert headers config to viewModel values
+                        $scope.viewModel.headers = [];
+                        angular.forEach($scope.config.headers, function(header, key) {
+
+                            if(typeof header === 'function'){
+                                // Generate value from config function
+                                this.push(header(key));
+                                return;
+                            } else {
+                                // Generate value from dynamic label if it existed, otherwise assume supplied value is what we want
+                                var dynamicLabel = dynamicLabelService.getProperty(header);
+
+                                if(dynamicLabel !== ''){
+                                    if(angular.isDefined(dynamicLabel)){
+                                        this.push(dynamicLabel);
+                                    } else {
+                                        this.push(header);
+                                    }
+                                }
+                            }
+
+                        }, $scope.viewModel.headers);
+
+                        // Check if valueProps are dot-paths or a function or just a simple value and resolve viewData accordingly
+                        angular.forEach($scope.config.valueProps, function() {
+
+                        });
+                    }
+                });
             }
 
         };
-    });
+    }]);

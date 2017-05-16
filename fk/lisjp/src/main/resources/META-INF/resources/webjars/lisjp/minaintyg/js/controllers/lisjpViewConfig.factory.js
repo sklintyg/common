@@ -155,8 +155,14 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                 components: [
                     {
                         type: 'uv-table',
-                        headers: ['Från och med', 'Till och med'],
-                        valueProps: ['period.from', 'period.tom'], // TODO: needs to support dot reference
+                        headers: ['Nedsättningsgrad', 'Från och med', 'Till och med'],
+                        valueProps: [
+                            function(index){
+                              var nedsattningsgrader = ['25%', '50%', '75%', '100%'];
+                              return nedsattningsgrader[index];
+                            },
+                            'period.from',
+                            'period.tom'], // TODO: needs to support dot reference
                         modelProp: 'sjukskrivningar'
                     },
                     {

@@ -1,12 +1,12 @@
-<table id="{{config.modelProp}}" class="table table-striped">
+<table id="{{viewModel.modelProp}}" class="table table-striped">
   <tr>
-    <th ng-repeat="header in config.headers">
-        <span dynamic-label key="{{header}}"></span>
+    <th ng-repeat="header in viewModel.headers">
+        {{header}}
     </th>
   </tr>
-  <tr ng-repeat="value in getValue() track by $index">
-    <td ng-repeat="valueProp in config.valueProps" id="{{valueProp}}{{$index}}" class="multiline">
-      {{value[valueProp]}}
+  <tr ng-repeat="row in viewModel.rows track by $index">
+    <td ng-repeat="value in row.valueProps" id="{{viewModel.modelProp}}{{$index}}" class="multiline">
+      {{value}}
     </td>
   </tr>
 </table>
