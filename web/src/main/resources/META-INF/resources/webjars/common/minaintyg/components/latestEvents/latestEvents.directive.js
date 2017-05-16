@@ -17,14 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('latestEvents', ['common.messageService', '$sessionStorage', '$rootScope',
-    function(messageService, $sessionStorage, $rootScope) {
+angular.module('common').directive('latestEvents', ['common.messageService', 'common.recipientsFactory',
+    function(messageService, recipientsFactory) {
         'use strict';
 
         function _getEventText(msgProperty, params) {
             var text = messageService.getProperty(msgProperty, params);
             return text.length === 0 ? '' : text;
         }
+
 
         return {
             restrict: 'E',
@@ -44,25 +45,15 @@ angular.module('common').directive('latestEvents', ['common.messageService', '$s
                 // Default hideHeader attribute to false if not explicitly set to true
                 scope.hideHeader = attrs.hideHeader === 'true';
 
-                scope.recipientsLoaded = angular.isDefined($sessionStorage.knownRecipients) && $sessionStorage.knownRecipients !== null;
-
-                $rootScope.$on('recipients.updated', function() {
-                    scope.recipientsLoaded = true;
-                });
-
                 // Compile event status message info (date and text)
                 scope.getEventInfo = function(status) {
                     var timestamp = status.timestamp ?
                         moment(status.timestamp).format('YYYY-MM-DD HH:mm') :
                         messageService.getProperty('certificates.status.unknowndatetime');
-                    var params = [scope.getNameForTarget(status.target)];
+                    var params = [recipientsFactory.getNameForId(status.target)];
                     var msgProperty = 'certificates.status.' + status.type.toLowerCase(); //received [sic] or sent
                     var text = _getEventText(msgProperty, params);
                     return {timestamp: timestamp, text: text};
-                };
-
-                scope.getNameForTarget = function(targetId) {
-                    return $sessionStorage.knownRecipients[targetId.toUpperCase()];
                 };
 
                 scope.statusesShown = function(statuses, statusViewCollapsed) {
