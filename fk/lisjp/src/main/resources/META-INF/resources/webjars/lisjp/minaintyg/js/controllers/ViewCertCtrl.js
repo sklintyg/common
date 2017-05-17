@@ -110,6 +110,7 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
                 if (result !== null) {
                     $log.info('res in virecertcontr' + JSON.stringify(result));
                     $scope.cert = result.utlatande;
+                    $scope.viewData = result.utlatande;
                     $scope.certMeta = result.meta;
                     $scope.cert.filteredStatuses = $scope.filterStatuses(result.meta.statuses);
                     $rootScope.cert = $scope.cert;

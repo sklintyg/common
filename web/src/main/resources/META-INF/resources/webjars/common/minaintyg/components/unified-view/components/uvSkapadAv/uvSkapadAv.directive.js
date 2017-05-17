@@ -28,9 +28,7 @@ angular.module('common').directive('uvSkapadAv', [ 'uvUtil', function(uvUtil) {
         },
         templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvSkapadAv/uvSkapadAv.directive.html',
         link: function($scope) {
-            $scope.$watch('viewData', function() {
-                $scope.vm = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-            });
+            $scope.vm = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
 
         }
     };
