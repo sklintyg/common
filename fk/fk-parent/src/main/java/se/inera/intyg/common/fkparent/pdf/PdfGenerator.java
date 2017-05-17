@@ -77,7 +77,7 @@ public final class PdfGenerator {
         return bos.toByteArray();
     }
 
-    public static String generatePdfFilename(Personnummer personId , String fileNamePrefix) {
+    public static String generatePdfFilename(Personnummer personId, String fileNamePrefix) {
         final String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
         return String.format("%s_%s.pdf", fileNamePrefix, personnummerString);
     }
