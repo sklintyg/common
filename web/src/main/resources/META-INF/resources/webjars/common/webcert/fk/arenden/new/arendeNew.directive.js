@@ -52,27 +52,29 @@ angular.module('common').directive('arendeNew',
                     $scope.arendeNewModel = arendeNewModel;
                     $scope.draftLoaded = false;
 
-                    $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
+                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
 
-                        if (!isNotSent()) {
+                        if (intyg !== null && !isNotSent()) {
                             ArendeDraftProxy.getDraft(intyg.id, function(data) {
                                 if (data.text !== undefined) {
                                     $scope.arendeNewModel.frageText = data.text;
+                                    ArendeNewViewState.arendeNewOpen = true;
                                 }
                                 if (data.amne !== undefined) {
                                     angular.forEach($scope.arendeNewModel.topics, function(topic) {
                                         if (topic.value === data.amne) {
                                             $scope.arendeNewModel.chosenTopic = topic;
+                                            ArendeNewViewState.arendeNewOpen = true;
                                             return;
                                         }
                                     });
                                 }
-                                ArendeNewViewState.arendeNewOpen = true;
                             }, function(data) {
                             });
                         }
                         $scope.draftLoaded = true;
                     });
+                    $scope.$on('$destroy', unbindFastEvent);
 
                     /**
                      * Exposed interactions

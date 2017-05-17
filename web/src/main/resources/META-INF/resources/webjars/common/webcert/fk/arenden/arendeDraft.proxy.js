@@ -8,7 +8,7 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
         function _getDraft(intygsId, onSuccess, onError) {
             $log.debug('_getDraft: intygsId:' + intygsId);
 
-            var restPath = '/api/draft/' + intygsId;
+            var restPath = '/api/arende/draft/' + intygsId;
 
             $http.get(restPath).success(function(data) {
                 $log.debug('got data: ' + data);
@@ -25,7 +25,7 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
         function _saveDraft(intygsId, questionId, text, amne, onSuccess, onError) {
             $log.debug('_saveDraft: intygsId:' + intygsId + ' questionId: ' + questionId);
 
-            var restPath = '/api/draft';
+            var restPath = '/api/arende/draft';
 
             var payload = {
                 intygId: intygsId,
@@ -55,7 +55,7 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
         function _deleteDraft(intygsId, questionId, onSuccess, onError) {
             $log.debug('_deleteDraft: intygsId:' + intygsId + ' questionId: ' + questionId);
 
-            var restPath = '/api/draft/' + intygsId;
+            var restPath = '/api/arende/draft/' + intygsId;
             if (questionId !== undefined) {
                 restPath = restPath + '/' + questionId;
             }

@@ -100,10 +100,11 @@ angular.module('common').directive('arendeDraftAutoSave',
                     // all content of the utkast. $stateChangeStart runs _before_ any $destroy events are published so as
                     // long as we can issue our save request here (if dirty), it's going to be unaffected by the $destroy
                     // teardown of the viewstate model.
-                    $scope.$on('$stateChangeStart',
-                        function(){
-                            $timeout.cancel(savePromise);
-                            save();
+                    $scope.$on('$stateChangeStart', function(){
+                            if (savePromise) {
+                                $timeout.cancel(savePromise);
+                                save();
+                            }
                         });
                 }
             };

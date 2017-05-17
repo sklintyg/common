@@ -44,7 +44,7 @@ describe('ArendeDraftProxy', function() {
             var onError = jasmine.createSpy('onError');
 
             var intygsId = 'intyg-1';
-            var restPath = '/api/draft/' + intygsId;
+            var restPath = '/api/arende/draft/' + intygsId;
             $httpBackend.expectGET(restPath).respond(200, {
                 'intygId':intygsId,
                 'text': 'testText',
@@ -64,7 +64,7 @@ describe('ArendeDraftProxy', function() {
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
 
-            var restPath = '/api/draft';
+            var restPath = '/api/arende/draft';
             $httpBackend.expectPUT(restPath).respond(200);
 
             ArendeDraftProxy.saveDraft('intygId', 'questionId', 'text', 'amne', onSuccess, onError);
@@ -82,7 +82,7 @@ describe('ArendeDraftProxy', function() {
 
             var intygId = 'intygId';
             var questionId = 'questionId';
-            var restPath = '/api/draft/' + intygId + '/' + questionId;
+            var restPath = '/api/arende/draft/' + intygId + '/' + questionId;
 
             $httpBackend.expectDELETE(restPath).respond(200);
 
@@ -98,7 +98,7 @@ describe('ArendeDraftProxy', function() {
             var onError = jasmine.createSpy('onError');
 
             var intygId = 'intygId';
-            var restPath = '/api/draft/' + intygId;
+            var restPath = '/api/arende/draft/' + intygId;
 
             $httpBackend.expectDELETE(restPath).respond(200);
 
@@ -115,7 +115,7 @@ describe('ArendeDraftProxy', function() {
             var onError = jasmine.createSpy('onError');
 
             var intygId = 'intygId';
-            var restPath = '/api/draft/' + intygId;
+            var restPath = '/api/arende/draft/' + intygId;
 
             $httpBackend.expectDELETE(restPath).respond(200);
 
