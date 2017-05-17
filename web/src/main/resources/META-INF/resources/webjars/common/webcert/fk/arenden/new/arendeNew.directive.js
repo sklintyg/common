@@ -78,8 +78,10 @@ angular.module('common').directive('arendeNew',
                      * Exposed interactions
                      */
                     function isSjf() {
-                        return User.getUser().parameters.sjf;
+                        var user = User.getUser();
+                        return user.parameters !== undefined && user.parameters.sjf !== undefined && user.parameters.sjf;
                     }
+
                     function isNew() {
                         var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
                         var newArendeFormClosed = !ArendeNewViewState.arendeNewOpen;
