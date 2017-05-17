@@ -263,6 +263,9 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
         components: [
             // TODO: needs custom component
         ]
+    }, {
+        type: 'uv-skapad-av',
+        modelProp: 'grundData.skapadAv'
     } ];
 
     return {
