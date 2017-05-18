@@ -42,7 +42,7 @@ describe('UvUtil', function() {
         uvUtil = _uvUtil_;
     }]));
 
-
+    // getValue
     it('should should handle getValue for undefined property', function() {
         expect(uvUtil.getValue(testObject, 'doesNotExist')).toEqual(undefined);
     });
@@ -63,5 +63,36 @@ describe('UvUtil', function() {
         expect(uvUtil.getValue(testObject, 'nestedProp.arrayObjectProp[1].svar[0]')).toEqual(
             'primitiveArrayValue');
     });
+
+    // isValidValue
+    it('isValidValue should return false for undefined and null', function() {
+        expect(uvUtil.isValidValue()).toBeFalsy();
+        expect(uvUtil.isValidValue(undefined)).toBeFalsy();
+        expect(uvUtil.isValidValue(null)).toBeFalsy();
+    });
+
+    it('isValidValue should return false for empty string', function() {
+        expect(uvUtil.isValidValue('')).toBeFalsy();
+    });
+
+    it('isValidValue should return false for empty array', function() {
+        expect(uvUtil.isValidValue([])).toBeFalsy();
+    });
+
+    it('isValidValue should return true for object', function() {
+        expect(uvUtil.isValidValue({a:'b'})).toBeTruthy();
+        expect(uvUtil.isValidValue(new Date())).toBeTruthy();
+    });
+
+    it('isValidValue should return true for strings and numbers', function() {
+        expect(uvUtil.isValidValue('a')).toBeTruthy();
+        expect(uvUtil.isValidValue(1)).toBeTruthy();
+    });
+
+    it('isValidValue should return true for booleans', function() {
+        expect(uvUtil.isValidValue(true)).toBeTruthy();
+        expect(uvUtil.isValidValue(false)).toBeTruthy();
+    });
+
 
 });

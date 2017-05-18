@@ -258,11 +258,9 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
             }
         ]
     }, {
-        type: 'uv-kategori',
+        type: 'uv-tillaggsfragor',
         labelKey: 'KAT_9999.RBK',
-        components: [
-            // TODO: needs custom component
-        ]
+        modelProp: 'tillaggsfragor'
     }, {
         type: 'uv-skapad-av',
         modelProp: 'grundData.skapadAv'

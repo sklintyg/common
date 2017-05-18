@@ -108,7 +108,6 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
             certificateService.getCertificate('lisjp', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
-                    $log.info('res in virecertcontr' + JSON.stringify(result));
                     $scope.cert = result.utlatande;
                     $scope.viewData = result.utlatande;
                     $scope.certMeta = result.meta;
