@@ -36,9 +36,9 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
             'use strict';
 
             function _hasKompletteringUtkastRelation(relations) {
-                for (var a = 0; a < relations.length; a++) {
-                    var relation = relations[a];
-                    if (relation.kod === 'KOMPLT' && _isUtkast(relation)) {
+                for (var a = 0; a < relations.children.length; a++) {
+                    var relation = relations.children[a];
+                    if (relation.relationKod === 'KOMPLT' && _isUtkast(relation)) {
                         return true;
                     }
                 }
@@ -84,12 +84,12 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                         // Iterate over relations, find the newest 'KOMPLT' one. Could be made prettier with _.js or similar.
                         var latestKomplRelation;
-                        for (var a = 0; a < $scope.relations.length; a++) {
-                            var relation =  $scope.relations[a];
-                            if (relation.kod === 'KOMPLT' && _isUtkast(relation)) {
+                        for (var a = 0; a < $scope.relations.children.length; a++) {
+                            var relation =  $scope.relations.children[a];
+                            if (relation.relationKod === 'KOMPLT' && _isUtkast(relation)) {
                                 if (typeof latestKomplRelation === 'undefined') {
                                     latestKomplRelation = relation;
-                                } else if (relation.date > latestKomplRelation.date) {
+                                } else if (relation.skapad > latestKomplRelation.skapad) {
                                     latestKomplRelation = relation;
                                 }
                             }

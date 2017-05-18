@@ -18,11 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.support.api;
 
-import java.util.List;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateRelation;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.time.LocalDateTime;
-
-import se.inera.intyg.schemas.contract.Personnummer;
+import java.util.List;
 
 public class CertificateHolder {
 
@@ -109,6 +109,11 @@ public class CertificateHolder {
      * If this certificate is revoked.
      */
     private boolean revoked;
+
+    /**
+     * Parent relationship.
+     */
+    private CertificateRelation certificateRelation;
 
     public String getId() {
         return id;
@@ -238,6 +243,14 @@ public class CertificateHolder {
         this.revoked = revoked;
     }
 
+    public CertificateRelation getCertificateRelation() {
+        return certificateRelation;
+    }
+
+    public void setCertificateRelation(CertificateRelation certificateRelation) {
+        this.certificateRelation = certificateRelation;
+    }
+
     @Override
     public String toString() {
         return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type
@@ -245,7 +258,7 @@ public class CertificateHolder {
                 + ", civicRegistrationNumber=" + civicRegistrationNumber.getPnrHash() + ", signedDate=" + signedDate
                 + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
                 + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
-                + ", revoked=" + revoked + "]";
+                + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + "]";
     }
 
     @Override
@@ -269,6 +282,7 @@ public class CertificateHolder {
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((validFromDate == null) ? 0 : validFromDate.hashCode());
         result = prime * result + ((validToDate == null) ? 0 : validToDate.hashCode());
+        result = prime * result + ((certificateRelation == null) ? 0 : certificateRelation.hashCode());
         return result;
         // CHECKSTYLE:ON MagicNumber
     }
@@ -383,6 +397,13 @@ public class CertificateHolder {
                 return false;
             }
         } else if (!validToDate.equals(other.validToDate)) {
+            return false;
+        }
+        if (certificateRelation == null) {
+            if (other.certificateRelation != null) {
+                return false;
+            }
+        } else if (!certificateRelation.equals(other.certificateRelation)) {
             return false;
         }
         return true;

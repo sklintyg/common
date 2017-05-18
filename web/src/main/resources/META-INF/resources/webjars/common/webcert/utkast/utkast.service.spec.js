@@ -139,7 +139,7 @@ describe('UtkastService', function() {
 
             utkastContent.braIntygsData = 'bra';
             var response = {
-                relations: [],
+                relations: {},
                 content: utkastContent,
                 status: 'SIGNED'
             };
@@ -162,7 +162,7 @@ describe('UtkastService', function() {
 
             utkastContent.braIntygsData = 'bra';
             var response = {
-                relations: [],
+                relations: {},
                 content: utkastContent
             };
 
@@ -197,7 +197,7 @@ describe('UtkastService', function() {
 
             utkastContent.braIntygsData = 'bra';
             var response = {
-                relations: [],
+                relations: {},
                 content: utkastContent
             };
             var puChangedResponse = {
@@ -251,7 +251,7 @@ describe('UtkastService', function() {
                 toSendModel: function() { return viewState.intygModel; }
             };
             var response = {
-                relations: [],
+                relations: {},
                 content: utkastContentKomplt
             };
             $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygIdKomplt').respond(200, response);

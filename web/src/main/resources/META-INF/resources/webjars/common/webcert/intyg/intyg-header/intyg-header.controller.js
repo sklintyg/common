@@ -48,7 +48,7 @@ angular.module('common').controller('common.IntygHeader',
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
             };
             $scope.isReplaced = function(){
-                return  angular.isObject($scope.viewState.common.intygProperties.replacedByRelation);
+                return angular.isObject($scope.viewState.common.intygProperties.replacedByRelation);
             };
 
             $scope.isComplemented = function() {

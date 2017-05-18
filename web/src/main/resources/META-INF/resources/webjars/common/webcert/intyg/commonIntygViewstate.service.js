@@ -127,14 +127,24 @@ angular.module('common').service('common.IntygViewStateService',
 
             if (typeof result.relations !== 'undefined') {
                 this.intygProperties.relations = result.relations;
-            }
-            if (typeof result.replacedByRelation !== 'undefined') {
-                this.intygProperties.replacedByRelation = result.replacedByRelation;
-            }
-            if (typeof result.complementedByRelation !== 'undefined') {
-                this.intygProperties.complementedByRelation = result.complementedByRelation;
+                this.intygProperties.replacedByRelation = findRelationOfType(result.relations, 'ERSATT');
+                this.intygProperties.complementedByRelation = findRelationOfType(result.relations, 'KOMPLT');
             }
         };
+
+            /**
+             * Iterates over the _child_ relations, trying to find a match for the specified relationsKod
+             */
+        function findRelationOfType(relations, relationsKod) {
+            if (typeof relations !== 'undefined') {
+                for(var a = 0; a < relations.children.length; a++) {
+                    if (relations.children[a].relationKod === relationsKod) {
+                        return relations.children[a];
+                    }
+                }
+            }
+            return null;
+        }
 
         this.updateActiveError = function(error, signed) {
             $log.debug('Loading intyg - got error: ' + error.message);

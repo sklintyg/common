@@ -55,7 +55,7 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
                     if ($event) {
                         $event.preventDefault();
                     }
-                    //Go to either edit or view intyg
+                    //Go to either edit or view intyg    TODO MUST FIX!!!
                     if ($scope.relation.status === 'DRAFT_INCOMPLETE' || $scope.relation.status === 'DRAFT_COMPLETE') {
                         $location.path(
                             '/' + $scope.viewState.common.intygProperties.type + '/edit/' + $scope.relation.intygsId);
