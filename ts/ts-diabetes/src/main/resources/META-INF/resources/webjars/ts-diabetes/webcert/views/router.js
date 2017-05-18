@@ -54,10 +54,6 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                 'identity@ts-diabetes-edit' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/identity.html'
                 },
-                'alert@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/alert.html'
-                },
-
                 'form1@ts-diabetes-edit' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form1.html',
                     controller: 'ts-diabetes.Utkast.Form1Controller'
