@@ -17,28 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('uvBooleanValue',
-    function() {
-        'use strict';
+angular.module('common').directive('uvBooleanValue', [ 'uvUtil', function(uvUtil) {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                viewData: '='
-            },
-            templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvBooleanValue/uvBooleanValue.directive.html',
-            link: function($scope) {
-                $scope.getValue = function () {
-                    if (angular.isDefined($scope.viewData)) {
-                        //console.log('Value for ' + $scope.config.modelProp + ' is ' + $scope.viewData[$scope.config.modelProp]);
-                        var value = $scope.viewData[$scope.config.modelProp];
-                        return angular.isUndefined(value) || value === '' || value === false ? 'Nej' : 'Ja';
-                    } else {
-                        return undefined;
-                    }
-
-                };
-            }
-        };
-    });
+    return {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            viewData: '='
+        },
+        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvBooleanValue/uvBooleanValue.directive.html',
+        link: function($scope) {
+            $scope.getValue = function() {
+                var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+                return angular.isUndefined(value) || value === '' || value === 'false' || value === false ? 'Nej' : 'Ja';
+            };
+        }
+    };
+} ]);
