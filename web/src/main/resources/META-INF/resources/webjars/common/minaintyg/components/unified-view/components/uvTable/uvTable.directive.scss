@@ -17,18 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-uv-boolean-value {
+uv-table {
   display: block;
+  padding-top: 10px;
 
-  h4 {
-    font-size: 14px;
-    padding-top: 15px;
+  .table {
     margin: 0;
-    color: #666;
-  }
-
-  .value {
-    display: inline-block;
-    padding-top: 5px;
   }
 }
