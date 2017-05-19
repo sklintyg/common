@@ -34,8 +34,8 @@ module.exports = function(config) {
 
         // generate js files from html templates to expose them during testing.
         preprocessors: {
-            'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.html': ['ng-html2js'],
-            'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.scss': ['scss']
+            'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.html': ['ng-html2js'],
+            'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.scss': ['scss']
         },
 
         scssPreprocessor: {

@@ -18,8 +18,8 @@
  */
 
 angular.module('common').directive('uvTable', [
-    'common.dynamicLabelService',
-    function(dynamicLabelService) {
+    '$log', 'common.dynamicLabelService',
+    function($log, dynamicLabelService) {
         'use strict';
 
         return {
@@ -30,6 +30,11 @@ angular.module('common').directive('uvTable', [
             },
             templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvTable/uvTable.directive.html',
             link: function($scope) {
+
+                if(!$scope.config) {
+                    $log.debug('no view config present for uv-table controller');
+                    return;
+                }
 
                 var model = $scope.viewData[$scope.config.modelProp];
                 $scope.viewModel = {
