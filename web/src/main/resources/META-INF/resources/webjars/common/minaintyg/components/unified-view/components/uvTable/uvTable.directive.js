@@ -31,20 +31,30 @@ angular.module('common').directive('uvTable', [
             templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvTable/uvTable.directive.html',
             link: function($scope) {
 
+                var model = $scope.viewData[$scope.config.modelProp];
                 $scope.viewModel = {
-                    modelProp: 'sjukskrivning',
-                    headers: [],
+                    modelProp: '',
+                    headers: [
+                        // 'headerValue1','headerValue2', 'headerValue3'
+                    ],
                     rows: [
-                        {valueProps: ['25%', 'value11', 'value12']},
-                        {valueProps: ['50%', 'value21', 'value22']},
-                        {valueProps: ['75%', 'value31', 'value32']},
-                        {valueProps: ['100%', 'value41', 'value42']}
+                        // {valueProps: ['colValue1', 'colValue2', 'colValue3']},
                     ]
                 };
 
                 $scope.$watch('viewData', function(current, previous){
+                    $scope.viewModel.modelProp = $scope.config.modelProp;
+                    model = current[$scope.config.modelProp];
+                    updateTable();
+                });
 
-                    if (angular.isDefined(current[$scope.config.modelProp])) {
+                $scope.$on('dynamicLabels.updated', function(){
+                    updateTable();
+                });
+
+                function updateTable(){
+
+                    if (angular.isDefined(model)) {
 
                         // Convert headers config to viewModel values
                         $scope.viewModel.headers = [];
@@ -58,23 +68,42 @@ angular.module('common').directive('uvTable', [
                                 // Generate value from dynamic label if it existed, otherwise assume supplied value is what we want
                                 var dynamicLabel = dynamicLabelService.getProperty(header);
 
-                                if(dynamicLabel !== ''){
-                                    if(angular.isDefined(dynamicLabel)){
-                                        this.push(dynamicLabel);
-                                    } else {
-                                        this.push(header);
-                                    }
+                                if(angular.isDefined(dynamicLabel) && dynamicLabel !== ''){
+                                    this.push(dynamicLabel);
+                                } else if(angular.isDefined(header)) {
+                                    this.push(header);
                                 }
                             }
 
                         }, $scope.viewModel.headers);
 
                         // Check if valueProps are dot-paths or a function or just a simple value and resolve viewData accordingly
-                        angular.forEach($scope.config.valueProps, function() {
+                        $scope.viewModel.rows = [];
 
-                        });
+                        angular.forEach(model, function(modelRow){
+                            var row = { valueProps: [] };
+                            angular.forEach($scope.config.valueProps, function(prop, key) {
+
+                                if(typeof prop === 'function'){
+                                    // Resolve using function
+                                    row.valueProps.push(prop(modelRow, key));
+                                } else if(prop.indexOf('.') !== -1) {
+                                    // Resolve dot-path
+                                    var dotPropValue = prop.split('.').reduce(function index(obj, value) {
+                                        return obj[value];
+                                    }, modelRow);
+                                    row.valueProps.push(dotPropValue);
+                                } else if(modelRow.hasOwnProperty(prop)) {
+                                    // Resolve using property name
+                                    row.valueProps.push(modelRow[prop]);
+                                }
+
+                            }, row);
+                            this.push(row);
+                        }, $scope.viewModel.rows);
                     }
-                });
+                }
+
             }
 
         };

@@ -98,7 +98,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
             labelKey: 'FRG_6.RBK',
             components: [ {
                 type: 'uv-table',
-                headers: ['DFR_6.2.RBK', 'DFR_6.1.RBK'], // labels for th cells
+                headers: ['DFR_6.2.RBK', ''], // labels for th cells
                 valueProps: ['diagnosKod', 'diagnosBeskrivning'], // properties on diagnoser entries to use in each rows cells
                 modelProp: 'diagnoser'
             } ]
@@ -157,12 +157,17 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                         type: 'uv-table',
                         headers: ['Nedsättningsgrad', 'Från och med', 'Till och med'],
                         valueProps: [
-                            function(index){
-                              var nedsattningsgrader = ['25%', '50%', '75%', '100%'];
-                              return nedsattningsgrader[index];
+                            function(model, index){
+                                switch(model.sjukskrivningsgrad){
+                                    case 'HELT_NEDSATT': return '100%';
+                                    case 'TRE_FJARDEDEL': return '75%';
+                                    case 'HALFTEN': return '50%';
+                                    case 'EN_FJARDEDEL': return '25%';
+                                }
+                                return '';
                             },
                             'period.from',
-                            'period.tom'], // TODO: needs to support dot reference
+                            'period.tom'],
                         modelProp: 'sjukskrivningar'
                     },
                     {
