@@ -79,9 +79,17 @@ angular.module('common').directive('arendeNew',
                     /**
                      * Exposed interactions
                      */
-                    function isSjf() {
+                    function isDifferentVardenhet() {
                         var user = User.getUser();
-                        return user.parameters !== undefined && user.parameters.sjf !== undefined && user.parameters.sjf;
+                        if(user.parameters !== undefined && user.parameters.sjf !== undefined && user.parameters.sjf) {
+                            var enhetsId = ObjectHelper.deepGet(ArendeNewViewState.parentViewState.intyg, 'grundData.skapadAv.vardenhet.enhetsid');
+                            return !(enhetsId !== undefined && (user.valdVardenhet.id === enhetsId ||
+                                user.valdVardenhet.mottagningar.some(function(element) {
+                                    return element.id === enhetsId;
+                                })));
+                        } else {
+                            return false;
+                        }
                     }
 
                     function isNew() {
@@ -108,7 +116,7 @@ angular.module('common').directive('arendeNew',
 
                     $scope.getNewArendeState = function() {
                         var newArendeState = 'none';
-                        if(isSjf()) {
+                        if(isDifferentVardenhet()) {
                             newArendeState = 'sjf';
                         } else if(isNew()) {
                             newArendeState = 'new';
