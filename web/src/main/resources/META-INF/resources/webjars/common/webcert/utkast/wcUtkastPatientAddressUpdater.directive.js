@@ -18,46 +18,49 @@
  */
 
 angular.module('common').directive('wcUtkastPatientAddressUpdater',
-    ['$timeout', '$log', 'common.PatientProxy',
-    function($timeout, $log, PatientProxy) {
-    'use strict';
+    ['$timeout', '$log', 'common.PatientProxy', 'common.UtkastValidationService',
+        function ($timeout, $log, PatientProxy, UtkastValidationService) {
+            'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            patientModel: '=',
-            form: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastPatientAddressUpdater.directive.html',
-        controller: function($scope) {
-            $scope.onUpdateAddressClick = function() {
-                if(!(angular.isObject($scope.patientModel) &&
-                    angular.isString($scope.patientModel.personId))) {
-                    $log.debug('No patientId to do lookup for.');
-                    return;
+            return {
+                restrict: 'E',
+                scope: {
+                    patientModel: '=',
+                    form: '=',
+                    viewState: '='
+                },
+                templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastPatientAddressUpdater.directive.html',
+                controller: function ($scope) {
+                    $scope.onUpdateAddressClick = function () {
+                        if (!(angular.isObject($scope.patientModel) &&
+                            angular.isString($scope.patientModel.personId))) {
+                            $log.debug('No patientId to do lookup for.');
+                            return;
+                        }
+
+                        $scope.fetchingPatientData = true;
+                        $scope.fetchingPatientDataErrorKey = null;
+                        $timeout(function () { // delay operation just a bit to make sure the animation is visible to the user
+                            PatientProxy.getPatient($scope.patientModel.personId, function (patientResult) {
+                                $scope.fetchingPatientData = false;
+
+                                $scope.patientModel.postadress = patientResult.postadress;
+                                $scope.patientModel.postnummer = patientResult.postnummer;
+                                $scope.patientModel.postort = patientResult.postort;
+                                $scope.form.$setDirty();
+                                $timeout(function () {
+                                    UtkastValidationService.validate($scope.viewState.intygModel);
+                                });
+                            }, function () { // not found
+                                $scope.fetchingPatientData = false;
+                                $scope.fetchingPatientDataErrorKey = 'common.warning.patientdataupdate.failed';
+                            }, function () { // error
+                                $scope.fetchingPatientData = false;
+                                $scope.fetchingPatientDataErrorKey = 'common.warning.patientdataupdate.failed';
+                            });
+
+                        }, 500);
+                    };
                 }
-
-                $scope.fetchingPatientData = true;
-                $scope.fetchingPatientDataErrorKey = null;
-                $timeout(function() { // delay operation just a bit to make sure the animation is visible to the user
-                    PatientProxy.getPatient($scope.patientModel.personId, function(patientResult) {
-                        $scope.fetchingPatientData = false;
-
-                        $scope.patientModel.postadress = patientResult.postadress;
-                        $scope.patientModel.postnummer = patientResult.postnummer;
-                        $scope.patientModel.postort = patientResult.postort;
-                        $scope.form.$setDirty();
-
-                    }, function() { // not found
-                        $scope.fetchingPatientData = false;
-                        $scope.fetchingPatientDataErrorKey = 'common.warning.patientdataupdate.failed';
-                    }, function() { // error
-                        $scope.fetchingPatientData = false;
-                        $scope.fetchingPatientDataErrorKey = 'common.warning.patientdataupdate.failed';
-                    });
-
-                }, 500);
             };
-        }
-    };
-} ]);
+        }]);
