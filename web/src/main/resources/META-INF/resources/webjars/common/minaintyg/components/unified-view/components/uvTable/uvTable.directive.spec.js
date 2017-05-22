@@ -37,20 +37,91 @@ describe('uvTable', function() {
             $state = _$state_;
         }]));
 
-    describe('test', function() {
+    describe('config', function() {
 
-        beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope',
+        describe('simple', function() {
+
+            beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope',
             function($controller, $compile, $rootScope) {
                 $scope = $rootScope.$new();
-                element = $compile('<uv-table></uv-table>')($scope);
+
+                $scope.config = {
+                    type: 'uv-table',
+                        headers: ['DFR_6.2.RBK', ''], // labels for th cells
+                    valueProps: ['diagnosKod', 'diagnosBeskrivning'], // properties on diagnoser entries to use in each rows cells
+                    modelProp: 'diagnoser'
+                };
+
+                $scope.viewData = {};
+                $scope.viewData.diagnoser = [
+                    {
+                        diagnosBeskrivning: 'Brännskada av första graden på höft och nedre extremitet utom fotled och fot',
+                        diagnosKod: 'T241',
+                        diagnosKodSystem: 'ICD_10_SE'
+                    }
+                ];
+
+                element = $compile('<uv-table config="config" view-data="viewData"></uv-table>')($scope);
 
                 $rootScope.$digest();
                 $scope = element.isolateScope();
             }]));
 
-        it('setup', function() {
-            //$scope.$apply();
-            expect(true).toBe(true);
+            it('should generate viewModel to template', function() {
+                $scope.$apply();
+                expect($scope.viewModel.modelProp).toBeDefined();
+                expect($scope.viewModel.headers.length).toBe(2);
+                expect($scope.viewModel.rows.length).toBe(1);
+            });
+        });
+
+        describe('complex', function() {
+
+            beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope',
+                function($controller, $compile, $rootScope) {
+                    $scope = $rootScope.$new();
+
+                    $scope.config = {
+                        type: 'uv-table',
+                        headers: ['Nedsättningsgrad', 'Från och med', 'Till och med'],
+                        valueProps: [
+                            function(model, index){
+                                switch(model.sjukskrivningsgrad){
+                                case 'HELT_NEDSATT': return '100%';
+                                case 'TRE_FJARDEDEL': return '75%';
+                                case 'HALFTEN': return '50%';
+                                case 'EN_FJARDEDEL': return '25%';
+                                }
+                                return '';
+                            },
+                            'period.from',
+                            'period.tom'],
+                        modelProp: 'sjukskrivningar'
+                    };
+
+                    $scope.viewData = {};
+                    $scope.viewData.sjukskrivningar = [
+                        {
+                            sjukskrivningsgrad: 'HELT_NEDSATT',
+                            period: {
+                                from: '2017-01-01',
+                                tom: '2017-02-02'
+                            }
+                        }
+                    ];
+
+                    element = $compile('<uv-table config="config" view-data="viewData"></uv-table>')($scope);
+
+                    $rootScope.$digest();
+                    $scope = element.isolateScope();
+                }]));
+
+            it('should generate viewModel', function() {
+                $scope.$apply();
+                expect($scope.viewModel.modelProp).toBeDefined();
+                expect($scope.viewModel.headers.length).toBe(3);
+                expect($scope.viewModel.rows.length).toBe(1);
+            });
         });
 
     });
