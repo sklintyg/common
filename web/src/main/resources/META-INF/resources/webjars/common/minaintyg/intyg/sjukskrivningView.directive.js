@@ -52,7 +52,7 @@ angular.module('common').directive('sjukskrivningView',
                 };
 
                 scope.hasSjukskrivning = function(grad) {
-                    if (scope.fieldModel.sjukskrivningar && scope.fieldModel.sjukskrivningar[grad]) {
+                    if (scope.fieldModel && scope.fieldModel.sjukskrivningar && scope.fieldModel.sjukskrivningar[grad]) {
                         return true;
                     }
                     return false;

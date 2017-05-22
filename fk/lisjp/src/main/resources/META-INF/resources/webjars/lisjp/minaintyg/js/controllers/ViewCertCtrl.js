@@ -5,48 +5,12 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
             messageService, customizeViewstate, viewConfigFactory) {
             'use strict';
 
-            $scope.cert = {};
-
+            $scope.cert = undefined;
             $scope.messageService = messageService;
-
-
 
             $scope.send = function() {
                 $location.path('/send/lisjp/' + $stateParams.certificateId + '/FKASSA');
             };
-
-
-            $scope.visibleStatuses = [ 'SENT' ];
-            $scope.filterStatuses = function(statuses) {
-                var result = [];
-                if (!angular.isObject(statuses)) {
-                    return result;
-                }
-                for (var i = 0; i < statuses.length; i++) {
-                    if ($scope.userVisibleStatusFilter(statuses[i])) {
-                        result.push(statuses[i]);
-                    }
-                }
-                return result;
-            };
-
-            $scope.userVisibleStatusFilter = function(status) {
-                for (var i = 0; i < $scope.visibleStatuses.length; i++) {
-                    if (status.type === $scope.visibleStatuses[i]) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            $scope.showStatusHistory = function() {
-                $location.path('/lisjp/statushistory');
-            };
-
-            $scope.backToViewCertificate = function() {
-                $location.path('/lisjp/view/' + $stateParams.certificateId);
-            };
-
 
             $scope.customizeCertificate = function() {
                 customizeViewstate.resetModel();
@@ -58,9 +22,7 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
-                    $scope.viewData = result.utlatande;
                     $scope.certMeta = result.meta;
-                    $scope.cert.filteredStatuses = $scope.filterStatuses(result.meta.statuses);
                 } else {
                     // show error view
                     $location.path('/lisjp/visafel/certnotfound');

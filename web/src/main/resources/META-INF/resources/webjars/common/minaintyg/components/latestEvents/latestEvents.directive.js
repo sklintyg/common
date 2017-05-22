@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('latestEvents', ['common.messageService', 'common.recipientsFactory',
-    function(messageService, recipientsFactory) {
+angular.module('common').directive('latestEvents', ['$filter', 'common.messageService', 'common.recipientsFactory',
+    function($filter, messageService, recipientsFactory) {
         'use strict';
 
         function _getEventText(msgProperty, params) {
@@ -38,6 +38,16 @@ angular.module('common').directive('latestEvents', ['common.messageService', 'co
             },
             templateUrl: '/web/webjars/common/minaintyg/components/latestEvents/latestEvents.directive.html',
             link: function(scope, element, attrs) {
+
+                function _updateStatusModel() {
+                    scope.filteredStatuses = $filter('miRelevantStatusFilter')(scope.statuses);
+                }
+                scope.$watch('statuses', function(){
+                    _updateStatusModel();
+                });
+
+                _updateStatusModel();
+
 
                 scope.messageService = messageService;
                 scope.isCollapsedArchive = true;
@@ -67,7 +77,7 @@ angular.module('common').directive('latestEvents', ['common.messageService', 'co
                 };
 
                 scope.expandClicked = function() {
-                    if (scope.statuses.length > 4) {
+                    if (scope.filteredStatuses.length > 4) {
                         if (!scope.showModal) {
                             scope.showModal = {};
                         }

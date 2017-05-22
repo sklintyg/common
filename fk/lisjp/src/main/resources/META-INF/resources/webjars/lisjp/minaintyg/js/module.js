@@ -23,12 +23,6 @@ angular.module('lisjp').config(function($stateProvider) {
             data: {title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg', 'anpassa']}
         }).
-        state('lisjp-statushistory', {
-            url : '/lisjp/statushistory',
-            templateUrl: '/web/webjars/lisjp/minaintyg/views/status-history.html',
-            controller: 'lisjp.ViewCertCtrl',
-            data : { title: 'Alla intygets händelser' }
-        }).
         state('lisjp-fel', {
             url : '/lisjp/fel/:errorCode',
             templateUrl: '/web/webjars/lisjp/minaintyg/views/error.html',
