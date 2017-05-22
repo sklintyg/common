@@ -1,76 +1,61 @@
 <mi-page-head>
   <mi-breadcrumb></mi-breadcrumb>
-  <!-- Content -->
-  <div class="row">
-    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
-      <h1 ng-focus="pagefocus" tabindex="-1">
-        <span id="viewCertificateHeader" message key="lisjp.label.pagetitle"></span>
-      </h1>
-      <p>
-      <div class="mi-text" message key="lisjp.label.pageingress"></div>
 
-      <div uib-collapse="!isCollapsed1" class="collapse mi-text">
-        <div message key="lisjp.label.pagedescription.sendcertificate.header"></div>
-        <div message key="lisjp.label.pagedescription.sendcertificate"></div>
-        <div message key="lisjp.label.pagedescription.save.or.print.certificate.header"></div>
-        <div message key="lisjp.label.pagedescription.save.or.print.certificate"></div>
-        <a class="glyphicon glyphicon-question-sign more-info" ng-click="isCollapsedPDF = !isCollapsedPDF"
-           title="{{messageService.getProperty('common.title.helptext.moreinfo')}}"></a>
-        <div uib-collapse="!isCollapsedPDF" class="well well-sm margin-top-5px">
-          <span message key="lisjp.helptext.readpdfhelp"></span>
-        </div>
-        <div message key="lisjp.label.pagedescription.sickness.benefit.header"></div>
-        <div message key="lisjp.label.pagedescription.sickness.benefit"></div>
-        <div message key="lisjp.label.pagedescription.error.in.certificate.header"></div>
-        <div message key="lisjp.label.pagedescription.error.in.certificate"></div>
-        <div message key="lisjp.label.pagedescription.archive.header"></div>
-        <div message key="lisjp.label.pagedescription.archive"></div>
+  <!-- page head content -->
+  <div class="row">
+    <div class="col-xs-12 col-sm-7">
+      <h1 ng-focus="pagefocus" tabindex="-1">
+        <span id="viewCertificateHeader">Läs och hantera ditt intyg</span>
+      </h1>
+      <div>
+        Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget, göra en anpassad version till din
+        arbetsgivare, ladda ner intyget som PDF och arkivera intyget. Om du vill ansöka om sjukpenning, gör du det
+        enklast
+        på <a href="http://www.forsakringskassan.se/sjuk" target="_blank">www.forsakringskassan.se/sjuk</a>. För
+        medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du
+        besökte
+        när du fick ditt intyg utfärdat.
       </div>
-      </p>
+
+      <div uib-collapse="!isCollapsed1" class="collapse">
+        <span message key="modules.page-header.info.select-recipients-and-send"></span>
+        <span message key="modules.page-header.info.customize-pdf"></span>
+        <span message key="modules.page-header.info.download-pdf"></span>
+        <span message key="modules.page-header.info.archive"></span>
+      </div>
+
       <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px"
               data-toggle="collapse">
         <span message key="lisjp.label.status.{{!isCollapsed1}}"></span>
       </button>
     </div>
-    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+
+    <div class="col-xs-12 col-sm-5">
       <latest-events cert-id="{{cert.id}}" statuses="cert.filteredStatuses"></latest-events>
     </div>
   </div>
+
 </mi-page-head>
+
+
 <div class="container">
   <div class="row-fluid">
 
     <div mi-spinner label="lisjp.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <form id="view-as-pdf" action="{{downloadAsPdfLink}}" name="pdfForm" method="get" target="_blank">
-            <p class="btn-row">
-              <button id="sendCertificateBtn" type="button" ng-click="send()" class="btn btn-success"
-                      title="{{messageService.getProperty('lisjp.button.send.certificate.title')}}">
-                <span message key="lisjp.button.send.certificate"></span>
-              </button>
-              <button type="button" id="customizeCertificateBtn" ng-click="customizeCertificate()"
-                      class="btn btn-primary"
-                      title="{{messageService.getProperty('lisjp.button.customize.certificate.title')}}">
-                <span message key="lisjp.button.customize.certificate"></span>
-              </button>
-              <button id="downloadprint" type="submit" ng-click="document.pdfForm.submit()" class="btn btn-inverse">
-                <span message key="modules.button.save.as.pdf"></span>
-              </button>
-              <button type="button" id="archiveCertificateBtn" ng-click="openArchiveDialog(cert)"
-                      class="btn btn-inverse" title="{{messageService.getProperty('button.archive.tooltip')}}">
-                <span message key="button.archive"></span>
-              </button>
-            </p>
-          </form>
-        </div>
-      </div>
 
-      <hr>
+      <mi-certificate-action-buttons
+          cert-model="cert"
+          on-send="send(cert)"
+          enable-archive="true"
+          enable-print="true"
+          on-customize-pdf="customizeCertificate()">
+
+      </mi-certificate-action-buttons>
+
       <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
       <mi-compact-certificate-body cert-meta-model="certMeta"></mi-compact-certificate-body>
       <uv-render-components config="uvConfig" view-data="viewData"></uv-render-components>
-      <hr>
+
 
       <div id="certificate" class="certificate">
         <span class="hide" id="certId" title="{{cert.id}}"></span>
@@ -86,8 +71,7 @@
                 <div class="row">
                   <div class="col-xs-6 col-sm-7 col-md-8 col-lg-8">
                     <h2 class="cert-title">
-                      <span>{{moduleService.getModuleName(cert.typ)}}</span>
-                    </h2>
+                      LISJP temp </h2>
                   </div>
                   <div class="col-xs-6 col-sm-5 col-md-4 col-lg-4 issue text-right">
                   <span class="cert-titlebar-value">

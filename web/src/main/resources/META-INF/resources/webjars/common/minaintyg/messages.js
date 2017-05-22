@@ -61,6 +61,28 @@ angular.module('common').constant('common.messages', {
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
         'modules.label.blank': 'Ej ifyllt',
+
+        // texts used by mi-certificate-action-buttons directive (would be nice to have resource keys per directive, like scss...)
+        'modules.actionbar.button.send' : 'Välj mottagare och skicka intyg',
+        'modules.actionbar.button.send.tooltip' : 'Skicka intyget elektroniskt, t.ex. till Försäkringskassan eller Transportstyrelsen.',
+        'modules.actionbar.button.customizepdf' : 'Anpassa intyg till arbetsgivare',
+        'modules.actionbar.button.customizepdf.tooltip' : 'Du kan välja bort intygsinformation du inte vill delge din arbetsgivare.',
+        'modules.actionbar.button.print' : 'Ladda ner intyg som PDF',
+        'modules.actionbar.button.print.tooltip' : 'Intyget sparas om PDF på din enhet.',
+        'modules.actionbar.button.archive' : 'Arkivera intyg',
+        'modules.actionbar.button.archive.tooltip' : 'Flytta intyget till Arkiverade intyg.',
+        'modules.actionbar.archivedialog.title' : 'Arkivera intyg',
+        'modules.actionbar.archivedialog.body' : 'När du väljer att arkivera intyget kommer det att flyttas till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
+        'modules.actionbar.archivedialog.archive.button' : 'Arkivera intyg',
+
+        // Common texts used in page headers
+        'modules.page-header.info.select-recipients-and-send': '<h3>Välj mottagare och skicka intyget</h3>Klicka på knappen för att komma till sidan där du väljer mottagare och skickar intyget. Detta intyg kan till exempel skickas till Försäkringskassan.',
+        'modules.page-header.info.customize-pdf': '<h3>Anpassa intyg till arbetsgivare</h3>Klicka på knappen för att välja vilken information i intyget du vill delge din arbetsgivare. Viss information måste lämnas till arbetsgivaren och kan inte väljas bort. Dessa fält är markerade som obligatoriska.',
+        'modules.page-header.info.download-pdf': ' <h3>Ladda ner intyg som PDF</h3>Klicka på knappen för att ladda ner intyget som PDF. Du kan därefter välja hur du vill hantera intyget vidare, till exempel kan du skriva ut det. PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna PDF-filer behöver du en PDF läsare, exempelvis <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
+        'modules.page-header.info.archive': ' <h3>Arkivera intyg</h3>Klicka på knappen för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
+
+
+
         'modules.button.alt.archive': 'Arkivera intyget. Flyttar intyget till Arkiverade intyg',
         'modules.button.save.as.pdf': 'Spara som PDF',
         'modules.link.label.save.as.pdf': 'Spara som PDF',

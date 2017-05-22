@@ -1,72 +1,22 @@
 angular.module('lisjp').controller('lisjp.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'lisjp.customizeViewstate', 'lisjp.viewConfigFactory',
+        'common.IntygService', 'common.dialogService', 'common.messageService', 'lisjp.customizeViewstate', 'lisjp.viewConfigFactory',
         function($location, $log, $rootScope, $stateParams, $scope, listCertService, certificateService, dialogService,
-            messageService, moduleService, customizeViewstate, viewConfigFactory) {
+            messageService, customizeViewstate, viewConfigFactory) {
             'use strict';
 
             $scope.cert = {};
-            $rootScope.cert = {};
 
             $scope.messageService = messageService;
-            $scope.moduleService = moduleService;
 
-            $scope.doneLoading = false;
+
 
             $scope.send = function() {
                 $location.path('/send/lisjp/' + $stateParams.certificateId + '/FKASSA');
             };
 
+
             $scope.visibleStatuses = [ 'SENT' ];
-
-            $scope.dialog = {
-                acceptprogressdone: true,
-                focus: false
-            };
-
-            var archiveDialog = {};
-
-            $scope.archiveSelected = function() {
-                var item = $scope.cert;
-                $log.debug('archive ' + item.id);
-                $scope.dialog.acceptprogressdone = false;
-                listCertService.archiveCertificate(item, function(fromServer, oldItem) {
-                    $log.debug('statusUpdate callback:' + fromServer);
-                    if (fromServer !== null) {
-                        // Better way to update the object?
-                        oldItem.archived = fromServer.archived;
-                        oldItem.status = fromServer.status;
-                        oldItem.selected = false;
-                        archiveDialog.close();
-                        $scope.dialog.acceptprogressdone = true;
-                        $location.path('#/start');
-                    } else {
-                        // show error view
-                        $location.path('/lisjp/fel/couldnotarchivecert');
-                    }
-                });
-            };
-
-            // Archive dialog
-            $scope.certToArchive = {};
-
-            $scope.openArchiveDialog = function(cert) {
-                $scope.certToArchive = cert;
-                $scope.dialog.focus = true;
-                archiveDialog = dialogService.showDialog($scope, {
-                    dialogId: 'archive-confirmation-dialog',
-                    titleId: 'inbox.archivemodal.header',
-                    bodyTextId: 'inbox.archivemodal.text',
-                    button1click: function() {
-                        $log.debug('archive');
-                        $scope.archiveSelected();
-                    },
-                    button1id: 'archive-button',
-                    button1text: 'button.archive',
-                    autoClose: false
-                });
-            };
-
             $scope.filterStatuses = function(statuses) {
                 var result = [];
                 if (!angular.isObject(statuses)) {
@@ -97,14 +47,13 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
                 $location.path('/lisjp/view/' + $stateParams.certificateId);
             };
 
+
             $scope.customizeCertificate = function() {
                 customizeViewstate.resetModel();
                 $location.path('/lisjp/customize/' + $stateParams.certificateId);
             };
 
-            // expose calculated static link for pdf download
-            $scope.downloadAsPdfLink = '/moduleapi/certificate/' + 'lisjp' + '/' + $stateParams.certificateId + '/pdf';
-
+            $scope.doneLoading = false;
             certificateService.getCertificate('lisjp', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
@@ -112,7 +61,6 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
                     $scope.viewData = result.utlatande;
                     $scope.certMeta = result.meta;
                     $scope.cert.filteredStatuses = $scope.filterStatuses(result.meta.statuses);
-                    $rootScope.cert = $scope.cert;
                 } else {
                     // show error view
                     $location.path('/lisjp/visafel/certnotfound');
@@ -123,6 +71,5 @@ angular.module('lisjp').controller('lisjp.ViewCertCtrl',
             });
 
             $scope.pagefocus = true;
-
             $scope.uvConfig = viewConfigFactory.getViewConfig();
         }]);
