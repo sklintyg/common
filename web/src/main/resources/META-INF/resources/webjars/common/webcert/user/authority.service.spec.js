@@ -96,32 +96,32 @@ describe('authorityService', function() {
         });
     });
 
-    describe('#AuthorityService - previledge checking', function() {
+    describe('#AuthorityService - privilege checking', function() {
 
-        it ('should be false when user does not have previledge', function () {
+        it ('should be false when user does not have privilege', function () {
             expect(authorityService.isAuthorityActive({authority:'DUMMY_PREVILEDGE'})).toBeFalsy();
         });
 
-        it ('should be false when user only have base previledge', function () {
+        it ('should be false when user only have base privilege', function () {
             expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG', intygstyp:'ts-bas'})).toBeFalsy();
         });
 
 
-        it ('should be true when user have both base AND intygstyp previledge', function () {
+        it ('should be true when user have both base AND intygstyp privilege', function () {
             expect(authorityService.isAuthorityActive({authority:'SIGNERA_INTYG', intygstyp:'fk7263'})).toBeTruthy();
         });
 
-        it('should be true when user have both base previledge AND correct requestOrigin', function() {
+        it('should be true when user have both base privilege AND correct requestOrigin', function() {
             expect(authorityService.isAuthorityActive({authority: 'STYRD_AV_ORIGIN'})).toBeTruthy();
         });
 
-        it('should be true when user have both base AND intygstyp previledge AND correct requestOrigin AND requestOrigin.intygstyp',
+        it('should be true when user have both base AND intygstyp privilege AND correct requestOrigin AND requestOrigin.intygstyp',
             function() {
                 expect(authorityService.isAuthorityActive(
                     {authority: 'STYRD_AV_ORIGIN', intygstyp: 'fk7263'})).toBeTruthy();
             });
 
-        it('should be false when user have both base AND intygstyp previledge AND correct requestOrigin BUT not requestOrigin.intygstyp',
+        it('should be false when user have both base AND intygstyp privilege AND correct requestOrigin BUT not requestOrigin.intygstyp',
             function() {
                 expect(authorityService.isAuthorityActive(
                     {authority: 'STYRD_AV_ORIGIN', intygstyp: 'ts-diabetes'})).toBeFalsy();

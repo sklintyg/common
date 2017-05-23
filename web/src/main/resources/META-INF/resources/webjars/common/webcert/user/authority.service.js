@@ -107,11 +107,8 @@ angular.module('common').factory('common.authorityService',
          * Check the current user's origin.
          *
          * 1. Om requestOrigin finns måste användaren ha den
-         * 2. Om intygstyp finns måste användaren's request origin stödja den
-         *    såvida inte användarens request origin har några begränsningar
          *
          * @param requestOrigin
-         * @param intygsTyp
          */
         function requestOriginCheck(requestOrigin) {
             if (requestOrigin !== undefined && requestOrigin.length > 0) {
