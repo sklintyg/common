@@ -19,17 +19,39 @@
 
 angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService', 'common.moduleService',
+        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'ts-bas.viewConfigFactory',
         function($location, $log, $rootScope, $stateParams, $scope, IntygListService, IntygService,
-            dialogService, moduleService) {
+            dialogService, messageService, moduleService, viewConfigFactory) {
             'use strict';
 
-            $scope.cert = {};
-            $rootScope.cert = {};
+            $scope.cert = undefined;
+            $scope.messageService = messageService;
 
-            $scope.moduleService = moduleService;
+            //$rootScope.cert = {};
+            //$scope.moduleService = moduleService;
 
-            $scope.doneLoading = false;
+            function createKorkortstypListString(list) {
+
+                var tempList = [];
+                angular.forEach(list, function(key) {
+                    if (key.selected) {
+                        this.push(key);
+                    }
+                }, tempList);
+
+                var resultString = '';
+                for (var i = 0; i < tempList.length; i++) {
+                    if (i < tempList.length - 1) {
+                        resultString += tempList[i].type + (', ');
+                    } else {
+                        resultString += tempList[i].type;
+                    }
+                }
+
+                return resultString;
+            }
+
+            /*
             $scope.shouldBeOpen = false;
 
             $scope.open = function() {
@@ -54,32 +76,6 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
                 intygAvser: '',
                 bedomning: ''
             };
-
-            /*********************************************************************
-             * Private support functions
-             *********************************************************************/
-
-            function createKorkortstypListString(list) {
-
-                var tempList = [];
-                angular.forEach(list, function(key) {
-                    if (key.selected) {
-                        this.push(key);
-                    }
-                }, tempList);
-
-                var resultString = '';
-                for (var i = 0; i < tempList.length; i++) {
-                    if (i < tempList.length - 1) {
-                        resultString += tempList[i].type + (', ');
-                    } else {
-                        resultString += tempList[i].type;
-                    }
-                }
-
-                return resultString;
-            }
-
 
             //Make a printable list of Befattningar (which as of yet consists of un-readable codes...)
             $scope.befattningar = '';
@@ -191,13 +187,14 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
                 }
                 return false;
             };
-
+*/
+            $scope.doneLoading = false;
             IntygService.getCertificate('ts-bas', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
-                    $scope.cert.status = $scope.filterStatuses(result.meta.statuses);
-                    $rootScope.cert = $scope.cert;
+                    $scope.certMeta = result.meta;
+/*                    $rootScope.cert = $scope.cert;
                     if ($scope.cert.syn.synfaltsdefekter === true || $scope.cert.syn.nattblindhet === true ||
                         $scope.cert.syn.progressivogonsjukdom === true) {
                         $scope.achelptext = true;
@@ -205,9 +202,9 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
                     $scope.befattningar = $scope.updateBefattningar($scope.cert.grundData.skapadAv.befattningar);
                     $scope.specialiteter = $scope.updateSpecialiteter($scope.cert.grundData.skapadAv.specialiteter);
 
-                    $scope.view.intygAvser = createKorkortstypListString($scope.cert.intygAvser.korkortstyp);
                     $scope.view.bedomning = createKorkortstypListString($scope.cert.bedomning.korkortstyp);
-
+ $scope.view.intygAvser = createKorkortstypListString($scope.cert.intygAvser.korkortstyp);
+*/
                 } else {
                     // show error view
                     $location.path('/ts-bas/visafel/certnotfound');
@@ -216,4 +213,7 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
                 $log.debug(error);
                 $location.path('/ts-bas/visafel/certnotfound');
             });
+
+            $scope.uvConfig = viewConfigFactory.getViewConfig();
+
         }]);
