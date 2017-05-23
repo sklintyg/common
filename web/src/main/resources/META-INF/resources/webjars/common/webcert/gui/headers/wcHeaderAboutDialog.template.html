@@ -10,252 +10,41 @@
         Om Webcert <i class="pull-right glyphicon"
                       ng-class="{'glyphicon-chevron-down': open.om, 'glyphicon-chevron-right': !open.om}"></i>
       </div>
-
-      <p>
-        Webcert är en tjänst som gör det möjligt att utfärda elektroniska läkarintyg och samla dem på ett ställe.
-        Intyg som kan utfärdas i Webcert är:</p>
-      <ul>
-        <li>Läkarintyg FK 7263</li>
-      </ul>
-
-      <h4>Användarkrav för Webcert</h4>
-      <ul>
-        <li>SITHS-kort (kallas även eTjänstekort eller tjänstekort) eller en e-legitimation</li>
-        <li>legitimeringskod kopplad till SITHS-kortet som används vid inloggning</li>
-        <li>underskriftskod kopplad till SITHS-kortet som används för att signera intyg (endast läkare)</li>
-        <li>kortläsare</li>
-        <li>NetiD installerat i datorn</li>
-        <li>användaren ska ha rätt behörighet.</li>
-      </ul>
-
-      <h4>Om SITHS-kortet</h4>
-      <p>
-        SITHS-kortet är en personlig legitimation som inte får lånas ut. Både kort och koder ska förvaras på ett
-        säkert sätt. </p>
-      <p>Om du har problem med att logga in med ditt kort eller vill veta vilken behörighet du har så kan du testa det
-        här: <span dynamiclink key="testSiths"></span></p>
-      <p>Om du förlorat ditt kort eller misstänker att någon obehörig fått kännedom om dina koder ska kortet spärras
-        omedelbart. Om ditt kort har spärrats eller om du glömt någon av koderna ska du vända dig till din
-        SITHS-kortadministratör.</p>
-
-      <h4>Användare</h4>
-      <p>Webcert har flera typer av användare: läkare, tandläkare och vårdadministratörer (exempelvis läkarsekreterare).
-        Behörighet
-        för inloggning:</p>
-      <ul>
-        <li>Vårdadministratör ska ha medarbetaruppdraget "Vård och behandling" i HSA.</li>
-        <li>Tandläkare ska vara legitimerad tandläkare samt ha medarbetaruppdraget ”Vård och behandling” i HSA.</li>
-        <li>Läkare ska ha medarbetaruppdraget ”Vård och behandling” i HSA samt vara något av följande:
-          <ul>
-            <li>legitimerade läkare</li>
-            <li>AT-läkare</li>
-            <li>läkare inom och utanför EU/ESS/Schweiz som ännu inte har svensk läkarlegitimation, men som
-              är legitimerade i sitt hemland och som av vårdgivaren har tilldelats en gruppförskrivarkod och därmed har
-              ett särskilt förordnande att utöva läkaryrket.
-            </li>
-            <li>vikarierande examinerad läkare (examinerade AT-läkare som ännu inte fått sin legitimation och personer
-              som har tagit sin läkarexamen men ännu inte påbörjat AT-tjänstgöring) som av vårdgivaren har tilldelats en
-              gruppförskrivarkod och därmed har ett särskilt förordnande att utöva läkaryrket.
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <p>Alla användare kan skapa, skriva och spara utkast. Endast läkare och tandläkare kan signera och makulera
-        intyg samt besvara frågor med ämnet "komplettering". Vårdadministratör kan via mejl notifiera läkare om att
-        signera sparade intyg.</p>
-
-      <h4>Invånarens intyg</h4>
-      <p>I samband med att intyget signeras görs det tillgängligt för invånaren i Mina intyg. I Mina intyg kan
-        invånaren skicka intyget vidare elektroniskt till någon av de anslutna mottagarna, eller skriva ut det. Mina
-        intyg nås via 1177 Vårdguidens e-tjänster www.1177.se</p>
-      <p>Om invånaren inte vill använda Mina intyg är det möjligt för läkaren att skicka intyget elektroniskt direkt
-        från Webcert till mottagaren. Observera att invånarens samtycke då krävs.</p>
-      <p>Läkaren kan också skriva ut det signerade intyget från Webcert och ge till patienten.</p>
-      <p>För Försäkringskassans intyg finns en elektronisk funktion för frågor och svar. Via funktionen kan läkaren
-        och Försäkringskassan kommunicera om ett signerat intyg.</p>
-
-      <h4>Webbläsare som stöds</h4>
-      <p>För att kunna använda Webcerts funktioner behöver du Internet Explorer 9 eller efterföljande versioner.
-        Det går att använda andra webbläsare men då finns viss risk för att problem uppstår. Du måste även ha
-        JavaScript aktiverat i din webbläsare för att kunna använda Webcert. </p>
-
-
-      <h4>Adress till vårdenheten</h4>
-      <p>Intyg som utfärdas i Webcert innehåller adress- och kontaktuppgifter till den vårdenhet du är inloggad på när
-        utkastet skapas. För landstingsanställda läkare hämtas uppgifterna från HSA.
-        Om du upptäcker att adress- och kontaktinformationen är fel, så kan du begära ändring i HSA-katalogen.</p>
-
-      <h4>Ansvarig för Webcert:</h4>
-      <p>Inera AB<br>
-        Postadress: Box 17703<br>
-        118 93 Stockholm<br>
-      </p>
+      <div ng-include="'/web/webjars/common/webcert/views/about/about-partial.html'"></div>
     </div>
+
     <div uib-accordion-group is-open="open.support">
       <div uib-accordion-heading>
         Support och kontaktinformation <i class="pull-right glyphicon"
                                           ng-class="{'glyphicon-chevron-down': open.om, 'glyphicon-chevron-right': !open.om}"></i>
       </div>
-
-      <p>
-        I "Vanliga frågor" finns hjälp om du har frågor om Webcert. Om du saknar svar på din fråga kan du
-        använda följande kontaktvägar, beroende på typ av fråga:</p>
-      <ul>
-        <li>Frågor som gäller inloggning: kontakta din SITHS-kortadministratör.</li>
-        <li>Tekniska frågor om Webcert: hanteras i första hand av den lokala IT-avdelningen. Om din lokala
-          IT-avdelning inte kan hitta felet ska de kontakta <span dynamiclink key="ineraKundserviceAnmalFel"></span>. Frågor om ifyllnaden av intyg: i intyget finns hjälpfunktioner för stöd hur
-          intyget ska fyllas i.
-        </li>
-      </ul>
-
+      <div ng-include="'/web/webjars/common/webcert/views/about/support-kontakt-partial.html'"></div>
     </div>
+
     <div uib-accordion-group is-open="open.intyg">
       <div uib-accordion-heading>
         Intyg som stöds i Webcert <i class="pull-right glyphicon"
                                      ng-class="{'glyphicon-chevron-down': open.intyg, 'glyphicon-chevron-right': !open.intyg}"></i>
       </div>
-      <h3>Läkarintyg FK 7263</h3>
-      <p>
-        Läkarintyget används av Försäkringskassan för att bedöma om patienten har rätt till sjukpenning. Av intyget ska
-        det framgå hur sjukdomen påverkar patientens arbetsförmåga och hur länge patienten behöver vara sjukskriven.</p>
-
+      <div ng-include="'/web/webjars/common/webcert/views/about/lakarintyg-partial.html'"></div>
     </div>
+
     <div uib-accordion-group is-open="open.faq">
       <div uib-accordion-heading>
         Vanliga frågor <i class="pull-right glyphicon"
                           ng-class="{'glyphicon-chevron-down': open.faq, 'glyphicon-chevron-right': !open.faq}"></i>
       </div>
-
-
-      <div wc-authority feature="hanteraIntygsutkast">
-        <h3>Skriva intyg</h3>
-
-        <h4>Finns det någon hjälpfunktion?</h4>
-        <p>Klicka på frågetecknet i anslutning till vissa rubriker och frågor i utkastet. En kort hjälptext om hur
-          fältet ska fyllas i visas.</p>
-
-        <h4>Hur kan jag få hjälp med bedömningar av funktionsnedsättning och aktivitetsbegränsning?</h4>
-        <p>Socialstyrelsens försäkringsmedicinska beslutsstöd finns tillgängligt i Webcert och visas bredvid de fält
-          som berörs när du anger en diagnos.</p>
-
-        <h4>Hur använder jag mig av Socialstyrelsens försäkringsmedicinska beslutsstöd (FMB)?</h4>
-        <p>När du anger en diagnos så gör Webcert en sökning i FMB för att kontrollera om den valda diagnosen finns
-          med. Information visas vid berörda fälten. Det är alltid den senaste versionen av FMB som visas i Webcert.
-          Det FMB är enbart synligt när du utfärdar intyget, det kommer inte skickas med till Försäkringskassan
-          eller
-          invånaren, och inte heller synas på utskrifter. I FMB finns försäkringsmedicinsk information och
-          sjukskrivningsrekommendationer för ett hundratal diagnoser. Sjukskrivningsrekommendationerna ska vara
-          vägledande för bedömning av arbetsförmågan, men bedömningarna måste vara individuella och utgå ifrån
-          enskilda individers unika tillstånd. Om sjukskrivningen omfattar längre tid än den som rekommenderas ska
-          det
-          motiveras.
-          <br><br>
-          För ytterligare information om hur FMB ska användas <span dynamiclink key="socialstyrelsenFmbAnvandas"></span>.
-
-        </p>
-
-        <h4>Vad är skillnaden mellan ett intyg och ett utkast?</h4>
-        <p>
-          Ett utkast är inte signerat och behöver inte innehålla alla uppgifter som är obligatoriska vid signering.
-          Du
-          kan spara och ändra i det så många gånger du vill. Ett utkast går även att radera och tas då bort. Vid
-          signering övergår utkastet till att bli ett intyg. I samband med att intyget signeras skickas det till
-          Intygstjänsten och kan då nås av patienten via Mina intyg. </p>
-        <p>
-          Ett signerat intyg kan inte ändras eller raderas, däremot kan ett intyg ersättas av ett nytt intyg. Ett
-          intyg kan också vid allvarligt fel makuleras (ogiltigförklaras). </p>
-
-
-        <h4>Tangentbordsnavigering i Webcert</h4>
-        <p>I Webcert stöds navigering med hjälp av tangentbordet. Webcert följer den standard som finns för
-          webbläsare
-          och du kan använda "Tab" för att hoppa mellan ifyllnadsrutor i ett intygsutkast. I de fall ett fält utgörs
-          av val i form av radioknappar används tangentbordets piltangenter för att navigera mellan valen. För att
-          markera ett val i en kryssruta eller radioknapp använd "Mellanslag"-tangenten. </p>
-
-        <h4>Finns det några kortkommandon?</h4>
-        <p>Vid ifyllnad av sjukskrivningsperiod. När du fyllt i ett 'från och med' datum kan du i 'till och med'
-          datumet skriva in exempel 5d, 5v eller 5m. Då sätts slutdatum för perioden automatiskt till 5
-          dagar/veckor/månader efter 'från och med' datumet. </p>
-      </div>
-
-
-      <!-- SPARA  ------------------>
-      <div wc-authority feature="hanteraIntygsutkast">
-        <h3>Spara intyg</h3>
-
-        <h4>Varför går det inte att spara intyget?</h4>
-        <p>Intyget sparas hela tiden automatiskt under utfärdandet. Om du stänger webbläsaren innan intyget har
-          hunnit
-          sparas får du en varning.</p>
-      </div>
-
-
-      <!-- SKICKA  ------------------>
-      <div wc-authority feature="hanteraIntygsutkast">
-        <h3>Skicka intyg</h3>
-
-        <h4>Varför syns inte skicka-knappen?</h4>
-        <p>Du har inte signerat intyget, skicka-knappen är endast tillgänglig för ett signerat intyg.</p>
-
-        <h4>När ska jag skicka intyget till Försäkringskassan?</h4>
-        <p>Intyg ska endast skickas till Försäkringskassan om samtliga tre punkter är uppfyllda:</p>
-        <ul>
-          <li>Sjukskrivningen kommer att vara längre än 14 dagar.</li>
-          <li>Patienten kommer att ansöka om sjukpenning.</li>
-          <li>Patienten kan eller vill inte skicka intyget från Mina intyg.</li>
-        </ul>
-        <p>Tänk på att ett intyg alltid ska skickas till Försäkringskassan i samråd med patienten.</p>
-      </div>
-
-      <div wc-authority feature="hanteraFragor">
-        <h3>Fråga och svars-funktionen</h3>
-
-        <h4>Hur ställer jag en fråga till Försäkringskassan?</h4>
-        <p>
-          Funktionen för fråga och svar blir tillgänglig först när intyget är signerat och skickat till
-          Försäkringskassan.
-          Du kan då från samma vy som det signerade intyget klicka på knappen Ny fråga till Försäkringskassan.</p>
-
-
-        <h4>Hur vet jag om det har kommit en fråga eller ett svar från Försäkringskassan?</h4>
-        <p>
-          Om det inkommit en ny fråga syns det som en röd bubbla i hörnet på fliken Fråga och svar.
-          Du som är privatläkare får också ett mejl till den e-post du angav när du registrerade dig till att använda
-          Webcert.</p>
-        <p>
-          När en fråga inkommit blir du i ditt journalsystem notifierad om att en ny fråga inkommit. När du öppnar
-          intyget frågan avser i Webcert, kan du se frågor relaterade till det intyget.</p>
-
-        <div>
-          <h4>När försvinner frågor från listan under fliken "Frågor och svar"?</h4>
-          <p>En fråga försvinner aldrig från listan över frågor och svar, däremot så visas den inte i listan när den
-            är
-            markerad som hanterad. Det går att söka efter och se en hanterad fråga med hjälp av sökfiltret.</p>
-        </div>
-
-        <h4>En fråga har besvarats via brev och ligger därmed kvar som obesvarad i Webcert. Hur tar jag bort
-          frågan?</h4>
-        <p>Klicka i boxen "Markera som hanterad" intill frågan. Frågan flyttas då till Tidigare frågor och
-          svar. </p>
-
-      </div>
-
-      <h3>Tekniska frågor</h3>
-
-      <h4>Varför ska jag inte använda Chrome eller Edge när jag loggar in i Webcert?</h4>
-      <p>Webbläsarna Chrome och Edge stödjer inte den metod som Webcert använder för att skapa signaturer. För att
-        kunna signera intyg i Webcert måste du därför välja en annan webbläsare.
-        <br>Rekommenderad webbläsare är Internet Explorer 9 eller någon av de efterföljande versionerna.</p>
-
+      <div ng-include="'/web/webjars/common/webcert/views/about/vanliga-fragor-partial.html'"></div>
     </div>
+
     <div uib-accordion-group is-open="open.kakor">
       <div uib-accordion-heading>
         Om kakor (cookies) <i class="pull-right glyphicon"
                               ng-class="{'glyphicon-chevron-down': open.kakor, 'glyphicon-chevron-right': !open.kakor}"></i>
       </div>
-      <span message key="common.about.cookies"></span>
+      <div ng-include="'/web/webjars/common/webcert/views/about/kakor-partial.html'"></div>
     </div>
+
   </div>
 </div>
 <div class="modal-footer" style="margin: 0">
