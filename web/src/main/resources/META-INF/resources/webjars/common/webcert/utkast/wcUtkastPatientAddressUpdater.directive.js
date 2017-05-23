@@ -49,8 +49,9 @@ angular.module('common').directive('wcUtkastPatientAddressUpdater',
                 $scope.patientModel.postort = patientResult.postort;
                 $scope.form.$setDirty();
                 $timeout(function () {
-                  if($scope.viewState)
+                  if($scope.viewState){
                     UtkastValidationService.validate($scope.viewState.intygModel);
+                  }
                 });
               }, function () { // not found
                 $scope.fetchingPatientData = false;
