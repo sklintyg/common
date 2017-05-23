@@ -130,18 +130,26 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
         components: [
             {
                 type: 'uv-fraga',
-                labelKey: 'DFR_19.1.RBK',
+                labelKey: 'FRG_19.RBK',
                 components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'pagaendeBehandling'
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR_19.1.RBK',
+                    components: [ {
+                        type: 'uv-simple-value',
+                        modelProp: 'pagaendeBehandling'
+                    }]
                 } ]
             },
             {
                 type: 'uv-fraga',
-                labelKey: 'DFR_20.1.RBK',
+                labelKey: 'FRG_20.RBK',
                 components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'planeradBehandling'
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR_20.1.RBK',
+                    components: [ {
+                        type: 'uv-simple-value',
+                        modelProp: 'planeradBehandling'
+                    }]
                 } ]
             }
         ]
