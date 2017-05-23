@@ -109,18 +109,26 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
         components: [
             {
                 type: 'uv-fraga',
-                labelKey: 'DFR_35.1.RBK',
+                labelKey: 'FRG_35.RBK',
                 components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'funktionsnedsattning'
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR_35.1.RBK',
+                    components: [ {
+                        type: 'uv-simple-value',
+                        modelProp: 'funktionsnedsattning'
+                    }]
                 } ]
             },
             {
                 type: 'uv-fraga',
-                labelKey: 'DFR_17.1.RBK',
+                labelKey: 'FRG_17.RBK',
                 components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'aktivitetsbegransning'
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR_17.1.RBK',
+                    components: [ {
+                        type: 'uv-simple-value',
+                        modelProp: 'aktivitetsbegransning'
+                    }]
                 } ]
             }
         ]
@@ -195,8 +203,12 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                                 modelProp: 'arbetstidsforlaggning'
                             },
                             {
-                                type: 'uv-simple-value',
-                                modelProp: 'arbetstidsforlaggningMotivering'
+                                type: 'uv-del-fraga',
+                                labelKey: 'DFR_33.2.RBK',
+                                components: [ {
+                                    type: 'uv-simple-value',
+                                    modelProp: 'arbetstidsforlaggningMotivering'
+                                }]
                             }
                         ]
                     },
