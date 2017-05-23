@@ -1,7 +1,7 @@
 <div class="uv-boolean-value-template">
   <div>
     <h4 ng-if="config.labelKey"><span dynamic-label key="{{ config.labelKey }}"/></h4>
-    <span class="value">{{getValue()}}</span>
+    <span ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="value">{{getValue()}}</span>
     <!--span class="text-muted">(value for {{config.modelProp}})</span-->
   </div>
 </div>

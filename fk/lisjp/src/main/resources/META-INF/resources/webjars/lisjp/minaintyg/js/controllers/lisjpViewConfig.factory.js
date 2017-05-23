@@ -202,10 +202,11 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                     },
                     {
                         type: 'uv-fraga',
-                        labelKey: 'FRG_39.RBK', // TODO: Needs custom component
+                        labelKey: 'FRG_39.RBK',
                         components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'prognos.typ'
+                            type: 'uv-kodverk-value',
+                            modelProp: ['prognos.typ', 'prognos.dagarTillArbete'],
+                            labelKey: ['KV_FKMU_0006.{var}.RBK', 'KV_FKMU_0007.{var}.RBK']
                         } ]
                     }
                 ]

@@ -1,11 +1,11 @@
-<table id="{{viewModel.modelProp}}" class="table table-striped">
+<table id="{{viewModel.modelProp | uvDomIdFilter}}" class="table table-striped">
   <tr>
     <th ng-repeat="header in viewModel.headers">
         {{header}}
     </th>
   </tr>
   <tr ng-repeat="row in viewModel.rows track by $index">
-    <td ng-repeat="value in row.valueProps" id="{{viewModel.modelProp}}{{$index}}" class="multiline">
+    <td ng-repeat="value in row.valueProps" ng-attr-id="{{viewModel.modelProp + '-row' + $parent.$index + '-col' + $index| uvDomIdFilter}}" class="multiline">
       {{value}}
     </td>
   </tr>

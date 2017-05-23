@@ -65,13 +65,13 @@ describe('uvSkapadAv Directive', function() {
     it('should display correct info', function() {
         $scope.$digest();
 
-        expect($(element).find('#uv-skapad-av--fullstandigtNamn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.fullstandigtNamn);
-        expect($(element).find('#uv-skapad-av--telefon').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.telefonnummer);
-        expect($(element).find('#uv-skapad-av--enhet').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.enhetsnamn);
-        expect($(element).find('#uv-skapad-av--enhet').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.vardgivare.vardgivarnamn);
-        expect($(element).find('#uv-skapad-av--enhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postadress);
-        expect($(element).find('#uv-skapad-av--enhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postnummer);
-        expect($(element).find('#uv-skapad-av--enhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postort);
+        expect($(element).find('#fullstandigtNamn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.fullstandigtNamn);
+        expect($(element).find('#vardenhet-telefon').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.telefonnummer);
+        expect($(element).find('#vardenhet-namn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.enhetsnamn);
+        expect($(element).find('#vardenhet-namn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.vardgivare.vardgivarnamn);
+        expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postadress);
+        expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postnummer);
+        expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postort);
     });
 
 });

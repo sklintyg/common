@@ -17,27 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('lisjp').directive('uvSysselsattning',
-    function() {
-        'use strict';
+angular.module('common').filter('uvDomIdFilter', function() {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                viewData: '='
-            },
-            templateUrl: '/web/webjars/lisjp/minaintyg/js/directives/uvSysselsattning.directive.html',
-            link: function($scope) {
-                $scope.getValue = function () {
-                    if (angular.isDefined($scope.viewData)) {
-                        return $scope.viewData[$scope.config.modelProp];
-                    } else {
-                        return undefined;
-                    }
+      return function(input) {
+        if (angular.isString(input)) {
+            //Replace ay other character than these with '-'
+            return input.replace(/[^a-zA-Z0-9\-]/g,'-');
+        }
+        return input;
+    };
 
-                };
-            }
-
-        };
-    });
+});
