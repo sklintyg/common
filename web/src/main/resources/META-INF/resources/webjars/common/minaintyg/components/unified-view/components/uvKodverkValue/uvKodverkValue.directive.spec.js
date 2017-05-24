@@ -50,14 +50,6 @@ describe('uvKodverk Directive', function() {
     beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
         $scope = $rootScope.$new();
 
-        $scope.viewDataMock = {
-            data: {
-                KEY0: 'VALUE_0',
-                KEY1: 'VALUE_1',
-                KEY2: 'VALUE_2'
-            }
-        };
-
         $scope.configMock = {
             modelProp: [ 'data.KEY0', 'data.KEY1', 'data.KEY2' ],
             labelKey: [ 'KV0.{var}.RBK', 'KV1.{var}.RBK', 'KV2.{var}.RBK' ]
@@ -68,12 +60,32 @@ describe('uvKodverk Directive', function() {
     } ]));
 
     it('should render modelProps values as resolved dynamic labelkey spans', function() {
+        $scope.viewDataMock = {
+            data: {
+                KEY0: 'VALUE_0',
+                KEY1: 'VALUE_1',
+                KEY2: 'VALUE_2'
+            }
+        };
+
         $scope.$digest();
+
         var expectedElements = $(element).find('span.value');
         expect(expectedElements.length).toBe(3);
         expect(expectedElements.eq(0).text().trim()).toBe('dynamicLabel-KV0.VALUE_0.RBK');
         expect(expectedElements.eq(1).text().trim()).toBe('dynamicLabel-KV1.VALUE_1.RBK');
         expect(expectedElements.eq(2).text().trim()).toBe('dynamicLabel-KV2.VALUE_2.RBK');
+
+    });
+
+    it('should render "Ej angivet" if no values are resolved', function() {
+        $scope.viewDataMock = {};
+
+        $scope.$digest();
+
+        var expectedElements = $(element).find('span.value');
+        expect(expectedElements.length).toBe(0);
+        expect($(element).find('uv-no-value').length).toBe(1);
 
     });
 

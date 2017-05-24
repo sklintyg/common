@@ -1,4 +1,8 @@
-<span ng-repeat="prop in config.modelProp track by $index">
-    <span ng-attr-id="{{config.modelProp[$index] | uvDomIdFilter}}" class="value" dynamic-label
-          key="{{getKodverkValueLabelKey($index)}}"></span>
-</span>
+<div>
+  <span ng-repeat="labelKey in labelKeys">
+    <span ng-attr-id="{{labelKey.modelProp | uvDomIdFilter}}" class="value" dynamic-label key="{{labelKey.key}}"></span>
+  </span>
+
+  <!-- handle no value -->
+  <uv-no-value ng-if="labelKeys.length < 1"></uv-no-value>
+</div>

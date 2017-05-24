@@ -47,16 +47,19 @@ describe('uvSimpleValue Directive', function() {
 
     it('should display model value when value exists', function() {
         $scope.$digest();
-        expect(element.isolateScope().getValue()).toBe('Tolvan');
+        expect(element.isolateScope().value).toBe('Tolvan');
+        expect(element.isolateScope().hasValue()).toBeTruthy();
         expect($(element).find('span').text()).toContain('Tolvan');
+        expect($(element).find('uv-no-value').length).toBe(0);
     });
 
-    it('should display "Ej angivet" when no value exists', function() {
+    it('should display "uv-no-value" when no value exists', function() {
         $scope.viewDataMock = undefined;
         $scope.$digest();
 
-        expect(element.isolateScope().getValue()).toBe('Ej angivet');
-        expect($(element).find('span').text()).toContain('Ej angivet');
+        expect(element.isolateScope().value).toBeUndefined();
+        expect(element.isolateScope().hasValue()).toBeFalsy();
+        expect($(element).find('uv-no-value').length).toBe(1);
     });
 
 });

@@ -1,7 +1,8 @@
 <div class="uv-simple-value-template">
-  <div>
-    <h4 ng-if="config.labelKey"><span  ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}" dynamic-label key="{{ config.labelKey }}"></span></h4>
-    <span ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="value multiline">{{getValue()}}</span>
-    <!--span class="text-muted">(value for {{config.modelProp}})</span-->
-  </div>
+    <h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}"
+                                      dynamic-label key="{{ config.labelKey }}"></span></h4>
+    <span ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="value multiline">
+      {{::value}}
+      <uv-no-value ng-if="!hasValue()"></uv-no-value>
+    </span>
 </div>

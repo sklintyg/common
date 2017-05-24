@@ -28,19 +28,23 @@ angular.module('common').directive('uvKodverkValue', [ 'uvUtil', function(uvUtil
         },
         templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvKodverkValue/uvKodverkValue.directive.html',
         link: function($scope) {
-           $scope.getKodverkValueLabelKey = function(index) {
-               var modelValue = uvUtil.getValue($scope.viewData, $scope.config.modelProp[index]);
-               var srcLabelKey = $scope.config.labelKey[index];
 
-               // Use labelKey as pattern if a {var} is present, otherwise just use the list as is
-               if (srcLabelKey.indexOf('{var}') !== -1 && modelValue) {
-                   return srcLabelKey.replace('{var}', modelValue);
-               }
-               return modelValue;
-           };
+            $scope.labelKeys = _buildLabelKeys();
 
-
-
+            function _buildLabelKeys() {
+                var labelKeys = [];
+                for (var i = 0; i < $scope.config.modelProp.length; i++) {
+                    var modelValue = uvUtil.getValue($scope.viewData, $scope.config.modelProp[i]);
+                    if (modelValue) {
+                        var resolvedKey = $scope.config.labelKey[i].replace('{var}', modelValue);
+                        labelKeys.push({
+                            key: resolvedKey,
+                            modelProp: $scope.config.modelProp[i]
+                        });
+                    }
+                }
+                return labelKeys;
+            }
         }
     };
 } ]);

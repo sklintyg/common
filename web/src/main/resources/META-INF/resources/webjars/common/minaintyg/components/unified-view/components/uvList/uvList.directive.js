@@ -28,7 +28,9 @@ angular.module('common').directive('uvList', [ 'uvUtil', function(uvUtil) {
         },
         templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvList/uvList.directive.html',
         link: function($scope) {
-            $scope.getValue = function() {
+            $scope.valueList = _getValues();
+
+            function _getValues() {
 
                 var listData = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
 
@@ -46,7 +48,7 @@ angular.module('common').directive('uvList', [ 'uvUtil', function(uvUtil) {
 
                 return finalListData;
 
-            };
+            }
         }
 
     };

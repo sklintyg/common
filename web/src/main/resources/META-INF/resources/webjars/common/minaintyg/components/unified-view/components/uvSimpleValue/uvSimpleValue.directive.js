@@ -28,10 +28,12 @@ angular.module('common').directive('uvSimpleValue', [ 'uvUtil', function(uvUtil)
         },
         templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvSimpleValue/uvSimpleValue.directive.html',
         link: function($scope) {
-            $scope.getValue = function() {
-                var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-                return uvUtil.isValidValue(value) ? value : 'Ej angivet';
+            $scope.value =  uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+
+            $scope.hasValue = function() {
+                return uvUtil.isValidValue($scope.value);
             };
+
         }
     };
 } ]);

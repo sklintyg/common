@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -17,16 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-uv-list {
-  display: block;
 
-  ul {
-    padding: 5px 0 0 20px;
-    margin: 0;
-  }
+/**
+ * This sole purpose of this simple directive is to centralize the apperance of a filed that has no value to show.
+ */
+angular.module('common').directive('uvNoValue', function() {
+    'use strict';
 
-  .value {
-    display: inline-block;
-    padding-top: 5px;
-  }
-}
+    return {
+        restrict: 'E',
+        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvNoValue/uvNoValue.directive.html'
+    };
+});
