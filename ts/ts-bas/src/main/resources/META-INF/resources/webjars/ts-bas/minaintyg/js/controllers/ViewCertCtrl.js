@@ -29,7 +29,7 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
 
             //$rootScope.cert = {};
             //$scope.moduleService = moduleService;
-
+/*
             function createKorkortstypListString(list) {
 
                 var tempList = [];
@@ -50,7 +50,7 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
 
                 return resultString;
             }
-
+*/
             /*
             $scope.shouldBeOpen = false;
 
