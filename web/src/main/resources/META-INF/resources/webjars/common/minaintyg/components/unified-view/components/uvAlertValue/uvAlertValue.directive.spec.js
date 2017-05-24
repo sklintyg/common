@@ -30,13 +30,11 @@ describe('uvAlertValue Directive', function() {
         $scope = $rootScope.$new();
 
         $scope.viewDataMock ={
-            property1: {
-                name: 'Tolvan'
-            }
+
         };
 
         $scope.configMock = {
-            modelProp: 'property1.name'
+            labelKey: 'FRG_1.RBK'
         };
 
         element = $compile(
@@ -47,8 +45,7 @@ describe('uvAlertValue Directive', function() {
 
     it('should display model value when value exists', function() {
         $scope.$digest();
-        expect(element.isolateScope().getValue()).toBe('Tolvan');
-        expect($(element).find('span').text()).toContain('Tolvan');
+        expect($(element).find('#' + $scope.configMock.labelKey + '-text')).toBeTruthy();
     });
 
 });
