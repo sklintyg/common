@@ -17,7 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('ts-bas').factory('ts-bas.viewConfigFactory', ['$log', function($log) {
+angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
+    '$log', '$filter',
+    function($log, $filter) {
     'use strict';
 
     var viewConfig = [
@@ -93,32 +95,25 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', ['$log', function($
                             type: 'uv-del-fraga',
                             components: [{
                                 type: 'uv-table',
+                                modelProp: 'syn',
+                                colProps: ['hogerOga', 'vansterOga', 'binokulart'],
                                 headers: ['', 'ts-bas.label.syn.utankorrektion', 'ts-bas.label.syn.medkorrektion',
                                     'ts-bas.label.syn.kontaktlins'],
                                 valueProps: [
-                                    function(model, key){
-                                        var values = [
-                                            'ts-bas.label.syn.hogeroga',
-                                            'ts-bas.label.syn.vansteroga',
-                                            'ts-bas.label.syn.binokulart',
-                                            ''
-                                        ];
-                                        return values[key];
+                                    function(model, rowIndex, colIndex, colProp){
+                                        var message = 'ts-bas.label.syn.' + colProp.toLowerCase();
+                                        return message;
                                     },
-                                    function(model, key) {
-                                        var keys = ['hogerOga', 'vansterOga', 'binokulart'];
-                                        return model[keys[key]].utanKorrektion;
+                                    function(model) {
+                                        return model.utanKorrektion;
                                     },
-                                    function(model, key) {
-                                        var keys = ['hogerOga', 'vansterOga', 'binokulart'];
-                                        return model[keys[key]].medKorrektion;
+                                    function(model) {
+                                        return model.medKorrektion;
                                     },
-                                    function(model, key){
-                                        var keys = ['hogerOga', 'vansterOga', 'binokulart'];
-                                        return model[keys[key]].kontaktlins;
+                                    function(model){
+                                        return $filter('uvBoolFilter')(model.kontaktlins);
                                     }
-                                ],
-                                modelProp: 'syn'
+                                ]
                             }]
                         }
                     ]

@@ -18,8 +18,8 @@
  */
 
 angular.module('common').directive('uvTable', [
-    '$log', 'common.dynamicLabelService',
-    function($log, dynamicLabelService) {
+    '$log', 'uvUtil', 'uvTableService',
+    function($log, uvUtil, uvTableService) {
         'use strict';
 
         return {
@@ -64,52 +64,25 @@ angular.module('common').directive('uvTable', [
                         // Convert headers config to viewModel values
                         $scope.viewModel.headers = [];
                         angular.forEach($scope.config.headers, function(header, key) {
-
                             if(typeof header === 'function'){
-                                // Generate value from config function
-                                this.push(header(key));
-                                return;
-                            } else {
-                                // Generate value from dynamic label if it existed, otherwise assume supplied value is what we want
-                                var dynamicLabel = dynamicLabelService.getProperty(header);
-
-                                if(angular.isDefined(dynamicLabel) && dynamicLabel !== ''){
-                                    this.push(dynamicLabel);
-                                } else if(angular.isDefined(header)) {
-                                    this.push(header);
-                                }
+                                this.push(header(key)); // Generate value from config function
+                            } else if(angular.isDefined(header)) {
+                                this.push(uvUtil.getTextFromConfig(header));
                             }
-
                         }, $scope.viewModel.headers);
 
                         // Check if valueProps are dot-paths or a function or just a simple value and resolve viewData accordingly
                         $scope.viewModel.rows = [];
 
-                        angular.forEach(model, function(modelRow){
-                            var row = { valueProps: [] };
-                            angular.forEach($scope.config.valueProps, function(prop, key) {
-
-                                if(typeof prop === 'function'){
-                                    // Resolve using function
-                                    row.valueProps.push(prop(modelRow, key));
-                                } else if(prop.indexOf('.') !== -1) {
-                                    // Resolve dot-path
-                                    var dotPropValue = prop.split('.').reduce(function index(obj, value) {
-                                        return obj[value];
-                                    }, modelRow);
-                                    row.valueProps.push(dotPropValue);
-                                } else if(modelRow.hasOwnProperty(prop)) {
-                                    // Resolve using property name
-                                    row.valueProps.push(modelRow[prop]);
-                                }
-
-                            }, row);
-                            this.push(row);
-                        }, $scope.viewModel.rows);
+                        // Only object and array models is supported
+                        if (Array.isArray(model)){
+                            $scope.viewModel.rows = uvTableService.createRowsFromArrayModel($scope.config, model);
+                        } else if(typeof model === 'object'){
+                            $scope.viewModel.rows = uvTableService.createRowsFromObjectModel($scope.config, model);
+                        }
                     }
+
                 }
-
             }
-
         };
     }]);

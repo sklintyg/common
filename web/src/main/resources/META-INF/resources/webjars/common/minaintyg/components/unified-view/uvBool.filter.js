@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,21 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('uvBooleanValue', [ '$filter', 'uvUtil', function($filter, uvUtil) {
-    'use strict';
+angular.module('common').filter('uvBoolFilter',
+    function() {
+        'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            config: '=',
-            viewData: '='
-        },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvBooleanValue/uvBooleanValue.directive.html',
-        link: function($scope) {
-            $scope.getValue = function() {
-                var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-                return $filter('uvBoolFilter')(value);
-            };
-        }
-    };
-} ]);
+        return function(value) {
+            return angular.isUndefined(value) || value === '' || value === 'false' || value === false ? 'Nej' : 'Ja';
+        };
+    });
