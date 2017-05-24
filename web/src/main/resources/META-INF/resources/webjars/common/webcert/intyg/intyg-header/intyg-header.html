@@ -124,6 +124,8 @@
                   class="btn btn-info"
                   ng-if="showErsattButton()"
                   ng-click="ersatt(viewState.intygModel)"
+                  wc-check-vardenhet
+                  vardenhet="{{viewState.enhetsId}}"
                   uib-popover="{{ersattBtnTooltipText}}"
                   popover-trigger="mouseenter"
                   popover-popup-delay="300"
