@@ -26,6 +26,6 @@ angular.module('common').directive('uvAlertValue', [ 'uvUtil', function(uvUtil) 
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvAlertValue/uvAlertValue.directive.html',
+        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvAlertValue/uvAlertValue.directive.html'
     };
 } ]);
