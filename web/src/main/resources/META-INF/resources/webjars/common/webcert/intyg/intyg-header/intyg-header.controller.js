@@ -92,9 +92,7 @@ angular.module('common').controller('common.IntygHeader',
                         !$scope.isComplemented() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() &&
-                    !UserModel.getIntegrationParam('inactiveUnit') &&
-                    $scope.viewState.intygModel.grundData !== undefined &&
-                    User.getValdVardgivare().id === $scope.viewState.intygModel.grundData.skapadAv.vardenhet.vardgivare.vardgivarid;
+                    !UserModel.getIntegrationParam('inactiveUnit');
             };
 
             $scope.showFornyaButton = function() {
