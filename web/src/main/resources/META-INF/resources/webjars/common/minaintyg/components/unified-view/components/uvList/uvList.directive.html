@@ -1,10 +1,10 @@
-<div>
-  <ul ng-if="valueList.length > 0" ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="uv-list-template">
+<div ng-attr-id="{{config.modelProp | uvDomIdFilter}}">
+  <ul ng-if="valueList.length > 0" ng-attr-id="{{(config.modelProp + '-list') | uvDomIdFilter}}" class="uv-list-template">
     <li ng-repeat="values in valueList track by $index" ng-attr-id="{{config.modelProp + '-' + $index | uvDomIdFilter}}">
       <span dynamic-label key="{{values}}"></span>
     </li>
   </ul>
 
-  <uv-no-value ng-if="!valueList || valueList.length < 1" ng-attr-id="{{config.modelProp | uvDomIdFilter}}"></uv-no-value>
+  <uv-no-value ng-if="!valueList || valueList.length < 1"></uv-no-value>
 </div>
 

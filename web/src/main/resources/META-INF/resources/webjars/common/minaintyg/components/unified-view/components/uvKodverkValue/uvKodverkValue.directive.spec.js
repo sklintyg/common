@@ -51,8 +51,9 @@ describe('uvKodverk Directive', function() {
         $scope = $rootScope.$new();
 
         $scope.configMock = {
-            modelProp: [ 'data.KEY0', 'data.KEY1', 'data.KEY2' ],
-            labelKey: [ 'KV0.{var}.RBK', 'KV1.{var}.RBK', 'KV2.{var}.RBK' ]
+            modelProp: 'data',
+            kvModelProps: [ 'data.KEY0', 'data.KEY1', 'data.KEY2' ],
+            kvLabelKeys: [ 'KV0.{var}.RBK', 'KV1.{var}.RBK', 'KV2.{var}.RBK' ]
         };
 
         element = $compile('<uv-kodverk-value config="configMock" view-data="viewDataMock"></uv-kodverk-value>')($scope);

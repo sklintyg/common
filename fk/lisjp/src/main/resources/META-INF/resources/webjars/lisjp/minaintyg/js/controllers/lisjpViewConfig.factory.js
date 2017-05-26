@@ -225,8 +225,9 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                         labelKey: 'FRG_39.RBK',
                         components: [ {
                             type: 'uv-kodverk-value',
-                            modelProp: ['prognos.typ', 'prognos.dagarTillArbete'],
-                            labelKey: ['KV_FKMU_0006.{var}.RBK', 'KV_FKMU_0007.{var}.RBK']
+                            modelProp: 'prognos',
+                            kvModelProps: ['prognos.typ', 'prognos.dagarTillArbete'],
+                            kvLabelKeys: ['KV_FKMU_0006.{var}.RBK', 'KV_FKMU_0007.{var}.RBK']
                         } ]
                     }
                 ]

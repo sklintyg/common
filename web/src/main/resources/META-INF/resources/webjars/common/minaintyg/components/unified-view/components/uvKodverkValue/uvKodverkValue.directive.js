@@ -33,13 +33,14 @@ angular.module('common').directive('uvKodverkValue', [ 'uvUtil', function(uvUtil
 
             function _buildLabelKeys() {
                 var labelKeys = [];
-                for (var i = 0; i < $scope.config.modelProp.length; i++) {
-                    var modelValue = uvUtil.getValue($scope.viewData, $scope.config.modelProp[i]);
-                    if (modelValue) {
-                        var resolvedKey = $scope.config.labelKey[i].replace('{var}', modelValue);
+                for (var i = 0; i < $scope.config.kvModelProps.length; i++) {
+                    var modelProp = $scope.config.kvModelProps[i];
+                    var resolvedValue = uvUtil.getValue($scope.viewData, modelProp);
+                    if (uvUtil.isValidValue(resolvedValue)) {
+                        var resolvedKey = $scope.config.kvLabelKeys[i].replace('{var}', resolvedValue);
                         labelKeys.push({
                             key: resolvedKey,
-                            modelProp: $scope.config.modelProp[i]
+                            modelProp: modelProp
                         });
                     }
                 }

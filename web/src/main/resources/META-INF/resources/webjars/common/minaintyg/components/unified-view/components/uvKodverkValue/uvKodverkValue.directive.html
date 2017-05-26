@@ -1,4 +1,4 @@
-<div>
+<div ng-attr-id="{{config.modelProp | uvDomIdFilter}}">
   <span ng-repeat="labelKey in labelKeys">
     <span ng-attr-id="{{labelKey.modelProp | uvDomIdFilter}}" class="value" dynamic-label key="{{labelKey.key}}"></span>
   </span>
