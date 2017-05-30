@@ -37,6 +37,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 type: 'uv-list',
                                 labelKey: 'KORKORT_{var}.RBK',
                                 listKey: 'type',
+                                separator: ', ',
                                 modelProp: 'intygAvser.korkortstyp'
                             }]
                         }]
@@ -121,16 +122,16 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                     },
                     {
                         type: 'uv-fraga',
-                        labelKey: 'FRG_8.RBK', // TODO: syn behöver nog egen komponent
+                        labelKey: 'FRG_8.RBK',
                         components: [
                             {
                                 type: 'uv-del-fraga',
                                 components: [{
                                     type: 'uv-table',
                                     modelProp: 'syn',
-                                    colProps: ['hogerOga', 'vansterOga', 'binokulart'],
                                     headers: ['', 'ts-bas.label.syn.utankorrektion', 'ts-bas.label.syn.medkorrektion',
                                         'ts-bas.label.syn.kontaktlins'],
+                                    colProps: ['hogerOga', 'vansterOga', 'binokulart'],
                                     valueProps: [
                                         function(model, rowIndex, colIndex, colProp) {
                                             var message = 'ts-bas.label.syn.' + colProp.toLowerCase();
@@ -300,22 +301,24 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         components: [{
                             type: 'uv-del-fraga',
                             components: [{
-                                type: 'uv-simple-value',
-                                modelProp: 'diabetes.diabetesTyp'
+                                type: 'uv-kodverk-value',
+                                kvModelProps: ['diabetes.diabetesTyp'],
+                                kvLabelKeys: ['ts-bas.label.diabetes.diabetestyp.{var}']
                             }]
                         }]
                     },
-                    /*                { // TODO: needs special treatment?
-                     type: 'uv-fraga',
-                     labelKey: 'FRG_19.RBK',
-                     components: [{
-                     type: 'uv-del-fraga',
-                     components: [{
-                     type: 'uv-boolean-value',
-                     modelProp: 'funktionsnedsattning.riskfaktorerStroke'
-                     }]
-                     }]
-                     },*/
+                    {
+                        type: 'uv-fraga',
+                        labelKey: 'FRG_19.RBK',
+                        components: [{
+                            type: 'uv-del-fraga',
+                            components: [{
+                                type: 'uv-kodverk-value',
+                                kvModelProps: ['diabetes.kost', 'diabetes.tabletter', 'diabetes.insulin'],
+                                kvLabelKeys: ['DFR_19.1.RBK', 'DFR_19.2.RBK', 'DFR_19.3.RBK']
+                            }]
+                        }]
+                    },
                     {
                         type: 'uv-alert-value',
                         labelKey: 'DFR_19.3.INF',
@@ -467,7 +470,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         labelKey: 'FRG_26.RBK',
                         components: [
                             {
-                                type: 'uv-simple-value',
+                                type: 'uv-boolean-value',
                                 modelProp: 'narkotikaLakemedel.lakarordineratLakemedelsbruk'
                             },
                             {
@@ -538,7 +541,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         labelKey: 'FRG_30.RBK',
                         components: [
                             {
-                                type: 'uv-simple-value',
+                                type: 'uv-boolean-value',
                                 modelProp: 'sjukhusvard.sjukhusEllerLakarkontakt'
                             },
                             {
@@ -578,7 +581,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         labelKey: 'FRG_31.RBK',
                         components: [
                             {
-                                type: 'uv-simple-value',
+                                type: 'uv-boolean-value',
                                 modelProp: 'medicinering.stadigvarandeMedicinering'
                             },
                             {
@@ -617,18 +620,17 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         type: 'uv-fraga',
                         labelKey: 'FRG_33.RBK',
                         components: [
-                            {
-                                type: 'uv-simple-value', // TODO: this aint right
-                                modelProp: 'bedomning.kanInteTaStallning'
-                            },
-                            {
+                             {
                                 type: 'uv-del-fraga',
-                                labelKey: 'DFR_33.2.RBK',
                                 components: [{
-                                    type: 'uv-simple-value',
-                                    modelProp: 'medicinering.beskrivning'
+                                    type: 'uv-list',
+                                    labelKey: 'KORKORT_{var}.RBK',
+                                    listKey: 'type',
+                                    separator: ', ',
+                                    modelProp: 'bedomning.korkortstyp',
+                                    noValue: 'DFR_33.2.RBK'
                                 }]
-                            }
+                             }
                         ]
                     },
                     {
@@ -636,7 +638,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         labelKey: 'FRG_34.RBK',
                         components: [
                             {
-                                type: 'uv-simple-value', // TODO: this aint right
+                                type: 'uv-simple-value',
                                 modelProp: 'bedomning.lakareSpecialKompetens'
                             }
                         ]

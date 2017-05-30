@@ -22,7 +22,7 @@ angular.module('common').constant('common.messages', {
     'sv': {
         'common.yes': 'Ja',
         'common.no': 'Nej',
-        'common.notset': 'Ej ifyllt',
+        'common.notset': 'Ej angivet',
         'common.yes.caps': 'JA',
         'common.no.caps': 'NEJ',
         'common.nodontask': 'Nej, fråga inte igen',

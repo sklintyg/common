@@ -72,6 +72,11 @@ angular.module('common').factory('common.messageService',
 
         function _getPropertyInLanguage(lang, key, params) {
             _checkResources();
+            if(typeof key === 'string'){
+                key = key.toLowerCase();
+            } else {
+                return null;
+            }
             var message = _messageResources[lang][key];
 
             if (message && params) {
