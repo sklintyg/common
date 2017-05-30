@@ -26,6 +26,13 @@
 
       <div ui-view="header"></div>
 
+      <!-- Integration deleted message -->
+      <div id="integration-deleted" ng-if="viewState.common.deleted">
+        <div class="alert alert-info banner-margin">
+          Utkastet är raderat och borttaget från Webcert.
+        </div>
+      </div>
+
       <!-- TS-BAS -->
       <div class="edit-form" ng-class="{'collapsed' : viewState.common.collapsedHeader}" wc-size-target>
 
