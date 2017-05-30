@@ -1,6 +1,6 @@
 <table id="{{viewModel.modelProp | uvDomIdFilter}}" class="table table-striped">
   <tr>
-    <th ng-repeat="header in viewModel.headers">
+    <th ng-repeat="header in viewModel.headers track by $index">
         {{header}}
     </th>
   </tr>

@@ -85,17 +85,10 @@ describe('uvTable', function() {
                         type: 'uv-table',
                         headers: ['Nedsättningsgrad', 'Från och med', 'Till och med'],
                         valueProps: [
-                            function(model, index){
-                                switch(model.sjukskrivningsgrad){
-                                case 'HELT_NEDSATT': return '100%';
-                                case 'TRE_FJARDEDEL': return '75%';
-                                case 'HALFTEN': return '50%';
-                                case 'EN_FJARDEDEL': return '25%';
-                                }
-                                return '';
-                            },
+                            'KV_FKMU_0003.{sjukskrivningsgrad}.RBK',
                             'period.from',
-                            'period.tom'],
+                            'period.tom'
+                        ],
                         modelProp: 'sjukskrivningar'
                     };
 

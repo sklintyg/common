@@ -1,4 +1,3 @@
-
 angular.module('luse', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 angular.module('luse').config(function($stateProvider) {
@@ -11,12 +10,6 @@ angular.module('luse').config(function($stateProvider) {
             controller: 'luse.ViewCertCtrl',
             data : { title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
-        }).
-        state('luse-statushistory', {
-            url : '/luse/statushistory',
-            templateUrl: '/web/webjars/luse/minaintyg/views/status-history.html',
-            controller: 'luse.ViewCertCtrl',
-            data : { title: 'Alla intygets händelser' }
         }).
         state('luse-fel', {
             url : '/luse/fel/:errorCode',

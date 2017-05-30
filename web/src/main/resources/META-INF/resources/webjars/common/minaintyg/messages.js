@@ -78,10 +78,9 @@ angular.module('common').constant('common.messages', {
         // Common texts used in page headers
         'modules.page-header.info.select-recipients-and-send': '<h3>Välj mottagare och skicka intyget</h3>Klicka på knappen för att komma till sidan där du väljer mottagare och skickar intyget. Detta intyg kan till exempel skickas till Försäkringskassan.',
         'modules.page-header.info.customize-pdf': '<h3>Anpassa intyg till arbetsgivare</h3>Klicka på knappen för att välja vilken information i intyget du vill delge din arbetsgivare. Viss information måste lämnas till arbetsgivaren och kan inte väljas bort. Dessa fält är markerade som obligatoriska.',
-        'modules.page-header.info.download-pdf': ' <h3>Ladda ner intyg som PDF</h3>Klicka på knappen för att ladda ner intyget som PDF. Du kan därefter välja hur du vill hantera intyget vidare, till exempel kan du skriva ut det. PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna PDF-filer behöver du en PDF läsare, exempelvis <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
-        'modules.page-header.info.archive': ' <h3>Arkivera intyg</h3>Klicka på knappen för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
-
-
+        'modules.page-header.info.download-pdf': '<h3>Ladda ner intyg som PDF</h3>Klicka på knappen för att ladda ner intyget som PDF. Du kan därefter välja hur du vill hantera intyget vidare, till exempel kan du skriva ut det. PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna PDF-filer behöver du en PDF läsare, exempelvis <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
+        'modules.page-header.info.error': '<h3>Fel i intyget?</h3>Om någon uppgift är fel i ditt intyg ska du kontakta den som utfärdat ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+        'modules.page-header.info.archive': '<h3>Arkivera intyg</h3>Klicka på knappen för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
 
         'modules.button.alt.archive': 'Arkivera intyget. Flyttar intyget till Arkiverade intyg',
         'modules.button.save.as.pdf': 'Spara som PDF',

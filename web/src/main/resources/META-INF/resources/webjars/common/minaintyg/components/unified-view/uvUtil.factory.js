@@ -3,7 +3,22 @@ angular.module('common').factory('uvUtil', [
     function($parse, $log, dynamicLabelService, messageService) {
     'use strict';
 
-    return {
+        function _isDynamicText(str) {
+            return _isString(str) && str.search(/{(.*)}/) > -1;
+        }
+
+        function _isString(str) {
+            return str instanceof String || typeof str === 'string';
+        }
+
+        function _replacer(propertyName, model) {
+            function replacer(match, p1, offset, string) {
+                return model[p1];
+            }
+            return propertyName.replace(/{(.*)}/g, replacer);
+        }
+
+        return {
 
         getTextFromConfig: function(value){
             if(value === ''){
@@ -31,11 +46,12 @@ angular.module('common').factory('uvUtil', [
             if(typeof prop === 'function'){
                 // Resolve using function
                 value = prop(modelRow, rowIndex, colIndex, colProp);
+            } else if(_isDynamicText(prop)) {
+                // This prop is a string with a dynamic text.
+                // Property should be on format <prefix>.{property-name}.<suffix>
+                // Example: KV_FKMU_0001.{typ}.RBK => KV_FKMU_0001.ANHORIG.RBK
+                value = _replacer(prop, modelRow);
             } else if(prop.indexOf('.') !== -1) {
-                // Resolve dot-path
-                /*value = prop.split('.').reduce(function index(obj, value) {
-                 return obj[value];
-                 }, modelRow);*/
                 value = this.getValue(modelRow, prop);
             } else if(modelRow.hasOwnProperty(prop)) {
                 // Resolve using property name
