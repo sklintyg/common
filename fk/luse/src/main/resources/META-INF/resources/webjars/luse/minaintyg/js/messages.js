@@ -35,8 +35,6 @@ angular.module('luse').constant('luse.messages', {
         'luse.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
         'luse.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
 
-        'luse.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
-        'luse.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
         'luse.label.showevents.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa färre händelser',
         'luse.label.showevents.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa alla händelser',
 

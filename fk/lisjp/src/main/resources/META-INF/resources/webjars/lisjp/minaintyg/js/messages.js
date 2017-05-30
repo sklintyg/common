@@ -44,8 +44,6 @@ angular.module('lisjp').constant('lisjp.messages', {
         // Labels
         'lisjp.label.pagetitle': 'Granska och skicka intyg',
 
-        'lisjp.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
-        'lisjp.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
         'lisjp.label.showevents.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa färre händelser',
         'lisjp.label.showevents.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa alla händelser',
 
