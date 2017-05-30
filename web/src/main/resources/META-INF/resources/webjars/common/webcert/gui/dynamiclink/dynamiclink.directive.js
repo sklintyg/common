@@ -40,6 +40,11 @@ angular.module('common.dynamiclink').directive('dynamiclink',
                             scope.text = $sce.trustAsHtml(value.text);
                             scope.tooltip = value.tooltip;
                             scope.target = value.target;
+                        } else {
+                            scope.url = '#';
+                            scope.text = $sce.trustAsHtml('WARNING: could not resolve dynamic link: ' + scope.key);
+                            scope.tooltip = null;
+                            scope.target = null;
                         }
 
                     });
