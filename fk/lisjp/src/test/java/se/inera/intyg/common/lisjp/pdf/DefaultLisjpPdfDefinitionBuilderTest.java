@@ -19,6 +19,7 @@
 package se.inera.intyg.common.lisjp.pdf;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -45,6 +46,7 @@ import static org.mockito.Mockito.when;
  * Generate variants of a LISJP pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
  * of the resulting pdf files, as we don't have any way of programmatically assert the content of the pdf.
  */
+@Ignore // Disable these tests until INTYG-4026 is completed.
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest{
 
