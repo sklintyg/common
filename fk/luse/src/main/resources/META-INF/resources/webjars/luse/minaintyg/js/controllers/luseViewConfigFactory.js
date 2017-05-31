@@ -332,7 +332,7 @@ angular.module('luse').factory('luse.viewConfigFactory', [ '$log',
                         labelKey: 'DFR_26.2.RBK',
                         components: [ {
                             type: 'uv-simple-value',
-                            modelProp: 'anledningtillkontakt'
+                            modelProp: 'anledningTillKontakt'
                         } ]
                     } ]
                 } ]
