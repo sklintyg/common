@@ -36,7 +36,9 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                             components: [{
                                 type: 'uv-list',
                                 labelKey: 'KORKORT_{var}.RBK',
-                                listKey: 'type',
+                                listKey: function(model) {
+                                    return model.selected ? model.type : null;
+                                },
                                 separator: ', ',
                                 modelProp: 'intygAvser.korkortstyp'
                             }]
@@ -620,17 +622,20 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         type: 'uv-fraga',
                         labelKey: 'FRG_33.RBK',
                         components: [
-                             {
+                            {
                                 type: 'uv-del-fraga',
+                                labelKey: 'DFR_33.1.RBK',
                                 components: [{
                                     type: 'uv-list',
                                     labelKey: 'KORKORT_{var}.RBK',
-                                    listKey: 'type',
+                                    listKey: function(model) {
+                                        return model.selected ? model.type : null;
+                                    },
                                     separator: ', ',
                                     modelProp: 'bedomning.korkortstyp',
                                     noValue: 'DFR_33.2.RBK'
                                 }]
-                             }
+                            }
                         ]
                     },
                     {

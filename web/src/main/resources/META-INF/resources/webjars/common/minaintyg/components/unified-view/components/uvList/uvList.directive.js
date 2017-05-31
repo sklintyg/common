@@ -36,14 +36,30 @@ angular.module('common').directive('uvList', [ 'uvUtil', function(uvUtil) {
 
                 var finalListData = [];
 
-                // Use labelKey as pattern if a {var} is present, otherwise just use the list as is
-                if ($scope.config.labelKey.indexOf('{var}') !== -1 && listData) {
-                    finalListData = listData.map(function(item) {
+                if(typeof $scope.config.listKey === 'function'){
+                    for(var i = 0; i < listData.length; i++){
                         var result = $scope.config.labelKey;
-                        return result.replace('{var}', item[$scope.config.listKey]);
-                    });
+                        if($scope.config.listKey(listData[i])){
+                            finalListData.push(result.replace('{var}', $scope.config.listKey(listData[i])));
+                        }
+                    }
                 } else {
-                    finalListData = listData;
+                    finalListData = replaceVar(listData);
+                }
+
+                function replaceVar(listData){
+                    var tempListData = [];
+                    // Use labelKey as pattern if a {var} is present, otherwise just use the list as is
+                    if ($scope.config.labelKey.indexOf('{var}') !== -1 && listData) {
+                        tempListData = listData.map(function(item) {
+                            var result = $scope.config.labelKey;
+                            return result.replace('{var}', item[$scope.config.listKey]);
+                        });
+                    } else {
+                        tempListData = listData;
+                    }
+
+                    return tempListData;
                 }
 
                 return finalListData;

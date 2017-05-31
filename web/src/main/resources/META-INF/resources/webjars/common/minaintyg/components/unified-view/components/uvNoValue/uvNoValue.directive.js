@@ -29,6 +29,9 @@ angular.module('common').directive('uvNoValue', function() {
         scope: {
             text: '='
         },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvNoValue/uvNoValue.directive.html'
+        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvNoValue/uvNoValue.directive.html',
+        controller: function($scope){
+            console.log($scope.text);
+        }
     };
 });
