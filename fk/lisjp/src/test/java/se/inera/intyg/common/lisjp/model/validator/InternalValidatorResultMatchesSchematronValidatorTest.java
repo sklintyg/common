@@ -124,13 +124,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
      */
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
-        List<Object[]> retList = ScenarioFinder.getInternalScenarios("fail-*").stream()
+        List<Object[]> retList = ScenarioFinder.getInternalScenarios("fail-forMangaSysselsattningar").stream()
                 .map(u -> new Object[] { u.getName(), u, true })
                 .collect(Collectors.toList());
-        retList.addAll(
-                ScenarioFinder.getInternalScenarios("pass-*").stream()
-                        .map(u -> new Object[] { u.getName(), u, false })
-                        .collect(Collectors.toList()));
+        //retList.addAll(
+                //ScenarioFinder.getInternalScenarios("pass-*").stream()
+                        //.map(u -> new Object[] { u.getName(), u, false })
+                        //.collect(Collectors.toList()));
         return retList;
     }
 

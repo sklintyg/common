@@ -40,8 +40,7 @@ public abstract class Sysselsattning {
         NUVARANDE_ARBETE("NUVARANDE_ARBETE", "Nuvarande arbete"),
         ARBETSSOKANDE("ARBETSSOKANDE", "Arbetssökande"),
         FORADLRARLEDIGHET_VARD_AV_BARN("FORALDRALEDIG", "Föräldraledighet för vård av barn"),
-        STUDIER("STUDIER", "Studier"),
-        ARBETSMARKNADSPOLITISKT_PROGRAM("PROGRAM", "Deltagande i arbetsmarknadspolitiskt program");
+        STUDIER("STUDIER", "Studier");
 
         private final String id;
         private final String label;

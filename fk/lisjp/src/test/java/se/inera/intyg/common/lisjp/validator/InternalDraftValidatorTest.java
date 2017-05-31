@@ -336,60 +336,6 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSysselsattningArbetsmarknadspolitisktProgram() throws Exception {
-        LisjpUtlatande utlatande = builderTemplate
-                .setSysselsattning(Arrays.asList(Sysselsattning.create(SysselsattningsTyp.ARBETSMARKNADSPOLITISKT_PROGRAM)))
-                .setArbetsmarknadspolitisktProgram("arbetsmarknadspolitisktProgram")
-                .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
-
-    @Test
-    public void validateSysselsattningArbetsmarknadspolitisktProgramBeskrivingMissing() throws Exception {
-        LisjpUtlatande utlatande = builderTemplate
-                .setSysselsattning(Arrays.asList(Sysselsattning.create(SysselsattningsTyp.ARBETSMARKNADSPOLITISKT_PROGRAM)))
-                .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("sysselsattning.arbetsmarknadspolitisktProgram", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSysselsattningArbetsmarknadspolitisktProgramBeskrivingOnly() throws Exception {
-        LisjpUtlatande utlatande = builderTemplate
-                .setSysselsattning(Arrays.asList(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
-                .setArbetsmarknadspolitisktProgram("arbetsmarknadspolitisktProgram")
-                .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.sysselsattning.ampolitisktprogram.invalid_combination", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSysselsattningMultipleOK() throws Exception {
-        LisjpUtlatande utlatande = builderTemplate
-                .setSysselsattning(Arrays.asList(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE),
-                        Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE),
-                        Sysselsattning.create(SysselsattningsTyp.ARBETSMARKNADSPOLITISKT_PROGRAM)))
-                .setNuvarandeArbete("nuvarandeArbete")
-                .setArbetsmarknadspolitisktProgram("arbetsmarknadspolitisktProgram")
-                .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
-
-    @Test
     public void validateSysselsattningTooMany() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
                 .setSysselsattning(Arrays.asList(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE),

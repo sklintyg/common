@@ -81,15 +81,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                     type: 'uv-simple-value',
                     modelProp: 'nuvarandeArbete'
                 } ]
-            },
-            {
-                type: 'uv-fraga',
-                labelKey: 'FRG_30.RBK',
-                components: [{
-                    type: 'uv-simple-value',
-                    modelProp: 'arbetsmarknadspolitisktProgram'
-                } ]
-        } ]
+            }]
     }, {
         type: 'uv-kategori',
         labelKey: 'KAT_3.RBK',

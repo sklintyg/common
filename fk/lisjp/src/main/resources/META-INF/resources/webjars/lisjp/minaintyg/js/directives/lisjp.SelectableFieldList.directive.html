@@ -78,9 +78,6 @@
       <ul id="sysselsattningOptional">
         <li ng-repeat="sys in cert.sysselsattning" ng-if="['NUVARANDE_ARBETE'].indexOf(sys.typ) === -1">
           <span dynamic-label key="KV_FKMU_0002.{{sys.typ}}.RBK"></span>
-          <span ng-if="sys.typ === 'PROGRAM'">
-             <br>{{cert.arbetsmarknadspolitisktProgram}}
-          </span>
         </li>
       </ul>
 

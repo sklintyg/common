@@ -80,11 +80,6 @@
     },
     {
       "typ": "STUDIER"
-    },
-    {
-      "typ": "PROGRAM"
-    }
-  ],
-  "arbetsmarknadspolitisktProgram" : "Arbetsmarknadspolitiskt program",
+    }],
   "undersokningAvPatienten": "2015-12-08"
 }

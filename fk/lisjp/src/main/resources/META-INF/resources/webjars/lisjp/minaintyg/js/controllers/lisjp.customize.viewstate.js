@@ -31,7 +31,7 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
         'kontaktMedFk': { mandatory: false, selected: true, fields: ['kontaktMedFk']},
         'anledningTillKontakt': {mandatory: false, selected: true, fields: ['anledningTillKontakt']},
         'sysselsattningOptional': { id:'sysselsattningOptional', mandatory: false, selected: true,
-            fields: [sysselsattningsTypResolver(['PROGRAM','STUDIER','ARBETSSOKANDE', 'FORALDRALEDIG'])]
+            fields: [sysselsattningsTypResolver(['STUDIER','ARBETSSOKANDE', 'FORALDRALEDIG'])]
         },
 
         //Mandatory fields

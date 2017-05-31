@@ -18,26 +18,37 @@
  */
 package se.inera.intyg.common.lisjp.validator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.lisjp.model.internal.*;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpUtlatande> {
 
     private static final int MAX_ARBETSLIVSINRIKTADE_ATGARDER = 10;
-    private static final int MAX_SYSSELSATTNING = 5;
+    private static final int MAX_SYSSELSATTNING = 4;
     private static final int VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR = 7;
 
     @Autowired
@@ -168,23 +179,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                         "lisjp.validation.sysselsattning.nuvarandearbete.invalid_combination");
             }
 
-            // R11
-            if (Strings.nullToEmpty(utlatande.getArbetsmarknadspolitisktProgram()).trim().isEmpty()
-                    && utlatande.getSysselsattning().stream()
-                            .anyMatch(e -> e.getTyp() == Sysselsattning.SysselsattningsTyp.ARBETSMARKNADSPOLITISKT_PROGRAM)) {
-                ValidatorUtil.addValidationError(validationMessages, "sysselsattning.arbetsmarknadspolitisktProgram",
-                        ValidationMessageType.EMPTY);
-            }
-
-            // R12
-            if (!Strings.nullToEmpty(utlatande.getArbetsmarknadspolitisktProgram()).trim().isEmpty()
-                    && !utlatande.getSysselsattning().stream()
-                            .anyMatch(e -> e.getTyp() == Sysselsattning.SysselsattningsTyp.ARBETSMARKNADSPOLITISKT_PROGRAM)) {
-                ValidatorUtil.addValidationError(validationMessages, "sysselsattning", ValidationMessageType.EMPTY,
-                        "lisjp.validation.sysselsattning.ampolitisktprogram.invalid_combination");
-            }
-
-            // No more than 5 entries are allowed
+            // No more than 4 entries are allowed
             if (utlatande.getSysselsattning().size() > MAX_SYSSELSATTNING) {
                 ValidatorUtil.addValidationError(validationMessages, "sysselsattning", ValidationMessageType.EMPTY,
                         "lisjp.validation.sysselsattning.too-many");
