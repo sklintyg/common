@@ -75,9 +75,9 @@
             <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
                       class="form-control col-md-9 arende-block-wc" ng-model="arendeSvar.meddelande"
                       id="answerText-{{arendeSvar.fragaInternReferens}}"></textarea>
-            <span class="counter push-right" ng-switch="arendeSvar.draftState">
-                <span ng-switch-when="saved" class="span-success" message key="common.arende.draft.saved"></span>
-                <span ng-switch-when="failed" class="span-error" message key="common.arende.draft.failed"></span>
+            <span class="counter pull-right" ng-switch="arendeSvar.draftState">
+                <span ng-switch-when="saved" class="success" message key="common.arende.draft.saved"></span>
+                <span ng-switch-when="failed" class="error" message key="common.arende.draft.failed"></span>
             </span>
           </div>
           <div class="webintyg-top-padding-section">

@@ -491,9 +491,12 @@
     padding-right: 10px;
   }
 
-  /* Not used? */
   span.error {
-    color: $web_orangered;
+    color: $color_apple_blossom_approx;
+  }
+
+  span.success {
+    color: $color_apple_approx;
   }
 
   input:focus:invalid:focus {
@@ -1012,16 +1015,4 @@ wc cookie banner css.
         top:40%;
         text-align:center;
       }
-}
-
-.span-success {
-    color: #42a341;
-}
-
-.span-error {
-    color: red;
-}
-
-.push-right {
-    float: right;
 }

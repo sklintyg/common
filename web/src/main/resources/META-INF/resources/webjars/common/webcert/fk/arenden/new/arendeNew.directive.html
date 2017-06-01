@@ -44,9 +44,9 @@
               ng-model="arendeNewModel.frageText" wc-focus-me="localViewState.focusArende"
               id="arendeNewModelText"></textarea>
       <!--<span class="counter" style="float: right;" message key="common.arende.draft.{{arendeNewModel.saveState}}"></span>-->
-      <span class="counter push-right" ng-switch="arendeNewModel.saveState">
-          <span ng-switch-when="saved" class="span-success" message key="common.arende.draft.saved"></span>
-          <span ng-switch-when="failed" class="span-error" message key="common.arende.draft.failed"></span>
+      <span class="counter pull-right" ng-switch="arendeNewModel.saveState">
+          <span ng-switch-when="saved" class="success" message key="common.arende.draft.saved"></span>
+          <span ng-switch-when="failed" class="error" message key="common.arende.draft.failed"></span>
       </span>
     </div>
 
