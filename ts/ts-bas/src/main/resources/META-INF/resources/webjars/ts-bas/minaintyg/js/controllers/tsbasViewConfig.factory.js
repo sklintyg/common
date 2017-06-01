@@ -140,10 +140,10 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                             return message;
                                         },
                                         function(model) {
-                                            return model.utanKorrektion;
+                                            return $filter('number')(model.utanKorrektion, 1);
                                         },
                                         function(model) {
-                                            return model.medKorrektion;
+                                            return $filter('number')(model.medKorrektion, 1);
                                         },
                                         function(model) {
                                             return $filter('uvBoolFilter')(model.kontaktlins);
@@ -268,7 +268,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                             type: 'uv-del-fraga',
                             components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'funktionsnedsattning.riskfaktorerStroke'
+                                modelProp: 'hjartKarl.riskfaktorerStroke'
                             }]
                         }]
                     },
@@ -293,7 +293,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                             type: 'uv-del-fraga',
                             components: [{
                                 type: 'uv-boolean-value',
-                                modelProp: 'hjartKarl.hjartKarlSjukdom'
+                                modelProp: 'diabetes.harDiabetes'
                             }]
                         }]
                     },
@@ -354,8 +354,8 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         labelKey: 'FRG_21.RBK',
                         components: [
                             {
-                                type: 'uv-simple-value',
-                                modelProp: 'medvetandestorning.medventandestorning'
+                                type: 'uv-boolean-value',
+                                modelProp: 'medvetandestorning.medvetandestorning'
                             },
                             {
                                 type: 'uv-del-fraga',
@@ -434,7 +434,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 labelKey: 'DFR_25.1.RBK',
                                 components: [{
                                     type: 'uv-boolean-value',
-                                    modelProp: 'somnVakenhet.teckenMissbruk'
+                                    modelProp: 'narkotikaLakemedel.teckenMissbruk'
                                 }]
                             }]
                     },
@@ -446,7 +446,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 labelKey: 'DFR_25.2.RBK',
                                 components: [{
                                     type: 'uv-boolean-value',
-                                    modelProp: 'somnVakenhet.foremalForVardinsats'
+                                    modelProp: 'narkotikaLakemedel.foremalForVardinsats'
                                 }]
                             }]
                     },
@@ -458,7 +458,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 labelKey: 'DFR_25.3.RBK',
                                 components: [{
                                     type: 'uv-boolean-value',
-                                    modelProp: 'somnVakenhet.foremalForVardinsats'
+                                    modelProp: 'narkotikaLakemedel.provtagningBehovs'
                                 }]
                             }]
                     },
@@ -479,7 +479,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 type: 'uv-del-fraga',
                                 labelKey: 'DFR_26.1.RBK',
                                 components: [{
-                                    type: 'uv-boolean-value',
+                                    type: 'uv-simple-value',
                                     modelProp: 'narkotikaLakemedel.lakemedelOchDos'
                                 }]
                             }]
