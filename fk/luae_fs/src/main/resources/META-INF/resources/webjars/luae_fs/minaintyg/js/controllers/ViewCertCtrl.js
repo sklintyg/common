@@ -1,8 +1,8 @@
 angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService',
+        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'luae_fs.viewConfigFactory',
         function($location, $log, $rootScope, $stateParams, $scope, listCertService, certificateService, dialogService,
-            messageService, moduleService) {
+            messageService, moduleService, viewConfigFactory) {
             'use strict';
 
             $scope.cert = {};
@@ -105,6 +105,7 @@ angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
                 if (result !== null) {
                     $log.info('res in virecertcontr' + JSON.stringify(result));
                     $scope.cert = result.utlatande;
+                    $scope.certMeta = result.meta;
                     $scope.cert.filteredStatuses = $scope.filterStatuses(result.meta.statuses);
                     $rootScope.cert = $scope.cert;
                 } else {
@@ -117,4 +118,5 @@ angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
             });
 
             $scope.pagefocus = true;
+            $scope.uvConfig = viewConfigFactory.getViewConfig();
         }]);
