@@ -1,4 +1,3 @@
-
 angular.module('luae_na', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 angular.module('luae_na').config(function($stateProvider) {
@@ -11,12 +10,6 @@ angular.module('luae_na').config(function($stateProvider) {
             controller: 'luae_na.ViewCertCtrl',
             data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
-        }).
-        state('luae_na-statushistory', {
-            url : '/luae_na/statushistory',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/status-history.html',
-            controller: 'luae_na.ViewCertCtrl',
-            data : { title: 'Alla intygets händelser' }
         }).
         state('luae_na-fel', {
             url : '/luae_na/fel/:errorCode',
