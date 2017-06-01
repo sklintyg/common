@@ -5,11 +5,11 @@ describe('dynamiclink', function() {
 
     var $scope;
     var _links = {
-        "somekey": {
-            "text": "real text",
-            "url": "http://some.url",
-            "tooltip": "My tooltip!",
-            "target": "_blank"
+        'somekey': {
+            'text': 'real text',
+            'url': 'http://some.url',
+            'tooltip': 'My tooltip!',
+            'target': '_blank'
         }
     };
 
