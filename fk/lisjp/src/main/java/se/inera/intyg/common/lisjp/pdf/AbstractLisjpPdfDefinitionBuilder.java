@@ -262,9 +262,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                                 .anyMatch(typ -> Sysselsattning.SysselsattningsTyp.STUDIER.equals(typ)))
                                         .offset(0f, 37.5f)
                                         .size(KATEGORI_FULL_WIDTH, 7.5f)
-                                        .withBorders(Rectangle.BOTTOM + Rectangle.RIGHT)
-                                        .withVerticalAlignment(Element.ALIGN_TOP)
-                                        .withTopPadding(2f));
+                                        .withBorders(Rectangle.BOTTOM + Rectangle.RIGHT));
         return fraga3;
     }
 

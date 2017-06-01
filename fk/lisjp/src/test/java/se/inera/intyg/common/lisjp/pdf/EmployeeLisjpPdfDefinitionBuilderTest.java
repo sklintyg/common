@@ -55,7 +55,6 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  * inspection
  * of the resulting pdf files, as we don't have any easy way of programmatically assert the content of the pdf.
  */
-@Ignore // Disable these tests until INTYG-4026 is completed.
 public class EmployeeLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest {
     private static final String HSVARD_RECIPIENT_ID = "HSVARD";
     List<String> allOptionalFields = Arrays.asList(
