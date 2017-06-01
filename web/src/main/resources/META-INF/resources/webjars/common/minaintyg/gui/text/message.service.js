@@ -31,6 +31,7 @@ angular.module('common').factory('common.messageService',
         'use strict';
 
         var _messageResources = null;
+        var _links = null;
 
         function _propertyExists(key) {
             var value;
@@ -83,6 +84,19 @@ angular.module('common').factory('common.messageService',
                 message = _format(message, params);
             }
 
+            // Find <LINK: dynamic links and replace
+            var regex2 = /<LINK:(.*?)>/gi, result;
+
+            while ( (result = regex2.exec(message)) ) {
+                var replace = result[0];
+                var linkKey = result[1];
+
+                var dynamicLink = _buildDynamicLink(linkKey);
+
+                var regexp = new RegExp(replace, 'g');
+                message = message.replace(regexp, dynamicLink);
+            }
+
             return message;
         }
 
@@ -112,9 +126,22 @@ angular.module('common').factory('common.messageService',
             }
         }
 
+        function _buildDynamicLink(linkKey) {
+            var dynamicLink = '<a href="' + _links[linkKey].url + '"';
+            dynamicLink += _links[linkKey].tooltip ? ' title="' + _links[linkKey].tooltip + '"' : '';
+            dynamicLink += _links[linkKey].target ? ' target="' + _links[linkKey].target + '">' : '>';
+            dynamicLink += _links[linkKey].text + '</a>';
+            return dynamicLink;
+        }
+
+        function _addLinks(links) {
+            _links = links;
+        }
+
         return {
             propertyExists: _propertyExists,
             getProperty: _getProperty,
-            addResources: _addResources
+            addResources: _addResources,
+            addLinks: _addLinks
         };
     });
