@@ -17,9 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common.dynamiclink').directive('dynamiclink',
-        function($log, $rootScope, $sce, $compile,
-            dynamicLinkService) {
+angular.module('common').directive('dynamiclink', ['$log', '$rootScope', '$sce', '$compile', 'common.dynamicLinkService',
+        function($log, $rootScope, $sce, $compile, dynamicLinkService) {
             'use strict';
 
             return {
@@ -49,4 +48,4 @@ angular.module('common.dynamiclink').directive('dynamiclink',
                     });
                 }
             };
-        });
+        }]);
