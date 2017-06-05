@@ -32,8 +32,8 @@ angular.module('common').directive('wcUtkastPatientAddressUpdater',
         templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastPatientAddressUpdater.directive.html',
         controller: function ($scope) {
           $scope.onUpdateAddressClick = function () {
-            if (!(angular.isObject($scope.patientModel) &&
-              angular.isString($scope.patientModel.personId))) {
+            if (!(angular.isObject($scope.viewState.intygModel.grundData.patient) &&
+              angular.isString($scope.viewState.intygModel.grundData.patient.personId))) {
               $log.debug('No patientId to do lookup for.');
               return;
             }
@@ -41,12 +41,12 @@ angular.module('common').directive('wcUtkastPatientAddressUpdater',
             $scope.fetchingPatientData = true;
             $scope.fetchingPatientDataErrorKey = null;
             $timeout(function () { // delay operation just a bit to make sure the animation is visible to the user
-              PatientProxy.getPatient($scope.patientModel.personId, function (patientResult) {
+              PatientProxy.getPatient($scope.viewState.intygModel.grundData.patient.personId, function (patientResult) {
                 $scope.fetchingPatientData = false;
 
-                $scope.patientModel.postadress = patientResult.postadress;
-                $scope.patientModel.postnummer = patientResult.postnummer;
-                $scope.patientModel.postort = patientResult.postort;
+                $scope.viewState.intygModel.grundData.patient.postadress = patientResult.postadress;
+                $scope.viewState.intygModel.grundData.patient.postnummer = patientResult.postnummer;
+                $scope.viewState.intygModel.grundData.patient.postort = patientResult.postort;
                 $scope.form.$setDirty();
                 $timeout(function () {
                   if($scope.viewState){
