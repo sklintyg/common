@@ -63,7 +63,7 @@ angular.module('common').constant('common.messages', {
         'modules.label.blank': 'Ej ifyllt',
 
         // texts used by mi-certificate-action-buttons directive (would be nice to have resource keys per directive, like scss...)
-        'modules.actionbar.button.send' : 'Välj mottagare och skicka intyg',
+        'modules.actionbar.button.send' : 'Välj mottagare och skicka intyget',
         'modules.actionbar.button.send.tooltip' : 'Skicka intyget elektroniskt, t.ex. till Försäkringskassan eller Transportstyrelsen.',
         'modules.actionbar.button.customizepdf' : 'Anpassa intyg till arbetsgivare',
         'modules.actionbar.button.customizepdf.tooltip' : 'Du kan välja bort intygsinformation du inte vill delge din arbetsgivare.',
