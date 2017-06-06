@@ -22,6 +22,10 @@
 // Component styles are injected through grunt
 // injector
 @import 'components/common-intyg-modules.scss';
+@import 'components/customize-pdf/miCheckboxSlider.directive.scss';
+@import 'components/customize-pdf/miFishbone.directive.scss';
+@import 'components/customize-pdf/selectableCategoryWrapper.directive.scss';
+@import 'components/customize-pdf/selectableFieldWrapper.directive.scss';
 @import 'components/latestEvents/latestEvents.directive.scss';
 @import 'components/latestEventsModal/latestEventsModal.directive.scss';
 @import 'components/miCertificateActionButtons/miCertificateActionButtons.directive.scss';

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,18 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('lisjp').directive('selectableFieldList', function() {
+angular.module('common').directive('miFishbone', function() {
     'use strict';
 
     return {
         restrict: 'E',
         scope: {
-            fieldConfig: '=',
-            cert: '=',
-            summary: '=',
-            showDeselected: '='
-
+            stepModel: '='
         },
-        templateUrl: '/web/webjars/lisjp/minaintyg/js/directives/selectableFieldList.directive.html'
+        templateUrl: '/web/webjars/common/minaintyg/components/customize-pdf/miFishbone.directive.html'
     };
 });

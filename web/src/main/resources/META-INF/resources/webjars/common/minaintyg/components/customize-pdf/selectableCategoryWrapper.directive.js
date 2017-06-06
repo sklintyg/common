@@ -17,20 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('lisjp').directive('selectableCategoryWrapper',['$parse', 'common.ObjectHelper', function($parse, objectHelper) {
+angular.module('common').directive('selectableCategoryWrapper',['$parse', 'common.ObjectHelper', function($parse, objectHelper) {
     'use strict';
 
     return {
         restrict: 'E',
         transclude: true,
-        replace: true,
         scope: {
             categoryLabel: '@',
             fieldConfigs: '=',
             certModel: '=',
             summary: '='
         },
-        templateUrl: '/web/webjars/lisjp/minaintyg/js/directives/selectableCategoryWrapper.directive.html',
+        templateUrl: '/web/webjars/common/minaintyg/components/customize-pdf/selectableCategoryWrapper.directive.html',
         controller: function($scope) {
 
             var _parseSingleValue = function (expression) {

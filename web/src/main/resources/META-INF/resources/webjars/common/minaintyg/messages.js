@@ -83,6 +83,24 @@ angular.module('common').constant('common.messages', {
         'modules.page-header.info.more.false':'<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'modules.page-header.info.more.true':'<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
 
+
+
+        //Common text in customized pdf wizard
+        'modules.customize.label.mandatory': 'Obligatoriskt fält',
+        'modules.customize.label.optional': 'Inkludera i anpassat intyg',
+        'modules.customize.message.warning': 'Dina val är frivilliga, men att dela med sig av information kan underlätta arbetsgivarens möjlighet att göra arbetsanpassningar för dig.',
+        'modules.customize.remove-field.header': 'Vill du verkligen ta bort denna information?',
+        'modules.customize.remove-field.body': 'Observera att informationen är frivillig, men att dina val kan försvåra arbetsgivarens möjligheter att göra arbetsanpassningar!',
+        'modules.customize.remove-field.button.confirm': 'Ja, ta bort',
+        'modules.customize.remove-field.button.cancel': 'Nej, ta inte bort',
+        'modules.customize.fishbone.step1': 'Steg 1: Anpassa intyg',
+        'modules.customize.fishbone.step2': 'Steg 2: Bekräfta anpassat intyg',
+        'modules.customize.fishbone.step3': 'Steg 3: Ladda ner PDF',
+        'modules.customize.summary.leave-dialog.header': 'Vill du lämna anpassat intyg?',
+        'modules.customize.summary.leave-dialog.body': 'Observera att ditt anpassade intyg inte sparas i Mina intyg efter att du navigerat till en annan sida. Se därför till att du har laddat ner intyget, innan du lämnar sidan.',
+        'modules.customize.summary.leave-dialog.button.confirm': 'Ja, lämna anpassat intyg. ',
+        'modules.customize.summary.leave-dialog.button.cancel': 'Nej, stanna kvar.',
+
         'modules.button.alt.archive': 'Arkivera intyget. Flyttar intyget till Arkiverade intyg',
         'modules.button.save.as.pdf': 'Spara som PDF',
         'modules.link.label.save.as.pdf': 'Spara som PDF',
