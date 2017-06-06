@@ -13,7 +13,7 @@ angular.module('lisjp').config(function($stateProvider) {
             breadcrumb: ['inkorg', 'intyg']
         }
     }).state('lisjp-customize', {
-        abstract: true,
+        abstract: true, // jshint ignore:line
         url: '/:type/customize/:certificateId',
         templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf.html',
         controller: 'lisjp.CustomizePdfCtrl',
