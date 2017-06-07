@@ -78,7 +78,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory', [
                             type: 'uv-del-fraga',
                             components: [{
                                 type: 'uv-kodverk-value',
-                                kvModelProps: ['diabetes.diabetesTyp'],
+                                kvModelProps: ['diabetes.diabetestyp'],
                                 kvLabelKeys: ['ts-bas.label.diabetes.diabetestyp.{var}']
                             }]
                         }]
@@ -288,7 +288,16 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory', [
                                     colProps: ['hoger', 'vanster', 'binokulart'],
                                     valueProps: [
                                         function(model, rowIndex, colIndex, colProp) {
-                                            var message = 'ts-diabetes.label.syn.' + colProp.toLowerCase();
+
+                                            var message = 'ts-diabetes.label.syn.';
+                                            switch (rowIndex){
+                                            case 0:
+                                                message += 'hogeroga'; break;
+                                            case 1:
+                                                message += 'vansteroga'; break;
+                                            case 2:
+                                                message += 'binokulart'; break;
+                                            }
                                             return message;
                                         },
                                         function(model) {

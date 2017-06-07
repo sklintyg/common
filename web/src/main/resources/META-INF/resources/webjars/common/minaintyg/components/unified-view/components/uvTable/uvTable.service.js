@@ -56,7 +56,10 @@ angular.module('common').factory('uvTableService',
                     var rows = [];
                     var colProps = config.colProps;
                     angular.forEach(colProps, function(colProp, rowIndex){
-                        this.push(_createRow(config, model[colProp], colProp, rowIndex));
+                        var cellModel = model[colProp];
+                        if(angular.isDefined(cellModel)){
+                            this.push(_createRow(config, model[colProp], colProp, rowIndex));
+                        }
                     }, rows);
                     return rows;
                 }
