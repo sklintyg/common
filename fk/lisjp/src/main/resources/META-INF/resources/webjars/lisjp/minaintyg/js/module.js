@@ -20,8 +20,7 @@ angular.module('lisjp').config(function($stateProvider) {
         data: {
             title: 'Anpassa intyget till arbetsgivare',
             keepInboxTabActive: true,
-            breadcrumb: ['inkorg', 'intyg', 'anpassa']
-        }
+            breadcrumb: ['inkorg', 'intyg', 'anpassa'], backState: 'history-back' }
 
     }).state('lisjp-customize.step1', {
         url: '',
