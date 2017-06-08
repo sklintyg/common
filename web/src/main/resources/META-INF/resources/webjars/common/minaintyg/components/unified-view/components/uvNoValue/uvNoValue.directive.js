@@ -31,7 +31,6 @@ angular.module('common').directive('uvNoValue', function() {
         },
         templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvNoValue/uvNoValue.directive.html',
         controller: function($scope){
-            console.log($scope.text);
         }
     };
 });
