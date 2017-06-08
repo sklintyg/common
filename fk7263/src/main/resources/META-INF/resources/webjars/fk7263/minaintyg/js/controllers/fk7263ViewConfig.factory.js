@@ -22,6 +22,8 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
 
     var viewConfig = [
 
+        // TODO: Add sjukskrivningsgrad
+
         {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.smittskydd',
@@ -33,16 +35,23 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
                 } ]
             } ]
         },
-
         {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.diagnosis',
-            components: [ {
+            components: [{
                 type: 'uv-fraga',
                 labelKey: 'fk7263.label.diagnosisCode',
-                components: [ {
+                components: [{
                     type: 'uv-simple-value',
                     modelProp: 'diagnosKod'
+                }]
+            }, {
+                // TODO: hide if empty
+                type: 'uv-fraga',
+                labelKey: 'fk7263.label.diagnosfortydligande',
+                components: [ {
+                    type: 'uv-simple-value',
+                    modelProp: 'diagnosBeskrivning'
                 } ]
             } ]
         },
@@ -70,6 +79,16 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
         },
         {
             type: 'uv-kategori',
+            labelKey: 'fk7263.label.basedon',
+            components: [ {
+                // TODO: Add value
+                type: 'uv-fraga',
+                components: [
+                 ]
+            } ]
+        },
+        {
+            type: 'uv-kategori',
             labelKey: 'fk7263.label.limitation',
             components: [ {
                 type: 'uv-fraga',
@@ -77,6 +96,49 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
                     type: 'uv-simple-value',
                     modelProp: 'aktivitetsbegransning'
                 } ]
+            } ]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'fk7263.label.recommendations',
+            components: [ {
+                // TODO: Add value
+                type: 'uv-fraga',
+                components: []
+            } ]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'fk7263.label.plannedtreatment',
+            components: [ {
+                // TODO: Add value
+                type: 'uv-fraga',
+                components: []
+            } ]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'fk7263.label.workrehab',
+            components: [ {
+                type: 'uv-fraga',
+                components: [{
+                    type: 'uv-enum-value',
+                    modelProp: 'rehabilitering',
+                    values: {
+                        'rehabiliteringAktuell' : 'fk7263.label.yes',
+                        'rehabiliteringEjAktuell': 'fk7263.label.no',
+                        'rehabiliteringGarInteAttBedoma':'fk7263.label.unjudgeable'
+                    }
+                }]
+            } ]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'fk7263.label.patientworkcapacity',
+            components: [ {
+                // TODO: Add value
+                type: 'uv-fraga',
+                components: []
             } ]
         },
         {
@@ -90,16 +152,21 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
                 } ]
             } ]
         },
-
         {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.prognosis',
             components: [ {
                 type: 'uv-fraga',
-                components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'prognosBedomning'
-                } ]
+                components: [{
+                    type: 'uv-enum-value',
+                    modelProp: 'prognosBedomning',
+                    values: {
+                        'arbetsformagaPrognosJa' : 'fk7263.label.yes',
+                        'arbetsformagaPrognosJaDelvis': 'fk7263.label.partialyes',
+                        'arbetsformagaPrognosNej':'fk7263.label.no',
+                        'arbetsformagaPrognosGarInteAttBedoma':'fk7263.label.unjudgeable'
+                    }
+                }]
             } ]
         },
         {
@@ -107,6 +174,7 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
             labelKey: 'fk7263.label.othertransport',
             components: [ {
                 type: 'uv-fraga',
+                // TODO: Add value
                 components: [ {
                     /*<span ng-show="cert.ressattTillArbeteAktuellt">
                      <span id="resaTillArbetet-yes" message key="fk7263.label.yes"></span>
