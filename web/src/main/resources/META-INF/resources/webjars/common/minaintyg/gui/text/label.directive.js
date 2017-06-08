@@ -1,6 +1,6 @@
 angular.module('common').directive('dynamicLabel',
-    [ '$log', '$rootScope', 'common.dynamicLabelService',
-        function($log, $rootScope, dynamicLabelService) {
+    [ '$log', '$rootScope', 'common.dynamicLabelService', 'common.messageService',
+        function($log, $rootScope, dynamicLabelService, messageService) {
             'use strict';
 
             return {
@@ -14,7 +14,13 @@ angular.module('common').directive('dynamicLabel',
                     var result;
 
                     function updateText(interpolatedKey) {
-                        result = dynamicLabelService.getProperty(interpolatedKey);
+                        // Try to find the key in the messageService first
+                        result = messageService.propertyExists(interpolatedKey);
+
+                        if (!result) {
+                            result = dynamicLabelService.getProperty(interpolatedKey);
+                        }
+
                         scope.resultValue = result;
                     }
 
