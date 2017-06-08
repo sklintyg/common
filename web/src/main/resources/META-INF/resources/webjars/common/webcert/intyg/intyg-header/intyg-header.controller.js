@@ -48,11 +48,13 @@ angular.module('common').controller('common.IntygHeader',
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
             };
             $scope.isReplaced = function(){
-                return angular.isObject($scope.viewState.common.intygProperties.replacedByRelation);
+                return angular.isObject($scope.viewState.common.intygProperties.replacedByRelation) &&
+                    $scope.viewState.common.intygProperties.replacedByRelation.status === 'SIGNED';
             };
 
             $scope.isComplemented = function() {
-                return angular.isObject($scope.viewState.common.intygProperties.complementedByRelation);
+                return angular.isObject($scope.viewState.common.intygProperties.complementedByRelation) &&
+                    $scope.viewState.common.intygProperties.complementedByRelation.status === 'SIGNED';
             };
 
             $scope.isPatientDeceased = function() {

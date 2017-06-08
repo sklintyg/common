@@ -18,9 +18,9 @@
  */
 
 angular.module('common').factory('common.IntygCopyActions',
-    [ '$log', '$stateParams',
+    [ '$log', '$stateParams', '$state',
         'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.UserModel', 'common.User', 'common.IntygHelper', 'common.PersonIdValidatorService',
-        function($log, $stateParams,
+        function($log, $stateParams, $state,
             dialogService, IntygProxy, authorityService, UserModel, userService, IntygHelper, PersonIdValidatorService) {
             'use strict';
 
@@ -264,12 +264,18 @@ angular.module('common').factory('common.IntygCopyActions',
                 return null;
             }
 
+            function _hasErsattningsUtkast(viewState) {
+                return angular.isObject(viewState.common.intygProperties.replacedByRelation) &&
+                    viewState.common.intygProperties.replacedByRelation.status !== 'SIGNED';
+            }
+
             function _ersatt(viewState, intygErsattRequest, isOtherCareUnit) {
 
                 ersattDialogModel.otherCareUnit = isOtherCareUnit;
                 ersattDialogModel.patientId = PersonIdValidatorService.validate($stateParams.patientId);
                 ersattDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                 ersattDialogModel.intygTyp = intygErsattRequest.intygType;
+                ersattDialogModel.ersattningsUtkastFinns = _hasErsattningsUtkast(viewState);
 
                var ersattDialog = dialogService.showDialog({
                         dialogId: 'ersatt-dialog',
@@ -288,11 +294,20 @@ angular.module('common').factory('common.IntygCopyActions',
                                 }
                             });
                         },
-                        button2click: function(modalInstance){
+                        button2click: function () {
+                            // Extra check so we have an actual UTKAST replacedByRelation
+                            if (_hasErsattningsUtkast(viewState)) {
+                                _continueOnDraft(viewState.common.intygProperties.replacedByRelation.intygsId, viewState.intygModel.typ);
+                            } else {
+                                viewState.inlineErrorMessageKey = ersattDialogModel.errormessageid;
+                            }                               
+                        },
+                        button3click: function(modalInstance){
                             modalInstance.close();
                         },
                         button1text: 'common.ersatt',
-                        button2text: 'common.ersatt.cancel',
+                        button2text: 'common.ersatt.resume',
+                        button3text: 'common.ersatt.cancel',
                         bodyText: ersattDialogModel.intygTyp + '.modal.ersatt.text',
                         autoClose: false
                     });
@@ -351,6 +366,12 @@ angular.module('common').factory('common.IntygCopyActions',
                     if (onError) {
                         onError(error.errorCode);
                     }
+                });
+            }
+
+            function _continueOnDraft(intygsId, intygsTyp) {
+                $state.go(intygsTyp + '-edit', {
+                    certificateId: intygsId
                 });
             }
 

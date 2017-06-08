@@ -40,6 +40,7 @@ angular.module('common').constant('common.messages', {
         'common.fornya': 'Förnya',
         'common.fornya.tooltip': 'Om du vill förlänga en sjukskrivning kan du förnya intyget. Viss information från det befintliga intyget följer med till det nya utkastet.',
         'common.ersatt': 'Ersätt',
+        'common.ersatt.resume': 'Fortsätt på utkast',
         'common.ersatt.cancel': 'Avbryt, ersätt ej',
         'common.ersatt.tooltip': 'Om intyget innehåller felaktiga uppgifter, eller om ny information inkommit, kan du ersätta ett intyg. All information i det befintliga intyget följer med till utkastet.',
         'common.show': 'Visa',
@@ -118,6 +119,8 @@ angular.module('common').constant('common.messages', {
         'intyg.status.patient.name.changed': 'Observera att patientens namn har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn.',
         'intyg.status.patient.address.changed': 'Observera att patientens adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya adress.',
         'intyg.status.patient.name.and.address.changed': 'Observera att patientens namn och adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn och adress.',
+
+        'intyg.status.replacement.utkast.exists': '<strong>OBS!</strong> Det finns redan ett intygsutkast påbörjat som skall ersätta detta intyg.',
 
         // Revoke status messages (type agnostic)
         'intyg.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',

@@ -26,6 +26,10 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
     function($location) {
         'use strict';
 
+        function relationForSignedIntyg(relation) {
+            return angular.isObject(relation) && relation.status === 'SIGNED';
+        }
+
         return {
             restrict: 'A',
             replace: true,
@@ -39,7 +43,7 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
 
                 var updateMessage = function() {
                     $scope.relation = $scope.$eval(completePathToRelationOnScope);
-                    $scope.showMessage = angular.isObject($scope.relation);
+                    $scope.showMessage = relationForSignedIntyg($scope.relation);
                 };
 
                 // intyg data may be loaded now, or it may be loaded later.
@@ -55,7 +59,7 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
                     if ($event) {
                         $event.preventDefault();
                     }
-                    //Go to either edit or view intyg    TODO MUST FIX!!!
+                    //Go to either edit or view intyg.
                     if ($scope.relation.status === 'DRAFT_INCOMPLETE' || $scope.relation.status === 'DRAFT_COMPLETE') {
                         $location.path(
                             '/' + $scope.viewState.common.intygProperties.type + '/edit/' + $scope.relation.intygsId);

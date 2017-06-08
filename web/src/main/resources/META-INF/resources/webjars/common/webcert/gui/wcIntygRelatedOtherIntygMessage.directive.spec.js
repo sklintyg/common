@@ -46,10 +46,24 @@ describe('wcIntygRelatedOtherIntygMessageDirective', function() {
     }]));
 
     it('should display warning message when relation exists', function() {
+        $scope.viewState.common.intygProperties.relation =
+            {
+                status: 'SIGNED'
+            };
         $scope.$digest();
 
         expect(element.isolateScope().showMessage).toBe(true);
         expect($(element).find('span').text()).toContain('Intyget har ersatts av');
+    });
+
+    it('should NOT display warning message when relation exists but is to UTKAST', function() {
+        $scope.viewState.common.intygProperties.relation =
+            {
+                status: 'DRAFT_COMPLETE'
+            };
+        $scope.$digest();
+
+        expect(element.isolateScope().showMessage).toBe(false);
     });
 
     it('should NOT display warning message when relation is missing ', function() {

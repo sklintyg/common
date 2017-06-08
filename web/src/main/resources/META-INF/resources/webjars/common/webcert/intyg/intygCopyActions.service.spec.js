@@ -67,7 +67,10 @@ describe('IntygCopyService', function() {
             $scope = {
                 viewState: {
                     activeErrorMessageKey: null,
-                    inlineErrorMessageKey: null
+                    inlineErrorMessageKey: null,
+                    common: {
+                        intygProperties: {}
+                    }
                 },
                 dialog: {
                     showerror: false,
@@ -155,6 +158,7 @@ describe('IntygCopyService', function() {
 
         it('should show the ersatt dialog and send request if dialogbutton clicked', function() {
 
+           // $scope.viewState.common.intygProperties.replacedByRelation = undefined;
 
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/ersatt/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
