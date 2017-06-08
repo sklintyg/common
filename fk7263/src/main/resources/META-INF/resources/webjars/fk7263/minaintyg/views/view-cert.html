@@ -1,76 +1,89 @@
 <mi-page-head>
   <mi-breadcrumb></mi-breadcrumb>
+
   <!-- Content -->
   <div class="row">
-    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+    <div class="col-xs-12 col-sm-7">
       <h1 ng-focus="pagefocus" tabindex="-1">
         <span id="viewCertificateHeader" message key="fk7263.label.pagetitle"></span>
       </h1>
-      <p>
-      <div class="mi-text" message key="fk7263.label.pageingress"></div>
+      <div>
+        <span class="mi-text" message key="fk7263.label.pageingress"></span>
+      </div>
 
-      <div uib-collapse="!isCollapsed1" class="collapse mi-text">
-        <div message key="fk7263.label.pagedescription.sendcertificate.header"></div>
-        <div message key="fk7263.label.pagedescription.sendcertificate"></div>
-        <div message key="fk7263.label.pagedescription.save.or.print.certificate.header"></div>
-        <div message key="fk7263.label.pagedescription.save.or.print.certificate"></div>
+      <div uib-collapse="!isCollapsed1" class="collapse">
+        <h3>
+          <span message key="fk7263.label.pagedescription.sendcertificate.header"></span>
+        </h3>
+        <span message key="fk7263.label.pagedescription.sendcertificate"></span>
+
+        <h3>
+          <span message key="fk7263.label.pagedescription.save.or.print.certificate.header"></span>
+        </h3>
+        <span message key="fk7263.label.pagedescription.save.or.print.certificate"></span>
         <a class="glyphicon glyphicon-question-sign more-info" ng-click="isCollapsedPDF = !isCollapsedPDF"
            title="{{messageService.getProperty('common.title.helptext.moreinfo')}}"></a>
         <div uib-collapse="!isCollapsedPDF" class="well well-sm margin-top-5px">
           <span message key="fk7263.helptext.readpdfhelp"></span>
         </div>
-        <div message key="fk7263.label.pagedescription.sickness.benefit.header"></div>
-        <div message key="fk7263.label.pagedescription.sickness.benefit"></div>
-        <div message key="fk7263.label.pagedescription.error.in.certificate.header"></div>
-        <div message key="fk7263.label.pagedescription.error.in.certificate"></div>
-        <div message key="fk7263.label.pagedescription.archive.header"></div>
-        <div message key="fk7263.label.pagedescription.archive"></div>
+
+        <h3>
+          <span message key="fk7263.label.pagedescription.sickness.benefit.header"></span>
+        </h3>
+        <span message key="fk7263.label.pagedescription.sickness.benefit"></span>
+
+        <h3>
+          <span message key="fk7263.label.pagedescription.error.in.certificate.header"></span>
+        </h3>
+        <span message key="fk7263.label.pagedescription.error.in.certificate"></span>
+
+        <h3>
+          <span message key="fk7263.label.pagedescription.archive.header"></span>
+        </h3>
+        <span message key="fk7263.label.pagedescription.archive"></span>
       </div>
-      </p>
+
       <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px"
               data-toggle="collapse">
         <span message key="fk7263.label.status.{{!isCollapsed1}}"></span>
       </button>
     </div>
-    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-      <latest-events cert-id="{{cert.id}}" statuses="cert.filteredStatuses"></latest-events>
+
+    <div class="col-xs-12 col-sm-5">
+      <latest-events cert-id="{{cert.id}}" statuses="certMeta.statuses"></latest-events>
     </div>
   </div>
 </mi-page-head>
+
 <div class="container">
   <div class="row-fluid">
 
     <div mi-spinner label="fk7263.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
 
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <form id="view-as-pdf" action="{{downloadAsPdfLink}}" name="pdfForm" method="get" target="_blank">
-            <p class="btn-row">
-              <button type="button" id="sendCertificateBtn" type="button" ng-click="send()" class="btn btn-success"
-                      title="{{messageService.getProperty('fk7263.button.send.certificate.title')}}">
-                <span message key="fk7263.button.send.certificate"></span>
-              </button>
-              <button type="button" id="customizeCertificateBtn" ng-click="customizeCertificate()"
-                      class="btn btn-primary"
-                      title="{{messageService.getProperty('fk7263.button.customize.certificate.title')}}">
-                <span message key="fk7263.button.customize.certificate"></span>
-              </button>
-              <button type="submit" id="downloadprint" ng-click="document.pdfForm.submit()" class="btn btn-inverse">
-                <span message key="modules.button.save.as.pdf"></span>
-              </button>
-              <button type="button" id="archiveCertificateBtn" ng-click="openArchiveDialog(cert)"
-                      class="btn btn-inverse" title="{{messageService.getProperty('button.archive.tooltip')}}">
-                <span message key="button.archive"></span>
-              </button>
-            </p>
-          </form>
-        </div>
-      </div>
+      <mi-certificate-action-buttons
+          cert-model="cert"
+          on-send="send(cert)"
+          enable-archive="true"
+          enable-print="true"
+          on-customize-pdf="customizeCertificate()">
+
+      </mi-certificate-action-buttons>
+
+      <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
+      <mi-compact-certificate-body cert-meta-model="certMeta"></mi-compact-certificate-body>
+      <uv-render-components config="uvConfig" view-data="cert"></uv-render-components>
+
+    </div>
+    <!-- eof spinner -->
+  </div>
+</div>
+
+<div class="container">
+  <div class="row-fluid">
+
+    <div mi-spinner label="fk7263.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
 
       <div id="certificate" class="certificate">
-        <span class="hide" id="certId" title="{{cert.id}}"></span>
-        <span class="hide" id="certType" title="fk7263"></span>
-
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="cert">
