@@ -109,8 +109,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 choices: ['NUVARANDE_ARBETE',
                                     'ARBETSSOKANDE',
                                     'FORALDRALEDIG',
-                                    'STUDIER',
-                                    'PROGRAM'
+                                    'STUDIER'
                                 ],
                                 required: true
                             }
@@ -119,11 +118,6 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             key: 'nuvarandeArbete', type: 'multi-text',
                             hideExpression: '!model.sysselsattning["NUVARANDE_ARBETE"]',
                             templateOptions: {label: 'FRG_29', required: true, hideWhenEmpty: true}
-                        },
-                        {
-                            key: 'arbetsmarknadspolitisktProgram', type: 'multi-text',
-                            hideExpression: '!model.sysselsattning["PROGRAM"]',
-                            templateOptions: {label: 'FRG_30', required: true, hideWhenEmpty: true }
                         }
                     ]
                 },

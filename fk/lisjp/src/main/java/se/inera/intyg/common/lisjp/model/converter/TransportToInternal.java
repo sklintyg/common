@@ -25,8 +25,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_VAL_DELSVAR_ID_40;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_30;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_ID_30;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_OM_DELSVAR_ID_34;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_ID_34;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_ID_33;
@@ -127,9 +125,6 @@ public final class TransportToInternal {
                 break;
             case NUVARANDE_ARBETE_SVAR_ID_29:
                 handleNuvarandeArbete(utlatande, svar);
-                break;
-            case ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_ID_30:
-                handleArbetsmarknadspolitisktProgram(utlatande, svar);
                 break;
             case DIAGNOS_SVAR_ID_6:
                 handleDiagnos(diagnoser, svar);
@@ -321,18 +316,6 @@ public final class TransportToInternal {
             }
         }
 
-    }
-
-    private static void handleArbetsmarknadspolitisktProgram(LisjpUtlatande.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_30:
-                utlatande.setArbetsmarknadspolitisktProgram(getStringContent(delsvar));
-                break;
-            default:
-                throw new IllegalArgumentException();
-            }
-        }
     }
 
     private static void handleNuvarandeArbete(LisjpUtlatande.Builder utlatande, Svar svar) {

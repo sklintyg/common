@@ -18,21 +18,23 @@
  */
 package se.inera.intyg.common.lisjp.pdf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.test.util.ReflectionTestUtils;
-import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
-import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Before;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 
 /**
  * Created by marced on 2017-03-08.
@@ -65,6 +67,7 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
         String dir = "build/tmp";// TODO: System.getProperty("pdfOutput.dir") only existed in POM file - need to find a
         // way in gradle;
         File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix, "lisjp.pdf"));
+        file.getParentFile().mkdirs();
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();

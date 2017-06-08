@@ -17,25 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('lisjp').directive('selectableFieldWrapper', ['$parse', 'common.ObjectHelper', 'common.messageService', function($parse, objectHelper, messageService) {
+angular.module('common').directive('selectableFieldWrapper', ['$parse', 'common.ObjectHelper', 'common.messageService', function($parse, objectHelper, messageService) {
     'use strict';
 
     return {
         restrict: 'A',
         transclude: true,
-        replace: true,
         scope: {
-            fieldDynamicLabel: '@',
+            labelKey: '@',
+            subLabelKey: '@',
             fieldConfig: '=',
             fieldId: '=',
             certModel: '=',
             summary: '=',
             showDeselected: '='
         },
-        templateUrl: '/web/webjars/lisjp/minaintyg/js/directives/selectableFieldWrapper.directive.html',
+        templateUrl: '/web/webjars/common/minaintyg/components/customize-pdf/selectableFieldWrapper.directive.html',
         controller: function($scope) {
 
-            $scope.warningMessageUnselected = messageService.getProperty('lisjp.customize.message.warning');
             $scope.fc = null;
 
             var _parseSingleValue = function (expression) {
@@ -89,7 +88,9 @@ angular.module('lisjp').directive('selectableFieldWrapper', ['$parse', 'common.O
                     //if not summary, only rule is that all fields with value should be shown
                     return fieldHasValue;
                 } else {
+                    //summary mode: are we in selected section or the unselected section (2 lists)
                     if ($scope.showDeselected) {
+                        //rule for lists of de-selected items
                         return fieldHasValue && !$scope.fc.selected && !$scope.fc.mandatory;
                     } else {
                         return fieldHasValue && ($scope.fc.selected || $scope.fc.mandatory);

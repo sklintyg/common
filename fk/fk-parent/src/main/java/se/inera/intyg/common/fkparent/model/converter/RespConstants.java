@@ -167,10 +167,6 @@ public final class RespConstants {
     public static final String NUVARANDE_ARBETE_DELSVAR_ID_29 = "29.1";
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID_29 = "nuvarandeArbete";
 
-    public static final String ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_ID_30 = "30";
-    public static final String ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_30 = "30.1";
-    public static final String ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_30 = "arbetsmarknadspolitisktProgram";
-
     public static final String BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32 = "32";
     public static final String BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32 = "32.1";
     public static final String BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32 = "32.2";
@@ -281,8 +277,6 @@ public final class RespConstants {
             return TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28;
         case NUVARANDE_ARBETE_SVAR_ID_29:
             return NUVARANDE_ARBETE_SVAR_JSON_ID_29;
-        case ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_ID_30:
-            return ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_30;
         case BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32:
             return BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32;
         case ARBETSTIDSFORLAGGNING_SVAR_ID_33:

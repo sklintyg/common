@@ -24,7 +24,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_30;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
@@ -52,8 +51,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28;
 
-// CHECKSTYLE:ON LineLength
-
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -69,6 +66,8 @@ import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+
+// CHECKSTYLE:ON LineLength
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_LisjpUtlatande.Builder.class)
@@ -124,11 +123,6 @@ public abstract class LisjpUtlatande implements Utlatande {
     // Fråga 29.1
     @Nullable
     public abstract String getNuvarandeArbete();
-
-    // Fråga 30 - Arbetsmarknadspolitiskt program
-    // Fråga 30.1
-    @Nullable
-    public abstract String getArbetsmarknadspolitisktProgram();
 
     // Kategori 3 - Diagnos
     // Fråga 6
@@ -273,9 +267,6 @@ public abstract class LisjpUtlatande implements Utlatande {
 
         @JsonProperty(NUVARANDE_ARBETE_SVAR_JSON_ID_29)
         public abstract Builder setNuvarandeArbete(String nuvarandeArbete);
-
-        @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_30)
-        public abstract Builder setArbetsmarknadspolitisktProgram(String arbetsmarknadspolitisktProgram);
 
         @JsonProperty(DIAGNOS_SVAR_JSON_ID_6)
         public Builder setDiagnoser(List<Diagnos> diagnoser) {

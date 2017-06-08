@@ -87,7 +87,6 @@ angular.module('lisjp').factory('lisjp.Domain.IntygModel',
                             defaultValue: {}
                         }),
                         'nuvarandeArbete' : undefined,
-                        'arbetsmarknadspolitisktProgram': undefined,
 
                         // Kategori 3 diagnos
                         'diagnoser':new ModelAttr('diagnoser', {

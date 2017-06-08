@@ -30,12 +30,19 @@ mi-compact-certificate-header {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 80%;
+    max-width: 65%;
+    padding-right: 20px;
+  }
 
+  @media (min-width: 992px) {
+    .complementary-info {
+      max-width: 78%;
+    }
   }
 
   .certificate-issued-date {
     text-align: right;
     margin-right: 15px;
+    white-space: nowrap;
   }
 }

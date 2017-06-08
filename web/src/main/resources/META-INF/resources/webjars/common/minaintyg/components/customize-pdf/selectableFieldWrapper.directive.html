@@ -1,0 +1,60 @@
+<div>
+  <div class="selectable-field-wrapper" ng-class="{'summary': summary}" ng-if="showContent()">
+
+    <!-- Selection mode -->
+    <div ng-if="!summary">
+      <div class="row title">
+        <!-- field header title -->
+
+        <div class="col-xs-8" ng-class="{'unselected': !fc.selected}">
+          <h3><span dynamic-label key="{{labelKey}}"></span></h3>
+          <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
+        </div>
+
+        <!-- mandatory / checkbox -->
+        <div class="inclusion col-xs-4 pull-right">
+
+          <span ng-if="fc.mandatory">
+            <span class="mandatory" message key="modules.customize.label.mandatory"></span>
+            <span class="asterix">*</span>
+          </span>
+
+          <mi-checkbox-slider ng-if="!fc.mandatory" id="select-option-{{::labelKey}}" model="fc.selected"
+                              checked-text="Inkludera i anpassat intyg" unchecked-text="Inkludera ej i anpassat intyg"
+                              show-confirm="fc.warn"></mi-checkbox-slider>
+
+        </div>
+      </div>
+
+      <!-- Actual field content-->
+      <div class="row">
+        <div class="col-xs-9 text value-part" ng-class="{'unselected': !fc.selected && !summary}" ng-transclude></div>
+      </div>
+    </div>
+
+
+    <!-- summary compact mode version-->
+    <div ng-if="summary && showContent()" class="row summary">
+      <div class="col-xs-4">
+        <h3><span dynamic-label key="{{labelKey}}"></span></h3>
+        <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
+      </div>
+
+      <div class="col-xs-7">
+
+        <!-- Actual field content-->
+        <div class="text" ng-class="{'unselected': !fc.selected && !summary}" ng-transclude></div>
+
+      </div>
+
+      <!-- summary right side decoration -->
+      <div class="col-xs-1 text-right">
+        <i class="icon"
+           ng-class="{'icon-ok included-icon': fc.selected, 'icon-cancel excluded-icon': !fc.selected}"></i>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>

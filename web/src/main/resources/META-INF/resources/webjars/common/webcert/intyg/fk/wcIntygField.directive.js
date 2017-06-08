@@ -80,7 +80,7 @@ angular.module('common').directive('wcIntygField', ['$log', '$rootScope', 'commo
                                 scope.intygModel.underlag.length === 0) {
                                 return false;
                             }
-                            if(field.key === 'sysselsattning' && (!scope.intygModel.nuvarandeArbete && !scope.intygModel.arbetsmarknadspolitisktProgram)) {
+                            if(field.key === 'sysselsattning' && !scope.intygModel.nuvarandeArbete) {
                                 return false;
                             }
                         }
