@@ -52,7 +52,7 @@ angular.module('common').directive('miCheckboxSlider', ['common.dialogService', 
                             $scope.model = !$scope.model;
                             dialogInstance.close();
                         },
-                        button1id: 'archive-button',
+                        button1id: 'ok-to-deselect-button',
                         button1text: 'modules.customize.remove-field.button.confirm',
                         button1icon: 'icon-ok',
                         button2text: 'modules.customize.remove-field.button.cancel',

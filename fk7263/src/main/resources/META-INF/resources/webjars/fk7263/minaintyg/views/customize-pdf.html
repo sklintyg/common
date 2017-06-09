@@ -1,0 +1,12 @@
+<mi-page-head>
+  <mi-breadcrumb></mi-breadcrumb>
+  <div ui-view="header"></div>
+</mi-page-head>
+
+
+<div class="container">
+  <!-- Content -->
+  <div mi-spinner label="fk7263.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
+    <div ui-view="body" autoscroll></div>
+  </div>
+</div>

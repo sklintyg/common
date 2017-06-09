@@ -65,7 +65,7 @@ public abstract class PdfAbstractGenerator {
 
     // Constants used for watermarking
     private static final int MARK_AS_COPY_HEIGTH = 34;
-    private static final int MARK_AS_COPY_WIDTH = 226;
+    private static final int MARK_AS_COPY_WIDTH = 230;
     private static final int MARK_AS_COPY_START_X = 50;
     private static final int MARK_AS_COPY_START_Y = 690;
 

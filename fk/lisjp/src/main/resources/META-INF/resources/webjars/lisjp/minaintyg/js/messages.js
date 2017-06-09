@@ -23,11 +23,6 @@ angular.module('lisjp').constant('lisjp.messages', {
 
         'lisjp.customize.change': 'Ändra dina val',
 
-        'lisjp.customize.summary.leave.header':'Vill du lämna anpassat intyg?',
-        'lisjp.customize.summary.leave': 'Observera att ditt anpassade intyg inte sparas i Mina intyg efter att du navigerat till en annan sida. Se därför till att du har laddat ner det till din dator innan du lämnar sidan.',
-        'lisjp.customize.summary.leave.yes': 'Ja, lämna anpassat intyg',
-        'lisjp.customize.summary.leave.no': 'Nej, stanna kvar',
-
 
 
         'lisjp.label.latestevent': 'Senaste händelse',

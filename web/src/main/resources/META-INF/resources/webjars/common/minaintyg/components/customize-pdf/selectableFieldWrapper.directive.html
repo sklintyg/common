@@ -3,33 +3,34 @@
 
     <!-- Selection mode -->
     <div ng-if="!summary">
-      <div class="row title">
+      <div class="row">
         <!-- field header title -->
 
-        <div class="col-xs-8" ng-class="{'unselected': !fc.selected}">
-          <h3><span dynamic-label key="{{labelKey}}"></span></h3>
-          <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
+        <div class="col-xs-9" ng-class="{'unselected': !fc.selected}">
+          <div class="title">
+            <h3 ng-if="labelKey"><span dynamic-label key="{{labelKey}}"></span></h3>
+            <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
+          </div>
+          <!-- Actual field content-->
+          <div class="text value-part" ng-transclude></div>
         </div>
 
         <!-- mandatory / checkbox -->
-        <div class="inclusion col-xs-4 pull-right">
+        <div class="inclusion col-xs-3 pull-right">
 
           <span ng-if="fc.mandatory">
             <span class="mandatory" message key="modules.customize.label.mandatory"></span>
             <span class="asterix">*</span>
           </span>
 
-          <mi-checkbox-slider ng-if="!fc.mandatory" id="select-option-{{::labelKey}}" model="fc.selected"
+          <mi-checkbox-slider ng-if="!fc.mandatory" id="select-option-{{(labelKey || fc.domId)}}" model="fc.selected"
                               checked-text="Inkludera i anpassat intyg" unchecked-text="Inkludera ej i anpassat intyg"
                               show-confirm="fc.warn"></mi-checkbox-slider>
 
         </div>
       </div>
 
-      <!-- Actual field content-->
-      <div class="row">
-        <div class="col-xs-9 text value-part" ng-class="{'unselected': !fc.selected && !summary}" ng-transclude></div>
-      </div>
+
     </div>
 
 

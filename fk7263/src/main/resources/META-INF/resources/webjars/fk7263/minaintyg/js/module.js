@@ -29,22 +29,58 @@ angular.module('fk7263').config(function($stateProvider) {
             controller: 'fk7263.ViewCertCtrl',
             data : { title: 'Läkarintyg FK7263', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
-        }).
-        state('fk7263-customize', {
-            url :'/fk7263/customize/:certificateId',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/customize-cert.html',
-            controller: 'fk7263.CustomizeCertCtrl',
-            data : { title: 'Anpassa intyget till arbetsgivare', keepInboxTabActive: true,
-                breadcrumb: ['inkorg', 'intyg', 'anpassa']}
-        }).
-        state('fk7263-customize-summary', {
-            url :'/fk7263/customize/:certificateId/summary',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/customize-cert-summary.html',
-            controller: 'fk7263.CustomizeCertSummaryCtrl',
-            data : { title: 'Summering anpassa intyget till arbetsgivare', keepInboxTabActive: true,
-                breadcrumb: ['inkorg', 'intyg', 'anpassa']}
-        }).
-        state('fk7263-statushistory', {
+    }).state('fk7263-customize', {
+        abstract: true, // jshint ignore:line
+        url: '/:type/customizepdf/:certificateId',
+        templateUrl: '/web/webjars/fk7263/minaintyg/views/customize-pdf.html',
+        controller: 'fk7263.CustomizePdfCtrl',
+        data: {
+            title: 'Anpassa intyget till arbetsgivare',
+            keepInboxTabActive: true,
+            breadcrumb: ['inkorg', 'intyg', 'anpassa'] , backState: 'history-back'
+        }
+
+    }).state('fk7263-customize.step1', {
+        url: '',
+        views: {
+            'header@fk7263-customize': {
+                templateUrl: '/web/webjars/fk7263/minaintyg/views/step1.header.html'
+            },
+            'body@fk7263-customize': {
+                templateUrl: '/web/webjars/fk7263/minaintyg/views/step1.body.html'
+            }
+        },
+        data: {
+            index: 0
+        }
+
+    }).state('fk7263-customize.step2', {
+        views: {
+            'header@fk7263-customize': {
+                templateUrl: '/web/webjars/fk7263/minaintyg/views/step2.header.html'
+            },
+            'body@fk7263-customize': {
+                templateUrl: '/web/webjars/fk7263/minaintyg/views/step2.body.html'
+            }
+        },
+        data: {
+            index: 1
+        }
+
+    }).state('fk7263-customize.step3', {
+        views: {
+            'header@fk7263-customize': {
+                templateUrl: '/web/webjars/fk7263/minaintyg/views/step3.header.html'
+            },
+            'body@fk7263-customize': {
+                templateUrl: '/web/webjars/fk7263/minaintyg/views/step3.body.html'
+            }
+        },
+        data: {
+            index: 2
+        }
+
+    }).state('fk7263-statushistory', {
             url : '/fk7263/statushistory',
             templateUrl: '/web/webjars/fk7263/minaintyg/views/status-history.html',
             controller: 'fk7263.ViewCertCtrl',

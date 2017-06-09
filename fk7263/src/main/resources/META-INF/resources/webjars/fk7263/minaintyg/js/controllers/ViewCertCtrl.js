@@ -19,9 +19,9 @@
 
 angular.module('fk7263').controller('fk7263.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'fk7263.ViewStateService',
+        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'fk7263.ViewStateService', 'fk7263.customizeViewstate',
         function($location, $log, $rootScope, $stateParams, $scope, IntygListService,
-            IntygService, dialogService, messageService, moduleService, ViewState) {
+            IntygService, dialogService, messageService, moduleService, ViewState, customizeViewstate) {
             'use strict';
 
             $rootScope.cert = {};
@@ -55,7 +55,8 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
             };
 
             $scope.customizeCertificate = function() {
-                $location.path('/fk7263/customize/' + $stateParams.certificateId);
+                customizeViewstate.resetModel();
+                $location.path('/fk7263/customizepdf/' + $stateParams.certificateId);
             };
 
             // expose calculated static link for pdf download

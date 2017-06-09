@@ -1,0 +1,318 @@
+<div class="selectable-field-list">
+
+  <!-- Fält 1: Smittskydd -->
+  <selectable-category-wrapper category-label="fk7263.label.smittskydd" cert-model="cert"
+                               field-configs="[fieldConfig.smittskydd]" summary="summary">
+    <div selectable-field-wrapper
+
+         cert-model="cert" field-config="fieldConfig.smittskydd" summary="summary" show-deselected="showDeselected">
+                    <span ng-show="cert.avstangningSmittskydd">
+                      <span id="avstangningsmittskydd-yes" message key="fk7263.label.yes"></span>
+                    </span>
+      <span ng-show="!cert.avstangningSmittskydd">
+                      <span id="avstangningsmittskydd-no" message key="fk7263.label.no"></span>
+                    </span>
+    </div>
+  </selectable-category-wrapper>
+
+  <!-- Fält 2:  diagnos -->
+  <selectable-category-wrapper category-label="fk7263.label.diagnosis" cert-model="cert"
+                               field-configs="[fieldConfig.diagnos]" summary="summary">
+    <div selectable-field-wrapper label-key="fk7263.label.diagnosisCode" cert-model="cert"
+         field-config="fieldConfig.diagnos" summary="summary" show-deselected="showDeselected">
+      <div>
+        <span id="diagnosKod">{{cert.diagnosKod}}</span>
+      </div>
+      <div ng-if="cert.diagnosBeskrivning">
+        <h4><span message key="fk7263.label.diagnosfortydligande"></span></h4>
+        <span id="diagnosBeskrivning" class="multiline">{{cert.diagnosBeskrivning}}</span>
+      </div>
+    </div>
+  </selectable-category-wrapper>
+
+  <!-- Fält 3: Sjukdomsförlopp -->
+  <selectable-category-wrapper category-label="fk7263.label.progressofdesease" cert-model="cert"
+                               field-configs="[fieldConfig.aktuelltSjukdomsforlopp]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.progressofdesease' : ''}}" cert-model="cert"
+         field-config="fieldConfig.aktuelltSjukdomsforlopp" summary="summary" show-deselected="showDeselected">
+      {{cert.sjukdomsforlopp}}
+    </div>
+  </selectable-category-wrapper>
+
+  <!-- Fält 4: funktionsnedsattning -->
+  <selectable-category-wrapper category-label="fk7263.label.disabilities" cert-model="cert"
+                               field-configs="[fieldConfig.funktionsnedsattning]" summary="summary">
+
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.disabilities' : ''}}" cert-model="cert"
+         field-config="fieldConfig.funktionsnedsattning" summary="summary" show-deselected="showDeselected">
+      {{cert.funktionsnedsattning}}
+    </div>
+  </selectable-category-wrapper>
+
+  <!-- Fält 4B: Baseras på -->
+  <selectable-category-wrapper category-label="fk7263.label.basedon" cert-model="cert"
+                               field-configs="[fieldConfig.intygetBaserasPa]" summary="summary">
+
+
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.disabilities' : ''}}"
+
+         cert-model="cert" field-config="fieldConfig.intygetBaserasPa" summary="summary"
+         show-deselected="showDeselected">
+
+      <div ng-if="cert.undersokningAvPatienten!=null">
+        <div id="undersokningAvPatienten">
+          <h4><span message key="fk7263.vardkontakt.undersokning"></span></h4><span>  {{cert.undersokningAvPatienten | date:'shortDate' }}</span>
+        </div>
+      </div>
+      <div ng-if="cert.telefonkontaktMedPatienten !=null">
+        <div id="telefonkontaktMedPatienten">
+          <h4><span message key="fk7263.vardkontakt.telefonkontakt"></span></span></h4><span>  {{cert.telefonkontaktMedPatienten | date:'shortDate' }}</span>
+        </div>
+      </div>
+      <div ng-if="cert.journaluppgifter!=null">
+        <div id="journaluppgifter">
+          <h4><span message key="fk7263.referens.journal"></span></h4><span>  {{cert.journaluppgifter | date:'shortDate' }}</span>
+        </div>
+      </div>
+      <div ng-if="cert.annanReferens!=null">
+        <div id="annanReferens">
+          <h4><span message key="fk7263.referens.annat"></span></h4>
+          <div>{{cert.annanReferens | date:'shortDate' }}</div>
+
+        </div>
+      </div>
+    </div>
+  </selectable-category-wrapper>
+
+  <!-- Fält 5: Aktivitetsnedsättning -->
+  <selectable-category-wrapper category-label="fk7263.label.limitation" cert-model="cert"
+                               field-configs="[fieldConfig.aktivitetsbegransning]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.limitation' : ''}}" cert-model="cert"
+         field-config="fieldConfig.aktivitetsbegransning" summary="summary" show-deselected="showDeselected">
+      {{cert.aktivitetsbegransning}}
+    </div>
+  </selectable-category-wrapper>
+
+  <!-- Fält 6a: Rekommendationer (allt utom företagshälsovård)-->
+  <selectable-category-wrapper category-label="fk7263.label.recommendations.anpassatintyg.1" cert-model="cert"
+                               field-configs="[fieldConfig.rekommendationerUtomForetagsHalsoVard]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.recommendations.anpassatintyg.1' : ''}}"
+         cert-model="cert" field-config="fieldConfig.rekommendationerUtomForetagsHalsoVard" summary="summary"
+         show-deselected="showDeselected">
+
+      <div>
+        <h4><span message key="fk7263.label.recommendations.contact.jobcenter"></span></h4>
+        <span ng-if="cert.rekommendationKontaktArbetsformedlingen">Ja</span>
+        <span ng-if="!cert.rekommendationKontaktArbetsformedlingen">Nej</span>
+      </div>
+      <div ng-if="cert.rekommendationOvrigt.length > 0">
+        <h4><span message key="fk7263.label.recommendations.contact.other"></span></h4>
+        <span class="multiline">{{cert.rekommendationOvrigt}}</span>
+      </div>
+    </div>
+
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.recommendations.anpassatintyg.2' : ''}}"
+         cert-model="cert" field-config="fieldConfig.rekommendationerForetagsHalsoVard" summary="summary"
+         show-deselected="showDeselected">
+
+      <div>
+        <h4><span message key="fk7263.label.recommendations.contact.healthdepartment"></span></h4>
+        <span ng-if="cert.rekommendationKontaktForetagshalsovarden">Ja</span>
+        <span ng-if="!cert.rekommendationKontaktForetagshalsovarden">Nej</span>
+      </div>
+    </div>
+
+  </selectable-category-wrapper>
+
+
+  <!-- Fält 6b: Planerad behandling -->
+  <selectable-category-wrapper category-label="fk7263.label.plannedtreatment" cert-model="cert"
+                               field-configs="[fieldConfig.planeradBehandling]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.plannedtreatment' : ''}}" cert-model="cert"
+         field-config="fieldConfig.planeradBehandling" summary="summary" show-deselected="showDeselected">
+
+      <div ng-if="cert.atgardInomSjukvarden">
+        <h4><span message key="fk7263.label.plannedtreatment.healthcare"></span></h4>
+        {{cert.atgardInomSjukvarden}}
+      </div>
+      <div ng-if="cert.annanAtgard">
+        <h4><span message key="fk7263.label.plannedtreatment.other"></span></h4>
+        {{cert.annanAtgard}}
+      </div>
+
+
+    </div>
+  </selectable-category-wrapper>
+
+
+  <!-- Fält 7: Rehabilitering -->
+  <selectable-category-wrapper category-label="fk7263.label.workrehab" cert-model="cert"
+                               field-configs="[fieldConfig.rehabilitering]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.workrehab' : ''}}" cert-model="cert"
+         field-config="fieldConfig.rehabilitering" summary="summary" show-deselected="showDeselected">
+
+      <div ng-if="cert.rehabilitering">
+        <span ng-show="cert.rehabilitering == 'rehabiliteringAktuell'">
+                  <span id="rehabilitering-yes" message key="fk7263.label.yes"></span>
+                </span>
+        <span ng-show="cert.rehabilitering == 'rehabiliteringEjAktuell'">
+                  <span id="rehabilitering-no" message key="fk7263.label.no"></span>
+                </span>
+        <span ng-show="cert.rehabilitering == 'rehabiliteringGarInteAttBedoma'">
+                  <span id="rehabilitering-unjudgeable" message key="fk7263.label.unjudgeable"></span>
+        </span>
+      </div>
+
+
+    </div>
+  </selectable-category-wrapper>
+
+  <!-- Fält 8a: Arbetsförmåga bedoms i förhållande till -->
+  <selectable-category-wrapper category-label="fk7263.label.patientworkcapacity" cert-model="cert"
+                               field-configs="[fieldConfig.arbetsFormagaRelativtUtomNuvarandeArbete, fieldConfig.arbetsFormagaRelativtNuvarandeArbete]"
+                               summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.patientworkcapacity' : ''}}" cert-model="cert"
+         field-config="fieldConfig.arbetsFormagaRelativtUtomNuvarandeArbete" summary="summary"
+         show-deselected="showDeselected">
+
+      <ul>
+        <li ng-if="cert.arbetsloshet"><span message key="fk7263.label.patientworkcapacity.unemployed"> </span></li>
+        <li ng-if="cert.foraldrarledighet"><span message key="fk7263.label.patientworkcapacity.parentalleave"> </span>
+        </li>
+      </ul>
+    </div>
+
+    <div selectable-field-wrapper label-key="fk7263.label.patientworkcapacity.currentwork" cert-model="cert"
+         field-config="fieldConfig.arbetsFormagaRelativtNuvarandeArbete" summary="summary"
+         show-deselected="showDeselected">
+
+
+      {{cert.nuvarandeArbetsuppgifter}}
+
+    </div>
+
+  </selectable-category-wrapper>
+
+  <!-- Fält 8b:  Bedömd arbetsförmåga -->
+  <selectable-category-wrapper category-label="fk7263.label.nedsattning" cert-model="cert"
+                               field-configs="[fieldConfig.bedomdArbetsFormaga]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.nedsattning' : ''}}" cert-model="cert"
+         field-config="fieldConfig.bedomdArbetsFormaga" summary="summary" show-deselected="showDeselected">
+      <table class="table table-striped">
+        <tr>
+          <th>Nedsättningsgrad</th>
+          <th>Från och med</th>
+          <th>Till och med</th>
+        </tr>
+        <tr ng-if="cert.nedsattMed25">
+          <td class="multiline"><span message key="fk7263.nedsattningsgrad.nedsatt_med_1_4"></span></td>
+          <td class="multiline">{{cert.nedsattMed25.tom | date:'shortDate'}}</td>
+          <td class="multiline">{{cert.nedsattMed25.from | date:'shortDate'}}</td>
+        </tr>
+        <tr ng-if="cert.nedsattMed50">
+          <td class="multiline"><span message key="fk7263.nedsattningsgrad.nedsatt_med_1_2"></span></td>
+          <td class="multiline">{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
+          <td class="multiline">{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+        </tr>
+        <tr ng-if="cert.nedsattMed75">
+          <td class="multiline"><span message key="fk7263.nedsattningsgrad.nedsatt_med_3_4"></span></td>
+          <td class="multiline">{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
+          <td class="multiline">{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+        </tr>
+        <tr ng-if="cert.nedsattMed100">
+          <td class="multiline"><span message key="fk7263.nedsattningsgrad.helt_nedsatt"></span></td>
+          <td class="multiline">{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
+          <td class="multiline">{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+        </tr>
+      </table>
+    </div>
+
+  </selectable-category-wrapper>
+
+
+  <!-- Fält 9: Arbetsförmåga nedsatt längre än fmb-->
+  <selectable-category-wrapper category-label="fk7263.label.patientworkcapacityjudgement"
+                               cert-model="cert"
+                               field-configs="[fieldConfig.arbetsFormaga]"
+                               summary="summary">
+    <div selectable-field-wrapper
+         label-key="{{summary ? 'fk7263.label.patientworkcapacityjudgement' : ''}}"
+         cert-model="cert"
+         field-config="fieldConfig.arbetsFormaga"
+         summary="summary"
+         show-deselected="showDeselected">
+         {{cert.arbetsformagaPrognos}}
+    </div>
+  </selectable-category-wrapper>
+
+
+
+  <!-- Fält 10: Prognos -->
+  <selectable-category-wrapper category-label="fk7263.label.prognosis"
+                               cert-model="cert"
+                               field-configs="[fieldConfig.prognos]"
+                               summary="summary">
+    <div selectable-field-wrapper
+         label-key="{{summary ? 'fk7263.label.prognosis' : ''}}"
+         cert-model="cert"
+         field-config="fieldConfig.prognos"
+         summary="summary"
+         show-deselected="showDeselected">
+
+      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosJa'" id="arbetsformagaPrognos-yes" message key="fk7263.label.yes"></span>
+      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosJaDelvis'" id="arbetsformagaPrognos-partialyes" message key="fk7263.label.partialyes"></span>
+      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosNej'" id="arbetsformagaPrognos-no" message key="fk7263.label.no"></span>
+      <span ng-if="cert.prognosBedomning === 'arbetsformagaPrognosGarInteAttBedoma'" id="arbetsformagaPrognos-unjudgeable" message key="fk7263.label.unjudgeable"></span>
+
+
+    </div>
+  </selectable-category-wrapper>
+
+
+
+  <!-- Fält 11: Resor till och från arbetet -->
+  <selectable-category-wrapper category-label="fk7263.label.othertransport"
+                               cert-model="cert"
+                               field-configs="[fieldConfig.ressatt]"
+                               summary="summary">
+    <div selectable-field-wrapper
+         label-key="{{summary ? 'fk7263.label.othertransport' : ''}}"
+         cert-model="cert"
+         field-config="fieldConfig.ressatt"
+         summary="summary"
+         show-deselected="showDeselected">
+
+     <span ng-if="cert.ressattTillArbeteAktuellt" id="resaTillArbetet-yes" message key="fk7263.label.yes"></span>
+     <span ng-if="cert.ressattTillArbeteEjAktuellt" id="resaTillArbetet-no" message key="fk7263.label.no"></span>
+
+    </div>
+  </selectable-category-wrapper>
+
+
+
+  <!-- Fält 12:  Kontakt med fk-->
+  <selectable-category-wrapper category-label="fk7263.label.fkcontact" cert-model="cert"
+                               field-configs="[fieldConfig.fkKontakt]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.fkcontact' : ''}}" cert-model="cert"
+         field-config="fieldConfig.fkKontakt" summary="summary" show-deselected="showDeselected">
+         <span ng-show="cert.kontaktMedFk">
+            <span id="kontaktFk-yes" message key="fk7263.label.yes"></span>
+          </span>
+      <span ng-show="!cert.kontaktMedFk">
+         <span id="kontaktFk-no" message key="fk7263.label.no"></span>
+      </span>
+    </div>
+  </selectable-category-wrapper>
+
+
+  <!--  Fält 13: Övrigt -->
+  <selectable-category-wrapper category-label="fk7263.label.otherinformation" cert-model="cert"
+                               field-configs="[fieldConfig.ovrigt]" summary="summary">
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.otherinformation' : ''}}" cert-model="cert"
+         field-config="fieldConfig.ovrigt" summary="summary" show-deselected="showDeselected">
+      <div id="kommentar" class="tag multiline">{{cert.kommentar}}</div>
+    </div>
+  </selectable-category-wrapper>
+
+
+</div>
