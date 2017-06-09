@@ -357,7 +357,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                 if (fromDateValid && toDateValid && !sjukskrivning.getPeriod().isValid()) {
                     ValidatorUtil.addValidationError(validationMessages,
                             "bedomning.sjukskrivningar.period." + sjukskrivning.getSjukskrivningsgrad().getId(),
-                            ValidationMessageType.INVALID_FORMAT);
+                            ValidationMessageType.INCORRECT_COMBINATION);
                 }
             }
         }

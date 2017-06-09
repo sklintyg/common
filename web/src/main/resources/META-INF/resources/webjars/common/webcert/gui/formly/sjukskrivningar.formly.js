@@ -22,6 +22,7 @@ angular.module('common').run(function(formlyConfig) {
 
                         var fromValidations = $scope.formState.viewState.common.validation.messagesByField[key + '.from'];
                         var tomValidations = $scope.formState.viewState.common.validation.messagesByField[key + '.tom'];
+                        var periodValidations = $scope.formState.viewState.common.validation.messagesByField[key];
 
                         $scope.validationsForPeriod[field] = [];
                         if (fromValidations) {
@@ -29,6 +30,9 @@ angular.module('common').run(function(formlyConfig) {
                         }
                         if (tomValidations) {
                             $scope.validationsForPeriod[field] = $scope.validationsForPeriod[field].concat(tomValidations);
+                        }
+                        if (periodValidations) {
+                            $scope.validationsForPeriod[field] = $scope.validationsForPeriod[field].concat(periodValidations);
                         }
 
                         // The validation message for PERIOD_OVERLAP should only be displayed once even if several periods overlaps
@@ -48,9 +52,11 @@ angular.module('common').run(function(formlyConfig) {
                 });
 
                 $scope.hasValidationError = function(field, type) {
-                    var key = $scope.options.key + '.period.' + field + '.' + type;
+                    var fieldKey = $scope.options.key + '.period.' + field;
+                    var typeKey = fieldKey + '.' + type;
                     return $scope.formState.viewState.common.validation.messagesByField &&
-                        !!$scope.formState.viewState.common.validation.messagesByField[key.toLowerCase()];
+                        (!!$scope.formState.viewState.common.validation.messagesByField[fieldKey.toLowerCase()] ||
+                            !!$scope.formState.viewState.common.validation.messagesByField[typeKey.toLowerCase()]);
                 };
 
                 $scope.hasKompletteringar = function() {

@@ -142,13 +142,6 @@ angular.module('common').service('common.SjukskrivningarViewStateService',
                         maxDate = toMoment;
                     }
 
-                    // Sätter jag ’från och med’ datum till efter ’till och med’ vill jag att ’till och med’
-                    // datumet ska bli tomt.
-                    if (fromMoment && toMoment && fromMoment.isAfter(toMoment)) {
-                        value.period.tom = undefined;
-                        toMoment = null;
-                    }
-
                     // Checkboxen för den valda sjukskrivningsgraden ska fortfarande vara ifylld och endast försvinna
                     // om man klickar ur den, eller tömmer både 'från och med' och 'till och med' datumen.
                     if (!value.period.from && !value.period.tom) {

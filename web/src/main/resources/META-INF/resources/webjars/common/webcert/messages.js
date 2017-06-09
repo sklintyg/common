@@ -472,6 +472,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.diagnos2.description.missing': 'Diagnostext saknas på diagnosrad 3',
         'common.validation.sjukskrivning_period.empty': 'Fältet får inte vara tomt.',
         'common.validation.sjukskrivning_period.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        'common.validation.sjukskrivning_period.incorrect_combination': 'Startdatum får inte vara efter slutdatum.',
         'common.validation.sjukskrivning_period.period_overlap': 'Sjukskrivningsperioder med överlappande datum har angetts.',
         'common.validation.sjukskrivning_period.en_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 25% har angetts på felaktigt format.',
         'common.validation.sjukskrivning_period.halften.invalid_format': 'Datum för nedsatt arbetsförmåga med 50% har angetts på felaktigt format.',
