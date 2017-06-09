@@ -204,7 +204,20 @@
          field-config="fieldConfig.sjukskrivningar"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="sjukskrivningar" sjukskrivning-view="sjukskrivningar" field-model="cert"></div>
+      <table class="table table-striped">
+        <tr>
+          <th>Nedsättningsgrad</th>
+          <th>Från och med</th>
+          <th>Till och med</th>
+        </tr>
+
+        <tr ng-repeat="sjukskrivning in cert.sjukskrivningar">
+          <td><span dynamic-label key="KV_FKMU_0003.{{sjukskrivning.sjukskrivningsgrad}}.RBK"></span></td>
+          <td>{{sjukskrivning.period.from | date:'shortDate'}}</td>
+          <td>{{sjukskrivning.period.tom | date:'shortDate'}}</td>
+        </tr>
+      </table>
+
     </div>
     <div selectable-field-wrapper
          label-key="FRG_37.RBK"
