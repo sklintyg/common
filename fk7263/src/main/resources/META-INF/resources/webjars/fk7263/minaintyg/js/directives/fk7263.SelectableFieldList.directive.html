@@ -200,29 +200,29 @@
          field-config="fieldConfig.bedomdArbetsFormaga" summary="summary" show-deselected="showDeselected">
       <table class="table table-striped">
         <tr>
-          <th>Nedsättningsgrad</th>
+          <th>Nedsatt med</th>
           <th>Från och med</th>
-          <th>Till och med</th>
+          <th>Längst till och med</th>
         </tr>
         <tr ng-if="cert.nedsattMed25">
-          <td class="multiline"><span message key="fk7263.nedsattningsgrad.nedsatt_med_1_4"></span></td>
-          <td class="multiline">{{cert.nedsattMed25.tom | date:'shortDate'}}</td>
-          <td class="multiline">{{cert.nedsattMed25.from | date:'shortDate'}}</td>
+          <td><span message key="fk7263.nedsattningsgrad.nedsatt_med_1_4"></span></td>
+          <td>{{cert.nedsattMed25.from | date:'shortDate'}}</td>
+          <td>{{cert.nedsattMed25.tom | date:'shortDate'}}</td>
         </tr>
         <tr ng-if="cert.nedsattMed50">
-          <td class="multiline"><span message key="fk7263.nedsattningsgrad.nedsatt_med_1_2"></span></td>
-          <td class="multiline">{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
-          <td class="multiline">{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+          <td><span message key="fk7263.nedsattningsgrad.nedsatt_med_1_2"></span></td>
+          <td>{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+          <td>{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
         </tr>
         <tr ng-if="cert.nedsattMed75">
-          <td class="multiline"><span message key="fk7263.nedsattningsgrad.nedsatt_med_3_4"></span></td>
-          <td class="multiline">{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
-          <td class="multiline">{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+          <td><span message key="fk7263.nedsattningsgrad.nedsatt_med_3_4"></span></td>
+          <td>{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+          <td>{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
         </tr>
         <tr ng-if="cert.nedsattMed100">
-          <td class="multiline"><span message key="fk7263.nedsattningsgrad.helt_nedsatt"></span></td>
-          <td class="multiline">{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
-          <td class="multiline">{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+          <td><span message key="fk7263.nedsattningsgrad.helt_nedsatt"></span></td>
+          <td>{{cert.nedsattMed50.from | date:'shortDate'}}</td>
+          <td>{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
         </tr>
       </table>
     </div>
