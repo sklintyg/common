@@ -27,6 +27,11 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
 
             $scope.cert = undefined;
             $scope.messageService = messageService;
+
+            $scope.send = function() {
+                $location.path('/send/ts-diabetes/' + $stateParams.certificateId + '/TRANSP');
+            };
+
             $scope.doneLoading = false;
             IntygService.getCertificate('ts-diabetes', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;

@@ -26,6 +26,11 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
 
             $scope.cert = undefined;
             $scope.messageService = messageService;
+
+            $scope.send = function() {
+                $location.path('/send/ts-bas/' + $stateParams.certificateId + '/TRANSP');
+            };
+
             $scope.doneLoading = false;
             IntygService.getCertificate('ts-bas', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
