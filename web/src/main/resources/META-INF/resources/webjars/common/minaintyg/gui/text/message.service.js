@@ -127,10 +127,11 @@ angular.module('common').factory('common.messageService',
         }
 
         function _buildDynamicLink(linkKey) {
-            var dynamicLink = '<a href="' + _links[linkKey].url + '"';
+            var dynamicLink = '<a href="' + _links[linkKey].url + '" class="external-link"';
             dynamicLink += _links[linkKey].tooltip ? ' title="' + _links[linkKey].tooltip + '"' : '';
             dynamicLink += _links[linkKey].target ? ' target="' + _links[linkKey].target + '">' : '>';
             dynamicLink += _links[linkKey].text + '</a>';
+            dynamicLink += _links[linkKey].target ? ' <i class="icon icon-external_link"></i>' : '';
             return dynamicLink;
         }
 
