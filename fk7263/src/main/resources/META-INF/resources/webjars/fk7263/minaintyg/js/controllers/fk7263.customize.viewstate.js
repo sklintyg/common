@@ -21,7 +21,12 @@ angular.module('fk7263').factory('fk7263.customizeViewstate', function() {
 
         'aktivitetsbegransning': { mandatory: false, selected: true, fields: ['aktivitetsbegransning'], warn: true , domId: 'aktivitetsbegransning'},
 
-        'rekommendationerUtomForetagsHalsoVard': { mandatory: false, selected: true, fields: ['rekommendationKontaktArbetsformedlingen', 'rekommendationOvrigt'] , domId: 'rekommendationerUtomForetagsHalsoVard'},
+        'rekommendationerUtomForetagsHalsoVard': {
+            mandatory: false,
+            selected: true,
+            fields: [ 'rekommendationKontaktArbetsformedlingen', 'rekommendationOvrigt' ],
+            domId: 'rekommendationerUtomForetagsHalsoVard'
+        },
         'rekommendationerForetagsHalsoVard': { mandatory: true, selected: true, fields: ['rekommendationKontaktForetagshalsovarden'], domId: 'rekommendationerForetagsHalsoVard'},
         'planeradBehandling': {mandatory: false, selected: true, fields: ['atgardInomSjukvarden', 'annanAtgard'] , domId: 'planeradBehandling'},
         'rehabilitering': { mandatory: false, selected: true, fields: ['rehabilitering'] , domId: 'rehabilitering'},
