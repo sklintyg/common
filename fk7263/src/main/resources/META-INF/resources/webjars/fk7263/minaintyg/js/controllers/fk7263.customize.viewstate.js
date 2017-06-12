@@ -36,7 +36,7 @@ angular.module('fk7263').factory('fk7263.customizeViewstate', function() {
         'arbetsFormaga': { mandatory: false, selected: true, fields: ['arbetsformagaPrognos'], domId: 'arbetsFormaga'},
         'prognos': { mandatory: false, selected: true, fields: ['prognosBedomning'], domId: 'prognos'},
         'ressatt': { mandatory: true, selected: true, fields: ['ressattTillArbeteAktuellt','ressattTillArbeteEjAktuellt'], domId: 'ressatt'},
-        'fkKontakt': { mandatory: false, selected: true, fields: ['kontaktMedFk']}, domId: 'fkKontakt',
+        'fkKontakt': { mandatory: false, selected: true, fields: ['kontaktMedFk'], domId: 'fkKontakt'},
         'ovrigt': {mandatory: false, selected: true, fields: ['kommentar'], domId: 'ovrigt'}
 
     };
@@ -45,21 +45,12 @@ angular.module('fk7263').factory('fk7263.customizeViewstate', function() {
     //Create initial model
     var fieldConfig = angular.copy(_fieldConfig);
 
-    function _getUnselected() {
+    function _getUnselected(withWarningOnly) {
+
         var unselectedFieldNames = [];
         angular.forEach(fieldConfig, function(fc, key) {
-            if (angular.isArray(fc)) {
-                angular.forEach(fc, function(nestedFc, key) {
-                    if (!nestedFc.selected) {
-                        if (nestedFc.id) {
-                            unselectedFieldNames.push(nestedFc.id);
-                        } else {
-                            unselectedFieldNames.push(key);
-                        }
-                    }
-                });
-            } else if (!fc.selected) {
-                    unselectedFieldNames.push(key);
+           if (!fc.selected && (!!withWarningOnly ? fc.warn: true)) {
+                unselectedFieldNames.push(key);
             }
         });
         return unselectedFieldNames;
@@ -115,8 +106,8 @@ angular.module('fk7263').factory('fk7263.customizeViewstate', function() {
             return fieldConfig;
         },
 
-        getUnselected: function() {
-            return _getUnselected();
+        getUnselected: function(warningOnly) {
+            return _getUnselected(warningOnly);
         },
 
         getSendModel: function() {
