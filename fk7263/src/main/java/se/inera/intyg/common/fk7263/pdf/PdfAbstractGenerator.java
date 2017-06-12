@@ -221,6 +221,7 @@ public abstract class PdfAbstractGenerator {
 
     public String generatePdfFilename(boolean isCustomized) {
         Personnummer personId = intyg.getGrundData().getPatient().getPersonId();
+        personId = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
         String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
         String prefix = isCustomized ? "anpassat_" : "";
         String intygstyp = "fk7263";
