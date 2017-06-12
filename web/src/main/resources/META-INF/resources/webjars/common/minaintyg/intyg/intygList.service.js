@@ -22,27 +22,19 @@ angular.module('common').factory('common.IntygListService', ['$rootScope', '$htt
         'use strict';
 
         // cached certificates response
-        var cachedList = null;
         var cachedArchiveList = null;
 
         var _selectedCertificate = null;
 
         function _emptyCache() {
-            $log.debug('Clearing cache');
-            cachedList = null;
+            $log.debug('Clearing archived cache');
             cachedArchiveList = null;
         }
 
         function _getCertificates(callback) {
-            if (cachedList !== null) {
-                $log.debug('returning cached response');
-                callback(cachedList);
-                return;
-            }
             $http.get('/api/certificates').success(function(data) {
                 $log.debug('populating cache');
-                cachedList = data;
-                callback(cachedList);
+                callback(data);
             }).error(function(data, status) {
                 $log.error('error ' + status);
                 //give calling code a chance to handle error
