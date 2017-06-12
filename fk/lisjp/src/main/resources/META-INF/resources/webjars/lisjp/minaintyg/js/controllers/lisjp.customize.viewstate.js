@@ -79,20 +79,10 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
     //Create initial model
     var fieldConfig = angular.copy(_fieldConfig);
 
-    function _getUnselected() {
+    function _getUnselected(withWarningOnly) {
         var unselectedFieldNames = [];
         angular.forEach(fieldConfig, function(fc, key) {
-            if (angular.isArray(fc)) {
-                angular.forEach(fc, function(nestedFc, key) {
-                    if (!nestedFc.selected) {
-                        if (nestedFc.id) {
-                            unselectedFieldNames.push(nestedFc.id);
-                        } else {
-                            unselectedFieldNames.push(key);
-                        }
-                    }
-                });
-            } else if (!fc.selected) {
+            if (!fc.selected && (!!withWarningOnly ? fc.warn: true)) {
                     unselectedFieldNames.push(key);
             }
         });
@@ -166,8 +156,8 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
             return fieldConfig;
         },
 
-        getUnselected: function() {
-            return _getUnselected();
+        getUnselected: function(withWarningOnly) {
+            return _getUnselected(withWarningOnly);
         },
 
         getSendModel: function() {
