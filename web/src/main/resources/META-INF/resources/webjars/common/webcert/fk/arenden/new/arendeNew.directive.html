@@ -5,21 +5,21 @@
        ng-show="getNewArendeState() == 'new' && draftLoaded"
        wc-check-vardenhet
        wc-authority feature="skapaNyFraga" intygstyp="{{localViewState.parentViewState.intygProperties.type}}"
-       vardenhet="{{intyg.grundData.skapadAv.vardenhet.enhetsid}}">
+       vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}">
       <button type="button" class="btn btn-success" ng-click="toggleArendeForm()" id="askArendeBtn">Ny fråga till
         Försäkringskassan
       </button>
   </div>
   <div ng-if="getNewArendeState() == 'not-sent'"
        wc-check-vardenhet
-       vardenhet="{{intyg.grundData.skapadAv.vardenhet.enhetsid}}" class="alert alert-info"
+       vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}" class="alert alert-info"
        id="intyg-is-not-sent-to-fk-message-text">
     <strong>Intyget är inte skickat till Försäkringskassan.</strong><br> Det går därför inte att ställa frågor om
     intyget.
   </div>
   <div ng-if="getNewArendeState() == 'no-arenden'"
        wc-check-vardenhet
-       vardenhet="{{intyg.grundData.skapadAv.vardenhet.enhetsid}}" class="alert alert-info"
+       vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}" class="alert alert-info"
        id="intyg-is-not-available">
     <strong>Det finns inga frågor och svar.</strong>
   </div>
