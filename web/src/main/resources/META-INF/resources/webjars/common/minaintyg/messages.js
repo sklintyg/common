@@ -82,6 +82,7 @@ angular.module('common').constant('common.messages', {
         'modules.page-header.info.archive': '<h3>Arkivera intyg</h3>Klicka på knappen för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
         'modules.page-header.info.more.false':'<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
         'modules.page-header.info.more.true':'<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
+        'modules.view-intyg.end-of-intyg.text': 'Slut på intyget',
 
 
 
