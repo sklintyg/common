@@ -73,6 +73,7 @@
       <mi-compact-certificate-body cert-meta-model="certMeta"></mi-compact-certificate-body>
       <uv-render-components config="uvConfig" view-data="cert"></uv-render-components>
 
+      <div class="row col-xs-12 text-muted"><br><span message key="modules.view-intyg.end-of-intyg.text"></span></div>
     </div>
     <!-- eof spinner -->
   </div>
@@ -87,24 +88,6 @@
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="cert">
-              <div class="cert-titlebar">
-                <img class="cert-icon" alt="" ng-src="/web/webjars/fk7263/minaintyg/img/fk7263.png" />
-
-                <div class="row">
-                  <div class="col-xs-6 col-sm-7 col-md-8 col-lg-8">
-                    <h2 class="cert-title">
-                      <span>{{moduleService.getModuleName(cert.typ)}}</span>
-                    </h2>
-                  </div>
-                  <div class="col-xs-6 col-sm-5 col-md-4 col-lg-4 issue text-right">
-                  <span class="cert-titlebar-value">
-                    <span message key="fk7263.label.issued"></span>
-                  </span>
-                    <span class="cert-titlebar-value">{{cert.grundData.signeringsdatum | date:'shortDate'}}</span>
-                  </div>
-                </div>
-              </div>
-
               <div class="cert-header">
                 <div class="row">
                   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 header-row">
@@ -148,167 +131,9 @@
 
                   </div>
                 </div>
-                <div class="row border-bottom-resp">
-                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 header-row">
-                    <h3 class="tag">
-                      <span message key="fk7263.label.unit"></span>
-                    </h3>
-                    <span id="careunit">{{cert.grundData.skapadAv.vardenhet.enhetsnamn}}</span>
-                  </div>
-                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <h3 class="tag">
-                      <span message key="fk7263.label.issuer"></span>
-                    </h3>
-                    <span id="caregiver">{{cert.grundData.skapadAv.vardenhet.vardgivare.vardgivarnamn}}</span>
-                  </div>
-                </div>
               </div>
 
               <div class="intyg-body">
-
-                <div mi-field field-label="fk7263.label.smittskydd" filled="true">
-                <span ng-show="cert.avstangningSmittskydd">
-                  <span id="smittskydd-yes" message key="fk7263.label.yes"></span>
-                </span>
-                  <span ng-show="!cert.avstangningSmittskydd">
-                  <span id="smittskydd-no" message key="fk7263.label.no"></span>
-                </span>
-                </div>
-
-                <div mi-field field-label="fk7263.label.diagnosis" filled="cert.diagnosKod">
-                  <div class="form-group">
-                  <span class="tag">
-                    <span message key="fk7263.label.diagnosisCode"></span>
-                  </span>
-                    <span id="diagnosKod">{{cert.diagnosKod}}</span>
-                  </div>
-
-                  <div class="form-group" ng-show="cert.diagnosBeskrivning">
-                    <label class="control-label bold">
-                      <span message key="fk7263.label.diagnosfortydligande"></span>
-                    </label>
-                    <div class="controls">
-                      <div id="diagnosBeskrivning" class="multiline">{{cert.diagnosBeskrivning}}</div>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div mi-field field-label="fk7263.label.progressofdesease" filled="cert.sjukdomsforlopp!=null">
-                  <div id="sjukdomsforlopp" class="multiline">{{cert.sjukdomsforlopp}}</div>
-                </div>
-
-                <div mi-field field-label="fk7263.label.disabilities" filled="cert.funktionsnedsattning!=null">
-                  <div id="funktionsnedsattning" class="multiline">{{cert.funktionsnedsattning}}</div>
-                </div>
-
-                <div mi-field field-label="fk7263.label.basedon"
-                     filled="cert.undersokningAvPatienten!=null || cert.telefonkontaktMedPatienten!=null || cert.journaluppgifter!=null || cert.annanReferens!=null">
-                  <ul class="padded-list">
-                    <li ng-show="cert.undersokningAvPatienten!=null">
-                      <div id="undersokningAvPatienten">
-                        <span message key="fk7263.vardkontakt.undersokning"></span><span> {{cert.undersokningAvPatienten | date:'longDate' }}</span>
-                      </div>
-                    </li>
-                    <li ng-show="cert.telefonkontaktMedPatienten!=null">
-                      <div id="telefonkontaktMedPatienten">
-                        <span message key="fk7263.vardkontakt.telefonkontakt"></span><span> {{cert.telefonkontaktMedPatienten | date:'longDate' }}</span>
-                      </div>
-                    </li>
-                    <li ng-show="cert.journaluppgifter!=null">
-                      <div id="journaluppgifter">
-                        <span message key="fk7263.referens.journal"></span><span> {{cert.journaluppgifter | date:'longDate' }}</span>
-                      </div>
-                    </li>
-                    <li ng-show="cert.annanReferens!=null">
-                      <div id="annanReferens">
-                        <span message key="fk7263.referens.annat"></span><span> {{cert.annanReferens | date:'longDate' }}</span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div mi-field field-label="fk7263.label.limitation" filled="cert.aktivitetsbegransning!=null">
-                  <div id="aktivitetsbegransning" class="multiline">{{cert.aktivitetsbegransning}}</div>
-                </div>
-
-                <div mi-field field-label="fk7263.label.recommendations"
-                     filled="cert.rekommendationKontaktArbetsformedlingen|| cert.rekommendationKontaktForetagshalsovarden || cert.rekommendationOvrigt!=null">
-                  <ul class="padded-list">
-                    <li ng-show="cert.rekommendationKontaktArbetsformedlingen">
-                      <span id="rekommendationKontaktArbetsformedlingen" message
-                            key="fk7263.label.recommendations.contact.jobcenter"></span></li>
-                    <li ng-show="cert.rekommendationKontaktForetagshalsovarden">
-                      <span id="rekommendationKontaktForetagshalsovarden" message
-                            key="fk7263.label.recommendations.contact.healthdepartment"></span></li>
-                    <li ng-show="cert.rekommendationOvrigt.length > 0">
-                      <span message key="fk7263.label.recommendations.contact.other"></span>
-                      <div id="rekommendationOvrigt" class="multiline">{{cert.rekommendationOvrigt}}</div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div mi-field field-label="fk7263.label.plannedtreatment"
-                     filled="cert.atgardInomSjukvarden||cert.annanAtgard">
-                  <ul class="padded-list">
-                    <li ng-show="cert.atgardInomSjukvarden != null">
-                      <span message key="fk7263.label.plannedtreatment.healthcare"></span>
-                      <div id="atgardSjukvard" class="multiline">{{cert.atgardInomSjukvarden}}</div>
-                    </li>
-                    <li ng-show="cert.annanAtgard != null">
-                      <span message key="fk7263.label.plannedtreatment.other"></span>
-                      <div id="atgardAnnan" class="multiline">{{cert.annanAtgard}}</div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div mi-field field-label="fk7263.label.workrehab" filled="cert.rehabilitering">
-                <span ng-show="cert.rehabilitering == 'rehabiliteringAktuell'">
-                  <span id="rehabilitering-yes" message key="fk7263.label.yes"></span>
-                </span>
-                  <span ng-show="cert.rehabilitering == 'rehabiliteringEjAktuell'">
-                  <span id="rehabilitering-no" message key="fk7263.label.no"></span>
-                </span>
-                  <span ng-show="cert.rehabilitering == 'rehabiliteringGarInteAttBedoma'">
-                  <span id="rehabilitering-unjudgeable" message key="fk7263.label.unjudgeable"></span>
-                </span>
-                </div>
-
-                <div mi-field field-label="fk7263.label.patientworkcapacity"
-                     filled="cert.nuvarandeArbetsuppgifter||cert.arbetsloshet||cert.foraldrarledighet">
-                  <ul class="padded-list">
-                    <li ng-show="cert.nuvarandeArbetsuppgifter">
-                      <span message key="fk7263.label.patientworkcapacity.currentwork"></span>
-                      <div id="nuvarandeArbetsuppgifter" class="multiline">{{cert.nuvarandeArbetsuppgifter}}</div>
-                    </li>
-                    <li ng-show="cert.arbetsloshet">
-                      <span id="arbetslos" message key="fk7263.label.patientworkcapacity.unemployed"></span>
-                    </li>
-                    <li ng-show="cert.foraldrarledighet">
-                      <span id="foraldraledig" message key="fk7263.label.patientworkcapacity.parentalleave"></span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div mi-field field-label="fk7263.label.patientworkcapacityjudgement"
-                     filled="cert.arbetsformagaPrognos!=null">
-                  <div id="arbetsformagaPrognos" class="multiline">{{cert.arbetsformagaPrognos}}</div>
-                </div>
-
-                <div mi-field field-label="fk7263.label.prognosis" filled="cert.prognosBedomning">
-                <span ng-show="cert.prognosBedomning == 'arbetsformagaPrognosJa'">
-                  <span id="arbetsformagaPrognos-yes" message key="fk7263.label.yes"></span>
-                </span>
-                  <span ng-show="cert.prognosBedomning == 'arbetsformagaPrognosJaDelvis'">
-                  <span id="arbetsformagaPrognos-partialyes" message key="fk7263.label.partialyes"></span>
-                </span>
-                  <span ng-show="cert.prognosBedomning == 'arbetsformagaPrognosNej'">
-                  <span id="arbetsformagaPrognos-no" message key="fk7263.label.no"></span>
-                </span>
-                  <span ng-show="cert.prognosBedomning == 'arbetsformagaPrognosGarInteAttBedoma'">
-                  <span id="arbetsformagaPrognos-unjudgeable" message key="fk7263.label.unjudgeable"></span>
-                </span>
-                </div>
 
                 <div mi-field field-label="fk7263.label.othertransport"
                      filled="cert.ressattTillArbeteAktuellt || cert.ressattTillArbeteEjAktuellt">
@@ -318,51 +143,6 @@
                   <span ng-show="cert.ressattTillArbeteEjAktuellt">
                   <span id="resaTillArbetet-no" message key="fk7263.label.no"></span>
                 </span>
-                </div>
-
-                <div mi-field field-label="fk7263.label.fkcontact" filled="true">
-                <span ng-show="cert.kontaktMedFk">
-                  <span id="kontaktFk-yes" message key="fk7263.label.yes"></span>
-                </span>
-                  <span ng-show="!cert.kontaktMedFk">
-                  <span id="kontaktFk-no" message key="fk7263.label.no"></span>
-                </span>
-                </div>
-
-                <div mi-field field-label="fk7263.label.otherinformation" filled="cert.kommentar">
-                  <!--  leave  as div tag for IE8 magic bug. using span crashes angular.. -->
-                  <div id="kommentar" class="tag multiline" ng-show="cert.kommentar.length > 0">{{cert.kommentar}}</div>
-                </div>
-
-                <div mi-field field-label="fk7263.label.workcodes" filled="cert.forskrivarkodOchArbetsplatskod">
-                  <!--  leave  as div tag for IE8 magic bug. using span crashes angular.. -->
-                  <div id="forskrivarkodOchArbetsplatskod">{{cert.forskrivarkodOchArbetsplatskod}}</div>
-                </div>
-
-                <div class="row padding-bottom-30px">
-                  <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
-                    <div class="infobox">
-                      <h3>
-                        <span message key="fk7263.label.confirmedby"></span>
-                      </h3>
-                      <h4>
-                        <span message key="fk7263.label.date"></span>
-                      </h4>
-                      <p id="signeringsdatum">{{cert.grundData.signeringsdatum | date:'longDate'}}</p>
-                      <h4>
-                        <span message key="fk7263.label.contactinfo"></span>
-                      </h4>
-                      <p>
-                        <span id="vardperson-namn"
-                              class="text">{{cert.grundData.skapadAv.fullstandigtNamn}}</span><br />
-                        <span id="vardperson-enhet" class="text">{{cert.grundData.skapadAv.vardenhet.enhetsnamn}}</span><br />
-                        <span id="vardperson-postadress"
-                              class="text">{{cert.grundData.skapadAv.vardenhet.postadress}}</span><br />
-                        <span id="vardperson-postnummer-ort" class="text">{{cert.grundData.skapadAv.vardenhet.postnummer}} {{cert.grundData.skapadAv.vardenhet.postort}}</span><br />
-                        <span id="vardperson-telefonnummer" class="text">{{cert.grundData.skapadAv.vardenhet.telefonnummer}}</span><br />
-                      </p>
-                    </div>
-                  </div>
                 </div>
 
               </div>

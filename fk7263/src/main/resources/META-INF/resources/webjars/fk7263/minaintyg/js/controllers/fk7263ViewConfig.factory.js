@@ -21,9 +21,6 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
     'use strict';
 
     var viewConfig = [
-
-        // TODO: Add sjukskrivningsgrad
-
         {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.smittskydd',
@@ -44,15 +41,16 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'diagnosKod'
+                },
+                {
+                    type: 'uv-del-fraga',
+                    labelKey: 'fk7263.label.diagnosfortydligande',
+                    components: [ {
+                        type: 'uv-simple-value',
+                        modelProp: 'diagnosBeskrivning'
+                    } ]
                 }]
-            }, {
-                type: 'uv-fraga',
-                labelKey: 'fk7263.label.diagnosfortydligande',
-                components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'diagnosBeskrivning'
-                } ]
-            } ]
+            }]
         },
         {
             type: 'uv-kategori',
@@ -133,20 +131,32 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
             labelKey: 'fk7263.label.recommendations',
             components: [ {
                 type: 'uv-fraga',
-                components: [ {
-                    type: 'fk7263-list',
-                    modelProps: [{
-                        modelProp: 'rekommendationKontaktArbetsformedlingen',
-                        label: 'fk7263.label.recommendations.contact.jobcenter'
-                    },{
-                        modelProp: 'rekommendationKontaktForetagshalsovarden',
-                        label: 'fk7263.label.recommendations.contact.healthdepartment'
-                    },{
-                        modelProp: 'rekommendationOvrigt',
-                        label: 'fk7263.label.recommendations.contact.other',
-                        showValue: true
-                    }]
-                } ]
+                components: [
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.label.recommendations.contact.jobcenter',
+                        components: [ {
+                            type: 'uv-boolean-value',
+                            modelProp: 'rekommendationKontaktArbetsformedlingen'
+                        } ]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.label.recommendations.contact.healthdepartment',
+                        components: [ {
+                            type: 'uv-boolean-value',
+                            modelProp: 'rekommendationKontaktForetagshalsovarden'
+                        } ]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.label.recommendations.contact.other',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'rekommendationOvrigt'
+                        } ]
+                    }
+                ]
             } ]
         },
         {
@@ -154,18 +164,24 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
             labelKey: 'fk7263.label.plannedtreatment',
             components: [ {
                 type: 'uv-fraga',
-                components: [ {
-                    type: 'fk7263-list',
-                    modelProps: [{
-                        modelProp: 'atgardInomSjukvarden',
-                        label: 'fk7263.label.plannedtreatment.healthcare',
-                        showValue: true
-                    },{
-                        modelProp: 'annanAtgard',
-                        label: 'fk7263.label.plannedtreatment.other',
-                        showValue: true
-                    }]
-                } ]
+                components: [
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.label.plannedtreatment.healthcare',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'atgardInomSjukvarden'
+                        } ]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.label.plannedtreatment.other',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'annanAtgard'
+                        } ]
+                    }
+                ]
             } ]
         },
         {
@@ -189,22 +205,48 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
             labelKey: 'fk7263.label.patientworkcapacity',
             components: [ {
                 type: 'uv-fraga',
-                components: [ {
-                    type: 'fk7263-list',
-                    modelProps: [{
-                        modelProp: 'nuvarandeArbetsuppgifter',
-                        label: 'fk7263.label.patientworkcapacity.currentwork',
-                        showValue: true
-                    },{
-                        modelProp: 'arbetsloshet',
-                        label: 'fk7263.label.patientworkcapacity.unemployed'
-                    },{
-                        modelProp: 'foraldrarledighet',
-                        label: 'fk7263.label.patientworkcapacity.parentalleave'
-                    }]
-                } ]
+                components: [
+                    {
+                        type: 'fk7263-list',
+                        modelProps: [{
+                            modelProp: 'arbetsloshet',
+                            label: 'fk7263.label.patientworkcapacity.unemployed'
+                        },{
+                            modelProp: 'foraldrarledighet',
+                            label: 'fk7263.label.patientworkcapacity.parentalleave'
+                        }]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.label.patientworkcapacity.currentwork',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'nuvarandeArbetsuppgifter'
+                        } ]
+                    }
+                ]
             } ]
         },
+        {
+            type: 'uv-kategori',
+            labelKey: 'fk7263.label.nedsattning',
+            components: [ {
+                type: 'uv-fraga',
+                components: [
+                    {
+                        type: 'uv-table',
+                        headers: ['Nedsatt med', 'Från och med', 'Längst till och med'],
+                        valueProps: [
+                            'KV_FKMU_0003.{sjukskrivningsgrad}.RBK',
+                            'period.from',
+                            'period.tom'
+                        ],
+                        modelProp: 'sjukskrivningar'
+                    }
+                ]
+            } ]
+        },
+
         {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.patientworkcapacityjudgement',
