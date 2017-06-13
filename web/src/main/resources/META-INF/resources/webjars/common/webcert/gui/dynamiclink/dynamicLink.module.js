@@ -30,7 +30,7 @@
  * }
  *
  * Usage: <span dynamiclink key="someLinkKey"/>
- * 
+ *
  * Produces: <a href="http://some.url" target="_blank" title="Some tooltip">Some text</a>
  */
 angular.module('common.dynamiclink', []);
@@ -38,7 +38,7 @@ angular.module('common.dynamiclink', []);
 angular.module('common.dynamiclink').factory('dynamicLinkService',
     function() {
         'use strict';
-        
+
         var _links = {};
 
         function _getLink(key) {
@@ -48,10 +48,45 @@ angular.module('common.dynamiclink').factory('dynamicLinkService',
         function _addLinks(links) {
             _links = links;
         }
-        
+
         return {
             getLink: _getLink,
             addLinks: _addLinks
         };
     }
 );
+
+angular.module('common.dynamiclink').directive('dynamiclink',
+    ['$log', '$rootScope', '$sce', '$compile', 'dynamicLinkService',
+    function($log, $rootScope, $sce, $compile, dynamicLinkService) {
+        'use strict';
+
+        return {
+            restrict: 'EA',
+            scope: {
+                'key': '@',
+                'linkclass': '@'
+            },
+            template: '<a href="{{ url }}" class="external-link {{linkclass}}" ng-attr-target="{{ target || undefined}}" ' +
+            'ng-attr-title="{{ tooltip || undefined }}" ng-bind-html="text"></a>',
+            link: function(scope) { //  element, attr
+                scope.$watch(function() {
+                    return dynamicLinkService.getLink(scope.key);
+                }, function(value) {
+
+                    if (angular.isDefined(value)) {
+                        scope.url = value.url;
+                        scope.text = $sce.trustAsHtml(value.text);
+                        scope.tooltip = value.tooltip;
+                        scope.target = value.target;
+                    } else {
+                        scope.url = '#';
+                        scope.text = $sce.trustAsHtml('WARNING: could not resolve dynamic link: ' + scope.key);
+                        scope.tooltip = null;
+                        scope.target = null;
+                    }
+                });
+            }
+        };
+    }]);
+
