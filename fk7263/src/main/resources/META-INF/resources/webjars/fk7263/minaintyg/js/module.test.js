@@ -17,16 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-.customize-pdf-header {
-  padding:10px 0px;
-}
+angular.module('fk7263', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize' ]).
+run(function() {
+});
 
-.selectable-field-list {
-  padding:10px 0;
-}
-
-.customize-pdf-body {
-  padding-top:10px;
-}
-
-@import "../js/directives/fkList/fkList.directive";

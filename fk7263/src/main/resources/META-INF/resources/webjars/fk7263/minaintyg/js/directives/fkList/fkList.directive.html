@@ -1,0 +1,13 @@
+<div class="uv-enum-value-template">
+    <h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}"
+                                      dynamic-label key="{{ config.labelKey }}"></span></h4>
+
+    <ul>
+      <li ng-repeat="value in values">
+        <span ng-attr-id="{{value.modelProp | uvDomIdFilter}}" message key="{{value.key}}"></span>
+        <div ng-attr-id="{{value.modelProp + '-text' | uvDomIdFilter}}" data-ng-if="value.text" class="multiline">{{::value.text}}</div>
+      </li>
+    </ul>
+
+    <uv-no-value ng-if="!hasValue()"></uv-no-value>
+</div>

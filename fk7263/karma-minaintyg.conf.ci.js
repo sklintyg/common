@@ -53,7 +53,8 @@ module.exports = function(config) {
                 'karma-jasmine',
                 'karma-junit-reporter',
                 'karma-phantomjs-launcher',
-                'karma-mocha-reporter'
+                'karma-mocha-reporter',
+                'karma-ng-html2js-preprocessor'
             ];
             if (runCoverage) {
                 plugins.push('karma-coverage');
@@ -62,10 +63,14 @@ module.exports = function(config) {
         })(),
 
         preprocessors: (function() {
+            var preprocessors = {
+                'src/main/resources/META-INF/resources/webjars/fk7263/minaintyg/js/**/*.html': ['ng-html2js']
+            };
+
             if (runCoverage) {
-                return {'src/main/resources/META-INF/resources/webjars/fk7263/minaintyg/js/**/*.js': ['coverage']};
+                preprocessors['src/main/resources/META-INF/resources/webjars/fk7263/minaintyg/js/**/*.js'] = ['coverage'];
             }
-            return {};
+            return preprocessors;
         })(),
 
         reporters: (function() {

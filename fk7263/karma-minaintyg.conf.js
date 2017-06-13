@@ -23,15 +23,34 @@ module.exports = function(config) {
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/fk7263/minaintyg/js/';
     var TEST_DIR = SRC_DIR;
-    var WEBJAR_DIR = 'build/webjars/META-INF/resources/webjars/';
 
     config.set({
+        browserConsoleLogOptions: {
+            level: 'log',
+            format: '%b %T: %m',
+            terminal: true
+        },
 
         // base path, that will be used to resolve files and exclude
         basePath: '',
 
         // frameworks to use
         frameworks: [ 'jasmine' ],
+
+        // generate js files from html templates to expose them during testing.
+        preprocessors: {
+            'src/main/resources/META-INF/resources/webjars/fk7263/minaintyg/js/**/*.html': ['ng-html2js']
+        },
+
+        ngHtml2JsPreprocessor: {
+            // If your build process changes the path to your templates,
+            // use stripPrefix and prependPrefix to adjust it.
+            stripPrefix: 'src/main/resources/META-INF/resources/',
+            prependPrefix: '/web/',
+
+            // the name of the Angular module to create
+            moduleName: 'htmlTemplates'
+        },
 
         // list of files / patterns to load in the browser
         files: [
@@ -54,10 +73,16 @@ module.exports = function(config) {
             // endbower
 
             // Load these first
-            SRC_DIR + 'module.js',
+            SRC_DIR + 'module.test.js',
+            SRC_DIR + 'messages.js',
 
-            { pattern: SRC_DIR + '**/*' },
+            { pattern: TEST_DIR + '**/*.js' },
+            { pattern: SRC_DIR + '**/*.html' },
             { pattern: TEST_DIR + '**/*.spec.js' }
+        ],
+
+        exclude: [
+            SRC_DIR + 'module.js'
         ],
 
         // web server port
@@ -94,7 +119,8 @@ module.exports = function(config) {
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-phantomjs-launcher',
-            'karma-mocha-reporter'
+            'karma-mocha-reporter',
+            'karma-ng-html2js-preprocessor'
         ],
 
         reporters: [ 'progress' ]

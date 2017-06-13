@@ -18,8 +18,8 @@
  */
 
 angular.module('fk7263').controller('fk7263.ViewCertCtrl',
-    [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'fk7263.viewConfigFactory',
-        function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory) {
+    [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'fk7263.viewConfigFactory', 'fk7263.customizeViewstate',
+        function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, customizeViewstate) {
             'use strict';
 
             $scope.cert = undefined;

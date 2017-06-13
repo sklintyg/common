@@ -46,7 +46,6 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
                     modelProp: 'diagnosKod'
                 }]
             }, {
-                // TODO: hide if empty
                 type: 'uv-fraga',
                 labelKey: 'fk7263.label.diagnosfortydligande',
                 components: [ {
@@ -81,10 +80,41 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.basedon',
             components: [ {
-                // TODO: Add value
                 type: 'uv-fraga',
                 components: [
-                 ]
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.vardkontakt.undersokning',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'undersokningAvPatienten'
+                        } ]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.vardkontakt.telefonkontakt',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'telefonkontaktMedPatienten'
+                        } ]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.referens.journal',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'journaluppgifter'
+                        } ]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.referens.annat',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'annanReferens'
+                        } ]
+                    }
+                ]
             } ]
         },
         {
@@ -102,18 +132,40 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.recommendations',
             components: [ {
-                // TODO: Add value
                 type: 'uv-fraga',
-                components: []
+                components: [ {
+                    type: 'fk7263-list',
+                    modelProps: [{
+                        modelProp: 'rekommendationKontaktArbetsformedlingen',
+                        label: 'fk7263.label.recommendations.contact.jobcenter'
+                    },{
+                        modelProp: 'rekommendationKontaktForetagshalsovarden',
+                        label: 'fk7263.label.recommendations.contact.healthdepartment'
+                    },{
+                        modelProp: 'rekommendationOvrigt',
+                        label: 'fk7263.label.recommendations.contact.other',
+                        showValue: true
+                    }]
+                } ]
             } ]
         },
         {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.plannedtreatment',
             components: [ {
-                // TODO: Add value
                 type: 'uv-fraga',
-                components: []
+                components: [ {
+                    type: 'fk7263-list',
+                    modelProps: [{
+                        modelProp: 'atgardInomSjukvarden',
+                        label: 'fk7263.label.plannedtreatment.healthcare',
+                        showValue: true
+                    },{
+                        modelProp: 'annanAtgard',
+                        label: 'fk7263.label.plannedtreatment.other',
+                        showValue: true
+                    }]
+                } ]
             } ]
         },
         {
@@ -136,9 +188,21 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
             type: 'uv-kategori',
             labelKey: 'fk7263.label.patientworkcapacity',
             components: [ {
-                // TODO: Add value
                 type: 'uv-fraga',
-                components: []
+                components: [ {
+                    type: 'fk7263-list',
+                    modelProps: [{
+                        modelProp: 'nuvarandeArbetsuppgifter',
+                        label: 'fk7263.label.patientworkcapacity.currentwork',
+                        showValue: true
+                    },{
+                        modelProp: 'arbetsloshet',
+                        label: 'fk7263.label.patientworkcapacity.unemployed'
+                    },{
+                        modelProp: 'foraldrarledighet',
+                        label: 'fk7263.label.patientworkcapacity.parentalleave'
+                    }]
+                } ]
             } ]
         },
         {

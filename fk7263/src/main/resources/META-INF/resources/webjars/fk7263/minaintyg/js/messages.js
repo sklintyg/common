@@ -107,14 +107,14 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.nedsattningsgrad.nedsatt_med_1_4': 'Nedsatt med 1/4',
 
         'fk7263.vardkontakt.5880005': 'Min undersökning av patienten den %0',
-        'fk7263.vardkontakt.undersokning': 'Min undersökning av patienten den ',
+        'fk7263.vardkontakt.undersokning': 'Min undersökning av patienten ',
         'fk7263.vardkontakt.185317003': 'Min telefonkontakt med patienten den %0',
-        'fk7263.vardkontakt.telefonkontakt': 'Min telefonkontakt med patienten den ',
+        'fk7263.vardkontakt.telefonkontakt': 'Min telefonkontakt med patienten ',
 
         'fk7263.referens.419891008': 'Journaluppgifter, den %0',
-        'fk7263.referens.journal': 'Journaluppgifter, den ',
+        'fk7263.referens.journal': 'Journaluppgifter',
         'fk7263.referens.74964007': 'Annat, den %0',
-        'fk7263.referens.annat': 'Annat, den ',
+        'fk7263.referens.annat': 'Annat',
 
         // Anpassat intyg
         'fk7263.customize.step.1.pagetitle': 'Anpassa intygsinformation till din arbetsgivare - steg 1 av 3',
