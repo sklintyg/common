@@ -82,9 +82,22 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
     function _getUnselected(withWarningOnly) {
         var unselectedFieldNames = [];
         angular.forEach(fieldConfig, function(fc, key) {
-            if (!fc.selected && (!!withWarningOnly ? fc.warn: true)) {
+            if (angular.isArray(fc)) {
+                angular.forEach(fc, function(nestedFc, key) {
+                    if (!nestedFc.selected) {
+                        if (nestedFc.id) {
+                            unselectedFieldNames.push(nestedFc.id);
+                        } else {
+                            unselectedFieldNames.push(key);
+                        }
+                    }
+                });
+
+            } else if (!fc.selected && (!!withWarningOnly ? fc.warn: true)) {
                     unselectedFieldNames.push(key);
             }
+
+            
         });
         return unselectedFieldNames;
     }
