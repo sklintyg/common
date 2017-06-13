@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('fk7263List Directive', function() {
+describe('fkUvTable Directive', function() {
     'use strict';
 
     var $scope;
@@ -36,6 +36,9 @@ describe('fk7263List Directive', function() {
                         },
                         isValidValue: function(key) {
                             return !!key;
+                        },
+                        getTextFromConfig: function(key) {
+                            return key;
                         }
                     };
                 };
@@ -47,48 +50,43 @@ describe('fk7263List Directive', function() {
         })
     );
 
-    beforeEach(angular.mock.inject(function($compile, $rootScope) {
+    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
         $scope = $rootScope.$new();
 
-        $scope.viewDataMock ={
-            property1: 'elvan',
-            property2: 'Tolvan'
+        $scope.viewDataMock = {
+            property1:  {
+                from: 123,
+                tom: 456
+            }
         };
 
         $scope.configMock = {
-            modelProps: [{
-                modelProp: 'property1',
-                label: 'translationKey'
+            headers: ['label', 'from', 'tom'],
+            rows: [{
+                label: 'row1',
+                key: 'property1'
             },
-                {
-                    modelProp: 'property2',
-                    label: 'translationKey',
-                    showValue: true
-                }]
+            {
+                label: 'row2',
+                key: 'property2'
+            }]
         };
 
-        element = $compile(
-            '<fk7263-list config="configMock" view-data="viewDataMock"></fk7263-list>'
-        )($scope);
-    }));
+        element = $compile('<fk-uv-table config="configMock" view-data="viewDataMock"></fk-uv-table>')($scope);
 
-    it('should display label when value exists', function() {
+    } ]));
+
+    it('should display "123" on row1', function() {
         $scope.$digest();
-
-        expect(element.isolateScope().values.length).toBe(2);
-        expect(element.isolateScope().hasValue()).toBeTruthy();
-        expect($(element).find('#property2-text').text()).toContain('Tolvan');
-        expect($(element).find('uv-no-value').length).toBe(0);
+        expect(element.isolateScope().viewModel.rows.length).toBe(1);
+        expect($(element).find('#property1-row-col1').text()).toContain('123');
     });
 
-    it('should display "uv-no-value" when no value exists', function() {
+    it('should by display "Ej angivet" when no rows', function() {
         $scope.viewDataMock.property1 = null;
-        $scope.viewDataMock.property2 = null;
-        $scope.$digest();
 
-        expect(element.isolateScope().values.length).toBe(0);
-        expect(element.isolateScope().hasValue()).toBeFalsy();
-        expect($(element).find('uv-no-value').length).toBe(0);
+        $scope.$digest();
+        expect($(element).find('uv-no-value').length).toBe(1);
     });
 
 });

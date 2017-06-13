@@ -234,14 +234,24 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
                 type: 'uv-fraga',
                 components: [
                     {
-                        type: 'uv-table',
+                        type: 'fk-uv-table',
                         headers: ['Nedsatt med', 'Från och med', 'Längst till och med'],
-                        valueProps: [
-                            'KV_FKMU_0003.{sjukskrivningsgrad}.RBK',
-                            'period.from',
-                            'period.tom'
-                        ],
-                        modelProp: 'sjukskrivningar'
+                        rows: [{
+                                label: 'fk7263.nedsattningsgrad.nedsatt_med_1_4',
+                                key: 'nedsattMed25'
+                            },
+                            {
+                                label: 'fk7263.nedsattningsgrad.nedsatt_med_1_2',
+                                key: 'nedsattMed50'
+                            },
+                            {
+                                label: 'fk7263.nedsattningsgrad.nedsatt_med_3_4',
+                                key: 'nedsattMed75'
+                            },
+                            {
+                                label: 'fk7263.nedsattningsgrad.helt_nedsatt',
+                                key: 'nedsattMed100'
+                            }]
                     }
                 ]
             } ]
@@ -280,15 +290,23 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
             labelKey: 'fk7263.label.othertransport',
             components: [ {
                 type: 'uv-fraga',
-                // TODO: Add value
-                components: [ {
-                    /*<span ng-show="cert.ressattTillArbeteAktuellt">
-                     <span id="resaTillArbetet-yes" message key="fk7263.label.yes"></span>
-                     </span>
-                     <span ng-show="cert.ressattTillArbeteEjAktuellt">
-                     <span id="resaTillArbetet-no" message key="fk7263.label.no"></span>
-                     </span>*/
-                } ]
+                components: [
+                    {
+                        type: 'fk-uv-boolean-value',
+                        modelProp: 'kontaktMedFk',
+                        value: function(cert) {
+                            if (cert.ressattTillArbeteAktuellt) {
+                                return true;
+                            }
+
+                            if (cert.ressattTillArbeteEjAktuellt) {
+                                return false;
+                            }
+
+                            return null;
+                        }
+                    }
+                ]
             } ]
         },
 

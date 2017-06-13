@@ -216,13 +216,13 @@
         </tr>
         <tr ng-if="cert.nedsattMed75">
           <td><span message key="fk7263.nedsattningsgrad.nedsatt_med_3_4"></span></td>
-          <td>{{cert.nedsattMed50.from | date:'shortDate'}}</td>
-          <td>{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
+          <td>{{cert.nedsattMed75.from | date:'shortDate'}}</td>
+          <td>{{cert.nedsattMed75.tom | date:'shortDate'}}</td>
         </tr>
         <tr ng-if="cert.nedsattMed100">
           <td><span message key="fk7263.nedsattningsgrad.helt_nedsatt"></span></td>
-          <td>{{cert.nedsattMed50.from | date:'shortDate'}}</td>
-          <td>{{cert.nedsattMed50.tom | date:'shortDate'}}</td>
+          <td>{{cert.nedsattMed100.from | date:'shortDate'}}</td>
+          <td>{{cert.nedsattMed100.tom | date:'shortDate'}}</td>
         </tr>
       </table>
     </div>

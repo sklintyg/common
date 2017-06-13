@@ -17,8 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('fk7263').directive('fk7263List', [ 'uvUtil',
-    function(uvUtil) {
+angular.module('fk7263').directive('fkUvBooleanValue', [ '$filter', 'uvUtil', function($filter, uvUtil) {
     'use strict';
 
     return {
@@ -27,27 +26,24 @@ angular.module('fk7263').directive('fk7263List', [ 'uvUtil',
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/fk7263/minaintyg/js/directives/fkList/fkList.directive.html',
+        templateUrl: '/web/webjars/fk7263/minaintyg/js/directives/fkUvBooleanValue/fkUvBooleanValue.directive.html',
         link: function($scope) {
 
-            $scope.values = [];
+            var value;
 
-            angular.forEach($scope.config.modelProps, function(data) {
-                var value = uvUtil.getValue($scope.viewData, data.modelProp);
-
-                if (value) {
-                    $scope.values.push({
-                        modelProp: data.modelProp,
-                        key: data.label,
-                        text: data.showValue ? value : null
-                    });
+            $scope.getValue = function() {
+                if (angular.isFunction($scope.config.value)) {
+                    value = $scope.config.value($scope.viewData);
+                } else {
+                    value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
                 }
-            });
 
-            $scope.hasValue = function() {
-                return $scope.values.length > 0;
+                return $filter('uvBoolFilter')(value);
             };
 
+            $scope.hasValue = function() {
+                return value !== null;
+            };
         }
     };
 } ]);

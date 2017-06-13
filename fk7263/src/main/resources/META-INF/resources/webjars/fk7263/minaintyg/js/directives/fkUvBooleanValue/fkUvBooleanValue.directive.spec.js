@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('fk7263List Directive', function() {
+describe('fkUvBooelanValue Directive', function() {
     'use strict';
 
     var $scope;
@@ -44,51 +44,62 @@ describe('fk7263List Directive', function() {
             $filterProvider.register('uvDomIdFilter', function() {
                 return function(value) { return value;};
             });
+
+            $filterProvider.register('uvBoolFilter', function() {
+                return function(value) { return value ? 'Ja' : 'Nej';};
+            });
         })
     );
 
-    beforeEach(angular.mock.inject(function($compile, $rootScope) {
+    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
         $scope = $rootScope.$new();
 
-        $scope.viewDataMock ={
-            property1: 'elvan',
-            property2: 'Tolvan'
+        $scope.viewDataMock = {
+            property1:  true,
+            property2:  false
         };
 
         $scope.configMock = {
-            modelProps: [{
-                modelProp: 'property1',
-                label: 'translationKey'
-            },
-                {
-                    modelProp: 'property2',
-                    label: 'translationKey',
-                    showValue: true
-                }]
+            labelKey: 'DUMMY.1.RBK',
+            value: function(cert) {
+                if (cert.property1) {
+                    return false;
+                }
+
+                if (cert.property2) {
+                    return true;
+                }
+
+                return null;
+            }
         };
 
-        element = $compile(
-            '<fk7263-list config="configMock" view-data="viewDataMock"></fk7263-list>'
-        )($scope);
-    }));
+        element = $compile('<fk-uv-boolean-value config="configMock" view-data="viewDataMock"></fk-uv-boolean-value>')($scope);
 
-    it('should display label when value exists', function() {
+    } ]));
+
+    it('should display "Nej" when property1 is true', function() {
         $scope.$digest();
-
-        expect(element.isolateScope().values.length).toBe(2);
-        expect(element.isolateScope().hasValue()).toBeTruthy();
-        expect($(element).find('#property2-text').text()).toContain('Tolvan');
-        expect($(element).find('uv-no-value').length).toBe(0);
+        expect(element.isolateScope().getValue()).toEqual('Nej');
+        expect($(element).find('span').text()).toContain('Nej');
     });
 
-    it('should display "uv-no-value" when no value exists', function() {
-        $scope.viewDataMock.property1 = null;
-        $scope.viewDataMock.property2 = null;
-        $scope.$digest();
+    it('should display "Ja" when property2 is true', function() {
+        $scope.viewDataMock.property1 = false;
+        $scope.viewDataMock.property2 = true;
 
-        expect(element.isolateScope().values.length).toBe(0);
+        $scope.$digest();
+        expect(element.isolateScope().getValue()).toEqual('Ja');
+        expect($(element).find('span').text()).toContain('Ja');
+    });
+
+    it('should by default display "Ej angivet" when value is undefined', function() {
+        $scope.viewDataMock.property1 = false;
+        $scope.viewDataMock.property2 = false;
+
+        $scope.$digest();
         expect(element.isolateScope().hasValue()).toBeFalsy();
-        expect($(element).find('uv-no-value').length).toBe(0);
+        expect($(element).find('uv-no-value').length).toBe(1);
     });
 
 });
