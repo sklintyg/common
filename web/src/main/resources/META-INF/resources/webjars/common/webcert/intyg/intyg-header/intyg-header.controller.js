@@ -18,14 +18,14 @@
  */
 
 angular.module('common').controller('common.IntygHeader',
-    ['$rootScope', '$scope', '$log', '$state', '$stateParams',
-        'common.authorityService', 'common.featureService', 'common.messageService',
-        'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel', 'common.IntygErsattRequestModel', 'common.User', 'common.UserModel',
-        'common.IntygSend', 'common.IntygCopyActions', 'common.IntygMakulera', 'common.IntygViewStateService',
+    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService',
+        'common.messageService', 'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel',
+        'common.IntygErsattRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyActions',
+        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService',
 
-        function($rootScope, $scope, $log, $state, $stateParams,
-            authorityService, featureService, messageService, moduleService, IntygCopyRequestModel,
-            IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel, IntygSend, IntygCopyActions, IntygMakulera, CommonViewState) {
+        function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService,
+            moduleService, IntygCopyRequestModel, IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel,
+            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService) {
 
             'use strict';
 
@@ -164,7 +164,23 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.print = function(intyg, isEmployeeCopy) {
                 if (isEmployeeCopy) {
-                    window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
+                    DialogService.showDialog({
+                            dialogId: 'print-employee-copy',
+                            titleId: 'common.modal.label.employee.title',
+                            templateUrl: '/app/partials/employee-print-dialog.html',
+                            model: {},
+                            button1click: function (modalInstance) {
+                                window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
+                                modalInstance.close();
+                            },
+                            button2click: function(modalInstance){
+                                modalInstance.close();
+                            },
+                            button1text: 'common.modal.label.employee.yes',
+                            button2text: 'common.cancel',
+                            bodyText: 'common.modal.label.employee.body',
+                            autoClose: false
+                        });
                 } else {
                     window.open($scope.pdfUrl, '_blank');
                 }
