@@ -293,7 +293,7 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
                 components: [
                     {
                         type: 'fk-uv-boolean-value',
-                        modelProp: 'kontaktMedFk',
+                        modelProp: 'resaTillArbetet',
                         value: function(cert) {
                             if (cert.ressattTillArbeteAktuellt) {
                                 return true;
