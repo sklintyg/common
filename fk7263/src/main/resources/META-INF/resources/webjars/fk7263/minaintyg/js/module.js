@@ -80,13 +80,7 @@ angular.module('fk7263').config(function($stateProvider) {
             index: 2
         }
 
-    }).state('fk7263-statushistory', {
-            url : '/fk7263/statushistory',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/status-history.html',
-            controller: 'fk7263.ViewCertCtrl',
-            data : { title: 'Alla intygets händelser' }
-        }).
-        state('fk7263-fel', {
+    }).state('fk7263-fel', {
             url : '/fk7263/fel/:errorCode',
             templateUrl: '/web/webjars/fk7263/minaintyg/views/error.html',
             controller: 'fk7263.ErrorCtrl',

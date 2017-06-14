@@ -12,12 +12,6 @@ angular.module('luae_fs').config(function($stateProvider) {
             data : { title: 'Läkarutlåtande för aktivitetsersättning vid förlängd skolgång', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
         }).
-        state('luae_fs-statushistory', {
-            url : '/luae_fs/statushistory',
-            templateUrl: '/web/webjars/luae_fs/minaintyg/views/status-history.html',
-            controller: 'luae_fs.ViewCertCtrl',
-            data : { title: 'Alla intygets händelser' }
-        }).
         state('luae_fs-fel', {
             url : '/luae_fs/fel/:errorCode',
             templateUrl: '/web/webjars/luae_fs/minaintyg/views/error.html',

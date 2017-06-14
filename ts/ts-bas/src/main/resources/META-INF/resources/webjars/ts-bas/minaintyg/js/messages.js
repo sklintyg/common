@@ -21,9 +21,24 @@
 angular.module('ts-bas').constant('ts-bas.messages', {
     'sv': {
         // Labels
-        'ts-bas.label.intygavser': 'Avser behörighet för körkort',
-        'ts-bas.label.identitet': 'Identiteten är styrkt genom',
-        'ts-bas.label.unit': 'Vårdenhet',
+        'ts-bas.label.pagetitle': 'Granska och skicka intyg',
+        'ts-bas.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även spara intyget som en PDF på din dator.<br>',
+        'ts-bas.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
+        'ts-bas.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Transportstyrelsen.',
+        'ts-bas.label.pagedescription.save.or.print.certificate.header': '<h2>Spara eller skriva ut</h2>',
+        'ts-bas.label.pagedescription.save.or.print.certificate': 'Klicka på knappen Spara som PDF för att spara eller skriva ut ditt intyg. Intyget öppnas eller laddas ner som en pdf-fil som du kan spara på din dator eller skriva ut.',
+        'ts-bas.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
+        'ts-bas.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i ditt intyg ska du kontakta den som utfärdat ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+        'ts-bas.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
+        'ts-bas.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
+
+        //Helptexts
+        'ts-bas.helptext.readpdfhelp': '<b>Läsa en pdf-fil</b><br/>PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna pdf-filer behöver du en pdf-läsare exempelvis. <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
+
+        // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
+        // Be careful to investigate if they are used before removing them.
+        'ts-bas.compact-header.complementaryinfo-prefix': 'Avser behörighet:',
+        'ts-bas.inbox.complementaryinfo': 'Avser behörighet',
 
         'ts-bas.label.syn.binokulart': 'Binokulärt',
         'ts-bas.label.syn.hogeroga': 'Höger öga',
@@ -39,56 +54,10 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.true': 'JA',
         'ts-bas.label.false': 'NEJ',
 
-        'ts-bas.label.pagetitle': 'Granska och skicka intyg',
-
-        'ts-bas.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även spara intyget som en PDF på din dator.<br>',
-        'ts-bas.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
-        'ts-bas.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Transportstyrelsen.',
-        'ts-bas.label.pagedescription.save.or.print.certificate.header': '<h2>Spara eller skriva ut</h2>',
-        'ts-bas.label.pagedescription.save.or.print.certificate': 'Klicka på knappen Spara som PDF för att spara eller skriva ut ditt intyg. Intyget öppnas eller laddas ner som en pdf-fil som du kan spara på din dator eller skriva ut.',
-        'ts-bas.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
-        'ts-bas.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i ditt intyg ska du kontakta den som utfärdat ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
-        'ts-bas.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'ts-bas.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
-
-        'ts-bas.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
-        'ts-bas.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
-        'ts-bas.label.showevents.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa färre händelser',
-        'ts-bas.label.showevents.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa alla händelser',
-
-        'ts-bas.label.patientname': 'Patientens namn:',
-        'ts-bas.label.issued': 'Inkom till Mina intyg',
-        'ts-bas.label.civicnumber': 'Personnr:',
-        'ts-bas.label.issuer': 'Vårdgivare:',
-        'ts-bas.label.period': 'Period:',
-        'ts-bas.label.errorpagetitle': 'Ett problem har uppstått',
-        'ts-bas.label.confirmedby': 'Ovanstående uppgifter och bedömningar bekräftas',
-        'ts-bas.label.date': 'Datum',
-        'ts-bas.label.contactinfo': 'Namn och kontaktuppgifter till vårdenheten',
-        'ts-bas.label.bedomning-info-ej-angivet': 'Ej ifyllt',
-
-        'ts-bas.label.latestevent': 'Senaste händelse',
-        'ts-bas.label.latestevent.noevents': 'Inga händelser',
-        'ts-bas.label.latestevent.showall': 'Visa alla händelser',
-
-
-        'ts-bas.button.send': 'Skicka',
-        'ts-bas.button.send.certificate.title': 'Skicka detta intyg till Transportstyrelsen.',
-        'ts-bas.button.sendtofk': 'Skicka',
-        'ts-bas.button.goback': 'Tillbaka',
-        'ts-bas.button.cancel': 'Avbryt',
-        'ts-bas.compact-header.complementaryinfo-prefix': 'Avser behörighet:',
-
-        'ts-button.detail.send': 'Skicka',
-        'ts-bas.message.certifits-basloading': 'Hämtar intyg...',
         'ts-bas.error.generic': 'Kunde inte visa intyget',
-        'ts-bas.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'ts-bas.history.label.pagetitle': 'Intygets alla händelser',
-        'ts-bas.status.sent': 'Mottaget av',
-        'ts-bas.inbox.complementaryinfo': 'Avser behörighet',
+        'ts-bas.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
 
-        //Helptexts
-        'ts-bas.helptext.readpdfhelp': '<b>Läsa en pdf-fil</b><br/>PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna pdf-filer behöver du en pdf-läsare exempelvis. <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.'
+
 
     },
     'en': {

@@ -80,41 +80,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.label.reference.to.field13': 'Se under Övriga upplysningar och förtydliganden (fält 13)',
         'fk7263.label.otherinformation': 'Övriga upplysningar och förtydliganden (fält 13)',
 
-        'fk7263.label.confirmedby': 'Ovanstående uppgifter och bedömningar bekräftas',
-        'fk7263.label.date': 'Datum',
-        'fk7263.label.contactinfo': 'Namn och kontaktuppgifter till vårdenheten',
-
-        'fk7263.label.latestevent': 'Senaste händelse',
-        'fk7263.label.latestevent.noevents': 'Inga händelser',
-
-        'fk7263.button.send.certificate': 'Skicka',
-        'fk7263.button.send.certificate.title': 'Skicka detta intyg till en eller flera mottagare.',
-        'fk7263.button.customize.certificate': 'Anpassa intyget till arbetsgivare',
-        'fk7263.button.customize.certificate.title': 'Anpassa detta intyg för att lämna till arbetsgivaren.',
-        'fk7263.button.customize.certificate.change': 'Ändra val',
-        'fk7263.button.send': 'Skicka',
-        'fk7263.button.cancel': 'Avbryt',
         'fk7263.button.goback': 'Tillbaka',
-
-
-        'fk7263.target.fk': 'Försäkringskassan',
-        'fk7263.target.afa': 'AFA Försäkring',
-        'fk7263.target.skandia': 'Skandia',
-
-        'fk7263.nedsattningsgrad.helt_nedsatt': 'Helt nedsatt',
-        'fk7263.nedsattningsgrad.nedsatt_med_3_4': 'Nedsatt med 3/4',
-        'fk7263.nedsattningsgrad.nedsatt_med_1_2': 'Nedsatt med hälften',
-        'fk7263.nedsattningsgrad.nedsatt_med_1_4': 'Nedsatt med 1/4',
-
-        'fk7263.vardkontakt.5880005': 'Min undersökning av patienten den %0',
-        'fk7263.vardkontakt.undersokning': 'Min undersökning av patienten ',
-        'fk7263.vardkontakt.185317003': 'Min telefonkontakt med patienten den %0',
-        'fk7263.vardkontakt.telefonkontakt': 'Min telefonkontakt med patienten ',
-
-        'fk7263.referens.419891008': 'Journaluppgifter, den %0',
-        'fk7263.referens.journal': 'Journaluppgifter',
-        'fk7263.referens.74964007': 'Annat, den %0',
-        'fk7263.referens.annat': 'Annat',
 
         // Anpassat intyg
         'fk7263.customize.step.1.pagetitle': 'Anpassa intygsinformation till din arbetsgivare - steg 1 av 3',
@@ -140,13 +106,28 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.helptext.readpdfhelp': '<b>Läsa en pdf-fil</b><br/>PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna pdf-filer behöver du en pdf-läsare exempelvis. <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
         'fk7263.history.label.pagetitle': 'Intygets alla händelser',
 
-        //Dynamic keys - used with dynamic prefix <intygstype> or suffix <true/false> etc.
-        'fk7263.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
-        'fk7263.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
+        // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
+        // Be careful to investigate if they are used before removing them.
+
+        'fk7263.nedsattningsgrad.helt_nedsatt': 'Helt nedsatt',
+        'fk7263.nedsattningsgrad.nedsatt_med_3_4': 'Nedsatt med 3/4',
+        'fk7263.nedsattningsgrad.nedsatt_med_1_2': 'Nedsatt med hälften',
+        'fk7263.nedsattningsgrad.nedsatt_med_1_4': 'Nedsatt med 1/4',
+
+        'fk7263.vardkontakt.5880005': 'Min undersökning av patienten den %0',
+        'fk7263.vardkontakt.undersokning': 'Min undersökning av patienten ',
+        'fk7263.vardkontakt.185317003': 'Min telefonkontakt med patienten den %0',
+        'fk7263.vardkontakt.telefonkontakt': 'Min telefonkontakt med patienten ',
+
+        'fk7263.referens.419891008': 'Journaluppgifter, den %0',
+        'fk7263.referens.journal': 'Journaluppgifter',
+        'fk7263.referens.74964007': 'Annat, den %0',
+        'fk7263.referens.annat': 'Annat',
+
+
         'fk7263.inbox.complementaryinfo': 'Intygsperiod',
         'fk7263.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:',
         'fk7263.message.certificateloading': 'Hämtar intyg...',
-        'fk7263.status.sent': 'Mottaget av',
 
         // Errors
         'fk7263.error.generic': 'Intyget kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',

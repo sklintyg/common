@@ -21,14 +21,25 @@
 angular.module('ts-diabetes').constant('ts-diabetes.messages', {
     'sv': {
         // Labels
-        'ts-diabetes.label.intygavser': 'Avser lämplighet för körkort',
-        'ts-diabetes.label.identitet': 'Identiteten är styrkt genom',
-        'ts-diabetes.label.allmant': '1. Allmänt',
-        'ts-diabetes.label.hypoglykemier': '2. Hypoglykemier (lågt blodsocker)',
-        'ts-diabetes.label.syn': '3. Synintyg',
-        'ts-diabetes.label.bedomning': '4. Bedömning',
-        'ts-diabetes.label.ovrigkommentar': 'Övriga upplysningar och kommentarer',
-        'ts-diabetes.label.unit': 'Vårdenhet',
+
+        'ts-diabetes.label.pagetitle': 'Granska och skicka intyg',
+
+        'ts-diabetes.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även spara intyget som en PDF på din dator.<br>',
+        'ts-diabetes.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
+        'ts-diabetes.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Transportstyrelsen.',
+        'ts-diabetes.label.pagedescription.save.or.print.certificate.header': '<h2>Spara eller skriva ut</h2>',
+        'ts-diabetes.label.pagedescription.save.or.print.certificate': 'Klicka på knappen Spara som PDF för att spara eller skriva ut ditt intyg. Intyget öppnas eller laddas ner som en pdf-fil som du kan spara på din dator eller skriva ut.',
+        'ts-diabetes.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
+        'ts-diabetes.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i ditt intyg ska du kontakta den som utfärdat ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+        'ts-diabetes.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
+        'ts-diabetes.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
+        // Helptexts
+        'ts-diabetes.helptext.readpdfhelp': '<b>Läsa en pdf-fil</b><br/>PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna pdf-filer behöver du en pdf-läsare exempelvis. <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
+
+        // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
+        // Be careful to investigate if they are used before removing them.
+        'ts-diabetes.compact-header.complementaryinfo-prefix': 'Avser behörighet:',
+        'ts-diabetes.inbox.complementaryinfo': 'Avser behörighet',
 
         'ts-diabetes.label.syn.binokulart': 'Binokulärt',
         'ts-diabetes.label.syn.hogeroga': 'Höger öga',
@@ -43,59 +54,8 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
 
         'ts-diabetes.label.true': 'JA',
         'ts-diabetes.label.false': 'NEJ',
-
-        'ts-diabetes.label.pagetitle': 'Granska och skicka intyg',
-
-        'ts-diabetes.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även spara intyget som en PDF på din dator.<br>',
-        'ts-diabetes.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
-        'ts-diabetes.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Transportstyrelsen.',
-        'ts-diabetes.label.pagedescription.save.or.print.certificate.header': '<h2>Spara eller skriva ut</h2>',
-        'ts-diabetes.label.pagedescription.save.or.print.certificate': 'Klicka på knappen Spara som PDF för att spara eller skriva ut ditt intyg. Intyget öppnas eller laddas ner som en pdf-fil som du kan spara på din dator eller skriva ut.',
-        'ts-diabetes.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
-        'ts-diabetes.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i ditt intyg ska du kontakta den som utfärdat ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
-        'ts-diabetes.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'ts-diabetes.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
-
-        'ts-diabetes.label.status.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
-        'ts-diabetes.label.status.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
-        'ts-diabetes.label.showevents.false': '<span class="glyphicon glyphicon-chevron-up"></span> Visa färre händelser',
-        'ts-diabetes.label.showevents.true': '<span class="glyphicon glyphicon-chevron-down"></span> Visa alla händelser',
-
-        'ts-diabetes.label.patientname': 'Patientens namn:',
-        'ts-diabetes.label.issued': 'Inkom till Mina intyg',
-        'ts-diabetes.label.civicnumber': 'Personnr:',
-        'ts-diabetes.label.issuer': 'Vårdgivare:',
-        'ts-diabetes.label.period': 'Period:',
-        'ts-diabetes.label.errorpagetitle': 'Ett problem har uppstått',
-
-        'ts-diabetes.label.latestevent': 'Senaste händelse',
-        'ts-diabetes.label.latestevent.noevents': 'Inga händelser',
-        'ts-diabetes.label.latestevent.showall': 'Visa alla händelser',
-
-        'ts-diabetes.label.confirmedby': 'Ovanstående uppgifter och bedömningar bekräftas',
-        'ts-diabetes.label.date': 'Datum',
-        'ts-diabetes.label.contactinfo': 'Namn och kontaktuppgifter till vårdenheten',
-        'ts-diabetes.label.ej-angivet': 'Ej ifyllt',
-        'ts-diabetes.label.bedomning.kan-inte-ta-stallning': 'Kan inte ta ställning',
-
-        'ts-diabetes.detail.send': 'Skicka',
-        'ts-diabetes.message.certificateloading': 'Hämtar intyg...',
-
-        'ts-diabetes.compact-header.complementaryinfo-prefix': 'Avser behörighet:',
-
-        'ts-diabetes.button.send': 'Skicka',
-        'ts-diabetes.button.cancel': 'Avbryt',
-        'ts-diabetes.button.goback': 'Tillbaka',
-        'ts-diabetes.button.send.certificate.title': 'Skicka detta intyg till Transportstyrelsen.',
-
         'ts-diabetes.error.generic': 'Kunde inte visa intyget',
-        'ts-diabetes.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'ts-diabetes.history.label.pagetitle': 'Intygets alla händelser',
-        'ts-diabetes.status.sent': 'Mottaget av',
-        'ts-diabetes.inbox.complementaryinfo': 'Avser behörighet',
-
-        // Helptexts
-        'ts-diabetes.helptext.readpdfhelp': '<b>Läsa en pdf-fil</b><br/>PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna pdf-filer behöver du en pdf-läsare exempelvis. <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.'
+        'ts-diabetes.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
 
     },
     'en': {

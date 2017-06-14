@@ -36,31 +36,15 @@ angular.module('common').constant('common.messages', {
 
         'common.date': 'Datum',
 
-        // labels for common modal dialogs
-        'common.modal.label.discard_draft' : 'Ta bort utkast',
-        'common.modal.label.confirm_sign': 'Signera intyget',
-
-        // cert status messages
-        'cert.status.draft_incomplete': 'Utkast, ej komplett',
-        'cert.status.draft_complete': 'Utkast, komplett',
-        'cert.status.signed': 'Signerat',
-        'cert.status.cancelled': 'Makulerat',
-        'cert.status.unknown': 'Okänd',
-
-        // unused statuses in gui
-        'cert.status.sent': 'Skickat',
-        'cert.status.received': 'Mottaget',
-
         // wc-common-directives-resources
         'nav.label.loggedinas': 'Inloggad som:',
 
-        // Fraga/svar resource - used both by webcert and module
         // modal messages
-        'modal.title.markforward': 'Markera som vidarebefordrad?',
 
         // Cert module messages. Used by several cert modules.
         'modules.label.field': 'Fält',
         'modules.label.blank': 'Ej ifyllt',
+        'modules.message.certificateloading': 'Hämtar intyg...',
 
         // texts used by mi-certificate-action-buttons directive (would be nice to have resource keys per directive, like scss...)
         'modules.actionbar.button.send' : 'Välj mottagare och skicka intyget',
