@@ -22,19 +22,7 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
     'sv': {
         // Labels
 
-        'ts-diabetes.label.pagetitle': 'Granska och skicka intyg',
-
-        'ts-diabetes.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Transportstyrelsen, du kan även spara intyget som en PDF på din dator.<br>',
-        'ts-diabetes.label.pagedescription.sendcertificate.header': '<h2>Skicka intyg</h2>',
-        'ts-diabetes.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Transportstyrelsen.',
-        'ts-diabetes.label.pagedescription.save.or.print.certificate.header': '<h2>Spara eller skriva ut</h2>',
-        'ts-diabetes.label.pagedescription.save.or.print.certificate': 'Klicka på knappen Spara som PDF för att spara eller skriva ut ditt intyg. Intyget öppnas eller laddas ner som en pdf-fil som du kan spara på din dator eller skriva ut.',
-        'ts-diabetes.label.pagedescription.error.in.certificate.header': '<h2>Fel i intyget?</h2>',
-        'ts-diabetes.label.pagedescription.error.in.certificate': 'Om någon uppgift är fel i ditt intyg ska du kontakta den som utfärdat ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
-        'ts-diabetes.label.pagedescription.archive.header': '<h2>Arkivera</h2>',
-        'ts-diabetes.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
-        // Helptexts
-        'ts-diabetes.helptext.readpdfhelp': '<b>Läsa en pdf-fil</b><br/>PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna pdf-filer behöver du en pdf-läsare exempelvis. <a href="http://get.adobe.com/se/reader/" target="_blank">Adobe Reader</a>.',
+        'ts-diabetes.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektronisk, ladda ned intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
 
         // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
         // Be careful to investigate if they are used before removing them.

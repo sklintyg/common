@@ -21,20 +21,7 @@
 angular.module('fk7263').constant('fk7263.messages', {
     'sv': {
         // Labels
-        'fk7263.label.pagetitle': 'Granska och skicka intyg',
-        'fk7263.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektroniskt till Försäkringskassan, du kan även spara intyget som en PDF på din dator.<br>',
-        'fk7263.label.pagedescription.sendcertificate.header': 'Skicka intyg',
-        'fk7263.label.pagedescription.sendcertificate': 'Klicka på knappen Skicka för att skicka intyget elektroniskt till Försäkringskassan eller en annan mottagare.<br>',
-        'fk7263.label.pagedescription.certificate.to.employer.header': 'Intyg till arbetsgivare',
-        'fk7263.label.pagedescription.certificate.to.employer': 'Du har möjlighet att anpassa läkarintyget om du ska lämna läkarintyget till din arbetsgivare. Du anpassar intyget genom att välja om du vill visa alla uppgifter i intyget eller om du vill dölja vissa delar. Klicka på knappen Anpassa intyget för att välja vilken information du vill dela.',
-        'fk7263.label.pagedescription.save.or.print.certificate.header': 'Spara eller skriva ut',
-        'fk7263.label.pagedescription.save.or.print.certificate': 'Klicka på knappen Spara som PDF för att spara eller skriva ut ditt intyg. Intyget öppnas eller laddas ner som en pdf-fil som du kan spara på din dator eller skriva ut.',
-        'fk7263.label.pagedescription.sickness.benefit.header': 'Vill du ansöka om sjukpenning?',
-        'fk7263.label.pagedescription.sickness.benefit': 'Det gör du enklast på <a href="http://www.forsakringskassan.se/sjuk" target="_blank">www.forsakringskassan.se/sjuk</a>. Där kan du läsa mer om sjukpenning och hur du ansöker.<br>',
-        'fk7263.label.pagedescription.error.in.certificate.header': 'Fel i intyget?',
-        'fk7263.label.pagedescription.error.in.certificate': 'För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
-        'fk7263.label.pagedescription.archive.header': 'Arkivera',
-        'fk7263.label.pagedescription.archive': 'För att arkivera intyget klickar du på knappen Arkivera.',
+        'fk7263.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget, göra en anpassad version till din arbetsgivare, ladda ner intyget som PDF och arkivera intyget. Om du vill ansöka om sjukpenning, gör du det enklast på <LINK:forsakringskassan-sjuk>. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
 
         'fk7263.label.nedsattning': 'Jag bedömer att arbetsförmåga är (fält 8b)',
         'fk7263.label.patientname': 'Patientens namn',

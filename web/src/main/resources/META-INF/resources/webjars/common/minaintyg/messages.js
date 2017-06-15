@@ -60,12 +60,14 @@ angular.module('common').constant('common.messages', {
         'modules.actionbar.archivedialog.archive.button' : 'Arkivera intyg',
 
         // Common texts used in page headers
+        'modules.page-header.view-intyg.page-title': 'Läs och hantera ditt intyg',
         'modules.page-header.info.select-recipients-and-send': '<h3>Välj mottagare och skicka intyget</h3>Klicka på knappen för att komma till sidan där du väljer mottagare och skickar intyget. Detta intyg kan till exempel skickas till Försäkringskassan.',
+        'modules.page-header.info.select-recipients-and-send.ts': '<h3>Välj mottagare och skicka intyget</h3>Klicka på knappen för att komma till sidan där du väljer mottagare och skickar intyget. Detta intyg kan till exempel skickas till Transportstyrelsen.',
         'modules.page-header.info.customize-pdf': '<h3>Anpassa intyg till arbetsgivare</h3>Klicka på knappen för att välja vilken information i intyget du vill delge din arbetsgivare. Viss information måste lämnas till arbetsgivaren och kan inte väljas bort. Dessa fält är markerade som obligatoriska.',
         'modules.page-header.info.download-pdf': '<h3>Ladda ner intyg som PDF</h3>Klicka på knappen för att ladda ner intyget som PDF. Du kan därefter välja hur du vill hantera intyget vidare, till exempel kan du skriva ut det. PDF är ett filformat som används för att ett dokument ska se likadant ut i olika datorer. För att kunna öppna PDF-filer behöver du en PDF läsare, exempelvis <LINK:adobeReader>.',
         'modules.page-header.info.archive': '<h3>Arkivera intyg</h3>Klicka på knappen för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
         'modules.page-header.info.more.false':'<span class="glyphicon glyphicon-chevron-up"></span> Visa mindre',
-        'modules.page-header.info.more.true':'<span class="glyphicon glyphicon-chevron-down"></span> Visa mer',
+        'modules.page-header.info.more.true':'<span class="glyphicon glyphicon-chevron-down"></span> Läs mer om knappfunktioner',
         'modules.view-intyg.end-of-intyg.text': 'Slut på intyget',
 
 

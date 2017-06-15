@@ -2,6 +2,9 @@
 angular.module('luae_na').constant('luae_na.messages', {
     'sv': {
 
+        // Labels
+        'luae_na.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget, göra en anpassad version till din arbetsgivare, ladda ner intyget som PDF och arkivera intyget. Om du vill ansöka om sjukpenning, gör du det enklast på <LINK:forsakringskassan-sjuk>. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+
         // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
         // Be careful to investigate if they are used before removing them.
         'luae_na.inbox.complementaryinfo': 'Intygsperiod',
