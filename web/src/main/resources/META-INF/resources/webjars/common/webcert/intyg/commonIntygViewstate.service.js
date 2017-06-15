@@ -128,18 +128,25 @@ angular.module('common').service('common.IntygViewStateService',
             if (typeof result.relations !== 'undefined') {
                 this.intygProperties.relations = result.relations;
                 this.intygProperties.replacedByRelation = findRelationOfType(result.relations, 'ERSATT');
-                this.intygProperties.complementedByRelation = findRelationOfType(result.relations, 'KOMPLT');
+                // Try finding signed utkast first, since there can multiple kompletteringar relations.
+                // Assume that the newest komplettering relation comes first in the array sent by backend.
+                this.intygProperties.complementedByRelation = findRelationOfType(result.relations, 'KOMPLT', true);
+                if(!this.intygProperties.complementedByRelation) {
+                    this.intygProperties.complementedByRelation = findRelationOfType(result.relations, 'KOMPLT');
+                }
             }
         };
 
             /**
              * Iterates over the _child_ relations, trying to find a match for the specified relationsKod
              */
-        function findRelationOfType(relations, relationsKod) {
+        function findRelationOfType(relations, relationsKod, signedOnly) {
             if (typeof relations !== 'undefined') {
                 for(var a = 0; a < relations.children.length; a++) {
                     if (relations.children[a].relationKod === relationsKod) {
-                        return relations.children[a];
+                        if(signedOnly !== true || relations.children[a].status === 'SIGNED') {
+                            return relations.children[a];
+                        }
                     }
                 }
             }
