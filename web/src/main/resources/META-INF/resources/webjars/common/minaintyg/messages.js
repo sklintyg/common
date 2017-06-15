@@ -85,8 +85,8 @@ angular.module('common').constant('common.messages', {
         'modules.customize.fishbone.step3': 'Steg 3: Ladda ner PDF',
         'modules.customize.summary.leave-dialog.header': 'Vill du lämna anpassat intyg?',
         'modules.customize.summary.leave-dialog.body': 'Observera att ditt anpassade intyg inte sparas i Mina intyg efter att du navigerat till en annan sida. Se därför till att du har laddat ner intyget, innan du lämnar sidan.',
-        'modules.customize.summary.leave-dialog.button.confirm': 'Ja, lämna anpassat intyg. ',
-        'modules.customize.summary.leave-dialog.button.cancel': 'Nej, stanna kvar.',
+        'modules.customize.summary.leave-dialog.button.confirm': 'Ja, lämna anpassat intyg',
+        'modules.customize.summary.leave-dialog.button.cancel': 'Nej, stanna kvar',
 
         'modules.button.alt.archive': 'Arkivera intyget. Flyttar intyget till Arkiverade intyg',
         'modules.button.save.as.pdf': 'Spara som PDF',
