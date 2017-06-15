@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 public class LuaenaModuleApi extends FkParentModuleApi<LuaenaUtlatande> {
     private static final Logger LOG = LoggerFactory.getLogger(LuaenaModuleApi.class);
 
-    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning_nedsatt_arbetsformaga";
+    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning";
 
     public LuaenaModuleApi() {
         super(LuaenaUtlatande.class);
