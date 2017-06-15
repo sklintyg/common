@@ -18,8 +18,22 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.utils.Scenario;
+import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.LocalDateInterval;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,24 +47,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.PdfReader;
-
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.utils.Scenario;
-import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
-import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.model.LocalDateInterval;
-import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author andreaskaltenbach
@@ -88,6 +87,8 @@ public class PdfEmployeeGeneratorTest {
 
         assertEquals("lakarintyg_fk7263_19121212-1212.pdf", pdfEmployeeGenerator.generatePdfFilename(false));
         assertEquals("anpassat_lakarintyg_fk7263_19121212-1212.pdf", pdfEmployeeGenerator.generatePdfFilename(true));
+
+        assertTrue("Pdf should be customized", pdfEmployeeGenerator.isCustomized());
     }
 
     /**

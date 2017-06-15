@@ -168,7 +168,7 @@ public class Fk7263ModuleApi implements ModuleApi {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
             PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin, optionalFields);
-            return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(true));
+            return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(pdfGenerator.isCustomized()));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (employer copy) PDF for certificate!", e);

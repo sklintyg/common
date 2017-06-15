@@ -18,15 +18,14 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 /**
  * Created by marced on 18/08/16.
@@ -45,6 +44,8 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private static final String WATERMARK_TEXT_CONTENT_IS_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort";
     // CHECKSTYLE:ON LineLength
 
+    private List<String> selectedOptionalFields;
+
     public PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> optionalFields)
             throws PdfGeneratorException {
@@ -56,6 +57,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             boolean flatten)
             throws PdfGeneratorException {
         try {
+            this.selectedOptionalFields = selectedOptionalFields;
             this.intyg = intyg;
 
             outputStream = new ByteArrayOutputStream();
@@ -71,7 +73,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
                 generateMIPdfWithOptionalFields(selectedOptionalFields);
                 // perform additional decoration for MI originated pdf
                 maskSendToFkInformation(pdfStamper);
-                if (!EmployeeOptionalFields.containsAllValues(selectedOptionalFields)) {
+                if (isCustomized()) {
                     mark(pdfStamper, WATERMARK_TEXT_CONTENT_IS_CUSTOMIZED, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
                             MARK_AS_EMPLOYER_MI_HEIGHT, MARK_AS_EMPLOYER_MI_WIDTH);
                 } else {
@@ -107,6 +109,10 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
         } catch (Exception e) {
             throw new PdfGeneratorException(e);
         }
+    }
+
+    public boolean isCustomized() {
+        return !EmployeeOptionalFields.containsAllValues(selectedOptionalFields);
     }
 
     private void generateMinimalPdf() {
