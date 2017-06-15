@@ -81,18 +81,18 @@ $header-fix-panel-popover-color: #333;
 }
 
 .utkast-header-person-id {
-  //should align with intygstyp h1
+  display: inline-block;
   .control-label {
     font-size: 18px;
     line-height:29px;
     padding-bottom: 4px;
-    //so that the absolute positioned toggle button doesn't flow over content
-    //the padding will case line break before that happens
     padding-right: 130px;
   }
 }
 
 .utkast-header-status {
+  display: inline;
+  line-height: 30px;
   span {
     color:#666;
   }

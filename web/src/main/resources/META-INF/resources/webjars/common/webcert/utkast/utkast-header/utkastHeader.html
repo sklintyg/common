@@ -24,11 +24,13 @@
               <h1 class="page-title header-fix-panel__title"><a id="tillbakaButton" wc-authority="NAVIGERING" href
                                                                 wc-back title="Tillbaka till Skriv intyg"
                                                                 class="backlink-icon glyphicon glyphicon-arrow-left"></a>
-                <span>{{intygsnamn}}</span><span wc-help-mark field-tooltip-placement="bottom"
-                                                 field-dynamic-help-text="FRM_2.RBK"
-                                                 help-mark-class="header-fix-panel__popover-content"
-                                                 help-mark-appendtobody="false"></span>
+                <span>{{intygsnamn}}</span><span wc-help-chevron help-text-key="FRM_2.RBK"></span>
               </h1>
+              <div wc-intyg-patient-namn-personnummer
+                   patient-name="viewState.intygModel.grundData.patient.fullstandigtNamn"
+                   person-id="viewState.intygModel.grundData.patient.personId" class="utkast-header-person-id"></div>
+
+              <span wc-help-chevron-text help-text-key="FRM_2.RBK"></span>
 
               <div class="form-group buttonbar">
                 <button type="button" id="skriv-ut-utkast" class="btn btn-info"
@@ -40,34 +42,31 @@
                         title="Klicka på papperskorgen för att radera utkastet.">
                   <i class="glyphicon glyphicon-trash"></i>
                 </button>
+
+                <!-- current draft status -->
+                <div class="utkast-header-status">
+                  <!-- Just in case (should never be here for a signed utkast)-->
+                  <div id="certificate-is-sent-to-it-message-text" ng-if="viewState.common.isSigned">
+                    <span message key="draft.status.signed"></span>
+                  </div>
+                  <!-- complete -->
+                  <div
+                      ng-if="!viewState.common.saving && certForm.$pristine && viewState.common.intyg.isComplete && !viewState.common.isSigned">
+                    <span id="intyget-sparat-och-komplett-meddelande" message key="draft.status.complete"></span>
+                  </div>
+                  <!-- incomplete -->
+                  <div ng-if="!viewState.common.saving && certForm.$pristine && !viewState.common.intyg.isComplete">
+                    <span id="intyget-sparat-och-ej-komplett-meddelande" message key="draft.status.incomplete"></span>
+                  </div>
+                  <!-- form changed -->
+                  <div ng-if="viewState.common.saving || certForm.$dirty"><span message key="draft.status.changed"></span>
+                  </div>
+                </div>
+
               </div>
             </div>
 
             <div class="pull-left utkast-header-right-group">
-
-              <div wc-intyg-patient-namn-personnummer
-                   patient-name="viewState.intygModel.grundData.patient.fullstandigtNamn"
-                   person-id="viewState.intygModel.grundData.patient.personId" class="utkast-header-person-id"></div>
-
-              <!-- current draft status -->
-              <div class="utkast-header-status">
-                <!-- Just in case (should never be here for a signed utkast)-->
-                <div id="certificate-is-sent-to-it-message-text" ng-if="viewState.common.isSigned">
-                  <span message key="draft.status.signed"></span>
-                </div>
-                <!-- complete -->
-                <div
-                    ng-if="!viewState.common.saving && certForm.$pristine && viewState.common.intyg.isComplete && !viewState.common.isSigned">
-                  <span id="intyget-sparat-och-komplett-meddelande" message key="draft.status.complete"></span>
-                </div>
-                <!-- incomplete -->
-                <div ng-if="!viewState.common.saving && certForm.$pristine && !viewState.common.intyg.isComplete">
-                  <span id="intyget-sparat-och-ej-komplett-meddelande" message key="draft.status.incomplete"></span>
-                </div>
-                <!-- form changed -->
-                <div ng-if="viewState.common.saving || certForm.$dirty"><span message key="draft.status.changed"></span>
-                </div>
-              </div>
 
             </div>
             <div class="clearfix"></div>
