@@ -4,28 +4,32 @@
     <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
     <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
     <span class="required">{{to.required ? '*' : ''}}</span>
-    <span ng-if="hlpFrageId" wc-help-mark field-dynamic-help-text="{{hlpFrageId}}.HLP"></span>
+    <span ng-if="hlpFrageId" wc-help-chevron help-text-key="{{hlpFrageId}}.HLP"></span>
     <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
   </h4>
   <wc-utkast-komplettering ng-if="frageId && !to.forceHeadingTypeLabel" key="{{key}}" margin-bottom="true"></wc-utkast-komplettering>
+  <span ng-if="hlpFrageId" wc-help-chevron-text help-text-key="{{hlpFrageId}}.HLP"></span>
 
   <h5 ng-if="delFrageId && !to.forceHeadingTypeLabel">
     <span ng-if="delFrageId" dynamic-label key="{{delFrageId}}.RBK"></span>
     <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
     <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
     <span ng-if="!frageId" class="required">{{to.required == true ? '*' : ''}}</span>
-    <span ng-if="delFrageId" wc-help-mark field-dynamic-help-text="{{delFrageId}}.HLP"></span>
+    <span ng-if="delFrageId" wc-help-chevron help-text-key="{{delFrageId}}.HLP"></span>
     <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
   </h5>
   <wc-utkast-komplettering ng-if="!frageId && delFrageId && !to.forceHeadingTypeLabel" key="{{key}}" margin-bottom="true"></wc-utkast-komplettering>
+  <span ng-if="delFrageId" wc-help-chevron-text help-text-key="{{delFrageId}}.HLP"></span>
 
   <label ng-if="to.forceHeadingTypeLabel">
     <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
     <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
     <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
     <span class="required">{{to.required == true ? '*' : ''}}</span>
-    <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+    <span ng-if="to.label" wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
     <span ng-if="to.staticHelpId" wc-help-mark field-help-text="{{to.staticHelpId}}"></span>
   </label>
   <wc-utkast-komplettering ng-if="to.forceHeadingTypeLabel" key="{{key}}" margin-bottom="true"></wc-utkast-komplettering>
+  <span ng-if="to.label" wc-help-chevron-text help-text-key="{{to.label}}.HLP"></span>
+
 </div>

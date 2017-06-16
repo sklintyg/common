@@ -8,10 +8,11 @@
       <span ng-if="fieldDynamicLabel" dynamic-label key="{{fieldDynamicLabel}}"></span>
       <span class="required">{{fieldRequired ? '*' : ''}}</span>
     </h3>
-    <div class="inline-block" ng-if="fieldHelpText != undefined || fieldDynamicHelpText != undefined" wc-help-mark field-help-text="{{fieldHelpText}}" field-dynamic-help-text="{{fieldDynamicHelpText}}"></div>
+    <span wc-help-chevron help-text-key="{{fieldDynamicHelpText}}"></span>
+    <span wc-help-chevron-text help-text-key="{{fieldDynamicHelpText}}"></span>
   </div>
-	<span class="intyg-block__content" ng-class="{unfilled: filled == 'false', categoryerror: fieldHasErrors, categorykmplt: fieldHasKomplettering}">
+  <span class="intyg-block__content" ng-class="{unfilled: filled == 'false', categoryerror: fieldHasErrors, categorykmplt: fieldHasKomplettering}">
     <span class="intyg-field-blank" ng-hide="filled == 'true'"> <span message key="common.notset"></span></span>
-		<span ng-transclude ng-show="filled == 'true'"></span>
+    <span ng-transclude ng-show="filled == 'true'"></span>
   </span>
 </div>
