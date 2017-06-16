@@ -178,7 +178,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
         if(this.fromTo.isEmpty() ){ // if dates are undefined then show no validation errors
             this.viewValid = true;
         } else {
-            if (!this.fromTo.valid || !this.valid || this.outOfRange) {
+            if (!this.fromTo.valid || !this.valid) {
                 this.viewValid = false;
             } else {
                 if (this.fromTo.overlap) {
