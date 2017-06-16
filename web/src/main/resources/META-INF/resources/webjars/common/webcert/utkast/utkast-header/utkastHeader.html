@@ -44,24 +44,23 @@
                 </button>
 
                 <!-- current draft status -->
-                <div class="utkast-header-status">
+                <span class="utkast-header-status">
                   <!-- Just in case (should never be here for a signed utkast)-->
-                  <div id="certificate-is-sent-to-it-message-text" ng-if="viewState.common.isSigned">
+                  <span id="certificate-is-sent-to-it-message-text" ng-if="viewState.common.isSigned">
                     <span message key="draft.status.signed"></span>
-                  </div>
+                  </span>
                   <!-- complete -->
-                  <div
-                      ng-if="!viewState.common.saving && certForm.$pristine && viewState.common.intyg.isComplete && !viewState.common.isSigned">
+                  <span ng-if="!viewState.common.saving && certForm.$pristine && viewState.common.intyg.isComplete && !viewState.common.isSigned">
                     <span id="intyget-sparat-och-komplett-meddelande" message key="draft.status.complete"></span>
-                  </div>
+                  </span>
                   <!-- incomplete -->
-                  <div ng-if="!viewState.common.saving && certForm.$pristine && !viewState.common.intyg.isComplete">
+                  <span ng-if="!viewState.common.saving && certForm.$pristine && !viewState.common.intyg.isComplete">
                     <span id="intyget-sparat-och-ej-komplett-meddelande" message key="draft.status.incomplete"></span>
-                  </div>
+                  </span>
                   <!-- form changed -->
-                  <div ng-if="viewState.common.saving || certForm.$dirty"><span message key="draft.status.changed"></span>
-                  </div>
-                </div>
+                  <span ng-if="viewState.common.saving || certForm.$dirty"><span message key="draft.status.changed"></span>
+                  </span>
+                </span>
 
               </div>
             </div>

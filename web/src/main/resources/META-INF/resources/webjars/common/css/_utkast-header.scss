@@ -53,7 +53,7 @@ $header-fix-panel-popover-color: #333;
 .header-fix-top-expand {
   position: relative;
   top: -20px;
-  right: 30px;
+  right: 0px;
 }
 
 .header-fix-top-expand-wrapper {
@@ -84,9 +84,6 @@ $header-fix-panel-popover-color: #333;
   display: inline-block;
   .control-label {
     font-size: 18px;
-    line-height:29px;
-    padding-bottom: 4px;
-    padding-right: 130px;
   }
 }
 
@@ -99,7 +96,7 @@ $header-fix-panel-popover-color: #333;
 }
 
 .header-fix-panel {
-  padding: 10px 0 7px 30px;
+  padding: 10px 30px 7px 30px;
   border-bottom: 1px solid $header-fix-panel-border-bottom-color;
   background-color: $header-fix-panel-background-color;
   -ms-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
