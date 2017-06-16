@@ -98,6 +98,7 @@ angular.module('common').factory('common.dialogService',
             options.button2text = (options.button2text === undefined) ? 'common.cancel' : options.button2text;
             //If button2 is a default cancel button, set the default x icon unless other is specified
             options.button2icon = (options.button2icon === undefined && options.button2text === 'common.cancel') ? 'icon-cancel' : options.button2icon;
+            options.button2class = (options.button2class === undefined) ? 'btn-third' :  options.button2class;
             options.button3text = (options.button3text === undefined) ? undefined : options.button3text;
             options.button3visible = options.button3visible === undefined ? options.button3text !== undefined :
                 options.button3visible;
@@ -114,7 +115,7 @@ angular.module('common').factory('common.dialogService',
 
             // Create controller to setup dialog
             var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId, bodyText,
-                button1id, button1icon, button2id, button2icon, button3id, button3icon, button1click, button2click, button3click, button3visible, button1text,
+                button1id, button1icon, button2id, button2icon, button2class, button3id, button3icon, button1click, button2click, button3click, button3visible, button1text,
                 button2text, button3text, autoClose) {
 
                 $scope.model = model;
@@ -151,6 +152,7 @@ angular.module('common').factory('common.dialogService',
                 $scope.button2id = button2id;
                 $scope.button2text = button2text;
                 $scope.button2icon = button2icon;
+                $scope.button2class = button2class;
                 $scope.button3id = button3id;
                 $scope.button3text = button3text;
                 $scope.button3icon = button3icon;
@@ -189,6 +191,9 @@ angular.module('common').factory('common.dialogService',
                     },
                     button2icon: function() {
                         return angular.copy(options.button2icon);
+                    },
+                    button2class: function() {
+                        return angular.copy(options.button2class);
                     },
                     button3id: function() {
                         return angular.copy(options.button3id);

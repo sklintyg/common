@@ -56,6 +56,8 @@ angular.module('common').directive('miCheckboxSlider', ['common.dialogService', 
                         button1text: 'modules.customize.remove-field.button.confirm',
                         button1icon: 'icon-ok',
                         button2text: 'modules.customize.remove-field.button.cancel',
+                        button2icon: 'icon-cancel',
+                        button2class: 'btn-secondary',
                         autoClose: false
                     });
 
