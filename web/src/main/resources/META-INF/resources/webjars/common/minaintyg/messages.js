@@ -77,7 +77,7 @@ angular.module('common').constant('common.messages', {
         'modules.customize.label.optional': 'Inkludera i anpassat intyg',
         'modules.customize.message.warning': 'Dina val är frivilliga, men att dela med sig av information kan underlätta arbetsgivarens möjlighet att göra arbetsanpassningar för dig.',
         'modules.customize.remove-field.header': 'Vill du verkligen ta bort denna information?',
-        'modules.customize.remove-field.body': 'Observera att informationen är frivillig, men att dina val kan försvåra arbetsgivarens möjligheter att göra arbetsanpassningar!',
+        'modules.customize.remove-field.body': 'Informationen är frivillig, men informationen kan underlätta arbetsgivarens möjlighet att göra arbetsanpassningar.',
         'modules.customize.remove-field.button.confirm': 'Ja, ta bort',
         'modules.customize.remove-field.button.cancel': 'Nej, ta inte bort',
         'modules.customize.fishbone.step1': 'Steg 1: Anpassa intyg',
