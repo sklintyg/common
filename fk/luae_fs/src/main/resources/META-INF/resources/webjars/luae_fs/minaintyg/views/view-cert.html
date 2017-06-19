@@ -1,5 +1,6 @@
 <mi-page-head>
   <mi-breadcrumb></mi-breadcrumb>
+
   <!-- Content -->
   <div class="row">
     <div class="col-xs-12 col-sm-7">
@@ -7,14 +8,12 @@
         <span id="viewCertificateHeader" message key="modules.page-header.view-intyg.page-title"></span>
       </h1>
 
-
       <div>
         <span message key="luae_fs.label.pageingress"></span>
       </div>
 
       <div uib-collapse="!isCollapsed1" class="collapse">
         <span message key="modules.page-header.info.select-recipients-and-send"></span>
-        <span message key="modules.page-header.info.customize-pdf"></span>
         <span message key="modules.page-header.info.download-pdf"></span>
         <span message key="modules.page-header.info.archive"></span>
       </div>
@@ -23,10 +22,10 @@
               data-toggle="collapse">
         <span message key="modules.page-header.info.more.{{!isCollapsed1}}"></span>
       </button>
-
     </div>
+
     <div class="col-xs-12 col-sm-5">
-      <latest-events cert-id="{{cert.id}}" statuses="cert.filteredStatuses"></latest-events>
+      <latest-events cert-id="{{cert.id}}" statuses="certMeta.statuses"></latest-events>
     </div>
   </div>
 </mi-page-head>

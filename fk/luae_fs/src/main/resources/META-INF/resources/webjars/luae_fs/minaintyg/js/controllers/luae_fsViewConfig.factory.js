@@ -124,14 +124,25 @@ angular.module('luae_fs').factory('luae_fs.viewConfigFactory', ['$log', function
         {
             type: 'uv-kategori',
             labelKey: 'KAT_6.RBK',
-            components: [{
+            components: [ {
                 type: 'uv-fraga',
                 labelKey: 'FRG_26.RBK',
-                components: [{
-                    type: 'uv-boolean-value',
-                    modelProp: 'kontaktFk'
-                }]
-            }]
+                components: [ {
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR_26.1.RBK',
+                    components: [ {
+                        type: 'uv-boolean-value',
+                        modelProp: 'kontaktMedFk'
+                    } ]
+                }, {
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR_26.2.RBK',
+                    components: [ {
+                        type: 'uv-simple-value',
+                        modelProp: 'anledningTillKontakt'
+                    } ]
+                } ]
+            } ]
         },
         {
             type: 'uv-skapad-av',

@@ -1,13 +1,10 @@
 angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
-    [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService',
-        'common.dialogService', 'common.messageService', 'luae_fs.viewConfigFactory',
+        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'luae_fs.viewConfigFactory',
 
-        function($location, $log, $stateParams, $scope, certificateService,
-            dialogService, messageService, viewConfigFactory) {
+        function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory) {
             'use strict';
 
             $scope.cert = undefined;
-            $scope.messageService = messageService;
 
             $scope.send = function() {
                 $location.path('/send/luae_fs/' + $stateParams.certificateId + '/FKASSA');
@@ -30,6 +27,4 @@ angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
 
             $scope.pagefocus = true;
             $scope.uvConfig = viewConfigFactory.getViewConfig();
-        }
-    ]
-);
+        } ]);
