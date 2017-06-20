@@ -73,7 +73,7 @@ angular.module('common').constant('common.messages', {
 
 
         //Common text in customized pdf wizard (lisjp and fk7263)
-        'modules.customize.label.mandatory': 'Obligatoriskt fält',
+        'modules.customize.label.mandatory': 'Obligatorisk info',
         'modules.customize.label.optional': 'Inkludera i anpassat intyg',
         'modules.customize.message.warning': 'Dina val är frivilliga, men att dela med sig av information kan underlätta arbetsgivarens möjlighet att göra arbetsanpassningar för dig.',
         'modules.customize.remove-field.header': 'Vill du verkligen ta bort denna information?',
