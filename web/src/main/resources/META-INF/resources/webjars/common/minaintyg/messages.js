@@ -81,7 +81,7 @@ angular.module('common').constant('common.messages', {
         'modules.customize.remove-field.button.confirm': 'Ja, ta bort',
         'modules.customize.remove-field.button.cancel': 'Nej, ta inte bort',
         'modules.customize.fishbone.step1': '1: Anpassa intyg',
-        'modules.customize.fishbone.step2': '2: Bekräfta anpassat intyg',
+        'modules.customize.fishbone.step2': '2: Granska dina val',
         'modules.customize.fishbone.step3': '3: Ladda ner PDF',
         'modules.customize.summary.leave-dialog.header': 'Vill du lämna anpassat intyg?',
         'modules.customize.summary.leave-dialog.body': 'Observera att ditt anpassade intyg inte sparas i Mina intyg efter att du navigerat till en annan sida. Se därför till att du har laddat ner intyget, innan du lämnar sidan.',
