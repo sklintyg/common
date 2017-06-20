@@ -31,13 +31,10 @@ angular.module('common').factory('common.anchorScrollService', ['$location', '$l
      */
     function _scrollTo(anchorName, offset) {
 
-        var old = $location.hash();
-        $location.hash(anchorName);
-
         var elementToScrollTo = angular.element.find('#' + _escape(anchorName))[0];
 
         if (!elementToScrollTo) {
-            $log.error('Unable to find scrollTo target "' + anchorName + '"');
+            $log.warn('Unable to find scrollTo target "' + anchorName + '"');
             return;
         }
 
@@ -49,8 +46,6 @@ angular.module('common').factory('common.anchorScrollService', ['$location', '$l
 
         smoothScrollService(elementToScrollTo, options);
 
-        // reset to old to keep any additional routing logic from kicking in
-        $location.hash(old);
     }
 
     function _scrollToWithOffset(anchorName, offset) {
