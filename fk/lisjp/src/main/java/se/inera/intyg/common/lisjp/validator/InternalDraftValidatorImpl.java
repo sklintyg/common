@@ -18,18 +18,9 @@
  */
 package se.inera.intyg.common.lisjp.validator;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -44,8 +35,16 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpUtlatande> {
 
@@ -309,33 +308,30 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     }
 
     private void validateSjukskrivningIsTooLong(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        List<Sjukskrivning> list = utlatande.getSjukskrivningar().stream().filter(Objects::nonNull).collect(Collectors.toList());
 
-        // 1. Hämta ut starten för sjukskrivningen
-        Sjukskrivning min = list.stream()
-            .min(Comparator.comparing(item -> item.getPeriod().fromAsLocalDate()))
-            .get();
-
-        LocalDate minDate = min.getPeriod() != null ? min.getPeriod().fromAsLocalDate() : null;
-        if (minDate == null) {
-            return; // return fast
+        // Filter out any null objects and assert as valid period
+        List<Sjukskrivning> list = utlatande.getSjukskrivningar().stream().filter(isValidPeriod()).collect(Collectors.toList());
+        if (list.isEmpty()) {
+            return;
         }
 
-        // 2. Hämta ut slutet för sjukskrivningen
-        Sjukskrivning max = list.stream()
-            .max(Comparator.comparing(item -> item.getPeriod().tomAsLocalDate()))
-            .get();
+        // 1. Hämta starten för sjukskrivningen
+        Sjukskrivning min = list.stream().min(Comparator.comparing(item -> item.getPeriod().fromAsLocalDate())).get();
+        LocalDate minDate = min.getPeriod().fromAsLocalDate();
 
-        LocalDate maxDate = max.getPeriod() != null ? max.getPeriod().tomAsLocalDate() : null;
-        if (maxDate == null) {
-            return; // return fast
-        }
+        // 2. Hämta slutet för sjukskrivningen
+        Sjukskrivning max = list.stream().max(Comparator.comparing(item -> item.getPeriod().tomAsLocalDate())).get();
+        LocalDate maxDate = max.getPeriod().tomAsLocalDate();
 
         // 3. Kontrollera ifall maxDate - 6 månader > minDate
         if (maxDate.minusMonths(VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).isAfter(minDate)) {
             ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
                 "lisjp.validation.bedomning.sjukskrivningar.sentslutdatum");
         }
+    }
+
+    private Predicate<Sjukskrivning> isValidPeriod() {
+        return item -> item != null && item.getPeriod() != null && item.getPeriod().isValid();
     }
 
     private void checkSjukskrivningPeriodOverlapAgainstList(List<ValidationMessage> validationMessages, Sjukskrivning sjukskrivning,
