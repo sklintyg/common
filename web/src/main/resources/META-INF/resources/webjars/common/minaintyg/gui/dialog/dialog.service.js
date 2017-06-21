@@ -21,7 +21,7 @@
  * wcDialogService - Generic dialog service
  */
 angular.module('common').factory('common.dialogService',
-    function($uibModal, $timeout, $window) {
+    function($uibModal) {
         'use strict';
 
         function _showErrorMessageDialog(message, callback) {
@@ -229,7 +229,6 @@ angular.module('common').factory('common.dialogService',
             });
 
             msgbox.result.then(function(result) {
-                $window.doneLoading = true;
                 if (options.callback) {
                     options.callback(result);
                 }
