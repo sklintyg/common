@@ -18,14 +18,13 @@
  */
 
 angular.module('fk7263').factory('fk7263.diagnosService',
-    function($http, $log, $window) {
+    function($http, $log) {
         'use strict';
 
         /*
          * get diagnosis by code
          */
         function _getByCode(codeSystem, code, onSuccess, onError) {
-            $window.doneLoading = false;
             $log.debug('_searchByCode: codeFragment:' + code);
             var restPath = '/moduleapi/diagnos/kod/' + codeSystem;
             $http.post(restPath, code.toUpperCase()).success(function(response) {
@@ -35,11 +34,9 @@ angular.module('fk7263').factory('fk7263.diagnosService',
                 else {
                     onError(response);
                 }
-                $window.doneLoading = true;
             }).error(function(response, status) {
                 $log.error('error ' + status);
                 onError(response);
-                $window.doneLoading = true;
             });
         }
 

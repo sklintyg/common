@@ -57,7 +57,6 @@ angular.module('common').controller('common.UtkastHeader',
                         $log.debug('delete draft ');
                         dialogModel.acceptprogressdone = false;
                         var back = function() {
-                            $window.doneLoading = true;
                             // IE9 infinite digest workaround
                             $timeout(function() {
                                 $window.history.back();

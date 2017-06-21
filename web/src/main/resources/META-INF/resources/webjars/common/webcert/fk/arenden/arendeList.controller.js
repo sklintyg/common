@@ -1,9 +1,9 @@
 angular.module('common').controller('common.ArendeListCtrl',
-    ['$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$window', '$filter',
+    ['$log', '$rootScope', '$state', '$stateParams', '$scope', '$timeout', '$filter',
         'common.dialogService', 'common.ObjectHelper', 'common.ErrorHelper',
         'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.statService',
         'common.dynamicLabelService',
-        function ($log, $rootScope, $state, $stateParams, $scope, $timeout, $window, $filter,
+        function ($log, $rootScope, $state, $stateParams, $scope, $timeout, $filter,
                   dialogService, ObjectHelper, ErrorHelper,
                   ArendeProxy, ArendeListViewState, ArendeHelper, statService, dynamicLabelService) {
             'use strict';
@@ -123,13 +123,11 @@ angular.module('common').controller('common.ArendeListCtrl',
                             });
                             statService.refreshStat();
                         }
-                        $window.doneLoading = true;
                         if (deferred) {
                             deferred.resolve();
                         }
                     }, function() { // unused parameter: errorData
                         // show error view
-                        $window.doneLoading = true;
                         if (deferred) {
                             deferred.resolve();
                         }

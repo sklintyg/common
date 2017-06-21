@@ -25,8 +25,8 @@
  * arendeHantera directive. Common directive for Hanterad checkbox
  */
 angular.module('common').directive('arendeHantera',
-    [ '$window', '$log', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeHelper', 'common.dynamicLabelService',
-        function($window, $log, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService) {
+    [ '$log', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeHelper', 'common.dynamicLabelService',
+        function($log, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService) {
             'use strict';
 
             return {
@@ -94,7 +94,6 @@ angular.module('common').directive('arendeHantera',
                                 statService.refreshStat();
                                 ArendeHelper.splitToSingleItem(arendeListItem, $scope.arendeList);
                             }
-                            $window.doneLoading = true;
                             if(deferred) {
                                 deferred.resolve();
                             }
@@ -102,7 +101,6 @@ angular.module('common').directive('arendeHantera',
                             // show error view
                             arendeListItem.updateHandledStateInProgress = false;
                             arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
-                            $window.doneLoading = true;
                             if(deferred) {
                                 deferred.resolve();
                             }

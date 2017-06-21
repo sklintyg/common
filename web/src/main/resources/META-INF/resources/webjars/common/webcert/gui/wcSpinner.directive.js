@@ -18,7 +18,7 @@
  */
 
 angular.module('common').directive('wcSpinner',
-    ['$timeout','$window', function($timeout, $window) {
+    [ function() {
         'use strict';
 
         return {
@@ -31,22 +31,6 @@ angular.module('common').directive('wcSpinner',
                 showContent: '=',
                 isHeader: '='
             },
-            templateUrl: '/web/webjars/common/webcert/gui/wcSpinner.directive.html',
-            link: {
-                pre : function (scope, element){
-                    $window.rendered = false;
-                },
-                post : function (scope, element){
-                    scope.$watch('showContent', function(newVal, oldVal){
-                        if (newVal !== oldVal && newVal && !scope.isHeader) {
-                            $timeout(function(){
-                                $window.rendered = true;
-                            });
-                        } else if(!newVal){
-                            $window.rendered = false;
-                        }
-                    });
-                }
-            }
+            templateUrl: '/web/webjars/common/webcert/gui/wcSpinner.directive.html'
         };
     }]);
