@@ -208,21 +208,18 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
                 components: [
                     {
                         type: 'fk7263-list',
+                        noValueId: 'patientworkcapacity-no-value',
                         modelProps: [{
+                            modelProp: 'nuvarandeArbetsuppgifter',
+                            label: 'fk7263.label.patientworkcapacity.currentwork',
+                            showValue: true
+                        },{
                             modelProp: 'arbetsloshet',
                             label: 'fk7263.label.patientworkcapacity.unemployed'
                         },{
                             modelProp: 'foraldrarledighet',
                             label: 'fk7263.label.patientworkcapacity.parentalleave'
                         }]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'fk7263.label.patientworkcapacity.currentwork',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'nuvarandeArbetsuppgifter'
-                        } ]
                     }
                 ]
             } ]
