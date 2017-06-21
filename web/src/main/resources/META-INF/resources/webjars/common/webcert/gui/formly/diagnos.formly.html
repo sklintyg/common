@@ -23,11 +23,17 @@
         <tr>
             <th>
                 <span dynamic-label key="{{to.diagnosKodLabel}}.RBK"></span>
-                <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.diagnosKodLabel}}.HLP"></span>
+                <span ng-if="to.help">
+                  <span wc-help-chevron help-text-key="{{to.diagnosKodLabel}}.HLP"></span>
+                  <span wc-help-chevron-text help-text-key="{{to.diagnosKodLabel}}.HLP"></span>
+                </span>
             </th>
             <th>
                 <span dynamic-label key="{{to.diagnosBeskrivningLabel}}.RBK"></span>
-                <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.diagnosBeskrivningLabel}}.HLP"></span>
+                <span ng-if="to.help">
+                  <span wc-help-chevron help-text-key="{{to.diagnosBeskrivningLabel}}.HLP"></span>
+                  <span wc-help-chevron-text help-text-key="{{to.diagnosBeskrivningLabel}}.HLP"></span>
+                </span>
             </th>
         </tr>
         <tr class="diagnosRow" ng-repeat="diagnos in model[options.key]">

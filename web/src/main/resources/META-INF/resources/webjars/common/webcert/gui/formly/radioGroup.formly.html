@@ -3,7 +3,8 @@
     <label class="inline-block" ng-class="{'bold' : to.bold}">
       <span dynamic-label key="{{to.label}}.RBK"></span>
       {{to.required ? '*' : ''}}
-      <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+      <span wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
+      <span wc-help-chevron-text help-text-key="{{to.label}}.HLP"></span>
     </label>
   </div>
 
@@ -14,6 +15,7 @@
       <input id="{{options.key}}-{{choice}}" type="radio" name="{{options.key}}" class="big-radio" ng-model="model[options.key]" value="{{choice}}">
       <span dynamic-label key="{{to.code}}.{{choice}}.RBK"></span>
     </label>
-    <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{choice}}.HLP"></span>
+    <span wc-help-chevron help-text-key="{{to.code}}.{{choice}}.HLP"></span>
+    <span wc-help-chevron-text help-text-key="{{to.code}}.{{choice}}.HLP"></span>
   </div>
 </div>

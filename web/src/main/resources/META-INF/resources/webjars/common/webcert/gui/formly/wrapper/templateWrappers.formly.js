@@ -29,8 +29,8 @@ angular.module('common').run(['formlyConfig', 'common.dynamicLabelService', func
                     scope.$on('dynamicLabels.updated', angular.bind(this, _onLabelsUpdated, scope, options));
                     return '<h4 ng-if="showFrageLabel">' +
                         '<span dynamic-label key="{{frageId}}.RBK"></span> {{required ? "*" : ""}}' +
-                        '<span wc-help-mark field-dynamic-help-text="{{frageId}}.HLP"></span>' +
-                        '</h4>' + template;
+                        '<span wc-help-chevron help-text-key="{{frageId}}.HLP"></span>' +
+                        '</h4><span wc-help-chevron-text help-text-key="{{frageId}}.HLP"></span>' + template;
                 }
             }
         }

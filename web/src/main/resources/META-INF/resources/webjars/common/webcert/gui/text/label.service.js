@@ -8,8 +8,8 @@
  * Usage: <dynamicLabel key="some.resource.key" [fallback="defaulttextifnokeyfound"]/>
  */
 angular.module('common').factory('common.dynamicLabelService',
-    [ '$log', '$rootScope', '$q', 'common.DynamicLabelProxy',
-        function($log, $rootScope, $q, DynamicLabelProxy) {
+    [ '$log', '$rootScope', '$q', 'common.DynamicLabelProxy', 'common.messageService',
+        function($log, $rootScope, $q, DynamicLabelProxy, messageService) {
             'use strict';
 
             var _labelResources = null;
@@ -40,6 +40,16 @@ angular.module('common').factory('common.dynamicLabelService',
                 }
 
                 var text = _labelResources[key];
+
+                if(angular.isDefined(text) && text !== ''){
+                    return text;
+                } else {
+                    if(messageService.propertyExists(key)){
+                        var staticLabel = messageService.getProperty(key);
+                        return staticLabel;
+                    }
+                }
+
                 if (typeof text === 'undefined') {
                     $log.debug('[MISSING TEXT ERROR - missing required id: "' + key + '"]');
                 } else if (text === '') {
@@ -72,18 +82,13 @@ angular.module('common').factory('common.dynamicLabelService',
                 }
 
                 for (var i = 0; i < tillaggsfragor.length; i++) {
-                    var tillaggsfraga = null;
+                    var tillaggsfraga = {
+                        'id': tillaggsfragor[i].id,
+                        'svar': ''
+                    };
                     if (i >= modelFrageList.length) {
-                        tillaggsfraga = {
-                            'id': tillaggsfragor[i].id,
-                            'svar': ''
-                        };
                         modelFrageList.push(tillaggsfraga);
                     } else {
-                        tillaggsfraga = {
-                            'id': tillaggsfragor[i].id,
-                            'svar': ''
-                        };
                         if (modelFrageList[i].id !== tillaggsfraga.id) {
                             modelFrageList.splice(i, 0, tillaggsfraga);
                         }

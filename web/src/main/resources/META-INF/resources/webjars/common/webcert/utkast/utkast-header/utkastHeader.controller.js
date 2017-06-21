@@ -110,7 +110,7 @@ angular.module('common').controller('common.UtkastHeader',
              * Print draft.
              */
             $scope.print = function() {
-                window.open($scope.pdfUrl, '_blank');
+                window.open($scope.pdfUrl, '_self');
             };
 
 
