@@ -232,7 +232,8 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                         forceDividerAfter: true
                                     }
                                 },{
-                                    key: 'motiveringTillTidigtStartdatumForSjukskrivning', type: 'multi-text',
+                                    key: 'motiveringTillTidigtStartdatumForSjukskrivning',
+                                    type: 'multi-text',
                                     hideExpression: function($viewValue, $modelValue, scope) {
                                         var hide = true;
                                         var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
@@ -251,6 +252,30 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                         staticLabelId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
                                         staticHelpId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',
                                         subTextId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info',
+                                        subTextDynId: 'FRG_25',
+                                        hideWhenEmpty: true
+                                    }
+                                },{
+                                    key: 'motiveringTillForLangSjukskrivning',
+                                    type: 'multi-text',
+                                    hideExpression: function($viewValue, $modelValue, scope) {
+                                        var hide = true;
+                                        var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
+                                        if (warnings) {
+                                            angular.forEach(warnings.sjukskrivningar, function(w) {
+                                                if (w.message === 'lisjp.validation.bedomning.sjukskrivningar.sentslutdatum') {
+                                                    hide = false;
+                                                }
+                                            });
+                                        }
+                                        return hide;
+                                    },
+                                    templateOptions: {
+                                        bold: 'bold',
+                                        forceHeadingTypeLabel: true,
+                                        staticLabelId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering',
+                                        staticHelpId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering.help',
+                                        subTextId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering.info',
                                         subTextDynId: 'FRG_25',
                                         hideWhenEmpty: true
                                     }
@@ -304,9 +329,10 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 hideWhenEmpty: true
                             }
                         },
-                        {key: 'arbetsresor', type: 'boolean',
+                        {key: 'arbetsresor', type: 'checkbox-inline',
                             templateOptions: {
-                                label: 'DFR_34.1'
+                                label: 'DFR_34.1',
+                                bold: true
                             },
                             hideExpression: 'model.avstangningSmittskydd'
                         },

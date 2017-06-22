@@ -56,6 +56,7 @@ describe('fk7263List Directive', function() {
         };
 
         $scope.configMock = {
+            noValueId: 'id-no-value',
             modelProps: [{
                 modelProp: 'property1',
                 label: 'translationKey'
@@ -88,7 +89,8 @@ describe('fk7263List Directive', function() {
 
         expect(element.isolateScope().values.length).toBe(0);
         expect(element.isolateScope().hasValue()).toBeFalsy();
-        expect($(element).find('uv-no-value').length).toBe(0);
+        expect($(element).find('uv-no-value').length).toBe(1);
+        expect($(element).find('#id-no-value').length).toBe(1);
     });
 
 });

@@ -6,7 +6,7 @@
       <div class="row">
         <!-- field header title -->
 
-        <div class="col-xs-9" ng-class="{'unselected': !fc.selected}">
+        <div class="col-xs-6 col-sm-9" ng-class="{'unselected': !fc.selected}">
           <div class="title">
             <h3 ng-if="labelKey"><span dynamic-label key="{{labelKey}}"></span></h3>
             <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
@@ -16,7 +16,7 @@
         </div>
 
         <!-- mandatory / checkbox -->
-        <div class="inclusion col-xs-3 pull-right">
+        <div class="inclusion col-xs-6 col-sm-3 pull-right">
 
           <span ng-if="fc.mandatory">
             <span class="mandatory" message key="modules.customize.label.mandatory"></span>
@@ -36,20 +36,20 @@
 
     <!-- summary compact mode version-->
     <div ng-if="summary && showContent()" class="row summary">
-      <div class="col-xs-4">
+      <div class="col-xs-12 col-sm-4">
         <h3><span dynamic-label key="{{labelKey}}"></span></h3>
         <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
       </div>
 
-      <div class="col-xs-7">
-
+      <div class="col-xs-12 col-sm-7">
+        <br class="visible-xs-block">
         <!-- Actual field content-->
         <div class="text" ng-class="{'unselected': !fc.selected && !summary}" ng-transclude></div>
 
       </div>
 
       <!-- summary right side decoration -->
-      <div class="col-xs-1 text-right">
+      <div class="col-xs-12 col-sm-1 text-right">
         <i class="icon"
            ng-class="{'icon-ok included-icon': fc.selected, 'icon-cancel excluded-icon': !fc.selected}"></i>
       </div>

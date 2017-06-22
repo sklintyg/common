@@ -18,7 +18,7 @@
 
     <events-modal show-modal="showModal" statuses="filteredStatuses" hide-header="hideHeader" get-event-info="getEventInfo(status)"/>
   </div>
-  <div ng-if="filteredStatuses.length == 0" id="certificate-noevents">
+  <div ng-if="filteredStatuses.length == 0" data-ng-attr-class="certificate-noevents-{{certId}}">
     <div ng-attr-id="event-{{certId}}">{{messageService.getProperty('certificates.status.noevents')}}</div>
   </div>
 </div>

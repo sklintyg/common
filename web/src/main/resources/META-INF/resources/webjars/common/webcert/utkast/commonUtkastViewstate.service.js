@@ -18,8 +18,8 @@
  */
 
 angular.module('common').service('common.UtkastViewStateService',
-    ['$window', 'common.ViewStateService', 'common.User', 'common.UtkastValidationViewState', 'common.UserModel',
-        function($window, commonViewStateService, commonUser, utkastValidationViewState, UserModel) {
+    ['common.ViewStateService', 'common.User', 'common.UtkastValidationViewState', 'common.UserModel',
+        function(commonViewStateService, commonUser, utkastValidationViewState, UserModel) {
         'use strict';
 
         this.reset = function() {
@@ -119,7 +119,6 @@ angular.module('common').service('common.UtkastViewStateService',
 
         this.setDoneLoading = function(val){
             this.doneLoading = val;
-            $window.doneLoading = val;
         };
 
         this.reset();

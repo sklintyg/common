@@ -24,21 +24,12 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -59,10 +50,18 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -91,7 +90,8 @@ public class InternalDraftValidatorTest {
                 .setPrognos(Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null))
                 .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
                         new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(7))))))
-                .setArbetslivsinriktadeAtgarder(Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING)))
+                .setArbetslivsinriktadeAtgarder(
+                        Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING)))
                 .setArbetslivsinriktadeAtgarderBeskrivning("arbetslivsinriktadeAtgarderAktuelltBeskrivning")
                 .setTextVersion("");
 
@@ -353,7 +353,6 @@ public class InternalDraftValidatorTest {
         assertTrue(errorMessages.contains("lisjp.validation.sysselsattning.invalid_combination"));
     }
 
-
     @Test
     public void validateDiagnosis() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
@@ -444,7 +443,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.missing", res.getValidationErrors().get(0).getMessage());
+        assertEquals("lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.missing",
+                res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -466,7 +466,8 @@ public class InternalDraftValidatorTest {
         assertEquals("lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.invalid_combination",
                 res.getValidationErrors().get(0).getMessage());
     }
-        @Test
+
+    @Test
     public void validateSjukskrivningPeriodMissing() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
                 .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, null)))
@@ -475,7 +476,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.bedomning.sjukskrivningar.periodHELT_NEDSATT.missing", res.getValidationErrors().get(0).getMessage());
+        assertEquals("lisjp.validation.bedomning.sjukskrivningar.periodHELT_NEDSATT.missing",
+                res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -528,7 +530,8 @@ public class InternalDraftValidatorTest {
         LisjpUtlatande utlatande = builderTemplate
                 .setSjukskrivningar(
                         Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                                new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2)))),
+                                new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                                        new InternalDate(LocalDate.now().plusDays(2)))),
                                 Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                                         new InternalDate(LocalDate.now().plusDays(3)), new InternalDate(LocalDate.now().plusDays(4))))))
                 .setArbetstidsforlaggning(false)
@@ -544,7 +547,8 @@ public class InternalDraftValidatorTest {
         LisjpUtlatande utlatande = builderTemplate
                 .setSjukskrivningar(
                         Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                                new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2)))),
+                                new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                                        new InternalDate(LocalDate.now().plusDays(2)))),
                                 Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                                         new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
                 .setArbetstidsforlaggning(false)
@@ -564,7 +568,8 @@ public class InternalDraftValidatorTest {
         LisjpUtlatande utlatande = builderTemplate
                 .setSjukskrivningar(
                         Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                                new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2)))),
+                                new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(1)),
+                                        new InternalDate(LocalDate.now().plusDays(2)))),
                                 Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                                         new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
                 .setArbetstidsforlaggning(false)
@@ -584,7 +589,8 @@ public class InternalDraftValidatorTest {
         LisjpUtlatande utlatande = builderTemplate
                 .setSjukskrivningar(
                         Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                                new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2)))),
+                                new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                                        new InternalDate(LocalDate.now().plusDays(2)))),
                                 Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                                         new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
                 .setArbetstidsforlaggning(false)
@@ -601,6 +607,49 @@ public class InternalDraftValidatorTest {
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(2).getType());
         assertEquals("bedomning.sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(3).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(3).getType());
+    }
+
+    @Test
+    public void validateSjukskrivningStartsTooEarly() throws Exception {
+        LocalDate startDate = LocalDate.now().minusDays(InternalDraftValidatorImpl.VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR + 1);
+
+        Sjukskrivning one = Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
+            new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(LocalDate.now().plusDays(2))));
+        Sjukskrivning two = Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN,
+            new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(3)), new InternalDate(LocalDate.now().plusDays(4))));
+
+        LisjpUtlatande utlatande = builderTemplate
+                .setSjukskrivningar(Arrays.asList(one, two))
+                .setArbetstidsforlaggning(false)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationWarnings().size());
+        assertEquals("lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum", res.getValidationWarnings().get(0).getMessage());
+        assertEquals(ValidationMessageType.WARN, res.getValidationWarnings().get(0).getType());
+    }
+
+    @Test
+    public void validateSjukskrivningIsTooLong() throws Exception {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(1);
+
+        Sjukskrivning one = Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
+            new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(LocalDate.now().plusDays(2))));
+        Sjukskrivning two = Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+            new InternalDate(LocalDate.now().plusDays(3)), new InternalDate(endDate)));
+
+        LisjpUtlatande utlatande = builderTemplate
+            .setSjukskrivningar(Arrays.asList(one, two))
+            .setArbetstidsforlaggning(false)
+            .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationWarnings().size());
+        assertEquals("lisjp.validation.bedomning.sjukskrivningar.sentslutdatum", res.getValidationWarnings().get(0).getMessage());
+        assertEquals(ValidationMessageType.WARN, res.getValidationWarnings().get(0).getType());
     }
 
     @Test
@@ -640,7 +689,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing", res.getValidationErrors().get(0).getMessage());
+        assertEquals("lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing",
+                res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -787,7 +837,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.bedomning.prognos.dagarTillArbete.invalid_combination", res.getValidationErrors().get(0).getMessage());
+        assertEquals("lisjp.validation.bedomning.prognos.dagarTillArbete.invalid_combination",
+                res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -807,7 +858,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAtgarderInteAktuell() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
-                .setArbetslivsinriktadeAtgarder(Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
+                .setArbetslivsinriktadeAtgarder(
+                        Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
                 .setArbetslivsinriktadeAtgarderBeskrivning(null)
                 .build();
 
@@ -819,8 +871,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAtgarderInteAktuellCombined() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
-                .setArbetslivsinriktadeAtgarder(Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
+                .setArbetslivsinriktadeAtgarder(
+                        Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
                 .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -835,7 +888,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAtgarderInteAktuellBeskrivning() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
-                .setArbetslivsinriktadeAtgarder(Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
+                .setArbetslivsinriktadeAtgarder(
+                        Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
                 .setArbetslivsinriktadeAtgarderBeskrivning("beskrivning")
                 .build();
 
@@ -849,7 +903,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAtgarderAktuell() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
-                .setArbetslivsinriktadeAtgarder(Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
+                .setArbetslivsinriktadeAtgarder(
+                        Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
                 .setArbetslivsinriktadeAtgarderBeskrivning("Beskrivning arbetsanpassning")
                 .build();
 
@@ -861,17 +916,18 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAtgarderTooMany() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
-                .setArbetslivsinriktadeAtgarder(Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE),
-                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
+                .setArbetslivsinriktadeAtgarder(
+                        Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.SOKA_NYTT_ARBETE),
+                                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
                 .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -884,20 +940,20 @@ public class InternalDraftValidatorTest {
                 errors.contains("lisjp.validation.atgarder.typ.invalid_combination"));
     }
 
-        @Test
-        public void validateAtgarderTypSameCodeNotAllowed() throws Exception {
-            LisjpUtlatande utlatande = builderTemplate
-                    .setArbetslivsinriktadeAtgarder(Arrays.asList(
-                            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
-                            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT)))
-                    .build();
+    @Test
+    public void validateAtgarderTypSameCodeNotAllowed() throws Exception {
+        LisjpUtlatande utlatande = builderTemplate
+                .setArbetslivsinriktadeAtgarder(Arrays.asList(
+                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
+                        ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT)))
+                .build();
 
-            ValidateDraftResponse res = validator.validateDraft(utlatande);
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-            assertEquals(1, res.getValidationErrors().size());
-            assertEquals("lisjp.validation.atgarder.typ.invalid_combination",
-                    res.getValidationErrors().get(0).getMessage());
-        }
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals("lisjp.validation.atgarder.typ.invalid_combination",
+                res.getValidationErrors().get(0).getMessage());
+    }
 
     @Test
     public void validateKontaktNull() throws Exception {

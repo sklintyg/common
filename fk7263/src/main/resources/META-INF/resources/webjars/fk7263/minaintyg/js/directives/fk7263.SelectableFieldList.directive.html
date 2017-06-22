@@ -171,24 +171,26 @@
   <selectable-category-wrapper category-label="fk7263.label.patientworkcapacity" cert-model="cert"
                                field-configs="[fieldConfig.arbetsFormagaRelativtUtomNuvarandeArbete, fieldConfig.arbetsFormagaRelativtNuvarandeArbete]"
                                summary="summary">
+
+    <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.patientworkcapacity' : ''}}" cert-model="cert"
+         field-config="fieldConfig.arbetsFormagaRelativtNuvarandeArbete" summary="summary"
+         show-deselected="showDeselected">
+
+      <ul>
+        <li>
+          <span message key="fk7263.label.patientworkcapacity.currentwork"></span> - {{cert.nuvarandeArbetsuppgifter}}
+        </li>
+      </ul>
+    </div>
+
     <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.patientworkcapacity' : ''}}" cert-model="cert"
          field-config="fieldConfig.arbetsFormagaRelativtUtomNuvarandeArbete" summary="summary"
          show-deselected="showDeselected">
 
       <ul>
         <li ng-if="cert.arbetsloshet"><span message key="fk7263.label.patientworkcapacity.unemployed"> </span></li>
-        <li ng-if="cert.foraldrarledighet"><span message key="fk7263.label.patientworkcapacity.parentalleave"> </span>
-        </li>
+        <li ng-if="cert.foraldrarledighet"><span message key="fk7263.label.patientworkcapacity.parentalleave"> </span></li>
       </ul>
-    </div>
-
-    <div selectable-field-wrapper label-key="fk7263.label.patientworkcapacity.currentwork" cert-model="cert"
-         field-config="fieldConfig.arbetsFormagaRelativtNuvarandeArbete" summary="summary"
-         show-deselected="showDeselected">
-
-
-      {{cert.nuvarandeArbetsuppgifter}}
-
     </div>
 
   </selectable-category-wrapper>

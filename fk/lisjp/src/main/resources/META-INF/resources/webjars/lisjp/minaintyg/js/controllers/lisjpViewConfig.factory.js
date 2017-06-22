@@ -180,7 +180,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
                         } ]
                     },
                     {
-                        type: 'uv-del-fraga',
+                        type: 'uv-fraga',
                         labelKey: 'FRG_33.RBK',
                         components: [
                             {

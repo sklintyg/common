@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
     private static final Logger LOG = LoggerFactory.getLogger(LuaefsModuleApi.class);
 
-    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning_forlangd_skolgang";
+    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning";
 
     public LuaefsModuleApi() {
         super(LuaefsUtlatande.class);

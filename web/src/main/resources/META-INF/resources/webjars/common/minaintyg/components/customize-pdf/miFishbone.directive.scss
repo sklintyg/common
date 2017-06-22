@@ -21,6 +21,7 @@ mi-fishbone {
     font-size: 14px;
     color: #707070;
     background: $background-inactive;
+    min-width: 170px;
 
     &.current {
       background: $background-current;

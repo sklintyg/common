@@ -33,7 +33,6 @@ angular.module('common').factory('common.IntygListService', ['$rootScope', '$htt
 
         function _getCertificates(callback) {
             $http.get('/api/certificates').success(function(data) {
-                $log.debug('populating cache');
                 callback(data);
             }).error(function(data, status) {
                 $log.error('error ' + status);

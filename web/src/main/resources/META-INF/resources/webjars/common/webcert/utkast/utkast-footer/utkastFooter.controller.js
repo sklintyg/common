@@ -20,9 +20,9 @@
 angular.module('common').controller('common.UtkastFooter',
     ['$scope', '$rootScope', '$timeout',
         'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
-        'common.UtkastViewStateService', 'common.UtkastService',
+        'common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationViewState',
         function($scope, $rootScope, $timeout,
-            UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService) {
+            UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService, utkastValidationViewState) {
             'use strict';
 
             var viewState = $scope.viewState;
@@ -89,6 +89,8 @@ angular.module('common').controller('common.UtkastFooter',
                 if(!$scope.checkMissing()){
                     return;
                 }
+
+                utkastValidationViewState.reset();
 
                 UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
                     function(result) {

@@ -18,19 +18,9 @@
  */
 package se.inera.intyg.common.lisjp.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -45,11 +35,23 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpUtlatande> {
 
-    private static final int MAX_ARBETSLIVSINRIKTADE_ATGARDER = 10;
-    private static final int MAX_SYSSELSATTNING = 4;
-    private static final int VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR = 7;
+    static final int MAX_ARBETSLIVSINRIKTADE_ATGARDER = 10;
+    static final int MAX_SYSSELSATTNING = 4;
+    static final int VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR = 7;
+    static final int VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER = 6;
 
     @Autowired
     private ValidatorUtilFK validatorUtilFK;
@@ -246,16 +248,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             validateSjukskrivningPeriodOverlap(utlatande, validationMessages);
 
             // INTYG-3207: Show warning if any period starts earlier than 7 days before now
-            if (utlatande.getSjukskrivningar()
-                    .stream()
-                    .filter(Objects::nonNull)
-                    .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null
-                            && sjukskrivning.getPeriod().getFrom() != null
-                            && sjukskrivning.getPeriod().getFrom().isValidDate()
-                            && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
-                ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
-                        "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
-            }
+            validateSjukskrivningIsTooEarly(utlatande, validationMessages);
+
+            // INTYG-3747: Show warning if the total period exceeds 6 months
+            validateSjukskrivningIsTooLong(utlatande, validationMessages);
 
             // Arbetstidsforlaggning R13, R14, R15, R16
             if (isArbetstidsforlaggningMandatory(utlatande)) {
@@ -296,6 +292,46 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                 .filter(Objects::nonNull)
                 .forEach(sjukskrivning -> checkSjukskrivningPeriodOverlapAgainstList(validationMessages, sjukskrivning,
                         utlatande.getSjukskrivningar()));
+    }
+
+    private void validateSjukskrivningIsTooEarly(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getSjukskrivningar()
+            .stream()
+            .filter(Objects::nonNull)
+            .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null
+                && sjukskrivning.getPeriod().getFrom() != null
+                && sjukskrivning.getPeriod().getFrom().isValidDate()
+                && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
+            ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
+                "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
+        }
+    }
+
+    private void validateSjukskrivningIsTooLong(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
+
+        // Filter out any null objects and assert as valid period
+        List<Sjukskrivning> list = utlatande.getSjukskrivningar().stream().filter(isValidPeriod()).collect(Collectors.toList());
+        if (list.isEmpty()) {
+            return;
+        }
+
+        // 1. Hämta starten för sjukskrivningen
+        Sjukskrivning min = list.stream().min(Comparator.comparing(item -> item.getPeriod().fromAsLocalDate())).get();
+        LocalDate minDate = min.getPeriod().fromAsLocalDate();
+
+        // 2. Hämta slutet för sjukskrivningen
+        Sjukskrivning max = list.stream().max(Comparator.comparing(item -> item.getPeriod().tomAsLocalDate())).get();
+        LocalDate maxDate = max.getPeriod().tomAsLocalDate();
+
+        // 3. Kontrollera ifall maxDate - 6 månader > minDate
+        if (maxDate.minusMonths(VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).isAfter(minDate)) {
+            ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
+                "lisjp.validation.bedomning.sjukskrivningar.sentslutdatum");
+        }
+    }
+
+    private Predicate<Sjukskrivning> isValidPeriod() {
+        return item -> item != null && item.getPeriod() != null && item.getPeriod().isValid();
     }
 
     private void checkSjukskrivningPeriodOverlapAgainstList(List<ValidationMessage> validationMessages, Sjukskrivning sjukskrivning,

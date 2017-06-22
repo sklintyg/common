@@ -134,6 +134,7 @@ angular.module('lisjp').factory('lisjp.Domain.IntygModel',
                             toTransform: sjukskrivningToTransform
                         }),
                         'motiveringTillTidigtStartdatumForSjukskrivning': undefined,
+                        'motiveringTillForLangSjukskrivning': undefined,
                         'forsakringsmedicinsktBeslutsstod': undefined,
                         'arbetstidsforlaggning': undefined,
                         'arbetstidsforlaggningMotivering': undefined,

@@ -5,14 +5,11 @@
   <div class="row">
     <div class="col-xs-12 col-sm-7">
       <h1 ng-focus="pagefocus" tabindex="-1">
-        <span id="viewCertificateHeader">Läs och hantera ditt intyg</span>
+        <span id="viewCertificateHeader" message key="modules.page-header.view-intyg.page-title"></span>
       </h1>
+
       <div>
-        Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektronisk,
-        ladda ned intyget som en PDF och arkivera intyget. För medicinska frågor som rör ditt
-        intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte
-        när du fick ditt intyg utfärdat.<br><br>
-        Läs mer om knappfunktioner
+        <span message key="luae_na.label.pageingress"></span>
       </div>
 
       <div uib-collapse="!isCollapsed1" class="collapse">
@@ -21,7 +18,7 @@
         <span message key="modules.page-header.info.archive"></span>
       </div>
 
-      <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn-link btn-link-link margin-top-5px"
+      <button type="button" ng-click="isCollapsed1 = !isCollapsed1" class="btn btn-link btn-link-chevron"
               data-toggle="collapse">
         <span message key="modules.page-header.info.more.{{!isCollapsed1}}"></span>
       </button>

@@ -49,6 +49,8 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
                     button1text: 'modules.customize.summary.leave-dialog.button.confirm',
                     button1icon: 'icon-ok',
                     button2text: 'modules.customize.summary.leave-dialog.button.cancel',
+                    button2icon: 'icon-cancel',
+                    button2class: 'btn-secondary',
                     autoClose: false
                 });
             }
