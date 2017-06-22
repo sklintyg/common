@@ -329,9 +329,10 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 hideWhenEmpty: true
                             }
                         },
-                        {key: 'arbetsresor', type: 'boolean',
+                        {key: 'arbetsresor', type: 'checkbox-inline',
                             templateOptions: {
-                                label: 'DFR_34.1'
+                                label: 'DFR_34.1',
+                                bold: true
                             },
                             hideExpression: 'model.avstangningSmittskydd'
                         },
