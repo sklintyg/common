@@ -29,6 +29,7 @@ import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -61,6 +62,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaenaUtlata
 
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+        resetDataInGrundData(grundData);
 
         // Default to latest version available of intyg
         template.setTextVersion(intygTexts.getLatestVersion(LuaenaEntryPoint.MODULE_ID));
@@ -79,7 +81,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaenaUtlata
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        resetDataInCopy(grundData);
+        resetDataInGrundData(grundData);
 
         return templateBuilder.build();
     }
@@ -91,8 +93,10 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaenaUtlata
         utlatande.setId(utlatandeId);
     }
 
-    private void resetDataInCopy(GrundData grundData) {
+    private void resetDataInGrundData(GrundData grundData) {
+        Patient patient = new Patient();
+        patient.setPersonId(grundData.getPatient().getPersonId());
+        grundData.setPatient(patient);
         grundData.setSigneringsdatum(null);
     }
-
 }

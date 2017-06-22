@@ -34,7 +34,6 @@ import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LuaenaUtlatande> {
@@ -47,9 +46,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
     @Override
     public ValidateDraftResponse validateDraft(LuaenaUtlatande utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
-
-        // Patientens adressuppgifter
-        PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
 
         // Kategori 1 – Grund för medicinskt underlag
         validateGrundForMU(utlatande, validationMessages);

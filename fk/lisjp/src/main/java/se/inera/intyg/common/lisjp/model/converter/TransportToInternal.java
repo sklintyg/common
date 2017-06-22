@@ -99,7 +99,7 @@ public final class TransportToInternal {
     public static LisjpUtlatande convert(Intyg source) throws ConverterException {
         LisjpUtlatande.Builder utlatande = LisjpUtlatande.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
         setSvar(utlatande, source);
         return utlatande.build();

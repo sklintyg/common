@@ -816,17 +816,11 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         allElements.add(patientNamnLbl);
         allElements.add(patientPnrLbl);
 
-        FkLabel patientNamn = new FkLabel(intyg.getGrundData().getPatient().getFullstandigtNamn())
-                .offset(104f, 25f)
-                .size(62.5f, 15)
-                .withVerticalAlignment(Element.ALIGN_TOP)
-                .withFont(PdfConstants.FONT_VALUE_TEXT);
         FkLabel patientPnr = new FkLabel(intyg.getGrundData().getPatient().getPersonId().getPersonnummer())
                 .offset(166f, 25f)
                 .size(35f, 15f)
                 .withVerticalAlignment(Element.ALIGN_TOP)
                 .withFont(PdfConstants.FONT_VALUE_TEXT);
-        allElements.add(patientNamn);
         allElements.add(patientPnr);
 
         if (showFkAddress) {

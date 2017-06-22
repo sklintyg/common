@@ -270,31 +270,6 @@ describe('UtkastService', function() {
             expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
         });
 
-        /* TODO: REMOVE?! THIS IS NOT SOMETHING THTAT FRONTEND SHOULD HANDLE
-        it ('successful utkast load with sjf', function () {
-
-            $stateParams.certificateId = 'testIntygId';
-            var promise = utkastService.load(viewState);
-            var resultData;
-            promise.then(function(data) {
-                resultData = data;
-            });
-
-            utkastContent.braIntygsData = 'bra';
-            var response = {
-                relations: [],
-                content: utkastContent
-            };
-            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId').respond(200, response);
-            $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
-            $httpBackend.flush();
-            $httpBackend.expectPOST('/moduleapi/utkast/testIntyg/testIntygId/validate').respond(200, {messages:[]});
-            $timeout.flush();
-            $httpBackend.flush();
-            expect(resultData.braIntygsData).toBe('bra');
-        });
-        */
-
         it ('unsuccessful utkast load', function () {
             spyOn($rootScope,'$broadcast').and.callThrough();
 

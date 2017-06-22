@@ -69,8 +69,6 @@ public class PdfDefaultGeneratorTest {
         expectedPdfContent = new ClassPathResource("PdfGeneratorTest/expectedPdfContent.json").getFile();
     }
 
-
-
     @Test
     public void testWCFields() throws IOException, PdfGeneratorException {
 
@@ -80,7 +78,7 @@ public class PdfDefaultGeneratorTest {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<>(), ApplicationOrigin.WEBCERT, false).getBytes();
         AcroFields expectedFields = readExpectedFields();
 
         // read expected PDF fields
@@ -102,7 +100,7 @@ public class PdfDefaultGeneratorTest {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<>(), ApplicationOrigin.MINA_INTYG, false).getBytes();
         AcroFields expectedFields = readExpectedFields();
 
         // read expected PDF fields

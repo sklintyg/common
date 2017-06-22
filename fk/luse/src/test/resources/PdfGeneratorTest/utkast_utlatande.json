@@ -9,13 +9,7 @@
   "grundData": {
     "patient": {
       "samordningsNummer": false,
-      "efternamn": "Tolvansson",
-      "fornamn": "Tolvan",
-      "fullstandigtNamn": "Tolvan mini Tolvansson",
-      "personId": "19121212-1212",
-      "postadress": "Adressen",
-      "postnummer": "11111",
-      "postort": "Testorten"
+      "personId": "19121212-1212"
     },
     "skapadAv": {
       "vardenhet": {

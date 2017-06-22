@@ -64,13 +64,7 @@ public final class IntygTestDataBuilder {
 
     private static Patient getPatient() {
         Patient patient = new Patient();
-        patient.setEfternamn("Olsson");
-        patient.setFornamn("Olivia");
-        patient.setFullstandigtNamn("Olivia Olsson");
         patient.setPersonId(new Personnummer("19270310-4321"));
-        patient.setPostadress("Pgatan 2");
-        patient.setPostnummer("100 20");
-        patient.setPostort("Stadby gärde");
         return patient;
     }
 

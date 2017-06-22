@@ -18,23 +18,6 @@
  */
 package se.inera.intyg.common.lisjp.validator;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import org.springframework.beans.factory.annotation.Autowired;
-import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
-import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
-import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.support.validate.PatientValidator;
-import se.inera.intyg.common.support.validate.ValidatorUtil;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -46,6 +29,24 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+
+import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
+import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.ValidatorUtil;
+
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpUtlatande> {
 
     static final int MAX_ARBETSLIVSINRIKTADE_ATGARDER = 10;
@@ -56,12 +57,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     @Autowired
     private ValidatorUtilFK validatorUtilFK;
 
+    private static <T> boolean containsUnique(List<T> list) {
+        Set<T> set = new HashSet<>();
+        return list.stream().allMatch(t -> set.add(t));
+    }
+
     @Override
     public ValidateDraftResponse validateDraft(LisjpUtlatande utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
-
-        // Patientens adressuppgifter
-        PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
 
         // Kategori 1 – Grund för medicinskt underlag
         validateGrundForMU(utlatande, validationMessages);
@@ -296,19 +299,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
     private void validateSjukskrivningIsTooEarly(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getSjukskrivningar()
-            .stream()
-            .filter(Objects::nonNull)
-            .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null
-                && sjukskrivning.getPeriod().getFrom() != null
-                && sjukskrivning.getPeriod().getFrom().isValidDate()
-                && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
+                .stream()
+                .filter(Objects::nonNull)
+                .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null
+                        && sjukskrivning.getPeriod().getFrom() != null
+                        && sjukskrivning.getPeriod().getFrom().isValidDate()
+                        && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
             ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
-                "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
+                    "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
         }
     }
 
     private void validateSjukskrivningIsTooLong(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
-
         // Filter out any null objects and assert as valid period
         List<Sjukskrivning> list = utlatande.getSjukskrivningar().stream().filter(isValidPeriod()).collect(Collectors.toList());
         if (list.isEmpty()) {
@@ -326,7 +328,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
         // 3. Kontrollera ifall maxDate - 6 månader > minDate
         if (maxDate.minusMonths(VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).isAfter(minDate)) {
             ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.WARN,
-                "lisjp.validation.bedomning.sjukskrivningar.sentslutdatum");
+                    "lisjp.validation.bedomning.sjukskrivningar.sentslutdatum");
         }
     }
 
@@ -485,10 +487,5 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
 
     private boolean isAvstangningSmittskydd(LisjpUtlatande utlatande) {
         return utlatande.getAvstangningSmittskydd() != null && utlatande.getAvstangningSmittskydd();
-    }
-
-    private static <T> boolean containsUnique(List<T> list) {
-        Set<T> set = new HashSet<>();
-        return list.stream().allMatch(t -> set.add(t));
     }
 }

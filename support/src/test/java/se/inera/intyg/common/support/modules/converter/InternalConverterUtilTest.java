@@ -52,9 +52,75 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.MeddelandeReferens;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public class InternalConverterUtilTest {
+   @Test
+    public void testConvert() throws Exception {
+       final String intygsId = "intygsid";
+       final String enhetsId = "enhetsid";
+       final String enhetsnamn = "enhetsnamn";
+       final String patientPersonId = "191212121212";
+       final String skapadAvFullstandigtNamn = "fullständigt namn";
+       final String skapadAvPersonId = "skapad av pid";
+       final LocalDateTime signeringsdatum = LocalDateTime.now();
+       final String arbetsplatsKod = "arbetsplatsKod";
+       final String postadress = "postadress";
+       final String postNummer = "postNummer";
+       final String postOrt = "postOrt";
+       final String epost = "epost";
+       final String telefonNummer = "telefonNummer";
+       final String vardgivarid = "vardgivarid";
+       final String vardgivarNamn = "vardgivarNamn";
+       final String forskrivarKod = "forskrivarKod";
+       final String fornamn = "fornamn";
+       final String efternamn = "efternamn";
+       final String mellannamn = "mellannamn";
+       final String patientPostadress = "patientPostadress";
+       final String patientPostnummer = "patientPostnummer";
+       final String patientPostort = "patientPostort";
+
+       Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
+               skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+               telefonNummer,
+               vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
+               patientPostort,
+               null, null);
+
+       Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
+
+       assertEquals(enhetsId, intyg.getIntygsId().getRoot());
+       assertEquals(intygsId, intyg.getIntygsId().getExtension());
+       assertNotNull(intyg.getVersion());
+       assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
+       assertEquals("1.2.752.129.2.1.3.1", intyg.getPatient().getPersonId().getRoot());
+       assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
+       assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
+       assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
+       assertEquals(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getExtension());
+       assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getRoot());
+       assertEquals(enhetsId, intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
+       assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
+       assertEquals(enhetsnamn, intyg.getSkapadAv().getEnhet().getEnhetsnamn());
+       assertNotNull(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getRoot());
+       assertEquals(arbetsplatsKod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
+       assertEquals(postadress, intyg.getSkapadAv().getEnhet().getPostadress());
+       assertEquals(postNummer, intyg.getSkapadAv().getEnhet().getPostnummer());
+       assertEquals(postOrt, intyg.getSkapadAv().getEnhet().getPostort());
+       assertEquals(epost, intyg.getSkapadAv().getEnhet().getEpost());
+       assertEquals(telefonNummer, intyg.getSkapadAv().getEnhet().getTelefonnummer());
+       assertNotNull(intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getRoot());
+       assertEquals(vardgivarid, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
+       assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
+       assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
+       assertEquals(fornamn, intyg.getPatient().getFornamn());
+       assertEquals(efternamn, intyg.getPatient().getEfternamn());
+       assertEquals(mellannamn, intyg.getPatient().getMellannamn());
+       assertEquals(patientPostadress, intyg.getPatient().getPostadress());
+       assertEquals(patientPostnummer, intyg.getPatient().getPostnummer());
+       assertEquals(patientPostort, intyg.getPatient().getPostort());
+       assertTrue(intyg.getRelation().isEmpty());
+   }
 
     @Test
-    public void testConvert() throws Exception {
+    public void testConvertNoPatientInfo() throws Exception {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -83,7 +149,7 @@ public class InternalConverterUtilTest {
                 vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
                 null, null);
 
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
 
         assertEquals(enhetsId, intyg.getIntygsId().getRoot());
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
@@ -109,12 +175,12 @@ public class InternalConverterUtilTest {
         assertEquals(vardgivarid, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
         assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
         assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
-        assertEquals(fornamn, intyg.getPatient().getFornamn());
-        assertEquals(efternamn, intyg.getPatient().getEfternamn());
-        assertEquals(mellannamn, intyg.getPatient().getMellannamn());
-        assertEquals(patientPostadress, intyg.getPatient().getPostadress());
-        assertEquals(patientPostnummer, intyg.getPatient().getPostnummer());
-        assertEquals(patientPostort, intyg.getPatient().getPostort());
+        assertEquals("", intyg.getPatient().getFornamn());
+        assertEquals("", intyg.getPatient().getEfternamn());
+        assertNull(intyg.getPatient().getMellannamn());
+        assertEquals("", intyg.getPatient().getPostadress());
+        assertEquals("", intyg.getPatient().getPostnummer());
+        assertEquals("", intyg.getPatient().getPostort());
         assertTrue(intyg.getRelation().isEmpty());
     }
 
@@ -124,7 +190,7 @@ public class InternalConverterUtilTest {
         String relationIntygsId = "relationIntygsId";
         Utlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
 
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
         assertNotNull(intyg.getRelation());
         assertEquals(1, intyg.getRelation().size());
         assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
@@ -140,7 +206,7 @@ public class InternalConverterUtilTest {
                 "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress", "patientPostnummer", "patientPostort",
                 null, null);
 
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
 
         // empty string if missing in input
         assertEquals("", intyg.getSkapadAv().getEnhet().getPostadress());
@@ -257,7 +323,7 @@ public class InternalConverterUtilTest {
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens);
-        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande, false).getSkapadAv();
         assertEquals(1, skapadAv.getSpecialistkompetens().size());
         assertEquals("N/A", skapadAv.getSpecialistkompetens().get(0).getCode());
         assertEquals(specialistkompetens, skapadAv.getSpecialistkompetens().get(0).getDisplayName());
@@ -270,7 +336,7 @@ public class InternalConverterUtilTest {
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
         utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattningskod);
-        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande, false).getSkapadAv();
         assertEquals(1, skapadAv.getBefattning().size());
         assertEquals(befattningskod, skapadAv.getBefattning().get(0).getCode());
         assertEquals(description, skapadAv.getBefattning().get(0).getDisplayName());
@@ -282,7 +348,7 @@ public class InternalConverterUtilTest {
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
         utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattning);
-        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande).getSkapadAv();
+        HosPersonal skapadAv = InternalConverterUtil.getIntyg(utlatande, false).getSkapadAv();
         assertEquals(1, skapadAv.getBefattning().size());
         assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
         assertNull(skapadAv.getBefattning().get(0).getDisplayName());

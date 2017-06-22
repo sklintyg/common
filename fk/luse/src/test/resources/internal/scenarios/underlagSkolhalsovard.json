@@ -40,13 +40,7 @@
   "grundData": {
     "patient": {
       "samordningsNummer": false,
-      "efternamn": "Olsson",
-      "fornamn": "Olivia",
-      "fullstandigtNamn": "Olivia Olsson",
-      "personId": "19270310-4321",
-      "postadress": "Adressen",
-      "postnummer": "11111",
-      "postort": "Testorten"
+      "personId": "19270310-4321"
     },
     "skapadAv": {
       "vardenhet": {

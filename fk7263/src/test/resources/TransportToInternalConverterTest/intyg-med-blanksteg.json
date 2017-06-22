@@ -21,8 +21,7 @@
             }
         },
         "patient": {
-            "personId": "19121212-1212",
-            "fullstandigtNamn": " "
+            "personId": "19121212-1212"
         }
     },
     "giltighet":{

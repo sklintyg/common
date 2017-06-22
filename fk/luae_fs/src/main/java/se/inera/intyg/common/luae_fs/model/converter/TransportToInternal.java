@@ -73,7 +73,7 @@ public final class TransportToInternal {
     public static LuaefsUtlatande convert(Intyg source) throws ConverterException {
         Builder utlatande = LuaefsUtlatande.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(getGrundData(source));
+        utlatande.setGrundData(getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
         setSvar(utlatande, source);
         return utlatande.build();

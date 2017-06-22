@@ -18,7 +18,19 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 import org.junit.Test;
+
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
 import se.inera.ifv.insuranceprocess.certificate.v1.StatusType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
@@ -35,17 +47,6 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 public class ModelConverterTest {
 
     @Test
@@ -57,7 +58,8 @@ public class ModelConverterTest {
         String signingDoctorName = "signingDoctorName";
         String careUnitName = "careUnitName";
         LocalDateTime signedDate = LocalDateTime.now();
-        CertificateHolder source = buildCertificateHolder(certificateId, certificateType, validFromDate, validToDate, signingDoctorName, careUnitName,
+        CertificateHolder source = buildCertificateHolder(certificateId, certificateType, validFromDate, validToDate, signingDoctorName,
+                careUnitName,
                 signedDate, false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
@@ -77,7 +79,8 @@ public class ModelConverterTest {
 
     @Test
     public void testToCertificateMetaTypeDateMissing() {
-        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", null, "signingDoctorName", "careUnitName",
+        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", null, "signingDoctorName",
+                "careUnitName",
                 LocalDateTime.now(), false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
@@ -88,7 +91,8 @@ public class ModelConverterTest {
 
     @Test
     public void testToCertificateMetaTypeDeleted() {
-        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14", "signingDoctorName", "careUnitName",
+        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14",
+                "signingDoctorName", "careUnitName",
                 LocalDateTime.now(), true);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
@@ -99,7 +103,8 @@ public class ModelConverterTest {
 
     @Test
     public void testToCertificateMetaTypeSignedDateMissing() {
-        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14", "signingDoctorName", "careUnitName",
+        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14",
+                "signingDoctorName", "careUnitName",
                 null, false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
@@ -173,8 +178,9 @@ public class ModelConverterTest {
     public void testBuildRevokeTypeFromUtlatandeRevokeMessageNull() {
         final String revokeMessage = null;
         Utlatande source = buildUtlatande("certificateId", LocalDateTime.now(), "personId", "fullstandigt namn");
-        source.getGrundData().setSkapadAv(buildGrundData("enhetsId", "enhetsnamn", null, "vardgivarid", "vardgivarnamn", "fullstandigt namn",
-                "personalId").getSkapadAv());
+        source.getGrundData()
+                .setSkapadAv(buildGrundData("enhetsId", "enhetsnamn", null, "vardgivarid", "vardgivarnamn", "fullstandigt namn",
+                        "personalId").getSkapadAv());
 
         RevokeType res = ModelConverter.buildRevokeTypeFromUtlatande(source, revokeMessage);
 
@@ -187,7 +193,7 @@ public class ModelConverterTest {
         String intygId = "INTYGID";
         LocalDateTime time = LocalDateTime.of(2011, 01, 02, 23, 59, 01, 1);
         String res = ModelConverter.buildVardReferensId(intygId, time);
-        assertEquals("REVOKE-" + intygId + "-20110102T235901.000" , res);
+        assertEquals("REVOKE-" + intygId + "-20110102T235901.000", res);
     }
 
     @Test
@@ -195,6 +201,8 @@ public class ModelConverterTest {
         final String certificateId = "certificateId";
         final LocalDateTime signedDate = LocalDateTime.now();
         final String personId = "personId";
+        // This never happen in a real situation after Webcert 5.3. However, we want to check that we do not copy the information if it
+        // did exist
         final String fullstandigtNamn = "fullstandigt namn";
         Utlatande source = buildUtlatande(certificateId, signedDate, personId, fullstandigtNamn);
 
@@ -205,7 +213,7 @@ public class ModelConverterTest {
         assertEquals(signedDate, res.getSigneringsTidpunkt());
         assertEquals("1.2.752.129.2.1.3.1", res.getPatient().getPersonId().getRoot());
         assertEquals(personId, res.getPatient().getPersonId().getExtension());
-        assertEquals(fullstandigtNamn, res.getPatient().getFullstandigtNamn());
+        assertNull(res.getPatient().getFullstandigtNamn());
     }
 
     @Test
@@ -231,7 +239,8 @@ public class ModelConverterTest {
         source.setCareUnitName(careUnitName);
         source.setSignedDate(signedDate);
         source.setCertificateStates(new ArrayList<>());
-        source.getCertificateStates().add(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now().minusDays(2)));
+        source.getCertificateStates()
+                .add(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now().minusDays(2)));
         source.setDeleted(isDeleted);
         return source;
     }

@@ -23,11 +23,12 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Factory for creating an editable model.
@@ -51,6 +52,7 @@ public class WebcertModelFactory {
 
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(template.getGrundData(), newDraftData);
+        resetDataInUtlatande(template);
 
         template.setNuvarandeArbete(true);
         template.setArbetsloshet(false);
@@ -73,7 +75,7 @@ public class WebcertModelFactory {
         populateWithId(template, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(template.getGrundData(), copyData);
 
-        resetDataInCopy(template);
+        resetDataInUtlatande(template);
 
         return template;
     }
@@ -82,11 +84,14 @@ public class WebcertModelFactory {
         if (Strings.isNullOrEmpty(utlatandeId)) {
             throw new ConverterException("No certificateID found");
         }
-
         utlatande.setId(utlatandeId);
     }
 
-    private void resetDataInCopy(Fk7263Utlatande utlatande) {
+    private void resetDataInUtlatande(Fk7263Utlatande utlatande) {
+        Patient patient = new Patient();
+        patient.setPersonId(utlatande.getGrundData().getPatient().getPersonId());
+        utlatande.getGrundData().setPatient(patient);
+
         utlatande.getGrundData().setSigneringsdatum(null);
     }
 }

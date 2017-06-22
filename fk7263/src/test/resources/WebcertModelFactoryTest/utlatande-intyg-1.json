@@ -23,9 +23,9 @@
         },
         "patient": {
             "personId": "19121212-1212",
-            "fullstandigtNamn": "Test Testorsson",
-            "fornamn" : "Test",
-            "efternamn": "Testorsson"
+            "fullstandigtNamn": "",
+            "fornamn" : "",
+            "efternamn": ""
         }
     },
     "giltighet" : {
@@ -33,7 +33,7 @@
         "tom" : "2011-05-31"
     },
     "skickatDatum" : "2011-03-23T09:29:15.000",
-    "patientNamn" : "Test Testorsson",
+    "patientNamn" : "",
     "patientPersonnummer" : "19121212-1212",
     "avstangningSmittskydd" : false,
     "diagnosKod" : "S47",

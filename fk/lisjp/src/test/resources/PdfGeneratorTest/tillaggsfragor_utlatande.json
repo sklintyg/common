@@ -27,12 +27,6 @@
     },
     "patient": {
       "personId": "19121212-1212",
-      "fullstandigtNamn": "Tolvan Tolvansson",
-      "fornamn": "Tolvan",
-      "efternamn": "Tolvansson",
-      "postadress": "Svensson, Storgatan 1, PL 1234",
-      "postnummer": "12345",
-      "postort": "Småmåla",
       "samordningsNummer": false
     },
     "relation": {}

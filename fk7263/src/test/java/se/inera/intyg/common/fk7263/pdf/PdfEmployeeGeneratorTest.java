@@ -238,6 +238,7 @@ public class PdfEmployeeGeneratorTest {
 
     private void writePdfToFile(byte[] pdf, Scenario scenario, ApplicationOrigin origin) throws IOException {
         String dir = System.getProperty("pdfOutput.dir");
+        System.err.println(dir);
         if (dir == null) {
             return;
         }

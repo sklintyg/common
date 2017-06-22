@@ -45,9 +45,6 @@
   "grundData": {
     "patient": {
       "samordningsNummer": false,
-      "efternamn": "Olsson",
-      "fornamn": "Olivia",
-      "fullstandigtNamn": "Olivia Olsson",
       "personId": "192703104321"
     },
     "skapadAv": {

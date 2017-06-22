@@ -105,7 +105,7 @@ public final class TransportToInternal {
     public static LuaenaUtlatande convert(Intyg source) throws ConverterException {
         LuaenaUtlatande.Builder utlatande = LuaenaUtlatande.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
         setSvar(utlatande, source);
         return utlatande.build();

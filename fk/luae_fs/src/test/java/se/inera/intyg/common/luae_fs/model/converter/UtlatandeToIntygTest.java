@@ -20,6 +20,7 @@ package se.inera.intyg.common.luae_fs.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
@@ -98,12 +99,12 @@ public class UtlatandeToIntygTest {
         assertEquals(vardgivarid, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
         assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
         assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
-        assertEquals(fornamn, intyg.getPatient().getFornamn());
-        assertEquals(efternamn, intyg.getPatient().getEfternamn());
-        assertEquals(mellannamn, intyg.getPatient().getMellannamn());
-        assertEquals(patientPostadress, intyg.getPatient().getPostadress());
-        assertEquals(patientPostnummer, intyg.getPatient().getPostnummer());
-        assertEquals(patientPostort, intyg.getPatient().getPostort());
+        assertEquals("", intyg.getPatient().getFornamn());
+        assertEquals("", intyg.getPatient().getEfternamn());
+        assertNull(intyg.getPatient().getMellannamn());
+        assertEquals("", intyg.getPatient().getPostadress());
+        assertEquals("", intyg.getPatient().getPostnummer());
+        assertEquals("", intyg.getPatient().getPostort());
         assertTrue(intyg.getRelation().isEmpty());
     }
 

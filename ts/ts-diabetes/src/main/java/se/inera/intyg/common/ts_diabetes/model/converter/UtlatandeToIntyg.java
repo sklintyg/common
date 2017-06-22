@@ -116,7 +116,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(TsDiabetesUtlatande source) {
-        Intyg intyg = InternalConverterUtil.getIntyg(source);
+        Intyg intyg = InternalConverterUtil.getIntyg(source, true);
         complementArbetsplatskodIfMissing(intyg);
         intyg.setTyp(getTypAvIntyg());
         intyg.getSvar().addAll(getSvar(source));

@@ -173,9 +173,9 @@ public final class TransportConverterUtil {
         throw new ConverterException("Unexpected outcome while converting DatePeriodType");
     }
 
-    public static GrundData getGrundData(Intyg source) {
+    public static GrundData getGrundData(Intyg source, boolean extendedPatientInfo) {
         GrundData grundData = new GrundData();
-        grundData.setPatient(getPatient(source.getPatient()));
+        grundData.setPatient(getPatient(source.getPatient(), extendedPatientInfo));
         grundData.setSkapadAv(getSkapadAv(source.getSkapadAv()));
         grundData.setSigneringsdatum(source.getSigneringstidpunkt());
         if (!isNullOrEmpty(source.getRelation())) {
@@ -249,21 +249,24 @@ public final class TransportConverterUtil {
         return vardgivare;
     }
 
-    public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source) {
+    public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source, boolean extendedPatientInfo) {
         Patient patient = new Patient();
-        patient.setEfternamn(source.getEfternamn());
-        patient.setFornamn(source.getFornamn());
-        patient.setMellannamn(source.getMellannamn());
-        patient.setPostort(source.getPostort());
-        patient.setPostnummer(source.getPostnummer());
-        patient.setPostadress(source.getPostadress());
-
         String pnr = source.getPersonId().getExtension();
         patient.setPersonId(Personnummer.createValidatedPersonnummerWithDash(pnr).orElse(new Personnummer(pnr)));
-        if (Strings.nullToEmpty(source.getMellannamn()).trim().isEmpty()) {
-            patient.setFullstandigtNamn(source.getFornamn() + " " + source.getEfternamn());
-        } else {
-            patient.setFullstandigtNamn(source.getFornamn() + " " + source.getMellannamn() + " " + source.getEfternamn());
+
+        if (extendedPatientInfo) {
+            patient.setEfternamn(source.getEfternamn());
+            patient.setFornamn(source.getFornamn());
+            patient.setMellannamn(source.getMellannamn());
+            patient.setPostort(source.getPostort());
+            patient.setPostnummer(source.getPostnummer());
+            patient.setPostadress(source.getPostadress());
+
+            if (Strings.nullToEmpty(source.getMellannamn()).trim().isEmpty()) {
+                patient.setFullstandigtNamn(source.getFornamn() + " " + source.getEfternamn());
+            } else {
+                patient.setFullstandigtNamn(source.getFornamn() + " " + source.getMellannamn() + " " + source.getEfternamn());
+            }
         }
         return patient;
     }

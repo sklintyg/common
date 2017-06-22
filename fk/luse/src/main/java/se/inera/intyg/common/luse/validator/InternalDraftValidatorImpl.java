@@ -33,7 +33,6 @@ import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUtlatande> {
@@ -47,8 +46,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
     public ValidateDraftResponse validateDraft(LuseUtlatande utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
-        // Patientens adressuppgifter
-        PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
         // Kategori 1 – Grund för medicinskt underlag
         validateGrundForMU(utlatande, validationMessages);
         // Kategori 2 – Andra medicinska utredningar och underlag
@@ -63,10 +60,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         validateFunktionsnedsattning(utlatande, validationMessages);
         // Kategori 6 – Aktivitetsbegränsning
         validateAktivitetsbegransning(utlatande, validationMessages);
-        // Kategori 7 – Medicinska behandlingar/åtgärder
         // Kategori 8 – Medicinska förutsättningar för arbete
         validateMedicinskaForutsattningarForArbete(utlatande, validationMessages);
-        // Kategori 9 – Övrigt
         // Kategori 10 – Kontakt
         validateKontaktMedFk(utlatande, validationMessages);
         // vårdenhet

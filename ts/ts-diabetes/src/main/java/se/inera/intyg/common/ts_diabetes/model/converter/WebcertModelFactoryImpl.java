@@ -47,8 +47,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
      *
      * @param newDraftData
      *            {@link CreateNewDraftHolder}
-     * @param template
-     *            A template to use as a base, or <code>null</code> if an empty internal model should be used.
      *
      * @return {@link TsDiabetesUtlatande} or throws a ConverterException if something unforeseen happens
      * @throws ConverterException

@@ -20,9 +20,7 @@
             }
         },
         "patient": {
-            "personId": "19121212-1212",
-            "fullstandigtNamn": "Test Testorsson",
-            "efternamn": "Test Testorsson"
+            "personId": "19121212-1212"
         }
     },
     "giltighet": {
