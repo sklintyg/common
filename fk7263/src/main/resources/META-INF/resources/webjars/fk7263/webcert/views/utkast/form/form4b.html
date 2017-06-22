@@ -64,9 +64,10 @@
                                                                                              name="informationBasedOn.other"
                                                                                              ng-model="basedOnState.check.annanReferens"
                                                                                              ng-change="toggleBaseradPaDate('annanReferens'); validate()">
-                            Annat<span wc-help-mark field-help-text="fk7263.helptext.intyg-baserat-pa.annat"></span>
+                            Annat <span wc-help-chevron help-text-key="fk7263.helptext.intyg-baserat-pa.annat"></span>
                         </label>
                         <span wc-date-picker-field target-model="dates.annanReferens" dom-id="annanReferensDate" add-date-parser="loose" on-blur="validate()"></span>
+                        <span wc-help-chevron-text help-text-key="fk7263.helptext.intyg-baserat-pa.annat"></span>
                     </wc-validation-wrapper>
                 </div>
 

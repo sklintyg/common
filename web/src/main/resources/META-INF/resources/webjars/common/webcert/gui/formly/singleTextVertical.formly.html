@@ -1,17 +1,20 @@
 <div class="input-full" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
   <div class="control-label">
     <label class="form-control-label">
-        <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
-        <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
-        <span class="required">{{to.required ? '*' : ''}}</span>
+      <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+      <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
+      <span class="required">{{to.required ? '*' : ''}}</span>
     </label>
-    <span ng-if="to.help" wc-help-mark field-dynamic-help-text="{{to.help}}.HLP"></span>
+    <span ng-if="to.help">
+      <span wc-help-chevron help-text-key="{{to.help}}.HLP"></span>
+      <span wc-help-chevron-text help-text-key="{{to.help}}.HLP"></span>
+    </span>
   </div>
 
   <wc-utkast-komplettering key="{{options.key}}" margin-top="true" margin-bottom="true"></wc-utkast-komplettering>
 
   <div>
-    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled"
-           ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }" maxlength="4000">
+    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled" ng-model="model[options.key]"
+           ng-class="{ 'input-{{to.size}}': to.size }" maxlength="4000">
   </div>
 </div>

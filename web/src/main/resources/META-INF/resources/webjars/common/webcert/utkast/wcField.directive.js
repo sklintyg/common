@@ -34,7 +34,6 @@ angular.module('common').directive('wcField', function() {
             fieldDynamicLabelGroup: '=',
             fieldNumber: '@?',
             fieldHelpText: '@?',
-            fieldDynamicHelpText: '@?',
             fieldHasErrors: '=',
             fieldTooltipPlacement: '@',
             fieldRequired: '@',
@@ -53,11 +52,6 @@ angular.module('common').directive('wcField', function() {
 
             if ($scope.fieldHelpText === null){
                 $scope.fieldHelpText = undefined;
-                $scope.hasText = false;
-            }
-
-            if ($scope.fieldDynamicHelpText === null){
-                $scope.fieldDynamicHelpText = undefined;
                 $scope.hasText = false;
             }
 

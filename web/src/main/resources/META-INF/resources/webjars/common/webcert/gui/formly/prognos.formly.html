@@ -1,10 +1,6 @@
 <div class="form-group">
   <div>
-    <h4 class="inline-block" ng-class="{'bold' : to.bold}">
-      <span dynamic-label key="{{to.label}}.RBK"></span>
-      <span class="required">{{to.required ? '*' : ''}}</span>
-      <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
-    </h4>
+    <wc-form-label to="to" key="options.key"></wc-form-label>
   </div>
 
   <wc-utkast-komplettering key="{{options.key}}" komplettering-key="{{to.kompletteringKey}}" margin-bottom="true"></wc-utkast-komplettering>
@@ -19,7 +15,8 @@
                ng-model="model[options.key].typ" value="{{choice.id}}" ng-change="validate()">
         <span dynamic-label key="{{to.code}}.{{choice.id}}.RBK"></span>
       </label>
-      <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{choice.id}}.HLP"></span>
+      <span wc-help-chevron help-text-key="{{to.code}}.{{choice.id}}.HLP"></span>
+      <span wc-help-chevron-text help-text-key="{{to.code}}.{{choice.id}}.HLP"></span>
 
       <div ng-if="choice.showDropDown" class="prognos-dropdown">
         <wc-validation-wrapper field-type="select"

@@ -3,7 +3,8 @@
     <span dynamic-label key="{{to.label}}.RBK"></span> <span class="required">*</span>
   </h4>
 
-  <wc-utkast-komplettering key="{{options.key}}" komplettering-key="{{to.kompletteringKey}}" margin-bottom="true"></wc-utkast-komplettering>
+  <wc-utkast-komplettering key="{{options.key}}" komplettering-key="{{to.kompletteringKey}}"
+                           margin-bottom="true"></wc-utkast-komplettering>
 
   <div class="sjukskrivningar-section">
     <span dynamic-label key="{{to.label}}.HLP"></span>
@@ -14,11 +15,10 @@
       <label>
         <span message key="common.sit.label.sjukskrivning.hoursperweek"></span>
         <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek"
-               ng-change="viewstate.updateHoursPerWeek()"
-               ng-blur="validate()"
-               maxlength="4"> timmar/vecka
-        <span wc-help-mark field-help-text="common.sit.help.sjukskrivning.hoursperweek"></span>
+               ng-change="viewstate.updateHoursPerWeek()" ng-blur="validate()" maxlength="4"> timmar/vecka
+        <span wc-help-chevron help-text-key="common.sit.help.sjukskrivning.hoursperweek"></span>
       </label>
+      <span wc-help-chevron-text help-text-key="common.sit.help.sjukskrivning.hoursperweek"></span>
     </div>
   </div>
 
@@ -31,12 +31,13 @@
       <div class="row">
         <div class="clearfix">
           <div class="col-vlg-auto col-lg-12 col-md-4 col-sm-12">
-              <label class="big-checkbox-label checkbox-inline">
-                <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked"
-                       ng-change="viewstate.updateCheckBox(field); validate()">
-                <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>
-              </label>
-              <span wc-help-mark field-dynamic-help-text="{{to.code}}.{{field}}.HLP"></span>
+            <label class="big-checkbox-label checkbox-inline">
+              <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked"
+                     ng-change="viewstate.updateCheckBox(field); validate()">
+              <span dynamic-label key="{{to.code}}.{{field}}.RBK"></span>
+            </label>
+            <span wc-help-chevron help-text-key="{{to.code}}.{{field}}.HLP"></span>
+            <span wc-help-chevron-text help-text-key="{{to.code}}.{{field}}.HLP"></span>
           </div>
           <div class="clearfix invisible-vlg visible-lg-block visible-sm-block"></div>
           <div class="col-vlg-auto col-vlg-pull-right">
@@ -46,13 +47,8 @@
                         col-sm-12">
               <div class="sjukskrivningar_period">
                 <label for="{{options.key}}-{{field}}-from">från och med</label>
-                <span wc-date-period-field
-                      model="model"
-                      field="{{options.key}}"
-                      index="{{field}}"
-                      type="from"
-                      on-blur="validate()"
-                      ng-class="{'fielderror' : hasValidationError(field, 'from')}"></span>
+                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="from"
+                      on-blur="validate()" ng-class="{'fielderror' : hasValidationError(field, 'from')}"></span>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -62,25 +58,21 @@
                         col-sm-12">
               <div class="sjukskrivningar_period">
                 <label for="{{options.key}}-{{field}}-tom">till och med</label>
-                <span wc-date-period-field
-                      model="model"
-                      field="{{options.key}}"
-                      index="{{field}}"
-                      type="tom"
-                      on-blur="validate()"
-                      ng-class="{'fielderror' : hasValidationError(field, 'tom')}"></span>
+                <span wc-date-period-field model="model" field="{{options.key}}" index="{{field}}" type="tom"
+                      on-blur="validate()" ng-class="{'fielderror' : hasValidationError(field, 'tom')}"></span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <wc-field-validation field-type="sjukskrivning_period" validations="validationsForPeriod[field]">
-      </wc-field-validation>
+      <wc-field-validation field-type="sjukskrivning_period"
+                           validations="validationsForPeriod[field]"></wc-field-validation>
 
       <div class="col-lg-pull-none pull-right fold-animation fold-slide-animation"
            ng-if="field != 'HELT_NEDSATT' && viewstate.periods[field].valid">
-        Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i {{viewstate.periods[field].days}} dagar.
+        Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i
+        {{viewstate.periods[field].days}} dagar.
       </div>
 
     </div>
@@ -90,8 +82,7 @@
     </div>
 
     <div>
-      <wc-field-validation field-type="sjukskrivning_period" validations="overlapValidations">
-      </wc-field-validation>
+      <wc-field-validation field-type="sjukskrivning_period" validations="overlapValidations"></wc-field-validation>
     </div>
 
   </wc-validation-group>

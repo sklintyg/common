@@ -3,6 +3,8 @@
     <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
     <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
   </h4>
-  <span ng-if="to.label" wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
-  <span ng-if="to.staticHelp" wc-help-mark field-help-text="{{to.staticHelp}}"></span>
+  <span ng-if="to.label">
+    <span wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
+    <span wc-help-chevron-text help-text-key="{{to.label}}.HLP"></span>
+  </span>
 </div>

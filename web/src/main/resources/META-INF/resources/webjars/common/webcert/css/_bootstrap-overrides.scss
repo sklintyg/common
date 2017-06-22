@@ -163,8 +163,10 @@ $font-3: sans-serif;
 }
 
 .buttonbar {
+  padding-top: 10px;
+
   .btn {
-    margin: 5px 5px 0 0;
+    margin: 0 5px 0 0;
   }
 
   .checkbox-inline {
@@ -428,6 +430,10 @@ $font-3: sans-serif;
       @extend %table-common;
     }
   }
+}
+
+table .table-4ths th {
+  width: 25%;
 }
 
 .table-striped tbody > tr:nth-child(odd) {

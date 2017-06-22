@@ -36,6 +36,8 @@
   @import 'komplettering-dialog';
   @import '../gui/wcIntegrationEnhetSelector/wcIntegrationEnhetSelector.directive';
   @import '../gui/wcIntygRelatedOtherIntygMessage.directive';
+  @import '../gui/wcHelpChevron.directive';
+  @import '../gui/wcHelpChevronText.directive';
 
   //colors
   $color_java_approx: #28b4c4;

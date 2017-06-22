@@ -1,13 +1,19 @@
 <div ng-show="model.underlagFinns" ng-class="{'groupkomplettering' : hasKomplettering()}">
   <label class="control-label inline-block bold" ng-if="to.label">
     <span dynamic-label key="{{to.label}}.RBK"></span> *
-    <span wc-help-mark field-dynamic-help-text="{{to.label}}.HLP"></span>
+    <span wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
+    <span wc-help-chevron-text help-text-key="{{to.label}}.HLP"></span>
   </label>
   <table class="">
     <tr class="underlagRow">
-      <th style="width: 35%;"><span dynamic-label key="{{to.typLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-mark field-dynamic-help-text="{{to.typLabel}}.HLP"></span></th>
-      <th><span>Datum </span> <span class="required">*</span> <span wc-help-mark field-dynamic-help-text="{{to.datumLabel}}.HLP"></span></th>
-      <th><span dynamic-label key="{{to.hamtasFranLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-mark field-dynamic-help-text="{{to.hamtasFranLabel}}.HLP"></span></th>
+      <th style="width: 35%;"><span dynamic-label key="{{to.typLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.typLabel}}.HLP"></span>
+        <span wc-help-chevron-text help-text-key="{{to.typLabel}}.HLP"></span>
+      </th>
+      <th><span>Datum </span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.datumLabel}}.HLP"></span>
+        <span wc-help-chevron-text help-text-key="{{to.datumLabel}}.HLP"></span></th>
+      <th><span dynamic-label key="{{to.hamtasFranLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.hamtasFranLabel}}.HLP"></span>
+        <span wc-help-chevron-text help-text-key="{{to.hamtasFranLabel}}.HLP"></span>
+      </th>
     </tr>
     <tr class="underlagRow" ng-repeat="underlag in model.underlag">
       <td>

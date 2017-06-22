@@ -33,6 +33,21 @@ angular.module('common').factory('common.messageService',
         var _messageResources = null;
         var _links = null;
 
+        function _propertyExists(key) {
+            var value;
+            var language = $rootScope.lang;
+            if (language) {
+                value = _getPropertyInLanguage(language, key, null);
+                if (value === null || value === undefined) {
+                    return false;
+                }
+            } else {
+                value = false;
+            }
+
+            return value;
+        }
+
         function _getProperty(key, variables, defaultValue, language, fallbackToDefaultLanguage) {
             var value;
 
@@ -115,6 +130,7 @@ angular.module('common').factory('common.messageService',
         }
 
         return {
+            propertyExists: _propertyExists,
             getProperty: _getProperty,
             addResources: _addResources,
             addLinks: _addLinks
