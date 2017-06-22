@@ -8,8 +8,8 @@
  * Usage: <dynamicLabel key="some.resource.key" [fallback="defaulttextifnokeyfound"]/>
  */
 angular.module('common').factory('common.dynamicLabelService',
-    [ '$log', '$rootScope', '$q', 'common.DynamicLabelProxy', 'common.messageService',
-        function($log, $rootScope, $q, DynamicLabelProxy, messageService) {
+    [ '$log', '$rootScope', '$q', 'common.DynamicLabelProxy', 'common.messageService', 'common.ObjectHelper',
+        function($log, $rootScope, $q, DynamicLabelProxy, messageService, ObjectHelper) {
             'use strict';
 
             var _labelResources = null;
@@ -35,6 +35,11 @@ angular.module('common').factory('common.dynamicLabelService',
 
             // get prop req
             function getRequiredTextByPropKey(key) {
+                if(messageService.propertyExists(key)){
+                    var staticLabel = messageService.getProperty(key);
+                    return staticLabel;
+                }
+
                 if (_labelResources === null) {
                     return '';
                 }
@@ -43,11 +48,6 @@ angular.module('common').factory('common.dynamicLabelService',
 
                 if(angular.isDefined(text) && text !== ''){
                     return text;
-                } else {
-                    if(messageService.propertyExists(key)){
-                        var staticLabel = messageService.getProperty(key);
-                        return staticLabel;
-                    }
                 }
 
                 if (typeof text === 'undefined') {

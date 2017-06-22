@@ -119,7 +119,9 @@
         </div>
         <div class='col-xs-9'>
           <label class="control-label inline-block"><span message key="fk7263.label.ytterligarediagnoser"></span>
-          </label><span wc-help-mark class="absolute" field-help-text="fk7263.helptext.diagnos.ytterligare"></span>
+          </label>
+          <span wc-help-chevron class="absolute" help-text-key="fk7263.helptext.diagnos.ytterligare"></span>
+          <span wc-help-chevron-text help-text-key="fk7263.helptext.diagnos.ytterligare"></span>
 
           <div class="bottom-padding-small clearfix">
             <input type="text" id="diagnoseDescriptionOpt1" name="diagnose.descriptionOpt1" class="block col-xs-12 form-control maxwidth" value=""
@@ -200,7 +202,8 @@
       <div class="form-group">
         <div>
           <label class="control-label"><span message key="fk7263.label.diagnosfortydligande"></span></label>
-          <span wc-help-mark field-help-text="fk7263.helptext.diagnos.fortydligande"></span>
+          <span wc-help-chevron help-text-key="fk7263.helptext.diagnos.fortydligande"></span>
+          <span wc-help-chevron-text help-text-key="fk7263.helptext.diagnos.fortydligande"></span>
         </div>
         <textarea id="diagnoseClarification" class="form-control" name="diagnose.clarification" rows="5" auto-expand
                   ng-class="{'fielderror' : viewState.getValidationErrors('diagnosBeskrivning')}"
@@ -214,8 +217,9 @@
         <label class="checkbox">
           <input type="checkbox" id="diagnoseMultipleDiagnoses" name="diagnose.multipleDiagnoses"
                  ng-model="model.samsjuklighet" ng-change="limitDiagnosBeskrivningField('samsjuklighet'); validate()">
-          Samsjuklighet föreligger</label><span wc-help-mark
-                                                field-help-text="fk7263.helptext.diagnos.samsjuklighet"></span>
+          Samsjuklighet föreligger</label><span wc-help-chevron
+                                                help-text-key="fk7263.helptext.diagnos.samsjuklighet"></span><span wc-help-chevron-text help-text-key="fk7263.helptext.diagnos.samsjuklighet"></span>
+
       </div>
 
     </wc-fmb-help-display>

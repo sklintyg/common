@@ -15,8 +15,9 @@
                     <label class="checkbox"><input type="checkbox" id="arbeteNuvarande"
                                                    ng-model="model.nuvarandeArbete"
                                                    ng-change="onSysselsattningChange(); validate()"> Nuvarande
-                        arbete <span wc-help-mark
-                                     field-help-text="fk7263.helptext.sysselsattning.nuvarande"></span></label>
+                        arbete <span wc-help-chevron help-text-key="fk7263.helptext.sysselsattning.nuvarande"></span>
+                        <span wc-help-chevron-text help-text-key="fk7263.helptext.sysselsattning.nuvarande"></span>
+                    </label>
 
                     <wc-validation-wrapper field-type="multi-text" validations="viewState.getValidationErrors('nuvarandearbetsuppgifter')">
                         <div class="indent" ng-if="model.nuvarandeArbete">
@@ -37,16 +38,16 @@
                                                ng-model="model.arbetsloshet"
                                                ng-change="onSysselsattningChange(); validate()">
                     Arbetslöshet - att utföra arbete på den
-                    reguljära arbetsmarknaden</label><span wc-help-mark
-                                                           field-help-text="fk7263.helptext.sysselsattning.arbetsloshet"></span>
+                    reguljära arbetsmarknaden</label><span wc-help-chevron help-text-key="fk7263.helptext.sysselsattning.arbetsloshet"></span>
+                <span wc-help-chevron-text help-text-key="fk7263.helptext.sysselsattning.arbetsloshet"></span>
             </div>
             <div class="form-group form-inline">
                 <label class="checkbox"><input type="checkbox" id="arbeteForaldraledig"
                                                ng-model="model.foraldrarledighet"
                                                ng-change="onSysselsattningChange(); validate()">
                     Föräldraledighet med föräldrapenning -
-                    att vårda sitt barn</label><span wc-help-mark
-                                                     field-help-text="fk7263.helptext.sysselsattning.foraldrarledighet"></span>
+                    att vårda sitt barn</label><span wc-help-chevron help-text-key="fk7263.helptext.sysselsattning.foraldrarledighet"></span>
+                <span wc-help-chevron-text help-text-key="fk7263.helptext.sysselsattning.foraldrarledighet"></span>
             </div>
 
         </wc-validation-group>
