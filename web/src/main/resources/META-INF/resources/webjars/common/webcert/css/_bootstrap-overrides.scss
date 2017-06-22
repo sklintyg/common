@@ -432,6 +432,10 @@ $font-3: sans-serif;
   }
 }
 
+table .table-4ths th {
+  width: 25%;
+}
+
 .table-striped tbody > tr:nth-child(odd) {
   > td {
     background-color: $table-striped-background-color;
