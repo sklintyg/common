@@ -52,7 +52,7 @@ angular.module('common').constant('common.messages', {
         'modules.actionbar.button.customizepdf' : 'Anpassa intyg till arbetsgivare',
         'modules.actionbar.button.customizepdf.tooltip' : 'Du kan välja bort intygsinformation du inte vill delge din arbetsgivare.',
         'modules.actionbar.button.print' : 'Ladda ner intyg som PDF',
-        'modules.actionbar.button.print.tooltip' : 'Intyget sparas om PDF på din enhet.',
+        'modules.actionbar.button.print.tooltip' : 'Intyget sparas som PDF på din enhet.',
         'modules.actionbar.button.archive' : 'Arkivera intyg',
         'modules.actionbar.button.archive.tooltip' : 'Flytta intyget till Arkiverade intyg.',
         'modules.actionbar.archivedialog.title' : 'Arkivera intyg',
@@ -60,7 +60,7 @@ angular.module('common').constant('common.messages', {
         'modules.actionbar.archivedialog.archive.button' : 'Arkivera intyg',
 
         // Common texts used in page headers
-        'modules.page-header.view-intyg.page-title': 'Läs och hantera ditt intyg',
+        'modules.page-header.view-intyg.page-title': 'Läs och hantera ditt intyg.',
         'modules.page-header.info.select-recipients-and-send': '<h3>Välj mottagare och skicka intyget</h3>Klicka på knappen för att komma till sidan där du väljer mottagare och skickar intyget. Detta intyg kan till exempel skickas till Försäkringskassan.',
         'modules.page-header.info.select-recipients-and-send.ts': '<h3>Välj mottagare och skicka intyget</h3>Klicka på knappen för att komma till sidan där du väljer mottagare och skickar intyget. Detta intyg kan till exempel skickas till Transportstyrelsen.',
         'modules.page-header.info.customize-pdf': '<h3>Anpassa intyg till arbetsgivare</h3>Klicka på knappen för att välja vilken information i intyget du vill delge din arbetsgivare. Viss information måste lämnas till arbetsgivaren och kan inte väljas bort. Dessa fält är markerade som obligatoriska.',
