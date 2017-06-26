@@ -35,7 +35,7 @@
                                field-configs="[fieldConfig.aktuelltSjukdomsforlopp]" summary="summary">
     <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.progressofdesease' : ''}}" cert-model="cert"
          field-config="fieldConfig.aktuelltSjukdomsforlopp" summary="summary" show-deselected="showDeselected">
-      {{cert.sjukdomsforlopp}}
+      <div class="multiline">{{cert.sjukdomsforlopp}}</div>
     </div>
   </selectable-category-wrapper>
 
@@ -45,7 +45,7 @@
 
     <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.disabilities' : ''}}" cert-model="cert"
          field-config="fieldConfig.funktionsnedsattning" summary="summary" show-deselected="showDeselected">
-      {{cert.funktionsnedsattning}}
+      <div class="multiline">{{cert.funktionsnedsattning}}</div>
     </div>
   </selectable-category-wrapper>
 
@@ -89,7 +89,7 @@
                                field-configs="[fieldConfig.aktivitetsbegransning]" summary="summary">
     <div selectable-field-wrapper label-key="{{summary ? 'fk7263.label.limitation' : ''}}" cert-model="cert"
          field-config="fieldConfig.aktivitetsbegransning" summary="summary" show-deselected="showDeselected">
-      {{cert.aktivitetsbegransning}}
+      <div class="multiline">{{cert.aktivitetsbegransning}}</div>
     </div>
   </selectable-category-wrapper>
 
@@ -133,11 +133,11 @@
 
       <div ng-if="cert.atgardInomSjukvarden">
         <h4><span message key="fk7263.label.plannedtreatment.healthcare"></span></h4>
-        {{cert.atgardInomSjukvarden}}
+        <div id="plannedtreatment.healthcare" class="multiline">{{cert.atgardInomSjukvarden}}</div>
       </div>
       <div ng-if="cert.annanAtgard">
         <h4><span message key="fk7263.label.plannedtreatment.other"></span></h4>
-        {{cert.annanAtgard}}
+        <div id="plannedtreatment.other" class="multiline">{{cert.annanAtgard}}</div>
       </div>
 
 
@@ -178,7 +178,7 @@
 
       <ul>
         <li>
-          <span message key="fk7263.label.patientworkcapacity.currentwork"></span> - {{cert.nuvarandeArbetsuppgifter}}
+          <span message key="fk7263.label.patientworkcapacity.currentwork"></span> - <span id="currentwork" class="multiline">{{cert.nuvarandeArbetsuppgifter}}</span>
         </li>
       </ul>
     </div>
@@ -243,7 +243,7 @@
          field-config="fieldConfig.arbetsFormaga"
          summary="summary"
          show-deselected="showDeselected">
-         {{cert.arbetsformagaPrognos}}
+      <div class="multiline">{{cert.arbetsformagaPrognos}}</div>
     </div>
   </selectable-category-wrapper>
 

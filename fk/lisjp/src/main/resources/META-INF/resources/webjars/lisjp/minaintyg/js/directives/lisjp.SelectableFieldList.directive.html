@@ -89,7 +89,7 @@
          field-config="fieldConfig.sysselsattningMandatory"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="sysselsattningMandatory" ng-repeat="sys in cert.sysselsattning" ng-if="['NUVARANDE_ARBETE'].indexOf(sys.typ) > -1">
+      <div id="sysselsattningMandatory" class="multiline" ng-repeat="sys in cert.sysselsattning" ng-if="['NUVARANDE_ARBETE'].indexOf(sys.typ) > -1">
         {{cert.nuvarandeArbete}}
       </div>
     </div>
@@ -151,7 +151,7 @@
          field-config="fieldConfig.funktionsnedsattning"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="funktionsnedsattning">{{cert.funktionsnedsattning}}</div>
+      <div id="funktionsnedsattning" class="multiline">{{cert.funktionsnedsattning}}</div>
     </div>
     <div selectable-field-wrapper
          label-key="FRG_17.RBK"
@@ -160,7 +160,7 @@
          field-config="fieldConfig.aktivitetsbegransning"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="aktivitetsbegransning">{{cert.aktivitetsbegransning}}</div>
+      <div id="aktivitetsbegransning" class="multiline">{{cert.aktivitetsbegransning}}</div>
     </div>
   </selectable-category-wrapper>
 
@@ -176,7 +176,7 @@
          field-config="fieldConfig.pagaendeBehandling"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="pagaendeBehandling">{{cert.pagaendeBehandling}}</div>
+      <div id="pagaendeBehandling" class="multiline">{{cert.pagaendeBehandling}}</div>
     </div>
     <div selectable-field-wrapper
          label-key="FRG_20.RBK"
@@ -185,7 +185,7 @@
          field-config="fieldConfig.planeradBehandling"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="planeradBehandling">{{cert.planeradBehandling}}</div>
+      <div id="planeradBehandling" class="multiline">{{cert.planeradBehandling}}</div>
     </div>
   </selectable-category-wrapper>
 
