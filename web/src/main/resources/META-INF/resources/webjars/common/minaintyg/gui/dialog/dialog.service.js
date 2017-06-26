@@ -94,6 +94,7 @@ angular.module('common').factory('common.dialogService',
             options.button1text = (options.button1text === undefined) ? 'common.ok' : options.button1text;
             //If button1 is a default OK button, set the default ok icon unless other is specified
             options.button1icon = (options.button1icon === undefined && options.button1text === 'common.ok') ? 'icon-ok' : options.button1icon;
+            options.button1tooltip = (options.button1tooltip === undefined) ? '' : options.button1tooltip;
 
             options.button2text = (options.button2text === undefined) ? 'common.cancel' : options.button2text;
             //If button2 is a default cancel button, set the default x icon unless other is specified
@@ -115,7 +116,7 @@ angular.module('common').factory('common.dialogService',
 
             // Create controller to setup dialog
             var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId, bodyText,
-                button1id, button1icon, button2id, button2icon, button2class, button3id, button3icon, button1click, button2click, button3click, button3visible, button1text,
+                button1id, button1icon, button1tooltip, button2id, button2icon, button2class, button3id, button3icon, button1click, button2click, button3click, button3visible, button1text,
                 button2text, button3text, autoClose) {
 
                 $scope.model = model;
@@ -149,6 +150,7 @@ angular.module('common').factory('common.dialogService',
                 $scope.button1id = button1id;
                 $scope.button1text = button1text;
                 $scope.button1icon = button1icon;
+                $scope.button1tooltip = button1tooltip;
                 $scope.button2id = button2id;
                 $scope.button2text = button2text;
                 $scope.button2icon = button2icon;
@@ -185,6 +187,9 @@ angular.module('common').factory('common.dialogService',
                     },
                     button1icon: function() {
                         return angular.copy(options.button1icon);
+                    },
+                    button1tooltip: function() {
+                        return angular.copy(options.button1tooltip);
                     },
                     button2id: function() {
                         return angular.copy(options.button2id);
