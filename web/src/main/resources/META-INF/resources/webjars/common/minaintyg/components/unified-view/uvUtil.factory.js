@@ -39,6 +39,18 @@ angular.module('common').factory('uvUtil', [
             }
         },
         getValue: function(obj, pathExpression) {
+
+            // Process each element of an array into a new array, otherwise just the expression
+            if(Array.isArray(pathExpression)){
+                var list = [];
+
+                pathExpression.forEach(function(item){
+                    list.push($parse(item)(obj));
+                });
+
+                return list;
+            }
+
             return $parse(pathExpression)(obj);
         },
         resolveValue: function(prop, modelRow, colProp, rowIndex, colIndex){

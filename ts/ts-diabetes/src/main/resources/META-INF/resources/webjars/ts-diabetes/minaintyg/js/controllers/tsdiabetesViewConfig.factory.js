@@ -90,10 +90,14 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory', [
                             type: 'uv-del-fraga',
                             components: [
                                 {
-                                    type: 'uv-kodverk-value',
-                                    kvModelProps: ['diabetes.endastKost', 'diabetes.tabletter',
-                                        'diabetes.insulin'],
-                                    kvLabelKeys: ['DFR_19.1.RBK', 'DFR_19.2.RBK', 'DFR_19.3.RBK']
+                                    type: 'uv-list',
+                                    labelKey: 'DFR_19.{var}.RBK',
+                                    listKey: function(model, index, count) {
+                                        return model ? index+1 : null; // return index for {var} if true, otherwise null -> list item will not be shown
+                                    },
+                                    separator: ', ',
+                                    modelProp: ['diabetes.endastKost', 'diabetes.tabletter',
+                                        'diabetes.insulin']
                                 },
                                 {
                                     type: 'uv-del-fraga',

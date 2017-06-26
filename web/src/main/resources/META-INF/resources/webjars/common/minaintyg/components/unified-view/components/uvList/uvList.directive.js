@@ -39,8 +39,9 @@ angular.module('common').directive('uvList', [ 'uvUtil', function(uvUtil) {
                 if(typeof $scope.config.listKey === 'function'){
                     for(var i = 0; i < listData.length; i++){
                         var result = $scope.config.labelKey;
-                        if($scope.config.listKey(listData[i])){
-                            finalListData.push(result.replace('{var}', $scope.config.listKey(listData[i])));
+                        var listValue = $scope.config.listKey(listData[i], i, listData.length);
+                        if(listValue){
+                            finalListData.push(result.replace('{var}', listValue));
                         }
                     }
                 } else {

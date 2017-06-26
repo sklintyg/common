@@ -145,7 +145,10 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                         function(model) {
                                             return $filter('number')(model.medKorrektion, 1);
                                         },
-                                        function(model) {
+                                        function(model, rowIndex) {
+                                            if(rowIndex === 2){
+                                                return null; // no value for kontaktlins binokulart
+                                            }
                                             return $filter('uvBoolFilter')(model.kontaktlins);
                                         }
                                     ]
@@ -315,9 +318,14 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         components: [{
                             type: 'uv-del-fraga',
                             components: [{
-                                type: 'uv-kodverk-value',
-                                kvModelProps: ['diabetes.kost', 'diabetes.tabletter', 'diabetes.insulin'],
-                                kvLabelKeys: ['DFR_19.1.RBK', 'DFR_19.2.RBK', 'DFR_19.3.RBK']
+                                type: 'uv-list',
+                                labelKey: 'DFR_19.{var}.RBK',
+                                listKey: function(model, index, count) {
+                                    return model ? index+1 : null; // return index for {var} if true, otherwise null -> list item will not be shown
+                                },
+                                separator: ', ',
+                                modelProp: ['diabetes.kost', 'diabetes.tabletter',
+                                    'diabetes.insulin']
                             }]
                         }]
                     },
