@@ -283,8 +283,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory', [
                                     type: 'uv-table',
                                     modelProp: 'syn',
                                     headers: ['', 'ts-diabetes.label.syn.utankorrektion',
-                                        'ts-diabetes.label.syn.medkorrektion',
-                                        'ts-diabetes.label.syn.kontaktlins'],
+                                        'ts-diabetes.label.syn.medkorrektion'],
                                     colProps: ['hoger', 'vanster', 'binokulart'],
                                     valueProps: [
                                         function(model, rowIndex, colIndex, colProp) {
@@ -305,9 +304,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory', [
                                         },
                                         function(model) {
                                             return $filter('number')(model.medKorrektion, 1);
-                                        },
-                                        function(model) {
-                                            return $filter('uvBoolFilter')(model.kontaktlins);
                                         }
                                     ]
                                 }]
