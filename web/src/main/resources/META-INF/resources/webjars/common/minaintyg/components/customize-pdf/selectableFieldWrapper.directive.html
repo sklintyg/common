@@ -4,19 +4,8 @@
     <!-- Selection mode -->
     <div ng-if="!summary">
       <div class="row">
-        <!-- field header title -->
-
-        <div class="col-xs-6 col-sm-9" ng-class="{'unselected': !fc.selected}">
-          <div class="title">
-            <h3 ng-if="labelKey"><span dynamic-label key="{{labelKey}}"></span></h3>
-            <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
-          </div>
-          <!-- Actual field content-->
-          <div class="text value-part" ng-transclude></div>
-        </div>
-
         <!-- mandatory / checkbox -->
-        <div class="inclusion col-xs-6 col-sm-3 pull-right">
+        <div class="inclusion col-xs-12 col-sm-3 pull-right">
 
           <span ng-if="fc.mandatory">
             <span class="mandatory" message key="modules.customize.label.mandatory"></span>
@@ -27,6 +16,17 @@
                               checked-text="Inkludera i anpassat intyg" unchecked-text="Inkludera ej i anpassat intyg"
                               show-confirm="fc.warn"></mi-checkbox-slider>
 
+        </div>
+
+        <!-- field header title -->
+
+        <div class="col-xs-12 col-sm-9" ng-class="{'unselected': !fc.selected}">
+          <div class="title">
+            <h3 ng-if="labelKey"><span dynamic-label key="{{labelKey}}"></span></h3>
+            <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
+          </div>
+          <!-- Actual field content-->
+          <div class="text value-part" ng-transclude></div>
         </div>
       </div>
 

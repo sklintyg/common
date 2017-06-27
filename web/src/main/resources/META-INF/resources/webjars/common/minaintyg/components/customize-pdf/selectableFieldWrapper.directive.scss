@@ -25,13 +25,13 @@
 
   h3 {
     font-size: 16px;
-    padding-top: 0px;
+    padding-top: 0;
     margin: 0;
   }
 
   h4 {
     font-size: 14px;
-    padding:15px 0 5px 0;
+    padding: 15px 0 5px 0;
     margin: 0;
     color: #666;
   }
@@ -46,6 +46,11 @@
 
   .inclusion {
     text-align: right;
+
+    @media (max-width: 767px) {
+      text-align: left;
+    }
+
     margin-top: 20px;
 
     .mandatory {
@@ -56,9 +61,8 @@
   }
 
   &.summary {
-    margin: 0 0 5px 0;
+    margin: 0 0 1px 0;
     border-radius: 0;
-    margin-bottom: 1px;
   }
 
   /**  summary list overrides */
