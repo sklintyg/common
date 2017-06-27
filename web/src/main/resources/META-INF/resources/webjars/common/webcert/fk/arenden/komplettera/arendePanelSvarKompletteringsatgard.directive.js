@@ -27,27 +27,13 @@
  * get's a callback through 'onAnswerWithMessage' and must handle it there
  */
 angular.module('common').directive('arendePanelSvarKompletteringsatgard',
-    [ '$window', '$log', '$state', '$stateParams', '$q',
+    ['$window', '$log', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
         'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService',
         'common.ArendeListViewStateService', 'common.IntygProxy',
         function($window, $log, $state, $stateParams, $q, ArendeProxy, statService, ObjectHelper,
             IntygCopyRequestModel, ArendeSvarModel, dialogService, ArendeListViewStateService, IntygProxy) {
             'use strict';
-
-            function _hasKompletteringUtkastRelation(relations) {
-                for (var a = 0; a < relations.children.length; a++) {
-                    var relation = relations.children[a];
-                    if (relation.relationKod === 'KOMPLT' && _isUtkast(relation)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            function _isUtkast(relation) {
-                return relation.status === 'DRAFT_INCOMPLETE' || relation.status === 'DRAFT_COMPLETE';
-            }
 
             return {
                 restrict: 'A',
@@ -70,43 +56,21 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                     });
 
                     $scope.arendeSvar = ArendeSvar;
-                    $scope.relations = ArendeSvar.intygProperties.relations; //ArendeListViewStateService.relations;
-
-                    $scope.showGoToUtkastButton = _hasKompletteringUtkastRelation($scope.relations);
+                    //Existence of complementedByUtkast means an utkast with complemented relation exist.
+                    $scope.showGoToUtkastButton =
+                        !!ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast;
 
                     $scope.openKompletteringsUtkast = function() {
-
-                        // Highly unlikely that there could be a komplettering without at least one relation.
-                        if (typeof $scope.relations === 'undefined' || $scope.relations.length === 0) {
-                            ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-utkast';
-                            return;
-                        }
-
-                        // Iterate over relations, find the newest 'KOMPLT' one. Could be made prettier with _.js or similar.
-                        var latestKomplRelation;
-                        for (var a = 0; a < $scope.relations.children.length; a++) {
-                            var relation =  $scope.relations.children[a];
-                            if (relation.relationKod === 'KOMPLT' && _isUtkast(relation)) {
-                                if (typeof latestKomplRelation === 'undefined') {
-                                    latestKomplRelation = relation;
-                                } else if (relation.skapad > latestKomplRelation.skapad) {
-                                    latestKomplRelation = relation;
-                                }
-                            }
-                        }
-                        if (typeof latestKomplRelation !== 'undefined') {
-                            $state.go(ArendeSvar.intygProperties.type + '-edit', {certificateId: latestKomplRelation.intygsId});
-                        } else {
-                            ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-utkast';
-                        }
+                        $state.go(ArendeSvar.intygProperties.type + '-edit',
+                            {certificateId: ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast});
                     };
 
-                   $scope.openKompletteringDialog = function() {
+                    $scope.openKompletteringDialog = function() {
 
-                       var dialogModel = {
-                           arendeSvar: ArendeSvar,
-                           komplUtkastFinns : _hasKompletteringUtkastRelation($scope.relations)
-                       };
+                        var dialogModel = {
+                            arendeSvar: ArendeSvar,
+                            komplUtkastFinns: (!!ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast)
+                        };
 
                         kompletteringDialog = dialogService.showDialog({
                             dialogId: 'komplettering-modal-dialog',
@@ -121,7 +85,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                                 // The actual process of answering with a new intyg is rather complex, so defer that
                                 // to calling code, and act on outcome of it here (keep dialog or close it)
-                                $scope.onAnswerWithIntyg().then(function (result){
+                                $scope.onAnswerWithIntyg().then(function(result) {
                                     //If successful, wer'e done here
                                     modalInstance.close();
 
@@ -135,7 +99,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                                     goToDraft(ArendeSvar.intygProperties.type, result.intygsUtkastId);
 
-                                }, function (errorResult) {
+                                }, function(errorResult) {
                                     //Keep dialog open so that activeKompletteringErrorMessageKey is displayed to user.
                                 });
                             },
@@ -151,7 +115,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                                 modalInstance.close();
                                 $scope.openKompletteringsUtkast();
                             },
-                            button3id:  'button3gotoutkast-dialog',
+                            button3id: 'button3gotoutkast-dialog',
                             autoClose: false,
                             size: 'lg'
                         }).result.then(function() {

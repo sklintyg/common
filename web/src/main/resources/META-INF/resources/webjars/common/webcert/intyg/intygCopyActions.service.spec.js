@@ -69,7 +69,9 @@ describe('IntygCopyService', function() {
                     activeErrorMessageKey: null,
                     inlineErrorMessageKey: null,
                     common: {
-                        intygProperties: {}
+                        intygProperties: {
+                            latestChildRelations: {}
+                        }
                     }
                 },
                 dialog: {

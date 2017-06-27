@@ -26,10 +26,6 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
     function($location) {
         'use strict';
 
-        function relationForSignedIntyg(relation) {
-            return angular.isObject(relation) && relation.status === 'SIGNED';
-        }
-
         return {
             restrict: 'A',
             replace: true,
@@ -39,33 +35,25 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
             },
             link: function($scope, $element, $attributes) {
 
-                var completePathToRelationOnScope = 'viewState.common.intygProperties.' + $attributes.relation;
+                var scopePathToIntygRelation = 'viewState.common.intygProperties.latestChildRelations.' + $attributes.intygRelation;
 
                 var updateMessage = function() {
-                    $scope.relation = $scope.$eval(completePathToRelationOnScope);
-                    $scope.showMessage = relationForSignedIntyg($scope.relation);
+                    $scope.intygRelation = $scope.$eval(scopePathToIntygRelation);
+                    $scope.showMessage = !!$scope.intygRelation;
                 };
 
                 // intyg data may be loaded now, or it may be loaded later.
-                $scope.$watch(completePathToRelationOnScope, updateMessage);
+                $scope.$watch(scopePathToIntygRelation, updateMessage);
                 updateMessage();
             },
             controller: function($scope) {
-
-                $scope.relation = undefined;
-                $scope.showMessage = false;
-
                 $scope.gotoIntyg = function($event) {
                     if ($event) {
                         $event.preventDefault();
                     }
-                    //Go to either edit or view intyg.
-                    if ($scope.relation.status === 'DRAFT_INCOMPLETE' || $scope.relation.status === 'DRAFT_COMPLETE') {
+                    if ($scope.intygRelation) {
                         $location.path(
-                            '/' + $scope.viewState.common.intygProperties.type + '/edit/' + $scope.relation.intygsId);
-                    } else {
-                        $location.path(
-                            '/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.relation.intygsId);
+                            '/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.intygRelation.intygsId);
                     }
                 };
 

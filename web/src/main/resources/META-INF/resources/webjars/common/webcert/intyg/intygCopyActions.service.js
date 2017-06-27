@@ -264,18 +264,13 @@ angular.module('common').factory('common.IntygCopyActions',
                 return null;
             }
 
-            function _hasErsattningsUtkast(viewState) {
-                return angular.isObject(viewState.common.intygProperties.replacedByRelation) &&
-                    viewState.common.intygProperties.replacedByRelation.status !== 'SIGNED';
-            }
-
             function _ersatt(viewState, intygErsattRequest, isOtherCareUnit) {
 
                 ersattDialogModel.otherCareUnit = isOtherCareUnit;
                 ersattDialogModel.patientId = PersonIdValidatorService.validate($stateParams.patientId);
                 ersattDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                 ersattDialogModel.intygTyp = intygErsattRequest.intygType;
-                ersattDialogModel.ersattningsUtkastFinns = _hasErsattningsUtkast(viewState);
+                ersattDialogModel.ersattningsUtkastFinns = !!viewState.common.intygProperties.latestChildRelations.replacedByUtkast;
 
                var ersattDialog = dialogService.showDialog({
                         dialogId: 'ersatt-dialog',
@@ -295,12 +290,7 @@ angular.module('common').factory('common.IntygCopyActions',
                             });
                         },
                         button2click: function () {
-                            // Extra check so we have an actual UTKAST replacedByRelation
-                            if (_hasErsattningsUtkast(viewState)) {
-                                _continueOnDraft(viewState.common.intygProperties.replacedByRelation.intygsId, viewState.intygModel.typ);
-                            } else {
-                                viewState.inlineErrorMessageKey = ersattDialogModel.errormessageid;
-                            }                               
+                            _continueOnDraft(viewState.common.intygProperties.latestChildRelations.replacedByUtkast.intygsId, viewState.intygModel.typ);
                         },
                         button3click: function(modalInstance){
                             modalInstance.close();

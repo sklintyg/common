@@ -35,18 +35,18 @@ describe('wcIntygRelatedOtherIntygMessageDirective', function() {
         {
             common: {
                 intygProperties: {
-                    relation: {}
+                    latestChildRelations: {}
                 }
             }
         };
         element = $compile(
-            '<div wc-intyg-related-other-intyg-message text-before-relation="ersatts av" view-state="viewState" relation="relation"></div>'
+            '<div wc-intyg-related-other-intyg-message text-before-relation="ersatts av" view-state="viewState" intyg-relation="relation"></div>'
         )($scope);
 
     }]));
 
     it('should display warning message when relation exists', function() {
-        $scope.viewState.common.intygProperties.relation =
+        $scope.viewState.common.intygProperties.latestChildRelations.relation =
             {
                 status: 'SIGNED'
             };
