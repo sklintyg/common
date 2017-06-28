@@ -62,7 +62,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                     $scope.openKompletteringsUtkast = function() {
                         $state.go(ArendeSvar.intygProperties.type + '-edit',
-                            {certificateId: ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast});
+                            {certificateId: ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast.intygsId});
                     };
 
                     $scope.openKompletteringDialog = function() {
