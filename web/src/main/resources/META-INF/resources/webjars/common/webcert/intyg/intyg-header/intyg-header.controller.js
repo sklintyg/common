@@ -81,7 +81,7 @@ angular.module('common').controller('common.IntygHeader',
                 return $scope.arbetsgivarUtskrift && !$scope.makuleratIntyg();
             };
 
-            // Omdöpt från showKopieraButton
+            // Omdöpt från showKopieraButton, kika på om hårdkodningen för ts-intyg verkligen behövs...
             $scope.showFornyaButton = function() {
                 return !($scope.intygstyp === 'ts-bas' || $scope.intygstyp === 'ts-diabetes') &&
 
@@ -99,11 +99,6 @@ angular.module('common').controller('common.IntygHeader',
                     !$scope.isPatientDeceased() &&
                     !UserModel.getIntegrationParam('inactiveUnit');
             };
-
-            // $scope.showFornyaButton = function() {
-            //     return ($scope.intygstyp === 'fk7263' || $scope.intygstyp === 'lisjp') &&
-            //         $scope.showKopieraButton();
-            // };
 
             $scope.send = function() {
                 IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
