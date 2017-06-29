@@ -180,5 +180,3 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp'].con
 }
 
 task tagRelease(type: TagReleaseTask)
-
-task testReport(type: SharedTestReportTask)

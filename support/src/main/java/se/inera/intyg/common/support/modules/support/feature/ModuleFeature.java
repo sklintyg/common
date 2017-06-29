@@ -27,7 +27,8 @@ public enum ModuleFeature {
     SKAPA_NYFRAGA("skapaNyFraga"),
     SKICKA_INTYG("skickaIntyg"),
     UTSKRIFT("utskrift"),
-    ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift");
+    ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift"),
+    SRS("srs");
 
     private final String name;
 
