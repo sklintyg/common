@@ -91,7 +91,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     private ObjectMapper objectMapper;
 
     @Autowired
-    private WebcertModelFactory<T> webcertModelFactory;
+    protected WebcertModelFactory<T> webcertModelFactory;
 
     @Autowired
     private InternalDraftValidator<T> internalDraftValidator;

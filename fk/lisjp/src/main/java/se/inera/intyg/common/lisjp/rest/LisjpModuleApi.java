@@ -18,13 +18,8 @@
  */
 package se.inera.intyg.common.lisjp.rest;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
@@ -42,14 +37,24 @@ import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
@@ -120,6 +125,42 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
         } catch (ConverterException e) {
             throw new ModuleException("Could not convert Intyg to Utlatande and as a result could not get additional info", e);
+        }
+    }
+
+    @Override
+    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder)
+            throws ModuleException {
+        try {
+            LisjpUtlatande internal = getInternal(internalModelHolder);
+
+            // Null out applicable fields
+            LisjpUtlatande renewCopy = internal.toBuilder()
+                    .setKontaktMedFk(false)
+                    .setAnledningTillKontakt(null)
+                    .setUndersokningAvPatienten(null)
+                    .setTelefonkontaktMedPatienten(null)
+                    .setJournaluppgifter(null)
+                    .setAnnatGrundForMU(null)
+                    .setAnnatGrundForMUBeskrivning(null)
+                    .setMotiveringTillTidigtStartdatumForSjukskrivning(null)
+                    .setMotiveringTillInteBaseratPaUndersokning(null)
+                    .setForsakringsmedicinsktBeslutsstod(null)
+                    .setSjukskrivningar(new ArrayList<>())
+                    .build();
+
+            Relation relation = draftCopyHolder.getRelation();
+            Optional<LocalDate> lastDateOfLastIntyg = internal.getSjukskrivningar().stream()
+                    .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
+                    .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
+                    .findFirst();
+            relation.setSistaGiltighetsDatum(lastDateOfLastIntyg.orElse(LocalDate.now()));
+            draftCopyHolder.setRelation(relation);
+
+            return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, renewCopy));
+        } catch (ConverterException e) {
+            LOG.error("Could not create a new internal Webcert model", e);
+            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
         }
     }
 
