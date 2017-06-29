@@ -31,7 +31,8 @@ angular.module('common').factory('common.TillaggsfragorHelper',
                     if (!tillaggsFragor) {
                         tillaggsFragor = {
                             wrapper: 'wc-field',
-                            templateOptions: { category: 9999 }
+                            templateOptions: { category: 9999 },
+                            hideExpression: 'model.avstangningSmittskydd'
                         };
                         formFields.splice(insertIndex, 0, tillaggsFragor);
                     }

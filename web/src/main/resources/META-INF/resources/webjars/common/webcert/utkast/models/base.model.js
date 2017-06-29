@@ -179,7 +179,7 @@ angular.module('common').factory('common.domain.BaseModel',
                 var clearFn = function(current, prop, extras){
                     if(prop instanceof ModelAttr && current.hasOwnProperty(prop.property)){
                         if(prop.defaultValue !== undefined){
-                            current[prop.property] = prop.defaultValue;
+                            current[prop.property] = angular.copy(prop.defaultValue);
                         } else {
                             current[prop.property] = undefined;
                         }
@@ -290,6 +290,12 @@ angular.module('common').factory('common.domain.BaseModel',
                 }
 
                 var propsCurrent = {props:this.properties, current:this};
+
+                var arrayIndex = propertyPath.lastIndexOf('[0]');
+                if (arrayIndex > -1) {
+                    propertyPath = propertyPath.substring(0, arrayIndex);
+                }
+
                 var i = propertyPath.lastIndexOf('.');
                 if(i > -1 ){
                     var props = propertyPath.split('.');
