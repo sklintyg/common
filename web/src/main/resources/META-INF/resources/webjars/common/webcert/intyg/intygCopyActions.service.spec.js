@@ -98,36 +98,7 @@ describe('IntygCopyService', function() {
 
             spyOn($state, 'go').and.callThrough();
         });
-
-        it('should immediately request a utkast copy of intyg if the copy preference is set', function() {
-
-            UserModel.setAnvandarPreference(IntygCopyActions.COPY_DIALOG_PREFERENCE, true);
-
-            $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
-                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
-            );
-            IntygCopyActions.copy($scope.viewState, intyg);
-            $httpBackend.flush();
-            $timeout.flush();
-            expect(dialogService.showDialog).not.toHaveBeenCalled();
-            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
-
-            UserModel.setAnvandarPreference(IntygCopyActions.COPY_DIALOG_PREFERENCE, false);
-        });
-
-        it('should show the copy dialog if the copy preference is not set', function() {
-
-            UserModel.setAnvandarPreference(IntygCopyActions.COPY_DIALOG_PREFERENCE, false);
-            $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
-                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
-            );
-            IntygCopyActions.copy($scope.viewState, intyg);
-            $httpBackend.flush();
-            $timeout.flush();
-
-            expect(dialogService.showDialog).toHaveBeenCalled();
-        });
-
+        
         it('should immediately request a fornya utkast of intyg if the fornya preference is set', function() {
 
             UserModel.setAnvandarPreference(IntygCopyActions.FORNYA_DIALOG_PREFERENCE, true);
@@ -159,9 +130,7 @@ describe('IntygCopyService', function() {
         });
 
         it('should show the ersatt dialog and send request if dialogbutton clicked', function() {
-
-           // $scope.viewState.common.intygProperties.replacedByRelation = undefined;
-
+                      
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/ersatt/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
@@ -174,7 +143,7 @@ describe('IntygCopyService', function() {
         });
     });
 
-    describe('_createCopyDraft', function() {
+    describe('_createFornyaDraft', function() {
 
         var intyg;
         beforeEach(function() {
@@ -185,15 +154,15 @@ describe('IntygCopyService', function() {
             };
         });
 
-        it('should request a copy and redirect to the edit page', function() {
+        it('should request a renewal and redirect to the edit page', function() {
 
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
 
-            $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/kopiera/').respond(
+            $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/fornya/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
-            IntygCopyActions.__test__.createCopyDraft(intyg, onSuccess, onError);
+            IntygCopyActions.__test__.createFornyaDraft(intyg, onSuccess, onError);
             $httpBackend.flush();
 
             expect(onSuccess).toHaveBeenCalledWith({'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'});

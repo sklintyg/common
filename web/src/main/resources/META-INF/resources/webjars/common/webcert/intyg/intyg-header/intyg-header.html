@@ -96,21 +96,24 @@
               </ul>
             </div>
           </div>
+
+          <!-- Gamla KOPIERA-knappen. Har bytt namn till Förnya -->
           <button type="button"
                   wc-authority="KOPIERA_INTYG"
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
-                  id="copyBtn"
+                  id="fornyaBtn"
                   class="btn btn-info"
-                  ng-if="showKopieraButton()"
-                  ng-click="copy(viewState.intygModel)"
-                  uib-popover="{{copyBtnTooltipText}}"
+                  ng-if="showFornyaButton()"
+                  ng-click="fornya(viewState.intygModel)"
+                  uib-popover="{{fornyaBtnTooltipText}}"  
                   popover-trigger="mouseenter"
                   popover-popup-delay="300"
                   popover-append-to-body="true"
                   popover-placement="auto top">
-            Kopiera
+            Förnya
           </button>
+          <!-- GAMLA FÖRNYA-knappen. UTGÅR!!!
           <button type="button"
                   wc-authority="KOPIERA_INTYG"
                   request-origin="!UTHOPP"
@@ -126,6 +129,7 @@
                   popover-placement="auto top">
             Förnya
           </button>
+          -->
           <button type="button"
                   wc-authority="ERSATTA_INTYG"
                   request-origin="!UTHOPP"
