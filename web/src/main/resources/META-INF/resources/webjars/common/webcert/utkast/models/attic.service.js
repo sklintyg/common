@@ -218,11 +218,6 @@ angular.module('common').factory('common.domain.AtticService',
             },
 
             isInAttic : function(model, properties){
-                if (angular.isString(properties) && properties.indexOf('[') >= 0) {
-                    $log.error('atticService doesn\'t support array syntax with []');
-                    return false;
-                }
-
                 var atticModel = this.getAtticModel(model.name);
                 if(atticModel){
                     return atticModel.isInAttic(model, properties);
