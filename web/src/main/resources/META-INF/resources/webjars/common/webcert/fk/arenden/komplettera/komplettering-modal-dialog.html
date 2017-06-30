@@ -19,12 +19,6 @@
                       vardenhet="{{arendeSvar.enhetsid}}" id="komplettering-modal-dialog-answerWithNyttIntyg-button">
                 <img src="/img/loader-small-green.gif" ng-show="model.arendeSvar.updateInProgress"> Lämna övriga upplysningar
               </button>
-
-              <button type="button" class="btn btn-success" ng-if="model.komplUtkastFinns"
-                      ng-click="button3click()"  wc-check-vardenhet
-                      vardenhet="{{arendeSvar.enhetsid}}" id="komplettering-modal-dialog-goToUtkast-button">
-                <img src="/img/loader-small-green.gif" ng-show="model.arendeSvar.updateInProgress"> Fortsätt på intygsutkast
-              </button>
             </div>
             <p ng-if="model.arendeSvar.svaraMedNyttIntygDisabled">{{model.arendeSvar.svaraMedNyttIntygDisabledReason}}</p>
             <p class="dialog_choice-box__notice-text">*En kopia av det intyg du redan har skickat in kommer att skapas.</p>

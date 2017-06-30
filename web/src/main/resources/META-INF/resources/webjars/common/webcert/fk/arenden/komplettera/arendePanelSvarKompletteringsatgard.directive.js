@@ -57,12 +57,36 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                     $scope.arendeSvar = ArendeSvar;
                     //Existence of complementedByUtkast means an utkast with complemented relation exist.
-                    $scope.showGoToUtkastButton =
+                    $scope.redirectToExistingUtkast =
                         !!ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast;
 
                     $scope.openKompletteringsUtkast = function() {
                         $state.go(ArendeSvar.intygProperties.type + '-edit',
                             {certificateId: ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast.intygsId});
+                    };
+
+
+                    $scope.kompletteraIntyg = function(modalInstance) {
+                        if (!ObjectHelper.isDefined(ArendeSvar.intygProperties)) {
+                            ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-intyg';
+                            return;
+                        }
+
+                        // The actual process of answering with a new intyg is rather complex, so defer that
+                        // to calling code, and act on outcome of it here (keep dialog or close it)
+                        $scope.onAnswerWithIntyg().then(function(result) {
+
+                            statService.refreshStat();
+
+                            function goToDraft(type, intygId) {
+                                $state.go(type + '-edit', {
+                                    certificateId: intygId
+                                });
+                            }
+
+                            goToDraft(ArendeSvar.intygProperties.type, result.intygsUtkastId);
+
+                        });
                     };
 
                     $scope.openKompletteringDialog = function() {
