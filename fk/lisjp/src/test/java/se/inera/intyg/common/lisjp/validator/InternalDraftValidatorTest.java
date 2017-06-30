@@ -18,12 +18,6 @@
  */
 package se.inera.intyg.common.lisjp.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,6 +56,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -633,12 +633,12 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateSjukskrivningIsTooLong() throws Exception {
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(1);
+        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(2);
 
         Sjukskrivning one = Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-            new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(LocalDate.now().plusDays(2))));
+            new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(startDate.plusDays(2))));
         Sjukskrivning two = Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-            new InternalDate(LocalDate.now().plusDays(3)), new InternalDate(endDate)));
+            new InternalDate(startDate.plusDays(3)), new InternalDate(endDate)));
 
         LisjpUtlatande utlatande = builderTemplate
             .setSjukskrivningar(Arrays.asList(one, two))
