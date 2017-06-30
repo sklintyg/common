@@ -76,6 +76,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                             dialogId: 'komplettering-modal-dialog',
                             titleId: 'common.arende.komplettering.kompletteringsatgard.dialogtitle',
                             templateUrl: '/web/webjars/common/webcert/fk/arenden/komplettera/komplettering-modal-dialog.html',
+                            windowClass: 'dialog-placement',
                             model: dialogModel,
                             button1click: function(modalInstance) {
                                 if (!ObjectHelper.isDefined(ArendeSvar.intygProperties)) {

@@ -175,6 +175,10 @@ angular.module('common').factory('common.dialogService',
                 resolve: dialogCustomState( options )
             };
 
+            if(options.windowClass !== undefined) {
+                dialogOptions.windowClass = options.windowClass;
+            }
+
             if(options.model !== undefined){
                 var dscope = $rootScope.$new(true);
                 dscope.model = options.model;
