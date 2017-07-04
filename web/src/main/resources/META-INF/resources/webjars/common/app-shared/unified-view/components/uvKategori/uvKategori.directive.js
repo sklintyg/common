@@ -27,6 +27,6 @@ angular.module('common').directive('uvKategori',
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvKategori/uvKategori.directive.html'
+            templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvKategori/uvKategori.directive.html'
         };
     });

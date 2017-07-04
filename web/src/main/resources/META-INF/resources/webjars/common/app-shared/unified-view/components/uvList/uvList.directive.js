@@ -26,7 +26,7 @@ angular.module('common').directive('uvList', [ 'uvUtil', function(uvUtil) {
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvList/uvList.directive.html',
+        templateUrl: '/web/webjars/common/app-shared/components/unified-view/components/uvList/uvList.directive.html',
         link: function($scope) {
             $scope.valueList = _getValues();
 

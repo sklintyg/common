@@ -26,7 +26,7 @@ angular.module('common').directive('uvTillaggsfragor', [ 'uvUtil', function(uvUt
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.html',
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.html',
         link: function($scope) {
 
             $scope.$watchCollection(function() {

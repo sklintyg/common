@@ -26,7 +26,7 @@ angular.module('common').directive('uvSimpleValue', [ 'uvUtil', function(uvUtil)
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvSimpleValue/uvSimpleValue.directive.html',
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive.html',
         link: function($scope) {
             $scope.value =  uvUtil.getValue($scope.viewData, $scope.config.modelProp);
 

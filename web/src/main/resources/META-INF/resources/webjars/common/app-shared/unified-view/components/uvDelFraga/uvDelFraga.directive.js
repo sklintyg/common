@@ -27,6 +27,6 @@ angular.module('common').directive('uvDelFraga',
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvDelFraga/uvDelFraga.directive.html'
+            templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.html'
         };
     });

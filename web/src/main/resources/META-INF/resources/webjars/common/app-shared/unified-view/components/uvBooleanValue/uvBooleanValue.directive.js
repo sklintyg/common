@@ -26,7 +26,7 @@ angular.module('common').directive('uvBooleanValue', [ '$filter', 'uvUtil', func
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvBooleanValue/uvBooleanValue.directive.html',
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.html',
         link: function($scope) {
             $scope.getValue = function() {
                 var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);

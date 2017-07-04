@@ -33,15 +33,15 @@ module.exports = function(grunt) {
     var DEST_DIR = (grunt.option('outputDir') || 'build/') +  'resources/main/META-INF/resources/';
     var TEST_OUTPUT_DIR = (grunt.option('outputDir') || 'build/karma/');
     var RUN_COVERAGE = grunt.option('run-coverage') !== undefined ? grunt.option('run-coverage') : false;
-        
-    var minaintyg = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/minaintyg/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
+
+    var minaintyg = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/app-shared/**/*.js', 'webjars/common/minaintyg/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
     grunt.file.write(DEST_DIR + 'webjars/common/minaintyg/module-deps.json',
                      JSON.stringify(minaintyg.map(function(file){ return '/web/'+file; }).concat('/web/webjars/common/minaintyg/templates.js'), null, 4));
     minaintyg = [SRC_DIR + 'webjars/common/minaintyg/module.js', DEST_DIR + 'webjars/common/minaintyg/templates.js'].concat(minaintyg.map(function(file){
         return SRC_DIR + file;
     }));
 
-    var webcert = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/webcert/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
+    var webcert = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/app-shared/**/*.js', 'webjars/common/webcert/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
     grunt.file.write(DEST_DIR + 'webjars/common/webcert/module-deps.json',
                      JSON.stringify(webcert.map(function(file){ return '/web/'+file; }).concat('/web/webjars/common/webcert/templates.js'), null, 4));
     webcert = [SRC_DIR + 'webjars/common/webcert/module.js', DEST_DIR + 'webjars/common/webcert/templates.js'].concat(webcert.map(function(file){
@@ -100,10 +100,10 @@ module.exports = function(grunt) {
                 ignores: ['**/templates.js', '**/vendor/**']
             },
             minaintyg: {
-                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/common/minaintyg/**/*.js' ]
+                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/common/app-shared/**/*.js', SRC_DIR + 'webjars/common/minaintyg/**/*.js' ]
             },
             webcert: {
-                src: [ 'Gruntfile.js', SRC_DIR + '!webjars/common/webcert/**/vendor/*.js', SRC_DIR + 'webjars/common/webcert/**/*.js' ]
+                src: [ 'Gruntfile.js', SRC_DIR + '!webjars/common/webcert/**/vendor/*.js', SRC_DIR + 'webjars/common/app-shared/**/*.js', SRC_DIR + 'webjars/common/webcert/**/*.js' ]
             }
         },
 
@@ -126,9 +126,37 @@ module.exports = function(grunt) {
             }
         },
 
+        injector: {
+            options: {
+                lineEnding: grunt.util.linefeed,
+                addRootSlash: false
+            },
+
+            // Inject component scss into mi-common.scss
+            sass: {
+                options: {
+                    transform: function(filePath) {
+                        filePath = filePath.replace(SRC_DIR + 'webjars/common/minaintyg/', '');
+                        filePath = filePath.replace(SRC_DIR + 'webjars/common/app-shared/', '../app-shared/');
+                        return '@import \'' + filePath + '\';';
+                    },
+                    starttag: '// injector',
+                    endtag: '// endinjector'
+                },
+                files: {
+                    '<%= config.srcRoot %>minaintyg/mi-common.scss': [
+                        '<%= config.srcRoot %>app-shared/**/*.scss',
+                        '<%= config.srcRoot %>minaintyg/components/**/!(_variables).{scss,sass}'
+                    ]
+                }
+            }
+        },
+
         // Compiles Sass to CSS
         sass: {
             options: {
+/*                sourceMap: true,
+                includePaths: [SRC_DIR + '**']*/
             },
             dist: {
                 files: [ {
@@ -145,9 +173,9 @@ module.exports = function(grunt) {
                     ext: '.css'
                 }, {
                     expand: true,
-                    cwd: '<%= config.srcRoot %>webcert/css/',
-                    src: [ '*.scss' ],
-                    dest: '<%= config.destRoot %>webcert/css/',
+                    cwd: '<%= config.srcRoot %>webcert/',
+                    src: [ '**/*.scss' ],
+                    dest: '<%= config.destRoot %>webcert/',
                     ext: '.css'
                 } ]
             }
@@ -166,29 +194,6 @@ module.exports = function(grunt) {
             }
         },
 
-        injector: {
-            options: {
-                lineEnding: grunt.util.linefeed,
-                addRootSlash: false
-            },
-
-            // Inject component scss into app.scss
-            sass: {
-                options: {
-                    transform: function(filePath) {
-                        filePath = filePath.replace(SRC_DIR + 'webjars/common/minaintyg/', '');
-                        return '@import \'' + filePath + '\';';
-                    },
-                    starttag: '// injector',
-                    endtag: '// endinjector'
-                },
-                files: {
-                        '<%= config.srcRoot %>minaintyg/mi-common.scss': [
-                        '<%= config.srcRoot %>minaintyg/components/**/!(_variables).{scss,sass}'
-                    ]
-                }
-            }
-        },
         ngAnnotate: {
             options: {
                 singleQuotes: true
@@ -220,7 +225,7 @@ module.exports = function(grunt) {
         ngtemplates : {
             minaintyg: {
                 cwd: SRC_DIR,
-                src: ['webjars/common/minaintyg/**/*.html'],
+                src: ['webjars/common/app-shared/**/*.html', 'webjars/common/minaintyg/**/*.html'],
                 dest: DEST_DIR + 'webjars/common/minaintyg/templates.js',
                 options: {
                     module: 'common',
@@ -231,7 +236,7 @@ module.exports = function(grunt) {
             },
             webcert: {
                 cwd: SRC_DIR,
-                src: ['webjars/common/webcert/**/*.html'],
+                src: ['webjars/common/app-shared/**/*.html', 'webjars/common/webcert/**/*.html'],
                 dest: DEST_DIR + 'webjars/common/webcert/templates.js',
                 options: {
                     module: 'common',

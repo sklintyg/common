@@ -27,7 +27,7 @@ angular.module('common').directive('uvEnumValue', [ 'uvUtil', 'common.messageSer
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvEnumValue/uvEnumValue.directive.html',
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.html',
         link: function($scope) {
 
             $scope.value = undefined;

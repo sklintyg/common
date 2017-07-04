@@ -26,7 +26,7 @@ angular.module('common').directive('uvKodverkValue', [ 'uvUtil', function(uvUtil
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvKodverkValue/uvKodverkValue.directive.html',
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive.html',
         link: function($scope) {
 
             $scope.labelKeys = _buildLabelKeys();

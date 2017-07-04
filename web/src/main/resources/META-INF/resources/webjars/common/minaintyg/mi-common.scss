@@ -21,6 +21,19 @@
 
 // Component styles are injected through grunt
 // injector
+@import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
+@import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
+@import '../app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.scss';
+@import '../app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.scss';
+@import '../app-shared/unified-view/components/uvFraga/uvFraga.directive.scss';
+@import '../app-shared/unified-view/components/uvKategori/uvKategori.directive.scss';
+@import '../app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive.scss';
+@import '../app-shared/unified-view/components/uvList/uvList.directive.scss';
+@import '../app-shared/unified-view/components/uvNoValue/uvNoValue.directive.scss';
+@import '../app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive.scss';
+@import '../app-shared/unified-view/components/uvSkapadAv/uvSkapadAv.directive.scss';
+@import '../app-shared/unified-view/components/uvTable/uvTable.directive.scss';
+@import '../app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.scss';
 @import 'components/common-intyg-modules.scss';
 @import 'components/customize-pdf/miCheckboxSlider.directive.scss';
 @import 'components/customize-pdf/miFishbone.directive.scss';
@@ -31,17 +44,4 @@
 @import 'components/miCertificateActionButtons/miCertificateActionButtons.directive.scss';
 @import 'components/miCompactCertificateBody/miCompactCertificateBody.directive.scss';
 @import 'components/miCompactCertificateHeader/miCompactCertificateHeader.directive.scss';
-@import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive';
-@import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive';
-@import '../app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive';
-@import '../app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive';
-@import '../app-shared/unified-view/components/uvFraga/uvFraga.directive';
-@import '../app-shared/unified-view/components/uvKategori/uvKategori.directive';
-@import '../app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive';
-@import '../app-shared/unified-view/components/uvList/uvList.directive';
-@import '../app-shared/unified-view/components/uvNoValue/uvNoValue.directive';
-@import '../app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive';
-@import '../app-shared/unified-view/components/uvSkapadAv/uvSkapadAv.directive';
-@import '../app-shared/unified-view/components/uvTable/uvTable.directive';
-@import '../app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive';
 // endinjector

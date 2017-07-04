@@ -27,6 +27,6 @@ angular.module('common').directive('uvRenderComponents',
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/common/minaintyg/components/unified-view/uvRenderComponents.directive.html'
+            templateUrl: '/web/webjars/common/app-shared/unified-view/uvRenderComponents.directive.html'
         };
     });

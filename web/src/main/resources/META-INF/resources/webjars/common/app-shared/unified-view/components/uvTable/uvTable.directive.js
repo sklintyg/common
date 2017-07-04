@@ -28,7 +28,7 @@ angular.module('common').directive('uvTable', [
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/common/minaintyg/components/unified-view/components/uvTable/uvTable.directive.html',
+            templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvTable/uvTable.directive.html',
             link: function($scope) {
 
                 if(!$scope.config) {
