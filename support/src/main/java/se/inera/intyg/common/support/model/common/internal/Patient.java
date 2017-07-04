@@ -41,6 +41,10 @@ public class Patient {
 
     private String postort;
 
+    private boolean sekretessmarkering;
+
+    private boolean avliden;
+
     @Override
     public boolean equals(Object object) {
         if (object == null) {
@@ -57,13 +61,15 @@ public class Patient {
                 && Objects.equals(this.efternamn, that.efternamn)
                 && Objects.equals(this.postadress, that.postadress)
                 && Objects.equals(this.postnummer, that.postnummer)
-                && Objects.equals(this.postort, that.postort);
+                && Objects.equals(this.postort, that.postort)
+                && Objects.equals(this.sekretessmarkering, that.sekretessmarkering)
+                && Objects.equals(this.avliden, that.avliden);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.personId, this.fullstandigtNamn, this.fornamn, this.mellannamn, this.efternamn,
-                this.postadress, this.postnummer, this.postort);
+                this.postadress, this.postnummer, this.postort, this.sekretessmarkering, this.avliden);
     }
 
     public boolean isSamordningsNummer() {
@@ -137,4 +143,19 @@ public class Patient {
         this.postort = postort;
     }
 
+    public boolean isSekretessmarkering() {
+        return sekretessmarkering;
+    }
+
+    public void setSekretessmarkering(boolean sekretessmarkering) {
+        this.sekretessmarkering = sekretessmarkering;
+    }
+
+    public boolean isAvliden() {
+        return avliden;
+    }
+
+    public void setAvliden(boolean avliden) {
+        this.avliden = avliden;
+    }
 }

@@ -88,61 +88,61 @@ public final class WebcertModelFactoryUtil {
      * @param newPatient
      * @return
      */
-    public static Patient buildNewEffectivePatient(Patient existingPatient, Patient newPatient) {
-        Patient mergedPatient = new Patient();
-
-        // Only accept valid personnr or samordningsnummer as new personId
-        if (newPatient.getPersonId() != null && (Personnummer.createValidatedPersonnummerWithDash(newPatient.getPersonId()).isPresent()
-                || SamordningsnummerValidator.isSamordningsNummer(newPatient.getPersonId()))) {
-            mergedPatient.setPersonId(newPatient.getPersonId());
-        } else {
-            mergedPatient.setPersonId(existingPatient.getPersonId());
-        }
-
-        if (!Strings.nullToEmpty(newPatient.getFornamn()).trim().isEmpty()) {
-            mergedPatient.setFornamn(newPatient.getFornamn());
-        } else {
-            mergedPatient.setFornamn(existingPatient.getFornamn());
-        }
-
-        // Name
-        if (!Strings.nullToEmpty(newPatient.getMellannamn()).trim().isEmpty()) {
-            mergedPatient.setMellannamn(newPatient.getMellannamn());
-        } else {
-            mergedPatient.setMellannamn(existingPatient.getMellannamn());
-        }
-
-        if (!Strings.nullToEmpty(newPatient.getEfternamn()).trim().isEmpty()) {
-            mergedPatient.setEfternamn(newPatient.getEfternamn());
-        } else {
-            mergedPatient.setEfternamn(existingPatient.getEfternamn());
-        }
-
-        if (!Strings.nullToEmpty(newPatient.getFullstandigtNamn()).trim().isEmpty()) {
-            mergedPatient.setFullstandigtNamn(newPatient.getFullstandigtNamn());
-        } else {
-            mergedPatient.setFullstandigtNamn(existingPatient.getFullstandigtNamn());
-        }
-
-        // Address
-        if (!Strings.nullToEmpty(newPatient.getPostadress()).trim().isEmpty()) {
-            mergedPatient.setPostadress(newPatient.getPostadress());
-        } else {
-            mergedPatient.setPostadress(existingPatient.getPostadress());
-        }
-        if (!Strings.nullToEmpty(newPatient.getPostnummer()).trim().isEmpty()) {
-            mergedPatient.setPostnummer(newPatient.getPostnummer());
-        } else {
-            mergedPatient.setPostnummer(existingPatient.getPostnummer());
-        }
-        if (!Strings.nullToEmpty(newPatient.getPostort()).trim().isEmpty()) {
-            mergedPatient.setPostort(newPatient.getPostort());
-        } else {
-            mergedPatient.setPostort(existingPatient.getPostort());
-        }
-
-        return mergedPatient;
-    }
+//    public static Patient buildNewEffectivePatient(Patient existingPatient, Patient newPatient) {
+//        Patient mergedPatient = new Patient();
+//
+//        // Only accept valid personnr or samordningsnummer as new personId
+//        if (newPatient.getPersonId() != null && (Personnummer.createValidatedPersonnummerWithDash(newPatient.getPersonId()).isPresent()
+//                || SamordningsnummerValidator.isSamordningsNummer(newPatient.getPersonId()))) {
+//            mergedPatient.setPersonId(newPatient.getPersonId());
+//        } else {
+//            mergedPatient.setPersonId(existingPatient.getPersonId());
+//        }
+//
+//        if (!Strings.nullToEmpty(newPatient.getFornamn()).trim().isEmpty()) {
+//            mergedPatient.setFornamn(newPatient.getFornamn());
+//        } else {
+//            mergedPatient.setFornamn(existingPatient.getFornamn());
+//        }
+//
+//        // Name
+//        if (!Strings.nullToEmpty(newPatient.getMellannamn()).trim().isEmpty()) {
+//            mergedPatient.setMellannamn(newPatient.getMellannamn());
+//        } else {
+//            mergedPatient.setMellannamn(existingPatient.getMellannamn());
+//        }
+//
+//        if (!Strings.nullToEmpty(newPatient.getEfternamn()).trim().isEmpty()) {
+//            mergedPatient.setEfternamn(newPatient.getEfternamn());
+//        } else {
+//            mergedPatient.setEfternamn(existingPatient.getEfternamn());
+//        }
+//
+//        if (!Strings.nullToEmpty(newPatient.getFullstandigtNamn()).trim().isEmpty()) {
+//            mergedPatient.setFullstandigtNamn(newPatient.getFullstandigtNamn());
+//        } else {
+//            mergedPatient.setFullstandigtNamn(existingPatient.getFullstandigtNamn());
+//        }
+//
+//        // Address
+//        if (!Strings.nullToEmpty(newPatient.getPostadress()).trim().isEmpty()) {
+//            mergedPatient.setPostadress(newPatient.getPostadress());
+//        } else {
+//            mergedPatient.setPostadress(existingPatient.getPostadress());
+//        }
+//        if (!Strings.nullToEmpty(newPatient.getPostnummer()).trim().isEmpty()) {
+//            mergedPatient.setPostnummer(newPatient.getPostnummer());
+//        } else {
+//            mergedPatient.setPostnummer(existingPatient.getPostnummer());
+//        }
+//        if (!Strings.nullToEmpty(newPatient.getPostort()).trim().isEmpty()) {
+//            mergedPatient.setPostort(newPatient.getPostort());
+//        } else {
+//            mergedPatient.setPostort(existingPatient.getPostort());
+//        }
+//
+//        return mergedPatient;
+//    }
 
     private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
         if (Strings.nullToEmpty(target.getPostadress()).trim().isEmpty()) {
