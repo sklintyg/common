@@ -20,14 +20,14 @@ module.exports = function(grunt) {
     var RUN_COVERAGE = grunt.option('run-coverage') !== undefined ? grunt.option('run-coverage') : false;
     var MODULE = grunt.option('module');
 
-    var minaintyg = grunt.file.expand({cwd:SRC_DIR}, ['webjars/' + MODULE + '/minaintyg/**/*.js', '!**/*.spec.js', '!**/*.test.js', '!**/module.js']).sort();
+    var minaintyg = grunt.file.expand({cwd:SRC_DIR}, ['webjars/' + MODULE + '/app-shared/**/*.js', 'webjars/' + MODULE + '/minaintyg/**/*.js', '!**/*.spec.js', '!**/*.test.js', '!**/module.js']).sort();
     grunt.file.write(DEST_DIR + 'webjars/' + MODULE + '/minaintyg/js/module-deps.json',
                      JSON.stringify(minaintyg.map(function(file){ return '/web/'+file; }).concat('/web/webjars/' + MODULE + '/minaintyg/templates.js'), null, 4));
     minaintyg = [SRC_DIR + 'webjars/' + MODULE + '/minaintyg/js/module.js', DEST_DIR + 'webjars/' + MODULE + '/minaintyg/templates.js'].concat(minaintyg.map(function(file){
         return SRC_DIR + file;
     }));
 
-    var webcert = grunt.file.expand({cwd:SRC_DIR}, ['webjars/' + MODULE + '/webcert/**/*.js', '!**/*.spec.js', '!**/*.test.js', '!**/module.js']).sort();
+    var webcert = grunt.file.expand({cwd:SRC_DIR}, ['webjars/' + MODULE + '/app-shared/**/*.js', 'webjars/' + MODULE + '/webcert/**/*.js', '!**/*.spec.js', '!**/*.test.js', '!**/module.js']).sort();
     grunt.file.write(DEST_DIR + 'webjars/' + MODULE + '/webcert/module-deps.json',
                      JSON.stringify(webcert.map(function(file){ return '/web/'+file; }).concat('/web/webjars/' + MODULE + '/webcert/templates.js'), null, 4));
     webcert = [SRC_DIR + 'webjars/' + MODULE + '/webcert/module.js', DEST_DIR + 'webjars/' + MODULE + '/webcert/templates.js'].concat(webcert.map(function(file){
