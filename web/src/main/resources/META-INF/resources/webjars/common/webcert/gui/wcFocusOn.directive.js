@@ -20,17 +20,18 @@
 /**
  * FocusMe directive. Used to set focus to an element via model value
  */
-angular.module('common').directive('wcFocusOn',
-    function() {
+angular.module('common').directive('wcFocusOn', ['common.anchorScrollService',
+    function(anchorScrollService) {
         'use strict';
         return function(scope, elem, attr) {
             return scope.$on('wcFocusOn', function(e, name) {
                 if (name === attr.wcFocusOn) {
-                    return elem[0].focus();
+                    elem[0].select();
+                    anchorScrollService.scrollTo(elem[0].id);
                 }
             });
         };
-    });
+    }]);
 
 angular.module('common').factory('common.wcFocus', [
     '$rootScope', '$timeout', function($rootScope, $timeout) {
