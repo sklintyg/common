@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+/*!
+ * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,23 +21,30 @@
 
 @media screen {
   // Import partials
-  @import 'wc-header';
-  @import 'wc-vardenhet-selector';
-  @import 'wc-header-care-unit-dialog';
-  @import 'wc-table-head';
-  @import 'bootstrap-overrides';
-  @import 'fk-sit-common';
-  @import '../fk/arenden/_arende';
-  @import '../fmb/fmb';
-  @import '../gui/formly/diagnos';
-  @import '../gui/formly/prognos';
-  @import '../gui/formly/underlag';
-  @import '../gui/formly/sjukskrivningar';
-  @import 'komplettering-dialog';
-  @import '../gui/wcIntegrationEnhetSelector/wcIntegrationEnhetSelector.directive';
-  @import '../gui/wcIntygRelatedOtherIntygMessage.directive';
-  @import '../gui/wcHelpChevron.directive';
-  @import '../gui/wcHelpChevronText.directive';
+
+  // injector
+  @import '../app-shared/unified-view/components/_variables.scss';
+  @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.scss';
+  @import '../app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvFraga/uvFraga.directive.scss';
+  @import '../app-shared/unified-view/components/uvKategori/uvKategori.directive.scss';
+  @import '../app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvList/uvList.directive.scss';
+  @import '../app-shared/unified-view/components/uvNoValue/uvNoValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvSkapadAv/uvSkapadAv.directive.scss';
+  @import '../app-shared/unified-view/components/uvTable/uvTable.directive.scss';
+  @import '../app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.scss';
+  @import 'components/_bootstrap-overrides.scss';
+  @import 'components/_fk-sit-common.scss';
+  @import 'components/_komplettering-dialog.scss';
+  @import 'components/_wc-header-care-unit-dialog.scss';
+  @import 'components/_wc-header.scss';
+  @import 'components/_wc-table-head.scss';
+  @import 'components/_wc-vardenhet-selector.scss';
+  // endinjector
 
   //colors
   $color_java_approx: #28b4c4;

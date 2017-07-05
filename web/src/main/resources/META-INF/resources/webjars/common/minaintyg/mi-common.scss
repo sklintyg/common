@@ -21,6 +21,7 @@
 
 // Component styles are injected through grunt
 // injector
+@import '../app-shared/unified-view/components/_variables.scss';
 @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
 @import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
 @import '../app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.scss';
