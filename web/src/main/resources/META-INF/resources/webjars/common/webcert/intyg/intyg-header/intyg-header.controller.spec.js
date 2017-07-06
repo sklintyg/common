@@ -133,41 +133,6 @@ describe('IntygHeaderCtrl', function() {
             });
         });
 
-        // describe('kopiera button', function() {
-        //     it('should be shown if not makulerat, sekretessmarkerat or patient deceased', function() {
-        //         $scope.viewState.common.common.sekretessmarkering = false;
-        //         $scope.viewState.common.isIntygOnRevokeQueue = false;
-        //         $scope.viewState.common.intygProperties.isRevoked = false;
-        //         $scope.viewState.common.intygProperties.isPatientDeceased = false;
-        //         UserModel.user = {};
-        //         expect($scope.showKopieraButton()).toBeTruthy();
-        //     });
-        //     it('should not be shown if makulerat, sekretessmarkerat or patient deceased', function() {
-        //         $scope.viewState.common.common.sekretessmarkering = true;
-        //         $scope.viewState.common.isIntygOnRevokeQueue = false;
-        //         $scope.viewState.common.intygProperties.isRevoked = false;
-        //         $scope.viewState.common.intygProperties.isPatientDeceased = false;
-        //         expect($scope.showKopieraButton()).toBeFalsy();
-        //
-        //         $scope.viewState.common.common.sekretessmarkering = false;
-        //         $scope.viewState.common.intygProperties.isRevoked = true;
-        //         expect($scope.showKopieraButton()).toBeFalsy();
-        //
-        //         $scope.viewState.common.common.sekretessmarkering = false;
-        //         $scope.viewState.common.intygProperties.isRevoked = false;
-        //         $scope.viewState.common.intygProperties.isPatientDeceased = true;
-        //         expect($scope.showKopieraButton()).toBeFalsy();
-        //     });
-        //     it('should not be shown if unit is inactive', function() {
-        //         $scope.viewState.common.common.sekretessmarkering = false;
-        //         $scope.viewState.common.isIntygOnRevokeQueue = false;
-        //         $scope.viewState.common.intygProperties.isRevoked = false;
-        //         $scope.viewState.common.intygProperties.isPatientDeceased = false;
-        //         UserModel.user = {parameters: {inactiveUnit: true}};
-        //         expect($scope.showKopieraButton()).toBeFalsy();
-        //     });
-        // });
-
         describe('fornya button', function() {
             it('should be shown if intyg type is fk7263 and copying is allowed', function() {
                 $scope.viewState.common.common.sekretessmarkering = false;
