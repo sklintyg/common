@@ -137,7 +137,8 @@ public final class InternalConverterUtil {
         return vardgivare;
     }
 
-    private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient, boolean extendedPatientInfo) {
+    private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
+            boolean extendedPatientInfo) {
         Patient patient = new se.riv.clinicalprocess.healthcond.certificate.v3.Patient();
         patient.setPersonId(getPersonId(new Personnummer(sourcePatient.getPersonId().getPersonnummer())));
         if (extendedPatientInfo) {

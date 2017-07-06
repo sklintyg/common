@@ -18,20 +18,28 @@
  */
 package se.inera.intyg.common.fk7263.validator;
 
-import static org.junit.Assert.assertEquals;
-import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findAktivitetWithCode;
-import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findFunktionsTillstandType;
+import iso.v21090.dt.v1.II;
+import org.junit.Test;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.BedomtTillstandType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.FunktionstillstandType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Prognosangivelse;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ReferensType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Referenstyp;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.SysselsattningType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvFunktionstillstand;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvSysselsattning;
 
+import javax.xml.bind.JAXB;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import javax.xml.bind.JAXB;
-
-import org.junit.Test;
-
-import iso.v21090.dt.v1.II;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.*;
+import static org.junit.Assert.assertEquals;
+import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findAktivitetWithCode;
+import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findFunktionsTillstandType;
 
 /**
  * @author andreaskaltenbach, marced
@@ -133,14 +141,15 @@ public class ProgrammaticTransportValidatorTest {
         assertEquals(1, new ProgrammaticTransportValidator(utlatande).validate().size());
     }
 
-    @Test
-    public void testInvalidPatientName() throws Exception {
-        LakarutlatandeType utlatande = getValidUtlatande();
-
-        utlatande.getPatient().setFullstandigtNamn(null);
-
-        assertEquals(1, new ProgrammaticTransportValidator(utlatande).validate().size());
-    }
+    // INTYG-4086: We allow null or empty patient name.
+//    @Test
+//    public void testInvalidPatientName() throws Exception {
+//        LakarutlatandeType utlatande = getValidUtlatande();
+//
+//        utlatande.getPatient().setFullstandigtNamn(null);
+//
+//        assertEquals(1, new ProgrammaticTransportValidator(utlatande).validate().size());
+//    }
 
     @Test
     public void testInvalidHosPersonalNamn() throws Exception {

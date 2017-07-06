@@ -29,8 +29,6 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
-import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class WebcertModelFactoryUtil {
 
