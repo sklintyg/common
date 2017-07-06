@@ -184,10 +184,10 @@ module.exports = function(grunt) {
                 force: false
             },
             minaintyg: {
-                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/' + MODULE + '/minaintyg/**/*.js', TEST_DIR + 'minaintyg/**/*.js' ]
+                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/' + MODULE + '/minaintyg/**/*.js', SRC_DIR + 'webjars/' + MODULE + '/app-shared/**/*.js', TEST_DIR + 'minaintyg/**/*.js' ]
             },
             webcert: {
-                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/' + MODULE + '/webcert/**/*.js', TEST_DIR + 'webcert/**/*.js' ]
+                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/' + MODULE + '/webcert/**/*.js', SRC_DIR + 'webjars/' + MODULE + '/app-shared/**/*.js', TEST_DIR + 'webcert/**/*.js' ]
             }
         }
 
