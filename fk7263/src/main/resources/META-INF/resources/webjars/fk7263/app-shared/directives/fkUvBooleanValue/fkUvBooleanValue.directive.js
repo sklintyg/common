@@ -26,7 +26,7 @@ angular.module('fk7263').directive('fkUvBooleanValue', [ '$filter', 'uvUtil', fu
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/fk7263/minaintyg/js/directives/fkUvBooleanValue/fkUvBooleanValue.directive.html',
+        templateUrl: '/web/webjars/fk7263/app-shared/directives/fkUvBooleanValue/fkUvBooleanValue.directive.html',
         link: function($scope) {
 
             var value;

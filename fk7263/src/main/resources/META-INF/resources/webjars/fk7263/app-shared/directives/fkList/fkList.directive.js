@@ -27,7 +27,7 @@ angular.module('fk7263').directive('fk7263List', [ 'uvUtil',
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/fk7263/minaintyg/js/directives/fkList/fkList.directive.html',
+        templateUrl: '/web/webjars/fk7263/app-shared/directives/fkList/fkList.directive.html',
         link: function($scope) {
 
             $scope.values = [];

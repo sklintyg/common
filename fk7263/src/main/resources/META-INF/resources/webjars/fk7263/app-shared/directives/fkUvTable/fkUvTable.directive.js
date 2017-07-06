@@ -28,7 +28,7 @@ angular.module('fk7263').directive('fkUvTable', [
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/fk7263/minaintyg/js/directives/fkUvTable/fkUvTable.directive.html',
+            templateUrl: '/web/webjars/fk7263/app-shared/directives/fkUvTable/fkUvTable.directive.html',
             link: function($scope) {
 
                 if(!$scope.config) {
