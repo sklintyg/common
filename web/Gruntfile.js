@@ -33,15 +33,15 @@ module.exports = function(grunt) {
     var DEST_DIR = (grunt.option('outputDir') || 'build/') +  'resources/main/META-INF/resources/';
     var TEST_OUTPUT_DIR = (grunt.option('outputDir') || 'build/karma/');
     var RUN_COVERAGE = grunt.option('run-coverage') !== undefined ? grunt.option('run-coverage') : false;
-        
-    var minaintyg = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/minaintyg/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
+
+    var minaintyg = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/app-shared/**/*.js', 'webjars/common/minaintyg/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
     grunt.file.write(DEST_DIR + 'webjars/common/minaintyg/module-deps.json',
                      JSON.stringify(minaintyg.map(function(file){ return '/web/'+file; }).concat('/web/webjars/common/minaintyg/templates.js'), null, 4));
     minaintyg = [SRC_DIR + 'webjars/common/minaintyg/module.js', DEST_DIR + 'webjars/common/minaintyg/templates.js'].concat(minaintyg.map(function(file){
         return SRC_DIR + file;
     }));
 
-    var webcert = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/webcert/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
+    var webcert = grunt.file.expand({cwd:SRC_DIR}, ['webjars/common/app-shared/**/*.js', 'webjars/common/webcert/**/*.js', '!**/*.spec.js', '!**/module.js']).sort();
     grunt.file.write(DEST_DIR + 'webjars/common/webcert/module-deps.json',
                      JSON.stringify(webcert.map(function(file){ return '/web/'+file; }).concat('/web/webjars/common/webcert/templates.js'), null, 4));
     webcert = [SRC_DIR + 'webjars/common/webcert/module.js', DEST_DIR + 'webjars/common/webcert/templates.js'].concat(webcert.map(function(file){
@@ -54,6 +54,7 @@ module.exports = function(grunt) {
             srcRoot: SRC_DIR + 'webjars/common/',
             destRoot: DEST_DIR + 'webjars/common/'
         },
+
         bower: {
             install: {
                 options: {
@@ -62,23 +63,29 @@ module.exports = function(grunt) {
             }
         },
 
-        wiredep: {
-            options: {
-                devDependencies: true
+        ngtemplates : {
+            minaintyg: {
+                cwd: SRC_DIR,
+                src: ['webjars/common/app-shared/**/*.html', 'webjars/common/minaintyg/**/*.html'],
+                dest: DEST_DIR + 'webjars/common/minaintyg/templates.js',
+                options: {
+                    module: 'common',
+                    url: function(url) {
+                        return '/web/' + url;
+                    }
+                }
             },
             webcert: {
-                src: ['karma-webcert.conf.js']
-            },
-            minaintyg: {
-                src: ['karma-minaintyg.conf.js']
+                cwd: SRC_DIR,
+                src: ['webjars/common/app-shared/**/*.html', 'webjars/common/webcert/**/*.html'],
+                dest: DEST_DIR + 'webjars/common/webcert/templates.js',
+                options: {
+                    module: 'common',
+                    url: function(url) {
+                        return '/web/' + url;
+                    }
+                }
             }
-        },
-
-        sasslint: {
-            options: {
-                //configFile: 'config/.sass-lint.yml' //For now we use the .sass-lint.yml that is packaged with sass-lint
-            },
-            target: [SRC_DIR + '**/*.scss']
         },
 
         concat: {
@@ -92,103 +99,6 @@ module.exports = function(grunt) {
             }
         },
 
-        jshint: {
-            options: {
-                jshintrc: 'build/build-tools/jshint/jshintrc',
-                reporterOutput: '',
-                force: false,
-                ignores: ['**/templates.js', '**/vendor/**']
-            },
-            minaintyg: {
-                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/common/minaintyg/**/*.js' ]
-            },
-            webcert: {
-                src: [ 'Gruntfile.js', SRC_DIR + '!webjars/common/webcert/**/vendor/*.js', SRC_DIR + 'webjars/common/webcert/**/*.js' ]
-            }
-        },
-
-        karma: {
-            minaintyg: {
-                configFile: 'karma-minaintyg.conf.ci.js',
-                coverageReporter: {
-                    type : 'lcovonly',
-                    dir : TEST_OUTPUT_DIR + 'minaintyg/',
-                    subdir: '.'
-                }
-            },
-            webcert: {
-                configFile: 'karma-webcert.conf.ci.js',
-                coverageReporter: {
-                    type : 'lcovonly',
-                    dir : TEST_OUTPUT_DIR + 'webcert/',
-                    subdir: '.'
-                }
-            }
-        },
-
-        // Compiles Sass to CSS
-        sass: {
-            options: {
-            },
-            dist: {
-                files: [ {
-                    expand: true,
-                    cwd: '<%= config.srcRoot %>css/',
-                    src: [ '*.scss' ],
-                    dest: '<%= config.destRoot %>css/',
-                    ext: '.css'
-                }, {
-                    expand: true,
-                    cwd: '<%= config.srcRoot %>minaintyg/',
-                    src: [ '*.scss' ],
-                    dest: '<%= config.destRoot %>minaintyg/',
-                    ext: '.css'
-                }, {
-                    expand: true,
-                    cwd: '<%= config.srcRoot %>webcert/css/',
-                    src: [ '*.scss' ],
-                    dest: '<%= config.destRoot %>webcert/css/',
-                    ext: '.css'
-                } ]
-            }
-        },
-
-        postcss: {
-            options: {
-                map: false,
-                processors: [
-                    require('autoprefixer')({browsers: ['last 2 versions', 'ie 9']}), // add vendor prefixes
-                    require('cssnano')() // minify the result
-                ]
-            },
-            dist: {
-                src: '<%= config.destRoot %>/minaintyg/*.css'
-            }
-        },
-
-        injector: {
-            options: {
-                lineEnding: grunt.util.linefeed,
-                addRootSlash: false
-            },
-
-            // Inject component scss into app.scss
-            sass: {
-                options: {
-                    transform: function(filePath) {
-                        filePath = filePath.replace(SRC_DIR + 'webjars/common/minaintyg/', '');
-                        return '@import \'' + filePath + '\';';
-                    },
-                    starttag: '// injector',
-                    endtag: '// endinjector'
-                },
-                files: {
-                        '<%= config.srcRoot %>minaintyg/mi-common.scss': [
-                        '<%= config.srcRoot %>minaintyg/components/**/!(_variables).{scss,sass}'
-                    ]
-                }
-            }
-        },
         ngAnnotate: {
             options: {
                 singleQuotes: true
@@ -217,27 +127,119 @@ module.exports = function(grunt) {
             }
         },
 
-        ngtemplates : {
+        injector: {
+            options: {
+                lineEnding: grunt.util.linefeed,
+                addRootSlash: false
+            },
+
+            // Inject component scss into mi-common.scss
             minaintyg: {
-                cwd: SRC_DIR,
-                src: ['webjars/common/minaintyg/**/*.html'],
-                dest: DEST_DIR + 'webjars/common/minaintyg/templates.js',
                 options: {
-                    module: 'common',
-                    url: function(url) {
-                        return '/web/' + url;
-                    }
+                    transform: function(filePath) {
+                        filePath = filePath.replace(SRC_DIR + 'webjars/common/minaintyg/', '');
+                        filePath = filePath.replace(SRC_DIR + 'webjars/common/app-shared/', '../app-shared/');
+                        return '@import \'' + filePath + '\';';
+                    },
+                    starttag: '// injector',
+                    endtag: '// endinjector'
+                },
+                files: {
+                    '<%= config.srcRoot %>minaintyg/mi-common.scss': [
+                        '<%= config.srcRoot %>app-shared/**/*.scss',
+                        '<%= config.srcRoot %>minaintyg/components/**/!(_variables).{scss,sass}'
+                    ]
+                }
+            },
+
+            // Inject component scss into inera-webcert.scss
+            webcert: {
+                options: {
+                    transform: function(filePath) {
+                        filePath = filePath.replace(SRC_DIR + 'webjars/common/webcert/', '');
+                        filePath = filePath.replace(SRC_DIR + 'webjars/common/app-shared/', '../app-shared/');
+                        return '@import \'' + filePath + '\';';
+                    },
+                    starttag: '// injector',
+                    endtag: '// endinjector'
+                },
+                files: {
+                    '<%= config.srcRoot %>webcert/wc-common.scss': [
+                        '<%= config.srcRoot %>app-shared/**/*.scss',
+                        '<%= config.srcRoot %>webcert/components/**/!(_variables).{scss,sass}'
+                    ]
+                }
+            }
+        },
+
+        // Compiles Sass to CSS
+        sass: {
+            options: {
+                sourceMap: true
+            },
+            dist: {
+                files: [ {
+                    expand: true,
+                    cwd: '<%= config.srcRoot %>css/',
+                    src: [ '*.scss' ],
+                    dest: '<%= config.destRoot %>css/',
+                    ext: '.css'
+                }, {
+                    expand: true,
+                    cwd: '<%= config.srcRoot %>minaintyg/',
+                    src: [ '*.scss' ],
+                    dest: '<%= config.destRoot %>minaintyg/',
+                    ext: '.css'
+                }, {
+                    expand: true,
+                    cwd: '<%= config.srcRoot %>webcert',
+                    src: [ '**/*.scss' ],
+                    dest: '<%= config.destRoot %>webcert/',
+                    ext: '.css'
+                } ]
+            }
+        },
+
+        postcss: {
+            options: {
+                map: false,
+                processors: [
+                    require('autoprefixer')({browsers: ['last 2 versions', 'ie 9']}), // add vendor prefixes
+                    require('cssnano')() // minify the result
+                ]
+            },
+            dist: {
+                src: '<%= config.destRoot %>/minaintyg/*.css'
+            }
+        },
+
+        wiredep: {
+            options: {
+                devDependencies: true
+            },
+            webcert: {
+                src: ['karma-webcert.conf.js']
+            },
+            minaintyg: {
+                src: ['karma-minaintyg.conf.js']
+            }
+        },
+
+        karma: {
+            minaintyg: {
+                configFile: 'karma-minaintyg.conf.ci.js',
+                coverageReporter: {
+                    type : 'lcovonly',
+                    dir : TEST_OUTPUT_DIR + 'minaintyg/',
+                    subdir: '.'
                 }
             },
             webcert: {
-                cwd: SRC_DIR,
-                src: ['webjars/common/webcert/**/*.html'],
-                dest: DEST_DIR + 'webjars/common/webcert/templates.js',
-                options: {
-                    module: 'common',
-                    url: function(url) {
-                        return '/web/' + url;
-                    }
+                configFile: 'karma-webcert.conf.ci.js',
+                coverageReporter: {
+                    type : 'lcovonly',
+                    dir : TEST_OUTPUT_DIR + 'webcert/',
+                    subdir: '.'
                 }
             }
         },
@@ -247,10 +249,33 @@ module.exports = function(grunt) {
                 outputFile: TEST_OUTPUT_DIR + 'merged_lcov.info'
             },
             src: [TEST_OUTPUT_DIR + 'webcert/*.info', TEST_OUTPUT_DIR + 'minaintyg/*.info']
+        },
+
+        sasslint: {
+            options: {
+                //configFile: 'config/.sass-lint.yml' //For now we use the .sass-lint.yml that is packaged with sass-lint
+            },
+            target: [SRC_DIR + '**/*.scss']
+        },
+
+        jshint: {
+            options: {
+                jshintrc: 'build/build-tools/jshint/jshintrc',
+                reporterOutput: '',
+                force: false,
+                ignores: ['**/templates.js', '**/vendor/**']
+            },
+            minaintyg: {
+                src: [ 'Gruntfile.js', SRC_DIR + 'webjars/common/app-shared/**/*.js', SRC_DIR + 'webjars/common/minaintyg/**/*.js' ]
+            },
+            webcert: {
+                src: [ 'Gruntfile.js', SRC_DIR + '!webjars/common/webcert/**/vendor/*.js', SRC_DIR + 'webjars/common/app-shared/**/*.js', SRC_DIR + 'webjars/common/webcert/**/*.js' ]
+            }
         }
+
     });
 
-    grunt.registerTask('default', [ 'bower', 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'injector:sass', 'sass', 'postcss' ]);
+    grunt.registerTask('default', [ 'bower', 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'injector', 'sass', 'postcss' ]);
     grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg' ]);
     grunt.registerTask('lint-webcert', [ 'jshint:webcert' ]);
     grunt.registerTask('lint', [ 'jshint' ]);
