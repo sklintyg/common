@@ -8,20 +8,25 @@
   <div>
     <div class="row">
       <div class="col-md-6 dialog-column-divider-right">
-        <div class="dialog-choice-box ">
+        <div class="dialog-choice-box" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled">
           <div class="dialog-choice-box__text-section">
             <h4>Ingen ytterligare medicinsk information kan anges</h4>
             <p>Kan ingen ytterligare medicinsk information ges så ska det anges och motiveras under "övriga upplysningar" *</p>
             <div class="dialog-choice-box__button-section">
-
               <button type="button" class="btn btn-success" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled && !model.komplUtkastFinns"
                       ng-click="button1click()"  wc-check-vardenhet
                       vardenhet="{{arendeSvar.enhetsid}}" id="komplettering-modal-dialog-answerWithNyttIntyg-button">
                 <img src="/img/loader-small-green.gif" ng-show="model.arendeSvar.updateInProgress"> Lämna övriga upplysningar
               </button>
             </div>
-            <p ng-if="model.arendeSvar.svaraMedNyttIntygDisabled">{{model.arendeSvar.svaraMedNyttIntygDisabledReason}}</p>
             <p class="dialog_choice-box__notice-text">*En kopia av det intyg du redan har skickat in kommer att skapas.</p>
+          </div>
+        </div>
+        <div class="dialog-choice-box" ng-if="model.arendeSvar.svaraMedNyttIntygDisabled">
+          <div class="dialog-choice-box__text-section">
+            <h4>Besvara kompletteringsbegäran med nytt intyg</h4>
+            <p>Kopiera/förnya det befintliga intyget i journalsystemet och komplettera med den nya informationen.</p>
+            <p>Kan ingen ytterligare medicinsk information ges så ska det anges och motiveras under "Övriga upplysningar".</p>
           </div>
         </div>
       </div>
