@@ -18,10 +18,10 @@
  */
 
 // Unified view variables
-$uv-intyg-body-bg: #fff;
-$uv-intyg-header-bg: #43799A;
-$uv-intyg-header-color: #fff;
-$uv-box-shadow-color: #ddd;
+$uv-intyg-body-bg: #fff !default;
+$uv-intyg-header-bg: #43799A !default;
+$uv-intyg-header-color: #fff !default;
+$uv-box-shadow-color: #ddd !default;
 
 // App shared variables
 $text-muted: #666;
