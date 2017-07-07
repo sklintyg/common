@@ -25,7 +25,7 @@ angular.module('luae_na').config(function($stateProvider) {
     $stateProvider.
         state('luae_na-edit', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
-            url : '/luae_na/edit/:certificateId',
+            url : '/luae_na/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',

@@ -25,7 +25,7 @@ angular.module('luae_fs').config(function($stateProvider) {
     $stateProvider.
         state('luae_fs-edit', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url : '/luae_fs/edit/:certificateId',
+            url : '/luae_fs/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
