@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -17,11 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// overrides variables from app-shared
+angular.module('common').directive('uvSignedBy',
+    [ 'uvUtil', function(uvUtil) {
+        'use strict';
 
-$uv-body-bg: #f3f4f6;
-$uv-spinner-color: #0F6EDC;
-$uv-intyg-body-bg: none;
-$uv-box-shadow-color: #ddd;
-$uv-intyg-header-bg: none;
-$uv-intyg-header-color: #008391;
+        return {
+            restrict: 'E',
+            scope: {
+                config: '=',
+                viewData: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/intyg/uvSignedBy/uvSignedBy.html',
+            link: function($scope) {
+                $scope.vm = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+            }
+        };
+    }]);

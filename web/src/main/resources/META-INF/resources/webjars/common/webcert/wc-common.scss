@@ -1,3 +1,4 @@
+@CHARSET 'UTF-8';
 /*!
  * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
@@ -17,10 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@CHARSET 'UTF-8';
-
 @media screen {
   // Import partials
+  @import "components/variables";
 
   // injector
   @import '../app-shared/unified-view/components/_variables.scss';
@@ -43,6 +43,7 @@
   @import 'components/_wc-header-care-unit-dialog.scss';
   @import 'components/_wc-header.scss';
   @import 'components/_wc-table-head.scss';
+  @import 'components/_wc-uv-override.scss';
   @import 'components/_wc-vardenhet-selector.scss';
   @import 'fk/arenden/_arende.scss';
   @import 'fmb/_fmb.scss';
@@ -54,6 +55,8 @@
   @import 'gui/wcHelpChevronText.directive.scss';
   @import 'gui/wcIntegrationEnhetSelector/_wcIntegrationEnhetSelector.directive.scss';
   @import 'gui/wcIntygRelatedOtherIntygMessage.directive.scss';
+  @import 'intyg/uvPatientGrund/uvPatientGrund.scss';
+  @import 'intyg/uvSignedBy/uvSignedBy.scss';
   // endinjector
 
   //colors

@@ -1,6 +1,6 @@
-angular.module('luse').factory('luse.viewConfigFactory', [ '$log',
+angular.module('luse').factory('luse.viewConfigFactory', [
 
-    function($log) {
+    function() {
         'use strict';
 
         var viewConfig = [
@@ -347,8 +347,30 @@ angular.module('luse').factory('luse.viewConfigFactory', [ '$log',
         ];
 
         return {
-            getViewConfig: function() {
-                return angular.copy(viewConfig);
+            getViewConfig: function(webcert) {
+
+                var config = angular.copy(viewConfig);
+
+                if (webcert) {
+                    config.pop();
+
+                    config.unshift({
+                        type: 'uv-kategori',
+                        labelKey: 'common.intyg.patientadress',
+                        components: [{
+                            type: 'uv-patient-grund',
+                            modelProp: 'grundData.patient'
+                        }]
+                    });
+
+                    config.push({
+                        type: 'uv-signed-by',
+                        modelProp: 'grundData'
+                    });
+                }
+
+
+                return config;
             }
         };
     }

@@ -71,6 +71,28 @@ angular.module('luse').config(function($stateProvider) {
             url:'/intyg/luse/:certificateId',
             views: {
                 'intyg@webcert.intyg.fk' : {
+                    templateUrl: commonPath + 'intyg/smiIntyg2.html',
+                    controller: 'smi.ViewCertCtrl2',
+                    resolve: {
+                        ViewState: 'luse.IntygController.ViewStateService',
+                        ViewConfigFactory: 'luse.viewConfigFactory'
+                    }
+                },
+                'fragasvar@webcert.intyg.fk' : {
+                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
+                    controller: 'common.ArendeListCtrl'
+                },
+                'header@webcert.intyg.fk.luse' : {
+                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    controller: 'common.IntygHeader'
+                }
+            }
+        }).
+        state('webcert.intyg.fk.luseold', {
+            data: { defaultActive : 'index', intygType: 'luse' },
+            url:'/intyg/luse2/:certificateId',
+            views: {
+                'intyg@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'intyg/smiIntyg.html',
                     controller: 'smi.ViewCertCtrl',
                     resolve: {
