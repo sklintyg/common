@@ -22,8 +22,8 @@ module.exports = function(config) {
     'use strict';
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/webcert/';
-    var TEST_DIR = 'src/main/resources/META-INF/resources/webjars/common/webcert/';
     var NODE_DIR = '../node_modules/';
+    var SRC_SHARED_DIR = 'src/main/resources/META-INF/resources/webjars/common/app-shared/';
     //var TEMPLATE_PATH = ;
 
     config.set({
@@ -36,6 +36,8 @@ module.exports = function(config) {
 
         // generate js files from html templates to expose them during testing.
         preprocessors: {
+            'src/main/resources/META-INF/resources/webjars/common/app-shared/**/*.html': ['ng-html2js'],
+            'src/main/resources/META-INF/resources/webjars/common/app-shared/**/*.scss': ['scss'],
             'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.html': ['ng-html2js'],
             'src/main/resources/META-INF/resources/webjars/common/webcert/**/*.scss': ['scss']
         },
@@ -84,7 +86,11 @@ module.exports = function(config) {
 
             { pattern: SRC_DIR + '**/*.js' },
             { pattern: SRC_DIR + '**/*.html' },
-            { pattern: TEST_DIR + '**/*.spec.js' },
+            { pattern: SRC_DIR + '**/*.spec.js' },
+
+            { pattern: SRC_SHARED_DIR + '**/*.js' },
+            { pattern: SRC_SHARED_DIR + '**/*.html' },
+            { pattern: SRC_SHARED_DIR + '**/*.spec.js' },
 
             // Test resources
             { pattern: 'test/resources/jsonschema/*', included: false }

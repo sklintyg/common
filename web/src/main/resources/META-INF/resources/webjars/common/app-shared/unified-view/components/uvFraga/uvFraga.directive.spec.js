@@ -65,14 +65,14 @@ describe('uvFraga Directive', function() {
 
     it('should display title when labelKey is configured', function() {
         $scope.$digest();
-        expect($(element).find('.uv-fraga-template > h3').text()).toBe('dynamicLabel-FRAGA1.1.RBK');
+        expect($(element).find('> h3').text()).toBe('dynamicLabel-FRAGA1.1.RBK');
     });
 
 
     it('should render child components', function() {
         $scope.$digest();
         expect($(element).find('uv-del-fraga').length).toBe(1);
-        expect($(element).find('.uv-del-fraga-template > h4').text()).toBe('dynamicLabel-FRG_26.RBK');
+        expect($(element).find('uv-del-fraga > h4').text()).toBe('dynamicLabel-FRG_26.RBK');
     });
 
 
