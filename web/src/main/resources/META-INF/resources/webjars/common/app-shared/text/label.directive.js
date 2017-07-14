@@ -14,7 +14,12 @@ angular.module('common').directive('dynamicLabel',
                     var result;
 
                     function updateText(interpolatedKey) {
-                        result = dynamicLabelService.getProperty(interpolatedKey);
+                        // Try to find the key in the messageService first
+                        result = messageService.propertyExists(interpolatedKey);
+
+                        if (!result) {
+                            result = dynamicLabelService.getProperty(interpolatedKey);
+                        }
 
                         scope.resultValue = result;
                     }
