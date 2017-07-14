@@ -1,0 +1,5 @@
+<h2><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}" dynamic-label key="{{ config.labelKey }}" /></h2>
+
+<div class="kategori-body" data-ng-class="{categorykmplt: hasKomplettering()}">
+  <uv-render-components config="config.components" view-data="viewData" />
+</div>

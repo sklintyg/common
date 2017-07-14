@@ -1,6 +1,6 @@
 angular.module('luse').factory('luse.viewConfigFactory', [
-
-    function() {
+    'uvUtil',
+    function(uvUtil) {
         'use strict';
 
         var viewConfig = [
@@ -355,7 +355,7 @@ angular.module('luse').factory('luse.viewConfigFactory', [
                     config.pop();
 
                     config.unshift({
-                        type: 'uv-kategori',
+                        type: 'uv-wc-kategori',
                         labelKey: 'common.intyg.patientadress',
                         components: [{
                             type: 'uv-patient-grund',
@@ -367,6 +367,8 @@ angular.module('luse').factory('luse.viewConfigFactory', [
                         type: 'uv-signed-by',
                         modelProp: 'grundData'
                     });
+
+                    config = uvUtil.replaceType(config, 'uv-kategori', 'uv-wc-kategori');
                 }
 
 

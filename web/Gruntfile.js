@@ -194,7 +194,7 @@ module.exports = function(grunt) {
                 }, {
                     expand: true,
                     cwd: '<%= config.srcRoot %>webcert',
-                    src: [ '**/*.scss' ],
+                    src: [ '*.scss' ],
                     dest: '<%= config.destRoot %>webcert/',
                     ext: '.css'
                 } ]

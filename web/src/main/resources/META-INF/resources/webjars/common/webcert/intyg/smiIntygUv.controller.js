@@ -1,9 +1,9 @@
-angular.module('common').controller('smi.ViewCertCtrl2',
+angular.module('common').controller('smi.ViewCertCtrlUv',
     [ '$log', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
         'common.UserModel', 'ViewState',
-        'ViewConfigFactory', 'common.dynamicLabelService',
+        'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil',
         function($log, $rootScope, $stateParams, $scope, $state, IntygProxy,
-            UserModel, ViewState, viewConfigFactory, DynamicLabelService) {
+            UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil) {
             'use strict';
 
             ViewState.reset();
@@ -23,6 +23,15 @@ angular.module('common').controller('smi.ViewCertCtrl2',
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
+            angular.forEach($scope.uvConfig, function(category) {
+                if (category.labelKey) {
+                    var fields = uvUtil.getModelProps(category);
+                    angular.forEach(fields, function(field) {
+                        IntygViewStateService.setCategoryField(category.labelKey, field);
+                    });
+                }
+            });
+
             /**
              * Private
              */
@@ -32,7 +41,6 @@ angular.module('common').controller('smi.ViewCertCtrl2',
                     ViewState.common.doneLoading = true;
                     if (result !== null && result !== '') {
                         ViewState.intygModel = result.contents;
-                        $scope.cert = result.contents;
                         ViewState.relations = result.relations;
 
                         DynamicLabelService.updateDynamicLabels(ViewState.common.intygProperties.type, ViewState.intygModel.textVersion);
@@ -45,6 +53,7 @@ angular.module('common').controller('smi.ViewCertCtrl2',
 
                         $scope.pdfUrl = '/moduleapi/intyg/'+ ViewState.common.intygProperties.type +'/' + ViewState.intygModel.id + '/pdf';
 
+                        $scope.cert = result.contents;
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
                         $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
 
