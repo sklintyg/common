@@ -1,0 +1,24 @@
+uv-wc-kategori {
+  display: block;
+  padding-top: 20px;
+
+  h2 {
+    font-size: 18px;
+    background: $uv-intyg-header-bg;
+    color: $uv-intyg-header-color;
+    padding: 20px 0 0 0;
+    margin: 0;
+  }
+
+  .kategori-body {
+    background: $uv-intyg-body-bg;
+    padding: 12px 14px 12px 14px;
+    border-radius: 4px;
+    margin-top: 10px;
+    box-shadow: none;
+  }
+
+  .categorykmplt {
+    border: 2px solid $color_blue_chill_approx;
+  }
+}

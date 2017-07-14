@@ -1,5 +1,3 @@
-<div ng-if="viewData">
-  <div ng-repeat="itemConfig in config">
-    <uv-dynamic-component config="itemConfig" view-data="viewData" />
-  </div>
+<div ng-if="viewData" ng-repeat="itemConfig in config">
+  <uv-dynamic-component config="itemConfig" view-data="viewData" />
 </div>

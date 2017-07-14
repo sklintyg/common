@@ -1,6 +1,6 @@
-angular.module('luse').factory('luse.viewConfigFactory', [ '$log',
-
-    function($log) {
+angular.module('luse').factory('luse.viewConfigFactory', [
+    'uvUtil',
+    function(uvUtil) {
         'use strict';
 
         var viewConfig = [
@@ -347,8 +347,32 @@ angular.module('luse').factory('luse.viewConfigFactory', [ '$log',
         ];
 
         return {
-            getViewConfig: function() {
-                return angular.copy(viewConfig);
+            getViewConfig: function(webcert) {
+
+                var config = angular.copy(viewConfig);
+
+                if (webcert) {
+                    config.pop();
+
+                    config.unshift({
+                        type: 'uv-wc-kategori',
+                        labelKey: 'common.intyg.patientadress',
+                        components: [{
+                            type: 'uv-patient-grund',
+                            modelProp: 'grundData.patient'
+                        }]
+                    });
+
+                    config.push({
+                        type: 'uv-signed-by',
+                        modelProp: 'grundData'
+                    });
+
+                    config = uvUtil.replaceType(config, 'uv-kategori', 'uv-wc-kategori');
+                }
+
+
+                return config;
             }
         };
     }

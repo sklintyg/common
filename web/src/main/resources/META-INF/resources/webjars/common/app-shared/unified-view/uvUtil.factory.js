@@ -4,11 +4,7 @@ angular.module('common').factory('uvUtil', [
     'use strict';
 
         function _isDynamicText(str) {
-            return _isString(str) && str.search(/{(.*)}/) > -1;
-        }
-
-        function _isString(str) {
-            return str instanceof String || typeof str === 'string';
+            return angular.isString(str) && str.search(/{(.*)}/) > -1;
         }
 
         function _replacer(propertyName, model) {
@@ -16,6 +12,35 @@ angular.module('common').factory('uvUtil', [
                 return model[p1];
             }
             return propertyName.replace(/{(.*)}/g, replacer);
+        }
+
+
+        function _getModelProps(viewConfig) {
+            var props = [];
+
+            if (angular.isDefined(viewConfig.modelProp)) {
+                props.push(viewConfig.modelProp);
+            }
+
+            angular.forEach(viewConfig.components, function(component) {
+                props = props.concat(_getModelProps(component));
+            });
+
+            return props;
+        }
+
+        function _replaceType(viewConfig, from, to) {
+            angular.forEach(viewConfig, function(component) {
+                if (angular.isDefined(component.type) && component.type === from) {
+                    component.type = to;
+                }
+
+                if (angular.isDefined(component.components)) {
+                    _replaceType(component.components, from, to);
+                }
+            });
+
+            return viewConfig;
         }
 
         return {
@@ -31,8 +56,7 @@ angular.module('common').factory('uvUtil', [
                 return dynamicLabel;
             } else {
                 if(messageService.propertyExists(value)){
-                    var staticLabel = messageService.getProperty(value);
-                    return staticLabel;
+                    return messageService.getProperty(value);
                 } else {
                     return value;
                 }
@@ -41,7 +65,7 @@ angular.module('common').factory('uvUtil', [
         getValue: function(obj, pathExpression) {
 
             // Process each element of an array into a new array, otherwise just the expression
-            if(Array.isArray(pathExpression)){
+            if(angular.isArray(pathExpression)){
                 var list = [];
 
                 pathExpression.forEach(function(item){
@@ -55,7 +79,7 @@ angular.module('common').factory('uvUtil', [
         },
         resolveValue: function(prop, modelRow, colProp, rowIndex, colIndex){
             var value = null;
-            if(typeof prop === 'function'){
+            if(angular.isFunction(prop)){
                 // Resolve using function
                 value = prop(modelRow, rowIndex, colIndex, colProp);
             } else if(_isDynamicText(prop)) {
@@ -94,7 +118,8 @@ angular.module('common').factory('uvUtil', [
             }
 
             return false;
-
-        }
+        },
+        getModelProps: _getModelProps,
+        replaceType: _replaceType
     };
 } ]);

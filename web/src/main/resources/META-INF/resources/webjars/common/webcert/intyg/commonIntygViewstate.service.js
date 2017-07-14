@@ -44,6 +44,7 @@ angular.module('common').service('common.IntygViewStateService',
 
                 // Key/value where value is a list
                 this.categoryFieldMap = {};
+                this.fieldMap = {};
 
                 this.common = commonViewStateService;
                 this.common.reset();
@@ -65,6 +66,22 @@ angular.module('common').service('common.IntygViewStateService',
             this.getCategory = function(key) {
                 if (key) {
                     return this.categoryFieldMap[key];
+                }
+            };
+
+            this.getFieldStatus = function(fieldKey) {
+                if (fieldKey) {
+                    return this.fieldMap[fieldKey];
+                }
+            };
+
+            this.setFieldStatus = function(fieldKey, fieldStatus) {
+                if (fieldKey) {
+                    if (!fieldStatus) {
+                        fieldStatus = 'CLOSED';
+                    }
+
+                    this.fieldMap[fieldKey] = fieldStatus;
                 }
             };
 

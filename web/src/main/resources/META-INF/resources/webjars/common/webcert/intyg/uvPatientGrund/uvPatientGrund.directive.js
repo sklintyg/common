@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -17,11 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Unified view variables
-$uv-intyg-body-bg: #fff !default;
-$uv-intyg-header-bg: #43799A !default;
-$uv-intyg-header-color: #fff !default;
-$uv-box-shadow-color: #ddd !default;
+angular.module('common').directive('uvPatientGrund',
+    [ 'uvUtil', function(uvUtil) {
+        'use strict';
 
-// App shared variables
-$text-muted: #666;
+        return {
+            restrict: 'E',
+            scope: {
+                config: '=',
+                viewData: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/intyg/uvPatientGrund/uvPatientGrund.html',
+            link: function($scope) {
+                $scope.vm = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+            }
+        };
+    }]);

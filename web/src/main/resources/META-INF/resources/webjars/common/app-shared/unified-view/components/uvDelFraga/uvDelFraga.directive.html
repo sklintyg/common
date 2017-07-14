@@ -1,7 +1,10 @@
-<div class="uv-del-fraga-template">
-  <h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}"
-                                    dynamic-label key="{{ config.labelKey }}"></span></h4>
-  <div class="body">
-    <uv-render-components config="config.components" view-data="viewData" />
-  </div>
+<h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}"
+                                  dynamic-label key="{{ config.labelKey }}"></span></h4>
+
+<div ng-if="viewData" ng-repeat="itemConfig in config.components | filter : { modelProp : '!!' }">
+  <uv-komplettering field-key="itemConfig.modelProp" margin-bottom="true"></uv-komplettering>
+</div>
+
+<div class="body">
+  <uv-render-components config="config.components" view-data="viewData" />
 </div>
