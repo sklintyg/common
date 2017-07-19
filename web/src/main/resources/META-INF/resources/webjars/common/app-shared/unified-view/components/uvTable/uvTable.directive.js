@@ -28,8 +28,13 @@ angular.module('common').directive('uvTable', [
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvTable/uvTable.directive.html',
+            template: '<div ng-include="contentUrl"></div>',
             link: function($scope) {
+                if ($scope.config.contentUrl) {
+                    $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvTable/uvTable-' + $scope.config.contentUrl + '.directive.html';
+                } else {
+                    $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvTable/uvTable.directive.html';
+                }
 
                 if(!$scope.config) {
                     $log.debug('no view config present for uv-table controller');

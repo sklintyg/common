@@ -285,6 +285,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory', [
                                 type: 'uv-del-fraga',
                                 components: [{
                                     type: 'uv-table',
+                                    contentUrl: 'ts',
                                     modelProp: 'syn',
                                     headers: ['', 'ts-diabetes.label.syn.utankorrektion',
                                         'ts-diabetes.label.syn.medkorrektion'],

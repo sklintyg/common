@@ -130,6 +130,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 type: 'uv-del-fraga',
                                 components: [{
                                     type: 'uv-table',
+                                    contentUrl: 'ts',
                                     modelProp: 'syn',
                                     headers: ['', 'ts-bas.label.syn.utankorrektion', 'ts-bas.label.syn.medkorrektion',
                                         'ts-bas.label.syn.kontaktlins'],

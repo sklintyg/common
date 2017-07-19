@@ -71,6 +71,7 @@ angular.module('luae_na').factory('luae_na.viewConfigFactory', [ '$log',
                     labelKey: 'FRG_4.RBK',
                     components: [ {
                         type: 'uv-table',
+                        contentUrl: 'utlatande',
                         headers: ['', '', 'DFR_4.3.RBK'], // labels for th cells
                         valueProps: ['KV_FKMU_0005.{typ}.RBK', 'datum', 'hamtasFran'], // {typ} refers to underlag.typ values
                         modelProp: 'underlag'
