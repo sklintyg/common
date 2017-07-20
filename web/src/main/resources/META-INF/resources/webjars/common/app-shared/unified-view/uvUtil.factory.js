@@ -30,13 +30,18 @@ angular.module('common').factory('uvUtil', [
         }
 
         function _replaceType(viewConfig, from, to) {
+            var propertiesToAdd = {type: to};
+            return _addProperties(viewConfig, from, propertiesToAdd);
+        }
+
+        function _addProperties(viewConfig, type, properties) {
             angular.forEach(viewConfig, function(component) {
-                if (angular.isDefined(component.type) && component.type === from) {
-                    component.type = to;
+                if (angular.isDefined(component.type) && component.type === type) {
+                    angular.extend(component, properties);
                 }
 
                 if (angular.isDefined(component.components)) {
-                    _replaceType(component.components, from, to);
+                    _addProperties(component.components, type, properties);
                 }
             });
 
@@ -61,6 +66,9 @@ angular.module('common').factory('uvUtil', [
             });
 
             viewConfig = _replaceType(viewConfig, 'uv-kategori', 'uv-wc-kategori');
+
+            var propertiesToAdd = {contentUrl: 'wc'};
+            viewConfig = _addProperties(viewConfig, 'uv-del-fraga', propertiesToAdd);
 
             return viewConfig;
         }
