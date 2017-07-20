@@ -55,7 +55,8 @@ angular.module('common').directive('uvTillaggsfragor', [ 'uvUtil', function(uvUt
                                 type: 'uv-del-fraga',
                                 components: [{
                                     type: 'uv-simple-value',
-                                    modelProp: 'tillaggsfragor[' + i + '].svar'
+                                    modelProp: 'tillaggsfragor[' + i + '].svar',
+                                    id: 'tillaggsfragor-' + tillaggsfragor[i].id
                                 }]
 
                             }]
