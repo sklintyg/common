@@ -27,6 +27,13 @@ angular.module('common').directive('uvDelFraga',
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.html'
+            template: '<div ng-include="contentUrl"></div>',
+            link: function($scope) {
+                if ($scope.config.contentUrl) {
+                    $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga-' + $scope.config.contentUrl + '.directive.html';
+                } else {
+                    $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.html';
+                }
+            }
         };
     });

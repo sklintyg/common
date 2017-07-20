@@ -144,6 +144,10 @@ angular.module('luae_fs').factory('luae_fs.viewConfigFactory', ['uvUtil', functi
                     } ]
                 } ]
             } ]
+        }, {
+            type: 'uv-tillaggsfragor',
+            labelKey: 'KAT_9999.RBK',
+            modelProp: 'tillaggsfragor'
         },
         {
             type: 'uv-skapad-av',
