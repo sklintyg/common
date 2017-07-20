@@ -1,9 +1,9 @@
 angular.module('common').controller('smi.ViewCertCtrlUv',
     [ '$log', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
         'common.UserModel', 'ViewState',
-        'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil',
+        'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil', 'common.TillaggsfragorHelper',
         function($log, $rootScope, $stateParams, $scope, $state, IntygProxy,
-            UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil) {
+            UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil, TillaggsfragorHelper) {
             'use strict';
 
             ViewState.reset();
@@ -53,6 +53,7 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
                         $scope.pdfUrl = '/moduleapi/intyg/'+ ViewState.common.intygProperties.type +'/' + ViewState.intygModel.id + '/pdf';
 
+                        TillaggsfragorHelper.buildTillaggsFragorUv($scope.uvConfig, result.contents, $scope.uvConfig.length - 1);
                         $scope.cert = result.contents;
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
                         $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);

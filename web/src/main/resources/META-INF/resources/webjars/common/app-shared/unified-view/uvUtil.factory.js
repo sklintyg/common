@@ -43,6 +43,28 @@ angular.module('common').factory('uvUtil', [
             return viewConfig;
         }
 
+        function _convertToWebcert(viewConfig) {
+            viewConfig.pop();
+
+            viewConfig.unshift({
+                type: 'uv-wc-kategori',
+                labelKey: 'common.intyg.patientadress',
+                components: [{
+                    type: 'uv-patient-grund',
+                    modelProp: 'grundData.patient'
+                }]
+            });
+
+            viewConfig.push({
+                type: 'uv-signed-by',
+                modelProp: 'grundData'
+            });
+
+            viewConfig = _replaceType(viewConfig, 'uv-kategori', 'uv-wc-kategori');
+
+            return viewConfig;
+        }
+
         return {
 
         getTextFromConfig: function(value){
@@ -120,6 +142,7 @@ angular.module('common').factory('uvUtil', [
             return false;
         },
         getModelProps: _getModelProps,
-        replaceType: _replaceType
+        replaceType: _replaceType,
+        convertToWebcert: _convertToWebcert
     };
 } ]);

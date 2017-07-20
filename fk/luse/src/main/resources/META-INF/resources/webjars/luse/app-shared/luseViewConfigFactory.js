@@ -353,25 +353,8 @@ angular.module('luse').factory('luse.viewConfigFactory', [
                 var config = angular.copy(viewConfig);
 
                 if (webcert) {
-                    config.pop();
-
-                    config.unshift({
-                        type: 'uv-wc-kategori',
-                        labelKey: 'common.intyg.patientadress',
-                        components: [{
-                            type: 'uv-patient-grund',
-                            modelProp: 'grundData.patient'
-                        }]
-                    });
-
-                    config.push({
-                        type: 'uv-signed-by',
-                        modelProp: 'grundData'
-                    });
-
-                    config = uvUtil.replaceType(config, 'uv-kategori', 'uv-wc-kategori');
+                    config = uvUtil.convertToWebcert(config);
                 }
-
 
                 return config;
             }

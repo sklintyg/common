@@ -1,4 +1,4 @@
-angular.module('luae_fs').factory('luae_fs.viewConfigFactory', ['$log', function ($log) {
+angular.module('luae_fs').factory('luae_fs.viewConfigFactory', ['uvUtil', function (uvUtil) {
     'use strict';
 
     var viewConfig = [
@@ -152,8 +152,15 @@ angular.module('luae_fs').factory('luae_fs.viewConfigFactory', ['$log', function
     ];
 
     return {
-        getViewConfig: function () {
-            return angular.copy(viewConfig);
+        getViewConfig: function(webcert) {
+
+            var config = angular.copy(viewConfig);
+
+            if (webcert) {
+                config = uvUtil.convertToWebcert(config);
+            }
+
+            return config;
         }
     };
 }]);

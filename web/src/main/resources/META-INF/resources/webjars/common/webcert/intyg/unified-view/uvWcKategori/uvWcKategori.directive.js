@@ -38,7 +38,7 @@ angular.module('common').directive('uvWcKategori',
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/common/webcert/intyg/uvWcKategori/uvWcKategori.directive.html',
+            templateUrl: '/web/webjars/common/webcert/intyg/unified-view/uvWcKategori/uvWcKategori.directive.html',
             link: function($scope) {
 
                 $scope.hasKomplettering = function() {

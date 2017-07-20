@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('uvPatientGrund',
+angular.module('common').directive('uvSignedBy',
     [ 'uvUtil', function(uvUtil) {
         'use strict';
 
@@ -27,7 +27,7 @@ angular.module('common').directive('uvPatientGrund',
                 config: '=',
                 viewData: '='
             },
-            templateUrl: '/web/webjars/common/webcert/intyg/uvPatientGrund/uvPatientGrund.html',
+            templateUrl: '/web/webjars/common/webcert/intyg/unified-view/uvSignedBy/uvSignedBy.html',
             link: function($scope) {
                 $scope.vm = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
             }
