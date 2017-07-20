@@ -32,7 +32,8 @@ describe('uvDelFraga Directive', function() {
                 type: 'uv-del-fraga',
                 components: [ {
                     type: 'uv-simple-value',
-                    modelProp: 'tillaggsfragor[0].svar'
+                    modelProp: 'tillaggsfragor[0].svar',
+                    id: 'tillaggsfragor-id.1'
                 } ]
             } ]
         }, {
@@ -42,7 +43,8 @@ describe('uvDelFraga Directive', function() {
                 type: 'uv-del-fraga',
                 components: [ {
                     type: 'uv-simple-value',
-                    modelProp: 'tillaggsfragor[1].svar'
+                    modelProp: 'tillaggsfragor[1].svar',
+                    id: 'tillaggsfragor-id.2'
                 } ]
             } ]
         } ]

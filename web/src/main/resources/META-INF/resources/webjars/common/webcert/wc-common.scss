@@ -109,9 +109,9 @@
   @import 'gui/wcHelpChevronText.directive.scss';
   @import 'gui/wcIntegrationEnhetSelector/_wcIntegrationEnhetSelector.directive.scss';
   @import 'gui/wcIntygRelatedOtherIntygMessage.directive.scss';
-  @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund';
-  @import 'intyg/unified-view/uvSignedBy/uvSignedBy';
-  @import 'intyg/unified-view/uvWcKategori/uvWcKategori.directive';
+  @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
+  @import 'intyg/unified-view/uvSignedBy/uvSignedBy.scss';
+  @import 'intyg/unified-view/uvWcKategori/uvWcKategori.directive.scss';
   // endinjector
 
   %font-common {

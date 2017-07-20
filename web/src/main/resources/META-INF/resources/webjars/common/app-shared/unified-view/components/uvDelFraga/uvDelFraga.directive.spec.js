@@ -24,7 +24,6 @@ describe('uvDelFraga Directive', function() {
     var element;
 
     beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
 
     beforeEach(module('common', function($compileProvider) {
         // Create a mocked version of the dynamic label directive for easier and more
@@ -75,7 +74,7 @@ describe('uvDelFraga Directive', function() {
 
     it('should display title when labelKey is configured', function() {
         $scope.$digest();
-        expect($(element).find(' > h4').text()).toBe('dynamicLabel-DELFRAGA1.1.RBK');
+        expect($(element).find('> div > h4').text()).toBe('dynamicLabel-DELFRAGA1.1.RBK');
     });
 
     it('should render child components', function() {
