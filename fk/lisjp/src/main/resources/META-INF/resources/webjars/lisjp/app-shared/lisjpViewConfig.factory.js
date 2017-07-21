@@ -1,4 +1,4 @@
-angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($log) {
+angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(uvUtil) {
     'use strict';
 
     var viewConfig = [ {
@@ -285,8 +285,14 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ '$log', function($l
     } ];
 
     return {
-        getViewConfig: function() {
-            return angular.copy(viewConfig);
+        getViewConfig: function(webcert) {
+            var config = angular.copy(viewConfig);
+
+            if (webcert) {
+                config = uvUtil.convertToWebcert(config);
+            }
+
+            return config;
         }
     };
 } ]);
