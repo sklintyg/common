@@ -1,6 +1,6 @@
-angular.module('luae_na').factory('luae_na.viewConfigFactory', [ '$log',
+angular.module('luae_na').factory('luae_na.viewConfigFactory', [ 'uvUtil',
 
-    function($log) {
+    function(uvUtil) {
         'use strict';
 
         var viewConfig = [
@@ -358,8 +358,14 @@ angular.module('luae_na').factory('luae_na.viewConfigFactory', [ '$log',
         ];
 
         return {
-            getViewConfig: function() {
-                return angular.copy(viewConfig);
+            getViewConfig: function(webcert) {
+                var config = angular.copy(viewConfig);
+
+                if (webcert) {
+                    config = uvUtil.convertToWebcert(config);
+                }
+
+                return config;
             }
         };
     }
