@@ -31,17 +31,17 @@ angular.module('common').factory('uvUtil', [
 
         function _replaceType(viewConfig, from, to) {
             var propertiesToAdd = {type: to};
-            return _addProperties(viewConfig, from, propertiesToAdd);
+            return _updateProperties(viewConfig, from, propertiesToAdd);
         }
 
-        function _addProperties(viewConfig, type, properties) {
+        function _updateProperties(viewConfig, type, properties) {
             angular.forEach(viewConfig, function(component) {
                 if (angular.isDefined(component.type) && component.type === type) {
                     angular.extend(component, properties);
                 }
 
                 if (angular.isDefined(component.components)) {
-                    _addProperties(component.components, type, properties);
+                    _updateProperties(component.components, type, properties);
                 }
             });
 
@@ -67,11 +67,17 @@ angular.module('common').factory('uvUtil', [
 
             viewConfig = _replaceType(viewConfig, 'uv-kategori', 'uv-wc-kategori');
 
-            var propertiesToAdd = {contentUrl: 'wc'};
-            viewConfig = _addProperties(viewConfig, 'uv-del-fraga', propertiesToAdd);
+            var propertiesToUpdate = {contentUrl: 'wc'};
+            viewConfig = _updateProperties(viewConfig, 'uv-del-fraga', propertiesToUpdate);
 
-            var propertiesToAdd = {contentUrl: null};
-            viewConfig = _addProperties(viewConfig, 'uv-table', propertiesToAdd);
+            propertiesToUpdate = {contentUrl: null};
+            viewConfig = _updateProperties(viewConfig, 'uv-table', propertiesToUpdate);
+
+            propertiesToUpdate = {
+                categoryType: 'uv-wc-kategori',
+                partQuestionContentUrl: 'wc'
+            };
+            viewConfig = _updateProperties(viewConfig, 'uv-tillaggsfragor', propertiesToUpdate);
 
             return viewConfig;
         }

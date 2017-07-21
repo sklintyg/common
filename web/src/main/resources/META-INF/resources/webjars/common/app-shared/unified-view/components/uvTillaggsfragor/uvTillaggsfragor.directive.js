@@ -29,6 +29,11 @@ angular.module('common').directive('uvTillaggsfragor', [ 'uvUtil', function(uvUt
         templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.html',
         link: function($scope) {
 
+            var categoryType = $scope.config.categoryType ? $scope.config.categoryType : 'uv-kategori';
+            var questionType = $scope.config.questionType ? $scope.config.questionType : 'uv-fraga';
+            var partQuestionType = $scope.config.partQuestionType ? $scope.config.partQuestionType : 'uv-del-fraga';
+            var partQuestionContentUrl = $scope.config.partQuestionContentUrl ? $scope.config.partQuestionContentUrl : null;
+
             $scope.$watchCollection(function() {
                 return uvUtil.getValue($scope.viewData, $scope.config.modelProp);
             }, function() {
@@ -44,15 +49,17 @@ angular.module('common').directive('uvTillaggsfragor', [ 'uvUtil', function(uvUt
                         // Defer initialization of kategori config until inside
                         // loop so that it only exists if there are tillagsfragor defined for this version of the intyg.
                         kategoriConfig = kategoriConfig || {
+                                type: categoryType,
                                 labelKey: $scope.config.labelKey,
                                 components: []
                             };
 
                         var frageConfig = {
-                            type: 'uv-fraga',
+                            type: questionType,
                             labelKey: 'DFR_' + tillaggsfragor[i].id + '.1.RBK',
                             components: [{
-                                type: 'uv-del-fraga',
+                                type: partQuestionType,
+                                contentUrl: partQuestionContentUrl,
                                 components: [{
                                     type: 'uv-simple-value',
                                     modelProp: 'tillaggsfragor[' + i + '].svar',
