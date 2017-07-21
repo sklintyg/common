@@ -70,6 +70,9 @@ angular.module('common').factory('uvUtil', [
             var propertiesToAdd = {contentUrl: 'wc'};
             viewConfig = _addProperties(viewConfig, 'uv-del-fraga', propertiesToAdd);
 
+            var propertiesToAdd = {contentUrl: null};
+            viewConfig = _addProperties(viewConfig, 'uv-table', propertiesToAdd);
+
             return viewConfig;
         }
 
