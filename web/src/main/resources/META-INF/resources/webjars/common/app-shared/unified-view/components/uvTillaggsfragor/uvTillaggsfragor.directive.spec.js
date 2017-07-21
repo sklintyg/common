@@ -24,12 +24,14 @@ describe('uvDelFraga Directive', function() {
     var element;
 
     var expectedConfig = {
+        type: 'uv-kategori',
         labelKey: 'TILLAGGSFRAGARUBRIK.RBK',
         components: [ {
             type: 'uv-fraga',
             labelKey: 'DFR_id.1.1.RBK',
             components: [ {
                 type: 'uv-del-fraga',
+                contentUrl: null,
                 components: [ {
                     type: 'uv-simple-value',
                     modelProp: 'tillaggsfragor[0].svar',
@@ -41,6 +43,7 @@ describe('uvDelFraga Directive', function() {
             labelKey: 'DFR_id.2.1.RBK',
             components: [ {
                 type: 'uv-del-fraga',
+                contentUrl: null,
                 components: [ {
                     type: 'uv-simple-value',
                     modelProp: 'tillaggsfragor[1].svar',
@@ -100,14 +103,12 @@ describe('uvDelFraga Directive', function() {
         expect(angular.toJson(element.isolateScope().tillaggsConfig)).toBe(angular.toJson(expectedConfig));
     });
 
-    xit('should render child components', function() {
+    it('should render child components', function() {
         $scope.$digest();
 
-        expect($(element).find('uv-boolean-value').length).toBe(1);
-        expect($(element).find('uv-boolean-value h4').text()).toBe('dynamicLabel-FRG_26.RBK');
-
-        expect($(element).find('uv-simple-value').length).toBe(1);
-        expect($(element).find('uv-simple-value h4').text()).toBe('dynamicLabel-FRG_33.RBK');
+        expect($(element).find('uv-simple-value').length).toBe(2);
+        expect($(element).find('uv-simple-value .multiline').first().text()).toBe('svar-1');
+        expect($(element).find('uv-simple-value .multiline').last().text()).toBe('svar-2');
     });
 
 });
