@@ -17,11 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('fk7263').controller('fk7263.ViewCertCtrl',
+angular.module('fk7263').controller('fk7263.ViewCertCtrlOld',
     [ '$log', '$rootScope', '$stateParams', '$scope', '$state',
-        'common.IntygProxy', 'common.UserModel', 'fk7263.IntygController.ViewStateService', 'fk7263.viewConfigFactory',
+        'common.IntygProxy', 'common.messageService', 'common.UserModel', 'common.ObjectHelper', 'fk7263.IntygController.ViewStateService',
         function($log, $rootScope, $stateParams, $scope, $state,
-            IntygProxy, UserModel, ViewState, viewConfigFactory) {
+            IntygProxy, messageService, UserModel, ObjectHelper, ViewState) {
             'use strict';
 
             ViewState.reset();
@@ -30,9 +30,6 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
 
             $scope.viewState = ViewState;
             $scope.user = UserModel;
-            $scope.cert = undefined;
-
-            $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
             // Check if the user used the special qa-link to get here.
             $scope.isQaOnly = UserModel.isUthopp();
@@ -68,7 +65,6 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
 
                         $scope.pdfUrl = '/moduleapi/intyg/'+ ViewState.common.intygProperties.type +'/' + ViewState.intygModel.id + '/pdf';
 
-                        $scope.cert = result.contents;
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
                         $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
 

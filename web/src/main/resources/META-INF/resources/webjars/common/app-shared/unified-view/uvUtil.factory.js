@@ -48,17 +48,19 @@ angular.module('common').factory('uvUtil', [
             return viewConfig;
         }
 
-        function _convertToWebcert(viewConfig) {
+        function _convertToWebcert(viewConfig, skipPatient) {
             viewConfig.pop();
 
-            viewConfig.unshift({
-                type: 'uv-wc-kategori',
-                labelKey: 'common.intyg.patientadress',
-                components: [{
-                    type: 'uv-patient-grund',
-                    modelProp: 'grundData.patient'
-                }]
-            });
+            if (!skipPatient) {
+                viewConfig.unshift({
+                    type: 'uv-wc-kategori',
+                    labelKey: 'common.intyg.patientadress',
+                    components: [{
+                        type: 'uv-patient-grund',
+                        modelProp: 'grundData.patient'
+                    }]
+                });
+            }
 
             viewConfig.push({
                 type: 'uv-signed-by',

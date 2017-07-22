@@ -154,6 +154,24 @@ angular.module('fk7263').config(function($stateProvider) {
                 }
             }
         }).
+        state('webcert.intyg.fk.fk7263old', {
+            data: { defaultActive : 'index', intygType: 'fk7263' },
+            url:'/intyg/fk7263_old/:certificateId',
+            views: {
+                'intyg@webcert.intyg.fk' : {
+                    templateUrl: intygsTypPath + 'views/intyg/intyg_old.html',
+                    controller: 'fk7263.ViewCertCtrlOld'
+                },
+                'fragasvar@webcert.intyg.fk' : {
+                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
+                    controller: 'common.ArendeListCtrl'
+                },
+                'header@webcert.intyg.fk.fk7263' : {
+                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    controller: 'common.IntygHeader'
+                }
+            }
+        }).
         state('webcert.fragasvar.fk7263', {
             data: { defaultActive : 'unhandled-qa', intygType: 'fk7263' },
             url: '/fragasvar/fk7263/:certificateId',
