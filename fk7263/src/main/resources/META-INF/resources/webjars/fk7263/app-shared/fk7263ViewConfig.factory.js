@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
+angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function(uvUtil) {
     'use strict';
 
     var viewConfig = [
@@ -347,8 +347,14 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', [ function() {
     ];
 
     return {
-        getViewConfig: function() {
-            return angular.copy(viewConfig);
+        getViewConfig: function(webcert) {
+            var config = angular.copy(viewConfig);
+
+            if (webcert) {
+                config = uvUtil.convertToWebcert(config, true);
+            }
+
+            return config;
         }
     };
 } ]);
