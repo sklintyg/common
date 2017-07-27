@@ -147,5 +147,19 @@ angular.module('ts-bas').config(function($stateProvider) {
                     controller: 'common.IntygHeader'
                 }
             }
+        }).
+        state('webcert.intyg.ts.bas_old', {
+            data: { defaultActive: 'index', intygType: 'ts-bas' },
+            url: '/intyg/ts-bas_old/:certificateId',
+            views: {
+                'intyg@webcert.intyg.ts': {
+                    templateUrl: intygsTypPath + 'views/intyg/intyg-old.html',
+                    controller: 'ts-bas.IntygControllerOld'
+                },
+                'header@webcert.intyg.ts.bas': {
+                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    controller: 'common.IntygHeader'
+                }
+            }
         });
 });
