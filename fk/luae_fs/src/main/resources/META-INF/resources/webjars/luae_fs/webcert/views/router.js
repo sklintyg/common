@@ -68,7 +68,7 @@ angular.module('luae_fs').config(function($stateProvider) {
         }).
         state('webcert.intyg.fk.luae_fs', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url:'/intyg/luae_fs/:certificateId',
+            url:'/intyg/luae_fs/:certificateId/:focusOn',
             views: {
                 'intyg@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
