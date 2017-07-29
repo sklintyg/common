@@ -73,6 +73,12 @@ angular.module('ts-bas').constant('ts-bas.messages', {
 
 
         // Labels for showing signed intyg
+        'ts-bas.label.syn.hogeroga': 'Höger öga',
+        'ts-bas.label.syn.vansteroga': 'Vänster öga',
+        'ts-bas.label.syn.utankorrektion': 'Utan korrektion',
+        'ts-bas.label.syn.medkorrektion': 'Med korrektion',
+        'ts-bas.label.syn.kontaktlins': 'Kontaktlinser',
+
         'ts-bas.label.syn.binokulart': 'Binokulärt',
         'ts-bas.label.syn.vanster-oga': 'Vänster öga',
         'ts-bas.label.syn.hoger-oga': 'Höger öga',
@@ -83,6 +89,8 @@ angular.module('ts-bas').constant('ts-bas.messages', {
 
         'ts-bas.label.diabetes.diabetestyp.diabetes_typ_1': 'Typ 1',
         'ts-bas.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',
+        'ts-bas.label.diabetes.diabetestyp.DIABETES_TYP_1': 'Typ 1',
+        'ts-bas.label.diabetes.diabetestyp.DIABETES_TYP_2': 'Typ 2',
 
         'ts-bas.label.kontakt-info': 'Namn och kontaktuppgifter till vårdenheten',
 

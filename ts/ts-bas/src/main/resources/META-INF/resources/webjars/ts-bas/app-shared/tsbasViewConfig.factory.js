@@ -18,8 +18,8 @@
  */
 
 angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
-    '$log', '$filter',
-    function($log, $filter) {
+    '$filter', 'uvUtil',
+    function($filter, uvUtil) {
         'use strict';
 
         var viewConfig = [
@@ -665,8 +665,14 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
             }];
 
         return {
-            getViewConfig: function() {
-                return angular.copy(viewConfig);
+            getViewConfig: function(webcert) {
+                var config = angular.copy(viewConfig);
+
+                if (webcert) {
+                    config = uvUtil.convertToWebcert(config);
+                }
+
+                return config;
             }
         };
     }]);
