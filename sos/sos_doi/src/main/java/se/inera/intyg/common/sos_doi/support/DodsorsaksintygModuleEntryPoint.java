@@ -76,7 +76,7 @@ public class DodsorsaksintygModuleEntryPoint extends SosAbstractModuleEntryPoint
 
     @Override
     public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "db-features.properties");
+        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "doi-features.properties");
     }
 
     @Override
