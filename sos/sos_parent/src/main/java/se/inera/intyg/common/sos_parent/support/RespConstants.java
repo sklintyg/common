@@ -15,6 +15,13 @@ public final class RespConstants {
     public static final String DODSPLATS_KOMMUN_JSON_ID = "dodsplatsKommun";
     public static final String BARN_JSON_ID = "barn";
 
+    public static final String EXPLOSIVT_IMPLANTAT_JSON_ID = "explosivtImplantat";
+    public static final String EXPLOSIVT_AVLAGSNAT_JSON_ID = "explosivtAvlagsnat";
+    public static final String UNDERSOKNING_YTTRE_JSON_ID = "undersokningYttre";
+    public static final String UNDERSOKNING_DETALJER_JSON_ID = "undersokningDetaljer";
+    public static final String UNDERSOKNING_DATUM_JSON_ID = "undersokningDatum";
+    public static final String POLISANMALAN_JSON_ID = "polisanmalan";
+
     private RespConstants() {
     }
 }
