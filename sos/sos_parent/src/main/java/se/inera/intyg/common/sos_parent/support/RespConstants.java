@@ -22,6 +22,30 @@ public final class RespConstants {
     public static final String UNDERSOKNING_DATUM_JSON_ID = "undersokningDatum";
     public static final String POLISANMALAN_JSON_ID = "polisanmalan";
 
+    public static final String FOLJD_OM_JSON_ID = "beskrivning";
+    public static final String FOLJD_DATUM_JSON_ID = "datum";
+    public static final String FOLJD_SPECIFIKATION_JSON_ID = "specifikation";
+
+    public static final String BIDRAGANDE_SJUKDOM_OM_JSON_ID = "beskrivning";
+    public static final String BIDRAGANDE_SJUKDOM_DATUM_JSON_ID = "datum";
+    public static final String BIDRAGANDE_SJUKDOM_SPECIFIKATION_JSON_ID = "specifikation";
+
+    public static final String DODSORSAK_JSON_ID = "dodsorsak";
+    public static final String DODSORSAK_DATUM_JSON_ID = "dodsorsakDatum";
+    public static final String DODSORSAK_SPECIFIKATION_JSON_ID = "dodsorsakSpecifikation";
+
+    public static final String FOLJD_JSON_ID = "foljder";
+    public static final String BIDRAGANDE_SJUKDOM_JSON_ID = "bidragandeSjukdomar";
+    public static final String OPERATION_OM_JSON_ID = "operation";
+    public static final String OPERATION_DATUM_JSON_ID = "operationDatum";
+    public static final String OPERATION_ANLEDNING_JSON_ID = "operationAnledning";
+    public static final String FORGIFTNING_OM_JSON_ID = "forgiftning";
+    public static final String FORGIFTNING_ORSAK_JSON_ID = "forgiftningOrsak";
+    public static final String FORGIFTNING_DATUM_JSON_ID = "forgiftningDatum";
+    public static final String FORGIFTNING_UPPKOMMELSE_JSON_ID = "forgiftningUppkommelse";
+    public static final String GRUNDER_JSON_ID = "grunder";
+    public static final String LAND_JSON_ID = "land";
+
     private RespConstants() {
     }
 }

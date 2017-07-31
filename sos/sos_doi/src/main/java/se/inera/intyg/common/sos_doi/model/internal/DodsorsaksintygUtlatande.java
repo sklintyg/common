@@ -2,13 +2,27 @@ package se.inera.intyg.common.sos_doi.model.internal;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SPECIFIKATION_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_OM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_ORSAK_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.FORGIFTNING_UPPKOMMELSE_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDDATA_SVAR_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDER_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ID_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.LAND_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 
@@ -71,6 +85,43 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
     @Override
     public abstract boolean isBarn();
 
+    @Nullable
+    public abstract String getLand();
+
+    public abstract String getDodsorsak();
+
+    @Nullable
+    public abstract LocalDate getDodsorsakDatum();
+
+    @Nullable
+    public abstract Specifikation getDodsorsakSpecifikation();
+
+    public abstract ImmutableList<Foljd> getFoljd();
+
+    public abstract ImmutableList<BidragandeSjukdom> getBidragandeSjukdomar();
+
+    @Nullable
+    public abstract Boolean getOperation();
+
+    @Nullable
+    public abstract LocalDate getOperationDatum();
+
+    @Nullable
+    public abstract String getOperationAnledning();
+
+    public abstract boolean isForgiftning();
+
+    @Nullable
+    public abstract ForgiftningOrsak getForgiftningOrsak();
+
+    @Nullable
+    public abstract LocalDate getForgiftningDatum();
+
+    @Nullable
+    public abstract String getForgiftningUppkommelse();
+
+    public abstract ImmutableList<Dodsorsaksgrund> getGrunder();
+
     public abstract ImmutableList<Tillaggsfraga> getTillaggsfragor();
 
     /*
@@ -112,6 +163,60 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
 
         @JsonProperty(BARN_JSON_ID)
         public abstract Builder setBarn(boolean barn);
+
+        @JsonProperty(LAND_JSON_ID)
+        public abstract Builder setLand(String land);
+
+        @JsonProperty(DODSORSAK_JSON_ID)
+        public abstract Builder setDodsorsak(String dodsorsak);
+
+        @JsonProperty(DODSORSAK_DATUM_JSON_ID)
+        public abstract Builder setDodsorsakDatum(LocalDate dodsorsakDatum);
+
+        @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID)
+        public abstract Builder setDodsorsakSpecifikation(Specifikation dodsorsakSpecifikation);
+
+        @JsonProperty(FOLJD_JSON_ID)
+        public Builder setFoljd(List<Foljd> foljd) {
+            return setFoljd(ImmutableList.copyOf(foljd));
+        }
+
+        abstract Builder setFoljd(ImmutableList<Foljd> foljd);
+
+        @JsonProperty(BIDRAGANDE_SJUKDOM_JSON_ID)
+        public Builder setBidragandeSjukdomar(List<BidragandeSjukdom> bidragandeSjukdomar) {
+            return setBidragandeSjukdomar(ImmutableList.copyOf(bidragandeSjukdomar));
+        }
+
+        abstract Builder setBidragandeSjukdomar(ImmutableList<BidragandeSjukdom> bidragandeSjukdom);
+
+        @JsonProperty(OPERATION_OM_JSON_ID)
+        public abstract Builder setOperation(Boolean operation);
+
+        @JsonProperty(OPERATION_DATUM_JSON_ID)
+        public abstract Builder setOperationDatum(LocalDate operationDatum);
+
+        @JsonProperty(OPERATION_ANLEDNING_JSON_ID)
+        public abstract Builder setOperationAnledning(String operationAnledning);
+
+        @JsonProperty(FORGIFTNING_OM_JSON_ID)
+        public abstract Builder setForgiftning(boolean forgiftning);
+
+        @JsonProperty(FORGIFTNING_ORSAK_JSON_ID)
+        public abstract Builder setForgiftningOrsak(ForgiftningOrsak forgiftningOrsak);
+
+        @JsonProperty(FORGIFTNING_DATUM_JSON_ID)
+        public abstract Builder setForgiftningDatum(LocalDate forgiftningDatum);
+
+        @JsonProperty(FORGIFTNING_UPPKOMMELSE_JSON_ID)
+        public abstract Builder setForgiftningUppkommelse(String forgiftningUppkommelse);
+
+        @JsonProperty(GRUNDER_JSON_ID)
+        public Builder setGrunder(List<Dodsorsaksgrund> grunder) {
+            return setGrunder(ImmutableList.copyOf(grunder));
+        }
+
+        abstract Builder setGrunder(ImmutableList<Dodsorsaksgrund> grunder);
 
         @JsonProperty(TILLAGGSFRAGOR_SVAR_JSON_ID)
         public Builder setTillaggsfragor(List<Tillaggsfraga> tillaggsfragor) {
