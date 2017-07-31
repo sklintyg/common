@@ -55,20 +55,20 @@ import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificater
 import se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificateResponderImpl;
 import se.inera.intyg.common.fk7263.model.converter.InternalToTransport;
 import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -88,14 +88,13 @@ public class Fk7263ModuleApiTest {
     private RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient;
 
     @Spy
-    private WebcertModelFactory webcertModelFactory = new WebcertModelFactory();
+    private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory = new WebcertModelFactoryImpl();
 
     @InjectMocks
     private Fk7263ModuleApi fk7263ModuleApi;
 
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
-
 
     @Test
     public void updateChangesHosPersonalInfo() throws IOException, ModuleException {
@@ -123,6 +122,7 @@ public class Fk7263ModuleApiTest {
         assertEquals(vardenhet.getEnhetsnamn(), updatedIntyg.getGrundData().getSkapadAv().getVardenhet()
                 .getEnhetsnamn());
     }
+
     @Test
     public void updatePatientBeforeSave() throws IOException, ModuleException {
         Fk7263Utlatande utlatande = getUtlatandeFromFile();

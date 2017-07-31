@@ -44,7 +44,6 @@ import se.inera.intyg.common.fk7263.model.converter.ArbetsformagaToGiltighet;
 import se.inera.intyg.common.fk7263.model.converter.InternalToTransport;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
 import se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.util.Fk7263ModelCompareUtil;
 import se.inera.intyg.common.fk7263.pdf.PdfDefaultGenerator;
@@ -60,6 +59,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
@@ -114,7 +114,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
 
     @Autowired
-    private WebcertModelFactory webcertModelFactory;
+    private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
 
     @Autowired
     private InternalDraftValidator internalDraftValidator;

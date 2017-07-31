@@ -20,27 +20,38 @@ package se.inera.intyg.common.sos_doi.support;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import se.inera.intyg.common.sos_doi.se.inera.intyg.common.sos_doi.rest.DodsorsaksintygModuleApi;
+import se.inera.intyg.common.sos_parent.support.SosAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
+import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 
-public class SosDoiModuleEntryPoint implements ModuleEntryPoint {
+public class DodsorsaksintygModuleEntryPoint extends SosAbstractModuleEntryPoint {
 
-    public static final String DEFAULT_RECIPIENT_ID = "SOS";
+    public static final String SCHEMATRON_FILE = "doi.sch";
+    public static final String MODULE_ID = "DOI";
+
+    private static final String MODULE_NAME = "Dödsorsaksintyg";
+    private static final String MODULE_DESCRIPTION = "Dödsorsaksintyg";
+
+    @Autowired
+    private DodsorsaksintygModuleApi moduleApi;
 
     @Override
     public String getModuleId() {
-        return null;
+        return MODULE_ID;
     }
 
     @Override
     public String getModuleName() {
-        return null;
+        return MODULE_NAME;
     }
 
     @Override
     public String getModuleDescription() {
-        return null;
+        return MODULE_DESCRIPTION;
     }
 
     @Override
@@ -50,7 +61,7 @@ public class SosDoiModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getExternalId() {
-        return getModuleId().toUpperCase();
+        return MODULE_ID;
     }
 
     @Override
@@ -60,28 +71,26 @@ public class SosDoiModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public ModuleApi getModuleApi() {
-        return null;
+        return moduleApi;
     }
 
     @Override
     public Map<String, Boolean> getModuleFeatures() {
-        return null;
+        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "db-features.properties");
     }
 
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
-        return null;
+        return "/web/webjars/sos_doi/webcert/css/sos_doi.css";
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
-        return null;
+        return "/web/webjars/sos_doi/webcert/module";
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
-        return null;
+        return "/web/webjars/sos_doi/webcert/module-deps.json";
     }
-
-
 }

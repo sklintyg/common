@@ -27,21 +27,15 @@ import java.util.List;
 
 import org.junit.Test;
 
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
-import se.inera.intyg.common.fkparent.model.internal.*;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public class TransportToInternalTest {
-
-    @Test
-    public void endToEnd() throws Exception {
-        LuaefsUtlatande originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
-        LuaefsUtlatande convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
-        assertEquals(originalUtlatande, convertedIntyg);
-    }
 
     public static LuaefsUtlatande getUtlatande() {
         LuaefsUtlatande.Builder utlatande = LuaefsUtlatande.builder();
@@ -58,7 +52,9 @@ public class TransportToInternalTest {
         utlatande.setUnderlagFinns(true);
         utlatande.setUnderlag(buildUnderlag());
 
-        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")), Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm"), Diagnos.create("S49", "ICD_10_SE", "Klämskada hand", "Klämskada hand")));
+        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
+                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm"),
+                Diagnos.create("S49", "ICD_10_SE", "Klämskada hand", "Klämskada hand")));
 
         utlatande.setFunktionsnedsattningDebut("Debut 1");
         utlatande.setFunktionsnedsattningPaverkan("Påverkan 1");
@@ -73,6 +69,14 @@ public class TransportToInternalTest {
     private static List<Underlag> buildUnderlag() {
         Underlag underlag = Underlag.create(Underlag.UnderlagsTyp.UNDERLAG_FRAN_FYSIOTERAPEUT, new InternalDate("2015-10-10"), "Postledes");
         return Arrays.asList(underlag);
+    }
+
+    @Test
+    public void endToEnd() throws Exception {
+        LuaefsUtlatande originalUtlatande = getUtlatande();
+        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
+        LuaefsUtlatande convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
+        assertEquals(originalUtlatande, convertedIntyg);
     }
 
 }

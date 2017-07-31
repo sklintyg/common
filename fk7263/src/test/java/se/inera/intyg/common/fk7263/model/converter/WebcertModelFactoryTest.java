@@ -48,11 +48,11 @@ public class WebcertModelFactoryTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryTest.class);
 
-    private WebcertModelFactory factory;
+    private WebcertModelFactoryImpl factory;
 
     @Before
     public void setup() {
-        this.factory = new WebcertModelFactory();
+        this.factory = new WebcertModelFactoryImpl();
     }
 
     @Test

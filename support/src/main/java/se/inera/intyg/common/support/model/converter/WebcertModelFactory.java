@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_parent.model.converter;
+package se.inera.intyg.common.support.model.converter;
 
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -45,6 +45,6 @@ public interface WebcertModelFactory<T extends Utlatande> {
      * @return {@link Utlatande} of implementing type
      * @throws ConverterException if an error occurs
      */
-    T createCopy(CreateDraftCopyHolder copyData, T template) throws ConverterException;
+    T createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException;
 
 }

@@ -16,11 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fkparent.model.converter;
+package se.inera.intyg.common.support.stub;
 
 import java.time.LocalDateTime;
 
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class IntygTestDataBuilder {
@@ -30,7 +35,7 @@ public final class IntygTestDataBuilder {
 
     public static Utlatande getUtlatande() {
         return new Utlatande() {
-                private GrundData grundData = IntygTestDataBuilder.getGrundData();
+            private GrundData grundData = IntygTestDataBuilder.getGrundData();
 
             @Override
             public String getTyp() {

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fkparent.model.converter;
+package se.inera.intyg.common.support.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,6 +25,8 @@ import org.junit.Test;
 
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
+import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
 
 public class InternalToRevokeTest {
@@ -40,7 +42,8 @@ public class InternalToRevokeTest {
         assertEquals(utlatande.getId(), res.getIntygsId().getExtension());
         assertEquals(meddelande, res.getMeddelande());
         assertEquals("1.2.752.129.2.1.3.1", res.getPatientPersonId().getRoot());
-        assertEquals(utlatande.getGrundData().getPatient().getPersonId().getPersonnummerWithoutDash(),res.getPatientPersonId().getExtension());
+        assertEquals(utlatande.getGrundData().getPatient().getPersonId().getPersonnummerWithoutDash(),
+                res.getPatientPersonId().getExtension());
         assertEquals(skapatAv.getPersonId(), res.getSkickatAv().getPersonalId().getExtension());
         assertEquals(skapatAv.getFullstandigtNamn(), res.getSkickatAv().getFullstandigtNamn());
         assertNotNull(res.getSkickatAv().getEnhet());

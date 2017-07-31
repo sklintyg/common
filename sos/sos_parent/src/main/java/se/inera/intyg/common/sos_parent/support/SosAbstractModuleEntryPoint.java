@@ -20,27 +20,12 @@ package se.inera.intyg.common.sos_parent.support;
 
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
-/**
- * Base implementation of common FK SIT-type intyg entrypoint.
- *
- * Created by marced on 09/05/16.
- */
 public abstract class SosAbstractModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String DEFAULT_RECIPIENT_ID = "SOS";
 
     @Override
-    public String getDetailedModuleDescription() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public String getDefaultRecipient() {
         return DEFAULT_RECIPIENT_ID;
-    }
-
-    @Override
-    public String getExternalId() {
-        return getModuleId().toUpperCase();
     }
 }

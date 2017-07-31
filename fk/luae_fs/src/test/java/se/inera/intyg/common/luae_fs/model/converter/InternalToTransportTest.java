@@ -37,19 +37,55 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 
+import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
-import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
-import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
+import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public class InternalToTransportTest {
+
+    private static URL getResource(String href) {
+        return Thread.currentThread().getContextClassLoader().getResource(href);
+    }
+
+    public static LuaefsUtlatande getUtlatande() {
+        return getUtlatande(null, null, null);
+    }
+
+    public static LuaefsUtlatande getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
+        LuaefsUtlatande.Builder utlatande = LuaefsUtlatande.builder();
+        utlatande.setId("1234567");
+        utlatande.setTextVersion("1.0");
+        GrundData grundData = IntygTestDataBuilder.getGrundData();
+
+        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+
+        if (relationKod != null) {
+            Relation relation = new Relation();
+            relation.setRelationKod(relationKod);
+            relation.setMeddelandeId(relationMeddelandeId);
+            relation.setReferensId(referensId);
+            grundData.setRelation(relation);
+        }
+        utlatande.setGrundData(grundData);
+
+        utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
+        utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
+
+        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
+
+        utlatande.setFunktionsnedsattningDebut("Skoldansen");
+        utlatande.setFunktionsnedsattningPaverkan("Haltar när han dansar");
+
+        return utlatande.build();
+    }
 
     @Test
     public void doSchematronValidationLuaefs() throws Exception {
@@ -59,13 +95,10 @@ public class InternalToTransportTest {
         assertTrue(generalValidator.validateGeneral(xmlContents));
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator("luae_fs.sch");
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+        SchematronOutputType result = validator
+                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
-    }
-
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
     }
 
     @Test
@@ -115,37 +148,5 @@ public class InternalToTransportTest {
         LuaefsUtlatande utlatande = getUtlatande(RelationKod.FRLANG, null, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
-    }
-
-    public static LuaefsUtlatande getUtlatande() {
-        return getUtlatande(null, null, null);
-    }
-
-    public static LuaefsUtlatande getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
-        LuaefsUtlatande.Builder utlatande = LuaefsUtlatande.builder();
-        utlatande.setId("1234567");
-        utlatande.setTextVersion("1.0");
-        GrundData grundData = IntygTestDataBuilder.getGrundData();
-
-        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
-
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationKod(relationKod);
-            relation.setMeddelandeId(relationMeddelandeId);
-            relation.setReferensId(referensId);
-            grundData.setRelation(relation);
-        }
-        utlatande.setGrundData(grundData);
-
-        utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
-        utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
-
-        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
-
-        utlatande.setFunktionsnedsattningDebut("Skoldansen");
-        utlatande.setFunktionsnedsattningPaverkan("Haltar när han dansar");
-
-        return utlatande.build();
     }
 }

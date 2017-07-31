@@ -18,39 +18,50 @@
  */
 package se.inera.intyg.common.sos_db.support;
 
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-
 import java.util.Map;
 
-public class SosDbModuleEntryPoint implements ModuleEntryPoint {
+import org.springframework.beans.factory.annotation.Autowired;
 
-    public static final String DEFAULT_RECIPIENT_ID = "SOS";
+import se.inera.intyg.common.sos_db.rest.DodsbevisModuleApi;
+import se.inera.intyg.common.sos_parent.support.SosAbstractModuleEntryPoint;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
+import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
+
+public class DodsbevisModuleEntryPoint extends SosAbstractModuleEntryPoint {
+
+    public static final String SCHEMATRON_FILE = "db.sch";
+    public static final String MODULE_ID = "DB";
+
+    private static final String MODULE_NAME = "Dödsbevis";
+    private static final String MODULE_DESCRIPTION = "Dödsbevis";
+
+    @Autowired
+    private DodsbevisModuleApi moduleApi;
 
     @Override
     public String getModuleId() {
-        return null;
+        return MODULE_ID;
     }
 
     @Override
     public String getModuleName() {
-        return null;
+        return MODULE_NAME;
     }
 
     @Override
     public String getModuleDescription() {
-        return null;
+        return MODULE_DESCRIPTION;
     }
 
     @Override
     public String getDetailedModuleDescription() {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override
     public String getExternalId() {
-        return getModuleId().toUpperCase();
+        return MODULE_ID;
     }
 
     @Override
@@ -60,28 +71,26 @@ public class SosDbModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public ModuleApi getModuleApi() {
-        return null;
+        return moduleApi;
     }
 
     @Override
     public Map<String, Boolean> getModuleFeatures() {
-        return null;
+        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "db-features.properties");
     }
 
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
-        return null;
+        return "/web/webjars/sos_db/webcert/css/sos_db.css";
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
-        return null;
+        return "/web/webjars/sos_db/webcert/module";
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
-        return null;
+        return "/web/webjars/sos_db/webcert/module-deps.json";
     }
-
-
 }

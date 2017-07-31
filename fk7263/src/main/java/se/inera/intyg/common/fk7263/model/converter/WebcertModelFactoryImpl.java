@@ -23,6 +23,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -32,8 +34,8 @@ import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 /**
  * Factory for creating an editable model.
  */
-public class WebcertModelFactory {
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactory.class);
+public class WebcertModelFactoryImpl implements WebcertModelFactory {
+    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     /**
      * Create a new FK7263 draft pre-populated with the attached data.
@@ -43,6 +45,7 @@ public class WebcertModelFactory {
      * @return {@link Fk7263Utlatande} or throws a ConverterException if something unforeseen happens
      * @throws ConverterException
      */
+    @Override
     public Fk7263Utlatande createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
 
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
@@ -66,16 +69,22 @@ public class WebcertModelFactory {
         return template;
     }
 
-    public Fk7263Utlatande createCopy(CreateDraftCopyHolder copyData, Fk7263Utlatande template) throws ConverterException {
+    @Override
+    public Fk7263Utlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
+        if (!Fk7263Utlatande.class.isInstance(template)) {
+            throw new ConverterException("Template is not of type Fk7263Utlatande");
+        }
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), template.getId());
+        Fk7263Utlatande fk7263Utlatande = (Fk7263Utlatande) template;
 
-        populateWithId(template, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(template.getGrundData(), copyData);
+        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), fk7263Utlatande.getId());
 
-        resetDataInCopy(template);
+        populateWithId(fk7263Utlatande, copyData.getCertificateId());
+        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(fk7263Utlatande.getGrundData(), copyData);
 
-        return template;
+        resetDataInCopy(fk7263Utlatande);
+
+        return fk7263Utlatande;
     }
 
     private void populateWithId(Fk7263Utlatande utlatande, String utlatandeId) throws ConverterException {

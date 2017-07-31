@@ -16,40 +16,53 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fkparent.rest;
+package se.inera.intyg.common.sos_parent.rest;
 
-import autovalue.shaded.com.google.common.common.primitives.Ints;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
+import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.JAXB;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
-import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
-import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.support.validate.InternalDraftValidator;
-import se.inera.intyg.common.support.validate.XmlValidator;
-import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+
+import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
+import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
-import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.validate.XmlValidator;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
@@ -64,44 +77,17 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public abstract class SosParentModuleApi<T extends SosUtlatande> implements ModuleApi {
 
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
-import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
-
-public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleApi {
-
-    private static final Logger LOG = LoggerFactory.getLogger(FkParentModuleApi.class);
-
-    @Autowired(required = false)
-    protected WebcertModuleService moduleService;
-
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
+    private static final Logger LOG = LoggerFactory.getLogger(SosParentModuleApi.class);
     @Autowired
     protected WebcertModelFactory<T> webcertModelFactory;
-
     @Autowired
     private InternalDraftValidator<T> internalDraftValidator;
-
+    @Autowired
+    private ObjectMapper objectMapper;
     @Autowired
     private ModelCompareUtil<T> modelCompareUtil;
-
-    @Autowired
-    private SvarIdHelper<T> svarIdHelper;
 
     @Autowired(required = false)
     @Qualifier("registerCertificateClient")
@@ -113,11 +99,11 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     @Autowired(required = false)
     private RevokeCertificateResponderInterface revokeCertificateClient;
 
-    private RegisterCertificateValidator validator = new RegisterCertificateValidator(getSchematronFileName());
-
     private Class<T> type;
 
-    public FkParentModuleApi(Class<T> type) {
+    private RegisterCertificateValidator validator = new RegisterCertificateValidator(getSchematronFileName());
+
+    public SosParentModuleApi(Class<T> type) {
         this.type = type;
     }
 
@@ -142,17 +128,14 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
     }
 
-    @Override
-    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
-            throws ModuleException {
-        try {
-            T internal = getInternal(template);
-            return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, internal));
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
-    }
+    // TODO: Should this not be included in abstract class?
+    /*
+     * @Override
+     * public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
+     * throws ModuleException {
+     * throw new UnsupportedOperationException();
+     * }
+     */
 
     @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
@@ -219,8 +202,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         if (response2.getResult().getResultCode() == ResultCodeType.INFO) {
             throw new ExternalServiceCallException(response2.getResult().getResultText(),
                     "Certificate already exists".equals(response2.getResult().getResultText())
-                            ? ErrorIdEnum.VALIDATION_ERROR
-                            : ErrorIdEnum.APPLICATION_ERROR);
+                            ? ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR
+                            : ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR);
         } else if (response2.getResult().getResultCode() == ResultCodeType.ERROR) {
             throw new ExternalServiceCallException(response2.getResult().getErrorId() + " : " + response2.getResult().getResultText());
         }
@@ -249,9 +232,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
-        RegisterCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class);
         try {
-            return transportToInternal(jaxbObject.getIntyg());
+            return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
@@ -270,6 +252,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String transformToStatisticsService(String inputXml) throws ModuleException {
+        // TODO: Should we actually use this?
         return inputXml;
     }
 
@@ -280,11 +263,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds) {
-        Map<String, List<String>> result = new HashMap<>();
-        for (String frageId : frageIds) {
-            result.put(frageId, getJsonPropertyHandle(frageId, utlatande));
-        }
-        return result;
+        // TODO: Where is this used. Arende should not be used for db/doi, hence we should throw exception or return empty map?
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -309,15 +289,13 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
     }
 
-    protected abstract String getSchematronFileName();
+    protected abstract T transportToInternal(Intyg intyg) throws ConverterException;
 
     protected abstract RegisterCertificateType internalToTransport(T utlatande) throws ConverterException;
 
-    protected abstract T transportToInternal(Intyg intyg) throws ConverterException;
-
     protected abstract Intyg utlatandeToIntyg(T utlatande) throws ConverterException;
 
-    protected abstract T decorateDiagnoserWithDescriptions(T utlatande);
+    protected abstract String getSchematronFileName();
 
     protected T getInternal(String internalModel) throws ModuleException {
         try {
@@ -333,27 +311,6 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         } catch (IOException e) {
             throw new ModuleSystemException("Failed to serialize internal model", e);
         }
-    }
-
-    protected IntygTexts getTexts(String intygsTyp, String version) {
-        if (intygTexts == null) {
-            throw new IllegalStateException("intygTextsService not available in this context");
-        }
-        return intygTexts.getIntygTextsPojo(intygsTyp, version);
-    }
-
-    private IntygId getIntygsId(String certificateId) {
-        IntygId intygId = new IntygId();
-        intygId.setRoot("SE5565594230-B31");
-        intygId.setExtension(certificateId);
-        return intygId;
-    }
-
-    private Part getPart(String recipientId) {
-        Part part = new Part();
-        part.setCode(recipientId);
-        part.setCodeSystem(KV_PART_CODE_SYSTEM);
-        return part;
     }
 
     private CertificateResponse convert(GetCertificateResponseType response) throws ModuleException {
@@ -372,7 +329,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
             throws ModuleException {
         try {
-            T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
+            T utlatande = getInternal(internalModel);
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
             return toInternalModelResponse(utlatande);
         } catch (ModuleException e) {
@@ -391,25 +348,17 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
     }
 
-    private List<String> getJsonPropertyHandle(String frageId, Utlatande utlatande) {
-        if (isTillaggsFraga(frageId)) {
-            return Collections.singletonList(TILLAGGSFRAGOR_SVAR_JSON_ID);
-        }
-        switch (frageId) {
-        case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1:
-            return svarIdHelper.calculateFrageIdHandleForGrundForMU(type.cast(utlatande));
-        default:
-            return Collections.singletonList(RespConstants.getJsonPropertyFromFrageId(frageId));
-        }
+    private IntygId getIntygsId(String certificateId) {
+        IntygId intygId = new IntygId();
+        intygId.setRoot("SE5565594230-B31");
+        intygId.setExtension(certificateId);
+        return intygId;
     }
 
-    private boolean isTillaggsFraga(String frageId) {
-        try {
-            Integer parsedInt = Ints.tryParse(frageId);
-            return parsedInt != null && parsedInt >= TILLAGGSFRAGOR_START;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+    private Part getPart(String recipientId) {
+        Part part = new Part();
+        part.setCode(recipientId);
+        part.setCodeSystem(KV_PART_CODE_SYSTEM);
+        return part;
     }
-
 }

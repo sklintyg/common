@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fkparent.model.validator;
+package se.inera.intyg.common.support.validate;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -28,13 +28,13 @@ import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.helger.schematron.svrl.SVRLHelper;
 
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 
 /**
- * XML validation utility class for FK-modules.
+ * XML validation utility class for certificate-modules.
+ *
  * @author erik
  *
  */
@@ -45,10 +45,12 @@ public final class XmlValidator {
 
     /**
      * Perform validation of the specified XML string using the supplied {@link RegisterCertificateValidator},
-     * allows each FK-module to set up its validator using each modules' schematron-file.
+     * allows each module to set up its validator using each modules' schematron-file.
      *
-     * @param validator {@link RegisterCertificateValidator}
-     * @param inputXml String
+     * @param validator
+     *            {@link RegisterCertificateValidator}
+     * @param inputXml
+     *            String
      * @return {@link ValidateXmlResponse}
      * @throws ModuleException
      */
@@ -61,7 +63,7 @@ public final class XmlValidator {
                         .forEach(fra -> errorMsgs.add(String.format("TEST: %s, MSG: %s", fra.getTest(), fra.getText())));
                 return new ValidateXmlResponse(ValidationStatus.INVALID, errorMsgs);
             } else {
-                return new ValidateXmlResponse(ValidationStatus.VALID, new ArrayList<String>());
+                return new ValidateXmlResponse(ValidationStatus.VALID, new ArrayList<>());
             }
         } catch (Exception e) {
             throw new ModuleException("Failed to validate xml", e);

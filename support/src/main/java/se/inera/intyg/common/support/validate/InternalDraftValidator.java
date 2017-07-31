@@ -16,12 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fkparent.model.validator;
+package se.inera.intyg.common.support.validate;
 
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 
 public interface InternalDraftValidator<T extends Utlatande> {
-
     ValidateDraftResponse validateDraft(T utlatande);
 }

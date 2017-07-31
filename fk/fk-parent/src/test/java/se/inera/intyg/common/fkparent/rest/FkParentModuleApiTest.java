@@ -18,35 +18,74 @@
  */
 package se.inera.intyg.common.fkparent.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Field;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.JAXB;
+import javax.xml.transform.Source;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.core.io.ClassPathResource;
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
-import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
-import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
@@ -64,23 +103,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 
-import javax.xml.bind.JAXB;
-import javax.xml.transform.Source;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Field;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
-
 @RunWith(MockitoJUnitRunner.class)
 public class FkParentModuleApiTest {
 
@@ -91,37 +113,27 @@ public class FkParentModuleApiTest {
     private static ClassPathResource revokeCertificateFile;
     private static Utlatande utlatande;
     private static String json;
-
-    @Mock
-    private InternalDraftValidator<Utlatande> internalDraftValidator;
-
-    @Mock
-    private WebcertModelFactory<Utlatande> webcertModelFactory;
-
-    @Mock
-    private RegisterCertificateResponderInterface registerCertificateResponderInterface;
-
-    @Mock
-    private ModelCompareUtil<Utlatande> modelCompareUtil;
-
-    @Mock
-    private GetCertificateResponderInterface getCertificateResponderInterface;
-
-    @Mock
-    private RegisterCertificateValidator validator;
-
-    @Mock
-    private SvarIdHelper<Utlatande> svarIdHelper;
-
-    @Mock
-    private RevokeCertificateResponderInterface revokeCertificateClient;
-
-    @Spy
-    private ObjectMapper objectMapper = new CustomObjectMapper();
-
     @SuppressWarnings("unchecked")
     @InjectMocks
     FkParentModuleApi<Utlatande> moduleApi = mock(FkParentModuleApi.class, Mockito.CALLS_REAL_METHODS);
+    @Mock
+    private InternalDraftValidator<Utlatande> internalDraftValidator;
+    @Mock
+    private WebcertModelFactory<Utlatande> webcertModelFactory;
+    @Mock
+    private RegisterCertificateResponderInterface registerCertificateResponderInterface;
+    @Mock
+    private ModelCompareUtil<Utlatande> modelCompareUtil;
+    @Mock
+    private GetCertificateResponderInterface getCertificateResponderInterface;
+    @Mock
+    private RegisterCertificateValidator validator;
+    @Mock
+    private SvarIdHelper<Utlatande> svarIdHelper;
+    @Mock
+    private RevokeCertificateResponderInterface revokeCertificateClient;
+    @Spy
+    private ObjectMapper objectMapper = new CustomObjectMapper();
 
     @BeforeClass
     public static void set() throws Exception {
@@ -205,7 +217,8 @@ public class FkParentModuleApiTest {
 
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.TECHNICAL_ERROR, "error"));
-        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class))).thenReturn(response);
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
         moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
     }
 
@@ -234,7 +247,8 @@ public class FkParentModuleApiTest {
 
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.okResult());
-        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class))).thenReturn(response);
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
         moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
         verify(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class));
     }
@@ -268,7 +282,8 @@ public class FkParentModuleApiTest {
     @Test
     public void testGetCertificate() throws Exception {
         GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
-        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
+        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
+                .thenReturn(getCertificateResponse);
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
@@ -292,7 +307,8 @@ public class FkParentModuleApiTest {
         revokedStatus.setStatus(new Statuskod());
         revokedStatus.getStatus().setCode(StatusKod.CANCEL.name());
         getCertificateResponse.getIntyg().getStatus().add(revokedStatus);
-        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
+        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
+                .thenReturn(getCertificateResponse);
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
@@ -307,7 +323,8 @@ public class FkParentModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testGetCertificateConvertException() throws Exception {
         GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
-        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class))).thenReturn(getCertificateResponse);
+        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
+                .thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
         moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
@@ -327,7 +344,8 @@ public class FkParentModuleApiTest {
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.okResult());
-        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class))).thenReturn(response);
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
 
         moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
     }
@@ -345,7 +363,8 @@ public class FkParentModuleApiTest {
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class))).thenReturn(response);
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
 
         try {
             moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
@@ -361,7 +380,8 @@ public class FkParentModuleApiTest {
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
-        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class))).thenReturn(response);
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
 
         try {
             moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
@@ -377,7 +397,8 @@ public class FkParentModuleApiTest {
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Other info"));
-        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class))).thenReturn(response);
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
 
         try {
             moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
@@ -390,7 +411,8 @@ public class FkParentModuleApiTest {
     @Test
     public void testUpdateBeforeSave() throws Exception {
         final String otherHosPersonalName = "Other Person";
-        doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi).decorateDiagnoserWithDescriptions(any(Utlatande.class));
+        doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi)
+                .decorateDiagnoserWithDescriptions(any(Utlatande.class));
 
         HoSPersonal hosPersonal = new HoSPersonal();
         hosPersonal.setFullstandigtNamn(otherHosPersonalName);
@@ -428,7 +450,8 @@ public class FkParentModuleApiTest {
     public void testUpdateBeforeSigning() throws Exception {
         final String otherHosPersonalName = "Other Person";
         final LocalDateTime signDate = LocalDateTime.now();
-        doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi).decorateDiagnoserWithDescriptions(any(Utlatande.class));
+        doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi)
+                .decorateDiagnoserWithDescriptions(any(Utlatande.class));
 
         HoSPersonal hosPersonal = new HoSPersonal();
         hosPersonal.setFullstandigtNamn(otherHosPersonalName);

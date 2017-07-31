@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fkparent.integration;
+package se.inera.intyg.common.support.validate;
 
 import javax.annotation.Nonnull;
 import javax.xml.transform.Source;
@@ -30,7 +30,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 public class RegisterCertificateValidator {
     private SchematronResourceSCH schematronResource;
 
-    public RegisterCertificateValidator(@Nonnull final String location)  {
+    public RegisterCertificateValidator(@Nonnull final String location) {
         schematronResource = SchematronResourceSCH.fromClassPath(location);
         if (!schematronResource.isValidSchematron()) {
             throw new IllegalArgumentException("Invalid Schematron!");
