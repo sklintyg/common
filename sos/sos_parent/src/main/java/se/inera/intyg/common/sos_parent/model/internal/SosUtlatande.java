@@ -19,8 +19,7 @@ public interface SosUtlatande extends Utlatande {
 
     String getDodsplatsKommun();
 
-    // TODO: This should be an enum?
-    String getDodsplatsBoende();
+    DodsplatsBoende getDodsplatsBoende();
 
     boolean isBarn();
 }

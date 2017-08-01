@@ -9,8 +9,8 @@ public final class RespConstants {
 
     public static final String IDENTITET_STYRKT_JSON_ID = "identitetStyrkt";
     public static final String DODSDATUM_JSON_ID = "dodsdatum";
-    public static final String DODSDATUM_SAKERT_JSON_ID = "dodsdatum";
-    public static final String ANTRAFFAT_DOD_DATUM_JSON_ID = "antraffatDod";
+    public static final String DODSDATUM_SAKERT_JSON_ID = "dodsdatumSakert";
+    public static final String ANTRAFFAT_DOD_DATUM_JSON_ID = "antraffatDodDatum";
     public static final String DODSPLATS_BOENDE_JSON_ID = "dodsplatsBoende";
     public static final String DODSPLATS_KOMMUN_JSON_ID = "dodsplatsKommun";
     public static final String BARN_JSON_ID = "barn";
@@ -34,7 +34,7 @@ public final class RespConstants {
     public static final String DODSORSAK_DATUM_JSON_ID = "dodsorsakDatum";
     public static final String DODSORSAK_SPECIFIKATION_JSON_ID = "dodsorsakSpecifikation";
 
-    public static final String FOLJD_JSON_ID = "foljder";
+    public static final String FOLJD_JSON_ID = "foljd";
     public static final String BIDRAGANDE_SJUKDOM_JSON_ID = "bidragandeSjukdomar";
     public static final String OPERATION_OM_JSON_ID = "operation";
     public static final String OPERATION_DATUM_JSON_ID = "operationDatum";

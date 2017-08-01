@@ -30,6 +30,7 @@ import com.google.auto.value.AutoValue;
 import autovalue.shaded.com.google.common.common.collect.ImmutableList;
 import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
 import se.inera.intyg.common.sos_db.support.DodsbevisModuleEntryPoint;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 
@@ -72,7 +73,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
     public abstract String getDodsplatsKommun();
 
     @Override
-    public abstract String getDodsplatsBoende();
+    public abstract DodsplatsBoende getDodsplatsBoende();
 
     @Override
     public abstract boolean isBarn();
@@ -128,7 +129,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
         public abstract Builder setDodsplatsKommun(String dodsplatsKommun);
 
         @JsonProperty(DODSPLATS_BOENDE_JSON_ID)
-        public abstract Builder setDodsplatsBoende(String dodsplatsBoende);
+        public abstract Builder setDodsplatsBoende(DodsplatsBoende dodsplatsBoende);
 
         @JsonProperty(BARN_JSON_ID)
         public abstract Builder setBarn(boolean barn);
