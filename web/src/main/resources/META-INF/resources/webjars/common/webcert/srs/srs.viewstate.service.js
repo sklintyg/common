@@ -17,12 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').service('common.fmbViewState', [
+angular.module('common').service('common.srsViewState', [
     'common.fmbDiagnosInfoModel', 'common.ObjectHelper',
     function(fmbModel, ObjectHelper) {
         'use strict';
 
-        console.log("FMB test");
+        console.log("SRS test");
 
         this.DIAGNOS_TYPE = {
             HUVUDDIAGNOS: 0,

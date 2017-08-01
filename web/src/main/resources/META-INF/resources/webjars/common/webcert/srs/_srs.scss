@@ -1,0 +1,279 @@
+/*
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/* A panel to be used instead of the regular bootstrap panels, panel-default etc.
+ * Specifically targeting the SRS-accordion
+ */
+$srs-border-color: #ccc;
+$srs-panelheading-color: #333333;
+$srs-panelheading-background-color: #fff;
+$srs-panelheading-background-hover-color: #E0FFFF;
+$srs-panelheading-border-color: #ccc;
+$srs-panelcollapse-border-color: #fff;
+$srs-panelfooter-color: #999;
+$srs-diagnosis-color: #000;
+$srs-glyphicon-hover-color: #808080;
+
+.panel-srs-info-heading {
+    padding: 9px 0 8px 15px;
+    border-bottom: 1px solid #ccc;
+    background-color: #000;
+    color: white;
+}
+
+.line{
+  float:left;
+  margin-left: 5px;
+}
+
+/* SIT type drafts needs a smaller srs info panel to avoid overlapping srs-panels, by wrapping the srs directive with this class we can override the default heights */
+.sit-srs-small {
+  .panel-srs-info {
+    .panel-body {
+      max-height: 130px;
+    }
+  }
+}
+
+.sit-srs-medium {
+  .panel-srs-info {
+    .panel-body {
+      max-height: 180px;
+    }
+  }
+}
+
+.sit-srs-large {
+  .panel-srs-info {
+    .panel-body {
+      max-height: 400px;
+    }
+  }
+}
+
+.srs-column {
+  padding-right: 50px;
+}
+
+.btn-srs {
+  position: absolute;
+  right: -15px;
+  top: 0;
+  padding: 5px 5px;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.btn-default.btn-srs:hover, .btn-default.btn-srs:focus {
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #adadad;
+}
+
+.srs {
+  position: relative;
+}
+
+.panel-wrapper-srs {
+  left: 105%;
+  top: -4px;
+  position: absolute;
+  transition-property: opacity;
+  transition-duration: 0.4s;
+  z-index: 100;
+
+  &.srs-collapse {
+    opacity: 0;
+  }
+}
+
+.panel-arrow {
+  position: absolute;
+  right: -1px;
+  top: 7px;
+  opacity: 1;
+  z-index: 101;
+
+  &.srs-collapse {
+    display: none;
+    /*opacity: 0;*/
+  }
+
+  &:after, &:before {
+    position: absolute;
+    display: inline-block;
+    content: '';
+  }
+
+  &:before {
+    border-top: 11px solid transparent;
+    border-right: 11px solid $srs-border-color;
+    border-bottom: 11px solid transparent;
+    left: -11px;
+    top: 0px;
+  }
+
+  &:after {
+    border-top: 10px solid transparent;
+    border-right: 10px solid #fff;
+    border-bottom: 10px solid transparent;
+    left: -10px;
+    top: 1px;
+  }
+}
+
+.srs-panel-tabset {
+  margin-top: -30px;
+
+  > ul {
+    border-bottom: none;
+    margin-left: -1px;
+  }
+
+  .nav-tabs > li > a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    background-color: #e5e5e5;
+  }
+
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+  }
+
+  .nav > li > a {
+    padding: 5px 32px;
+  }
+}
+
+.srs-panel-tabset.hide-tabs > ul {
+  visibility: hidden;
+}
+
+.panel-srs-info {
+  position: absolute;
+  border-color: $srs-border-color;
+  width: 620px;
+  /*overflow: hidden;*/
+  z-index: 100;
+  box-shadow: 0px 0px 14px rgba(0, 0, 0, .25);
+  border-radius: 0 4px 4px 4px;
+
+  .panel-body {
+    max-height: 334px;
+    margin-top: 0;
+    padding: 15px 15px 5px 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .panel-srs-info-heading {
+    padding: 9px 0 8px 15px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  > .panel-heading {
+    transition-property: background-color;
+    transition-duration: 0.4s;
+    background-color: $srs-panelheading-background-color;
+    border-color: $srs-panelheading-border-color;
+    color: $srs-panelheading-color;
+    padding-bottom: 0;
+    + .panel-collapse .panel-body {
+      border-top-color: $srs-panelcollapse-border-color;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+
+  > .panel-footer + .panel-collapse .panel-body {
+    border-bottom-color: $srs-border-color;
+    padding-top: 0;
+  }
+
+  .panel-footer--srs {
+    background-color: $srs-panelheading-background-color;
+    text-align: center;
+    color: $srs-panelfooter-color;
+  }
+
+  .srs-panel-title {
+    margin: 0px 20px 0px 0px;
+    width: 520px;
+
+    > h4 {
+      padding: 0;
+    }
+  }
+
+  .srs-collapse-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    line-height: 13px;
+    padding: 10px 12px;
+    border-radius: 0 4px 0 0;
+  }
+}
+
+.srs-icon-text {
+  vertical-align: middle;
+}
+
+.srs-diagnosis-headline {
+  color: $srs-diagnosis-color;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 5px;
+}
+
+h4.srs-sub-headline {
+  padding-bottom: 0 !important;
+}
+
+.srs-section {
+  padding-bottom: 10px;
+}
+
+.srs-bullet-list {
+  padding-left: 20px;
+}
+
+.col-srs-base-offset {
+  margin-top: 30px;
+}
+
+/*Make the SRS-display a bit responsive*/
+@media (min-width: 992px) {
+  .col-md-srs-offset {
+    margin-top: 50px;
+  }
+}
+
+@media (min-width: 1340px) {
+  .col-lg-srs-offset {
+    margin-top: 30px;
+  }
+}
