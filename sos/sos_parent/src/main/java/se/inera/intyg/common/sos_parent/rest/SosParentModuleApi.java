@@ -128,15 +128,6 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         }
     }
 
-    // TODO: Should this not be included in abstract class?
-    /*
-     * @Override
-     * public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
-     * throws ModuleException {
-     * throw new UnsupportedOperationException();
-     * }
-     */
-
     @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
             throws ModuleException {
@@ -252,7 +243,6 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
 
     @Override
     public String transformToStatisticsService(String inputXml) throws ModuleException {
-        // TODO: Should we actually use this?
         return inputXml;
     }
 
@@ -263,7 +253,6 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
 
     @Override
     public Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds) {
-        // TODO: Where is this used. Arende should not be used for db/doi, hence we should throw exception or return empty map?
         throw new UnsupportedOperationException();
     }
 

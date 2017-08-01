@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import se.inera.intyg.common.sos_doi.se.inera.intyg.common.sos_doi.rest.DodsorsaksintygModuleApi;
+import se.inera.intyg.common.sos_doi.rest.DodsorsaksintygModuleApi;
 import se.inera.intyg.common.sos_parent.support.SosAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
