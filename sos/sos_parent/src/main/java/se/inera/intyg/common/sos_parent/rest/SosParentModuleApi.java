@@ -101,7 +101,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
 
     private Class<T> type;
 
-    private RegisterCertificateValidator validator; //  = new RegisterCertificateValidator(getSchematronFileName());
+    private RegisterCertificateValidator validator = new RegisterCertificateValidator(getSchematronFileName());
 
     public SosParentModuleApi(Class<T> type) {
         this.type = type;
