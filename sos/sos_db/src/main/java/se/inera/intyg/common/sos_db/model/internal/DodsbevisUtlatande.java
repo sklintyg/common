@@ -94,7 +94,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
     public abstract Boolean getUndersokningYttre();
 
     @Nullable
-    public abstract String getUndersokningDetaljer();
+    public abstract Undersokning getUndersokningDetaljer();
 
     @Nullable
     public abstract LocalDate getUndersokningDatum();
@@ -154,7 +154,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
         public abstract Builder setUndersokningYttre(Boolean undersokningYttre);
 
         @JsonProperty(UNDERSOKNING_DETALJER_JSON_ID)
-        public abstract Builder setUndersokningDetaljer(String undersokningDetaljer);
+        public abstract Builder setUndersokningDetaljer(Undersokning undersokningDetaljer);
 
         @JsonProperty(UNDERSOKNING_DATUM_JSON_ID)
         public abstract Builder setUndersokningDatum(LocalDate undersokningDatum);
