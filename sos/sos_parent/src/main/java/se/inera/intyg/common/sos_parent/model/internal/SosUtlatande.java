@@ -1,8 +1,8 @@
 package se.inera.intyg.common.sos_parent.model.internal;
 
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-
 import java.time.LocalDate;
+
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 /**
  * Shared fields between Dödsbevis and Dödsorsaksintyg.
@@ -11,7 +11,7 @@ public interface SosUtlatande extends Utlatande {
 
     String getIdentitetStyrkt();
 
-    boolean isDodsdatumSakert();
+    Boolean getDodsdatumSakert();
 
     String getDodsdatum();
 
@@ -21,5 +21,5 @@ public interface SosUtlatande extends Utlatande {
 
     DodsplatsBoende getDodsplatsBoende();
 
-    boolean isBarn();
+    Boolean getBarn();
 }

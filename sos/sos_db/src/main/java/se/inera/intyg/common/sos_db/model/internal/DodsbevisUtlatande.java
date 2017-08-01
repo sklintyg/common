@@ -57,12 +57,15 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
     public abstract String getTextVersion();
 
     @Override
+    @Nullable
     public abstract String getIdentitetStyrkt();
 
     @Override
-    public abstract boolean isDodsdatumSakert();
+    @Nullable
+    public abstract Boolean getDodsdatumSakert();
 
     @Override
+    @Nullable
     public abstract String getDodsdatum();
 
     @Override
@@ -70,19 +73,25 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
     public abstract LocalDate getAntraffatDodDatum();
 
     @Override
+    @Nullable
     public abstract String getDodsplatsKommun();
 
     @Override
+    @Nullable
     public abstract DodsplatsBoende getDodsplatsBoende();
 
     @Override
-    public abstract boolean isBarn();
+    @Nullable
+    public abstract Boolean getBarn();
 
-    public abstract boolean isExplosivtImplantat();
+    @Nullable
+    public abstract Boolean getExplosivtImplantat();
 
-    public abstract boolean isExplosivtAvlagsnat();
+    @Nullable
+    public abstract Boolean getExplosivtAvlagsnat();
 
-    public abstract boolean isUndersokningYttre();
+    @Nullable
+    public abstract Boolean getUndersokningYttre();
 
     @Nullable
     public abstract String getUndersokningDetaljer();
@@ -90,7 +99,8 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
     @Nullable
     public abstract LocalDate getUndersokningDatum();
 
-    public abstract boolean isPolisanmalan();
+    @Nullable
+    public abstract Boolean getPolisanmalan();
 
     public abstract ImmutableList<Tillaggsfraga> getTillaggsfragor();
 
@@ -117,7 +127,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
         public abstract Builder setIdentitetStyrkt(String identitetStyrkt);
 
         @JsonProperty(DODSDATUM_SAKERT_JSON_ID)
-        public abstract Builder setDodsdatumSakert(boolean dodsdatumSakert);
+        public abstract Builder setDodsdatumSakert(Boolean dodsdatumSakert);
 
         @JsonProperty(DODSDATUM_JSON_ID)
         public abstract Builder setDodsdatum(String dodsdatum);
@@ -132,16 +142,16 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
         public abstract Builder setDodsplatsBoende(DodsplatsBoende dodsplatsBoende);
 
         @JsonProperty(BARN_JSON_ID)
-        public abstract Builder setBarn(boolean barn);
+        public abstract Builder setBarn(Boolean barn);
 
         @JsonProperty(EXPLOSIVT_IMPLANTAT_JSON_ID)
-        public abstract Builder setExplosivtImplantat(boolean explosivtImplantat);
+        public abstract Builder setExplosivtImplantat(Boolean explosivtImplantat);
 
         @JsonProperty(EXPLOSIVT_AVLAGSNAT_JSON_ID)
-        public abstract Builder setExplosivtAvlagsnat(boolean explosivtAvlagsnat);
+        public abstract Builder setExplosivtAvlagsnat(Boolean explosivtAvlagsnat);
 
         @JsonProperty(UNDERSOKNING_YTTRE_JSON_ID)
-        public abstract Builder setUndersokningYttre(boolean undersokningYttre);
+        public abstract Builder setUndersokningYttre(Boolean undersokningYttre);
 
         @JsonProperty(UNDERSOKNING_DETALJER_JSON_ID)
         public abstract Builder setUndersokningDetaljer(String undersokningDetaljer);
@@ -150,7 +160,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
         public abstract Builder setUndersokningDatum(LocalDate undersokningDatum);
 
         @JsonProperty(POLISANMALAN_JSON_ID)
-        public abstract Builder setPolisanmalan(boolean polisanmalan);
+        public abstract Builder setPolisanmalan(Boolean polisanmalan);
 
         @JsonProperty(TILLAGGSFRAGOR_SVAR_JSON_ID)
         public Builder setTillaggsfragor(List<Tillaggsfraga> tillaggsfragor) {

@@ -47,7 +47,9 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
 
     public static Builder builder() {
-        return new AutoValue_DodsorsaksintygUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga> of());
+        return new AutoValue_DodsorsaksintygUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga> of()).setGrunder(
+                ImmutableList.<Dodsorsaksgrund> of()).setBidragandeSjukdomar(ImmutableList.<BidragandeSjukdom> of())
+                .setFoljd(ImmutableList.<Foljd> of());
     }
 
     @Override
@@ -65,12 +67,15 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
     public abstract String getTextVersion();
 
     @Override
+    @Nullable
     public abstract String getIdentitetStyrkt();
 
     @Override
-    public abstract boolean isDodsdatumSakert();
+    @Nullable
+    public abstract Boolean getDodsdatumSakert();
 
     @Override
+    @Nullable
     public abstract String getDodsdatum();
 
     @Override
@@ -78,17 +83,21 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
     public abstract LocalDate getAntraffatDodDatum();
 
     @Override
+    @Nullable
     public abstract String getDodsplatsKommun();
 
     @Override
+    @Nullable
     public abstract DodsplatsBoende getDodsplatsBoende();
 
     @Override
-    public abstract boolean isBarn();
+    @Nullable
+    public abstract Boolean getBarn();
 
     @Nullable
     public abstract String getLand();
 
+    @Nullable
     public abstract String getDodsorsak();
 
     @Nullable
@@ -110,7 +119,8 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
     @Nullable
     public abstract String getOperationAnledning();
 
-    public abstract boolean isForgiftning();
+    @Nullable
+    public abstract Boolean getForgiftning();
 
     @Nullable
     public abstract ForgiftningOrsak getForgiftningOrsak();
@@ -148,7 +158,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
         public abstract Builder setIdentitetStyrkt(String identitetStyrkt);
 
         @JsonProperty(DODSDATUM_SAKERT_JSON_ID)
-        public abstract Builder setDodsdatumSakert(boolean dodsdatumSakert);
+        public abstract Builder setDodsdatumSakert(Boolean dodsdatumSakert);
 
         @JsonProperty(DODSDATUM_JSON_ID)
         public abstract Builder setDodsdatum(String dodsdatum);
@@ -163,7 +173,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
         public abstract Builder setDodsplatsBoende(DodsplatsBoende dodsplatsBoende);
 
         @JsonProperty(BARN_JSON_ID)
-        public abstract Builder setBarn(boolean barn);
+        public abstract Builder setBarn(Boolean barn);
 
         @JsonProperty(LAND_JSON_ID)
         public abstract Builder setLand(String land);
@@ -189,7 +199,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
             return setBidragandeSjukdomar(ImmutableList.copyOf(bidragandeSjukdomar));
         }
 
-        abstract Builder setBidragandeSjukdomar(ImmutableList<BidragandeSjukdom> bidragandeSjukdom);
+        abstract Builder setBidragandeSjukdomar(ImmutableList<BidragandeSjukdom> bidragandeSjukdomar);
 
         @JsonProperty(OPERATION_OM_JSON_ID)
         public abstract Builder setOperation(Boolean operation);
@@ -201,7 +211,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
         public abstract Builder setOperationAnledning(String operationAnledning);
 
         @JsonProperty(FORGIFTNING_OM_JSON_ID)
-        public abstract Builder setForgiftning(boolean forgiftning);
+        public abstract Builder setForgiftning(Boolean forgiftning);
 
         @JsonProperty(FORGIFTNING_ORSAK_JSON_ID)
         public abstract Builder setForgiftningOrsak(ForgiftningOrsak forgiftningOrsak);
