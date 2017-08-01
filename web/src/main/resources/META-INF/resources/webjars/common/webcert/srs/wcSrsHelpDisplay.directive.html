@@ -1,0 +1,24 @@
+<div>
+  <div ng-show="srsAvailable">
+    <div class="fmb">
+      <button id="{{relatedFormId}}-fmb-button" type="button" class="btn btn-default btn-fmb" ng-click="status.open = !status.open">SRS <i
+          class="glyphicon fmb-glyphicon"
+          ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
+      <div class="panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
+        <div class="panel-arrow"></div>
+        <div class="panel panel-fmb-info">
+          <uib-tabset active="srsStates.activeDiagnos" class="fmb-panel-tabset nav-tabs__fmb"
+                      ng-class="{'hide-tabs': (srsStates.diagnoses | keyLength) < 2}">
+            <uib-tab index="$index + 1" ng-repeat="fmb in srsStates.diagnoses" heading="{{fmb.diagnosKod}}"
+                     disable="false" select="selectDiagnos($index)">
+              <wc-srs-content related-form-id="relatedFormId" fmb="fmb" status="status" field-name="fieldName"></wc-srs-content>
+            </uib-tab>
+          </uib-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-class="{'fmb-column': srsAvailable}">
+    <div ng-transclude></div>
+  </div>
+</div>

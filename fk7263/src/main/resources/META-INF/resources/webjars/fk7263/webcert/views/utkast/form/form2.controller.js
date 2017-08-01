@@ -18,9 +18,9 @@
  */
 
 angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
-    ['$scope', '$log', '$timeout', '$http', 'fk7263.EditCertCtrl.ViewStateService', 'fk7263.diagnosService', 'common.fmbService', 'common.fmbViewState',
+    ['$scope', '$log', '$timeout', '$http', 'fk7263.EditCertCtrl.ViewStateService', 'fk7263.diagnosService', 'common.fmbService', 'common.fmbViewState', 'common.srsViewState', 
         'fk7263.EditCertCtrl.Helper', 'common.MonitoringLogService', 'common.UtkastValidationService',
-        function($scope, $log, $timeout, $http, viewState, diagnosService, fmbService, fmbViewState, helper, monitoringService, UtkastValidationService) {
+        function($scope, $log, $timeout, $http, viewState, diagnosService, fmbService, fmbViewState, srsViewState, helper, monitoringService, UtkastValidationService) {
             'use strict';
 
             var model = viewState.intygModel;
@@ -29,6 +29,7 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
             $scope.viewState = viewState;
 
             $scope.fmbViewState = fmbViewState;
+            $scope.srsViewState = srsViewState;
 
             $scope.viewModel = {
                 diagnosKodverk : ''
