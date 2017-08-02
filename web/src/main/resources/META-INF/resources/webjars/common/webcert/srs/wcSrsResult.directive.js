@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2016 Inera AB (http://www.inera.se)
  *
@@ -18,25 +19,18 @@
  */
 
 /**
- * Display SRS help texts
+ * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState',
+angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState',
     function(ObjectHelper, srsService, fmbViewState) {
         'use strict';
 
         return {
             restrict: 'E',
-            transclude: true,
-            scope: {
-                fieldName: '@',
-                relatedFormId: '@'
-            },
             link: function(scope, element, attrs) {
                 scope.status = {
                     open: true
                 };
-
-                scope.isCollapsed=true;
 
                 scope.srsStates = fmbViewState;
 
@@ -46,6 +40,6 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', '
 
                 scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
             },
-            templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'
+            templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.directive.html'
         };
     }]);

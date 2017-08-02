@@ -4,7 +4,12 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
         function($window, $location, $log, $rootScope, $state, $stateParams, $scope, customizeViewstate, listCertService, certificateService, dialogService) {
             'use strict';
 
+            $scope.poppedState = {};
 
+            window.onpopstate = function(event) {
+                console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+                $scope.poppedState = event;
+            };
             $scope.customizeViewstate = customizeViewstate;
             $scope.downloadAsPdfLink = '/moduleapi/certificate/fk7263' + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
 
@@ -54,6 +59,9 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
             $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options) {
                 if (toState.name.indexOf('fk7263-customize')!==-1 || leaveConfirmed) {
                     return;
+                }
+                else{
+                    event.preventDefault();
                 }
 
                 // defer this navigation until confirmed in dialog
