@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fkparent.model.internal;
+package se.inera.intyg.common.support.model.common.internal;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +29,7 @@ public abstract class Tillaggsfraga {
 
     @JsonCreator
     public static Tillaggsfraga create(@JsonProperty("id") String id,
-                                       @JsonProperty("svar") String svar) {
+            @JsonProperty("svar") String svar) {
         return new AutoValue_Tillaggsfraga(id, svar);
     }
 

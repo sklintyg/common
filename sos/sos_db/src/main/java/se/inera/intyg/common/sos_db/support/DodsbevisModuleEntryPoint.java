@@ -32,8 +32,8 @@ public class DodsbevisModuleEntryPoint extends SosAbstractModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "db.sch";
     public static final String MODULE_ID = "DB";
+    public static final String MODULE_NAME = "Dödsbevis";
 
-    private static final String MODULE_NAME = "Dödsbevis";
     private static final String MODULE_DESCRIPTION = "Dödsbevis";
 
     @Autowired
@@ -56,7 +56,7 @@ public class DodsbevisModuleEntryPoint extends SosAbstractModuleEntryPoint {
 
     @Override
     public String getDetailedModuleDescription() {
-        return null;
+        return "";
     }
 
     @Override

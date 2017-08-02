@@ -1,7 +1,6 @@
 package se.inera.intyg.common.sos_parent.model.internal;
 
-import java.time.LocalDate;
-
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 /**
@@ -13,9 +12,9 @@ public interface SosUtlatande extends Utlatande {
 
     Boolean getDodsdatumSakert();
 
-    String getDodsdatum();
+    InternalDate getDodsdatum();
 
-    LocalDate getAntraffatDodDatum();
+    InternalDate getAntraffatDodDatum();
 
     String getDodsplatsKommun();
 

@@ -29,10 +29,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import se.inera.ifv.insuranceprocess.healthreporting.v2.ErrorIdEnum;
 import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande;
 import se.inera.intyg.common.sos_db.utils.ScenarioFinder;
 import se.inera.intyg.common.sos_db.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -149,7 +149,6 @@ public class DodsbevisModuleApiTest {
      * }
      */
 
-    /* ACTIVATE ONCE CONVERTION IS IMPLEMENTED
     @Test
     public void testGetCertificate() throws Exception {
         final String certificateId = "certificateId";
@@ -172,7 +171,7 @@ public class DodsbevisModuleApiTest {
     public void testGetUtlatandeFromJson() throws Exception {
         final String utlatandeJson = "utlatandeJson";
         when(objectMapper.readValue(eq(utlatandeJson), eq(DodsbevisUtlatande.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -181,22 +180,20 @@ public class DodsbevisModuleApiTest {
     public void testUpdateBeforeSave() throws Exception {
         final String internalModel = "internal model";
         when(objectMapper.readValue(anyString(), eq(DodsbevisUtlatande.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
-        verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }
 
     @Test
     public void testUpdateBeforeSigning() throws Exception {
         final String internalModel = "internal model";
         when(objectMapper.readValue(anyString(), eq(DodsbevisUtlatande.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
-        verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }
 
     @Test(expected = ModuleException.class)
@@ -233,7 +230,7 @@ public class DodsbevisModuleApiTest {
         response.setResult(ResultTypeUtil.okResult());
 
         when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -251,14 +248,14 @@ public class DodsbevisModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
             moduleApi.registerCertificate(internalModel, logicalAddress);
             fail();
         } catch (ExternalServiceCallException e) {
-            assertEquals(ErrorIdEnum.VALIDATION_ERROR, e.getErroIdEnum());
+            assertEquals(ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR, e.getErroIdEnum());
             assertEquals("Certificate already exists", e.getMessage());
         }
     }
@@ -271,14 +268,14 @@ public class DodsbevisModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
             moduleApi.registerCertificate(internalModel, logicalAddress);
             fail();
         } catch (ExternalServiceCallException e) {
-            assertEquals(ErrorIdEnum.APPLICATION_ERROR, e.getErroIdEnum());
+            assertEquals(ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR, e.getErroIdEnum());
             assertEquals("INFO", e.getMessage());
         }
     }
@@ -291,7 +288,7 @@ public class DodsbevisModuleApiTest {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -305,7 +302,6 @@ public class DodsbevisModuleApiTest {
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
     }
-    */
 
     @Test(expected = ModuleException.class)
     public void testGetCertificateThrowsModuleException() throws ModuleException, SOAPException {
@@ -365,6 +361,20 @@ public class DodsbevisModuleApiTest {
         assertEquals("", additionalInfo);
     }
 
+    @Test
+    public void tesGetUtlatandeFromXml() {
+        try {
+            String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
+            DodsbevisUtlatande res = (DodsbevisUtlatande) moduleApi.getUtlatandeFromXml(xmlContents);
+
+            assertEquals("1234567", res.getId());
+            assertEquals("körkort", res.getIdentitetStyrkt());
+            assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
+        } catch (ModuleException | IOException e) {
+            fail();
+        }
+    }
+
     private Utlatande createUtlatande() {
         GrundData gd = new GrundData();
         gd.setPatient(new Patient());
@@ -376,7 +386,7 @@ public class DodsbevisModuleApiTest {
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {
         GetCertificateResponseType res = new GetCertificateResponseType();
-        RegisterCertificateType registerType = ScenarioFinder.getInternalScenario("pass-minimal").asTransportModel();
+        RegisterCertificateType registerType = ScenarioFinder.getInternalScenario("pass-1").asTransportModel();
         res.setIntyg(registerType.getIntyg());
         return res;
     }

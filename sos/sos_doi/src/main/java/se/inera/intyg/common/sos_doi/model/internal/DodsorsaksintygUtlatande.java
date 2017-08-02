@@ -26,7 +26,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_O
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -36,11 +35,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import autovalue.shaded.com.google.common.common.collect.ImmutableList;
-import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
 import se.inera.intyg.common.sos_doi.support.DodsorsaksintygModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_DodsorsaksintygUtlatande.Builder.class)
@@ -76,11 +76,11 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
 
     @Override
     @Nullable
-    public abstract String getDodsdatum();
+    public abstract InternalDate getDodsdatum();
 
     @Override
     @Nullable
-    public abstract LocalDate getAntraffatDodDatum();
+    public abstract InternalDate getAntraffatDodDatum();
 
     @Override
     @Nullable
@@ -101,7 +101,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
     public abstract String getDodsorsak();
 
     @Nullable
-    public abstract LocalDate getDodsorsakDatum();
+    public abstract InternalDate getDodsorsakDatum();
 
     @Nullable
     public abstract Specifikation getDodsorsakSpecifikation();
@@ -114,7 +114,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
     public abstract Boolean getOperation();
 
     @Nullable
-    public abstract LocalDate getOperationDatum();
+    public abstract InternalDate getOperationDatum();
 
     @Nullable
     public abstract String getOperationAnledning();
@@ -126,7 +126,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
     public abstract ForgiftningOrsak getForgiftningOrsak();
 
     @Nullable
-    public abstract LocalDate getForgiftningDatum();
+    public abstract InternalDate getForgiftningDatum();
 
     @Nullable
     public abstract String getForgiftningUppkommelse();
@@ -161,10 +161,10 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
         public abstract Builder setDodsdatumSakert(Boolean dodsdatumSakert);
 
         @JsonProperty(DODSDATUM_JSON_ID)
-        public abstract Builder setDodsdatum(String dodsdatum);
+        public abstract Builder setDodsdatum(InternalDate dodsdatum);
 
         @JsonProperty(ANTRAFFAT_DOD_DATUM_JSON_ID)
-        public abstract Builder setAntraffatDodDatum(LocalDate antraffatDodDatum);
+        public abstract Builder setAntraffatDodDatum(InternalDate antraffatDodDatum);
 
         @JsonProperty(DODSPLATS_KOMMUN_JSON_ID)
         public abstract Builder setDodsplatsKommun(String dodsplatsKommun);
@@ -182,7 +182,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
         public abstract Builder setDodsorsak(String dodsorsak);
 
         @JsonProperty(DODSORSAK_DATUM_JSON_ID)
-        public abstract Builder setDodsorsakDatum(LocalDate dodsorsakDatum);
+        public abstract Builder setDodsorsakDatum(InternalDate dodsorsakDatum);
 
         @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID)
         public abstract Builder setDodsorsakSpecifikation(Specifikation dodsorsakSpecifikation);
@@ -205,7 +205,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
         public abstract Builder setOperation(Boolean operation);
 
         @JsonProperty(OPERATION_DATUM_JSON_ID)
-        public abstract Builder setOperationDatum(LocalDate operationDatum);
+        public abstract Builder setOperationDatum(InternalDate operationDatum);
 
         @JsonProperty(OPERATION_ANLEDNING_JSON_ID)
         public abstract Builder setOperationAnledning(String operationAnledning);
@@ -217,7 +217,7 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
         public abstract Builder setForgiftningOrsak(ForgiftningOrsak forgiftningOrsak);
 
         @JsonProperty(FORGIFTNING_DATUM_JSON_ID)
-        public abstract Builder setForgiftningDatum(LocalDate forgiftningDatum);
+        public abstract Builder setForgiftningDatum(InternalDate forgiftningDatum);
 
         @JsonProperty(FORGIFTNING_UPPKOMMELSE_JSON_ID)
         public abstract Builder setForgiftningUppkommelse(String forgiftningUppkommelse);

@@ -6,8 +6,8 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_J
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_AVLAGSNAT_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_IMPLANTAT_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDDATA_SVAR_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ID_JSON_ID;
@@ -18,7 +18,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DETALJER_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_JSON_ID;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -28,11 +27,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import autovalue.shaded.com.google.common.common.collect.ImmutableList;
-import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
 import se.inera.intyg.common.sos_db.support.DodsbevisModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_DodsbevisUtlatande.Builder.class)
@@ -66,11 +66,11 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
 
     @Override
     @Nullable
-    public abstract String getDodsdatum();
+    public abstract InternalDate getDodsdatum();
 
     @Override
     @Nullable
-    public abstract LocalDate getAntraffatDodDatum();
+    public abstract InternalDate getAntraffatDodDatum();
 
     @Override
     @Nullable
@@ -85,10 +85,10 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
     public abstract Boolean getBarn();
 
     @Nullable
-    public abstract Boolean getExplosivtImplantat();
+    public abstract Boolean getExplosivImplantat();
 
     @Nullable
-    public abstract Boolean getExplosivtAvlagsnat();
+    public abstract Boolean getExplosivAvlagsnat();
 
     @Nullable
     public abstract Boolean getUndersokningYttre();
@@ -97,7 +97,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
     public abstract Undersokning getUndersokningDetaljer();
 
     @Nullable
-    public abstract LocalDate getUndersokningDatum();
+    public abstract InternalDate getUndersokningDatum();
 
     @Nullable
     public abstract Boolean getPolisanmalan();
@@ -130,10 +130,10 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
         public abstract Builder setDodsdatumSakert(Boolean dodsdatumSakert);
 
         @JsonProperty(DODSDATUM_JSON_ID)
-        public abstract Builder setDodsdatum(String dodsdatum);
+        public abstract Builder setDodsdatum(InternalDate dodsdatum);
 
         @JsonProperty(ANTRAFFAT_DOD_DATUM_JSON_ID)
-        public abstract Builder setAntraffatDodDatum(LocalDate antraffatDodDatum);
+        public abstract Builder setAntraffatDodDatum(InternalDate antraffatDodDatum);
 
         @JsonProperty(DODSPLATS_KOMMUN_JSON_ID)
         public abstract Builder setDodsplatsKommun(String dodsplatsKommun);
@@ -144,11 +144,11 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
         @JsonProperty(BARN_JSON_ID)
         public abstract Builder setBarn(Boolean barn);
 
-        @JsonProperty(EXPLOSIVT_IMPLANTAT_JSON_ID)
-        public abstract Builder setExplosivtImplantat(Boolean explosivtImplantat);
+        @JsonProperty(EXPLOSIV_IMPLANTAT_JSON_ID)
+        public abstract Builder setExplosivImplantat(Boolean explosivImplantat);
 
-        @JsonProperty(EXPLOSIVT_AVLAGSNAT_JSON_ID)
-        public abstract Builder setExplosivtAvlagsnat(Boolean explosivtAvlagsnat);
+        @JsonProperty(EXPLOSIV_AVLAGSNAT_JSON_ID)
+        public abstract Builder setExplosivAvlagsnat(Boolean explosivAvlagsnat);
 
         @JsonProperty(UNDERSOKNING_YTTRE_JSON_ID)
         public abstract Builder setUndersokningYttre(Boolean undersokningYttre);
@@ -157,7 +157,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
         public abstract Builder setUndersokningDetaljer(Undersokning undersokningDetaljer);
 
         @JsonProperty(UNDERSOKNING_DATUM_JSON_ID)
-        public abstract Builder setUndersokningDatum(LocalDate undersokningDatum);
+        public abstract Builder setUndersokningDatum(InternalDate undersokningDatum);
 
         @JsonProperty(POLISANMALAN_JSON_ID)
         public abstract Builder setPolisanmalan(Boolean polisanmalan);
