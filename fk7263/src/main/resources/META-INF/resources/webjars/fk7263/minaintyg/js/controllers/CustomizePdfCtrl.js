@@ -61,6 +61,8 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
                 leaveToState = toState;
                 leaveToParams = toParams;
                 _showLeaveConfirmationDialog();
+                //state history gets mixed when when preventing default. Avoid this by going to the current state.
+                $state.go(fromState, fromParams);
             });
 
 

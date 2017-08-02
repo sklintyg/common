@@ -23,7 +23,7 @@ angular.module('lisjp').config(function($stateProvider) {
             breadcrumb: ['inkorg', 'intyg', 'anpassa'], backState: 'history-back' }
 
     }).state('lisjp-customize.step1', {
-        url: '',
+        url: '/step1',
         views: {
             'header@lisjp-customize': {
                 templateUrl: '/web/webjars/lisjp/minaintyg/views/step1.header.html'
@@ -37,6 +37,7 @@ angular.module('lisjp').config(function($stateProvider) {
         }
 
     }).state('lisjp-customize.step2', {
+        url: '/step2',
         views: {
             'header@lisjp-customize': {
                 templateUrl: '/web/webjars/lisjp/minaintyg/views/step2.header.html'
@@ -50,6 +51,7 @@ angular.module('lisjp').config(function($stateProvider) {
         }
 
     }).state('lisjp-customize.step3', {
+        url: '/step3',
         views: {
             'header@lisjp-customize': {
                 templateUrl: '/web/webjars/lisjp/minaintyg/views/step3.header.html'

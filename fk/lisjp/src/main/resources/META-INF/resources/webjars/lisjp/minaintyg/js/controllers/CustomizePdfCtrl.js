@@ -64,6 +64,8 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
                 leaveToState = toState;
                 leaveToParams = toParams;
                 _showLeaveConfirmationDialog();
+                //state history gets mixed when when preventing default. Avoid this by going to the current state.
+                $state.go(fromState, fromParams);
             });
 
 
