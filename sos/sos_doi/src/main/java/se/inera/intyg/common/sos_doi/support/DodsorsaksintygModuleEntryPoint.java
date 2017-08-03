@@ -32,8 +32,8 @@ public class DodsorsaksintygModuleEntryPoint extends SosAbstractModuleEntryPoint
 
     public static final String SCHEMATRON_FILE = "doi.sch";
     public static final String MODULE_ID = "DOI";
+    public static final String MODULE_NAME = "Dödsorsaksintyg";
 
-    private static final String MODULE_NAME = "Dödsorsaksintyg";
     private static final String MODULE_DESCRIPTION = "Dödsorsaksintyg";
 
     @Autowired

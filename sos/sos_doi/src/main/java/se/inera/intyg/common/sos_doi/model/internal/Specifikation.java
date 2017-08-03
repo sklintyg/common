@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Specifikation {
-    KRONISK("KRONISK", "90734009"),
-    PLOTSLIG("PLOTSLIG", "424124008");
+    KRONISK("90734009", "kronisk"),
+    PLOTSLIG("424124008", "plötslig debut och/eller kort duration");
 
     private final String id;
     private final String label;

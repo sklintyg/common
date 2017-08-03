@@ -23,6 +23,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.inera.intyg.common.sos_doi.model.converter.InternalToTransport;
+import se.inera.intyg.common.sos_doi.model.converter.TransportToInternal;
+import se.inera.intyg.common.sos_doi.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande;
 import se.inera.intyg.common.sos_doi.support.DodsorsaksintygModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
@@ -45,17 +48,17 @@ public class DodsorsaksintygModuleApi extends SosParentModuleApi<Dodsorsaksintyg
 
     @Override
     protected DodsorsaksintygUtlatande transportToInternal(Intyg intyg) throws ConverterException {
-        return null;
+        return TransportToInternal.convert(intyg);
     }
 
     @Override
     protected RegisterCertificateType internalToTransport(DodsorsaksintygUtlatande utlatande) throws ConverterException {
-        return null;
+        return InternalToTransport.convert(utlatande);
     }
 
     @Override
     protected Intyg utlatandeToIntyg(DodsorsaksintygUtlatande utlatande) throws ConverterException {
-        return null;
+        return UtlatandeToIntyg.convert(utlatande);
     }
 
     @Override

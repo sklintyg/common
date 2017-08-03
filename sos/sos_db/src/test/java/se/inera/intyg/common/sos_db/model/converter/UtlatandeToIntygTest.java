@@ -52,10 +52,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 public class UtlatandeToIntygTest {
     @Test
     public void testConvert() throws Exception {
-        /*
-         * PLEASE NOTE: This works because when content in delsvar retains information about which object has been saved
-         * here. When using JAXB everything is Strings.
-         */
         final String intygsId = "intygsid";
         final String textVersion = "textversion";
         final String enhetsId = "enhetsid";

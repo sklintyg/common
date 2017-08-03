@@ -53,6 +53,13 @@ public final class RespConstants {
     public static final String EXPLOSIV_IMPLANTAT_SVAR_ID = "5";
     public static final String UNDERSOKNING_SVAR_ID = "6";
     public static final String POLISANMALAN_SVAR_ID = "7";
+    public static final String DODSORSAK_SVAR_ID = "8";
+    public static final String FOLJD_SVAR_ID = "9";
+    public static final String BIDRAGANDE_SJUKDOM_SVAR_ID = "10";
+    public static final String OPERATION_SVAR_ID = "11";
+    public static final String FORGIFTNING_SVAR_ID = "12";
+    public static final String GRUNDER_SVAR_ID = "13";
+    public static final String LAND_SVAR_ID = "14";
 
     public static final String IDENTITET_STYRKT_DELSVAR_ID = "1.1";
     public static final String DODSDATUM_SAKERT_DELSVAR_ID = "2.1";
@@ -67,9 +74,29 @@ public final class RespConstants {
     public static final String UNDERSOKNING_DETALJER_DELSVAR_ID = "6.2";
     public static final String UNDERSOKNING_DATUM_DELSVAR_ID = "6.3";
     public static final String POLISANMALAN_DELSVAR_ID = "7.1";
+    public static final String DODSORSAK_DELSVAR_ID = "8.1";
+    public static final String DODSORSAK_DATUM_DELSVAR_ID = "8.2";
+    public static final String DODSORSAK_SPECIFIKATION_DELSVAR_ID = "8.3";
+    public static final String FOLJD_OM_DELSVAR_ID = "9.1";
+    public static final String FOLJD_DATUM_DELSVAR_ID = "9.2";
+    public static final String FOLJD_SPECIFIKATION_DELSVAR_ID = "9.3";
+    public static final String BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID = "10.1";
+    public static final String BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID = "10.2";
+    public static final String BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID = "10.3";
+    public static final String OPERATION_OM_DELSVAR_ID = "11.1";
+    public static final String OPERATION_DATUM_DELSVAR_ID = "11.2";
+    public static final String OPERATION_ANLEDNING_DELSVAR_ID = "11.3";
+    public static final String FORGIFTNING_OM_DELSVAR_ID = "12.1";
+    public static final String FORGIFTNING_ORSAK_DELSVAR_ID = "12.2";
+    public static final String FORGIFTNING_DATUM_DELSVAR_ID = "12.3";
+    public static final String FORGIFTNING_UPPKOMMELSE_DELSVAR_ID = "12.4";
+    public static final String GRUNDER_DELSVAR_ID = "13.1";
+    public static final String LAND_DELSVAR_ID = "14.1";
 
     public static final String DODSPLATS_BOENDE_CODE_SYSTEM = "KV_DODSPLATS_BOENDE";
     public static final String UNDERSOKNING_DETALJER_CODE_SYSTEM = "KV_DETALJER_UNDERSOKNING";
+    public static final String GRUNDER_CODE_SYSTEM = "KV_DODSORSAKSUPPGIFTER";
+    public static final String FORGIFTNING_ORSAK_CODE_SYSTEM = "KV_ORSAK";
 
     private RespConstants() {
     }
