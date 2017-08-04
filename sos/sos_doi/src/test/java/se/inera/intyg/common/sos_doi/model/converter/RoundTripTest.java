@@ -40,7 +40,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.sos_doi.utils.Scenario;
 import se.inera.intyg.common.sos_doi.utils.ScenarioFinder;
 import se.inera.intyg.common.sos_doi.utils.ScenarioNotFoundException;
@@ -103,7 +103,7 @@ public class RoundTripTest {
     @Test
     public void testRoundTripTransportFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        DodsorsaksintygUtlatande internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
+        DoiUtlatande internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
         JsonNode tree = objectMapper.valueToTree(internal);
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());

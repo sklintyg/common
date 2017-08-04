@@ -37,8 +37,8 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 
 import java.util.List;
 
-import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande;
-import se.inera.intyg.common.sos_db.support.DodsbevisModuleEntryPoint;
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
+import se.inera.intyg.common.sos_db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
@@ -49,22 +49,22 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(DodsbevisUtlatande utlatande) {
+    public static Intyg convert(DbUtlatande utlatande) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
         intyg.setTyp(getTypAvIntyg(utlatande));
         intyg.getSvar().addAll(getSvar(utlatande));
         return intyg;
     }
 
-    private static TypAvIntyg getTypAvIntyg(DodsbevisUtlatande utlatande) {
+    private static TypAvIntyg getTypAvIntyg(DbUtlatande utlatande) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
         typAvIntyg.setCode(utlatande.getTyp());
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(DodsbevisModuleEntryPoint.MODULE_NAME);
+        typAvIntyg.setDisplayName(DbModuleEntryPoint.MODULE_NAME);
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(DodsbevisUtlatande utlatande) {
+    private static List<Svar> getSvar(DbUtlatande utlatande) {
         List<Svar> svar = getSharedSvar(utlatande);
 
         // Svar 5

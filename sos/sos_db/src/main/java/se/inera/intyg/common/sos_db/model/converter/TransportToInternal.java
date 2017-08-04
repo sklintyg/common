@@ -46,8 +46,8 @@ import java.util.List;
 
 import com.google.common.primitives.Ints;
 
-import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande;
-import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande.Builder;
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande.Builder;
 import se.inera.intyg.common.sos_db.model.internal.Undersokning;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -65,8 +65,8 @@ public final class TransportToInternal {
     private TransportToInternal() {
     }
 
-    public static DodsbevisUtlatande convert(Intyg intyg) throws ConverterException {
-        Builder utlatande = DodsbevisUtlatande.builder();
+    public static DbUtlatande convert(Intyg intyg) throws ConverterException {
+        Builder utlatande = DbUtlatande.builder();
         utlatande.setId(intyg.getIntygsId().getExtension());
         utlatande.setTextVersion(intyg.getVersion());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg));

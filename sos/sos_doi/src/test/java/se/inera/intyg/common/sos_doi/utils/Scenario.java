@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.sos_doi.utils;
 
-import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
@@ -56,5 +56,5 @@ public interface Scenario {
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */
-    DodsorsaksintygUtlatande asInternalModel() throws ScenarioNotFoundException;
+    DoiUtlatande asInternalModel() throws ScenarioNotFoundException;
 }

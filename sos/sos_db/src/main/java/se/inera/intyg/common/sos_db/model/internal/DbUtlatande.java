@@ -45,7 +45,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import autovalue.shaded.com.google.common.common.collect.ImmutableList;
-import se.inera.intyg.common.sos_db.support.DodsbevisModuleEntryPoint;
+import se.inera.intyg.common.sos_db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -53,16 +53,16 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 @AutoValue
-@JsonDeserialize(builder = AutoValue_DodsbevisUtlatande.Builder.class)
-public abstract class DodsbevisUtlatande implements SosUtlatande {
+@JsonDeserialize(builder = AutoValue_DbUtlatande.Builder.class)
+public abstract class DbUtlatande implements SosUtlatande {
 
     public static Builder builder() {
-        return new AutoValue_DodsbevisUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga> of());
+        return new AutoValue_DbUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga> of());
     }
 
     @Override
     public String getTyp() {
-        return DodsbevisModuleEntryPoint.MODULE_ID;
+        return DbModuleEntryPoint.MODULE_ID;
     }
 
     @Override
@@ -130,7 +130,7 @@ public abstract class DodsbevisUtlatande implements SosUtlatande {
 
     @AutoValue.Builder
     public abstract static class Builder {
-        public abstract DodsbevisUtlatande build();
+        public abstract DbUtlatande build();
 
         @JsonProperty(ID_JSON_ID)
         public abstract Builder setId(String id);

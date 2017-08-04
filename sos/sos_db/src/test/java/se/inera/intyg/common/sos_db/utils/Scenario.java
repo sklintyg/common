@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.sos_db.utils;
 
-import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande;
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
@@ -56,5 +56,5 @@ public interface Scenario {
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */
-    DodsbevisUtlatande asInternalModel() throws ScenarioNotFoundException;
+    DbUtlatande asInternalModel() throws ScenarioNotFoundException;
 }

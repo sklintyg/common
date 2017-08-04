@@ -1,4 +1,4 @@
-package se.inera.intyg.common.sos_doi.rest;
+package se.inera.intyg.common.sos_db.rest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -29,9 +29,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande;
-import se.inera.intyg.common.sos_doi.utils.ScenarioFinder;
-import se.inera.intyg.common.sos_doi.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
+import se.inera.intyg.common.sos_db.utils.ScenarioFinder;
+import se.inera.intyg.common.sos_db.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -61,7 +61,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DodsorsaksintygModuleApiTest {
+public class DbModuleApiTest {
     private static final String LOGICAL_ADDRESS = "logical address";
 
     @Mock
@@ -80,7 +80,8 @@ public class DodsorsaksintygModuleApiTest {
     private RevokeCertificateResponderInterface revokeClient;
 
     @InjectMocks
-    private DodsorsaksintygModuleApi moduleApi;
+    private DbModuleApi moduleApi;
+
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullModelHolder() throws ModuleException {
@@ -107,7 +108,7 @@ public class DodsorsaksintygModuleApiTest {
      * 
      * @Test
      * public void testValidateShouldUseValidator() throws Exception {
-     * when(objectMapper.readValue(eq("internal model"), eq(DodsbevisUtlatande.class))).thenReturn(null);
+     * when(objectMapper.readValue(eq("internal model"), eq(DbUtlatande.class))).thenReturn(null);
      * moduleApi.validateDraft("internal model");
      * verify(internalDraftValidator, times(1)).validateDraft(any());
      * }
@@ -133,7 +134,7 @@ public class DodsorsaksintygModuleApiTest {
      * @Test
      * public void testCreateNewInternalFromTemplate() throws Exception {
      * when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
-     * when(objectMapper.readValue(eq("internal model"), eq(DodsbevisUtlatande.class))).thenReturn(null);
+     * when(objectMapper.readValue(eq("internal model"), eq(DbUtlatande.class))).thenReturn(null);
      * when(objectMapper.writeValueAsString(any())).thenReturn("internal model");
      * 
      * moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
@@ -169,7 +170,7 @@ public class DodsorsaksintygModuleApiTest {
     @Test
     public void testGetUtlatandeFromJson() throws Exception {
         final String utlatandeJson = "utlatandeJson";
-        when(objectMapper.readValue(eq(utlatandeJson), eq(DodsorsaksintygUtlatande.class)))
+        when(objectMapper.readValue(eq(utlatandeJson), eq(DbUtlatande.class)))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
@@ -178,7 +179,7 @@ public class DodsorsaksintygModuleApiTest {
     @Test
     public void testUpdateBeforeSave() throws Exception {
         final String internalModel = "internal model";
-        when(objectMapper.readValue(anyString(), eq(DodsorsaksintygUtlatande.class)))
+        when(objectMapper.readValue(anyString(), eq(DbUtlatande.class)))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
@@ -188,7 +189,7 @@ public class DodsorsaksintygModuleApiTest {
     @Test
     public void testUpdateBeforeSigning() throws Exception {
         final String internalModel = "internal model";
-        when(objectMapper.readValue(anyString(), eq(DodsorsaksintygUtlatande.class)))
+        when(objectMapper.readValue(anyString(), eq(DbUtlatande.class)))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
@@ -200,7 +201,7 @@ public class DodsorsaksintygModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("doi.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
         } catch (IOException e) {
             fail();
@@ -211,7 +212,7 @@ public class DodsorsaksintygModuleApiTest {
     public void testSendCertificateShouldUseXml() {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("doi.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
@@ -228,7 +229,7 @@ public class DodsorsaksintygModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.okResult());
 
-        when(objectMapper.readValue(internalModel, DodsorsaksintygUtlatande.class))
+        when(objectMapper.readValue(internalModel, DbUtlatande.class))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -246,7 +247,7 @@ public class DodsorsaksintygModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
-        when(objectMapper.readValue(internalModel, DodsorsaksintygUtlatande.class))
+        when(objectMapper.readValue(internalModel, DbUtlatande.class))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -266,7 +267,7 @@ public class DodsorsaksintygModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
-        when(objectMapper.readValue(internalModel, DodsorsaksintygUtlatande.class))
+        when(objectMapper.readValue(internalModel, DbUtlatande.class))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -286,7 +287,7 @@ public class DodsorsaksintygModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
-        when(objectMapper.readValue(internalModel, DodsorsaksintygUtlatande.class))
+        when(objectMapper.readValue(internalModel, DbUtlatande.class))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -297,7 +298,7 @@ public class DodsorsaksintygModuleApiTest {
     public void testRegisterCertificateShouldThrowExceptionOnBadCertificate() throws Exception {
         final String logicalAddress = "logicalAddress";
         final String internalModel = "internal model";
-        when(objectMapper.readValue(internalModel, DodsorsaksintygUtlatande.class)).thenReturn(null);
+        when(objectMapper.readValue(internalModel, DbUtlatande.class)).thenReturn(null);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
     }
@@ -345,7 +346,7 @@ public class DodsorsaksintygModuleApiTest {
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
-        Utlatande utlatande = createUtlatande();// DodsbevisUtlatande.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
+        Utlatande utlatande = createUtlatande();// DbUtlatande.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
 
         String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
         assertNotNull(res);
@@ -363,12 +364,11 @@ public class DodsorsaksintygModuleApiTest {
     @Test
     public void tesGetUtlatandeFromXml() {
         try {
-            String xmlContents = Resources.toString(Resources.getResource("doi.xml"), Charsets.UTF_8);
-            DodsorsaksintygUtlatande res = (DodsorsaksintygUtlatande) moduleApi.getUtlatandeFromXml(xmlContents);
+            String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
+            DbUtlatande res = (DbUtlatande) moduleApi.getUtlatandeFromXml(xmlContents);
 
             assertEquals("1234567", res.getId());
             assertEquals("körkort", res.getIdentitetStyrkt());
-            assertEquals("Sverige", res.getLand());
             assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
         } catch (ModuleException | IOException e) {
             fail();
@@ -381,7 +381,7 @@ public class DodsorsaksintygModuleApiTest {
         gd.getPatient().setPersonId(new Personnummer("191212121212"));
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
-        return DodsorsaksintygUtlatande.builder().setId("intygId").setGrundData(gd).setTextVersion("").build();
+        return DbUtlatande.builder().setId("intygId").setGrundData(gd).setTextVersion("").build();
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {

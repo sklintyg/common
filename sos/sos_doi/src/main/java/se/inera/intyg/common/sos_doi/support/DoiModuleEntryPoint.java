@@ -22,13 +22,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import se.inera.intyg.common.sos_doi.rest.DodsorsaksintygModuleApi;
+import se.inera.intyg.common.sos_doi.rest.DoiModuleApi;
 import se.inera.intyg.common.sos_parent.support.SosAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 
-public class DodsorsaksintygModuleEntryPoint extends SosAbstractModuleEntryPoint {
+public class DoiModuleEntryPoint extends SosAbstractModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "doi.sch";
     public static final String MODULE_ID = "DOI";
@@ -37,7 +37,7 @@ public class DodsorsaksintygModuleEntryPoint extends SosAbstractModuleEntryPoint
     private static final String MODULE_DESCRIPTION = "Dödsorsaksintyg";
 
     @Autowired
-    private DodsorsaksintygModuleApi moduleApi;
+    private DoiModuleApi moduleApi;
 
     @Override
     public String getModuleId() {

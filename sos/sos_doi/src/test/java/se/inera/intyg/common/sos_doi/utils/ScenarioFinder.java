@@ -28,7 +28,7 @@ import javax.xml.bind.JAXB;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
-import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
@@ -179,10 +179,10 @@ public final class ScenarioFinder {
          * {@inheritDoc}
          */
         @Override
-        public DodsorsaksintygUtlatande asInternalModel()
+        public DoiUtlatande asInternalModel()
                 throws ScenarioNotFoundException {
             try {
-                return new CustomObjectMapper().readValue(getInternalModelFor(getName()), DodsorsaksintygUtlatande.class);
+                return new CustomObjectMapper().readValue(getInternalModelFor(getName()), DoiUtlatande.class);
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(getName(), "internal", e);
             }

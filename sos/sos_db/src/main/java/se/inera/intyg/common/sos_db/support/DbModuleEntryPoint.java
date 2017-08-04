@@ -22,13 +22,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import se.inera.intyg.common.sos_db.rest.DodsbevisModuleApi;
+import se.inera.intyg.common.sos_db.rest.DbModuleApi;
 import se.inera.intyg.common.sos_parent.support.SosAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 
-public class DodsbevisModuleEntryPoint extends SosAbstractModuleEntryPoint {
+public class DbModuleEntryPoint extends SosAbstractModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "db.sch";
     public static final String MODULE_ID = "DB";
@@ -37,7 +37,7 @@ public class DodsbevisModuleEntryPoint extends SosAbstractModuleEntryPoint {
     private static final String MODULE_DESCRIPTION = "Dödsbevis";
 
     @Autowired
-    private DodsbevisModuleApi moduleApi;
+    private DbModuleApi moduleApi;
 
     @Override
     public String getModuleId() {

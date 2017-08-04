@@ -1,4 +1,4 @@
-package se.inera.intyg.common.sos_db.rest;
+package se.inera.intyg.common.sos_doi.rest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -29,9 +29,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande;
-import se.inera.intyg.common.sos_db.utils.ScenarioFinder;
-import se.inera.intyg.common.sos_db.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
+import se.inera.intyg.common.sos_doi.utils.ScenarioFinder;
+import se.inera.intyg.common.sos_doi.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -61,7 +61,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DodsbevisModuleApiTest {
+public class DoiModuleApiTest {
     private static final String LOGICAL_ADDRESS = "logical address";
 
     @Mock
@@ -80,8 +80,7 @@ public class DodsbevisModuleApiTest {
     private RevokeCertificateResponderInterface revokeClient;
 
     @InjectMocks
-    private DodsbevisModuleApi moduleApi;
-
+    private DoiModuleApi moduleApi;
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullModelHolder() throws ModuleException {
@@ -170,7 +169,7 @@ public class DodsbevisModuleApiTest {
     @Test
     public void testGetUtlatandeFromJson() throws Exception {
         final String utlatandeJson = "utlatandeJson";
-        when(objectMapper.readValue(eq(utlatandeJson), eq(DodsbevisUtlatande.class)))
+        when(objectMapper.readValue(eq(utlatandeJson), eq(DoiUtlatande.class)))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
@@ -179,7 +178,7 @@ public class DodsbevisModuleApiTest {
     @Test
     public void testUpdateBeforeSave() throws Exception {
         final String internalModel = "internal model";
-        when(objectMapper.readValue(anyString(), eq(DodsbevisUtlatande.class)))
+        when(objectMapper.readValue(anyString(), eq(DoiUtlatande.class)))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
@@ -189,7 +188,7 @@ public class DodsbevisModuleApiTest {
     @Test
     public void testUpdateBeforeSigning() throws Exception {
         final String internalModel = "internal model";
-        when(objectMapper.readValue(anyString(), eq(DodsbevisUtlatande.class)))
+        when(objectMapper.readValue(anyString(), eq(DoiUtlatande.class)))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
@@ -201,7 +200,7 @@ public class DodsbevisModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("doi.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
         } catch (IOException e) {
             fail();
@@ -212,7 +211,7 @@ public class DodsbevisModuleApiTest {
     public void testSendCertificateShouldUseXml() {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("doi.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
@@ -229,7 +228,7 @@ public class DodsbevisModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.okResult());
 
-        when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class))
+        when(objectMapper.readValue(internalModel, DoiUtlatande.class))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -247,7 +246,7 @@ public class DodsbevisModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
-        when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class))
+        when(objectMapper.readValue(internalModel, DoiUtlatande.class))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -267,7 +266,7 @@ public class DodsbevisModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
-        when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class))
+        when(objectMapper.readValue(internalModel, DoiUtlatande.class))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -287,7 +286,7 @@ public class DodsbevisModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
-        when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class))
+        when(objectMapper.readValue(internalModel, DoiUtlatande.class))
                 .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -298,7 +297,7 @@ public class DodsbevisModuleApiTest {
     public void testRegisterCertificateShouldThrowExceptionOnBadCertificate() throws Exception {
         final String logicalAddress = "logicalAddress";
         final String internalModel = "internal model";
-        when(objectMapper.readValue(internalModel, DodsbevisUtlatande.class)).thenReturn(null);
+        when(objectMapper.readValue(internalModel, DoiUtlatande.class)).thenReturn(null);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
     }
@@ -364,11 +363,12 @@ public class DodsbevisModuleApiTest {
     @Test
     public void tesGetUtlatandeFromXml() {
         try {
-            String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
-            DodsbevisUtlatande res = (DodsbevisUtlatande) moduleApi.getUtlatandeFromXml(xmlContents);
+            String xmlContents = Resources.toString(Resources.getResource("doi.xml"), Charsets.UTF_8);
+            DoiUtlatande res = (DoiUtlatande) moduleApi.getUtlatandeFromXml(xmlContents);
 
             assertEquals("1234567", res.getId());
             assertEquals("körkort", res.getIdentitetStyrkt());
+            assertEquals("Sverige", res.getLand());
             assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
         } catch (ModuleException | IOException e) {
             fail();
@@ -381,7 +381,7 @@ public class DodsbevisModuleApiTest {
         gd.getPatient().setPersonId(new Personnummer("191212121212"));
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
-        return DodsbevisUtlatande.builder().setId("intygId").setGrundData(gd).setTextVersion("").build();
+        return DoiUtlatande.builder().setId("intygId").setGrundData(gd).setTextVersion("").build();
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {

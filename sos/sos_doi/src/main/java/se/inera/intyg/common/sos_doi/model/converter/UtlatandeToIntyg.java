@@ -55,9 +55,9 @@ import java.util.List;
 
 import se.inera.intyg.common.sos_doi.model.internal.BidragandeSjukdom;
 import se.inera.intyg.common.sos_doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.sos_doi.model.internal.Foljd;
-import se.inera.intyg.common.sos_doi.support.DodsorsaksintygModuleEntryPoint;
+import se.inera.intyg.common.sos_doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
@@ -69,22 +69,22 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(DodsorsaksintygUtlatande utlatande) {
+    public static Intyg convert(DoiUtlatande utlatande) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
         intyg.setTyp(getTypAvIntyg(utlatande));
         intyg.getSvar().addAll(getSvar(utlatande));
         return intyg;
     }
 
-    private static TypAvIntyg getTypAvIntyg(DodsorsaksintygUtlatande utlatande) {
+    private static TypAvIntyg getTypAvIntyg(DoiUtlatande utlatande) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
         typAvIntyg.setCode(utlatande.getTyp());
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(DodsorsaksintygModuleEntryPoint.MODULE_NAME);
+        typAvIntyg.setDisplayName(DoiModuleEntryPoint.MODULE_NAME);
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(DodsorsaksintygUtlatande utlatande) {
+    private static List<Svar> getSvar(DoiUtlatande utlatande) {
         List<Svar> svar = getSharedSvar(utlatande);
 
         // Svar 8

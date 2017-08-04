@@ -35,7 +35,7 @@ import javax.xml.namespace.QName;
 
 import org.junit.Test;
 
-import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande;
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
 import se.inera.intyg.common.sos_db.model.internal.Undersokning;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -89,7 +89,7 @@ public class UtlatandeToIntygTest {
         final InternalDate undersokningDatum = new InternalDate(LocalDate.of(2017, 1, 3));
         final Boolean polisanmalan = true;
 
-        DodsbevisUtlatande utlatande = DodsbevisUtlatande.builder()
+        DbUtlatande utlatande = DbUtlatande.builder()
                 .setId(intygsId)
                 .setTextVersion(textVersion)
                 .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,

@@ -32,7 +32,7 @@ import org.junit.Test;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande;
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
 import se.inera.intyg.common.sos_db.model.internal.Undersokning;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -45,7 +45,7 @@ public class TransportToInternalTest {
     public void testConvert() throws Exception {
         String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
         Intyg intyg = JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class).getIntyg();
-        DodsbevisUtlatande res = TransportToInternal.convert(intyg);
+        DbUtlatande res = TransportToInternal.convert(intyg);
 
         assertEquals("1234567", res.getId());
         assertEquals("Olivia", res.getGrundData().getPatient().getFornamn());

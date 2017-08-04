@@ -53,7 +53,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import autovalue.shaded.com.google.common.common.collect.ImmutableList;
-import se.inera.intyg.common.sos_doi.support.DodsorsaksintygModuleEntryPoint;
+import se.inera.intyg.common.sos_doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -61,18 +61,18 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 @AutoValue
-@JsonDeserialize(builder = AutoValue_DodsorsaksintygUtlatande.Builder.class)
-public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
+@JsonDeserialize(builder = AutoValue_DoiUtlatande.Builder.class)
+public abstract class DoiUtlatande implements SosUtlatande {
 
     public static Builder builder() {
-        return new AutoValue_DodsorsaksintygUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga> of()).setGrunder(
+        return new AutoValue_DoiUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga> of()).setGrunder(
                 ImmutableList.<Dodsorsaksgrund> of()).setBidragandeSjukdomar(ImmutableList.<BidragandeSjukdom> of())
                 .setFoljd(ImmutableList.<Foljd> of());
     }
 
     @Override
     public String getTyp() {
-        return DodsorsaksintygModuleEntryPoint.MODULE_ID;
+        return DoiModuleEntryPoint.MODULE_ID;
     }
 
     @Override
@@ -154,14 +154,14 @@ public abstract class DodsorsaksintygUtlatande implements SosUtlatande {
     public abstract ImmutableList<Tillaggsfraga> getTillaggsfragor();
 
     /*
-     * Retrieve a builder from an existing LuseUtlatande object. The builder can then be used
+     * Retrieve a builder from an existing DoiUtlatande object. The builder can then be used
      * to create a new copy with modified attributes.
      */
     public abstract Builder toBuilder();
 
     @AutoValue.Builder
     public abstract static class Builder {
-        public abstract DodsorsaksintygUtlatande build();
+        public abstract DoiUtlatande build();
 
         @JsonProperty(ID_JSON_ID)
         public abstract Builder setId(String id);

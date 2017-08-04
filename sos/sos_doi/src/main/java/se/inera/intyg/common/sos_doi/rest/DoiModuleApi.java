@@ -26,8 +26,8 @@ import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.sos_doi.model.converter.InternalToTransport;
 import se.inera.intyg.common.sos_doi.model.converter.TransportToInternal;
 import se.inera.intyg.common.sos_doi.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande;
-import se.inera.intyg.common.sos_doi.support.DodsorsaksintygModuleEntryPoint;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
+import se.inera.intyg.common.sos_doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -38,32 +38,32 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class DodsorsaksintygModuleApi extends SosParentModuleApi<DodsorsaksintygUtlatande> {
+public class DoiModuleApi extends SosParentModuleApi<DoiUtlatande> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DodsorsaksintygModuleApi.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApi.class);
 
-    public DodsorsaksintygModuleApi() {
-        super(DodsorsaksintygUtlatande.class);
+    public DoiModuleApi() {
+        super(DoiUtlatande.class);
     }
 
     @Override
-    protected DodsorsaksintygUtlatande transportToInternal(Intyg intyg) throws ConverterException {
+    protected DoiUtlatande transportToInternal(Intyg intyg) throws ConverterException {
         return TransportToInternal.convert(intyg);
     }
 
     @Override
-    protected RegisterCertificateType internalToTransport(DodsorsaksintygUtlatande utlatande) throws ConverterException {
+    protected RegisterCertificateType internalToTransport(DoiUtlatande utlatande) throws ConverterException {
         return InternalToTransport.convert(utlatande);
     }
 
     @Override
-    protected Intyg utlatandeToIntyg(DodsorsaksintygUtlatande utlatande) throws ConverterException {
+    protected Intyg utlatandeToIntyg(DoiUtlatande utlatande) throws ConverterException {
         return UtlatandeToIntyg.convert(utlatande);
     }
 
     @Override
     protected String getSchematronFileName() {
-        return DodsorsaksintygModuleEntryPoint.SCHEMATRON_FILE;
+        return DoiModuleEntryPoint.SCHEMATRON_FILE;
     }
 
     @Override

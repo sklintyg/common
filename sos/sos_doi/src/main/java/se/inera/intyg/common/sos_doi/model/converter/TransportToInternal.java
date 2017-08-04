@@ -64,8 +64,8 @@ import com.google.common.primitives.Ints;
 
 import se.inera.intyg.common.sos_doi.model.internal.BidragandeSjukdom;
 import se.inera.intyg.common.sos_doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande;
-import se.inera.intyg.common.sos_doi.model.internal.DodsorsaksintygUtlatande.Builder;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande.Builder;
 import se.inera.intyg.common.sos_doi.model.internal.Foljd;
 import se.inera.intyg.common.sos_doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.sos_doi.model.internal.Specifikation;
@@ -85,8 +85,8 @@ public final class TransportToInternal {
     private TransportToInternal() {
     }
 
-    public static DodsorsaksintygUtlatande convert(Intyg intyg) throws ConverterException {
-        Builder utlatande = DodsorsaksintygUtlatande.builder();
+    public static DoiUtlatande convert(Intyg intyg) throws ConverterException {
+        Builder utlatande = DoiUtlatande.builder();
         utlatande.setId(intyg.getIntygsId().getExtension());
         utlatande.setTextVersion(intyg.getVersion());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg));

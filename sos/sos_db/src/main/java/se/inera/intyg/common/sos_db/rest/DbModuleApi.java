@@ -26,8 +26,8 @@ import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.sos_db.model.converter.InternalToTransport;
 import se.inera.intyg.common.sos_db.model.converter.TransportToInternal;
 import se.inera.intyg.common.sos_db.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.sos_db.model.internal.DodsbevisUtlatande;
-import se.inera.intyg.common.sos_db.support.DodsbevisModuleEntryPoint;
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
+import se.inera.intyg.common.sos_db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -38,32 +38,32 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class DodsbevisModuleApi extends SosParentModuleApi<DodsbevisUtlatande> {
+public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DodsbevisModuleApi.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DbModuleApi.class);
 
-    public DodsbevisModuleApi() {
-        super(DodsbevisUtlatande.class);
+    public DbModuleApi() {
+        super(DbUtlatande.class);
     }
 
     @Override
-    protected DodsbevisUtlatande transportToInternal(Intyg intyg) throws ConverterException {
+    protected DbUtlatande transportToInternal(Intyg intyg) throws ConverterException {
         return TransportToInternal.convert(intyg);
     }
 
     @Override
-    protected RegisterCertificateType internalToTransport(DodsbevisUtlatande utlatande) throws ConverterException {
+    protected RegisterCertificateType internalToTransport(DbUtlatande utlatande) throws ConverterException {
         return InternalToTransport.convert(utlatande);
     }
 
     @Override
-    protected Intyg utlatandeToIntyg(DodsbevisUtlatande utlatande) throws ConverterException {
+    protected Intyg utlatandeToIntyg(DbUtlatande utlatande) throws ConverterException {
         return UtlatandeToIntyg.convert(utlatande);
     }
 
     @Override
     protected String getSchematronFileName() {
-        return DodsbevisModuleEntryPoint.SCHEMATRON_FILE;
+        return DbModuleEntryPoint.SCHEMATRON_FILE;
     }
 
     @Override
