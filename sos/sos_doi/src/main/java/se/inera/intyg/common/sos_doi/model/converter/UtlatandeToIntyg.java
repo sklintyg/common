@@ -146,17 +146,19 @@ public final class UtlatandeToIntyg {
         }
 
         // Svar 11
-        InternalConverterUtil.SvarBuilder operation = aSvar(OPERATION_SVAR_ID);
-        if (utlatande.getOperation() != null) {
-            operation.withDelsvar(OPERATION_OM_DELSVAR_ID, utlatande.getOperation().toString());
+        if (utlatande.getOperation() != null || utlatande.getOperationDatum() != null || utlatande.getOperationAnledning() != null) {
+            InternalConverterUtil.SvarBuilder operation = aSvar(OPERATION_SVAR_ID);
+            if (utlatande.getOperation() != null) {
+                operation.withDelsvar(OPERATION_OM_DELSVAR_ID, utlatande.getOperation().toString());
+            }
+            if (utlatande.getOperationDatum() != null) {
+                operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, utlatande.getOperationDatum().asLocalDate().toString());
+            }
+            if (utlatande.getOperationAnledning() != null) {
+                operation.withDelsvar(OPERATION_ANLEDNING_DELSVAR_ID, utlatande.getOperationAnledning());
+            }
+            svar.add(operation.build());
         }
-        if (utlatande.getOperationDatum() != null) {
-            operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, utlatande.getOperationDatum().asLocalDate().toString());
-        }
-        if (utlatande.getOperationAnledning() != null) {
-            operation.withDelsvar(OPERATION_ANLEDNING_DELSVAR_ID, utlatande.getOperationAnledning());
-        }
-        svar.add(operation.build());
 
         // Svar 12
         if (utlatande.getForgiftning() != null || utlatande.getForgiftningOrsak() != null || utlatande.getForgiftningDatum() != null

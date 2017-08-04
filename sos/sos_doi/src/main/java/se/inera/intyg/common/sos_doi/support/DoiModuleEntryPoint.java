@@ -56,7 +56,7 @@ public class DoiModuleEntryPoint extends SosAbstractModuleEntryPoint {
 
     @Override
     public String getDetailedModuleDescription() {
-        throw new UnsupportedOperationException();
+        return "";
     }
 
     @Override

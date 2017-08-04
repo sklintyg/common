@@ -80,12 +80,16 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 public abstract class SosParentModuleApi<T extends SosUtlatande> implements ModuleApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(SosParentModuleApi.class);
+
     @Autowired
     protected WebcertModelFactory<T> webcertModelFactory;
+
     @Autowired
     private InternalDraftValidator<T> internalDraftValidator;
+
     @Autowired
     private ObjectMapper objectMapper;
+
     @Autowired
     private ModelCompareUtil<T> modelCompareUtil;
 
