@@ -146,8 +146,10 @@ public final class UtlatandeToIntyg {
         }
 
         // Svar 11
-        InternalConverterUtil.SvarBuilder operation = aSvar(OPERATION_SVAR_ID).withDelsvar(OPERATION_OM_DELSVAR_ID,
-                utlatande.getOperation().toString());
+        InternalConverterUtil.SvarBuilder operation = aSvar(OPERATION_SVAR_ID);
+        if (utlatande.getOperation() != null) {
+            operation.withDelsvar(OPERATION_OM_DELSVAR_ID, utlatande.getOperation().toString());
+        }
         if (utlatande.getOperationDatum() != null) {
             operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, utlatande.getOperationDatum().asLocalDate().toString());
         }

@@ -151,6 +151,7 @@ public class UtlatandeToIntygTest {
         for (Svar svar : intyg.getSvar()) {
             switch (svar.getId()) {
             case IDENTITET_STYRKT_SVAR_ID:
+                assertEquals(1, svar.getDelsvar().size());
                 assertEquals(IDENTITET_STYRKT_DELSVAR_ID, svar.getDelsvar().get(0).getId());
                 assertEquals(identitetStyrkt, getStringContent(svar.getDelsvar().get(0)));
                 break;
@@ -186,6 +187,7 @@ public class UtlatandeToIntygTest {
                 }
                 break;
             case BARN_SVAR_ID:
+                assertEquals(1, svar.getDelsvar().size());
                 assertEquals(BARN_DELSVAR_ID, svar.getDelsvar().get(0).getId());
                 assertEquals(barn, Boolean.parseBoolean(getStringContent(svar.getDelsvar().get(0))));
                 break;
@@ -221,6 +223,7 @@ public class UtlatandeToIntygTest {
                 }
                 break;
             case POLISANMALAN_SVAR_ID:
+                assertEquals(1, svar.getDelsvar().size());
                 assertEquals(POLISANMALAN_DELSVAR_ID, svar.getDelsvar().get(0).getId());
                 assertEquals(polisanmalan, Boolean.parseBoolean(getStringContent(svar.getDelsvar().get(0))));
                 break;
@@ -270,10 +273,4 @@ public class UtlatandeToIntygTest {
         return grundData;
     }
 
-    private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        JAXBElement<?> jaxbElement = new JAXBElement<>(
-                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-                RegisterCertificateType.class, ws);
-        return jaxbElement;
-    }
 }
