@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('uvWcKategori Directive', function() {
+describe('uvWcFraga Directive', function() {
     'use strict';
 
     var $scope;
@@ -54,25 +54,25 @@ describe('uvWcKategori Directive', function() {
         $scope.configMock = {
             labelKey: 'DUMMY.1.RBK',
             components: [ {
-                type: 'uv-fraga',
-                labelKey: 'FRG_26.RBK'
+                type: 'uv-del-fraga',
+                labelKey: 'DFR_26.RBK'
             } ]
         };
 
-        element = $compile('<uv-wc-kategori config="configMock" view-data="viewDataMock"></uv-wc-kategori>')($scope);
+        element = $compile('<uv-wc-fraga config="configMock" view-data="viewDataMock"></uv-wc-fraga>')($scope);
 
     } ]));
 
     it('should display title when labelKey is configured', function() {
         $scope.$digest();
-        expect($(element).find('h2').text()).toBe('dynamicLabel-DUMMY.1.RBK');
+        expect($(element).find('h3').text()).toBe('dynamicLabel-DUMMY.1.RBK');
     });
 
 
     it('should render child components', function() {
         $scope.$digest();
-        expect($(element).find('uv-fraga').length).toBe(1);
-        expect($(element).find('h3').text()).toBe('dynamicLabel-FRG_26.RBK');
+        expect($(element).find('uv-del-fraga').length).toBe(1);
+        expect($(element).find('h4').text()).toBe('dynamicLabel-DFR_26.RBK');
     });
 
 

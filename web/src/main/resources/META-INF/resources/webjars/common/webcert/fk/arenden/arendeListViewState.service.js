@@ -147,6 +147,19 @@ angular.module('common').service('common.ArendeListViewStateService',
                 }
             };
 
+            this.getKompletteringarForFraga = function(frageId) {
+                var result = [];
+                angular.forEach(this.common.kompletteringar, function(kompletteringLista) {
+                    angular.forEach(kompletteringLista, function(komplettering) {
+                        if (komplettering.frageId === frageId && komplettering.status === 'PENDING_INTERNAL_ACTION') {
+                            result.push(komplettering);
+                        }
+                    });
+                });
+                return result;
+
+            };
+
             this.reset();
         }
     ]

@@ -1,0 +1,23 @@
+uv-wc-fraga {
+  display: block;
+
+
+  h3 {
+    font-size: 16px;
+    padding: 20px 20px 0 20px;
+    margin: 0;
+  }
+
+  .fraga-body {
+    background: $uv-intyg-body-bg;
+    padding: 0 0 15px 20px;
+    border-radius: 4px;
+    box-shadow: none;
+  }
+
+  .uv-wc-fraga-komplettering {
+    border: 3px solid #FFC822;
+    border-radius: 4px;
+    margin-bottom: 1px;
+  }
+}
