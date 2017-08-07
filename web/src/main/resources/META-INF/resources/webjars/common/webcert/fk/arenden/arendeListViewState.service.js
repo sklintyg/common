@@ -160,6 +160,19 @@ angular.module('common').service('common.ArendeListViewStateService',
 
             };
 
+            this.getUnhandledKompletteringCount = function() {
+                var count = 0;
+                angular.forEach(this.common.kompletteringar, function(kompletteringLista) {
+                    angular.forEach(kompletteringLista, function(komplettering) {
+                        if (komplettering.status === 'PENDING_INTERNAL_ACTION') {
+                            count++;
+                        }
+                    });
+                });
+                return count;
+
+            };
+
             this.reset();
         }
     ]

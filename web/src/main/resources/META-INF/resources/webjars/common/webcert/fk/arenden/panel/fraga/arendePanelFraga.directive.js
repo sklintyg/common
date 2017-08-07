@@ -44,8 +44,8 @@ angular.module('common').directive('arendePanelFraga',
                         var target;
                         if (komplettering.modelName === 'tillaggsfragor') {
                             target = 'tillaggsfragor-' + komplettering.id;
-                        } else if (angular.element.find('#uv-fraga-label-FRG-' + komplettering.id + '-RBK').length > 0) {
-                            target = 'uv-fraga-label-FRG-' + komplettering.id + '-RBK';
+                        } else if (angular.element.find('#uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK').length > 0) {
+                            target = 'uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK';
                         } else {
                             target = komplettering.modelName;
                         }
