@@ -34,7 +34,7 @@ import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidat
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsplats;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtlatande> {
-    private static final String prefix = "sos_db";
+    private static final String PREFIX = "sos_db";
 
     @Override
     public ValidateDraftResponse validateDraft(DbUtlatande utlatande) {
@@ -44,13 +44,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
 
         ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
-        SosInternalDraftValidator.validateIdentitetStyrkt(utlatande, validationMessages, prefix);
+        SosInternalDraftValidator.validateIdentitetStyrkt(utlatande, validationMessages, PREFIX);
 
-        validateDodsdatum(utlatande, validationMessages, prefix);
+        validateDodsdatum(utlatande, validationMessages, PREFIX);
 
-        validateDodsplats(utlatande, validationMessages, prefix);
+        validateDodsplats(utlatande, validationMessages, PREFIX);
 
-        validateBarn(utlatande, validationMessages, prefix);
+        validateBarn(utlatande, validationMessages, PREFIX);
         // Validate question 5
         // Validate question 6
         // Validate question 7
