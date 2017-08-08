@@ -18,16 +18,45 @@
  */
 package se.inera.intyg.common.sos_db.validator;
 
-import java.util.Collections;
-
 import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
+import se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.PatientValidator;
+import se.inera.intyg.common.support.validate.ValidatorUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateBarn;
+import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsdatum;
+import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsplats;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtlatande> {
+    private static final String prefix = "sos_db";
+
     @Override
     public ValidateDraftResponse validateDraft(DbUtlatande utlatande) {
-        return new ValidateDraftResponse(ValidationStatus.INVALID, Collections.emptyList());
+        List<ValidationMessage> validationMessages = new ArrayList<>();
+
+        PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
+
+        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
+
+        SosInternalDraftValidator.validateIdentitetStyrkt(utlatande, validationMessages, prefix);
+
+        validateDodsdatum(utlatande, validationMessages, prefix);
+
+        validateDodsplats(utlatande, validationMessages, prefix);
+
+        validateBarn(utlatande, validationMessages, prefix);
+        // Validate question 5
+        // Validate question 6
+        // Validate question 7
+        // Validate question 8
+
+        return ValidatorUtil.buildValidateDraftResponse(validationMessages);
     }
+
 }
