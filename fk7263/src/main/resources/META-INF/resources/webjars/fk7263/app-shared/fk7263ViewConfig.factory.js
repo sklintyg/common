@@ -23,7 +23,7 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
     var viewConfig = [
         {
             type: 'uv-kategori',
-            labelKey: 'fk7263.label.smittskydd',
+            labelKey: 'fk7263.label.smittskydd.kategori',
             components: [ {
                 type: 'uv-fraga',
                 components: [ {
@@ -226,7 +226,7 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
         },
         {
             type: 'uv-kategori',
-            labelKey: 'fk7263.label.nedsattning',
+            labelKey: 'fk7263.label.nedsattning.falt8b',
             components: [ {
                 type: 'uv-fraga',
                 components: [
