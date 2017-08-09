@@ -1,10 +1,10 @@
 angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
     [ '$window', '$location', '$log', '$rootScope', '$state', '$stateParams', '$scope','fk7263.customizeViewstate', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService',
-        function($window, $location, $log, $rootScope, $state, $stateParams, $scope, customizeViewstate, listCertService, certificateService, dialogService) {
+        'common.IntygService', 'common.dialogService', 'common.messageService',
+        function($window, $location, $log, $rootScope, $state, $stateParams, $scope, customizeViewstate, listCertService, certificateService, dialogService, messageService) {
             'use strict';
 
-
+            $scope.messageService = messageService;
             $scope.customizeViewstate = customizeViewstate;
             $scope.downloadAsPdfLink = '/moduleapi/certificate/fk7263' + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
 

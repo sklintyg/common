@@ -11,7 +11,9 @@
 
     <div class="col-xs-12">
       <!-- Next -->
-      <button id="downloadprint" type="button" class="btn btn-primary" ng-click="submit()">
+      <button id="downloadprint" type="button" class="btn btn-primary" ng-click="submit()"
+              uib-popover="{{messageService.getProperty('lisjp.customize.step.3.download.tooltip')}}"
+              popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
         <i class="icon icon-download-1"></i><span message key="lisjp.customize.step.3.download"></span>
       </button>
 

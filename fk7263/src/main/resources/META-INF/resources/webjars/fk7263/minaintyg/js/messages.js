@@ -85,6 +85,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.customize.step.3.pageingress.right': '',
         'fk7263.customize.step.3.info.fk': 'Intyget <u>skall inte skickas</u> till Försäkringskassan!',
         'fk7263.customize.step.3.download': 'Ladda ner som PDF',
+        'fk7263.customize.step.3.download.tooltip' : 'Intyget sparas som PDF på din enhet.',
 
         'fk7263.customize.change': 'Ändra dina val',
 
