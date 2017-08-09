@@ -115,11 +115,11 @@ angular.module('luae_fs').config(function($stateProvider) {
             url: '/fragasvar/luae_fs/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luae_fs.IntygController.ViewStateService',
-                        FormFactory: 'luae_fs.FormFactory'
+                        ViewConfigFactory: 'luae_fs.viewConfigFactory'
                     }
                 },
                 'fragasvar@webcert.fragasvar' : {

@@ -115,11 +115,11 @@ angular.module('luse').config(function($stateProvider) {
             url: '/fragasvar/luse/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luse.IntygController.ViewStateService',
-                        FormFactory: 'luse.FormFactory'
+                        ViewConfigFactory: 'luse.viewConfigFactory'
                     }
                 },
                 'fragasvar@webcert.fragasvar' : {

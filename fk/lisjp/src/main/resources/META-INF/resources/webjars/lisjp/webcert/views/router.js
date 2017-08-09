@@ -115,11 +115,11 @@ angular.module('lisjp').config(function($stateProvider) {
             url: '/fragasvar/lisjp/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'lisjp.IntygController.ViewStateService',
-                        FormFactory: 'lisjp.FormFactory'
+                        ViewConfigFactory: 'lisjp.viewConfigFactory'
                     }
                 },
                 'fragasvar@webcert.fragasvar' : {
