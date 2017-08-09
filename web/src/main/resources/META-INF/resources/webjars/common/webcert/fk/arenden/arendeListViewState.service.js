@@ -147,33 +147,47 @@ angular.module('common').service('common.ArendeListViewStateService',
                 }
             };
 
-            this.getKompletteringarForFraga = function(frageId) {
-                var result = [];
-                angular.forEach(this.common.kompletteringar, function(kompletteringLista) {
-                    angular.forEach(kompletteringLista, function(komplettering) {
-                        if (komplettering.frageId === frageId && komplettering.status === 'PENDING_INTERNAL_ACTION') {
+            //Get matching kompletteringar for single arendeModel
+            function addMatchingFrageKomplettering(result, frageId, arendeModel) {
+                if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
+                    angular.forEach(arendeModel.kompletteringar, function(komplettering) {
+                        if (komplettering.id === frageId) {
                             result.push(komplettering);
                         }
                     });
-                });
-                return result;
+                }
+            }
 
+            //Return array with all unhandled kompletteringar for the given frageId
+            this.getKompletteringarForFraga = function(frageId) {
+                var result = [];
+
+                angular.forEach(this.arendeList, function(arendeModel) {
+                        addMatchingFrageKomplettering(result, frageId, arendeModel);
+
+                        //As multiple kompletteringar are aggregated as extraKompletteringarArenden on the first kompletterings-arende,
+                        //so we check them too
+                        angular.forEach(arendeModel.extraKompletteringarArenden, function(aggregatedModel) {
+                            addMatchingFrageKomplettering(result, frageId, aggregatedModel);
+                        });
+
+                });
+
+                return result;
             };
 
             this.getUnhandledKompletteringCount = function() {
                 var count = 0;
-                angular.forEach(this.common.kompletteringar, function(kompletteringLista) {
-                    angular.forEach(kompletteringLista, function(komplettering) {
-                        if (komplettering.status === 'PENDING_INTERNAL_ACTION') {
-                            count++;
-                        }
-                    });
+                angular.forEach(this.arendeList, function(arendeModel) {
+                    if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
+                        count++;
+                    }
                 });
                 return count;
 
             };
 
-            this.reset();
+           this.reset();
         }
     ]
 );
