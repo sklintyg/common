@@ -42,14 +42,21 @@ public final class SosInternalDraftValidator {
             return;
         }
 
+        // R1 & R2
         if (utlatande.getDodsdatum() == null) {
             ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsdatum", ValidationMessageType.EMPTY);
-            return;
         } else if (!utlatande.getDodsdatum().isValidDate()) {
             ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsdatum", ValidationMessageType.INVALID_FORMAT);
         }
 
-        // any validation for 2.3?
+        // R3
+        if (!utlatande.getDodsdatumSakert()) {
+            if (utlatande.getAntraffatDodDatum() == null) {
+                ValidatorUtil.addValidationError(validationMessages, prefix + ".antraffatDod", ValidationMessageType.EMPTY);
+            } else if (!utlatande.getAntraffatDodDatum().isValidDate()) {
+                ValidatorUtil.addValidationError(validationMessages, prefix + ".antraffatDod", ValidationMessageType.INVALID_FORMAT);
+            }
+        }
     }
 
     public static void validateDodsplats(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
@@ -57,6 +64,7 @@ public final class SosInternalDraftValidator {
             ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsplatsKommun", ValidationMessageType.EMPTY);
         }
 
+        // R4
         if (utlatande.getDodsplatsBoende() == null) {
             ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsplatsBoende", ValidationMessageType.EMPTY);
         }
