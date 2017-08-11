@@ -17,8 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-wc-fraga-komplettering .komplettering-active {
-    border: 3px solid #FFC822;
-    border-radius: 4px;
-    margin-bottom: 1px;
+wc-fraga-komplettering {
+
+    .wc-fraga {
+        padding: 12px 14px 12px 14px;
+    }
+
+    .komplettering-active {
+        border: 3px solid #FFC822;
+        border-radius: 4px;
+        margin-bottom: 1px;
+    }
 }

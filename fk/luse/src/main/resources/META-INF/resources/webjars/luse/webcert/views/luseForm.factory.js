@@ -22,7 +22,7 @@ angular.module('luse').factory('luse.FormFactory', [
 
         var formFields = [
             FactoryTemplates.adress,
-            kategori(1, [
+            kategori(1, categoryNames[1], [
                 fraga(1, [
                     {
                         type: 'headline',
@@ -49,9 +49,7 @@ angular.module('luse').factory('luse.FormFactory', [
                     {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2', required: true}}
                 ]),
                 fraga(3, [
-                    {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true}}
-                ]),
-                fraga(4, [
+                    {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true}},
                     {
                         key: 'underlag',
                         type: 'underlag',
@@ -80,7 +78,7 @@ angular.module('luse').factory('luse.FormFactory', [
                     }
                 ])
             ]),
-            kategori(4, [
+            kategori(4, categoryNames[4], [
                 fraga(6, [
                     {type: 'headline', templateOptions: {label: 'FRG_6', level: 4, noH5After: false, required: true}},
                     {
@@ -107,12 +105,12 @@ angular.module('luse').factory('luse.FormFactory', [
                     }
                 ])
             ]),
-            kategori(3, [
+            kategori(3, categoryNames[3], [
                 fraga(5, [
                     {key: 'sjukdomsforlopp', type: 'multi-text', templateOptions: {label: 'DFR_5.1', required: true}}
                 ])
             ]),
-            kategori(5, [
+            kategori(5, categoryNames[5], [
                 {
                     wrapper: 'validationGroup',
                     templateOptions: {type: 'text-group', validationGroup: 'funktionsnedsattning'},
@@ -169,7 +167,7 @@ angular.module('luse').factory('luse.FormFactory', [
                     ]
                 }
             ], true),
-            kategori(6, [
+            kategori(6, categoryNames[6], [
                 fraga(17, [
                     {
                         key: 'aktivitetsbegransning',
@@ -178,7 +176,7 @@ angular.module('luse').factory('luse.FormFactory', [
                     }
                 ])
             ]),
-            kategori(7, [
+            kategori(7, categoryNames[7], [
                 fraga(18, [
                     {key: 'avslutadBehandling', type: 'multi-text', templateOptions: {label: 'DFR_18.1'}}
                 ]),
@@ -192,7 +190,7 @@ angular.module('luse').factory('luse.FormFactory', [
                     {key: 'substansintag', type: 'multi-text', templateOptions: {label: 'DFR_21.1'}}
                 ])
             ]),
-            kategori(8, [
+            kategori(8, categoryNames[8], [
                 fraga(22, [
                     {
                         key: 'medicinskaForutsattningarForArbete',
@@ -204,12 +202,12 @@ angular.module('luse').factory('luse.FormFactory', [
                     {key: 'formagaTrotsBegransning', type: 'multi-text', templateOptions: {label: 'FRG_23'}}
                 ])
             ]),
-            kategori(9, [
+            kategori(9, categoryNames[9], [
                 fraga(25, [
                     {key: 'ovrigt', type: 'multi-text', templateOptions: {label: 'DFR_25.1'}}
                 ])
             ]),
-            kategori(10, [
+            kategori(10, categoryNames[10], [
                 fraga(26, [
                     {
                         key: 'kontaktMedFk',

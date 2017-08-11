@@ -29,22 +29,22 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
 
         return {
 
-            setCategoryNames: function(names){
+            setCategoryNames: function(names) {
                 categoryNames = names;
             },
-            getCategoryNames: function(){
+            getCategoryNames: function() {
                 return angular.copy(categoryNames);
             },
 
-            kategori: function(id, fragor, required) {
+            kategori: function kategori(id, name, fragor, required) {
                 return {
                     wrapper: 'wc-kategori',
-                    templateOptions: {category: id, categoryName: categoryNames[id], required: required},
+                    templateOptions: {category: id, categoryName: name, required: required},
                     fieldGroup: fragor
                 };
             },
 
-            fraga: function(id, components) {
+            fraga: function fraga(id, components) {
                 return {
                     wrapper: 'wc-fraga',
                     templateOptions: {frageId: id},
