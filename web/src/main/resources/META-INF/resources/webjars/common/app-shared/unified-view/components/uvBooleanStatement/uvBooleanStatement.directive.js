@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('uvBooleanValue', [ '$filter', 'uvUtil', function($filter, uvUtil) {
+angular.module('common').directive('uvBooleanStatement', [ '$filter', 'uvUtil', function($filter, uvUtil) {
     'use strict';
 
     return {
@@ -26,14 +26,13 @@ angular.module('common').directive('uvBooleanValue', [ '$filter', 'uvUtil', func
             config: '=',
             viewData: '='
         },
-        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.html',
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvBooleanStatement/uvBooleanStatement.directive.html',
         link: function($scope) {
 
-            $scope.value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-
-
-            $scope.hasStrictBooleanValue = function() {
-                return $scope.value === true || $scope.value === false;
+            $scope.getValue = function() {
+                var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+                //uvBoolFilter makes sure we always get ja/nej as output, defaulting to Nej if no value
+                return $filter('uvBoolFilter')(value);
             };
 
         }

@@ -27,7 +27,7 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
             components: [ {
                 type: 'uv-fraga',
                 components: [ {
-                    type: 'uv-boolean-value',
+                    type: 'uv-boolean-statement',
                     modelProp: 'avstangningSmittskydd'
                 } ]
             } ]
@@ -136,7 +136,7 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
                         type: 'uv-del-fraga',
                         labelKey: 'fk7263.label.recommendations.contact.jobcenter',
                         components: [ {
-                            type: 'uv-boolean-value',
+                            type: 'uv-boolean-statement',
                             modelProp: 'rekommendationKontaktArbetsformedlingen'
                         } ]
                     },
@@ -144,7 +144,7 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
                         type: 'uv-del-fraga',
                         labelKey: 'fk7263.label.recommendations.contact.healthdepartment',
                         components: [ {
-                            type: 'uv-boolean-value',
+                            type: 'uv-boolean-statement',
                             modelProp: 'rekommendationKontaktForetagshalsovarden'
                         } ]
                     },
@@ -313,7 +313,7 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
             components: [ {
                 type: 'uv-fraga',
                 components: [ {
-                    type: 'uv-boolean-value',
+                    type: 'uv-boolean-statement',
                     modelProp: 'kontaktMedFk'
                 } ]
             } ]

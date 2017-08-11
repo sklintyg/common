@@ -132,7 +132,7 @@ angular.module('luae_fs').factory('luae_fs.viewConfigFactory', ['uvUtil', functi
                     type: 'uv-del-fraga',
                     labelKey: 'DFR_26.1.RBK',
                     components: [ {
-                        type: 'uv-boolean-value',
+                        type: 'uv-boolean-statement',
                         modelProp: 'kontaktMedFk'
                     } ]
                 }, {

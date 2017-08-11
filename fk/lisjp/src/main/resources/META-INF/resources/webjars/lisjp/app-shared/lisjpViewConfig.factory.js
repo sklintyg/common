@@ -10,7 +10,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
             components: [ {
                 type: 'uv-del-fraga',
                 components: [ {
-                    type: 'uv-boolean-value',
+                    type: 'uv-boolean-statement',
                     modelProp: 'avstangningSmittskydd'
                 } ]
             } ]
@@ -186,7 +186,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                 labelKey: 'FRG_33.RBK',
                 components: [
                     {
-                        type: 'uv-boolean-value',
+                        type: 'uv-boolean-statement',
                         modelProp: 'arbetstidsforlaggning'
                     },
                     {
@@ -203,7 +203,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                 type: 'uv-fraga',
                 labelKey: 'FRG_34.RBK',
                 components: [ {
-                    type: 'uv-boolean-value',
+                    type: 'uv-boolean-statement',
                     modelProp: 'arbetsresor'
                 } ]
             },
@@ -263,7 +263,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                 labelKey: 'FRG_26.RBK',
                 components: [
                     {
-                        type: 'uv-boolean-value',
+                        type: 'uv-boolean-statement',
                         labelKey: 'DFR_26.1.RBK',
                         modelProp: 'kontaktMedFk'
                     },

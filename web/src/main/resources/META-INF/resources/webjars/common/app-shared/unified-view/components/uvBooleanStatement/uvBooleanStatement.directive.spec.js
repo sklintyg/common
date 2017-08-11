@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('uvBooelanValue Directive', function() {
+describe('uvBooleanStatement Directive', function() {
     'use strict';
 
     var $scope;
@@ -60,7 +60,7 @@ describe('uvBooelanValue Directive', function() {
             modelProp: 'property1.isRelevant'
         };
 
-        element = $compile('<uv-boolean-value config="configMock" view-data="viewDataMock"></uv-boolean-value>')($scope);
+        element = $compile('<uv-boolean-statement config="configMock" view-data="viewDataMock"></uv-boolean-statement>')($scope);
 
     } ]));
 
@@ -74,28 +74,26 @@ describe('uvBooelanValue Directive', function() {
         expect($(element).find('h4').length).toBe(0);
     });
 
-    it('should display "Ja" when value is strictly true', function() {
+    it('should display "Ja" when value is true', function() {
         $scope.$digest();
-        expect(element.isolateScope().value).toEqual(true);
-        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(true);
+        expect(element.isolateScope().getValue()).toEqual('Ja');
         expect($(element).find('span').text()).toContain('Ja');
     });
 
-    it('should display "Nej" when value is strictly false', function() {
+    it('should display "Nej" when value is false', function() {
         $scope.viewDataMock.property1.isRelevant = false;
 
         $scope.$digest();
-        expect(element.isolateScope().value).toEqual(false);
-        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(true);
+        expect(element.isolateScope().getValue()).toEqual('Nej');
         expect($(element).find('span').text()).toContain('Nej');
     });
 
-    it('should by default display Ej angivet when value is not explictly true or false', function() {
+    it('should by default display "Nej" when value is undefined', function() {
         $scope.viewDataMock.property1 = undefined;
 
         $scope.$digest();
-        expect(element.isolateScope().value).toEqual(undefined);
-        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(false);
+        expect(element.isolateScope().getValue()).toEqual('Nej');
+        expect($(element).find('span').text()).toContain('Nej');
     });
 
 });
