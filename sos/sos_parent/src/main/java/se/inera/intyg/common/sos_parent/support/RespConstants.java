@@ -18,7 +18,6 @@ public final class RespConstants {
     public static final String EXPLOSIV_IMPLANTAT_JSON_ID = "explosivImplantat";
     public static final String EXPLOSIV_AVLAGSNAT_JSON_ID = "explosivAvlagsnat";
     public static final String UNDERSOKNING_YTTRE_JSON_ID = "undersokningYttre";
-    public static final String UNDERSOKNING_DETALJER_JSON_ID = "undersokningDetaljer";
     public static final String UNDERSOKNING_DATUM_JSON_ID = "undersokningDatum";
     public static final String POLISANMALAN_JSON_ID = "polisanmalan";
 

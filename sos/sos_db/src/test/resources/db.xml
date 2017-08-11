@@ -97,6 +97,7 @@
                 <ns3:cv>
                     <ns3:code>UNDERSOKNING_SKA_GORAS</ns3:code>
                     <ns3:codeSystem>KV_DETALJER_UNDERSOKNING</ns3:codeSystem>
+                    <ns3:displayName>UNDERSOKNING_SKA_GORAS</ns3:displayName>
                 </ns3:cv>
             </delsvar>
             <delsvar id="6.3">2017-01-03</delsvar>

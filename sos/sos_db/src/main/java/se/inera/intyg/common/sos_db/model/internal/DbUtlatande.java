@@ -18,6 +18,20 @@
  */
 package se.inera.intyg.common.sos_db.model.internal;
 
+import autovalue.shaded.com.google.common.common.collect.ImmutableList;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
+import se.inera.intyg.common.sos_db.support.DbModuleEntryPoint;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+
+import javax.annotation.Nullable;
+import java.util.List;
+
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
@@ -33,31 +47,14 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DETALJER_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_JSON_ID;
-
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.auto.value.AutoValue;
-
-import autovalue.shaded.com.google.common.common.collect.ImmutableList;
-import se.inera.intyg.common.sos_db.support.DbModuleEntryPoint;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_DbUtlatande.Builder.class)
 public abstract class DbUtlatande implements SosUtlatande {
 
     public static Builder builder() {
-        return new AutoValue_DbUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga> of());
+        return new AutoValue_DbUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga>of());
     }
 
     @Override
@@ -109,10 +106,7 @@ public abstract class DbUtlatande implements SosUtlatande {
     public abstract Boolean getExplosivAvlagsnat();
 
     @Nullable
-    public abstract Boolean getUndersokningYttre();
-
-    @Nullable
-    public abstract Undersokning getUndersokningDetaljer();
+    public abstract Undersokning getUndersokningYttre();
 
     @Nullable
     public abstract InternalDate getUndersokningDatum();
@@ -169,10 +163,7 @@ public abstract class DbUtlatande implements SosUtlatande {
         public abstract Builder setExplosivAvlagsnat(Boolean explosivAvlagsnat);
 
         @JsonProperty(UNDERSOKNING_YTTRE_JSON_ID)
-        public abstract Builder setUndersokningYttre(Boolean undersokningYttre);
-
-        @JsonProperty(UNDERSOKNING_DETALJER_JSON_ID)
-        public abstract Builder setUndersokningDetaljer(Undersokning undersokningDetaljer);
+        public abstract Builder setUndersokningYttre(Undersokning undersokningYttre);
 
         @JsonProperty(UNDERSOKNING_DATUM_JSON_ID)
         public abstract Builder setUndersokningDatum(InternalDate undersokningDatum);

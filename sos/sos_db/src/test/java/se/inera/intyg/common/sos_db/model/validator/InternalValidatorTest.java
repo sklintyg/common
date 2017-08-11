@@ -76,15 +76,6 @@ public class InternalValidatorTest {
     }
 
     @Test
-    public void testR6() throws ScenarioNotFoundException {
-        DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R6").asInternalModel();
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DB.undersokningDetaljer", internalValidationResponse.getValidationErrors().get(0).getField());
-    }
-
-    @Test
     public void testR7() throws ScenarioNotFoundException {
         DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R7").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);

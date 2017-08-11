@@ -18,6 +18,17 @@
  */
 package se.inera.intyg.common.sos_db.model.converter;
 
+import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
+import se.inera.intyg.common.sos_db.model.internal.Undersokning;
+import se.inera.intyg.common.sos_db.support.DbModuleEntryPoint;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.util.List;
+
 import static se.inera.intyg.common.sos_parent.model.converter.SosUtlatandeToIntyg.getSharedSvar;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_DELSVAR_ID;
@@ -34,16 +45,6 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
-
-import java.util.List;
-
-import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
-import se.inera.intyg.common.sos_db.support.DbModuleEntryPoint;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
@@ -80,14 +81,18 @@ public final class UtlatandeToIntyg {
         }
 
         // Svar 6
-        if (utlatande.getUndersokningYttre() != null || utlatande.getUndersokningDatum() != null
-                || utlatande.getUndersokningDetaljer() != null) {
-            InternalConverterUtil.SvarBuilder undersokning = aSvar(UNDERSOKNING_SVAR_ID)
-                    .withDelsvar(UNDERSOKNING_YTTRE_DELSVAR_ID, utlatande.getUndersokningYttre().toString());
-            if (utlatande.getUndersokningDetaljer() != null) {
-                undersokning.withDelsvar(UNDERSOKNING_DETALJER_DELSVAR_ID,
-                        aCV(UNDERSOKNING_DETALJER_CODE_SYSTEM, utlatande.getUndersokningDetaljer().name(),
-                                utlatande.getUndersokningDetaljer().name()));
+        if (utlatande.getUndersokningYttre() != null || utlatande.getUndersokningDatum() != null) {
+            InternalConverterUtil.SvarBuilder undersokning = aSvar(UNDERSOKNING_SVAR_ID);
+
+            if (utlatande.getUndersokningYttre() != null) {
+                if (utlatande.getUndersokningYttre() == Undersokning.JA) {
+                    undersokning.withDelsvar(UNDERSOKNING_YTTRE_DELSVAR_ID, Boolean.TRUE.toString());
+                } else {
+                    undersokning.withDelsvar(UNDERSOKNING_YTTRE_DELSVAR_ID, Boolean.FALSE.toString());
+                    undersokning.withDelsvar(UNDERSOKNING_DETALJER_DELSVAR_ID,
+                            aCV(UNDERSOKNING_DETALJER_CODE_SYSTEM, utlatande.getUndersokningYttre().getTransport(),
+                                    utlatande.getUndersokningYttre().getTransport()));
+                }
             }
             if (utlatande.getUndersokningDatum() != null) {
                 undersokning.withDelsvar(UNDERSOKNING_DATUM_DELSVAR_ID, utlatande.getUndersokningDatum().asLocalDate().toString());

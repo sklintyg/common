@@ -76,9 +76,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
         // R6 & R7
         if (utlatande.getUndersokningYttre() == null) {
             ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".undersokningYttre", ValidationMessageType.EMPTY);
-        } else if (!utlatande.getUndersokningYttre() && utlatande.getUndersokningDetaljer() == null) {
-            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".undersokningDetaljer", ValidationMessageType.EMPTY);
-        } else if (utlatande.getUndersokningDetaljer() == Undersokning.UNDERSOKNING_GJORT) {
+        } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
             if (utlatande.getUndersokningDatum() == null) {
                 ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".undersokningDatum", ValidationMessageType.EMPTY);
             } else if (!utlatande.getUndersokningDatum().isValidDate()) {
