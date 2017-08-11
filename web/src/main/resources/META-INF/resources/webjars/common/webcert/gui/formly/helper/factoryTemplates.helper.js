@@ -25,7 +25,33 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
         var singleTextAdressLabelColSize = 2;
         var singleTextLabelColSize = 2;
 
+        var categoryNames = [];
+
         return {
+
+            setCategoryNames: function(names){
+                categoryNames = names;
+            },
+            getCategoryNames: function(){
+                return angular.copy(categoryNames);
+            },
+
+            kategori: function(id, fragor, required) {
+                return {
+                    wrapper: 'wc-kategori',
+                    templateOptions: {category: id, categoryName: categoryNames[id], required: required},
+                    fieldGroup: fragor
+                };
+            },
+
+            fraga: function(id, components) {
+                return {
+                    wrapper: 'wc-fraga',
+                    templateOptions: {frageId: id},
+                    fieldGroup: components
+                };
+            },
+
             adress: {
                 wrapper: 'wc-field-static',
                 templateOptions: {staticLabel: 'common.intyg.patientadress', categoryName: 'patient'},
@@ -136,7 +162,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                 ]
             },
             grundForMU: {
-                wrapper: 'validationGroup',  templateOptions: {
+                wrapper: 'validationGroup', templateOptions: {
                     type: 'check-group',
                     validationGroup: 'baserasPa',
                     kompletteringGroup: 'baseratPa'

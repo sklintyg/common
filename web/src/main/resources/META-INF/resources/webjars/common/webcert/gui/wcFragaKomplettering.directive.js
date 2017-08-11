@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,24 +17,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcInlineKomplettering', [ 'common.ArendeListViewStateService', 'common.UtilsService',
+angular.module('common').directive('wcFragaKomplettering', [ 'common.ArendeListViewStateService', 'common.UtilsService',
     function(ArendeListViewStateService, Utils) {
     'use strict';
 
     return {
         restrict: 'E',
-        templateUrl: '/web/webjars/common/webcert/intyg/unified-view/wcInlineKomplettering.directive.html',
+        transclude: true,
         scope: {
             frageId: '='
         },
+        templateUrl: '/web/webjars/common/webcert/gui/wcFragaKomplettering.directive.html',
         link: function($scope) {
-            $scope.getKompletteringar = function() {
+            $scope.hasKompletteringar = function() {
                 // lookup if there's an unhandled komplettering for this frage-id
-                var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
+               var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
                 if (!numericFrageId) {
-                    return [];
+                    return false;
                 }
-                return ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
+
+                var list = ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
+                return list.length > 0;
+
             };
         }
     };
