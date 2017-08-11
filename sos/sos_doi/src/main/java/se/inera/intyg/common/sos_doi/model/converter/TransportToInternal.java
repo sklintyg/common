@@ -210,7 +210,6 @@ public final class TransportToInternal {
                     utlatande.setOperation(OmOperation.UPPGIFT_SAKNAS);
                 } else {
                     utlatande.setOperation(Boolean.parseBoolean(content) ? OmOperation.JA : OmOperation.NEJ);
-                    ;
                 }
                 break;
             case OPERATION_DATUM_DELSVAR_ID:
