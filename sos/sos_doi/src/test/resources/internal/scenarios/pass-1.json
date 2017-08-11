@@ -19,67 +19,67 @@
   "barn": true,
   "dodsorsak": "terminal dödsorsak",
   "dodsorsakDatum": "2017-04-01",
-  "dodsorsakSpecifikation": "90734009",
+  "dodsorsakSpecifikation": "KRONISK",
   "foljd": [
     {
       "beskrivning": "foljd 1",
       "datum": "2017-05-01",
-      "specifikation": "90734009"
+      "specifikation": "KRONISK"
     },
     {
       "beskrivning": "foljd 2",
       "datum": "2017-05-02",
-      "specifikation": "424124008"
+      "specifikation": "PLOTSLIG"
     },
     {
       "beskrivning": "foljd 3",
       "datum": "2017-05-03",
-      "specifikation": "90734009"
+      "specifikation": "KRONISK"
     }
   ],
   "bidragandeSjukdomar": [
     {
       "beskrivning": "bidragande sjukdom 1",
       "datum": "2017-03-01",
-      "specifikation": "90734009"
+      "specifikation": "KRONISK"
     },
     {
       "beskrivning": "bidragande sjukdom 2",
       "datum": "2017-03-02",
-      "specifikation": "424124008"
+      "specifikation": "PLOTSLIG"
     },
     {
       "beskrivning": "bidragande sjukdom 3",
       "datum": "2017-03-03",
-      "specifikation": "90734009"
+      "specifikation": "KRONISK"
     },
     {
       "beskrivning": "bidragande sjukdom 4",
       "datum": "2017-03-04",
-      "specifikation": "424124008"
+      "specifikation": "PLOTSLIG"
     },
     {
       "beskrivning": "bidragande sjukdom 5",
       "datum": "2017-03-05",
-      "specifikation": "90734009"
+      "specifikation": "KRONISK"
     },
     {
       "beskrivning": "bidragande sjukdom 6",
       "datum": "2017-03-06",
-      "specifikation": "424124008"
+      "specifikation": "PLOTSLIG"
     },
     {
       "beskrivning": "bidragande sjukdom 7",
       "datum": "2017-03-07",
-      "specifikation": "90734009"
+      "specifikation": "KRONISK"
     },
     {
       "beskrivning": "bidragande sjukdom 8",
       "datum": "2017-03-08",
-      "specifikation": "424124008"
+      "specifikation": "PLOTSLIG"
     }
   ],
-  "operation": "true",
+  "operation": "JA",
   "operationDatum": "2017-02-01",
   "operationAnledning": "anledning",
   "forgiftning": "true",

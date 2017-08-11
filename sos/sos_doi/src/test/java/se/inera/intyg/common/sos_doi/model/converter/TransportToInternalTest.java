@@ -20,6 +20,7 @@ import se.inera.intyg.common.sos_doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.sos_doi.model.internal.Foljd;
 import se.inera.intyg.common.sos_doi.model.internal.ForgiftningOrsak;
+import se.inera.intyg.common.sos_doi.model.internal.OmOperation;
 import se.inera.intyg.common.sos_doi.model.internal.Specifikation;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -67,7 +68,7 @@ public class TransportToInternalTest {
         assertEquals(BidragandeSjukdom.create("bidragande sjukdom 6", new InternalDate(LocalDate.of(2017, 3,6)), Specifikation.PLOTSLIG), res.getBidragandeSjukdomar().get(5));
         assertEquals(BidragandeSjukdom.create("bidragande sjukdom 7", new InternalDate(LocalDate.of(2017, 3,7)), Specifikation.KRONISK), res.getBidragandeSjukdomar().get(6));
         assertEquals(BidragandeSjukdom.create("bidragande sjukdom 8", new InternalDate(LocalDate.of(2017, 3,8)), Specifikation.PLOTSLIG), res.getBidragandeSjukdomar().get(7));
-        assertTrue(res.getOperation());
+        assertEquals(OmOperation.JA, res.getOperation());
         assertEquals(new InternalDate(LocalDate.of(2017, 2, 1)), res.getOperationDatum());
         assertEquals("anledning", res.getOperationAnledning());
         assertTrue(res.getForgiftning());
