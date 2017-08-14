@@ -100,10 +100,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         for (int i = 0; i < utlatande.getBidragandeSjukdomar().size(); i++) {
             BidragandeSjukdom bidragandeSjukdom = utlatande.getBidragandeSjukdomar().get(i);
             if (Strings.nullToEmpty(bidragandeSjukdom.getBeskrivning()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".foljd.1.beskrivning", ValidationMessageType.EMPTY);
+                ValidatorUtil
+                        .addValidationError(validationMessages, MODULE_ID + ".foljd." + i + ".beskrivning", ValidationMessageType.EMPTY);
             }
             if (bidragandeSjukdom.getDatum() != null && !bidragandeSjukdom.getDatum().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".foljd.1.datum", ValidationMessageType.INVALID_FORMAT);
+                ValidatorUtil
+                        .addValidationError(validationMessages, MODULE_ID + ".foljd." + i + ".datum", ValidationMessageType.INVALID_FORMAT);
 
             }
         }
