@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -35,9 +34,40 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public class InternalToTransportTest {
+
+    public static LuaenaUtlatande getUtlatande() {
+        return getUtlatande(null, null, null);
+    }
+
+    public static LuaenaUtlatande getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
+        LuaenaUtlatande.Builder utlatande = LuaenaUtlatande.builder();
+        utlatande.setId("1234567");
+        utlatande.setTextVersion("1.0");
+        GrundData grundData = IntygTestDataBuilder.getGrundData();
+
+        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+
+        if (relationKod != null) {
+            Relation relation = new Relation();
+            relation.setRelationKod(relationKod);
+            relation.setMeddelandeId(relationMeddelandeId);
+            relation.setReferensId(referensId);
+            grundData.setRelation(relation);
+        }
+        utlatande.setGrundData(grundData);
+        utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
+        utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
+        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
+        utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
+        utlatande.setFormagaTrotsBegransning("Är bra på att dansa!");
+        utlatande.setForslagTillAtgard("Ben & Jerrys och Breaking Bad");
+
+        return utlatande.build();
+    }
 
     @Test
     public void testInternalToTransportConversion() throws Exception {
@@ -86,35 +116,5 @@ public class InternalToTransportTest {
     @Test(expected = ConverterException.class)
     public void testConvertSourceNull() throws Exception {
         InternalToTransport.convert(null);
-    }
-
-    public static LuaenaUtlatande getUtlatande() {
-        return getUtlatande(null, null, null);
-    }
-
-    public static LuaenaUtlatande getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
-        LuaenaUtlatande.Builder utlatande = LuaenaUtlatande.builder();
-        utlatande.setId("1234567");
-        utlatande.setTextVersion("1.0");
-        GrundData grundData = IntygTestDataBuilder.getGrundData();
-
-        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
-
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationKod(relationKod);
-            relation.setMeddelandeId(relationMeddelandeId);
-            relation.setReferensId(referensId);
-            grundData.setRelation(relation);
-        }
-        utlatande.setGrundData(grundData);
-        utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
-        utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
-        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
-        utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
-        utlatande.setFormagaTrotsBegransning("Är bra på att dansa!");
-        utlatande.setForslagTillAtgard("Ben & Jerrys och Breaking Bad");
-
-        return utlatande.build();
     }
 }

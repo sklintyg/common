@@ -43,11 +43,11 @@ angular.module('common').directive('arendePanelFraga',
 
                         var target;
                         if (komplettering.modelName === 'tillaggsfragor') {
-                            target = 'form_tillaggsfragor_' + komplettering.id;
-                        } else if (angular.element.find('#form_FRG_' + komplettering.id).length > 0) {
-                            target = 'form_FRG_' + komplettering.id;
+                            target = 'tillaggsfragor-' + komplettering.id;
+                        } else if (angular.element.find('#uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK').length > 0) {
+                            target = 'uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK';
                         } else {
-                            target = 'form_' + komplettering.modelName;
+                            target = komplettering.modelName;
                         }
 
                         var offset = 10;

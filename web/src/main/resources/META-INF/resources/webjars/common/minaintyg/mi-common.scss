@@ -21,6 +21,21 @@
 
 // Component styles are injected through grunt
 // injector
+@import '../app-shared/unified-view/components/_variables.scss';
+@import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
+@import '../app-shared/unified-view/components/uvBooleanStatement/uvBooleanStatement.directive.scss';
+@import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
+@import '../app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.scss';
+@import '../app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.scss';
+@import '../app-shared/unified-view/components/uvFraga/uvFraga.directive.scss';
+@import '../app-shared/unified-view/components/uvKategori/uvKategori.directive.scss';
+@import '../app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive.scss';
+@import '../app-shared/unified-view/components/uvList/uvList.directive.scss';
+@import '../app-shared/unified-view/components/uvNoValue/uvNoValue.directive.scss';
+@import '../app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive.scss';
+@import '../app-shared/unified-view/components/uvSkapadAv/uvSkapadAv.directive.scss';
+@import '../app-shared/unified-view/components/uvTable/uvTable.directive.scss';
+@import '../app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.scss';
 @import 'components/common-intyg-modules.scss';
 @import 'components/customize-pdf/miCheckboxSlider.directive.scss';
 @import 'components/customize-pdf/miFishbone.directive.scss';
@@ -31,17 +46,4 @@
 @import 'components/miCertificateActionButtons/miCertificateActionButtons.directive.scss';
 @import 'components/miCompactCertificateBody/miCompactCertificateBody.directive.scss';
 @import 'components/miCompactCertificateHeader/miCompactCertificateHeader.directive.scss';
-@import 'components/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
-@import 'components/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
-@import 'components/unified-view/components/uvDelFraga/uvDelFraga.directive.scss';
-@import 'components/unified-view/components/uvEnumValue/uvEnumValue.directive.scss';
-@import 'components/unified-view/components/uvFraga/uvFraga.directive.scss';
-@import 'components/unified-view/components/uvKategori/uvKategori.directive.scss';
-@import 'components/unified-view/components/uvKodverkValue/uvKodverkValue.directive.scss';
-@import 'components/unified-view/components/uvList/uvList.directive.scss';
-@import 'components/unified-view/components/uvNoValue/uvNoValue.directive.scss';
-@import 'components/unified-view/components/uvSimpleValue/uvSimpleValue.directive.scss';
-@import 'components/unified-view/components/uvSkapadAv/uvSkapadAv.directive.scss';
-@import 'components/unified-view/components/uvTable/uvTable.directive.scss';
-@import 'components/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.scss';
 // endinjector

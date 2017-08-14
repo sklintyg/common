@@ -23,14 +23,14 @@ angular.module('fk7263').constant('fk7263.messages', {
         // Labels
         'fk7263.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget, göra en anpassad version till din arbetsgivare, ladda ner intyget som PDF och arkivera intyget. Om du vill ansöka om sjukpenning, gör du det enklast på <LINK:forsakringskassan-sjuk>. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
 
-        'fk7263.label.nedsattning': 'Jag bedömer att arbetsförmåga är (fält 8b)',
+        'fk7263.label.nedsattning.falt8b': 'Jag bedömer att arbetsförmåga är (fält 8b)',
         'fk7263.label.patientname': 'Patientens namn',
         'fk7263.label.issued': 'Inkom till Mina intyg',
         'fk7263.label.civicnumber': 'Personnummer',
         'fk7263.label.issuer': 'Vårdgivare',
         'fk7263.label.period': 'Period',
         'fk7263.label.unit': 'Enhet',
-        'fk7263.label.smittskydd': 'Avstängning enligt smittskyddslagen på grund av smitta (fält 1)',
+        'fk7263.label.smittskydd.kategori': 'Avstängning enligt smittskyddslagen på grund av smitta (fält 1)',
         'fk7263.label.yes': 'Ja',
         'fk7263.label.no': 'Nej',
         'fk7263.label.partialyes': 'Ja, delvis',
@@ -85,6 +85,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.customize.step.3.pageingress.right': '',
         'fk7263.customize.step.3.info.fk': 'Intyget <u>skall inte skickas</u> till Försäkringskassan!',
         'fk7263.customize.step.3.download': 'Ladda ner som PDF',
+        'fk7263.customize.step.3.download.tooltip' : 'Intyget sparas som PDF på din enhet.',
 
         'fk7263.customize.change': 'Ändra dina val',
 

@@ -29,6 +29,6 @@
   padding-top:10px;
 }
 
-@import "../js/directives/fkList/fkList.directive";
-@import "../js/directives/fkUvBooleanValue/fkUvBooleanValue.directive";
-@import "../js/directives/fkUvTable/fkUvTable.directive";
+@import "../../app-shared/directives/fkList/fkList.directive";
+@import "../../app-shared/directives/fkUvBooleanValue/fkUvBooleanValue.directive";
+@import "../../app-shared/directives/fkUvTable/fkUvTable.directive";

@@ -71,6 +71,28 @@ angular.module('lisjp').config(function($stateProvider) {
             url:'/intyg/lisjp/:certificateId',
             views: {
                 'intyg@webcert.intyg.fk' : {
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
+                    resolve: {
+                        ViewState: 'lisjp.IntygController.ViewStateService',
+                        ViewConfigFactory: 'lisjp.viewConfigFactory'
+                    }
+                },
+                'fragasvar@webcert.intyg.fk' : {
+                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
+                    controller: 'common.ArendeListCtrl'
+                },
+                'header@webcert.intyg.fk.lisjp' : {
+                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    controller: 'common.IntygHeader'
+                }
+            }
+        }).
+        state('webcert.intyg.fk.lisjpold', {
+            data: { defaultActive : 'index', intygType: 'lisjp' },
+            url:'/intyg/lisjp_old/:certificateId',
+            views: {
+                'intyg@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'intyg/smiIntyg.html',
                     controller: 'smi.ViewCertCtrl',
                     resolve: {
@@ -93,11 +115,11 @@ angular.module('lisjp').config(function($stateProvider) {
             url: '/fragasvar/lisjp/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'lisjp.IntygController.ViewStateService',
-                        FormFactory: 'lisjp.FormFactory'
+                        ViewConfigFactory: 'lisjp.viewConfigFactory'
                     }
                 },
                 'fragasvar@webcert.fragasvar' : {

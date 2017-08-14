@@ -22,7 +22,7 @@ module.exports = function(config) {
     'use strict';
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/webjars/common/minaintyg/';
-    var TEST_DIR = SRC_DIR;
+    var SRC_SHARED_DIR = 'src/main/resources/META-INF/resources/webjars/common/app-shared/';
 
     config.set({
 
@@ -35,7 +35,9 @@ module.exports = function(config) {
         // generate js files from html templates to expose them during testing.
         preprocessors: {
             'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.html': ['ng-html2js'],
-            'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.scss': ['scss']
+            'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.scss': ['scss'],
+            'src/main/resources/META-INF/resources/webjars/common/app-shared/**/*.html': ['ng-html2js'],
+            'src/main/resources/META-INF/resources/webjars/common/app-shared/**/*.scss': ['scss']
         },
 
         scssPreprocessor: {
@@ -80,7 +82,11 @@ module.exports = function(config) {
 
             { pattern: SRC_DIR + '**/*.js' },
             { pattern: SRC_DIR + '**/*.html' },
-            { pattern: TEST_DIR + '**/*.spec.js' }
+            { pattern: SRC_DIR + '**/*.spec.js' },
+
+            { pattern: SRC_SHARED_DIR + '**/*.js' },
+            { pattern: SRC_SHARED_DIR + '**/*.html' },
+            { pattern: SRC_SHARED_DIR + '**/*.spec.js' }
         ],
 
         // web server port

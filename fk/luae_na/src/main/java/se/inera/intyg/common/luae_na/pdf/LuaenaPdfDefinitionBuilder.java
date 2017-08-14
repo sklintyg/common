@@ -31,7 +31,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 
 import autovalue.shaded.org.apache.commons.lang.StringUtils;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.pdf.FkBasePdfDefinitionBuilder;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
@@ -698,7 +698,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
                 .withTopPadding(0.5f)
                 .withVerticalAlignment(PdfPCell.TOP)
                 .withBorders(Rectangle.TOP));
-        fraga8.addChild(new FkOverflowableValueField(intyg.getFormagaTrotsBegransning(), getText("FRG_24.RBK"))
+        fraga8.addChild(new FkOverflowableValueField(intyg.getForslagTillAtgard(), getText("FRG_24.RBK"))
                 .offset(0f, FRAGA_8_DELFRAGA_HEIGHT * 2 + 4f)
                 .size(KATEGORI_FULL_WIDTH, FRAGA_8_DELFRAGA_HEIGHT - 4f));
 

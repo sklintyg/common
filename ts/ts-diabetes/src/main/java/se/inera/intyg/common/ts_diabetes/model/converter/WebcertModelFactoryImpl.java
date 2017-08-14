@@ -25,13 +25,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
-import se.inera.intyg.common.ts_parent.model.converter.WebcertModelFactory;
 
 /**
  * Factory for creating a editable model.
@@ -47,7 +48,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
      *
      * @param newDraftData
      *            {@link CreateNewDraftHolder}
-     *
      * @return {@link TsDiabetesUtlatande} or throws a ConverterException if something unforeseen happens
      * @throws ConverterException
      */
@@ -66,13 +66,19 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
     }
 
     @Override
-    public TsDiabetesUtlatande createCopy(CreateDraftCopyHolder copyData, TsDiabetesUtlatande template) throws ConverterException {
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), template.getId());
+    public TsDiabetesUtlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
+        if (!TsDiabetesUtlatande.class.isInstance(template)) {
+            throw new ConverterException("Template is not of type TsDiabetesUtlatande");
+        }
 
-        populateWithId(template, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(template.getGrundData(), copyData);
+        TsDiabetesUtlatande tsDiabetesUtlatande = (TsDiabetesUtlatande) template;
 
-        return template;
+        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsDiabetesUtlatande.getId());
+
+        populateWithId(tsDiabetesUtlatande, copyData.getCertificateId());
+        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(tsDiabetesUtlatande.getGrundData(), copyData);
+
+        return tsDiabetesUtlatande;
     }
 
     private void populateWithId(TsDiabetesUtlatande utlatande, String utlatandeId) throws ConverterException {

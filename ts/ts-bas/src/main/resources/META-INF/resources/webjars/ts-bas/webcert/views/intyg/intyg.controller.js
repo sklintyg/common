@@ -19,10 +19,10 @@
 
 angular.module('ts-bas').controller('ts-bas.IntygController',
     [ '$log', '$rootScope', '$stateParams', '$scope',
-        'common.IntygProxy', 'common.messageService','common.User',
-        'ts-bas.IntygController.ViewStateService', 'common.dynamicLabelService',
+        'common.IntygProxy', 'common.User',
+        'ts-bas.IntygController.ViewStateService', 'common.dynamicLabelService', 'ts-bas.viewConfigFactory',
         function($log, $rootScope, $stateParams, $scope, IntygProxy,
-            messageService, User, ViewState, DynamicLabelService) {
+            User, ViewState, DynamicLabelService, viewConfigFactory) {
             'use strict';
 
             /*********************************************************************
@@ -31,6 +31,9 @@ angular.module('ts-bas').controller('ts-bas.IntygController',
 
             ViewState.reset();
             $scope.viewState = ViewState;
+            $scope.cert = undefined;
+
+            $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
             $scope.user = { lakare: User.getUser().lakare };
 
@@ -87,6 +90,7 @@ angular.module('ts-bas').controller('ts-bas.IntygController',
                         }
 
                         ViewState.common.updateIntygProperties(result);
+                        $scope.cert = result.contents;
 
                         $scope.pdfUrl = '/moduleapi/intyg/ts-bas/' + ViewState.intygModel.id + '/pdf';
 

@@ -12,7 +12,7 @@ angular.module('lisjp').controller(
 
                     $scope.customizeCertificate = function() {
                         customizeViewstate.resetModel();
-                        $location.path('/lisjp/customize/' + $stateParams.certificateId);
+                        $location.path('/lisjp/customize/' + $stateParams.certificateId + '/step1');
                     };
 
                     $scope.doneLoading = false;

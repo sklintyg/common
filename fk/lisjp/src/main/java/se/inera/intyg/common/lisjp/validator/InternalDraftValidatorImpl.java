@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
-import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;

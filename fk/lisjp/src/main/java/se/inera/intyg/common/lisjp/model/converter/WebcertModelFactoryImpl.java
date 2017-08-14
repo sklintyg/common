@@ -24,7 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
 
-import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande.Builder;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
@@ -72,12 +73,17 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
     }
 
     @Override
-    public LisjpUtlatande createCopy(CreateDraftCopyHolder copyData, LisjpUtlatande template) throws ConverterException {
+    public LisjpUtlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
+        if (!LisjpUtlatande.class.isInstance(template)) {
+            throw new ConverterException("Template is not of type LisjpUtlatande");
+        }
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), template.getId());
+        LisjpUtlatande lisjpUtlatande = (LisjpUtlatande) template;
 
-        LisjpUtlatande.Builder templateBuilder = template.toBuilder();
-        GrundData grundData = template.getGrundData();
+        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), lisjpUtlatande.getId());
+
+        LisjpUtlatande.Builder templateBuilder = lisjpUtlatande.toBuilder();
+        GrundData grundData = lisjpUtlatande.getGrundData();
 
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);

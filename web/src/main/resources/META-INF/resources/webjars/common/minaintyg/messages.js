@@ -60,7 +60,7 @@ angular.module('common').constant('common.messages', {
         'modules.actionbar.archivedialog.archive.button' : 'Arkivera intyg',
 
         // Common texts used in page headers
-        'modules.page-header.view-intyg.page-title': 'Läs och hantera ditt intyg.',
+        'modules.page-header.view-intyg.page-title': 'Läs och hantera ditt intyg',
         'modules.page-header.info.select-recipients-and-send': '<h3>Välj mottagare och skicka intyget</h3>Klicka på knappen för att komma till sidan där du väljer mottagare och skickar intyget. Detta intyg kan till exempel skickas till Försäkringskassan.',
         'modules.page-header.info.select-recipients-and-send.ts': '<h3>Välj mottagare och skicka intyget</h3>Klicka på knappen för att komma till sidan där du väljer mottagare och skickar intyget. Detta intyg kan till exempel skickas till Transportstyrelsen.',
         'modules.page-header.info.customize-pdf': '<h3>Anpassa intyg till arbetsgivare</h3>Klicka på knappen för att välja vilken information i intyget du vill delge din arbetsgivare. Viss information måste lämnas till arbetsgivaren och kan inte väljas bort. Dessa fält är markerade som obligatoriska.',

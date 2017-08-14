@@ -36,6 +36,16 @@ describe('IntygController', function() {
     beforeEach(angular.mock.module('fk7263', function($provide) {
         IntygProxy = jasmine.createSpyObj('common.IntygProxy', [ 'getIntyg', 'load' ]);
         $provide.value('common.IntygProxy', IntygProxy);
+
+        $provide.provider('fk7263.viewConfigFactory', function () {
+            this.$get = function() {
+                return {
+                    getViewConfig: function() {
+                        return [];
+                    }
+                };
+            };
+        });
     }));
 
     // Get references to the object we want to test from the context.

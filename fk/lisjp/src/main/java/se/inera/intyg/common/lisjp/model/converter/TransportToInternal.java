@@ -70,7 +70,7 @@ import java.util.List;
 import autovalue.shaded.com.google.common.common.primitives.Ints;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande.Builder;
@@ -104,6 +104,7 @@ public final class TransportToInternal {
         setSvar(utlatande, source);
         return utlatande.build();
     }
+
 
     private static void setSvar(LisjpUtlatande.Builder utlatande, Intyg source) throws ConverterException {
         List<Diagnos> diagnoser = new ArrayList<>();

@@ -1,0 +1,19 @@
+<div class="infobox">
+  <h3>
+    <span message key="common.label.ovanstaende-har-bekraftats"></span>
+  </h3>
+  <h4>
+    <span message key="common.date"></span>
+  </h4>
+  <p id="signeringsdatum">{{vm.signeringsdatum | date:'longDate'}}</p>
+  <h4>
+    <span message key="common.label.kontakt-info"></span>
+  </h4>
+  <p>
+    <span class="text" id="vardperson_namn">{{vm.skapadAv.fullstandigtNamn}}</span><br>
+    <span class="text" id="vardperson_enhetsnamn">{{vm.skapadAv.vardenhet.enhetsnamn}}</span><br>
+    <span class="text" id="vardperson_postadress">{{vm.skapadAv.vardenhet.postadress}}</span><br>
+    <span class="text"><span id="vardperson_postnummer">{{vm.skapadAv.vardenhet.postnummer}}</span> <span id="vardperson_postort">{{vm.skapadAv.vardenhet.postort}}</span></span><br>
+    <span class="text" id="vardperson_telefonnummer">{{vm.skapadAv.vardenhet.telefonnummer}}</span><br>
+  </p>
+</div>

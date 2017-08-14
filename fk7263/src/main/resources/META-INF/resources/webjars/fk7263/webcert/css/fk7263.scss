@@ -95,4 +95,13 @@ This is to avoid leaking module specific style rules outside of it's intended co
 
 }
 
+@import "../../app-shared/directives/fkList/fkList.directive";
+@import "../../app-shared/directives/fkUvBooleanValue/fkUvBooleanValue.directive";
+@import "../../app-shared/directives/fkUvTable/fkUvTable.directive";
+
+fk7263-list {
+  ul {
+    padding-left: 16px;
+  }
+}
 

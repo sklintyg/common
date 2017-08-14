@@ -48,6 +48,10 @@ angular.module('common').factory('common.dynamicLabelService',
 
                 if(angular.isDefined(text) && text !== ''){
                     return text;
+                } else {
+                    if(messageService.propertyExists(key)){
+                        return messageService.getProperty(key);
+                    }
                 }
 
                 if (typeof text === 'undefined') {
@@ -150,7 +154,7 @@ angular.module('common').factory('common.dynamicLabelService',
                     $rootScope.$broadcast('dynamicLabels.updated');
                     deferred.resolve(null);
                 }
-                
+
                 return deferred.promise;
             }
             return {

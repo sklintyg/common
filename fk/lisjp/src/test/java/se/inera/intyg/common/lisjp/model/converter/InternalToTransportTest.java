@@ -38,87 +38,30 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 
+import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.Prognos;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
-import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
-import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.lisjp.model.internal.*;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public class InternalToTransportTest {
 
-    @Test
-    public void doSchematronValidationLisjp() throws Exception {
-        String xmlContents = Resources.toString(getResource("transport/lisjp.xml"), Charsets.UTF_8);
-
-        RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
-        assertTrue(generalValidator.validateGeneral(xmlContents));
-
-        RegisterCertificateValidator validator = new RegisterCertificateValidator("lisjp.sch");
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
-
-        assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
-    }
-
     private static URL getResource(String href) {
         return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
-
-    @Test
-    public void testInternalToTransportConversion() throws Exception {
-        LisjpUtlatande expected = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(expected);
-        LisjpUtlatande actual = TransportToInternal.convert(transport.getIntyg());
-
-        assertEquals(expected, actual);
-    }
-
-    @Test(expected = ConverterException.class)
-    public void testInternalToTransportSourceNull() throws Exception {
-        InternalToTransport.convert(null);
-    }
-
-    @Test
-    public void convertDecorateSvarPaTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        final String referensId = "referensId";
-        LisjpUtlatande utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
-        assertEquals(referensId, transport.getSvarPa().getReferensId());
-    }
-
-    @Test
-    public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        LisjpUtlatande utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
-        assertNull(transport.getSvarPa().getReferensId());
-    }
-
-    @Test
-    public void convertDecorateSvarPaNoRelationTest() throws Exception {
-        LisjpUtlatande utlatande = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
-
-    @Test
-    public void convertDecorateSvarPaNotKompltTest() throws Exception {
-        LisjpUtlatande utlatande = getUtlatande(RelationKod.FRLANG, null, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
     }
 
     public static LisjpUtlatande getUtlatande() {
@@ -178,5 +121,68 @@ public class InternalToTransportTest {
         utlatande.setArbetslivsinriktadeAtgarderBeskrivning("Jobbar bra om man inte stör honom");
 
         return utlatande.build();
+    }
+
+    @Test
+    public void doSchematronValidationLisjp() throws Exception {
+        String xmlContents = Resources.toString(getResource("transport/lisjp.xml"), Charsets.UTF_8);
+
+        RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
+        assertTrue(generalValidator.validateGeneral(xmlContents));
+
+        RegisterCertificateValidator validator = new RegisterCertificateValidator("lisjp.sch");
+        SchematronOutputType result = validator
+                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+
+        assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
+    }
+
+    @Test
+    public void testInternalToTransportConversion() throws Exception {
+        LisjpUtlatande expected = getUtlatande();
+        RegisterCertificateType transport = InternalToTransport.convert(expected);
+        LisjpUtlatande actual = TransportToInternal.convert(transport.getIntyg());
+
+        assertEquals(expected, actual);
+    }
+
+    @Test(expected = ConverterException.class)
+    public void testInternalToTransportSourceNull() throws Exception {
+        InternalToTransport.convert(null);
+    }
+
+    @Test
+    public void convertDecorateSvarPaTest() throws Exception {
+        final String meddelandeId = "meddelandeId";
+        final String referensId = "referensId";
+        LisjpUtlatande utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        assertNotNull(transport.getSvarPa());
+        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+        assertEquals(referensId, transport.getSvarPa().getReferensId());
+    }
+
+    @Test
+    public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+        final String meddelandeId = "meddelandeId";
+        LisjpUtlatande utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        assertNotNull(transport.getSvarPa());
+        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+        assertNull(transport.getSvarPa().getReferensId());
+    }
+
+    @Test
+    public void convertDecorateSvarPaNoRelationTest() throws Exception {
+        LisjpUtlatande utlatande = getUtlatande();
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        assertNull(transport.getSvarPa());
+    }
+
+    @Test
+    public void convertDecorateSvarPaNotKompltTest() throws Exception {
+        LisjpUtlatande utlatande = getUtlatande(RelationKod.FRLANG, null, null);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        assertNull(transport.getSvarPa());
     }
 }

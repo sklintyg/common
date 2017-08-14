@@ -104,5 +104,19 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     controller: 'common.IntygHeader'
                 }
             }
+        }).
+        state('webcert.intyg.ts.diabetes_old', {
+            data: { defaultActive: 'index', intygType: 'ts-diabetes' },
+            url: '/intyg/ts-diabetes_old/:certificateId',
+            views: {
+                'intyg@webcert.intyg.ts': {
+                    templateUrl: intygsTypPath + 'views/intyg/intyg-old.html',
+                    controller: 'ts-diabetes.IntygControllerOld'
+                },
+                'header@webcert.intyg.ts.diabetes': {
+                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    controller: 'common.IntygHeader'
+                }
+            }
         });
 });

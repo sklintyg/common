@@ -1,7 +1,0 @@
-<div class="uv-boolean-value-template">
-  <div>
-    <h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}" dynamic-label key="{{ config.labelKey }}"/></h4>
-    <span ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="value">{{getValue()}}</span>
-    <!-- uv-boolean-value currently has no support for uv-no-value, since undefined value is displayed as Nej -->
-  </div>
-</div>

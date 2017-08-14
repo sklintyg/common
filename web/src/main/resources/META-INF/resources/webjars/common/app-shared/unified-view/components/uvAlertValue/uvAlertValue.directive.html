@@ -1,0 +1,5 @@
+<div class="uv-alert-value-template" ng-if="showMessage()">
+  <div class="alert alert-{{config.alertLevel}}">
+    <span ng-attr-id="{{'uv-alert-value-' + config.labelKey | uvDomIdFilter}}" dynamic-label key="{{ config.labelKey }}"></span>
+  </div>
+</div>

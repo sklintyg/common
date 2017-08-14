@@ -30,19 +30,49 @@ import javax.xml.bind.JAXBElement;
 
 import org.junit.Test;
 
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
-import se.inera.intyg.common.fkparent.model.converter.IntygTestDataBuilder;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
+import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public class InternalToTransportTest {
+
+    public static LuseUtlatande getUtlatande() {
+        return getUtlatande(null, null, null);
+    }
+
+    public static LuseUtlatande getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
+        LuseUtlatande.Builder utlatande = LuseUtlatande.builder();
+        utlatande.setId("1234567");
+        utlatande.setTextVersion("1.0");
+        GrundData grundData = IntygTestDataBuilder.getGrundData();
+
+        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+
+        if (relationKod != null) {
+            Relation relation = new Relation();
+            relation.setRelationKod(relationKod);
+            relation.setMeddelandeId(relationMeddelandeId);
+            relation.setReferensId(referensId);
+            grundData.setRelation(relation);
+        }
+        utlatande.setGrundData(grundData);
+        utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
+        utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
+        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
+                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
+        utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
+        utlatande.setFormagaTrotsBegransning("Är bra på att dansa!");
+
+        return utlatande.build();
+    }
 
     @Test
     public void testInternalToTransportConversion() throws Exception {
@@ -52,7 +82,7 @@ public class InternalToTransportTest {
 
         // Get diagnos-related svar
         Svar diagnos = transport.getIntyg().getSvar().stream()
-            .filter(e -> e.getId().equals("6")).collect(Collectors.toList()).get(0);
+                .filter(e -> e.getId().equals("6")).collect(Collectors.toList()).get(0);
 
         CVType huvuddiagnosKod = extractCVFromSvar(diagnos, "6.2");
         String huvuddiagnosBeskrivning = extractStringFromSvar(diagnos, "6.1");
@@ -70,7 +100,7 @@ public class InternalToTransportTest {
 
     private CVType extractCVFromSvar(Svar svar, String id) {
         Delsvar delsvar = svar.getDelsvar().stream()
-            .filter(e -> e.getId().equals(id)).collect(Collectors.toList()).get(0);
+                .filter(e -> e.getId().equals(id)).collect(Collectors.toList()).get(0);
 
         @SuppressWarnings("unchecked")
         JAXBElement<CVType> meh = (JAXBElement<CVType>) delsvar.getContent().stream().collect(Collectors.toList()).get(0);
@@ -117,35 +147,5 @@ public class InternalToTransportTest {
         LuseUtlatande utlatande = getUtlatande(RelationKod.FRLANG, null, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
-    }
-
-    public static LuseUtlatande getUtlatande() {
-        return getUtlatande(null, null, null);
-    }
-
-    public static LuseUtlatande getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
-        LuseUtlatande.Builder utlatande = LuseUtlatande.builder();
-        utlatande.setId("1234567");
-        utlatande.setTextVersion("1.0");
-        GrundData grundData = IntygTestDataBuilder.getGrundData();
-
-        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
-
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationKod(relationKod);
-            relation.setMeddelandeId(relationMeddelandeId);
-            relation.setReferensId(referensId);
-            grundData.setRelation(relation);
-        }
-        utlatande.setGrundData(grundData);
-        utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
-        utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
-        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
-                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
-        utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
-        utlatande.setFormagaTrotsBegransning("Är bra på att dansa!");
-
-        return utlatande.build();
     }
 }

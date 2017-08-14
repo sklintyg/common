@@ -1,10 +1,15 @@
-// Since we don't have a way to share variables in MI with common (and don't want a cyclic dependancy) some
-// key mi variables must be re-defined here so that component scss files can use them
-$mi-body-bg: #f3f4f6;
 $mi-spinner-color: #0F6EDC;
+$mi-body-bg: #f3f4f6;
 $mi-intyg-body-bg: #fff;
 $mi-box-shadow-color: #ddd;
 $mi-intyg-header-bg: #43799A;
 $mi-intyg-header-color: #fff;
 
-$text-muted: #666;
+// overrides variables from app-shared to match style of unified-view components with minaintyg
+
+$uv-body-bg: $mi-body-bg;
+$uv-spinner-color: $mi-spinner-color;
+$uv-intyg-body-bg: $mi-intyg-body-bg;
+$uv-box-shadow-color: $mi-box-shadow-color;
+$uv-intyg-header-bg: $mi-intyg-header-bg;
+$uv-intyg-header-color: $mi-intyg-header-color;

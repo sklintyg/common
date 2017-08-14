@@ -41,7 +41,7 @@ angular.module('fk7263').config(function($stateProvider) {
         }
 
     }).state('fk7263-customize.step1', {
-        url: '',
+        url: '/step1',
         views: {
             'header@fk7263-customize': {
                 templateUrl: '/web/webjars/fk7263/minaintyg/views/step1.header.html'
@@ -55,6 +55,7 @@ angular.module('fk7263').config(function($stateProvider) {
         }
 
     }).state('fk7263-customize.step2', {
+        url: '/step2',
         views: {
             'header@fk7263-customize': {
                 templateUrl: '/web/webjars/fk7263/minaintyg/views/step2.header.html'
@@ -68,6 +69,7 @@ angular.module('fk7263').config(function($stateProvider) {
         }
 
     }).state('fk7263-customize.step3', {
+        url: '/step3',
         views: {
             'header@fk7263-customize': {
                 templateUrl: '/web/webjars/fk7263/minaintyg/views/step3.header.html'

@@ -22,12 +22,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -69,12 +70,16 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaefsUtlata
     }
 
     @Override
-    public LuaefsUtlatande createCopy(CreateDraftCopyHolder copyData, LuaefsUtlatande template) throws ConverterException {
+    public LuaefsUtlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
+        if (!LuaefsUtlatande.class.isInstance(template)) {
+            throw new ConverterException("Template is not of type LuaefsUtlatande");
+        }
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), template.getId());
+        LuaefsUtlatande luaefsUtlatande = (LuaefsUtlatande) template;
+        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), luaefsUtlatande.getId());
 
-        LuaefsUtlatande.Builder templateBuilder = template.toBuilder();
-        GrundData grundData = template.getGrundData();
+        LuaefsUtlatande.Builder templateBuilder = luaefsUtlatande.toBuilder();
+        GrundData grundData = luaefsUtlatande.getGrundData();
 
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);

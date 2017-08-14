@@ -18,11 +18,10 @@
  */
 
 angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
-    [ '$location', '$log', '$rootScope', '$stateParams', '$scope',
-        'common.IntygProxy', 'common.messageService','common.UserModel','common.IntygCopyRequestModel',
-        'ts-diabetes.IntygController.ViewStateService', 'common.dynamicLabelService',
-        function($location, $log, $rootScope, $stateParams, $scope, IntygProxy,
-            messageService, UserModel, IntygCopyRequestModel, ViewState, DynamicLabelService) {
+    [ '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygProxy', 'common.UserModel',
+        'ts-diabetes.IntygController.ViewStateService', 'common.dynamicLabelService', 'ts-diabetes.viewConfigFactory',
+        function($log, $rootScope, $stateParams, $scope, IntygProxy,
+            UserModel, ViewState, DynamicLabelService, viewConfigFactory) {
             'use strict';
 
             /*********************************************************************
@@ -31,8 +30,9 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
 
             ViewState.reset();
             $scope.viewState = ViewState;
-
+            $scope.cert = undefined;
             $scope.user = UserModel.user;
+            $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
             /*********************************************************************
              * Private support functions
@@ -77,6 +77,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
                         }
 
                         ViewState.common.updateIntygProperties(result);
+                        $scope.cert = result.contents;
 
                         $scope.pdfUrl = '/moduleapi/intyg/ts-diabetes/' + ViewState.intygModel.id + '/pdf';
 

@@ -49,7 +49,7 @@ import com.google.common.collect.ImmutableList;
 import com.helger.commons.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;

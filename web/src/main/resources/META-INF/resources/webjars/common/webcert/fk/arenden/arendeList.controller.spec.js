@@ -89,7 +89,9 @@ describe('ArendeListCtrl', function() {
         ArendeProxy = jasmine.createSpyObj('common.ArendeProxy',
             [ 'getArenden', 'getQAForCertificate', 'closeAsHandled', 'closeAllAsHandled', 'saveNewQuestion', 'saveAnswer']);
         $provide.value('common.ArendeProxy', ArendeProxy);
-        $provide.value('common.IntygViewStateService', {});
+        $provide.value('common.IntygViewStateService', {
+            setFieldStatus: function() {}
+        });
         $provide.value('$state', {current:{data:{intygType:'testIntyg'}}});
         $provide.value('$stateParams', {certificateId:'intyg-2'});
         $provide.value('common.dynamicLabelService', jasmine.createSpyObj('common.dynamicLabelService', ['getTillaggsFragor']));

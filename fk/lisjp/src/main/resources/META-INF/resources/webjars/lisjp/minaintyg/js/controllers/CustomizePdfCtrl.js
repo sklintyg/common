@@ -1,10 +1,10 @@
 angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
     [ '$window', '$location', '$log', '$rootScope', '$state', '$stateParams', '$scope','lisjp.customizeViewstate', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService',
-        function($window, $location, $log, $rootScope, $state, $stateParams, $scope, customizeViewstate, listCertService, certificateService, dialogService) {
+        'common.IntygService', 'common.dialogService', 'common.messageService',
+        function($window, $location, $log, $rootScope, $state, $stateParams, $scope, customizeViewstate, listCertService, certificateService, dialogService, messageService) {
             'use strict';
 
-
+            $scope.messageService = messageService;
             $scope.customizeViewstate = customizeViewstate;
             $scope.downloadAsPdfLink = '/moduleapi/certificate/lisjp' + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
 
@@ -64,6 +64,8 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
                 leaveToState = toState;
                 leaveToParams = toParams;
                 _showLeaveConfirmationDialog();
+                //state history gets mixed when when preventing default. Avoid this by going to the current state.
+                $state.go(fromState, fromParams);
             });
 
 
