@@ -45,6 +45,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 
 public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
@@ -95,7 +96,7 @@ public final class UtlatandeToIntyg {
                 }
             }
             if (utlatande.getUndersokningDatum() != null) {
-                undersokning.withDelsvar(UNDERSOKNING_DATUM_DELSVAR_ID, utlatande.getUndersokningDatum().asLocalDate().toString());
+                undersokning.withDelsvar(UNDERSOKNING_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getUndersokningDatum()));
             }
             svar.add(undersokning.build());
         }

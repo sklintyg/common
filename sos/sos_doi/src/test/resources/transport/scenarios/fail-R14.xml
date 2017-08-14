@@ -227,13 +227,6 @@
         </svar>
         <svar id="12">
             <delsvar id="12.1">true</delsvar>
-            <delsvar id="12.2">
-                <ns3:cv>
-                    <ns3:code>SJALVMORD</ns3:code>
-                    <ns3:codeSystem>KV_ORSAK</ns3:codeSystem>
-                    <ns3:displayName>SJALVMORD</ns3:displayName>
-                </ns3:cv>
-            </delsvar>
             <delsvar id="12.3">2017-01-01</delsvar>
             <delsvar id="12.4">uppkommelse</delsvar>
         </svar>

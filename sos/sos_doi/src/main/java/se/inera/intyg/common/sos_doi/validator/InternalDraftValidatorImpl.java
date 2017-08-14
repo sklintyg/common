@@ -70,7 +70,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         if (Strings.nullToEmpty(utlatande.getDodsorsak()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".dodsorsak", ValidationMessageType.EMPTY);
         }
-        if (utlatande.getDodsdatum() != null && !utlatande.getDodsdatum().isValidDate()) {
+        if (utlatande.getDodsdatum() != null && !utlatande.getDodsorsakDatum().isValidDate()) {
             ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".dodsorsakDatum", ValidationMessageType.INVALID_FORMAT);
         }
     }
@@ -120,7 +120,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".operationDatum", ValidationMessageType.EMPTY);
             } else if (!utlatande.getOperationDatum().isValidDate()) {
                 ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".operationDatum", ValidationMessageType.INVALID_FORMAT);
-            } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate() && utlatande.getOperationDatum()
+            } else if (utlatande.getOperationDatum() != null && utlatande.getOperationDatum().isValidDate()
+                    && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate() && utlatande.getOperationDatum()
                     .asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
                 ValidatorUtil
                         .addValidationError(validationMessages, MODULE_ID + ".operationDatum", ValidationMessageType.INCORRECT_COMBINATION);

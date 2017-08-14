@@ -11,9 +11,9 @@
     }
   ],
   "identitetStyrkt": "körkort",
-  "dodsdatumSakert": true,
+  "dodsdatumSakert": false,
   "dodsdatum": "2017-01-01",
-  "antraffatDodDatum": "2017-01-02",
+  "antraffatDodDatum": "2017-01",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
   "barn": true,

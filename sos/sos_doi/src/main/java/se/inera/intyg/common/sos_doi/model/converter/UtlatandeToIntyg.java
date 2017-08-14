@@ -67,6 +67,7 @@ import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 
 public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
@@ -97,7 +98,7 @@ public final class UtlatandeToIntyg {
                 dodsorsak.withDelsvar(DODSORSAK_DELSVAR_ID, utlatande.getDodsorsak());
             }
             if (utlatande.getDodsorsakDatum() != null) {
-                dodsorsak.withDelsvar(DODSORSAK_DATUM_DELSVAR_ID, utlatande.getDodsorsakDatum().asLocalDate().toString());
+                dodsorsak.withDelsvar(DODSORSAK_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getDodsorsakDatum()));
             }
             if (utlatande.getDodsorsakSpecifikation() != null) {
                 dodsorsak.withDelsvar(DODSORSAK_SPECIFIKATION_DELSVAR_ID, aCV(Diagnoskodverk.SNOMED_CT.getCodeSystem(),
@@ -115,7 +116,7 @@ public final class UtlatandeToIntyg {
                         foljdSvar.withDelsvar(FOLJD_OM_DELSVAR_ID, foljd.getBeskrivning());
                     }
                     if (foljd.getDatum() != null) {
-                        foljdSvar.withDelsvar(FOLJD_DATUM_DELSVAR_ID, foljd.getDatum().asLocalDate().toString());
+                        foljdSvar.withDelsvar(FOLJD_DATUM_DELSVAR_ID, getInternalDateContent(foljd.getDatum()));
                     }
                     if (foljd.getSpecifikation() != null) {
                         foljdSvar.withDelsvar(FOLJD_SPECIFIKATION_DELSVAR_ID, aCV(Diagnoskodverk.SNOMED_CT.getCodeSystem(),
@@ -137,7 +138,7 @@ public final class UtlatandeToIntyg {
                         sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID, bidragandeSjukdom.getBeskrivning());
                     }
                     if (bidragandeSjukdom.getDatum() != null) {
-                        sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID, bidragandeSjukdom.getDatum().asLocalDate().toString());
+                        sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID, getInternalDateContent(bidragandeSjukdom.getDatum()));
                     }
                     if (bidragandeSjukdom.getSpecifikation() != null) {
                         sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID, aCV(Diagnoskodverk.SNOMED_CT.getCodeSystem(),
@@ -166,7 +167,7 @@ public final class UtlatandeToIntyg {
                 }
             }
             if (utlatande.getOperationDatum() != null) {
-                operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, utlatande.getOperationDatum().asLocalDate().toString());
+                operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getOperationDatum()));
             }
             if (utlatande.getOperationAnledning() != null) {
                 operation.withDelsvar(OPERATION_ANLEDNING_DELSVAR_ID, utlatande.getOperationAnledning());
@@ -186,7 +187,7 @@ public final class UtlatandeToIntyg {
                         aCV(FORGIFTNING_ORSAK_CODE_SYSTEM, utlatande.getForgiftningOrsak().name(), utlatande.getForgiftningOrsak().name()));
             }
             if (utlatande.getForgiftningDatum() != null) {
-                forgiftning.withDelsvar(FORGIFTNING_DATUM_DELSVAR_ID, utlatande.getForgiftningDatum().asLocalDate().toString());
+                forgiftning.withDelsvar(FORGIFTNING_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getForgiftningDatum()));
             }
             if (utlatande.getForgiftningUppkommelse() != null) {
                 forgiftning.withDelsvar(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, utlatande.getForgiftningUppkommelse());
