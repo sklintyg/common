@@ -105,6 +105,7 @@ public final class TransportToInternal {
         return utlatande.build();
     }
 
+
     private static void setSvar(LisjpUtlatande.Builder utlatande, Intyg source) throws ConverterException {
         List<Diagnos> diagnoser = new ArrayList<>();
         List<Tillaggsfraga> tillaggsfragor = new ArrayList<>();
