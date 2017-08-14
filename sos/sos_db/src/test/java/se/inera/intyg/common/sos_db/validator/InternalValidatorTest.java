@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.sos_db.model.validator;
+package se.inera.intyg.common.sos_db.validator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
 import se.inera.intyg.common.sos_db.utils.ScenarioFinder;
 import se.inera.intyg.common.sos_db.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.sos_db.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 

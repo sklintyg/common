@@ -1,4 +1,4 @@
-package se.inera.intyg.common.sos_db.model.validator;
+package se.inera.intyg.common.sos_db.validator;
 
 import static com.google.common.io.Resources.getResource;
 import static org.junit.Assert.assertTrue;
