@@ -84,8 +84,12 @@ angular.module('luse').factory('luse.FormFactory', [
                         key: 'diagnoser',
                         type: 'diagnos',
                         templateOptions: {diagnosBeskrivningLabel: 'DFR_6.1', diagnosKodLabel: 'DFR_6.2'}
-                    },
-                    {key: 'diagnosgrund', type: 'multi-text', templateOptions: {label: 'DFR_7.1', required: true}},
+                    }
+                ]),
+                fraga(7, [
+                    {key: 'diagnosgrund', type: 'multi-text', templateOptions: {label: 'DFR_7.1', required: true}}
+                ]),
+                fraga(45, [
                     {
                         key: 'nyBedomningDiagnosgrund',
                         type: 'boolean',
