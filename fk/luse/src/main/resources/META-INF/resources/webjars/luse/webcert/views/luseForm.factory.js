@@ -16,7 +16,6 @@ angular.module('luse').factory('luse.FormFactory', [
             10: 'kontakt'
         };
 
-        FactoryTemplates.setCategoryNames(categoryNames);
         var kategori = FactoryTemplates.kategori;
         var fraga = FactoryTemplates.fraga;
 
@@ -229,7 +228,9 @@ angular.module('luse').factory('luse.FormFactory', [
             getFormFields: function() {
                 return angular.copy(formFields);
             },
-            getCategoryNames: FactoryTemplates.getCategoryNames
+            getCategoryNames: function() {
+                return angular.copy(categoryNames);
+            }
         };
     }])
 ;

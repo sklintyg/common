@@ -19,9 +19,14 @@
 
 wc-fraga-komplettering {
 
-    .komplettering-active {
-        border: 3px solid #FFC822;
-        border-radius: 4px;
-        margin-bottom: 1px;
-    }
+  .komplettering-active {
+    border: 3px solid #FFC822;
+    border-radius: 4px;
+    margin-bottom: 1px;
+  }
+
+  wc-inline-komplettering .alert {
+    margin: 12px 0 0 0;
+  }
+
 }
