@@ -48,14 +48,17 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                             type: 'singleDate',
                             templateOptions: {label: 'FRG_2', required: true}
                         },
-                        {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true}},
+                        {
+                            key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true}
+                        },
                         {
                             key: 'underlag',
                             type: 'underlag',
                             hideExpression: '!model.underlagFinns',
                             templateOptions: {
                                 maxUnderlag: 3,
-                                underlagsTyper: ['NEUROPSYKIATRISKT',
+                                underlagsTyper: [
+                                    'NEUROPSYKIATRISKT',
                                     'HABILITERING',
                                     'ARBETSTERAPEUT',
                                     'FYSIOTERAPEUT',
