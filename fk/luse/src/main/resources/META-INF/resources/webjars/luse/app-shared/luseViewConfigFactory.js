@@ -325,7 +325,7 @@ angular.module('luse').factory('luse.viewConfigFactory', [
                         type: 'uv-del-fraga',
                         labelKey: 'DFR_26.1.RBK',
                         components: [ {
-                            type: 'uv-boolean-value',
+                            type: 'uv-boolean-statement',
                             modelProp: 'kontaktMedFk'
                         } ]
                     }, {

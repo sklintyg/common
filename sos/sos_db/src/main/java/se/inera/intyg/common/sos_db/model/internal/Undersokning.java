@@ -18,7 +18,27 @@
  */
 package se.inera.intyg.common.sos_db.model.internal;
 
+import java.util.stream.Stream;
+
 public enum Undersokning {
-    UNDERSOKNING_GJORT,
-    UNDERSOKNING_SKA_GORAS
+    JA(""), // TODO: WHAT TO DO
+    UNDERSOKNING_GJORT_KORT_FORE_DODEN("UNDERSOKNING_GJORT"),
+    UNDERSOKNING_SKA_GORAS("UNDERSOKNING_SKA_GORAS");
+
+    private final String transport;
+
+    Undersokning(String transport) {
+        this.transport = transport;
+    }
+
+    public static Undersokning fromTransport(String transport) {
+        return Stream.of(Undersokning.values())
+                .filter(undersokning -> undersokning.getTransport().equals(transport))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException());
+    }
+
+    public String getTransport() {
+        return transport;
+    }
 }

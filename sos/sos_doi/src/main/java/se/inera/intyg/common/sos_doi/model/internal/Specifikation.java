@@ -18,39 +18,46 @@
  */
 package se.inera.intyg.common.sos_doi.model.internal;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+
+import java.util.stream.Stream;
+
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_CODE;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_DISPLAY_NAME;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.V3_CODE_SYSTEM_NULL_FLAVOR;
 
 public enum Specifikation {
-    KRONISK("90734009", "kronisk"),
-    PLOTSLIG("424124008", "plötslig debut och/eller kort duration");
+
+    UPPGIFT_SAKNAS(UPPGIFT_SAKNAS_CODE, UPPGIFT_SAKNAS_DISPLAY_NAME, V3_CODE_SYSTEM_NULL_FLAVOR),
+    KRONISK("90734009", "kronisk", Diagnoskodverk.SNOMED_CT.getCodeSystem()),
+    PLOTSLIG("424124008", "plötslig debut och/eller kort duration", Diagnoskodverk.SNOMED_CT.getCodeSystem());
 
     private final String id;
     private final String label;
+    private final String codeSystem;
 
-    Specifikation(String id, String label) {
+    Specifikation(String id, String label, String codeSystem) {
         this.id = id;
         this.label = label;
+        this.codeSystem = codeSystem;
     }
 
-    @JsonCreator
-    public static Specifikation fromId(@JsonProperty("id") String id) {
-        String normId = id != null ? id.trim() : null;
-        for (Specifikation typ : values()) {
-            if (typ.id.equals(normId)) {
-                return typ;
-            }
-        }
-        throw new IllegalArgumentException();
+    public static Specifikation fromId(String id) {
+        return Stream.of(Specifikation.values())
+                .filter(undersokning -> undersokning.getId().equals(id))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException());
     }
 
-    @JsonValue
     public String getId() {
         return id;
     }
 
     public String getLabel() {
         return label;
+    }
+
+    public String getCodeSystem() {
+        return codeSystem;
     }
 }

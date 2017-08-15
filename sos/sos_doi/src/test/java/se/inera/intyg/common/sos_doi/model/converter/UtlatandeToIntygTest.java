@@ -40,6 +40,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_A
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_SVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_CODE;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
@@ -55,6 +56,7 @@ import se.inera.intyg.common.sos_doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.sos_doi.model.internal.Foljd;
 import se.inera.intyg.common.sos_doi.model.internal.ForgiftningOrsak;
+import se.inera.intyg.common.sos_doi.model.internal.OmOperation;
 import se.inera.intyg.common.sos_doi.model.internal.Specifikation;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -107,7 +109,7 @@ public class UtlatandeToIntygTest {
                 .<Foljd> of(Foljd.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 4)), Specifikation.KRONISK));
         final List<BidragandeSjukdom> bidragandeSjukdomar = ImmutableList.<BidragandeSjukdom> of(
                 BidragandeSjukdom.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 5)), Specifikation.PLOTSLIG));
-        final boolean operation = true;
+        final OmOperation operation = OmOperation.UPPGIFT_SAKNAS;
         final InternalDate operationDatum = new InternalDate(LocalDate.of(2017, 1, 6));
         final String operationAnledning = "anledning";
         final boolean forgiftning = true;
@@ -283,7 +285,7 @@ public class UtlatandeToIntygTest {
                 for (Svar.Delsvar delsvar : svar.getDelsvar()) {
                     switch (delsvar.getId()) {
                     case OPERATION_OM_DELSVAR_ID:
-                        assertEquals(operation, Boolean.parseBoolean(getStringContent(delsvar)));
+                        assertEquals(UPPGIFT_SAKNAS_CODE, getCVSvarContent(delsvar).getCode());
                         break;
                     case OPERATION_DATUM_DELSVAR_ID:
                         assertEquals(operationDatum, new InternalDate(getStringContent(delsvar)));

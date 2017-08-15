@@ -1,37 +1,19 @@
 package se.inera.intyg.common.sos_db.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.ws.soap.SOAPFaultException;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
+import se.inera.intyg.common.sos_db.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
 import se.inera.intyg.common.sos_db.utils.ScenarioFinder;
 import se.inera.intyg.common.sos_db.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.sos_db.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -40,6 +22,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -60,6 +43,25 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.ws.soap.SOAPFaultException;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class DbModuleApiTest {
     private static final String LOGICAL_ADDRESS = "logical address";
@@ -79,9 +81,14 @@ public class DbModuleApiTest {
     @Mock
     private RevokeCertificateResponderInterface revokeClient;
 
+    @Mock
+    private WebcertModelFactoryImpl webcertModelFactory;
+
+    @Mock
+    private InternalDraftValidatorImpl internalDraftValidator;
+
     @InjectMocks
     private DbModuleApi moduleApi;
-
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullModelHolder() throws ModuleException {
@@ -103,51 +110,33 @@ public class DbModuleApiTest {
         moduleApi.sendCertificateToRecipient("blaha", "", null);
     }
 
-    /*
-     * ACTIVATE ONCE VALIDATION IS IMPLEMENTED
-     * 
-     * @Test
-     * public void testValidateShouldUseValidator() throws Exception {
-     * when(objectMapper.readValue(eq("internal model"), eq(DbUtlatande.class))).thenReturn(null);
-     * moduleApi.validateDraft("internal model");
-     * verify(internalDraftValidator, times(1)).validateDraft(any());
-     * }
-     * 
-     * @Test
-     * public void testCreateNewInternal() throws Exception {
-     * when(webcertModelFactory.createNewWebcertDraft(any())).thenReturn(null);
-     * when(objectMapper.writeValueAsString(any())).thenReturn("internal model");
-     * moduleApi.createNewInternal(createDraftHolder());
-     * verify(webcertModelFactory, times(1)).createNewWebcertDraft(any());
-     * }
-     * 
-     * @Test(expected = ModuleException.class)
-     * public void testCreateNewInternalThrowsModuleException() throws Exception {
-     * when(webcertModelFactory.createNewWebcertDraft(any())).thenThrow(new ConverterException());
-     * moduleApi.createNewInternal(createDraftHolder());
-     * }
-     */
+    @Test
+    public void testValidateShouldUseValidator() throws Exception {
+        when(objectMapper.readValue(eq("internal model"), eq(DbUtlatande.class))).thenReturn(null);
+        moduleApi.validateDraft("internal model");
+        verify(internalDraftValidator, times(1)).validateDraft(any());
+    }
 
-    /*
-     * ACTIVATE ONCE CREATE UTKAST IS IMPLEMENTED
-     * 
-     * @Test
-     * public void testCreateNewInternalFromTemplate() throws Exception {
-     * when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
-     * when(objectMapper.readValue(eq("internal model"), eq(DbUtlatande.class))).thenReturn(null);
-     * when(objectMapper.writeValueAsString(any())).thenReturn("internal model");
-     * 
-     * moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
-     * 
-     * verify(webcertModelFactory, times(1)).createCopy(any(), any());
-     * }
-     * 
-     * @Test(expected = ModuleException.class)
-     * public void testCreateNewInternalFromTemplateThrowsModuleException() throws Exception {
-     * when(webcertModelFactory.createCopy(any(), any())).thenThrow(new ConverterException());
-     * moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
-     * }
-     */
+    @Test
+    public void testCreateNewInternal() throws Exception {
+        when(webcertModelFactory.createNewWebcertDraft(any())).thenReturn(null);
+        when(objectMapper.writeValueAsString(any())).thenReturn("internal model");
+        moduleApi.createNewInternal(createDraftHolder());
+        verify(webcertModelFactory, times(1)).createNewWebcertDraft(any());
+    }
+
+    @Test(expected = ModuleException.class)
+    public void testCreateNewInternalThrowsModuleException() throws Exception {
+        when(webcertModelFactory.createNewWebcertDraft(any())).thenThrow(new ConverterException());
+        moduleApi.createNewInternal(createDraftHolder());
+    }
+
+    @Test
+    public void testCreateNewInternalFromTemplate() throws Exception {
+        String res = moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
+        assertNull(res);
+        verifyZeroInteractions(webcertModelFactory);
+    }
 
     @Test
     public void testGetCertificate() throws Exception {

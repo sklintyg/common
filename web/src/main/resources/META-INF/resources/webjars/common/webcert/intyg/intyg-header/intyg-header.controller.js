@@ -81,7 +81,6 @@ angular.module('common').controller('common.IntygHeader',
                 return $scope.arbetsgivarUtskrift && !$scope.makuleratIntyg();
             };
 
-            // Omdöpt från showKopieraButton, kika på om hårdkodningen för ts-intyg verkligen behövs...
             $scope.showFornyaButton = function() {
                 return !($scope.intygstyp === 'ts-bas' || $scope.intygstyp === 'ts-diabetes') &&
 

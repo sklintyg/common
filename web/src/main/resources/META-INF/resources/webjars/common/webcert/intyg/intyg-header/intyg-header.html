@@ -106,22 +106,6 @@
                   class="btn btn-info"
                   ng-if="showFornyaButton()"
                   ng-click="fornya(viewState.intygModel)"
-                  uib-popover="{{fornyaBtnTooltipText}}"  
-                  popover-trigger="mouseenter"
-                  popover-popup-delay="300"
-                  popover-append-to-body="true"
-                  popover-placement="auto top">
-            Förnya
-          </button>
-          <!-- GAMLA FÖRNYA-knappen. UTGÅR!!!
-          <button type="button"
-                  wc-authority="KOPIERA_INTYG"
-                  request-origin="!UTHOPP"
-                  intygstyp="{{intygstyp}}"
-                  id="fornyaBtn"
-                  class="btn btn-info"
-                  ng-if="showFornyaButton()"
-                  ng-click="fornya(viewState.intygModel)"
                   uib-popover="{{fornyaBtnTooltipText}}"
                   popover-trigger="mouseenter"
                   popover-popup-delay="300"
@@ -129,7 +113,7 @@
                   popover-placement="auto top">
             Förnya
           </button>
-          -->
+
           <button type="button"
                   wc-authority="ERSATTA_INTYG"
                   request-origin="!UTHOPP"

@@ -129,7 +129,7 @@ public abstract class DoiUtlatande implements SosUtlatande {
     public abstract ImmutableList<BidragandeSjukdom> getBidragandeSjukdomar();
 
     @Nullable
-    public abstract Boolean getOperation();
+    public abstract OmOperation getOperation();
 
     @Nullable
     public abstract InternalDate getOperationDatum();
@@ -220,7 +220,7 @@ public abstract class DoiUtlatande implements SosUtlatande {
         abstract Builder setBidragandeSjukdomar(ImmutableList<BidragandeSjukdom> bidragandeSjukdomar);
 
         @JsonProperty(OPERATION_OM_JSON_ID)
-        public abstract Builder setOperation(Boolean operation);
+        public abstract Builder setOperation(OmOperation operation);
 
         @JsonProperty(OPERATION_DATUM_JSON_ID)
         public abstract Builder setOperationDatum(InternalDate operationDatum);

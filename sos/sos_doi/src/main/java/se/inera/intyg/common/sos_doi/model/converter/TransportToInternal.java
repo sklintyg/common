@@ -18,6 +18,28 @@
  */
 package se.inera.intyg.common.sos_doi.model.converter;
 
+import com.google.common.primitives.Ints;
+import se.inera.intyg.common.sos_doi.model.internal.BidragandeSjukdom;
+import se.inera.intyg.common.sos_doi.model.internal.Dodsorsaksgrund;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande.Builder;
+import se.inera.intyg.common.sos_doi.model.internal.Foljd;
+import se.inera.intyg.common.sos_doi.model.internal.ForgiftningOrsak;
+import se.inera.intyg.common.sos_doi.model.internal.OmOperation;
+import se.inera.intyg.common.sos_doi.model.internal.Specifikation;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_SVAR_ID;
@@ -54,30 +76,9 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_A
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_SVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_CODE;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.primitives.Ints;
-
-import se.inera.intyg.common.sos_doi.model.internal.BidragandeSjukdom;
-import se.inera.intyg.common.sos_doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
-import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande.Builder;
-import se.inera.intyg.common.sos_doi.model.internal.Foljd;
-import se.inera.intyg.common.sos_doi.model.internal.ForgiftningOrsak;
-import se.inera.intyg.common.sos_doi.model.internal.Specifikation;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
     private static final int TILLAGGSFRAGA_START = 9001;
@@ -204,7 +205,12 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case OPERATION_OM_DELSVAR_ID:
-                utlatande.setOperation(Boolean.parseBoolean(getStringContent(delsvar)));
+                String content = getStringContent(delsvar);
+                if (UPPGIFT_SAKNAS_CODE.equals(content)) {
+                    utlatande.setOperation(OmOperation.UPPGIFT_SAKNAS);
+                } else {
+                    utlatande.setOperation(Boolean.parseBoolean(content) ? OmOperation.JA : OmOperation.NEJ);
+                }
                 break;
             case OPERATION_DATUM_DELSVAR_ID:
                 utlatande.setOperationDatum(new InternalDate(getStringContent(delsvar)));

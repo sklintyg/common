@@ -29,9 +29,7 @@ describe('uvAlertValue Directive', function() {
     beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
         $scope = $rootScope.$new();
 
-        $scope.viewDataMock ={
-
-        };
+        $scope.viewDataMock = {};
 
         $scope.configMock = {
             labelKey: 'FRG_1.RBK'
@@ -43,9 +41,27 @@ describe('uvAlertValue Directive', function() {
 
     }]));
 
-    it('should display model value when value exists', function() {
+    it('should display message by default', function() {
         $scope.$digest();
-        expect($(element).find('#' + $scope.configMock.labelKey + '-text')).toBeTruthy();
+        expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(1);
+    });
+
+    it('should not display message if showexpression returns false', function() {
+        var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(false);
+        $scope.configMock.showExpression = fakeExpression;
+        $scope.$digest();
+
+        expect(fakeExpression).toHaveBeenCalled();
+        expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(0);
+    });
+
+    it('should  display message if showexpression returns true', function() {
+        var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(true);
+        $scope.configMock.showExpression = fakeExpression;
+        $scope.$digest();
+
+        expect(fakeExpression).toHaveBeenCalled();
+        expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(1);
     });
 
 });

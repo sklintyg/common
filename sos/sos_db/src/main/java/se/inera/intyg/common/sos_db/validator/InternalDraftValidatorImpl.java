@@ -19,9 +19,10 @@
 package se.inera.intyg.common.sos_db.validator;
 
 import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
-import se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator;
+import se.inera.intyg.common.sos_db.model.internal.Undersokning;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
@@ -29,34 +30,58 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.inera.intyg.common.sos_db.support.DbModuleEntryPoint.MODULE_ID;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateBarn;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsdatum;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsplats;
+import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateIdentitetStyrkt;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtlatande> {
-    private static final String PREFIX = "sos_db";
 
     @Override
     public ValidateDraftResponse validateDraft(DbUtlatande utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
         PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
-
         ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
-        SosInternalDraftValidator.validateIdentitetStyrkt(utlatande, validationMessages, PREFIX);
-
-        validateDodsdatum(utlatande, validationMessages, PREFIX);
-
-        validateDodsplats(utlatande, validationMessages, PREFIX);
-
-        validateBarn(utlatande, validationMessages, PREFIX);
-        // Validate question 5
-        // Validate question 6
-        // Validate question 7
-        // Validate question 8
+        validateIdentitetStyrkt(utlatande, validationMessages, MODULE_ID);
+        validateDodsdatum(utlatande, validationMessages, MODULE_ID);
+        validateDodsplats(utlatande, validationMessages, MODULE_ID);
+        validateBarn(utlatande, validationMessages, MODULE_ID);
+        validateExplosivtImplantat(utlatande, validationMessages);
+        validateUndersokning(utlatande, validationMessages);
+        validatePolisanmalan(utlatande, validationMessages);
 
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
     }
 
+    private void validateExplosivtImplantat(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
+        // R5
+        if (utlatande.getExplosivImplantat() == null) {
+            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".explosivImplantat", ValidationMessageType.EMPTY);
+        } else if (utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() == null) {
+            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".explosivAvlagsnat", ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateUndersokning(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
+        // R6 & R7
+        if (utlatande.getUndersokningYttre() == null) {
+            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".undersokningYttre", ValidationMessageType.EMPTY);
+        } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
+            if (utlatande.getUndersokningDatum() == null) {
+                ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".undersokningDatum", ValidationMessageType.EMPTY);
+            } else if (!utlatande.getUndersokningDatum().isValidDate()) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, MODULE_ID + ".undersokningDatum", ValidationMessageType.INVALID_FORMAT);
+            }
+        }
+    }
+
+    private void validatePolisanmalan(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getPolisanmalan() == null) {
+            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".polisanmalan", ValidationMessageType.EMPTY);
+        }
+    }
 }

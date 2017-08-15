@@ -28,10 +28,14 @@ angular.module('common').directive('uvBooleanValue', [ '$filter', 'uvUtil', func
         },
         templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.html',
         link: function($scope) {
-            $scope.getValue = function() {
-                var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-                return $filter('uvBoolFilter')(value);
+
+            $scope.value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+
+
+            $scope.hasStrictBooleanValue = function() {
+                return $scope.value === true || $scope.value === false;
             };
+
         }
     };
 } ]);

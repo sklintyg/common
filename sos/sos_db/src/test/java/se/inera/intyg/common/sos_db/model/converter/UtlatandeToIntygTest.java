@@ -84,8 +84,7 @@ public class UtlatandeToIntygTest {
         final Boolean barn = true;
         final Boolean explosivImplantat = true;
         final Boolean explosivAvlagsnat = true;
-        final Boolean undersokningYttre = true;
-        final Undersokning undersokningDetaljer = Undersokning.UNDERSOKNING_SKA_GORAS;
+        final Undersokning undersokningYttre = Undersokning.UNDERSOKNING_SKA_GORAS;
         final InternalDate undersokningDatum = new InternalDate(LocalDate.of(2017, 1, 3));
         final Boolean polisanmalan = true;
 
@@ -105,7 +104,6 @@ public class UtlatandeToIntygTest {
                 .setExplosivImplantat(explosivImplantat)
                 .setExplosivAvlagsnat(explosivAvlagsnat)
                 .setUndersokningYttre(undersokningYttre)
-                .setUndersokningDetaljer(undersokningDetaljer)
                 .setUndersokningDatum(undersokningDatum)
                 .setPolisanmalan(polisanmalan)
                 .build();
@@ -209,10 +207,10 @@ public class UtlatandeToIntygTest {
                 for (Svar.Delsvar delsvar : svar.getDelsvar()) {
                     switch (delsvar.getId()) {
                     case UNDERSOKNING_YTTRE_DELSVAR_ID:
-                        assertEquals(undersokningYttre, Boolean.parseBoolean(getStringContent(delsvar)));
+                        assertEquals(false, Boolean.parseBoolean(getStringContent(delsvar)));
                         break;
                     case UNDERSOKNING_DETALJER_DELSVAR_ID:
-                        assertEquals(undersokningDetaljer, Undersokning.valueOf(getCVSvarContent(delsvar).getCode()));
+                        assertEquals(undersokningYttre, Undersokning.valueOf(getCVSvarContent(delsvar).getCode()));
                         break;
                     case UNDERSOKNING_DATUM_DELSVAR_ID:
                         assertEquals(undersokningDatum, new InternalDate(getStringContent(delsvar)));

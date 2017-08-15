@@ -18,6 +18,20 @@
  */
 package se.inera.intyg.common.sos_doi.model.converter;
 
+import se.inera.intyg.common.sos_doi.model.internal.BidragandeSjukdom;
+import se.inera.intyg.common.sos_doi.model.internal.Dodsorsaksgrund;
+import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
+import se.inera.intyg.common.sos_doi.model.internal.Foljd;
+import se.inera.intyg.common.sos_doi.support.DoiModuleEntryPoint;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.util.List;
+
 import static se.inera.intyg.common.sos_parent.model.converter.SosUtlatandeToIntyg.getSharedSvar;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID;
@@ -46,24 +60,14 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_A
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_SVAR_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_CODE;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_DISPLAY_NAME;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.V3_CODE_SYSTEM_NULL_FLAVOR;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
-
-import java.util.List;
-
-import se.inera.intyg.common.sos_doi.model.internal.BidragandeSjukdom;
-import se.inera.intyg.common.sos_doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.sos_doi.model.internal.DoiUtlatande;
-import se.inera.intyg.common.sos_doi.model.internal.Foljd;
-import se.inera.intyg.common.sos_doi.support.DoiModuleEntryPoint;
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 
 public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
@@ -94,7 +98,7 @@ public final class UtlatandeToIntyg {
                 dodsorsak.withDelsvar(DODSORSAK_DELSVAR_ID, utlatande.getDodsorsak());
             }
             if (utlatande.getDodsorsakDatum() != null) {
-                dodsorsak.withDelsvar(DODSORSAK_DATUM_DELSVAR_ID, utlatande.getDodsorsakDatum().asLocalDate().toString());
+                dodsorsak.withDelsvar(DODSORSAK_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getDodsorsakDatum()));
             }
             if (utlatande.getDodsorsakSpecifikation() != null) {
                 dodsorsak.withDelsvar(DODSORSAK_SPECIFIKATION_DELSVAR_ID, aCV(Diagnoskodverk.SNOMED_CT.getCodeSystem(),
@@ -112,7 +116,7 @@ public final class UtlatandeToIntyg {
                         foljdSvar.withDelsvar(FOLJD_OM_DELSVAR_ID, foljd.getBeskrivning());
                     }
                     if (foljd.getDatum() != null) {
-                        foljdSvar.withDelsvar(FOLJD_DATUM_DELSVAR_ID, foljd.getDatum().asLocalDate().toString());
+                        foljdSvar.withDelsvar(FOLJD_DATUM_DELSVAR_ID, getInternalDateContent(foljd.getDatum()));
                     }
                     if (foljd.getSpecifikation() != null) {
                         foljdSvar.withDelsvar(FOLJD_SPECIFIKATION_DELSVAR_ID, aCV(Diagnoskodverk.SNOMED_CT.getCodeSystem(),
@@ -134,7 +138,7 @@ public final class UtlatandeToIntyg {
                         sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID, bidragandeSjukdom.getBeskrivning());
                     }
                     if (bidragandeSjukdom.getDatum() != null) {
-                        sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID, bidragandeSjukdom.getDatum().asLocalDate().toString());
+                        sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID, getInternalDateContent(bidragandeSjukdom.getDatum()));
                     }
                     if (bidragandeSjukdom.getSpecifikation() != null) {
                         sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID, aCV(Diagnoskodverk.SNOMED_CT.getCodeSystem(),
@@ -149,10 +153,21 @@ public final class UtlatandeToIntyg {
         if (utlatande.getOperation() != null || utlatande.getOperationDatum() != null || utlatande.getOperationAnledning() != null) {
             InternalConverterUtil.SvarBuilder operation = aSvar(OPERATION_SVAR_ID);
             if (utlatande.getOperation() != null) {
-                operation.withDelsvar(OPERATION_OM_DELSVAR_ID, utlatande.getOperation().toString());
+                switch (utlatande.getOperation()) {
+                case JA:
+                    operation.withDelsvar(OPERATION_OM_DELSVAR_ID, Boolean.TRUE.toString());
+                    break;
+                case NEJ:
+                    operation.withDelsvar(OPERATION_OM_DELSVAR_ID, Boolean.FALSE.toString());
+                    break;
+                case UPPGIFT_SAKNAS:
+                    operation.withDelsvar(OPERATION_OM_DELSVAR_ID,
+                            aCV(V3_CODE_SYSTEM_NULL_FLAVOR, UPPGIFT_SAKNAS_CODE, UPPGIFT_SAKNAS_DISPLAY_NAME));
+                    break;
+                }
             }
             if (utlatande.getOperationDatum() != null) {
-                operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, utlatande.getOperationDatum().asLocalDate().toString());
+                operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getOperationDatum()));
             }
             if (utlatande.getOperationAnledning() != null) {
                 operation.withDelsvar(OPERATION_ANLEDNING_DELSVAR_ID, utlatande.getOperationAnledning());
@@ -172,7 +187,7 @@ public final class UtlatandeToIntyg {
                         aCV(FORGIFTNING_ORSAK_CODE_SYSTEM, utlatande.getForgiftningOrsak().name(), utlatande.getForgiftningOrsak().name()));
             }
             if (utlatande.getForgiftningDatum() != null) {
-                forgiftning.withDelsvar(FORGIFTNING_DATUM_DELSVAR_ID, utlatande.getForgiftningDatum().asLocalDate().toString());
+                forgiftning.withDelsvar(FORGIFTNING_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getForgiftningDatum()));
             }
             if (utlatande.getForgiftningUppkommelse() != null) {
                 forgiftning.withDelsvar(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, utlatande.getForgiftningUppkommelse());

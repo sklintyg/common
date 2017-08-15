@@ -96,6 +96,10 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         },
                             {
                                 type: 'uv-alert-value',
+                                showExpression: function(model) {
+                                    return model.syn.progressivOgonsjukdom || model.syn.nattblindhet ||
+                                        model.syn.synfaltsdefekter;
+                                },
                                 labelKey: 'FRG_3-5.INF',
                                 alertLevel: 'info'
                             }]
@@ -169,6 +173,9 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         },
                         {
                             type: 'uv-alert-value',
+                            showExpression: function(model) {
+                                return model.syn.korrektionsglasensStyrka === true;
+                            },
                             labelKey: 'FRG_9.INF',
                             alertLevel: 'info'
                         }]
@@ -330,6 +337,9 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                         },
                             {
                                 type: 'uv-alert-value',
+                                showExpression: function(model) {
+                                    return model.diabetes.insulin || model.diabetes.tabletter;
+                                },
                                 labelKey: 'DFR_19.3.INF',
                                 alertLevel: 'info'
                             }]
@@ -470,6 +480,9 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                             },
                             {
                                 type: 'uv-alert-value',
+                                showExpression: function(model) {
+                                    return model.narkotikaLakemedel.provtagningBehovs;
+                                },
                                 labelKey: 'DFR_25.3.INF',
                                 alertLevel: 'info'
                             }]
