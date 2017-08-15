@@ -151,7 +151,7 @@ angular.module('common').service('common.ArendeListViewStateService',
             function addMatchingFrageKomplettering(result, frageId, arendeModel) {
                 if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
                     angular.forEach(arendeModel.kompletteringar, function(komplettering) {
-                        if (komplettering.id === frageId) {
+                        if (parseInt(komplettering.id, 10) === parseInt(frageId, 10)) {
                             result.push(komplettering);
                         }
                     });

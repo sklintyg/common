@@ -277,7 +277,6 @@ a {
     }
     &__content {
         display: block;
-        padding: 12px 14px 12px 14px;
         background-color: $mercury;
         -webkit-border-radius: 4px 4px 4px 4px;
         -moz-border-radius: 4px 4px 4px 4px;
@@ -749,7 +748,7 @@ td .last-validation .validation, .last-validation td .validation {
 
 .intyg-block .formly-field {
     &:not(:nth-last-child(2)) {
-        padding-bottom: 20px;
+        /*padding-bottom: 20px;*/
         &.small-gap {
             padding-bottom: 5px;
         }
