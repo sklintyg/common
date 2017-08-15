@@ -72,7 +72,7 @@ angular.module('luae_na').factory('luae_na.Domain.IntygModel',
                         'anledningTillKontakt': undefined,
 
                         // Kategori 9999 Tilläggsfrågor
-                        'tillaggsfragor': [new ModelAttr('tillaggsfragor', {defaultValue: []})]
+                        'tillaggsfragor': new ModelAttr('tillaggsfragor', {defaultValue: []})
                     });
                 },
                 update: function update(content, parent) {

@@ -48,7 +48,6 @@ angular.module('luae_fs').factory('luae_fs.Domain.IntygModel',
                         'kontaktMedFk': new ModelAttr('kontaktMedFk', {defaultValue: false}), // 26.1
                         'anledningTillKontakt': undefined, //26.2
 
-
                         // Kategori 9999 Tilläggsfrågor
                         'tillaggsfragor': new ModelAttr('tillaggsfragor', {defaultValue: []})
                     });
