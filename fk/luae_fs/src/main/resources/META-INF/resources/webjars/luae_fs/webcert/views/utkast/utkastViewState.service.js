@@ -1,7 +1,6 @@
 angular.module('luae_fs').service('luae_fs.EditCertCtrl.ViewStateService',
     ['$log', '$state', 'common.UtkastViewStateService', 'luae_fs.Domain.IntygModel',
-        'common.dynamicLabelService',
-        function($log, $state, CommonViewState, IntygModel, dynamicLabelService) {
+        function($log, $state, CommonViewState, IntygModel) {
             'use strict';
 
             this.common = CommonViewState;
