@@ -43,7 +43,9 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2', required: true}},
 
                         // Underlag
-                        {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true }},
+                        {
+                            key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true}
+                        },
                         {
                             key: 'underlag',
                             type: 'underlag',
