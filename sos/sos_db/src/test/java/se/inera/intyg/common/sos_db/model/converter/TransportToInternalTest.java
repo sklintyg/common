@@ -18,26 +18,23 @@
  */
 package se.inera.intyg.common.sos_db.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.io.StringReader;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import javax.xml.bind.JAXB;
-
-import org.junit.Test;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-
+import org.junit.Test;
 import se.inera.intyg.common.sos_db.model.internal.DbUtlatande;
 import se.inera.intyg.common.sos_db.model.internal.Undersokning;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import javax.xml.bind.JAXB;
+import java.io.StringReader;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TransportToInternalTest {
 
@@ -60,7 +57,7 @@ public class TransportToInternalTest {
         assertNull(res.getGrundData().getRelation());
 
         assertEquals("körkort", res.getIdentitetStyrkt());
-        assertEquals(true, res.getDodsdatumSakert());
+        assertEquals(false, res.getDodsdatumSakert());
         assertEquals(new InternalDate(LocalDate.of(2017, 1, 1)), res.getDodsdatum());
         assertEquals(new InternalDate(LocalDate.of(2017, 1, 2)), res.getAntraffatDodDatum());
         assertEquals("kommun", res.getDodsplatsKommun());
@@ -68,7 +65,7 @@ public class TransportToInternalTest {
         assertEquals(true, res.getBarn());
         assertEquals(true, res.getExplosivImplantat());
         assertEquals(true, res.getExplosivAvlagsnat());
-        assertEquals(Undersokning.UNDERSOKNING_SKA_GORAS, res.getUndersokningYttre());
+        assertEquals(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN, res.getUndersokningYttre());
         assertEquals(new InternalDate(LocalDate.of(2017, 1, 3)), res.getUndersokningDatum());
         assertEquals(true, res.getPolisanmalan());
     }

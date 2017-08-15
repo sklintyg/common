@@ -71,7 +71,7 @@
             <delsvar id="1.1">körkort</delsvar>
         </svar>
         <svar id="2">
-            <delsvar id="2.1">true</delsvar>
+            <delsvar id="2.1">false</delsvar>
             <delsvar id="2.2">2017-01-01</delsvar>
             <delsvar id="2.3">2017-01-02</delsvar>
         </svar>
@@ -95,9 +95,9 @@
             <delsvar id="6.1">false</delsvar>
             <delsvar id="6.2">
                 <ns3:cv>
-                    <ns3:code>UNDERSOKNING_SKA_GORAS</ns3:code>
+                    <ns3:code>UNDERSOKNING_GJORT</ns3:code>
                     <ns3:codeSystem>KV_DETALJER_UNDERSOKNING</ns3:codeSystem>
-                    <ns3:displayName>UNDERSOKNING_SKA_GORAS</ns3:displayName>
+                    <ns3:displayName>UNDERSOKNING_GJORT</ns3:displayName>
                 </ns3:cv>
             </delsvar>
             <delsvar id="6.3">2017-01-03</delsvar>

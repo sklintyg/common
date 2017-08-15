@@ -71,7 +71,7 @@
             <delsvar id="1.1">körkort</delsvar>
         </svar>
         <svar id="2">
-            <delsvar id="2.1">true</delsvar>
+            <delsvar id="2.1">false</delsvar>
             <delsvar id="2.2">2017-01-01</delsvar>
             <delsvar id="2.3">2017-01-02</delsvar>
         </svar>
@@ -100,6 +100,7 @@
             </delsvar>
         </svar>
         <svar id="9">
+            <instans>1</instans>
             <delsvar id="9.1">foljd 1</delsvar>
             <delsvar id="9.2">2017-05-01</delsvar>
             <delsvar id="9.3">
@@ -111,6 +112,7 @@
             </delsvar>
         </svar>
         <svar id="9">
+            <instans>2</instans>
             <delsvar id="9.1">foljd 2</delsvar>
             <delsvar id="9.2">2017-05-02</delsvar>
             <delsvar id="9.3">
@@ -122,6 +124,7 @@
             </delsvar>
         </svar>
         <svar id="9">
+            <instans>3</instans>
             <delsvar id="9.1">foljd 3</delsvar>
             <delsvar id="9.2">2017-05-03</delsvar>
             <delsvar id="9.3">

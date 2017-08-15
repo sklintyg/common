@@ -109,9 +109,10 @@ public final class UtlatandeToIntyg {
 
         // Svar 9
         if (utlatande.getFoljd() != null && !utlatande.getFoljd().isEmpty()) {
-            for (Foljd foljd : utlatande.getFoljd()) {
+            for (int i = 0; i < utlatande.getFoljd().size(); i++) {
+                Foljd foljd = utlatande.getFoljd().get(i);
                 if (foljd.getBeskrivning() != null || foljd.getDatum() != null || foljd.getSpecifikation() != null) {
-                    InternalConverterUtil.SvarBuilder foljdSvar = aSvar(FOLJD_SVAR_ID);
+                    InternalConverterUtil.SvarBuilder foljdSvar = aSvar(FOLJD_SVAR_ID, i + 1);
                     if (foljd.getBeskrivning() != null) {
                         foljdSvar.withDelsvar(FOLJD_OM_DELSVAR_ID, foljd.getBeskrivning());
                     }

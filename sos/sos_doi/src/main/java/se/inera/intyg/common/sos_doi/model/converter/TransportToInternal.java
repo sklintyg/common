@@ -38,7 +38,10 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
@@ -96,7 +99,7 @@ public final class TransportToInternal {
     }
 
     private static void setSvar(Builder utlatande, Intyg intyg) throws ConverterException {
-        List<Foljd> foljd = new ArrayList<>();
+        Map<Integer, Foljd> foljd = new HashMap<>();
         List<BidragandeSjukdom> bidragandeSjukdomar = new ArrayList<>();
         List<Dodsorsaksgrund> grunder = new ArrayList<>();
         List<Tillaggsfraga> tillaggsfragor = new ArrayList<>();
@@ -146,7 +149,10 @@ public final class TransportToInternal {
             }
         }
 
-        utlatande.setFoljd(foljd);
+        utlatande.setFoljd(foljd.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList()));
         utlatande.setBidragandeSjukdomar(bidragandeSjukdomar);
         utlatande.setGrunder(grunder);
         utlatande.setTillaggsfragor(tillaggsfragor);
@@ -246,7 +252,7 @@ public final class TransportToInternal {
         bidragandeSjukdomar.add(BidragandeSjukdom.create(description, date, specification));
     }
 
-    private static void handleFoljd(List<Foljd> foljd, Svar svar) throws ConverterException {
+    private static void handleFoljd(Map<Integer, Foljd> foljd, Svar svar) throws ConverterException {
         String description = null;
         InternalDate date = null;
         Specifikation specification = null;
@@ -265,7 +271,7 @@ public final class TransportToInternal {
                 throw new IllegalArgumentException();
             }
         }
-        foljd.add(Foljd.create(description, date, specification));
+        foljd.put(svar.getInstans(), Foljd.create(description, date, specification));
     }
 
     private static void handleDodsorsak(Builder utlatande, Svar svar) throws ConverterException {

@@ -48,7 +48,7 @@ public class TransportToInternalTest {
         assertNull(res.getGrundData().getRelation());
 
         assertEquals("körkort", res.getIdentitetStyrkt());
-        assertEquals(true, res.getDodsdatumSakert());
+        assertEquals(false, res.getDodsdatumSakert());
         assertEquals(new InternalDate(LocalDate.of(2017, 1, 1)), res.getDodsdatum());
         assertEquals(new InternalDate(LocalDate.of(2017, 1, 2)), res.getAntraffatDodDatum());
         assertEquals("kommun", res.getDodsplatsKommun());
@@ -69,7 +69,7 @@ public class TransportToInternalTest {
         assertEquals(BidragandeSjukdom.create("bidragande sjukdom 7", new InternalDate(LocalDate.of(2017, 3,7)), Specifikation.KRONISK), res.getBidragandeSjukdomar().get(6));
         assertEquals(BidragandeSjukdom.create("bidragande sjukdom 8", new InternalDate(LocalDate.of(2017, 3,8)), Specifikation.PLOTSLIG), res.getBidragandeSjukdomar().get(7));
         assertEquals(OmOperation.JA, res.getOperation());
-        assertEquals(new InternalDate(LocalDate.of(2017, 2, 1)), res.getOperationDatum());
+        assertEquals(new InternalDate(LocalDate.of(2016, 2, 1)), res.getOperationDatum());
         assertEquals("anledning", res.getOperationAnledning());
         assertTrue(res.getForgiftning());
         assertEquals(ForgiftningOrsak.SJALVMORD, res.getForgiftningOrsak());
