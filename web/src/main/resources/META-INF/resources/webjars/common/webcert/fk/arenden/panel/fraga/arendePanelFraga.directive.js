@@ -47,7 +47,6 @@ angular.module('common').directive('arendePanelFraga',
                         } else if (angular.element.find('#uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK').length > 0) {
                             target = 'uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK';
                         } else {
-                            //target = komplettering.modelName;
                             target = 'komplettering_' + komplettering.id;
                         }
 
