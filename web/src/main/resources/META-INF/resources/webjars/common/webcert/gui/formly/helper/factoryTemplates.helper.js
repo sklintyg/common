@@ -25,16 +25,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
         var singleTextAdressLabelColSize = 2;
         var singleTextLabelColSize = 2;
 
-        var categoryNames = [];
-
         return {
-
-            setCategoryNames: function(names) {
-                categoryNames = names;
-            },
-            getCategoryNames: function() {
-                return angular.copy(categoryNames);
-            },
 
             kategori: function kategori(id, name, fragor, required) {
                 return {
