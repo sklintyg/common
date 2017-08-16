@@ -21,11 +21,11 @@ angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService',
         'common.messageService', 'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel',
         'common.IntygErsattRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyActions',
-        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService',
+        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy',
 
         function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService,
             moduleService, IntygCopyRequestModel, IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel,
-            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService) {
+            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy) {
 
             'use strict';
 
@@ -100,17 +100,30 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.send = function() {
-                IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
+                var onPatientFound = function() {
+                    IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
                         intygType+'.label.send', intygType+'.label.send.body', function() {
-                        // After a send request we shouldn't reload right away due to async reasons.
-                        // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
-                        $scope.viewState.common.isIntygOnSendQueue = true;
-                        angular.forEach($scope.viewState.relations, function(relation) {
-                            if(relation.intygsId === $scope.viewState.intygModel.id) {
-                                relation.status = 'sent';
-                            }
+                            // After a send request we shouldn't reload right away due to async reasons.
+                            // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
+                            $scope.viewState.common.isIntygOnSendQueue = true;
+                            angular.forEach($scope.viewState.relations, function(relation) {
+                                if(relation.intygsId === $scope.viewState.intygModel.id) {
+                                    relation.status = 'sent';
+                                }
+                            });
                         });
-                });
+                };
+
+                var onNotFoundOrError = function() {
+                    // If patient couldn't be looked up in PU-service, show modal with intygstyp-specific error message.
+                    var errorMsg = messageService.getProperty(intygType + '.error_could_not_send_cert_no_pu');
+                    DialogService
+                        .showErrorMessageDialog(errorMsg);
+                };
+
+                // INTYG-4086, we must not send the intyg if the patient cannot be found in the PU-service.
+                PatientProxy.getPatient($scope.viewState.intygModel.grundData.patient.personId, onPatientFound, onNotFoundOrError,
+                    onNotFoundOrError);
             };
 
             $scope.makulera = function(intyg) {
@@ -160,8 +173,10 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.print = function(intyg, isEmployeeCopy) {
-                if (isEmployeeCopy) {
-                    DialogService.showDialog({
+
+                var onPatientFound = function() {
+                    if (isEmployeeCopy) {
+                        DialogService.showDialog({
                             dialogId: 'print-employee-copy',
                             titleId: 'common.modal.label.employee.title',
                             templateUrl: '/app/partials/employee-print-dialog.html',
@@ -178,9 +193,19 @@ angular.module('common').controller('common.IntygHeader',
                             bodyText: 'common.modal.label.employee.body',
                             autoClose: false
                         });
-                } else {
-                    window.open($scope.pdfUrl, '_blank');
-                }
+                    } else {
+                        window.open($scope.pdfUrl, '_blank');
+                    }
+                };
+                var onNotFoundOrError = function() {
+                    // If patient couldn't be looked up in PU-service, show modal with intygstyp-specific message.
+                    var errorMsg = messageService.getProperty(intyg.typ + '.error_could_not_print_cert_no_pu');
+                    DialogService
+                        .showErrorMessageDialog(errorMsg);
+                };
+
+                // INTYG-4086: Before printing, we must make sure the PU-service is available
+                PatientProxy.getPatient(intyg.grundData.patient.personId, onPatientFound, onNotFoundOrError, onNotFoundOrError);
             };
 
             //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)

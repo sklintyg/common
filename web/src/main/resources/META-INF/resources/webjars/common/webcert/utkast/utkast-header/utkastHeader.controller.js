@@ -20,9 +20,9 @@
 angular.module('common').controller('common.UtkastHeader',
     ['$scope', '$log', '$stateParams', '$timeout', '$window',
         'common.messageService', 'common.moduleService', 'common.UtkastProxy', 'common.statService',
-        'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService', 'common.UtkastService',
+        'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService', 'common.UtkastService', 'common.PatientProxy',
         function($scope, $log, $stateParams, $timeout, $window,
-            messageService, moduleService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService) {
+            messageService, moduleService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService, PatientProxy) {
             'use strict';
 
             $scope.intygsnamn = moduleService.getModuleName(CommonViewState.intyg.type);
@@ -109,7 +109,17 @@ angular.module('common').controller('common.UtkastHeader',
              * Print draft.
              */
             $scope.print = function() {
-                window.open($scope.pdfUrl, '_self');
+
+                var onNotFoundOrError = function() {
+                    // If patient couldn't be looked up in PU-service, show modal with common message.
+                    var errorMsg = messageService.getProperty('common.error_could_not_print_draft_no_pu');
+                    dialogService.showErrorMessageDialog(errorMsg);
+                };
+
+                // INTYG-4086: Before printing, we must make sure the PU-service is available
+                PatientProxy.getPatient($scope.viewState.draftModel.content.grundData.patient.personId, function() {
+                    window.open($scope.pdfUrl, '_self');
+                }, onNotFoundOrError, onNotFoundOrError);
             };
 
 
