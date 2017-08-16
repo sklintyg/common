@@ -18,22 +18,22 @@
  */
 package se.inera.intyg.common.doi.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.doi.rest.DoiModuleApi;
-import se.inera.intyg.common.sos_parent.support.SosAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 
-public class DoiModuleEntryPoint extends SosAbstractModuleEntryPoint {
+import java.util.Map;
+
+public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "doi.sch";
     public static final String MODULE_ID = "DOI";
     public static final String MODULE_NAME = "Dödsorsaksintyg";
 
+    private static final String DEFAULT_RECIPIENT_ID = "SOS";
     private static final String MODULE_DESCRIPTION = "Dödsorsaksintyg";
 
     @Autowired

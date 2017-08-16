@@ -23,17 +23,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se.inera.intyg.common.db.rest.DbModuleApi;
-import se.inera.intyg.common.sos_parent.support.SosAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 
-public class DbModuleEntryPoint extends SosAbstractModuleEntryPoint {
+public class DbModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "db.sch";
     public static final String MODULE_ID = "DB";
     public static final String MODULE_NAME = "Dödsbevis";
 
+    private static final String DEFAULT_RECIPIENT_ID = "Skatteverket";
     private static final String MODULE_DESCRIPTION = "Dödsbevis";
 
     @Autowired
