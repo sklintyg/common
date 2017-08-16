@@ -82,6 +82,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_CODE;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.isStringContent;
 
 public final class TransportToInternal {
     private static final int TILLAGGSFRAGA_START = 9001;
@@ -207,15 +208,18 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleOperation(Builder utlatande, Svar svar) {
+    private static void handleOperation(Builder utlatande, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case OPERATION_OM_DELSVAR_ID:
-                String content = getStringContent(delsvar);
-                if (UPPGIFT_SAKNAS_CODE.equals(content)) {
-                    utlatande.setOperation(OmOperation.UPPGIFT_SAKNAS);
+                if (!isStringContent(delsvar)) {
+                    if (UPPGIFT_SAKNAS_CODE.equals(getCVSvarContent(delsvar).getCode())) {
+                        utlatande.setOperation(OmOperation.UPPGIFT_SAKNAS);
+                    } else {
+                        throw new IllegalArgumentException("Unknown code for Om operation");
+                    }
                 } else {
-                    utlatande.setOperation(Boolean.parseBoolean(content) ? OmOperation.JA : OmOperation.NEJ);
+                    utlatande.setOperation(Boolean.parseBoolean(getStringContent(delsvar)) ? OmOperation.JA : OmOperation.NEJ);
                 }
                 break;
             case OPERATION_DATUM_DELSVAR_ID:

@@ -126,6 +126,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 ValidatorUtil
                         .addValidationError(validationMessages, MODULE_ID + ".operationDatum", ValidationMessageType.INCORRECT_COMBINATION);
             }
+        } else {
+            if (utlatande.getOperationDatum() != null) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, MODULE_ID + ".operationDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                MODULE_ID + ".validation.operationDatum.operationNejUppgiftSaknas");
+            }
+            if (utlatande.getOperationAnledning() != null) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, MODULE_ID + ".operationAnledning",
+                                ValidationMessageType.INCORRECT_COMBINATION,
+                                MODULE_ID + ".validation.operationAnledning.operationNejUppgiftSaknas");
+            }
         }
     }
 

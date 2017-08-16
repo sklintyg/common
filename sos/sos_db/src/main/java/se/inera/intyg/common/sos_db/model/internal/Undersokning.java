@@ -21,7 +21,7 @@ package se.inera.intyg.common.sos_db.model.internal;
 import java.util.stream.Stream;
 
 public enum Undersokning {
-    JA(""), // TODO: WHAT TO DO
+    JA(""), // Transport is never used as it is represented as boolean 'true'
     UNDERSOKNING_GJORT_KORT_FORE_DODEN("UNDERSOKNING_GJORT"),
     UNDERSOKNING_SKA_GORAS("UNDERSOKNING_SKA_GORAS");
 

@@ -62,6 +62,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
             ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".explosivImplantat", ValidationMessageType.EMPTY);
         } else if (utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() == null) {
             ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".explosivAvlagsnat", ValidationMessageType.EMPTY);
+        } else if (!utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() != null) {
+            ValidatorUtil
+                    .addValidationError(validationMessages, MODULE_ID + ".explosivAvlagsnat", ValidationMessageType.INCORRECT_COMBINATION,
+                            MODULE_ID + ".validation.explosivAvlagsnat.explosivImplantatFalse");
         }
     }
 

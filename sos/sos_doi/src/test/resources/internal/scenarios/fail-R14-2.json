@@ -11,13 +11,14 @@
     }
   ],
   "identitetStyrkt": "körkort",
-  "dodsdatumSakert": true,
-  "dodsdatum": "2017-01",
+  "dodsdatumSakert": false,
+  "dodsdatum": "2017-01-01",
+  "antraffatDodDatum": "2017-01-02",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
   "barn": true,
   "dodsorsak": "terminal dödsorsak",
-  "dodsorsakDatum": "2017-01-01",
+  "dodsorsakDatum": "2017-04-01",
   "dodsorsakSpecifikation": "KRONISK",
   "foljd": [
     {
@@ -78,8 +79,7 @@
       "specifikation": "PLOTSLIG"
     }
   ],
-  "operation": "JA",
-  "operationDatum": "2016-02-01",
+  "operation": "UPPGIFT_SAKNAS",
   "operationAnledning": "anledning",
   "forgiftning": "true",
   "forgiftningOrsak": "SJALVMORD",
