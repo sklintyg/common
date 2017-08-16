@@ -62,6 +62,7 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                                     'LOGOPED',
                                     'PSYKOLOG',
                                     'FORETAGSHALSOVARD',
+                                    'SKOLHALSOVARD',
                                     'SPECIALISTKLINIK',
                                     'VARD_UTOMLANDS',
                                     'OVRIGT_UTLATANDE'

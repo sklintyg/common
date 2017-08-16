@@ -1,6 +1,7 @@
 angular.module('luae_na').service('luae_na.EditCertCtrl.ViewStateService',
     ['$log', '$state', 'common.UtkastViewStateService', 'luae_na.Domain.IntygModel',
-        function($log, $state, CommonViewState, IntygModel) {
+        'common.dynamicLabelService',
+        function($log, $state, CommonViewState, IntygModel, dynamicLabelService) {
             'use strict';
 
             this.common = CommonViewState;
