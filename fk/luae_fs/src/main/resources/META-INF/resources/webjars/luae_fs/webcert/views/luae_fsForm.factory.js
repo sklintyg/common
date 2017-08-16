@@ -34,7 +34,6 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                                 staticLabelId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                                 subTextId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
                                 subTextDynId: 'FRG_25',
-                                hideWhenEmpty: true,
                                 required: true
                             }
                         },
@@ -117,13 +116,13 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {
                             key: 'kontaktMedFk',
                             type: 'checkbox-inline',
-                            templateOptions: {label: 'DFR_26.1', hideKompletteringText: true}
+                            templateOptions: {label: 'DFR_26.1'}
                         },
                         {
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
                             hideExpression: '!model.kontaktMedFk',
-                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk', hideWhenEmpty: true }
+                            templateOptions: {label: 'DFR_26.2'}
                         }
                     ]
                 },

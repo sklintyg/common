@@ -166,8 +166,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 {
                                     key: 'funktionsnedsattning', type: 'multi-text', templateOptions: {
                                     label: 'DFR_35.1',
-                                    required: 'FRG_ONLY',
-                                    forceDividerAfter: true
+                                    required: 'FRG_ONLY'
                                 }
                                 }
                             ]
@@ -197,8 +196,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         {
                             key: 'pagaendeBehandling', type: 'multi-text',
                             templateOptions: {
-                                label: 'DFR_19.1',
-                                forceDividerAfter: true
+                                label: 'DFR_19.1'
                             }
                         }
                     ]),
@@ -227,8 +225,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                             'TRE_FJARDEDEL',
                                             'HELT_NEDSATT'
                                         ],
-                                        required: true,
-                                        forceDividerAfter: true
+                                        required: true
                                     }
                                 }
                             ]
@@ -257,8 +254,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 staticLabelId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
                                 staticHelpId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',
                                 subTextId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info',
-                                subTextDynId: 'FRG_25',
-                                hideWhenEmpty: true
+                                subTextDynId: 'FRG_25'
                             }
                         },
                         {
@@ -283,8 +279,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 staticLabelId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering',
                                 staticHelpId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering.help',
                                 subTextId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering.info',
-                                subTextDynId: 'FRG_25',
-                                hideWhenEmpty: true
+                                subTextDynId: 'FRG_25'
                             }
                         }
                     ]),
@@ -321,7 +316,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
 
                                 return !nedsatt75under;
                             },
-                            templateOptions: {label: 'FRG_33', hideKompletteringText: true, required: true}
+                            templateOptions: {label: 'FRG_33', required: true}
                         },
                         {
                             key: 'arbetstidsforlaggningMotivering', type: 'multi-text',
@@ -333,9 +328,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             },
                             templateOptions: {
                                 label: 'DFR_33.2',
-                                kompletteringKey: 'arbetstidsforlaggning',
-                                required: true,
-                                hideWhenEmpty: true
+                                required: true
                             }
                         }
                     ]),
@@ -467,13 +460,13 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         {
                             key: 'kontaktMedFk',
                             type: 'checkbox-inline',
-                            templateOptions: {label: 'DFR_26.1', hideKompletteringText: true}
+                            templateOptions: {label: 'DFR_26.1'}
                         },
                         {
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
                             hideExpression: '!model.kontaktMedFk',
-                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk'}
+                            templateOptions: {label: 'DFR_26.2'}
                         }
                     ])
                 ], {hideExpression: 'model.avstangningSmittskydd'}),
