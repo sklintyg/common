@@ -169,7 +169,7 @@ angular.module('luse').factory('luse.FormFactory', [
                         ])
                     ]
                 }
-            ], true),
+            ], {required: true}),
             kategori(6, categoryNames[6], [
                 fraga(17, [
                     {

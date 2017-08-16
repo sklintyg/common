@@ -27,10 +27,23 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
 
         return {
 
-            kategori: function kategori(id, name, fragor, required) {
+            kategori: function kategori(id, name, fragor, wrapperOptions) {
+
+                if(!wrapperOptions){
+                    wrapperOptions = {};
+                }
+
+                if(!wrapperOptions.required){
+                    wrapperOptions.required = null;
+                }
+                if(!wrapperOptions.hideExpression){
+                    wrapperOptions.hideExpression = 'false';
+                }
+
                 return {
                     wrapper: 'wc-kategori',
-                    templateOptions: {category: id, categoryName: name, required: required},
+                    templateOptions: {category: id, categoryName: name, required: wrapperOptions.required},
+                    hideExpression: wrapperOptions.hideExpression,
                     fieldGroup: fragor
                 };
             },
