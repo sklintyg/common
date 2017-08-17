@@ -41,7 +41,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande.Builder;
@@ -99,7 +99,7 @@ public class LuaenaModelCompareUtilTest {
 
     @Test
     public void testModelIsInvalidWithInvalidDate() throws Exception {
-        LuaenaUtlatande utlatandeOld = getUtlatandeFromFile("utlatande"); 
+        LuaenaUtlatande utlatandeOld = getUtlatandeFromFile("utlatande");
         Builder builder = utlatandeOld .toBuilder();
         LuaenaUtlatande utlatandeNew = builder.setUndersokningAvPatienten(new InternalDate("2016-1")).build();
 

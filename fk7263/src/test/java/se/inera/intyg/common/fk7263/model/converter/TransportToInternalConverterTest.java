@@ -34,7 +34,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 import com.fasterxml.jackson.databind.JsonNode;

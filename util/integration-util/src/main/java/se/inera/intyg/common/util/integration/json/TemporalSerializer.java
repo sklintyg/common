@@ -16,26 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.util.integration.integration.json;
+package se.inera.intyg.common.util.integration.json;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-public class CustomLocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
+import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
+
+/**
+ * @author andreaskaltenbach
+ */
+public class TemporalSerializer extends StdSerializer<Temporal> {
 
     private static final long serialVersionUID = 1L;
 
-    public CustomLocalDateTimeSerializer() {
-        super(LocalDateTime.class);
+    public TemporalSerializer() {
+        super(Temporal.class);
     }
 
     @Override
-    public void serialize(LocalDateTime value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(value.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
+    public void serialize(Temporal partial, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        jgen.writeString(PartialDateAdapter.printPartialDate(partial));
     }
 }

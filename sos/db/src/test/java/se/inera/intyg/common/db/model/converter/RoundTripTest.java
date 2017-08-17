@@ -44,7 +44,7 @@ import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.db.utils.Scenario;
 import se.inera.intyg.common.db.utils.ScenarioFinder;
 import se.inera.intyg.common.db.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 

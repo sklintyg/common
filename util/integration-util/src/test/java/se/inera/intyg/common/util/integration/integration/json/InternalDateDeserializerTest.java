@@ -38,6 +38,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import se.inera.intyg.common.util.integration.json.InternalDateDeserializer;
 
 public final class InternalDateDeserializerTest {
 
