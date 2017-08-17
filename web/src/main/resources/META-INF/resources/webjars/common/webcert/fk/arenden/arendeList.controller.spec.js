@@ -294,13 +294,6 @@ describe('ArendeListCtrl', function() {
                [{'position':0, 'instans':1, 'frageId':'9001', 'text':'Detta är kompletteringstexten...', 'jsonPropertyHandle':'tillaggsfragor', amne: 'KOMPLT', status: 'PENDING_INTERNAL_ACTION'}]);
            expect(ArendenViewState.getKompletteringar('tillaggsfragor[2].svar')).toEqual([]);
            expect(ArendenViewState.getKompletteringar('tillaggsfragor')).toEqual([]);
-
-           expect(ArendenViewState.hasKompletteringar('funktionsnedsattning')).toBeFalsy();
-           expect(ArendenViewState.hasKompletteringar('arbetsresor')).toBeTruthy();
-           expect(ArendenViewState.hasKompletteringar('tillaggsfragor[0].svar')).toBeTruthy();
-           expect(ArendenViewState.hasKompletteringar('tillaggsfragor[1].svar')).toBeTruthy();
-           expect(ArendenViewState.hasKompletteringar('tillaggsfragor[2].svar')).toBeFalsy();
-           expect(ArendenViewState.hasKompletteringar('tillaggsfragor')).toBeFalsy();
        });
 
         it('should not include hanterade ärenden', function() {
@@ -336,8 +329,6 @@ describe('ArendeListCtrl', function() {
                 type: 'testIntyg'
             });
 
-            expect(ArendenViewState.hasKompletteringar('arbetsresor')).toBeTruthy();
-            expect(ArendenViewState.hasKompletteringar('diagnos')).toBeFalsy();
             expect(ArendenViewState.hasUnhandledItems()).toBeTruthy();
         });
     });

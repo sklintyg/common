@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.modules.converter;
 
 import com.google.common.base.Strings;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -202,6 +203,10 @@ public final class InternalConverterUtil {
         hsaId.setRoot(HSA_ID_OID);
         hsaId.setExtension(id);
         return hsaId;
+    }
+
+    public static String getInternalDateContent(InternalDate internalDate) {
+        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
     }
 
     private static String emptyStringIfNull(String s) {

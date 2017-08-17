@@ -68,13 +68,6 @@ angular.module('common').service('common.ArendeListViewStateService',
                 return result;
             };
 
-            this.hasKompletteringar = function(key) {
-                if (key && this.common.kompletteringar[key]) {
-                    return this.common.kompletteringar[key].length > 0;
-                }
-                return false;
-            };
-
             this.getKompletteringar = function(key) {
                  if (this.common.kompletteringar[key]) {
                     return this.common.kompletteringar[key];
@@ -151,7 +144,7 @@ angular.module('common').service('common.ArendeListViewStateService',
             function addMatchingFrageKomplettering(result, frageId, arendeModel) {
                 if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
                     angular.forEach(arendeModel.kompletteringar, function(komplettering) {
-                        if (komplettering.id === frageId) {
+                        if (parseInt(komplettering.id, 10) === parseInt(frageId, 10)) {
                             result.push(komplettering);
                         }
                     });

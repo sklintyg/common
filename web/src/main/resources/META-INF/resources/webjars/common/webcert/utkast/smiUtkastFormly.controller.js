@@ -15,7 +15,7 @@ angular.module('common').controller('smi.EditCert.FormlyCtrl',
 
             // hasKompletteringar needs to be here since a formly wrapper (validationGroup.formly.js) currently can not have a controller
             $scope.options = {
-                formState:{viewState:viewState, hasKompletteringar:ArendeListViewState.hasKompletteringar.bind(ArendeListViewState)}
+                formState:{viewState:viewState}
             };
 
             $scope.formFields = formFactory.getFormFields();

@@ -88,28 +88,6 @@ angular.module('luae_na').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.luae_naold', {
-            data: { defaultActive : 'index', intygType: 'luae_na' },
-            url:'/intyg/luae_na_old/:certificateId',
-            views: {
-                'intyg@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
-                    resolve: {
-                        ViewState: 'luae_na.IntygController.ViewStateService',
-                        FormFactory: 'luae_na.FormFactory'
-                    }
-                },
-                'fragasvar@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
-                'header@webcert.intyg.fk.luae_na' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        }).
         state('webcert.fragasvar.luae_na', {
             data: { defaultActive : 'unhandled-qa', intygType: 'luae_na' },
             url: '/fragasvar/luae_na/:certificateId',

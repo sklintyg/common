@@ -26,6 +26,36 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
         var singleTextLabelColSize = 2;
 
         return {
+
+            kategori: function kategori(id, name, fragor, wrapperOptions) {
+
+                if(!wrapperOptions){
+                    wrapperOptions = {};
+                }
+
+                if(!wrapperOptions.required){
+                    wrapperOptions.required = null;
+                }
+                if(!wrapperOptions.hideExpression){
+                    wrapperOptions.hideExpression = 'false';
+                }
+
+                return {
+                    wrapper: 'wc-kategori',
+                    templateOptions: {category: id, categoryName: name, required: wrapperOptions.required},
+                    hideExpression: wrapperOptions.hideExpression,
+                    fieldGroup: fragor
+                };
+            },
+
+            fraga: function fraga(id, components) {
+                return {
+                    wrapper: 'wc-fraga',
+                    templateOptions: {frageId: id},
+                    fieldGroup: components
+                };
+            },
+
             adress: {
                 wrapper: 'wc-field-static',
                 templateOptions: {staticLabel: 'common.intyg.patientadress', categoryName: 'patient'},
@@ -136,7 +166,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                 ]
             },
             grundForMU: {
-                wrapper: 'validationGroup',  templateOptions: {
+                wrapper: 'validationGroup', templateOptions: {
                     type: 'check-group',
                     validationGroup: 'baserasPa',
                     kompletteringGroup: 'baseratPa'
@@ -145,26 +175,21 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                     {
                         key: 'undersokningAvPatienten', type: 'date', className: 'small-gap', templateOptions: {
                         label: 'KV_FKMU_0001.UNDERSOKNING',
-                        hideWhenEmpty: true,
                         maxDate: dateUtils.todayAsYYYYMMDD()
                     }
                     }, {
                         key: 'journaluppgifter', type: 'date', className: 'small-gap', templateOptions: {
                             label: 'KV_FKMU_0001.JOURNALUPPGIFTER',
-                            hideWhenEmpty: true,
                             maxDate: dateUtils.todayAsYYYYMMDD()
                         }
                     }, {
                         key: 'anhorigsBeskrivningAvPatienten', type: 'date', className: 'small-gap', templateOptions: {
                             label: 'KV_FKMU_0001.ANHORIG',
-                            hideWhenEmpty: true,
                             maxDate: dateUtils.todayAsYYYYMMDD()
                         }
                     }, {
                         key: 'annatGrundForMU', type: 'date', templateOptions: {
                             label: 'KV_FKMU_0001.ANNAT',
-                            hideWhenEmpty: true,
-                            hideKompletteringText: true,
                             maxDate: dateUtils.todayAsYYYYMMDD()
                         }
                     }
@@ -178,10 +203,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                     label: 'DFR_1.3',
                     help: 'DFR_1.3',
                     required: true,
-                    size: 'full',
-                    hideWhenEmpty: true,
-                    forceDividerAfter: true,
-                    kompletteringKey: 'annatGrundForMU'
+                    size: 'full'
                 }
             },
             annatGrundForMUBeskrivningNoLine: {
@@ -192,10 +214,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                     label: 'DFR_1.3',
                     help: 'DFR_1.3',
                     required: true,
-                    size: 'full',
-                    hideWhenEmpty: true,
-                    forceNoDividerAfter: true,
-                    kompletteringKey: 'annatGrundForMU'
+                    size: 'full'
                 }
             }
         };

@@ -17,7 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcInlineKomplettering', [ 'common.ArendeListViewStateService', function(ArendeListViewStateService) {
+angular.module('common').directive('wcInlineKomplettering', [ 'common.ArendeListViewStateService', 'common.UtilsService',
+    function(ArendeListViewStateService, Utils) {
     'use strict';
 
     return {
@@ -27,22 +28,13 @@ angular.module('common').directive('wcInlineKomplettering', [ 'common.ArendeList
             frageId: '='
         },
         link: function($scope) {
-            function extractNumericalFrageId(input) {
-                if(!angular.isString(input)) {
-                    return undefined;
-                }
-                var match = /_(\d+)\.?/g.exec(input);
-                return match !== null ? match[1] : undefined;
-            }
-
             $scope.getKompletteringar = function() {
                 // lookup if there's an unhandled komplettering for this frage-id
-                var numericFrageId = extractNumericalFrageId($scope.frageId);
+                var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
                 if (!numericFrageId) {
                     return [];
                 }
                 return ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
-
             };
         }
     };

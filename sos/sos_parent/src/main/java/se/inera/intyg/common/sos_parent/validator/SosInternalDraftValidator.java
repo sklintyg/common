@@ -56,6 +56,11 @@ public final class SosInternalDraftValidator {
             } else if (!utlatande.getAntraffatDodDatum().isValidDate()) {
                 ValidatorUtil.addValidationError(validationMessages, prefix + ".antraffatDod", ValidationMessageType.INVALID_FORMAT);
             }
+        } else {
+            if (utlatande.getAntraffatDodDatum() != null) {
+                ValidatorUtil.addValidationError(validationMessages, prefix + ".antraffatDod", ValidationMessageType.INCORRECT_COMBINATION,
+                        prefix + ".validation.antraffatDod.dodsdatumSakert");
+            }
         }
     }
 

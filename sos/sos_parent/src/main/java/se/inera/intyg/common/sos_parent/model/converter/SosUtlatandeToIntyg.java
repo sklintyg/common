@@ -18,6 +18,13 @@
  */
 package se.inera.intyg.common.sos_parent.model.converter;
 
+import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_SVAR_ID;
@@ -34,13 +41,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 
 /**
  * Converters for shared svar between DB and DOI.
@@ -61,9 +62,9 @@ public final class SosUtlatandeToIntyg {
             if (utlatande.getDodsdatumSakert() != null) {
                 dodsdatum.withDelsvar(DODSDATUM_SAKERT_DELSVAR_ID, utlatande.getDodsdatumSakert().toString());
             }
-            dodsdatum.withDelsvar(DODSDATUM_DELSVAR_ID, utlatande.getDodsdatum().asLocalDate().toString());
+            dodsdatum.withDelsvar(DODSDATUM_DELSVAR_ID, getInternalDateContent(utlatande.getDodsdatum()));
             if (utlatande.getAntraffatDodDatum() != null) {
-                dodsdatum.withDelsvar(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, utlatande.getAntraffatDodDatum().asLocalDate().toString());
+                dodsdatum.withDelsvar(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getAntraffatDodDatum()));
             }
             svar.add(dodsdatum.build());
         }

@@ -32,15 +32,7 @@ angular.module('common').directive('wcValidationWrapper',
                     warnings: '=',
                     fieldType: '@',
                     labelColSize: '@',
-                    key: '@',
-                    kompletteringKey: '@',
-                    hideKompletteringText: '@'
-                },
-                link: function(scope) {
-                    scope.hasKomplettering = function() {
-                        var key = scope.kompletteringKey || scope.key;
-                        return ArendeListViewState.hasKompletteringar(key);
-                    };
+                    key: '@'
                 }
             };
         }]);

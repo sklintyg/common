@@ -61,11 +61,19 @@ public final class TransportConverterUtil {
     }
 
     /**
+     * Checks if delsvar can be parsed as string content.
+     *
+     * @param delsvar The Delsvar to parse.
+     * @return if delsvar can be parsed as string content:
+     */
+    public static boolean isStringContent(Delsvar delsvar) {
+        return delsvar.getContent().stream().allMatch(a -> a instanceof String);
+    }
+
+    /**
      * Attempt to parse a non-empty String from a Delsvar.
      *
-     * @param delsvar
-     *            The Delsvar to parse.
-     *
+     * @param delsvar The Delsvar to parse.
      * @return The non-empty String content of the Delsvar.
      */
     public static String getStringContent(Delsvar delsvar) {
@@ -78,8 +86,7 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a CVType from a Delsvar.
      *
-     * @param delsvar
-     *            The Delsvar to parse.
+     * @param delsvar The Delsvar to parse.
      * @return CVType
      * @throws ConverterException
      */
