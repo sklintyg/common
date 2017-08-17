@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.doi.model.converter;
 
-import com.google.common.primitives.Ints;
 import se.inera.intyg.common.doi.model.internal.BidragandeSjukdom;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
@@ -103,7 +102,6 @@ public final class TransportToInternal {
         Map<Integer, Foljd> foljd = new HashMap<>();
         List<BidragandeSjukdom> bidragandeSjukdomar = new ArrayList<>();
         List<Dodsorsaksgrund> grunder = new ArrayList<>();
-        List<Tillaggsfraga> tillaggsfragor = new ArrayList<>();
 
         for (Svar svar : intyg.getSvar()) {
             switch (svar.getId()) {
@@ -141,12 +139,7 @@ public final class TransportToInternal {
                 handleLand(utlatande, svar);
                 break;
             default:
-                Integer parsedInt = Ints.tryParse(svar.getId());
-                if (parsedInt != null && parsedInt >= TILLAGGSFRAGA_START) {
-                    handleTillaggsfraga(tillaggsfragor, svar);
-                } else {
-                    throw new IllegalArgumentException();
-                }
+                throw new IllegalArgumentException();
             }
         }
 
@@ -156,7 +149,6 @@ public final class TransportToInternal {
                 .collect(Collectors.toList()));
         utlatande.setBidragandeSjukdomar(bidragandeSjukdomar);
         utlatande.setGrunder(grunder);
-        utlatande.setTillaggsfragor(tillaggsfragor);
     }
 
     private static void handleLand(Builder utlatande, Svar svar) {

@@ -1,15 +1,5 @@
 {
   "typ": "DOI",
-  "tillaggsfragor": [
-    {
-      "svar": "tillaggsfraga1",
-      "id": "9001"
-    },
-    {
-      "svar": "tillaggsfraga2",
-      "id": "9002"
-    }
-  ],
   "identitetStyrkt": "körkort",
   "dodsdatumSakert": true,
   "dodsdatum": "2017-01-01",

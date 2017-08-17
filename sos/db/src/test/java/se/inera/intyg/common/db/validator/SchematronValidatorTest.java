@@ -20,8 +20,4 @@ public class SchematronValidatorTest {
         assertTrue(response.getValidationErrors().isEmpty());
     }
 
-    @Test
-    public void failR1() {
-
-    }
 }

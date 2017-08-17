@@ -24,7 +24,6 @@ import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.doi.model.internal.Foljd;
 import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -206,10 +205,6 @@ public final class UtlatandeToIntyg {
 
         // Svar 14
         addIfNotBlank(svar, LAND_SVAR_ID, LAND_DELSVAR_ID, utlatande.getLand());
-
-        for (Tillaggsfraga tillaggsfraga : utlatande.getTillaggsfragor()) {
-            addIfNotBlank(svar, tillaggsfraga.getId(), tillaggsfraga.getId() + ".1", tillaggsfraga.getSvar());
-        }
 
         return svar;
     }
