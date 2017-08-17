@@ -34,7 +34,7 @@ angular.module('common').factory('common.UtilsService', function() {
         if(!angular.isString(input)) {
             return undefined;
         }
-        var match = /_(\d+)\.?/g.exec(input);
+        var match = /_?(\d+)\.?/g.exec(input);
         return match !== null ? match[1] : undefined;
     }
 

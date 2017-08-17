@@ -42,11 +42,11 @@ angular.module('common').directive('arendePanelFraga',
                     scope.scrollToFraga = function(komplettering) {
 
                         var target;
-                        if (komplettering.modelName === 'tillaggsfragor') {
-                            target = 'tillaggsfragor-' + komplettering.id;
-                        } else if (angular.element.find('#uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK').length > 0) {
+                        //uv-framework link (signerat intyg)
+                        if (angular.element.find('#uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK').length > 0) {
                             target = 'uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK';
                         } else {
+                            //must be utkast
                             target = 'komplettering_' + komplettering.id;
                         }
 

@@ -1,6 +1,6 @@
 angular.module('luae_fs').factory('luae_fs.FormFactory',
-    ['luae_fs.FormFactoryHelper', 'common.UserModel', 'common.FactoryTemplatesHelper', 'common.DateUtilsService',
-        function(FactoryHelper, UserModel, FactoryTemplates, dateUtils) {
+    ['luae_fs.FormFactoryHelper', 'common.UserModel', 'common.FactoryTemplatesHelper',
+        function(FactoryHelper, UserModel, FactoryTemplates) {
             'use strict';
 
 
@@ -12,22 +12,23 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                 5: 'ovrigt',
                 6: 'kontakt'
             };
+            var kategori = FactoryTemplates.kategori;
+            var fraga = FactoryTemplates.fraga;
 
             var formFields = [
                 FactoryTemplates.adress,
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 1, categoryName: categoryNames[1]},
-                    fieldGroup: [
-                        //Fråga 1 -----
-                        {type: 'headline', templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5After: true, required: true}},
+                kategori(1, categoryNames[1], [
+                    fraga(1, [
+                        {
+                            type: 'headline',
+                            templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5After: true, required: true}
+                        },
                         FactoryTemplates.grundForMU,
                         FactoryTemplates.annatGrundForMUBeskrivning,
                         {
                             key: 'motiveringTillInteBaseratPaUndersokning',
                             type: 'multi-text',
-                            className: 'fold-animation',
-                            hideExpression: 'model.undersokningAvPatienten || !(model.anhorigsBeskrivningAvPatienten || model.journaluppgifter || model.annatGrundForMU)',
+                            hideExpression: 'model.undersokningAvPatienten || !( model.journaluppgifter || model.anhorigsBeskrivningAvPatienten || model.annatGrundForMU)',
                             templateOptions: {
                                 bold: 'bold',
                                 forceHeadingTypeLabel: true,
@@ -36,15 +37,13 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                                 subTextDynId: 'FRG_25',
                                 required: true
                             }
-                        },
-
-                        //Fråga 2 -----
-                        {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2', required: true}},
-
-                        // Underlag
-                        {
-                            key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true}
-                        },
+                        }
+                    ]),
+                    fraga(2, [
+                        {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2', required: true}}
+                    ]),
+                    fraga(3, [
+                        {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true}},
                         {
                             key: 'underlag',
                             type: 'underlag',
@@ -61,7 +60,7 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                                     'SPECIALISTKLINIK',
                                     'VARD_UTOMLANDS',
                                     'OVRIGT_UTLATANDE'
-                                ], //KV_FKMU_005
+                                ],
                                 typLabel: 'FRG_4',
                                 datumLabel: 'DFR_4.2',
                                 hamtasFranLabel: 'DFR_4.3'
@@ -71,48 +70,37 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                                 listener: FactoryHelper.underlagListener
                             }
                         }
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 3, categoryName: categoryNames[3]},
-                    fieldGroup: [
-                        {type: 'headline', templateOptions: {label: 'FRG_6', level: 4, noH5: false, required: true}},
+                    ])
+                ]),
+                kategori(3, categoryNames[3], [
+                    fraga(6, [
+                        {type: 'headline', templateOptions: {label: 'FRG_6', level: 4, noH5After: false, required: true}},
                         {
                             key: 'diagnoser',
                             type: 'diagnos',
                             templateOptions: {diagnosBeskrivningLabel: 'DFR_6.1', diagnosKodLabel: 'DFR_6.2'}
-                        }
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 4, categoryName: categoryNames[4]},
-                    fieldGroup: [
+                        }])
+                ]),
+                kategori(4, categoryNames[4], [
+                    fraga(15, [
                         {
                             key: 'funktionsnedsattningDebut',
                             type: 'multi-text',
-                            templateOptions: {label: 'DFR_15.1', required: true }
-                        },
-                        {
-                            key: 'funktionsnedsattningPaverkan',
-                            type: 'multi-text',
-                            templateOptions: {label: 'FRG_16', required: true }
-                        }
-
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 5, categoryName: categoryNames[5]},
-                    fieldGroup: [
-                        {key: 'ovrigt', type: 'multi-text', templateOptions: {label: 'DFR_25.1'}}
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 6, categoryName: categoryNames[6]},
-                    fieldGroup: [
+                            templateOptions: {label: 'FRG_15', required: true }
+                        }]),
+                    fraga(16, [ {
+                        key: 'funktionsnedsattningPaverkan',
+                        type: 'multi-text',
+                        templateOptions: {label: 'FRG_16', required: true }
+                    }])
+                ]),
+                kategori(5, categoryNames[5], [
+                    fraga(25, [
+                        {key: 'ovrigt', type: 'multi-text', templateOptions: {label: 'FRG_25'}}
+                    ])
+                ]),
+                kategori(6, categoryNames[6], [
+                    fraga(25, [
                         {
                             key: 'kontaktMedFk',
                             type: 'checkbox-inline',
@@ -124,8 +112,8 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                             hideExpression: '!model.kontaktMedFk',
                             templateOptions: {label: 'DFR_26.2'}
                         }
-                    ]
-                },
+                    ])
+                ]),
                 FactoryTemplates.vardenhet
             ];
 

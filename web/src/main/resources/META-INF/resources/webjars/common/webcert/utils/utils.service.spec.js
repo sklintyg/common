@@ -50,4 +50,20 @@ describe('UtilsService', function() {
         expect(utilsService.isValidString('Hello Sunshine!')).toBeTruthy();
     });
 
+    it('should extract number from numerical value', function() {
+        expect(utilsService.extractNumericalFrageId(25)).toBe(25);
+    });
+
+    it('should extract number from all-number string', function() {
+        expect(utilsService.extractNumericalFrageId('9001')).toBe('9001');
+    });
+
+    it('should extract number from "fragerubrik" string', function() {
+        expect(utilsService.extractNumericalFrageId('FRG_23.RBK')).toBe('23');
+    });
+
+    it('should not be able to number from nonnumerical string', function() {
+        expect(utilsService.extractNumericalFrageId('HelloWorld')).toBeUndefined();
+    });
+
 });
