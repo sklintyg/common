@@ -17,20 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.srsProxy', ['$http' , '$q', '$log',
-    function($http, $q, $log) {
+angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
+    function ($http, $q, $log) {
         'use strict';
 
         /*
          * get diagnosis by code
          */
         function _getSRSHelpTextsByCode(diagnosisCode) {
+
+            var restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
+            return $http.get(restPath)
+                .then(function successfullCallback(response) {
+                    return response.data;
+                },
+                function errorCallback(response) {
+                    return response.data;
+                });
+
             var deferred = $q.defer(),
                 restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
 
-            $http.get(restPath).success(function(response) {
+            $http.get(restPath).success(function (response) {
                 deferred.resolve(response);
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 $log.error('error ' + status);
                 deferred.reject(status);
             });
@@ -45,7 +55,7 @@ angular.module('common').factory('common.srsProxy', ['$http' , '$q', '$log',
         // Return public API for the service
         return {
             getSRSHelpTextsByCode: _getSRSHelpTextsByCode,
-            setConsent: _setConsent
+            setConsent: _setConsent,
         };
     }]);
 
