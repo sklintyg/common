@@ -20,8 +20,8 @@
 /**
  * Display SRS help texts
  */
-angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState',
-    function(ObjectHelper, srsService, fmbViewState) {
+angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', 'common.srsService', 'common.srsProxy', 'common.fmbViewState',
+    function(ObjectHelper, srsService, srsProxy, fmbViewState) {
         'use strict';
 
         return {
@@ -45,6 +45,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', '
                 }, true);
 
                 scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
+
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'
         };
