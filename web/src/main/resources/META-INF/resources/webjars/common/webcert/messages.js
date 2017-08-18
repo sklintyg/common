@@ -57,6 +57,7 @@ angular.module('common').constant('common.messages', {
         'common.alert.sekretessmarkering.utkast': 'Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var vänlig hantera dem varsamt.',
         'common.alert.sekretessmarkering.intyg': '<p>Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var  vänlig hantera dem varsamt.</p>På grund av sekretessmarkeringen går det inte att kopiera intyget.',
         'common.alert.sekretessmarkering.error': 'Misslyckades att slå upp patienten i personuppgiftstjänsten. Observera att patienten kan ha skyddade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',
+        'common.alert.sekretessmarkering.print': '<strong>OBS!</strong> Patienten har en sekretessmarkering. Hantera intyget varsamt.',
         'common.alert.textversionupdated': 'Observera att frågetexterna har uppdaterats',
         'common.warning.patientdataupdate.failed': '<b>Observera!</b> Misslyckades att slå upp patienten i personuppgiftstjänsten',
 
@@ -92,6 +93,8 @@ angular.module('common').constant('common.messages', {
         'common.modal.label.signing.mobilt.noclient': 'Mobilt BankID-servern får ej kontakt med din enhet. Kontrollera att du har startat Mobilt BankID på din enhet.',
         'common.modal.label.signing.bankid.noclient': 'BankID-servern får ej kontakt med ditt BankID säkerhetsprogram. Kontrollera att du har startat BankID säkerhetsprogram på din dator.',
 
+        'common.modal.label.print.sekretessmarkerad.title': 'Skriv ut intyg',
+        'common.modal.label.print.sekretessmarkerad.yes':  'Skriv ut',
         'common.modal.label.employee.title': 'Skriv ut minimalt intyg',
         'common.modal.label.employee.yes': 'Skriv ut minimalt intyg',
         'common.modal.label.employee.body': 'Ett minimalt intyg innehåller endast de uppgifter som enligt sjuklönelagen är obligatoriska att delge arbetsgivaren. Observera att det minimala intyget kan ge arbetsgivaren sämre förutsättningar att stödja patientens rehabilitering och göra nödvändiga arbetsanpassningar.<br><br>Sveriges kommuner och landsting rekommenderar att patienten skickar in ett fullständigt läkarintyg till arbetsgivaren, alternativt skapar ett anpassat intyg på <LINK:minaintyg>',

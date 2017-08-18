@@ -100,7 +100,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.send = function() {
-                var onPatientFound = function() {
+                var onPatientFound = function(patient) {
                     IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
                         intygType+'.label.send', intygType+'.label.send.body', function() {
                             // After a send request we shouldn't reload right away due to async reasons.
@@ -174,13 +174,13 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.print = function(intyg, isEmployeeCopy) {
 
-                var onPatientFound = function() {
+                var onPatientFound = function(patient) {
                     if (isEmployeeCopy) {
                         DialogService.showDialog({
                             dialogId: 'print-employee-copy',
                             titleId: 'common.modal.label.employee.title',
                             templateUrl: '/app/partials/employee-print-dialog.html',
-                            model: {},
+                            model: {patient: patient},
                             button1click: function (modalInstance) {
                                 window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
                                 modalInstance.close();
@@ -193,7 +193,27 @@ angular.module('common').controller('common.IntygHeader',
                             bodyText: 'common.modal.label.employee.body',
                             autoClose: false
                         });
+                    } else if (patient.sekretessmarkering) {
+                        // Visa infodialog för vanlig utskrift där patienten är sekretessmarkerad.
+                        DialogService.showDialog({
+                            dialogId: 'print-patient-sekretessmarkerad',
+                            titleId: 'common.modal.label.print.sekretessmarkerad.title',
+                            templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
+                            model: {patient: patient},
+                            button1click: function (modalInstance) {
+                                window.open($scope.pdfUrl, '_blank');
+                                modalInstance.close();
+                            },
+                            button2click: function(modalInstance){
+                                modalInstance.close();
+                            },
+                            button1text: 'common.modal.label.print.sekretessmarkerad.yes',
+                            button2text: 'common.cancel',
+                            bodyText: 'common.alert.sekretessmarkering.print',
+                            autoClose: false
+                        });
                     } else {
+                        // Om patienten ej är sekretessmarkerad, skriv ut direkt.
                         window.open($scope.pdfUrl, '_blank');
                     }
                 };
