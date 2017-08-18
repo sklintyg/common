@@ -72,7 +72,7 @@ angular.module('luse').factory('luse.viewConfigFactory', [
                     components: [ {
                         type: 'uv-table',
                         contentUrl: 'utlatande',
-                        headers: ['', '', 'DFR_4.3.RBK'], // labels for th cells
+                        headers: ['FRG_4.RBK', 'Datum', 'DFR_4.3.RBK'], // labels for th cells
                         valueProps: ['KV_FKMU_0005.{typ}.RBK', 'datum', 'hamtasFran'], // {typ} refers to underlag.typ values
                         modelProp: 'underlag'
                     } ]
