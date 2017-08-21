@@ -77,20 +77,6 @@ angular.module('common').service('common.ArendeListViewStateService',
 
             this.setKompletteringar = function(kompletteringar) {
                 this.common.kompletteringar = kompletteringar;
-
-                angular.forEach(kompletteringar, function(komp) {
-                    angular.forEach(komp, function(kmplt) {
-                        if (kmplt.amne === 'KOMPLT') {
-                            var key = kmplt.jsonPropertyHandle;
-
-                            IntygViewStateService.setFieldStatus(key, kmplt.status);
-
-                            angular.forEach(IntygViewStateService.categoryFieldMap, function(value, categoryKey) {
-                                IntygViewStateService.updateCategoryField(categoryKey, key, kmplt.status);
-                            });
-                        }
-                    });
-                });
             };
 
             this.updateKompletteringar = function(kompletteringar) {
