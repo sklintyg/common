@@ -112,6 +112,7 @@ angular.module('common').constant('common.messages', {
         'common.label.kontakt-info': 'Namn och kontaktuppgifter till vårdenheten',
 
         // intyg status messages
+        'intyg.status.has.komplettering': 'Försäkringskassan har begärt kompletteringar på intyget.',
         'intyg.status.draft_incomplete': 'Utkast, uppgifter saknas',
         'intyg.status.draft_complete': 'Utkast, kan signeras',
         'intyg.status.signed': 'Signerat',

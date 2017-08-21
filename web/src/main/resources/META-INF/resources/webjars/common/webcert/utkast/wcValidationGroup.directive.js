@@ -30,7 +30,6 @@ angular.module('common').directive('wcValidationGroup',
                 scope: {
                     validations: '=',
                     warnings: '=',
-                    kompletteringar: '=',
                     fieldType: '@',
                     labelColSize: '@'
                 }

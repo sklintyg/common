@@ -79,6 +79,7 @@
   // injector
   @import '../app-shared/unified-view/components/_variables.scss';
   @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvBooleanStatement/uvBooleanStatement.directive.scss';
   @import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
   @import '../app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.scss';
   @import '../app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.scss';
@@ -106,13 +107,16 @@
   @import 'gui/formly/prognos.scss';
   @import 'gui/formly/sjukskrivningar.scss';
   @import 'gui/formly/underlag.scss';
+  @import 'gui/formly/wrapper/wcFraga.scss';
+  @import 'gui/wcFragaKomplettering.directive.scss';
   @import 'gui/wcHelpChevron.directive.scss';
   @import 'gui/wcHelpChevronText.directive.scss';
   @import 'gui/wcIntegrationEnhetSelector/_wcIntegrationEnhetSelector.directive.scss';
   @import 'gui/wcIntygRelatedOtherIntygMessage.directive.scss';
   @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
   @import 'intyg/unified-view/uvSignedBy/uvSignedBy.scss';
-  @import 'intyg/unified-view/uvWcKategori/uvWcKategori.directive.scss';
+  @import 'intyg/unified-view/uvWcFraga/uvWcFraga.directive.scss';
+  @import 'intyg/unified-view/wcInlineKomplettering.directive.scss';
   // endinjector
 
   %font-common {

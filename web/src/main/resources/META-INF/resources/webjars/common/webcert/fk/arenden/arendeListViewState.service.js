@@ -68,13 +68,6 @@ angular.module('common').service('common.ArendeListViewStateService',
                 return result;
             };
 
-            this.hasKompletteringar = function(key) {
-                if (key && this.common.kompletteringar[key]) {
-                    return this.common.kompletteringar[key].length > 0;
-                }
-                return false;
-            };
-
             this.getKompletteringar = function(key) {
                  if (this.common.kompletteringar[key]) {
                     return this.common.kompletteringar[key];
@@ -84,20 +77,6 @@ angular.module('common').service('common.ArendeListViewStateService',
 
             this.setKompletteringar = function(kompletteringar) {
                 this.common.kompletteringar = kompletteringar;
-
-                angular.forEach(kompletteringar, function(komp) {
-                    angular.forEach(komp, function(kmplt) {
-                        if (kmplt.amne === 'KOMPLT') {
-                            var key = kmplt.jsonPropertyHandle;
-
-                            IntygViewStateService.setFieldStatus(key, kmplt.status);
-
-                            angular.forEach(IntygViewStateService.categoryFieldMap, function(value, categoryKey) {
-                                IntygViewStateService.updateCategoryField(categoryKey, key, kmplt.status);
-                            });
-                        }
-                    });
-                });
             };
 
             this.updateKompletteringar = function(kompletteringar) {
@@ -147,7 +126,47 @@ angular.module('common').service('common.ArendeListViewStateService',
                 }
             };
 
-            this.reset();
+            //Get matching kompletteringar for single arendeModel
+            function addMatchingFrageKomplettering(result, frageId, arendeModel) {
+                if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
+                    angular.forEach(arendeModel.kompletteringar, function(komplettering) {
+                        if (parseInt(komplettering.id, 10) === parseInt(frageId, 10)) {
+                            result.push(komplettering);
+                        }
+                    });
+                }
+            }
+
+            //Return array with all unhandled kompletteringar for the given frageId
+            this.getKompletteringarForFraga = function(frageId) {
+                var result = [];
+
+                angular.forEach(this.arendeList, function(arendeModel) {
+                        addMatchingFrageKomplettering(result, frageId, arendeModel);
+
+                        //As multiple kompletteringar are aggregated as extraKompletteringarArenden on the first kompletterings-arende,
+                        //so we check them too
+                        angular.forEach(arendeModel.extraKompletteringarArenden, function(aggregatedModel) {
+                            addMatchingFrageKomplettering(result, frageId, aggregatedModel);
+                        });
+
+                });
+
+                return result;
+            };
+
+            this.getUnhandledKompletteringCount = function() {
+                var count = 0;
+                angular.forEach(this.arendeList, function(arendeModel) {
+                    if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
+                        count++;
+                    }
+                });
+                return count;
+
+            };
+
+           this.reset();
         }
     ]
 );

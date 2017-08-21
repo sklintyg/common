@@ -1,0 +1,11 @@
+<div>
+  <a id="anchor-{{to.categoryName}}" name="anchor.{{to.categoryName}}"></a>
+  <div wc-field
+       field-dynamic-label="KAT_{{to.category}}.RBK"
+       field-help-text="KAT_{{to.category}}.HLP"
+       field-has-errors="formState.viewState.common.validation.messagesGrouped[to.categoryName]"
+       field-required="{{to.required}}"
+       class="field-fade">
+    <formly-transclude></formly-transclude>
+  </div>
+</div>

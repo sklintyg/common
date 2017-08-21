@@ -41,7 +41,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande.Builder;
@@ -84,7 +84,7 @@ public class LuaefsModelCompareUtilTest {
         LuaefsUtlatande utlatandeOld = getUtlatandeFromFile("utlatande");
         Builder builder = utlatandeOld.toBuilder();
         LuaefsUtlatande utlatandeNew = builder.setDiagnoser(Arrays.asList(Diagnos.create("", "KSH_97_P", "", ""))).build();
-        
+
         assertTrue(modelCompareUtil.isValidForNotification(utlatandeNew));
     }
 
@@ -108,7 +108,7 @@ public class LuaefsModelCompareUtilTest {
 
     @Test
     public void testModelIsInvalidWithInvalidDate() throws Exception {
-        LuaefsUtlatande utlatandeOld = getUtlatandeFromFile("utlatande"); 
+        LuaefsUtlatande utlatandeOld = getUtlatandeFromFile("utlatande");
         Builder builder = utlatandeOld .toBuilder();
         LuaefsUtlatande utlatandeNew = builder.setUndersokningAvPatienten(new InternalDate("2016-1")).build();
 

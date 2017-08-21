@@ -88,38 +88,16 @@ angular.module('luse').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.luseold', {
-            data: { defaultActive : 'index', intygType: 'luse' },
-            url:'/intyg/luse_old/:certificateId',
-            views: {
-                'intyg@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
-                    resolve: {
-                        ViewState: 'luse.IntygController.ViewStateService',
-                        FormFactory: 'luse.FormFactory'
-                    }
-                },
-                'fragasvar@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
-                'header@webcert.intyg.fk.luse' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        }).
         state('webcert.fragasvar.luse', {
             data: { defaultActive : 'unhandled-qa', intygType: 'luse' },
             url: '/fragasvar/luse/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luse.IntygController.ViewStateService',
-                        FormFactory: 'luse.FormFactory'
+                        ViewConfigFactory: 'luse.viewConfigFactory'
                     }
                 },
                 'fragasvar@webcert.fragasvar' : {

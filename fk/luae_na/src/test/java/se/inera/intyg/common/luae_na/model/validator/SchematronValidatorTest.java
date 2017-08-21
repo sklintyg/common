@@ -30,8 +30,8 @@ import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
 
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
-import se.inera.intyg.common.fkparent.model.validator.XmlValidator;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
 

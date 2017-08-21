@@ -1,11 +1,15 @@
-uv-fraga {
-  h3 {
-    padding-top: 20px;
-    padding-bottom: 0;
+uv-kategori {
+  h2 {
+    padding: 15px 0 10px 0;
   }
-
-  margin-bottom: 15px;
+  .kategori-body {
+    background: $uv-intyg-body-bg;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 4px;
+  }
 }
+
 
 uv-del-fraga h4 {
   color: #000;

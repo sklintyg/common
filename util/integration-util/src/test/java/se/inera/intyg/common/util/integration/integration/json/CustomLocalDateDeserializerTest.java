@@ -35,6 +35,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import se.inera.intyg.common.util.integration.json.CustomLocalDateDeserializer;
 
 public final class CustomLocalDateDeserializerTest {
 

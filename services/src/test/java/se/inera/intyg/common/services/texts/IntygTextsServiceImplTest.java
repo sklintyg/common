@@ -33,7 +33,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IntygTextsServiceImplTest {

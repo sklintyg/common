@@ -74,26 +74,28 @@ describe('uvBooelanValue Directive', function() {
         expect($(element).find('h4').length).toBe(0);
     });
 
-    it('should display "Ja" when value is true', function() {
+    it('should display "Ja" when value is strictly true', function() {
         $scope.$digest();
-        expect(element.isolateScope().getValue()).toEqual('Ja');
+        expect(element.isolateScope().value).toEqual(true);
+        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(true);
         expect($(element).find('span').text()).toContain('Ja');
     });
 
-    it('should display "Nej" when value is false', function() {
+    it('should display "Nej" when value is strictly false', function() {
         $scope.viewDataMock.property1.isRelevant = false;
 
         $scope.$digest();
-        expect(element.isolateScope().getValue()).toEqual('Nej');
+        expect(element.isolateScope().value).toEqual(false);
+        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(true);
         expect($(element).find('span').text()).toContain('Nej');
     });
 
-    it('should by default display "Nej" when value is undefined', function() {
+    it('should by default display Ej angivet when value is not explictly true or false', function() {
         $scope.viewDataMock.property1 = undefined;
 
         $scope.$digest();
-        expect(element.isolateScope().getValue()).toEqual('Nej');
-        expect($(element).find('span').text()).toContain('Nej');
+        expect(element.isolateScope().value).toEqual(undefined);
+        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(false);
     });
 
 });

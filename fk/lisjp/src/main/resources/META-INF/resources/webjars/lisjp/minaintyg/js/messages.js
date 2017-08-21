@@ -20,6 +20,7 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.customize.step.3.pageingress.right': '',
         'lisjp.customize.step.3.info.fk': 'Intyget <u>skall inte skickas</u> till Försäkringskassan!',
         'lisjp.customize.step.3.download': 'Ladda ner som PDF',
+        'lisjp.customize.step.3.download.tooltip': 'Intyget sparas som PDF på din enhet.',
         'lisjp.customize.change': 'Ändra dina val',
 
 

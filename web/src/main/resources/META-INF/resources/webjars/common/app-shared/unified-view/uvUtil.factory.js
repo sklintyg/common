@@ -53,7 +53,7 @@ angular.module('common').factory('uvUtil', [
 
             if (!skipPatient) {
                 viewConfig.unshift({
-                    type: 'uv-wc-kategori',
+                    type: 'uv-kategori',
                     labelKey: 'common.intyg.patientadress',
                     components: [{
                         type: 'uv-patient-grund',
@@ -67,17 +67,13 @@ angular.module('common').factory('uvUtil', [
                 modelProp: 'grundData'
             });
 
-            viewConfig = _replaceType(viewConfig, 'uv-kategori', 'uv-wc-kategori');
+            viewConfig = _replaceType(viewConfig, 'uv-fraga', 'uv-wc-fraga');
 
-            var propertiesToUpdate = {contentUrl: 'wc'};
-            viewConfig = _updateProperties(viewConfig, 'uv-del-fraga', propertiesToUpdate);
-
-            propertiesToUpdate = {contentUrl: null};
+            var propertiesToUpdate = {contentUrl: null};
             viewConfig = _updateProperties(viewConfig, 'uv-table', propertiesToUpdate);
 
             propertiesToUpdate = {
-                categoryType: 'uv-wc-kategori',
-                partQuestionContentUrl: 'wc'
+                questionType: 'uv-wc-fraga'
             };
             viewConfig = _updateProperties(viewConfig, 'uv-tillaggsfragor', propertiesToUpdate);
 

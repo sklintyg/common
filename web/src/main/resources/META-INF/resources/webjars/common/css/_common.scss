@@ -197,6 +197,10 @@ a {
     border-radius: 4px 4px 4px 4px;
 }
 
+.legacy-intyg .intyg-block__content {
+    padding: 12px 14px 12px 14px;
+}
+
 .intyg-block {
     margin: 0 0px 0px 0;
     padding-bottom: 20px;
@@ -277,7 +281,6 @@ a {
     }
     &__content {
         display: block;
-        padding: 12px 14px 12px 14px;
         background-color: $mercury;
         -webkit-border-radius: 4px 4px 4px 4px;
         -moz-border-radius: 4px 4px 4px 4px;
@@ -527,7 +530,6 @@ label {
     }
 }
 
-/* Only used in wcField.directive.html and wcIntygCategory.directive.html */
 .edit-form {
     .categorykmplt, .groupkomplettering {
         border: 2px solid $color_blue_chill_approx;
@@ -749,7 +751,7 @@ td .last-validation .validation, .last-validation td .validation {
 
 .intyg-block .formly-field {
     &:not(:nth-last-child(2)) {
-        padding-bottom: 20px;
+        /*padding-bottom: 20px;*/
         &.small-gap {
             padding-bottom: 5px;
         }

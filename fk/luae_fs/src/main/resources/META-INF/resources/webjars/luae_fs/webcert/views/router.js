@@ -88,38 +88,16 @@ angular.module('luae_fs').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.luae_fsold', {
-            data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url:'/intyg/luae_fs_old/:certificateId',
-            views: {
-                'intyg@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
-                    resolve: {
-                        ViewState: 'luae_fs.IntygController.ViewStateService',
-                        FormFactory: 'luae_fs.FormFactory'
-                    }
-                },
-                'fragasvar@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
-                'header@webcert.intyg.fk.luae_fs' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        }).
         state('webcert.fragasvar.luae_fs', {
             data: { defaultActive : 'unhandled-qa', intygType: 'luae_fs'  },
             url: '/fragasvar/luae_fs/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'intyg/smiIntyg.html',
-                    controller: 'smi.ViewCertCtrl',
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luae_fs.IntygController.ViewStateService',
-                        FormFactory: 'luae_fs.FormFactory'
+                        ViewConfigFactory: 'luae_fs.viewConfigFactory'
                     }
                 },
                 'fragasvar@webcert.fragasvar' : {

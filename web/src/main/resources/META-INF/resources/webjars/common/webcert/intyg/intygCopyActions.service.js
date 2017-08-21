@@ -51,7 +51,7 @@ angular.module('common').factory('common.IntygCopyActions',
             function hideFornyaDialogError () {
                 fornyaDialogModel.showerror = null;
             }
-            
+
             function hideErsattDialogError () {
                 ersattDialogModel.showerror = null;
             }
@@ -103,7 +103,7 @@ angular.module('common').factory('common.IntygCopyActions',
             }
 
             function _fornyaMessageKey(intygsTyp) {
-                return intygsTyp + '.modal.fornya.text';
+                return intygsTyp.toLowerCase() + '.modal.fornya.text';
             }
 
             function _fornya(viewState, intygFornyaRequest, isOtherCareUnit) {

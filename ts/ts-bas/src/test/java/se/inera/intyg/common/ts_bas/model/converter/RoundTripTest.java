@@ -37,7 +37,7 @@ import org.w3c.dom.Node;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.*;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.ObjectFactory;

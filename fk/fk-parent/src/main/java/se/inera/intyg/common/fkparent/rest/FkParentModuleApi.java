@@ -25,13 +25,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
-import se.inera.intyg.common.fkparent.model.converter.InternalToRevoke;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
-import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
-import se.inera.intyg.common.fkparent.model.validator.XmlValidator;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -76,6 +76,7 @@ import java.util.List;
 import java.util.Map;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
+import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
 public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleApi {
 
@@ -183,21 +184,14 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
-        T newUtlatande;
-        newUtlatande = getInternal(currentState);
-
-        return modelCompareUtil.isValidForNotification(newUtlatande);
+        return modelCompareUtil.isValidForNotification(getInternal(currentState));
     }
 
     @Override
     public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
         GetCertificateType request = new GetCertificateType();
         request.setIntygsId(getIntygsId(certificateId));
-
-        Part part = new Part();
-        part.setCode(recipientId);
-        part.setCodeSystem("769bb12b-bd9f-4203-a5cd-fd14f2eb3b80");
-        request.setPart(part);
+        request.setPart(getPart(recipientId));
 
         try {
             return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));
@@ -353,6 +347,13 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         intygId.setRoot("SE5565594230-B31");
         intygId.setExtension(certificateId);
         return intygId;
+    }
+
+    private Part getPart(String recipientId) {
+        Part part = new Part();
+        part.setCode(recipientId);
+        part.setCodeSystem(KV_PART_CODE_SYSTEM);
+        return part;
     }
 
     private CertificateResponse convert(GetCertificateResponseType response) throws ModuleException {

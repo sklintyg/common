@@ -38,12 +38,11 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.label.patient': 'Patientens adressuppgifter',
 
         'ts-diabetes.label.syn.binokulart': 'Binokulärt',
-
-        'ts-diabetes.label.syn.hogeroga': '',
-        'ts-diabetes.label.syn.vansteroga': '',
-        'ts-diabetes.label.syn.utankorrektion': '',
-        'ts-diabetes.label.syn.medkorrektion': '',
-        'ts-diabetes.label.syn.kontaktlins': '',
+        'ts-diabetes.label.syn.hogeroga': 'Höger öga',
+        'ts-diabetes.label.syn.vansteroga': 'Vänster öga',
+        'ts-diabetes.label.syn.utankorrektion': 'Utan korrektion',
+        'ts-diabetes.label.syn.medkorrektion': 'Med korrektion',
+        'ts-diabetes.label.syn.kontaktlins': 'Kontaktlinser',
 
         'ts-diabetes.label.diabetes.diabetestyp.diabetes_typ_1': 'Typ 1',
         'ts-diabetes.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',

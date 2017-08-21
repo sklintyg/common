@@ -37,7 +37,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,7 +52,7 @@ import static org.mockito.Mockito.when;
 /**
  * Generate variants of a LUAENA pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
  * of the resulting pdf files, as we don't have any way of programmatically assert the content of the pdf.
- * 
+ *
  * @author marced
  */
 @RunWith(MockitoJUnitRunner.class)

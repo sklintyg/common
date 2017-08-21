@@ -25,13 +25,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
-import se.inera.intyg.common.ts_parent.model.converter.WebcertModelFactory;
 
 /**
  * Factory for creating a editable model.
@@ -48,8 +49,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
      *
      * @param newDraftData
      *            {@link CreateNewDraftHolder}
-     * @param template
-     *            A template to use as a base, or <code>null</code> if an empty internal model should be used.
      *
      * @return {@link TsBasUtlatande}
      *
@@ -71,13 +70,17 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
     }
 
     @Override
-    public TsBasUtlatande createCopy(CreateDraftCopyHolder copyData, TsBasUtlatande template) throws ConverterException {
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), template.getId());
+    public TsBasUtlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
+        if (!TsBasUtlatande.class.isInstance(template)) {
+            throw new ConverterException("Template is not of type TsBasUtlatande");
+        }
+        TsBasUtlatande tsBasUtlatande = (TsBasUtlatande) template;
+        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsBasUtlatande.getId());
 
-        populateWithId(template, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(template.getGrundData(), copyData);
+        populateWithId(tsBasUtlatande, copyData.getCertificateId());
+        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(tsBasUtlatande.getGrundData(), copyData);
 
-        return template;
+        return tsBasUtlatande;
     }
 
     private void populateWithId(TsBasUtlatande utlatande, String utlatandeId) throws ConverterException {

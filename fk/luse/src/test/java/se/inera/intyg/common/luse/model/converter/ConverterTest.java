@@ -41,8 +41,8 @@ import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fkparent.integration.RegisterCertificateValidator;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;

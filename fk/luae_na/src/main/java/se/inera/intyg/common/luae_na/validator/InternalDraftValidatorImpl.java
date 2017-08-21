@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.fkparent.model.validator.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
@@ -165,7 +165,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
             Underlag underlag = utlatande.getUnderlag().get(i);
             // Alla underlagstyper är godkända här utom Underlag från skolhälsovård
             if (underlag.getTyp() == null) {
-                ValidatorUtil.addValidationError(validationMessages, "grundformu." + i + ".underlag", ValidationMessageType.EMPTY,
+                ValidatorUtil.addValidationError(validationMessages, "grundformu.underlag." + i + ".typ", ValidationMessageType.EMPTY,
                         "luae_na.validation.underlag.missing");
             } else if (!underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE.getId())
                     && !underlag.getTyp().getId().equals(Underlag.UnderlagsTyp.UNDERLAG_FRAN_HABILITERINGEN.getId())

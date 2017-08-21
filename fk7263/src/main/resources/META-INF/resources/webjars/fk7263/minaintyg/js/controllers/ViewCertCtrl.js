@@ -30,7 +30,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
 
             $scope.customizeCertificate = function() {
                 customizeViewstate.resetModel();
-                $location.path('/fk7263/customizepdf/' + $stateParams.certificateId);
+                $location.path('/fk7263/customizepdf/' + $stateParams.certificateId + '/step1');
             };
 
             $scope.doneLoading = false;

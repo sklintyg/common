@@ -20,7 +20,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean class="se.inera.intyg.common.fk7263.model.converter.WebcertModelFactory" />
+  <bean class="se.inera.intyg.common.fk7263.model.converter.WebcertModelFactoryImpl" />
 
   <bean class="se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi" />
 

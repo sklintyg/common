@@ -24,7 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
 
-import se.inera.intyg.common.fkparent.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -69,12 +70,17 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaenaUtlata
     }
 
     @Override
-    public LuaenaUtlatande createCopy(CreateDraftCopyHolder copyData, LuaenaUtlatande template) throws ConverterException {
+    public LuaenaUtlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
+         if (!LuaenaUtlatande.class.isInstance(template)) {
+            throw new ConverterException("Template is not of type LuaenaUtlatande");
+        }
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), template.getId());
+        LuaenaUtlatande luaenaUtlatande = (LuaenaUtlatande) template;
 
-        LuaenaUtlatande.Builder templateBuilder = template.toBuilder();
-        GrundData grundData = template.getGrundData();
+        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), luaenaUtlatande.getId());
+
+        LuaenaUtlatande.Builder templateBuilder = luaenaUtlatande.toBuilder();
+        GrundData grundData = luaenaUtlatande.getGrundData();
 
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);

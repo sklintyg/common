@@ -21,6 +21,7 @@ angular.module('common').factory('common.UtkastValidationService',
     ['$log', '$rootScope', 'common.UtkastValidationViewState', 'common.UtkastValidationProxy', 'common.UtkastViewStateService',
         function($log, $rootScope, ValidationViewState, UtkastValidationProxy, CommonViewState) {
             'use strict';
+
             function _validate(utkastModel) {
                 UtkastValidationProxy.validateUtkast(
                     utkastModel.id,

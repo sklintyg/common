@@ -3,37 +3,38 @@ angular.module('lisjp').factory('lisjp.FormFactory',
         'common.DateUtilsService', 'common.ObjectHelper', 'common.UserModel',
         'common.FactoryTemplatesHelper', 'common.DateUtilsService',
         function($log, $timeout,
-            DateUtils, ObjectHelper, UserModel,
-            FactoryTemplates, dateUtils) {
+            DateUtils, ObjectHelper, UserModel, FactoryTemplates) {
             'use strict';
 
             var categoryNames = {
-                1:'grundformu',
-                2:'sysselsattning',
-                3:'diagnos',
-                4:'funktionsnedsattning',
-                5:'medicinskaBehandlingar',
-                6:'bedomning',
-                7:'atgarder',
-                8:'ovrigt',
-                9:'kontakt',
-                10:'smittbararpenning'
+                1: 'grundformu',
+                2: 'sysselsattning',
+                3: 'diagnos',
+                4: 'funktionsnedsattning',
+                5: 'medicinskaBehandlingar',
+                6: 'bedomning',
+                7: 'atgarder',
+                8: 'ovrigt',
+                9: 'kontakt',
+                10: 'smittbararpenning'
             };
+
+            var kategori = FactoryTemplates.kategori;
+            var fraga = FactoryTemplates.fraga;
 
             var formFields = [
                 FactoryTemplates.adress,
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 10, categoryName: categoryNames[10]},
-                    fieldGroup: [
-                        {key: 'avstangningSmittskydd', type: 'checkbox-inline', templateOptions: {label: 'FRG_27', bold: true}}
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 1, categoryName: categoryNames[1]},
-                    hideExpression: 'model.avstangningSmittskydd',
-                    fieldGroup: [
+                kategori(10, categoryNames[10], [
+                    fraga(27, [
+                        {
+                            key: 'avstangningSmittskydd',
+                            type: 'checkbox-inline',
+                            templateOptions: {label: 'FRG_27', bold: true}
+                        }
+                    ])
+                ]),
+                kategori(1, categoryNames[1], [
+                    fraga(1, [
                         {
                             type: 'headline',
                             templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5: false, required: true}
@@ -41,12 +42,12 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         {
                             type: 'headline',
                             className: 'col-md-6 no-space-left',
-                            templateOptions: {label: 'DFR_1.1', hideFromSigned: true}
+                            templateOptions: {label: 'DFR_1.1'}
                         },
                         {
                             type: 'headline',
                             className: 'col-md-6',
-                            templateOptions: {label: 'DFR_1.2', hideFromSigned: true}
+                            templateOptions: {label: 'DFR_1.2'}
                         },
                         {
                             wrapper: 'validationGroup',
@@ -58,28 +59,37 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             fieldGroup: [
                                 {
                                     key: 'undersokningAvPatienten', type: 'date', className: 'small-gap',
-                                    templateOptions: {label: 'KV_FKMU_0001.UNDERSOKNING', hideWhenEmpty: true, maxDate: dateUtils.todayAsYYYYMMDD()}
+                                    templateOptions: {
+                                        label: 'KV_FKMU_0001.UNDERSOKNING',
+                                        maxDate: DateUtils.todayAsYYYYMMDD()
+                                    }
                                 },
                                 {
                                     key: 'telefonkontaktMedPatienten', type: 'date', className: 'small-gap',
-                                    templateOptions: {label: 'KV_FKMU_0001.TELEFONKONTAKT', hideWhenEmpty: true, maxDate: dateUtils.todayAsYYYYMMDD()}
+                                    templateOptions: {
+                                        label: 'KV_FKMU_0001.TELEFONKONTAKT',
+                                        maxDate: DateUtils.todayAsYYYYMMDD()
+                                    }
                                 },
                                 {
                                     key: 'journaluppgifter', type: 'date', className: 'small-gap',
-                                    templateOptions: {label: 'KV_FKMU_0001.JOURNALUPPGIFTER', hideWhenEmpty: true, maxDate: dateUtils.todayAsYYYYMMDD()}
+                                    templateOptions: {
+                                        label: 'KV_FKMU_0001.JOURNALUPPGIFTER',
+                                        maxDate: DateUtils.todayAsYYYYMMDD()
+                                    }
                                 },
                                 {
                                     key: 'annatGrundForMU', type: 'date',
                                     templateOptions: {
                                         label: 'KV_FKMU_0001.ANNAT',
-                                        hideWhenEmpty: true,
-                                        hideKompletteringText: true,
-                                        maxDate: dateUtils.todayAsYYYYMMDD()
+                                        maxDate: DateUtils.todayAsYYYYMMDD()
                                     }
                                 }
                             ]
                         },
-                        FactoryTemplates.annatGrundForMUBeskrivningNoLine,
+                        FactoryTemplates.annatGrundForMUBeskrivningNoLine
+                    ]),
+                    fraga(25, [
                         {
                             key: 'motiveringTillInteBaseratPaUndersokning',
                             type: 'multi-text',
@@ -90,17 +100,13 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 staticLabelId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                                 subTextId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
                                 subTextDynId: 'FRG_25',
-                                hideWhenEmpty: true,
                                 required: true
                             }
                         }
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 2, categoryName: categoryNames[2]},
-                    hideExpression: 'model.avstangningSmittskydd',
-                    fieldGroup: [
+                    ])
+                ], {required: false, hideExpression: 'model.avstangningSmittskydd'}),
+                kategori(2, categoryNames[2], [
+                    fraga(28, [
                         {
                             key: 'sysselsattning', type: 'check-group',
                             templateOptions: {
@@ -113,25 +119,24 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 ],
                                 required: true
                             }
-                        },
+                        }
+                    ]),
+                    fraga(29, [
                         {
                             key: 'nuvarandeArbete', type: 'multi-text',
                             hideExpression: '!model.sysselsattning["NUVARANDE_ARBETE"]',
-                            templateOptions: {label: 'FRG_29', required: true, hideWhenEmpty: true}
+                            templateOptions: {label: 'FRG_29', required: true}
                         }
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 3, categoryName: categoryNames[3]},
-                    fieldGroup: [
+                    ])
+                ], {hideExpression: 'model.avstangningSmittskydd'}),
+                kategori(3, categoryNames[3], [
+                    fraga(6, [
                         {
                             wrapper: 'fmb-wrapper',
                             templateOptions: {
                                 relatedFormId: categoryNames[3],
                                 fieldName: 'DIAGNOS',
-                                panelClass: 'sit-fmb-medium',
-                                hideFromSigned: true
+                                panelClass: 'sit-fmb-medium'
                             },
                             fieldGroup: [
                                 {
@@ -146,38 +151,34 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 }
                             ]
                         }
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 4, categoryName: categoryNames[4]},
-                    hideExpression: 'model.avstangningSmittskydd',
-                    fieldGroup: [
+                    ])
+                ]),
+                kategori(4, categoryNames[4], [
+                    fraga(35, [
                         {
                             wrapper: 'fmb-wrapper',
                             templateOptions: {
                                 relatedFormId: categoryNames[4],
                                 fieldName: 'FUNKTIONSNEDSATTNING',
-                                panelClass: 'sit-fmb-small',
-                                hideFromSigned: true
+                                panelClass: 'sit-fmb-small'
                             },
                             fieldGroup: [
                                 {
                                     key: 'funktionsnedsattning', type: 'multi-text', templateOptions: {
                                     label: 'DFR_35.1',
-                                    required: 'FRG_ONLY',
-                                    forceDividerAfter: true
+                                    required: 'FRG_ONLY'
                                 }
                                 }
                             ]
-                        },
+                        }
+                    ]),
+                    fraga(17, [
                         {
                             wrapper: 'fmb-wrapper',
                             templateOptions: {
                                 relatedFormId: 'aktivitetsbegransning',
                                 fieldName: 'AKTIVITETSBEGRANSNING',
-                                panelClass: 'sit-fmb-large',
-                                hideFromSigned: true
+                                panelClass: 'sit-fmb-large'
                             },
                             fieldGroup: [
                                 {
@@ -188,33 +189,29 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 }
                             ]
                         }
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 5, categoryName: categoryNames[5]},
-                    hideExpression: 'model.avstangningSmittskydd',
-                    fieldGroup: [
-                        {key: 'pagaendeBehandling', type: 'multi-text',
+                    ])
+                ], {hideExpression: 'model.avstangningSmittskydd'}),
+                kategori(5, categoryNames[5], [
+                    fraga(19, [
+                        {
+                            key: 'pagaendeBehandling', type: 'multi-text',
                             templateOptions: {
-                                label: 'DFR_19.1',
-                                forceDividerAfter: true
+                                label: 'DFR_19.1'
                             }
-                        },
+                        }
+                    ]),
+                    fraga(20, [
                         {key: 'planeradBehandling', type: 'multi-text', templateOptions: {label: 'DFR_20.1'}}
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 6, categoryName: categoryNames[6]},
-                    fieldGroup: [
+                    ])
+                ], {hideExpression: 'model.avstangningSmittskydd'}),
+                kategori(6, categoryNames[6], [
+                    fraga(32, [
                         {
                             wrapper: 'fmb-wrapper',
                             templateOptions: {
                                 relatedFormId: categoryNames[6],
                                 fieldName: 'ARBETSFORMAGA',
-                                panelClass: 'sit-fmb-large',
-                                hideFromSigned: true
+                                panelClass: 'sit-fmb-large'
                             },
                             fieldGroup: [
                                 {
@@ -228,60 +225,65 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                             'TRE_FJARDEDEL',
                                             'HELT_NEDSATT'
                                         ],
-                                        required: true,
-                                        forceDividerAfter: true
-                                    }
-                                },{
-                                    key: 'motiveringTillTidigtStartdatumForSjukskrivning',
-                                    type: 'multi-text',
-                                    hideExpression: function($viewValue, $modelValue, scope) {
-                                        var hide = true;
-                                        var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
-                                        if (warnings) {
-                                            angular.forEach(warnings.sjukskrivningar, function(w) {
-                                               if (w.message === 'lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum') {
-                                                   hide = false;
-                                               }
-                                            });
-                                        }
-                                        return hide;
-                                    },
-                                    templateOptions: {
-                                        bold: 'bold',
-                                        forceHeadingTypeLabel: true,
-                                        staticLabelId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
-                                        staticHelpId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',
-                                        subTextId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info',
-                                        subTextDynId: 'FRG_25',
-                                        hideWhenEmpty: true
-                                    }
-                                },{
-                                    key: 'motiveringTillForLangSjukskrivning',
-                                    type: 'multi-text',
-                                    hideExpression: function($viewValue, $modelValue, scope) {
-                                        var hide = true;
-                                        var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
-                                        if (warnings) {
-                                            angular.forEach(warnings.sjukskrivningar, function(w) {
-                                                if (w.message === 'lisjp.validation.bedomning.sjukskrivningar.sentslutdatum') {
-                                                    hide = false;
-                                                }
-                                            });
-                                        }
-                                        return hide;
-                                    },
-                                    templateOptions: {
-                                        bold: 'bold',
-                                        forceHeadingTypeLabel: true,
-                                        staticLabelId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering',
-                                        staticHelpId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering.help',
-                                        subTextId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering.info',
-                                        subTextDynId: 'FRG_25',
-                                        hideWhenEmpty: true
+                                        required: true
                                     }
                                 }
                             ]
+                        }
+                    ]),
+                    fraga(25, [
+                        {
+                            key: 'motiveringTillTidigtStartdatumForSjukskrivning',
+                            type: 'multi-text',
+                            hideExpression: function($viewValue, $modelValue, scope) {
+                                var hide = true;
+                                var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
+                                if (warnings) {
+                                    angular.forEach(warnings.sjukskrivningar, function(w) {
+                                        if (w.message ===
+                                            'lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum') {
+                                            hide = false;
+                                        }
+                                    });
+                                }
+                                return hide;
+                            },
+                            templateOptions: {
+                                bold: 'bold',
+                                forceHeadingTypeLabel: true,
+                                staticLabelId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
+                                staticHelpId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',
+                                subTextId: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info',
+                                subTextDynId: 'FRG_25'
+                            }
                         },
+                        {
+                            key: 'motiveringTillForLangSjukskrivning',
+                            type: 'multi-text',
+                            hideExpression: function($viewValue, $modelValue, scope) {
+                                var hide = true;
+                                var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
+                                if (warnings) {
+                                    angular.forEach(warnings.sjukskrivningar, function(w) {
+                                        if (w.message ===
+                                            'lisjp.validation.bedomning.sjukskrivningar.sentslutdatum') {
+                                            hide = false;
+                                        }
+                                    });
+                                }
+                                return hide;
+                            },
+                            templateOptions: {
+                                bold: 'bold',
+                                forceHeadingTypeLabel: true,
+                                staticLabelId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering',
+                                staticHelpId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering.help',
+                                subTextId: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering.info',
+                                subTextDynId: 'FRG_25'
+                            }
+                        }
+                    ]),
+                    fraga(37, [
                         {
                             key: 'forsakringsmedicinsktBeslutsstod',
                             type: 'multi-text',
@@ -289,7 +291,9 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 label: 'FRG_37'
                             },
                             hideExpression: 'model.avstangningSmittskydd'
-                        },
+                        }
+                    ]),
+                    fraga(33, [
                         {
                             key: 'arbetstidsforlaggning', type: 'boolean',
                             hideExpression: function($viewValue, $modelValue, scope) {
@@ -312,7 +316,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
 
                                 return !nedsatt75under;
                             },
-                            templateOptions: {label: 'FRG_33', hideKompletteringText: true, required: true}
+                            templateOptions: {label: 'FRG_33', required: true}
                         },
                         {
                             key: 'arbetstidsforlaggningMotivering', type: 'multi-text',
@@ -324,18 +328,21 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             },
                             templateOptions: {
                                 label: 'DFR_33.2',
-                                kompletteringKey: 'arbetstidsforlaggning',
-                                required: true,
-                                hideWhenEmpty: true
+                                required: true
                             }
-                        },
-                        {key: 'arbetsresor', type: 'checkbox-inline',
+                        }
+                    ]),
+                    fraga(34, [
+                        {
+                            key: 'arbetsresor', type: 'checkbox-inline',
                             templateOptions: {
                                 label: 'DFR_34.1',
                                 bold: true
                             },
                             hideExpression: 'model.avstangningSmittskydd'
-                        },
+                        }
+                    ]),
+                    fraga(39, [
                         {
                             key: 'prognos', type: 'prognos',
                             hideExpression: 'model.avstangningSmittskydd',
@@ -372,13 +379,10 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 }
                             }
                         }
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 7, categoryName: categoryNames[7]},
-                    hideExpression: 'model.avstangningSmittskydd',
-                    fieldGroup: [
+                    ])
+                ]),
+                kategori(7, categoryNames[7], [
+                    fraga(40, [
                         {
                             key: 'arbetslivsinriktadeAtgarder',
                             type: 'check-group',
@@ -406,25 +410,30 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 expression: 'model.arbetslivsinriktadeAtgarder',
                                 listener: function(field, newValue, oldValue, scope) {
                                     if (oldValue && newValue !== oldValue) {
-                                        if(newValue.EJ_AKTUELLT !== oldValue.EJ_AKTUELLT) {
-                                            if(newValue.EJ_AKTUELLT){
-                                                angular.forEach(scope.model.arbetslivsinriktadeAtgarder, function(atgard, key) {
-                                                    if (key !== 'EJ_AKTUELLT') {
-                                                        scope.model.arbetslivsinriktadeAtgarder[key] = undefined;
-                                                    }
-                                                });
+                                        if (newValue.EJ_AKTUELLT !== oldValue.EJ_AKTUELLT) {
+                                            if (newValue.EJ_AKTUELLT) {
+                                                angular.forEach(scope.model.arbetslivsinriktadeAtgarder,
+                                                    function(atgard, key) {
+                                                        if (key !== 'EJ_AKTUELLT') {
+                                                            scope.model.arbetslivsinriktadeAtgarder[key] = undefined;
+                                                        }
+                                                    });
                                             }
                                         } else {
-                                            angular.forEach(scope.model.arbetslivsinriktadeAtgarder, function(atgard, key) {
-                                                if (key !== 'EJ_AKTUELLT' && atgard) {
-                                                    scope.model.arbetslivsinriktadeAtgarder.EJ_AKTUELLT = undefined;
-                                                }
-                                            });
+                                            angular.forEach(scope.model.arbetslivsinriktadeAtgarder,
+                                                function(atgard, key) {
+                                                    if (key !== 'EJ_AKTUELLT' && atgard) {
+                                                        scope.model.arbetslivsinriktadeAtgarder.EJ_AKTUELLT = undefined;
+                                                    }
+                                                });
                                         }
                                     }
                                 }
                             }]
-                        }, {
+                        }
+                    ]),
+                    fraga(44, [
+                        {
                             key: 'arbetslivsinriktadeAtgarderBeskrivning',
                             type: 'multi-text',
                             hideExpression: function($viewValue, $modelValue, scope) {
@@ -439,33 +448,28 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             },
                             templateOptions: {label: 'FRG_44', required: false}
                         }
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 8, categoryName: categoryNames[8]},
-                    fieldGroup: [
+                    ])
+                ], {hideExpression: 'model.avstangningSmittskydd'}),
+                kategori(8, categoryNames[8], [
+                    fraga(25, [
                         {key: 'ovrigt', type: 'multi-text', templateOptions: {label: 'DFR_25.1'}}
-                    ]
-                },
-                {
-                    wrapper: 'wc-field',
-                    templateOptions: {category: 9, categoryName: categoryNames[9]},
-                    hideExpression: 'model.avstangningSmittskydd',
-                    fieldGroup: [
+                    ])
+                ]),
+                kategori(9, categoryNames[9], [
+                    fraga(26, [
                         {
                             key: 'kontaktMedFk',
                             type: 'checkbox-inline',
-                            templateOptions: {label: 'DFR_26.1', hideKompletteringText: true}
+                            templateOptions: {label: 'DFR_26.1'}
                         },
                         {
                             key: 'anledningTillKontakt',
                             type: 'multi-text',
                             hideExpression: '!model.kontaktMedFk',
-                            templateOptions: {label: 'DFR_26.2', kompletteringKey: 'kontaktMedFk', hideWhenEmpty: true }
+                            templateOptions: {label: 'DFR_26.2'}
                         }
-                    ]
-                },
+                    ])
+                ], {hideExpression: 'model.avstangningSmittskydd'}),
                 FactoryTemplates.vardenhet
             ];
 

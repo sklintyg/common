@@ -10,7 +10,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
             components: [ {
                 type: 'uv-del-fraga',
                 components: [ {
-                    type: 'uv-boolean-value',
+                    type: 'uv-boolean-statement',
                     modelProp: 'avstangningSmittskydd'
                 } ]
             } ]
@@ -170,52 +170,52 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                             'period.tom'
                         ],
                         modelProp: 'sjukskrivningar'
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_37.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'forsakringsmedicinsktBeslutsstod'
-                        } ]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_33.RBK',
-                        components: [
-                            {
-                                type: 'uv-boolean-value',
-                                modelProp: 'arbetstidsforlaggning'
-                            },
-                            {
-                                type: 'uv-del-fraga',
-                                labelKey: 'DFR_33.2.RBK',
-                                components: [ {
-                                    type: 'uv-simple-value',
-                                    modelProp: 'arbetstidsforlaggningMotivering'
-                                }]
-                            }
-                        ]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_34.RBK',
-                        components: [ {
-                            type: 'uv-boolean-value',
-                            modelProp: 'arbetsresor'
-                        } ]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_39.RBK',
-                        components: [ {
-                            type: 'uv-kodverk-value',
-                            modelProp: 'prognos',
-                            kvModelProps: ['prognos.typ', 'prognos.dagarTillArbete'],
-                            kvLabelKeys: ['KV_FKMU_0006.{var}.RBK', 'KV_FKMU_0007.{var}.RBK']
-                        } ]
                     }
                 ]
+            },
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_37.RBK',
+                components: [ {
+                    type: 'uv-simple-value',
+                    modelProp: 'forsakringsmedicinsktBeslutsstod'
+                } ]
+            },
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_33.RBK',
+                components: [
+                    {
+                        type: 'uv-boolean-statement',
+                        modelProp: 'arbetstidsforlaggning'
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'DFR_33.2.RBK',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'arbetstidsforlaggningMotivering'
+                        }]
+                    }
+                ]
+            },
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_34.RBK',
+                components: [ {
+                    type: 'uv-boolean-statement',
+                    modelProp: 'arbetsresor'
+                } ]
+            },
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_39.RBK',
+                components: [ {
+                    type: 'uv-kodverk-value',
+                    modelProp: 'prognos',
+                    kvModelProps: ['prognos.typ', 'prognos.dagarTillArbete'],
+                    kvLabelKeys: ['KV_FKMU_0006.{var}.RBK', 'KV_FKMU_0007.{var}.RBK']
+                } ]
             }
         ]
     }, {
@@ -263,7 +263,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                 labelKey: 'FRG_26.RBK',
                 components: [
                     {
-                        type: 'uv-boolean-value',
+                        type: 'uv-boolean-statement',
                         labelKey: 'DFR_26.1.RBK',
                         modelProp: 'kontaktMedFk'
                     },

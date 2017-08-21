@@ -26,6 +26,18 @@
 angular.module('common').factory('common.UtilsService', function() {
     'use strict';
 
+    function _extractNumericalFrageId(input) {
+        if(angular.isNumber(input)) {
+            return input;
+        }
+
+        if(!angular.isString(input)) {
+            return undefined;
+        }
+        var match = /_?(\d+)\.?/g.exec(input);
+        return match !== null ? match[1] : undefined;
+    }
+
     /**
      * Check if variable is undefined, null, NaN or an empty string = invalid
      * @param data
@@ -72,6 +84,7 @@ angular.module('common').factory('common.UtilsService', function() {
     }
 
     return {
+        extractNumericalFrageId: _extractNumericalFrageId,
         isValidString: _isValidString,
         isDefined: _isDefined,
         replaceAccentedCharacters: _replaceAccentedCharacters,

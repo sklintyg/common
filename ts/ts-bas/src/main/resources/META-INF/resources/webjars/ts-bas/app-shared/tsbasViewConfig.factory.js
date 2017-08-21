@@ -18,8 +18,8 @@
  */
 
 angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
-    '$log', '$filter',
-    function($log, $filter) {
+    '$filter', 'uvUtil',
+    function($filter, uvUtil) {
         'use strict';
 
         var viewConfig = [
@@ -93,12 +93,16 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 type: 'uv-boolean-value',
                                 modelProp: 'syn.progressivOgonsjukdom'
                             }]
-                        }]
-                    },
-                    {
-                        type: 'uv-alert-value',
-                        labelKey: 'FRG_3-5.INF',
-                        alertLevel: 'info'
+                        },
+                            {
+                                type: 'uv-alert-value',
+                                showExpression: function(model) {
+                                    return model.syn.progressivOgonsjukdom || model.syn.nattblindhet ||
+                                        model.syn.synfaltsdefekter;
+                                },
+                                labelKey: 'FRG_3-5.INF',
+                                alertLevel: 'info'
+                            }]
                     },
                     {
                         type: 'uv-fraga',
@@ -166,14 +170,16 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 type: 'uv-boolean-value',
                                 modelProp: 'syn.korrektionsglasensStyrka'
                             }]
+                        },
+                        {
+                            type: 'uv-alert-value',
+                            showExpression: function(model) {
+                                return model.syn.korrektionsglasensStyrka === true;
+                            },
+                            labelKey: 'FRG_9.INF',
+                            alertLevel: 'info'
                         }]
-                    },
-                    {
-                        type: 'uv-alert-value',
-                        labelKey: 'FRG_9.INF',
-                        alertLevel: 'info'
-                    }
-                ]
+                    }]
             },
             {
                 type: 'uv-kategori',
@@ -216,14 +222,14 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 type: 'uv-boolean-value',
                                 modelProp: 'funktionsnedsattning.funktionsnedsattning'
                             }]
-                        }]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_12.2.RBK',
-                        components: [{
-                            type: 'uv-simple-value',
-                            modelProp: 'funktionsnedsattning.beskrivning'
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_12.2.RBK',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'funktionsnedsattning.beskrivning'
+                            }]
                         }]
                     },
                     {
@@ -274,15 +280,15 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 type: 'uv-boolean-value',
                                 modelProp: 'hjartKarl.riskfaktorerStroke'
                             }]
-                        }]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_16.2.RBK',
-                        components: [{
-                            type: 'uv-simple-value',
-                            modelProp: 'hjartKarl.beskrivningRiskfaktorer'
-                        }]
+                        },
+                        {
+                            type: 'uv-del-fraga',
+                            labelKey: 'DFR_16.2.RBK',
+                            components: [{
+                                type: 'uv-simple-value',
+                                modelProp: 'hjartKarl.beskrivningRiskfaktorer'
+                            }]
+                    }]
                     }
                 ]
             },
@@ -328,14 +334,16 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 modelProp: ['diabetes.kost', 'diabetes.tabletter',
                                     'diabetes.insulin']
                             }]
-                        }]
-                    },
-                    {
-                        type: 'uv-alert-value',
-                        labelKey: 'DFR_19.3.INF',
-                        alertLevel: 'info'
-                    }
-                ]
+                        },
+                            {
+                                type: 'uv-alert-value',
+                                showExpression: function(model) {
+                                    return model.diabetes.insulin || model.diabetes.tabletter;
+                                },
+                                labelKey: 'DFR_19.3.INF',
+                                alertLevel: 'info'
+                            }]
+                    }]
             },
             {
                 type: 'uv-kategori',
@@ -469,12 +477,15 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                     type: 'uv-boolean-value',
                                     modelProp: 'narkotikaLakemedel.provtagningBehovs'
                                 }]
+                            },
+                            {
+                                type: 'uv-alert-value',
+                                showExpression: function(model) {
+                                    return model.narkotikaLakemedel.provtagningBehovs;
+                                },
+                                labelKey: 'DFR_25.3.INF',
+                                alertLevel: 'info'
                             }]
-                    },
-                    {
-                        type: 'uv-alert-value',
-                        labelKey: 'DFR_25.3.INF',
-                        alertLevel: 'info'
                     },
                     {
                         type: 'uv-fraga',
@@ -665,8 +676,14 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
             }];
 
         return {
-            getViewConfig: function() {
-                return angular.copy(viewConfig);
+            getViewConfig: function(webcert) {
+                var config = angular.copy(viewConfig);
+
+                if (webcert) {
+                    config = uvUtil.convertToWebcert(config);
+                }
+
+                return config;
             }
         };
     }]);

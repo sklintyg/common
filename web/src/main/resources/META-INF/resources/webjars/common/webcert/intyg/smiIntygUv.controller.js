@@ -23,15 +23,6 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
-            angular.forEach($scope.uvConfig, function(category) {
-                if (category.labelKey) {
-                    var fields = uvUtil.getModelProps(category);
-                    angular.forEach(fields, function(field) {
-                        IntygViewStateService.setCategoryField(category.labelKey, field);
-                    });
-                }
-            });
-
             /**
              * Private
              */
@@ -43,7 +34,12 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                         ViewState.intygModel = result.contents;
                         ViewState.relations = result.relations;
 
-                        DynamicLabelService.updateDynamicLabels(ViewState.common.intygProperties.type, ViewState.intygModel.textVersion);
+                        DynamicLabelService.updateDynamicLabels(ViewState.common.intygProperties.type, ViewState.intygModel.textVersion).then(
+                            function(labels) {
+                                if(angular.isDefined(labels)) {
+                                    DynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, ViewState.intygModel);
+                                }
+                            });
 
                         if(ViewState.intygModel !== undefined && ViewState.intygModel.grundData !== undefined){
                             ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
