@@ -67,7 +67,7 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.validation.hypoglykemier.missing': 'Hypoglykemier saknas',
         'ts-diabetes.validation.hypoglykemier.allvarlig-forekomst-vaken-tid.observationstid.incorrect-date': 'Tidpunkt för allvarlig hypoglykemi under vaken tid måste anges som åååå-mm-dd, och får inte vara tidigare än ett år tillbaka eller senare än dagens datum.',
         'ts-diabetes.validation.diabetes.missing': 'Diabetes saknas',
-        'ts-diabetes.validation.diabetes.observationsperiod.incorrect-format': 'År måste anges enligt formatet ÅÅÅÅ. Det går inte att ange årtal som är senare än innevarande år eller tidigare än år 1900.',
+        'ts-diabetes.validation.diabetes.observationsperiod.incorrect-format': 'År måste anges enligt formatet ÅÅÅÅ. Det går inte att ange årtal som är senare än innevarande år eller tidigare än patienten är född.',
         'ts-diabetes.validation.diabetes.behandling.missing': 'Minst en behandling måste väljas.',
         'ts-diabetes.validation.diabetes.insulin.behandlingsperiod.missing' : 'År då behandling med insulin påbörjades måste anges.',
         'ts-diabetes.validation.diabetes.insulin.behandlingsperiod.incorrect-format' : 'År måste anges enligt formatet ÅÅÅÅ. Det går inte att ange årtal som är senare än innevarande år eller tidigare än år 1900.',
