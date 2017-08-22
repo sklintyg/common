@@ -22,6 +22,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
@@ -44,6 +47,8 @@ import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
  * @author erik
  */
 public class InternalValidatorInstance {
+
+    private static final Logger LOG = LoggerFactory.getLogger(InternalValidatorInstance.class);
 
     private static final StringValidator STRING_VALIDATOR = new StringValidator();
 
@@ -200,6 +205,9 @@ public class InternalValidatorInstance {
                                 "ts-diabetes.validation.diabetes.observationsperiod.incorrect-format");
                     }
                 } catch (InvalidPersonNummerException e) {
+                    LOG.warn(
+                            "Personnummer validation exception. Personnummer should never be invalid here, "
+                            + "if it is we can't compare with birthdate anyway.");
                     // Personnummer should never be invalid here, if it is we can't compare with birthdate anyway
                 }
             }
