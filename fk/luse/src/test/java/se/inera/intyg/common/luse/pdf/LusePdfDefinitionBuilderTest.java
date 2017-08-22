@@ -46,7 +46,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
@@ -55,7 +55,7 @@ import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 /**
  * Generate variants of a LUSE pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
  * of the resulting pdf files, as we don't have any way of programmatically assert the content of the pdf.
- * 
+ *
  * @author marced
  */
 @RunWith(MockitoJUnitRunner.class)

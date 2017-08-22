@@ -18,7 +18,7 @@
  */
 
 angular.module('common').directive('miCertificateActionButtons',
-        [ '$log', '$location', 'common.messageService', 'common.IntygListService', 'common.dialogService', function($log, $location, messageService, listCertService, dialogService) {
+        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService', function($log, $state, messageService, listCertService, dialogService) {
             'use strict';
 
             return {
@@ -58,11 +58,11 @@ angular.module('common').directive('miCertificateActionButtons',
                             if (fromServer !== null) {
                                 $scope.dialog.acceptprogressdone = true;
                                 _dialogInstance.close();
-                                //Goto inkorgen igen
-                                $location.path('#/start');
+                                //Goto inkorgen
+                                $state.go('inkorg');
                             } else {
                                 // show error view
-                                $location.path('/' + $scope.certModel.typ + '/fel/couldnotarchivecert');
+                                $state.go('fel', {errorCode: 'couldnotarchivecert'});
                             }
                         });
                     };

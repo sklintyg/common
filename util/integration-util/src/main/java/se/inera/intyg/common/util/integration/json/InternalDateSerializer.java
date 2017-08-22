@@ -16,30 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.util.integration.integration.json;
+package se.inera.intyg.common.util.integration.json;
 
 import java.io.IOException;
-import java.time.temporal.Temporal;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
 
-/**
- * @author andreaskaltenbach
- */
-public class TemporalSerializer extends StdSerializer<Temporal> {
+public class InternalDateSerializer extends StdSerializer<InternalDate> {
 
     private static final long serialVersionUID = 1L;
 
-    public TemporalSerializer() {
-        super(Temporal.class);
+    public InternalDateSerializer() {
+        super(InternalDate.class);
     }
 
     @Override
-    public void serialize(Temporal partial, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(PartialDateAdapter.printPartialDate(partial));
+    public void serialize(InternalDate date, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        jgen.writeString(InternalDateAdapter.printInternalDate(date));
     }
 }

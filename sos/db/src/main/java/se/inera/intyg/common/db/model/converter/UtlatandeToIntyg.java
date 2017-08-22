@@ -21,7 +21,6 @@ package se.inera.intyg.common.db.model.converter;
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.db.support.DbModuleEntryPoint;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -43,7 +42,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 
@@ -103,10 +101,6 @@ public final class UtlatandeToIntyg {
 
         // Svar 7
         addIfNotNull(svar, POLISANMALAN_SVAR_ID, POLISANMALAN_DELSVAR_ID, utlatande.getPolisanmalan());
-
-        for (Tillaggsfraga tillaggsfraga : utlatande.getTillaggsfragor()) {
-            addIfNotBlank(svar, tillaggsfraga.getId(), tillaggsfraga.getId() + ".1", tillaggsfraga.getSvar());
-        }
 
         return svar;
     }

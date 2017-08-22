@@ -23,15 +23,6 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
-            angular.forEach($scope.uvConfig, function(category) {
-                if (category.labelKey) {
-                    var fields = uvUtil.getModelProps(category);
-                    angular.forEach(fields, function(field) {
-                        IntygViewStateService.setCategoryField(category.labelKey, field);
-                    });
-                }
-            });
-
             /**
              * Private
              */

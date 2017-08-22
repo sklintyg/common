@@ -44,7 +44,7 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.Scenario;
 import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PdfGeneratorTest {

@@ -6,7 +6,7 @@
         <button id="sendCertificateBtn" type="button" class="btn btn-primary"
                 ng-if="onSend" ng-click="onSend({cert:certModel})"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.send.tooltip')}}"
-                popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
+                popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
                 <i class="icon icon-forward"></i> <span message key="modules.actionbar.button.send"></span>
         </button>
 
@@ -15,7 +15,7 @@
         <button id="customizeCertificateBtn" type="button" class="btn btn-primary"
                 ng-if="onCustomizePdf" ng-click="onCustomizePdf({cert:certModel})"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.customizepdf.tooltip')}}"
-                popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
+                popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
                 <i class="icon icon-pencil"></i> <span message key="modules.actionbar.button.customizepdf"></span>
         </button>
 
@@ -24,7 +24,7 @@
         <button id="downloadprint" type="submit" class="btn btn-secondary"
                 ng-if="enablePrint" ng-click="document.pdfForm.submit()"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.print.tooltip')}}"
-                popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
+                popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
                 <i class="icon icon-download-1"></i> <span message key="modules.actionbar.button.print"></span>
         </button>
 
@@ -32,7 +32,7 @@
       <button id="archiveCertificateBtn" type="button" class="btn btn-secondary"
               ng-if="enableArchive" ng-click="onArchiveClicked()"
               uib-popover="{{messageService.getProperty('modules.actionbar.button.archive.tooltip')}}"
-              popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
+              popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
         <i class="icon icon-box"></i> <span message key="modules.actionbar.button.archive"></span>
       </button>
 

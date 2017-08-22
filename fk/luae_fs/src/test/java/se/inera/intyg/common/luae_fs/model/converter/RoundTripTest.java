@@ -40,13 +40,11 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import se.inera.intyg.common.luae_fs.model.converter.InternalToTransport;
-import se.inera.intyg.common.luae_fs.model.converter.TransportToInternal;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.luae_fs.utils.Scenario;
 import se.inera.intyg.common.luae_fs.utils.ScenarioFinder;
 import se.inera.intyg.common.luae_fs.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 

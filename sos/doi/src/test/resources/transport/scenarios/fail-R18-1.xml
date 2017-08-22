@@ -243,11 +243,5 @@
         <svar id="14">
             <delsvar id="14.1">Sverige</delsvar>
         </svar>
-        <svar id="9001">
-            <delsvar id="9001.1">tillaggsfraga1</delsvar>
-        </svar>
-        <svar id="9002">
-            <delsvar id="9002.1">tillaggsfraga2</delsvar>
-        </svar>
     </ns2:intyg>
 </ns2:RegisterCertificate>

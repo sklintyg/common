@@ -24,7 +24,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
-import se.inera.intyg.common.util.integration.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 
 public class ConverterUtilTest {

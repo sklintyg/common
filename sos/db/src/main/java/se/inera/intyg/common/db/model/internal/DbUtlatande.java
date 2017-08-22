@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.db.model.internal;
 
-import autovalue.shaded.com.google.common.common.collect.ImmutableList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
@@ -27,10 +26,8 @@ import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
@@ -45,7 +42,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ID_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_JSON_ID;
 
@@ -54,7 +50,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 public abstract class DbUtlatande implements SosUtlatande {
 
     public static Builder builder() {
-        return new AutoValue_DbUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga>of());
+        return new AutoValue_DbUtlatande.Builder();
     }
 
     @Override
@@ -114,8 +110,6 @@ public abstract class DbUtlatande implements SosUtlatande {
     @Nullable
     public abstract Boolean getPolisanmalan();
 
-    public abstract ImmutableList<Tillaggsfraga> getTillaggsfragor();
-
     /*
      * Retrieve a builder from an existing LuseUtlatande object. The builder can then be used
      * to create a new copy with modified attributes.
@@ -170,13 +164,5 @@ public abstract class DbUtlatande implements SosUtlatande {
 
         @JsonProperty(POLISANMALAN_JSON_ID)
         public abstract Builder setPolisanmalan(Boolean polisanmalan);
-
-        @JsonProperty(TILLAGGSFRAGOR_SVAR_JSON_ID)
-        public Builder setTillaggsfragor(List<Tillaggsfraga> tillaggsfragor) {
-            return setTillaggsfragor(ImmutableList.copyOf(tillaggsfragor));
-        }
-
-        /* package private */
-        abstract Builder setTillaggsfragor(ImmutableList<Tillaggsfraga> tillaggsfragor);
     }
 }

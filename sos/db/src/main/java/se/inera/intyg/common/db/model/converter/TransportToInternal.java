@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.db.model.converter;
 
-import com.google.common.primitives.Ints;
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.db.model.internal.DbUtlatande.Builder;
 import se.inera.intyg.common.db.model.internal.Undersokning;
@@ -32,7 +31,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
@@ -74,7 +72,6 @@ public final class TransportToInternal {
     }
 
     private static void setSvar(Builder utlatande, Intyg intyg) throws ConverterException {
-        List<Tillaggsfraga> tillaggsfragor = new ArrayList<>();
         for (Svar svar : intyg.getSvar()) {
             switch (svar.getId()) {
             case IDENTITET_STYRKT_SVAR_ID:
@@ -99,15 +96,9 @@ public final class TransportToInternal {
                 handlePolisanmalan(utlatande, svar);
                 break;
             default:
-                Integer parsedInt = Ints.tryParse(svar.getId());
-                if (parsedInt != null && parsedInt >= TILLAGGSFRAGA_START) {
-                    handleTillaggsfraga(tillaggsfragor, svar);
-                } else {
-                    throw new IllegalArgumentException();
-                }
+                throw new IllegalArgumentException("Unknown svar id");
             }
         }
-        utlatande.setTillaggsfragor(tillaggsfragor);
     }
 
     private static void handlePolisanmalan(Builder utlatande, Svar svar) {

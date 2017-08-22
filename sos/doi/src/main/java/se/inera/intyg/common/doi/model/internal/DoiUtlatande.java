@@ -18,6 +18,19 @@
  */
 package se.inera.intyg.common.doi.model.internal;
 
+import autovalue.shaded.com.google.common.common.collect.ImmutableList;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
+import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+
+import javax.annotation.Nullable;
+import java.util.List;
+
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
@@ -42,32 +55,14 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_A
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
-
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.auto.value.AutoValue;
-
-import autovalue.shaded.com.google.common.common.collect.ImmutableList;
-import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_DoiUtlatande.Builder.class)
 public abstract class DoiUtlatande implements SosUtlatande {
 
     public static Builder builder() {
-        return new AutoValue_DoiUtlatande.Builder().setTillaggsfragor(ImmutableList.<Tillaggsfraga> of()).setGrunder(
-                ImmutableList.<Dodsorsaksgrund> of()).setBidragandeSjukdomar(ImmutableList.<BidragandeSjukdom> of())
-                .setFoljd(ImmutableList.<Foljd> of());
+        return new AutoValue_DoiUtlatande.Builder().setGrunder(ImmutableList.<Dodsorsaksgrund>of())
+                .setBidragandeSjukdomar(ImmutableList.<BidragandeSjukdom>of()).setFoljd(ImmutableList.<Foljd>of());
     }
 
     @Override
@@ -150,8 +145,6 @@ public abstract class DoiUtlatande implements SosUtlatande {
     public abstract String getForgiftningUppkommelse();
 
     public abstract ImmutableList<Dodsorsaksgrund> getGrunder();
-
-    public abstract ImmutableList<Tillaggsfraga> getTillaggsfragor();
 
     /*
      * Retrieve a builder from an existing DoiUtlatande object. The builder can then be used
@@ -246,13 +239,5 @@ public abstract class DoiUtlatande implements SosUtlatande {
         }
 
         abstract Builder setGrunder(ImmutableList<Dodsorsaksgrund> grunder);
-
-        @JsonProperty(TILLAGGSFRAGOR_SVAR_JSON_ID)
-        public Builder setTillaggsfragor(List<Tillaggsfraga> tillaggsfragor) {
-            return setTillaggsfragor(ImmutableList.copyOf(tillaggsfragor));
-        }
-
-        /* package private */
-        abstract Builder setTillaggsfragor(ImmutableList<Tillaggsfraga> tillaggsfragor);
     }
 }

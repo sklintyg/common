@@ -78,7 +78,5 @@ public class TransportToInternalTest {
         assertEquals(Dodsorsaksgrund.KLINISK_OBDUKTION, res.getGrunder().get(0));
         assertEquals(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN, res.getGrunder().get(1));
         assertEquals("Sverige", res.getLand());
-        assertEquals(Tillaggsfraga.create("9001", "tillaggsfraga1"), res.getTillaggsfragor().get(0));
-        assertEquals(Tillaggsfraga.create("9002", "tillaggsfraga2"), res.getTillaggsfragor().get(1));
     }
 }
