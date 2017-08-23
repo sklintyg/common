@@ -1,3 +1,20 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath 'com.moowork.gradle:gradle-node-plugin:1.1.1'
+    }
+}
+
+plugins {
+    id "se.inera.intyg.plugin.common" version "1.0.45" apply false
+    id "net.ltgt.apt" version "0.11" apply false
+}
+
 ext {
     intygClinicalprocessSchematronVersion = "1.0.17"
     intygCertificateSchemasVersion = "1.0.6"
@@ -25,20 +42,6 @@ ext {
     xmlUnitVersion = "1.4"
 }
 
-buildscript {
-    repositories {
-        mavenLocal()
-        maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-
-    dependencies {
-        classpath 'se.inera.intyg:gradle-intyg-plugin:1.0.+'
-        classpath 'com.moowork.gradle:gradle-node-plugin:1.1.1'
-        classpath 'net.ltgt.gradle:gradle-apt-plugin:0.10'
-    }
-}
-
 allprojects {
     repositories {
         mavenLocal()
@@ -46,7 +49,7 @@ allprojects {
         maven { url "http://repo.maven.apache.org/maven2" }
     }
 
-    apply plugin: 'inera-intyg'
+    apply plugin: 'se.inera.intyg.plugin.common'
     apply plugin: 'maven'
     apply plugin: 'idea'
     apply plugin: 'net.ltgt.apt'
