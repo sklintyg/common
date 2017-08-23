@@ -72,6 +72,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.label.patientworkcapacityjudgement': 'Patientens arbetsförmåga bedöms nedsatt längre tid än den som det försäkringsmedicinska beslutsstödet anger, därför att: (fält 9)',
         'fk7263.label.prognosis': 'Prognos - kommer patienten att få tillbaka sin arbetsförmåga i nuvarande arbete? (Gäller inte arbetslösa) (fält 10)',
         'fk7263.label.unjudgeable': 'Går inte att bedöma',
+        'fk7263.label.clarifying': 'Förtydligande',
         'fk7263.label.partialyes': 'Ja, delvis',
         'fk7263.label.othertransport': 'Kan resor till och från arbetet med annat färdsätt än normalt göra det möjligt för patienten att återgå i arbete? (fält 11)',
         'fk7263.label.fkcontact': 'Kontakt önskas med Försäkringskassan (fält 12)',
@@ -135,6 +136,9 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.nedsattningsgrad.nedsatt_med_3_4': 'Nedsatt med 3/4',
         'fk7263.nedsattningsgrad.nedsatt_med_1_2': 'Nedsatt med hälften',
         'fk7263.nedsattningsgrad.nedsatt_med_1_4': 'Nedsatt med 1/4',
+        'fk7263.nedsattningsgrad.nedsatt_med_3_4.arbetstidsforlaggning': 'Arbetstidsförläggning för nedsatt med 3/4',
+        'fk7263.nedsattningsgrad.nedsatt_med_1_2.arbetstidsforlaggning': 'Arbetstidsförläggning för nedsatt med hälften',
+        'fk7263.nedsattningsgrad.nedsatt_med_1_4.arbetstidsforlaggning': 'Arbetstidsförläggning för nedsatt med 1/4',
 
         'fk7263.fornya.tooltip': 'Om du vill förlänga en sjukskrivning kan du förnya intyget. Viss information från det befintliga intyget följer med till det nya utkastet.',
         'fk7263.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.<br><br>' +

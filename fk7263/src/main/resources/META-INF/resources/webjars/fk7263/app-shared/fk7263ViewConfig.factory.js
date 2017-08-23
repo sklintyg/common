@@ -111,6 +111,14 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
                             type: 'uv-simple-value',
                             modelProp: 'annanReferens'
                         } ]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        hideExpression: '!annanReferensBeskrivning',
+                        components: [{
+                            type: 'uv-simple-value',
+                            modelProp: 'annanReferensBeskrivning'
+                        }]
                     }
                 ]
             } ]
@@ -249,6 +257,33 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
                                 label: 'fk7263.nedsattningsgrad.helt_nedsatt',
                                 key: 'nedsattMed100'
                             }]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.nedsattningsgrad.nedsatt_med_1_4.arbetstidsforlaggning',
+                        hideExpression: '!nedsattMed25Beskrivning',
+                        components: [{
+                            type: 'uv-simple-value',
+                            modelProp: 'nedsattMed25Beskrivning'
+                        }]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.nedsattningsgrad.nedsatt_med_1_2.arbetstidsforlaggning',
+                        hideExpression: '!nedsattMed50Beskrivning',
+                        components: [{
+                            type: 'uv-simple-value',
+                            modelProp: 'nedsattMed50Beskrivning'
+                        }]
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'fk7263.nedsattningsgrad.nedsatt_med_3_4.arbetstidsforlaggning',
+                        hideExpression: '!nedsattMed75Beskrivning',
+                        components: [{
+                            type: 'uv-simple-value',
+                            modelProp: 'nedsattMed75Beskrivning'
+                        }]
                     }
                 ]
             } ]
@@ -279,6 +314,15 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
                         'arbetsformagaPrognosNej':'fk7263.label.no',
                         'arbetsformagaPrognosGarInteAttBedoma':'fk7263.label.unjudgeable'
                     }
+                },
+                {
+                    type: 'uv-del-fraga',
+                    labelKey: 'fk7263.label.clarifying',
+                    hideExpression: '!arbetsformagaPrognosGarInteAttBedomaBeskrivning',
+                    components: [{
+                        type: 'uv-simple-value',
+                        modelProp: 'arbetsformagaPrognosGarInteAttBedomaBeskrivning'
+                    }]
                 }]
             } ]
         },
