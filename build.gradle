@@ -1,18 +1,7 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        maven { url "https://build-inera.nordicmedtest.se/nexus/repository/releases/" }
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-
-    dependencies {
-        classpath 'com.moowork.gradle:gradle-node-plugin:1.1.1'
-    }
-}
-
 plugins {
     id "se.inera.intyg.plugin.common" version "1.0.45" apply false
     id "net.ltgt.apt" version "0.11" apply false
+    id "com.moowork.node" version "1.1.1" apply false
 }
 
 ext {
