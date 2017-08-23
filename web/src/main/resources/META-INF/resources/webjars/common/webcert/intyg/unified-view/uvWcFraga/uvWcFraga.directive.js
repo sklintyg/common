@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('uvWcFraga', [ 'common.ArendeListViewStateService', function(ArendeListViewStateService) {
+angular.module('common').directive('uvWcFraga', [ 'common.ArendeListViewStateService', 'common.UtilsService', function(ArendeListViewStateService, UtilsService) {
     'use strict';
 
     return {
@@ -29,23 +29,15 @@ angular.module('common').directive('uvWcFraga', [ 'common.ArendeListViewStateSer
         templateUrl: '/web/webjars/common/webcert/intyg/unified-view/uvWcFraga/uvWcFraga.directive.html',
         link: function($scope) {
 
-            function extractNumericalFrageId(input) {
-                if(!angular.isString(input)) {
-                    return undefined;
-                }
-                var match = /_(\d+)\./g.exec(input);
-                return match !== null ? match[1] : undefined;
-            }
-
             $scope.hasKompletteringar = function() {
                 // lookup if there's an unhandled komplettering for this frage-id
-               var numericFrageId = extractNumericalFrageId($scope.config.labelKey);
-                if (!numericFrageId) {
+               var numericFrageId = UtilsService.extractNumericalFrageId($scope.config.labelKey);
+               if (!numericFrageId) {
                     return false;
-                }
-
-                var list = ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
-                return list.length > 0;
+               }
+                //expose kompletteringsId to template
+               $scope.kompletteringsId = numericFrageId;
+               return ArendeListViewStateService.getKompletteringarForFraga(numericFrageId).length > 0;
 
             };
         }
