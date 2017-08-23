@@ -187,14 +187,6 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                             type: 'uv-simple-value',
                             modelProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
                         } ]
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'lisjp.label.sjukskrivningar.sentslutdatum.motivering',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'motiveringTillForLangSjukskrivning'
-                        } ]
                     }
                 ]
             },
