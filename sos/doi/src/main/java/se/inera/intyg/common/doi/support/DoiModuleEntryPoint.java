@@ -30,7 +30,7 @@ import java.util.Map;
 public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "doi.sch";
-    public static final String MODULE_ID = "DOI";
+    public static final String MODULE_ID = "doi";
     public static final String MODULE_NAME = "Dödsorsaksintyg";
 
     private static final String DEFAULT_RECIPIENT_ID = "SOS";
