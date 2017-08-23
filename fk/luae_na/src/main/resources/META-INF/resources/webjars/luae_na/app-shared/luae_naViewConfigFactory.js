@@ -45,6 +45,14 @@ angular.module('luae_na').factory('luae_na.viewConfigFactory', [ 'uvUtil',
                             type: 'uv-simple-value',
                             modelProp: 'annatGrundForMUBeskrivning'
                         } ]
+                    }, {
+                        type: 'uv-del-fraga',
+                        labelKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
+                        hideExpression: '!motiveringTillInteBaseratPaUndersokning',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'motiveringTillInteBaseratPaUndersokning'
+                        } ]
                     } ]
                 }, {
                     type: 'uv-fraga',

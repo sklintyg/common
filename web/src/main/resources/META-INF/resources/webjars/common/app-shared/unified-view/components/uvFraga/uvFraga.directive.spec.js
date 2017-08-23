@@ -72,7 +72,7 @@ describe('uvFraga Directive', function() {
     it('should render child components', function() {
         $scope.$digest();
         expect($(element).find('uv-del-fraga').length).toBe(1);
-        expect($(element).find('uv-del-fraga > div > h4').text()).toBe('dynamicLabel-FRG_26.RBK');
+        expect($(element).find('uv-del-fraga > div > div > h4').text()).toBe('dynamicLabel-FRG_26.RBK');
     });
 
 

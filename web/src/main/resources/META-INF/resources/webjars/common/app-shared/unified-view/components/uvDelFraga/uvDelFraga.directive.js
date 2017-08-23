@@ -18,7 +18,7 @@
  */
 
 angular.module('common').directive('uvDelFraga',
-    function() {
+    function(uvUtil) {
         'use strict';
 
         return {
@@ -34,6 +34,11 @@ angular.module('common').directive('uvDelFraga',
                 } else {
                     $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.html';
                 }
+
+                $scope.evalHideExpression = function() {
+                    var result = uvUtil.getValue($scope.viewData, $scope.config.hideExpression);
+                    return result;
+                };
             }
         };
     });
