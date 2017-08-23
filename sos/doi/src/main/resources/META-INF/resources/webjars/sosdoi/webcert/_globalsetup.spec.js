@@ -17,10 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('dummySpec', function() {
+beforeEach(angular.mock.module('doi', function($provide) {
     'use strict';
-
-    it('you shall not pass', function() {
-        expect(true === false).toEqual(false);
-    });
-});
+    $provide.value('networkConfig', {});
+}));
