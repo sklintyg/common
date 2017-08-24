@@ -306,7 +306,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
             var config = angular.copy(viewConfig);
 
             if (webcert) {
-                config = uvUtil.convertToWebcert(config);
+                config = uvUtil.convertToWebcert(config, true);
             }
 
             return config;

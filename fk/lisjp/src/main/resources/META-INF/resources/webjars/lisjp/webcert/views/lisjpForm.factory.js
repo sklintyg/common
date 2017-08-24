@@ -23,7 +23,6 @@ angular.module('lisjp').factory('lisjp.FormFactory',
             var fraga = FactoryTemplates.fraga;
 
             var formFields = [
-                FactoryTemplates.adress,
                 kategori(10, categoryNames[10], [
                     fraga(27, [
                         {
