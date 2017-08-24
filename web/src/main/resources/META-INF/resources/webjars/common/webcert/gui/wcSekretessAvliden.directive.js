@@ -17,15 +17,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcIntygPatientNamnPersonnummer', [ function() {
-    'use strict';
+/**
+ * Renders icon(s) and optionally text for patients having avliden, sekretessmarkering or both.
+ */
+angular.module('common').directive('wcSekretessAvliden',
+    [
+        function() {
+            'use strict';
 
-    return {
-        restrict: 'A',
-        scope: {
-            patientName: '=',
-            personId: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/gui/wcIntygPatientNamnPersonnummer.directive.html'
-    };
-} ]);
+            return {
+                restrict: 'A',
+                transclude: true,
+                scope: {
+                    printlabel: '=',
+                    sekretessmarkering: '=',
+                    avliden: '='
+                },
+                templateUrl: '/web/webjars/common/webcert/gui/wcSekretessAvliden.directive.html',
+                link: function($scope, element, attr) {
+
+                }
+            };
+        }]);

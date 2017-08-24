@@ -36,6 +36,7 @@ $color_suva_gray_approx: #888;
 $color_apple_blossom_approx: #a94442;
 $gray: grey;
 $color_eastern_blue_approx: #24a1af;
+$color_patient_alert_red: #da2455;
 //urls
 $url_0: url(/img/tillbaka.png);
 $url_1: url(/img/tillbaka_hoover.png);
@@ -804,4 +805,8 @@ td .last-validation .validation, .last-validation td .validation {
     textarea#currentWork.form-control {
         max-width: 782px;
     }
+}
+
+.patient-alert {
+    color: $color_patient_alert_red;
 }
