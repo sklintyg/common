@@ -361,7 +361,7 @@ angular.module('luse').factory('luse.viewConfigFactory', [
                 var config = angular.copy(viewConfig);
 
                 if (webcert) {
-                    config = uvUtil.convertToWebcert(config);
+                    config = uvUtil.convertToWebcert(config, true);
                 }
 
                 return config;

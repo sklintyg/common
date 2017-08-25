@@ -40,15 +40,8 @@ angular.module('common').directive('arendePanelFraga',
                 },
                 link:function(scope) {
                     scope.scrollToFraga = function(komplettering) {
-
-                        var target;
-                        //uv-framework link (signerat intyg)
-                        if (angular.element.find('#uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK').length > 0) {
-                            target = 'uv-wc-fraga-label-FRG-' + komplettering.id + '-RBK';
-                        } else {
-                            //must be utkast
-                            target = 'komplettering_' + komplettering.id;
-                        }
+                        //Both uv-wc-fraga (intyg) and wc-fraga-formly wrapper (utkast) sets this anchor id format
+                        var target = 'komplettering_' + komplettering.id;
 
                         var offset = 10;
                         var topMenuElements = angular.element.find('.header-fix-top');

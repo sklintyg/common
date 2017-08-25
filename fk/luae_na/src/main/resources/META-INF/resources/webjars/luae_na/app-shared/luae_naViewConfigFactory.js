@@ -370,7 +370,7 @@ angular.module('luae_na').factory('luae_na.viewConfigFactory', [ 'uvUtil',
                 var config = angular.copy(viewConfig);
 
                 if (webcert) {
-                    config = uvUtil.convertToWebcert(config);
+                    config = uvUtil.convertToWebcert(config, true);
                 }
 
                 return config;

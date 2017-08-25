@@ -58,7 +58,7 @@ public final class UtlatandeToIntyg {
 
     private static TypAvIntyg getTypAvIntyg(DbUtlatande utlatande) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(utlatande.getTyp());
+        typAvIntyg.setCode(utlatande.getTyp().toUpperCase());
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
         typAvIntyg.setDisplayName(DbModuleEntryPoint.MODULE_NAME);
         return typAvIntyg;

@@ -20,7 +20,6 @@ angular.module('luae_na').factory('luae_na.FormFactory',
             var fraga = FactoryTemplates.fraga;
 
             var formFields = [
-                FactoryTemplates.adress,
                 kategori(1, categoryNames[1], [
                     fraga(1, [
                         {

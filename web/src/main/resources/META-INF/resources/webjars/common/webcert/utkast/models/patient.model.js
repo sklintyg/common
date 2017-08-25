@@ -34,6 +34,8 @@ angular.module('common').factory('common.Domain.PatientModel',
             this.postnummer = undefined;
             this.postort = undefined;
             this.samordningsNummer = undefined;
+            this.sekretessmarkering = undefined;
+            this.avliden = undefined;
         }
 
 
@@ -51,6 +53,8 @@ angular.module('common').factory('common.Domain.PatientModel',
             this.postnummer = patient.postnummer;
             this.postort = patient.postort;
             this.samordningsNummer = patient.samordningsNummer;
+            this.sekretessmarkering = patient.sekretessmarkering;
+            this.avliden = patient.avliden;
         };
 
         PatientModel.build = function() {

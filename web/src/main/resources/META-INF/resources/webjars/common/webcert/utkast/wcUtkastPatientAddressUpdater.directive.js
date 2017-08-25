@@ -47,6 +47,8 @@ angular.module('common').directive('wcUtkastPatientAddressUpdater',
                 $scope.patientModel.postadress = patientResult.postadress;
                 $scope.patientModel.postnummer = patientResult.postnummer;
                 $scope.patientModel.postort = patientResult.postort;
+                $scope.patientModel.sekretessmarkering = patientResult.sekretessmarkering;
+                $scope.patientModel.avliden = patientResult.avliden;
                 $scope.form.$setDirty();
                 $timeout(function () {
                   if($scope.viewState){

@@ -168,7 +168,7 @@ angular.module('luae_fs').factory('luae_fs.viewConfigFactory', ['uvUtil', functi
             var config = angular.copy(viewConfig);
 
             if (webcert) {
-                config = uvUtil.convertToWebcert(config);
+                config = uvUtil.convertToWebcert(config, true);
             }
 
             return config;

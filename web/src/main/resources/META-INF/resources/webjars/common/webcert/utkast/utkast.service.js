@@ -136,6 +136,7 @@ angular.module('common').factory('common.UtkastService',
                                 }
 
                                 // Update patient name from PU-service if UserModel Origin is NORMAL
+                                // INTYG-4086: Is this necessary since we're doing the patient name/address handling in the backend now?
                                 if (!UserModel.isDjupintegration() && !UserModel.isUthopp()) {
                                     // Update, then finish loading using promise.
                                     _applyNameChangeFromPuService(viewState.draftModel.content.grundData.patient).then(function() {
