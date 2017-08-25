@@ -13,6 +13,10 @@ angular.module('db').constant('db.messages', {
         'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
         '<ul><li>Information om sjukskrivningsperiod.</li>' +
         '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
-        '<li>Referenser som intyget baseras på.</li></ul>'
+        '<li>Referenser som intyget baseras på.</li></ul>',
+
+        'db.label.status.signed': '<p>Dödsbeviset är signerat och har nu skickats till Skatteverket.</p>'+
+            '<p>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!</p>'+
+            '<p>Du kan nu avsluta intygstjänsten eller direkt skriva ett dödsorsaksintyg för samma person &lt;Knapp&gt;</p>'
     }
 });
