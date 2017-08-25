@@ -15,6 +15,8 @@ angular.module('db').constant('db.messages', {
         '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
         '<li>Referenser som intyget baseras på.</li></ul>',
 
+        'db.info.polisanmalan': 'Skriv även ut dödsbeviset och skicka det till polisen per post/fax.',
+
         'db.label.status.signed': '<p>Dödsbeviset är signerat och har nu skickats till Skatteverket.</p>'+
             '<p>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!</p>'+
             '<p>Du kan nu avsluta intygstjänsten eller direkt skriva ett dödsorsaksintyg för samma person &lt;Knapp&gt;</p>'

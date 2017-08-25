@@ -136,6 +136,10 @@ angular.module('db').factory('db.FormFactory',
                             key: 'polisanmalan',
                             type: 'boolean',
                             templateOptions: {label: 'DFR_7.1', required: true}
+                        }, {
+                            type: 'info',
+                            hideExpression: 'model.polisanmalan !== true',
+                            templateOptions: {label: 'db.info.polisanmalan'}
                         }
                     ])
                 ]),
