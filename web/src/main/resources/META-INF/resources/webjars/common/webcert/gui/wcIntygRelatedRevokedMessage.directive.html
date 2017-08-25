@@ -1,0 +1,13 @@
+<div>
+  <div ng-if="isRevoked()" id="wc-intyg-revoked-intyg-message" class="form-group" >
+    <div id="certificate-is-revoked-message-text" class="alert alert-warning">
+      <p ng-if="showConfirmedMessage()"><span id="certificate-revoked-it-message-text" message key="intyg.status.revoke.confirmed"></span></p>
+      <p ng-if="showRequestedMessage()"><span id="certificate-revoked-on-queue-it-message-text" message key="intyg.status.revoke.requested"></span></p>
+      <p ng-if="showMessage()">
+        <span id="certificate-revoked-replace-other-it-message-text">
+          Det makulerade intyget ersatte ett annat intyg. <a href ng-click="gotoIntyg($event)">Det ersatta intyget</a> kan eventuellt också behöva makuleras.
+        </span>
+      </p>
+    </div>
+  </div>
+</div>

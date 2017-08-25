@@ -58,6 +58,10 @@ angular.module('common').service('common.IntygViewStateService',
                 this.intygProperties.isRevoked = IntygHelper.isRevoked(result.statuses);
                 this.intygProperties.isPatientDeceased = result.deceased;
 
+                if (result.relations && result.relations.parent) {
+                    this.intygProperties.parent = result.relations.parent;
+                }
+
                 if (result.relations && result.relations.latestChildRelations) {
                     this.intygProperties.latestChildRelations = result.relations.latestChildRelations;
                 }

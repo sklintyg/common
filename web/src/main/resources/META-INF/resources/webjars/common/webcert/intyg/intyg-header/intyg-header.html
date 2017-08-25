@@ -138,7 +138,7 @@
                   intygstyp="{{intygstyp}}"
                   id="makuleraBtn"
                   class="btn btn-default pull-right"
-                  ng-if="!makuleratIntyg()"
+                  ng-if="!isRevoked()"
                   ng-click="makulera(viewState.intygModel)"
                   wc-check-vardenhet
                   vardenhet="{{viewState.enhetsId}}"
@@ -168,14 +168,12 @@
         <span ng-if="!viewState.common.intygProperties.isSent && !viewState.common.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
         <span ng-if="!viewState.common.intygProperties.isSent && viewState.common.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
       </div>
+
       <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>
+
       <div wc-patient-info-change-message></div>
 
-      <div ng-if="viewState.common.intygProperties.isRevoked || viewState.common.isIntygOnRevokeQueue" id="certificate-is-revoked-message-text" class="alert alert-warning"
-           style="margin-right: 20px; max-width: 530px;">
-        <span ng-if="viewState.common.isIntygOnRevokeQueue" id="certificate-revoked-it-message-text" message key="intyg.status.revoke.requested"></span>
-        <span ng-if="viewState.common.intygProperties.isRevoked && (!viewState.common.isIntygOnRevokeQueue || viewState.common.isIntygOnRevokeQueue == 'undefined')" id="certificate-revoked-on-queue-it-message-text" message key="intyg.status.revoke.confirmed"></span>
-      </div>
+      <div wc-intyg-related-revoked-message view-state="viewState"></div>
 
     </div>
   </div>

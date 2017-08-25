@@ -143,7 +143,7 @@ describe('IntygHeaderCtrl', function() {
 
                 $scope.intygstyp = 'fk7263';
                 expect($scope.showFornyaButton()).toBeTruthy();
-                
+
                 $scope.intygstyp = 'lisjp';
                 expect($scope.showFornyaButton()).toBeTruthy();
 
@@ -204,20 +204,20 @@ describe('IntygHeaderCtrl', function() {
             it('should be shown if intyg is not already makulerat or on queue to be makulerat', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = true;
                 $scope.viewState.common.intygProperties.isRevoked = false;
-                expect($scope.makuleratIntyg()).toBeTruthy();
+                expect($scope.isRevoked()).toBeTruthy();
 
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = true;
-                expect($scope.makuleratIntyg()).toBeTruthy();
+                expect($scope.isRevoked()).toBeTruthy();
 
                 $scope.viewState.common.isIntygOnRevokeQueue = true;
                 $scope.viewState.common.intygProperties.isRevoked = true;
-                expect($scope.makuleratIntyg()).toBeTruthy();
+                expect($scope.isRevoked()).toBeTruthy();
             });
             it('should not be shown if intyg is already makulerat or on queue to be makulerat', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
-                expect($scope.makuleratIntyg()).toBeFalsy();
+                expect($scope.isRevoked()).toBeFalsy();
             });
         });
     });
