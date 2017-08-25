@@ -24,7 +24,7 @@ angular.module('doi').config(function($stateProvider) {
 
     $stateProvider.
         state('doi-edit', {
-            data: { defaultActive : 'index', intygType: 'doi', useFmb: true },
+            data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
             url : '/doi/edit/:certificateId',
             views : {
                 'content@' : {
@@ -58,11 +58,6 @@ angular.module('doi').config(function($stateProvider) {
                         ViewState: 'doi.EditCertCtrl.ViewStateService',
                         FormFactory: 'doi.FormFactory'
                     }
-                },
-
-                'fragasvar@doi-edit' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
-                    controller: 'common.ArendeListCtrl'
                 }
             }
         }).
@@ -78,33 +73,7 @@ angular.module('doi').config(function($stateProvider) {
                         ViewConfigFactory: 'doi.viewConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
                 'header@webcert.intyg.fk.doi' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        }).
-        state('webcert.fragasvar.doi', {
-            data: { defaultActive : 'unhandled-qa', intygType: 'doi'  },
-            url: '/fragasvar/doi/:certificateId',
-            views: {
-                'intyg@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'doi.IntygController.ViewStateService',
-                        ViewConfigFactory: 'doi.viewConfigFactory'
-                    }
-                },
-                'fragasvar@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
-                'header@webcert.fragasvar.doi' : {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
                     controller: 'common.IntygHeader'
                 }

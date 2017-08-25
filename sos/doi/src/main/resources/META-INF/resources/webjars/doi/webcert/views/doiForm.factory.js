@@ -26,469 +26,204 @@ angular.module('doi').factory('doi.FormFactory',
             'use strict';
 
             var categoryNames = {
-                1: 'grundformu',
-                2: 'sysselsattning',
-                3: 'diagnos',
-                4: 'funktionsnedsattning',
-                5: 'medicinskaBehandlingar',
-                6: 'bedomning',
-                7: 'atgarder',
-                8: 'ovrigt',
-                9: 'kontakt',
-                10: 'smittbararpenning'
+                1: 'personuppgifter',
+                2: 'dodsdatumoOchdodsPlats',
+                3: 'barnSomAvlidit',
+                7: 'utlatandeOrsak',
+                8: 'operation',
+                9: 'forgiftning',
+                10: 'dodsorsakgrund'
             };
 
             var kategori = FactoryTemplates.kategori;
             var fraga = FactoryTemplates.fraga;
 
             var formFields = [
-                FactoryTemplates.adress,
-                kategori(10, categoryNames[10], [
-                    fraga(27, [
-                        {
-                            key: 'avstangningSmittskydd',
-                            type: 'checkbox-inline',
-                            templateOptions: {label: 'FRG_27', bold: true}
-                        }
-                    ])
-                ]),
                 kategori(1, categoryNames[1], [
                     fraga(1, [
                         {
-                            type: 'headline',
-                            templateOptions: {id: 'FRG_1', label: 'FRG_1', level: 4, noH5: false, required: true}
-                        },
-                        {
-                            type: 'headline',
-                            className: 'col-md-6 no-space-left',
-                            templateOptions: {label: 'DFR_1.1'}
-                        },
-                        {
-                            type: 'headline',
-                            className: 'col-md-6',
-                            templateOptions: {label: 'DFR_1.2'}
-                        },
-                        {
-                            wrapper: 'validationGroup',
-                            templateOptions: {
-                                type: 'check-group',
-                                validationGroup: 'baserasPa',
-                                kompletteringGroup: 'baseratPa'
-                            },
-                            fieldGroup: [
-                                {
-                                    key: 'undersokningAvPatienten', type: 'date', className: 'small-gap',
-                                    templateOptions: {
-                                        label: 'KV_FKMU_0001.UNDERSOKNING',
-                                        maxDate: DateUtils.todayAsYYYYMMDD()
-                                    }
-                                },
-                                {
-                                    key: 'telefonkontaktMedPatienten', type: 'date', className: 'small-gap',
-                                    templateOptions: {
-                                        label: 'KV_FKMU_0001.TELEFONKONTAKT',
-                                        maxDate: DateUtils.todayAsYYYYMMDD()
-                                    }
-                                },
-                                {
-                                    key: 'journaluppgifter', type: 'date', className: 'small-gap',
-                                    templateOptions: {
-                                        label: 'KV_FKMU_0001.JOURNALUPPGIFTER',
-                                        maxDate: DateUtils.todayAsYYYYMMDD()
-                                    }
-                                },
-                                {
-                                    key: 'annatGrundForMU', type: 'date',
-                                    templateOptions: {
-                                        label: 'KV_FKMU_0001.ANNAT',
-                                        maxDate: DateUtils.todayAsYYYYMMDD()
-                                    }
-                                }
-                            ]
-                        },
-                        FactoryTemplates.annatGrundForMUBeskrivningNoLine
-                    ]),
-                    fraga(25, [
-                        {
-                            key: 'motiveringTillInteBaseratPaUndersokning',
-                            type: 'multi-text',
-                            hideExpression: 'model.undersokningAvPatienten || !(model.telefonkontaktMedPatienten || model.journaluppgifter || model.annatGrundForMU)',
-                            templateOptions: {
-                                bold: 'bold',
-                                forceHeadingTypeLabel: true,
-                                staticLabelId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
-                                subTextId: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
-                                subTextDynId: 'FRG_25',
-                                required: true
-                            }
-                        }
-                    ])
-                ], {required: false, hideExpression: 'model.avstangningSmittskydd'}),
-                kategori(2, categoryNames[2], [
-                    fraga(28, [
-                        {
-                            key: 'sysselsattning', type: 'check-group',
-                            templateOptions: {
-                                label: 'FRG_28',
-                                code: 'KV_FKMU_0002',
-                                choices: ['NUVARANDE_ARBETE',
-                                    'ARBETSSOKANDE',
-                                    'FORALDRALEDIG',
-                                    'STUDIER'
-                                ],
-                                required: true
-                            }
-                        }
-                    ]),
-                    fraga(29, [
-                        {
-                            key: 'nuvarandeArbete', type: 'multi-text',
-                            hideExpression: '!model.sysselsattning["NUVARANDE_ARBETE"]',
-                            templateOptions: {label: 'FRG_29', required: true}
-                        }
-                    ])
-                ], {hideExpression: 'model.avstangningSmittskydd'}),
-                kategori(3, categoryNames[3], [
-                    fraga(6, [
-                        {
-                            wrapper: 'fmb-wrapper',
-                            templateOptions: {
-                                relatedFormId: categoryNames[3],
-                                fieldName: 'DIAGNOS',
-                                panelClass: 'sit-fmb-medium'
-                            },
-                            fieldGroup: [
-                                {
-                                    type: 'headline',
-                                    templateOptions: {label: 'FRG_6', level: 4, noH5: false, required: true}
-                                },
-                                {
-                                    key: 'diagnoser',
-                                    type: 'diagnos',
-                                    data: {enableFMB: true},
-                                    templateOptions: {diagnosBeskrivningLabel: 'DFR_6.1', diagnosKodLabel: 'DFR_6.2'}
-                                }
-                            ]
+                            key: 'identitetStyrkt',
+                            type: 'single-text-vertical',
+                            templateOptions: {label: 'DFR_1.1', required: true}
                         }
                     ])
                 ]),
-                kategori(4, categoryNames[4], [
-                    fraga(35, [
+                kategori(2, categoryNames[2], [
+                    fraga(2, [
                         {
-                            wrapper: 'fmb-wrapper',
+                            key: 'dodsdatumSakert',
+                            type: 'boolean',
                             templateOptions: {
-                                relatedFormId: categoryNames[4],
-                                fieldName: 'FUNKTIONSNEDSATTNING',
-                                panelClass: 'sit-fmb-small'
-                            },
-                            fieldGroup: [
-                                {
-                                    key: 'funktionsnedsattning', type: 'multi-text', templateOptions: {
-                                    label: 'DFR_35.1',
-                                    required: 'FRG_ONLY'
-                                }
-                                }
-                            ]
-                        }
-                    ]),
-                    fraga(17, [
-                        {
-                            wrapper: 'fmb-wrapper',
-                            templateOptions: {
-                                relatedFormId: 'aktivitetsbegransning',
-                                fieldName: 'AKTIVITETSBEGRANSNING',
-                                panelClass: 'sit-fmb-large'
-                            },
-                            fieldGroup: [
-                                {
-                                    key: 'aktivitetsbegransning', type: 'multi-text', templateOptions: {
-                                    label: 'DFR_17.1',
-                                    required: 'FRG_ONLY'
-                                }
-                                }
-                            ]
-                        }
-                    ])
-                ], {hideExpression: 'model.avstangningSmittskydd'}),
-                kategori(5, categoryNames[5], [
-                    fraga(19, [
-                        {
-                            key: 'pagaendeBehandling', type: 'multi-text',
-                            templateOptions: {
-                                label: 'DFR_19.1'
-                            }
-                        }
-                    ]),
-                    fraga(20, [
-                        {key: 'planeradBehandling', type: 'multi-text', templateOptions: {label: 'DFR_20.1'}}
-                    ])
-                ], {hideExpression: 'model.avstangningSmittskydd'}),
-                kategori(6, categoryNames[6], [
-                    fraga(32, [
-                        {
-                            wrapper: 'fmb-wrapper',
-                            templateOptions: {
-                                relatedFormId: categoryNames[6],
-                                fieldName: 'ARBETSFORMAGA',
-                                panelClass: 'sit-fmb-large'
-                            },
-                            fieldGroup: [
-                                {
-                                    key: 'sjukskrivningar', type: 'sjukskrivningar',
-                                    templateOptions: {
-                                        label: 'DFR_32.1',
-                                        code: 'KV_FKMU_0003',
-                                        fields: [
-                                            'EN_FJARDEDEL',
-                                            'HALFTEN',
-                                            'TRE_FJARDEDEL',
-                                            'HELT_NEDSATT'
-                                        ],
-                                        required: true
-                                    }
-                                }
-                            ]
-                        }
-                    ]),
-                    fraga(25, [
-                        {
-                            key: 'motiveringTillTidigtStartdatumForSjukskrivning',
-                            type: 'multi-text',
-                            hideExpression: function($viewValue, $modelValue, scope) {
-                                var hide = true;
-                                var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
-                                if (warnings) {
-                                    angular.forEach(warnings.sjukskrivningar, function(w) {
-                                        if (w.message ===
-                                            'doi.validation.bedomning.sjukskrivningar.tidigtstartdatum') {
-                                            hide = false;
-                                        }
-                                    });
-                                }
-                                return hide;
-                            },
-                            templateOptions: {
-                                bold: 'bold',
-                                forceHeadingTypeLabel: true,
-                                staticLabelId: 'doi.label.sjukskrivningar.tidigtstartdatum.motivering',
-                                staticHelpId: 'doi.label.sjukskrivningar.tidigtstartdatum.motivering.help',
-                                subTextId: 'doi.label.sjukskrivningar.tidigtstartdatum.motivering.info',
-                                subTextDynId: 'FRG_25'
+                                label: 'FRG_2',
+                                yesLabel: 'DFR_2.1.SVA_1',
+                                noLabel: 'DFR_2.1.SVA_2',
+                                required: true
                             }
                         },
                         {
-                            key: 'motiveringTillForLangSjukskrivning',
-                            type: 'multi-text',
-                            hideExpression: function($viewValue, $modelValue, scope) {
-                                var hide = true;
-                                var warnings = scope.options.formState.viewState.common.validation.warningMessagesByField;
-                                if (warnings) {
-                                    angular.forEach(warnings.sjukskrivningar, function(w) {
-                                        if (w.message ===
-                                            'doi.validation.bedomning.sjukskrivningar.sentslutdatum') {
-                                            hide = false;
-                                        }
-                                    });
-                                }
-                                return hide;
-                            },
-                            templateOptions: {
-                                bold: 'bold',
-                                forceHeadingTypeLabel: true,
-                                staticLabelId: 'doi.label.sjukskrivningar.sentslutdatum.motivering',
-                                staticHelpId: 'doi.label.sjukskrivningar.sentslutdatum.motivering.help',
-                                subTextId: 'doi.label.sjukskrivningar.sentslutdatum.motivering.info',
-                                subTextDynId: 'FRG_25'
-                            }
-                        }
-                    ]),
-                    fraga(37, [
-                        {
-                            key: 'forsakringsmedicinsktBeslutsstod',
-                            type: 'multi-text',
-                            templateOptions: {
-                                label: 'FRG_37'
-                            },
-                            hideExpression: 'model.avstangningSmittskydd'
-                        }
-                    ]),
-                    fraga(33, [
-                        {
-                            key: 'arbetstidsforlaggning', type: 'boolean',
-                            hideExpression: function($viewValue, $modelValue, scope) {
-
-                                if (scope.model.avstangningSmittskydd) {
-                                    return true;
-                                }
-
-                                var sjukskrivningar = scope.model.sjukskrivningar;
-
-                                var nedsatt75under = false;
-                                angular.forEach(sjukskrivningar, function(item, key) {
-                                    if (!nedsatt75under && key !== 'HELT_NEDSATT') {
-                                        if (item.period && DateUtils.isDate(item.period.from) &&
-                                            DateUtils.isDate(item.period.tom)) {
-                                            nedsatt75under = true;
-                                        }
-                                    }
-                                });
-
-                                return !nedsatt75under;
-                            },
-                            templateOptions: {label: 'FRG_33', required: true}
+                            key: 'dodsdatum',
+                            type: 'singleDate',
+                            hideExpression: '!model.dodsdatumSakert',
+                            templateOptions: {label: 'DFR_2.2', required: true}
                         },
                         {
-                            key: 'arbetstidsforlaggningMotivering', type: 'multi-text',
-                            hideExpression: function($viewValue, $modelValue, scope) {
-                                if (scope.model.avstangningSmittskydd) {
-                                    return true;
-                                }
-                                return scope.model.arbetstidsforlaggning !== true;
-                            },
+                            key: 'dodsdatum',
+                            type: 'vagueDate',
+                            hideExpression: 'model.dodsdatumSakert',
+                            templateOptions: {label: 'DFR_2.2', required: true}
+                        },
+                        {
+                            key: 'antraffatDodDatum',
+                            type: 'singleDate',
+                            hideExpression: 'model.dodsdatumSakert',
+                            templateOptions: {label: 'DFR_2.3', required: true}
+                        }
+                    ]),
+                    fraga(3, [
+                        {
+                            key: 'dodsplatsKommun',
+                            type: 'single-text-vertical',
+                            templateOptions: {label: 'DFR_3.1', required: true}
+                        },
+                        {
+                            key: 'dodsplatsBoende',
+                            type: 'radio-group',
                             templateOptions: {
-                                label: 'DFR_33.2',
+                                label: 'DFR_3.2',
+                                code: 'KV_DODSPLATS_BOENDE',
+                                choices: [
+                                    'SJUKHUS',
+                                    'ORDINART_BOENDE',
+                                    'SARSKILT_BOENDE',
+                                    'ANNAN'
+                                ],
                                 required: true
                             }
                         }
-                    ]),
-                    fraga(34, [
+                    ])
+                ]),
+                kategori(3, categoryNames[3], [
+                    fraga(4, [
                         {
-                            key: 'arbetsresor', type: 'checkbox-inline',
-                            templateOptions: {
-                                label: 'DFR_34.1',
-                                bold: true
-                            },
-                            hideExpression: 'model.avstangningSmittskydd'
-                        }
-                    ]),
-                    fraga(39, [
-                        {
-                            key: 'prognos', type: 'prognos',
-                            hideExpression: 'model.avstangningSmittskydd',
-                            templateOptions: {
-                                label: 'FRG_39',
-                                required: true,
-                                code: 'KV_FKMU_0006',
-                                choices: [{id: 'STOR_SANNOLIKHET', showDropDown: false},
-                                    {id: 'ATER_X_ANTAL_DGR', showDropDown: true},
-                                    {id: 'PROGNOS_OKLAR', showDropDown: false},
-                                    {id: 'SANNOLIKT_INTE', showDropDown: false}
-                                ],
-                                prognosDagarTillArbeteCode: 'KV_FKMU_0007',
-                                prognosDagarTillArbeteTyper: ['TRETTIO_DGR',
-                                    'SEXTIO_DGR',
-                                    'NITTIO_DGR',
-                                    'HUNDRAATTIO_DAGAR',
-                                    'TREHUNDRASEXTIOFEM_DAGAR'
-                                ]
-                            },
-                            watcher: {
-                                expression: 'model.prognos.typ',
-                                listener: function _prognosTypListener(field, newValue, oldValue, scope, stopWatching) {
-                                    var model = scope.model;
-                                    if (newValue === 'ATER_X_ANTAL_DGR') {
-                                        model.restoreFromAttic('prognos.dagarTillArbete');
-                                    } else {
-                                        if (oldValue === 'ATER_X_ANTAL_DGR') {
-                                            model.updateToAttic('prognos.dagarTillArbete');
-                                        }
-
-                                        model.clear('prognos.dagarTillArbete');
-                                    }
-                                }
-                            }
+                            key: 'barn',
+                            type: 'boolean',
+                            templateOptions: {label: 'DFR_4.1', required: true}
                         }
                     ])
                 ]),
                 kategori(7, categoryNames[7], [
-                    fraga(40, [
+                    {
+                        type: 'headline',
+                        templateOptions: {id: 'KAT_7.1', label: 'KAT_7.1'}
+                    },
+                    fraga(8, [
                         {
-                            key: 'arbetslivsinriktadeAtgarder',
-                            type: 'check-group',
-                            templateOptions: {
-                                label: 'FRG_40',
-                                required: true,
-                                descLabel: 'DFR_40.2',
-                                code: 'KV_FKMU_0004',
-                                choices: ['EJ_AKTUELLT',
-                                    'ARBETSTRANING',
-                                    'ARBETSANPASSNING',
-                                    'SOKA_NYTT_ARBETE',
-                                    'BESOK_ARBETSPLATS',
-                                    'ERGONOMISK',
-                                    'HJALPMEDEL',
-                                    'KONFLIKTHANTERING',
-                                    'KONTAKT_FHV',
-                                    'OMFORDELNING',
-                                    'OVRIGA_ATGARDER'
-                                ]
-                            },
-                            watcher: [{
-                                type: '$watch',
-                                watchDeep: true,
-                                expression: 'model.arbetslivsinriktadeAtgarder',
-                                listener: function(field, newValue, oldValue, scope) {
-                                    if (oldValue && newValue !== oldValue) {
-                                        if (newValue.EJ_AKTUELLT !== oldValue.EJ_AKTUELLT) {
-                                            if (newValue.EJ_AKTUELLT) {
-                                                angular.forEach(scope.model.arbetslivsinriktadeAtgarder,
-                                                    function(atgard, key) {
-                                                        if (key !== 'EJ_AKTUELLT') {
-                                                            scope.model.arbetslivsinriktadeAtgarder[key] = undefined;
-                                                        }
-                                                    });
-                                            }
-                                        } else {
-                                            angular.forEach(scope.model.arbetslivsinriktadeAtgarder,
-                                                function(atgard, key) {
-                                                    if (key !== 'EJ_AKTUELLT' && atgard) {
-                                                        scope.model.arbetslivsinriktadeAtgarder.EJ_AKTUELLT = undefined;
-                                                    }
-                                                });
-                                        }
-                                    }
-                                }
-                            }]
+                            key: 'dodsorsak', /* todo */
+                            type: 'multi-text',
+                            templateOptions: {label: 'FRG_4', required: true}
                         }
                     ]),
-                    fraga(44, [
+                    fraga(9, [
                         {
-                            key: 'arbetslivsinriktadeAtgarderBeskrivning',
+                            key: 'dodsorsak', /* todo */
                             type: 'multi-text',
-                            hideExpression: function($viewValue, $modelValue, scope) {
-                                var hide = true;
-                                angular.forEach(scope.model.arbetslivsinriktadeAtgarder, function(atgard, key) {
-                                    if (atgard === true && key !== 'EJ_AKTUELLT') {
-                                        hide = false;
-                                        return;
-                                    }
-                                });
-                                return hide;
-                            },
-                            templateOptions: {label: 'FRG_44', required: false}
+                            templateOptions: {label: 'FRG_4', required: true}
+                        }
+                    ]),
+                    {
+                        type: 'headline',
+                        templateOptions: {id: 'KAT_7.2', label: 'KAT_7.2'}
+                    },
+                    fraga(10, [
+                        {
+                            key: 'dodsorsak', /* todo */
+                            type: 'multi-text',
+                            templateOptions: {label: 'FRG_4', required: true}
                         }
                     ])
-                ], {hideExpression: 'model.avstangningSmittskydd'}),
+                ]),
                 kategori(8, categoryNames[8], [
-                    fraga(25, [
-                        {key: 'ovrigt', type: 'multi-text', templateOptions: {label: 'DFR_25.1'}}
+                    fraga(11, [
+                        {
+                            key: 'operation',
+                            type: 'radio-group',
+                            label: 'DFR_11.1',
+                            code: 'KV_OMOPERATION',
+                            choices: [
+                                'JA',
+                                'NEJ',
+                                'UPPGIFT_SAKNAS'
+                            ],
+                            required: true
+                        },
+                        {
+                            key: 'operationDatum',
+                            type: 'date',
+                            templateOptions: {label: 'DFR_11.2', required: true}
+                        },
+                        {
+                            key: 'operationAnledning',
+                            type: 'single-text-vertical',
+                            templateOptions: {label: 'DFR_11.3', required: true}
+                        }
                     ])
                 ]),
                 kategori(9, categoryNames[9], [
-                    fraga(26, [
+                    fraga(12, [
                         {
-                            key: 'kontaktMedFk',
-                            type: 'checkbox-inline',
-                            templateOptions: {label: 'DFR_26.1'}
+                            key: 'forgiftning',
+                            type: 'boolean',
+                            templateOptions: {
+                                label: 'DFR_12.1',
+                                required: true
+                            }
                         },
                         {
-                            key: 'anledningTillKontakt',
+                            key: 'forgiftningOrsak',
+                            type: 'radio-group',
+                            label: 'DFR_12.2',
+                            code: 'KV_ORSAK',
+                            choices: [
+                                'OLYCKSFALL',
+                                'SJALVMORD',
+                                'AVSIKTLIGT_VALLAD',
+                                'OKLART'
+                            ],
+                            required: true
+                        },
+                        {
+                            key: 'forgiftningDatum',
+                            type: 'date',
+                            templateOptions: {label: 'DFR_12.3', required: true}
+                        },
+                        {
+                            key: 'forgiftningUppkommelse',
                             type: 'multi-text',
-                            hideExpression: '!model.kontaktMedFk',
-                            templateOptions: {label: 'DFR_26.2'}
+                            templateOptions: {label: 'DFR_12.4', required: true}
                         }
                     ])
-                ], {hideExpression: 'model.avstangningSmittskydd'}),
+                ]),
+                kategori(10, categoryNames[10], [
+                    fraga(13, [
+                        {
+                            key: 'grunder',
+                            type: 'check-group',
+                            templateOptions: {
+                                label: 'DFR_13.1',
+                                required: true,
+                                descLabel: 'DFR_13.1',
+                                code: 'KV_DODSORSAKSUPPGIFTER',
+                                choices: [
+                                    'UNDERSOKNING_FORE_DODEN',
+                                    'UNDERSOKNING_EFTER_DODEN',
+                                    'KLINISK_OBDUKTION',
+                                    'RATTSMEDICINSK_OBDUKTION',
+                                    'RATTSMEDICINSK_BESIKTNING'
+                                ]
+                            }
+                        }
+                    ])
+                ]),
                 FactoryTemplates.vardenhet
             ];
 
