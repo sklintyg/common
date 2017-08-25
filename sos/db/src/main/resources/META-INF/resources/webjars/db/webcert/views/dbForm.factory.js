@@ -44,19 +44,19 @@ angular.module('db').factory('db.FormFactory',
                         {
                             key: 'dodsdatum',
                             type: 'singleDate',
-                            hideExpression: '!model.dodsdatumSakert',
+                            hideExpression: 'model.dodsdatumSakert !== true',
                             templateOptions: {label: 'DFR_2.2', required: true}
                         },
                         {
                             key: 'dodsdatum',
                             type: 'vagueDate',
-                            hideExpression: 'model.dodsdatumSakert',
+                            hideExpression: 'model.dodsdatumSakert !== false',
                             templateOptions: {label: 'DFR_2.2', required: true}
                         },
                         {
                             key: 'antraffatDodDatum',
                             type: 'singleDate',
-                            hideExpression: 'model.dodsdatumSakert',
+                            hideExpression: 'model.dodsdatumSakert !== false',
                             templateOptions: {label: 'DFR_2.3', required: true}
                         }
                     ]),
@@ -88,7 +88,7 @@ angular.module('db').factory('db.FormFactory',
                         {
                             key: 'barn',
                             type: 'boolean',
-                            templateOptions: {label: 'FRG_4', required: true}
+                            templateOptions: {label: 'DFR_4.1', required: true}
                         }
                     ])
                 ]),

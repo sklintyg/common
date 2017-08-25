@@ -19,10 +19,13 @@
 package se.inera.intyg.common.db.support;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se.inera.intyg.common.db.rest.DbModuleApi;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
@@ -36,6 +39,11 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
 
     private static final String DEFAULT_RECIPIENT_ID = "Skatteverket";
     private static final String MODULE_DESCRIPTION = "Dödsbevis";
+    private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+
+    // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
+    @Autowired(required = false)
+    private Optional<IntygTextsRepository> repo;
 
     @Autowired
     private DbModuleApi moduleApi;
@@ -57,9 +65,15 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getDetailedModuleDescription() {
-        return "";
+        if (repo.isPresent()) {
+            final String latestVersion = repo.get().getLatestVersion(getModuleId());
+            final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
+            if (texts != null) {
+                return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+            }
+        }
+        return null;
     }
-
     @Override
     public String getExternalId() {
         return MODULE_ID;

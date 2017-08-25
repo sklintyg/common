@@ -1,0 +1,11 @@
+<div class="vagueDate">
+  <wc-form-label to="to" key="options.key"></wc-form-label>
+  <div class="controls form-inline">
+    <input id="{{options.key}}-year" type="text" class="form-control year" ng-disabled="to.disabled"
+           ng-model="vagueDateModel.year" maxlength="4" placeholder="ÅÅÅÅ" ng-blur="validate()"> -
+    <input id="{{options.key}}-month" type="text" class="form-control month" ng-disabled="to.disabled"
+           ng-model="vagueDateModel.month" maxlength="2" placeholder="MM" ng-blur="validate()"> -
+    <input id="{{options.key}}-day" type="text" class="form-control day" ng-disabled="to.disabled"
+           ng-model="vagueDateModel.day" maxlength="2" placeholder="DD" ng-blur="validate()">
+  </div>
+</div>
