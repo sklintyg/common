@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFacto
 public class DbModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "db.sch";
-    public static final String MODULE_ID = "DB";
+    public static final String MODULE_ID = "db";
     public static final String MODULE_NAME = "Dödsbevis";
 
     private static final String DEFAULT_RECIPIENT_ID = "Skatteverket";

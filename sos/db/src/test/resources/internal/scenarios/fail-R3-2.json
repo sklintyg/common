@@ -1,5 +1,5 @@
 {
-  "typ": "DB",
+  "typ": "db",
   "identitetStyrkt": "körkort",
   "dodsdatumSakert": true,
   "dodsdatum": "2017-01-01",
