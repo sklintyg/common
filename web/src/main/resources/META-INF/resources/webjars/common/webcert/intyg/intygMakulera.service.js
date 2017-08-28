@@ -65,6 +65,7 @@ angular.module('common').factory('common.IntygMakulera',
                 function isMakuleraEnabled(model) {
                     return model.makuleraProgressDone && // model.ersattProgressDone &&
                         (
+                            model.choices.length == 0 ||
                             (ObjectHelper.isDefined(model.makuleraModel.reason) &&
                                 model.makuleraModel.reason !== 'ANNAT_ALLVARLIGT_FEL') ||
                             (model.makuleraModel.reason === 'ANNAT_ALLVARLIGT_FEL' &&
@@ -80,16 +81,20 @@ angular.module('common').factory('common.IntygMakulera',
                     focus: false,
                     errormessageid: 'error.failedtomakuleraintyg',
                     showerror: false,
-                    labels: {
-                        'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
-                        'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'
-                    },
+                    labels: {},
                     choices: [],
                     makuleraModel: {
                         reason: undefined,
                         clarification: []
                     }
                 };
+
+                if (CommonViewState.intygProperties.type !== 'db' && CommonViewState.intygProperties.type !== 'doi') {
+                    dialogMakuleraModel.labels = {
+                        'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
+                        'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'
+                    };
+                }
 
                 // Fill dialogMakuleraModel.choices array with choices based on labels
                 angular.forEach(dialogMakuleraModel.labels, function(label, key) {

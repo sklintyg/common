@@ -13,7 +13,7 @@
       <span message key="label.makulera.body.common-footer"></span>
     </div>
   </div>
-  <div class="form-group makulera-choices">
+  <div class="form-group makulera-choices" ng-if="model.choices.length > 0">
     Varför makulerar du intyget? <span ng-if="model.isFkIntyg"><span wc-help-chevron help-text-key="intyg.makulera.help"></span>
     <span wc-help-chevron-text help-text-key="intyg.makulera.help"></span></span>
     <br>
