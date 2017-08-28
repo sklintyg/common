@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-fdescribe('wcIntygRelatedRevokedMessageDirective', function() {
+describe('wcIntygRelatedRevokedMessageDirective', function() {
     'use strict';
 
     var element;
@@ -81,7 +81,7 @@ fdescribe('wcIntygRelatedRevokedMessageDirective', function() {
                     {type: 'SENT', target: 'HSVARD', timestamp: '2016-08-10T16:05:07.000'},
                     {type: 'RECEIVED', target: 'HSVARD', timestamp: '2016-08-10T16:04:07.000'}
                 ]
-            }
+            };
 
         scope.intygRelation.states = json.statuses;
         scope.$digest();
@@ -99,7 +99,7 @@ fdescribe('wcIntygRelatedRevokedMessageDirective', function() {
                     {type: 'SENT', target: 'HSVARD', timestamp: '2016-08-10T16:05:07.000'},
                     {type: 'RECEIVED', target: 'HSVARD', timestamp: '2016-08-10T16:04:07.000'}
                 ]
-            }
+            };
 
         scope.intygRelation.states = json.statuses;
         scope.$digest();

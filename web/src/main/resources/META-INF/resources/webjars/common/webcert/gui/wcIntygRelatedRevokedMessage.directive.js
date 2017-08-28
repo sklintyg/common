@@ -44,7 +44,7 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
 
                 var onError = function(result) {
                     $scope.viewState.common.updateActiveError(result, $scope.intygRelation.status);
-                }
+                };
 
                 function loadStates() {
                     IntygProxy.getIntyg($scope.intygRelation.intygsId, $scope.viewState.common.intygProperties.type, onSuccess, onError);
