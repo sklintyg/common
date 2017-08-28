@@ -58,6 +58,14 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                     modelProp: 'annatGrundForMUBeskrivning'
                 } ]
 
+            }, {
+                type: 'uv-del-fraga',
+                labelKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
+                hideExpression: '!motiveringTillInteBaseratPaUndersokning',
+                components: [ {
+                    type: 'uv-simple-value',
+                    modelProp: 'motiveringTillInteBaseratPaUndersokning'
+                } ]
             } ]
         } ]
     }, {
@@ -170,6 +178,15 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                             'period.tom'
                         ],
                         modelProp: 'sjukskrivningar'
+                    },
+                    {
+                        type: 'uv-del-fraga',
+                        labelKey: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
+                        hideExpression: '!motiveringTillTidigtStartdatumForSjukskrivning',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
+                        } ]
                     }
                 ]
             },
@@ -289,7 +306,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
             var config = angular.copy(viewConfig);
 
             if (webcert) {
-                config = uvUtil.convertToWebcert(config);
+                config = uvUtil.convertToWebcert(config, true);
             }
 
             return config;

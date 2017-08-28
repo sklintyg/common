@@ -5,12 +5,6 @@
   "grundData": {
     "patient": {
       "samordningsNummer": false,
-      "postort": "Stadby gärde",
-      "postnummer": "100 20",
-      "postadress": "Pgatan 2",
-      "efternamn": "Olsson",
-      "fornamn": "Olivia",
-      "fullstandigtNamn": "Olivia Olsson",
       "personId": "19270310-4321"
     },
     "skapadAv": {

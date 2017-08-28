@@ -6,7 +6,8 @@ angular.module('common').directive('dynamicLabel',
             return {
                 restrict: 'EA',
                 scope: {
-                    'key': '@'
+                    'key': '@',
+                    'fallbackValue': '@'
                 },
                 replace: true,
                 template: '<span ng-bind-html="resultValue"></span>',
@@ -19,6 +20,10 @@ angular.module('common').directive('dynamicLabel',
 
                         if (!result) {
                             result = dynamicLabelService.getProperty(interpolatedKey);
+                        }
+
+                        if (!result && scope.fallbackValue) {
+                            result = scope.fallbackValue;
                         }
 
                         scope.resultValue = result;

@@ -18,10 +18,7 @@
  */
 package se.inera.intyg.common.fk7263.validator;
 
-import java.util.List;
-
 import com.google.common.base.Strings;
-
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;
@@ -45,6 +42,8 @@ import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
 import se.inera.intyg.common.fk7263.schemas.insuranceprocess.healthreporting.validator.PatientValidator;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+
+import java.util.List;
 
 /**
  * Validates presence and validity of formal external model properties such as OID's. Preferably this validation should
@@ -149,9 +148,10 @@ public class ProgrammaticTransportValidator extends AbstractValidator {
             addValidationError(s);
         }
         // Get namn for patient - mandatory
-        if (inPatient != null && (inPatient.getFullstandigtNamn() == null || inPatient.getFullstandigtNamn().length() < 1)) {
-            addValidationError("No Patient fullstandigtNamn elements found or set!");
-        }
+        // As per INTYG-4086, name is intentionally left out.
+//        if (inPatient != null && (inPatient.getFullstandigtNamn() == null || inPatient.getFullstandigtNamn().length() < 1)) {
+//            addValidationError("No Patient fullstandigtNamn elements found or set!");
+//        }
     }
 
     private void validateHospersonal() {

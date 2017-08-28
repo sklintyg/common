@@ -72,14 +72,14 @@ public final class InternalConverterUtil {
     private InternalConverterUtil() {
     }
 
-    public static Intyg getIntyg(Utlatande source) {
+    public static Intyg getIntyg(Utlatande source, boolean extendedPatientInfo) {
         Intyg intyg = new Intyg();
         intyg.setIntygsId(getIntygsId(source));
         intyg.setVersion(getTextVersion(source));
         intyg.setSigneringstidpunkt(source.getGrundData().getSigneringsdatum());
         intyg.setSkickatTidpunkt(source.getGrundData().getSigneringsdatum());
         intyg.setSkapadAv(getSkapadAv(source.getGrundData().getSkapadAv()));
-        intyg.setPatient(getPatient(source.getGrundData().getPatient()));
+        intyg.setPatient(getPatient(source.getGrundData().getPatient(), extendedPatientInfo));
         decorateWithRelation(intyg, source);
         return intyg;
     }
@@ -138,15 +138,24 @@ public final class InternalConverterUtil {
         return vardgivare;
     }
 
-    private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient) {
+    private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
+            boolean extendedPatientInfo) {
         Patient patient = new se.riv.clinicalprocess.healthcond.certificate.v3.Patient();
-        patient.setEfternamn(sourcePatient.getEfternamn());
-        patient.setFornamn(emptyStringIfNull(sourcePatient.getFornamn()));
-        patient.setMellannamn(sourcePatient.getMellannamn());
         patient.setPersonId(getPersonId(new Personnummer(sourcePatient.getPersonId().getPersonnummer())));
-        patient.setPostadress(emptyStringIfNull(sourcePatient.getPostadress()));
-        patient.setPostnummer(emptyStringIfNull(sourcePatient.getPostnummer()));
-        patient.setPostort(emptyStringIfNull(sourcePatient.getPostort()));
+        if (extendedPatientInfo) {
+            patient.setEfternamn(emptyStringIfNull(sourcePatient.getEfternamn()));
+            patient.setFornamn(emptyStringIfNull(sourcePatient.getFornamn()));
+            patient.setMellannamn(sourcePatient.getMellannamn());
+            patient.setPostadress(emptyStringIfNull(sourcePatient.getPostadress()));
+            patient.setPostnummer(emptyStringIfNull(sourcePatient.getPostnummer()));
+            patient.setPostort(emptyStringIfNull(sourcePatient.getPostort()));
+        } else {
+            patient.setEfternamn("");
+            patient.setFornamn("");
+            patient.setPostadress("");
+            patient.setPostnummer("");
+            patient.setPostort("");
+        }
         return patient;
     }
 

@@ -18,20 +18,16 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder;
-
 import org.junit.Test;
-
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-import se.inera.intyg.schemas.contract.Personnummer;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder;
 
 public class WebcertModelFactoryUtilTest {
 
@@ -174,71 +170,71 @@ public class WebcertModelFactoryUtilTest {
         assertNull(target.getSkapadAv().getVardenhet().getTelefonnummer());
     }
 
-    @Test
-    public void testBuildNewEffectivePatientAppliesAllNewValid() throws ConverterException {
-        Patient oldPatient = createPatient();
-        Patient newPatient = createNewPatient();
-
-        final Patient mergedPatient = WebcertModelFactoryUtil.buildNewEffectivePatient(oldPatient, newPatient);
-        assertEquals(newPatient, mergedPatient);
-    }
-
-    @Test
-    public void testBuildNewEffectivePatientSkipsInvalidParameters() throws ConverterException {
-        Patient oldPatient = createPatient();
-        Patient newPatient = new Patient();
-
-        final Patient mergedPatient = WebcertModelFactoryUtil.buildNewEffectivePatient(oldPatient, newPatient);
-        assertEquals(oldPatient, mergedPatient);
-    }
-
-    @Test
-    public void testBuildNewEffectivePatientSkipsInvalidPersonnummer() throws ConverterException {
-        Patient oldPatient = createPatient();
-        Patient newPatient = createNewPatient();
-        newPatient.setPersonId(new Personnummer("abc123"));
-
-        final Patient mergedPatient = WebcertModelFactoryUtil.buildNewEffectivePatient(oldPatient, newPatient);
-        assertNotEquals(newPatient, mergedPatient);
-        assertEquals(TOLVAN, mergedPatient.getPersonId().getPersonnummer());
-
-    }
-
-    @Test
-    public void testBuildNewEffectivePatientAllowsSamordningnummer() throws ConverterException {
-        Patient oldPatient = createPatient();
-        Patient newPatient = createNewPatient();
-        newPatient.setPersonId(new Personnummer(SAMORDNINGSNUMMER));
-
-        final Patient mergedPatient = WebcertModelFactoryUtil.buildNewEffectivePatient(oldPatient, newPatient);
-        assertEquals(SAMORDNINGSNUMMER, mergedPatient.getPersonId().getPersonnummer());
-
-    }
-
-    private Patient createNewPatient() {
-        Patient newPatient = new Patient();
-        newPatient.setFornamn("updated firstName");
-        newPatient.setEfternamn("updated lastName");
-        newPatient.setMellannamn("updated middle-name");
-        newPatient.setFullstandigtNamn("updated full name");
-        newPatient.setPersonId(new Personnummer(LILL_TOLVAN));
-        newPatient.setPostadress("updated postal address");
-        newPatient.setPostnummer("1111111");
-        newPatient.setPostort("updated post city");
-        return newPatient;
-    }
-
-    private Patient createPatient() {
-        Patient patient = new Patient();
-        patient.setFornamn("firstname");
-        patient.setMellannamn("middlename");
-        patient.setEfternamn("lastname");
-        patient.setFullstandigtNamn("firstname middlename lastname");
-        patient.setPersonId(new Personnummer(TOLVAN));
-        patient.setPostadress("postal address");
-        patient.setPostnummer("000000");
-        patient.setPostort("post city");
-        return patient;
-    }
+//    @Test
+//    public void testBuildNewEffectivePatientAppliesAllNewValid() throws ConverterException {
+//        Patient oldPatient = createPatient();
+//        Patient newPatient = createNewPatient();
+//
+//        final Patient mergedPatient = WebcertModelFactoryUtil.buildNewEffectivePatient(oldPatient, newPatient);
+//        assertEquals(newPatient, mergedPatient);
+//    }
+//
+//    @Test
+//    public void testBuildNewEffectivePatientSkipsInvalidParameters() throws ConverterException {
+//        Patient oldPatient = createPatient();
+//        Patient newPatient = new Patient();
+//
+//        final Patient mergedPatient = WebcertModelFactoryUtil.buildNewEffectivePatient(oldPatient, newPatient);
+//        assertEquals(oldPatient, mergedPatient);
+//    }
+//
+//    @Test
+//    public void testBuildNewEffectivePatientSkipsInvalidPersonnummer() throws ConverterException {
+//        Patient oldPatient = createPatient();
+//        Patient newPatient = createNewPatient();
+//        newPatient.setPersonId(new Personnummer("abc123"));
+//
+//        final Patient mergedPatient = WebcertModelFactoryUtil.buildNewEffectivePatient(oldPatient, newPatient);
+//        assertNotEquals(newPatient, mergedPatient);
+//        assertEquals(TOLVAN, mergedPatient.getPersonId().getPersonnummer());
+//
+//    }
+//
+//    @Test
+//    public void testBuildNewEffectivePatientAllowsSamordningnummer() throws ConverterException {
+//        Patient oldPatient = createPatient();
+//        Patient newPatient = createNewPatient();
+//        newPatient.setPersonId(new Personnummer(SAMORDNINGSNUMMER));
+//
+//        final Patient mergedPatient = WebcertModelFactoryUtil.buildNewEffectivePatient(oldPatient, newPatient);
+//        assertEquals(SAMORDNINGSNUMMER, mergedPatient.getPersonId().getPersonnummer());
+//
+//    }
+//
+//    private Patient createNewPatient() {
+//        Patient newPatient = new Patient();
+//        newPatient.setFornamn("updated firstName");
+//        newPatient.setEfternamn("updated lastName");
+//        newPatient.setMellannamn("updated middle-name");
+//        newPatient.setFullstandigtNamn("updated full name");
+//        newPatient.setPersonId(new Personnummer(LILL_TOLVAN));
+//        newPatient.setPostadress("updated postal address");
+//        newPatient.setPostnummer("1111111");
+//        newPatient.setPostort("updated post city");
+//        return newPatient;
+//    }
+//
+//    private Patient createPatient() {
+//        Patient patient = new Patient();
+//        patient.setFornamn("firstname");
+//        patient.setMellannamn("middlename");
+//        patient.setEfternamn("lastname");
+//        patient.setFullstandigtNamn("firstname middlename lastname");
+//        patient.setPersonId(new Personnummer(TOLVAN));
+//        patient.setPostadress("postal address");
+//        patient.setPostnummer("000000");
+//        patient.setPostort("post city");
+//        return patient;
+//    }
 
 }

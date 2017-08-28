@@ -20,9 +20,9 @@
 angular.module('common').controller('common.UtkastHeader',
     ['$scope', '$log', '$stateParams', '$timeout', '$window',
         'common.messageService', 'common.moduleService', 'common.UtkastProxy', 'common.statService',
-        'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService', 'common.UtkastService',
+        'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService', 'common.UtkastService', 'common.PatientProxy',
         function($scope, $log, $stateParams, $timeout, $window,
-            messageService, moduleService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService) {
+            messageService, moduleService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService, PatientProxy) {
             'use strict';
 
             $scope.intygsnamn = moduleService.getModuleName(CommonViewState.intyg.type);
@@ -109,7 +109,41 @@ angular.module('common').controller('common.UtkastHeader',
              * Print draft.
              */
             $scope.print = function() {
-                window.open($scope.pdfUrl, '_self');
+
+                var onPatientFound = function(patient) {
+                    if (!patient.sekretessmarkering) {
+                        window.open($scope.pdfUrl, '_self');
+                    } else {
+                        // Visa infodialog för vanlig utskrift där patienten är sekretessmarkerad.
+                        dialogService.showDialog({
+                            dialogId: 'print-patient-sekretessmarkerad',
+                            titleId: 'common.modal.label.print.sekretessmarkerad.title',
+                            templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
+                            model: {patient: patient},
+                            button1click: function (modalInstance) {
+                                window.open($scope.pdfUrl, '_self');
+                                modalInstance.close();
+                            },
+                            button2click: function(modalInstance){
+                                modalInstance.close();
+                            },
+                            button1text: 'common.modal.label.print.sekretessmarkerad.yes',
+                            button2text: 'common.cancel',
+                            bodyText: 'common.alert.sekretessmarkering.print',
+                            autoClose: false
+                        });
+                    }
+                };
+
+                var onNotFoundOrError = function() {
+                    // If patient couldn't be looked up in PU-service, show modal with common message.
+                    var errorMsg = messageService.getProperty('common.error_could_not_print_draft_no_pu');
+                    dialogService.showErrorMessageDialog(errorMsg);
+                };
+
+                // INTYG-4086: Before printing, we must make sure the PU-service is available
+                PatientProxy.getPatient($scope.viewState.draftModel.content.grundData.patient.personId, onPatientFound,
+                    onNotFoundOrError, onNotFoundOrError);
             };
 
 

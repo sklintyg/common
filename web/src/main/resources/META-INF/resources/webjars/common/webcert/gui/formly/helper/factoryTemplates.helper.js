@@ -58,6 +58,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
 
             adress: {
                 wrapper: 'wc-field-static',
+                className: 'no-wcFormLabelPadding',
                 templateOptions: {staticLabel: 'common.intyg.patientadress', categoryName: 'patient'},
                 fieldGroup: [
                     {
@@ -113,6 +114,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
             },
             vardenhet: {
                 wrapper: 'wc-field-static',
+                className: 'no-wcFormLabelPadding',
                 templateOptions: {staticLabel: 'common.label.vardenhet', categoryName: 'vardenhet'},
                 fieldGroup: [
                     {

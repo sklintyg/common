@@ -39,6 +39,7 @@ angular.module('common').service('common.PatientModel',
                 this.fornamn = null;
                 this.mellannamn = null;
                 this.efternamn = null;
+                this.fullstandigtNamn = null;
                 this.postadress = null;
                 this.postnummer = null;
                 this.postort = null;
@@ -53,6 +54,7 @@ angular.module('common').service('common.PatientModel',
                 this.fornamn = patientResponse.fornamn;
                 this.mellannamn = patientResponse.mellannamn;
                 this.efternamn = patientResponse.efternamn;
+                this.fullstandigtNamn = patientResponse.fullstandigtNamn;
                 this.postadress = patientResponse.postadress;
                 this.postnummer = patientResponse.postnummer;
                 this.postort = patientResponse.postort;

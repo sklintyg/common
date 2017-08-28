@@ -102,7 +102,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(LuaenaUtlatande source) {
-        Intyg intyg = InternalConverterUtil.getIntyg(source);
+        Intyg intyg = InternalConverterUtil.getIntyg(source, false);
         intyg.setTyp(getTypAvIntyg(source));
         intyg.getSvar().addAll(getSvar(source));
         return intyg;

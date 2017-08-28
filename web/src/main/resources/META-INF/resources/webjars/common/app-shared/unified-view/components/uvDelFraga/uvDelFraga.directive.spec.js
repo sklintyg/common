@@ -74,7 +74,7 @@ describe('uvDelFraga Directive', function() {
 
     it('should display title when labelKey is configured', function() {
         $scope.$digest();
-        expect($(element).find('> div > h4').text()).toBe('dynamicLabel-DELFRAGA1.1.RBK');
+        expect($(element).find('> div > div > h4').text()).toBe('dynamicLabel-DELFRAGA1.1.RBK');
     });
 
     it('should render child components', function() {

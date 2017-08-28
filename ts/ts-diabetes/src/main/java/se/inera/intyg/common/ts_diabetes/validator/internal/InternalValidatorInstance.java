@@ -22,6 +22,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -35,6 +39,7 @@ import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
+import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
 
 /**
  * Class for validating drafts of the internal model.
@@ -42,6 +47,8 @@ import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
  * @author erik
  */
 public class InternalValidatorInstance {
+
+    private static final Logger LOG = LoggerFactory.getLogger(InternalValidatorInstance.class);
 
     private static final StringValidator STRING_VALIDATOR = new StringValidator();
 
@@ -72,7 +79,7 @@ public class InternalValidatorInstance {
             PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
             validateIntygAvser(utlatande.getIntygAvser());
             validateIdentitetStyrkt(utlatande.getVardkontakt());
-            validateDiabetes(utlatande.getDiabetes());
+            validateDiabetes(utlatande.getDiabetes(), utlatande.getGrundData().getPatient());
             validateHypoglykemi(utlatande.getHypoglykemier());
             validateSyn(utlatande.getSyn());
             validateBedomning(utlatande.getBedomning());
@@ -176,7 +183,7 @@ public class InternalValidatorInstance {
         }
     }
 
-    private void validateDiabetes(final Diabetes diabetes) {
+    private void validateDiabetes(final Diabetes diabetes, final Patient patient) {
 
         if (diabetes == null) {
             ValidatorUtil.addValidationError(validationMessages, "diabetes", ValidationMessageType.EMPTY,
@@ -186,9 +193,24 @@ public class InternalValidatorInstance {
 
         if (diabetes.getObservationsperiod() == null) {
             ValidatorUtil.addValidationError(validationMessages, "diabetes.observationsperiod", ValidationMessageType.EMPTY);
-        } else if (!STRING_VALIDATOR.validateStringIsYear(diabetes.getObservationsperiod())) {
-            ValidatorUtil.addValidationError(validationMessages, "diabetes.observationsperiod", ValidationMessageType.INVALID_FORMAT,
-                    "ts-diabetes.validation.diabetes.observationsperiod.incorrect-format");
+        } else {
+            if (!STRING_VALIDATOR.validateStringIsYear(diabetes.getObservationsperiod())) {
+                ValidatorUtil.addValidationError(validationMessages, "diabetes.observationsperiod", ValidationMessageType.INVALID_FORMAT,
+                        "ts-diabetes.validation.diabetes.observationsperiod.incorrect-format");
+            } else {
+                try {
+                    if (ValidatorUtil.isYearBeforeBirth(diabetes.getObservationsperiod(), patient.getPersonId())) {
+                        ValidatorUtil.addValidationError(validationMessages, "diabetes.observationsperiod",
+                                ValidationMessageType.INVALID_FORMAT,
+                                "ts-diabetes.validation.diabetes.observationsperiod.incorrect-format");
+                    }
+                } catch (InvalidPersonNummerException e) {
+                    LOG.warn(
+                            "Personnummer validation exception. Personnummer should never be invalid here, "
+                            + "if it is we can't compare with birthdate anyway.");
+                    // Personnummer should never be invalid here, if it is we can't compare with birthdate anyway
+                }
+            }
         }
 
         if (diabetes.getDiabetestyp() == null) {

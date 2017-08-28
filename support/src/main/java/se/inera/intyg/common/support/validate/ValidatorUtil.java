@@ -37,6 +37,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
  * Common utils used for validation.
@@ -323,6 +325,12 @@ public final class ValidatorUtil {
      */
     public static boolean isInvalidTjanstgoringstid(String tjanstgoringstid) {
         return tjanstgoringstid != null && (Ints.tryParse(tjanstgoringstid) == null && Doubles.tryParse(tjanstgoringstid) == null);
+    }
+
+    public static boolean isYearBeforeBirth(String year, Personnummer personnummer) throws InvalidPersonNummerException {
+        // CHECKSTYLE:OFF MagicNumber
+        return personnummer.getNormalizedPnr().substring(0, 4).compareTo(year) > 0;
+        // CHECKSTYLE:ON MagicNumber
     }
 
     /**

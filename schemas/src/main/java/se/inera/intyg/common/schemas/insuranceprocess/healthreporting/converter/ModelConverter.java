@@ -143,7 +143,6 @@ public final class ModelConverter {
         patientIdHolder.setExtension(personId.getPersonnummer());
         patient.setPersonId(patientIdHolder);
 
-        patient.setFullstandigtNamn(utlatande.getGrundData().getPatient().getFullstandigtNamn());
         lakarutlatande.setPatient(patient);
 
         return lakarutlatande;

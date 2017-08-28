@@ -319,8 +319,6 @@ public final class TransportToInternal {
      */
     private static Patient convertPatient(PatientType source) {
         Patient patient = new Patient();
-        patient.setEfternamn(source.getFullstandigtNamn());
-        patient.setFullstandigtNamn(source.getFullstandigtNamn());
         patient.setPersonId(new Personnummer(source.getPersonId().getExtension()));
         return patient;
     }

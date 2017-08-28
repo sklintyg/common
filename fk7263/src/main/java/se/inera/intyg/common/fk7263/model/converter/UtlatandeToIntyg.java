@@ -98,7 +98,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(Fk7263Utlatande source) {
-        Intyg intyg = getIntyg(source);
+        Intyg intyg = getIntyg(source, false);
         intyg.setTyp(getTypAvIntyg(source));
         intyg.getSvar().addAll(getSvar(source));
         return intyg;

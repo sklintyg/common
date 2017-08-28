@@ -41,6 +41,10 @@ angular.module('common').directive('uvEnumValue', [ 'uvUtil', 'common.messageSer
 
                 if (!result) {
                     result = dynamicLabelService.getProperty(translationKey);
+
+                    $scope.$on('dynamicLabels.updated', function() {
+                        $scope.value = dynamicLabelService.getProperty(translationKey);
+                    });
                 }
 
                 $scope.value = result;

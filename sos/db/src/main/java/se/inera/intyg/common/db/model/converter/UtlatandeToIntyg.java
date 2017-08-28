@@ -50,7 +50,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(DbUtlatande utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
         intyg.setTyp(getTypAvIntyg(utlatande));
         intyg.getSvar().addAll(getSvar(utlatande));
         return intyg;
@@ -58,7 +58,7 @@ public final class UtlatandeToIntyg {
 
     private static TypAvIntyg getTypAvIntyg(DbUtlatande utlatande) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(utlatande.getTyp());
+        typAvIntyg.setCode(utlatande.getTyp().toUpperCase());
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
         typAvIntyg.setDisplayName(DbModuleEntryPoint.MODULE_NAME);
         return typAvIntyg;

@@ -18,7 +18,10 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
+import java.time.LocalDateTime;
+
 import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -26,10 +29,6 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
-import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDateTime;
 
 public final class WebcertModelFactoryUtil {
 
@@ -41,8 +40,8 @@ public final class WebcertModelFactoryUtil {
         utlatande.getGrundData().setSigneringsdatum(signeringsdatum);
     }
 
-    public static void populateGrunddataFromCreateDraftCopyHolder(GrundData grundData,
-                                                                  CreateDraftCopyHolder copyData) throws ConverterException {
+    public static void populateGrunddataFromCreateDraftCopyHolder(GrundData grundData, CreateDraftCopyHolder copyData)
+            throws ConverterException {
         validateRequest(copyData.getSkapadAv());
 
         if (grundData.getSkapadAv().getVardenhet().getEnhetsid().equals(copyData.getSkapadAv().getVardenhet().getEnhetsid())) {
@@ -64,7 +63,7 @@ public final class WebcertModelFactoryUtil {
     }
 
     public static void populateGrunddataFromCreateNewDraftHolder(GrundData grundData,
-                                                                 CreateNewDraftHolder newDraftData) throws ConverterException {
+            CreateNewDraftHolder newDraftData) throws ConverterException {
         validateRequest(newDraftData.getSkapadAv());
         grundData.setSkapadAv(newDraftData.getSkapadAv());
         populateWithPatientInfo(grundData, newDraftData.getPatient());
@@ -87,61 +86,61 @@ public final class WebcertModelFactoryUtil {
      * @param newPatient
      * @return
      */
-    public static Patient buildNewEffectivePatient(Patient existingPatient, Patient newPatient) {
-        Patient mergedPatient = new Patient();
-
-        // Only accept valid personnr or samordningsnummer as new personId
-        if (newPatient.getPersonId() != null && (Personnummer.createValidatedPersonnummerWithDash(newPatient.getPersonId()).isPresent()
-                || SamordningsnummerValidator.isSamordningsNummer(newPatient.getPersonId()))) {
-            mergedPatient.setPersonId(newPatient.getPersonId());
-        } else {
-            mergedPatient.setPersonId(existingPatient.getPersonId());
-        }
-
-        if (!Strings.nullToEmpty(newPatient.getFornamn()).trim().isEmpty()) {
-            mergedPatient.setFornamn(newPatient.getFornamn());
-        } else {
-            mergedPatient.setFornamn(existingPatient.getFornamn());
-        }
-
-        // Name
-        if (!Strings.nullToEmpty(newPatient.getMellannamn()).trim().isEmpty()) {
-            mergedPatient.setMellannamn(newPatient.getMellannamn());
-        } else {
-            mergedPatient.setMellannamn(existingPatient.getMellannamn());
-        }
-
-        if (!Strings.nullToEmpty(newPatient.getEfternamn()).trim().isEmpty()) {
-            mergedPatient.setEfternamn(newPatient.getEfternamn());
-        } else {
-            mergedPatient.setEfternamn(existingPatient.getEfternamn());
-        }
-
-        if (!Strings.nullToEmpty(newPatient.getFullstandigtNamn()).trim().isEmpty()) {
-            mergedPatient.setFullstandigtNamn(newPatient.getFullstandigtNamn());
-        } else {
-            mergedPatient.setFullstandigtNamn(existingPatient.getFullstandigtNamn());
-        }
-
-        // Address
-        if (!Strings.nullToEmpty(newPatient.getPostadress()).trim().isEmpty()) {
-            mergedPatient.setPostadress(newPatient.getPostadress());
-        } else {
-            mergedPatient.setPostadress(existingPatient.getPostadress());
-        }
-        if (!Strings.nullToEmpty(newPatient.getPostnummer()).trim().isEmpty()) {
-            mergedPatient.setPostnummer(newPatient.getPostnummer());
-        } else {
-            mergedPatient.setPostnummer(existingPatient.getPostnummer());
-        }
-        if (!Strings.nullToEmpty(newPatient.getPostort()).trim().isEmpty()) {
-            mergedPatient.setPostort(newPatient.getPostort());
-        } else {
-            mergedPatient.setPostort(existingPatient.getPostort());
-        }
-
-        return mergedPatient;
-    }
+//    public static Patient buildNewEffectivePatient(Patient existingPatient, Patient newPatient) {
+//        Patient mergedPatient = new Patient();
+//
+//        // Only accept valid personnr or samordningsnummer as new personId
+//        if (newPatient.getPersonId() != null && (Personnummer.createValidatedPersonnummerWithDash(newPatient.getPersonId()).isPresent()
+//                || SamordningsnummerValidator.isSamordningsNummer(newPatient.getPersonId()))) {
+//            mergedPatient.setPersonId(newPatient.getPersonId());
+//        } else {
+//            mergedPatient.setPersonId(existingPatient.getPersonId());
+//        }
+//
+//        if (!Strings.nullToEmpty(newPatient.getFornamn()).trim().isEmpty()) {
+//            mergedPatient.setFornamn(newPatient.getFornamn());
+//        } else {
+//            mergedPatient.setFornamn(existingPatient.getFornamn());
+//        }
+//
+//        // Name
+//        if (!Strings.nullToEmpty(newPatient.getMellannamn()).trim().isEmpty()) {
+//            mergedPatient.setMellannamn(newPatient.getMellannamn());
+//        } else {
+//            mergedPatient.setMellannamn(existingPatient.getMellannamn());
+//        }
+//
+//        if (!Strings.nullToEmpty(newPatient.getEfternamn()).trim().isEmpty()) {
+//            mergedPatient.setEfternamn(newPatient.getEfternamn());
+//        } else {
+//            mergedPatient.setEfternamn(existingPatient.getEfternamn());
+//        }
+//
+//        if (!Strings.nullToEmpty(newPatient.getFullstandigtNamn()).trim().isEmpty()) {
+//            mergedPatient.setFullstandigtNamn(newPatient.getFullstandigtNamn());
+//        } else {
+//            mergedPatient.setFullstandigtNamn(existingPatient.getFullstandigtNamn());
+//        }
+//
+//        // Address
+//        if (!Strings.nullToEmpty(newPatient.getPostadress()).trim().isEmpty()) {
+//            mergedPatient.setPostadress(newPatient.getPostadress());
+//        } else {
+//            mergedPatient.setPostadress(existingPatient.getPostadress());
+//        }
+//        if (!Strings.nullToEmpty(newPatient.getPostnummer()).trim().isEmpty()) {
+//            mergedPatient.setPostnummer(newPatient.getPostnummer());
+//        } else {
+//            mergedPatient.setPostnummer(existingPatient.getPostnummer());
+//        }
+//        if (!Strings.nullToEmpty(newPatient.getPostort()).trim().isEmpty()) {
+//            mergedPatient.setPostort(newPatient.getPostort());
+//        } else {
+//            mergedPatient.setPostort(existingPatient.getPostort());
+//        }
+//
+//        return mergedPatient;
+//    }
 
     private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
         if (Strings.nullToEmpty(target.getPostadress()).trim().isEmpty()) {

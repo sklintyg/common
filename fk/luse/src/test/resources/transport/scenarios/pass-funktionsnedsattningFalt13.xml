@@ -18,11 +18,11 @@
         <ns3:root>1.2.752.129.2.1.3.1</ns3:root>
         <ns3:extension>192703104321</ns3:extension>
       </person-id>
-      <fornamn>Olivia</fornamn>
-      <efternamn>Olsson</efternamn>
-      <postadress>Adressen</postadress>
-      <postnummer>11111</postnummer>
-      <postort>Testorten</postort>
+      <fornamn/>
+      <efternamn/>
+      <postadress/>
+      <postnummer/>
+      <postort/>
    </patient>
     <skapadAv>
       <personal-id>

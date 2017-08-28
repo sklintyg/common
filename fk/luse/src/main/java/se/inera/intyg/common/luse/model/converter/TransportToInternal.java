@@ -103,7 +103,7 @@ public final class TransportToInternal {
     public static LuseUtlatande convert(Intyg source) throws ConverterException {
         LuseUtlatande.Builder utlatande = LuseUtlatande.builder();
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
         setSvar(utlatande, source);
         return utlatande.build();

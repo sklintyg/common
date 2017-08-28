@@ -107,12 +107,15 @@
   @import 'gui/formly/prognos.scss';
   @import 'gui/formly/sjukskrivningar.scss';
   @import 'gui/formly/underlag.scss';
+  @import 'gui/formly/vagueDate.scss';
   @import 'gui/formly/wrapper/wcFraga.scss';
+  @import 'gui/wcFormLabel.scss';
   @import 'gui/wcFragaKomplettering.directive.scss';
   @import 'gui/wcHelpChevron.directive.scss';
   @import 'gui/wcHelpChevronText.directive.scss';
   @import 'gui/wcIntegrationEnhetSelector/_wcIntegrationEnhetSelector.directive.scss';
   @import 'gui/wcIntygRelatedOtherIntygMessage.directive.scss';
+  @import 'gui/wcIntygRelatedRevokedMessage.directive.scss';
   @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
   @import 'intyg/unified-view/uvSignedBy/uvSignedBy.scss';
   @import 'intyg/unified-view/uvWcFraga/uvWcFraga.directive.scss';

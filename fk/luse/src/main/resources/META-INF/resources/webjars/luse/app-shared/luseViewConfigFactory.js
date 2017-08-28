@@ -45,6 +45,14 @@ angular.module('luse').factory('luse.viewConfigFactory', [
                             type: 'uv-simple-value',
                             modelProp: 'annatGrundForMUBeskrivning'
                         } ]
+                    }, {
+                        type: 'uv-del-fraga',
+                        labelKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
+                        hideExpression: '!motiveringTillInteBaseratPaUndersokning',
+                        components: [ {
+                            type: 'uv-simple-value',
+                            modelProp: 'motiveringTillInteBaseratPaUndersokning'
+                        } ]
                     } ]
                 }, {
                     type: 'uv-fraga',
@@ -353,7 +361,7 @@ angular.module('luse').factory('luse.viewConfigFactory', [
                 var config = angular.copy(viewConfig);
 
                 if (webcert) {
-                    config = uvUtil.convertToWebcert(config);
+                    config = uvUtil.convertToWebcert(config, true);
                 }
 
                 return config;

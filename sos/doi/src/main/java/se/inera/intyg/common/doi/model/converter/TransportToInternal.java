@@ -93,7 +93,7 @@ public final class TransportToInternal {
         Builder utlatande = DoiUtlatande.builder();
         utlatande.setId(intyg.getIntygsId().getExtension());
         utlatande.setTextVersion(intyg.getVersion());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg, true));
         setSvar(utlatande, intyg);
         return utlatande.build();
     }

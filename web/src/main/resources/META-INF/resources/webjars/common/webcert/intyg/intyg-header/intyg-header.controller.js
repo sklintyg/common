@@ -21,11 +21,11 @@ angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService',
         'common.messageService', 'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel',
         'common.IntygErsattRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyActions',
-        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService',
+        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy',
 
         function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService,
             moduleService, IntygCopyRequestModel, IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel,
-            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService) {
+            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy) {
 
             'use strict';
 
@@ -44,7 +44,7 @@ angular.module('common').controller('common.IntygHeader',
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
-            $scope.makuleratIntyg = function(){
+            $scope.isRevoked = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
             };
             $scope.isReplaced = function(){
@@ -67,7 +67,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showSkickaButton = function(){
-                return !$scope.isSentIntyg() && !$scope.makuleratIntyg() && !$scope.isReplaced();
+                return !$scope.isSentIntyg() && !$scope.isRevoked() && !$scope.isReplaced();
             };
 
             $scope.showPrintBtn = function() {
@@ -78,13 +78,13 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showEmployerPrintBtn = function() {
-                return $scope.arbetsgivarUtskrift && !$scope.makuleratIntyg();
+                return $scope.arbetsgivarUtskrift && !$scope.isRevoked();
             };
 
             $scope.showFornyaButton = function() {
                 return !($scope.intygstyp === 'ts-bas' || $scope.intygstyp === 'ts-diabetes') &&
 
-                    !$scope.makuleratIntyg() &&
+                    !$scope.isRevoked() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
@@ -92,7 +92,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showErsattButton = function() {
-                return !$scope.makuleratIntyg() && !$scope.isReplaced() &&
+                return !$scope.isRevoked() && !$scope.isReplaced() &&
                         !$scope.isComplemented() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() &&
@@ -100,17 +100,30 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.send = function() {
-                IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
+                var onPatientFound = function(patient) {
+                    IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
                         intygType+'.label.send', intygType+'.label.send.body', function() {
-                        // After a send request we shouldn't reload right away due to async reasons.
-                        // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
-                        $scope.viewState.common.isIntygOnSendQueue = true;
-                        angular.forEach($scope.viewState.relations, function(relation) {
-                            if(relation.intygsId === $scope.viewState.intygModel.id) {
-                                relation.status = 'sent';
-                            }
+                            // After a send request we shouldn't reload right away due to async reasons.
+                            // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
+                            $scope.viewState.common.isIntygOnSendQueue = true;
+                            angular.forEach($scope.viewState.relations, function(relation) {
+                                if(relation.intygsId === $scope.viewState.intygModel.id) {
+                                    relation.status = 'sent';
+                                }
+                            });
                         });
-                });
+                };
+
+                var onNotFoundOrError = function() {
+                    // If patient couldn't be looked up in PU-service, show modal with intygstyp-specific error message.
+                    var errorMsg = messageService.getProperty(intygType + '.error_could_not_send_cert_no_pu');
+                    DialogService
+                        .showErrorMessageDialog(errorMsg);
+                };
+
+                // INTYG-4086, we must not send the intyg if the patient cannot be found in the PU-service.
+                PatientProxy.getPatient($scope.viewState.intygModel.grundData.patient.personId, onPatientFound, onNotFoundOrError,
+                    onNotFoundOrError);
             };
 
             $scope.makulera = function(intyg) {
@@ -160,12 +173,14 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.print = function(intyg, isEmployeeCopy) {
-                if (isEmployeeCopy) {
-                    DialogService.showDialog({
+
+                var onPatientFound = function(patient) {
+                    if (isEmployeeCopy) {
+                        DialogService.showDialog({
                             dialogId: 'print-employee-copy',
                             titleId: 'common.modal.label.employee.title',
                             templateUrl: '/app/partials/employee-print-dialog.html',
-                            model: {},
+                            model: {patient: patient},
                             button1click: function (modalInstance) {
                                 window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
                                 modalInstance.close();
@@ -178,9 +193,39 @@ angular.module('common').controller('common.IntygHeader',
                             bodyText: 'common.modal.label.employee.body',
                             autoClose: false
                         });
-                } else {
-                    window.open($scope.pdfUrl, '_blank');
-                }
+                    } else if (patient.sekretessmarkering) {
+                        // Visa infodialog för vanlig utskrift där patienten är sekretessmarkerad.
+                        DialogService.showDialog({
+                            dialogId: 'print-patient-sekretessmarkerad',
+                            titleId: 'common.modal.label.print.sekretessmarkerad.title',
+                            templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
+                            model: {patient: patient},
+                            button1click: function (modalInstance) {
+                                window.open($scope.pdfUrl, '_blank');
+                                modalInstance.close();
+                            },
+                            button2click: function(modalInstance){
+                                modalInstance.close();
+                            },
+                            button1text: 'common.modal.label.print.sekretessmarkerad.yes',
+                            button2text: 'common.cancel',
+                            bodyText: 'common.alert.sekretessmarkering.print',
+                            autoClose: false
+                        });
+                    } else {
+                        // Om patienten ej är sekretessmarkerad, skriv ut direkt.
+                        window.open($scope.pdfUrl, '_blank');
+                    }
+                };
+                var onNotFoundOrError = function() {
+                    // If patient couldn't be looked up in PU-service, show modal with intygstyp-specific message.
+                    var errorMsg = messageService.getProperty(intyg.typ + '.error_could_not_print_cert_no_pu');
+                    DialogService
+                        .showErrorMessageDialog(errorMsg);
+                };
+
+                // INTYG-4086: Before printing, we must make sure the PU-service is available
+                PatientProxy.getPatient(intyg.grundData.patient.personId, onPatientFound, onNotFoundOrError, onNotFoundOrError);
             };
 
             //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)

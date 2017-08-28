@@ -514,7 +514,6 @@ public final class InternalToTransport {
 
     private static PatientType patientToJaxb(Patient source) {
         PatientType patientType = new PatientType();
-        patientType.setFullstandigtNamn(source.getFullstandigtNamn());
         II id = new II();
         id.setRoot(SamordningsnummerValidator.isSamordningsNummer(source.getPersonId()) ? Constants.SAMORDNING_ID_OID
                 : Constants.PERSON_ID_OID);

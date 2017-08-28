@@ -357,15 +357,10 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         allElements.add(patientNamnLbl);
         allElements.add(patientPnrLbl);
 
-        FkLabel patientNamn = new FkLabel(intyg.getGrundData().getPatient().getFullstandigtNamn())
-                .offset(105.5f, 22f)
-                .size(62.5f, 15)
-                .withVerticalAlignment(Element.ALIGN_TOP);
         FkLabel patientPnr = new FkLabel(intyg.getGrundData().getPatient().getPersonId().getPersonnummer())
                 .offset(168f, 22f)
                 .size(35f, 15f).withFont(PdfConstants.FONT_VALUE_TEXT)
                 .withVerticalAlignment(Element.ALIGN_TOP);
-        allElements.add(patientNamn);
         allElements.add(patientPnr);
 
         if (showFkAddress) {

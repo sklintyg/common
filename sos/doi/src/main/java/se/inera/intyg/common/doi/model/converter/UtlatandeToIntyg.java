@@ -73,7 +73,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(DoiUtlatande utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
         intyg.setTyp(getTypAvIntyg(utlatande));
         intyg.getSvar().addAll(getSvar(utlatande));
         return intyg;

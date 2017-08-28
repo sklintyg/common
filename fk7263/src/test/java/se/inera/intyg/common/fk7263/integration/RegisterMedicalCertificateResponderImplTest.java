@@ -18,18 +18,9 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-
-import java.time.LocalDate;
-import java.util.Optional;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.stream.StreamSource;
-
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+import iso.v21090.dt.v1.CD;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,11 +30,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
-import iso.v21090.dt.v1.CD;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;
@@ -66,6 +52,17 @@ import se.inera.intyg.common.support.integration.module.exception.CertificateAlr
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.stream.StreamSource;
+import java.time.LocalDate;
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RegisterMedicalCertificateResponderImplTest {
@@ -276,17 +273,18 @@ public class RegisterMedicalCertificateResponderImplTest {
         Mockito.verifyZeroInteractions(moduleContainer);
     }
 
-    @Test
-    public void testRegisterMedicalCertificateSaknadPatient() throws Exception {
-        request.getLakarutlatande().setPatient(null);
-        RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
-
-        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
-        assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No Patient element found!", response.getResult().getErrorText());
-
-        Mockito.verifyZeroInteractions(moduleContainer);
-    }
+    // // INTYG-4086, namn skall ej längre skickas med.
+//    @Test
+//    public void testRegisterMedicalCertificateSaknadPatient() throws Exception {
+//        request.getLakarutlatande().setPatient(null);
+//        RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
+//
+//        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
+//        assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
+//        assertEquals("Validation Error(s) found: Validation Error:No Patient element found!", response.getResult().getErrorText());
+//
+//        Mockito.verifyZeroInteractions(moduleContainer);
+//    }
 
     @Test
     public void testRegisterMedicalCertificateFelaktigPersonIdKod() throws Exception {
@@ -339,18 +337,19 @@ public class RegisterMedicalCertificateResponderImplTest {
         assertEquals("19121212-1212", certificateCaptor.getValue().getCivicRegistrationNumber().getPersonnummer());
     }
 
-    @Test
-    public void testRegisterMedicalCertificateSaknatPatientnamn() throws Exception {
-        request.getLakarutlatande().getPatient().setFullstandigtNamn(null);
-        RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
-
-        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
-        assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Validation Error(s) found: Validation Error:No Patient fullstandigtNamn elements found or set!",
-                response.getResult().getErrorText());
-
-        Mockito.verifyZeroInteractions(moduleContainer);
-    }
+    // INTYG-4086: We explicitly allow empty or missing patient name.
+//    @Test
+//    public void testRegisterMedicalCertificateSaknatPatientnamn() throws Exception {
+//        request.getLakarutlatande().getPatient().setFullstandigtNamn(null);
+//        RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
+//
+//        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
+//        assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
+//        assertEquals("Validation Error(s) found: Validation Error:No Patient fullstandigtNamn elements found or set!",
+//                response.getResult().getErrorText());
+//
+//        Mockito.verifyZeroInteractions(moduleContainer);
+//    }
 
     @Test
     public void testRegisterMedicalCertificateSaknadHoSPersonal() throws Exception {

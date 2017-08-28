@@ -107,11 +107,11 @@ public class WebcertModelFactoryTest {
         assertEquals("new-intyg-2", utlatande.getId());
         assertEquals("fk7263", utlatande.getTyp());
 
-        assertEquals("19121212-1212", copy.getGrundData().getPatient().getPersonId().getPersonnummer());
-        assertEquals("Test", copy.getGrundData().getPatient().getFornamn());
-        assertEquals("Testorsson", copy.getGrundData().getPatient().getEfternamn());
-        assertNotNull(copy.getGrundData().getPatient().getPostadress());
-        assertNotNull(copy.getGrundData().getPatient().getPostnummer());
+        assertNotNull(copy.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertNull(copy.getGrundData().getPatient().getFornamn());
+        assertNull(copy.getGrundData().getPatient().getEfternamn());
+        assertNull(copy.getGrundData().getPatient().getPostadress());
+        assertNull(copy.getGrundData().getPatient().getPostnummer());
     }
 
     @Test
@@ -131,8 +131,8 @@ public class WebcertModelFactoryTest {
         assertEquals("fk7263", utlatande.getTyp());
 
         assertEquals("19141414-1414", copy.getGrundData().getPatient().getPersonId().getPersonnummer());
-        assertEquals("Test", copy.getGrundData().getPatient().getFornamn());
-        assertEquals("Testorsson", copy.getGrundData().getPatient().getEfternamn());
+        assertNull(copy.getGrundData().getPatient().getFornamn());
+        assertNull(copy.getGrundData().getPatient().getEfternamn());
     }
 
     @Test

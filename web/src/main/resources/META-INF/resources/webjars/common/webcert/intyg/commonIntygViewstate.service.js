@@ -58,6 +58,10 @@ angular.module('common').service('common.IntygViewStateService',
                 this.intygProperties.isRevoked = IntygHelper.isRevoked(result.statuses);
                 this.intygProperties.isPatientDeceased = result.deceased;
 
+                if (result.relations && result.relations.parent) {
+                    this.intygProperties.parent = result.relations.parent;
+                }
+
                 if (result.relations && result.relations.latestChildRelations) {
                     this.intygProperties.latestChildRelations = result.relations.latestChildRelations;
                 }
@@ -69,6 +73,8 @@ angular.module('common').service('common.IntygViewStateService',
                     this.activeErrorMessageKey = 'common.error.data_not_found';
                 } else if (error.errorCode === 'AUTHORIZATION_PROBLEM') {
                     this.activeErrorMessageKey = 'common.error.could_not_load_cert_not_auth';
+                } else if (error.errorCode === 'AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET') {
+                    this.activeErrorMessageKey = 'common.error.authorization_problem_sekretessmarkering_enhet';
                 } else {
                     if (signed) {
                         this.activeErrorMessageKey = 'common.error.sign.not_ready_yet';

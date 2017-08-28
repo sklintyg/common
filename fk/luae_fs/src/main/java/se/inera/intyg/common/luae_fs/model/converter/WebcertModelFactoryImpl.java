@@ -22,16 +22,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
+import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
-import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 
 /**
  * Factory for creating an editable model.
@@ -60,6 +61,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaefsUtlata
 
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+        resetDataInGrundData(grundData);
 
         // Default to latest version available of intyg
         template.setTextVersion(intygTexts.getLatestVersion(LuaefsEntryPoint.MODULE_ID));
@@ -82,7 +84,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaefsUtlata
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        resetDataInCopy(grundData);
+        resetDataInGrundData(grundData);
 
         return templateBuilder.build();
     }
@@ -94,7 +96,10 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaefsUtlata
         utlatande.setId(utlatandeId);
     }
 
-    private void resetDataInCopy(GrundData grundData) {
+    private void resetDataInGrundData(GrundData grundData) {
+        Patient patient = new Patient();
+        patient.setPersonId(grundData.getPatient().getPersonId());
+        grundData.setPatient(patient);
         grundData.setSigneringsdatum(null);
     }
 }

@@ -1,4 +1,4 @@
-<div>
+<div class="wcFormLabel">
   <span ng-if="frageId && !to.forceHeadingTypeLabel" ng-class="{'noH5After': !delFrageId}">
     <h4>
       <span ng-if="frageId" dynamic-label key="{{frageId}}.RBK"></span>
@@ -9,6 +9,7 @@
       <span ng-if="to.staticHelpId" wc-help-chevron help-text-key="{{to.staticHelpId}}"></span>
     </h4>
     <span ng-if="hlpFrageId" wc-help-chevron-text help-text-key="{{hlpFrageId}}.HLP"></span>
+    <span ng-if="to.staticHelpId" wc-help-chevron-text help-text-key="{{to.staticHelpId}}"></span>
   </span>
 
   <span ng-if="delFrageId && !to.forceHeadingTypeLabel">
@@ -21,6 +22,7 @@
       <span ng-if="to.staticHelpId" wc-help-chevron help-text-key="{{to.staticHelpId}}"></span>
     </h5>
     <span ng-if="delFrageId" wc-help-chevron-text help-text-key="{{delFrageId}}.HLP"></span>
+    <span ng-if="to.staticHelpId" wc-help-chevron-text help-text-key="{{to.staticHelpId}}"></span>
   </span>
 
   <span ng-if="to.forceHeadingTypeLabel">

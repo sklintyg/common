@@ -157,8 +157,8 @@ public class Fk7263ModuleApiTest {
         assertNotNull(holder);
         Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
         assertEquals("2011-03-07", creatededUtlatande.getNedsattMed50().getFrom().getDate());
-        assertEquals("Kalle", creatededUtlatande.getGrundData().getPatient().getFornamn());
-        assertEquals("Kula", creatededUtlatande.getGrundData().getPatient().getEfternamn());
+        assertNull(creatededUtlatande.getGrundData().getPatient().getFornamn());
+        assertNull(creatededUtlatande.getGrundData().getPatient().getEfternamn());
     }
 
     @Test
@@ -172,7 +172,8 @@ public class Fk7263ModuleApiTest {
 
         assertNotNull(holder);
         Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
-        assertEquals("Test Testorsson", creatededUtlatande.getGrundData().getPatient().getEfternamn());
+        assertNull(creatededUtlatande.getGrundData().getPatient().getEfternamn());
+        assertEquals("19121212-1212", creatededUtlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
     }
 
     @Test
@@ -193,8 +194,8 @@ public class Fk7263ModuleApiTest {
         assertNotNull(holder);
 
         Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
-        assertEquals("Kalle", creatededUtlatande.getGrundData().getPatient().getFornamn());
-        assertEquals("Kula", creatededUtlatande.getGrundData().getPatient().getEfternamn());
+        assertNull(creatededUtlatande.getGrundData().getPatient().getFornamn());
+        assertNull(creatededUtlatande.getGrundData().getPatient().getEfternamn());
         assertEquals(newSSN, creatededUtlatande.getGrundData().getPatient().getPersonId());
     }
 
