@@ -59,12 +59,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
     private void validateExplosivtImplantat(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // R5
         if (utlatande.getExplosivImplantat() == null) {
-            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".explosivImplantat", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "explosivImplantat.explosivImplantat", ValidationMessageType.EMPTY);
         } else if (utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() == null) {
-            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".explosivAvlagsnat", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "explosivImplantat.explosivAvlagsnat", ValidationMessageType.EMPTY);
         } else if (!utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() != null) {
             ValidatorUtil
-                    .addValidationError(validationMessages, MODULE_ID + ".explosivAvlagsnat", ValidationMessageType.INCORRECT_COMBINATION,
+                    .addValidationError(validationMessages, "explosivImplantat.explosivAvlagsnat",
+                            ValidationMessageType.INCORRECT_COMBINATION,
                             MODULE_ID + ".validation.explosivAvlagsnat.explosivImplantatFalse");
         }
     }
@@ -72,20 +73,21 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
     private void validateUndersokning(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // R6 & R7
         if (utlatande.getUndersokningYttre() == null) {
-            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".undersokningYttre", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "yttreUndersokning.undersokningYttre", ValidationMessageType.EMPTY);
         } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
             if (utlatande.getUndersokningDatum() == null) {
-                ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".undersokningDatum", ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationError(validationMessages, "yttreUndersokning.undersokningDatum", ValidationMessageType.EMPTY);
             } else if (!utlatande.getUndersokningDatum().isValidDate()) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, MODULE_ID + ".undersokningDatum", ValidationMessageType.INVALID_FORMAT);
+                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
+                                ValidationMessageType.INVALID_FORMAT);
             }
         }
     }
 
     private void validatePolisanmalan(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getPolisanmalan() == null) {
-            ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".polisanmalan", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "polisanmalan.polisanmalan", ValidationMessageType.EMPTY);
         }
     }
 }

@@ -8,10 +8,10 @@ angular.module('db').factory('db.FormFactory',
 
             var categoryNames = {
                 1: 'personuppgifter',
-                2: 'dodsdatumoOchdodsPlats',
-                3: 'barnSomAvlidit',
-                4: 'explosivImplantat',
-                5: 'yttreUndersokning',
+                2: 'dodsdatumochdodsplats',
+                3: 'barnsomavlidit',
+                4: 'explosivimplantat',
+                5: 'yttreundersokning',
                 6: 'polisanmalan'
             };
 

@@ -14,18 +14,8 @@ angular.module('db').service('db.EditCertCtrl.ViewStateService',
             };
 
             this.inputLimits = {
-                arbetsformagaPrognos: 600,
-                nuvarandeArbetsuppgifter: 120,
-                atgardInomSjukvarden: 66,
-                annanAtgard: 66,
-                aktivitetsbegransning: 1100,
-                funktionsnedsattning: 450,
-                sjukdomsforlopp: 270,
-                diagnosBeskrivning :220,
-                ovrigt: 360,
-                finishedBehandling: 999,
-                pagaendeBehandling: 999,
-                planeradBehandling: 999
+                identitetStyrkt: 100,
+                dodsplatsKommun: 100
             };
 
             this.reset = function() {

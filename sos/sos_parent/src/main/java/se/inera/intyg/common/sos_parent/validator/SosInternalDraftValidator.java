@@ -32,52 +32,53 @@ public final class SosInternalDraftValidator {
 
     public static void validateIdentitetStyrkt(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (Strings.nullToEmpty(utlatande.getIdentitetStyrkt()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, prefix + ".identitetStyrkt", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "personuppgifter.identitetStyrkt", ValidationMessageType.EMPTY);
         }
     }
 
     public static void validateDodsdatum(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (utlatande.getDodsdatumSakert() == null) {
-            ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsdatumSakert", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatumSakert", ValidationMessageType.EMPTY);
             return;
         }
 
         // R1 & R2
         if (utlatande.getDodsdatum() == null) {
-            ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsdatum", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.EMPTY);
         } else if (!utlatande.getDodsdatum().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsdatum", ValidationMessageType.INVALID_FORMAT);
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.INVALID_FORMAT);
         }
 
         // R3
         if (!utlatande.getDodsdatumSakert()) {
             if (utlatande.getAntraffatDodDatum() == null) {
-                ValidatorUtil.addValidationError(validationMessages, prefix + ".antraffatDod", ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDod", ValidationMessageType.EMPTY);
             } else if (!utlatande.getAntraffatDodDatum().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages, prefix + ".antraffatDod", ValidationMessageType.INVALID_FORMAT);
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDod",
+                        ValidationMessageType.INVALID_FORMAT);
             }
         } else {
             if (utlatande.getAntraffatDodDatum() != null) {
-                ValidatorUtil.addValidationError(validationMessages, prefix + ".antraffatDod", ValidationMessageType.INCORRECT_COMBINATION,
-                        prefix + ".validation.antraffatDod.dodsdatumSakert");
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDod",
+                        ValidationMessageType.INCORRECT_COMBINATION, prefix + ".validation.antraffatDod.dodsdatumSakert");
             }
         }
     }
 
     public static void validateDodsplats(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (Strings.nullToEmpty(utlatande.getDodsplatsKommun()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsplatsKommun", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsplatsKommun", ValidationMessageType.EMPTY);
         }
 
         // R4
         if (utlatande.getDodsplatsBoende() == null) {
-            ValidatorUtil.addValidationError(validationMessages, prefix + ".dodsplatsBoende", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsplatsBoende", ValidationMessageType.EMPTY);
         }
     }
 
     public static void validateBarn(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (utlatande.getBarn() == null) {
-            ValidatorUtil.addValidationError(validationMessages, prefix + ".barn", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit.barn", ValidationMessageType.EMPTY);
         }
     }
 
