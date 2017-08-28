@@ -65,7 +65,7 @@ angular.module('common').factory('common.IntygMakulera',
                 function isMakuleraEnabled(model) {
                     return model.makuleraProgressDone && // model.ersattProgressDone &&
                         (
-                            model.choices.length == 0 ||
+                            model.choices.length === 0 ||
                             (ObjectHelper.isDefined(model.makuleraModel.reason) &&
                                 model.makuleraModel.reason !== 'ANNAT_ALLVARLIGT_FEL') ||
                             (model.makuleraModel.reason === 'ANNAT_ALLVARLIGT_FEL' &&
