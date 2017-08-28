@@ -147,14 +147,16 @@ angular.module('doi').factory('doi.FormFactory',
                         {
                             key: 'operation',
                             type: 'radio-group',
-                            label: 'DFR_11.1',
-                            code: 'KV_OMOPERATION',
-                            choices: [
-                                'JA',
-                                'NEJ',
-                                'UPPGIFT_SAKNAS'
-                            ],
-                            required: true
+                            templateOptions: {
+                                label: 'DFR_11.1',
+                                code: 'KV_OMOPERATION',
+                                choices: [
+                                    'JA',
+                                    'NEJ',
+                                    'UPPGIFT_SAKNAS'
+                                ],
+                                required: true
+                            }
                         },
                         {
                             key: 'operationDatum',
@@ -181,15 +183,17 @@ angular.module('doi').factory('doi.FormFactory',
                         {
                             key: 'forgiftningOrsak',
                             type: 'radio-group',
-                            label: 'DFR_12.2',
-                            code: 'KV_ORSAK',
-                            choices: [
-                                'OLYCKSFALL',
-                                'SJALVMORD',
-                                'AVSIKTLIGT_VALLAD',
-                                'OKLART'
-                            ],
-                            required: true
+                            templateOptions: {
+                                label: 'DFR_12.2',
+                                code: 'KV_ORSAK',
+                                choices: [
+                                    'OLYCKSFALL',
+                                    'SJALVMORD',
+                                    'AVSIKTLIGT_VALLAD',
+                                    'OKLART'
+                                ],
+                                required: true
+                            }
                         },
                         {
                             key: 'forgiftningDatum',
