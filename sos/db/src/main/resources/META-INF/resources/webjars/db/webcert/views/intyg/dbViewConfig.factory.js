@@ -22,13 +22,10 @@ angular.module('db').factory('db.viewConfigFactory', [ 'uvUtil', function(uvUtil
             type: 'uv-fraga',
             labelKey: 'FRG_2.RBK',
             components: [{
-/*                type: 'uv-boolean-value',
-                yesLabel: 'DFR_2.1.SVA_1',
-                noLabel: 'DFR_2.1.SVA_2',*/
                 type: 'uv-enum-value',
                 values: {
-                    true : 'DFR_2.1.SVA_1',
-                    false: 'DFR_2.1.SVA_2'
+                    'true'  : 'DFR_2.1.SVA_1',
+                    'false' : 'DFR_2.1.SVA_2'
                 },
                 modelProp: 'dodsdatumSakert'
             }, {
