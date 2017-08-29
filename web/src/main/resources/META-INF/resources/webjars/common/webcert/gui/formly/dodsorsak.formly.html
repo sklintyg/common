@@ -6,16 +6,16 @@
   </label>
   <table class="">
     <tr class="underlagRow">
-      <th style="width: 35%;"><span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span>
+      <th><span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{to.beskrivningLabel}}.HLP"></span>
       </th>
       <th><span>Datum </span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.datumLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{to.datumLabel}}.HLP"></span></th>
-      <th><span dynamic-label key="{{to.orsakLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.orsakLabel}}.HLP"></span>
+      <th style="width: 35%;"><span dynamic-label key="{{to.orsakLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.orsakLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{to.orsakLabel}}.HLP"></span>
       </th>
     </tr>
-    <tr class="underlagRow" ng-repeat="orsak in orsaker">
+    <tr class="underlagRow" ng-repeat="orsak in model[options.key]">
       <td>
         <input id="orsak-{{$index}}-beskrivning"
                type="text"

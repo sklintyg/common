@@ -33,9 +33,7 @@ angular.module('common').run(function(formlyConfig) {
                 id: null,
                 label: 'Välj...'
             };
-
-            $scope.orsaker = $scope.model[$scope.options.key];
-
+            
             /*
 */
             //$scope.model

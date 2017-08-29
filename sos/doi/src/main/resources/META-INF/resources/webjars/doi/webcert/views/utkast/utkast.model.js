@@ -41,17 +41,22 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                         'barn': undefined,
                         'land': undefined,
 
-                        'dodsorsak': new ModelAttr('dodsorsak', {
-                            defaultValue : {
+                        'terminalDodsorsak': new ModelAttr('terminalDodsorsak', {
+                            defaultValue : [{
                                 beskrivning: '',
                                 datum: '',
-                                orsak: ''
-                            },
+                                specifikation: null
+                            }],
                             fromTransform: function(fromBackend) {
                                 return [fromBackend];
                             },
                             toTransform: function(fromFrontend) {
-                                return fromFrontend[0];
+
+                                if(Array.isArray(fromFrontend)){
+                                    return fromFrontend[0];
+                                }
+
+                                return fromFrontend;
                             }
                         }),
                         'foljd': undefined,

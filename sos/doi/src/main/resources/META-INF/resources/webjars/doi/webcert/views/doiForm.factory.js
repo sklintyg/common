@@ -118,7 +118,7 @@ angular.module('doi').factory('doi.FormFactory',
                             templateOptions: {id: 'KAT_7.1', label: 'KAT_7.1'}
                         },
                         {
-                            key: 'dodsorsak',
+                            key: 'terminalDodsorsak',
                             type: 'dodsorsak',
                             templateOptions: {
                                 rows: 1,
@@ -132,7 +132,6 @@ angular.module('doi').factory('doi.FormFactory',
                                 orsakLabel: ''
                             }
                         }
-
                     ])/*,
                     fraga(9, [
                         {
