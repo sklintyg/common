@@ -59,8 +59,56 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                                 return fromFrontend;
                             }
                         }),
-                        'foljd': undefined,
-                        'bidragandeSjukdomar': undefined,
+                        'foljd':  new ModelAttr('bidragandeSjukdomar', {
+                            defaultValue : [{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            }]
+                        }),
+                        'bidragandeSjukdomar':  new ModelAttr('bidragandeSjukdomar', {
+                            defaultValue : [{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            },{
+                                beskrivning: '',
+                                datum: '',
+                                specifikation: null
+                            }]
+                        }),
 
                         'operation': undefined,
                         'operationDatum': undefined,

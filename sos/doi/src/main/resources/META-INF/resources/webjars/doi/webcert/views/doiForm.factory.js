@@ -121,6 +121,7 @@ angular.module('doi').factory('doi.FormFactory',
                             key: 'terminalDodsorsak',
                             type: 'dodsorsak',
                             templateOptions: {
+                                label: 'FRG_8',
                                 rows: 1,
                                 orsaksTyper: [
                                     'UPPGIFT_SAKNAS',
@@ -132,25 +133,46 @@ angular.module('doi').factory('doi.FormFactory',
                                 orsakLabel: ''
                             }
                         }
-                    ])/*,
+                    ]),
                     fraga(9, [
                         {
-                            key: 'dodsorsak',
+                            key: 'foljd',
                             type: 'dodsorsak',
-                            templateOptions: {label: 'FRG_4', required: true}
+                            templateOptions: {
+                                label: 'FRG_9',
+                                rows: 3,
+                                orsaksTyper: [
+                                    'UPPGIFT_SAKNAS',
+                                    'KRONISK',
+                                    'PLOTSLIG'
+                                ],
+                                beskrivningLabel: 'DFR_9.1',
+                                datumLabel: 'DFR_9.2',
+                                orsakLabel: ''
+                            }
                         }
                     ]),
-                    {
-                        type: 'headline',
-                        templateOptions: {id: 'KAT_7.2', label: 'KAT_7.2'}
-                    },
                     fraga(10, [
                         {
-                            key: 'dodsorsak',
+                            type: 'headline',
+                            templateOptions: {id: 'KAT_7.2', label: 'KAT_7.2'}
+                        },
+                        {
+                            key: 'bidragandeSjukdomar',
                             type: 'dodsorsak',
-                            templateOptions: {label: 'FRG_4', required: true}
+                            templateOptions: {
+                                rows: 8,
+                                orsaksTyper: [
+                                    'UPPGIFT_SAKNAS',
+                                    'KRONISK',
+                                    'PLOTSLIG'
+                                ],
+                                beskrivningLabel: 'DFR_10.1',
+                                datumLabel: 'DFR_10.2',
+                                orsakLabel: ''
+                            }
                         }
-                    ])*/
+                    ])
                 ]),
                 kategori(8, categoryNames[8], [
                     fraga(11, [

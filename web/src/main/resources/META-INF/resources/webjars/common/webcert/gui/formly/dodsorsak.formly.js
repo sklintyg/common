@@ -33,7 +33,7 @@ angular.module('common').run(function(formlyConfig) {
                 id: null,
                 label: 'Välj...'
             };
-            
+
             /*
 */
             //$scope.model
