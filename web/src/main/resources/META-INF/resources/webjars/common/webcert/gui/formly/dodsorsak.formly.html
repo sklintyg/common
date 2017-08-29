@@ -33,8 +33,8 @@
               add-date-parser="loose"></span>
       </td>
       <td>
-        <ui-select theme="bootstrap" search-enabled="false" ng-model="orsak.typ"
-                   id="orsak-{{$index}}-typ" name="andraUnderlag-{{$index}}" append-to-body="false"
+        <ui-select theme="bootstrap" search-enabled="false" ng-model="orsak.specifikation"
+                   id="orsak-{{$index}}-typ" name="andraDodsorsak-{{$index}}" append-to-body="false"
                    ng-class="{'fielderror' : hasValidationError('typ', $index)}"
                    on-select="validate()">
           <ui-select-match>

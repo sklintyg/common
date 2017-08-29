@@ -34,25 +34,8 @@ angular.module('common').run(function(formlyConfig) {
                 label: 'Välj...'
             };
 
-            $scope.orsaker = [];
+            $scope.orsaker = $scope.model[$scope.options.key];
 
-            $scope.orsakOptions = [];
-            if(!$scope.model[$scope.options.key]){
-
-                if($scope.to.rows === 1){
-                    $scope.model[$scope.options.key] = {
-
-                    };
-                } else {
-                    $scope.model[$scope.options.key] = [
-                        {
-
-                        }
-                    ];
-                }
-
-            }
-            var orsaker = $scope.model[$scope.options.key];
             /*
 */
             //$scope.model

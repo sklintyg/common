@@ -41,7 +41,19 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                         'barn': undefined,
                         'land': undefined,
 
-                        'dodsorsak': undefined,
+                        'dodsorsak': new ModelAttr('dodsorsak', {
+                            defaultValue : {
+                                beskrivning: '',
+                                datum: '',
+                                orsak: ''
+                            },
+                            fromTransform: function(fromBackend) {
+                                return [fromBackend];
+                            },
+                            toTransform: function(fromFrontend) {
+                                return fromFrontend[0];
+                            }
+                        }),
                         'foljd': undefined,
                         'bidragandeSjukdomar': undefined,
 
