@@ -84,6 +84,7 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(transport), actual);
 
+        System.out.println(actual.toString());
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);
         Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());

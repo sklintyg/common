@@ -19,9 +19,8 @@
 package se.inera.intyg.common.doi.validator;
 
 import com.google.common.base.Strings;
-import se.inera.intyg.common.doi.model.internal.BidragandeSjukdom;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
-import se.inera.intyg.common.doi.model.internal.Foljd;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
@@ -67,10 +66,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
     }
 
     private void validateDodsorsak(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (Strings.nullToEmpty(utlatande.getDodsorsak()).trim().isEmpty()) {
+        if (utlatande.getTerminalDodsorsak() == null || Strings.nullToEmpty(utlatande.getTerminalDodsorsak().getBeskrivning()).trim()
+                .isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".dodsorsak", ValidationMessageType.EMPTY);
         }
-        if (utlatande.getDodsdatum() != null && !utlatande.getDodsorsakDatum().isValidDate()) {
+        if (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null && !utlatande
+                .getTerminalDodsorsak().getDatum().isValidDate()) {
             ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".dodsorsakDatum", ValidationMessageType.INVALID_FORMAT);
         }
     }
@@ -81,7 +82,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                     ValidationMessageType.INCORRECT_COMBINATION);
         }
         for (int i = 0; i < utlatande.getFoljd().size(); i++) {
-            Foljd foljd = utlatande.getFoljd().get(i);
+            Dodsorsak foljd = utlatande.getFoljd().get(i);
             if (Strings.nullToEmpty(foljd.getBeskrivning()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, MODULE_ID + ".foljd.1.beskrivning", ValidationMessageType.EMPTY);
             }
@@ -98,14 +99,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                     ValidationMessageType.INCORRECT_COMBINATION);
         }
         for (int i = 0; i < utlatande.getBidragandeSjukdomar().size(); i++) {
-            BidragandeSjukdom bidragandeSjukdom = utlatande.getBidragandeSjukdomar().get(i);
+            Dodsorsak bidragandeSjukdom = utlatande.getBidragandeSjukdomar().get(i);
             if (Strings.nullToEmpty(bidragandeSjukdom.getBeskrivning()).trim().isEmpty()) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, MODULE_ID + ".foljd." + i + ".beskrivning", ValidationMessageType.EMPTY);
+                        .addValidationError(validationMessages, MODULE_ID + ".bidragandeSjukdomar." + i + ".beskrivning",
+                                ValidationMessageType.EMPTY);
             }
             if (bidragandeSjukdom.getDatum() != null && !bidragandeSjukdom.getDatum().isValidDate()) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, MODULE_ID + ".foljd." + i + ".datum", ValidationMessageType.INVALID_FORMAT);
+                        .addValidationError(validationMessages, MODULE_ID + ".bidragandeSjukdomar." + i + ".datum",
+                                ValidationMessageType.INVALID_FORMAT);
 
             }
         }

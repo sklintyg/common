@@ -6,9 +6,11 @@
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
   "barn": true,
-  "dodsorsak": "terminal dödsorsak",
-  "dodsorsakDatum": "2017-01-01",
-  "dodsorsakSpecifikation": "KRONISK",
+  "terminalDodsorsak": {
+    "beskrivning": "terminal dödsorsak",
+    "datum": "2017-01-01",
+    "specifikation": "KRONISK"
+  },
   "foljd": [
     {
       "beskrivning": "foljd 1",
