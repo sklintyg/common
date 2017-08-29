@@ -40,11 +40,11 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                         'dodsplatsBoende': undefined,
                         'barn': undefined,
                         'land': undefined,
+
                         'dodsorsak': undefined,
-                        'dodsorsakDatum': undefined,
-                        'dodsorsakSpecifikation': undefined,
                         'foljd': undefined,
                         'bidragandeSjukdomar': undefined,
+
                         'operation': undefined,
                         'operationDatum': undefined,
                         'operationAnledning': undefined,

@@ -112,21 +112,32 @@ angular.module('doi').factory('doi.FormFactory',
                     ])
                 ]),
                 kategori(7, categoryNames[7], [
-                    {
-                        type: 'headline',
-                        templateOptions: {id: 'KAT_7.1', label: 'KAT_7.1'}
-                    },
                     fraga(8, [
                         {
-                            key: 'dodsorsak', /* todo */
-                            type: 'multi-text',
-                            templateOptions: {label: 'FRG_4', required: true}
+                            type: 'headline',
+                            templateOptions: {id: 'KAT_7.1', label: 'KAT_7.1'}
+                        },
+                        {
+                            key: 'dodsorsak',
+                            type: 'dodsorsak',
+                            templateOptions: {
+                                rows: 1,
+                                orsaksTyper: [
+                                    'UPPGIFT_SAKNAS',
+                                    'KRONISK',
+                                    'PLOTSLIG'
+                                ],
+                                beskrivningLabel: 'DFR_8.1',
+                                datumLabel: 'DFR_8.2',
+                                orsakLabel: ''
+                            }
                         }
-                    ]),
+
+                    ])/*,
                     fraga(9, [
                         {
-                            key: 'dodsorsak', /* todo */
-                            type: 'multi-text',
+                            key: 'dodsorsak',
+                            type: 'dodsorsak',
                             templateOptions: {label: 'FRG_4', required: true}
                         }
                     ]),
@@ -136,11 +147,11 @@ angular.module('doi').factory('doi.FormFactory',
                     },
                     fraga(10, [
                         {
-                            key: 'dodsorsak', /* todo */
-                            type: 'multi-text',
+                            key: 'dodsorsak',
+                            type: 'dodsorsak',
                             templateOptions: {label: 'FRG_4', required: true}
                         }
-                    ])
+                    ])*/
                 ]),
                 kategori(8, categoryNames[8], [
                     fraga(11, [
@@ -160,7 +171,7 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'operationDatum',
-                            type: 'date',
+                            type: 'singleDate',
                             templateOptions: {label: 'DFR_11.2', required: true}
                         },
                         {
@@ -197,7 +208,7 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'forgiftningDatum',
-                            type: 'date',
+                            type: 'singleDate',
                             templateOptions: {label: 'DFR_12.3', required: true}
                         },
                         {

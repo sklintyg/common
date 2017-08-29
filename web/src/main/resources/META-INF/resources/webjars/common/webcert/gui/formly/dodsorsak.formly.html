@@ -1,4 +1,4 @@
-<div ng-show="model.underlagFinns">
+<div>
   <label class="control-label inline-block bold" ng-if="to.label">
     <span dynamic-label key="{{to.label}}.RBK"></span> *
     <span wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
@@ -6,46 +6,46 @@
   </label>
   <table class="">
     <tr class="underlagRow">
-      <th style="width: 35%;"><span dynamic-label key="{{to.typLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.typLabel}}.HLP"></span>
-        <span wc-help-chevron-text help-text-key="{{to.typLabel}}.HLP"></span>
+      <th style="width: 35%;"><span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span>
+        <span wc-help-chevron-text help-text-key="{{to.beskrivningLabel}}.HLP"></span>
       </th>
       <th><span>Datum </span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.datumLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{to.datumLabel}}.HLP"></span></th>
-      <th><span dynamic-label key="{{to.hamtasFranLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.hamtasFranLabel}}.HLP"></span>
-        <span wc-help-chevron-text help-text-key="{{to.hamtasFranLabel}}.HLP"></span>
+      <th><span dynamic-label key="{{to.orsakLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.orsakLabel}}.HLP"></span>
+        <span wc-help-chevron-text help-text-key="{{to.orsakLabel}}.HLP"></span>
       </th>
     </tr>
-    <tr class="underlagRow" ng-repeat="underlag in model.underlag">
+    <tr class="underlagRow" ng-repeat="orsak in orsaker">
       <td>
-        <input id="underlag-{{$index}}-hamtasFran"
+        <input id="orsak-{{$index}}-beskrivning"
                type="text"
                class="form-control input-full"
                ng-class="{'fielderror' : hasValidationError('hamtasfran', $index)}"
-               ng-model="underlag.hamtasFran"
+               ng-model="orsak.beskrivning"
                ng-blur="validate()"
                maxlength="4000">
       </td>
       <td>
-        <span wc-date-picker-field target-model="underlag.datum" dom-id="underlag-{{$index}}-datum"
+        <span wc-date-picker-field target-model="orsak.datum" dom-id="orsak-{{$index}}-datum"
               ng-class="{'fielderror' : hasValidationError('datum', $index)}"
-              ng-model="underlag.datum"
+              ng-model="orsak.datum"
               on-blur="validate()"
               add-date-parser="loose"></span>
       </td>
       <td>
-        <ui-select theme="bootstrap" search-enabled="false" ng-model="underlag.typ"
-                   id="underlag-{{$index}}-typ" name="andraUnderlag-{{$index}}" append-to-body="false"
+        <ui-select theme="bootstrap" search-enabled="false" ng-model="orsak.typ"
+                   id="orsak-{{$index}}-typ" name="andraUnderlag-{{$index}}" append-to-body="false"
                    ng-class="{'fielderror' : hasValidationError('typ', $index)}"
                    on-select="validate()">
           <ui-select-match>
             <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
           </ui-select-match>
-          <ui-select-choices repeat="item.id as item in underlagOptions" value="$select.selected.id">
+          <ui-select-choices repeat="item.id as item in orsakOptions" value="$select.selected.id">
             <span ng-bind="item.label"></span>
           </ui-select-choices>
         </ui-select>
       </td>
     </tr>
   </table>
-  <wc-field-validation field-type="{{options.type}}" validations="underlagValidations"></wc-field-validation>
+  <wc-field-validation field-type="{{options.type}}" validations="orsakValidations"></wc-field-validation>
 </div>

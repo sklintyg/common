@@ -29,27 +29,44 @@ angular.module('common').run(function(formlyConfig) {
         controller: ['$scope', '$timeout', 'common.dynamicLabelService', 'common.ObjectHelper', 'common.ArendeListViewStateService',
             'common.UtkastValidationService',
         function($scope, $timeout, dynamicLabelService, objectHelper, ArendeListViewState, UtkastValidationService) {
-/*
             var chooseOption = {
                 id: null,
                 label: 'Välj...'
             };
 
-            $scope.underlagOptions = [];
-            var underlag = $scope.model[$scope.options.key];
+            $scope.orsaker = [];
+
+            $scope.orsakOptions = [];
+            if(!$scope.model[$scope.options.key]){
+
+                if($scope.to.rows === 1){
+                    $scope.model[$scope.options.key] = {
+
+                    };
+                } else {
+                    $scope.model[$scope.options.key] = [
+                        {
+
+                        }
+                    ];
+                }
+
+            }
+            var orsaker = $scope.model[$scope.options.key];
+            /*
+*/
+            //$scope.model
+
+            /*
 
             $scope.previousUnderlagIncomplete = function() {
-                var prev = underlag[underlag.length - 1];
+                var prev = orsaker[orsaker.length - 1];
                 return objectHelper.isEmpty(prev.typ) || objectHelper.isEmpty(prev.datum) || objectHelper.isEmpty(prev.hamtasFran);
-            };
-
-            $scope.hasKomplettering = function() {
-                return ArendeListViewState.hasKompletteringar($scope.options.key);
             };
 
             $scope.hasValidationError = function(field, index) {
                 return $scope.formState.viewState.common.validation.messagesByField &&
-                    !!$scope.formState.viewState.common.validation.messagesByField['underlag.' + index + '.' + field];
+                    !!$scope.formState.viewState.common.validation.messagesByField['orsaker.' + index + '.' + field];
             };
 
             $scope.validate = function() {
@@ -62,32 +79,32 @@ angular.module('common').run(function(formlyConfig) {
             };
 
             $scope.$watch('formState.viewState.common.validation.messagesByField', function() {
-                $scope.underlagValidations = [];
+                $scope.orsakerValidations = [];
                 angular.forEach($scope.formState.viewState.common.validation.messagesByField, function(validations, key) {
                     if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
-                        $scope.underlagValidations = $scope.underlagValidations.concat(validations);
+                        $scope.orsakerValidations = $scope.orsakerValidations.concat(validations);
                     }
                 });
             });
+             */
+            function updateOrsaker() {
+                $scope.orsakOptions = [chooseOption];
 
-            function updateUnderlag() {
-                $scope.underlagOptions = [chooseOption];
-
-                if ($scope.to.underlagsTyper) {
-                    $scope.to.underlagsTyper.forEach(function (underlagsTyp) {
-                        $scope.underlagOptions.push({
-                            'id': underlagsTyp,
-                            'label': dynamicLabelService.getProperty('KV_FKMU_0005.' + underlagsTyp + '.RBK')
+                if ($scope.to.orsaksTyper) {
+                    $scope.to.orsaksTyper.forEach(function (orsaksTyp) {
+                        $scope.orsakOptions.push({
+                            'id': orsaksTyp,
+                            'label': dynamicLabelService.getProperty('KV_ORSAKSTYPER.' + orsaksTyp + '.RBK')
                         });
                     });
                 }
             }
 
             $scope.$on('dynamicLabels.updated', function() {
-                updateUnderlag();
+                updateOrsaker();
             });
 
-            updateUnderlag();*/
+            updateOrsaker();
         }]
     });
 
