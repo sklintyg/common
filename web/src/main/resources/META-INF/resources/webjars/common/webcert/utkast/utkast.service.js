@@ -117,7 +117,7 @@ angular.module('common').factory('common.UtkastService',
                     // check that the certs status is not signed
                     if (utkastData.status === 'SIGNED') {
                         // just change straight to the intyg
-                        $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id);
+                        $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id + '/');
                     }
                     else {
 
