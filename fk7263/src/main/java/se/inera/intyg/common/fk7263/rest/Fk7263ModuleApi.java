@@ -112,6 +112,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     private static final Logger LOG = LoggerFactory.getLogger(Fk7263ModuleApi.class);
 
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
+    private static final String SPACE = " ";
 
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
@@ -440,6 +441,12 @@ public class Fk7263ModuleApi implements ModuleApi {
         if (!Strings.isNullOrEmpty(recipientId) && recipientId.equalsIgnoreCase(Fk7263EntryPoint.DEFAULT_RECIPIENT_ID)) {
             request = whenFkIsRecipientThenSetCodeSystemToICD10(request);
         }
+
+        // Due to sekretessmarkering and not storing patient names anymore, make sure PatientType#fullstandigtNamn is not null.
+        if (Strings.isNullOrEmpty(request.getLakarutlatande().getPatient().getFullstandigtNamn())) {
+            request.getLakarutlatande().getPatient().setFullstandigtNamn(SPACE);
+        }
+
 
         AttributedURIType address = new AttributedURIType();
         address.setValue(logicalAddress);
