@@ -34,6 +34,8 @@ public class Relation {
 
     private LocalDate sistaGiltighetsDatum;
 
+    private String sistaSjukskrivningsgrad;
+
     private String referensId;
 
     @Override
@@ -49,13 +51,14 @@ public class Relation {
                 && Objects.equals(this.relationIntygsId, that.relationIntygsId)
                 && Objects.equals(this.meddelandeId, that.meddelandeId)
                 && Objects.equals(this.sistaGiltighetsDatum, that.sistaGiltighetsDatum)
+                && Objects.equals(this.sistaSjukskrivningsgrad, that.sistaSjukskrivningsgrad)
                 && Objects.equals(this.referensId, that.referensId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.relationKod, this.relationIntygsId,
-                this.meddelandeId, this.sistaGiltighetsDatum, this.referensId);
+                this.meddelandeId, this.sistaGiltighetsDatum, this.sistaSjukskrivningsgrad, this.referensId);
     }
 
     public RelationKod getRelationKod() {
@@ -88,6 +91,14 @@ public class Relation {
 
     public void setSistaGiltighetsDatum(LocalDate sistaGiltighetsDatum) {
         this.sistaGiltighetsDatum = sistaGiltighetsDatum;
+    }
+
+    public String getSistaSjukskrivningsgrad() {
+        return sistaSjukskrivningsgrad;
+    }
+
+    public void setSistaSjukskrivningsgrad(String sistaSjukskrivningsgrad) {
+        this.sistaSjukskrivningsgrad = sistaSjukskrivningsgrad;
     }
 
     public String getReferensId() {
