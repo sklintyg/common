@@ -29,6 +29,7 @@ angular.module('common').directive('wcSekretessAvliden',
                 restrict: 'A',
                 transclude: true,
                 scope: {
+                    uuid: '=',
                     printlabel: '=',
                     sekretessmarkering: '=',
                     avliden: '='
