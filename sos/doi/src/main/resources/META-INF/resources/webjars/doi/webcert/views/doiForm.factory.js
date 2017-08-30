@@ -25,6 +25,7 @@ angular.module('doi').factory('doi.FormFactory',
             DateUtils, ObjectHelper, UserModel, FactoryTemplates) {
             'use strict';
 
+
             var categoryNames = {
                 1: 'personuppgifter',
                 2: 'dodsdatumoOchdodsPlats',
@@ -45,6 +46,13 @@ angular.module('doi').factory('doi.FormFactory',
                             key: 'identitetStyrkt',
                             type: 'single-text-vertical',
                             templateOptions: {label: 'DFR_1.1', required: true}
+                        }
+                    ]),
+                    fraga(14, [
+                        {
+                            key: 'land',
+                            type: 'single-text-vertical',
+                            templateOptions: {label: 'DFR_14.1', required: true}
                         }
                     ])
                 ]),
@@ -122,7 +130,7 @@ angular.module('doi').factory('doi.FormFactory',
                             type: 'dodsorsak',
                             templateOptions: {
                                 label: 'FRG_8',
-                                rows: 1,
+                                maxRows: 1,
                                 orsaksTyper: [
                                     'UPPGIFT_SAKNAS',
                                     'KRONISK',
@@ -140,7 +148,7 @@ angular.module('doi').factory('doi.FormFactory',
                             type: 'dodsorsak',
                             templateOptions: {
                                 label: 'FRG_9',
-                                rows: 3,
+                                maxRows: 3,
                                 orsaksTyper: [
                                     'UPPGIFT_SAKNAS',
                                     'KRONISK',
@@ -161,7 +169,7 @@ angular.module('doi').factory('doi.FormFactory',
                             key: 'bidragandeSjukdomar',
                             type: 'dodsorsak',
                             templateOptions: {
-                                rows: 8,
+                                maxRows: 8,
                                 orsaksTyper: [
                                     'UPPGIFT_SAKNAS',
                                     'KRONISK',

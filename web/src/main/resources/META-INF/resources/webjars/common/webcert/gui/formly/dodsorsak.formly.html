@@ -15,12 +15,12 @@
         <span wc-help-chevron-text help-text-key="{{to.orsakLabel}}.HLP"></span>
       </th>
     </tr>
-    <tr class="underlagRow" ng-repeat="orsak in model[options.key]">
+    <tr class="underlagRow" ng-repeat="orsak in model[options.key] track by $index">
       <td>
         <input id="orsak-{{$index}}-beskrivning"
                type="text"
                class="form-control input-full"
-               ng-class="{'fielderror' : hasValidationError('hamtasfran', $index)}"
+               ng-class="{'fielderror' : hasValidationError('beskrivning', $index)}"
                ng-model="orsak.beskrivning"
                ng-blur="validate()"
                maxlength="4000">
@@ -34,8 +34,8 @@
       </td>
       <td>
         <ui-select theme="bootstrap" search-enabled="false" ng-model="orsak.specifikation"
-                   id="orsak-{{$index}}-typ" name="andraDodsorsak-{{$index}}" append-to-body="false"
-                   ng-class="{'fielderror' : hasValidationError('typ', $index)}"
+                   id="orsak-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}" append-to-body="false"
+                   ng-class="{'fielderror' : hasValidationError('specifikation', $index)}"
                    on-select="validate()">
           <ui-select-match>
             <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>

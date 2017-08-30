@@ -34,20 +34,30 @@ angular.module('common').run(function(formlyConfig) {
                 label: 'Välj...'
             };
 
-            /*
-*/
-            //$scope.model
-
-            /*
-
-            $scope.previousUnderlagIncomplete = function() {
-                var prev = orsaker[orsaker.length - 1];
-                return objectHelper.isEmpty(prev.typ) || objectHelper.isEmpty(prev.datum) || objectHelper.isEmpty(prev.hamtasFran);
+            // Make sure the right amount of rows exist
+            var emptyRow = {
+                beskrivning: '',
+                datum: '',
+                specifikation: null
             };
+
+            function setupRows(){
+                var rows = $scope.to.maxRows;
+                var modelArray = $scope.model[$scope.options.key];
+                if(!modelArray || modelArray.length === 0){
+                    if(rows && modelArray.length < rows){
+                        for (var i = 0; i < $scope.to.rows; i++){
+                            modelArray.push(emptyRow);
+                        }
+                    }
+                }
+            }
+
+            $scope.$on('intyg.loaded', setupRows);
 
             $scope.hasValidationError = function(field, index) {
                 return $scope.formState.viewState.common.validation.messagesByField &&
-                    !!$scope.formState.viewState.common.validation.messagesByField['orsaker.' + index + '.' + field];
+                    !!$scope.formState.viewState.common.validation.messagesByField[$scope.options.key + '.' + index + '.' + field];
             };
 
             $scope.validate = function() {
@@ -60,13 +70,21 @@ angular.module('common').run(function(formlyConfig) {
             };
 
             $scope.$watch('formState.viewState.common.validation.messagesByField', function() {
-                $scope.orsakerValidations = [];
+                $scope.orsakValidations = [];
                 angular.forEach($scope.formState.viewState.common.validation.messagesByField, function(validations, key) {
                     if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
-                        $scope.orsakerValidations = $scope.orsakerValidations.concat(validations);
+                        $scope.orsakValidations = $scope.orsakValidations.concat(validations);
                     }
                 });
             });
+
+            /*
+
+            $scope.previousUnderlagIncomplete = function() {
+                var prev = orsaker[orsaker.length - 1];
+                return objectHelper.isEmpty(prev.typ) || objectHelper.isEmpty(prev.datum) || objectHelper.isEmpty(prev.hamtasFran);
+            };
+
              */
             function updateOrsaker() {
                 $scope.orsakOptions = [chooseOption];

@@ -59,16 +59,8 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                                 return fromFrontend;
                             }
                         }),
-                        'foljd':  new ModelAttr('bidragandeSjukdomar', {
+                        'foljd':  new ModelAttr('foljd', {
                             defaultValue : [{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
                                 beskrivning: '',
                                 datum: '',
                                 specifikation: null
@@ -76,34 +68,6 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                         }),
                         'bidragandeSjukdomar':  new ModelAttr('bidragandeSjukdomar', {
                             defaultValue : [{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
-                                beskrivning: '',
-                                datum: '',
-                                specifikation: null
-                            },{
                                 beskrivning: '',
                                 datum: '',
                                 specifikation: null
