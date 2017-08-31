@@ -46,8 +46,8 @@ angular.module('common').run(function(formlyConfig) {
                 var modelArray = $scope.model[$scope.options.key];
                 if(!modelArray || modelArray.length === 0){
                     if(rows && modelArray.length < rows){
-                        for (var i = 0; i < $scope.to.rows; i++){
-                            modelArray.push(emptyRow);
+                        for (var i = 0; i < rows; i++){
+                            modelArray.push(angular.copy(emptyRow));
                         }
                     }
                 }
