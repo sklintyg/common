@@ -28,7 +28,7 @@ angular.module('doi').factory('doi.FormFactory',
 
             var categoryNames = {
                 1: 'personuppgifter',
-                2: 'dodsdatumoOchdodsPlats',
+                2: 'dodsdatumOchdodsPlats',
                 3: 'barnSomAvlidit',
                 7: 'utlatandeOrsak',
                 8: 'operation',

@@ -59,14 +59,14 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                                 return fromFrontend;
                             }
                         }),
-                        'foljd':  new ModelAttr('foljd', {
+                        'foljd': new ModelAttr('foljd', {
                             defaultValue : [{
                                 beskrivning: '',
                                 datum: '',
                                 specifikation: null
                             }]
                         }),
-                        'bidragandeSjukdomar':  new ModelAttr('bidragandeSjukdomar', {
+                        'bidragandeSjukdomar': new ModelAttr('bidragandeSjukdomar', {
                             defaultValue : [{
                                 beskrivning: '',
                                 datum: '',
@@ -81,7 +81,31 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                         'forgiftningOrsak': undefined,
                         'forgiftningDatum': undefined,
                         'forgiftningUppkommelse': undefined,
-                        'grunder': undefined
+                        'grunder': new ModelAttr('grunder', {
+                            defaultValue : [],
+                            toTransform: function(fromApp) {
+
+                                var transportModel = [];
+
+                                angular.forEach(fromApp, function(value, key) {
+                                    if(value === true) {
+                                        transportModel.push(key);
+                                    }
+                                }, fromApp);
+
+                                return transportModel;
+                            },
+                            fromTransform: function(fromBackend) {
+
+                                var modelInternal = {};
+
+                                angular.forEach(fromBackend, function(value, key) {
+                                    modelInternal[value] = true;
+                                });
+
+                                return modelInternal;
+                            }
+                        })
                     });
                 },
                 update: function update(content, parent) {

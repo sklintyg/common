@@ -38,7 +38,14 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
                         var keys = Object.keys($scope.categoryNames);
 
                         for(var i = 0; i < keys.length; i++) {
-                            if (category === $scope.categoryNames[keys[i]].toLowerCase()) {
+
+                            if(!category){
+                                continue;
+                            }
+
+                            var categoryLc = category.toLowerCase();
+                            var categoryNameLc = $scope.categoryNames[keys[i]].toLowerCase();
+                            if (categoryLc === categoryNameLc) {
                                 var result = dynamicLabelService.getProperty('KAT_' + keys[i] + '.RBK');
                                 if (result) {
                                     return result;

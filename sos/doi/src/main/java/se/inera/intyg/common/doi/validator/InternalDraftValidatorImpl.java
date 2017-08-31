@@ -65,6 +65,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
     }
 
+    private void validateLand(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {
+        if (Strings.nullToEmpty(utlatande.getLand()).trim().isEmpty()) {
+            ValidatorUtil.addValidationError(validationMessages, ".land", ValidationMessageType.EMPTY);
+        }
+    }
+
     private void validateDodsorsak(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getTerminalDodsorsak() == null || Strings.nullToEmpty(utlatande.getTerminalDodsorsak().getBeskrivning()).trim()
                 .isEmpty()) {
@@ -177,12 +183,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             ValidatorUtil.addValidationError(validationMessages, "dodsorsakgrund.grunder", ValidationMessageType.OTHER);
         } else if (utlatande.getGrunder().size() != utlatande.getGrunder().stream().distinct().count()) {
             ValidatorUtil.addValidationError(validationMessages, "dodsorsakgrund.grunder", ValidationMessageType.INCORRECT_COMBINATION);
-        }
-    }
-
-    private void validateLand(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (Strings.nullToEmpty(utlatande.getLand()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, ".land", ValidationMessageType.EMPTY);
         }
     }
 }
