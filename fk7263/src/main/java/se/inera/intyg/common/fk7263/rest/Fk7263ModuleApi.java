@@ -30,6 +30,7 @@ import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.MedicinsktTillstandType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Nedsattningsgrad;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
@@ -54,6 +55,7 @@ import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.fk7263.validator.InternalDraftValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -112,6 +114,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     private static final Logger LOG = LoggerFactory.getLogger(Fk7263ModuleApi.class);
 
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
+    private static final String SPACE = " ";
 
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
@@ -441,6 +444,12 @@ public class Fk7263ModuleApi implements ModuleApi {
             request = whenFkIsRecipientThenSetCodeSystemToICD10(request);
         }
 
+        // Due to sekretessmarkering and not storing patient names anymore, make sure PatientType#fullstandigtNamn is not null.
+        if (Strings.isNullOrEmpty(request.getLakarutlatande().getPatient().getFullstandigtNamn())) {
+            request.getLakarutlatande().getPatient().setFullstandigtNamn(SPACE);
+        }
+
+
         AttributedURIType address = new AttributedURIType();
         address.setValue(logicalAddress);
 
@@ -541,6 +550,12 @@ public class Fk7263ModuleApi implements ModuleApi {
             throws ModuleException {
         try {
             Fk7263Utlatande internal = getInternal(internalModelHolder);
+
+            Relation relation = draftCopyHolder.getRelation();
+            relation.setSistaGiltighetsDatum(internal.getGiltighet().getTom());
+            relation.setSistaSjukskrivningsgrad(buildSistaSjukskrivningsgrad(internal));
+            draftCopyHolder.setRelation(relation);
+
             internal.setKontaktMedFk(false);
             internal.setNedsattMed100(null);
             internal.setNedsattMed25(null);
@@ -555,15 +570,36 @@ public class Fk7263ModuleApi implements ModuleApi {
             internal.setJournaluppgifter(null);
             internal.setAnnanReferens(null);
             internal.setAnnanReferensBeskrivning(null);
-            Relation relation = draftCopyHolder.getRelation();
-            relation.setSistaGiltighetsDatum(internal.getGiltighet().getTom());
-            draftCopyHolder.setRelation(relation);
 
             return toInteralModelResponse(webcertModelFactory.createCopy(draftCopyHolder, internal));
         } catch (ConverterException e) {
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
         }
+    }
+
+    private static String buildSistaSjukskrivningsgrad(Fk7263Utlatande internal) {
+        InternalDate lastPeriod = null;
+        String lastSjukskrivningsgrad = null;
+        if (internal.getNedsattMed25() != null && internal.getNedsattMed25().tomAsLocalDate() != null) {
+            lastPeriod = internal.getNedsattMed25().getTom();
+            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_4.name();
+        }
+        if (internal.getNedsattMed50() != null && internal.getNedsattMed50().tomAsLocalDate() != null
+                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed50().tomAsLocalDate()))) {
+            lastPeriod = internal.getNedsattMed50().getTom();
+            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_2.name();
+        }
+        if (internal.getNedsattMed75() != null && internal.getNedsattMed75().tomAsLocalDate() != null
+                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed75().tomAsLocalDate()))) {
+            lastPeriod = internal.getNedsattMed75().getTom();
+            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_3_4.name();
+        }
+        if (internal.getNedsattMed100() != null && internal.getNedsattMed100().tomAsLocalDate() != null
+                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed100().tomAsLocalDate()))) {
+            lastSjukskrivningsgrad = Nedsattningsgrad.HELT_NEDSATT.name();
+        }
+        return lastSjukskrivningsgrad;
     }
 
     @Override

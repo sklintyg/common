@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,23 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Renders icon(s) and optionally text for patients having avliden, sekretessmarkering or both.
- */
-angular.module('common').directive('wcSekretessAvliden',
-    [
-        function() {
-            'use strict';
-
-            return {
-                restrict: 'A',
-                transclude: true,
-                scope: {
-                    uuid: '=',
-                    printlabel: '=',
-                    sekretessmarkering: '=',
-                    avliden: '='
-                },
-                templateUrl: '/web/webjars/common/webcert/gui/wcSekretessAvliden.directive.html'
-            };
-        }]);
+#wc-intyg-revoked-intyg-message {
+  > .alert-warning {
+    margin-right: 20px;
+    max-width: 530px;
+  }
+}

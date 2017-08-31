@@ -39,7 +39,11 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         }
                     ]),
                     fraga(2, [
-                        {key: 'kannedomOmPatient', type: 'singleDate', templateOptions: {label: 'FRG_2', required: true}}
+                        {
+                            key: 'kannedomOmPatient',
+                            type: 'singleDate',
+                            templateOptions: {label: 'FRG_2', required: true}
+                        }
                     ]),
                     fraga(3, [
                         {key: 'underlagFinns', type: 'boolean', templateOptions: {label: 'FRG_3', required: true}},
@@ -73,7 +77,10 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                 ]),
                 kategori(3, categoryNames[3], [
                     fraga(6, [
-                        {type: 'headline', templateOptions: {label: 'FRG_6', level: 4, noH5After: false, required: true}},
+                        {
+                            type: 'headline',
+                            templateOptions: {label: 'FRG_6', level: 4, noH5After: false, required: true}
+                        },
                         {
                             key: 'diagnoser',
                             type: 'diagnos',
@@ -85,17 +92,24 @@ angular.module('luae_fs').factory('luae_fs.FormFactory',
                         {
                             key: 'funktionsnedsattningDebut',
                             type: 'multi-text',
-                            templateOptions: {label: 'FRG_15', required: true }
+                            templateOptions: {label: 'FRG_15', required: true}
                         }]),
-                    fraga(16, [ {
+                    fraga(16, [{
                         key: 'funktionsnedsattningPaverkan',
                         type: 'multi-text',
-                        templateOptions: {label: 'FRG_16', required: true }
+                        templateOptions: {label: 'FRG_16', required: true}
                     }])
                 ]),
                 kategori(5, categoryNames[5], [
                     fraga(25, [
-                        {key: 'ovrigt', type: 'multi-text', templateOptions: {label: 'FRG_25'}}
+                        {
+                            key: 'ovrigt',
+                            type: 'multi-text',
+                            templateOptions: {label: 'FRG_25'},
+                            ngModelElAttrs: {
+                                'wc-focus-on': 'focusOvrigt'
+                            }
+                        }
                     ])
                 ]),
                 kategori(6, categoryNames[6], [

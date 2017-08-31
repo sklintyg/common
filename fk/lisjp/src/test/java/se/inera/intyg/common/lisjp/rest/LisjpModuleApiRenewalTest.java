@@ -102,6 +102,10 @@ public class LisjpModuleApiRenewalTest {
         assertEquals(original.getPrognos(), renewCopy.getPrognos());
         assertEquals(original.getSysselsattning(), renewCopy.getSysselsattning());
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+
+        // Relation
+        assertEquals(original.getSjukskrivningar().get(0).getPeriod().getTom().asLocalDate(), renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
+        assertEquals(original.getSjukskrivningar().get(0).getSjukskrivningsgrad().getLabel(), renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
     }
 
     private CreateDraftCopyHolder createCopyHolder() {

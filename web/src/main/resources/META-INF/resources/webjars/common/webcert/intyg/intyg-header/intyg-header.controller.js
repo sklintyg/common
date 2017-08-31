@@ -44,7 +44,7 @@ angular.module('common').controller('common.IntygHeader',
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
-            $scope.makuleratIntyg = function(){
+            $scope.isRevoked = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
             };
             $scope.isReplaced = function(){
@@ -67,7 +67,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showSkickaButton = function(){
-                return !$scope.isSentIntyg() && !$scope.makuleratIntyg() && !$scope.isReplaced();
+                return !$scope.isSentIntyg() && !$scope.isRevoked() && !$scope.isReplaced();
             };
 
             $scope.showPrintBtn = function() {
@@ -78,13 +78,13 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showEmployerPrintBtn = function() {
-                return $scope.arbetsgivarUtskrift && !$scope.makuleratIntyg();
+                return $scope.arbetsgivarUtskrift && !$scope.isRevoked();
             };
 
             $scope.showFornyaButton = function() {
                 return !($scope.intygstyp === 'ts-bas' || $scope.intygstyp === 'ts-diabetes') &&
 
-                    !$scope.makuleratIntyg() &&
+                    !$scope.isRevoked() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
@@ -92,7 +92,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showErsattButton = function() {
-                return !$scope.makuleratIntyg() && !$scope.isReplaced() &&
+                return !$scope.isRevoked() && !$scope.isReplaced() &&
                         !$scope.isComplemented() &&
                     !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() &&
@@ -100,7 +100,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.send = function() {
-                var onPatientFound = function(patient) {
+                var onPatientFound = function() {
                     IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
                         intygType+'.label.send', intygType+'.label.send.body', function() {
                             // After a send request we shouldn't reload right away due to async reasons.

@@ -19,33 +19,55 @@
 
 /* All overrides of bootstrap specific stuff goes into this partial file */
 // Colors
-$dialog-choice-box-border-color: #cccccc;
 
-.dialog-scroller {
-  min-height: 100px;
-  max-height: 400px;
-  padding-bottom: 10px;
-  overflow-y: auto;
-  margin: 0 0 20px 0;
+$dialog-header-color: #008392;
+$dialog-divider-color: #e3e3e3;
+$warning-text-red: #ff0000;
+$notice-text-gray: #999999;
+
+.dialog-placement {
+  &, .model-dialog {
+    top: 22%;
+  }
 }
 
 .dialog-choice-box {
-  border: 1px solid $dialog-choice-box-border-color;
-  border-radius: 2px;
   position: relative;
-  height: 195px;
+  height: 290px;
+}
+
+.dialog-column-divider-right {
+  border-right: 1px solid $dialog-divider-color;
+}
+
+.dialog-header {
+  font-size: 20px;
+  color: $dialog-header-color;
+  text-align: left;
 }
 
 .dialog-choice-box__text-section {
-  padding: 10px
+  padding: 20px;
+  padding-top: 30px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.dialog_choice-box__warning-text {
+  color: $warning-text-red;
+  font-size: 90%;
+}
+
+.dialog_choice-box__notice-text {
+  color: $notice-text-gray;
+  font-size: 90%;
 }
 
 .dialog-choice-box__button-section {
   text-align: center;
-  position: absolute;
-  bottom: 0;
   width: 100%;
-  padding-bottom: 10px;
+  padding-top: 25px;
+  padding-bottom: 17px;
 }
 
 .komplettera-row {

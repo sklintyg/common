@@ -97,7 +97,6 @@ angular.module('common').factory('common.ArendeListItemModel',
             if (_isKomplettering(this.arende.fraga.amne) &&
                 UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
                 this.svaraMedNyttIntygDisabled = true;
-                this.svaraMedNyttIntygDisabledReason = messageService.getProperty('common.arende.komplettering.disabled.svaramedintyg.uthopp');
             } else {
                 this.svaraMedNyttIntygDisabled = false;
             }

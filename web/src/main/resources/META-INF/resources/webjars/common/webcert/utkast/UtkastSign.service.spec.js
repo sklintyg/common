@@ -115,7 +115,7 @@ describe('UtkastSignService', function() {
             UtkastSignService.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful, even if delayed', function() {
@@ -133,7 +133,7 @@ describe('UtkastSignService', function() {
             $timeout.flush();
             $httpBackend.flush();
 
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
         });
 
         it('should show an error if the server refuses the request to sign', function() {
@@ -239,7 +239,7 @@ describe('UtkastSignService', function() {
 
             // expect(dialogState.model.bodyTextId).toBe('common.modal.bankid.signed');
             // expect(dialogState.model.signState).toBe('SIGNERAD');
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
             expect(signResult).toEqual({newVersion: 111});
         });
 
@@ -296,7 +296,7 @@ describe('UtkastSignService', function() {
             $timeout.flush();
             $httpBackend.flush();
 
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful, even if delayed', function() {
@@ -322,7 +322,7 @@ describe('UtkastSignService', function() {
             $timeout.flush();
             $httpBackend.flush();
 
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId);
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
         });
 
         it('should show error if unable to get hash', function() {

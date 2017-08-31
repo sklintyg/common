@@ -51,6 +51,7 @@ describe('UtkastService', function() {
         $provide.value('common.dynamicLabelService', {
             updateDynamicLabels: function(){}
         });
+        $provide.value('common.anchorScrollService', {scrollTo: function() {}});
     }));
 
     beforeEach(angular.mock.inject(['common.dynamicLabelService', 'common.UtkastService', 'common.UtkastViewStateService', 'common.User',
@@ -147,7 +148,7 @@ describe('UtkastService', function() {
             $httpBackend.flush();
             $timeout.flush();
 
-            expect($location.url).toHaveBeenCalledWith('/intyg/testIntyg/testIntygId');
+            expect($location.url).toHaveBeenCalledWith('/intyg/testIntyg/testIntygId/');
         });
 
         it ('successful utkast load', function () {

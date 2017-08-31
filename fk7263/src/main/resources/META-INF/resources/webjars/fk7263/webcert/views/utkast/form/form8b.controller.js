@@ -19,10 +19,10 @@
 
 angular.module('fk7263').controller('fk7263.EditCert.Form8bCtrl',
     ['$scope', '$log', '$timeout', 'fk7263.EditCertCtrl.ViewStateService',
-        'fk7263.LastEffectiveDateNoticeModel', 'common.DateUtilsService',
-        'common.DateRangeService', 'common.fmbViewState', 'common.messageService', 'common.UtkastValidationService',
-        function($scope, $log, $timeout, viewState, LastEffectiveDateNoticeModel, dateUtils,
-            DateRangeService, fmbViewState, messageService, UtkastValidationService) {
+        'common.DateUtilsService', 'common.DateRangeService', 'common.fmbViewState', 'common.messageService',
+        'common.UtkastValidationService',
+        function($scope, $log, $timeout, viewState, dateUtils, DateRangeService, fmbViewState, messageService,
+            UtkastValidationService) {
             'use strict';
             // private vars
 
@@ -30,7 +30,6 @@ angular.module('fk7263').controller('fk7263.EditCert.Form8bCtrl',
             $scope.model = viewState.intygModel;
             $scope.viewState = viewState;
             $scope.fmbViewState = fmbViewState;
-            $scope.lastEffectiveDate = '';
             $scope.lastEffectiveDateNoticeText = '';
 
             // 1. onload
@@ -38,44 +37,6 @@ angular.module('fk7263').controller('fk7263.EditCert.Form8bCtrl',
             // 3. on manual change.
 
             var _dateRangeService = DateRangeService.FromTos.build(['nedsattMed25','nedsattMed50','nedsattMed75','nedsattMed100']);
-
-            function updateMinMaxFromLastEffectiveDate () {
-                _dateRangeService.updateMinMax({
-                    min: $scope.lastEffectiveDate,
-                    max: $scope.lastEffectiveDate
-                });
-            }
-
-            function getLastEffectiveDate () {
-                return [
-                    $scope.field8b.nedsattMed25,
-                    $scope.field8b.nedsattMed50,
-                    $scope.field8b.nedsattMed75,
-                    $scope.field8b.nedsattMed100
-                ]
-                .filter(function (FromTo) {
-                    return (
-                        FromTo.workState &&
-                        FromTo.from &&
-                        FromTo.from.moment &&
-                        moment(FromTo.from.moment).subtract(1, 'days').format('YYYY-MM-DD') === $scope.lastEffectiveDate
-                    );
-                })[0];
-            }
-
-            function addHelpTextToLastEffectiveDate () {
-                var lastEffectiveDate = getLastEffectiveDate();
-                if (
-                    lastEffectiveDate &&
-                    !$scope.field8b.lastEffectiveDateNotice.hasBeenClosed() &&
-                    $scope.lastEffectiveDate
-                ) {
-                    $scope.field8b.lastEffectiveDateNotice.set(lastEffectiveDate.name);
-                    $scope.field8b.lastEffectiveDateNotice.show();
-                } else {
-                    $scope.field8b.lastEffectiveDateNotice.reset();
-                }
-            }
 
             $scope.onToFieldBlur = function(fromTo) {
                 //If from-field has a valid date, and the to-field contains a parsable day code, calculate a new to-field dateString
@@ -104,7 +65,6 @@ angular.module('fk7263').controller('fk7263.EditCert.Form8bCtrl',
                 nedsattMed50 : _dateRangeService.nedsattMed50,
                 nedsattMed75 : _dateRangeService.nedsattMed75,
                 nedsattMed100 : _dateRangeService.nedsattMed100,
-                lastEffectiveDateNotice: new LastEffectiveDateNoticeModel(),
                 onChangeWorkStateCheck : function(nedsattModelName) {
                     $log.debug('------------------------ onChangeWorkStateCheck');
 
@@ -114,21 +74,9 @@ angular.module('fk7263').controller('fk7263.EditCert.Form8bCtrl',
                     if (!$scope.field8b[nedsattModelName].workState) {
                         viewState.intygModel.updateToAttic(descriptionModelName);
                         viewState.intygModel.clear(descriptionModelName);
-
-                        if (
-                            !$scope.field8b.nedsattMed25.workState &&
-                            !$scope.field8b.nedsattMed50.workState &&
-                            !$scope.field8b.nedsattMed75.workState &&
-                            !$scope.field8b.nedsattMed100.workState &&
-                            $scope.lastEffectiveDate
-                        ) {
-                            updateMinMaxFromLastEffectiveDate();
-                        }
                     } else {
                         viewState.intygModel.restoreFromAttic(descriptionModelName);
                     }
-
-                    addHelpTextToLastEffectiveDate();
                 },
                 info : _dateRangeService
             };
@@ -160,12 +108,19 @@ angular.module('fk7263').controller('fk7263.EditCert.Form8bCtrl',
                 if (newVal) {
                     _dateRangeService.linkFormAndModel($scope.form8b, viewState.intygModel, $scope);
                     if (viewState.intygModel.grundData.relation.sistaGiltighetsDatum){
-                        $scope.lastEffectiveDate = viewState.intygModel.grundData.relation.sistaGiltighetsDatum;
+                        var percent = {
+                            'HELT_NEDSATT': 100,
+                            'NEDSATT_MED_3_4': 75,
+                            'NEDSATT_MED_1_2': 50,
+                            'NEDSATT_MED_1_4': 25
+                        }[viewState.intygModel.grundData.relation.sistaSjukskrivningsgrad];
+                        if (!percent) {
+                            percent = 'okänt';
+                        }
                         $scope.lastEffectiveDateNoticeText = messageService
                             .getProperty('fk7263.helptext.sista-giltighets-datum')
-                            .replace('{{lastEffectiveDate}}', $scope.lastEffectiveDate);
-                        updateMinMaxFromLastEffectiveDate();
-                        addHelpTextToLastEffectiveDate();
+                            .replace('{{lastEffectiveDate}}', viewState.intygModel.grundData.relation.sistaGiltighetsDatum)
+                            .replace('{{sjukskrivningsgrad}}', percent);
                     }
                     doneLoading = true;
                 }

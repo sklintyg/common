@@ -24,10 +24,10 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
-        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService',
+        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService', 'common.anchorScrollService',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
             dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
-            IntygHelper, IntygProxy, PatientProxy, UtkastValidationService) {
+            IntygHelper, IntygProxy, PatientProxy, UtkastValidationService, anchorScrollService) {
             'use strict';
 
             // used to calculate save duration
@@ -88,7 +88,8 @@ angular.module('common').factory('common.UtkastService',
             function _finishLoadingUtkast(viewState, intygsTyp, def) {
 
                 $timeout(function() {
-                    wcFocus('focusFirstInput');
+                    var focusTarget = $stateParams.focusOn || 'focusFirstInput';
+                    wcFocus(focusTarget);
                     $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
                     $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
                     CommonViewState.doneLoading = true;
@@ -116,7 +117,7 @@ angular.module('common').factory('common.UtkastService',
                     // check that the certs status is not signed
                     if (utkastData.status === 'SIGNED') {
                         // just change straight to the intyg
-                        $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id);
+                        $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id + '/');
                     }
                     else {
 

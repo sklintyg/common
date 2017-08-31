@@ -426,7 +426,14 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                 ], {hideExpression: 'model.avstangningSmittskydd'}),
                 kategori(8, categoryNames[8], [
                     fraga(25, [
-                        {key: 'ovrigt', type: 'multi-text', templateOptions: {label: 'DFR_25.1'}}
+                        {
+                            key: 'ovrigt',
+                            type: 'multi-text',
+                            templateOptions: {label: 'DFR_25.1'},
+                            ngModelElAttrs: {
+                                'wc-focus-on': 'focusOvrigt'
+                            }
+                        }
                     ])
                 ]),
                 kategori(9, categoryNames[9], [

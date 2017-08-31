@@ -193,8 +193,6 @@ angular.module('common').constant('common.messages', {
 
         // Ärendehantering
         'common.loading.existing.arenden': 'Laddar ärenden...',
-        'common.arende.komplettering.answerwithmessage.help': 'Med förtydligande avses information som inte tillför ny medicinsk information, utan förtydligar, förklarar eller ytterligare specificerar medicinska begrepp, termer eller mått. Exempelvis vad avses med skrivningen ”synnerligt påverkad” (i just detta fall), vad menas med ”samsjuklighet” (i just detta fall), etc.',
-        'common.arende.komplettering.disabled.svaramedintyg.uthopp': 'Om kompletteringen innebär att ny medicinsk information behöver tillföras ska informationen ges i ett nytt intyg. Kopiera/förnya det befintliga intyget i journalsystemet och komplettera med den nya informationen.',
         'common.arende.komplettering.disabled.onlydoctor': 'Kompletteringar kan endast besvaras av läkare.',
         'common.arende.komplettering.kompletteringsatgard.dialogtitle': 'Besvara kompletteringsbegäran',
 

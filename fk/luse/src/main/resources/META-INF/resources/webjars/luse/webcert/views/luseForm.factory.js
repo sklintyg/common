@@ -203,7 +203,12 @@ angular.module('luse').factory('luse.FormFactory', [
             ]),
             kategori(9, categoryNames[9], [
                 fraga(25, [
-                    {key: 'ovrigt', type: 'multi-text', templateOptions: {label: 'DFR_25.1'}}
+                    {
+                        key: 'ovrigt',
+                        type: 'multi-text',
+                        templateOptions: {label: 'DFR_25.1'},
+                        ngModelElAttrs: {'wc-focus-on': 'focusOvrigt'}
+                    }
                 ])
             ]),
             kategori(10, categoryNames[10], [
