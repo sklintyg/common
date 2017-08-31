@@ -52,8 +52,15 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             return "you have " + (!consentGiven ? "not " : "") + "accepeted";
         }
 
+        function _test(){
+            return $http.get('/api/srs/191212121212/J20?isPrediktion=true&isAtgard=true&isStatistik=true').then(function(response) {
+                return response.data;
+              });
+        }
+
         // Return public API for the service
         return {
+            test: _test,
             getSRSHelpTextsByCode: _getSRSHelpTextsByCode,
             setConsent: _setConsent,
         };

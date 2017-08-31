@@ -43,7 +43,14 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                     consentGiven = srsProxy.setConsent(consentGiven);
                     console.log(consentGiven);
                 }
-                scope.inQuestionaireState = true;
+                scope.inQuestionaireState = false;
+
+                var test = srsProxy.test().then(function(res){
+                    console.log(res);   
+                    scope.riskSignal = res.level;
+                    scope.atgarder = res.atgarder
+                })
+
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'
         };
