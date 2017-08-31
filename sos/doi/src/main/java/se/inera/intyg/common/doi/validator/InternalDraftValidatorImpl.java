@@ -90,11 +90,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         for (int i = 0; i < utlatande.getFoljd().size(); i++) {
             Dodsorsak foljd = utlatande.getFoljd().get(i);
             if (Strings.nullToEmpty(foljd.getBeskrivning()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.foljd." + i + ".beskrivning", ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationError(validationMessages,
+                        "utlatandeOrsak.foljd." + i + ".beskrivning",
+                        ValidationMessageType.EMPTY);
             }
             if (foljd.getDatum() != null && !foljd.getDatum().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.foljd." + i + ".datum", ValidationMessageType.INVALID_FORMAT);
-
+                ValidatorUtil.addValidationError(validationMessages,
+                        "utlatandeOrsak.foljd." + i + ".datum",
+                        ValidationMessageType.INVALID_FORMAT);
             }
         }
     }
