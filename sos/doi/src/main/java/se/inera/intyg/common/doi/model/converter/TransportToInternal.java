@@ -18,17 +18,15 @@
  */
 package se.inera.intyg.common.doi.model.converter;
 
-import se.inera.intyg.common.doi.model.internal.BidragandeSjukdom;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande.Builder;
-import se.inera.intyg.common.doi.model.internal.Foljd;
 import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
@@ -99,8 +97,8 @@ public final class TransportToInternal {
     }
 
     private static void setSvar(Builder utlatande, Intyg intyg) throws ConverterException {
-        Map<Integer, Foljd> foljd = new HashMap<>();
-        List<BidragandeSjukdom> bidragandeSjukdomar = new ArrayList<>();
+        Map<Integer, Dodsorsak> foljd = new HashMap<>();
+        List<Dodsorsak> bidragandeSjukdomar = new ArrayList<>();
         List<Dodsorsaksgrund> grunder = new ArrayList<>();
 
         for (Svar svar : intyg.getSvar()) {
@@ -226,7 +224,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleBidragandeSjukdom(List<BidragandeSjukdom> bidragandeSjukdomar, Svar svar) throws ConverterException {
+    private static void handleBidragandeSjukdom(List<Dodsorsak> bidragandeSjukdomar, Svar svar) throws ConverterException {
         String description = null;
         InternalDate date = null;
         Specifikation specification = null;
@@ -245,10 +243,10 @@ public final class TransportToInternal {
                 throw new IllegalArgumentException();
             }
         }
-        bidragandeSjukdomar.add(BidragandeSjukdom.create(description, date, specification));
+        bidragandeSjukdomar.add(Dodsorsak.create(description, date, specification));
     }
 
-    private static void handleFoljd(Map<Integer, Foljd> foljd, Svar svar) throws ConverterException {
+    private static void handleFoljd(Map<Integer, Dodsorsak> foljd, Svar svar) throws ConverterException {
         String description = null;
         InternalDate date = null;
         Specifikation specification = null;
@@ -267,25 +265,29 @@ public final class TransportToInternal {
                 throw new IllegalArgumentException();
             }
         }
-        foljd.put(svar.getInstans(), Foljd.create(description, date, specification));
+        foljd.put(svar.getInstans(), Dodsorsak.create(description, date, specification));
     }
 
     private static void handleDodsorsak(Builder utlatande, Svar svar) throws ConverterException {
+        String description = null;
+        InternalDate date = null;
+        Specifikation specification = null;
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case DODSORSAK_DELSVAR_ID:
-                utlatande.setDodsorsak(getStringContent(delsvar));
+                description = getStringContent(delsvar);
                 break;
             case DODSORSAK_DATUM_DELSVAR_ID:
-                utlatande.setDodsorsakDatum(new InternalDate(getStringContent(delsvar)));
+                date = new InternalDate(getStringContent(delsvar));
                 break;
             case DODSORSAK_SPECIFIKATION_DELSVAR_ID:
-                utlatande.setDodsorsakSpecifikation(Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
+                specification = Specifikation.fromId(getCVSvarContent(delsvar).getCode());
                 break;
             default:
                 throw new IllegalArgumentException();
             }
         }
+        utlatande.setTerminalDodsorsak(Dodsorsak.create(description, date, specification));
     }
 
     private static void handleBarn(Builder utlatande, Svar svar) {
@@ -346,21 +348,6 @@ public final class TransportToInternal {
             utlatande.setIdentitetStyrkt(getStringContent(delsvar));
             break;
         default:
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private static void handleTillaggsfraga(List<Tillaggsfraga> tillaggsfragor, Svar svar) {
-        // En tilläggsfråga har endast ett delsvar
-        if (svar.getDelsvar().size() > 1) {
-            throw new IllegalArgumentException();
-        }
-
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        // Kontrollera att ID matchar
-        if (delsvar.getId().equals(svar.getId() + ".1")) {
-            tillaggsfragor.add(Tillaggsfraga.create(svar.getId(), getStringContent(delsvar)));
-        } else {
             throw new IllegalArgumentException();
         }
     }

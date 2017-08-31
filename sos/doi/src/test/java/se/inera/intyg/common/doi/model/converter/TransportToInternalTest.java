@@ -1,32 +1,27 @@
 package se.inera.intyg.common.doi.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.StringReader;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import javax.xml.bind.JAXB;
-
-import org.junit.Test;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-
-import se.inera.intyg.common.doi.model.internal.BidragandeSjukdom;
+import org.junit.Test;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
-import se.inera.intyg.common.doi.model.internal.Foljd;
 import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import javax.xml.bind.JAXB;
+import java.io.StringReader;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class TransportToInternalTest {
     @Test
@@ -54,20 +49,29 @@ public class TransportToInternalTest {
         assertEquals("kommun", res.getDodsplatsKommun());
         assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
         assertEquals(true, res.getBarn());
-        assertEquals("terminal dödsorsak", res.getDodsorsak());
-        assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getDodsorsakDatum());
-        assertEquals(Specifikation.KRONISK, res.getDodsorsakSpecifikation());
-        assertEquals(Foljd.create("foljd 1", new InternalDate(LocalDate.of(2017, 5,1)), Specifikation.KRONISK), res.getFoljd().get(0));
-        assertEquals(Foljd.create("foljd 2", new InternalDate(LocalDate.of(2017, 5,2)), Specifikation.PLOTSLIG), res.getFoljd().get(1));
-        assertEquals(Foljd.create("foljd 3", new InternalDate(LocalDate.of(2017, 5,3)), Specifikation.KRONISK), res.getFoljd().get(2));
-        assertEquals(BidragandeSjukdom.create("bidragande sjukdom 1", new InternalDate(LocalDate.of(2017, 3,1)), Specifikation.KRONISK), res.getBidragandeSjukdomar().get(0));
-        assertEquals(BidragandeSjukdom.create("bidragande sjukdom 2", new InternalDate(LocalDate.of(2017, 3,2)), Specifikation.PLOTSLIG), res.getBidragandeSjukdomar().get(1));
-        assertEquals(BidragandeSjukdom.create("bidragande sjukdom 3", new InternalDate(LocalDate.of(2017, 3,3)), Specifikation.KRONISK), res.getBidragandeSjukdomar().get(2));
-        assertEquals(BidragandeSjukdom.create("bidragande sjukdom 4", new InternalDate(LocalDate.of(2017, 3,4)), Specifikation.PLOTSLIG), res.getBidragandeSjukdomar().get(3));
-        assertEquals(BidragandeSjukdom.create("bidragande sjukdom 5", new InternalDate(LocalDate.of(2017, 3,5)), Specifikation.KRONISK), res.getBidragandeSjukdomar().get(4));
-        assertEquals(BidragandeSjukdom.create("bidragande sjukdom 6", new InternalDate(LocalDate.of(2017, 3,6)), Specifikation.PLOTSLIG), res.getBidragandeSjukdomar().get(5));
-        assertEquals(BidragandeSjukdom.create("bidragande sjukdom 7", new InternalDate(LocalDate.of(2017, 3,7)), Specifikation.KRONISK), res.getBidragandeSjukdomar().get(6));
-        assertEquals(BidragandeSjukdom.create("bidragande sjukdom 8", new InternalDate(LocalDate.of(2017, 3,8)), Specifikation.PLOTSLIG), res.getBidragandeSjukdomar().get(7));
+        assertEquals("terminal dödsorsak", res.getTerminalDodsorsak().getBeskrivning());
+        assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getTerminalDodsorsak().getDatum());
+        assertEquals(Specifikation.KRONISK, res.getTerminalDodsorsak().getSpecifikation());
+        assertEquals(Dodsorsak.create("foljd 1", new InternalDate(LocalDate.of(2017, 5, 1)), Specifikation.KRONISK), res.getFoljd().get(0));
+        assertEquals(Dodsorsak.create("foljd 2", new InternalDate(LocalDate.of(2017, 5, 2)), Specifikation.PLOTSLIG),
+                res.getFoljd().get(1));
+        assertEquals(Dodsorsak.create("foljd 3", new InternalDate(LocalDate.of(2017, 5, 3)), Specifikation.KRONISK), res.getFoljd().get(2));
+        assertEquals(Dodsorsak.create("bidragande sjukdom 1", new InternalDate(LocalDate.of(2017, 3, 1)), Specifikation.KRONISK),
+                res.getBidragandeSjukdomar().get(0));
+        assertEquals(Dodsorsak.create("bidragande sjukdom 2", new InternalDate(LocalDate.of(2017, 3, 2)), Specifikation.PLOTSLIG),
+                res.getBidragandeSjukdomar().get(1));
+        assertEquals(Dodsorsak.create("bidragande sjukdom 3", new InternalDate(LocalDate.of(2017, 3, 3)), Specifikation.KRONISK),
+                res.getBidragandeSjukdomar().get(2));
+        assertEquals(Dodsorsak.create("bidragande sjukdom 4", new InternalDate(LocalDate.of(2017, 3, 4)), Specifikation.PLOTSLIG),
+                res.getBidragandeSjukdomar().get(3));
+        assertEquals(Dodsorsak.create("bidragande sjukdom 5", new InternalDate(LocalDate.of(2017, 3, 5)), Specifikation.KRONISK),
+                res.getBidragandeSjukdomar().get(4));
+        assertEquals(Dodsorsak.create("bidragande sjukdom 6", new InternalDate(LocalDate.of(2017, 3, 6)), Specifikation.PLOTSLIG),
+                res.getBidragandeSjukdomar().get(5));
+        assertEquals(Dodsorsak.create("bidragande sjukdom 7", new InternalDate(LocalDate.of(2017, 3, 7)), Specifikation.KRONISK),
+                res.getBidragandeSjukdomar().get(6));
+        assertEquals(Dodsorsak.create("bidragande sjukdom 8", new InternalDate(LocalDate.of(2017, 3, 8)), Specifikation.PLOTSLIG),
+                res.getBidragandeSjukdomar().get(7));
         assertEquals(OmOperation.JA, res.getOperation());
         assertEquals(new InternalDate(LocalDate.of(2016, 2, 1)), res.getOperationDatum());
         assertEquals("anledning", res.getOperationAnledning());

@@ -80,7 +80,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("operation.operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("operation.operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("operation.operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.forgiftningOrsak", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("forgiftning.forgiftningOrsak", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.forgiftningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("forgiftning.forgiftningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.forgiftningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("forgiftning.forgiftningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -134,7 +134,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.forgiftningUppkommelse", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("forgiftning.forgiftningUppkommelse", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -143,7 +143,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.grunder", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("dodsorsakgrund.grunder", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -152,6 +152,6 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("DOI.grunder", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("dodsorsakgrund.grunder", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 }

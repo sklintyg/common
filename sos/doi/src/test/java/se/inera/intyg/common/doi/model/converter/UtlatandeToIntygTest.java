@@ -1,5 +1,28 @@
 package se.inera.intyg.common.doi.model.converter;
 
+import autovalue.shaded.com.google.common.common.collect.ImmutableList;
+import org.junit.Test;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
+import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
+import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
+import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
+import se.inera.intyg.common.doi.model.internal.OmOperation;
+import se.inera.intyg.common.doi.model.internal.Specifikation;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -44,31 +67,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAK
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.junit.Test;
-
-import autovalue.shaded.com.google.common.common.collect.ImmutableList;
-import se.inera.intyg.common.doi.model.internal.BidragandeSjukdom;
-import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
-import se.inera.intyg.common.doi.model.internal.Foljd;
-import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
-import se.inera.intyg.common.doi.model.internal.OmOperation;
-import se.inera.intyg.common.doi.model.internal.Specifikation;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
 public class UtlatandeToIntygTest {
     @Test
     public void testConvert() throws Exception {
@@ -102,13 +100,11 @@ public class UtlatandeToIntygTest {
         final String kommun = "kommun";
         final DodsplatsBoende boende = DodsplatsBoende.ORDINART_BOENDE;
         final Boolean barn = true;
-        final String dodsorsak = "dodsorsak";
-        final InternalDate dodsorsakDatum = new InternalDate(LocalDate.of(2017, 1, 3));
-        final Specifikation dodsorsakSpecifikation = Specifikation.KRONISK;
-        final List<Foljd> foljd = ImmutableList
-                .<Foljd> of(Foljd.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 4)), Specifikation.KRONISK));
-        final List<BidragandeSjukdom> bidragandeSjukdomar = ImmutableList.<BidragandeSjukdom> of(
-                BidragandeSjukdom.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 5)), Specifikation.PLOTSLIG));
+        final Dodsorsak dodsorsak = Dodsorsak.create("dodsorsak", new InternalDate(LocalDate.of(2017, 1, 3)), Specifikation.KRONISK);
+        final List<Dodsorsak> foljd = ImmutableList
+                .<Dodsorsak>of(Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 4)), Specifikation.KRONISK));
+        final List<Dodsorsak> bidragandeSjukdomar = ImmutableList.<Dodsorsak>of(
+                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 5)), Specifikation.PLOTSLIG));
         final OmOperation operation = OmOperation.UPPGIFT_SAKNAS;
         final InternalDate operationDatum = new InternalDate(LocalDate.of(2017, 1, 6));
         final String operationAnledning = "anledning";
@@ -116,7 +112,7 @@ public class UtlatandeToIntygTest {
         final ForgiftningOrsak forgiftningOrsak = ForgiftningOrsak.AVSIKTLIGT_VALLAD;
         final InternalDate forgiftningDatum = new InternalDate(LocalDate.of(2017, 1, 5));
         final String forgiftningUppkommelse = "uppkommelse";
-        final List<Dodsorsaksgrund> grunder = ImmutableList.<Dodsorsaksgrund> of(Dodsorsaksgrund.KLINISK_OBDUKTION);
+        final List<Dodsorsaksgrund> grunder = ImmutableList.<Dodsorsaksgrund>of(Dodsorsaksgrund.KLINISK_OBDUKTION);
         final String land = "land";
 
         DoiUtlatande utlatande = DoiUtlatande.builder()
@@ -132,9 +128,7 @@ public class UtlatandeToIntygTest {
                 .setDodsplatsKommun(kommun)
                 .setDodsplatsBoende(boende)
                 .setBarn(barn)
-                .setDodsorsak(dodsorsak)
-                .setDodsorsakDatum(dodsorsakDatum)
-                .setDodsorsakSpecifikation(dodsorsakSpecifikation)
+                .setTerminalDodsorsak(dodsorsak)
                 .setFoljd(foljd)
                 .setBidragandeSjukdomar(bidragandeSjukdomar)
                 .setOperation(operation)
@@ -153,7 +147,7 @@ public class UtlatandeToIntygTest {
         assertEquals(enhetsId, intyg.getIntygsId().getRoot());
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
         assertEquals(textVersion, intyg.getVersion());
-        assertEquals(utlatande.getTyp().toUpperCase(), intyg.getTyp().getCode());
+        assertEquals(utlatande.getTyp().toLowerCase(), intyg.getTyp().getCode());
         assertEquals("b64ea353-e8f6-4832-b563-fc7d46f29548", intyg.getTyp().getCodeSystem());
         assertNotNull(intyg.getTyp().getDisplayName());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
@@ -233,13 +227,13 @@ public class UtlatandeToIntygTest {
                 for (Svar.Delsvar delsvar : svar.getDelsvar()) {
                     switch (delsvar.getId()) {
                     case DODSORSAK_DELSVAR_ID:
-                        assertEquals(dodsorsak, getStringContent(delsvar));
+                        assertEquals(dodsorsak.getBeskrivning(), getStringContent(delsvar));
                         break;
                     case DODSORSAK_DATUM_DELSVAR_ID:
-                        assertEquals(dodsorsakDatum, new InternalDate(getStringContent(delsvar)));
+                        assertEquals(dodsorsak.getDatum(), new InternalDate(getStringContent(delsvar)));
                         break;
                     case DODSORSAK_SPECIFIKATION_DELSVAR_ID:
-                        assertEquals(dodsorsakSpecifikation, Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
+                        assertEquals(dodsorsak.getSpecifikation(), Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
                         break;
                     default:
                         fail();
