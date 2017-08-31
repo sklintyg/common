@@ -25,7 +25,7 @@ angular.module('luae_fs').config(function($stateProvider) {
     $stateProvider.
         state('luae_fs-edit', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url : '/luae_fs/edit/:certificateId',
+            url : '/luae_fs/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -68,7 +68,7 @@ angular.module('luae_fs').config(function($stateProvider) {
         }).
         state('webcert.intyg.fk.luae_fs', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url:'/intyg/luae_fs/:certificateId',
+            url:'/intyg/luae_fs/:certificateId/:focusOn',
             views: {
                 'intyg@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

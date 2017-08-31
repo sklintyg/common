@@ -5,8 +5,8 @@ angular.module('common').run(function(formlyConfig) {
         name: 'sjukskrivningar',
         templateUrl: '/web/webjars/common/webcert/gui/formly/sjukskrivningar.formly.html',
         controller: ['$scope', 'common.ArendeListViewStateService', 'common.SjukskrivningarViewStateService',
-            'common.UtkastValidationService',
-            function($scope, ArendeListViewState, viewstate, UtkastValidationService) {
+            'common.UtkastValidationService', 'common.messageService',
+            function($scope, ArendeListViewState, viewstate, UtkastValidationService, messageService) {
 
                 $scope.$watch('formState.viewState.common.validation.messagesByField', function() {
                     $scope.validationsForPeriod = {};
@@ -67,15 +67,26 @@ angular.module('common').run(function(formlyConfig) {
                 };
                 $scope.viewstate = viewstate.reset();
 
-                $scope.$on('intyg.loaded', function() {
+                function setup() {
                     viewstate.setModel($scope.model[$scope.options.key]);
                     viewstate.updatePeriods();
+
+                    if ($scope.model.grundData.relation.sistaGiltighetsDatum) {
+                        $scope.lastEffectiveDateNoticeText = messageService
+                            .getProperty('lisjp.help.sjukskrivningar.sista-giltighets-datum')
+                            .replace('{{lastEffectiveDate}}', $scope.model.grundData.relation.sistaGiltighetsDatum)
+                            .replace('{{sjukskrivningsgrad}}', $scope.model.grundData.relation.sistaSjukskrivningsgrad);
+                    }
+                }
+
+                setup();
+                $scope.$on('intyg.loaded', function() {
+                    setup();
                 });
 
                 $scope.$watch('model.' + $scope.options.key, function(newValue, oldValue) {
                     viewstate.updatePeriods();
                 }, true);
-
             }
         ]
     });

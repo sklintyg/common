@@ -100,7 +100,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.send = function() {
-                var onPatientFound = function(patient) {
+                var onPatientFound = function() {
                     IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
                         intygType+'.label.send', intygType+'.label.send.body', function() {
                             // After a send request we shouldn't reload right away due to async reasons.

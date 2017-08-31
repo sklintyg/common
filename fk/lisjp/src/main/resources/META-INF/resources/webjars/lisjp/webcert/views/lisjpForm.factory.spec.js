@@ -24,7 +24,10 @@ describe('lisjpFormFactory', function() {
     var lispFormFactory;
     var $scope;
 
-    beforeEach(angular.mock.module('common', 'lisjp'));
+    beforeEach(angular.mock.module('common', function($provide) {
+        $provide.value('common.anchorScrollService', {scrollTo: function() {}});
+    }));
+    beforeEach(angular.mock.module('lisjp'));
     beforeEach(inject(['$compile', '$rootScope', 'lisjp.FormFactory', 'lisjp.Domain.IntygModel',
         function($compile, $rootScope, _lisjpFormFactory_, _lisjpIntygModel_) {
         lispFormFactory = _lisjpFormFactory_;

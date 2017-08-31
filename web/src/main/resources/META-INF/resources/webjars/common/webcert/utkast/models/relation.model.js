@@ -29,6 +29,7 @@ angular.module('common').factory('common.Domain.RelationModel',
             this.relationKod = undefined;
             this.meddelandeId = undefined;
             this.sistaGiltighetsDatum = undefined;
+            this.sistaSjukskrivningsgrad = undefined;
             this.referensId = undefined;
         }
 
@@ -41,6 +42,7 @@ angular.module('common').factory('common.Domain.RelationModel',
             this.relationKod = relation.relationKod;
             this.meddelandeId = relation.meddelandeId;
             this.sistaGiltighetsDatum = relation.sistaGiltighetsDatum;
+            this.sistaSjukskrivningsgrad = relation.sistaSjukskrivningsgrad;
             this.referensId = relation.referensId;
         };
 

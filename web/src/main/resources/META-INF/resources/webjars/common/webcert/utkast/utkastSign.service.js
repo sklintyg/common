@@ -262,7 +262,7 @@ angular.module('common').factory('common.UtkastSignService',
                 signModel.signingWithSITHSInProgress = false;
 
                 $location.replace();
-                $location.path('/intyg/' + intygsTyp + '/' + intygsId).search('signed', true);
+                $location.path('/intyg/' + intygsTyp + '/' + intygsId + '/').search('signed', true);
                 statService.refreshStat();
             }
 

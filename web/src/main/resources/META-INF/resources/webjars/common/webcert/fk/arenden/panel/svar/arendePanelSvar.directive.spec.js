@@ -37,6 +37,7 @@ describe('arendePanelSvar', function() {
         ArendeProxy = jasmine.createSpyObj('common.ArendeProxy', ['saveAnswer', 'closeAllAsHandled']);
         $provide.value('common.ArendeProxy', ArendeProxy);
         $provide.value('common.ArendeDraftProxy', {});
+        $provide.value('common.anchorScrollService', {scrollTo: function() {}});
     }));
 
     beforeEach(angular.mock.module('htmlTemplates'));

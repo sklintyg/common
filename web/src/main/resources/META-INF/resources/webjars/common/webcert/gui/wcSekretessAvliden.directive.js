@@ -29,13 +29,11 @@ angular.module('common').directive('wcSekretessAvliden',
                 restrict: 'A',
                 transclude: true,
                 scope: {
+                    uuid: '=',
                     printlabel: '=',
                     sekretessmarkering: '=',
                     avliden: '='
                 },
-                templateUrl: '/web/webjars/common/webcert/gui/wcSekretessAvliden.directive.html',
-                link: function($scope, element, attr) {
-
-                }
+                templateUrl: '/web/webjars/common/webcert/gui/wcSekretessAvliden.directive.html'
             };
         }]);

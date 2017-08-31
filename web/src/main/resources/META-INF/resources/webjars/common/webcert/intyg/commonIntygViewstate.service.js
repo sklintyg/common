@@ -75,6 +75,8 @@ angular.module('common').service('common.IntygViewStateService',
                     this.activeErrorMessageKey = 'common.error.could_not_load_cert_not_auth';
                 } else if (error.errorCode === 'AUTHORIZATION_PROBLEM_SEKRETESSMARKERING_ENHET') {
                     this.activeErrorMessageKey = 'common.error.authorization_problem_sekretessmarkering_enhet';
+                } else if (error.errorCode === 'AUTHORIZATION_PROBLEM_SEKRETESSMARKERING') {
+                    this.activeErrorMessageKey = 'common.error.authorization_problem_sekretessmarkering';
                 } else {
                     if (signed) {
                         this.activeErrorMessageKey = 'common.error.sign.not_ready_yet';

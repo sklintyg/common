@@ -7,6 +7,10 @@
          field-has-errors="viewState.common.validation.messagesGrouped.nedsattning" id="arbetsformagaForm"
          field-required="true">
 
+      <div id="lastEffectiveDateNoticeText" class="alert alert-info" ng-if="lastEffectiveDateNoticeText">
+        {{lastEffectiveDateNoticeText}}
+      </div>
+
       <wc-fmb-help-display related-form-id="FALT8B" fmb-states="fmbViewState" field-name="ARBETSFORMAGA">
 
         <div class="form-group form-inline">
@@ -56,13 +60,6 @@
             <wc-field-validation class="indent"
                                  field-type="date"
                                  validations="viewState.getValidationErrors('nedsattmed25')"></wc-field-validation>
-            <div class="indent" ng-if="
-              field8b.lastEffectiveDateNotice.isVisible &&
-              field8b.lastEffectiveDateNotice.value == 'nedsattMed25'">
-              <uib-alert id="nedsattMed25Alert" type="info" close="field8b.lastEffectiveDateNotice.hide()">
-                {{lastEffectiveDateNoticeText}}
-              </uib-alert>
-            </div>
             <div class="indent pad10" ng-if="field8b.nedsattMed25.workState">
               <div class="workHoursPerWeek" ng-show="model.tjanstgoringstid != '' && model.tjanstgoringstid > 0">
                 Arbetstid timmar/vecka: <strong id="arbetstid25">{{model.tjanstgoringstid * 0.75 |
@@ -117,13 +114,6 @@
             <wc-field-validation class="indent"
                                  field-type="date"
                                  validations="viewState.getValidationErrors('nedsattmed50')"></wc-field-validation>
-            <div class="indent" ng-if="
-              field8b.lastEffectiveDateNotice.isVisible &&
-              field8b.lastEffectiveDateNotice.value == 'nedsattMed50'">
-              <uib-alert id="nedsattMed50Alert" type="info" close="field8b.lastEffectiveDateNotice.hide()">
-                {{lastEffectiveDateNoticeText}}
-              </uib-alert>
-            </div>
             <div class="indent pad10" ng-if="field8b.nedsattMed50.workState">
               <div class="workHoursPerWeek" ng-show="model.tjanstgoringstid != '' && model.tjanstgoringstid > 0">
                 Arbetstid timmar/vecka: <strong id="arbetstid50">{{model.tjanstgoringstid * 0.5 |
@@ -176,13 +166,6 @@
             <wc-field-validation class="indent"
                                  field-type="date"
                                  validations="viewState.getValidationErrors('nedsattmed75')"></wc-field-validation>
-            <div class="indent" ng-if="
-              field8b.lastEffectiveDateNotice.isVisible &&
-              field8b.lastEffectiveDateNotice.value == 'nedsattMed75'">
-              <uib-alert id="nedsattMed75Alert" type="info" close="field8b.lastEffectiveDateNotice.hide()">
-                {{lastEffectiveDateNoticeText}}
-              </uib-alert>
-            </div>
             <div class="indent pad10" ng-if="field8b.nedsattMed75.workState">
               <div class="workHoursPerWeek" ng-show="model.tjanstgoringstid != '' && model.tjanstgoringstid > 0">
                 Arbetstid timmar/vecka: <strong id="arbetstid75">{{model.tjanstgoringstid * 0.25 |
@@ -236,13 +219,6 @@
             <wc-field-validation class="indent"
                                  field-type="date"
                                  validations="viewState.getValidationErrors('nedsattmed100')"></wc-field-validation>
-            <div class="indent" ng-if="
-              field8b.lastEffectiveDateNotice.isVisible &&
-              field8b.lastEffectiveDateNotice.value == 'nedsattMed100'">
-              <uib-alert id="nedsattMed100Alert" type="info" close="field8b.lastEffectiveDateNotice.hide()">
-                {{lastEffectiveDateNoticeText}}
-              </uib-alert>
-            </div>
           </div>
         </wc-validation-group>
       </wc-fmb-help-display>

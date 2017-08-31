@@ -30,9 +30,10 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
     ['$window', '$log', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
         'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService',
-        'common.ArendeListViewStateService', 'common.IntygProxy',
+        'common.ArendeListViewStateService', 'common.IntygProxy', 'common.anchorScrollService',
         function($window, $log, $state, $stateParams, $q, ArendeProxy, statService, ObjectHelper,
-            IntygCopyRequestModel, ArendeSvarModel, dialogService, ArendeListViewStateService, IntygProxy) {
+            IntygCopyRequestModel, ArendeSvarModel, dialogService, ArendeListViewStateService, IntygProxy,
+            anchorScrollService) {
             'use strict';
 
             return {
@@ -57,12 +58,36 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                     $scope.arendeSvar = ArendeSvar;
                     //Existence of complementedByUtkast means an utkast with complemented relation exist.
-                    $scope.showGoToUtkastButton =
+                    $scope.redirectToExistingUtkast =
                         !!ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast;
 
                     $scope.openKompletteringsUtkast = function() {
                         $state.go(ArendeSvar.intygProperties.type + '-edit',
                             {certificateId: ArendeSvar.intygProperties.latestChildRelations.complementedByUtkast.intygsId});
+                    };
+
+
+                    $scope.kompletteraIntyg = function(modalInstance) {
+                        if (!ObjectHelper.isDefined(ArendeSvar.intygProperties)) {
+                            ArendeSvar.activeKompletteringErrorMessageKey = 'komplettera-no-intyg';
+                            return;
+                        }
+
+                        // The actual process of answering with a new intyg is rather complex, so defer that
+                        // to calling code, and act on outcome of it here (keep dialog or close it)
+                        $scope.onAnswerWithIntyg().then(function(result) {
+
+                            statService.refreshStat();
+
+                            function goToDraft(type, intygId) {
+                                $state.go(type + '-edit', {
+                                    certificateId: intygId
+                                });
+                            }
+
+                            goToDraft(ArendeSvar.intygProperties.type, result.intygsUtkastId);
+
+                        });
                     };
 
                     $scope.openKompletteringDialog = function() {
@@ -76,6 +101,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                             dialogId: 'komplettering-modal-dialog',
                             titleId: 'common.arende.komplettering.kompletteringsatgard.dialogtitle',
                             templateUrl: '/web/webjars/common/webcert/fk/arenden/komplettera/komplettering-modal-dialog.html',
+                            windowClass: 'dialog-placement',
                             model: dialogModel,
                             button1click: function(modalInstance) {
                                 if (!ObjectHelper.isDefined(ArendeSvar.intygProperties)) {
@@ -91,13 +117,17 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                                     statService.refreshStat();
 
-                                    function goToDraft(type, intygId) {
-                                        $state.go(type + '-edit', {
+                                    function goToDraftThenScrollToOvrigt(type, intygId) {
+                                        var stateParams = {
                                             certificateId: intygId
-                                        });
+                                        };
+                                        if(type !== 'fk7263'){
+                                            stateParams.focusOn = 'focusOvrigt';
+                                        }
+                                        $state.go(type + '-edit', stateParams);
                                     }
 
-                                    goToDraft(ArendeSvar.intygProperties.type, result.intygsUtkastId);
+                                    goToDraftThenScrollToOvrigt(ArendeSvar.intygProperties.type, result.intygsUtkastId);
 
                                 }, function(errorResult) {
                                     //Keep dialog open so that activeKompletteringErrorMessageKey is displayed to user.

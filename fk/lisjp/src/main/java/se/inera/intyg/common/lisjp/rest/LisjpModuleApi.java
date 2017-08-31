@@ -155,6 +155,12 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
                     .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
                     .findFirst();
             relation.setSistaGiltighetsDatum(lastDateOfLastIntyg.orElse(LocalDate.now()));
+            Optional<Sjukskrivning.SjukskrivningsGrad> lastSjukskrivningsgradOfLastIntyg = internal.getSjukskrivningar().stream()
+                    .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
+                    .map(sjukskrivning -> sjukskrivning.getSjukskrivningsgrad())
+                    .findFirst();
+            lastSjukskrivningsgradOfLastIntyg.ifPresent(grad -> relation.setSistaSjukskrivningsgrad(grad.getLabel()));
+
             draftCopyHolder.setRelation(relation);
 
             return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, renewCopy));
