@@ -21,8 +21,8 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState',
-    function(ObjectHelper, srsService, fmbViewState) {
+angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState', 'common.srsProxy',
+    function(ObjectHelper, srsService, fmbViewState, srsProxy) {
         'use strict';
 
         return {
@@ -39,6 +39,12 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                 }, true);
 
                 scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
+
+                srsProxy.getQuestions().then(function(questions){
+                    scope.questions = questions;
+                    console.log(questions);
+                })
+
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsQuestionaire.directive.html'
         };

@@ -21,47 +21,40 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
     function ($http, $q, $log) {
         'use strict';
 
-        /*
-         * get diagnosis by code
-         */
-        function _getSRSHelpTextsByCode(diagnosisCode) {
-
-            var restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
-            return $http.get(restPath)
-                .then(function successfullCallback(response) {
-                    return response.data;
-                },
-                function errorCallback(response) {
-                    return response.data;
-                });
-
-            var deferred = $q.defer(),
-                restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
-
-            $http.get(restPath).success(function (response) {
-                deferred.resolve(response);
-            }).error(function (response, status) {
-                $log.error('error ' + status);
-                deferred.reject(status);
-            });
-
-            return deferred.promise;
-        }
-
         function _setConsent(consentGiven) {
             return "you have " + (!consentGiven ? "not " : "") + "accepeted";
         }
 
-        function _test(){
-            return $http.get('/api/srs/191212121212/J20?isPrediktion=true&isAtgard=true&isStatistik=true').then(function(response) {
+        function _getStatistik(){
+            var opt = [{questionId: 1, answerId: 1}]
+            return $http.post('/api/srs/12345/191212121212/J20/HELT_NEDSATT?prediktion=true&atgard=true&statistik=true', opt).then(function(response) {
                 return response.data;
               });
         }
 
+        function _setConsent(consentGiven){
+            return $http.put('/api/srs/consent/191212121212/19101010-1010', consentGiven).then(function(response) {
+                return response.data;
+            });
+        }
+
+        function _getConsent(){
+            return $http.get('/api/srs/consent/191212121212/19101010-1010').then(function(response) {
+                return response.data;
+            });
+        }
+
+        function _getQuestions(){
+            return $http.get('/api/srs/questions/J20').then(function(response) {
+                return response.data;
+            });
+        }
+
         // Return public API for the service
         return {
-            test: _test,
-            getSRSHelpTextsByCode: _getSRSHelpTextsByCode,
+            getStatistik: _getStatistik,
+            getConsent: _getConsent,
+            getQuestions: _getQuestions,
             setConsent: _setConsent,
         };
     }]);

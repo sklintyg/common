@@ -34,21 +34,25 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
             },
             link: function(scope, element, attrs) {
                 scope.consentGiven = true;
+                scope.inQuestionaireState = true;
+
                 scope.typeOfVariable = function(variable){
                     var t = typeof variable;
                     return t;
                 }
                 $log.debug(scope.fmb);
-                scope.setConsent = function(consentGiven){
-                    consentGiven = srsProxy.setConsent(consentGiven);
-                    console.log(consentGiven);
-                }
-                scope.inQuestionaireState = false;
-
-                var test = srsProxy.test().then(function(res){
-                    console.log(res);   
-                    scope.riskSignal = res.level;
-                    scope.atgarder = res.atgarder
+                
+                srsProxy.setConsent(true).then(function(consent){
+                    console.log("set consent: " + consent);
+                    return srsProxy.getConsent()
+                }).then(function(consent){
+                    scope.consentGiven = consent === 'JA' ? true : false;
+                    console.log("get consent: " + consent);
+                    return srsProxy.getStatistik();
+                }).then(function(statistik){
+                    console.log("statistik: " + JSON.stringify(statistik));
+                    scope.riskSignal = statistik.level;
+                    scope.atgarder = statistik.atgarder
                 })
 
             },
