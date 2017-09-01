@@ -23,7 +23,8 @@ angular.module('common').directive('miCompactCertificateHeader', [ 'common.modul
     return {
         restrict: 'E',
         scope: {
-            certMetaModel: '='
+            certMetaModel: '=',
+            onViewClick: '&?'
         },
         templateUrl: '/web/webjars/common/minaintyg/components/miCompactCertificateHeader/miCompactCertificateHeader.directive.html',
         controller: function($scope) {
