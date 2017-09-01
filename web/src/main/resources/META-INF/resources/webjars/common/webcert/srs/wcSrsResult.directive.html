@@ -1,0 +1,48 @@
+<div>
+    ------------------------------------------------------------------------<br> ---------------> prediction box goes here
+    <-------------------<br>
+        ------------------------------------------------------------------------
+</div>
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#atgarder">Åtgärder</a></li>
+    <li><a data-toggle="tab" href="#statstics">Statistik</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="atgarder" class="tab-pane fade in active">
+        <p><b>Tänk på att;</b> avråda från arbete ovan axelplanet samt informera om enkla rehabilitetsövningar patieenten kan
+            göra självt.</p>
+
+        <h3>Rekommenderade åtgärder</h3>
+
+        <label class="checkbox">
+            <input type="checkbox" id="arbeteNuvarande" ng-model="model.nuvarandeArbete" ng-change="onSysselsattningChange(); validate()" class="ng-pristine ng-valid ng-touched" name="" style="">
+            Patienten bör överväga att kontakta företagshälsovård och arbetsgivare för att undersöka möjligheter till ergonomisk rådgivning och arbetsanpassning
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" id="arbeteNuvarande" ng-model="model.nuvarandeArbete" ng-change="onSysselsattningChange(); validate()" class="ng-pristine ng-valid ng-touched" name="" style="">
+            Förmedling av kontakt med fysioterapeut
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" id="arbeteNuvarande" ng-model="model.nuvarandeArbete" ng-change="onSysselsattningChange(); validate()" class="ng-pristine ng-valid ng-touched" name="" style="">
+            Lorem ipsum dolor sit amet
+        </label>
+    </div>
+    <div id="statstics" class="tab-pane fade">
+        <h3>Statistik</h3>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+
+    <div style="float: right;">
+        <button type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="btn btn-info ng-binding" ng-click="inQuestionaireState=false"
+            uib-popover="Visa resultat." popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
+            popover-placement="auto top">
+                    Infoga i intyget
+                </button>
+        <button type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="btn btn-info ng-binding" ng-click="inQuestionaireState=false"
+            uib-popover="Visa resultat." popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
+            popover-placement="auto top">
+                    Läs mer
+                </button>
+    </div>
+</div>

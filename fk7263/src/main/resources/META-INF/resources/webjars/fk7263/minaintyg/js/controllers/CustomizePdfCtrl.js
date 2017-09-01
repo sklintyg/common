@@ -55,6 +55,9 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
                 if (toState.name.indexOf('fk7263-customize')!==-1 || leaveConfirmed) {
                     return;
                 }
+                else{
+                    event.preventDefault();
+                }
 
                 // defer this navigation until confirmed in dialog
                 event.preventDefault();
