@@ -32,16 +32,11 @@ angular.module('common').run(function(formlyConfig) {
                     day:undefined
                 };
 
+                parseModel();
+
                 $scope.validate = function() {
                     UtkastValidationService.validate($scope.model);
                 };
-
-                parseModel();
-                $scope.$watch('model.' + $scope.options.key, function(newValue, oldValue) {
-                    if (newValue && !oldValue) {
-                        parseModel();
-                    }
-                });
 
                 $scope.$watch('vagueDateModel.year', function(newValue) {
                     if (newValue !== undefined) {
@@ -59,37 +54,21 @@ angular.module('common').run(function(formlyConfig) {
                     }
                 });
 
-                function forceLength(number, length) {
-                    var returnValue = '';
-                    if (number && number.length >= length)
-                    {
-                        returnValue += number.substring(0, 4);
-                    }
-                    else {
-                        if (number) {
-                            returnValue += number;
-                        }
-                        while(returnValue.length < length) {
-                            returnValue = '0'+returnValue;
-                        }
-                    }
-                    return returnValue;
-                }
-
                 function parseModel() {
                     var modelDate = $scope.model[$scope.options.key];
                     if (modelDate) {
-                        $scope.vagueDateModel.year = modelDate.substring(0, 4);
-                        $scope.vagueDateModel.month = modelDate.substring(5, 7);
-                        $scope.vagueDateModel.day = modelDate.substring(8, 10);
+                        var result = /^([0-9]{0,4})(-([0-9]{0,2}))?(-([0-9]{0,2}))?/.exec(modelDate);
+                        $scope.vagueDateModel.year = result[1];
+                        $scope.vagueDateModel.month = result[3];
+                        $scope.vagueDateModel.day = result[5];
                     }
                 }
 
                 function updateModel() {
                     $scope.model[$scope.options.key] =
-                        forceLength($scope.vagueDateModel.year, 4) + '-' +
-                        forceLength($scope.vagueDateModel.month, 2) + '-' +
-                        forceLength($scope.vagueDateModel.day, 2);
+                        $scope.vagueDateModel.year + '-' +
+                        $scope.vagueDateModel.month + '-' +
+                        $scope.vagueDateModel.day;
                 }
 
             }]
