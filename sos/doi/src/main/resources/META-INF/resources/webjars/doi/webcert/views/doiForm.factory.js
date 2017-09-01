@@ -56,7 +56,7 @@ angular.module('doi').factory('doi.FormFactory',
                         }
                     ])
                 ]),
-                kategori(2, categoryNames[2], [
+                kategori(2, categoryNames[2], [ // R1, R2, R3
                     fraga(2, [
                         {
                             key: 'dodsdatumSakert',
@@ -95,7 +95,7 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'dodsplatsBoende',
-                            type: 'radio-group',
+                            type: 'radio-group', // R4
                             templateOptions: {
                                 label: 'DFR_3.2',
                                 code: 'KV_DODSPLATS_BOENDE',
@@ -127,7 +127,7 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'terminalDodsorsak',
-                            type: 'dodsorsak',
+                            type: 'dodsorsak', // R9
                             templateOptions: {
                                 label: 'FRG_8',
                                 maxRows: 1,
@@ -145,7 +145,7 @@ angular.module('doi').factory('doi.FormFactory',
                     fraga(9, [
                         {
                             key: 'foljd',
-                            type: 'dodsorsak',
+                            type: 'dodsorsak', // R10
                             templateOptions: {
                                 label: 'FRG_9',
                                 maxRows: 3,
@@ -167,7 +167,7 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'bidragandeSjukdomar',
-                            type: 'dodsorsak',
+                            type: 'dodsorsak', // R11
                             templateOptions: {
                                 maxRows: 8,
                                 orsaksTyper: [
@@ -186,7 +186,7 @@ angular.module('doi').factory('doi.FormFactory',
                     fraga(11, [
                         {
                             key: 'operation',
-                            type: 'radio-group',
+                            type: 'radio-group', // R12
                             templateOptions: {
                                 label: 'DFR_11.1',
                                 code: 'KV_OMOPERATION',
@@ -201,6 +201,7 @@ angular.module('doi').factory('doi.FormFactory',
                         {
                             key: 'operationDatum',
                             type: 'singleDate',
+                            hideExpression: 'model.operation !== "JA"', // R13
                             templateOptions: {label: 'DFR_11.2', required: true}
                         },
                         {
@@ -222,7 +223,8 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'forgiftningOrsak',
-                            type: 'radio-group',
+                            type: 'radio-group', // R15
+                            hideExpression: 'model.forgiftning !== true', // R14
                             templateOptions: {
                                 label: 'DFR_12.2',
                                 code: 'KV_ORSAK',
@@ -238,11 +240,13 @@ angular.module('doi').factory('doi.FormFactory',
                         {
                             key: 'forgiftningDatum',
                             type: 'singleDate',
+                            hideExpression: 'model.forgiftning !== true', // R16
                             templateOptions: {label: 'DFR_12.3', required: true}
                         },
                         {
                             key: 'forgiftningUppkommelse',
                             type: 'multi-text',
+                            hideExpression: 'model.forgiftning !== true', // R17
                             templateOptions: {label: 'DFR_12.4', required: true}
                         }
                     ])
@@ -251,7 +255,7 @@ angular.module('doi').factory('doi.FormFactory',
                     fraga(13, [
                         {
                             key: 'grunder',
-                            type: 'check-group',
+                            type: 'check-group', // R18
                             templateOptions: {
                                 label: 'DFR_13.1',
                                 required: true,
