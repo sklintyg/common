@@ -19,8 +19,8 @@
 
 angular.module('doi').factory('doi.Domain.IntygModel',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel', 'common.domain.ModelTransformService', 'common.ObjectHelper',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ModelTransform, ObjectHelper) {
+        'common.domain.BaseAtticModel',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel) {
             'use strict';
 
             var DoiModel = BaseAtticModel._extend({
