@@ -25,7 +25,7 @@ angular.module('db').factory('db.FormFactory',
                         {
                             key: 'identitetStyrkt',
                             type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_1.1', required: true}
+                            templateOptions: {label: 'DFR_1.1', required: true, maxlength: 100}
                         }
                     ])
                 ]),
@@ -64,7 +64,7 @@ angular.module('db').factory('db.FormFactory',
                         {
                             key: 'dodsplatsKommun',
                             type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_3.1', required: true}
+                            templateOptions: {label: 'DFR_3.1', required: true, maxlength: 100}
                         },
                         {
                             key: 'dodsplatsBoende',
