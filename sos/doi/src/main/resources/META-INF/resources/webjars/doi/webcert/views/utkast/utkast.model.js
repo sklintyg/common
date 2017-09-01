@@ -43,7 +43,7 @@ angular.module('doi').factory('doi.Domain.IntygModel',
 
                         'terminalDodsorsak': new ModelAttr('terminalDodsorsak', {
                             defaultValue : [{
-                                beskrivning: '',
+                                beskrivning: undefined,
                                 datum: '',
                                 specifikation: null
                             }],
@@ -61,14 +61,14 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                         }),
                         'foljd': new ModelAttr('foljd', {
                             defaultValue : [{
-                                beskrivning: '',
+                                beskrivning: undefined,
                                 datum: '',
                                 specifikation: null
                             }]
                         }),
                         'bidragandeSjukdomar': new ModelAttr('bidragandeSjukdomar', {
                             defaultValue : [{
-                                beskrivning: '',
+                                beskrivning: undefined,
                                 datum: '',
                                 specifikation: null
                             }]

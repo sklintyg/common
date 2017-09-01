@@ -67,7 +67,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
 
     private void validateLand(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getLand()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, ".land", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "personuppgifter.land", ValidationMessageType.EMPTY);
         }
     }
 

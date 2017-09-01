@@ -36,7 +36,7 @@ angular.module('common').run(function(formlyConfig) {
 
             // Make sure the right amount of rows exist
             var emptyRow = {
-                beskrivning: '',
+                beskrivning: undefined,
                 datum: '',
                 specifikation: null
             };
@@ -45,10 +45,8 @@ angular.module('common').run(function(formlyConfig) {
                 var rows = $scope.to.maxRows;
                 var modelArray = $scope.model[$scope.options.key];
                 if(!modelArray || modelArray.length === 0){
-                    if(rows && modelArray.length < rows){
-                        for (var i = 0; i < rows; i++){
-                            modelArray.push(angular.copy(emptyRow));
-                        }
+                    if(rows > 1){
+                        modelArray.push(angular.copy(emptyRow));
                     }
                 }
             }
