@@ -33,7 +33,10 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                 fieldName: '='
             },
             link: function(scope, element, attrs) {
-                scope.consentGiven = true;
+                srsProxy.getConsent().then(function(consent){
+                    scope.consentGiven = consent === 'JA' ? true : false;
+                })
+                
                 scope.inQuestionaireState = true;
 
                 scope.typeOfVariable = function(variable){
@@ -41,8 +44,13 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                     return t;
                 }
                 $log.debug(scope.fmb);
+
+                scope.setConsent = function(consent){
+                    scope.consentGiven = consent;
+                    srsProxy.setConsent(consent);
+                }
                 
-                srsProxy.setConsent(true).then(function(consent){
+               /* srsProxy.setConsent(true).then(function(consent){
                     console.log("set consent: " + consent);
                     return srsProxy.getConsent()
                 }).then(function(consent){
@@ -53,7 +61,7 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                     console.log("statistik: " + JSON.stringify(statistik));
                     scope.riskSignal = statistik.level;
                     scope.atgarder = statistik.atgarder
-                })
+                })*/
 
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'
