@@ -3,6 +3,9 @@ angular.module('common').run(function(formlyConfig) {
 
     formlyConfig.setType({
         name: 'singleDate',
+        defaultOptions: {
+            className: 'fold-animation'
+        },
         templateUrl: '/web/webjars/common/webcert/gui/formly/singleDate.formly.html',
         controller: ['$scope', '$timeout', 'common.UtkastValidationService', 'common.AtticHelper',
             function($scope, $timeout, UtkastValidationService, AtticHelper) {

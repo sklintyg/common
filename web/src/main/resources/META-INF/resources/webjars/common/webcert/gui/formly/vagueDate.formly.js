@@ -22,6 +22,9 @@ angular.module('common').run(function(formlyConfig) {
 
     formlyConfig.setType({
         name: 'vagueDate',
+        defaultOptions: {
+            className: 'fold-animation'
+        },
         templateUrl: '/web/webjars/common/webcert/gui/formly/vagueDate.formly.html',
         controller: ['$scope', 'common.UtkastValidationService',
             'common.AtticHelper', function($scope, UtkastValidationService) {
