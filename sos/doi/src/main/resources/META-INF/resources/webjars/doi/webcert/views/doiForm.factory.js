@@ -71,19 +71,19 @@ angular.module('doi').factory('doi.FormFactory',
                         {
                             key: 'dodsdatum',
                             type: 'singleDate',
-                            hideExpression: '!model.dodsdatumSakert',
+                            hideExpression: 'model.dodsdatumSakert !== true',
                             templateOptions: {label: 'DFR_2.2', required: true}
                         },
                         {
                             key: 'dodsdatum',
                             type: 'vagueDate',
-                            hideExpression: 'model.dodsdatumSakert',
+                            hideExpression: 'model.dodsdatumSakert !== false',
                             templateOptions: {label: 'DFR_2.2', required: true}
                         },
                         {
                             key: 'antraffatDodDatum',
                             type: 'singleDate',
-                            hideExpression: 'model.dodsdatumSakert',
+                            hideExpression: 'model.dodsdatumSakert !== false',
                             templateOptions: {label: 'DFR_2.3', required: true}
                         }
                     ]),
