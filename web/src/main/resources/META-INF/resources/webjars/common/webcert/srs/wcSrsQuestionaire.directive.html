@@ -8,46 +8,20 @@
         
         <section>  
                 
-                <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
-                    <label>Är du arbetslös?</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel" value="JA" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()" class="ng-pristine ng-untouched ng-valid"> Ja</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessattEj" name="recommendationsToFkTravel" value="NEJ" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('NEJ'); validate()" class="ng-pristine ng-untouched ng-valid"> Nej</label>
-                </div>
-                <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
-                    <label>Har du ätit antidepressiva läkemedel senaste året?</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel" value="JA" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()" class="ng-pristine ng-untouched ng-valid"> Ja</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessattEj" name="recommendationsToFkTravel" value="NEJ" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('NEJ'); validate()" class="ng-pristine ng-untouched ng-valid"> Nej</label>
-                </div>   
-                <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
-                    <label>Har du varit sjukskriven mer än 14 dagar i sträck det senaste året?</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel" value="JA" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()" class="ng-pristine ng-untouched ng-valid"> Ja</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessattEj" name="recommendationsToFkTravel" value="NEJ" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('NEJ'); validate()" class="ng-pristine ng-untouched ng-valid"> Nej</label>
-                </div>
-                <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
-                    <label>Bla bla bla?</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel" value="1" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()" class="ng-pristine ng-untouched ng-valid"> 1</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessattEj" name="recommendationsToFkTravel" value="2" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('NEJ'); validate()" class="ng-pristine ng-untouched ng-valid"> 2</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessattEj" name="recommendationsToFkTravel" value="3" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('NEJ'); validate()" class="ng-pristine ng-untouched ng-valid"> 3</label>
-                </div>
-                <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
-                    <label>Bla bla bla?</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel" value="JA" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()" class="ng-pristine ng-untouched ng-valid"> Ja</label>
-                    <label class="radio-inline">
-                        <input type="radio" id="rekommendationRessattEj" name="recommendationsToFkTravel" value="NEJ" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('NEJ'); validate()" class="ng-pristine ng-untouched ng-valid"> Nej</label>
-                </div>
-                <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
-                    <label>Bla bla bla?</label>
-                    <label class="checkbox"><input type="checkbox" id="arbeteArbetslos" ng-model="model.arbetsloshet" ng-change="onSysselsattningChange(); validate()" class="ng-pristine ng-untouched ng-valid" name=""></label>
+                <div ng-repeat="(key,value) in questions">
+                    <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
+                        <label>{{value.text}}</label>
+                        <div ng-repeat="(key,value) in value.answerOptions">
+                            <label class="radio-inline">
+                            <input type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel" value="JA" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()" class="ng-pristine ng-untouched ng-valid"> {{value.text}}</label>
+                        </div>
+                        <!--
+                            <label class="radio-inline">
+                            <input type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel" value="JA" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()" class="ng-pristine ng-untouched ng-valid"> Ja</label>
+                        <label class="radio-inline">
+                            <input type="radio" id="rekommendationRessattEj" name="recommendationsToFkTravel" value="NEJ" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('NEJ'); validate()" class="ng-pristine ng-untouched ng-valid"> Nej</label>
+                        -->
+                    </div>
                 </div>
                 
                 <button type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="btn btn-info ng-binding" ng-click="inQuestionaireState=false"
