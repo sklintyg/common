@@ -63,8 +63,7 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     }
 
     @Override
-    public String getDetailedModuleDescription()
-    {
+    public String getDetailedModuleDescription() {
         if (repo.isPresent()) {
             final String latestVersion = repo.get().getLatestVersion(getModuleId());
             final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
