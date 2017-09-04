@@ -13,11 +13,6 @@ angular.module('db').service('db.EditCertCtrl.ViewStateService',
                 this.intygModel = draftModel.content;
             };
 
-            this.inputLimits = {
-                identitetStyrkt: 100,
-                dodsplatsKommun: 100
-            };
-
             this.reset = function() {
                 CommonViewState.reset();
                 CommonViewState.intyg.type = 'db';

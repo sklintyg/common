@@ -1,4 +1,5 @@
 <div class="intyg-block__titlerow ng-scope">
+<<<<<<< HEAD
     
         <div>Lorem ipsum dolor sit amet </div> {{isCollapsed ? "Visa mer" : "Visa mindre"}}
         <a data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -32,3 +33,28 @@
     </div>
     
 </div>
+=======
+        <section>
+            <div ng-repeat="(key,value) in questions">
+                <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
+                    <label>{{value.text}}</label>
+                    <br>
+                    <div class="radio-inline" ng-repeat="(key,value) in value.answerOptions">
+                        <label>
+                            <input class="ng-pristine ng-untouched ng-valid" type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel"
+                                value="JA" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()">
+                               {{value.text}}
+                               <!--test-->
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button style="float:right;" type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="btn btn-info ng-binding" ng-click="visaClicked()"
+                uib-popover="Visa resultat." popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
+                popover-placement="auto top">
+                    Visa
+            </button>
+        </section>
+</div>
+>>>>>>> develop

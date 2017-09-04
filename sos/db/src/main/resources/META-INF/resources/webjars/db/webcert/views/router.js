@@ -25,7 +25,7 @@ angular.module('db').config(function($stateProvider) {
     $stateProvider.
         state('db-edit', {
             data: { defaultActive : 'index', intygType: 'db', useFmb: false },
-            url : '/db/edit/:certificateId',
+            url : '/db/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -68,7 +68,7 @@ angular.module('db').config(function($stateProvider) {
         }).
         state('webcert.intyg.fk.db', {
             data: { defaultActive : 'index', intygType: 'db' },
-            url:'/intyg/db/:certificateId',
+            url:'/intyg/db/:certificateId/:focusOn',
             views: {
                 'intyg@webcert.intyg.fk' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

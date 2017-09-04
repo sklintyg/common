@@ -3,7 +3,7 @@ mi-fishbone {
   padding-bottom:20px;
 
   // Define local variables for directive
-  $background-inactive: #eee;
+  $background-inactive: #D9E2E6;
   $background-current: #43799a;
   $bordersize: 20px;
 
@@ -19,7 +19,7 @@ mi-fishbone {
     margin-left: 4px;
     text-align: center;
     font-size: 14px;
-    color: #707070;
+    color: #333333;
     background: $background-inactive;
     min-width: 170px;
 

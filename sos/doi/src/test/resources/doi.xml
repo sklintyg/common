@@ -8,7 +8,7 @@
             <ns3:extension>1234567</ns3:extension>
         </intygs-id>
         <typ>
-            <ns3:code>DOI</ns3:code>
+            <ns3:code>doi</ns3:code>
             <ns3:codeSystem>b64ea353-e8f6-4832-b563-fc7d46f29548</ns3:codeSystem>
             <ns3:displayName>Dödsbevis</ns3:displayName>
         </typ>

@@ -33,7 +33,14 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                 fieldName: '='
             },
             link: function(scope, element, attrs) {
+<<<<<<< HEAD
                 scope.consentGiven = true;
+=======
+                srsProxy.getConsent().then(function(consent){
+                    scope.consentGiven = consent === 'JA' ? true : false;
+                })
+                
+>>>>>>> develop
                 scope.inQuestionaireState = true;
 
                 scope.typeOfVariable = function(variable){
@@ -41,8 +48,23 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                     return t;
                 }
                 $log.debug(scope.fmb);
+<<<<<<< HEAD
                 
                 srsProxy.setConsent(true).then(function(consent){
+=======
+
+                scope.setConsent = function(consent){
+                    scope.consentGiven = consent;
+                    srsProxy.setConsent(consent);
+                }
+
+                srsProxy.getQuestions().then(function(questions){
+                    scope.questions = questions;
+                    console.log(questions);
+                })
+                
+               /* srsProxy.setConsent(true).then(function(consent){
+>>>>>>> develop
                     console.log("set consent: " + consent);
                     return srsProxy.getConsent()
                 }).then(function(consent){
@@ -53,7 +75,11 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                     console.log("statistik: " + JSON.stringify(statistik));
                     scope.riskSignal = statistik.level;
                     scope.atgarder = statistik.atgarder
+<<<<<<< HEAD
                 })
+=======
+                })*/
+>>>>>>> develop
 
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'

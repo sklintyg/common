@@ -3,7 +3,10 @@
     <div class="cols-xs-12">
       <i class="icon icon-doc-text pull-left"></i>
       <div>
-        <div class="cert-type-title"><h1>{{getModuleName()}}</h1></div>
+        <div class="cert-type-title">
+          <h1 ng-if="onViewClick"><a ng-click="onViewClick({cert:certMetaModel})">{{getModuleName()}}</a></h1>
+          <h1 ng-if="!onViewClick">{{getModuleName()}}</h1>
+        </div>
         <div>
           <div class="complementary-info">
             <span message key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix"></span>

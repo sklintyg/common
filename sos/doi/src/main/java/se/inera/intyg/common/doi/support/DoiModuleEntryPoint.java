@@ -20,21 +20,29 @@ package se.inera.intyg.common.doi.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.doi.rest.DoiModuleApi;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "doi.sch";
-    public static final String MODULE_ID = "DOI";
+    public static final String MODULE_ID = "doi";
     public static final String MODULE_NAME = "Dödsorsaksintyg";
 
     private static final String DEFAULT_RECIPIENT_ID = "SOS";
     private static final String MODULE_DESCRIPTION = "Dödsorsaksintyg";
+    private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+
+    // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
+    @Autowired(required = false)
+    private Optional<IntygTextsRepository> repo;
 
     @Autowired
     private DoiModuleApi moduleApi;
@@ -56,7 +64,14 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getDetailedModuleDescription() {
-        return "";
+        if (repo.isPresent()) {
+            final String latestVersion = repo.get().getLatestVersion(getModuleId());
+            final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
+            if (texts != null) {
+                return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+            }
+        }
+        return null;
     }
 
     @Override

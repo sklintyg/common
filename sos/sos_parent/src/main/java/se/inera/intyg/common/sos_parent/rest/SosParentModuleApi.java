@@ -294,6 +294,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         try {
             return objectMapper.readValue(internalModel, type);
         } catch (IOException e) {
+            e.printStackTrace(); // We need to see the cause
             throw new ModuleSystemException("Failed to deserialize internal model", e);
         }
     }

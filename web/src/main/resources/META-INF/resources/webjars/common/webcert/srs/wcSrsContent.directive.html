@@ -15,21 +15,35 @@
       <span id="fmb_diagnos_not_in_fmb_alert">Det FMB-stöd som visas är för koden {{fmb.diagnosKod}} - {{fmb.diagnosBeskrivning}}.</span>
     </div>
     <div class="alert alert-warning" ng-if="!fmb.formData[fieldName]">
+<<<<<<< HEAD
       <span id="fmb_info_not_available"><span class="bold">Observera!</span> För "{{fmb.diagnosKod}} {{fmb.diagnosBeskrivning}}" finns ingen FMB-information för detta fält.</span>
+=======
+      <span id="fmb_info_not_available"><span class="bold">Observera!</span> För "{{fmb.diagnosKod}} {{fmb.diagnosBeskrivning}}"
+      finns ingen FMB-information för detta fält.</span>
+>>>>>>> develop
     </div>
     <div>
       <div class="line">Patienten samtycker till att delta i SRS pilotprojektet</div>
       <div class="line form-group ng-scope">
+<<<<<<< HEAD
             <label class="radio-inline line">
               <input type="radio" name="capacityForWorkForecast" id="capacityForWork1" ng-value="true" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(true)"> Ja</label>
       </div>
       <div class="line form-group ng-scope">
             <label class="radio-inline line">
+=======
+        <label class="radio-inline line">
+              <input type="radio" name="capacityForWorkForecast" id="capacityForWork1" ng-value="true" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(true)"> Ja</label>
+      </div>
+      <div class="line form-group ng-scope">
+        <label class="radio-inline line">
+>>>>>>> develop
               <input type="radio" name="capacityForWorkForecast" id="capacityForWork1" ng-value="false" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(false)"> Nej</label>
       </div>
     </div>
     <br>
     <hr>
+<<<<<<< HEAD
     <div ng-show="consentGiven">
       <div ng-show="inQuestionaireState">
         <wc-srs-questionaire></wc-srs-questionaire>
@@ -55,3 +69,26 @@
     <img ng-src="/img/socialstyrelsen_icon16.png" /> <span class="fmb-icon-text"
                                                            id="fmb_static_heading_{{relatedFormId}}">Information från Socialstyrelsens försäkringsmedicinska beslutsstöd</span>
   </div>-->
+=======
+    <h3 style="float: left;">Beräkning av risk för lång sjukskrivning</h3>
+    <div style="float:right;">{{isCollapsed ? "Visa mer" : "Visa mindre"}}
+      <a data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-down': isCollapsed, 'glyphicon-menu-up': !isCollapsed}"></i>
+        </a>
+    </div>
+    <br>
+    <br>
+    <div id="collapseExample" class="panel-collapse collapse in">
+      <div ng-show="consentGiven">
+        <div ng-show="inQuestionaireState">
+          <wc-srs-questionaire></wc-srs-questionaire>
+        </div>
+        <div ng-show="!inQuestionaireState">
+          <wc-srs-result></wc-srs-result>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+>>>>>>> develop

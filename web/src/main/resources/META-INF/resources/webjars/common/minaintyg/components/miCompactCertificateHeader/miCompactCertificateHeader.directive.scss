@@ -13,6 +13,10 @@ mi-compact-certificate-header {
   }
 
   .cert-type-title {
+    a {
+      color: $mi-intyg-header-color;
+      cursor: pointer;
+    }
     h1 {
       overflow: hidden;
       text-overflow: ellipsis;

@@ -20,18 +20,11 @@ public final class RespConstants {
     public static final String UNDERSOKNING_DATUM_JSON_ID = "undersokningDatum";
     public static final String POLISANMALAN_JSON_ID = "polisanmalan";
 
-    public static final String FOLJD_OM_JSON_ID = "beskrivning";
-    public static final String FOLJD_DATUM_JSON_ID = "datum";
-    public static final String FOLJD_SPECIFIKATION_JSON_ID = "specifikation";
+    public static final String DODSORSAK_OM_JSON_ID = "beskrivning";
+    public static final String DODSORSAK_DATUM_JSON_ID = "datum";
+    public static final String DODSORSAK_SPECIFIKATION_JSON_ID = "specifikation";
 
-    public static final String BIDRAGANDE_SJUKDOM_OM_JSON_ID = "beskrivning";
-    public static final String BIDRAGANDE_SJUKDOM_DATUM_JSON_ID = "datum";
-    public static final String BIDRAGANDE_SJUKDOM_SPECIFIKATION_JSON_ID = "specifikation";
-
-    public static final String DODSORSAK_JSON_ID = "dodsorsak";
-    public static final String DODSORSAK_DATUM_JSON_ID = "dodsorsakDatum";
-    public static final String DODSORSAK_SPECIFIKATION_JSON_ID = "dodsorsakSpecifikation";
-
+    public static final String TERMINAL_DODSORSAK_JSON_ID = "terminalDodsorsak";
     public static final String FOLJD_JSON_ID = "foljd";
     public static final String BIDRAGANDE_SJUKDOM_JSON_ID = "bidragandeSjukdomar";
     public static final String OPERATION_OM_JSON_ID = "operation";

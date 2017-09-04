@@ -36,9 +36,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_I
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_JSON_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SPECIFIKATION_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.FOLJD_JSON_ID;
@@ -54,6 +51,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.LAND_JSON_I
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_ANLEDNING_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
 
 @AutoValue
@@ -62,7 +60,7 @@ public abstract class DoiUtlatande implements SosUtlatande {
 
     public static Builder builder() {
         return new AutoValue_DoiUtlatande.Builder().setGrunder(ImmutableList.<Dodsorsaksgrund>of())
-                .setBidragandeSjukdomar(ImmutableList.<BidragandeSjukdom>of()).setFoljd(ImmutableList.<Foljd>of());
+                .setBidragandeSjukdomar(ImmutableList.<Dodsorsak>of()).setFoljd(ImmutableList.<Dodsorsak>of());
     }
 
     @Override
@@ -111,17 +109,11 @@ public abstract class DoiUtlatande implements SosUtlatande {
     public abstract String getLand();
 
     @Nullable
-    public abstract String getDodsorsak();
+    public abstract Dodsorsak getTerminalDodsorsak();
 
-    @Nullable
-    public abstract InternalDate getDodsorsakDatum();
+    public abstract ImmutableList<Dodsorsak> getFoljd();
 
-    @Nullable
-    public abstract Specifikation getDodsorsakSpecifikation();
-
-    public abstract ImmutableList<Foljd> getFoljd();
-
-    public abstract ImmutableList<BidragandeSjukdom> getBidragandeSjukdomar();
+    public abstract ImmutableList<Dodsorsak> getBidragandeSjukdomar();
 
     @Nullable
     public abstract OmOperation getOperation();
@@ -189,28 +181,22 @@ public abstract class DoiUtlatande implements SosUtlatande {
         @JsonProperty(LAND_JSON_ID)
         public abstract Builder setLand(String land);
 
-        @JsonProperty(DODSORSAK_JSON_ID)
-        public abstract Builder setDodsorsak(String dodsorsak);
-
-        @JsonProperty(DODSORSAK_DATUM_JSON_ID)
-        public abstract Builder setDodsorsakDatum(InternalDate dodsorsakDatum);
-
-        @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID)
-        public abstract Builder setDodsorsakSpecifikation(Specifikation dodsorsakSpecifikation);
+        @JsonProperty(TERMINAL_DODSORSAK_JSON_ID)
+        public abstract Builder setTerminalDodsorsak(Dodsorsak dodsorsak);
 
         @JsonProperty(FOLJD_JSON_ID)
-        public Builder setFoljd(List<Foljd> foljd) {
-            return setFoljd(ImmutableList.copyOf(foljd));
+        public Builder setFoljd(List<Dodsorsak> dodsorsak) {
+            return setFoljd(ImmutableList.copyOf(dodsorsak));
         }
 
-        abstract Builder setFoljd(ImmutableList<Foljd> foljd);
+        abstract Builder setFoljd(ImmutableList<Dodsorsak> dodsorsak);
 
         @JsonProperty(BIDRAGANDE_SJUKDOM_JSON_ID)
-        public Builder setBidragandeSjukdomar(List<BidragandeSjukdom> bidragandeSjukdomar) {
+        public Builder setBidragandeSjukdomar(List<Dodsorsak> bidragandeSjukdomar) {
             return setBidragandeSjukdomar(ImmutableList.copyOf(bidragandeSjukdomar));
         }
 
-        abstract Builder setBidragandeSjukdomar(ImmutableList<BidragandeSjukdom> bidragandeSjukdomar);
+        abstract Builder setBidragandeSjukdomar(ImmutableList<Dodsorsak> bidragandeSjukdomar);
 
         @JsonProperty(OPERATION_OM_JSON_ID)
         public abstract Builder setOperation(OmOperation operation);
