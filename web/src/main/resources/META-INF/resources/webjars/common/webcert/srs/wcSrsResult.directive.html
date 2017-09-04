@@ -1,8 +1,5 @@
-<div>
-    ------------------------------------------------------------------------<br> ---------------> prediction box goes here:
-    {{riskSignal}}
-    <-------------------<br>
-        ------------------------------------------------------------------------
+<div ng-class="risk-standard">
+    {{riskData[riskSignal-1]}}
 </div>
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#atgarder">Åtgärder</a></li>
@@ -17,10 +14,10 @@
         <h3>Rekommenderade åtgärder</h3>
 
         <div ng-repeat="(key,value) in atgarder">
-            <label class="checkbox">
-                <input type="checkbox" id="arbeteNuvarande" ng-model="model.nuvarandeArbete" ng-change="onSysselsattningChange(); validate()" class="ng-pristine ng-valid ng-touched" name="" style="">
-                {{value}}
-            </label>
+           <!-- <label class="checkbox">
+                <input type="checkbox" id="arbeteNuvarande" ng-model="model.nuvarandeArbete" ng-change="onSysselsattningChange(); validate()" class="ng-pristine ng-valid ng-touched" name="" style="">-->
+                <ul><li>{{value}}</li></ul>
+            <!--</label>-->
         </div>
 
         <!--

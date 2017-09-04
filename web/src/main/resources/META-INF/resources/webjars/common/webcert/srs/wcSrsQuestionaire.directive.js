@@ -33,17 +33,22 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                 };
 
                 scope.srsStates = fmbViewState;
+                scope.riskData = ["1 - Prediktion saknas", "2 - Låg", "3 - mellan", "4 - hög"];
 
                 scope.$watch('srsStates', function(newVal, oldVal) {
                     scope.srsAvailable = srsService.isAnySRSDataAvailable(newVal);
                 }, true);
 
-                scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
+                scope.visaClicked = function(){
+                    srsProxy.getStatistik().then(function(statistik){
+                        scope.riskSignal = statistik.level;
+                        scope.isDanger = scope.riskSignal < 2; 
+                        scope.atgarder = statistik.atgarder;
+                        scope.inQuestionaireState=false;
+                    })
+                }
 
-                srsProxy.getQuestions().then(function(questions){
-                    scope.questions = questions;
-                    console.log(questions);
-                })
+                scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
 
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsQuestionaire.directive.html'

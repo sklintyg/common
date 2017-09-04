@@ -49,6 +49,11 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                     scope.consentGiven = consent;
                     srsProxy.setConsent(consent);
                 }
+
+                srsProxy.getQuestions().then(function(questions){
+                    scope.questions = questions;
+                    console.log(questions);
+                })
                 
                /* srsProxy.setConsent(true).then(function(consent){
                     console.log("set consent: " + consent);

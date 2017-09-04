@@ -37,9 +37,30 @@ $srs-glyphicon-hover-color: #808080;
     color: white;
 }
 
+.radio-inline{
+  position:relative;
+  display:inline-block;
+  padding-left:20px;
+  margin-bottom:0;
+  vertical-align:middle;
+  font-weight:400;
+  cursor:pointer
+}
+
 .line{
   float:left;
   margin-left: 5px;
+}
+
+.risk-standard{
+  border: 1px solid #a94442;
+  color: #a94442;
+  background-image: none;
+  padding-right: 22px;
+  max-width: 993px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
 }
 
 /* SIT type drafts needs a smaller srs info panel to avoid overlapping srs-panels, by wrapping the srs directive with this class we can override the default heights */
