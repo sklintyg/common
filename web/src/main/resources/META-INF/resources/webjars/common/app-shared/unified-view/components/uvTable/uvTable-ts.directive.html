@@ -6,7 +6,8 @@
   </tr>
   <tr ng-repeat="row in viewModel.rows track by $index">
     <td ng-repeat="value in row.values track by $index" ng-attr-id="{{viewModel.modelProp + '-row' + $parent.$index + '-col' + $index| uvDomIdFilter}}">
-      {{value}}
+      <span ng-show="value">{{value}}</span>
+      <span ng-show="!value">-</span>
     </td>
   </tr>
 </table>
@@ -15,13 +16,15 @@
   <div class="mobile-table" ng-repeat="row in viewModel.rows track by $index" ng-init="rowIndex = $index">
     <div class="row" ng-repeat="value in row.values track by $index" ng-init="columnIndex = $index">
       <div data-ng-if="$first" class="col-xs-12">
-        <b>{{value}}</b>
+        <b><span ng-show="value">{{value}}</span><span ng-show="!value">-</span>
+        </b>
       </div>
       <div data-ng-if="!$first" class="col-xs-6">
         {{ viewModel.headers[columnIndex] }}
       </div>
       <div data-ng-if="!$first" class="col-xs-6" ng-attr-id="{{'mobile-' + viewModel.modelProp + '-row' + rowIndex + '-col' + columnIndex| uvDomIdFilter}}">
-        {{value}}
+        <span ng-show="value">{{value}}</span>
+        <span ng-show="!value">-</span>
       </div>
     </div>
   </div>
