@@ -33,15 +33,6 @@ describe('UtkastService', function() {
     var $q;
     var utkastContent;
 
-    var puResponse = {
-        status: 'FOUND',
-        person: {
-            fornamn: 'Tolvan',
-            mellannamn: null,
-            efternamn: 'Tolvansson'
-        }
-    };
-
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('$stateParams', {});
         $provide.value('common.messageService', {
@@ -168,7 +159,6 @@ describe('UtkastService', function() {
             };
 
             $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId').respond(200, response);
-            $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
             expect(viewState.common.doneLoading).toBeFalsy();
             $httpBackend.expectPOST('/moduleapi/utkast/testIntyg/testIntygId/validate').respond(200, {messages:[]});
@@ -183,43 +173,6 @@ describe('UtkastService', function() {
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
             expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
-        });
-
-        it ('successful utkast load with name changed', function () {
-
-            $stateParams.certificateId = 'testIntygId';
-            var promise = utkastService.load(viewState);
-            var resultData;
-            promise.then(function(data) {
-                resultData = data;
-            });
-            commonUser.isDjupintegration = function() {return false;};
-            commonUser.isUthopp = function() {return false;};
-
-            utkastContent.braIntygsData = 'bra';
-            var response = {
-                relations: {},
-                content: utkastContent
-            };
-            var puChangedResponse = {
-                status: 'FOUND',
-                person: {
-                    fornamn: 'Lilltolvan',
-                    mellannamn: null,
-                    efternamn: 'Tolvanelli'
-                }
-            };
-
-            $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygId').respond(200, response);
-            $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puChangedResponse);
-            $httpBackend.flush();
-            expect(viewState.common.doneLoading).toBeFalsy();
-            $httpBackend.expectPOST('/moduleapi/utkast/testIntyg/testIntygId/validate').respond(200, {messages:[]});
-            $timeout.flush();
-            $httpBackend.flush();
-            expect(viewState.common.doneLoading).toBeTruthy();
-            expect(viewState.draftModel.content.grundData.patient.fornamn === 'Lilltolvan').toBeTruthy();
-            expect(viewState.draftModel.content.grundData.patient.efternamn === 'Tolvanelli').toBeTruthy();
         });
 
         it ('successful completion utkast load', function () {
@@ -256,7 +209,6 @@ describe('UtkastService', function() {
                 content: utkastContentKomplt
             };
             $httpBackend.expectGET('/moduleapi/utkast/testIntyg/testIntygIdKomplt').respond(200, response);
-            $httpBackend.expectGET('/api/person/19121212-1212').respond(200, puResponse);
             $httpBackend.flush();
             expect(viewState.common.doneLoading).toBeFalsy();
             $httpBackend.expectPOST('/moduleapi/utkast/testIntyg/testIntygIdKomplt/validate').respond(200, {messages:[]});
