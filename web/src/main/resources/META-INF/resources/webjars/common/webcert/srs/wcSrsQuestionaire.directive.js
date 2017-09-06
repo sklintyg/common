@@ -41,9 +41,15 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
 
                 scope.visaClicked = function(){
                     srsProxy.getStatistik().then(function(statistik){
-                        scope.riskSignal = statistik.level;
+                        scope.riskSignal = statistik.predictionLevel;
                         scope.isDanger = scope.riskSignal < 2; 
-                        scope.atgarder = statistik.atgarder;
+                        scope.atgarder = statistik.atgarderRek;
+                        scope.atgarderObs = statistik.atgarderObs;
+                        scope.atgardObs = "";
+                        for(var i = 0; i < scope.atgarderObs.length; i++){
+                            scope.atgardObs += scope.atgarderObs[i];
+                            scope.atgardObs += i < scope.atgarderObs.length-1 ? ", " : ""; 
+                        }
                         scope.inQuestionaireState=false;
                         scope.statistikBild = statistik.statistikBild;
                     }).catch(function(err){
