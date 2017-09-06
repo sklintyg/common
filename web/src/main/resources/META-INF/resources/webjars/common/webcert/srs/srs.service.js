@@ -23,8 +23,6 @@ angular.module('common').factory('common.srsService', [
     function($http, $q, $log, fmbViewState, srsProxy, ObjectHelper) {
         'use strict';
 
-        console.log(fmbViewState);
-
         function _checkDiagnos(diagnos) {
             if (angular.isObject(diagnos) && !ObjectHelper.isEmpty(diagnos.diagnosKod) &&
                 diagnos.hasInfo) {

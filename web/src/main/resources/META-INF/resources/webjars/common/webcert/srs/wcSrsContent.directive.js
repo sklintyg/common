@@ -55,6 +55,10 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                     console.log(questions);
                 })
 
+                srsProxy.getStatistik().then(function(statistik){
+                    console.log(statistik);
+                })
+
                 srsProxy.getDiagnosisCodes().then(function(codes){
                     console.log(codes);
                 })

@@ -26,8 +26,8 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         }
 
         function _getStatistik(){
-            var opt = [{questionId: 1, answerId: 1}]
-            return $http.post('/api/srs/12345/191212121212/J20/HELT_NEDSATT?prediktion=true&atgard=true&statistik=true', opt).then(function(response) {
+            var opt = [{questionId: 1, answerId: 1}];
+            return $http.post('/api/srs/12345/191212121212/J20?prediktion=true&atgard=true&statistik=true', opt).then(function(response) {
                 return response.data;
               });
         }
