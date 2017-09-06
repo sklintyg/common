@@ -45,6 +45,7 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                         scope.isDanger = scope.riskSignal < 2; 
                         scope.atgarder = statistik.atgarder;
                         scope.inQuestionaireState=false;
+                        scope.statistikBild = statistik.statistikBild;
                     }).catch(function(err){
                         console.log(err);
                     })

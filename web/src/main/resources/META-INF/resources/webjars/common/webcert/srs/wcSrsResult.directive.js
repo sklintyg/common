@@ -27,19 +27,6 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
 
         return {
             restrict: 'E',
-            link: function(scope, element, attrs) {
-                scope.status = {
-                    open: true
-                };
-
-                scope.srsStates = fmbViewState;
-
-                scope.$watch('srsStates', function(newVal, oldVal) {
-                    scope.srsAvailable = srsService.isAnySRSDataAvailable(newVal);
-                }, true);
-
-                scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
-            },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.directive.html'
         };
     }]);
