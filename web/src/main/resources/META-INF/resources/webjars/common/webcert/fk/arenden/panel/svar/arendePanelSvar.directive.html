@@ -62,6 +62,9 @@
         <!-- Rubrik: Svar -->
         <label class="control-label" ng-show="isAnswerAllowed()">Svar</label>
 
+        <p ng-show="arendeSvar.answerKompletteringWithText" >
+          <span message key="common.arende.svar.komplettering.help"></span>
+        </p>
 
         <!-- ELLER inforuta komplettering EJ IMPLEMENTERAT än. Ingår i "SVAR SOM FÖLJER MED" komplettering funktionalitet.
         <div class="alert alert-info"

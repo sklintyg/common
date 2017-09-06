@@ -213,6 +213,7 @@ angular.module('common').constant('common.messages', {
 
         'common.arende.svar.besvaradmedintyg': 'Frågan är besvarad med ett nytt intyg.',
         'common.arende.svar.go': 'Gå vidare till intyget',
+        'common.arende.svar.komplettering.help': 'Beskriv varför kompletteringen inte kan genomföras. Här får ingen medicinsk information anges.',
 
         // Används bara av fk7263 (ArendeLegacyProxy)
         'common.arende.fraga.amne.makulering_av_lakarintyg': 'Makulering av läkarintyg',
