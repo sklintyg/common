@@ -21,9 +21,11 @@
  * Enable help marks with tooltip for other components than wcFields
  */
 angular.module('common').directive('wcHelpChevronText',
-    [ '$log', 'common.messageService', 'common.dynamicLabelService', 'common.ObjectHelper',
-        function($log, messageService, dynamicLabelService, ObjectHelper) {
+    [ '$rootScope', '$log', 'common.messageService', 'common.dynamicLabelService', 'common.ObjectHelper',
+        function($rootScope, $log, messageService, dynamicLabelService, ObjectHelper) {
             'use strict';
+
+            var animationCount = 0;
 
             return {
                 restrict: 'A',
@@ -36,6 +38,9 @@ angular.module('common').directive('wcHelpChevronText',
 
                     $scope.text = '';
                     $scope.isCollapsed = true;
+
+                    // Apparently animation end is called but not animation start when we start with isCollapsed=true
+                    animationCount++;
 
                     $scope.$on('help-chevron-' + $scope.helpTextKey, function(event, data){
 
@@ -59,6 +64,20 @@ angular.module('common').directive('wcHelpChevronText',
                             $scope.text = '';
                         }
                     }
+
+                    // These events will prevent wcHeaderHeightSync to match the header size while uib-collapse is animating
+                    $scope.start = function() {
+                        if (animationCount === 0) {
+                            $rootScope.$broadcast('wcAnimationStart');
+                        }
+                        animationCount++;
+                    };
+                    $scope.stop = function() {
+                        animationCount--;
+                        if (animationCount === 0) {
+                            $rootScope.$broadcast('wcAllAnimationsEnd');
+                        }
+                    };
                 }
             };
         }]);

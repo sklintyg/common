@@ -28,8 +28,7 @@ angular.module('common').directive('wcSpinner',
             scope: {
                 label: '@',
                 showSpinner: '=',
-                showContent: '=',
-                isHeader: '='
+                showContent: '='
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcSpinner.directive.html'
         };

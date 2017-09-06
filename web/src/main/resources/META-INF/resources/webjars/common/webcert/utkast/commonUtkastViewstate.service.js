@@ -46,7 +46,7 @@ angular.module('common').service('common.UtkastViewStateService',
             this.collapsedHeader = false;
             this.showHideButtonText = 'Dölj meny';
             this.saving = false;
-            this.headerSize = {width:0, height: 250};
+            this.headerSize = {width:0, height: 192};
             this.today = new Date();
             this.today.setHours(0, 0, 0, 0); // reset time to increase comparison accuracy (using new Date() also sets time)
 
