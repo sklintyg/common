@@ -102,7 +102,6 @@
   @import 'components/_wc-vardenhet-selector.scss';
   @import 'fk/arenden/_arende.scss';
   @import 'fmb/_fmb.scss';
-  @import 'srs/_srs.scss';
   @import 'gui/formly/diagnos.scss';
   @import 'gui/formly/dodsorsak.scss';
   @import 'gui/formly/prognos.scss';
@@ -121,6 +120,7 @@
   @import 'intyg/unified-view/uvSignedBy/uvSignedBy.scss';
   @import 'intyg/unified-view/uvWcFraga/uvWcFraga.directive.scss';
   @import 'intyg/unified-view/wcInlineKomplettering.directive.scss';
+  @import 'srs/_srs.scss';
   // endinjector
 
   %font-common {

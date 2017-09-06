@@ -32,6 +32,12 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
               });
         }
 
+        function _getDiagnosisCodes(){
+            return $http.get('/api/srs/codes').then(function(response) {
+                return response.data;
+              });
+        }
+
         function _setConsent(consentGiven){
             return $http.put('/api/srs/consent/191212121212/19101010-1010', consentGiven).then(function(response) {
                 return response.data;
@@ -52,9 +58,10 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
 
         // Return public API for the service
         return {
-            getStatistik: _getStatistik,
             getConsent: _getConsent,
+            getDiagnosisCodes: _getDiagnosisCodes,
             getQuestions: _getQuestions,
+            getStatistik: _getStatistik,
             setConsent: _setConsent,
         };
     }]);

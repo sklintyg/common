@@ -21,13 +21,8 @@
 /**
  * Display SRS questionaire
  */
-<<<<<<< HEAD
-angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState',
-    function(ObjectHelper, srsService, fmbViewState) {
-=======
 angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState', 'common.srsProxy',
     function(ObjectHelper, srsService, fmbViewState, srsProxy) {
->>>>>>> develop
         'use strict';
 
         return {
@@ -44,10 +39,6 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
                 }, true);
 
                 scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.directive.html'
         };
