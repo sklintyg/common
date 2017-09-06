@@ -27,18 +27,6 @@
                 <span>{{intygsnamn}}</span><span wc-help-chevron help-text-key="FRM_2.RBK"></span>
               </h1>
 
-               <div style="float:right;">
-                    <div wc-intyg-patient-namn-personnummer
-                         patient-name="viewState.intygModel.grundData.patient.fullstandigtNamn"
-                         person-id="viewState.intygModel.grundData.patient.personId"
-                         class="utkast-header-person-id"></div>
-
-                    <br>
-                    <span wc-sekretess-avliden uuid="viewState.intygModel.grundData.patient.personId" printlabel="true"
-                          avliden="viewState.intygModel.grundData.patient.avliden"
-                          sekretessmarkering="viewState.intygModel.grundData.patient.sekretessmarkering"></span>
-
-               </div>
               <span wc-help-chevron-text help-text-key="FRM_2.RBK"></span>
 
 
@@ -77,7 +65,18 @@
             </div>
 
             <div class="pull-left utkast-header-right-group">
+              <div>
+                <div wc-intyg-patient-namn-personnummer
+                     patient-name="viewState.intygModel.grundData.patient.fullstandigtNamn"
+                     person-id="viewState.intygModel.grundData.patient.personId"
+                     class="utkast-header-person-id"></div>
 
+                <br>
+                <span wc-sekretess-avliden uuid="viewState.intygModel.grundData.patient.personId" printlabel="true"
+                      avliden="viewState.intygModel.grundData.patient.avliden"
+                      sekretessmarkering="viewState.intygModel.grundData.patient.sekretessmarkering"></span>
+
+              </div>
             </div>
             <div class="clearfix"></div>
 
