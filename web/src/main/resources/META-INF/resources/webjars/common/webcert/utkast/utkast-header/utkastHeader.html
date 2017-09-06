@@ -81,11 +81,13 @@
             </div>
             <div class="clearfix"></div>
 
-            <!-- Error/info messages
-            <div wc-secrecy-mark-message
-                 person-id="viewState.intygModel.grundData.patient.personId"
-                 type="utkast"></div>
-             -->
+            <!-- Error/info messages -->
+            <div id="sekretessmarkeringError" ng-show="!viewState.draftModel.patientResolved" class="padding-top-medium">
+              <div class="alert alert-warning no-margin">
+                <span message key="common.alert.sekretessmarkering.error"></span>
+              </div>
+            </div>
+
             <div ng-show="viewState.common.error.saveErrorCode != null" class="padding-top-medium">
               <div class="alert alert-danger no-margin">
                 <span ng-bind-html="viewState.common.error.saveErrorMessage"></span>

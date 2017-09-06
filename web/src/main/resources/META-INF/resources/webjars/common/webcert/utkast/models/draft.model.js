@@ -30,6 +30,9 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.version = undefined;
             this.vidarebefordrad = undefined;
             this.status = undefined;
+            this.patientResolved = undefined;
+            this.sekretessmarkering = undefined;
+            this.avliden = undefined;
             if(contentModel){
                 this.content = contentModel;
             }
@@ -44,6 +47,9 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.relations = data.relations;
             this.vidarebefordrad = data.vidarebefordrad;
             this.status = data.status;
+            this.patientResolved = data.patientResolved;
+            this.sekretessmarkering = data.sekretessmarkering;
+            this.avliden = data.avliden;
             if(this.content){
                 this.content.update(data.content);
             }

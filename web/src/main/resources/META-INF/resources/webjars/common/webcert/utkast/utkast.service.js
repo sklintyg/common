@@ -34,52 +34,6 @@ angular.module('common').factory('common.UtkastService',
             var saveStartTime;
 
             /**
-             * Applicable only to NORMAL users, the PU service is used to load the Patient object and any name changes
-             * are then applied to the utkast.grundData.patient.
-             */
-            function _applyNameChangeFromPuService(patient) {
-                var deferred = $q.defer();
-
-                CommonViewState.fetchingPatientData = true;
-                PatientProxy.getPatient(patient.personId, function(patientResult) {
-                    var dirty = false;
-                    if (angular.isString(patientResult.fornamn) && patient.fornamn !== patientResult.fornamn) {
-                        patient.fornamn = patientResult.fornamn;
-                        dirty = true;
-                    }
-                    if (angular.isString(patientResult.mellannamn) && patient.mellannamn !== patientResult.mellannamn) {
-                        patient.mellannamn = patientResult.mellannamn;
-                        dirty = true;
-                    }
-                    if (angular.isString(patientResult.efternamn) && patient.efternamn !== patientResult.efternamn) {
-                        patient.efternamn = patientResult.efternamn;
-                        dirty = true;
-                    }
-
-                    // If there had been a change, build the 'fullstandigtNamn' property
-                    if (dirty) {
-                        patient.fullstandigtNamn = (patientResult.fornamn ? patientResult.fornamn : '');
-
-                        if (angular.isString(patientResult.mellannamn)) {
-                            patient.fullstandigtNamn += ' ' + patientResult.mellannamn;
-                        }
-                        if (angular.isString(patientResult.efternamn)) {
-                            patient.fullstandigtNamn += ' ' + patientResult.efternamn;
-                        }
-                    }
-                    CommonViewState.fetchingPatientData = false;
-                    deferred.resolve(null);
-                }, function() { // not found
-                    CommonViewState.fetchingPatientData = false;
-                    deferred.resolve(null);
-                }, function() { // error
-                    CommonViewState.fetchingPatientData = false;
-                    deferred.resolve(null);
-                });
-                return deferred.promise;
-            }
-
-            /**
              * Performs the last loading steps, e.g. broadcasting and fullfilling the original promise.
              *
              * Handled in method so it can be chained to run after previous internal functions yielding promises has
@@ -136,17 +90,7 @@ angular.module('common').factory('common.UtkastService',
                                     dynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, viewState.draftModel.content);
                                 }
 
-                                // Update patient name from PU-service if UserModel Origin is NORMAL
-                                // INTYG-4086: Is this necessary since we're doing the patient name/address handling in the backend now?
-                                if (!UserModel.isDjupintegration() && !UserModel.isUthopp()) {
-                                    // Update, then finish loading using promise.
-                                    _applyNameChangeFromPuService(viewState.draftModel.content.grundData.patient).then(function() {
-                                        _finishLoadingUtkast(viewState, intygsTyp, def);
-                                    });
-                                } else {
-                                    // No need to wait for PatientProxy to check patient, run finish method right away.
-                                    _finishLoadingUtkast(viewState, intygsTyp, def);
-                                }
+                                _finishLoadingUtkast(viewState, intygsTyp, def);
 
                             }, function(error) {
                                 CommonViewState.doneLoading = true;
