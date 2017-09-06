@@ -121,9 +121,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
                                         var stateParams = {
                                             certificateId: intygId
                                         };
-                                        if(type !== 'fk7263'){
-                                            stateParams.focusOn = 'focusOvrigt';
-                                        }
+                                        stateParams.focusOn = 'focusOvrigt';
                                         $state.go(type + '-edit', stateParams);
                                     }
 
