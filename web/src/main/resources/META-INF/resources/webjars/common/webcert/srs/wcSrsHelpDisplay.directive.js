@@ -39,6 +39,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', '
                 scope.isCollapsed=true;
                 scope.srsStates = fmbViewState;
                 scope.srsAvailable=true;
+
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'
         };

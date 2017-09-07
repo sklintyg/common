@@ -35,7 +35,21 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                 scope.srsStates = fmbViewState;
                 scope.riskData = ["1 - Prediktion saknas", "2 - Låg", "3 - mellan", "4 - hög"];
 
+                srsProxy.getQuestions().then(function(questions){
+                    scope.selectedButtons = [];
+                    scope.questions = questions;
+                    console.log(scope.questions);
+                    for(var i = 0; i < scope.questions.length; i++){
+                        for(var e = 0; e < scope.questions[i].answerOptions.length; e++){
+                            if(scope.questions[i].answerOptions[e].defaultValue){
+                                scope.questions[i].model = scope.questions[i].answerOptions[e];
+                            }
+                        }
+                    }
+                })
+
                 scope.visaClicked = function(){
+                    console.log(getSelectedAnswerOptions());
                     srsProxy.getStatistik().then(function(statistik){
                         scope.statistik = statistik;
                         setAtgarderObs();
@@ -43,6 +57,22 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                     }).catch(function(err){
                         console.log(err);
                     })
+                }
+
+                scope.setAnswer = function(answer){
+                    console.log("answer: " + answer);
+                }
+
+                scope.change = function(answerOption){
+                    console.log(answerOption);
+                }
+
+                function getSelectedAnswerOptions(){
+                    var selectedOptions = [{questionId: "", answerId: ""}];
+                    for(var i = 0; i < scope.questions.length; i++){
+                        selectedOptions.push({questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id});
+                    }
+                    return selectedOptions;
                 }
 
                 function setAtgarderObs(){

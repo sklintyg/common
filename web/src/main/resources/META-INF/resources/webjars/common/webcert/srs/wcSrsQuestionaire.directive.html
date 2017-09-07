@@ -1,16 +1,20 @@
 <div class="intyg-block__titlerow ng-scope">
         <section>
-            <div ng-repeat="(key,value) in questions">
-                <div class="form-group form-inline ng-scope" id="rekommendationRessattRadioGroup">
-                    <label>{{value.text}}</label>
-                    <br>
-                    <div class="radio-inline" ng-repeat="(key,value) in value.answerOptions">
-                        <label>
-                            <input class="ng-pristine ng-untouched ng-valid" type="radio" id="rekommendationRessatt" name="recommendationsToFkTravel"
-                                value="JA" ng-model="model.ressattTillArbete" ng-change="model.setressattTillArbete('JA'); validate()">
-                               {{value.text}}
-                               <!--test-->
-                        </label>
+            selectedButton: {{selectedButton}}
+            <div ng-repeat="question in questions">
+                <div class="row">
+                    <br/><span>{{question.text}}</span>
+                </div>
+                <div ng-repeat="answer in question.answerOptions" for="{{answer}}">
+                    <div>
+                        <div class="radio-inline">{{answer.text}}</div>
+                        <input 
+                            type="radio" 
+                            ng-change="change(question.model)"
+                            name="answer{{$parent.$index}}" 
+                            ng-model="question.model" 
+                            ng-value="answer"
+                        />{{answer.answertxt}}
                     </div>
                 </div>
             </div>

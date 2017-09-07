@@ -50,11 +50,6 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                     srsProxy.setConsent(consent);
                 }
 
-                srsProxy.getQuestions().then(function(questions){
-                    scope.questions = questions;
-                    console.log(questions);
-                })
-
                 srsProxy.getStatistik().then(function(statistik){
                     console.log(statistik);
                 })
