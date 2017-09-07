@@ -1,10 +1,10 @@
 <div>
   <div ng-show="srsAvailable">
-    <div class="fmb">
+    <div class="srs">
       <button id="{{relatedFormId}}-fmb-button" type="button" class="btn btn-default btn-fmb" ng-click="status.open = !status.open">SRS <i
           class="glyphicon fmb-glyphicon"
           ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
-      <div class="srs-test panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
+      <div class="panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
         <div class="panel-arrow"></div>
         <div class="panel panel-fmb-info">
           <uib-tabset active="srsStates.activeDiagnos" class="fmb-panel-tabset nav-tabs__fmb"

@@ -62,19 +62,6 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
                 srsProxy.getDiagnosisCodes().then(function(codes){
                     console.log(codes);
                 })
-                
-               /* srsProxy.setConsent(true).then(function(consent){
-                    console.log("set consent: " + consent);
-                    return srsProxy.getConsent()
-                }).then(function(consent){
-                    scope.consentGiven = consent === 'JA' ? true : false;
-                    console.log("get consent: " + consent);
-                    return srsProxy.getStatistik();
-                }).then(function(statistik){
-                    console.log("statistik: " + JSON.stringify(statistik));
-                    scope.riskSignal = statistik.level;
-                    scope.atgarder = statistik.atgarder
-                })*/
 
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'
