@@ -35,10 +35,6 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                 scope.srsStates = fmbViewState;
                 scope.riskData = ["1 - Prediktion saknas", "2 - Låg", "3 - mellan", "4 - hög"];
 
-                scope.$watch('srsStates', function(newVal, oldVal) {
-                    scope.srsAvailable = srsService.isAnySRSDataAvailable(newVal);
-                }, true);
-
                 scope.visaClicked = function(){
                     srsProxy.getStatistik().then(function(statistik){
                         scope.riskSignal = statistik.predictionLevel;
@@ -56,9 +52,6 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                         console.log(err);
                     })
                 }
-
-                scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
-
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsQuestionaire.directive.html'
         };

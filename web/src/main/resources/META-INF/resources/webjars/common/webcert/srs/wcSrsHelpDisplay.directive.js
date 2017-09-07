@@ -33,19 +33,12 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', '
             },
             link: function(scope, element, attrs) {
                 scope.status = {
-                    open: true
+                    open: false
                 };
 
                 scope.isCollapsed=true;
-
                 scope.srsStates = fmbViewState;
-
-                scope.$watch('srsStates', function(newVal, oldVal) {
-                    scope.srsAvailable = srsService.isAnySRSDataAvailable(newVal);
-                }, true);
-
-                scope.srsAvailable = srsService.isAnySRSDataAvailable(scope.srsStates);
-
+                scope.srsAvailable=true;
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'
         };
