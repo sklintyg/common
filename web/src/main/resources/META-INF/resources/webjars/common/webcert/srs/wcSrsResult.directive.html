@@ -1,5 +1,5 @@
 <div class="alert alert-danger">
-    {{riskData[riskSignal]}}
+    {{riskData[statistik.predictionLevel]}}
 </div>
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#atgarder">Åtgärder</a></li>
@@ -8,11 +8,11 @@
 
 <div class="tab-content">
     <div id="atgarder" class="tab-pane fade in active">
-        <p><b>Tänk på att;</b> {{atgardObs}}.</p>
+        <p><b>Tänk på att;</b> {{statistik.atgardObs}}.</p>
 
         <h3>Rekommenderade åtgärder</h3>
 
-        <div ng-repeat="(key,value) in atgarder">
+        <div ng-repeat="(key,value) in statistik.atgarderRek">
             <ul>
                 <li>{{value}}</li>
             </ul>
@@ -21,7 +21,7 @@
     </div>
     <div id="statstics" class="tab-pane fade">
         <h3>Statistik</h3>
-        <p>Hämta denna från srs-tjänsten sen: {{statistikBild}}</p>
+        <p>Hämta denna från srs-tjänsten sen: {{statistik.statistikBild}}</p>
     </div>
 
     <div style="float: right;">

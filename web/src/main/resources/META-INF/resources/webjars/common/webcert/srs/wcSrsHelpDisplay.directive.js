@@ -33,7 +33,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', '
             },
             link: function(scope, element, attrs) {
                 scope.status = {
-                    open: false
+                    open: true
                 };
 
                 scope.isCollapsed=true;
