@@ -18,14 +18,15 @@
  */
 
 angular.module('common').controller('common.UtkastHeader',
-    ['$scope', '$log', '$stateParams', '$timeout', '$window',
+    ['$scope', '$log', '$stateParams', '$timeout', '$window', 'common.UserModel',
         'common.messageService', 'common.moduleService', 'common.UtkastProxy', 'common.statService',
         'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService', 'common.UtkastService', 'common.PatientProxy',
-        function($scope, $log, $stateParams, $timeout, $window,
+        function($scope, $log, $stateParams, $timeout, $window, UserModel,
             messageService, moduleService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService, PatientProxy) {
             'use strict';
 
             $scope.intygsnamn = moduleService.getModuleName(CommonViewState.intyg.type);
+            $scope.oldPersonId = UserModel.getIntegrationParam('beforeAlternateSsn');
 
             /**
              * Toggle header part ('Dölj meny'-knapp)
