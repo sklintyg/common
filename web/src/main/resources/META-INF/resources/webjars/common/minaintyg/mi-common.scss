@@ -47,3 +47,12 @@
 @import 'components/miCompactCertificateBody/miCompactCertificateBody.directive.scss';
 @import 'components/miCompactCertificateHeader/miCompactCertificateHeader.directive.scss';
 // endinjector
+
+.rotate-180 {
+  display: inline-block;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}

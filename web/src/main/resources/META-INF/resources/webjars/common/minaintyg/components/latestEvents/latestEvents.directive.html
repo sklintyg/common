@@ -2,6 +2,12 @@
   <div class="tag" ng-if="!hideHeader" >
     <span class="lastevent-header" message key="listtable.headers.latestEvent"></span>
     <span ng-if="!maxStatuses" id="statusesshown">{{statusesShown(filteredStatuses, isCollapsedArchive)}}</span>
+    <button ng-if="!maxStatuses" id="showEventsBtn-{{certId}}" type="button" class="btn-link btn-link-link pull-right"
+            href="#status" ng-show="filteredStatuses.length > 2"
+            ng-click="expandClicked()">
+      <i class="icon icon-up-open rotate-180"></i> <span message key="label.status.{{ !isCollapsedArchive }}"></span>
+    </button>
+    <div style="clear:both"></div>
   </div>
   <div ng-if="filteredStatuses.length > 0" ng-attr-id="event-{{certId}}">
     <div ng-repeat="status in filteredStatuses track by $index" ng-if="$index < maxStatusRows(isCollapsedArchive)"
@@ -10,11 +16,6 @@
       <span ng-attr-id="event-timestamp-{{certId}}-{{$index}}" class="latest-events-timestamp">{{info.timestamp}}</span>
       <span class="event-text" ng-attr-id="event-text-{{certId}}-{{$index}}">{{info.text}}</span>
     </div>
-    <button ng-if="!maxStatuses" id="showEventsBtn-{{certId}}" type="button" class="btn-link btn-link-link"
-            href="#status" ng-show="filteredStatuses.length > 2"
-            ng-click="expandClicked()">
-      <span message key="label.status.{{ !isCollapsedArchive }}"></span>
-    </button>
 
     <events-modal show-modal="showModal" statuses="filteredStatuses" hide-header="hideHeader" get-event-info="getEventInfo(status)"/>
   </div>

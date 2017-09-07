@@ -12,7 +12,7 @@
 
       <div class="modal-event-rows">
         <div class="modal-event-row" ng-repeat="status in statuses track by $index" ng-init="info = getEventInfo({status: status})" ng-attr-id="event-{{certId}}-{{$index}}" ng-class-odd="'stripe-dark'">
-          <span ng-attr-id="event-timestamp-{{certId}}-{{$index}}2">{{info.timestamp}}</span>
+          <span class="modal-event-timestamp" ng-attr-id="event-timestamp-{{certId}}-{{$index}}2">{{info.timestamp}}</span>
           <span class="modal-event-text" ng-attr-id="event-text-{{certId}}-{{$index}}2">{{info.text}}</span>
         </div>
       </div>
