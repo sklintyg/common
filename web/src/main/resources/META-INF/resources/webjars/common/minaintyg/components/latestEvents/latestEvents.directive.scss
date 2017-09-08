@@ -4,7 +4,6 @@
   }
 
   .event-row {
-    display: inline-block;
     padding: 0.9em;
   }
 
@@ -17,6 +16,10 @@
   }
 
   .stripe-dark {
-    background-color: #ededed;
+    background-color: #D9E2E6;
+  }
+
+  &-timestamp {
+    font-weight: bold;
   }
 }

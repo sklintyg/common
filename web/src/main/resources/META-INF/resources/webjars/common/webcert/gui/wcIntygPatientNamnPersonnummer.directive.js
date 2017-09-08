@@ -24,7 +24,8 @@ angular.module('common').directive('wcIntygPatientNamnPersonnummer', [ function(
         restrict: 'A',
         scope: {
             patientName: '=',
-            personId: '='
+            personId: '=',
+            oldPersonId: '='
         },
         templateUrl: '/web/webjars/common/webcert/gui/wcIntygPatientNamnPersonnummer.directive.html'
     };
