@@ -25,9 +25,8 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             return "you have " + (!consentGiven ? "not " : "") + "accepeted";
         }
 
-        function _getStatistik(){
-            var opt = [{questionId: 1, answerId: 1}];
-            return $http.post('/api/srs/12345/191212121212/J20?prediktion=true&atgard=true&statistik=true', opt).then(function(response) {
+        function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik){
+            return $http.post('/api/srs/'+intygsId+'/'+patientId+'/'+diagnosKod+'?prediktion='+prediktion+'&atgard='+atgard+'&statistik='+statistik, qaIds).then(function(response) {
                 return response.data;
               });
         }
@@ -38,20 +37,20 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
               });
         }
 
-        function _setConsent(consentGiven){
-            return $http.put('/api/srs/consent/191212121212/19101010-1010', consentGiven).then(function(response) {
+        function _setConsent(patientId, hsaId, consentGiven){
+            return $http.put('/api/srs/consent/' + patientId + '/'+ hsaId, consentGiven).then(function(response) {
                 return response.data;
             });
         }
 
-        function _getConsent(){
-            return $http.get('/api/srs/consent/191212121212/19101010-1010').then(function(response) {
+        function _getConsent(personId, hsaId){
+            return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(function(response) {
                 return response.data;
             });
         }
 
-        function _getQuestions(){
-            return $http.get('/api/srs/questions/J20').then(function(response) {
+        function _getQuestions(diagnosKod){
+            return $http.get('/api/srs/questions/'+diagnosKod).then(function(response) {
                 return response.data;
             });
         }
@@ -61,7 +60,7 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             getConsent: _getConsent,
             getDiagnosisCodes: _getDiagnosisCodes,
             getQuestions: _getQuestions,
-            getStatistik: _getStatistik,
+            getSrs: _getSrs,
             setConsent: _setConsent,
         };
     }]);

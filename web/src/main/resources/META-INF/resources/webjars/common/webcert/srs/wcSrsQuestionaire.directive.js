@@ -21,13 +21,13 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState', 'common.srsProxy',
-    function(ObjectHelper, srsService, fmbViewState, srsProxy) {
+angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState', 'common.srsProxy', '$stateParams',
+    function (ObjectHelper, srsService, fmbViewState, srsProxy, $stateParams) {
         'use strict';
 
         return {
             restrict: 'E',
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 scope.status = {
                     open: true
                 };
@@ -35,52 +35,55 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                 scope.srsStates = fmbViewState;
                 scope.riskData = ["1 - Prediktion saknas", "2 - Låg", "3 - mellan", "4 - hög"];
 
-                srsProxy.getQuestions().then(function(questions){
+                srsProxy.getQuestions(getCurrentDiagnosKod()).then(function (questions) {
                     scope.selectedButtons = [];
                     scope.questions = questions;
                     console.log(scope.questions);
-                    for(var i = 0; i < scope.questions.length; i++){
-                        for(var e = 0; e < scope.questions[i].answerOptions.length; e++){
-                            if(scope.questions[i].answerOptions[e].defaultValue){
+                    for (var i = 0; i < scope.questions.length; i++) {
+                        for (var e = 0; e < scope.questions[i].answerOptions.length; e++) {
+                            if (scope.questions[i].answerOptions[e].defaultValue) {
                                 scope.questions[i].model = scope.questions[i].answerOptions[e];
                             }
                         }
                     }
                 })
 
-                scope.visaClicked = function(){
-                    console.log(getSelectedAnswerOptions());
-                    srsProxy.getStatistik().then(function(statistik){
+                scope.visaClicked = function () {
+                    //var opt = [{questionId: 1, answerId: 1}];
+                    var qaIds = getSelectedAnswerOptions();
+                    srsProxy.getSrs($stateParams.certificateId, scope.personId, getCurrentDiagnosKod(), qaIds, true, true, true).then(function (statistik) {
                         scope.statistik = statistik;
                         setAtgarderObs();
-                        scope.inQuestionaireState=false;
-                    }).catch(function(err){
-                        console.log(err);
+                        scope.inQuestionaireState = false;
                     })
                 }
 
-                scope.setAnswer = function(answer){
+                scope.setAnswer = function (answer) {
                     console.log("answer: " + answer);
                 }
 
-                scope.change = function(answerOption){
+                scope.change = function (answerOption) {
                     console.log(answerOption);
                 }
 
-                function getSelectedAnswerOptions(){
-                    var selectedOptions = [{questionId: "", answerId: ""}];
-                    for(var i = 0; i < scope.questions.length; i++){
-                        selectedOptions.push({questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id});
+                function getCurrentDiagnosKod() {
+                    return scope.fmb.diagnosKod;
+                }
+
+                function getSelectedAnswerOptions() {
+                    var selectedOptions = [];
+                    for (var i = 0; i < scope.questions.length; i++) {
+                        selectedOptions.push({ questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id });
                     }
                     return selectedOptions;
                 }
 
-                function setAtgarderObs(){
+                function setAtgarderObs() {
                     var atgarderObs = scope.statistik.atgarderObs;
                     scope.statistik.atgardObs = "";
-                    for(var i = 0; i < atgarderObs.length; i++){
+                    for (var i = 0; i < atgarderObs.length; i++) {
                         scope.statistik.atgardObs += atgarderObs[i];
-                        scope.statistik.atgardObs += i < atgarderObs.length-1 ? ", " : ""; 
+                        scope.statistik.atgardObs += i < atgarderObs.length - 1 ? ", " : "";
                     }
                 }
 

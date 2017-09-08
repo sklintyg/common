@@ -29,7 +29,9 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', '
             transclude: true,
             scope: {
                 fieldName: '@',
-                relatedFormId: '@'
+                relatedFormId: '@',
+                personId: '=',
+                hsaId: '='
             },
             link: function(scope, element, attrs) {
                 scope.status = {
