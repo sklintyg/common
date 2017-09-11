@@ -21,8 +21,8 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.fmbViewState', 'common.srsProxy', '$stateParams',
-    function(ObjectHelper, fmbViewState, srsProxy, $stateParams) {
+angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsProxy', '$stateParams',
+    function(ObjectHelper, srsProxy, $stateParams) {
         'use strict';
 
         return {
@@ -31,13 +31,13 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
 
                 scope.getSrs = function(){
                     var qaIds = getSelectedAnswerOptions();
-                    srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.getCurrentDiagnosKod(), qaIds, true, true, true).then(function (statistik) {
+                    console.log(JSON.stringify(qaIds));
+                    srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true, true).then(function (statistik) {
                         scope.statistik = statistik;
                         setAtgarderObs();
                     })
                 }
                 
-
                 function getSelectedAnswerOptions() {
                     var selectedOptions = [];
                     for (var i = 0; i < scope.questions.length; i++) {

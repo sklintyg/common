@@ -21,33 +21,41 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy', '$stateParams',
-    function (srsProxy, $stateParams) {
+angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
+    function (srsProxy) {
         'use strict';
 
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
 
-                scope.getCurrentDiagnosKod = function() {
-                    return scope.fmb.diagnosKod;
-                }
-
-                srsProxy.getQuestions(scope.getCurrentDiagnosKod()).then(function (questions) {
-                    scope.selectedButtons = [];
-                    scope.questions = questions;
-                    for (var i = 0; i < scope.questions.length; i++) {
-                        for (var e = 0; e < scope.questions[i].answerOptions.length; e++) {
-                            if (scope.questions[i].answerOptions[e].defaultValue) {
-                                scope.questions[i].model = scope.questions[i].answerOptions[e];
-                            }
-                        }
+                scope.$watch('diagnosKod', function(newVal, oldVal){
+                    if(newVal){
+                        console.log(newVal);
+                        scope.getQuestions(newVal).then(function(data){
+                            scope.questions = data;
+                        })
                     }
                 })
 
                 scope.visaClicked = function () {
                     scope.inQuestionaireState = false;
                     scope.getSrs();
+                }
+
+                scope.getQuestions = function(diagnosKod){
+                    return srsProxy.getQuestions(diagnosKod).then(function (questions) {
+                        scope.selectedButtons = [];
+                        var qas = questions;
+                        for (var i = 0; i < questions.length; i++) {
+                            for (var e = 0; e < questions[i].answerOptions.length; e++) {
+                                if (questions[i].answerOptions[e].defaultValue) {
+                                    qas[i].model = questions[i].answerOptions[e];
+                                }
+                            }
+                        }
+                        return qas;
+                    })
                 }
 
             },

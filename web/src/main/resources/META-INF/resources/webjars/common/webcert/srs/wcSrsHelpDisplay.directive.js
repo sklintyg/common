@@ -29,15 +29,18 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
             transclude: true,
             scope: {
                 personId: '=',
-                hsaId: '='
+                hsaId: '=',
+                intygsTyp: '='
             },
             link: function(scope, element, attrs) {
                 scope.status = {
                     open: true
                 };
 
-                scope.srsAvailable=true;
-                
+                scope.srsStates = fmbViewState;
+                scope.srsAvailable = false;
+                scope.diagnosKod = "";
+
                 scope.$watch('hsaId', function(newVal, oldVal){
                     if(newVal){
                         srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent){
@@ -48,11 +51,23 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                             srsProxy.setConsent(scope.personId, scope.hsaId, consent);
                         }
                     }
-                    
                 })
 
-                
-                scope.srsStates = fmbViewState;
+                scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal){
+                    if(newVal){
+                        scope.diagnosKod = newVal;
+                        srsProxy.getDiagnosisCodes().then(function(diagnosisCodes){
+                            scope.diagnosisCodes = diagnosisCodes;
+                            scope.srsAvailable = false;
+                            for(var i = 0; i < diagnosisCodes.length; i++){
+                                if(scope.diagnosKod === diagnosisCodes[i]){
+                                    scope.srsAvailable = true;
+                                    break;
+                                }
+                            }
+                        })
+                    }
+                })
 
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'

@@ -9,7 +9,7 @@
         <div class="panel panel-fmb-info">
           <uib-tabset active="test" class="fmb-panel-tabset nav-tabs__fmb"
                       ng-class="{'hide-tabs': (srsStates.diagnoses | keyLength) < 2}">
-            <uib-tab index="$index + 1" ng-repeat="fmb in srsStates.diagnoses" heading="{{fmb.diagnosKod}}"
+            <uib-tab index="$index + 1" ng-repeat="fmb in srsStates.diagnoses" heading="{{srsStates.diagnosKod}}"
                      disable="false" select="selectDiagnos($index)">
               <wc-srs-content></wc-srs-content>
             </uib-tab>
