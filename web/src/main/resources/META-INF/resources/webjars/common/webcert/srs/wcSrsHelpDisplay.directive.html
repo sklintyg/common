@@ -7,11 +7,11 @@
       <div class="panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
         <div class="panel-arrow"></div>
         <div class="panel panel-fmb-info">
-          <uib-tabset active="srsStates.activeDiagnos" class="fmb-panel-tabset nav-tabs__fmb"
+          <uib-tabset active="test" class="fmb-panel-tabset nav-tabs__fmb"
                       ng-class="{'hide-tabs': (srsStates.diagnoses | keyLength) < 2}">
             <uib-tab index="$index + 1" ng-repeat="fmb in srsStates.diagnoses" heading="{{fmb.diagnosKod}}"
                      disable="false" select="selectDiagnos($index)">
-              <wc-srs-content related-form-id="relatedFormId" fmb="fmb" status="status" field-name="fieldName" person-id="personId" hsa-id="hsaId"></wc-srs-content>
+              <wc-srs-content></wc-srs-content>
             </uib-tab>
           </uib-tabset>
         </div>

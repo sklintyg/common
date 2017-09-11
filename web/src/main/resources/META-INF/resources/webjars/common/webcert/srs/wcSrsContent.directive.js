@@ -26,30 +26,8 @@ angular.module('common').directive('wcSrsContent', ['$log', 'common.ObjectHelper
 
         return {
             restrict: 'EA',
-            scope: {
-                fmb: '=',
-                relatedFormId: '@',
-                status: '=',
-                fieldName: '=',
-                personId: '=',
-                hsaId: '='
-            },
             link: function(scope, element, attrs) {
-
-                scope.$watch('hsaId', function(newVal, oldVal){
-                    if(newVal){
-                        scope.inQuestionaireState = true;
-                        srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent){
-                            scope.consentGiven = consent === 'JA' ? true : false;
-                        })
-                        scope.setConsent = function(consent){
-                            scope.consentGiven = consent;
-                            srsProxy.setConsent(scope.personId, scope.hsaId, consent);
-                        }
-                    }
-                    
-                })
-                
+                scope.inQuestionaireState = true;
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'
         };

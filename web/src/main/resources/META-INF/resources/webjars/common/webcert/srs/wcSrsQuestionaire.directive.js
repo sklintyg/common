@@ -28,17 +28,12 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
-                scope.status = {
-                    open: true
-                };
 
-                scope.srsStates = fmbViewState;
                 scope.riskData = ["1 - Prediktion saknas", "2 - Låg", "3 - mellan", "4 - hög"];
 
                 srsProxy.getQuestions(getCurrentDiagnosKod()).then(function (questions) {
                     scope.selectedButtons = [];
                     scope.questions = questions;
-                    console.log(scope.questions);
                     for (var i = 0; i < scope.questions.length; i++) {
                         for (var e = 0; e < scope.questions[i].answerOptions.length; e++) {
                             if (scope.questions[i].answerOptions[e].defaultValue) {
@@ -56,14 +51,6 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                         setAtgarderObs();
                         scope.inQuestionaireState = false;
                     })
-                }
-
-                scope.setAnswer = function (answer) {
-                    console.log("answer: " + answer);
-                }
-
-                scope.change = function (answerOption) {
-                    console.log(answerOption);
                 }
 
                 function getCurrentDiagnosKod() {

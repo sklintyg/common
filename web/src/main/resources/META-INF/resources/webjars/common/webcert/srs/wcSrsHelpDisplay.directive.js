@@ -28,8 +28,6 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', '
             restrict: 'E',
             transclude: true,
             scope: {
-                fieldName: '@',
-                relatedFormId: '@',
                 personId: '=',
                 hsaId: '='
             },
@@ -37,7 +35,21 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', '
                 scope.status = {
                     open: true
                 };
+                
+                scope.$watch('hsaId', function(newVal, oldVal){
+                    if(newVal){
+                        srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent){
+                            scope.consentGiven = consent === 'JA' ? true : false;
+                        })
+                        scope.setConsent = function(consent){
+                            scope.consentGiven = consent;
+                            srsProxy.setConsent(scope.personId, scope.hsaId, consent);
+                        }
+                    }
+                    
+                })
 
+                scope.test = 1;
                 scope.isCollapsed=true;
                 scope.srsStates = fmbViewState;
                 scope.srsAvailable=true;
