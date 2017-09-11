@@ -21,17 +21,19 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 'common.fmbViewState', 'common.srsProxy', '$stateParams',
-    function (ObjectHelper, fmbViewState, srsProxy, $stateParams) {
+angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy', '$stateParams',
+    function (srsProxy, $stateParams) {
         'use strict';
 
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
 
-                //scope.riskData = ["1 - Prediktion saknas", "2 - Låg", "3 - mellan", "4 - hög"];
+                scope.getCurrentDiagnosKod = function() {
+                    return scope.fmb.diagnosKod;
+                }
 
-                srsProxy.getQuestions(getCurrentDiagnosKod()).then(function (questions) {
+                srsProxy.getQuestions(scope.getCurrentDiagnosKod()).then(function (questions) {
                     scope.selectedButtons = [];
                     scope.questions = questions;
                     for (var i = 0; i < scope.questions.length; i++) {
@@ -44,35 +46,8 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                 })
 
                 scope.visaClicked = function () {
-                    //var opt = [{questionId: 1, answerId: 1}];
-                    var qaIds = getSelectedAnswerOptions();
-                    srsProxy.getSrs($stateParams.certificateId, scope.personId, getCurrentDiagnosKod(), qaIds, true, true, true).then(function (statistik) {
-                        scope.statistik = statistik;
-                        console.log(statistik);
-                        setAtgarderObs();
-                        scope.inQuestionaireState = false;
-                    })
-                }
-
-                function getCurrentDiagnosKod() {
-                    return scope.fmb.diagnosKod;
-                }
-
-                function getSelectedAnswerOptions() {
-                    var selectedOptions = [];
-                    for (var i = 0; i < scope.questions.length; i++) {
-                        selectedOptions.push({ questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id });
-                    }
-                    return selectedOptions;
-                }
-
-                function setAtgarderObs() {
-                    var atgarderObs = scope.statistik.atgarderObs;
-                    scope.statistik.atgardObs = "";
-                    for (var i = 0; i < atgarderObs.length; i++) {
-                        scope.statistik.atgardObs += atgarderObs[i];
-                        scope.statistik.atgardObs += i < atgarderObs.length - 1 ? ", " : "";
-                    }
+                    scope.inQuestionaireState = false;
+                    scope.getSrs();
                 }
 
             },

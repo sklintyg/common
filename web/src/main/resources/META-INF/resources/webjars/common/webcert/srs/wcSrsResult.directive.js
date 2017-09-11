@@ -21,12 +21,40 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.fmbViewState', 'common.srsProxy',
-    function(ObjectHelper, fmbViewState, srsProxy) {
+angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.fmbViewState', 'common.srsProxy', '$stateParams',
+    function(ObjectHelper, fmbViewState, srsProxy, $stateParams) {
         'use strict';
 
         return {
             restrict: 'E',
+            link: function (scope, element, attrs) {
+
+                scope.getSrs = function(){
+                    var qaIds = getSelectedAnswerOptions();
+                    srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.getCurrentDiagnosKod(), qaIds, true, true, true).then(function (statistik) {
+                        scope.statistik = statistik;
+                        setAtgarderObs();
+                    })
+                }
+                
+
+                function getSelectedAnswerOptions() {
+                    var selectedOptions = [];
+                    for (var i = 0; i < scope.questions.length; i++) {
+                        selectedOptions.push({ questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id });
+                    }
+                    return selectedOptions;
+                }
+
+                function setAtgarderObs() {
+                    var atgarderObs = scope.statistik.atgarderObs;
+                    scope.statistik.atgardObs = "";
+                    for (var i = 0; i < atgarderObs.length; i++) {
+                        scope.statistik.atgardObs += atgarderObs[i];
+                        scope.statistik.atgardObs += i < atgarderObs.length - 1 ? ", " : "";
+                    }
+                }
+            },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.directive.html'
         };
     }]);

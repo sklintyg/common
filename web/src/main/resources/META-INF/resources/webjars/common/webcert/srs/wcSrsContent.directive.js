@@ -20,7 +20,7 @@
 /**
  * Display SRS help texts
  */
-angular.module('common').directive('wcSrsContent',[
+angular.module('common').directive('wcSrsContent',
     function() {
         'use strict';
 
@@ -28,7 +28,8 @@ angular.module('common').directive('wcSrsContent',[
             restrict: 'EA',
             link: function(scope, element, attrs) {
                 scope.inQuestionaireState = true;
+                scope.isCollapsed = true;
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'
         };
-    }]);
+    });
