@@ -31,9 +31,8 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
 
                 scope.$watch('diagnosKod', function(newVal, oldVal){
                     if(newVal){
-                        console.log(newVal);
-                        scope.getQuestions(newVal).then(function(data){
-                            scope.questions = data;
+                        scope.getQuestions(newVal).then(function(questions){
+                            scope.questions = questions;
                         })
                     }
                 })

@@ -56,18 +56,28 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal){
                     if(newVal){
                         scope.diagnosKod = newVal;
-                        srsProxy.getDiagnosisCodes().then(function(diagnosisCodes){
-                            scope.diagnosisCodes = diagnosisCodes;
-                            scope.srsAvailable = false;
-                            for(var i = 0; i < diagnosisCodes.length; i++){
-                                if(scope.diagnosKod === diagnosisCodes[i]){
-                                    scope.srsAvailable = true;
-                                    break;
-                                }
-                            }
+                        isSrsAvailable(scope.diagnosKod).then(function(srsAvailable){
+                            scope.srsAvailable = srsAvailable;    
                         })
                     }
                 })
+
+                function isSrsAvailable(){
+                    return new Promise(function(resolve, reject){
+                        if(scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1 || scope.intygsTyp.toLowerCase().indexOf('lisjp') > -1){
+                            srsProxy.getDiagnosisCodes().then(function(diagnosisCodes){
+                                scope.diagnosisCodes = diagnosisCodes;
+                                for(var i = 0; i < diagnosisCodes.length; i++){
+                                    if(scope.diagnosKod === diagnosisCodes[i]){
+                                        resolve(true);
+                                        break;
+                                    }
+                                }
+                                resolve(false);
+                            })
+                        }
+                    })
+                }
 
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'
