@@ -20,8 +20,8 @@
 /**
  * Display SRS help texts
  */
-angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', 'common.srsService', 'common.srsProxy', 'common.fmbViewState',
-    function(ObjectHelper, srsService, srsProxy, fmbViewState) {
+angular.module('common').directive('wcSrsHelpDisplay', ['common.ObjectHelper', 'common.srsProxy', 'common.fmbViewState',
+    function(ObjectHelper, srsProxy, fmbViewState) {
         'use strict';
 
         return {

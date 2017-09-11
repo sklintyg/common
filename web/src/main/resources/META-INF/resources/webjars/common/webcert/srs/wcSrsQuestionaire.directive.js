@@ -21,15 +21,15 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState', 'common.srsProxy', '$stateParams',
-    function (ObjectHelper, srsService, fmbViewState, srsProxy, $stateParams) {
+angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 'common.fmbViewState', 'common.srsProxy', '$stateParams',
+    function (ObjectHelper, fmbViewState, srsProxy, $stateParams) {
         'use strict';
 
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
 
-                scope.riskData = ["1 - Prediktion saknas", "2 - Låg", "3 - mellan", "4 - hög"];
+                //scope.riskData = ["1 - Prediktion saknas", "2 - Låg", "3 - mellan", "4 - hög"];
 
                 srsProxy.getQuestions(getCurrentDiagnosKod()).then(function (questions) {
                     scope.selectedButtons = [];
@@ -48,6 +48,7 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.ObjectHelper', 
                     var qaIds = getSelectedAnswerOptions();
                     srsProxy.getSrs($stateParams.certificateId, scope.personId, getCurrentDiagnosKod(), qaIds, true, true, true).then(function (statistik) {
                         scope.statistik = statistik;
+                        console.log(statistik);
                         setAtgarderObs();
                         scope.inQuestionaireState = false;
                     })

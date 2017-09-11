@@ -1,5 +1,5 @@
 <div class="alert alert-danger">
-    {{riskData[statistik.predictionLevel]}}
+    {{statistik.predictionDescription}}
 </div>
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#atgarder">Åtgärder</a></li>
@@ -21,7 +21,7 @@
     </div>
     <div id="statstics" class="tab-pane fade">
         <h3>Statistik</h3>
-        <p>Hämta denna från srs-tjänsten sen: {{statistik.statistikBild}}</p>
+        <img ng-src={{statistik.statistikBild}} alt="StatistikBild"/>
     </div>
 
     <div style="float: right;">

@@ -21,8 +21,8 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsService', 'common.fmbViewState', 'common.srsProxy',
-    function(ObjectHelper, srsService, fmbViewState, srsProxy) {
+angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.fmbViewState', 'common.srsProxy',
+    function(ObjectHelper, fmbViewState, srsProxy) {
         'use strict';
 
         return {
