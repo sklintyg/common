@@ -41,6 +41,8 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.srsAvailable = false;
                 scope.diagnosKod = "";
 
+                srsProxy.logSrsShown();
+
                 scope.$watch('hsaId', function(newVal, oldVal){
                     if(newVal){
                         srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent){

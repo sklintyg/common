@@ -61,6 +61,13 @@ function ($http, $q, $log) {
         });
     }
 
+    function _logSrsShown(){
+        var postString = 'SRS_SHOWN';
+        return $http.post('/api/jslog/srs', postString).then(function (response) {
+            return response.data;
+        });
+    }
+
     // Return public API for the service
     return {
         getConsent: _getConsent,
@@ -68,6 +75,7 @@ function ($http, $q, $log) {
         getFeatures: _getFeatures,
         getQuestions: _getQuestions,
         getSrs: _getSrs,
+        logSrsShown: _logSrsShown,
         setConsent: _setConsent,
     };
 }]);
