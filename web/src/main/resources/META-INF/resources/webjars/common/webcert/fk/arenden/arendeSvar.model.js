@@ -71,6 +71,7 @@ angular.module('common').factory('common.ArendeSvarModel',
                 this.answerDisabled = arendeListItem.answerDisabled;
                 this.answerDisabledReason = arendeListItem.answerDisabledReason;
                 this.svaraMedNyttIntygDisabled = arendeListItem.svaraMedNyttIntygDisabled;
+                this.showOvrigaUpplysningar = !UserModel.hasRole('VARDADMINISTRATOR');
                 this.svaraMedNyttIntygDisabledReason = arendeListItem.svaraMedNyttIntygDisabledReason;
                 this.kompletteringar = angular.copy(arendeListItem.kompletteringar);
 

@@ -7,7 +7,7 @@
 <div class="modal-body">
   <div>
     <div class="row">
-      <div class="col-md-6 dialog-column-divider-right">
+      <div class="col-md-6 dialog-column-divider-right" ng-if="model.arendeSvar.showOvrigaUpplysningar">
         <div class="dialog-choice-box" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled">
           <div class="dialog-choice-box__text-section">
             <h4>Ingen ytterligare medicinsk information kan anges</h4>
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div ng-class="{'col-md-12': !model.arendeSvar.showOvrigaUpplysningar, 'col-md-6': model.arendeSvar.showOvrigaUpplysningar}">
         <div class="dialog-choice-box">
           <div class="dialog-choice-box__text-section">
             <h4>Ingen medicinskt ansvarig finns tillgänglig</h4>
