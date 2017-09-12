@@ -40,6 +40,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -251,7 +252,7 @@ public class PdfDefaultGeneratorTest {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         List<Status> statuses = new ArrayList<>();
-        statuses.add(new Status(CertificateState.SENT, "FK", LocalDateTime.now()));
+        statuses.add(new Status(CertificateState.SENT, Fk7263EntryPoint.DEFAULT_RECIPIENT_ID, LocalDateTime.now()));
 
         // generate PDF
         byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, false).getBytes();
