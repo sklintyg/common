@@ -18,50 +18,57 @@
  */
 
 angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
-    function ($http, $q, $log) {
-        'use strict';
+function ($http, $q, $log) {
+    'use strict';
 
-        function _setConsent(consentGiven) {
-            return "you have " + (!consentGiven ? "not " : "") + "accepeted";
-        }
+    function _setConsent(consentGiven) {
+        return "you have " + (!consentGiven ? "not " : "") + "accepeted";
+    }
 
-        function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik){
-            return $http.post('/api/srs/'+intygsId+'/'+patientId+'/'+diagnosKod+'?prediktion='+prediktion+'&atgard='+atgard+'&statistik='+statistik, qaIds).then(function(response) {
-                return response.data;
-              });
-        }
+    function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
+        return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' + prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds).then(function (response) {
+            return response.data;
+        });
+    }
 
-        function _getDiagnosisCodes(){
-            return $http.get('/api/srs/codes').then(function(response) {
-                return response.data;
-              });
-        }
+    function _getDiagnosisCodes() {
+        return $http.get('/api/srs/codes').then(function (response) {
+            return response.data;
+        });
+    }
 
-        function _setConsent(patientId, hsaId, consentGiven){
-            return $http.put('/api/srs/consent/' + patientId + '/'+ hsaId, consentGiven).then(function(response) {
-                return response.data;
-            });
-        }
+    function _setConsent(patientId, hsaId, consentGiven) {
+        return $http.put('/api/srs/consent/' + patientId + '/' + hsaId, consentGiven).then(function (response) {
+            return response.data;
+        });
+    }
 
-        function _getConsent(personId, hsaId){
-            return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(function(response) {
-                return response.data;
-            });
-        }
+    function _getConsent(personId, hsaId) {
+        return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(function (response) {
+            return response.data;
+        });
+    }
 
-        function _getQuestions(diagnosKod){
-            return $http.get('/api/srs/questions/'+diagnosKod).then(function(response) {
-                return response.data;
-            });
-        }
+    function _getFeatures() {
+        return $http.get('/api/anvandare').then(function (response) {
+            return response.data;
+        });
+    }
 
-        // Return public API for the service
-        return {
-            getConsent: _getConsent,
-            getDiagnosisCodes: _getDiagnosisCodes,
-            getQuestions: _getQuestions,
-            getSrs: _getSrs,
-            setConsent: _setConsent,
-        };
-    }]);
+    function _getQuestions(diagnosKod) {
+        return $http.get('/api/srs/questions/' + diagnosKod).then(function (response) {
+            return response.data;
+        });
+    }
+
+    // Return public API for the service
+    return {
+        getConsent: _getConsent,
+        getDiagnosisCodes: _getDiagnosisCodes,
+        getFeatures: _getFeatures,
+        getQuestions: _getQuestions,
+        getSrs: _getSrs,
+        setConsent: _setConsent,
+    };
+}]);
 
