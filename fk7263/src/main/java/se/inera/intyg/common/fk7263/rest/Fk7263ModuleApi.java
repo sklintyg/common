@@ -114,7 +114,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     private static final Logger LOG = LoggerFactory.getLogger(Fk7263ModuleApi.class);
 
     private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
-    private static final String SPACE = " ";
+    private static final String SPACE = "---";
 
     @Autowired
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
