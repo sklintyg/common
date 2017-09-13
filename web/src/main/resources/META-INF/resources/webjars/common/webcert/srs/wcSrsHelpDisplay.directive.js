@@ -41,21 +41,24 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.clickedFirstTime = false;
 
                 scope.srsStates = fmbViewState;
-                console.log(scope.srsStates);
                 scope.srsAvailable = false;
                 scope.diagnosKod = "";
+                scope.getConsentErrorMessage = "";
 
                 scope.$watch('hsaId', function (newVal, oldVal) {
                     if (newVal) {
                         srsProxy.getConsent(scope.personId, scope.hsaId).then(function (consent) {
                             scope.consentGiven = consent === 'JA' ? true : false;
+                            //scope.getConsentErrorMessage = "";
+                            //scope.getConsentErrorMessage = "Tekniskt fel. Det gick inte att hämta information om samtycket.";
                         })
-                        scope.setConsent = function (consent) {
-                            scope.consentGiven = consent;
-                            srsProxy.setConsent(scope.personId, scope.hsaId, consent);
-                        }
                     }
                 })
+
+                scope.setConsent = function (consent) {
+                    scope.consentGiven = consent;
+                    srsProxy.setConsent(scope.personId, scope.hsaId, consent);
+                }
 
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function (newVal, oldVal) {
                     if (newVal) {

@@ -42,6 +42,9 @@ function ($http, $q, $log) {
     function _getConsent(personId, hsaId) {
         return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(function (response) {
             return response.data;
+        })
+        .catch(function(err){
+            return 'error';  
         });
     }
 

@@ -24,7 +24,9 @@
     </div>
     <br>
     <hr>
-    <wc-srs-info-box message-string="'info box text message'"></wc-srs-info-box>
+    <div ng-if="infoMessage">
+      <wc-srs-info-box message-string="infoMessage"></wc-srs-info-box>
+    </div>
     <h3 style="float: left;">Beräkning av risk för lång sjukskrivning</h3>
     <div style="float:right;">{{isCollapsed ? "Visa mer" : "Visa mindre"}}
       <a data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -33,6 +35,9 @@
     </div>
     <br>
     <br>
+    <div ng-if="getConsentErrorMessage">
+        <wc-srs-error-box message-string="getConsentErrorMessage"></wc-srs-error-box>
+      </div>
     <div id="collapseExample" class="panel-collapse collapse in">
       <div ng-show="consentGiven">
         <div ng-show="inQuestionaireState">
