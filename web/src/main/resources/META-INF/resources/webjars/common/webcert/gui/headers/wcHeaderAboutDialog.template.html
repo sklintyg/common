@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body" style="overflow-y: auto; max-height: 550px">
   <div uib-accordion close-others="true"
-       ng-init="open = { om: true, support: false, intyg: false, faq: false, kakor: false }">
+       ng-init="open = { om: true, support: false, faq: false, kakor: false }">
     <div uib-accordion-group is-open="open.om">
       <div uib-accordion-heading>
         Om Webcert <i class="pull-right glyphicon"
@@ -19,14 +19,6 @@
                                           ng-class="{'glyphicon-chevron-down': open.om, 'glyphicon-chevron-right': !open.om}"></i>
       </div>
       <div ng-include="'/web/webjars/common/webcert/views/about/support-kontakt-partial.html'"></div>
-    </div>
-
-    <div uib-accordion-group is-open="open.intyg">
-      <div uib-accordion-heading>
-        Intyg som stöds i Webcert <i class="pull-right glyphicon"
-                                     ng-class="{'glyphicon-chevron-down': open.intyg, 'glyphicon-chevron-right': !open.intyg}"></i>
-      </div>
-      <div ng-include="'/web/webjars/common/webcert/views/about/lakarintyg-partial.html'"></div>
     </div>
 
     <div uib-accordion-group is-open="open.faq">
