@@ -53,7 +53,7 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
                     }
                     if ($scope.intygRelation) {
                         $location.path(
-                            '/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.intygRelation.intygsId);
+                            '/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.intygRelation.intygsId + '/');
                     }
                 };
 

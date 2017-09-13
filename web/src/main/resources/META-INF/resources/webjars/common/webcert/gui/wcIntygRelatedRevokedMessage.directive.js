@@ -69,7 +69,7 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
                     }
                     if ($scope.intygRelation) {
                         $location.path(
-                            '/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.intygRelation.intygsId);
+                            '/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.intygRelation.intygsId + '/');
                     }
                 };
 
