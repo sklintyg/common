@@ -18,8 +18,8 @@
  */
 
 angular.module('common').service('common.UtkastViewStateService',
-    ['common.ViewStateService', 'common.User', 'common.UtkastValidationViewState', 'common.UserModel',
-        function(commonViewStateService, commonUser, utkastValidationViewState, UserModel) {
+    ['common.User', 'common.UtkastValidationViewState', 'common.UserModel',
+        function(commonUser, utkastValidationViewState, UserModel) {
         'use strict';
 
         this.reset = function() {
@@ -49,9 +49,6 @@ angular.module('common').service('common.UtkastViewStateService',
             this.headerSize = {width:0, height: 192};
             this.today = new Date();
             this.today.setHours(0, 0, 0, 0); // reset time to increase comparison accuracy (using new Date() also sets time)
-
-            this.common = commonViewStateService;
-            this.common.reset();
 
             this.validation = utkastValidationViewState;
             this.validation.reset();

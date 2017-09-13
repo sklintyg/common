@@ -85,7 +85,6 @@ angular.module('common').controller('common.IntygHeader',
                 return !($scope.intygstyp === 'ts-bas' || $scope.intygstyp === 'ts-diabetes') &&
 
                     !$scope.isRevoked() &&
-                    !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
                     ($scope.user.user.parameters === undefined || $scope.user.user.parameters.copyOk);
@@ -94,7 +93,6 @@ angular.module('common').controller('common.IntygHeader',
             $scope.showErsattButton = function() {
                 return !$scope.isRevoked() && !$scope.isReplaced() &&
                         !$scope.isComplemented() &&
-                    !$scope.viewState.common.common.sekretessmarkering &&
                     !$scope.isPatientDeceased() &&
                     !UserModel.getIntegrationParam('inactiveUnit');
             };

@@ -135,7 +135,6 @@ describe('IntygHeaderCtrl', function() {
 
         describe('fornya button', function() {
             it('should be shown if intyg type is fk7263 and copying is allowed', function() {
-                $scope.viewState.common.common.sekretessmarkering = false;
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;
@@ -158,7 +157,6 @@ describe('IntygHeaderCtrl', function() {
             });
 
             it('should not be shown if intyg type is ts', function() {
-                $scope.viewState.common.common.sekretessmarkering = false;
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;
@@ -171,25 +169,16 @@ describe('IntygHeaderCtrl', function() {
                 expect($scope.showFornyaButton()).toBe(false);
             });
 
-            it('should not be shown if makulerat, sekretessmarkerat or patient deceased', function() {
-                $scope.viewState.common.common.sekretessmarkering = true;
-                $scope.viewState.common.isIntygOnRevokeQueue = false;
-                $scope.viewState.common.intygProperties.isRevoked = false;
-                $scope.viewState.common.intygProperties.isPatientDeceased = false;
-                expect($scope.showFornyaButton()).toBeFalsy();
-
-                $scope.viewState.common.common.sekretessmarkering = false;
+            it('should not be shown if makulerat or patient deceased', function() {
                 $scope.viewState.common.intygProperties.isRevoked = true;
                 expect($scope.showFornyaButton()).toBeFalsy();
 
-                $scope.viewState.common.common.sekretessmarkering = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = true;
                 expect($scope.showFornyaButton()).toBeFalsy();
 
             });
             it('should not be shown if unit is inactive', function() {
-                $scope.viewState.common.common.sekretessmarkering = false;
                 $scope.viewState.common.isIntygOnRevokeQueue = false;
                 $scope.viewState.common.intygProperties.isRevoked = false;
                 $scope.viewState.common.intygProperties.isPatientDeceased = false;

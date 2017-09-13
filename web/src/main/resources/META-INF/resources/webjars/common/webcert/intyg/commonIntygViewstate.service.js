@@ -19,9 +19,9 @@
 
 angular.module('common').service('common.IntygViewStateService',
     ['$log',
-        'common.ViewStateService', 'common.IntygHelper', 'common.ObjectHelper', 'common.UserModel',
+        'common.IntygHelper', 'common.ObjectHelper', 'common.UserModel',
         function($log,
-            commonViewStateService, IntygHelper, ObjectHelper, UserModel) {
+            IntygHelper, ObjectHelper, UserModel) {
             'use strict';
 
             this.reset = function() {
@@ -41,9 +41,6 @@ angular.module('common').service('common.IntygViewStateService',
                     isPatientDeceased: false,
                     newPatientId: false // FK only for now. Consider making specific viewState services for each intyg as with utkast
                 };
-
-                this.common = commonViewStateService;
-                this.common.reset();
             };
 
             this.updateIntygProperties = function(result) {
