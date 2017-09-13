@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2016 Inera AB (http://www.inera.se)
  *
@@ -18,18 +19,20 @@
  */
 
 /**
- * Display SRS help texts
+ * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsContent',
-function() {
-    'use strict';
+angular.module('common').directive('wcSrsInfoBox', [
+    function (srsProxy) {
+        'use strict';
 
-    return {
-        restrict: 'EA',
-        link: function(scope, element, attrs) {
-            scope.inQuestionaireState = true;
-            scope.isCollapsed = true;
-        },
-        templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'
-    };
-});
+        return {
+            restrict: 'E',
+            scope: {
+                messageString: '='
+            },
+            link: function (scope, element, attrs) {
+               
+            },
+            templateUrl: '/web/webjars/common/webcert/srs/components/wcSrsInfoBox.directive.html'
+        };
+    }]);

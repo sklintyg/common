@@ -21,10 +21,6 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
 function ($http, $q, $log) {
     'use strict';
 
-    function _setConsent(consentGiven) {
-        return "you have " + (!consentGiven ? "not " : "") + "accepeted";
-    }
-
     function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
         return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' + prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds).then(function (response) {
             return response.data;
@@ -62,7 +58,28 @@ function ($http, $q, $log) {
     }
 
     function _logSrsShown(){
-        var postString = 'SRS_SHOWN';
+        var postString = '"SRS_SHOWN"';
+        return $http.post('/api/jslog/srs', postString).then(function (response) {
+            return response.data;
+        });
+    }
+
+    function _logSrsClicked(){
+        var postString = '"SRS_CLICKED"';
+        return $http.post('/api/jslog/srs', postString).then(function (response) {
+            return response.data;
+        });
+    }
+
+    function _logSrsAtgardClicked(){
+        var postString = '"SRS_ATGARD_CLICKED"';
+        return $http.post('/api/jslog/srs', postString).then(function (response) {
+            return response.data;
+        });
+    }
+
+    function _logSrsStatistikClicked(){
+        var postString = '"SRS_STATISTIK_CLICKED"';
         return $http.post('/api/jslog/srs', postString).then(function (response) {
             return response.data;
         });
@@ -76,6 +93,8 @@ function ($http, $q, $log) {
         getQuestions: _getQuestions,
         getSrs: _getSrs,
         logSrsShown: _logSrsShown,
+        logSrsAtgardClicked: _logSrsAtgardClicked,
+        logSrsStatistikClicked: _logSrsStatistikClicked,
         setConsent: _setConsent,
     };
 }]);

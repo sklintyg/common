@@ -21,7 +21,7 @@
  * Display SRS help texts
  */
 angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'common.fmbViewState',
-    function(srsProxy, fmbViewState) {
+    function (srsProxy, fmbViewState) {
         'use strict';
 
         return {
@@ -32,45 +32,62 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 hsaId: '=',
                 intygsTyp: '='
             },
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 scope.status = {
                     open: true
                 };
 
+                scope.shownFirstTime = false;
+                scope.clickedFirstTime = false;
+
                 scope.srsStates = fmbViewState;
+                console.log(scope.srsStates);
                 scope.srsAvailable = false;
                 scope.diagnosKod = "";
 
-                srsProxy.logSrsShown();
-
-                scope.$watch('hsaId', function(newVal, oldVal){
-                    if(newVal){
-                        srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent){
+                scope.$watch('hsaId', function (newVal, oldVal) {
+                    if (newVal) {
+                        srsProxy.getConsent(scope.personId, scope.hsaId).then(function (consent) {
                             scope.consentGiven = consent === 'JA' ? true : false;
                         })
-                        scope.setConsent = function(consent){
+                        scope.setConsent = function (consent) {
                             scope.consentGiven = consent;
                             srsProxy.setConsent(scope.personId, scope.hsaId, consent);
                         }
                     }
                 })
 
-                scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal){
-                    if(newVal){
+                scope.$watch('srsStates.diagnoses["0"].diagnosKod', function (newVal, oldVal) {
+                    if (newVal) {
                         scope.diagnosKod = newVal;
-                        isSrsAvailable(scope.diagnosKod).then(function(srsAvailable){
-                            scope.srsAvailable = srsAvailable;    
+                        isSrsAvailable(scope.diagnosKod).then(function (srsAvailable) {
+                            scope.srsAvailable = srsAvailable;
                         })
                     }
                 })
 
-                function isSrsAvailable(){
-                    return new Promise(function(resolve, reject){
-                        if(scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1 || scope.intygsTyp.toLowerCase().indexOf('lisjp') > -1){
-                            srsProxy.getDiagnosisCodes().then(function(diagnosisCodes){
+                scope.logSrsButtonClicked = function () {
+                    if (scope.status.open && !scope.clickedFirstTime) {
+                        scope.clickedFirstTime = true;
+                        srsProxy.logSrsShown();
+                    }
+                }
+
+                scope.logAtgarderLasMerButtonClicked = function () {
+                    srsProxy.log();
+                }
+
+                function isSrsAvailable() {
+                    return new Promise(function (resolve, reject) {
+                        if (scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1) {
+                            srsProxy.getDiagnosisCodes().then(function (diagnosisCodes) {
                                 scope.diagnosisCodes = diagnosisCodes;
-                                for(var i = 0; i < diagnosisCodes.length; i++){
-                                    if(scope.diagnosKod === diagnosisCodes[i]){
+                                for (var i = 0; i < diagnosisCodes.length; i++) {
+                                    if (scope.diagnosKod === diagnosisCodes[i]) {
+                                        if(!scope.shownFirstTime){
+                                            srsProxy.logSrsShown();
+                                        }
+                                        scope.shownFirstTime = true;
                                         resolve(true);
                                         break;
                                     }
