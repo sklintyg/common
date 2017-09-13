@@ -517,7 +517,7 @@ angular.module('common').constant('common.messages', {
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
         'common.error.authorization_problem': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
-        'common.error.authorization_problem_sekretessmarkering': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet. För att hantera intyg för patienter med sekretessmarkering krävs att du har befattningen läkare eller tandläkare. Vissa intygstyper får inte hanteras alls för patienter med sekretessmarkering, även om du befattningen som krävs.',
+        'common.error.authorization_problem_sekretessmarkering': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet. För att hantera intyg för patienter med sekretessmarkering krävs att du har befattningen läkare eller tandläkare. Vissa intygstyper får inte hanteras alls för patienter med sekretessmarkering, även om du har befattningen som krävs.',
         'common.error.authorization_problem_sekretessmarkering_enhet': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att hantera detta intyg. För att hantera ett intyg för en patient med sekretessmarkering måste du vara inloggad på den vårdenhet intyget skrevs.',
         'common.error.cantconnect': '<strong>Kunde inte kontakta servern.</strong>',
         'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',
