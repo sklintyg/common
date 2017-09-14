@@ -103,6 +103,28 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                     })
                 }
 
+                /*
+                 for (var i = 0; i < diagnosisCodes.length; i++) {
+                                    if (scope.diagnosKod === diagnosisCodes[i]) {
+                                        if(!scope.shownFirstTime){
+                                            srsProxy.logSrsShown();
+                                        }
+                                        scope.shownFirstTime = true;
+                                        resolve(true);
+                                        break;
+                                    }
+                                    else{
+                                        for(var i = 1; i < scope.diagnosKod.length; i++){
+                                            var higherLevelCode = scope.diagnosKod.substring(0, scope.diagnosKod.length-i);
+                                            if(diagnosisCodes[i] === higherLevelCode){
+                                                higherLevelCodeExists = true;
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                */
+
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'
         };
