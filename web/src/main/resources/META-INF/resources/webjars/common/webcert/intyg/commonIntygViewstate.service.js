@@ -83,44 +83,6 @@ angular.module('common').service('common.IntygViewStateService',
                 }
             };
 
-            this.patient = {
-                /**
-                 * When a deep-integration user requests an intyg, the original request may contain name and address.
-                 * This method matches the supplied parameters (if applicable) with the patient address on the requested
-                 * certificate and returns true if the name has changed.
-                 * */
-                hasChangedName: function(intygModel) {
-                    if (ObjectHelper.isDefined(intygModel) &&
-                        ObjectHelper.isDefined(intygModel.grundData) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('fornamn')) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('efternamn'))) {
-
-                        return intygModel.grundData.patient.fornamn !== UserModel.getIntegrationParam('fornamn') ||
-                            intygModel.grundData.patient.efternamn !== UserModel.getIntegrationParam('efternamn');
-                    }
-                    return false;
-                },
-
-                /**
-                 * When a deep-integration user requests an intyg, the original request  may contain name and address.
-                 * This method matches the supplied parameters (if applicable) with the patient address on the requested
-                 * certificate and returns true if the address has changed.
-                 */
-                hasChangedAddress: function(intygModel) {
-                    if (ObjectHelper.isDefined(intygModel) &&
-                        ObjectHelper.isDefined(intygModel.grundData) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postadress')) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postnummer'))) {
-
-                        return intygModel.grundData.patient.postort !== UserModel.getIntegrationParam('postort') ||
-                            intygModel.grundData.patient.postadress !== UserModel.getIntegrationParam('postadress') ||
-                            intygModel.grundData.patient.postnummer !== UserModel.getIntegrationParam('postnummer');
-                    }
-                    return false;
-                }
-            };
-
             this.reset();
         }]
 );

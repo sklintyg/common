@@ -83,7 +83,6 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.showFornyaButton = function() {
                 return !($scope.intygstyp === 'ts-bas' || $scope.intygstyp === 'ts-diabetes') &&
-
                     !$scope.isRevoked() &&
                     !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
@@ -92,7 +91,7 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.showErsattButton = function() {
                 return !$scope.isRevoked() && !$scope.isReplaced() &&
-                        !$scope.isComplemented() &&
+                    !$scope.isComplemented() &&
                     !$scope.isPatientDeceased() &&
                     !UserModel.getIntegrationParam('inactiveUnit');
             };
