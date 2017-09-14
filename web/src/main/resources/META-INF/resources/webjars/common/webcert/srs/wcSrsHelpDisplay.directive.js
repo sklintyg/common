@@ -20,8 +20,8 @@
 /**
  * Display SRS help texts
  */
-angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'common.fmbViewState',
-    function (srsProxy, fmbViewState) {
+angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'common.fmbViewState', 'common.srsViewState',
+    function (srsProxy, fmbViewState, srsViewState) {
         'use strict';
 
         return {
@@ -39,7 +39,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
 
                 scope.shownFirstTime = false;
                 scope.clickedFirstTime = false;
-
+                scope.diagnosKod = srsViewState.diagnosKod;
                 scope.srsStates = fmbViewState;
                 scope.srsAvailable = false;
                 scope.diagnosKod = "";
