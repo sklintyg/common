@@ -24,6 +24,9 @@ function ($http, $q, $log) {
     function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
         return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' + prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds).then(function (response) {
             return response.data;
+        })
+        .catch(function(err){
+            return 'error';  
         });
     }
 

@@ -8,6 +8,13 @@
 
 <div class="tab-content">
     <div id="atgarder" class="tab-pane fade in active">
+        <br>
+        <div ng-if="atgarderInfoMessage">
+                <wc-srs-info-box message-string="atgarderInfoMessage"></wc-srs-info-box>
+            </div>
+        <div ng-if="atgarderErrorMessage">
+                <wc-srs-error-box message-string="atgarderErrorMessage"></wc-srs-error-box>
+            </div>
         <p><b>Tänk på att;</b> {{statistik.atgardObs}}.</p>
 
         <h3>Rekommenderade åtgärder</h3>

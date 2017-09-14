@@ -44,6 +44,8 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.srsAvailable = false;
                 scope.diagnosKod = "";
                 scope.getConsentErrorMessage = "";
+                scope.atgarderErrorMessage="";
+                scope.atgarderInfoMessage="";
 
                 scope.$watch('hsaId', function (newVal, oldVal) {
                     if (newVal) {

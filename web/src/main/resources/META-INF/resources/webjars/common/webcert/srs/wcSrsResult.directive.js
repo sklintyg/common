@@ -33,6 +33,10 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
                     var qaIds = getSelectedAnswerOptions();
                     console.log(JSON.stringify(qaIds));
                     srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true, true).then(function (statistik) {
+                        scope.atgarderErrorMessage = "";
+                        if(statistik == 'error'){
+                            scope.atgarderErrorMessage = "Det gick inte att hämta information om åtgärder";
+                        }
                         scope.statistik = statistik;
                         setAtgarderObs();
                     })
