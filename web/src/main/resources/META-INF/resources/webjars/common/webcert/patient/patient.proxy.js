@@ -52,15 +52,15 @@ angular.module('common').factory('common.PatientProxy',
                         onSuccess(that);
                     } else if (data.status === 'ERROR') {
                         $log.warn('PU-tjänsten kunde inte kontaktas.');
-                        onError();
+                        onError(true);
                     } else {
                         $log.debug('Personen hittades inte i PU-tjänsten.');
                         onNotFound();
                     }
 
                 }).error(function() {
-                    $log.warn('PU-tjänsten kunde inte kontaktas.');
-                    onError();
+                    $log.warn('Tekniskt fel vid begäran om slagning mot PU-tjänsten.');
+                    onError(false);
                 });
             }
 
