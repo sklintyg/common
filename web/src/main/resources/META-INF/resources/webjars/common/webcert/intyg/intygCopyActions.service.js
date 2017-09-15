@@ -44,8 +44,8 @@ angular.module('common').factory('common.IntygCopyActions',
 
 
             function resetViewStateErrorKeys (viewState) {
-                viewState.activeErrorMessageKey = null;
-                viewState.inlineErrorMessageKey = null;
+                viewState.common.activeErrorMessageKey = null;
+                viewState.common.inlineErrorMessageKey = null;
             }
 
             function hideFornyaDialogError () {
@@ -77,8 +77,8 @@ angular.module('common').factory('common.IntygCopyActions',
                 dialogModel.acceptprogressdone = false;
                 requestFn(requestData, function(draftResponse) {
                     dialogModel.acceptprogressdone = true;
-                    if(viewState && viewState.inlineErrorMessageKey) {
-                        viewState.inlineErrorMessageKey = null;
+                    if(viewState && viewState.common.inlineErrorMessageKey) {
+                        viewState.common.inlineErrorMessageKey = null;
                     }
 
                     var end = function() {
@@ -94,6 +94,8 @@ angular.module('common').factory('common.IntygCopyActions',
                         dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg.replaced';
                     } else if (errorCode === 'INVALID_STATE_COMPLEMENT') {
                         dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg.complemented';
+                    } else if (errorCode === 'PU_PROBLEM') {
+                        dialogModel.errormessageid = 'error.pu_problem';
                     } else {
                         dialogModel.errormessageid = 'error.failedto' + requestType + 'intyg';
                     }
@@ -122,11 +124,13 @@ angular.module('common').factory('common.IntygCopyActions',
                         IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
                     }, function(errorCode) {
                         if (errorCode === 'DATA_NOT_FOUND') {
-                            viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.personidnotfound';
+                            viewState.common.inlineErrorMessageKey = 'error.failedtofornyaintyg.personidnotfound';
                         } else if (errorCode === 'INVALID_STATE_REPLACED') {
-                            viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.replaced';
+                            viewState.common.inlineErrorMessageKey = 'error.failedtofornyaintyg.replaced';
+                        } else if (errorCode === 'PU_PROBLEM') {
+                            viewState.common.inlineErrorMessageKey = 'error.pu_problem';
                         } else {
-                            viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg';
+                            viewState.common.inlineErrorMessageKey = 'error.failedtofornyaintyg';
                         }
                     });
                 } else {
