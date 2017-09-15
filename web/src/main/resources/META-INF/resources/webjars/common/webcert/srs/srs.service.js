@@ -48,8 +48,6 @@ angular.module('common').factory('common.srsService', [
             updateDiagnosKod: _updateDiagnosKod,
             updateHsaId: _updateHsaId,
             updateIntygsTyp: _updateIntygsTyp,
-            updatePersonnummer: _updatePersonnummer,
-            test: _test
-
+            updatePersonnummer: _updatePersonnummer
         };
     }]);

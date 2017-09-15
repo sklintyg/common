@@ -37,6 +37,10 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
                     }
                 })
 
+                scope.change = function(){
+                    console.log(scope.getSelectedAnswerOptions());
+                }
+
                 scope.visaClicked = function () {
                     scope.inQuestionaireState = false;
                     scope.getSrs();

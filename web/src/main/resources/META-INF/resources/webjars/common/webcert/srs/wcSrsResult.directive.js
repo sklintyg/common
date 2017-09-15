@@ -29,8 +29,11 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
             restrict: 'E',
             link: function (scope, element, attrs) {
 
+                scope.atgarderErrorMessage="";
+                scope.atgarderInfoMessage="";
+
                 scope.getSrs = function(){
-                    var qaIds = getSelectedAnswerOptions();
+                    var qaIds = scope.getSelectedAnswerOptions();
                     console.log(JSON.stringify(qaIds));
                     srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true, true).then(function (statistik) {
                         scope.atgarderErrorMessage = "";
@@ -42,7 +45,7 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
                     })
                 }
                 
-                function getSelectedAnswerOptions() {
+                scope.getSelectedAnswerOptions = function() {
                     var selectedOptions = [];
                     for (var i = 0; i < scope.questions.length; i++) {
                         selectedOptions.push({ questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id });

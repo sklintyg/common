@@ -44,9 +44,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.srsAvailable = false;
                 scope.diagnosKod = "";
                 scope.getConsentErrorMessage = "";
-                scope.atgarderErrorMessage="";
-                scope.atgarderInfoMessage="";
-
+                
                 scope.$watch('hsaId', function (newVal, oldVal) {
                     if (newVal) {
                         srsProxy.getConsent(scope.personId, scope.hsaId).then(function (consent) {
@@ -124,6 +122,8 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                                     }
                                 }
                 */
+
+                console.log(fmbViewState);
 
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'
