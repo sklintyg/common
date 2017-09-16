@@ -30,6 +30,15 @@ function ($http, $q, $log) {
         });
     }
 
+    function _getRiskSignal(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
+        return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' + prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds).then(function (response) {
+            return response.data.predictionDescription;
+        })
+        .catch(function(err){
+            return 'error';  
+        });
+    }
+
     function _getDiagnosisCodes() {
         return $http.get('/api/srs/codes').then(function (response) {
             return response.data;
@@ -97,6 +106,7 @@ function ($http, $q, $log) {
         getDiagnosisCodes: _getDiagnosisCodes,
         getFeatures: _getFeatures,
         getQuestions: _getQuestions,
+        getRiskSignal: _getRiskSignal,
         getSrs: _getSrs,
         logSrsShown: _logSrsShown,
         logSrsAtgardClicked: _logSrsAtgardClicked,

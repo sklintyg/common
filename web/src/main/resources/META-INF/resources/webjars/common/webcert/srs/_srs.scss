@@ -52,6 +52,21 @@ $srs-glyphicon-hover-color: #808080;
   margin-left: 5px;
 }
 
+.title {
+  background:red;
+  padding: 10px;
+  display: inline-block;
+}
+.description {
+  background: yellow;
+  display: none;
+}
+
+.title:hover + .description,
+.description:hover {
+  display: block;
+}
+
 .risk-standard{
   border: 1px solid #a94442;
   color: #a94442;

@@ -28,39 +28,9 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
-
-                scope.$watch('diagnosKod', function(newVal, oldVal){
-                    if(newVal){
-                        scope.getQuestions(newVal).then(function(questions){
-                            scope.questions = questions;
-                        })
-                    }
-                })
-
                 scope.change = function(){
                     console.log(scope.getSelectedAnswerOptions());
-                }
-
-                scope.visaClicked = function () {
-                    scope.inQuestionaireState = false;
-                    scope.getSrs();
-                }
-
-                scope.getQuestions = function(diagnosKod){
-                    return srsProxy.getQuestions(diagnosKod).then(function (questions) {
-                        scope.selectedButtons = [];
-                        var qas = questions;
-                        for (var i = 0; i < questions.length; i++) {
-                            for (var e = 0; e < questions[i].answerOptions.length; e++) {
-                                if (questions[i].answerOptions[e].defaultValue) {
-                                    qas[i].model = questions[i].answerOptions[e];
-                                }
-                            }
-                        }
-                        return qas;
-                    })
-                }
-
+                };
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsQuestionaire.directive.html'
         };

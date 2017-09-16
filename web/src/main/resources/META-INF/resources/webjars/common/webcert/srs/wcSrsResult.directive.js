@@ -21,7 +21,7 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsProxy', '$stateParams',
+angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsProxy',
     function(ObjectHelper, srsProxy, $stateParams) {
         'use strict';
 
@@ -32,35 +32,12 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
                 scope.atgarderErrorMessage="";
                 scope.atgarderInfoMessage="";
 
-                scope.getSrs = function(){
-                    var qaIds = scope.getSelectedAnswerOptions();
-                    console.log(JSON.stringify(qaIds));
-                    srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true, true).then(function (statistik) {
-                        scope.atgarderErrorMessage = "";
-                        if(statistik == 'error'){
-                            scope.atgarderErrorMessage = "Det gick inte att hämta information om åtgärder";
-                        }
-                        scope.statistik = statistik;
-                        setAtgarderObs();
-                    })
-                }
-                
-                scope.getSelectedAnswerOptions = function() {
-                    var selectedOptions = [];
-                    for (var i = 0; i < scope.questions.length; i++) {
-                        selectedOptions.push({ questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id });
-                    }
-                    return selectedOptions;
+                scope.blabla = function(){
+                    //Användare: srs-dev
+                    //Lösenord: SRS2k17
+                    window.open('http://rattsjukskrivning.se/tjanster/omwebbplatsen/inloggning.14.html?redirect=http%3A%2F%2Frattsjukskrivning.se%2F');
                 }
 
-                function setAtgarderObs() {
-                    var atgarderObs = scope.statistik.atgarderObs;
-                    scope.statistik.atgardObs = "";
-                    for (var i = 0; i < atgarderObs.length; i++) {
-                        scope.statistik.atgardObs += atgarderObs[i];
-                        scope.statistik.atgardObs += i < atgarderObs.length - 1 ? ", " : "";
-                    }
-                }
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.directive.html'
         };

@@ -29,6 +29,9 @@ function() {
         link: function(scope, element, attrs) {
             scope.inQuestionaireState = true;
             scope.isCollapsed = true;
+
+            $("[rel=tooltip]").tooltip({html:true});
+            
         },
         templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'
     };
