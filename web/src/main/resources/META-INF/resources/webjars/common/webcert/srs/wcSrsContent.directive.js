@@ -30,6 +30,8 @@ angular.module('common').directive('wcSrsContent',
                 scope.inQuestionaireState = true;
                 scope.isCollapsed = true;
                 //$('.my_tooltip').tooltip({ html: true })
+                scope.infoMessage="";
+                scope.errorMessage="";
 
                 $('body').popover({
                     selector: '[data-toggle="popover"]',

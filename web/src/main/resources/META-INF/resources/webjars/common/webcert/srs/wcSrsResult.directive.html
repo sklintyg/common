@@ -36,6 +36,10 @@
     </div>
     <div id="statstics" class="tab-pane fade">
         <h3>Statistik</h3>
+        <br>
+        <div ng-if="statistikInfoMessage">
+            <wc-srs-info-box message-string="statistikInfoMessage"></wc-srs-info-box>
+        </div>
         <img ng-src={{statistik.statistikBild}} alt="StatistikBild"/>
     </div>
 

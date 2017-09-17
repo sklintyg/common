@@ -28,8 +28,15 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
-                scope.change = function(){
-                    console.log(scope.getSelectedAnswerOptions());
+                scope.change = function () {
+                    //console.log(scope.getSelectedAnswerOptions());
+                    scope.editRiskSignal("");
+                    scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
+                    if(scope.allQuestionsAnswered)
+                        scope.showVisaKnapp = true;
+                    else
+                        scope.showVisaKnapp = false;
+
                 };
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsQuestionaire.directive.html'

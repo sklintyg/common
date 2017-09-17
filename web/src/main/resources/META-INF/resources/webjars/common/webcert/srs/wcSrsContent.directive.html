@@ -11,6 +11,9 @@
     </div>
   </div>
   <div class="panel-body">
+      <div ng-if="infoMessage">
+          <wc-srs-info-box message-string="infoMessage"></wc-srs-info-box>
+        </div>
     <div>
       <div class="line">Patienten samtycker till att delta i SRS pilotprojektet</div>
       <div 
@@ -33,23 +36,20 @@
     </div>
     <br>
     <hr>
-    <div ng-if="infoMessage">
-      <wc-srs-info-box message-string="infoMessage"></wc-srs-info-box>
-    </div>
+    <div ng-if="errorMessage">
+        <wc-srs-error-box message-string="errorMessage"></wc-srs-error-box>
+      </div>
     <h3 style="float: left;">Beräkning av risk för lång sjukskrivning</h3>
-    <div style="float:right;">{{isCollapsed ? "Visa mer" : "Visa mindre"}}
+    <div style="float:right;">{{isCollapsed ? "Visa mindre" : "Visa mer"}}
       <a data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-down': isCollapsed, 'glyphicon-menu-up': !isCollapsed}"></i>
+            <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-up': isCollapsed, 'glyphicon-menu-down': !isCollapsed}"></i>
         </a>
     </div>
     <br>
     <br>
-    <div ng-if="getConsentErrorMessage">
-        <wc-srs-error-box message-string="getConsentErrorMessage"></wc-srs-error-box>
-      </div>
-    <div id="collapseExample" class="panel-collapse collapse in">
+    <div>
       <div ng-show="consentGiven">
-          <wc-srs-questionaire></wc-srs-questionaire>
+          <wc-srs-questionaire id="collapseExample" class="panel-collapse collapse in"></wc-srs-questionaire>
           <wc-srs-result></wc-srs-result>
       </div>
 
