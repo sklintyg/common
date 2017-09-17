@@ -45,15 +45,28 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.diagnosKod = "";
                 scope.getConsentErrorMessage = "";
                 scope.riskSignal = "";
+                scope.allQuestionsAnswered = false;
 
                 scope.$watch('diagnosKod', function(newVal, oldVal){
                     if(newVal){
                         scope.getQuestions(newVal).then(function(questions){
                             scope.questions = questions;
                             scope.getSrs();
+                            var questionsAreAnswered = questionsFilledForVisaButton();
+                            scope.allQuestionsAnswered = questionsAreAnswered;
                         });
                     }
                 });
+
+                function questionsFilledForVisaButton(){
+                    var answers = scope.getSelectedAnswerOptions();
+                    for(var i = 0; i < answers.length; i++){
+                        if(!answers[i] || !answers[i].answerId){
+                            return false;
+                        }
+                    }
+                    return true;
+                }
                 
                 scope.$watch('hsaId', function (newVal, oldVal) {
                     if (newVal) {
@@ -64,6 +77,9 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                         });
                     }
                 });
+
+                $("#testtooltip")
+                .tooltip({ content: '<b style="color: red">Tooltip</b> <i>text</i>' });
 
                 scope.visaClicked = function () {
                     var qaIds = scope.getSelectedAnswerOptions();

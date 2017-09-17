@@ -13,6 +13,15 @@
   <div class="panel-body">
     <div>
       <div class="line">Patienten samtycker till att delta i SRS pilotprojektet</div>
+      <div 
+        style="float:right"
+        class="glyphicon glyphicon-question-sign"
+        data-html="true"
+        data-toggle="popover" 
+        data-content={{externalConsentInfo}}
+      >
+      </div>
+
       <div class="line form-group ng-scope">
         <label class="radio-inline line">
               <input type="radio" name="capacityForWorkForecast" id="capacityForWork1" ng-value="true" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(true)"> Ja</label>

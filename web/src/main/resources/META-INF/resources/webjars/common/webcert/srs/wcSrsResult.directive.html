@@ -1,5 +1,13 @@
 <div ng-if="riskSignal" class="alert alert-danger">
-    {{riskSignal}}
+    {{riskSignal}} 
+    <div 
+    style="float:right"
+    class="glyphicon glyphicon-question-sign"
+    data-html="true"
+    data-toggle="popover" 
+    data-content={{externalRiskInfo}}
+  >
+  </div>
 </div>
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#atgarder">Åtgärder</a></li>
@@ -32,11 +40,6 @@
     </div>
 
     <div style="float: right;">
-        <!--<button type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="btn btn-info ng-binding" ng-click="inQuestionaireState=false"
-            uib-popover="Visa resultat." popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
-            popover-placement="auto top">
-                    Infoga i intyget
-                </button>-->
         <button class="btn btn-info ng-binding" ng-click="blabla()">Läs mer</button>
     </div>
 </div>
