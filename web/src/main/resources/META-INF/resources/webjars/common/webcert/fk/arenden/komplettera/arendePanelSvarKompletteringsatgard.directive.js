@@ -99,7 +99,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                         kompletteringDialog = dialogService.showDialog({
                             dialogId: 'komplettering-modal-dialog',
-                            titleId: 'common.arende.komplettering.kompletteringsatgard.dialogtitle',
+                            titleId: ArendeSvar.showOvrigaUpplysningar ? 'common.arende.komplettering.kompletteringsatgard.dialogtitle' : 'common.arende.komplettering.kompletteringsatgard.dialogtitlevardadmin',
                             templateUrl: '/web/webjars/common/webcert/fk/arenden/komplettera/komplettering-modal-dialog.html',
                             windowClass: 'dialog-placement',
                             model: dialogModel,
