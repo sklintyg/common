@@ -20,8 +20,8 @@
 /**
  * Display SRS help texts
  */
-angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'common.fmbViewState', 'common.srsViewState', '$stateParams',
-    function (srsProxy, fmbViewState, srsViewState, $stateParams) {
+angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'common.fmbViewState', 'common.srsViewState', '$stateParams', '$rootScope',
+    function (srsProxy, fmbViewState, srsViewState, $stateParams, $rootScope) {
         'use strict';
 
         return {
@@ -74,8 +74,12 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
 
                 scope.closeFmb = function(){
                     if(scope.status.open)
-                        fmbViewState.test();
+                        $rootScope.$broadcast('closeFmb');
                 }
+
+                scope.$on('closeSrs', function(){
+                    scope.status.open = false;
+                })
 
                 scope.questionsFilledForVisaButton = function () {
                     var answers = scope.getSelectedAnswerOptions();

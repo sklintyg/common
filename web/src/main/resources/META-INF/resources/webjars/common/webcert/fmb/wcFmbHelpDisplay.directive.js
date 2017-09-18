@@ -20,8 +20,8 @@
 /**
  * Display FMB help texts
  */
-angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', 'common.fmbService', 'common.fmbViewState',
-    function(ObjectHelper, fmbService, fmbViewState) {
+angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', 'common.fmbService', 'common.fmbViewState', '$rootScope',
+    function(ObjectHelper, fmbService, fmbViewState, $rootScope) {
         'use strict';
 
         return {
@@ -35,6 +35,15 @@ angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', '
                 scope.status = {
                     open: false
                 };
+
+                scope.closeSrs = function(){
+                    if(scope.status.open)
+                        $rootScope.$broadcast('closeSrs');
+                }
+
+                scope.$on('closeFmb', function(){
+                    scope.status.open = false;
+                })
 
                 scope.fmbStates = fmbViewState;
 
