@@ -33,7 +33,8 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
     outputs.dir(webappTestOutputDir)
 
     script = file(gruntBinary)
-    args = [ 'test', "--outputDir=${webappTestOutputDir}", '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '') ]
+    args = [ 'test', "--outputDir=${webappTestOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}",
+             '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '') ]
 }
 
 test.dependsOn(jsTests)
@@ -46,7 +47,7 @@ task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
     outputs.dir(webappOutputDir)
 
     script = file(gruntBinary)
-    args = ['default', "--outputDir=${webappOutputDir}"]
+    args = [ 'default', "--outputDir=${webappOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}" ]
 }
 
 jar.dependsOn(jsInclude)
@@ -59,12 +60,12 @@ task unzipBuildTools(type: Copy) {
     }
 }
 
- task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
-     outputs.upToDateWhen { false }
+task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
+    outputs.upToDateWhen { false }
 
-     script = file(gruntBinary)
-     args = ['lint']
- }
+    script = file(gruntBinary)
+    args = [ 'lint', "--base=${projectDir}", "--npmDir=${rootProject.projectDir}" ]
+}
 
- checkstyleMain.dependsOn jsCodeQuality
- jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
+checkstyleMain.dependsOn jsCodeQuality
+jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
