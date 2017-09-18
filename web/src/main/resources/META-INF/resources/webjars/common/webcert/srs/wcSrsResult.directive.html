@@ -27,7 +27,7 @@
 
         <h3>Rekommenderade åtgärder</h3>
 
-        <div ng-repeat="(key,value) in statistik.atgarderRek">
+        <div ng-repeat="(key,value) in atgarderRek">
             <ul>
                 <li>{{value}}</li>
             </ul>
@@ -35,12 +35,11 @@
 
     </div>
     <div id="statstics" class="tab-pane fade">
-        <h3>Statistik</h3>
         <br>
         <div ng-if="statistikInfoMessage">
             <wc-srs-info-box message-string="statistikInfoMessage"></wc-srs-info-box>
         </div>
-        <img ng-src={{statistik.statistikBild}} alt="StatistikBild"/>
+        <img ng-src="{{statistik.statistikBild}}" alt=""/>
     </div>
 
     <div style="float: right;">

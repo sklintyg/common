@@ -22,13 +22,19 @@ angular.module('common').service('common.fmbViewState', [
     function(fmbModel, ObjectHelper) {
         'use strict';
 
-        console.log("FMB test");
-
         this.DIAGNOS_TYPE = {
             HUVUDDIAGNOS: 0,
             BIDIAGNOS1: 1,
             BIDIAGNOS2: 2
         };
+
+        this.test = function() {
+            console.log("fmb function test");
+        }
+
+        this.closeFmb = function(scope){
+            
+        }
 
         this.diagnoses = {
             // The following properties are created and deleted on demand depending on FMB info available.

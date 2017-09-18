@@ -109,6 +109,7 @@ function ($http, $q, $log) {
         getRiskSignal: _getRiskSignal,
         getSrs: _getSrs,
         logSrsShown: _logSrsShown,
+        logSrsClicked: _logSrsClicked,
         logSrsAtgardClicked: _logSrsAtgardClicked,
         logSrsStatistikClicked: _logSrsStatistikClicked,
         setConsent: _setConsent,

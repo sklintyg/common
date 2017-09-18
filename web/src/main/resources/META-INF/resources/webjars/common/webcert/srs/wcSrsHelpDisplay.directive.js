@@ -47,6 +47,9 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.allQuestionsAnswered = false;
                 scope.higherDiagnosKod = "";
                 scope.showVisaKnapp = false;
+                
+
+                fmbViewState.test();
 
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function (newVal, oldVal) {
                     if (newVal) {
@@ -68,6 +71,11 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                         
                     }
                 });
+
+                scope.closeFmb = function(){
+                    if(scope.status.open)
+                        fmbViewState.test();
+                }
 
                 scope.questionsFilledForVisaButton = function () {
                     var answers = scope.getSelectedAnswerOptions();
@@ -123,16 +131,21 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                     console.log(JSON.stringify(qaIds));
                     srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds || [], true, true, true).then(function (statistik) {
                         scope.atgarderErrorMessage = "";
-                        console.log(statistik);
                         if (statistik == 'error') {
                             scope.atgarderErrorMessage = "Det gick inte att hämta information om åtgärder";
                         }
-                        scope.statistik = statistik;
-                        console.log(statistik)
-                        scope.atgarderRek = statistik.atgarderRek;
-                        scope.atgarderObs = statistik.atgarderObs;
-                        //scope.atgarderObs = ['obs1', 'obs2', 'obs3'];
-                        setAtgarderObs();
+                        else{
+                            scope.statistik = statistik;
+                            scope.atgarderRek = statistik.atgarderRek;
+                            scope.atgarderObs = statistik.atgarderObs;
+                            
+                            scope.atgarderRek = scope.atgarderRek.length>0 ? scope.atgarderRek : ["ÅtgärdRek1", "ÅtgärdRek2", "ÅtgärdRek3"];
+                            scope.atgarderObs = scope.atgarderObs.length>0 ? scope.atgarderObs : ["ÅtgärdObs1", "ÅtgärdObs2", "ÅtgärdObs3"];
+                            scope.statistik.statistikBild = scope.statistik.statistikBild ? scope.statistik.statistikBild : "http://dxlfb468n8ekd.cloudfront.net/gsc/8RRLM2/e1/36/f7/e136f736a06747b3a1f18322df08f9fe/images/webcert_-_m75/u59.png?token=6b088289725e4e6e4f6ac8f19930873b";
+                            //scope.atgarderObs = ['obs1', 'obs2', 'obs3'];
+                            setAtgarderObs();
+                        }
+                        
                     })
                 }
 
@@ -195,7 +208,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.logSrsButtonClicked = function () {
                     if (scope.status.open && !scope.clickedFirstTime) {
                         scope.clickedFirstTime = true;
-                        srsProxy.logSrsButtonClicked();
+                        srsProxy.logSrsClicked();
                     }
                 }
 
