@@ -33,10 +33,9 @@
 
         <h3>Rekommenderade åtgärder</h3>
 
-        <div ng-repeat="(key,value) in atgarderRek" ng-bind-html="value">
-            <ul>
-                <li>{{value}}</li>
-            </ul>
+        <div ng-repeat="(key,value) in atgarderRek">
+            <div wc-clamp="3" ng-bind-html="'• ' + value"></div>
+            <br>
         </div>
 
     </div>
