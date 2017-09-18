@@ -20,8 +20,8 @@
 /**
  * Display SRS help texts
  */
-angular.module('common').directive('wcSrsContent',
-    function () {
+angular.module('common').directive('wcSrsContent', ['common.srsLinkCreator',
+    function (srsLinkCreator) {
         'use strict';
 
         return {
@@ -48,10 +48,11 @@ angular.module('common').directive('wcSrsContent',
                     $('.popover').popover('hide');
                 });
 
-                var url = 'http://rattsjukskrivning.se/';
-                scope.externalConsentInfo = 'Läs mer om samtycke till deltagande i pilotprojekt SRS<br><button class="btn btn-info ng-binding button-rounded" onClick="window.open(\'' + url + '\')">Läs mer</button>';
+                var samttyckeUrl = srsLinkCreator.createSamtyckeLink;
+                scope.externalConsentInfo = 'Läs mer om samtycke till deltagande i pilotprojekt SRS<br><button class="btn btn-info ng-binding button-rounded" onClick="window.open(\'' + samttyckeUrl + '\')">Läs mer</button>';
 
-                scope.externalRiskInfo = 'Risksignalen för att sjukfallet varar mer än 90 dagar beräknas med matematiska metoder tillämpade på en rad variabler som till exempel ålder, kön, bostadsort och tidigare vårdkontakter för att försöka detektera om den aktuella individens risk skiljer sig från andra patienter inom samma diagnosgrupp. Metoden ska ses som ett komplement inför den egna professionella bedömningen.<br><button class="btn btn-info ng-binding button-rounded" onClick="window.open(\'' + url + '\')">Läs mer</button>';
+                var riskUrl = srsLinkCreator.createPrediktionsModellLink;
+                scope.externalRiskInfo = 'Risksignalen för att sjukfallet varar mer än 90 dagar beräknas med matematiska metoder tillämpade på en rad variabler som till exempel ålder, kön, bostadsort och tidigare vårdkontakter för att försöka detektera om den aktuella individens risk skiljer sig från andra patienter inom samma diagnosgrupp. Metoden ska ses som ett komplement inför den egna professionella bedömningen.<br><button class="btn btn-info ng-binding button-rounded" onClick="window.open(\'' + riskUrl + '\')">Läs mer</button>';
 
 
 
@@ -60,4 +61,4 @@ angular.module('common').directive('wcSrsContent',
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.directive.html'
         };
-    });
+    }]);

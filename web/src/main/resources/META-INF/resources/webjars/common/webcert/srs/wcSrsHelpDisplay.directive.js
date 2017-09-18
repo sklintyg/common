@@ -20,8 +20,8 @@
 /**
  * Display SRS help texts
  */
-angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'common.fmbViewState', 'common.srsViewState', '$stateParams', '$rootScope',
-    function (srsProxy, fmbViewState, srsViewState, $stateParams, $rootScope) {
+angular.module('common').directive('wcSrsHelpDisplay', ['$q', 'common.srsProxy', 'common.fmbViewState', 'common.srsViewState', 'common.srsLinkCreator', '$stateParams', '$rootScope',
+    function ($q, srsProxy, fmbViewState, srsViewState, srsLinkCreator, $stateParams, $rootScope) {
         'use strict';
 
         return {
@@ -50,6 +50,9 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 
 
                 fmbViewState.test();
+
+                scope.getAtgardLink =  srsLinkCreator.createAtgardsrekommendationLink;
+                scope.getPrediktionsModellLink = srsLinkCreator.createPrediktionsModellLink;
 
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function (newVal, oldVal) {
                     if (newVal) {
@@ -89,7 +92,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                         }
                     }
                     return true;
-                }
+                };
 
                 scope.$watch('hsaId', function (newVal, oldVal) {
                     if (newVal) {
@@ -109,21 +112,21 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                         scope.riskSignal = riskSignal;  
                     });
                     scope.showVisaKnapp = false;
-                }
+                };
 
                 scope.editRiskSignal = function(riskSignal){
                     scope.riskSignal = riskSignal;
-                }
+                };
 
                 scope.setRiskSignal = function(){
-                    return new Promise(function(resolve, reject){
+                    return $q(function(resolve, reject) {
                         var qaIds = scope.getSelectedAnswerOptions();
                         srsProxy.getRiskSignal($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds || [], true, true, true).then(function (riskSignal) {
                             scope.riskSignal = riskSignal;
                             resolve(riskSignal);
                         })
                     })
-                }
+                };
 
                 scope.$watch('allQuestionsAnswered', function (newVal, oldVal) {
                     console.log("allQuestionsAnswered: ");
@@ -221,7 +224,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 }
 
                 function isSrsAvailable() {
-                    return new Promise(function (resolve, reject) {
+                    return $q(function (resolve, reject) {
                         if (scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1) {
                             srsProxy.getDiagnosisCodes().then(function (diagnosisCodes) {
                                 scope.diagnosisCodes = diagnosisCodes;
@@ -236,11 +239,13 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                                         }
                                         scope.shownFirstTime = true;
                                         resolve(true);
-                                        break;
+                                        return;
                                     }
                                 }
                                 resolve(false);
                             })
+                        } else {
+                            resolve(false);
                         }
                     })
                 }

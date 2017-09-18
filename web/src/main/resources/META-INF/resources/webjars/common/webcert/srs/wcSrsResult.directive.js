@@ -21,8 +21,8 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsProxy',
-    function(ObjectHelper, srsProxy, $stateParams) {
+angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsProxy', 'common.srsLinkCreator',
+    function(ObjectHelper, srsProxy, srsLinkCreator) {
         'use strict';
 
         return {
@@ -32,10 +32,10 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
                 scope.atgarderErrorMessage="";
                 scope.atgarderInfoMessage="";
 
-                scope.blabla = function(){
+                scope.redirectToAtgardExternalSite = function(diagnosKod){
                     //Användare: srs-dev
                     //Lösenord: SRS2k17
-                    window.open('http://rattsjukskrivning.se/tjanster/omwebbplatsen/inloggning.14.html?redirect=http%3A%2F%2Frattsjukskrivning.se%2F');
+                    window.open(srsLinkCreator.createAtgardsrekommendationLink(diagnosKod));
                 }
 
             },
