@@ -44,8 +44,15 @@ angular.module('common').factory('common.IntygCopyActions',
 
 
             function resetViewStateErrorKeys (viewState) {
-                viewState.common.activeErrorMessageKey = null;
-                viewState.common.inlineErrorMessageKey = null;
+                //The copy actions service is used both in an viewIntyg context as well as in patient list view.
+                //Their viewStates are actually 2 different structures. We should look at refactoring this..
+                if (viewState.common) {
+                    viewState.common.activeErrorMessageKey = null;
+                    viewState.common.inlineErrorMessageKey = null;
+                } else {
+                    viewState.activeErrorMessageKey = null;
+                    viewState.inlineErrorMessageKey = null;
+                }
             }
 
             function hideFornyaDialogError () {
@@ -77,9 +84,8 @@ angular.module('common').factory('common.IntygCopyActions',
                 dialogModel.acceptprogressdone = false;
                 requestFn(requestData, function(draftResponse) {
                     dialogModel.acceptprogressdone = true;
-                    if(viewState && viewState.common.inlineErrorMessageKey) {
-                        viewState.common.inlineErrorMessageKey = null;
-                    }
+                    //hide any previously shown error (nothing more needed, as we are about to close the dialog anyway)
+                    dialogModel.showerror = false;
 
                     var end = function() {
                         IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
@@ -118,19 +124,23 @@ angular.module('common').factory('common.IntygCopyActions',
                 }
 
                 if (UserModel.getAnvandarPreference(_FORNYA_DIALOG_PREFERENCE) === true || UserModel.getAnvandarPreference(_FORNYA_DIALOG_PREFERENCE) === 'true') {
-                    $log.debug('copy intyg without dialog' + intygFornyaRequest);
+                    $log.debug('fornya intyg without dialog' + intygFornyaRequest);
                     resetViewStateErrorKeys(viewState);
                     _createFornyaDraft(intygFornyaRequest, function(draftResponse) {
                         IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
                     }, function(errorCode) {
+                        //The copy actions service is used both in an viewIntyg context as well as in patient list view.
+                        //The viewStates they provide to this service are actually 2 different structures. We really should look at refactoring this..
+                        var _viewState = viewState.common ? viewState.common : viewState;
+
                         if (errorCode === 'DATA_NOT_FOUND') {
-                            viewState.common.inlineErrorMessageKey = 'error.failedtofornyaintyg.personidnotfound';
+                            _viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.personidnotfound';
                         } else if (errorCode === 'INVALID_STATE_REPLACED') {
-                            viewState.common.inlineErrorMessageKey = 'error.failedtofornyaintyg.replaced';
+                            _viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.replaced';
                         } else if (errorCode === 'PU_PROBLEM') {
-                            viewState.common.inlineErrorMessageKey = 'error.pu_problem';
+                            _viewState.inlineErrorMessageKey = 'error.pu_problem';
                         } else {
-                            viewState.common.inlineErrorMessageKey = 'error.failedtofornyaintyg';
+                            _viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg';
                         }
                     });
                 } else {
