@@ -37,6 +37,11 @@ $srs-glyphicon-hover-color: #808080;
     color: white;
 }
 
+.close-button:hover + .close-button{
+  color:white;
+  background-color:black;
+}
+
 .radio-inline{
   position:relative;
   display:inline-block;
@@ -47,10 +52,15 @@ $srs-glyphicon-hover-color: #808080;
   cursor:pointer
 }
 
+.button-rounded{
+  border: 2px solid;
+  border-radius: 27px !important;
+}
+
 .fixed-panel{
   position:fixed !important;
   top:40% !important;
-  left:950px !important;
+  left:42% !important;
 }
 
 .line{

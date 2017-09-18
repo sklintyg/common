@@ -1,14 +1,10 @@
 <div>
   <div class="panel-heading panel-srs-info-heading">
     <div class="fmb-panel-title">
-      <h4><span id="fmb_diagnos_heading_{{relatedFormId}}">{{fmb.diagnosKod}} - {{fmb.diagnosBeskrivning}}</span>
+      <h4 style="float:left"><span id="fmb_diagnos_heading_{{relatedFormId}}">{{fmb.diagnosKod}} - {{fmb.diagnosBeskrivning}}</span>
       </h4>
     </div>
-    <div>
-      <button type="button" class="btn btn-default fmb-collapse-icon" ng-click="status.open = !status.open"><i
-          class="glyphicon fmb-glyphicon"
-          ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
-    </div>
+      <button type="button" class="btn btn-default glyphicon glyphicon-remove close-button" ng-click="status.open = !status.open"><i></i></button>
   </div>
   <div class="panel-body">
       <div ng-if="infoMessage">
@@ -34,21 +30,22 @@
               <input type="radio" name="capacityForWorkForecast" id="capacityForWork1" ng-value="false" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(false)"> Nej</label>
       </div>
     </div>
-    <br>
-    <hr>
-    <div ng-if="errorMessage">
-        <wc-srs-error-box message-string="errorMessage"></wc-srs-error-box>
-      </div>
-    <h3 style="float: left;">Beräkning av risk för lång sjukskrivning</h3>
-    <div style="float:right;">{{isCollapsed ? "Visa mindre" : "Visa mer"}}
-      <a data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-up': isCollapsed, 'glyphicon-menu-down': !isCollapsed}"></i>
-        </a>
-    </div>
-    <br>
-    <br>
+    
     <div>
       <div ng-show="consentGiven">
+          <br>
+          <hr>
+          <div ng-if="errorMessage">
+              <wc-srs-error-box message-string="errorMessage"></wc-srs-error-box>
+            </div>
+          <h3 style="float: left;">Beräkning av risk för lång sjukskrivning</h3>
+          <div style="float:right;">{{isCollapsed ? "Visa mindre" : "Visa mer"}}
+            <a data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-up': isCollapsed, 'glyphicon-menu-down': !isCollapsed}"></i>
+              </a>
+          </div>
+          <br>
+          <br>
           <wc-srs-questionaire id="collapseExample" class="panel-collapse collapse in"></wc-srs-questionaire>
           <wc-srs-result></wc-srs-result>
       </div>

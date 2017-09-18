@@ -123,6 +123,7 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                     console.log(JSON.stringify(qaIds));
                     srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds || [], true, true, true).then(function (statistik) {
                         scope.atgarderErrorMessage = "";
+                        console.log(statistik);
                         if (statistik == 'error') {
                             scope.atgarderErrorMessage = "Det gick inte att hämta information om åtgärder";
                         }
