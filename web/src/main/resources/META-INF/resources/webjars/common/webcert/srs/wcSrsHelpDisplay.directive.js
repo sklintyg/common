@@ -47,12 +47,65 @@ angular.module('common').directive('wcSrsHelpDisplay', ['$q', 'common.srsProxy',
                 scope.allQuestionsAnswered = false;
                 scope.higherDiagnosKod = "";
                 scope.showVisaKnapp = false;
-                
+
+                scope.atgarderInfo = "";
+                scope.atgarderError = "";
+
+                scope.statistikInfo = "";
+                scope.statistikError = "";
+
+                scope.prediktionInfo = "";
+                scope.prediktionError = "";
 
                 fmbViewState.test();
 
-                scope.getAtgardLink =  srsLinkCreator.createAtgardsrekommendationLink;
+                scope.getAtgardLink = srsLinkCreator.createAtgardsrekommendationLink;
                 scope.getPrediktionsModellLink = srsLinkCreator.createPrediktionsModellLink;
+
+                function setMessages(statistik) {
+
+                    scope.atgarderInfo = "";
+                    scope.atgarderError = "";
+                    if (statistik.atgarderStatusCode !== 'OK') {
+                        if (statistik.atgarderStatusCode === 'INFORMATION_SAKNAS') {
+                            scope.atgarderInfo = "Observera! För " + scope.diagnosKod + " finns ingen SRS-information för detta fält.";
+                        }
+                        else if (statistik.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
+                            scope.atgarderInfo = "Det SRS-stöd som visas är för koden " + scope.diagnosKod;
+                        }
+                        else {
+                            scope.atgarderError = "Tekniskt fel.\nDet gick inte att hämta information om åtgärder";
+                        }
+                    }
+
+                    scope.statistikInfo = "";
+                    scope.atgarderError = "";
+                    if (statistik.statistikStatusCode !== 'OK') {
+                        if (statistik.statistikStatusCode === 'STATISTIK_SAKNAS') {
+                            scope.statistikInfo = "Observera! För " + scope.diagnosKod + " finns ingen SRS-information för detta fält.";
+                        }
+                        else if (statistik.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
+                            scope.statistikInfo = "Det SRS-stöd som visas är för koden " + scope.diagnosKod;
+                        }
+                        else {
+                            scope.statistikError = "Tekniskt fel.\nDet gick inte att hämta information om statistik";
+                        }
+                    }
+
+                    scope.prediktionInfo = "";
+                    scope.prediktionError = "";
+                    if (statistik.predictionStatusCode !== 'OK') {
+                        if (statistik.predictionStatusCode === 'PREDIKTION_SAKNAS') {
+                            scope.prediktionInfo = "Observera! För " + scope.diagnosKod + " finns ingen SRS-information för detta fält.";
+                        }
+                        else if (statistik.predictionStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
+                            scope.prediktionInfo = "Det SRS-stöd som visas är för koden " + scope.diagnosKod;
+                        }
+                        else {
+                            scope.prediktionError = "Det gick inte att hämta information om risk för lång sjukskrivning";
+                        }
+                    }
+                }
 
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function (newVal, oldVal) {
                     if (newVal) {
@@ -61,26 +114,48 @@ angular.module('common').directive('wcSrsHelpDisplay', ['$q', 'common.srsProxy',
                             scope.srsAvailable = srsAvailable;
                             scope.getQuestions(newVal).then(function (questions) {
                                 scope.questions = questions;
-                                scope.getSrs();
-                                scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
-                                if(scope.allQuestionsAnswered){
-                                    scope.showVisaKnapp = true;
-                                }
-                                else{
-                                    scope.showVisaKnapp = false;
-                                }
+                                var qaIds = scope.getSelectedAnswerOptions();
+                                srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true, true).then(function (statistik) {
+                                    //statistik.atgarderStatusCode = "DIAGNOssssSKOD_PA_HOGRE_NIVA";
+                                    //statistik.predictionStatusCode = "DIAGNOSKOD_PA_HOGRE_NIVA";
+                                    if(statistik && statistik !== 'error'){
+                                        setMessages(statistik);
+                                        //if(statistik.diagnosisCode !== scope.diagnosKod){
+                                        //scope.higherDiagnosKod = statistik.diagnosisCode;
+                                        //}
+                                        scope.statistik = statistik;
+                                        scope.atgarderRek = statistik.atgarderRek;
+                                        scope.atgarderObs = statistik.atgarderObs;
+    
+                                        /*
+                                        scope.atgarderRek = scope.atgarderRek.length > 0 ? scope.atgarderRek : ["<b>ÅtgärdRek1</b>", "ÅtgärdRek2", "ÅtgärdRek3"];
+                                        scope.atgarderObs = scope.atgarderObs.length > 0 ? scope.atgarderObs : ["ÅtgärdObs1", "ÅtgärdObs2", "ÅtgärdObs3"];
+                                        */
+                                        scope.statistik.statistikBild = scope.statistik.statistikBild ? scope.statistik.statistikBild : "http://dxlfb468n8ekd.cloudfront.net/gsc/8RRLM2/e1/36/f7/e136f736a06747b3a1f18322df08f9fe/images/webcert_-_m75/u59.png?token=6b088289725e4e6e4f6ac8f19930873b";
+                                        setAtgarderObs();
+                                        scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
+                                        if (scope.allQuestionsAnswered) {
+                                            scope.showVisaKnapp = true;
+                                        }
+                                        else {
+                                            scope.showVisaKnapp = false;
+                                        }
+                                    }
+                                    
+                                })
+
                             });
                         })
-                        
+
                     }
                 });
 
-                scope.closeFmb = function(){
-                    if(scope.status.open)
+                scope.closeFmb = function () {
+                    if (scope.status.open)
                         $rootScope.$broadcast('closeFmb');
                 }
 
-                scope.$on('closeSrs', function(){
+                scope.$on('closeSrs', function () {
                     scope.status.open = false;
                 })
 
@@ -108,20 +183,20 @@ angular.module('common').directive('wcSrsHelpDisplay', ['$q', 'common.srsProxy',
                     .tooltip({ content: '<b style="color: red">Tooltip</b> <i>text</i>' });
 
                 scope.visaClicked = function () {
-                    scope.setRiskSignal().then(function(riskSignal){
-                        scope.riskSignal = riskSignal;  
+                    scope.setRiskSignal().then(function (riskSignal) {
+                        scope.riskSignal = riskSignal;
                     });
                     scope.showVisaKnapp = false;
                 };
 
-                scope.editRiskSignal = function(riskSignal){
+                scope.editRiskSignal = function (riskSignal) {
                     scope.riskSignal = riskSignal;
                 };
 
-                scope.setRiskSignal = function(){
-                    return $q(function(resolve, reject) {
+                scope.setRiskSignal = function () {
+                    return $q(function (resolve, reject) {
                         var qaIds = scope.getSelectedAnswerOptions();
-                        srsProxy.getRiskSignal($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds || [], true, true, true).then(function (riskSignal) {
+                        srsProxy.getRiskSignal($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true, true).then(function (riskSignal) {
                             scope.riskSignal = riskSignal;
                             resolve(riskSignal);
                         })
@@ -135,24 +210,26 @@ angular.module('common').directive('wcSrsHelpDisplay', ['$q', 'common.srsProxy',
 
                 scope.getSrs = function () {
                     var qaIds = scope.getSelectedAnswerOptions();
-                    console.log(JSON.stringify(qaIds));
-                    srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds || [], true, true, true).then(function (statistik) {
+                    srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true, true).then(function (statistik) {
+                        setMessages(statistik);
+                        if (statistik.diagnosisCode !== scope.diagnosKod) {
+                            scope.higherDiagnosKod = statistik.diagnosisCode;
+                        }
                         scope.atgarderErrorMessage = "";
                         if (statistik == 'error') {
                             scope.atgarderErrorMessage = "Det gick inte att hämta information om åtgärder";
                         }
-                        else{
+                        else {
                             scope.statistik = statistik;
                             scope.atgarderRek = statistik.atgarderRek;
                             scope.atgarderObs = statistik.atgarderObs;
-                            
-                            scope.atgarderRek = scope.atgarderRek.length>0 ? scope.atgarderRek : ["ÅtgärdRek1", "ÅtgärdRek2", "ÅtgärdRek3"];
-                            scope.atgarderObs = scope.atgarderObs.length>0 ? scope.atgarderObs : ["ÅtgärdObs1", "ÅtgärdObs2", "ÅtgärdObs3"];
+
+                            scope.atgarderRek = scope.atgarderRek.length > 0 ? scope.atgarderRek : ["ÅtgärdRek1", "ÅtgärdRek2", "ÅtgärdRek3"];
+                            scope.atgarderObs = scope.atgarderObs.length > 0 ? scope.atgarderObs : ["ÅtgärdObs1", "ÅtgärdObs2", "ÅtgärdObs3"];
                             scope.statistik.statistikBild = scope.statistik.statistikBild ? scope.statistik.statistikBild : "http://dxlfb468n8ekd.cloudfront.net/gsc/8RRLM2/e1/36/f7/e136f736a06747b3a1f18322df08f9fe/images/webcert_-_m75/u59.png?token=6b088289725e4e6e4f6ac8f19930873b";
-                            //scope.atgarderObs = ['obs1', 'obs2', 'obs3'];
                             setAtgarderObs();
                         }
-                        
+
                     })
                 }
 
@@ -227,9 +304,9 @@ angular.module('common').directive('wcSrsHelpDisplay', ['$q', 'common.srsProxy',
                     return $q(function (resolve, reject) {
                         if (scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1) {
                             srsProxy.getDiagnosisCodes().then(function (diagnosisCodes) {
-                                scope.diagnosisCodes = diagnosisCodes;
-                                scope.higherDiagnosKod = getClosestMatchingDiagnosKod(scope.diagnosKod, scope.diagnosisCodes);
-                                if(scope.higherDiagnosKod){
+                                //scope.diagnosisCodes = diagnosisCodes;
+                                //scope.higherDiagnosKod = getClosestMatchingDiagnosKod(scope.diagnosKod, scope.diagnosisCodes);
+                                if (scope.higherDiagnosKod) {
                                     scope.atgarderInfoMessage = "Det FMB-stöd som visas är för koden M79 - Andra sjukdomstillstånd i mjukvävnader som ej klassificeras annorstädes.";
                                 }
                                 for (var i = 0; i < diagnosisCodes.length; i++) {

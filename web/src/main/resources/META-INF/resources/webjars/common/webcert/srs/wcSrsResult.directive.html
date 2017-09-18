@@ -1,3 +1,9 @@
+<div ng-if="prediktionInfo">
+    <wc-srs-info-box message-string="prediktionInfo"></wc-srs-info-box>
+</div>
+<div ng-if="prediktionError">
+    <wc-srs-error-box message-string="prediktionError"></wc-srs-error-box>
+</div>
 <div ng-if="riskSignal" class="alert alert-danger">
     {{riskSignal}} 
     <div 
@@ -17,17 +23,17 @@
 <div class="tab-content">
     <div id="atgarder" class="tab-pane fade in active">
         <br>            
-        <div ng-if="atgarderInfoMessage">
-                <wc-srs-info-box message-string="atgarderInfoMessage"></wc-srs-info-box>
-            </div>
-        <div ng-if="atgarderErrorMessage">
-                <wc-srs-error-box message-string="atgarderErrorMessage"></wc-srs-error-box>
-            </div>
+        <div ng-if="atgarderInfo">
+            <wc-srs-info-box message-string="atgarderInfo"></wc-srs-info-box>
+        </div>
+        <div ng-if="atgarderError">
+            <wc-srs-error-box message-string="atgarderError"></wc-srs-error-box>
+        </div>
         <p><b>Tänk på att;</b> {{statistik.atgardObs}}.</p>
 
         <h3>Rekommenderade åtgärder</h3>
 
-        <div ng-repeat="(key,value) in atgarderRek">
+        <div ng-repeat="(key,value) in atgarderRek" ng-bind-html="value">
             <ul>
                 <li>{{value}}</li>
             </ul>
@@ -36,8 +42,11 @@
     </div>
     <div id="statstics" class="tab-pane fade">
         <br>
-        <div ng-if="statistikInfoMessage">
-            <wc-srs-info-box message-string="statistikInfoMessage"></wc-srs-info-box>
+        <div ng-if="statistikInfo">
+            <wc-srs-info-box message-string="statistikInfo"></wc-srs-info-box>
+        </div>
+        <div ng-if="statistikError">
+            <wc-srs-error-box message-string="statistikError"></wc-srs-error-box>
         </div>
         <img ng-src="{{statistik.statistikBild}}" alt=""/>
     </div>
