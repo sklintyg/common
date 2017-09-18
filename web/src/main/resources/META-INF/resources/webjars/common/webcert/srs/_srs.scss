@@ -37,9 +37,9 @@ $srs-glyphicon-hover-color: #808080;
     color: white;
 }
 
-.close-button:hover + .close-button{
-  color:white;
-  background-color:black;
+.close-button{
+  color:white !important;
+  background-color:black !important;
 }
 
 .radio-inline{
