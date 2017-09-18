@@ -47,6 +47,12 @@ $srs-glyphicon-hover-color: #808080;
   cursor:pointer
 }
 
+.fixed-panel{
+  position:fixed !important;
+  top:40% !important;
+  left:950px !important;
+}
+
 .line{
   float:left;
   margin-left: 5px;

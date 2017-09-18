@@ -48,19 +48,24 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                 scope.higherDiagnosKod = "";
                 scope.showVisaKnapp = false;
 
-                scope.$watch('diagnosKod', function (newVal, oldVal) {
+                scope.$watch('srsStates.diagnoses["0"].diagnosKod', function (newVal, oldVal) {
                     if (newVal) {
-                        scope.getQuestions(newVal).then(function (questions) {
-                            scope.questions = questions;
-                            scope.getSrs();
-                            scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
-                            if(scope.allQuestionsAnswered){
-                                scope.showVisaKnapp = true;
-                            }
-                            else{
-                                scope.showVisaKnapp = false;
-                            }
-                        });
+                        scope.diagnosKod = newVal;
+                        isSrsAvailable(scope.diagnosKod).then(function (srsAvailable) {
+                            scope.srsAvailable = srsAvailable;
+                            scope.getQuestions(newVal).then(function (questions) {
+                                scope.questions = questions;
+                                scope.getSrs();
+                                scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
+                                if(scope.allQuestionsAnswered){
+                                    scope.showVisaKnapp = true;
+                                }
+                                else{
+                                    scope.showVisaKnapp = false;
+                                }
+                            });
+                        })
+                        
                     }
                 });
 
@@ -186,16 +191,6 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                     srsProxy.setConsent(scope.personId, scope.hsaId, consent);
                 }
 
-
-                scope.$watch('srsStates.diagnoses["0"].diagnosKod', function (newVal, oldVal) {
-                    if (newVal) {
-                        scope.diagnosKod = newVal;
-                        isSrsAvailable(scope.diagnosKod).then(function (srsAvailable) {
-                            scope.srsAvailable = srsAvailable;
-                        })
-                    }
-                })
-
                 scope.logSrsButtonClicked = function () {
                     if (scope.status.open && !scope.clickedFirstTime) {
                         scope.clickedFirstTime = true;
@@ -213,6 +208,9 @@ angular.module('common').directive('wcSrsHelpDisplay', ['common.srsProxy', 'comm
                             srsProxy.getDiagnosisCodes().then(function (diagnosisCodes) {
                                 scope.diagnosisCodes = diagnosisCodes;
                                 scope.higherDiagnosKod = getClosestMatchingDiagnosKod(scope.diagnosKod, scope.diagnosisCodes);
+                                if(scope.higherDiagnosKod){
+                                    scope.atgarderInfoMessage = "Det FMB-stöd som visas är för koden M79 - Andra sjukdomstillstånd i mjukvävnader som ej klassificeras annorstädes.";
+                                }
                                 for (var i = 0; i < diagnosisCodes.length; i++) {
                                     if (scope.diagnosKod === diagnosisCodes[i] || scope.higherDiagnosKod) {
                                         if (!scope.shownFirstTime) {

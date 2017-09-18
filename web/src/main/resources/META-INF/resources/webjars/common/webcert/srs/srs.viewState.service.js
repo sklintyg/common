@@ -26,4 +26,8 @@ angular.module('common').service('common.srsViewState',
         this.hsaId = "";
         this.intygsTyp = "";
 
+        this.setDiagnosKod = function(diagnosKod){
+            this.diagnosKod = diagnosKod;
+        }
+
     });
