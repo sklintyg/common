@@ -22,12 +22,48 @@ angular.module('common').service('common.PatientService',
         function($log, ObjectHelper, UserModel) {
             'use strict';
 
+                this.getPatientDataChanges = function(context, intyg) {
+
+                    var patient = {
+                        changedNamePuIntegration: false,
+                        changedNamePu: false,
+                        changedAddressPu: false
+                    };
+
+                    if(!context){
+                        $log.debug('wcPatientInfoChangeMessage - context parameter missing.');
+                    }
+    
+                    // INTYG views for TS intyg should not show name changes
+                    var fkIntyg = !(intyg.intygType === 'ts-bas' || intyg.intygType === 'ts-diabetes');
+                    var tsIntyg = !fkIntyg;
+                    if(!(tsIntyg && context === 'INTYG')){
+                        patient.changedNamePuIntegration = this.hasChangedNameInIntegration(intyg.grundData);
+                    }
+    
+                    if(context === 'INTYG'){
+
+                        // INTYG views for integrated FK intyg should not show name changes
+                        if(!(fkIntyg && UserModel.isDjupintegration())){
+                            patient.changedNamePu = intyg.patientNameChangedInPU;
+                        }
+
+                        // INTYG views for fristående TS intyg should show address changes
+                        if(tsIntyg){
+                            patient.changedAddressPu = intyg.patientAddressChangedInPU;
+                        }
+
+                    }
+
+                    return patient;
+                };
+            
                 /**
                  * When a deep-integration user requests an intyg, the original request may contain name and address.
                  * This method matches the supplied parameters (if applicable) with the patient address on the requested
                  * certificate and returns true if the name has changed.
                  * */
-                this.hasChangedName = function(grundData) {
+                this.hasChangedNameInIntegration = function(grundData) {
                     if (ObjectHelper.isDefined(grundData) &&
                         ObjectHelper.isDefined(UserModel.getIntegrationParam('fornamn')) &&
                         ObjectHelper.isDefined(UserModel.getIntegrationParam('efternamn'))) {
@@ -43,7 +79,7 @@ angular.module('common').service('common.PatientService',
                  * This method matches the supplied parameters (if applicable) with the patient address on the requested
                  * certificate and returns true if the address has changed.
                  */
-                this.hasChangedAddress = function(grundData) {
+                this.hasChangedAddressInIntegration = function(grundData) {
                     if (ObjectHelper.isDefined(grundData) &&
                         ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) &&
                         ObjectHelper.isDefined(UserModel.getIntegrationParam('postadress')) &&
