@@ -67,7 +67,6 @@ angular.module('common').factory('common.IntygCopyActions',
                 var requestType = options.requestType;
                 var requestData = options.requestData;
                 var requestFn = options.requestFn;
-                var viewState = options.viewState;
                 var closeDialog = options.closeDialog;
                 var dialogModel = options.dialogModel;
                 var dialogPreferenceKey = options.dialogPreferenceKey;
