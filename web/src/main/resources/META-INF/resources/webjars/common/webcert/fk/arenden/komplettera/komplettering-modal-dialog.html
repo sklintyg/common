@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
   <div>
-    <div class="row">
+    <div class="row" ng-if="model.arendeSvar.showOvrigaUpplysningar">
       <div class="col-md-6 dialog-column-divider-right">
         <div class="dialog-choice-box" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled">
           <div class="dialog-choice-box__text-section">
@@ -34,13 +34,30 @@
         <div class="dialog-choice-box">
           <div class="dialog-choice-box__text-section">
             <h4>Ingen medicinskt ansvarig finns tillgänglig</h4>
-            <p>Intygsutfärdaren finns inte längre tillgänglig och ingen annan på vårdenheten kan ansvara för innehållet i ursprungsintyget *</p>
+            <p>Intygsutfärdaren finns inte längre tillgänglig och ingen annan på vårdenheten kan ansvara för innehållet i ursprungsintyget.*</p>
             <div class="dialog-choice-box__button-section">
               <button type="button" id="komplettering-modal-dialog-answerWithMessage-button" class="btn btn-default" ng-click="button2click()">
                 Svara med meddelande
               </button>
             </div>
-            <p class="dialog_choice-box__warning-text">*OBS! Ingen medicinsk information får anges.</p>
+            <p class="dialog_choice-box__warning-text">*OBS! Ingen medicinsk information ska anges.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" ng-if="!model.arendeSvar.showOvrigaUpplysningar">
+      <div class="col-md-12">
+        <div class="dialog-choice-box">
+          <div class="dialog-choice-box__text-section">
+            <h4>Ingen kan ta det medicinska ansvaret för intyget</h4>
+            <p>Om intygsutfärdaren inte längre finns tillgänglig och ingen annan kan ta det medicinska ansvaret för intyget på vårdenheten så kan du delge Försäkringskassan det genom att svara med meddelande.*</p>
+            <div class="dialog-choice-box__button-section">
+              <button type="button" id="komplettering-modal-dialog-answerWithMessage-button" class="btn btn-default" ng-click="button2click()">
+                Svara med meddelande
+              </button>
+            </div>
+            <p class="dialog_choice-box__warning-text">*Obs! Ingen medicinsk information ska anges.</p>
           </div>
         </div>
       </div>

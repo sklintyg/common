@@ -21,6 +21,10 @@
 module.exports = function(grunt) {
     'use strict';
 
+    var npmDir = grunt.option('npmDir');
+    var cwd = process.cwd();
+    process.chdir(npmDir);
+
     require('time-grunt')(grunt);
     require('jit-grunt')(grunt, {
         bower: 'grunt-bower-task',
@@ -28,6 +32,8 @@ module.exports = function(grunt) {
         ngtemplates: 'grunt-angular-templates',
         postcss: 'grunt-postcss'
     });
+
+    process.chdir(cwd);
 
     var SRC_DIR = 'src/main/resources/META-INF/resources/';
     var DEST_DIR = (grunt.option('outputDir') || 'build/') +  'resources/main/META-INF/resources/';
@@ -276,11 +282,11 @@ module.exports = function(grunt) {
 
     });
 
-    grunt.registerTask('default', [ 'bower', 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'injector', 'sass', 'postcss' ]);
+    grunt.registerTask('default', [ 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'injector', 'sass', 'postcss' ]);
     grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg' ]);
     grunt.registerTask('lint-webcert', [ 'jshint:webcert' ]);
     grunt.registerTask('lint', [ 'jshint' ]);
-    grunt.registerTask('test-minaintyg', [ 'wiredep:minaintyg', 'karma:minaintyg' ]);
-    grunt.registerTask('test-webcert', [ 'wiredep:webcert', 'karma:webcert' ]);
-    grunt.registerTask('test', [ 'wiredep', 'karma' ].concat(RUN_COVERAGE?['lcovMerge']:[]));
+    grunt.registerTask('test-minaintyg', [ 'bower:minaintyg', 'wiredep:minaintyg', 'karma:minaintyg' ]);
+    grunt.registerTask('test-webcert', [ 'bower:webcert', 'wiredep:webcert', 'karma:webcert' ]);
+    grunt.registerTask('test', [ 'bower', 'wiredep', 'karma' ].concat(RUN_COVERAGE?['lcovMerge']:[]));
 };

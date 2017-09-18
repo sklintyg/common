@@ -54,9 +54,6 @@ angular.module('common').constant('common.messages', {
 
         'common.alert.newpersonid': 'Patienten har ett nytt personnummer: <b>${person}</b>',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>. Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.',
-        'common.alert.sekretessmarkering.utkast': 'Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var vänlig hantera dem varsamt.',
-        'common.alert.sekretessmarkering.intyg': '<p>Patienten har en sekretessmarkering. Det innebär att patientens folkbokföringsuppgifter är skyddade. Var  vänlig hantera dem varsamt.</p>På grund av sekretessmarkeringen går det inte att förnya intyget.',
-        'common.alert.sekretessmarkering.error': 'Misslyckades att slå upp patienten i personuppgiftstjänsten. Observera att patienten kan ha skyddade folkbokföringsuppgifter. Var vänlig handskas varsamt med uppgifterna.',
         'common.alert.sekretessmarkering.print': '<strong>OBS!</strong> Patienten har en sekretessmarkering. Hantera utskriften varsamt.',
         'common.alert.textversionupdated': 'Observera att frågetexterna har uppdaterats',
         'common.warning.patientdataupdate.failed': '<b>Observera!</b> Misslyckades att slå upp patienten i personuppgiftstjänsten',
@@ -195,6 +192,7 @@ angular.module('common').constant('common.messages', {
         'common.loading.existing.arenden': 'Laddar ärenden...',
         'common.arende.komplettering.disabled.onlydoctor': 'Kompletteringar kan endast besvaras av läkare.',
         'common.arende.komplettering.kompletteringsatgard.dialogtitle': 'Besvara kompletteringsbegäran',
+        'common.arende.komplettering.kompletteringsatgard.dialogtitlevardadmin': 'Kompletteringsbegäran kan inte genomföras',
 
         'common.arende.fragestallare.wc': 'Vårdenheten',
         'common.arende.fragestallare.fk': 'Försäkringskassan',
@@ -411,6 +409,8 @@ angular.module('common').constant('common.messages', {
 
         // PU down, cannot print draft
         'common.error_could_not_print_draft_no_pu': '<strong>Det går inte att skriva ut utkastet!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut utkastet. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
+        // Generic PU-error.
+        'common.error.pu_problem': 'Den nationella personuppgiftstjänsten svarar inte. Åtgärden kan inte genomföras eftersom den kräver att personuppgifter kan hämtas från personuppgiftsregistret.<br>Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
 
         // PU down, cannot send
         'fk7263.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
@@ -517,7 +517,7 @@ angular.module('common').constant('common.messages', {
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
         'common.error.authorization_problem': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
-        'common.error.authorization_problem_sekretessmarkering': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet. För att hantera intyg för patienter med sekretessmarkering krävs att du har befattningen läkare eller tandläkare.',
+        'common.error.authorization_problem_sekretessmarkering': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet. För att hantera intyg för patienter med sekretessmarkering krävs att du har befattningen läkare eller tandläkare. Vissa intygstyper får inte hanteras alls för patienter med sekretessmarkering, även om du har befattningen som krävs.',
         'common.error.authorization_problem_sekretessmarkering_enhet': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att hantera detta intyg. För att hantera ett intyg för en patient med sekretessmarkering måste du vara inloggad på den vårdenhet intyget skrevs.',
         'common.error.cantconnect': '<strong>Kunde inte kontakta servern.</strong>',
         'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',

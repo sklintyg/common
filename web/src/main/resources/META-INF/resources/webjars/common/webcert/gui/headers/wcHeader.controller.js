@@ -262,6 +262,8 @@ angular.module('common').controller('common.wcHeaderController',
                     templateUrl: '/web/webjars/common/webcert/gui/headers/wcHeaderAboutDialog.template.html',
                     controller: function($scope, $uibModalInstance) {
 
+                        $scope.version = moduleConfig.VERSION;
+
                         $scope.close = function() {
                             $uibModalInstance.close();
                         };
