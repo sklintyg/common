@@ -18,30 +18,26 @@
  */
 
 angular.module('common').factory('common.srsService', [
-    '$http' , '$q', '$log', 'common.srsViewState',
+    '$http', '$q', '$log', 'common.srsViewState',
     function($http, $q, $log, viewState) {
         'use strict';
 
         function _updateDiagnosKod(diagnosKod) {
-            console.log("updating diagnosKod: " + diagnosKod);
+            console.log('updating diagnosKod: ' + diagnosKod);
             //viewState.diagnosKod = diagnosKod;
             viewState.setDiagnosKod(diagnosKod);
         }
 
-        function _updateHsaId(hsaId){
+        function _updateHsaId(hsaId) {
             viewState.hsaId = hsaId;
         }
 
-        function _updateIntygsTyp(intygsTyp){
+        function _updateIntygsTyp(intygsTyp) {
             viewState.intygsTyp = intygsTyp;
         }
 
-        function _updatePersonnummer(personnummer){
+        function _updatePersonnummer(personnummer) {
             viewState.personId = personnummer;
-        }
-
-        function _test(message){
-            console.log(message);
         }
 
         // Return public API for the service

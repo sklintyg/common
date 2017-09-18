@@ -29,12 +29,12 @@ angular.module('common').service('common.fmbViewState', [
         };
 
         this.test = function() {
-            console.log("fmb function test");
-        }
+            console.log('fmb function test');
+        };
 
         this.closeFmb = function(scope){
             
-        }
+        };
 
         this.diagnoses = {
             // The following properties are created and deleted on demand depending on FMB info available.

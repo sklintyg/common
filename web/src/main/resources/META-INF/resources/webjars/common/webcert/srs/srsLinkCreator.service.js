@@ -17,11 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.srsLinkCreator', [function() {
+angular.module('common').factory('common.srsLinkCreator', [function() {
+    'use strict';
     var baseUrl = 'http://rattsjukskrivning.se/';
 
     function _createAtgardsekommendationLink(diagnosKod) {
-        if(!angular.isString(diagnosKod)) {
+        if (!angular.isString(diagnosKod)) {
             return undefined;
         }
         return baseUrl + diagnosKod.replace('.', '').toLowerCase();
@@ -36,8 +37,8 @@ angular.module('common').factory('common.srsLinkCreator', [function() {
     }
 
     return {
-        createAtgardsrekommendationLink : _createAtgardsekommendationLink,
-        createSamtyckeLink : _createSamtyckeLink(),
-        createPrediktionsModellLink : _createPrediktionsModellLink()
+        createAtgardsrekommendationLink: _createAtgardsekommendationLink,
+        createSamtyckeLink: _createSamtyckeLink(),
+        createPrediktionsModellLink: _createPrediktionsModellLink()
     };
 }]);

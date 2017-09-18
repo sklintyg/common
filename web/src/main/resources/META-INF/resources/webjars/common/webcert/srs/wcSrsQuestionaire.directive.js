@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2016 Inera AB (http://www.inera.se)
  *
@@ -22,20 +21,22 @@
  * Display SRS questionaire
  */
 angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
-    function (srsProxy) {
+    function(srsProxy) {
         'use strict';
 
         return {
             restrict: 'E',
-            link: function (scope, element, attrs) {
-                scope.change = function () {
+            link: function(scope, element, attrs) {
+                scope.change = function() {
                     //console.log(scope.getSelectedAnswerOptions());
-                    scope.editRiskSignal("");
+                    scope.editRiskSignal('');
                     scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
-                    if(scope.allQuestionsAnswered)
+                    if (scope.allQuestionsAnswered) {
                         scope.showVisaKnapp = true;
-                    else
+                    }
+                    else {
                         scope.showVisaKnapp = false;
+                    }
 
                 };
             },

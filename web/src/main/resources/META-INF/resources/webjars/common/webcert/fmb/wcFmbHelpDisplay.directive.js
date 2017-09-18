@@ -37,13 +37,14 @@ angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', '
                 };
 
                 scope.closeSrs = function(){
-                    if(scope.status.open)
+                    if(scope.status.open) {
                         $rootScope.$broadcast('closeSrs');
-                }
+                    }
+                };
 
                 scope.$on('closeFmb', function(){
                     scope.status.open = false;
-                })
+                });
 
                 scope.fmbStates = fmbViewState;
 

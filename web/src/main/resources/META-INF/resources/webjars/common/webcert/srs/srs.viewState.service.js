@@ -17,17 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').service('common.srsViewState', 
+angular.module('common').service('common.srsViewState',
     function() {
         'use strict';
 
-        this.diagnosKod = "";
-        this.personId = "";
-        this.hsaId = "";
-        this.intygsTyp = "";
+        this.diagnosKod = '';
+        this.personId = '';
+        this.hsaId = '';
+        this.intygsTyp = '';
 
-        this.setDiagnosKod = function(diagnosKod){
+        this.setDiagnosKod = function(diagnosKod) {
             this.diagnosKod = diagnosKod;
-        }
+        };
 
     });

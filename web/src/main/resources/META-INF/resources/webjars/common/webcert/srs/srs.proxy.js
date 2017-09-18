@@ -18,101 +18,102 @@
  */
 
 angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
-function ($http, $q, $log) {
-    'use strict';
+    function($http, $q, $log) {
+        'use strict';
 
-    function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
-        return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' + prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds).then(function (response) {
-            return response.data;
-        })
-        .catch(function(err){
-            return 'error';  
-        });
-    }
+        function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
+            return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' +
+                prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds)
+                .then(function(response) {
+                    return response.data;
+                }, function(err) {
+                    return 'error';
+                });
+        }
 
-    function _getRiskSignal(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
-        return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' + prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds).then(function (response) {
-            return response.data.predictionDescription;
-        })
-        .catch(function(err){
-            return 'error';  
-        });
-    }
+        function _getRiskSignal(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
+            return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' +
+                prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds)
+                .then(function(response) {
+                    return response.data.predictionDescription;
+                }, function(err) {
+                    return 'error';
+                });
+        }
 
-    function _getDiagnosisCodes() {
-        return $http.get('/api/srs/codes').then(function (response) {
-            return response.data;
-        });
-    }
+        function _getDiagnosisCodes() {
+            return $http.get('/api/srs/codes').then(function(response) {
+                return response.data;
+            });
+        }
 
-    function _setConsent(patientId, hsaId, consentGiven) {
-        return $http.put('/api/srs/consent/' + patientId + '/' + hsaId, consentGiven).then(function (response) {
-            return response.data;
-        });
-    }
+        function _setConsent(patientId, hsaId, consentGiven) {
+            return $http.put('/api/srs/consent/' + patientId + '/' + hsaId, consentGiven).then(function(response) {
+                return response.data;
+            });
+        }
 
-    function _getConsent(personId, hsaId) {
-        return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(function (response) {
-            return response.data;
-        })
-        .catch(function(err){
-            return 'error';  
-        });
-    }
+        function _getConsent(personId, hsaId) {
+            return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(function(response) {
+                return response.data;
+            }, function(err) {
+                return 'error';
+            });
+        }
 
-    function _getFeatures() {
-        return $http.get('/api/anvandare').then(function (response) {
-            return response.data;
-        });
-    }
+        function _getFeatures() {
+            return $http.get('/api/anvandare').then(function(response) {
+                return response.data;
+            });
+        }
 
-    function _getQuestions(diagnosKod) {
-        return $http.get('/api/srs/questions/' + diagnosKod).then(function (response) {
-            return response.data;
-        });
-    }
+        function _getQuestions(diagnosKod) {
+            return $http.get('/api/srs/questions/' + diagnosKod).then(function(response) {
+                return response.data;
+            });
+        }
 
-    function _logSrsShown(){
-        var postString = '"SRS_SHOWN"';
-        return $http.post('/api/jslog/srs', postString).then(function (response) {
-            return response.data;
-        });
-    }
+        function _logSrsShown() {
+            var postString = '"SRS_SHOWN"';
+            return $http.post('/api/jslog/srs', postString).then(function(response) {
+                return response.data;
+            });
+        }
 
-    function _logSrsClicked(){
-        var postString = '"SRS_CLICKED"';
-        return $http.post('/api/jslog/srs', postString).then(function (response) {
-            return response.data;
-        });
-    }
+        function _logSrsClicked() {
+            var postString = '"SRS_CLICKED"';
+            return $http.post('/api/jslog/srs', postString).then(function(response) {
+                return response.data;
+            });
+        }
 
-    function _logSrsAtgardClicked(){
-        var postString = '"SRS_ATGARD_CLICKED"';
-        return $http.post('/api/jslog/srs', postString).then(function (response) {
-            return response.data;
-        });
-    }
+        function _logSrsAtgardClicked() {
+            var postString = '"SRS_ATGARD_CLICKED"';
+            return $http.post('/api/jslog/srs', postString).then(function(response) {
+                return response.data;
+            });
+        }
 
-    function _logSrsStatistikClicked(){
-        var postString = '"SRS_STATISTIK_CLICKED"';
-        return $http.post('/api/jslog/srs', postString).then(function (response) {
-            return response.data;
-        });
-    }
+        function _logSrsStatistikClicked() {
+            var postString = '"SRS_STATISTIK_CLICKED"';
+            return $http.post('/api/jslog/srs', postString).then(function(response) {
+                return response.data;
+            });
+        }
 
-    // Return public API for the service
-    return {
-        getConsent: _getConsent,
-        getDiagnosisCodes: _getDiagnosisCodes,
-        getFeatures: _getFeatures,
-        getQuestions: _getQuestions,
-        getRiskSignal: _getRiskSignal,
-        getSrs: _getSrs,
-        logSrsShown: _logSrsShown,
-        logSrsClicked: _logSrsClicked,
-        logSrsAtgardClicked: _logSrsAtgardClicked,
-        logSrsStatistikClicked: _logSrsStatistikClicked,
-        setConsent: _setConsent,
-    };
-}]);
+        // Return public API for the service
+        return {
+            getConsent: _getConsent,
+            getDiagnosisCodes: _getDiagnosisCodes,
+            getFeatures: _getFeatures,
+            getQuestions: _getQuestions,
+            getRiskSignal: _getRiskSignal,
+            getSrs: _getSrs,
+            logSrsShown: _logSrsShown,
+            logSrsClicked: _logSrsClicked,
+            logSrsAtgardClicked: _logSrsAtgardClicked,
+            logSrsStatistikClicked: _logSrsStatistikClicked,
+            setConsent: _setConsent
+        };
+    }]);
 

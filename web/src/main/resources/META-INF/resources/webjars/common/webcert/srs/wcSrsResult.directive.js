@@ -29,14 +29,14 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
             restrict: 'E',
             link: function (scope, element, attrs) {
 
-                scope.atgarderErrorMessage="";
-                scope.atgarderInfoMessage="";
+                scope.atgarderErrorMessage='';
+                scope.atgarderInfoMessage='';
 
                 scope.redirectToAtgardExternalSite = function(diagnosKod){
                     //Användare: srs-dev
                     //Lösenord: SRS2k17
                     window.open(srsLinkCreator.createAtgardsrekommendationLink(diagnosKod));
-                }
+                };
 
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.directive.html'
