@@ -18,21 +18,20 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import java.io.StringWriter;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.xml.bind.*;
-
+import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.w3.wsaddressing10.AttributedURIType;
-
-import com.google.common.base.Throwables;
-
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
-import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.*;
+import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
+import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
+import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
+import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
+import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
@@ -41,10 +40,13 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.validate.CertificateValidationException;
 import se.inera.intyg.common.util.logging.LogMarkers;
-import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
-import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator;
+
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import java.io.StringWriter;
+import java.util.List;
 
 public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalCertificateResponderInterface {
 
@@ -57,6 +59,9 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
 
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
+
+    @Value("${fk7263.register.medical.certificate.force.fullstandigtnamn}")
+    private String forceFullstandigtNamnPlaceholder;
 
     @PostConstruct
     public void initializeJaxbContext() throws JAXBException {
@@ -71,7 +76,17 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
 
         try {
             validateTransport(registerMedicalCertificate);
+
+            // INTYG-4447: A hack to mitigate a problem with the Anpassningsplattform component requiring fullstandigtNamn
+            // during a transitional period. REMOVE as soon as possible. See Marval UPG-116595.
+            if ("true".equalsIgnoreCase(forceFullstandigtNamnPlaceholder)) {
+                registerMedicalCertificate.getLakarutlatande().getPatient().setFullstandigtNamn("---");
+            }
+
             Fk7263Utlatande utlatande = TransportToInternal.convert(registerMedicalCertificate.getLakarutlatande());
+            if ("true".equalsIgnoreCase(forceFullstandigtNamnPlaceholder)) {
+                utlatande.getGrundData().getPatient().setFullstandigtNamn("---");
+            }
 
             String xml = xmlToString(registerMedicalCertificate);
             CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
