@@ -1,5 +1,9 @@
-<div ng-if="patient.changedNamePu || patient.changedAddressPu || patient.changedNamePuIntegration" class="alert alert-info alert-column">
-  <span id="intyg-fristaende-name-changed" ng-if="patient.changedNamePu" message key="intyg.status.patient.name.pu-intyg.changed"></span>
-  <span id="intyg-fristaende-address-changed" ng-if="patient.changedAddressPu" message key="intyg.status.patient.address.pu-intyg.changed"></span>
-  <span id="intyg-djupintegration-name-changed" ng-if="patient.changedNamePuIntegration" message key="intyg.status.patient.name.pu-integration.changed"></span>
+<div>
+  <div ng-if="patient.changedNamePu || patient.changedAddressPu || patient.changedNamePuIntegration" class="padding-top-medium">
+    <div class="alert alert-info alert-column">
+      <span id="intyg-fristaende-name-changed" ng-if="patient.changedNamePu" message key="intyg.status.patient.name.pu-intyg.changed"></span>
+      <span id="intyg-fristaende-address-changed" ng-if="patient.changedAddressPu" message key="intyg.status.patient.address.pu-intyg.changed"></span>
+      <span id="intyg-djupintegration-name-changed" ng-if="patient.changedNamePuIntegration" message key="intyg.status.patient.name.pu-integration.changed"></span>
+    </div>
+  </div>
 </div>

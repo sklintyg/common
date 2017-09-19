@@ -35,7 +35,7 @@ angular.module('common').service('common.PatientService',
                     }
     
                     // INTYG views for TS intyg should not show name changes
-                    var fkIntyg = !(intyg.intygType === 'ts-bas' || intyg.intygType === 'ts-diabetes');
+                    var fkIntyg = !(intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
                     var tsIntyg = !fkIntyg;
                     if(!(tsIntyg && context === 'INTYG')){
                         patient.changedNamePuIntegration = this.hasChangedNameInIntegration(intyg.grundData);

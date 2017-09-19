@@ -34,7 +34,7 @@ describe('PatientService', function() {
             UserModel = _UserModel_;
 
             intyg = {
-                intygType: 'ts-bas',
+                typ: 'ts-bas',
                 grundData: {
                     patient: {
                         fornamn: 'Kalle',
@@ -155,7 +155,7 @@ describe('PatientService', function() {
             });
 
             // INTYG
-            intyg.intygType = 'fk7263';
+            intyg.typ = 'fk7263';
             var patientChangeData = PatientService.getPatientDataChanges('INTYG', intyg);
 
             expect(patientChangeData.changedNamePuIntegration).toBeTruthy();

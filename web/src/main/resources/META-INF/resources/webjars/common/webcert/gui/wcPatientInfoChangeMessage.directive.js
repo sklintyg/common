@@ -33,7 +33,15 @@ angular.module('common').directive('wcPatientInfoChangeMessage', [
                 context: '@'
             },
             controller: function($scope) {
-                $scope.patient = PatientService.getPatientDataChanges($scope.context, $scope.intyg);
+
+                function update(intyg){
+                    $scope.patient = PatientService.getPatientDataChanges($scope.context, intyg);
+                }
+
+                update($scope.intyg);
+                $scope.$on('intyg.loaded', function(event, intyg){
+                    update(intyg);
+                });
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcPatientInfoChangeMessage.directive.html'
         };

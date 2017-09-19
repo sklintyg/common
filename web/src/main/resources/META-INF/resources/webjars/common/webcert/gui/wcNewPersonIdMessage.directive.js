@@ -77,7 +77,7 @@ angular.module('common').directive('wcNewPersonIdMessage', [
 
                 // intyg data may be loaded now, or it may be loaded later.
                 updateShowFlag($scope.patient);
-                $scope.$watch('patient', updateShowFlag);
+                $scope.$watch('patient', updateShowFlag, true);
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcNewPersonIdMessage.directive.html'
         };
