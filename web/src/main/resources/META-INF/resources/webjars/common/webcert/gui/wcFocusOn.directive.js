@@ -27,7 +27,9 @@ angular.module('common').directive('wcFocusOn', ['common.anchorScrollService',
             return scope.$on('wcFocusOn', function(e, name) {
                 if (name === attr.wcFocusOn) {
                     elem[0].select();
-                    anchorScrollService.scrollTo(elem[0].id);
+                    if (name !== 'focusFirstInput') {
+                        anchorScrollService.scrollTo(elem[0].id);
+                    }
                 }
             });
         };
