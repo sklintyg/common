@@ -30,7 +30,6 @@ angular.module('common').directive('wcNewPersonIdMessage', [
             restrict: 'A',
             replace: true,
             scope: {
-                patient: '='
             },
             controller: function($scope) {
 
@@ -64,20 +63,16 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                     }
                 }
 
-                var updateShowFlag = function(currentPatient) {
+                var updateShowFlag = function() {
                     $scope.show = false;
                     var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
-                    if (ObjectHelper.isDefined(alternatePatientSSn) && alternatePatientSSn !== '' &&
-                        currentPatient) {
-
-                        var intygPersonnummer = currentPatient.personId;
+                    var intygPersonnummer = UserModel.getIntegrationParam('beforeAlternateSsn');
+                    if (ObjectHelper.isDefined(alternatePatientSSn) && alternatePatientSSn !== '') {
                         decideMessageToShow(intygPersonnummer, alternatePatientSSn);
                     }
                 };
 
-                // intyg data may be loaded now, or it may be loaded later.
-                updateShowFlag($scope.patient);
-                $scope.$watch('patient', updateShowFlag, true);
+                updateShowFlag();
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcNewPersonIdMessage.directive.html'
         };

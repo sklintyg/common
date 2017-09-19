@@ -42,7 +42,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             };
 
             element =
-                $compile('<div wc-new-person-id-message patient="patient"></div>')($scope);
+                $compile('<div wc-new-person-id-message></div>')($scope);
 
             UserModel = _UserModel_;
 
@@ -52,7 +52,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     it('should not display new personnummer text', function() {
         UserModel.user.parameters.alternateSsn = personNummer1;
-        $scope.patient.personId = personNummer1;
+        UserModel.user.parameters.beforeAlternateSsn = personNummer1;
         $scope.$digest();
 
         expect($(element).find('span').text()).toBe('');
@@ -60,7 +60,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     it('should not display any personnummer text when personnummer is empty string', function() {
         UserModel.user.parameters.alternateSsn = '';
-        $scope.patient.personId = personNummer1;
+        UserModel.user.parameters.beforeAlternateSsn = personNummer1;
         $scope.$digest();
 
         expect($(element).find('span').text()).toBe('');
@@ -69,7 +69,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     it('should display new personnummer text', function() {
         UserModel.user.parameters.alternateSsn = personNummer1;
-        $scope.patient.personId = personNummer2;
+        UserModel.user.parameters.beforeAlternateSsn = personNummer2;
         $scope.$digest();
 
         expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
@@ -77,7 +77,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     it('should display new personnummer text', function() {
         UserModel.user.parameters.alternateSsn = personNummer1;
-        $scope.patient.personId = samordningsNummer;
+        UserModel.user.parameters.beforeAlternateSsn = samordningsNummer;
         $scope.$digest();
 
         expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
@@ -85,7 +85,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     it('should display new samordningsnummer text', function() {
         UserModel.user.parameters.alternateSsn = samordningsNummer;
-        $scope.patient.personId = personNummer1;
+        UserModel.user.parameters.beforeAlternateSsn = personNummer1;
         $scope.$digest();
 
         expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: '+samordningsNummer);
@@ -93,7 +93,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     it('should display new samordningsnummer text for new reservnr for existing samordningnr', function() {
         UserModel.user.parameters.alternateSsn = '555555-5555';
-        $scope.patient.personId = samordningsNummer;
+        UserModel.user.parameters.beforeAlternateSsn = samordningsNummer;
         $scope.$digest();
 
         expect($(element).find('span').text()).toContain('Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
@@ -101,7 +101,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
         UserModel.user.parameters.alternateSsn = 'A123456FFFF';
-        $scope.patient.personId = personNummer1;
+        UserModel.user.parameters.beforeAlternateSsn = personNummer1;
         $scope.$digest();
 
         expect($(element).find('span').text()).toContain('Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
