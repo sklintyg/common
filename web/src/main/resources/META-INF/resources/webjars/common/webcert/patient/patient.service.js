@@ -22,7 +22,7 @@ angular.module('common').service('common.PatientService',
         function($log, ObjectHelper, UserModel) {
             'use strict';
 
-                this.getPatientDataChanges = function(context, intyg) {
+                this.getPatientDataChanges = function(context, intyg, intygProperties) {
 
                     var patient = {
                         changedNamePuIntegration: false,
@@ -45,12 +45,12 @@ angular.module('common').service('common.PatientService',
 
                         // INTYG views for integrated FK intyg should not show name changes
                         if(!(fkIntyg && UserModel.isDjupintegration())){
-                            patient.changedNamePu = intyg.patientNameChangedInPU;
+                            patient.changedNamePu = intygProperties.patientNameChangedInPU;
                         }
 
                         // INTYG views for fristående TS intyg should show address changes
                         if(tsIntyg){
-                            patient.changedAddressPu = intyg.patientAddressChangedInPU;
+                            patient.changedAddressPu = intygProperties.patientAddressChangedInPU;
                         }
 
                     }

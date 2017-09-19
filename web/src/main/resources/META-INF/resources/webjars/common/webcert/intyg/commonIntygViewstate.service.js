@@ -39,7 +39,9 @@ angular.module('common').service('common.IntygViewStateService',
                     isSent: false,
                     isRevoked: false,
                     isPatientDeceased: false,
-                    newPatientId: false // FK only for now. Consider making specific viewState services for each intyg as with utkast
+                    newPatientId: false, // FK only for now. Consider making specific viewState services for each intyg as with utkast
+                    patientAddressChangedInPU: false,
+                    patientNameChangedInPU: false
                 };
             };
 
@@ -54,6 +56,8 @@ angular.module('common').service('common.IntygViewStateService',
                 this.intygProperties.isSent = IntygHelper.isSentToTarget(result.statuses, targetName);
                 this.intygProperties.isRevoked = IntygHelper.isRevoked(result.statuses);
                 this.intygProperties.isPatientDeceased = result.deceased;
+                this.intygProperties.patientAddressChangedInPU = result.patientAddressChangedInPU;
+                this.intygProperties.patientNameChangedInPU = result.patientNameChangedInPU;
 
                 if (result.relations && result.relations.parent) {
                     this.intygProperties.parent = result.relations.parent;

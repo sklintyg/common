@@ -84,4 +84,4 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
             $scope.$on('loadCertificate', loadIntyg);
 
-		}]);
+        }]);
