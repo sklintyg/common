@@ -3,8 +3,12 @@
     <div class="srs">
       <button id="{{relatedFormId}}-fmb-button" type="button" class="btn btn-default btn-fmb" ng-click="status.open = !status.open; logSrsButtonClicked(); closeFmb();">SRS <i
           class="glyphicon fmb-glyphicon"
-          ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i></button>
-      <div class="panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
+          ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"
+          in-view="srsButtonVisible = $inview"
+      ></i></button>
+      <div class="panel-wrapper-fmb"
+           ng-show="status.open"
+           ng-class="{'fmb-collapse': !status.open, 'fixed-panel': !srsButtonVisible}">
         <div class="panel-arrow"></div>
         <div class="panel panel-fmb-info">
           <uib-tabset active="test" class="fmb-panel-tabset nav-tabs__fmb"

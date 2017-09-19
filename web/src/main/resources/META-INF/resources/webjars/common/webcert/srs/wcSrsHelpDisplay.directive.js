@@ -49,6 +49,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.allQuestionsAnswered = false;
                     scope.higherDiagnosKod = '';
                     scope.showVisaKnapp = false;
+                    scope.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
 
                     scope.atgarderInfo = '';
                     scope.atgarderError = '';

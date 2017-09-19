@@ -2,7 +2,7 @@
     'use strict';
     angular
         .module('common')
-        .directive('wcClamp', clampDirective);
+        .directive('clamp', clampDirective);
 
     function clampDirective($timeout, $rootScope) {
         var directive = {

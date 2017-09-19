@@ -60,8 +60,8 @@ $srs-glyphicon-hover-color: #808080;
 
 .fixed-panel{
   position:fixed !important;
-  top:40% !important;
-  left:42% !important;
+  top:25% !important;
+  left:50% !important;
 }
 
 .line{
@@ -183,7 +183,7 @@ $srs-glyphicon-hover-color: #808080;
 
   &:after {
     border-top: 10px solid transparent;
-    border-right: 10px solid #fff;
+    border-right: 10px solid #000;
     border-bottom: 10px solid transparent;
     left: -10px;
     top: 1px;
