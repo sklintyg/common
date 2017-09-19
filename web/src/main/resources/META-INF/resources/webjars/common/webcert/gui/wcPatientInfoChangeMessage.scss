@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+/*!
+ * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('commonIntygViewstateService', function() {
-    'use strict';
-
-
-});
+#wc-patient-info-change-message {
+  .not-last-child-bottom-padding:not(:last-child) {
+    padding-bottom: 20px;
+  }
+}

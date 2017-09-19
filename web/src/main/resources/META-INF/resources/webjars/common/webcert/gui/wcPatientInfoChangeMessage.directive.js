@@ -21,25 +21,28 @@
  * Show info if patient info changed from djupintegration compared to the shown info.
  */
 angular.module('common').directive('wcPatientInfoChangeMessage', [
-    '$stateParams', '$rootScope', 'common.IntygViewStateService',
-    function($stateParams, $rootScope, CommonViewState) {
+    '$log', '$stateParams', '$rootScope', 'common.PatientService',
+    function($log, $stateParams, $rootScope, PatientService) {
         'use strict';
 
         return {
             restrict: 'A',
             replace: true,
-            scope: true,
+            scope: {
+                intyg: '=',
+                intygProperties: '=',
+                context: '@'
+            },
             controller: function($scope) {
 
-                $scope.patient = {};
-                var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
-                    // Listen when a certificate is loaded and make a
-                    // control if a patient's name or address has been changed.
-                    $scope.patient.changedName = CommonViewState.patient.hasChangedName(intyg, $stateParams);
-                    $scope.patient.changedAddress = CommonViewState.patient.hasChangedAddress(intyg, $stateParams);
-                });
-                $scope.$on('$destroy', unbindFastEvent);
+                function update(intyg, intygProperties){
+                    $scope.patient = PatientService.getPatientDataChanges($scope.context, intyg, intygProperties);
+                }
 
+                update($scope.intyg, $scope.intygProperties);
+                $scope.$on('intyg.loaded', function(event, intyg){
+                    update(intyg, $scope.intygProperties);
+                });
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcPatientInfoChangeMessage.directive.html'
         };

@@ -121,9 +121,9 @@ angular.module('common').constant('common.messages', {
         'intyg.status.sent': 'Skickat',
         'intyg.status.received': 'Signerat',
 
-        'intyg.status.patient.name.changed': 'Observera att patientens namn har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn.',
-        'intyg.status.patient.address.changed': 'Observera att patientens adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya adress.',
-        'intyg.status.patient.name.and.address.changed': 'Observera att patientens namn och adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis skrivas på patientens nya namn och adress.',
+        'intyg.status.patient.name.pu-intyg.changed': 'Observera att patientens namn har ändrats hos den nationella personuppgiftstjänsten sedan det här intyget utfärdades. Intyg kommer fortsättningsvis innehålla patientens nya namn.',
+        'intyg.status.patient.address.pu-intyg.changed': 'Observera att en slagning i nationella personuppgiftstjänsten har genomförts och visar att patientens adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis visa patientens nya adress.',
+        'intyg.status.patient.name.pu-integration.changed': 'Observera att namnet som visas i intyget har hämtats från den nationella personuppgiftstjänsten och skiljer sig åt från det som är lagrat i journalsystemet.',
 
         'intyg.status.replacement.utkast.exists': '<strong>OBS!</strong> Det finns redan ett intygsutkast påbörjat som skall ersätta detta intyg.',
 

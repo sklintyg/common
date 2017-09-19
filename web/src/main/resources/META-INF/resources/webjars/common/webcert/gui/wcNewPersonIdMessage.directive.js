@@ -19,7 +19,7 @@
 
 /**
  * Show patient has new id message if it differs from the one from the intyg.
- * Broadcast a intyg.loaded event on rootscope when the intyg is loaded to update the message.
+ * Watches viewState.intygModel.grundData.patient.personId event on rootscope when the intyg is loaded to update the message.
  */
 angular.module('common').directive('wcNewPersonIdMessage', [
     '$stateParams', 'common.PersonIdValidatorService', 'common.messageService', 'common.UserModel', 'common.ObjectHelper',
@@ -29,7 +29,8 @@ angular.module('common').directive('wcNewPersonIdMessage', [
         return {
             restrict: 'A',
             replace: true,
-            scope: true,
+            scope: {
+            },
             controller: function($scope) {
 
                 $scope.show = false; // Flag to control visibility
@@ -45,10 +46,6 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                     $scope.show = true;
                     var messageId = 'common.alert.newreserveid';
                     $scope.message = messageService.getProperty(messageId, {reserve: number}, messageId);
-                }
-
-                function modelHasValidPatient(intygModel) {
-                    return intygModel && intygModel.grundData && intygModel.grundData.patient;
                 }
 
                 function decideMessageToShow(intygPersonnummer, alternatePatientSSn) {
@@ -69,17 +66,13 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                 var updateShowFlag = function() {
                     $scope.show = false;
                     var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
-                    if (ObjectHelper.isDefined(alternatePatientSSn) && alternatePatientSSn !== '' &&
-                        modelHasValidPatient($scope.viewState.intygModel)) {
-
-                        var intygPersonnummer = $scope.viewState.intygModel.grundData.patient.personId;
+                    var intygPersonnummer = UserModel.getIntegrationParam('beforeAlternateSsn');
+                    if (ObjectHelper.isDefined(alternatePatientSSn) && alternatePatientSSn !== '') {
                         decideMessageToShow(intygPersonnummer, alternatePatientSSn);
                     }
                 };
 
-                // intyg data may be loaded now, or it may be loaded later.
                 updateShowFlag();
-                $scope.$watch('viewState.intygModel.grundData.patient.personId', updateShowFlag);
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcNewPersonIdMessage.directive.html'
         };

@@ -39,7 +39,9 @@ angular.module('common').service('common.IntygViewStateService',
                     isSent: false,
                     isRevoked: false,
                     isPatientDeceased: false,
-                    newPatientId: false // FK only for now. Consider making specific viewState services for each intyg as with utkast
+                    newPatientId: false, // FK only for now. Consider making specific viewState services for each intyg as with utkast
+                    patientAddressChangedInPU: false,
+                    patientNameChangedInPU: false
                 };
             };
 
@@ -54,6 +56,8 @@ angular.module('common').service('common.IntygViewStateService',
                 this.intygProperties.isSent = IntygHelper.isSentToTarget(result.statuses, targetName);
                 this.intygProperties.isRevoked = IntygHelper.isRevoked(result.statuses);
                 this.intygProperties.isPatientDeceased = result.deceased;
+                this.intygProperties.patientAddressChangedInPU = result.patientAddressChangedInPU;
+                this.intygProperties.patientNameChangedInPU = result.patientNameChangedInPU;
 
                 if (result.relations && result.relations.parent) {
                     this.intygProperties.parent = result.relations.parent;
@@ -80,44 +84,6 @@ angular.module('common').service('common.IntygViewStateService',
                     } else {
                         this.activeErrorMessageKey = 'common.error.could_not_load_cert';
                     }
-                }
-            };
-
-            this.patient = {
-                /**
-                 * When a deep-integration user requests an intyg, the original request may contain name and address.
-                 * This method matches the supplied parameters (if applicable) with the patient address on the requested
-                 * certificate and returns true if the name has changed.
-                 * */
-                hasChangedName: function(intygModel) {
-                    if (ObjectHelper.isDefined(intygModel) &&
-                        ObjectHelper.isDefined(intygModel.grundData) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('fornamn')) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('efternamn'))) {
-
-                        return intygModel.grundData.patient.fornamn !== UserModel.getIntegrationParam('fornamn') ||
-                            intygModel.grundData.patient.efternamn !== UserModel.getIntegrationParam('efternamn');
-                    }
-                    return false;
-                },
-
-                /**
-                 * When a deep-integration user requests an intyg, the original request  may contain name and address.
-                 * This method matches the supplied parameters (if applicable) with the patient address on the requested
-                 * certificate and returns true if the address has changed.
-                 */
-                hasChangedAddress: function(intygModel) {
-                    if (ObjectHelper.isDefined(intygModel) &&
-                        ObjectHelper.isDefined(intygModel.grundData) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postadress')) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postnummer'))) {
-
-                        return intygModel.grundData.patient.postort !== UserModel.getIntegrationParam('postort') ||
-                            intygModel.grundData.patient.postadress !== UserModel.getIntegrationParam('postadress') ||
-                            intygModel.grundData.patient.postnummer !== UserModel.getIntegrationParam('postnummer');
-                    }
-                    return false;
                 }
             };
 

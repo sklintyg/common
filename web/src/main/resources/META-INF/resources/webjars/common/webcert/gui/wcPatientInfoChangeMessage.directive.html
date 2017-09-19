@@ -1,5 +1,15 @@
-<div ng-if="patient.changedName || patient.changedAddress" class="alert alert-info alert-column">
-  <span id="intyg-djupintegration-name-changed" ng-if="patient.changedName && !patient.changedAddress" message key="intyg.status.patient.name.changed"></span>
-  <span id="intyg-djupintegration-address-changed" ng-if="!patient.changedName && patient.changedAddress" message key="intyg.status.patient.address.changed"></span>
-  <span id="intyg-djupintegration-name-and-address-changed" ng-if="patient.changedName && patient.changedAddress" message key="intyg.status.patient.name.and.address.changed"></span>
+<div id="wc-patient-info-change-message">
+  <div ng-if="patient.changedNamePu || patient.changedAddressPu || patient.changedNamePuIntegration" class="padding-top-medium">
+    <div class="alert alert-info alert-column">
+      <div id="intyg-fristaende-name-changed" class="not-last-child-bottom-padding" ng-if="patient.changedNamePu">
+        <span message key="intyg.status.patient.name.pu-intyg.changed"></span>
+      </div>
+      <div id="intyg-fristaende-address-changed" class="not-last-child-bottom-padding" ng-if="patient.changedAddressPu">
+        <span message key="intyg.status.patient.address.pu-intyg.changed"></span>
+      </div>
+      <div id="intyg-djupintegration-name-changed" ng-if="patient.changedNamePuIntegration">
+        <span message key="intyg.status.patient.name.pu-integration.changed"></span>
+      </div>
+    </div>
+  </div>
 </div>

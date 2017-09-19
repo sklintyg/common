@@ -82,6 +82,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
                         $scope.pdfUrl = '/moduleapi/intyg/ts-diabetes/' + ViewState.intygModel.id + '/pdf';
 
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel);
+                        $rootScope.$broadcast('intyg.loaded', ViewState.intygModel, ViewState.common.intygProperties);
 
                     } else {
                         ViewState.common.activeErrorMessageKey = 'common.error.data_not_found';

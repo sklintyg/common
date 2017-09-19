@@ -160,8 +160,6 @@
         <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>
       </div>
 
-      <div wc-new-person-id-message></div>
-
       <div class="alert alert-info alert-column" ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
         <strong>Status:</strong>
         <span ng-if="viewState.common.intygProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
@@ -171,7 +169,9 @@
 
       <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>
 
-      <div wc-patient-info-change-message></div>
+      <div wc-new-person-id-message></div>
+
+      <div wc-patient-info-change-message intyg="viewState.intygModel" intyg-properties="viewState.common.intygProperties" context="INTYG"></div>
 
       <div wc-intyg-related-revoked-message view-state="viewState"></div>
 
