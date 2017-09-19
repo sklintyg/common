@@ -123,6 +123,10 @@ $header-fix-panel-popover-color: #333;
   font-weight: normal;
 }
 
+.header-help-container {
+  max-width: 500px;
+}
+
 .header-wrapper {
   /*  max-height: 110px; does commenting out this break anything? */
   overflow: hidden;
