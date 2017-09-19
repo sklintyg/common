@@ -37,6 +37,27 @@ $srs-glyphicon-hover-color: #808080;
     color: white;
 }
 
+.take-all-space-you-can{
+  width:100%;
+}
+
+.nav-tabs > li.rounded.active > a,
+.nav-tabs > li.rounded.active > a:hover,
+.nav-tabs > li.rounded.active > a:focus  {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.nav-tabs > li.rounded > a  {
+  background-color: #00777E !important;
+  color: #ffffff !important;
+}
+
+.tab-inactive{
+  background-color: #00777E !important;
+  color: #ffffff !important;
+}
+
 .close-button{
   color:white !important;
   background-color:black !important;
