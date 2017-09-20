@@ -1,8 +1,8 @@
-<div ng-if="prediktionInfo">
+<div ng-if="prediktionInfo && riskSignal">
     <wc-srs-info-box message-string="prediktionInfo"></wc-srs-info-box>
 </div>
-<div ng-if="prediktionError">
-    <wc-srs-error-box message-string="prediktionError"></wc-srs-error-box>
+<div ng-if="predictionError && riskSignal">
+    <wc-srs-error-box message-string="predictionError"></wc-srs-error-box>
 </div>
 <div ng-if="riskSignal" class="alert alert-danger">
     {{riskSignal}} 

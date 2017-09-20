@@ -60,8 +60,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.prediktionInfo = '';
                     scope.prediktionError = '';
 
-                    fmbViewState.test();
-
                     scope.getAtgardLink = srsLinkCreator.createAtgardsrekommendationLink;
                     scope.getPrediktionsModellLink = srsLinkCreator.createPrediktionsModellLink;
 
@@ -83,7 +81,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
 
                         scope.statistikInfo = '';
-                        scope.atgarderError = '';
+                        scope.statistikError = '';
                         if (statistik.statistikStatusCode !== 'OK') {
                             if (statistik.statistikStatusCode === 'STATISTIK_SAKNAS') {
                                 scope.statistikInfo = 'Observera! För ' + scope.diagnosKod +
@@ -94,7 +92,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             }
                             else {
                                 scope.statistikError =
-                                    'Tekniskt fel.\nDet gick inte att hämta information om statistik';
+                                    'Tekniskt fel.\nDet gick inte att hämta information om statistik ' + scope.diagnosKod;
                             }
                         }
 
@@ -104,6 +102,9 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             if (statistik.predictionStatusCode === 'PREDIKTION_SAKNAS') {
                                 scope.prediktionInfo = 'Observera! För ' + scope.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
+                            }
+                            else if(statistik.predictionStatusCode === 'NOT_OK'){
+                                scope.predictionError = 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                             }
                             else if (statistik.predictionStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
                                 scope.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + scope.diagnosKod;
@@ -125,7 +126,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                     var qaIds = scope.getSelectedAnswerOptions();
                                     srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds,
                                         true, true, true).then(function(statistik) {
-                                        if (statistik && statistik !== 'error') {
+                                       // if (statistik && statistik !== 'error') {
                                             setMessages(statistik);
                                             scope.statistik = statistik;
                                             scope.atgarderRek = statistik.atgarderRek;
@@ -139,7 +140,17 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                             else {
                                                 scope.showVisaKnapp = false;
                                             }
-                                        }
+                                        //}
+                                        /*else{
+                                            setMessages(statistik);
+                                            scope.diagnosKod = "";
+                                            scope.srsAvailable = false;
+                                            scope.questions = [];
+                                            var qaIds = []
+                                            scope.statistik = [];
+                                            scope.atgarderRek = []
+                                            scope.atgarderObs = []
+                                        }*/
 
                                     });
 
