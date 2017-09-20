@@ -1,6 +1,6 @@
 <span>
   <button class="btn btn-success" ng-if="!redirectToExistingUtkast && !arendeSvar.svaraMedNyttIntygDisabled" id="komplettera-intyg-{{arendeSvar.fragaInternReferens}}" ng-click="kompletteraIntyg()">Komplettera intyg</button>
   <button class="btn btn-success" ng-if="redirectToExistingUtkast && !arendeSvar.svaraMedNyttIntygDisabled" id="komplettera-open-utkast-{{arendeSvar.fragaInternReferens}}" ng-click="openKompletteringsUtkast()">Fortsätt på intygsutkast</button>
-  <button class="btn btn-default" id="kan-inte-komplettera-{{arendeSvar.fragaInternReferens}}" ng-if="!arendeSvar.svaraMedNyttIntygDisabled"  ng-click="openKompletteringDialog()">Kan inte komplettera</button>
-  <button class="btn btn-success" id="uthopp-svara-med-meddelande-{{arendeSvar.fragaInternReferens}}" ng-if="arendeSvar.svaraMedNyttIntygDisabled"  ng-click="openKompletteringDialog()">Svara</button>
+  <button class="btn btn-default" ng-if="!redirectToExistingUtkast && !arendeSvar.svaraMedNyttIntygDisabled" id="kan-inte-komplettera-{{arendeSvar.fragaInternReferens}}" ng-click="openKompletteringDialog()">Kan inte komplettera</button>
+  <button class="btn btn-success" ng-if="arendeSvar.svaraMedNyttIntygDisabled" id="uthopp-svara-med-meddelande-{{arendeSvar.fragaInternReferens}}" ng-click="openKompletteringDialog()">Svara</button>
 </span>
