@@ -37,13 +37,22 @@ angular.module('common').factory('common.ArendeLegacyService',
         function _convertFragasvarListToArendeList(list) {
             var converted = [];
             angular.forEach(list, function(fs) {
-                var arende = _convertListFragasvarToArende(fs);
+                var arende = _convertFragasvarToArende(fs);
                 converted.push(arende);
             });
             return converted;
         }
 
-        function _convertListFragasvarToArende(fs) {
+        function _convertFragasvarViewListToArendeList(list) {
+            var converted = [];
+            angular.forEach(list, function(fs) {
+                var arende = _convertFragasvarViewToArende(fs);
+                converted.push(arende);
+            });
+            return converted;
+        }
+
+        function _convertFragasvarViewToArende(fs) {
             var fragaSvar = fs.fragaSvar;
 
             var arende = null;
@@ -130,8 +139,9 @@ angular.module('common').factory('common.ArendeLegacyService',
         return {
             convertAmneArendeToFragasvar: _convertAmneArendeToFragasvar,
             convertFragasvarListToArendeList: _convertFragasvarListToArendeList,
+            convertFragasvarViewListToArendeList: _convertFragasvarViewListToArendeList,
             convertFragasvarToArende: _convertFragasvarToArende,
-            convertListFragasvarToArende: _convertListFragasvarToArende
+            convertFragasvarViewToArende: _convertFragasvarViewToArende
         };
 
     });

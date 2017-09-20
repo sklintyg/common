@@ -10,7 +10,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
             $http.get(restPath).success(function(data) {
                 $log.debug('got data:' + data);
-                onSuccess(ArendeLegacyService.convertFragasvarListToArendeList(data));
+                onSuccess(ArendeLegacyService.convertFragasvarViewListToArendeList(data));
             }).error(function(data, status) {
                 $log.error('error ' + status);
                 // Let calling code handle the error of no data response
