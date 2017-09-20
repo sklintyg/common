@@ -36,7 +36,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 },
                 link: function(scope, element, attrs) {
                     scope.status = {
-                        open: true
+                        open: false
                     };
 
                     scope.shownFirstTime = false;
@@ -146,7 +146,16 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 });
                             });
 
+                        }else{
+                            scope.diagnosKod = "";
+                            scope.srsAvailable = false;
+                            scope.questions = [];
+                            var qaIds = []
+                            scope.statistik = [];
+                            scope.atgarderRek = []
+                            scope.atgarderObs = []
                         }
+                        
                     });
 
                     scope.closeFmb = function() {
