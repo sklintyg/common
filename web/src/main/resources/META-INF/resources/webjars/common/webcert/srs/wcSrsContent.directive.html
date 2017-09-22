@@ -40,8 +40,8 @@
           <div ng-if="errorMessage">
               <wc-srs-error-box message-string="errorMessage"></wc-srs-error-box>
             </div>
-          <h3 style="float: left;">Beräkning av risk för lång sjukskrivning</h3>
-          <div style="float:right;">{{isCollapsed ? "Visa mindre" : "Visa mer"}}
+          <h3 class="floatLeft">Beräkning av risk för lång sjukskrivning</h3>
+          <div class="floatLeft">{{isCollapsed ? "Visa mindre" : "Visa mer"}}
             <a id="questionsCollapser" data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                   <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-up': isCollapsed, 'glyphicon-menu-down': !isCollapsed}"></i>
               </a>
