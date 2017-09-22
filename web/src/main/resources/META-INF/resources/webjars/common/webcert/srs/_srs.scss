@@ -85,6 +85,15 @@ $srs-glyphicon-hover-color: #808080;
   left:50% !important;
 }
 
+#closeButton{
+  background-color: Transparent; 
+  background-repeat:no-repeat; 
+  border: none; 
+  cursor:pointer; 
+  overflow: hidden; 
+  outline:none;
+}
+
 .line{
   float:left;
   margin-left: 5px;
@@ -160,11 +169,12 @@ $srs-glyphicon-hover-color: #808080;
   border-color: #adadad;
 }
 
-.srs {
+#srs {
   position: relative;
 }
 
-.panel-wrapper-srs {
+#panel-wrapper-srs {
+  left: 105%;
   top: -4px;
   position: absolute;
   transition-property: opacity;
@@ -259,11 +269,6 @@ $srs-glyphicon-hover-color: #808080;
     padding: 15px 15px 5px 15px;
     overflow-x: hidden;
     overflow-y: auto;
-  }
-
-  .panel-srs-info-heading {
-    padding: 9px 0 8px 15px;
-    border-bottom: 1px solid #ccc;
   }
 
   > .panel-heading {

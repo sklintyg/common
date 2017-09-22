@@ -1,12 +1,12 @@
 <div>
   <div class="panel-heading panel-srs-info-heading">
-    <div class="fmb-panel-title">
-      <h4 style="float:left"><span id="fmb_diagnos_heading_{{relatedFormId}}">{{fmb.diagnosKod}} - {{fmb.diagnosBeskrivning}}</span>
+    <div class="srs-panel-title">
+      <h4 class="line"><span id="srs_diagnos_heading_{{relatedFormId}}">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
       </h4>
     </div>
     
-      <button style="background-color: Transparent; background-repeat:no-repeat; border: none; cursor:pointer; overflow: hidden; outline:none;" type="button" class="btn btn-default" ng-click="status.open = !status.open"><i>
-        <img src="http://d26uhratvi024l.cloudfront.net/gsc/8RRLM2/e1/36/f7/e136f736a06747b3a1f18322df08f9fe/images/webcert_-_m75/u135.png?token=dd70cc546d34a0bad05d75c0850eae35" alt="closeButton">
+      <button id="closeButton" type="button" class="btn btn-default" ng-click="status.open = !status.open"><i>
+        <img src="/web/webjars/common/webcert/srs/img/u135.png" alt="closeButton">
       </i></button>
   </div>
   <div class="panel-body">
@@ -20,17 +20,16 @@
         class="glyphicon glyphicon-question-sign"
         data-html="true"
         data-toggle="popover" 
-        data-content={{externalConsentInfo}}
-      >
+        data-content={{externalConsentInfo}}>
       </div>
 
       <div class="line form-group ng-scope">
         <label class="radio-inline line">
-              <input type="radio" name="capacityForWorkForecast" id="capacityForWork1" ng-value="true" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(true)"> Ja</label>
+              <input type="radio" name="capacityForWorkForecast" ng-value="true" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(true)"> Ja</label>
       </div>
       <div class="line form-group ng-scope">
         <label class="radio-inline line">
-              <input type="radio" name="capacityForWorkForecast" id="capacityForWork1" ng-value="false" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(false)"> Nej</label>
+              <input type="radio" name="capacityForWorkForecast" ng-value="false" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(false)"> Nej</label>
       </div>
     </div>
     
@@ -43,7 +42,7 @@
             </div>
           <h3 style="float: left;">Beräkning av risk för lång sjukskrivning</h3>
           <div style="float:right;">{{isCollapsed ? "Visa mindre" : "Visa mer"}}
-            <a data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <a id="questionsCollapser" data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                   <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-up': isCollapsed, 'glyphicon-menu-down': !isCollapsed}"></i>
               </a>
           </div>
