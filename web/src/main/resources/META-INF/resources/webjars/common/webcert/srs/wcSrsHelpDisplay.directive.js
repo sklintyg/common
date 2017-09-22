@@ -63,8 +63,89 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.getAtgardLink = srsLinkCreator.createAtgardsrekommendationLink;
                     scope.getPrediktionsModellLink = srsLinkCreator.createPrediktionsModellLink;
 
-                    function setMessages(statistik) {
+                    scope.closeFmb = function() {
+                        if (scope.status.open) {
+                            $rootScope.$broadcast('closeFmb');
+                        }
+                    };
 
+                    scope.questionsFilledForVisaButton = function() {
+                        var answers = getSelectedAnswerOptions();
+                        for (var i = 0; i < answers.length; i++) {
+                            if (!answers[i] || !answers[i].answerId) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    };
+
+                    scope.visaClicked = function() {
+                        scope.setRiskSignal().then(function(riskSignal) {
+                            scope.showVisaKnapp = false;
+                        });
+                    };
+
+                    scope.editRiskSignal = function(riskSignal) {
+                        scope.riskSignal = riskSignal;
+                    };
+
+                    scope.setRiskSignal = function() {
+                        return $q(function(resolve, reject) {
+                            var qaIds = getSelectedAnswerOptions();
+                            srsProxy.getRiskSignal($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds,
+                                true, true, true).then(function(riskSignal) {
+                                scope.riskSignal = riskSignal;
+                                resolve(riskSignal);
+                            });
+                        });
+                    };
+
+                    scope.getSrs = function() {
+                        return $q(function(resolve, reject){
+                            var qaIds = getSelectedAnswerOptions();
+                            srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true,
+                                true).then(function(statistik) {
+                                    scope.statistik = statistik || createEmptyStatistik();
+                                    resolve(statistik);
+                            }, function(err){
+                                console.log(err);
+                                resolve();
+                            });
+                        });
+                    };
+
+                    scope.getQuestions = function(diagnosKod) {
+                        return srsProxy.getQuestions(diagnosKod).then(function(questions) {
+                            scope.selectedButtons = [];
+                            var qas = questions;
+                            for (var i = 0; i < questions.length; i++) {
+                                for (var e = 0; e < questions[i].answerOptions.length; e++) {
+                                    if (questions[i].answerOptions[e].defaultValue) {
+                                        qas[i].model = questions[i].answerOptions[e];
+                                    }
+                                }
+                            }
+                            return qas;
+                        });
+                    };
+
+                    scope.setConsent = function(consent) {
+                        scope.consentGiven = consent;
+                        srsProxy.setConsent(scope.personId, scope.hsaId, consent);
+                    };
+
+                    scope.logSrsButtonClicked = function() {
+                        if (scope.status.open && !scope.clickedFirstTime) {
+                            scope.clickedFirstTime = true;
+                            srsProxy.logSrsClicked();
+                        }
+                    };
+
+                    scope.logAtgarderLasMerButtonClicked = function() {
+                        srsProxy.log();
+                    };
+
+                    function setMessages(statistik) {
                         setAtgarderMessages();
                         setStatistikMessages();
                         setPrediktionMessages();
@@ -127,31 +208,92 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     }
 
+                    function createEmptyStatistik(){
+                        var statistik = {atgarderRek: [], atgarderObs: []};
+                        return statistik;
+                    }
+
+                    function getSelectedAnswerOptions() {
+                        var selectedOptions = [];
+                        if (!scope.questions) {
+                            return [];
+                        }
+                        for (var i = 0; i < scope.questions.length; i++) {
+                            selectedOptions.push(
+                                {questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id});
+                        }
+                        return selectedOptions;
+                    }
+
+                    function isSrsAvailable() {
+                        return $q(function(resolve, reject) {
+                            if (scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1) {
+                                srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
+                                    if(currentDiagnosKodInDiagnosisCodes(scope.diagnosKod, diagnosisCodes)){
+                                        if (!scope.shownFirstTime) {
+                                            srsProxy.logSrsShown();
+                                        }
+                                        scope.shownFirstTime = true;
+                                        resolve(true);
+                                        return;
+                                    }
+                                    else{
+                                        resolve(false);
+                                        return;
+                                    }
+                                });
+                            } else {
+                                resolve(false);
+                                return;
+                            }
+                        });
+
+                        function currentDiagnosKodInDiagnosisCodes(diagnosKod, diagnosisCodes){
+                            for(var i = 0; i < diagnosisCodes.length; i++){
+                                var diagnosisCode = diagnosisCodes[i];
+                                if(diagnosisCode === diagnosKod){
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+
+                    }
+
+                    function loadSrs(){
+                        scope.getQuestions(scope.diagnosKod).then(function(questions) {
+                            scope.questions = questions;
+                            scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
+                            scope.getSrs().then(function(statistik) {
+                                setMessages(statistik);
+                                scope.statistik = statistik;
+                                scope.atgarderErrorMessage = '';
+                                if (!statistik) {
+                                    if (scope.allQuestionsAnswered) {
+                                        scope.showVisaKnapp = true;
+                                    }
+                                    else {
+                                        scope.showVisaKnapp = false;
+                                    }
+                                }
+                            });
+
+                        });
+                    }
+
                     scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
                         if (newVal) {
                             scope.diagnosKod = newVal;
                             isSrsAvailable(scope.diagnosKod).then(function(srsAvailable) {
                                 scope.srsAvailable = srsAvailable;
-                                scope.getQuestions(newVal).then(function(questions) {
-                                    scope.questions = questions;
-                                    var qaIds = scope.getSelectedAnswerOptions();
-                                    srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds,
-                                        true, true, true).then(function(statistik) {
-                                            scope.statistik = statistik;
-                                            scope.atgarderRek = statistik.atgarderRek;
-                                            scope.atgarderObs = statistik.atgarderObs;
-
-                                            setAtgarderObs();
-                                            scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
-                                            if (scope.allQuestionsAnswered) {
-                                                scope.showVisaKnapp = true;
-                                            }
-                                            else {
-                                                scope.showVisaKnapp = false;
-                                            }
-                                    });
-
-                                });
+                                if(srsAvailable){
+                                    loadSrs();
+                                }
+                                else{
+                                    scope.srsAvailable = false;
+                                    scope.questions = [];
+                                    scope.statistik = [];
+                                }
                             });
 
                         }else{
@@ -159,31 +301,12 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             scope.srsAvailable = false;
                             scope.questions = [];
                             scope.statistik = [];
-                            scope.atgarderRek = [];
-                            scope.atgarderObs = [];
                         }
-                        
                     });
-
-                    scope.closeFmb = function() {
-                        if (scope.status.open) {
-                            $rootScope.$broadcast('closeFmb');
-                        }
-                    };
 
                     scope.$on('closeSrs', function() {
                         scope.status.open = false;
                     });
-
-                    scope.questionsFilledForVisaButton = function() {
-                        var answers = scope.getSelectedAnswerOptions();
-                        for (var i = 0; i < answers.length; i++) {
-                            if (!answers[i] || !answers[i].answerId) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    };
 
                     scope.$watch('hsaId', function(newVal, oldVal) {
                         if (newVal) {
@@ -195,129 +318,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     $('#testtooltip')
                         .tooltip({content: '<b style="color: red">Tooltip</b> <i>text</i>'});
-
-                    scope.visaClicked = function() {
-                        scope.setRiskSignal().then(function(riskSignal) {
-                            scope.riskSignal = riskSignal;
-                        });
-                        scope.showVisaKnapp = false;
-                    };
-
-                    scope.editRiskSignal = function(riskSignal) {
-                        scope.riskSignal = riskSignal;
-                    };
-
-                    scope.setRiskSignal = function() {
-                        return $q(function(resolve, reject) {
-                            var qaIds = scope.getSelectedAnswerOptions();
-                            srsProxy.getRiskSignal($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds,
-                                true, true, true).then(function(riskSignal) {
-                                scope.riskSignal = riskSignal;
-                                resolve(riskSignal);
-                            });
-                        });
-                    };
-
-                    scope.getSrs = function() {
-                        var qaIds = scope.getSelectedAnswerOptions();
-                        srsProxy.getSrs($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds, true, true,
-                            true).then(function(statistik) {
-                                setMessages(statistik);
-                                if (statistik.diagnosisCode !== scope.diagnosKod) {
-                                    scope.higherDiagnosKod = statistik.diagnosisCode;
-                                }
-                                scope.atgarderErrorMessage = '';
-                                if (statistik === 'error') {
-                                    scope.atgarderErrorMessage = 'Det gick inte att hämta information om åtgärder';
-                                }
-                                else {
-                                    scope.statistik = statistik;
-                                    scope.atgarderRek = statistik.atgarderRek;
-                                    scope.atgarderObs = statistik.atgarderObs;
-                                    setAtgarderObs();
-                                }
-                        });
-                    };
-
-                    function setAtgarderObs() {
-                        var atgarderObs = scope.atgarderObs;
-                        scope.statistik.atgardObs = '';
-                        for (var i = 0; i < atgarderObs.length; i++) {
-                            scope.statistik.atgardObs += atgarderObs[i];
-                            scope.statistik.atgardObs += i < atgarderObs.length - 1 ? ', ' : '';
-                        }
-                    }
-
-                    scope.getQuestions = function(diagnosKod) {
-                        return srsProxy.getQuestions(diagnosKod).then(function(questions) {
-                            scope.selectedButtons = [];
-                            var qas = questions;
-                            for (var i = 0; i < questions.length; i++) {
-                                for (var e = 0; e < questions[i].answerOptions.length; e++) {
-                                    if (questions[i].answerOptions[e].defaultValue) {
-                                        qas[i].model = questions[i].answerOptions[e];
-                                    }
-                                }
-                            }
-                            return qas;
-                        });
-                    };
-
-                    scope.getSelectedAnswerOptions = function() {
-                        var selectedOptions = [];
-                        if (!scope.questions) {
-                            return [];
-                        }
-                        for (var i = 0; i < scope.questions.length; i++) {
-                            selectedOptions.push(
-                                {questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id});
-                        }
-                        return selectedOptions;
-                    };
-
-                    scope.setConsent = function(consent) {
-                        scope.consentGiven = consent;
-                        srsProxy.setConsent(scope.personId, scope.hsaId, consent);
-                    };
-
-                    scope.logSrsButtonClicked = function() {
-                        if (scope.status.open && !scope.clickedFirstTime) {
-                            scope.clickedFirstTime = true;
-                            srsProxy.logSrsClicked();
-                        }
-                    };
-
-                    scope.logAtgarderLasMerButtonClicked = function() {
-                        srsProxy.log();
-                    };
-
-                    function isSrsAvailable() {
-                        return $q(function(resolve, reject) {
-                            if (scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1) {
-                                srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
-                                    //scope.diagnosisCodes = diagnosisCodes;
-                                    //scope.higherDiagnosKod = getClosestMatchingDiagnosKod(scope.diagnosKod, scope.diagnosisCodes);
-                                    if (scope.higherDiagnosKod) {
-                                        scope.atgarderInfoMessage =
-                                            'Det FMB-stöd som visas är för koden M79 - Andra sjukdomstillstånd i mjukvävnader som ej klassificeras annorstädes.';
-                                    }
-                                    for (var i = 0; i < diagnosisCodes.length; i++) {
-                                        if (scope.diagnosKod === diagnosisCodes[i] || scope.higherDiagnosKod) {
-                                            if (!scope.shownFirstTime) {
-                                                srsProxy.logSrsShown();
-                                            }
-                                            scope.shownFirstTime = true;
-                                            resolve(true);
-                                            return;
-                                        }
-                                    }
-                                    resolve(false);
-                                });
-                            } else {
-                                resolve(false);
-                            }
-                        });
-                    }
 
                 },
                 templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'

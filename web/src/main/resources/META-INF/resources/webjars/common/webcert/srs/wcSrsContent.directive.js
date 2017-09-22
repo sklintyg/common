@@ -27,7 +27,6 @@ angular.module('common').directive('wcSrsContent', ['common.srsLinkCreator',
         return {
             restrict: 'EA',
             link: function(scope, element, attrs) {
-                scope.inQuestionaireState = true;
                 scope.isCollapsed = true;
                 //$('.my_tooltip').tooltip({ html: true })
                 scope.infoMessage = '';
