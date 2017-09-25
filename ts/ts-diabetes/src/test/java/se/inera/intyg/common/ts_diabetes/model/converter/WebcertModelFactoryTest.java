@@ -20,6 +20,7 @@ package se.inera.intyg.common.ts_diabetes.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -117,6 +118,25 @@ public class WebcertModelFactoryTest {
     @Test(expected = ConverterException.class)
     public void testCreateCopyCertificateIdMissing() throws Exception {
         factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), new TsDiabetesUtlatande());
+    }
+
+    @Test
+    public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
+        //Given
+        final TsDiabetesUtlatande tsDiabetesUtlatande = new TsDiabetesUtlatande();
+        tsDiabetesUtlatande.getGrundData().setSigneringsdatum(LocalDateTime.now());
+        final HoSPersonal hoSPersonal = new HoSPersonal();
+        final Vardenhet vardenhet = new Vardenhet();
+        vardenhet.setEnhetsid("1234");
+        hoSPersonal.setVardenhet(vardenhet);
+        tsDiabetesUtlatande.getGrundData().setSkapadAv(hoSPersonal);
+        tsDiabetesUtlatande.getGrundData().setPatient(new Patient());
+
+        //When
+        TsDiabetesUtlatande utlatande = factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsDiabetesUtlatande);
+
+        //Then
+        assertNull(utlatande.getGrundData().getSigneringsdatum());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {

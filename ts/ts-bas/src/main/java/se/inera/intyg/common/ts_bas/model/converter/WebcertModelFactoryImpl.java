@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -78,9 +79,14 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsBasUtlatande.getId());
 
         populateWithId(tsBasUtlatande, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(tsBasUtlatande.getGrundData(), copyData);
-
+        GrundData grundData = tsBasUtlatande.getGrundData();
+        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+        resetDataInCopy(grundData);
         return tsBasUtlatande;
+    }
+
+    private void resetDataInCopy(GrundData grundData) {
+        grundData.setSigneringsdatum(null);
     }
 
     private void populateWithId(TsBasUtlatande utlatande, String utlatandeId) throws ConverterException {

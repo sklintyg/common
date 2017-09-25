@@ -20,9 +20,12 @@ package se.inera.intyg.common.ts_bas.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,6 +84,25 @@ public class WebcertModelFactoryTest {
     @Test(expected = ConverterException.class)
     public void testCreateCopyCertificateIdMissing() throws Exception {
         factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), new TsBasUtlatande());
+    }
+
+    @Test
+    public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
+        //Given
+        final TsBasUtlatande tsBasUtlatande = new TsBasUtlatande();
+        tsBasUtlatande.getGrundData().setSigneringsdatum(LocalDateTime.now());
+        final HoSPersonal hoSPersonal = new HoSPersonal();
+        final Vardenhet vardenhet = new Vardenhet();
+        vardenhet.setEnhetsid("1234");
+        hoSPersonal.setVardenhet(vardenhet);
+        tsBasUtlatande.getGrundData().setSkapadAv(hoSPersonal);
+        tsBasUtlatande.getGrundData().setPatient(new Patient());
+
+        //When
+        TsBasUtlatande utlatande = factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsBasUtlatande);
+
+        //Then
+        assertNull(utlatande.getGrundData().getSigneringsdatum());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {
