@@ -35,6 +35,12 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
                     window.open(srsLinkCreator.createAtgardsrekommendationLink(diagnosKod));
                 };
 
+                scope.redirectToStatistikExternalSite = function(diagnosKod){
+                    //Användare: srs-dev
+                    //Lösenord: SRS2k17
+                    window.open(srsLinkCreator.createStatistikLink(diagnosKod));
+                };
+
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.directive.html'
         };

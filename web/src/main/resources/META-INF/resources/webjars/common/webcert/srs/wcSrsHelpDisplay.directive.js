@@ -63,6 +63,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 scope.getAtgardLink = srsLinkCreator.createAtgardsrekommendationLink;
                 scope.getPrediktionsModellLink = srsLinkCreator.createPrediktionsModellLink;
 
+                scope.activeTab = 'atgarder';
+
                 scope.closeFmb = function() {
                     if (scope.status.open) {
                         $rootScope.$broadcast('closeFmb');
@@ -88,6 +90,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 scope.editRiskSignal = function(riskSignal) {
                     scope.riskSignal = riskSignal;
                 };
+
+                scope.testVisaSvar = function(){
+                    var qaIds = getSelectedAnswerOptions();
+                    console.log(JSON.stringify(qaIds));
+                }
 
                 scope.setRiskSignal = function() {
                     return $q(function(resolve, reject) {
@@ -144,6 +151,18 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 scope.logAtgarderLasMerButtonClicked = function() {
                     srsProxy.log();
                 };
+
+                scope.logAtgarderRekClicked = function(){
+                    srsProxy.logSrsAtgardClicked();
+                }
+
+                scope.logStatistikClicked = function(){
+                    srsProxy.logSrsAtgardClicked();
+                }
+
+                scope.setActiveTab = function(tabname){
+                    scope.activeTab = tabname;
+                }
 
                 function setMessages(statistik) {
                     setAtgarderMessages();
@@ -268,17 +287,27 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             setMessages(statistik);
                             scope.statistik = statistik;
                             scope.atgarderErrorMessage = '';
-                            if (!statistik) {
-                                if (scope.allQuestionsAnswered) {
-                                    scope.showVisaKnapp = true;
-                                }
-                                else {
-                                    scope.showVisaKnapp = false;
-                                }
+                            if (scope.allQuestionsAnswered) {
+                                scope.showVisaKnapp = true;
+                            }
+                            else {
+                                scope.showVisaKnapp = false;
                             }
                         });
 
                     });
+                }
+
+                function getHigherLevelCode(diagnosKod, diagnosisCodes){
+                    if(diagnosKod && diagnosisCodes){
+                        for(var i = 0; i < diagnosisCodes.length; i++){
+                            var diagnosisCode = diagnosisCode[i];
+                            if(diagnosKod.indexOf(diagnosisCode) > -1){
+                                return diagnosisCode;
+                            }
+                        }
+                    }
+                    return "";
                 }
 
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {

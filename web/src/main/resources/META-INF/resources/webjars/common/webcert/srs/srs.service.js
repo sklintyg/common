@@ -23,8 +23,6 @@ angular.module('common').factory('common.srsService', [
         'use strict';
 
         function _updateDiagnosKod(diagnosKod) {
-            console.log('updating diagnosKod: ' + diagnosKod);
-            //viewState.diagnosKod = diagnosKod;
             viewState.setDiagnosKod(diagnosKod);
         }
 

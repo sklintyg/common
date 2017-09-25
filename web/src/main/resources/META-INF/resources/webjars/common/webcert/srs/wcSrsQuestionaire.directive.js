@@ -28,6 +28,7 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
             restrict: 'E',
             link: function(scope, element, attrs) {
                 scope.change = function() {
+                    scope.testVisaSvar();
                     scope.editRiskSignal('');
                     scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
                     if (scope.allQuestionsAnswered) {
