@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -76,9 +77,14 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsDiabetesUtlatande.getId());
 
         populateWithId(tsDiabetesUtlatande, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(tsDiabetesUtlatande.getGrundData(), copyData);
-
+        GrundData grundData = tsDiabetesUtlatande.getGrundData();
+        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+        resetDataInCopy(grundData);
         return tsDiabetesUtlatande;
+    }
+
+    private void resetDataInCopy(GrundData grundData) {
+        grundData.setSigneringsdatum(null);
     }
 
     private void populateWithId(TsDiabetesUtlatande utlatande, String utlatandeId) throws ConverterException {
