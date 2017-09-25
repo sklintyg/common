@@ -16,8 +16,8 @@
   </div>
 </div>
 <ul class="nav nav-tabs nav-justified">
-    <li class="rounded active"><a data-toggle="tab" href="#atgarder">Åtgärder</a></li>
-    <li class="rounded"><a data-toggle="tab" href="#statstics">Statistik</a></li>
+    <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder">Åtgärder</a></li>
+    <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics">Statistik</a></li>
 </ul>
 
 <div class="tab-content">
@@ -32,7 +32,6 @@
         <div id="atgarderObs" class="floatLeft"><b>Tänk på att; </b></div>
             <div class="floatLeft" ng-repeat="atgardObs in statistik.atgarderObs">
                 {{atgardObs}}. 
-            <!--{{statistik.atgardObs}}.</p>-->
             </div>
             <br><br>
 
@@ -41,6 +40,9 @@
             <div ng-repeat="(key,value) in statistik.atgarderRek">
                 <div clamp="3" ng-bind-html="'• ' + value"></div>
                 <br>
+            </div>
+            <div class="floatRight">
+                <button class="btn btn-info ng-binding button-rounded" ng-click="redirectToAtgardExternalSite(diagnosKod); logAtgarderRekClicked;">Läs mer</button>
             </div>
         </div>
 
@@ -54,9 +56,9 @@
             <wc-srs-error-box message-string="statistikError"></wc-srs-error-box>
         </div>
         <img ng-src="{{statistik.statistikBild}}" alt=""/>
+        <div class="floatRight">
+            <button class="btn btn-info ng-binding button-rounded" ng-click="redirectToStatistikExternalSite(diagnosKod); logStatistikClicked();">Läs mer</button>
+        </div>
     </div>
 
-    <div class="floatRight">
-        <button class="btn btn-info ng-binding button-rounded" ng-click="redirectToAtgardExternalSite(diagnosKod)">Läs mer</button>
-    </div>
 </div>

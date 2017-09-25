@@ -28,6 +28,13 @@ angular.module('common').factory('common.srsLinkCreator', [function() {
         return baseUrl + diagnosKod.replace('.', '').toLowerCase();
     }
 
+    function _createStatistikLink(diagnosKod) {
+        if (!angular.isString(diagnosKod)) {
+            return undefined;
+        }
+        return baseUrl + diagnosKod.replace('.', '').toLowerCase() + '-statistik';
+    }
+
     function _createSamtyckeLink() {
         return baseUrl + 'samtycke';
     }
@@ -38,6 +45,7 @@ angular.module('common').factory('common.srsLinkCreator', [function() {
 
     return {
         createAtgardsrekommendationLink: _createAtgardsekommendationLink,
+        createStatistikLink: _createStatistikLink,
         createSamtyckeLink: _createSamtyckeLink(),
         createPrediktionsModellLink: _createPrediktionsModellLink()
     };
