@@ -94,7 +94,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.testVisaSvar = function(){
                         var qaIds = getSelectedAnswerOptions();
                         console.log(JSON.stringify(qaIds));
-                    }
+                    };
 
                     scope.setRiskSignal = function() {
                         return $q(function(resolve, reject) {
@@ -154,15 +154,15 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     scope.logAtgarderRekClicked = function(){
                         srsProxy.logSrsAtgardClicked();
-                    }
+                    };
 
                     scope.logStatistikClicked = function(){
                         srsProxy.logSrsAtgardClicked();
-                    }
+                    };
 
                     scope.setActiveTab = function(tabname){
                         scope.activeTab = tabname;
-                    }
+                    };
 
                     function setMessages(statistik) {
                         setAtgarderMessages();
@@ -298,7 +298,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         });
                     }
 
-                    function getHigherLevelCode(diagnosKod, diagnosisCodes){
+                    /*function getHigherLevelCode(diagnosKod, diagnosisCodes){
                         if(diagnosKod && diagnosisCodes){
                             for(var i = 0; i < diagnosisCodes.length; i++){
                                 var diagnosisCode = diagnosisCode[i];
@@ -307,8 +307,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 }
                             }
                         }
-                        return "";
-                    }
+                        return '';
+                    }*/
 
                     scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
                         if (newVal) {
