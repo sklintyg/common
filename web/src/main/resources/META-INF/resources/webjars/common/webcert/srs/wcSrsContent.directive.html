@@ -1,20 +1,22 @@
 <div>
   <div class="panel-heading panel-srs-info-heading">
     <div class="srs-panel-title">
-      <h4 class="line"><span id="srs_diagnos_heading_{{relatedFormId}}">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
+      <h4><span id="srs_diagnos_heading_{{relatedFormId}}">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
       </h4>
+      <button id="closeButton" type="button" class="align-srs-close-button-right btn btn-default" ng-click="status.open = !status.open">
+        <i>
+          <img src="/web/webjars/common/webcert/srs/img/u135.png" alt="closeButton">
+        </i>
+      </button>
     </div>
     
-      <button id="closeButton" type="button" class="btn btn-default" ng-click="status.open = !status.open"><i>
-        <img src="/web/webjars/common/webcert/srs/img/u135.png" alt="closeButton">
-      </i></button>
   </div>
   <div class="panel-body">
-      <div ng-if="infoMessage">
-          <wc-srs-info-box message-string="infoMessage"></wc-srs-info-box>
+      <div ng-if="consentInfo">
+          <wc-srs-info-box message-string="consentInfo"></wc-srs-info-box>
         </div>
     <div>
-      <div class="line">Patienten samtycker till att delta i SRS pilotprojektet</div>
+      <div class="floatLeft">Patienten samtycker till att delta i SRS pilotprojektet</div>
       <div 
         style="float:right"
         class="glyphicon glyphicon-question-sign"
@@ -32,16 +34,17 @@
               <input type="radio" name="capacityForWorkForecast" ng-value="false" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(false)"> Nej</label>
       </div>
     </div>
+    <br>
+    <div ng-if="consentError">
+      <wc-srs-error-box message-string="consentError"></wc-srs-error-box>
+    </div>
     
     <div>
       <div ng-show="consentGiven">
           <br>
           <hr>
-          <div ng-if="errorMessage">
-              <wc-srs-error-box message-string="errorMessage"></wc-srs-error-box>
-            </div>
           <h3 class="floatLeft">Beräkning av risk för lång sjukskrivning</h3>
-          <div class="floatLeft">{{isCollapsed ? "Visa mindre" : "Visa mer"}}
+          <div class="floatRight">{{isCollapsed ? "Visa mindre" : "Visa mer"}}
             <a id="questionsCollapser" data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                   <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-up': isCollapsed, 'glyphicon-menu-down': !isCollapsed}"></i>
               </a>
