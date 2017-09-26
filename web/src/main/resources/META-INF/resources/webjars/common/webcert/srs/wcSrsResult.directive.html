@@ -1,10 +1,11 @@
 <div ng-if="prediktionInfo">
     <wc-srs-info-box message-string="prediktionInfo"></wc-srs-info-box>
 </div>
-<div ng-if="prediktionError">
+<div ng-if="prediktionError && riskSignal">
     <wc-srs-error-box message-string="prediktionError"></wc-srs-error-box>
 </div>
-<div ng-if="riskSignal" class="alert alert-danger">
+<div ng-if="riskSignal && riskSignal !== 'error'" class="alert alert-danger">
+            <img ng-src="{{riskImage}}" alt="">
     {{riskSignal}} 
     <div 
     style="float:right"
@@ -12,14 +13,13 @@
     data-html="true"
     data-toggle="popover" 
     data-content={{externalRiskInfo}}
-  >
+    >
   </div>
 </div>
 <ul class="nav nav-tabs nav-justified">
     <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder">Åtgärder</a></li>
     <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics">Statistik</a></li>
 </ul>
-
 <div class="tab-content">
     <div id="atgarder" class="tab-pane fade in active">
         <br>            

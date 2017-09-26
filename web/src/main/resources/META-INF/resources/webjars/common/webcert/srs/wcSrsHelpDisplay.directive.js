@@ -39,8 +39,10 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     open: false
                 };
 
+                scope.consent = false;
                 scope.shownFirstTime = false;
                 scope.clickedFirstTime = false;
+                scope.originalDiagnosKod = '';
                 scope.diagnosKod = srsViewState.diagnosKod;
                 scope.srsStates = fmbViewState;
                 scope.srsAvailable = false;
@@ -50,6 +52,10 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 scope.higherDiagnosKod = '';
                 scope.showVisaKnapp = false;
                 scope.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
+                scope.riskImage = '';
+
+                scope.consentInfo = '';
+                scope.consentError = '';
 
                 scope.atgarderInfo = '';
                 scope.atgarderError = '';
@@ -84,6 +90,10 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 scope.visaClicked = function() {
                     scope.setRiskSignal().then(function(riskSignal) {
                         scope.showVisaKnapp = false;
+                        scope.riskSignal = riskSignal;
+                        scope.riskSignal = "Förhöjd risk detekterad.";
+                        setPredictionImage(scope.riskSignal);
+                        setMessages(scope.statistik);
                     });
                 };
 
@@ -101,7 +111,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         var qaIds = getSelectedAnswerOptions();
                         srsProxy.getRiskSignal($stateParams.certificateId, scope.personId, scope.diagnosKod, qaIds,
                             true, true, true).then(function(riskSignal) {
-                            scope.riskSignal = riskSignal;
                             resolve(riskSignal);
                         });
                     });
@@ -165,66 +174,124 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 };
 
                 function setMessages(statistik) {
+                    setConsentMessages();
                     setAtgarderMessages();
                     setStatistikMessages();
                     setPrediktionMessages();
 
+                    function setConsentMessages(){
+                        scope.consentInfo = '';
+                        if(scope.higherDiagnosKod){
+                            scope.consentInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
+                        }
+                        if(scope.consent === 'error'){
+                            scope.consentError = 'Tekniskt fel. Det gick inte att hämta information om samtycket.'
+                        }
+                    }
+
                     function setAtgarderMessages() {
                         scope.atgarderInfo = '';
                         scope.atgarderError = '';
-                        if (statistik.atgarderStatusCode !== 'OK') {
-                            if (statistik.atgarderStatusCode === 'INFORMATION_SAKNAS') {
+                        if(statistik){
+                            if(statistik === 'error'){
+                                scope.atgarderError = 'Tekniskt fel.\nDet gick inte att hämta information om åtgärder.';
+                            }
+                            else if (statistik.atgarderStatusCode === 'INFORMATION_SAKNAS') {
                                 scope.atgarderInfo = 'Observera! För ' + scope.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if (statistik.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                                scope.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.diagnosKod;
+                                scope.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                             }
-                            else {
-                                scope.atgarderError = 'Tekniskt fel.\nDet gick inte att hämta information om åtgärder';
+                            else if (!statistik.atgarderRek || (statistik.atgarderRek && statistik.atgarderRek.length < 1)) {
+                                scope.atgarderInfo = 'Observera! För ' + scope.diagnosKod +
+                                    ' finns ingen SRS-information för detta fält.';
                             }
+                        }
+                        if(scope.higherDiagnosKod){
+                            scope.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                         }
                     }
 
                     function setStatistikMessages() {
                         scope.statistikInfo = '';
                         scope.statistikError = '';
-                        if (statistik.statistikStatusCode !== 'OK') {
-                            if (statistik.statistikStatusCode === 'STATISTIK_SAKNAS') {
+                        if(statistik){
+                            if(statistik === 'error'){
+                                scope.statistikError =
+                                'Tekniskt fel.\nDet gick inte att hämta information om statistik ' + scope.diagnosKod;
+                            }
+                            if (statistik.statistikStatusCode === 'STATISTIK_SAKNAS' || !statistik.statistikBild) {
                                 scope.statistikInfo = 'Observera! För ' + scope.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if (statistik.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                                scope.statistikInfo = 'Det SRS-stöd som visas är för koden ' + scope.diagnosKod;
+                                scope.statistikInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                             }
                             else {
-                                scope.statistikError =
-                                    'Tekniskt fel.\nDet gick inte att hämta information om statistik ' + scope.diagnosKod;
+                                scope.statistikError = 'Tekniskt fel.\nDet gick inte att hämta information om statistik';
                             }
+                        }
+                        if(scope.higherDiagnosKod){
+                            scope.statistikInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                         }
                     }
 
                     function setPrediktionMessages() {
                         scope.prediktionInfo = '';
                         scope.prediktionError = '';
-                        if (statistik.predictionStatusCode !== 'OK') {
-                            if (statistik.predictionStatusCode === 'PREDIKTION_SAKNAS') {
+                        if(statistik){
+                            if(statistik === 'error' || scope.riskSignal === 'error'){
+                                //scope.riskSignal = '';
+                                scope.prediktionError = 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
+                            }
+                            if (statistik.predictionStatusCode === 'PREDIKTION_SAKNAS' || !scope.riskSignal) {
                                 scope.prediktionInfo = 'Observera! För ' + scope.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if(statistik.predictionStatusCode === 'NOT_OK'){
-                                scope.predictionError = 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
+                                scope.prediktionError = 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                             }
                             else if (statistik.predictionStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                                scope.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + scope.diagnosKod;
+                                scope.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                             }
                             else {
-                                scope.prediktionError =
-                                    'Det gick inte att hämta information om risk för lång sjukskrivning';
+                                scope.prediktionError = 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                             }
+                        }
+                        if(scope.higherDiagnosKod){
+                            scope.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                         }
                     }
 
+                }
+
+                function setPredictionImage(riskSignal){
+                    if(riskSignal === 'Prediktion saknas.'){
+                        scope.riskImage = '';
+                    }
+                    else if(riskSignal === 'Ingen förhöjd risk detekterad.'){
+                        //scope.riskImage = '/web/webjars/common/webcert/srs/img/Lätt förhöjd.png';
+                        scope.riskImage = '';
+                    }
+                    else if(riskSignal === 'Förhöjd risk detekterad.'){
+                        scope.riskImage = '/web/webjars/common/webcert/srs/img/Måttligt förhöjd.png';
+                    }
+                    else if(riskSignal === 'Starkt förhöjd risk detekterad.'){
+                        scope.riskImage = '/web/webjars/common/webcert/srs/img/Starkt förhöjd.png';
+                    }
+                }
+
+                function activateHigherCodeMode(currentDiagnosKod, higherCode){
+                    scope.higherCode = higherCode;
+                    scope.originalDiagnosKod = currentDiagnosKod;
+                    scope.diagnosKod = scope.higherCode;
+                }
+                
+                function deactivateHigherCodeMode(currentDiagnosKod, higherCode){
+                    scope.higherCode = '';
+                    scope.originalDiagnosKod = currentDiagnosKod;
+                    scope.diagnosKod = currentDiagnosKod;
                 }
 
                 function createEmptyStatistik(){
@@ -247,20 +314,18 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 function isSrsAvailable() {
                     return $q(function(resolve, reject) {
                         if (scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1) {
-                            srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
-                                if(currentDiagnosKodInDiagnosisCodes(scope.diagnosKod, diagnosisCodes)){
-                                    if (!scope.shownFirstTime) {
-                                        srsProxy.logSrsShown();
-                                    }
-                                    scope.shownFirstTime = true;
-                                    resolve(true);
-                                    return;
+                            if(scope.higherDiagnosKod || currentDiagnosKodInDiagnosisCodes(scope.diagnosKod, scope.diagnosisCodes)){
+                                if (!scope.shownFirstTime) {
+                                    srsProxy.logSrsShown();
                                 }
-                                else{
-                                    resolve(false);
-                                    return;
-                                }
-                            });
+                                scope.shownFirstTime = true;
+                                resolve(true);
+                                return;
+                            }
+                            else{
+                                resolve(false);
+                                return;
+                            }
                         } else {
                             resolve(false);
                             return;
@@ -268,7 +333,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     });
 
                     function currentDiagnosKodInDiagnosisCodes(diagnosKod, diagnosisCodes){
-                        for(var i = 0; i < diagnosisCodes.length; i++){
+                        for(var i = 0; i < diagnosisCodes.length-1; i++){
                             var diagnosisCode = diagnosisCodes[i];
                             if(diagnosisCode === diagnosKod){
                                 return true;
@@ -298,40 +363,49 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     });
                 }
 
-                /*function getHigherLevelCode(diagnosKod, diagnosisCodes){
+                function getHigherLevelCode(diagnosKod, diagnosisCodes){
                     if(diagnosKod && diagnosisCodes){
                         for(var i = 0; i < diagnosisCodes.length; i++){
-                            var diagnosisCode = diagnosisCode[i];
-                            if(diagnosKod.indexOf(diagnosisCode) > -1){
+                            var diagnosisCode = diagnosisCodes[i];
+                            if(diagnosKod.indexOf(diagnosisCode) > -1 && diagnosKod !== diagnosisCode){
                                 return diagnosisCode;
                             }
                         }
                     }
                     return '';
-                }*/
+                }
 
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
                     if (newVal) {
+                        //scope.reset();
+                        scope.higherDiagnosKod = '';
                         scope.diagnosKod = newVal;
-                        isSrsAvailable(scope.diagnosKod).then(function(srsAvailable) {
-                            scope.srsAvailable = srsAvailable;
-                            if(srsAvailable){
-                                loadSrs();
+                        srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
+                            console.log(diagnosisCodes);
+                            scope.diagnosisCodes = diagnosisCodes;
+                            scope.higherDiagnosKod = getHigherLevelCode(scope.diagnosKod, diagnosisCodes);
+                            if(scope.higherDiagnosKod){
+                                activateHigherCodeMode(scope.diagnosKod, scope.higherDiagnosKod);
                             }
-                            else{
-                                scope.srsAvailable = false;
-                                scope.questions = [];
-                                scope.statistik = [];
-                            }
+                            isSrsAvailable(scope.diagnosKod).then(function(srsAvailable) {
+                                scope.srsAvailable = srsAvailable;
+                                if(srsAvailable){
+                                    loadSrs();
+                                }
+                            });
                         });
-
                     }else{
-                        scope.diagnosKod = '';
-                        scope.srsAvailable = false;
-                        scope.questions = [];
-                        scope.statistik = [];
+                        scope.reset();
                     }
                 });
+
+                scope.reset = function(){
+                    scope.diagnosKod = '';
+                    scope.higherDiagnosKod = '';
+                    scope.srsAvailable = false;
+                    scope.questions = [];
+                    scope.statistik = [];
+                }
 
                 scope.$on('closeSrs', function() {
                     scope.status.open = false;
@@ -339,7 +413,10 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                 scope.$watch('hsaId', function(newVal, oldVal) {
                     if (newVal) {
+                        scope.consentInfo = '';
+                        scope.consentError = '';
                         srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent) {
+                            scope.consent = consent;
                             scope.consentGiven = consent === 'JA' ? true : false;
                         });
                     }
