@@ -4,7 +4,7 @@
 <div ng-if="prediktionError && riskSignal">
     <wc-srs-error-box message-string="prediktionError"></wc-srs-error-box>
 </div>
-<div ng-if="riskSignal && riskSignal !== 'error'" class="alert alert-danger">
+<div id="predictionBox" ng-if="riskSignal && riskSignal !== 'error'" class="alert alert-danger">
             <img ng-src="{{riskImage}}" alt="">
     {{riskSignal}} 
     <div 
