@@ -91,7 +91,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.setRiskSignal().then(function(riskSignal) {
                         scope.showVisaKnapp = false;
                         scope.riskSignal = riskSignal;
-                        scope.riskSignal = "Förhöjd risk detekterad.";
                         setPredictionImage(scope.riskSignal);
                         setMessages(scope.statistik);
                     });
@@ -254,9 +253,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             }
                             else if (statistik.predictionStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
                                 scope.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
-                            }
-                            else {
-                                scope.prediktionError = 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                             }
                         }
                         if(scope.higherDiagnosKod){
