@@ -76,7 +76,7 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getExternalId() {
-        return MODULE_ID;
+        return MODULE_ID.toUpperCase();
     }
 
     @Override

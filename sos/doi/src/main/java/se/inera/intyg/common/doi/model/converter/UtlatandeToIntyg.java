@@ -80,7 +80,7 @@ public final class UtlatandeToIntyg {
 
     private static TypAvIntyg getTypAvIntyg(DoiUtlatande utlatande) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(utlatande.getTyp());
+        typAvIntyg.setCode(utlatande.getTyp().toUpperCase());
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
         typAvIntyg.setDisplayName(DoiModuleEntryPoint.MODULE_NAME);
         return typAvIntyg;
