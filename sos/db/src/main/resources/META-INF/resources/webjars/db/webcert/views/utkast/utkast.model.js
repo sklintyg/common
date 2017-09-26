@@ -10,6 +10,7 @@ angular.module('db').factory('db.Domain.IntygModel',
                     init._super.call(this, 'dbModel', {
 
                         'id': undefined,
+                        'typ': undefined,
                         'textVersion': undefined,
                         'grundData': grundData,
 

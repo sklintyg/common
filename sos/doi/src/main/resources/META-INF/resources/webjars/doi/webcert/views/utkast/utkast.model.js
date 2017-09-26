@@ -29,6 +29,7 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                     init._super.call(this, 'doiModel', {
 
                         'id': undefined,
+                        'typ': undefined,
                         'textVersion': undefined,
                         'grundData': grundData,
 

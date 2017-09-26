@@ -10,6 +10,7 @@ angular.module('luae_fs').factory('luae_fs.Domain.IntygModel',
                     init._super.call(this, 'LuaeFsModel', {
 
                         'id': undefined,
+                        'typ': undefined,
                         'textVersion': undefined,
                         'grundData': grundData,
 

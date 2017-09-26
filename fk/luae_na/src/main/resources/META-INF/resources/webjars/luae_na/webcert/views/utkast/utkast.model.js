@@ -10,6 +10,7 @@ angular.module('luae_na').factory('luae_na.Domain.IntygModel',
                     init._super.call(this, 'LuaeNaModel', {
 
                         'id': undefined,
+                        'typ': undefined,
                         'textVersion': undefined,
                         'grundData': grundData,
 

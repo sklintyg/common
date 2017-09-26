@@ -17,8 +17,7 @@ angular.module('common').run(function(formlyConfig) {
                         // We only want to log when the diagnoskodverk really changed and not when the value is set in the beginning
                         // of loading the utkast
                         if (oldVal) {
-                            monitoringService.diagnoskodverkChanged(formState.viewState.intygModel.id,
-                                formState.viewState.common.intyg.type);
+                            monitoringService.diagnoskodverkChanged($scope.model.id, $scope.model.typ);
                         }
                     }
                 });
