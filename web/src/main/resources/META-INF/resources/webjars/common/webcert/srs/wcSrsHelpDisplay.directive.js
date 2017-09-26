@@ -102,7 +102,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     scope.testVisaSvar = function(){
                         var qaIds = getSelectedAnswerOptions();
-                        console.log(JSON.stringify(qaIds));
+                        console.log(qaIds);
                     };
 
                     scope.setRiskSignal = function() {
@@ -184,7 +184,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.consentInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                             }
                             if(scope.consent === 'error'){
-                                scope.consentError = 'Tekniskt fel. Det gick inte att hämta information om samtycket.'
+                                scope.consentError = 'Tekniskt fel. Det gick inte att hämta information om samtycket.';
                             }
                         }
 
@@ -283,12 +283,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.originalDiagnosKod = currentDiagnosKod;
                         scope.diagnosKod = scope.higherCode;
                     }
-                    
-                    function deactivateHigherCodeMode(currentDiagnosKod, higherCode){
-                        scope.higherCode = '';
-                        scope.originalDiagnosKod = currentDiagnosKod;
-                        scope.diagnosKod = currentDiagnosKod;
-                    }
 
                     function createEmptyStatistik(){
                         var statistik = {atgarderRek: [], atgarderObs: []};
@@ -373,11 +367,10 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
                         if (newVal) {
-                            //scope.reset();
+                            scope.reset();
                             scope.higherDiagnosKod = '';
                             scope.diagnosKod = newVal;
                             srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
-                                console.log(diagnosisCodes);
                                 scope.diagnosisCodes = diagnosisCodes;
                                 scope.higherDiagnosKod = getHigherLevelCode(scope.diagnosKod, diagnosisCodes);
                                 if(scope.higherDiagnosKod){
@@ -390,18 +383,42 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                     }
                                 });
                             });
-                        }else{
-                            scope.reset();
                         }
                     });
 
                     scope.reset = function(){
-                        scope.diagnosKod = '';
-                        scope.higherDiagnosKod = '';
-                        scope.srsAvailable = false;
                         scope.questions = [];
                         scope.statistik = [];
-                    }
+
+                        scope.consent = false;
+                        scope.shownFirstTime = false;
+                        scope.clickedFirstTime = false;
+                        scope.originalDiagnosKod = '';
+                        scope.diagnosKod = srsViewState.diagnosKod;
+                        scope.srsStates = fmbViewState;
+                        scope.srsAvailable = false;
+                        scope.errorMessage = '';
+                        scope.riskSignal = '';
+                        scope.allQuestionsAnswered = false;
+                        scope.higherDiagnosKod = '';
+                        scope.showVisaKnapp = false;
+                        scope.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
+                        scope.riskImage = '';
+
+                        scope.consentInfo = '';
+                        scope.consentError = '';
+
+                        scope.atgarderInfo = '';
+                        scope.atgarderError = '';
+
+                        scope.statistikInfo = '';
+                        scope.statistikError = '';
+
+                        scope.prediktionInfo = '';
+                        scope.prediktionError = '';
+
+                        scope.activeTab = 'atgarder';
+                    };
 
                     scope.$on('closeSrs', function() {
                         scope.status.open = false;
