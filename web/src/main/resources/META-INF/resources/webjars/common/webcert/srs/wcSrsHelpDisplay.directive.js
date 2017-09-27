@@ -36,10 +36,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
             },
             link: function(scope, element, attrs) {
                 scope.userHasSrsFeature = checkIfUserHasSrsFeature();
-                if(!scope.userHasSrsFeature) {
-                    // INTYG-4543: Avoid using srs endpoints if user has srs-feature disabled.
-                    return;
-                }
                 scope.status = {
                     open: false
                 };
@@ -375,6 +371,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
                     }
                     return '';
+                }
+
+                if(!scope.userHasSrsFeature) {
+                    // INTYG-4543: Avoid using srs endpoints if user has srs-feature disabled.
+                    return;
                 }
 
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
