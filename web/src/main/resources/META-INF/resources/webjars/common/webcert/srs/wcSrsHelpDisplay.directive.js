@@ -21,9 +21,9 @@
  * Display SRS help texts
  */
 angular.module('common').directive('wcSrsHelpDisplay',
-['$q', 'common.srsProxy', 'common.fmbViewState', 'common.srsViewState', 'common.srsLinkCreator', '$stateParams',
-    '$rootScope',
-    function($q, srsProxy, fmbViewState, srsViewState, srsLinkCreator, $stateParams, $rootScope) {
+['$q', 'common.srsProxy', 'common.fmbViewState', 'common.srsViewState', 'common.srsLinkCreator', 'common.authorityService',
+    '$stateParams', '$rootScope',
+    function($q, srsProxy, fmbViewState, srsViewState, srsLinkCreator, authorityService, $stateParams, $rootScope) {
         'use strict';
 
         return {
@@ -35,6 +35,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 intygsTyp: '='
             },
             link: function(scope, element, attrs) {
+                scope.userHasSrsFeature = checkIfUserHasSrsFeature();
+                if(!scope.userHasSrsFeature) {
+                    // INTYG-4543: Avoid using srs endpoints if user has srs-feature disabled.
+                    return;
+                }
                 scope.status = {
                     open: false
                 };
@@ -299,6 +304,13 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             {questionId: scope.questions[i].questionId, answerId: scope.questions[i].model.id});
                     }
                     return selectedOptions;
+                }
+
+                function checkIfUserHasSrsFeature() {
+                    var options = {
+                        feature: 'srs'
+                    };
+                    return authorityService.isAuthorityActive(options);
                 }
 
                 function isSrsAvailable() {
