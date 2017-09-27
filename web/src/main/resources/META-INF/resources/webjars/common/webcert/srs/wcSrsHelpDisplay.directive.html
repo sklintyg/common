@@ -1,5 +1,5 @@
-<div>
-  <div ng-show="srsAvailable">
+<div ng-if="userHasSrsFeature && srsAvailable">
+  <div>
     <div id="srs">
       <button id="{{relatedFormId}}-srs-button" type="button" class="btn btn-default btn-srs" ng-click="status.open = !status.open; logSrsButtonClicked(); closeFmb();">
         SRS 
