@@ -357,6 +357,16 @@ h4.srs-sub-headline {
   margin-top: 30px;
 }
 
+#atgarder {
+  h3 {
+    padding-top: 20px;
+  }
+
+  .atgarder-obs__item {
+    text-overflow: ellipsis; /* TODO display block, white-space nowrap and overflow hidden for this even to work and even then we need to figure out a way to float lines and keep the spaces.. */
+  }
+}
+
 /*Make the SRS-display a bit responsive*/
 @media (min-width: 992px) {
   .col-md-srs-offset {

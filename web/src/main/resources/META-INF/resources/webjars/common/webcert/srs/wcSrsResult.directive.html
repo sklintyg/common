@@ -29,11 +29,9 @@
         <div ng-if="atgarderError">
             <wc-srs-error-box message-string="atgarderError"></wc-srs-error-box>
         </div>
-        <div id="atgarderObs" class="floatLeft"><b>Tänk på att; </b></div>
-            <div class="floatLeft" ng-repeat="atgardObs in statistik.atgarderObs">
-                {{atgardObs}}. 
-            </div>
-            <br><br>
+        <div id="atgarderObs">
+            <b>Tänk på att; </b><span class="atgarder-obs__item" ng-repeat="atgardObs in statistik.atgarderObs">{{atgardObs}}. </span>
+        </div>
 
         <h3>Rekommenderade åtgärder</h3>
         <div id="atgarderRek">
