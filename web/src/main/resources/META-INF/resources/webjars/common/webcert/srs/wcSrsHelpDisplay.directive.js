@@ -45,8 +45,9 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.clickedFirstTime = false;
                     scope.originalDiagnosKod = '';
                     scope.diagnosKod = srsViewState.diagnosKod;
+                    scope.diagnosisCodes = null;
                     scope.srsStates = fmbViewState;
-                    scope.srsAvailable = false;
+                    scope.srsApplicable = false;
                     scope.errorMessage = '';
                     scope.riskSignal = '';
                     scope.allQuestionsAnswered = false;
@@ -172,6 +173,63 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.setActiveTab = function(tabname){
                         scope.activeTab = tabname;
                     };
+
+                    // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
+                    if(scope.userHasSrsFeature) {
+                        // Do the first retrieval of which diagnosiscodes srs is applicable for.
+                        scope.diagnosisCodesPromise = srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
+                            scope.diagnosisCodes = diagnosisCodes;
+                        });
+
+                        // When applicable code is entered, show srs button
+                        scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
+                            if (newVal) {
+                                reset();
+                                scope.diagnosKod = newVal;
+                                scope.diagnosisCodesPromise.then(function() {
+                                    scope.srsApplicable = isSrsApplicable(scope.diagnosKod);
+                                    if(scope.srsApplicable) {
+                                        if (!scope.shownFirstTime) {
+                                            srsProxy.logSrsShown();
+                                        }
+                                        scope.shownFirstTime = true;
+                                    }
+                                });
+                            }
+                        });
+
+                        scope.$on('closeSrs', function() {
+                            scope.status.open = false;
+                        });
+
+                        scope.$watch('hsaId', function(newVal, oldVal) {
+                            if (newVal) {
+                                scope.consentInfo = '';
+                                scope.consentError = '';
+                                srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent) {
+                                    scope.consent = consent;
+                                    scope.consentGiven = consent === 'JA';
+                                });
+                            }
+                        });
+
+                        // When consent has been given, load everything which requires consent from user
+                        scope.$watch('consentGiven', function(newVal, oldVal) {
+                            if(newVal === true && scope.diagnosKod) {
+                                scope.diagnosisCodesPromise.then(function() {
+                                    scope.higherDiagnosKod = getHigherLevelCode(scope.diagnosKod, scope.diagnosisCodes);
+                                    if(scope.higherDiagnosKod){
+                                        activateHigherCodeMode(scope.diagnosKod, scope.higherDiagnosKod);
+                                    }
+
+                                    loadSrs();
+                                });
+                            }
+                        });
+
+                        $('#testtooltip')
+                            .tooltip({content: '<b style="color: red">Tooltip</b> <i>text</i>'});
+                    }
 
                     function setMessages(statistik) {
                         setConsentMessages();
@@ -309,37 +367,16 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         return authorityService.isAuthorityActive(options);
                     }
 
-                    function isSrsAvailable() {
-                        return $q(function(resolve, reject) {
-                            if (scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1) {
-                                if(scope.higherDiagnosKod || currentDiagnosKodInDiagnosisCodes(scope.diagnosKod, scope.diagnosisCodes)){
-                                    if (!scope.shownFirstTime) {
-                                        srsProxy.logSrsShown();
-                                    }
-                                    scope.shownFirstTime = true;
-                                    resolve(true);
-                                    return;
-                                }
-                                else{
-                                    resolve(false);
-                                    return;
-                                }
-                            } else {
-                                resolve(false);
-                                return;
-                            }
-                        });
-
-                        function currentDiagnosKodInDiagnosisCodes(diagnosKod, diagnosisCodes){
-                            for(var i = 0; i < diagnosisCodes.length-1; i++){
-                                var diagnosisCode = diagnosisCodes[i];
-                                if(diagnosisCode === diagnosKod){
-                                    return true;
-                                }
-                            }
+                    function isSrsApplicable() {
+                        if (scope.intygsTyp.toLowerCase().indexOf('fk7263') > -1 && isSrsApplicableForCode(scope.diagnosKod)) {
+                            return true;
+                        } else {
                             return false;
                         }
 
+                        function isSrsApplicableForCode(diagnosKod) {
+                            return scope.higherDiagnosKod || scope.diagnosisCodes.find(function(el){return el === diagnosKod;});
+                        }
                     }
 
                     function loadSrs(){
@@ -373,33 +410,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         return '';
                     }
 
-                    if(!scope.userHasSrsFeature) {
-                        // INTYG-4543: Avoid using srs endpoints if user has srs-feature disabled.
-                        return;
-                    }
-
-                    scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
-                        if (newVal) {
-                            scope.reset();
-                            scope.higherDiagnosKod = '';
-                            scope.diagnosKod = newVal;
-                            srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
-                                scope.diagnosisCodes = diagnosisCodes;
-                                scope.higherDiagnosKod = getHigherLevelCode(scope.diagnosKod, diagnosisCodes);
-                                if(scope.higherDiagnosKod){
-                                    activateHigherCodeMode(scope.diagnosKod, scope.higherDiagnosKod);
-                                }
-                                isSrsAvailable(scope.diagnosKod).then(function(srsAvailable) {
-                                    scope.srsAvailable = srsAvailable;
-                                    if(srsAvailable){
-                                        loadSrs();
-                                    }
-                                });
-                            });
-                        }
-                    });
-
-                    scope.reset = function(){
+                    function reset() {
                         scope.questions = [];
                         scope.statistik = [];
 
@@ -408,8 +419,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.clickedFirstTime = false;
                         scope.originalDiagnosKod = '';
                         scope.diagnosKod = srsViewState.diagnosKod;
+                        scope.diagnosisCodesPromise = srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
+                            scope.diagnosisCodes = diagnosisCodes;
+                        });
                         scope.srsStates = fmbViewState;
-                        scope.srsAvailable = false;
+                        scope.srsApplicable = false;
                         scope.errorMessage = '';
                         scope.riskSignal = '';
                         scope.allQuestionsAnswered = false;
@@ -431,25 +445,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.prediktionError = '';
 
                         scope.activeTab = 'atgarder';
-                    };
+                    }
 
-                    scope.$on('closeSrs', function() {
-                        scope.status.open = false;
-                    });
-
-                    scope.$watch('hsaId', function(newVal, oldVal) {
-                        if (newVal) {
-                            scope.consentInfo = '';
-                            scope.consentError = '';
-                            srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent) {
-                                scope.consent = consent;
-                                scope.consentGiven = consent === 'JA' ? true : false;
-                            });
-                        }
-                    });
-
-                    $('#testtooltip')
-                        .tooltip({content: '<b style="color: red">Tooltip</b> <i>text</i>'});
 
                 },
                 templateUrl: '/web/webjars/common/webcert/srs/wcSrsHelpDisplay.directive.html'
