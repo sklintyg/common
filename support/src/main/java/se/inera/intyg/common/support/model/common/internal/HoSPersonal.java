@@ -28,6 +28,10 @@ public class HoSPersonal {
 
     private String forskrivarKod;
 
+    private String titel;
+
+    private String medarbetarUppdrag;
+
     private List<String> befattningar;
 
     private List<String> specialiteter;
@@ -46,6 +50,8 @@ public class HoSPersonal {
         return Objects.equals(this.personId, that.personId)
                 && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
                 && Objects.equals(this.forskrivarKod, that.forskrivarKod)
+                && Objects.equals(this.titel, that.titel)
+                && Objects.equals(this.medarbetarUppdrag, that.medarbetarUppdrag)
                 && Objects.deepEquals(this.befattningar, that.befattningar)
                 && Objects.deepEquals(this.specialiteter, that.specialiteter)
                 && Objects.equals(this.vardenhet, that.vardenhet);
@@ -54,7 +60,8 @@ public class HoSPersonal {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.personId, this.fullstandigtNamn, this.forskrivarKod, this.befattningar, this.specialiteter);
+        return Objects.hash(this.personId, this.fullstandigtNamn, this.forskrivarKod,
+                this.titel, this.medarbetarUppdrag, this.befattningar, this.specialiteter);
     }
 
     public List<String> getSpecialiteter() {
@@ -93,6 +100,22 @@ public class HoSPersonal {
 
     public void setForskrivarKod(String forskrivarKod) {
         this.forskrivarKod = forskrivarKod;
+    }
+
+    public String getTitel() {
+        return titel;
+    }
+
+    public void setTitel(String titel) {
+        this.titel = titel;
+    }
+
+    public String getMedarbetarUppdrag() {
+        return medarbetarUppdrag;
+    }
+
+    public void setMedarbetarUppdrag(String medarbetarUppdrag) {
+        this.medarbetarUppdrag = medarbetarUppdrag;
     }
 
     public Vardenhet getVardenhet() {
