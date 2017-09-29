@@ -1,5 +1,5 @@
 <div>
-  <div ng-show="userHasSrsFeature && srsAvailable">
+  <div ng-show="userHasSrsFeature && srsApplicable">
     <div id="srs">
       <button id="{{relatedFormId}}-srs-button" type="button" class="btn btn-default btn-srs" ng-click="status.open = !status.open; logSrsButtonClicked(); closeFmb();">
         SRS 
@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div ng-class="{'srs-column': srsAvailable}">
+  <div ng-class="{'srs-column': srsApplicable}">
     <div ng-transclude></div>
   </div>
 </div>
