@@ -20,8 +20,8 @@
 /**
  * Display SRS help texts
  */
-angular.module('common').directive('wcSrsContent', ['common.srsLinkCreator',
-    function(srsLinkCreator) {
+angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCreator',
+    function($window, srsLinkCreator) {
         'use strict';
 
         return {
@@ -32,25 +32,19 @@ angular.module('common').directive('wcSrsContent', ['common.srsLinkCreator',
                 scope.infoMessage = '';
                 scope.errorMessage = '';
 
-                $('body').popover({
-                    selector: '[data-toggle="popover"]',
-                    trigger: 'hover',
-                    container: 'body',
-                    animation: false
-                }).on('hide.bs.popover', function() {
-                    if ($('.popover:hover').length) {
-                        return false;
-                    }
-                });
+                scope.externalConsent = {
+                    templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.consent-popover.html'
+                };
 
-                $('body').on('mouseleave', '.popover', function() {
-                    $('.popover').popover('hide');
-                });
+                scope.consentInfoOpen = false;
+                scope.closeSrs = function(){
+                    scope.status.open = !scope.status.open;
+                    scope.consentInfoOpen = false;
+                };
 
-                var samttyckeUrl = srsLinkCreator.createSamtyckeLink;
-                scope.externalConsentInfo =
-                    'Läs mer om samtycke till deltagande i pilotprojekt SRS<br><button class="btn btn-info ng-binding button-rounded" onClick="window.open(\'' +
-                    samttyckeUrl + '\')">Läs mer</button>';
+                scope.readMoreConsent = function(){
+                    $window.open(srsLinkCreator.createSamtyckeLink, '_blank');
+                };
 
                 var riskUrl = srsLinkCreator.createPrediktionsModellLink;
                 scope.externalRiskInfo =
@@ -61,6 +55,12 @@ angular.module('common').directive('wcSrsContent', ['common.srsLinkCreator',
                     'class="btn btn-info ng-binding button-rounded" onClick="window.open(\'' + riskUrl +
                     '\')">Läs mer</button>';
 
+
+                scope.$watch('status', function(status){
+                    if(!status.open){
+                        scope.consentInfoOpen = false;
+                    }
+                }, true);
 
                 //scope.test = "window.open('http://rattsjukskrivning.se/tjanster/omwebbplatsen/inloggning.14.html?redirect=http%3A%2F%2Frattsjukskrivning.se%2F')";
 
