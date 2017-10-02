@@ -183,7 +183,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                         // When applicable code is entered, show srs button
                         scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
-                            if (newVal) {
+                            if (newVal != oldVal) {
                                 reset();
                                 scope.diagnosKod = newVal;
                                 scope.diagnosisCodesPromise.then(function() {
