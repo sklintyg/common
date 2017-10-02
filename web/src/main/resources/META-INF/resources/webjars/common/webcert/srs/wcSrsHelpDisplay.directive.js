@@ -40,6 +40,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         open: false
                     };
 
+                    scope.srsFailedToLoadDueToMissingDiagnosKod = false;
+
                     scope.consent = false;
                     scope.shownFirstTime = false;
                     scope.clickedFirstTime = false;
@@ -176,24 +178,25 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
                     if(scope.userHasSrsFeature) {
-                        // Do the first retrieval of which diagnosiscodes srs is applicable for.
-                        scope.diagnosisCodesPromise = srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
-                            scope.diagnosisCodes = diagnosisCodes;
-                        });
-
+                        var diagnosisListFetching;
                         // When applicable code is entered, show srs button
                         scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
                             if (newVal !== oldVal) {
                                 reset();
                                 scope.srs = scope.srsStates.diagnoses['0'];
                                 scope.diagnosKod = newVal;
-                                scope.diagnosisCodesPromise.then(function() {
+                                diagnosisListFetching = loadDiagCodesAndGetHigherDiagCode().then(function() {
                                     scope.srsApplicable = isSrsApplicable(scope.diagnosKod);
                                     if(scope.srsApplicable) {
                                         if (!scope.shownFirstTime) {
                                             srsProxy.logSrsShown();
                                         }
                                         scope.shownFirstTime = true;
+                                    }
+                                    // Page refresh may trigger $watch-statements in the wrong order, therefore this check.
+                                    if(scope.consentGiven === true && scope.srsFailedToLoadDueToMissingDiagnosKod === true) {
+                                        scope.srsFailedToLoadDueToMissingDiagnosKod = false;
+                                        loadSrs();
                                     }
                                 });
                             }
@@ -214,17 +217,19 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             }
                         });
 
-                        // When consent has been given, load everything which requires consent from user
                         scope.$watch('consentGiven', function(newVal, oldVal) {
                             if(newVal === true && scope.diagnosKod) {
-                                scope.diagnosisCodesPromise.then(function() {
-                                    scope.higherDiagnosKod = getHigherLevelCode(scope.diagnosKod, scope.diagnosisCodes);
-                                    if(scope.higherDiagnosKod){
-                                        activateHigherCodeMode(scope.diagnosKod, scope.higherDiagnosKod);
-                                    }
-
+                                scope.srsFailedToLoadDueToMissingDiagnosKod = false;
+                                diagnosisListFetching.then(function() {
                                     loadSrs();
                                 });
+                            } else {
+                                scope.srsFailedToLoadDueToMissingDiagnosKod = true;
+                                if(newVal === false && oldVal === true) {
+                                    // Remove any messages regarding earlier consent, since they are no longer relevant, and will be overwritten anyway.
+                                    scope.consentInfo = '';
+                                    scope.consentError = '';
+                                }
                             }
                         });
 
@@ -380,6 +385,27 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
                     }
 
+                    function loadDiagCodesAndGetHigherDiagCode() {
+                        return srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
+                            scope.diagnosisCodes = diagnosisCodes;
+                            scope.higherDiagnosKod = getHigherLevelCode(scope.diagnosKod, scope.diagnosisCodes);
+                            if(scope.higherDiagnosKod){
+                                activateHigherCodeMode(scope.diagnosKod, scope.higherDiagnosKod);
+                            }
+                        });
+                        function getHigherLevelCode(diagnosKod, diagnosisCodes){
+                            if(diagnosKod && diagnosisCodes){
+                                for(var i = 0; i < diagnosisCodes.length; i++){
+                                    var diagnosisCode = diagnosisCodes[i];
+                                    if(diagnosKod.indexOf(diagnosisCode) > -1 && diagnosKod !== diagnosisCode){
+                                        return diagnosisCode;
+                                    }
+                                }
+                            }
+                            return '';
+                        }
+                    }
+
                     function loadSrs(){
                         scope.getQuestions(scope.diagnosKod).then(function(questions) {
                             scope.questions = questions;
@@ -399,18 +425,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         });
                     }
 
-                    function getHigherLevelCode(diagnosKod, diagnosisCodes){
-                        if(diagnosKod && diagnosisCodes){
-                            for(var i = 0; i < diagnosisCodes.length; i++){
-                                var diagnosisCode = diagnosisCodes[i];
-                                if(diagnosKod.indexOf(diagnosisCode) > -1 && diagnosKod !== diagnosisCode){
-                                    return diagnosisCode;
-                                }
-                            }
-                        }
-                        return '';
-                    }
-
                     function reset() {
                         scope.questions = [];
                         scope.statistik = [];
@@ -420,9 +434,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.clickedFirstTime = false;
                         scope.originalDiagnosKod = '';
                         scope.diagnosKod = srsViewState.diagnosKod;
-                        scope.diagnosisCodesPromise = srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
-                            scope.diagnosisCodes = diagnosisCodes;
-                        });
                         scope.srsStates = fmbViewState;
                         scope.srsApplicable = false;
                         scope.errorMessage = '';
