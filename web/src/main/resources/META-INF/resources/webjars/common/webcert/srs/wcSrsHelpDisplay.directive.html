@@ -10,13 +10,7 @@
            ng-class="{'srs-collapse': !status.open, 'fixed-panel': !srsButtonVisible}">
         <div class="panel-arrow"></div>
         <div class="panel panel-srs-info">
-          <uib-tabset active="test" class="srs-panel-tabset nav-tabs__srs"
-                      ng-class="{'hide-tabs': (srsStates.diagnoses | keyLength) < 2}">
-            <uib-tab index="$index + 1" ng-repeat="srs in srsStates.diagnoses" heading="{{srsStates.diagnosKod}}"
-                     disable="false" select="selectDiagnos($index)">
-              <wc-srs-content></wc-srs-content>
-            </uib-tab>
-          </uib-tabset>
+          <wc-srs-content></wc-srs-content>
         </div>
       </div>
     </div>
