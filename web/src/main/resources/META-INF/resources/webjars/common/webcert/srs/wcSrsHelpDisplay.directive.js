@@ -379,7 +379,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 }
 
                 scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
-                    if (newVal) {
+                    if (newVal !== oldVal) {
                         scope.reset();
                         scope.higherDiagnosKod = '';
                         scope.diagnosKod = newVal;
