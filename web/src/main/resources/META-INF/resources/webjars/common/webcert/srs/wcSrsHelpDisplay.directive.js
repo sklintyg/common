@@ -185,7 +185,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.$watch('srsStates.diagnoses["0"].diagnosKod', function(newVal, oldVal) {
                             if (newVal !== oldVal) {
                                 reset();
-                                scope.srs = scope.srsStates.diagnoses["0"];
+                                scope.srs = scope.srsStates.diagnoses['0'];
                                 scope.diagnosKod = newVal;
                                 scope.diagnosisCodesPromise.then(function() {
                                     scope.srsApplicable = isSrsApplicable(scope.diagnosKod);
