@@ -406,6 +406,27 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
                     }
 
+                    function loadDiagCodesAndGetHigherDiagCode() {
+                        return srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
+                            scope.diagnosisCodes = diagnosisCodes;
+                            scope.higherDiagnosKod = getHigherLevelCode(scope.diagnosKod, scope.diagnosisCodes);
+                            if(scope.higherDiagnosKod){
+                                activateHigherCodeMode(scope.diagnosKod, scope.higherDiagnosKod);
+                            }
+                        });
+                        function getHigherLevelCode(diagnosKod, diagnosisCodes){
+                            if(diagnosKod && diagnosisCodes){
+                                for(var i = 0; i < diagnosisCodes.length; i++){
+                                    var diagnosisCode = diagnosisCodes[i];
+                                    if(diagnosKod.indexOf(diagnosisCode) > -1 && diagnosKod !== diagnosisCode){
+                                        return diagnosisCode;
+                                    }
+                                }
+                            }
+                            return '';
+                        }
+                    }
+
                     function loadSrs(){
                         scope.getQuestions(scope.diagnosKod).then(function(questions) {
                             scope.questions = questions;
