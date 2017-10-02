@@ -376,7 +376,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
 
                         function isSrsApplicableForCode(diagnosKod) {
-                            return scope.higherDiagnosKod || scope.diagnosisCodes.find(function(el){return el === diagnosKod;});
+                            return scope.higherDiagnosKod || (scope.diagnosisCodes.indexOf(diagnosKod) !== -1);
                         }
                     }
 

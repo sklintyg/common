@@ -3,7 +3,7 @@
     <div class="srs-panel-title">
       <h4><span id="srs_diagnos_heading_{{relatedFormId}}">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
       </h4>
-      <button id="closeButton" type="button" class="align-srs-close-button-right btn btn-default" ng-click="status.open = !status.open">
+      <button id="closeButton" type="button" class="align-srs-close-button-right btn btn-default" ng-click="closeSrs()">
         <i>
           <img src="/web/webjars/common/webcert/srs/img/u135.png" alt="closeButton">
         </i>
@@ -20,9 +20,8 @@
       <div 
         style="float:right"
         class="glyphicon glyphicon-question-sign"
-        data-html="true"
-        data-toggle="popover" 
-        data-content={{externalConsentInfo}}>
+        uib-popover-template="externalConsent.templateUrl" popover-trigger="click"
+        popover-placement="auto right" popover-append-to-body="true" popover-is-open="consentInfoOpen">
       </div>
 
       <div class="line form-group ng-scope">
