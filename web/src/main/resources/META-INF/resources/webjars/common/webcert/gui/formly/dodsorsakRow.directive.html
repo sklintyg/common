@@ -1,0 +1,39 @@
+<div>
+  <div>
+    <span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span>
+    <span wc-help-chevron-text help-text-key="{{to.beskrivningLabel}}.HLP"></span>
+    <input id="orsak-{{$index}}-beskrivning"
+           type="text"
+           class="form-control input-full"
+           ng-class="{'fielderror' : hasValidationError('beskrivning', $index)}"
+           ng-model="model.beskrivning"
+           ng-blur="validate()"
+           maxlength="4000">
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    <span>Datum </span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.datumLabel}}.HLP"></span>
+    <span wc-help-chevron-text help-text-key="{{to.datumLabel}}.HLP"></span>
+    <span wc-date-picker-field target-model="model.datum" dom-id="orsak-{{$index}}-datum"
+          ng-class="{'fielderror' : hasValidationError('datum', $index)}"
+          ng-model="model.datum"
+          on-blur="validate()"
+          add-date-parser="loose"></span>
+    </div>
+    <div class="col-md-6">
+      <span dynamic-label key="{{to.orsakLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.orsakLabel}}.HLP"></span>
+      <span wc-help-chevron-text help-text-key="{{to.orsakLabel}}.HLP"></span>
+      <ui-select theme="bootstrap" search-enabled="false" ng-model="model.specifikation"
+                 id="orsak-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}" append-to-body="false"
+                 ng-class="{'fielderror' : hasValidationError('specifikation', $index)}"
+                 on-select="validate()">
+        <ui-select-match>
+          <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
+        </ui-select-match>
+        <ui-select-choices repeat="item.id as item in orsakOptions" value="$select.selected.id">
+          <span ng-bind="item.label"></span>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+  </div>
+</div>

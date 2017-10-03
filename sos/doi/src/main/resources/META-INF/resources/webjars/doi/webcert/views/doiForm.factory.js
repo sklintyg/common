@@ -127,7 +127,7 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'terminalDodsorsak',
-                            type: 'dodsorsak', // R9
+                            type: 'dodsorsakTerminalFoljd', // R9
                             templateOptions: {
                                 label: 'FRG_8',
                                 maxRows: 1,
@@ -142,7 +142,7 @@ angular.module('doi').factory('doi.FormFactory',
                             }
                         }
                     ]),
-                    fraga(9, [
+                    /*fraga(9, [
                         {
                             key: 'foljd',
                             type: 'dodsorsak', // R10
@@ -159,7 +159,7 @@ angular.module('doi').factory('doi.FormFactory',
                                 orsakLabel: ''
                             }
                         }
-                    ]),
+                    ]),*/
                     fraga(10, [
                         {
                             type: 'headline',
@@ -167,7 +167,7 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'bidragandeSjukdomar',
-                            type: 'dodsorsak', // R11
+                            type: 'dodsorsakMultirow', // R11
                             templateOptions: {
                                 maxRows: 8,
                                 orsaksTyper: [
