@@ -27,6 +27,7 @@ import se.inera.intyg.common.doi.utils.ScenarioFinder;
 import se.inera.intyg.common.doi.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 import static org.junit.Assert.assertEquals;
 
@@ -43,6 +44,14 @@ public class InternalValidatorTest {
     @Test
     public void testValidateUtkast() throws ScenarioNotFoundException {
         DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("pass-1").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(0, getNumberOfInternalValidationErrors(internalValidationResponse));
+    }
+
+    @Test
+    public void testValidateUtkast2() throws ScenarioNotFoundException {
+        // bidragandeSjukdomar datum och specifikation (10.2 och 10.3) är ej obligatoriska
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("pass-2").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(0, getNumberOfInternalValidationErrors(internalValidationResponse));
     }
@@ -108,6 +117,19 @@ public class InternalValidatorTest {
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("forgiftning.forgiftningOrsak", internalValidationResponse.getValidationErrors().get(0).getField());
+    }
+
+    @Test
+    public void testR14_2() throws ScenarioNotFoundException {
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R14-2").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(3, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("forgiftning.forgiftningOrsak", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(1).getType());
+        assertEquals("forgiftning.forgiftningDatum", internalValidationResponse.getValidationErrors().get(1).getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(2).getType());
+        assertEquals("forgiftning.forgiftningUppkommelse", internalValidationResponse.getValidationErrors().get(2).getField());
     }
 
     @Test

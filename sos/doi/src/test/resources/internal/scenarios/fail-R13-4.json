@@ -71,10 +71,9 @@
       "specifikation": "PLOTSLIG"
     }
   ],
-  "operation": "JA",
-  "operationDatum": "2016-02-01",
+  "operation": "UPPGIFT_SAKNAS",
   "operationAnledning": "anledning",
-  "forgiftning": "false",
+  "forgiftning": "true",
   "forgiftningOrsak": "SJALVMORD",
   "forgiftningDatum": "2017-01-01",
   "forgiftningUppkommelse": "uppkommelse",

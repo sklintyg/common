@@ -175,6 +175,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             if (Strings.nullToEmpty(utlatande.getForgiftningUppkommelse()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningUppkommelse", ValidationMessageType.EMPTY);
             }
+        } else {
+            if (utlatande.getForgiftningOrsak() != null) {
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningOrsak",
+                        ValidationMessageType.INCORRECT_COMBINATION);
+            }
+            if (utlatande.getForgiftningDatum() != null) {
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningDatum",
+                        ValidationMessageType.INCORRECT_COMBINATION);
+            }
+            if (utlatande.getForgiftningUppkommelse() != null) {
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningUppkommelse",
+                        ValidationMessageType.INCORRECT_COMBINATION);
+            }
         }
     }
 
