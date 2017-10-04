@@ -45,7 +45,9 @@ public final class SosInternalDraftValidator {
         // R1 & R2
         if (utlatande.getDodsdatum() == null) {
             ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.EMPTY);
-        } else if (!utlatande.getDodsdatum().isValidDate()) {
+        } else if (utlatande.getDodsdatumSakert() && !utlatande.getDodsdatum().isValidDate()) {
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.INVALID_FORMAT);
+        } else if (!utlatande.getDodsdatumSakert() && !utlatande.getDodsdatum().isCorrectFormat()) {
             ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.INVALID_FORMAT);
         }
 
