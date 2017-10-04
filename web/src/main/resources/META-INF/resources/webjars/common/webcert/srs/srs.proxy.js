@@ -21,23 +21,54 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
     function($http, $q, $log) {
         'use strict';
 
+        function _createGarbageQuestionAnswer() {
+            return [{questionId: 'garbagedata', answerId: 'garbagedata'}];
+        }
+
         function _getSrs(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
-            return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' +
-                prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds)
-                .then(function(response) {
-                    return response.data;
-                }, function(err) {
-                    return 'error';
+            var url = '/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' +
+                prediktion + '&atgard=' + atgard + '&statistik=' + statistik;
+            return $http.post(url, qaIds).then(function(response) {
+                return response.data;
+            }, function(err) {
+                return 'error';
+            });
+        }
+
+        function _getRiskSignal(intygsId, patientId, diagnosKod, qaIds) {
+            return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false).then(function(data) {
+                return data.predictionDescription;
+            });
+        }
+
+        function _getStatistikForDiagnosis(intygsId, patientId, diagnosKod) {
+            return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, false, true).then(
+                function(data) {
+                    var statistik = {};
+                    if (data.statistikStatusCode) {
+                        statistik.statistikStatusCode = data.statistikStatusCode;
+                    }
+                    if (data.statistikBild) {
+                        statistik.statistikBild = data.statistikBild;
+                    }
+                    return statistik;
                 });
         }
 
-        function _getRiskSignal(intygsId, patientId, diagnosKod, qaIds, prediktion, atgard, statistik) {
-            return $http.post('/api/srs/' + intygsId + '/' + patientId + '/' + diagnosKod + '?prediktion=' +
-                prediktion + '&atgard=' + atgard + '&statistik=' + statistik, qaIds)
-                .then(function(response) {
-                    return response.data.predictionDescription;
-                }, function(err) {
-                    return 'error';
+        function _getAtgarderForDiagnosis(intygsId, patientId, diagnosKod) {
+            return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, true, false).then(
+                function(data) {
+                    var atgarder = {};
+                    if (data.atgarderStatusCode) {
+                        atgarder.atgarderStatusCode = data.atgarderStatusCode;
+                    }
+                    if (data.atgarderRek) {
+                        atgarder.atgarderRek = data.atgarderRek;
+                    }
+                    if (data.atgarderObs) {
+                        atgarder.atgarderObs = data.atgarderObs;
+                    }
+                    return atgarder;
                 });
         }
 
@@ -55,14 +86,6 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
 
         function _getConsent(personId, hsaId) {
             return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(function(response) {
-                return response.data;
-            }, function(err) {
-                return 'error';
-            });
-        }
-
-        function _getFeatures() {
-            return $http.get('/api/anvandare').then(function(response) {
                 return response.data;
             });
         }
@@ -105,10 +128,10 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         return {
             getConsent: _getConsent,
             getDiagnosisCodes: _getDiagnosisCodes,
-            getFeatures: _getFeatures,
             getQuestions: _getQuestions,
             getRiskSignal: _getRiskSignal,
-            getSrs: _getSrs,
+            getAtgarderForDiagnosis: _getAtgarderForDiagnosis,
+            getStatistikForDiagnosis: _getStatistikForDiagnosis,
             logSrsShown: _logSrsShown,
             logSrsClicked: _logSrsClicked,
             logSrsAtgardClicked: _logSrsAtgardClicked,
