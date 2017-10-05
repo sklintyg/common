@@ -4,9 +4,9 @@
     <div ng-if="prediktionError && prediction.description">
         <wc-srs-error-box message-string="prediktionError"></wc-srs-error-box>
     </div>
-    <div id="predictionBox" ng-if="predictioe !== 'error' && prediction.description" class="alert alert-danger">
+    <div id="predictionBox" ng-if="predictioe !== 'error' && prediction.description" class="prediction-box alert alert-danger">
                 <img ng-src="{{riskImage}}" alt="">
-        {{prediction.description}}
+        {{prediction.level + ' ' + prediction.description}}
         <div 
         style="float:right"
         class="glyphicon glyphicon-question-sign"
