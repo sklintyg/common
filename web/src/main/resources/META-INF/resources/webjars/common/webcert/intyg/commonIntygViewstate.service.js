@@ -19,9 +19,9 @@
 
 angular.module('common').service('common.IntygViewStateService',
     ['$log',
-        'common.IntygHelper', 'common.ObjectHelper', 'common.UserModel',
+        'common.IntygHelper', 'common.moduleService',
         function($log,
-            IntygHelper, ObjectHelper, UserModel) {
+            IntygHelper, moduleService) {
             'use strict';
 
             this.reset = function() {
@@ -35,7 +35,6 @@ angular.module('common').service('common.IntygViewStateService',
 
                 this.intygProperties = {
                     type: undefined,
-                    defaultRecipient: undefined,
                     isSent: false,
                     isRevoked: false,
                     isPatientDeceased: false,
@@ -46,12 +45,8 @@ angular.module('common').service('common.IntygViewStateService',
             };
 
             this.updateIntygProperties = function(result) {
-                var targetName;
-                if (this.intygProperties.type === 'ts-bas' || this.intygProperties.type === 'ts-diabetes') {
-                    targetName = 'TRANSP';
-                } else {
-                    targetName = 'FKASSA';
-                }
+
+                var targetName = moduleService.getModule(this.intygProperties.type).defaultRecipient;
 
                 this.intygProperties.isSent = IntygHelper.isSentToTarget(result.statuses, targetName);
                 this.intygProperties.isRevoked = IntygHelper.isRevoked(result.statuses);

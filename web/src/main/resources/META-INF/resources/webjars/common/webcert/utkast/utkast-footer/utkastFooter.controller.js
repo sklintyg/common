@@ -21,8 +21,10 @@ angular.module('common').controller('common.UtkastFooter',
     ['$scope', '$rootScope', '$timeout',
         'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
         'common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationViewState',
+        'common.featureService',
         function($scope, $rootScope, $timeout,
-            UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService, utkastValidationViewState) {
+            UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService,
+            utkastValidationViewState, featureService) {
             'use strict';
 
             var viewState = $scope.viewState;
@@ -80,6 +82,11 @@ angular.module('common').controller('common.UtkastFooter',
                 }
 
                 return true;
+            };
+
+            $scope.isSignAndSend = function() {
+                return viewState.common.intyg.isKomplettering || featureService.isFeatureActive(
+                        featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
             };
 
             /**

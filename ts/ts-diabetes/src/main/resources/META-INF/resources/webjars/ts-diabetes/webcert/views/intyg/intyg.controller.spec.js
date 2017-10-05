@@ -156,6 +156,7 @@ describe('ts-diabetes.IntygController', function() {
         $provide.value('common.IntygProxy', IntygProxy);
         user = jasmine.createSpyObj('common.User', [ 'getUser' ]);
         $provide.value('common.User', {});
+        $provide.value('common.moduleService', {getModule: function(){return {};}});
 
         $provide.provider('ts-diabetes.viewConfigFactory', function () {
             this.$get = function() {

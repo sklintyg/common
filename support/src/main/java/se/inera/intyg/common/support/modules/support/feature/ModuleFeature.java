@@ -26,6 +26,7 @@ public enum ModuleFeature {
     MAKULERA_INTYG("makuleraIntyg"),
     SKAPA_NYFRAGA("skapaNyFraga"),
     SKICKA_INTYG("skickaIntyg"),
+    SIGNERA_SKICKA_DIREKT("signeraSkickaDirekt"),
     UTSKRIFT("utskrift"),
     ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift"),
     SRS("srs");

@@ -7,7 +7,6 @@ angular.module('db').service('db.IntygController.ViewStateService',
 
             this.reset = function() {
                 this.common.reset();
-                this.common.defaultRecipient = 'FKASSA';
                 this.common.intygProperties.type = 'db';
             };
 

@@ -25,8 +25,7 @@ angular.module('common').service('common.ViewStateService',
             this.doneLoading = false;
 
             this.intygProperties = {
-                type: undefined,
-                defaultRecipient: undefined
+                type: undefined
             };
         };
 

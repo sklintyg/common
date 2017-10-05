@@ -11,7 +11,7 @@
               ng-keydown="initValidationSequence('signera-utkast-button')"
               ng-mousedown="initValidationSequence('signera-utkast-button')"
               ng-click="sign()"><img ng-show="signingWithSITHSInProgress" ng-src="/img/ajax-loader-small-green.gif" />
-        <span message key="common.{{viewState.common.intyg.isKomplettering ? 'signsend' : 'sign'}}"></span>
+        <span message key="common.{{isSignAndSend() ? 'signsend' : 'sign'}}"></span>
       </button>
 
       <!-- Om personen har loggat in med BANK ID skall vi visa en liten extra text -->
