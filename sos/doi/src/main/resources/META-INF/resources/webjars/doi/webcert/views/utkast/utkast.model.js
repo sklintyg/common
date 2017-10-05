@@ -19,8 +19,8 @@
 
 angular.module('doi').factory('doi.Domain.IntygModel',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel) {
+        'common.domain.BaseAtticModel', 'common.ObjectHelper',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ObjectHelper) {
             'use strict';
 
             var DoiModel = BaseAtticModel._extend({
@@ -43,13 +43,16 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                         'land': undefined,
 
                         'terminalDodsorsak': new ModelAttr('terminalDodsorsak', {
-                            defaultValue : [{
-                                beskrivning: undefined,
-                                datum: '',
-                                specifikation: null
-                            }],
+                            defaultValue : { beskrivning: null, datum: null, specifikation: null},
                             fromTransform: function(fromBackend) {
-                                return [fromBackend];
+
+                                // Terminal is always an object. convert to array so it works in the same system as everything else
+                                var modelTerminal = fromBackend;
+                                if(!modelTerminal || (!modelTerminal.beskrivning && !modelTerminal.datum && !modelTerminal.specifikation)){
+                                    modelTerminal = { beskrivning: null, datum: null, specifikation: null};
+                                }
+
+                                return modelTerminal;
                             },
                             toTransform: function(fromFrontend) {
 
@@ -61,18 +64,65 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                             }
                         }),
                         'foljd': new ModelAttr('foljd', {
-                            defaultValue : [{
-                                beskrivning: undefined,
-                                datum: '',
-                                specifikation: null
-                            }]
+                            fromTransform: function(fromBackend) {
+
+                                var modelFoljdArray = fromBackend;
+                                if(!modelFoljdArray || modelFoljdArray.length === 0){
+                                    modelFoljdArray = [
+                                        { beskrivning: null, datum: null, specifikation: null},
+                                        { beskrivning: null, datum: null, specifikation: null},
+                                        { beskrivning: null, datum: null, specifikation: null}
+                                    ];
+                                }
+
+                                return modelFoljdArray;
+                            },
+                            toTransform: function(fromFrontend) {
+
+                                if(Array.isArray(fromFrontend)){
+
+                                    fromFrontend = fromFrontend.filter(function(item) {
+                                        var e1 = !ObjectHelper.isEmpty(item.beskrivning);
+                                        var e2 = !ObjectHelper.isEmpty(item.datum);
+                                        var e3 = !ObjectHelper.isEmpty(item.specifikation);
+                                        return e1 || e2 || e3;
+                                    });
+
+                                    return fromFrontend;
+                                }
+
+                                return fromFrontend;
+                            }
                         }),
                         'bidragandeSjukdomar': new ModelAttr('bidragandeSjukdomar', {
-                            defaultValue : [{
-                                beskrivning: undefined,
-                                datum: '',
-                                specifikation: null
-                            }]
+                            defaultValue : [{ beskrivning: null, datum: null, specifikation: null}],
+                            fromTransform: function(fromBackend) {
+
+                                var modelFoljdArray = fromBackend;
+                                if(!modelFoljdArray || modelFoljdArray.length === 0){
+                                    modelFoljdArray = [
+                                        { beskrivning: null, datum: null, specifikation: null}
+                                    ];
+                                }
+
+                                return modelFoljdArray;
+                            },
+                            toTransform: function(fromFrontend) {
+
+                                if(Array.isArray(fromFrontend)){
+
+                                    fromFrontend = fromFrontend.filter(function(item) {
+                                        var e1 = !ObjectHelper.isEmpty(item.beskrivning);
+                                        var e2 = !ObjectHelper.isEmpty(item.datum);
+                                        var e3 = !ObjectHelper.isEmpty(item.specifikation);
+                                        return e1 || e2 || e3;
+                                    });
+
+                                    return fromFrontend;
+                                }
+
+                                return fromFrontend;
+                            }
                         }),
 
                         'operation': undefined,

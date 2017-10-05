@@ -130,44 +130,42 @@ angular.module('doi').factory('doi.FormFactory',
                             type: 'dodsorsakTerminalFoljd', // R9
                             templateOptions: {
                                 label: 'FRG_8',
-                                maxRows: 1,
                                 orsaksTyper: [
                                     'UPPGIFT_SAKNAS',
                                     'KRONISK',
                                     'PLOTSLIG'
                                 ],
+                                letter: 'A',
+                                required: true,
                                 beskrivningLabel: 'DFR_8.1',
                                 datumLabel: 'DFR_8.2',
-                                orsakLabel: ''
+                                orsakLabel: 'DFR_8.3',
+                                foljd: {
+                                    key: 'foljd',
+                                    maxRows: 3,
+                                    required: false,
+                                    letter: ['B', 'C', 'D'],
+                                    label: 'FRG_9',
+                                    beskrivningLabel: 'DFR_9.1',
+                                    datumLabel: 'DFR_9.2',
+                                    orsakLabel: 'DFR_9.3',
+                                    orsaksTyper: [
+                                        'UPPGIFT_SAKNAS',
+                                        'KRONISK',
+                                        'PLOTSLIG'
+                                    ]
+                                }
                             }
                         }
                     ]),
-                    /*fraga(9, [
-                        {
-                            key: 'foljd',
-                            type: 'dodsorsak', // R10
-                            templateOptions: {
-                                label: 'FRG_9',
-                                maxRows: 3,
-                                orsaksTyper: [
-                                    'UPPGIFT_SAKNAS',
-                                    'KRONISK',
-                                    'PLOTSLIG'
-                                ],
-                                beskrivningLabel: 'DFR_9.1',
-                                datumLabel: 'DFR_9.2',
-                                orsakLabel: ''
-                            }
-                        }
-                    ]),*/
                     fraga(10, [
                         {
                             type: 'headline',
-                            templateOptions: {id: 'KAT_7.2', label: 'KAT_7.2'}
+                            templateOptions: {id: 'KAT_7.2', label: 'KAT_7.2', bold: true}
                         },
                         {
                             key: 'bidragandeSjukdomar',
-                            type: 'dodsorsakMultirow', // R11
+                            type: 'dodsorsakMulti', // R11
                             templateOptions: {
                                 maxRows: 8,
                                 orsaksTyper: [
@@ -177,7 +175,7 @@ angular.module('doi').factory('doi.FormFactory',
                                 ],
                                 beskrivningLabel: 'DFR_10.1',
                                 datumLabel: 'DFR_10.2',
-                                orsakLabel: ''
+                                orsakLabel: 'DFR_10.3'
                             }
                         }
                     ])

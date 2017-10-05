@@ -1,4 +1,4 @@
-/*
+/*!
  * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -17,19 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').run(function(formlyConfig) {
-    'use strict';
+.dodsorsak-multi {
 
-    formlyConfig.setType({
-        name: 'dodsorsakTerminalFoljd',
-        templateUrl: '/web/webjars/common/webcert/gui/formly/dodsorsakTerminalFoljd.formly.html',
-        defaultOptions: {
-            className: 'slide-animation'
-        },
-        controller: ['$scope',
-            function($scope) {
-            }
-        ]
-    });
+  th {
+    font-size: 12px;
+    font-weight: normal;
+    vertical-align: bottom;
+  }
 
-});
+  td {
+    padding-right: 4px;
+    padding-bottom: 10px;
+  }
+}

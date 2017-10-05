@@ -21,23 +21,31 @@
  * Enable help marks with tooltip for other components than wcFields
  */
 angular.module('common').directive('dodsorsakRow',
-    [ '$log', '$rootScope', '$timeout', 'common.dynamicLabelService', 'common.UtkastValidationService',
-        function($log, $rootScope, $timeout, dynamicLabelService, UtkastValidationService) {
+    [ '$log', '$rootScope', '$timeout', 'common.dynamicLabelService', 'common.UtkastValidationService', 'common.ObjectHelper',
+        function($log, $rootScope, $timeout, dynamicLabelService, UtkastValidationService, ObjectHelper) {
             'use strict';
 
             return {
                 restrict: 'EA',
                 scope: {
                     model: '=',
+                    key: '=',
                     to: '=templateOptions',
-                    validation: '='
+                    validation: '=',
+                    rowIndex: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/gui/formly/dodsorsakRow.directive.html',
                 link: function($scope, element, attr) {
 
+                    // Use the assigned big letter from templateoptions. if its an array, pick the one meant for us using rowIndex
+                    $scope.letter = $scope.to.letter;
+                    if(Array.isArray($scope.letter)){
+                        $scope.letter = $scope.letter[$scope.rowIndex];
+                    }
+
                     $scope.hasValidationError = function(field, index) {
                         return $scope.validation && $scope.validation.messagesByField &&
-                            !!$scope.validation.messagesByField[$scope.options.key + '.' + index + '.' + field];
+                            !!$scope.validation.messagesByField[$scope.key + '.' + index + '.' + field];
                     };
 
                     $scope.validate = function() {
@@ -49,32 +57,24 @@ angular.module('common').directive('dodsorsakRow',
                         });
                     };
 
-                    $scope.$watch('formState.viewState.common.validation.messagesByField', function() {
+                    $scope.$watch('validation.messagesByField', function() {
                         if($scope.validation){
                             $scope.orsakValidations = [];
                             angular.forEach($scope.validation.messagesByField, function(validations, key) {
-                                if (key.substr(0, $scope.options.key.length) === $scope.options.key.toLowerCase()) {
+                                if (key.substr(0, $scope.key.length) === $scope.key.toLowerCase()) {
                                     $scope.orsakValidations = $scope.orsakValidations.concat(validations);
                                 }
                             });
                         }
                     });
 
-                    /*
-
-                     $scope.previousUnderlagIncomplete = function() {
-                     var prev = orsaker[orsaker.length - 1];
-                     return objectHelper.isEmpty(prev.typ) || objectHelper.isEmpty(prev.datum) || objectHelper.isEmpty(prev.hamtasFran);
-                     };
-
-                     */
-
                     var chooseOption = {
                         id: null,
                         label: 'Välj...'
                     };
 
-                    function updateOrsaker() {
+                    function update() {
+
                         $scope.orsakOptions = [chooseOption];
 
                         if ($scope.to.orsaksTyper) {
@@ -88,10 +88,15 @@ angular.module('common').directive('dodsorsakRow',
                     }
 
                     $scope.$on('dynamicLabels.updated', function() {
-                        updateOrsaker();
+                        update();
                     });
 
-                    updateOrsaker();
+                    $scope.$on('intyg.loaded', function() {
+                        // Pick modelvalue from array if used in an array context otherwise just pick the model key value
+                        $scope.modelValue = ObjectHelper.isDefined($scope.rowIndex) ? $scope.model[$scope.key][$scope.rowIndex] : $scope.model[$scope.key];
+                    });
+
+                    update();
                 }
             };
         }]);
