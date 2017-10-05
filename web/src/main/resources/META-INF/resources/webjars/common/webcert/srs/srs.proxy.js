@@ -35,9 +35,22 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             });
         }
 
-        function _getRiskSignal(intygsId, patientId, diagnosKod, qaIds) {
+        function _getPrediction(intygsId, patientId, diagnosKod, qaIds) {
             return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false).then(function(data) {
-                return data.predictionDescription;
+                var prediction = {};
+                if(data.diagnosisCode) {
+                    prediction.diagnosisCode = data.diagnosisCode;
+                }
+                if(data.predictionDescription) {
+                    prediction.description = data.predictionDescription;
+                }
+                if(data.predictionLevel) {
+                    prediction.level = data.predictionLevel;
+                }
+                if(data.predictionStatusCode) {
+                    prediction.statusCode = data.predictionStatusCode;
+                }
+                return prediction;
             });
         }
 
@@ -129,7 +142,7 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             getConsent: _getConsent,
             getDiagnosisCodes: _getDiagnosisCodes,
             getQuestions: _getQuestions,
-            getRiskSignal: _getRiskSignal,
+            getPrediction: _getPrediction,
             getAtgarderForDiagnosis: _getAtgarderForDiagnosis,
             getStatistikForDiagnosis: _getStatistikForDiagnosis,
             logSrsShown: _logSrsShown,

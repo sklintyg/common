@@ -51,7 +51,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.srsStates = fmbViewState;
                     scope.srsApplicable = false;
                     scope.errorMessage = '';
-                    scope.riskSignal = '';
+                    scope.questions = [];
+                    scope.statistik = {};
+                    scope.atgarder = {};
+                    scope.prediction = {};
+                    scope.prediction.description = '';
                     scope.allQuestionsAnswered = false;
                     scope.higherDiagnosKod = '';
                     scope.showVisaKnapp = false;
@@ -92,20 +96,20 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     };
 
                     scope.visaClicked = function() {
-                        scope.retrieveAndSetRiskSignal().then(function() {
+                        scope.retrieveAndSetPrediction().then(function() {
                             scope.showVisaKnapp = false;
                             setPredictionImage();
                             setPrediktionMessages();
                         });
                     };
 
-                    scope.retrieveAndSetRiskSignal = function() {
+                    scope.retrieveAndSetPrediction = function() {
                         var qaIds = getSelectedAnswerOptions();
-                        return srsProxy.getRiskSignal($stateParams.certificateId, scope.personId, scope.diagnosKod,
-                            qaIds, true, true, true).then(function(riskSignal) {
-                            scope.riskSignal = riskSignal;
+                        return srsProxy.getPrediction($stateParams.certificateId, scope.personId, scope.diagnosKod,
+                            qaIds, true, true, true).then(function(prediction) {
+                            scope.prediction = prediction;
                         }, function(error) {
-                            scope.riskSignal = 'error';
+                            scope.prediction = 'error';
                         });
                     };
 
@@ -317,21 +321,19 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     function setPrediktionMessages() {
                         scope.prediktionInfo = '';
                         scope.prediktionError = '';
-                        if (scope.riskSignal) {
-                            if (scope.riskSignal === 'error') {
-                                //scope.riskSignal = '';
-                                scope.prediktionError =
-                                    'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
-                            }
-                            if (scope.riskSignal === 'PREDIKTION_SAKNAS' || !scope.riskSignal) {
+                        if (scope.prediction === 'error') {
+                            scope.prediktionError =
+                                'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
+                        } else {
+                            if (scope.prediction.statusCode === 'PREDIKTIONSMODELL_SAKNAS' || !scope.prediction.description) {
                                 scope.prediktionInfo = 'Observera! För ' + scope.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
                             }
-                            else if (scope.riskSignal === 'NOT_OK') {
+                            else if (scope.prediction.statusCode === 'NOT_OK') {
                                 scope.prediktionError =
                                     'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                             }
-                            else if (scope.riskSignal === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
+                            else if (scope.prediction.statusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
                                 scope.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                             }
                         }
@@ -341,17 +343,17 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     }
 
                     function setPredictionImage() {
-                        if (scope.riskSignal === 'Prediktion saknas.') {
+                        if (scope.prediction.description === 'Prediktion saknas.') {
                             scope.riskImage = '';
                         }
-                        else if (scope.riskSignal === 'Ingen förhöjd risk detekterad.') {
+                        else if (scope.prediction.description === 'Ingen förhöjd risk detekterad.') {
                             //scope.riskImage = '/web/webjars/common/webcert/srs/img/Lätt förhöjd.png';
                             scope.riskImage = '';
                         }
-                        else if (scope.riskSignal === 'Förhöjd risk detekterad.') {
+                        else if (scope.prediction.description === 'Förhöjd risk detekterad.') {
                             scope.riskImage = '/web/webjars/common/webcert/srs/img/Måttligt förhöjd.png';
                         }
-                        else if (scope.riskSignal === 'Starkt förhöjd risk detekterad.') {
+                        else if (scope.prediction.description === 'Starkt förhöjd risk detekterad.') {
                             scope.riskImage = '/web/webjars/common/webcert/srs/img/Starkt förhöjd.png';
                         }
                     }
@@ -435,16 +437,17 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.questions = [];
                         scope.statistik = {};
                         scope.atgarder = {};
+                        scope.prediction = {};
+                        scope.prediction.description = '';
 
                         scope.consent = false;
                         scope.shownFirstTime = false;
                         scope.clickedFirstTime = false;
                         scope.originalDiagnosKod = '';
                         scope.srsStates = fmbViewState;
-                        scope.diagnosKod = scope.srsStates.diagnoses['0'].diagnosKod;
+                        scope.diagnosKod = (scope.srsStates.diagnoses['0'] && scope.srsStates.diagnoses['0'].diagnosKod) || '';
                         scope.srsApplicable = false;
                         scope.errorMessage = '';
-                        scope.riskSignal = '';
                         scope.allQuestionsAnswered = false;
                         scope.higherDiagnosKod = '';
                         scope.showVisaKnapp = false;
