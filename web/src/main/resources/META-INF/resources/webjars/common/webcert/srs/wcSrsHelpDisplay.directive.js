@@ -124,9 +124,19 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             scope.diagnosKod)
                             .then(function(atgarder) {
                                 scope.atgarder = atgarder;
+                                scope.atgarder.atgarderObs = stringifyAtgarderObs(scope.atgarder.atgarderObs);
                             }, function(error) {
                                 scope.atgarder = {atgarderRek: [], atgarderObs: []};
                             });
+
+                            function stringifyAtgarderObs(atgarderObs){
+                                var tempAtgarderObs = '<b>Tänk på att; </b>';
+                                for(var i = 0; i < atgarderObs.length; i++){
+                                    tempAtgarderObs += atgarderObs[i];
+                                    tempAtgarderObs += '. ';
+                                }
+                                return tempAtgarderObs;
+                            }
                     };
 
                     scope.getQuestions = function(diagnosKod) {
@@ -406,8 +416,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             scope.retrieveAndSetStatistics().then(function() {
                                 setStatistikMessages();
                             });
-                            scope.retrieveAndSetAtgarder().then(function(atgarderData) {
-                                scope.atgarder = atgarderData;
+                            scope.retrieveAndSetAtgarder().then(function() {
                                 setAtgarderMessages();
 
                             });
