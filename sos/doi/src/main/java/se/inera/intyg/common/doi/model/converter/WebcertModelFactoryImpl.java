@@ -56,33 +56,47 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<DoiUtlatande
 
     @Override
     public DoiUtlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        // We only handle copy from DbUtlatande
-        if (!SosUtlatande.class.isInstance(template) || DoiUtlatande.class.isInstance(template)) {
+        if (DoiUtlatande.class.isInstance(template)) {
+            DoiUtlatande doiUtlatande = (DoiUtlatande) template;
+
+            LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), doiUtlatande.getId());
+
+            DoiUtlatande.Builder templateBuilder = doiUtlatande.toBuilder();
+            GrundData grundData = doiUtlatande.getGrundData();
+
+            populateWithId(templateBuilder, copyData.getCertificateId());
+            WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+
+            resetDataInCopy(grundData);
+
+            return templateBuilder.build();
+        } else if (SosUtlatande.class.isInstance(template)) {
+            SosUtlatande sosUtlatande = (SosUtlatande) template;
+            DoiUtlatande.Builder builder = DoiUtlatande.builder();
+            GrundData grundData = sosUtlatande.getGrundData();
+
+            populateWithId(builder, copyData.getCertificateId());
+            WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+
+            resetDataInCopy(grundData);
+
+            builder.setGrundData(grundData);
+            builder.setTextVersion("1.0");
+
+            builder.setIdentitetStyrkt(sosUtlatande.getIdentitetStyrkt());
+            builder.setDodsdatumSakert(sosUtlatande.getDodsdatumSakert());
+            builder.setDodsdatum(new InternalDate(sosUtlatande.getDodsdatum().getDate()));
+            if (sosUtlatande.getAntraffatDodDatum() != null) {
+                builder.setAntraffatDodDatum(new InternalDate(sosUtlatande.getAntraffatDodDatum().getDate()));
+            }
+            builder.setDodsplatsKommun(sosUtlatande.getDodsplatsKommun());
+            builder.setDodsplatsBoende(sosUtlatande.getDodsplatsBoende());
+            builder.setBarn(sosUtlatande.getBarn());
+
+            return builder.build();
+        } else {
             throw new ConverterException("Template is not of correct type");
         }
-        SosUtlatande sosUtlatande = (SosUtlatande) template;
-        DoiUtlatande.Builder builder = DoiUtlatande.builder();
-        GrundData grundData = sosUtlatande.getGrundData();
-
-        populateWithId(builder, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
-
-        resetDataInCopy(grundData);
-
-        builder.setGrundData(grundData);
-        builder.setTextVersion("1.0");
-
-        builder.setIdentitetStyrkt(sosUtlatande.getIdentitetStyrkt());
-        builder.setDodsdatumSakert(sosUtlatande.getDodsdatumSakert());
-        builder.setDodsdatum(new InternalDate(sosUtlatande.getDodsdatum().getDate()));
-        if (sosUtlatande.getAntraffatDodDatum() != null) {
-            builder.setAntraffatDodDatum(new InternalDate(sosUtlatande.getAntraffatDodDatum().getDate()));
-        }
-        builder.setDodsplatsKommun(sosUtlatande.getDodsplatsKommun());
-        builder.setDodsplatsBoende(sosUtlatande.getDodsplatsBoende());
-        builder.setBarn(sosUtlatande.getBarn());
-
-        return builder.build();
     }
 
     private void populateWithId(DoiUtlatande.Builder utlatande, String utlatandeId) throws ConverterException {

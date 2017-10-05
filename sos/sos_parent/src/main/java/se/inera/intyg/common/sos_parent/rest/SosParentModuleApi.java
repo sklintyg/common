@@ -133,6 +133,18 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     }
 
     @Override
+    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
+            throws ModuleException {
+        try {
+            T internal = getInternal(template);
+            return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, internal));
+        } catch (ConverterException e) {
+            LOG.error("Could not create a new internal Webcert model", e);
+            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
+        }
+    }
+
+    @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
             throws ModuleException {
         return createNewInternalFromTemplate(draftCertificateHolder, template);

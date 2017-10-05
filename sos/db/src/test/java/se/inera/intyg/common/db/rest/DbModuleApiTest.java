@@ -151,9 +151,12 @@ public class DbModuleApiTest {
 
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
-        String res = moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
-        assertNull(res);
-        verifyZeroInteractions(webcertModelFactory);
+        when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
+        when(objectMapper.readValue(eq("internal model"), eq(DbUtlatande.class))).thenReturn(null);
+
+        moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
 
     @Test

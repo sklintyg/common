@@ -32,7 +32,6 @@ import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -76,11 +75,6 @@ public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> optionalFields) throws ModuleException {
         throw new RuntimeException("Not applicable for dodsbevis");
-    }
-
-    @Override
-    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String template) throws ModuleException {
-        return null;
     }
 
     @Override

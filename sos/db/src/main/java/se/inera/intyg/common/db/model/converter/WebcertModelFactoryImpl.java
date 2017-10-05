@@ -53,7 +53,23 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<DbUtlatande>
 
     @Override
     public DbUtlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        throw new UnsupportedOperationException("Cannot create a copy of a signed DB certificate");
+        if (!DbUtlatande.class.isInstance(template)) {
+            throw new ConverterException("Template is not of type DbUtlatande");
+        }
+
+        DbUtlatande dbUtlatande = (DbUtlatande) template;
+
+        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), dbUtlatande.getId());
+
+        DbUtlatande.Builder templateBuilder = dbUtlatande.toBuilder();
+        GrundData grundData = dbUtlatande.getGrundData();
+
+        populateWithId(templateBuilder, copyData.getCertificateId());
+        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+
+        resetDataInCopy(grundData);
+
+        return templateBuilder.build();
     }
 
     private void populateWithId(DbUtlatande.Builder utlatande, String utlatandeId) throws ConverterException {
@@ -61,5 +77,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<DbUtlatande>
             throw new ConverterException("No certificateID found");
         }
         utlatande.setId(utlatandeId);
+    }
+
+    private void resetDataInCopy(GrundData grundData) {
+        grundData.setSigneringsdatum(null);
     }
 }
