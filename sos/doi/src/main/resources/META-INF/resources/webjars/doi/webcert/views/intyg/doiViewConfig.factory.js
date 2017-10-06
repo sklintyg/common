@@ -114,12 +114,18 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
             components: [
                 {
                     type: 'uv-fraga',
+                    labelKey: 'KAT_7.1.RBK',
+                    components: [
+                    ]
+                },
+                {
+                    type: 'uv-fraga',
                     labelKey: 'FRG_8.RBK',
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['FRG_8.RBK', 'DFR_8.1', 'DFR_8.2.RBK', ''], // labels for th cells
-                            valueProps: ['KV_ORSAKSTYPER.{typ}.RBK', 'datum', 'hamtasFran'], // {typ} refers to underlag.typ values
+                            headers: ['DFR_8.1.RBK', 'DFR_8.2.RBK', 'DFR_8.3.RBK'],
+                            valueProps: ['beskrivning', 'datum', 'KV_ORSAKSTYPER.{specifikation}.RBK'],
                             modelProp: 'terminalDodsorsak'
                         }
                     ]
@@ -130,20 +136,20 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['FRG_9.RBK', 'DFR_9.1', 'DFR_9.2.RBK', ''], // labels for th cells
-                            valueProps: ['KV_ORSAKSTYPER.{typ}.RBK', 'datum', 'hamtasFran'], // {typ} refers to underlag.typ values
+                            headers: ['DFR_9.1.RBK', 'DFR_9.2.RBK', 'DFR_9.3.RBK'],
+                            valueProps: ['beskrivning', 'datum', 'KV_ORSAKSTYPER.{specifikation}.RBK'],
                             modelProp: 'foljd'
                         }
                     ]
                 },
                 {
                     type: 'uv-fraga',
-                    labelKey: 'FRG_10.RBK',
+                    labelKey: 'KAT_7.2.RBK',
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['FRG_10.RBK', 'DFR_10.1', 'DFR_10.2.RBK', ''], // labels for th cells
-                            valueProps: ['KV_ORSAKSTYPER.{typ}.RBK', 'datum', 'hamtasFran'], // {typ} refers to underlag.typ values
+                            headers: ['DFR_10.1.RBK', 'DFR_10.2.RBK', 'DFR_10.3.RBK'],
+                            valueProps: ['beskrivning', 'datum', 'KV_ORSAKSTYPER.{specifikation}.RBK'],
                             modelProp: 'bidragandeSjukdomar'
                         }
                     ]

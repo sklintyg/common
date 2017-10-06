@@ -1,7 +1,7 @@
 <div>
-  <table class="dodsorsak-multi">
+  <table class="dodsorsak-multi" style="width: 100%">
     <tr>
-      <th style="width: 100%;"><span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span>
+      <th style="width: 60%;"><span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span class="required">*</span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{to.beskrivningLabel}}.HLP"></span>
       </th>
       <th><span dynamic-label key="{{to.datumLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{to.datumLabel}}.HLP"></span>
@@ -41,10 +41,10 @@
         </ui-select>
       </td>
       <td>
-        <button class="btn btn-default" ng-click="deleteRow($index)"><i class="glyphicon glyphicon-minus-sign"></i></button>
+        <button ng-if="$index > 0" class="btn btn-default" ng-click="deleteRow($index)"><i class="glyphicon glyphicon-minus-sign"></i></button>
       </td>
     </tr>
   </table>
   <button ng-disabled="model[options.key].length >= to.maxRows" class="btn btn-default" ng-click="addRow()"><i class="glyphicon glyphicon-plus-sign"></i> Lägg till sjukdom/skada</button>
-  <wc-field-validation field-type="{{options.type}}" validations="orsakValidations"></wc-field-validation>
+  <wc-field-validation field-type="dodsorsak" validations="orsakValidations"></wc-field-validation>
 </div>

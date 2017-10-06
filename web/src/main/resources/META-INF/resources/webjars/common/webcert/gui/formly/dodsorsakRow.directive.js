@@ -60,10 +60,23 @@ angular.module('common').directive('dodsorsakRow',
                     $scope.$watch('validation.messagesByField', function() {
                         if($scope.validation){
                             $scope.orsakValidations = [];
-                            angular.forEach($scope.validation.messagesByField, function(validations, key) {
-                                if (key.substr(0, $scope.key.length) === $scope.key.toLowerCase()) {
-                                    $scope.orsakValidations = $scope.orsakValidations.concat(validations);
+                            angular.forEach($scope.validation.messagesByField, function(validation, key) {
+
+                                if($scope.rowIndex >= 0){
+                                    $log.debug('rowindex haz valu');
                                 }
+
+                                // Only care if validation messages have our index
+                                var validationIndex = key.indexOf('.')+1;
+                                validationIndex = key.substr(validationIndex, 1);
+                                validationIndex = parseInt(validationIndex, 10);
+                                var isValidIndex = validationIndex >= 0;
+                                if(!isValidIndex || validationIndex === $scope.rowIndex){
+                                    if (key.substr(0, $scope.key.length) === $scope.key.toLowerCase()) {
+                                        $scope.orsakValidations = $scope.orsakValidations.concat(validation);
+                                    }
+                                }
+
                             });
                         }
                     });

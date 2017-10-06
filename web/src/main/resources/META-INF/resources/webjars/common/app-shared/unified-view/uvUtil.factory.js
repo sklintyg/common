@@ -1,6 +1,6 @@
 angular.module('common').factory('uvUtil', [
-    '$parse', '$log', 'common.dynamicLabelService', 'common.messageService',
-    function($parse, $log, dynamicLabelService, messageService) {
+    '$parse', '$log', 'common.dynamicLabelService', 'common.messageService', 'common.ObjectHelper',
+    function($parse, $log, dynamicLabelService, messageService, ObjectHelper) {
     'use strict';
 
         function _isDynamicText(str) {
@@ -129,6 +129,8 @@ angular.module('common').factory('uvUtil', [
             } else if(modelRow.hasOwnProperty(prop)) {
                 // Resolve using property name
                 value = modelRow[prop];
+            } else if(ObjectHelper.isDefined(modelRow)) {
+                value = modelRow; // uv-table needs this for single row objects. just use the value from the model
             }
             return value;
         },

@@ -15,6 +15,7 @@
       <span ng-if="!validation.message" message key="common.validation.{{fieldType}}.{{validation.type}}"></span>
       <span ng-if="validation.message" combined-label="" dyn-key="{{validation.dynamicKey}}" stat-key="{{validation.message}}"></span>
     </div>
+
   </div>
 
   <div ng-repeat="warning in warnings">

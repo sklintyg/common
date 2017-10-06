@@ -9,31 +9,31 @@
     <div>
       <span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span>
       <span wc-help-chevron-text help-text-key="{{to.beskrivningLabel}}.HLP"></span>
-      <input id="orsak-{{$index}}-beskrivning"
+      <input id="orsak-{{rowIndex}}-beskrivning"
              type="text"
              class="form-control input-full"
-             ng-class="{'fielderror' : hasValidationError('beskrivning', $index)}"
+             ng-class="{'fielderror' : hasValidationError('beskrivning', rowIndex)}"
              ng-model="modelValue.beskrivning"
              ng-blur="validate()"
              maxlength="4000">
       <span class="dodsorsak-row__letter">{{letter}}</span>
     </div>
-    <div class="row">
-      <div class="col-md-3">
+    <div class="">
+      <div class="inline-block padding-top-small">
       <span><span dynamic-label key="{{to.datumLabel}}.RBK"></span> </span> <span wc-help-chevron help-text-key="{{to.datumLabel}}.HLP"></span><br>
       <span wc-help-chevron-text help-text-key="{{to.datumLabel}}.HLP"></span>
-      <span wc-date-picker-field target-model="modelValue.datum" dom-id="orsak-{{$index}}-datum"
-            ng-class="{'fielderror' : hasValidationError('datum', $index)}"
+      <span wc-date-picker-field target-model="modelValue.datum" dom-id="orsak-{{rowIndex}}-datum"
+            ng-class="{'fielderror' : hasValidationError('datum', rowIndex)}"
             ng-model="modelValue.datum"
             on-blur="validate()"
             add-date-parser="loose"></span>
       </div>
-      <div class="col-md-3">
+      <div class="inline-block padding-top-small">
         <span dynamic-label key="{{to.orsakLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{to.orsakLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{to.orsakLabel}}.HLP"></span>
         <ui-select theme="bootstrap" search-enabled="false" ng-model="modelValue.specifikation"
-                   id="orsak-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}" append-to-body="false"
-                   ng-class="{'fielderror' : hasValidationError('specifikation', $index)}"
+                   id="orsak-{{rowIndex}}-specifikation" name="andraDodsorsak-{{rowIndex}}" append-to-body="true"
+                   ng-class="{'fielderror' : hasValidationError('specifikation', rowIndex)}"
                    on-select="validate()">
           <ui-select-match>
             <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
@@ -45,5 +45,6 @@
       </div>
     </div>
   </div>
-  <wc-field-validation field-type="{{options.type}}" validations="orsakValidations"></wc-field-validation>
+
+  <wc-field-validation field-type="dodsorsak" validations="orsakValidations"></wc-field-validation>
 </div>
