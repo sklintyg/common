@@ -202,11 +202,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                             srsProxy.logSrsShown();
                                         }
                                         scope.shownFirstTime = true;
-                                    }
-                                    // Page re-enter/refresh may trigger $watch-statements in the wrong order
-                                    if (scope.consentGiven === true &&
-                                        scope.srsFailedToLoadDueToMissingDiagnosKod === true) {
-                                        scope.srsFailedToLoadDueToMissingDiagnosKod = false;
                                         loadSrs();
                                     }
                                 });
@@ -325,7 +320,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             scope.prediktionError =
                                 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                         } else {
-                            if (scope.prediction.statusCode === 'PREDIKTIONSMODELL_SAKNAS' || !scope.prediction.description) {
+                            if (scope.prediction.statusCode === 'PREDIKTIONSMODELL_SAKNAS') {
                                 scope.prediktionInfo = 'Observera! För ' + scope.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
                             }
@@ -389,7 +384,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
 
                         function isSrsApplicableForCode(diagnosKod) {
-                            return scope.higherDiagnosKod || (scope.diagnosisCodes.indexOf(diagnosKod) !== -1);
+                            return scope.higherDiagnosKod || scope.higherCode || (scope.diagnosisCodes.indexOf(diagnosKod) !== -1);
                         }
                     }
 
