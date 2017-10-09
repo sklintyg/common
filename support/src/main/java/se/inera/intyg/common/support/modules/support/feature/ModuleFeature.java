@@ -29,7 +29,8 @@ public enum ModuleFeature {
     SIGNERA_SKICKA_DIREKT("signeraSkickaDirekt"),
     UTSKRIFT("utskrift"),
     ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift"),
-    SRS("srs");
+    SRS("srs"),
+    WARN_ON_PREVIOUS("varnaOmTidigareIntyg");
 
     private final String name;
 

@@ -38,7 +38,7 @@ public class ModuleFeaturesFactoryTest {
         assertNotNull(features);
 
         // There are 10 features in ModuleFeature.java
-        assertEquals(10, features.size());
+        assertEquals(11, features.size());
 
         assertTrue(features.get(ModuleFeature.HANTERA_FRAGOR.getName()));
         assertFalse(features.get(ModuleFeature.MAKULERA_INTYG.getName()));
@@ -54,7 +54,7 @@ public class ModuleFeaturesFactoryTest {
             assertNotNull(features);
 
             // There are 10 features in ModuleFeature.java
-            assertEquals(10, features.size());
+            assertEquals(11, features.size());
 
             assertTrue(features.get(ModuleFeature.HANTERA_FRAGOR.getName()));
             assertFalse(features.get(ModuleFeature.MAKULERA_INTYG.getName()));

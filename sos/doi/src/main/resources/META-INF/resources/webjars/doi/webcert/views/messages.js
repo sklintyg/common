@@ -36,7 +36,10 @@ angular.module('doi').constant('doi.messages', {
         'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
         '<ul><li>Information om sjukskrivningsperiod.</li>' +
         '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
-        '<li>Referenser som intyget baseras på.</li></ul>'
+        '<li>Referenser som intyget baseras på.</li></ul>',
+
+        'doi.warn.previouscertificate.samevg': 'Tidigare dödsorsaksintyg finns för detta personnummer. Senast skapade dödsorsaksintyg är det som gäller. Om du ersätter det tidigare dödsorsaksintyg och lämnar in det nya så blir det därför detta dödsorsaksintyg som gäller.',
+        'doi.warn.previouscertificate.differentvg': 'Tidigare dödsorsaksintyg finns för detta personnummer. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyg så blir det därför detta dödsorsaksintyg som gäller.'
     },
     'en': {
         'doi.label.pagetitle': 'Show Certificate'
