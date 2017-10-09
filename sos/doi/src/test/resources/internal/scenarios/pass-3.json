@@ -1,12 +1,12 @@
 {
   "typ": "doi",
   "identitetStyrkt": "körkort",
-  "dodsdatumSakert": true,
-  "dodsdatum": "2017-01-01",
+  "dodsdatumSakert": false,
+  "dodsdatum": "0000-00-00",
   "antraffatDodDatum": "2017-01-02",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
-  "barn": false,
+  "barn": true,
   "terminalDodsorsak": {
     "beskrivning": "terminal dödsorsak",
     "datum": "2017-04-01",

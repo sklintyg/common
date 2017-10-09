@@ -2,8 +2,7 @@
   "typ": "doi",
   "identitetStyrkt": "körkort",
   "dodsdatumSakert": true,
-  "dodsdatum": "2017-01-01",
-  "antraffatDodDatum": "2017-01-02",
+  "dodsdatum": "1954-02-24",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
   "barn": false,
@@ -72,11 +71,11 @@
     }
   ],
   "operation": "JA",
-  "operationDatum": "2016-02-01",
+  "operationDatum": "1927-02-01",
   "operationAnledning": "anledning",
   "forgiftning": "true",
   "forgiftningOrsak": "SJALVMORD",
-  "forgiftningDatum": "2017-01-01",
+  "forgiftningDatum": "1927-01-01",
   "forgiftningUppkommelse": "uppkommelse",
   "grunder": [
     "KLINISK_OBDUKTION",
@@ -86,14 +85,14 @@
   "textVersion": "1.0",
   "grundData": {
     "patient": {
-      "samordningsNummer": false,
-      "efternamn": "Olsson",
-      "fornamn": "Olivia",
-      "fullstandigtNamn": "Olivia Olsson",
-      "postadress": "Testgatan 1",
-      "postnummer": "111 11",
-      "postort": "Teststaden",
-      "personId": "19270310-4321"
+      "samordningsNummer": true,
+      "efternamn": "Samordningsson",
+      "fornamn": "Sam",
+      "fullstandigtNamn": "Sam Samordningsson",
+      "postadress": "Segemyhr, Segergatan 1, PL 1234",
+      "postnummer": "12345",
+      "postort": "Storholm",
+      "personId": "19540187-5769"
     },
     "skapadAv": {
       "vardenhet": {

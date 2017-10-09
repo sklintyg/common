@@ -71,7 +71,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsdatumOchdodsPlats.antraffatDod", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("dodsdatumOchdodsPlats.antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsdatumOchdodsPlats.antraffatDod", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("dodsdatumOchdodsPlats.antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -108,6 +108,15 @@ public class InternalValidatorTest {
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("operation.operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+    }
+
+    @Test
+    public void testR13_5() throws ScenarioNotFoundException {
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R13-5").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("operation.operationAnledning", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
@@ -175,5 +184,44 @@ public class InternalValidatorTest {
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsorsakgrund.grunder", internalValidationResponse.getValidationErrors().get(0).getField());
+    }
+
+
+    @Test
+    public void testR20_1() throws ScenarioNotFoundException {
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R20-1").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("barnSomAvlidit.barn", internalValidationResponse.getValidationErrors().get(0).getField());
+    }
+
+    @Test
+    public void testR20_2() throws ScenarioNotFoundException {
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R20-2").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("barnSomAvlidit.barn", internalValidationResponse.getValidationErrors().get(0).getField());
+    }
+
+    @Test
+    public void testR20_3() throws ScenarioNotFoundException {
+        // Same as R20_1 but with samordningsnummer
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R20-3").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("barnSomAvlidit.barn", internalValidationResponse.getValidationErrors().get(0).getField());
+    }
+
+    @Test
+    public void testR20_4() throws ScenarioNotFoundException {
+        // Same as R20_2 but with samordningsnummer
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R20-4").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("barnSomAvlidit.barn", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 }

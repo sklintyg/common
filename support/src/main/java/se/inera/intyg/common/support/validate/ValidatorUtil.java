@@ -50,6 +50,7 @@ public final class ValidatorUtil {
     public static final int BASE_10 = 10;
     private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtil.class);
     private static final StringValidator STRING_VALIDATOR = new StringValidator();
+    private static final int PERSONNUMMER_DATE_END_INDEX = 8;
 
     private ValidatorUtil() {
     }
@@ -355,5 +356,17 @@ public final class ValidatorUtil {
         public boolean success() {
             return assertSuccessful;
         }
+    }
+
+    public static LocalDate getBirthDateFromPersonnummer(Personnummer personnummer) throws InvalidPersonNummerException {
+        SamordningsnummerValidator samordningsnummerValidator = new SamordningsnummerValidator();
+        PersonnummerValidator personnummerValidator = new PersonnummerValidator();
+
+        String birthDate = personnummer.getNormalizedPnr().substring(0, PERSONNUMMER_DATE_END_INDEX);
+
+        if (SamordningsnummerValidator.isSamordningsNummer(personnummer)) {
+            return samordningsnummerValidator.getBirthDay(birthDate);
+        }
+        return personnummerValidator.getBirthDay(birthDate);
     }
 }

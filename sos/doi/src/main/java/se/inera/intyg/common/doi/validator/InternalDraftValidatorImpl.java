@@ -138,6 +138,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 ValidatorUtil
                         .addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INCORRECT_COMBINATION);
             }
+            if (Strings.nullToEmpty(utlatande.getOperationAnledning()).isEmpty()) {
+                ValidatorUtil.addValidationError(validationMessages, "operation.operationAnledning", ValidationMessageType.EMPTY);
+            }
         } else {
             if (utlatande.getOperationDatum() != null) {
                 ValidatorUtil

@@ -135,7 +135,20 @@ angular.module('db').factory('db.FormFactory',
                         {
                             key: 'polisanmalan',
                             type: 'boolean',
-                            templateOptions: {label: 'DFR_7.1', required: true}
+                            templateOptions: {label: 'DFR_7.1', required: true},
+                            expressionProperties: {
+                                'templateOptions.disabled': 'model.undersokningYttre === "UNDERSOKNING_SKA_GORAS"'
+                            },
+                            watcher: {
+                                expression: 'model.undersokningYttre',
+                                listener: function _undersokningYttreListener(field, newValue, oldValue, scope, stopWatching) {
+                                    if (newValue === 'UNDERSOKNING_SKA_GORAS') {
+                                        scope.model.polisanmalan = true;
+                                    } else if (oldValue === 'UNDERSOKNING_SKA_GORAS') {
+                                        scope.model.polisanmalan = undefined;
+                                    }
+                                }
+                            }
                         }, {
                             type: 'info',
                             hideExpression: 'model.polisanmalan !== true',

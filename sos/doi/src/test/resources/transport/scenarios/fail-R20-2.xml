@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (C) 2017 Inera AB (http://www.inera.se)
+  ~
+  ~ This file is part of sklintyg (https://github.com/sklintyg).
+  ~
+  ~ sklintyg is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ sklintyg is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <ns2:RegisterCertificate xmlns="urn:riv:clinicalprocess:healthcond:certificate:3"
                          xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
                          xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
@@ -72,8 +91,7 @@
         </svar>
         <svar id="2">
             <delsvar id="2.1">true</delsvar>
-            <delsvar id="2.2">2017-01-01</delsvar>
-            <delsvar id="2.3">2017-01-02</delsvar>
+            <delsvar id="2.2">1927-04-07</delsvar>
         </svar>
         <svar id="3">
             <delsvar id="3.1">kommun</delsvar>
@@ -225,7 +243,7 @@
         </svar>
         <svar id="11">
             <delsvar id="11.1">true</delsvar>
-            <delsvar id="11.2">2016-02-01</delsvar>
+            <delsvar id="11.2">1927-02-01</delsvar>
             <delsvar id="11.3">anledning</delsvar>
         </svar>
         <svar id="12">
@@ -237,7 +255,7 @@
                     <ns3:displayName>SJALVMORD</ns3:displayName>
                 </ns3:cv>
             </delsvar>
-            <delsvar id="12.3">2017-01-01</delsvar>
+            <delsvar id="12.3">1927-01-01</delsvar>
             <delsvar id="12.4">uppkommelse</delsvar>
         </svar>
         <svar id="13">

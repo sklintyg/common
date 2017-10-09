@@ -9,9 +9,8 @@
   "barn": true,
   "explosivImplantat": true,
   "explosivAvlagsnat": true,
-  "undersokningYttre": "UNDERSOKNING_GJORT_KORT_FORE_DODEN",
-  "undersokningDatum": "2016-12-31",
-  "polisanmalan": true,
+  "undersokningYttre": "UNDERSOKNING_SKA_GORAS",
+  "polisanmalan": false,
   "textVersion": "1.0",
   "grundData": {
     "patient": {
