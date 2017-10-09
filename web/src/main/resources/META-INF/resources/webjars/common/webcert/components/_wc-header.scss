@@ -82,6 +82,7 @@ $url-avatar: url('/img/avatar.png');
       height: 34px;
     }
     &.headerbox-user-profile {
+      display: inline-block;
       padding-right: 44px;
       font-size: 13px;
       line-height: 18px;
