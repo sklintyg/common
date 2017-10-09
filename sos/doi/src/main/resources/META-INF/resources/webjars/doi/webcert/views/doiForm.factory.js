@@ -40,6 +40,7 @@ angular.module('doi').factory('doi.FormFactory',
             var fraga = FactoryTemplates.fraga;
 
             var formFields = [
+                FactoryTemplates.adress,
                 kategori(1, categoryNames[1], [
                     fraga(1, [
                         {
@@ -205,6 +206,7 @@ angular.module('doi').factory('doi.FormFactory',
                         {
                             key: 'operationAnledning',
                             type: 'single-text-vertical',
+                            hideExpression: 'model.operation !== "JA"', // R13
                             templateOptions: {label: 'DFR_11.3', required: true}
                         }
                     ])
