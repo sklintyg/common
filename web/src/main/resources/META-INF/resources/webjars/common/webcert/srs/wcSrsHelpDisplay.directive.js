@@ -342,8 +342,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             scope.riskImage = '';
                         }
                         else if (scope.prediction.description === 'Ingen förhöjd risk detekterad.') {
-                            //scope.riskImage = '/web/webjars/common/webcert/srs/img/Lätt förhöjd.png';
-                            scope.riskImage = '';
+                            scope.riskImage = '/web/webjars/common/webcert/srs/img/Lätt förhöjd.png';
+                            //scope.riskImage = '';
                         }
                         else if (scope.prediction.description === 'Förhöjd risk detekterad.') {
                             scope.riskImage = '/web/webjars/common/webcert/srs/img/Måttligt förhöjd.png';
