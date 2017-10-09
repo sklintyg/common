@@ -62,10 +62,6 @@ angular.module('common').directive('dodsorsakRow',
                             $scope.orsakValidations = [];
                             angular.forEach($scope.validation.messagesByField, function(validation, key) {
 
-                                if($scope.rowIndex >= 0){
-                                    $log.debug('rowindex haz valu');
-                                }
-
                                 // Only care if validation messages have our index
                                 var validationIndex = key.indexOf('.')+1;
                                 validationIndex = key.substr(validationIndex, 1);

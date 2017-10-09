@@ -8,10 +8,21 @@ angular.module('common').factory('uvUtil', [
         }
 
         function _replacer(propertyName, model) {
+
             function replacer(match, p1, offset, string) {
+
+                if(!model[p1]){
+                    throw 'Property ' + p1 + ' does not exist in model. This is probably OK.';
+                }
+
                 return model[p1];
             }
-            return propertyName.replace(/{(.*)}/g, replacer);
+
+            try {
+                return propertyName.replace(/{(.*)}/g, replacer);
+            } catch (error){
+                return null;
+            }
         }
 
 
@@ -129,7 +140,7 @@ angular.module('common').factory('uvUtil', [
             } else if(modelRow.hasOwnProperty(prop)) {
                 // Resolve using property name
                 value = modelRow[prop];
-            } else if(ObjectHelper.isDefined(modelRow)) {
+            } else if(ObjectHelper.isDefined(modelRow) && typeof modelRow !== 'object') {
                 value = modelRow; // uv-table needs this for single row objects. just use the value from the model
             }
             return value;
