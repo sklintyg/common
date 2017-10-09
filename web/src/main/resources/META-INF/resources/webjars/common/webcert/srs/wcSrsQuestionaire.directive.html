@@ -5,13 +5,16 @@
                 <br/><span>{{question.text}}</span>
             </div>
             <div>
-                <div style="display: inline !important" ng-repeat="answer in question.answerOptions" for="{{answer}}">
-                    <input type="radio" ng-change="change()" name="answer{{$parent.$index}}" ng-model="question.model" ng-value="answer" />{{answer.answertxt}}
-                    <div style="display: inline !important">{{answer.text}}</div>
+                <div class="srs-question" ng-repeat="answer in question.answerOptions" for="{{answer}}">
+                    <label class="radio-inline line">
+                        <input type="radio" ng-change="change()" name="answer{{$parent.$index}}" ng-model="question.model" ng-value="answer" />
+                            {{answer.text}}
+                    </label>
                 </div>
+                <br>
             </div>
         </div>
-        <button style="float:right;" type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="btn btn-info ng-binding button-rounded"
+        <button style="float:right;" type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="btn btn-info ng-binding"
             ng-click="visaClicked()" ng-disabled="!showVisaKnapp" popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
             popover-placement="auto top">
                     Visa
