@@ -52,7 +52,7 @@ angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCr
                     'tillämpade på en rad variabler som till exempel ålder, kön, bostadsort och tidigare vårdkontakter ' +
                     'för att försöka detektera om den aktuella individens risk skiljer sig från andra patienter inom samma ' +
                     'diagnosgrupp. Metoden ska ses som ett komplement inför den egna professionella bedömningen.<br><button ' +
-                    'class="btn btn-info ng-binding button-rounded" onClick="window.open(\'' + riskUrl +
+                    'class="btn btn-info ng-binding" onClick="window.open(\'' + riskUrl +
                     '\')">Läs mer</button>';
 
 
