@@ -95,7 +95,7 @@ angular.module('db').factory('db.FormFactory',
                             watcher: {
                                 expression: 'model.dodsdatumSakert ? model.dodsdatum : null',
                                 listener: function _barnDodsDatumListener(field, newValue, oldValue, scope) {
-                                    if (newValue != oldValue) {
+                                    if (newValue !== oldValue) {
                                         var birthDate = DateUtils.toMomentStrict(PersonIdValidator.getBirthDate(scope.model.grundData.patient.personId));
                                         if (!birthDate) {
                                             $log.error('Invalid personnummer in _barnDodsDatumListener');
