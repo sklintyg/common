@@ -1,9 +1,9 @@
 angular.module('db').factory('db.FormFactory',
     ['$log', '$timeout',
         'common.DateUtilsService', 'common.ObjectHelper', 'common.UserModel',
-        'common.FactoryTemplatesHelper', 'common.DateUtilsService',
+        'common.FactoryTemplatesHelper', 'common.PersonIdValidatorService',
         function($log, $timeout,
-            DateUtils, ObjectHelper, UserModel, FactoryTemplates) {
+            DateUtils, ObjectHelper, UserModel, FactoryTemplates, PersonIdValidator) {
             'use strict';
 
             var categoryNames = {
@@ -88,7 +88,46 @@ angular.module('db').factory('db.FormFactory',
                         {
                             key: 'barn',
                             type: 'boolean',
-                            templateOptions: {label: 'DFR_4.1', required: true}
+                            templateOptions: {label: 'DFR_4.1', required: true},
+                            expressionProperties: {
+                                'templateOptions.disabled': 'formState.barnForced'
+                            },
+                            watcher: {
+                                expression: 'model.dodsdatumSakert ? model.dodsdatum : null',
+                                listener: function _barnDodsDatumListener(field, newValue, oldValue, scope) {
+                                    if (newValue != oldValue) {
+                                        var birthDate = DateUtils.toMomentStrict(PersonIdValidator.getBirthDate(scope.model.grundData.patient.personId));
+                                        if (!birthDate) {
+                                            $log.error('Invalid personnummer in _barnDodsDatumListener');
+                                        }
+                                        else {
+                                            var barn28DagarDate = birthDate.add('days', 28);
+                                            var dodsDatum = DateUtils.toMomentStrict(newValue);
+                                            if (dodsDatum && dodsDatum.isValid() &&
+                                                (dodsDatum.isBefore(barn28DagarDate) ||
+                                                dodsDatum.isSame(barn28DagarDate))) {
+                                                scope.model.barn = true;
+                                                scope.options.formState.barnForced = true;
+                                            } else if (dodsDatum && dodsDatum.isValid() &&
+                                                dodsDatum.isAfter(barn28DagarDate)) {
+                                                scope.model.barn = false;
+                                                scope.options.formState.barnForced = true;
+                                            } else {
+                                                scope.model.barn = undefined;
+                                                scope.options.formState.barnForced = false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },{
+                            type: 'info',
+                            hideExpression: '!formState.barnForced || !model.barn',
+                            templateOptions: {label: 'db.info.barn.forced.true'}
+                        },{
+                            type: 'info',
+                            hideExpression: '!formState.barnForced || model.barn',
+                            templateOptions: {label: 'db.info.barn.forced.false'}
                         }
                     ])
                 ]),
