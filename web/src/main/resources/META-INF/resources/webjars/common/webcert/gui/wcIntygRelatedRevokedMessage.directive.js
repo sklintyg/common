@@ -86,7 +86,7 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
                 };
 
                 $scope.showMessage = function() {
-                    return $scope.intygRelation.states && $scope.intygRelation.states[0].type !== 'CANCELLED';
+                    return $scope.intygRelation && $scope.intygRelation.states && $scope.intygRelation.states[0].type !== 'CANCELLED';
                 };
 
             },
