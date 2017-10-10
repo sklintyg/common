@@ -1,6 +1,10 @@
 <div id="utkast-footer">
   <div ng-if="!isSigned" class="utkast-footer">
 
+    <p ng-if="isSignAndSend()">
+      <span message key="{{viewState.common.intyg.type}}.label.signandsend"></span>
+    </p>
+
     <!-- Läkare: Signera -->
     <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
       <p ng-show="viewState.common.intyg.isKomplettering">

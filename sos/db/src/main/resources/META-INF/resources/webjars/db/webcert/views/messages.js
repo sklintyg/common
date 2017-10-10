@@ -13,6 +13,8 @@ angular.module('db').constant('db.messages', {
         'db.info.barn.forced.false': 'Det angivna dödsdatumet infaller inte inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
         'db.info.polisanmalan': 'Skriv även ut dödsbeviset och skicka det till polisen per post/fax.',
 
+        'db.label.signandsend': 'Om du går vidare kommer dödsbeviset signeras och skickas direkt till Skatteverkets system.',
+
         'db.label.status.recieved': '<p>Dödsbeviset är signerat och har nu skickats till Skatteverket.</p>'+
             '<p>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!</p>'+
             '<p>Du kan nu avsluta intygstjänsten eller direkt skriva ett dödsorsaksintyg för samma person &lt;Knapp&gt;</p>',
