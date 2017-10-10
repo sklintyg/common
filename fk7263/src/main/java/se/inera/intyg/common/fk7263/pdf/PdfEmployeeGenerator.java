@@ -85,6 +85,9 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             case WEBCERT:
                 generateMinimalPdf();
 
+                // INTYG-4709: THIS SHOULD ONLY EVER EXIST IN WEBCERT 5.3
+                fillBasedOn();
+
                 // perform additional decoration for WC originated pdf
                 maskSendToFkInformation(pdfStamper);
                 mark(pdfStamper, WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
