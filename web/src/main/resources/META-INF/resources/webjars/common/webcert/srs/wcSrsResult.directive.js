@@ -21,13 +21,27 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'common.srsProxy', 'common.srsLinkCreator',
-    function(ObjectHelper, srsProxy, srsLinkCreator) {
+angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelper', 'common.srsProxy', 'common.srsLinkCreator',
+    function($window, ObjectHelper, srsProxy, srsLinkCreator) {
         'use strict';
 
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
+
+
+                scope.riskInfoOpen = false;
+                scope.closeSrs = function(){
+                    scope.riskInfoOpen = false;
+                };
+
+                scope.externalRisk = {
+                    templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.risk-popover.html'
+                };
+
+                scope.readMoreRisk = function(){
+                    $window.open(srsLinkCreator.createPrediktionsModellLink, '_blank');
+                };
 
                 scope.redirectToAtgardExternalSite = function(diagnosKod){
                     //Användare: srs-dev
@@ -40,6 +54,13 @@ angular.module('common').directive('wcSrsResult', ['common.ObjectHelper', 'commo
                     //Lösenord: SRS2k17
                     window.open(srsLinkCreator.createStatistikLink(diagnosKod));
                 };
+
+                scope.$watch('status', function(status){
+                    if(!status.open){
+                        scope.riskInfoOpen = false;
+                    }
+                }, true);
+
             },
             templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.directive.html'
         };

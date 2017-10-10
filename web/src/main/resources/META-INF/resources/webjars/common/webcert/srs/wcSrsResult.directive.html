@@ -10,10 +10,8 @@
         <div 
         style="float:right"
         class="glyphicon glyphicon-question-sign"
-        data-html="true"
-        data-toggle="popover" 
-        data-content={{externalRiskInfo}}
-        >
+        uib-popover-template="externalRisk.templateUrl" popover-trigger="click"
+        popover-placement="auto right" popover-append-to-body="true" popover-is-open="riskInfoOpen">
       </div>
     </div>
     <ul class="nav nav-tabs nav-justified">
