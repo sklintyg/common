@@ -51,6 +51,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -78,10 +79,13 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> optionalFields) throws ModuleException {
-        final EmployeeLisjpPdfDefinitionBuilder builder = new EmployeeLisjpPdfDefinitionBuilder(optionalFields);
+        // INTYG-4710: Hack so Webcert always include basedOn-part of certificate. SHOULD ONLY EXIST IN WEBCERT 5.3
+        List<String> tmpOptionalFields = applicationOrigin == ApplicationOrigin.WEBCERT ?
+                Arrays.asList(AbstractLisjpPdfDefinitionBuilder.OPT_GRUND_FOR_MU) :
+                optionalFields;
+        final EmployeeLisjpPdfDefinitionBuilder builder = new EmployeeLisjpPdfDefinitionBuilder(tmpOptionalFields);
         String fileNamePrefix = getEmployerCopyFilePrefix(builder, applicationOrigin);
-        return generatePdf(builder, statuses, internalModel, applicationOrigin,
-                fileNamePrefix);
+        return generatePdf(builder, statuses, internalModel, applicationOrigin, fileNamePrefix);
     }
 
     @Override

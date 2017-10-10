@@ -73,7 +73,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
     // Optional fields parameter constants
     static final String OPT_SMITTSKYDD = "avstangningSmittskydd";
-    static final String OPT_GRUND_FOR_MU = "grund";
+    public static final String OPT_GRUND_FOR_MU = "grund";
     static final String OPT_SYSSELSATTNING_EJ_NUVARANDEARBETE = "sysselsattningOptional";
 
     static final String OPT_FUNKTIONSNADSATTNING = "funktionsnedsattning";
