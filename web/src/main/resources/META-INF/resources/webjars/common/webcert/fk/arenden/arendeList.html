@@ -27,8 +27,9 @@
 
         <!-- list of closed arenden -->
         <h2 class="col-head" ng-show="arendeListFiltered.length > 0">
-          Tidigare frågor och svar <span wc-help-mark field-help-text="common.arende.help.handled"></span>
+          Tidigare frågor och svar <span wc-help-chevron help-text-key="common.arende.help.handled"></span>
         </h2>
+        <span wc-help-chevron-text help-text-key="common.arende.help.handled"></span>
         <div
             ng-repeat="arendeListItem in arendeListFiltered = (arendeList | filter:closedArendenFilter | orderBy:'senasteHandelse':true)"
             class="arende-item">
