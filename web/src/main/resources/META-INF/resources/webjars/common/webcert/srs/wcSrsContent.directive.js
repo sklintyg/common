@@ -46,8 +46,6 @@ angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCr
                     $window.open(srsLinkCreator.createSamtyckeLink, '_blank');
                 };
 
-                var riskUrl = srsLinkCreator.createPrediktionsModellLink;
-
                 scope.$watch('status', function(status){
                     if(!status.open){
                         scope.consentInfoOpen = false;
