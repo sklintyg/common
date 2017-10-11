@@ -342,14 +342,14 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             scope.riskImage = '';
                         }
                         else if (scope.prediction.description === 'Ingen förhöjd risk detekterad.') {
-                            scope.riskImage = '/web/webjars/common/webcert/srs/img/Lätt förhöjd.png';
+                            scope.riskImage = '/web/webjars/common/webcert/srs/img/latt_forhojd.png';
                             //scope.riskImage = '';
                         }
                         else if (scope.prediction.description === 'Förhöjd risk detekterad.') {
-                            scope.riskImage = '/web/webjars/common/webcert/srs/img/Måttligt förhöjd.png';
+                            scope.riskImage = '/web/webjars/common/webcert/srs/img/mattligt_forhojd.png';
                         }
                         else if (scope.prediction.description === 'Starkt förhöjd risk detekterad.') {
-                            scope.riskImage = '/web/webjars/common/webcert/srs/img/Starkt förhöjd.png';
+                            scope.riskImage = '/web/webjars/common/webcert/srs/img/starkt_forhojd.png';
                         }
                     }
 
