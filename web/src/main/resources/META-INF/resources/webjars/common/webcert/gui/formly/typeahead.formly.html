@@ -1,0 +1,13 @@
+<div class="input-full" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
+  <wc-form-label to="to" key="options.key"></wc-form-label>
+  <div>
+    <input id="{{options.key}}"
+           type="text"
+           class="form-control"
+           ng-model="model[options.key]"
+           ng-class="{ 'input-{{to.size}}': to.size }"
+           maxlength="{{to.maxlength}}"
+           uib-typeahead="value for value in values | filter:$viewValue | limitTo:8"
+           typeahead-editable="true">
+  </div>
+</div>

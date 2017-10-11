@@ -63,8 +63,13 @@ angular.module('db').factory('db.FormFactory',
                     fraga(3, [
                         {
                             key: 'dodsplatsKommun',
-                            type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_3.1', required: true, maxlength: 100}
+                            type: 'typeahead',
+                            templateOptions: {
+                                label: 'DFR_3.1',
+                                required: true,
+                                maxlength: 100,
+                                valuesUrl: '/api/config/kommuner'
+                            }
                         },
                         {
                             key: 'dodsplatsBoende',
