@@ -154,7 +154,7 @@ public class TsParentModuleApiTest {
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal());
-        String res = moduleApi.createNewInternalFromTemplate(draftCopyHolder, json);
+        String res = moduleApi.createNewInternalFromTemplate(draftCopyHolder, utlatande);
 
         assertNotNull(res);
         verify(webcertModelFactory).createCopy(eq(draftCopyHolder), any(Utlatande.class));
@@ -163,13 +163,13 @@ public class TsParentModuleApiTest {
     @Test(expected = ModuleConverterException.class)
     public void testCreateNewInternalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
-        moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), json);
+        moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
     }
 
     @Test
     public void testCreateRenewalFromTemplate() throws Exception {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal());
-        String res = moduleApi.createRenewalFromTemplate(draftCopyHolder, json);
+        String res = moduleApi.createRenewalFromTemplate(draftCopyHolder, utlatande);
 
         assertNotNull(res);
         verify(webcertModelFactory).createCopy(eq(draftCopyHolder), any(Utlatande.class));
@@ -178,7 +178,7 @@ public class TsParentModuleApiTest {
     @Test(expected = ModuleConverterException.class)
     public void testCreateRenewalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
-        moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), json);
+        moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
     }
 
     @SuppressWarnings("unchecked")

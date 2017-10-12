@@ -152,7 +152,7 @@ public class Fk7263ModuleApiTest {
         patient.setPersonId(new Personnummer("19121212-1212"));
         CreateDraftCopyHolder copyHolder = createDraftCopyHolder(patient);
 
-        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, toJsonString(utlatande));
+        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
 
         assertNotNull(holder);
         Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
@@ -168,7 +168,7 @@ public class Fk7263ModuleApiTest {
         // create copyholder without Patient in it
         CreateDraftCopyHolder copyHolder = createDraftCopyHolder(null);
 
-        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, toJsonString(utlatande));
+        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
 
         assertNotNull(holder);
         Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
@@ -190,7 +190,7 @@ public class Fk7263ModuleApiTest {
         CreateDraftCopyHolder copyHolder = createDraftCopyHolder(patient);
         copyHolder.setNewPersonnummer(newSSN);
 
-        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, toJsonString(utlatande));
+        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
         assertNotNull(holder);
 
         Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);

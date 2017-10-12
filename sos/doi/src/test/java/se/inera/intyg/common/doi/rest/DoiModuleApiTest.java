@@ -152,9 +152,8 @@ public class DoiModuleApiTest {
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
-        when(objectMapper.readValue(eq("internal model"), eq(DoiUtlatande.class))).thenReturn(null);
 
-        moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
+        moduleApi.createNewInternalFromTemplate(createCopyHolder(), null);
 
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }

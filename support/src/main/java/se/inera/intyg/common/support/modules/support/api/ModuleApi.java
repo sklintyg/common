@@ -110,11 +110,11 @@ public interface ModuleApi {
      *            The id of the new internal model, the {@link HoSPersonal} and optional
      *            {@link se.inera.intyg.common.support.model.common.internal.Patient;} data.
      * @param template
-     *            An internal model used as a template for the new internal model.
+     *            The Utlatande to be used as a template for the new internal model
      *
      * @return A new instance of the internal model.
      */
-    String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String template)
+    String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
             throws ModuleException;
 
     /**
@@ -244,7 +244,7 @@ public interface ModuleApi {
     /** Get Arende parameters specific to module such as parameters belonging to a certain frage id. */
     Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds);
 
-    String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder) throws ModuleException;
+    String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template) throws ModuleException;
 
     Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException;
 

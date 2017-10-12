@@ -45,13 +45,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 /**
- * Specifically tests the renewal of LISJP where certain fields are nulled out.
+ * Specifically tests the renewal of FK7263 where certain fields are nulled out.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class Fk7263ModuleApiRenewalTest {
 
     public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
-
 
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
@@ -62,18 +61,16 @@ public class Fk7263ModuleApiRenewalTest {
     @InjectMocks
     private Fk7263ModuleApi moduleApi;
 
-
-
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        String internalModelHolder = IOUtils.toString(new ClassPathResource(
-                TESTFILE_UTLATANDE).getInputStream());
-        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), internalModelHolder);
-        assertNotNull(renewalFromTemplate);
+        // This modifies the template for some bizarre reason.
+        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
 
         // Create two instances to compare field by field.
         Fk7263Utlatande original = getUtlatandeFromFile();
         Fk7263Utlatande renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, Fk7263Utlatande.class);
+
+        assertNotNull(renewalFromTemplate);
 
         // Blanked out values:
         assertFalse(renewCopy.isKontaktMedFk());
@@ -104,7 +101,8 @@ public class Fk7263ModuleApiRenewalTest {
         assertEquals(original.getKommentar(), renewCopy.getKommentar());
         assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
         assertEquals(original.getArbetsformagaPrognos(), renewCopy.getArbetsformagaPrognos());
-        assertEquals(original.getArbetsformagaPrognosGarInteAttBedomaBeskrivning(), renewCopy.getArbetsformagaPrognosGarInteAttBedomaBeskrivning());
+        assertEquals(original.getArbetsformagaPrognosGarInteAttBedomaBeskrivning(),
+                renewCopy.getArbetsformagaPrognosGarInteAttBedomaBeskrivning());
         assertEquals(original.getAnnanAtgard(), renewCopy.getAnnanAtgard());
         assertEquals(original.getAtgardInomSjukvarden(), renewCopy.getAtgardInomSjukvarden());
         assertEquals(original.getNuvarandeArbetsuppgifter(), renewCopy.getNuvarandeArbetsuppgifter());
@@ -126,6 +124,7 @@ public class Fk7263ModuleApiRenewalTest {
         assertEquals(original.getSjukdomsforlopp(), renewCopy.getSjukdomsforlopp());
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
+        original.getNedsattMed25().getTom().asLocalDate();
         // Relation
         assertEquals(original.getNedsattMed25().getTom().asLocalDate(), renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
         assertEquals("NEDSATT_MED_1_4", renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
@@ -148,8 +147,9 @@ public class Fk7263ModuleApiRenewalTest {
     }
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
-        return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);
+        String internalModelHolder = IOUtils.toString(new ClassPathResource(
+                TESTFILE_UTLATANDE).getInputStream());
+        return new CustomObjectMapper().readValue(internalModelHolder, Fk7263Utlatande.class);
     }
 
 }

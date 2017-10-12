@@ -189,6 +189,60 @@ describe('IntygHeaderCtrl', function() {
             });
         });
 
+        describe('skapa <intygstyp> button', function() {
+            it('should be shown if intyg type is db and copying is allowed', function() {
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = false;
+                UserModel.user = {};
+
+                $scope.intygstyp = 'db';
+                expect($scope.showCreateFromTemplate()).toBeTruthy();
+            });
+
+            it('should not be shown if intyg type is fk, ts or doi', function() {
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = false;
+                UserModel.user = {};
+
+                $scope.intygstyp = 'doi';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'ts-bas';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'ts-diabetes';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'fk7263';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'lisjp';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'luse';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'luae_fs';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'luae_na';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+            });
+
+            it('should not be shown if makulerat', function() {
+                $scope.viewState.common.intygProperties.isRevoked = true;
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+            });
+            it('should not be shown if unit is inactive', function() {
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = false;
+                UserModel.user = {parameters: {inactiveUnit: true}};
+
+                $scope.intygstyp = 'db';
+                expect($scope.showFornyaButton()).toBeFalsy();
+            });
+        });
+
         describe('makulerat button', function() {
             it('should be shown if intyg is not already makulerat or on queue to be makulerat', function() {
                 $scope.viewState.common.isIntygOnRevokeQueue = true;

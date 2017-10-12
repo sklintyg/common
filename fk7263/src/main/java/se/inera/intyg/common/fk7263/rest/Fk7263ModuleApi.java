@@ -138,6 +138,30 @@ public class Fk7263ModuleApi implements ModuleApi {
     @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
+    private static String buildSistaSjukskrivningsgrad(Fk7263Utlatande internal) {
+        InternalDate lastPeriod = null;
+        String lastSjukskrivningsgrad = null;
+        if (internal.getNedsattMed25() != null && internal.getNedsattMed25().tomAsLocalDate() != null) {
+            lastPeriod = internal.getNedsattMed25().getTom();
+            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_4.name();
+        }
+        if (internal.getNedsattMed50() != null && internal.getNedsattMed50().tomAsLocalDate() != null
+                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed50().tomAsLocalDate()))) {
+            lastPeriod = internal.getNedsattMed50().getTom();
+            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_2.name();
+        }
+        if (internal.getNedsattMed75() != null && internal.getNedsattMed75().tomAsLocalDate() != null
+                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed75().tomAsLocalDate()))) {
+            lastPeriod = internal.getNedsattMed75().getTom();
+            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_3_4.name();
+        }
+        if (internal.getNedsattMed100() != null && internal.getNedsattMed100().tomAsLocalDate() != null
+                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed100().tomAsLocalDate()))) {
+            lastSjukskrivningsgrad = Nedsattningsgrad.HELT_NEDSATT.name();
+        }
+        return lastSjukskrivningsgrad;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -193,11 +217,10 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
+    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
             throws ModuleException {
         try {
-            Fk7263Utlatande internal = getInternal(template);
-            return toInteralModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, internal));
+            return toInteralModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
         } catch (ConverterException e) {
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
@@ -349,8 +372,8 @@ public class Fk7263ModuleApi implements ModuleApi {
         LakarutlatandeType lakarutlatande = request.getLakarutlatande();
 
         // Decide if this certificate has smittskydd checked
-        boolean inSmittskydd = findAktivitetWithCode(request.getLakarutlatande().getAktivitet(),
-                Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null ? true : false;
+        boolean inSmittskydd =
+                findAktivitetWithCode(request.getLakarutlatande().getAktivitet(), Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null;
 
         if (!inSmittskydd) {
             // Check that we got a medicinsktTillstand element
@@ -389,7 +412,14 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
-        return objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
+//        return objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
+
+        Fk7263Utlatande utlatande = objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
+
+        // Explicitly populate the giltighet interval since it is information derived from
+        // the arbetsformaga but needs to be serialized into the Utkast model.
+        utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
+        return utlatande;
     }
 
     @Override
@@ -435,6 +465,8 @@ public class Fk7263ModuleApi implements ModuleApi {
         return foundAktivitet;
     }
 
+    // - - - - - Private transformation methods for building responses - - - - - //
+
     private void sendCertificateToRecipient(RegisterMedicalCertificateType originalRequest, final String logicalAddress,
             final String recipientId)
             throws ModuleException {
@@ -448,7 +480,6 @@ public class Fk7263ModuleApi implements ModuleApi {
         if (Strings.isNullOrEmpty(request.getLakarutlatande().getPatient().getFullstandigtNamn())) {
             request.getLakarutlatande().getPatient().setFullstandigtNamn(SPACE);
         }
-
 
         AttributedURIType address = new AttributedURIType();
         address.setValue(logicalAddress);
@@ -483,8 +514,6 @@ public class Fk7263ModuleApi implements ModuleApi {
         }
 
     }
-
-    // - - - - - Private transformation methods for building responses - - - - - //
 
     private Fk7263Utlatande getInternal(String internalModel)
             throws ModuleException {
@@ -546,10 +575,15 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder)
+    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
             throws ModuleException {
         try {
-            Fk7263Utlatande internal = getInternal(internalModelHolder);
+            if (!Fk7263Utlatande.class.isInstance(template)) {
+                LOG.error("Could not create a new internal Webcert model from template");
+                throw new ModuleConverterException("Could not create a new internal Webcert model from template");
+            }
+
+            Fk7263Utlatande internal = (Fk7263Utlatande) template;
 
             Relation relation = draftCopyHolder.getRelation();
             relation.setSistaGiltighetsDatum(internal.getGiltighet().getTom());
@@ -576,30 +610,6 @@ public class Fk7263ModuleApi implements ModuleApi {
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
         }
-    }
-
-    private static String buildSistaSjukskrivningsgrad(Fk7263Utlatande internal) {
-        InternalDate lastPeriod = null;
-        String lastSjukskrivningsgrad = null;
-        if (internal.getNedsattMed25() != null && internal.getNedsattMed25().tomAsLocalDate() != null) {
-            lastPeriod = internal.getNedsattMed25().getTom();
-            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_4.name();
-        }
-        if (internal.getNedsattMed50() != null && internal.getNedsattMed50().tomAsLocalDate() != null
-                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed50().tomAsLocalDate()))) {
-            lastPeriod = internal.getNedsattMed50().getTom();
-            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_2.name();
-        }
-        if (internal.getNedsattMed75() != null && internal.getNedsattMed75().tomAsLocalDate() != null
-                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed75().tomAsLocalDate()))) {
-            lastPeriod = internal.getNedsattMed75().getTom();
-            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_3_4.name();
-        }
-        if (internal.getNedsattMed100() != null && internal.getNedsattMed100().tomAsLocalDate() != null
-                && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed100().tomAsLocalDate()))) {
-            lastSjukskrivningsgrad = Nedsattningsgrad.HELT_NEDSATT.name();
-        }
-        return lastSjukskrivningsgrad;
     }
 
     @Override

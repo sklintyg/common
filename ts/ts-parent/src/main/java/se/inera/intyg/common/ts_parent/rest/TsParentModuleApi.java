@@ -119,11 +119,10 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, String template)
+    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
             throws ModuleException {
         try {
-            T internal = getInternal(template);
-            return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, internal));
+            return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
         } catch (ConverterException e) {
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
@@ -131,7 +130,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String template)
+    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
             throws ModuleException {
         return createNewInternalFromTemplate(draftCopyHolder, template);
     }

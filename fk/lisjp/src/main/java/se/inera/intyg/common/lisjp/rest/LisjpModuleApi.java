@@ -38,6 +38,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -129,10 +130,15 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     }
 
     @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder)
+    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
             throws ModuleException {
         try {
-            LisjpUtlatande internal = getInternal(internalModelHolder);
+            if (!LisjpUtlatande.class.isInstance(template)) {
+                LOG.error("Could not create a new internal Webcert model using template of wrong type");
+                throw new ModuleConverterException("Could not create a new internal Webcert model using template of wrong type");
+            }
+
+            LisjpUtlatande internal = (LisjpUtlatande) template;
 
             // Null out applicable fields
             LisjpUtlatande renewCopy = internal.toBuilder()

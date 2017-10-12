@@ -28,6 +28,12 @@ angular.module('common').controller('common.IntygHeader',
             IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy) {
 
             'use strict';
+            $scope.createFromTemplateConfig = {
+                'db': {
+                    'moduleId': 'doi',
+                    'name': 'Dödsorsaksintyg'
+                }
+            };
 
             var intygType = $state.current.data.intygType;
             var _intygActionDialog = null;
@@ -96,6 +102,11 @@ angular.module('common').controller('common.IntygHeader',
                     !UserModel.getIntegrationParam('inactiveUnit');
             };
 
+            $scope.showCreateFromTemplate = function() {
+                return $scope.createFromTemplateConfig[$scope.intygstyp] !== undefined && !$scope.isRevoked() && !$scope.isReplaced() &&
+                    !$scope.isComplemented() && !UserModel.getIntegrationParam('inactiveUnit');
+            };
+
             $scope.send = function() {
                 var onPatientFound = function() {
                     var recipient = moduleService.getModule(intygType).defaultRecipient;
@@ -142,7 +153,7 @@ angular.module('common').controller('common.IntygHeader',
                 });
             };
 
-            function intygCopyAction (intyg, intygServiceMethod, buildIntygRequestModel) {
+            function intygCopyAction (intyg, intygServiceMethod, buildIntygRequestModel, newIntygType) {
                 if (intyg === undefined || intyg.grundData === undefined) {
                     $log.debug('intyg or intyg.grundData is undefined. Aborting fornya.');
                     return;
@@ -152,6 +163,7 @@ angular.module('common').controller('common.IntygHeader',
                     buildIntygRequestModel({
                         intygId: intyg.id,
                         intygType: intygType,
+                        newIntygType: newIntygType || intygType,
                         patientPersonnummer: intyg.grundData.patient.personId
                     }),
                     isOtherCareUnit
@@ -160,6 +172,10 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.fornya = function(intyg) {
                 return intygCopyAction(intyg, IntygCopyActions.fornya, IntygFornyaRequestModel.build);
+            };
+
+            $scope.createFromTemplate = function(intyg, newIntygType) {
+                return intygCopyAction(intyg, IntygCopyActions.createFromTemplate, IntygFornyaRequestModel.build, $scope.createFromTemplateConfig[$scope.intygstyp].moduleId);
             };
 
             $scope.copy = function(intyg) {

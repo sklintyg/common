@@ -17,30 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Created by BESA on 2015-02-09.
- */
-
-angular.module('common').factory('common.IntygCopyRequestModel',
-    [function() {
+angular.module('common').factory('common.IntygCreateFromIntygRequestModel', [
+    'common.IntygCopyRequestModel',
+    function(IntygCopyRequestModel) {
         'use strict';
 
         /**
          * Constructor
          *
-         * parameters intygId, intygType, patientPersonnummer, newIntygType
+         * parameters intygId, intygType, patientPersonnummer
+         *
+         * @inherits IntygCopyRequestModel
          */
-        function IntygCopyRequestModel(data) {
-            this.intygId = data.intygId;
-            this.intygType = data.intygType;
-            this.patientPersonnummer = data.patientPersonnummer;
-            this.newIntygType = data.newIntygType || data.intygType;
+        function IntygCreateFromIntygRequestModel(data) {
+            IntygCopyRequestModel.apply(this, [data]);
+            this.fornya = true;
         }
 
-        IntygCopyRequestModel.build = function(data) {
-            return new IntygCopyRequestModel(data);
+        IntygCreateFromIntygRequestModel.prototype = Object.create(IntygCopyRequestModel.prototype);
+        IntygCreateFromIntygRequestModel.prototype.constructor = IntygCreateFromIntygRequestModel;
+
+        IntygCreateFromIntygRequestModel.build = function(data) {
+            return new IntygCreateFromIntygRequestModel(data);
         };
 
-        return IntygCopyRequestModel;
+        return IntygCreateFromIntygRequestModel;
     }
 ]);

@@ -17,7 +17,7 @@ angular.module('db').constant('db.messages', {
 
         'db.label.status.recieved': '<p>Dödsbeviset är signerat och har nu skickats till Skatteverket.</p>'+
             '<p>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!</p>'+
-            '<p>Du kan nu avsluta intygstjänsten eller direkt skriva ett dödsorsaksintyg för samma person &lt;Knapp&gt;</p>',
+            '<p>Du kan nu avsluta intygstjänsten eller direkt skriva ett dödsorsaksintyg för samma person.</p>',
 
         'db.warn.previouscertificate.samevg': 'Tidigare dödsbevis finns för detta personnummer. Senast skapade dödsbevis är det som gäller. Om du ersätter det tidigare dödsbeviset och lämnar in det nya så blir det därför detta dödsbevis som gäller.',
         'db.warn.previouscertificate.differentvg': 'Tidigare dödsbevis finns för detta personnummer. Senast skapade dödsbevis är det som gäller. Om du fortsätter och lämnar in dödsbeviset så blir det därför detta dödsbevis som gäller.'

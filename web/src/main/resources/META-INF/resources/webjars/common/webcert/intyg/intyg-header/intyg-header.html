@@ -133,6 +133,16 @@
           </button>
 
           <button type="button"
+                  intygstyp="{{intygstyp}}"
+                  id="createFromTemplateBtn"
+                  class="btn btn-info"
+                  ng-if="showCreateFromTemplate()"
+                  ng-click="createFromTemplate(viewState.intygModel)"
+                  wc-check-vardenhet>
+              Skapa {{createFromTemplateConfig[intygstyp].name}}
+          </button>
+
+          <button type="button"
                   wc-authority="MAKULERA_INTYG"
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"

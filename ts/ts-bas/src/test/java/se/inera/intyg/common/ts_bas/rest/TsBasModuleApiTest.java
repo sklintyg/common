@@ -146,9 +146,7 @@ public class TsBasModuleApiTest {
     @Test
     public void copyContainsOriginalData() throws Exception {
         Scenario scenario = ScenarioFinder.getInternalScenario("valid-maximal");
-        String internalHolder = objectMapper.writeValueAsString(scenario.asInternalModel());
-
-        String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), internalHolder);
+        String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
 
         assertNotNull(holder);
         TsBasUtlatande utlatande = objectMapper.readValue(holder, TsBasUtlatande.class);
