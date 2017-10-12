@@ -10,7 +10,7 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
 
         'avstangningSmittskydd': { mandatory: false, selected: true, fields: ['avstangningSmittskydd'] },
         'grund': {
-            mandatory: false, selected: true,
+            mandatory: true, selected: true,
             fields: [
                 'undersokningAvPatienten',
                 'telefonkontaktMedPatienten',
@@ -97,7 +97,7 @@ angular.module('lisjp').factory('lisjp.customizeViewstate', function() {
                     unselectedFieldNames.push(key);
             }
 
-            
+
         });
         return unselectedFieldNames;
     }
