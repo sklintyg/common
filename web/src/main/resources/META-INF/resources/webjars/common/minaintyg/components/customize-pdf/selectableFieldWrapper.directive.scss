@@ -70,6 +70,10 @@
         padding-top: 0;
         margin-top: 0;
 
+        .icon {
+          float: right;
+          margin-left: 5px;
+        }
       }
 
       h4 {
@@ -94,16 +98,21 @@
       }
     }
 
-    .icon.excluded-icon {
-      color: red;
-    }
-    .icon.included-icon {
-      color: green;
-      font-size: 18px;
+    .icon {
+      line-height: 1;
+
+      &.excluded-icon {
+        color: #FF0000;
+      }
+
+      &.included-icon {
+        color: #008000;
+        font-size: 18px;
+      }
     }
   }
 
   .asterix {
-    color: red;
+    color: #FF0000;
   }
 }
