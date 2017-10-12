@@ -192,7 +192,7 @@ public class PdfEmployeeGeneratorTest {
 
         List<String> optionalFields = new ArrayList<>();
 
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, optionalFields, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<>(), ApplicationOrigin.MINA_INTYG, optionalFields, false).getBytes();
 
         // Get all available fields in a fk7263 pdf
         AcroFields expectedFields = readExpectedFields();

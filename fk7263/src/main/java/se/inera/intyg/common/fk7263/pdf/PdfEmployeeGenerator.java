@@ -118,6 +118,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private void generateMinimalPdf() {
         // Mandatory fields
         fillPatientDetails();
+        fillBasedOn();
         fillRecommendationsKontaktMedForetagshalsovarden();
         fillCapacityRelativeToNuvarandeArbete();
         fillCapacity();
@@ -143,9 +144,6 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
         }
         if (EmployeeOptionalFields.FUNKTIONSNEDSATTNING.isPresent(optionalFields)) {
             fillDisability(); // Fält 4a
-        }
-        if (EmployeeOptionalFields.INTYGET_BASERAS_PA.isPresent(optionalFields)) {
-            fillBasedOn(); // Fält 4b
         }
         if (EmployeeOptionalFields.AKTIVITETSBEGRANSNING.isPresent(optionalFields)) {
             fillActivityLimitation(); // Fält 5

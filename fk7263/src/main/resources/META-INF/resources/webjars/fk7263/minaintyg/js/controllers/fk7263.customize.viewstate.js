@@ -12,7 +12,7 @@ angular.module('fk7263').factory('fk7263.customizeViewstate', function() {
         'diagnos': { mandatory: false, selected: true, fields: ['diagnosKod'], domId: 'diagnos'},
         'aktuelltSjukdomsforlopp': { mandatory: false, selected: true, fields: ['sjukdomsforlopp'], domId: 'aktuelltSjukdomsforlopp'},
         'funktionsnedsattning': { mandatory: false, selected: true, fields: ['funktionsnedsattning' ], domId: 'funktionsnedsattning'},
-        'intygetBaserasPa': { mandatory: false, selected: true, fields: [
+        'intygetBaserasPa': { mandatory: true, selected: true, fields: [
             'undersokningAvPatienten',
             'telefonkontaktMedPatienten',
             'journaluppgifter',
