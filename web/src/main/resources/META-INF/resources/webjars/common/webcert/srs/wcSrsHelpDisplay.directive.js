@@ -303,10 +303,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             else if (scope.statistik.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
                                 scope.statistikInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
                             }
-                            else {
-                                scope.statistikError =
-                                    'Tekniskt fel.\nDet gick inte att hämta information om statistik';
-                            }
                         }
                         if (scope.higherDiagnosKod) {
                             scope.statistikInfo = 'Det SRS-stöd som visas är för koden ' + scope.higherDiagnosKod;
