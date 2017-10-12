@@ -37,7 +37,7 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
     public static final String MODULE_ID = "db";
     public static final String MODULE_NAME = "Dödsbevis";
 
-    private static final String DEFAULT_RECIPIENT_ID = "Skatteverket";
+    private static final String DEFAULT_RECIPIENT_ID = "SKV";
     private static final String MODULE_DESCRIPTION = "Dödsbevis";
     private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
 
