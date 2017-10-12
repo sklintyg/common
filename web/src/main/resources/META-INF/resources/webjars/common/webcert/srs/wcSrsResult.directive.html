@@ -50,7 +50,7 @@
             <div ng-if="statistikError">
                 <wc-srs-error-box message-string="statistikError"></wc-srs-error-box>
             </div>
-            <img ng-src="{{statistik.statistikBild}}" alt=""/>
+            <img ng-show="statistik.statistikBild" ng-src="{{statistik.statistikBild}}" alt=""/>
             <div class="floatRight">
                 <button class="btn btn-info ng-binding" ng-click="redirectToStatistikExternalSite(diagnosKod); logStatistikClicked();">Läs mer</button>
             </div>
