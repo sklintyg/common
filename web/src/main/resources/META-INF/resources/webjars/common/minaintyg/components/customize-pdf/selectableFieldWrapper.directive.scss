@@ -46,11 +46,6 @@
 
   .inclusion {
     text-align: right;
-
-    @media (max-width: 767px) {
-      text-align: left;
-    }
-
     margin-top: 20px;
 
     .mandatory {
