@@ -83,7 +83,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.customize.step.3.pagetitle': 'Ladda ner PDF - steg 3 av 3',
         'fk7263.customize.step.3.pageingress.left': 'Här kan du ladda ner ditt anpassade intyg som en PDF, för att sedan kunna skriva ut det eller mejla till din arbetsgivare. ',
         'fk7263.customize.step.3.pageingress.right': '',
-        'fk7263.customize.step.3.info.fk': 'Intyget <u>skall inte skickas</u> till Försäkringskassan!',
+        'fk7263.customize.step.3.info.fk': 'Intyget <u>ska inte skickas</u> till Försäkringskassan!',
         'fk7263.customize.step.3.download': 'Ladda ner som PDF',
         'fk7263.customize.step.3.download.tooltip' : 'Intyget sparas som PDF på din enhet.',
 
