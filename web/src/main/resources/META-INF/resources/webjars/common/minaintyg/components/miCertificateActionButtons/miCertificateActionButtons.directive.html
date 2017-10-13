@@ -1,6 +1,5 @@
 <div class="row">
   <div class="col-xs-12">
-    <form id="view-as-pdf" action="{{buildPdfLink()}}" name="pdfForm" method="get" target="_blank">
 
       <!-- SKICKA -->
         <button id="sendCertificateBtn" type="button" class="btn btn-primary"
@@ -21,8 +20,8 @@
 
 
       <!-- SKRIV UT -->
-        <button id="downloadprint" type="submit" class="btn btn-secondary"
-                ng-if="enablePrint" ng-click="document.pdfForm.submit()"
+        <button id="downloadprint" type="button" class="btn btn-secondary"
+                ng-if="enablePrint" ng-click="onDownloadClicked()"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.print.tooltip')}}"
                 popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
                 <i class="icon icon-download-1"></i> <span message key="modules.actionbar.button.print"></span>
@@ -37,6 +36,5 @@
       </button>
 
 
-    </form>
   </div>
 </div>

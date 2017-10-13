@@ -18,7 +18,8 @@
  */
 
 angular.module('common').directive('miCertificateActionButtons',
-        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService', function($log, $state, messageService, listCertService, dialogService) {
+        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService', 'MIUser',
+            function($log, $state, messageService, listCertService, dialogService, MIUser) {
             'use strict';
 
             return {
@@ -36,13 +37,13 @@ angular.module('common').directive('miCertificateActionButtons',
                     $scope.messageService = messageService;
 
                     //pdf download link requires the certificate to be present
-                    $scope.buildPdfLink = function() {
+                    function buildPdfLink() {
                         if ($scope.certModel) {
                             return '/moduleapi/certificate/' + $scope.certModel.typ + '/' + $scope.certModel.id + '/pdf';
                         } else {
                             return undefined;
                         }
-                    };
+                    }
 
 
 
@@ -85,6 +86,28 @@ angular.module('common').directive('miCertificateActionButtons',
                         });
                     };
 
+                    $scope.onDownloadClicked = function() {
+                        if (MIUser.sekretessmarkering) {
+                            dialogService.showDialog($scope, {
+                                dialogId: 'mi-downloadpdf-sekretess-dialog',
+                                titleId: 'pdf.sekretessmarkeringmodal.header',
+                                bodyTextId: 'pdf.sekretessmarkeringmodal.body',
+                                button1click: function() {
+                                    window.open(buildPdfLink(), '_blank');
+                                },
+                                button2click: function() {
+                                },
+                                button1id: 'close-fkdialog-logout-button',
+                                button1text: 'pdf.sekretessmarkeringmodal.button1',
+                                button2text: 'pdf.sekretessmarkeringmodal.button2',
+                                button2visible: true,
+                                autoClose: true
+                            });
+                        }
+                        else {
+                            window.open(buildPdfLink(), '_blank');
+                        }
+                    }
                 }
             };
         } ]);
