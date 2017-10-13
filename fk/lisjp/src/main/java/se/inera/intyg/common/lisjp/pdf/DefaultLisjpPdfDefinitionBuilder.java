@@ -18,18 +18,17 @@
  */
 package se.inera.intyg.common.lisjp.pdf;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.itextpdf.text.DocumentException;
-
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the default implementation of the print of LISJP.
@@ -74,7 +73,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         addPage1MiscFields(intyg, showFkAddress, allElements);
 
         allElements.add(fraga1(intyg, null));
-        allElements.add(fraga2(intyg, null));
+        allElements.add(fraga2(intyg));
         allElements.add(fraga3(intyg, null));
         allElements.add(fraga4(intyg, null));
 

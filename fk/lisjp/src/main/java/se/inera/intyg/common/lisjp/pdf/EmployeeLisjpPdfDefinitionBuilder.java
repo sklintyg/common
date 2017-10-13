@@ -18,20 +18,19 @@
  */
 package se.inera.intyg.common.lisjp.pdf;
 
-import static se.inera.intyg.common.fkparent.pdf.PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.itextpdf.text.DocumentException;
-
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static se.inera.intyg.common.fkparent.pdf.PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT;
 
 /**
  * To be used to print the employee copy of LISJP.
@@ -88,7 +87,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
         addPage1MiscFields(intyg, false, allElements);
 
         allElements.add(fraga1(intyg, optionalFields));
-        allElements.add(fraga2(intyg, optionalFields));
+        allElements.add(fraga2(intyg));
         allElements.add(fraga3(intyg, optionalFields));
         allElements.add(fraga4(intyg, optionalFields));
 
