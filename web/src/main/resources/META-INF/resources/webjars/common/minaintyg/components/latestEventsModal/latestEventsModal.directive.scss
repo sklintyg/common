@@ -46,8 +46,7 @@
     display: table;
     max-width: 95vw;
     min-width: 300px;
-    overflow-x: auto;
-    overflow-y: scroll;
+    overflow: auto;
     position: relative;
     width: auto;
   }
