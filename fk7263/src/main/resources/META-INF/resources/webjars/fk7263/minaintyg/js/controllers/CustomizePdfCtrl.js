@@ -39,6 +39,7 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
                     bodyTextId: 'modules.customize.summary.leave-dialog.body',
                     button1click: function() {
                         //perform navigation
+                        dialogInstance.close();
                         leaveConfirmed = true;
                         $state.go(leaveToState, leaveToParams);
                     },

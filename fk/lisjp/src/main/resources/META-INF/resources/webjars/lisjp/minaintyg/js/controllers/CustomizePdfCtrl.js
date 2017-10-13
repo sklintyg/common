@@ -42,6 +42,7 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
                     bodyTextId: 'modules.customize.summary.leave-dialog.body',
                     button1click: function() {
                         //perform navigation
+                        dialogInstance.close();
                         leaveConfirmed = true;
                         $state.go(leaveToState, leaveToParams);
                     },
