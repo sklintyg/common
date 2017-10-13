@@ -21,9 +21,9 @@
  * Display SRS help texts
  */
 angular.module('common').directive('wcSrsHelpDisplay',
-    ['$q', 'common.srsProxy', 'common.fmbViewState', 'common.srsViewState', 'common.srsLinkCreator',
-        'common.authorityService', '$stateParams', '$rootScope',
-        function($q, srsProxy, fmbViewState, srsViewState, srsLinkCreator, authorityService, $stateParams, $rootScope) {
+    ['$q', 'common.srsProxy', 'common.fmbViewState', 'common.srsViewState', 'common.authorityService', '$stateParams',
+        '$rootScope',
+        function($q, srsProxy, fmbViewState, srsViewState, authorityService, $stateParams, $rootScope) {
             'use strict';
 
             return {
@@ -73,9 +73,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     scope.prediktionInfo = '';
                     scope.prediktionError = '';
-
-                    scope.getAtgardLink = srsLinkCreator.createAtgardsrekommendationLink;
-                    scope.getPrediktionsModellLink = srsLinkCreator.createPrediktionsModellLink;
 
                     scope.activeTab = 'atgarder';
 

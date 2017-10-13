@@ -43,16 +43,12 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                     $window.open(srsLinkCreator.createPrediktionsModellLink, '_blank');
                 };
 
-                scope.redirectToAtgardExternalSite = function(diagnosKod){
-                    //Användare: srs-dev
-                    //Lösenord: SRS2k17
-                    window.open(srsLinkCreator.createAtgardsrekommendationLink(diagnosKod));
+                scope.redirectToAtgardExternalSite = function(){
+                    window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.originalDiagnosKod || scope.diagnosKod));
                 };
 
-                scope.redirectToStatistikExternalSite = function(diagnosKod){
-                    //Användare: srs-dev
-                    //Lösenord: SRS2k17
-                    window.open(srsLinkCreator.createStatistikLink(diagnosKod));
+                scope.redirectToStatistikExternalSite = function(){
+                    window.open(srsLinkCreator.createStatistikLink(scope.originalDiagnosKod || scope.diagnosKod));
                 };
 
                 scope.$watch('status', function(status){
