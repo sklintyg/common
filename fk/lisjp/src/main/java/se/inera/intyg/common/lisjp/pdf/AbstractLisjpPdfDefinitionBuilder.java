@@ -150,7 +150,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga1;
     }
 
-    FkFieldGroup fraga2(LisjpUtlatande intyg, List<String> optionalFields) {
+    FkFieldGroup fraga2(LisjpUtlatande intyg) {
         FkFieldGroup fraga2 = new FkFieldGroup("2. " + getText("FRG_1.RBK"))
                 .offset(KATEGORI_OFFSET_X, 108f)
                 .size(KATEGORI_FULL_WIDTH, 43f)
