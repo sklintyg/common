@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('latestEvents', ['$filter', 'common.messageService', 'common.recipientsFactory',
-    function($filter, messageService, recipientsFactory) {
+angular.module('common').directive('latestEvents', ['$filter', 'common.messageService', 'common.recipientsFactory', '$uibModal',
+    function($filter, messageService, recipientsFactory, $uibModal) {
         'use strict';
 
         function _getEventText(msgProperty, params) {
@@ -33,7 +33,6 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
             scope: {
                 certId: '@',
                 statuses: '=',
-                hideHeader: '@',
                 maxStatuses: '@'
             },
             templateUrl: '/web/webjars/common/minaintyg/components/latestEvents/latestEvents.directive.html',
@@ -51,9 +50,6 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
 
                 scope.messageService = messageService;
                 scope.isCollapsedArchive = true;
-
-                // Default hideHeader attribute to false if not explicitly set to true
-                scope.hideHeader = attrs.hideHeader === 'true';
 
                 // Compile event status message info (date and text)
                 scope.getEventInfo = function(status) {
@@ -78,14 +74,28 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
 
                 scope.expandClicked = function() {
                     if (scope.filteredStatuses.length > 4) {
-                        if (!scope.showModal) {
-                            scope.showModal = {};
-                        }
-                        scope.showModal.value = !scope.showModal.value;
+                        openModal();
                     } else {
                         scope.isCollapsedArchive = !scope.isCollapsedArchive;
                     }
                 };
+
+                function openModal() {
+                    var modalCtrl = function($scope, $uibModalInstance) {
+                        $scope.close = function() {
+                            $uibModalInstance.close();
+                        };
+                    };
+
+                    $uibModal.open({
+                        scope: scope,
+                        windowClass: 'latest-events-modal',
+                        templateUrl: '/web/webjars/common/minaintyg/components/latestEventsModal/latestEventsModal.html',
+                        backdrop: 'static',
+                        keyboard: false,
+                        controller: modalCtrl
+                    });
+                }
 
             }
 

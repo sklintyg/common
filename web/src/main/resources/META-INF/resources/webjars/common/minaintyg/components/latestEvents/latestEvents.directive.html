@@ -16,8 +16,6 @@
       <span ng-attr-id="event-timestamp-{{certId}}-{{$index}}" class="latest-events-timestamp">{{info.timestamp}}</span>
       <span class="event-text" ng-attr-id="event-text-{{certId}}-{{$index}}">{{info.text}}</span>
     </div>
-
-    <events-modal show-modal="showModal" statuses="filteredStatuses" hide-header="hideHeader" get-event-info="getEventInfo(status)"/>
   </div>
   <div ng-if="filteredStatuses.length == 0" data-ng-attr-class="certificate-noevents-{{certId}}">
     <div ng-attr-id="event-{{certId}}">{{messageService.getProperty('certificates.status.noevents')}}</div>
