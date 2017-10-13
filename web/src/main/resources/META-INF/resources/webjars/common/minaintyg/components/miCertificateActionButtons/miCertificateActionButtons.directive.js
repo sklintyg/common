@@ -107,7 +107,7 @@ angular.module('common').directive('miCertificateActionButtons',
                         else {
                             window.open(buildPdfLink(), '_blank');
                         }
-                    }
+                    };
                 }
             };
         } ]);
