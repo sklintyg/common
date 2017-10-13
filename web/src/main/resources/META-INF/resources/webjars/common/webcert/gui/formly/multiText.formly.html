@@ -1,7 +1,7 @@
 <div>
   <wc-form-label to="to" key="options.key"></wc-form-label>
   <textarea id="{{options.key}}" name="{{options.key}}" class="form-control" rows="6" auto-expand ng-model="model[options.key]"
-            maxlength="{{to.maxlength || 4000}}">
+            maxlength="{{to.maxlength || 3500}}">
   </textarea>
   <div ng-if="to.subTextId && to.subTextDynId" class="info-transfer">
     <span ng-if="to.subTextId && to.subTextDynId" combined-label dyn-key="{{to.subTextDynId}}.RBK"
