@@ -14,6 +14,10 @@ mi-checkbox-slider {
     cursor: pointer;
     padding-right: 10px;
 
+    @media (min-width: 768px) and (max-width: 1199px) {
+      padding-right: 0;
+    }
+
     &.switch-on {
       color: green;
     }

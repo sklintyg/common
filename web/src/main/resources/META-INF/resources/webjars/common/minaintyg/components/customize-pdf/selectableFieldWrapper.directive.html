@@ -5,7 +5,7 @@
     <div ng-if="!summary">
       <div class="row">
         <!-- mandatory / checkbox -->
-        <div class="inclusion col-xs-12 col-sm-3 pull-right">
+        <div class="inclusion col-xs-12 col-sm-4 col-md-3 pull-right">
 
           <span ng-if="fc.mandatory">
             <span class="mandatory" message key="modules.customize.label.mandatory"></span>
@@ -20,7 +20,7 @@
 
         <!-- field header title -->
 
-        <div class="col-xs-12 col-sm-9" ng-class="{'unselected': !fc.selected}">
+        <div class="col-xs-12 col-sm-8 col-md-9" ng-class="{'unselected': !fc.selected}">
           <div class="title">
             <h3 ng-if="labelKey"><span dynamic-label key="{{labelKey}}"></span></h3>
             <h4 ng-if="subLabelKey"><span dynamic-label key="{{subLabelKey}}"></span></h4>
