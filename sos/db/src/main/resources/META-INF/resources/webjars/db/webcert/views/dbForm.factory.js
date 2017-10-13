@@ -36,8 +36,8 @@ angular.module('db').factory('db.FormFactory',
                             type: 'boolean',
                             templateOptions: {
                                 label: 'FRG_2',
-                                yesLabel: 'DFR_2.1.SVA_1',
-                                noLabel: 'DFR_2.1.SVA_2',
+                                yesLabel: 'SVAR_SAKERT.RBK',
+                                noLabel: 'SVAR_EJ_SAKERT.RBK',
                                 required: true
                             }
                         },
@@ -76,7 +76,7 @@ angular.module('db').factory('db.FormFactory',
                             type: 'radio-group',
                             templateOptions: {
                                 label: 'DFR_3.2',
-                                code: 'KV_DODSPLATS_BOENDE',
+                                code: 'DODSPLATS_BOENDE',
                                 choices: [
                                     'SJUKHUS',
                                     'ORDINART_BOENDE',
@@ -158,7 +158,7 @@ angular.module('db').factory('db.FormFactory',
                             type: 'radio-group',
                             templateOptions: {
                                 label: 'DFR_6.1',
-                                code: 'KV_DETALJER_UNDERSOKNING',
+                                code: 'DETALJER_UNDERSOKNING',
                                 choices: ['JA',
                                     'UNDERSOKNING_SKA_GORAS',
                                     'UNDERSOKNING_GJORT_KORT_FORE_DODEN'

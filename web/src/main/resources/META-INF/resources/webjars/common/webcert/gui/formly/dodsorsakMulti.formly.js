@@ -92,7 +92,7 @@ angular.module('common').run(function(formlyConfig) {
                         $scope.to.orsaksTyper.forEach(function(orsaksTyp) {
                             $scope.orsakOptions.push({
                                 'id': orsaksTyp,
-                                'label': dynamicLabelService.getProperty('KV_ORSAKSTYPER.' + orsaksTyp + '.RBK')
+                                'label': dynamicLabelService.getProperty('DELAD_SVAR.' + orsaksTyp + '.RBK')
                             });
                         });
                     }

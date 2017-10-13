@@ -64,8 +64,8 @@ angular.module('doi').factory('doi.FormFactory',
                             type: 'boolean',
                             templateOptions: {
                                 label: 'FRG_2',
-                                yesLabel: 'DFR_2.1.SVA_1',
-                                noLabel: 'DFR_2.1.SVA_2',
+                                yesLabel: 'SVAR_SAKERT.RBK',
+                                noLabel: 'SVAR_EJ_SAKERT.RBK',
                                 required: true
                             }
                         },
@@ -99,7 +99,7 @@ angular.module('doi').factory('doi.FormFactory',
                             type: 'radio-group', // R4
                             templateOptions: {
                                 label: 'DFR_3.2',
-                                code: 'KV_DODSPLATS_BOENDE',
+                                code: 'DODSPLATS_BOENDE',
                                 choices: [
                                     'SJUKHUS',
                                     'ORDINART_BOENDE',
@@ -177,18 +177,18 @@ angular.module('doi').factory('doi.FormFactory',
                                 ],
                                 letter: 'A',
                                 required: true,
-                                beskrivningLabel: 'DFR_8.1',
-                                datumLabel: 'DFR_8.2',
-                                orsakLabel: 'DFR_8.3',
+                                beskrivningLabel: 'DELAD_TEXT.1',
+                                datumLabel: 'DELAD_TEXT.2',
+                                orsakLabel: 'DELAD_TEXT.3',
                                 foljd: {
                                     key: 'foljd',
                                     maxRows: 3,
                                     required: false,
                                     letter: ['B', 'C', 'D'],
                                     label: 'FRG_9',
-                                    beskrivningLabel: 'DFR_9.1',
-                                    datumLabel: 'DFR_9.2',
-                                    orsakLabel: 'DFR_9.3',
+                                    beskrivningLabel: 'DELAD_TEXT.1',
+                                    datumLabel: 'DELAD_TEXT.2',
+                                    orsakLabel: 'DELAD_TEXT.3',
                                     orsaksTyper: [
                                         'UPPGIFT_SAKNAS',
                                         'KRONISK',
@@ -213,9 +213,9 @@ angular.module('doi').factory('doi.FormFactory',
                                     'KRONISK',
                                     'PLOTSLIG'
                                 ],
-                                beskrivningLabel: 'DFR_10.1',
-                                datumLabel: 'DFR_10.2',
-                                orsakLabel: 'DFR_10.3'
+                                beskrivningLabel: 'DELAD_TEXT.1',
+                                datumLabel: 'DELAD_TEXT.2',
+                                orsakLabel: 'DELAD_TEXT.3'
                             }
                         }
                     ])
@@ -227,7 +227,7 @@ angular.module('doi').factory('doi.FormFactory',
                             type: 'radio-group', // R12
                             templateOptions: {
                                 label: 'DFR_11.1',
-                                code: 'KV_OMOPERATION',
+                                code: 'DFR_11.1',
                                 choices: [
                                     'JA',
                                     'NEJ',
@@ -266,7 +266,7 @@ angular.module('doi').factory('doi.FormFactory',
                             hideExpression: 'model.forgiftning !== true', // R14
                             templateOptions: {
                                 label: 'DFR_12.2',
-                                code: 'KV_ORSAK',
+                                code: 'ORSAK',
                                 choices: [
                                     'OLYCKSFALL',
                                     'SJALVMORD',
@@ -299,7 +299,7 @@ angular.module('doi').factory('doi.FormFactory',
                                 label: 'DFR_13.1',
                                 required: true,
                                 descLabel: 'DFR_13.1',
-                                code: 'KV_DODSORSAKSUPPGIFTER',
+                                code: 'DODSORSAKSUPPGIFTER',
                                 choices: [
                                     'UNDERSOKNING_FORE_DODEN',
                                     'UNDERSOKNING_EFTER_DODEN',

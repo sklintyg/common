@@ -24,8 +24,8 @@ angular.module('db').factory('db.viewConfigFactory', [ 'uvUtil', function(uvUtil
             components: [{
                 type: 'uv-enum-value',
                 values: {
-                    'true'  : 'DFR_2.1.SVA_1',
-                    'false' : 'DFR_2.1.SVA_2'
+                    'true'  : 'SVAR_SAKERT.RBK',
+                    'false' : 'SVAR_EJ_SAKERT.RBK'
                 },
                 modelProp: 'dodsdatumSakert'
             }, {
@@ -60,7 +60,7 @@ angular.module('db').factory('db.viewConfigFactory', [ 'uvUtil', function(uvUtil
                 components: [ {
                     type: 'uv-kodverk-value',
                     kvModelProps: ['dodsplatsBoende'],
-                    kvLabelKeys: ['KV_DODSPLATS_BOENDE.{var}.RBK']
+                    kvLabelKeys: ['DODSPLATS_BOENDE.{var}.RBK']
                 } ]
 
             } ]
@@ -103,7 +103,7 @@ angular.module('db').factory('db.viewConfigFactory', [ 'uvUtil', function(uvUtil
             components: [ {
                 type: 'uv-kodverk-value',
                 kvModelProps: ['undersokningYttre'],
-                kvLabelKeys: ['KV_DETALJER_UNDERSOKNING.{var}.RBK']
+                kvLabelKeys: ['DETALJER_UNDERSOKNING.{var}.RBK']
             }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_6.3.RBK',

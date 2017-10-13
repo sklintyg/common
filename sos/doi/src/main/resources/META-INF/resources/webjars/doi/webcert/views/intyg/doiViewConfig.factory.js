@@ -54,8 +54,8 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                 components: [{
                     type: 'uv-enum-value',
                     values: {
-                        'true'  : 'DFR_2.1.SVA_1',
-                        'false' : 'DFR_2.1.SVA_2'
+                        'true'  : 'SVAR_SAKERT.RBK',
+                        'false' : 'SVAR_EJ_SAKERT.RBK'
                     },
                     modelProp: 'dodsdatumSakert'
                 }, {
@@ -90,7 +90,7 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                     components: [ {
                         type: 'uv-kodverk-value',
                         kvModelProps: ['dodsplatsBoende'],
-                        kvLabelKeys: ['KV_DODSPLATS_BOENDE.{var}.RBK']
+                        kvLabelKeys: ['DODSPLATS_BOENDE.{var}.RBK']
                     } ]
 
                 } ]
@@ -124,8 +124,8 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['DFR_8.1.RBK', 'DFR_8.2.RBK', 'DFR_8.3.RBK'],
-                            valueProps: ['beskrivning', 'datum', 'KV_ORSAKSTYPER.{specifikation}.RBK'],
+                            headers: ['DELAD_TEXT.1.RBK', 'DELAD_TEXT.2.RBK', 'DELAD_TEXT.3.RBK'],
+                            valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
                             modelProp: 'terminalDodsorsak'
                         }
                     ]
@@ -136,8 +136,8 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['DFR_9.1.RBK', 'DFR_9.2.RBK', 'DFR_9.3.RBK'],
-                            valueProps: ['beskrivning', 'datum', 'KV_ORSAKSTYPER.{specifikation}.RBK'],
+                            headers: ['DELAD_TEXT.1.RBK', 'DELAD_TEXT.2.RBK', 'DELAD_TEXT.3.RBK'],
+                            valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
                             modelProp: 'foljd'
                         }
                     ]
@@ -148,8 +148,8 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['DFR_10.1.RBK', 'DFR_10.2.RBK', 'DFR_10.3.RBK'],
-                            valueProps: ['beskrivning', 'datum', 'KV_ORSAKSTYPER.{specifikation}.RBK'],
+                            headers: ['DELAD_TEXT.1.RBK', 'DELAD_TEXT.2.RBK', 'DELAD_TEXT.3.RBK'],
+                            valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
                             modelProp: 'bidragandeSjukdomar'
                         }
                     ]
@@ -169,7 +169,7 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                         components: [ {
                             type: 'uv-kodverk-value',
                             kvModelProps: ['operation'],
-                            kvLabelKeys: ['KV_OMOPERATION.{var}.RBK']
+                            kvLabelKeys: ['DFR_11.1.{var}.RBK']
                         }  ]
                     },
                     {
@@ -212,7 +212,7 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                         components: [ {
                             type: 'uv-kodverk-value',
                             kvModelProps: ['forgiftningOrsak'],
-                            kvLabelKeys: ['KV_ORSAK.{var}.RBK']
+                            kvLabelKeys: ['ORSAK.{var}.RBK']
                         }  ]
                     },
                     {
@@ -242,7 +242,7 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                 labelKey: 'DFR_13.1.RBK',
                 components: [ {
                     type: 'uv-list',
-                    labelKey: 'KV_DODSORSAKSUPPGIFTER.{var}.RBK', // {var} is a placeholder for sysselsattning.typ values
+                    labelKey: 'DODSORSAKSUPPGIFTER.{var}.RBK', // {var} is a placeholder for sysselsattning.typ values
                     modelProp: 'grunder'
                 } ]
             } ]
