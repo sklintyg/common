@@ -63,9 +63,14 @@ public class RoundTripTest {
 
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
-        return ScenarioFinder.getInternalScenarios("*").stream()
+        Collection<Object[]> ret =  ScenarioFinder.getInternalScenarios("pass-*").stream()
                 .map(u -> new Object[] { u.getName(), u })
                 .collect(Collectors.toList());
+
+        ret.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
+                .map(u -> new Object[] { u.getName(), u })
+                .collect(Collectors.toList()));
+        return ret;
     }
 
     /**

@@ -68,6 +68,8 @@ import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 public final class InternalConverterUtil {
 
     private static final String NOT_AVAILABLE = "N/A";
+    private static final int DATE_PARSE_SECTIONS = 3;
+    private static final String GENERAL_DATE_FORMAT = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
     private InternalConverterUtil() {
     }
@@ -207,6 +209,21 @@ public final class InternalConverterUtil {
 
     public static String getInternalDateContent(InternalDate internalDate) {
         return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
+    }
+
+    public static String getInternalDateContentFillWithZeros(InternalDate internalDate) {
+        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : fillWithZeros(internalDate);
+    }
+
+    private static String fillWithZeros(InternalDate internalDate) {
+        StringBuilder sb = internalDate.toString().isEmpty() ? new StringBuilder("0000")
+                : new StringBuilder(internalDate.toString());
+        for (int i = 0; i < DATE_PARSE_SECTIONS; i++) {
+            if (!sb.toString().matches(GENERAL_DATE_FORMAT)) {
+                sb.append("-00");
+            }
+        }
+        return sb.toString();
     }
 
     private static String emptyStringIfNull(String s) {

@@ -86,53 +86,53 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 public class UtlatandeToIntygTest {
+    private final String intygsId = "intygsid";
+    private final String textVersion = "textversion";
+    private final String enhetsId = "enhetsid";
+    private final String enhetsnamn = "enhetsnamn";
+    private final String patientPersonId = "pid";
+    private final String skapadAvFullstandigtNamn = "fullständigt namn";
+    private final String skapadAvPersonId = "skapad av pid";
+    private final LocalDateTime signeringsdatum = LocalDateTime.now();
+    private final String arbetsplatsKod = "arbetsplatsKod";
+    private final String postadress = "postadress";
+    private final String postNummer = "postNummer";
+    private final String postOrt = "postOrt";
+    private final String epost = "epost";
+    private final String telefonNummer = "telefonNummer";
+    private final String vardgivarid = "vardgivarid";
+    private final String vardgivarNamn = "vardgivarNamn";
+    private final String forskrivarKod = "forskrivarKod";
+    private final String fornamn = "fornamn";
+    private final String efternamn = "efternamn";
+    private final String mellannamn = "mellannamn";
+    private final String patientPostadress = "patientPostadress";
+    private final String patientPostnummer = "patientPostnummer";
+    private final String patientPostort = "patientPostort";
+    private final String identitetStyrkt = "identitetStyrkt";
+    private Boolean dodsdatumSakert = true;
+    private final InternalDate dodsdatum = new InternalDate(LocalDate.of(2017, 1, 1));
+    private final InternalDate antraffatDod = new InternalDate(LocalDate.of(2017, 1, 2));
+    private final String kommun = "kommun";
+    private final DodsplatsBoende boende = DodsplatsBoende.ORDINART_BOENDE;
+    private final Boolean barn = true;
+    private final Dodsorsak dodsorsak = Dodsorsak.create("dodsorsak", new InternalDate(LocalDate.of(2017, 1, 3)), Specifikation.KRONISK);
+    private final List<Dodsorsak> foljd = ImmutableList
+            .<Dodsorsak>of(Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 4)), Specifikation.KRONISK));
+    private final List<Dodsorsak> bidragandeSjukdomar = ImmutableList.<Dodsorsak>of(
+            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 5)), Specifikation.PLOTSLIG));
+    private final OmOperation operation = OmOperation.UPPGIFT_SAKNAS;
+    private final InternalDate operationDatum = new InternalDate(LocalDate.of(2017, 1, 6));
+    private final String operationAnledning = "anledning";
+    private final boolean forgiftning = true;
+    private final ForgiftningOrsak forgiftningOrsak = ForgiftningOrsak.AVSIKTLIGT_VALLAD;
+    private final InternalDate forgiftningDatum = new InternalDate(LocalDate.of(2017, 1, 5));
+    private final String forgiftningUppkommelse = "uppkommelse";
+    private final List<Dodsorsaksgrund> grunder = ImmutableList.<Dodsorsaksgrund>of(Dodsorsaksgrund.KLINISK_OBDUKTION);
+    private final String land = "land";
+
     @Test
     public void testConvert() throws Exception {
-        final String intygsId = "intygsid";
-        final String textVersion = "textversion";
-        final String enhetsId = "enhetsid";
-        final String enhetsnamn = "enhetsnamn";
-        final String patientPersonId = "pid";
-        final String skapadAvFullstandigtNamn = "fullständigt namn";
-        final String skapadAvPersonId = "skapad av pid";
-        final LocalDateTime signeringsdatum = LocalDateTime.now();
-        final String arbetsplatsKod = "arbetsplatsKod";
-        final String postadress = "postadress";
-        final String postNummer = "postNummer";
-        final String postOrt = "postOrt";
-        final String epost = "epost";
-        final String telefonNummer = "telefonNummer";
-        final String vardgivarid = "vardgivarid";
-        final String vardgivarNamn = "vardgivarNamn";
-        final String forskrivarKod = "forskrivarKod";
-        final String fornamn = "fornamn";
-        final String efternamn = "efternamn";
-        final String mellannamn = "mellannamn";
-        final String patientPostadress = "patientPostadress";
-        final String patientPostnummer = "patientPostnummer";
-        final String patientPostort = "patientPostort";
-        final String identitetStyrkt = "identitetStyrkt";
-        final Boolean dodsdatumSakert = true;
-        final InternalDate dodsdatum = new InternalDate(LocalDate.of(2017, 1, 1));
-        final InternalDate antraffatDod = new InternalDate(LocalDate.of(2017, 1, 2));
-        final String kommun = "kommun";
-        final DodsplatsBoende boende = DodsplatsBoende.ORDINART_BOENDE;
-        final Boolean barn = true;
-        final Dodsorsak dodsorsak = Dodsorsak.create("dodsorsak", new InternalDate(LocalDate.of(2017, 1, 3)), Specifikation.KRONISK);
-        final List<Dodsorsak> foljd = ImmutableList
-                .<Dodsorsak>of(Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 4)), Specifikation.KRONISK));
-        final List<Dodsorsak> bidragandeSjukdomar = ImmutableList.<Dodsorsak>of(
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 5)), Specifikation.PLOTSLIG));
-        final OmOperation operation = OmOperation.UPPGIFT_SAKNAS;
-        final InternalDate operationDatum = new InternalDate(LocalDate.of(2017, 1, 6));
-        final String operationAnledning = "anledning";
-        final boolean forgiftning = true;
-        final ForgiftningOrsak forgiftningOrsak = ForgiftningOrsak.AVSIKTLIGT_VALLAD;
-        final InternalDate forgiftningDatum = new InternalDate(LocalDate.of(2017, 1, 5));
-        final String forgiftningUppkommelse = "uppkommelse";
-        final List<Dodsorsaksgrund> grunder = ImmutableList.<Dodsorsaksgrund>of(Dodsorsaksgrund.KLINISK_OBDUKTION);
-        final String land = "land";
-
         DoiUtlatande utlatande = DoiUtlatande.builder()
                 .setId(intygsId)
                 .setTextVersion(textVersion)
@@ -342,6 +342,62 @@ public class UtlatandeToIntygTest {
                 break;
             default:
                 fail();
+            }
+        }
+    }
+
+    @Test
+    public void testConvertOsakertDodsdatum() throws Exception {
+        InternalDate zeroFilledDodsdatum = new InternalDate("2017-01-00");
+
+        DoiUtlatande utlatande = DoiUtlatande.builder()
+                .setId(intygsId)
+                .setTextVersion(textVersion)
+                .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
+                        vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
+                        efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
+                .setIdentitetStyrkt(identitetStyrkt)
+                .setDodsdatumSakert(false)
+                .setDodsdatum(new InternalDate("2017-01"))
+                .setAntraffatDodDatum(antraffatDod)
+                .setDodsplatsKommun(kommun)
+                .setDodsplatsBoende(boende)
+                .setBarn(barn)
+                .setTerminalDodsorsak(dodsorsak)
+                .setFoljd(foljd)
+                .setBidragandeSjukdomar(bidragandeSjukdomar)
+                .setOperation(operation)
+                .setOperationDatum(operationDatum)
+                .setOperationAnledning(operationAnledning)
+                .setForgiftning(forgiftning)
+                .setForgiftningOrsak(forgiftningOrsak)
+                .setForgiftningDatum(forgiftningDatum)
+                .setForgiftningUppkommelse(forgiftningUppkommelse)
+                .setGrunder(grunder)
+                .setLand(land)
+                .build();
+
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+
+        for (Svar svar : intyg.getSvar()) {
+            switch (svar.getId()) {
+                case DODSDATUM_SVAR_ID:
+                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                        switch (delsvar.getId()) {
+                            case DODSDATUM_SAKERT_DELSVAR_ID:
+                                assertEquals(false, Boolean.parseBoolean(getStringContent(delsvar)));
+                                break;
+                            case DODSDATUM_DELSVAR_ID:
+                                assertEquals(zeroFilledDodsdatum, new InternalDate(getStringContent(delsvar)));
+                                break;
+                            case ANTRAFFAT_DOD_DATUM_DELSVAR_ID:
+                                assertEquals(antraffatDod, new InternalDate(getStringContent(delsvar)));
+                                break;
+                            default:
+                                fail();
+                        }
+                    }
+                    break;
             }
         }
     }
