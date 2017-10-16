@@ -22,6 +22,8 @@ angular.module('common').controller('wcVardPersonSekretessDialogCtrl',
             function($scope, $uibModalInstance, $window, UserService, UserModel, preferenceKey) {
                 'use strict';
 
+                var closeAllowed = false;
+
                 $scope.approveChecked = false;
 
                 $scope.giveConsent = function() {
@@ -33,6 +35,7 @@ angular.module('common').controller('wcVardPersonSekretessDialogCtrl',
                     UserService.storeAnvandarPreference(preferenceKey, true);
 
                     //close dialog
+                    closeAllowed = true;
                     $uibModalInstance.close();
 
                 };
@@ -45,4 +48,10 @@ angular.module('common').controller('wcVardPersonSekretessDialogCtrl',
                     $uibModalInstance.close();
                     $window.location.href = '/error.jsp?reason=sekretessapproval.needed' + (UserModel.isNormalOrigin() ? '&showlogin=true' : '');
                 };
+
+                $scope.$on('modal.closing', function(event) {
+                    if (!closeAllowed) {
+                        event.preventDefault();
+                    }
+                })
             } ]);
