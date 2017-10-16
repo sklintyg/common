@@ -177,18 +177,18 @@ angular.module('doi').factory('doi.FormFactory',
                                 ],
                                 letter: 'A',
                                 required: true,
-                                beskrivningLabel: 'DELAD_TEXT.1',
-                                datumLabel: 'DELAD_TEXT.2',
-                                orsakLabel: 'DELAD_TEXT.3',
+                                beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
+                                datumLabel: 'DELAT_TEXT.DEBUT',
+                                orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
                                 foljd: {
                                     key: 'foljd',
                                     maxRows: 3,
                                     required: false,
                                     letter: ['B', 'C', 'D'],
                                     label: 'FRG_9',
-                                    beskrivningLabel: 'DELAD_TEXT.1',
-                                    datumLabel: 'DELAD_TEXT.2',
-                                    orsakLabel: 'DELAD_TEXT.3',
+                                    beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
+                                    datumLabel: 'DELAT_TEXT.DEBUT',
+                                    orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
                                     orsaksTyper: [
                                         'UPPGIFT_SAKNAS',
                                         'KRONISK',
@@ -213,9 +213,9 @@ angular.module('doi').factory('doi.FormFactory',
                                     'KRONISK',
                                     'PLOTSLIG'
                                 ],
-                                beskrivningLabel: 'DELAD_TEXT.1',
-                                datumLabel: 'DELAD_TEXT.2',
-                                orsakLabel: 'DELAD_TEXT.3'
+                                beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
+                                datumLabel: 'DELAT_TEXT.DEBUT',
+                                orsakLabel: 'DELAT_TEXT.SPECIFIKATION'
                             }
                         }
                     ])

@@ -124,7 +124,7 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['DELAD_TEXT.1.RBK', 'DELAD_TEXT.2.RBK', 'DELAD_TEXT.3.RBK'],
+                            headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
                             valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
                             modelProp: 'terminalDodsorsak'
                         }
@@ -136,7 +136,7 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['DELAD_TEXT.1.RBK', 'DELAD_TEXT.2.RBK', 'DELAD_TEXT.3.RBK'],
+                            headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
                             valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
                             modelProp: 'foljd'
                         }
@@ -148,7 +148,7 @@ angular.module('doi').factory('doi.viewConfigFactory', [ 'uvUtil', function(uvUt
                     components: [
                         {
                             type: 'uv-table',
-                            headers: ['DELAD_TEXT.1.RBK', 'DELAD_TEXT.2.RBK', 'DELAD_TEXT.3.RBK'],
+                            headers: ['DELAT_TEXT.BESKRIVNING.RBK', 'DELAT_TEXT.DEBUT.RBK', 'DELAT_TEXT.SPECIFIKATION.RBK'],
                             valueProps: ['beskrivning', 'datum', 'DELAD_SVAR.{specifikation}.RBK'],
                             modelProp: 'bidragandeSjukdomar'
                         }
