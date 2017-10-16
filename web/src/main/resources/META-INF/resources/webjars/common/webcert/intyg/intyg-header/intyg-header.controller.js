@@ -31,7 +31,7 @@ angular.module('common').controller('common.IntygHeader',
             $scope.createFromTemplateConfig = {
                 'db': {
                     'moduleId': 'doi',
-                    'name': 'Dödsorsaksintyg'
+                    'name': 'dödsorsaksintyg'
                 }
             };
 
