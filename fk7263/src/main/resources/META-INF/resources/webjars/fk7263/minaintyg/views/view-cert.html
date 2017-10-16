@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-xs-12 col-sm-5">
-      <latest-events cert-id="{{cert.id}}" statuses="certMeta.statuses"></latest-events>
+      <latest-events cert-id="{{cert.id}}" events="certMeta.events"></latest-events>
     </div>
   </div>
 </mi-page-head>
@@ -34,12 +34,13 @@
   <div class="row-fluid">
 
     <div mi-spinner label="modules.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
-
+      <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
       <mi-certificate-action-buttons
           cert-model="cert"
           on-send="send(cert)"
           enable-archive="true"
           enable-print="true"
+          is-replaced="certMeta.replacedBy"
           on-customize-pdf="customizeCertificate()">
 
       </mi-certificate-action-buttons>

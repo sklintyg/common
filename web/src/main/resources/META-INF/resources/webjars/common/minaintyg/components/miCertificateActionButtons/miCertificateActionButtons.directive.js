@@ -29,7 +29,8 @@ angular.module('common').directive('miCertificateActionButtons',
                     onSend: '&?', // handler for send button. if attribute not present = not enabled
                     enableArchive: '=', // handler for send button. if attribute not present = not enabled
                     enablePrint: '=', // true/false to show print as pdf button
-                    onCustomizePdf: '&?'  // handler for customize pdf  button. if attribute not present = not enabled
+                    onCustomizePdf: '&?',  // handler for customize pdf  button. if attribute not present = not enabled
+                    isReplaced: '=' // boolean for telling us whether the cert is replaced or not.
                 },
                 templateUrl: '/web/webjars/common/minaintyg/components/miCertificateActionButtons/miCertificateActionButtons.directive.html',
                 controller: function($scope) {
@@ -85,7 +86,6 @@ angular.module('common').directive('miCertificateActionButtons',
                             autoClose: false
                         });
                     };
-
                     $scope.onDownloadClicked = function() {
                         if (MIUser.sekretessmarkering) {
                             dialogService.showDialog($scope, {

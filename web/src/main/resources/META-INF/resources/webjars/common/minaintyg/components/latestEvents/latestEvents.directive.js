@@ -32,48 +32,59 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
             replace: true,
             scope: {
                 certId: '@',
-                statuses: '=',
-                maxStatuses: '@'
+                events: '=',
+                maxEvents: '@'
             },
             templateUrl: '/web/webjars/common/minaintyg/components/latestEvents/latestEvents.directive.html',
             link: function(scope, element, attrs) {
 
-                function _updateStatusModel() {
-                    scope.filteredStatuses = $filter('miRelevantStatusFilter')(scope.statuses);
+                function _updateEventModel() {
+                    scope.filteredEvents = $filter('miRelevantEventFilter')(scope.events);
                 }
-                scope.$watch('statuses', function(){
-                    _updateStatusModel();
+                scope.$watch('events', function(){
+                    _updateEventModel();
                 });
 
-                _updateStatusModel();
+                _updateEventModel();
 
 
                 scope.messageService = messageService;
                 scope.isCollapsedArchive = true;
 
-                // Compile event status message info (date and text)
-                scope.getEventInfo = function(status) {
-                    var timestamp = status.timestamp ?
-                        moment(status.timestamp).format('YYYY-MM-DD HH:mm') :
-                        messageService.getProperty('certificates.status.unknowndatetime');
-                    var params = [recipientsFactory.getNameForId(status.target)];
-                    var msgProperty = 'certificates.status.' + status.type.toLowerCase(); //received [sic] or sent
+                // Compile event event message info (date and text)
+                scope.getEventInfo = function(event) {
+                    var timestamp = event.timestamp ?
+                        moment(event.timestamp).format('YYYY-MM-DD HH:mm') :
+                        messageService.getProperty('certificates.events.unknowndatetime');
+
+                    // Ugly knowledge of inner workings of event object. Perhaps move to backed?
+                    var params = [];
+                    if (event.eventType === 'STATUS') {
+                        params.push(recipientsFactory.getNameForId(event.target));
+                    }
+                    if (event.eventType === 'RELATION') {
+
+                        params.push(event.target);
+                        params.push(event.intygsTyp);
+                    }
+
+                    var msgProperty = 'certificates.events.' + event.type.toLowerCase(); //received [sic] or sent
                     var text = _getEventText(msgProperty, params);
                     return {timestamp: timestamp, text: text};
                 };
 
-                scope.statusesShown = function(statuses, statusViewCollapsed) {
-                    var nrOfStats = statuses ? statuses.length : 0;
-                    var shown = Math.min(nrOfStats, scope.maxStatusRows(statusViewCollapsed));
-                    return messageService.getProperty('certificates.status.statusesshown', [shown, nrOfStats]);
+                scope.eventsShown = function(events, eventViewCollapsed) {
+                    var nrOfStats = events ? events.length : 0;
+                    var shown = Math.min(nrOfStats, scope.maxEventRows(eventViewCollapsed));
+                    return messageService.getProperty('certificates.events.eventsshown', [shown, nrOfStats]);
                 };
 
-                scope.maxStatusRows = function(isCollapsedArchive) {
-                    return scope.maxStatuses ? scope.maxStatuses : (isCollapsedArchive ? 2 : 4);
+                scope.maxEventRows = function(isCollapsedArchive) {
+                    return scope.maxEvents ? scope.maxEvents : (isCollapsedArchive ? 2 : 4);
                 };
 
                 scope.expandClicked = function() {
-                    if (scope.filteredStatuses.length > 4) {
+                    if (scope.filteredEvents.length > 4) {
                         openModal();
                     } else {
                         scope.isCollapsedArchive = !scope.isCollapsedArchive;
