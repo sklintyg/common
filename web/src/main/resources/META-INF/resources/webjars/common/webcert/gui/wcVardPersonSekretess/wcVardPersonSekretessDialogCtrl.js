@@ -53,5 +53,5 @@ angular.module('common').controller('wcVardPersonSekretessDialogCtrl',
                     if (!closeAllowed) {
                         event.preventDefault();
                     }
-                })
+                });
             } ]);
