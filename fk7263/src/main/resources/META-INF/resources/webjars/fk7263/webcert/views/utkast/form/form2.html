@@ -4,15 +4,14 @@
   <div wc-field field-label="fk7263.label.diagnos" field-number="2" field-help-text="fk7263.helptext.diagnos"
        field-has-errors="viewState.common.validation.messagesGrouped.diagnos"
        id="diagnoseForm">
-
-      <wc-srs-help-display person-id="model.grundData.patient.personId" hsa-id="model.grundData.skapadAv.vardenhet.enhetsid"
-                           intygs-typ="model.name">
-    <wc-fmb-help-display related-form-id="FALT2" fmb-states="fmbViewState" field-name="DIAGNOS">
-        
-
       <div class="row bottom-padding-medium">
         <div class='col-xs-12'>
           <div class="form-group">
+            <div>
+                <wc-srs-help-display person-id="model.grundData.patient.personId" hsa-id="model.grundData.skapadAv.vardenhet.enhetsid"
+                intygs-typ="model.name">
+                <wc-fmb-help-display related-form-id="FALT2" fmb-states="fmbViewState" field-name="DIAGNOS">
+            </div>
             <span class="bold" message key="fk7263.label.valjkodverk"></span><br>
             <label class="radio-inline">
               <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodverk" value="ICD_10_SE"
