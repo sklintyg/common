@@ -100,7 +100,8 @@ public final class SosInternalDraftValidator {
     public static void validateBarn(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (utlatande.getBarn() == null) {
             ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit.barn", ValidationMessageType.EMPTY);
-        } else if (utlatande.getDodsdatumSakert() && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()) {
+        } else if (utlatande.getDodsdatumSakert() != null && utlatande.getDodsdatumSakert()
+                && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()) {
             // R20
             try {
 
