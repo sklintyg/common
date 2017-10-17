@@ -218,7 +218,8 @@ angular.module('common').factory('common.IntygCopyActions',
                                 }
                             });
                         },
-                        button2click: function () {
+                        button2click: function (modalInstance) {
+                            modalInstance.close();
                             _continueOnDraft(viewState.common.intygProperties.latestChildRelations.replacedByUtkast.intygsId, viewState.intygModel.typ);
                         },
                         button3click: function(modalInstance){
