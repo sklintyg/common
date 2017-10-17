@@ -16,9 +16,15 @@ describe('Filter: miRelevantEvent', function() {
             type: 'SENT'
         }, {
             type: 'UNKNOWN'
+        }, {
+            type: 'ERSATT'
+        }, {
+            type: 'ERSATTER'
         } ];
-
-        expect(_filter(events)).toEqual([events[1]]);
+        expect(_filter(events).length).toEqual(3);
+        expect(_filter(events)[0].type).toEqual('SENT');
+        expect(_filter(events)[1].type).toEqual('ERSATT');
+        expect(_filter(events)[2].type).toEqual('ERSATTER');
     });
 
     it('should handle no events', function() {
