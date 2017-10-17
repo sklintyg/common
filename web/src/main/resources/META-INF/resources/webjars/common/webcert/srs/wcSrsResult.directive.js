@@ -29,10 +29,9 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
             restrict: 'E',
             link: function (scope, element, attrs) {
 
-
-                scope.riskInfoOpen = false;
+                scope.status.riskInfoOpen = false;
                 scope.closeSrs = function(){
-                    scope.riskInfoOpen = false;
+                    scope.status.riskInfoOpen = false;
                 };
 
                 scope.externalRisk = {
@@ -53,7 +52,7 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
 
                 scope.$watch('status', function(status){
                     if(!status.open){
-                        scope.riskInfoOpen = false;
+                        scope.status.riskInfoOpen = false;
                     }
                 }, true);
 
