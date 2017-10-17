@@ -22,7 +22,6 @@ import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
@@ -60,9 +59,6 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
 
-    @Value("${fk7263.register.medical.certificate.force.fullstandigtnamn}")
-    private String forceFullstandigtNamnPlaceholder;
-
     @PostConstruct
     public void initializeJaxbContext() throws JAXBException {
         jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
@@ -77,16 +73,7 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
         try {
             validateTransport(registerMedicalCertificate);
 
-            // INTYG-4447: A hack to mitigate a problem with the Anpassningsplattform component requiring fullstandigtNamn
-            // during a transitional period. REMOVE as soon as possible. See Marval UPG-116595.
-            if ("true".equalsIgnoreCase(forceFullstandigtNamnPlaceholder)) {
-                registerMedicalCertificate.getLakarutlatande().getPatient().setFullstandigtNamn("---");
-            }
-
             Fk7263Utlatande utlatande = TransportToInternal.convert(registerMedicalCertificate.getLakarutlatande());
-            if ("true".equalsIgnoreCase(forceFullstandigtNamnPlaceholder)) {
-                utlatande.getGrundData().getPatient().setFullstandigtNamn("---");
-            }
 
             String xml = xmlToString(registerMedicalCertificate);
             CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
