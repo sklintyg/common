@@ -5,7 +5,7 @@
     <button ng-if="!maxEvents" id="showEventsBtn-{{certId}}" type="button" class="btn-link btn-link-link pull-right"
             href="#event" ng-show="filteredEvents.length > 2"
             ng-click="expandClicked()">
-      <i class="icon icon-up-open rotate-180"></i> <span message key="label.event.{{ !isCollapsedArchive }}"></span>
+      <i class="icon icon-up-open rotate-180"></i> <span message key="label.status.{{ !isCollapsedArchive }}"></span>
     </button>
     <div style="clear:both"></div>
   </div>
@@ -14,7 +14,7 @@
          ng-init="info = getEventInfo(event)" ng-attr-id="event-{{certId}}-{{$index}}"
          ng-class="{'event-row-tight': maxEvents, 'event-row': !maxEvents, 'stripe-dark': !maxEvents && $even}" >
       <span ng-attr-id="event-timestamp-{{certId}}-{{$index}}" class="latest-events-timestamp">{{info.timestamp}}</span>
-      <span class="event-text" ng-attr-id="event-text-{{certId}}-{{$index}}" ng-bind-html="info.text"></span>
+      <latest-events-text class="event-text" ng-attr-id="event-text-{{::certId}}-{{::$index}}" text="info.text" view-cert="viewCert(type, id)"></latest-events-text>
     </div>
   </div>
   <div ng-if="filteredEvents.length == 0" data-ng-attr-class="certificate-noevents-{{certId}}">

@@ -70,7 +70,14 @@ angular.module('common').constant('common.messages', {
         'modules.page-header.info.more.true':'<span class="glyphicon glyphicon-chevron-down"></span> Läs mer om knappfunktioner',
         'modules.view-intyg.end-of-intyg.text': 'Slut på intyget',
 
-
+        // Certificates events
+        'certificates.events.received': 'Mottagits av {0}',
+        'certificates.events.sent': 'Skickat till {0}',
+        'certificates.events.noevents': 'Inga händelser',
+        'certificates.events.unknowndatetime': 'Okänd tid',
+        'certificates.events.eventsshown': '(Visar {0} av {1})',
+        'certificates.events.ersatt': 'Ersattes av vården med ett nytt <a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">intyg</a>',
+        'certificates.events.ersatter': 'Ersätter ett <a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">intyg</a> som inte längre är aktuellt',
 
         //Common text in customized pdf wizard (lisjp and fk7263)
         'modules.customize.label.mandatory': 'Obligatorisk info',

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('latestEvents', ['$filter', 'common.messageService', 'common.recipientsFactory', '$uibModal',
-    function($filter, messageService, recipientsFactory, $uibModal) {
+angular.module('common').directive('latestEvents', ['$filter', 'common.messageService', 'common.recipientsFactory', '$uibModal', '$state',
+    function($filter, messageService, recipientsFactory, $uibModal, $state) {
         'use strict';
 
         function _getEventText(msgProperty, params) {
@@ -36,7 +36,7 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
                 maxEvents: '@'
             },
             templateUrl: '/web/webjars/common/minaintyg/components/latestEvents/latestEvents.directive.html',
-            link: function(scope, element, attrs) {
+            link: function(scope) {
 
                 function _updateEventModel() {
                     scope.filteredEvents = $filter('miRelevantEventFilter')(scope.events);
@@ -91,10 +91,19 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
                     }
                 };
 
+                scope.viewCert = function(type, certId) {
+                    $state.go(type.toLowerCase() + '-view', {certificateId: certId});
+                };
+
                 function openModal() {
                     var modalCtrl = function($scope, $uibModalInstance) {
                         $scope.close = function() {
                             $uibModalInstance.close();
+                        };
+
+                        $scope.viewCert = function(type, certId) {
+                            $scope.close();
+                            scope.viewCert(type, certId);
                         };
                     };
 
