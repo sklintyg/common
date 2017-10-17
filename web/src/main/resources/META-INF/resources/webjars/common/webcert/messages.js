@@ -478,6 +478,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.singledate.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
         'common.validation.single-text.empty': 'Fältet får inte vara tomt.',
         'common.validation.single-text-vertical.empty': 'Fältet får inte vara tomt.',
+        'common.validation.typeahead.empty': 'Fältet får inte vara tomt.',
         'common.validation.underlag.empty': 'Minst en rad måste fyllas i',
         'common.validation.date.empty': 'Fältet får inte vara tomt.',
         'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
