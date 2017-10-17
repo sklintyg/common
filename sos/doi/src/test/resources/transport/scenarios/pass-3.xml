@@ -277,8 +277,5 @@
                 </ns3:cv>
             </delsvar>
         </svar>
-        <svar id="14">
-            <delsvar id="14.1">Sverige</delsvar>
-        </svar>
     </ns2:intyg>
 </ns2:RegisterCertificate>

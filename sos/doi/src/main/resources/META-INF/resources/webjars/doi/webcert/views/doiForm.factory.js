@@ -53,7 +53,7 @@ angular.module('doi').factory('doi.FormFactory',
                         {
                             key: 'land',
                             type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_14.1', required: true}
+                            templateOptions: {label: 'DFR_14.1', required: false}
                         }
                     ])
                 ]),

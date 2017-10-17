@@ -60,15 +60,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         validateOperation(utlatande, validationMessages);
         validateForgiftning(utlatande, validationMessages);
         validateGrunder(utlatande, validationMessages);
-        validateLand(utlatande, validationMessages);
 
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
-    }
-
-    private void validateLand(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (Strings.nullToEmpty(utlatande.getLand()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "personuppgifter.land", ValidationMessageType.EMPTY);
-        }
     }
 
     private void validateDodsorsak(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {

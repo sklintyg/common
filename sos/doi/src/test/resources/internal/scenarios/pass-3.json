@@ -82,7 +82,6 @@
     "KLINISK_OBDUKTION",
     "UNDERSOKNING_FORE_DODEN"
   ],
-  "land": "Sverige",
   "textVersion": "1.0",
   "grundData": {
     "patient": {
