@@ -19,9 +19,9 @@
 
 angular.module('common').factory('common.IntygMakulera',
     [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel', 'common.IntygHelper',
-        'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService',
+        'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService',
         function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper, CommonViewState,
-            ArendeListViewStateService, moduleService) {
+            ArendeListViewStateService, moduleService, featureService) {
             'use strict';
 
             // Makulera dialog setup
@@ -34,9 +34,15 @@ angular.module('common').factory('common.IntygMakulera',
                 dialogModel.showerror = false;
 
                 var revokeMessage = {
-                    message : dialogModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason],
+                    message : '',
                     reason : dialogModel.makuleraModel.reason
                 };
+                if (dialogModel.makuleraModel.reason) {
+                    revokeMessage.message += dialogModel.labels[dialogModel.makuleraModel.reason];
+                    if (dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason]) {
+                        revokeMessage.message += ' ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason];
+                    }
+                }
                 revokeMessage.message.trim();
 
                 function onMakuleraComplete() {
@@ -90,7 +96,7 @@ angular.module('common').factory('common.IntygMakulera',
                     }
                 };
 
-                if (CommonViewState.intygProperties.type !== 'db' && CommonViewState.intygProperties.type !== 'doi') {
+                if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, CommonViewState.intygProperties.type)) {
                     dialogMakuleraModel.labels = {
                         'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
                         'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'
