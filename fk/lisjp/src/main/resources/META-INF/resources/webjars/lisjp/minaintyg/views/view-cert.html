@@ -8,9 +8,8 @@
         <span id="viewCertificateHeader" message key="modules.page-header.view-intyg.page-title"></span>
       </h1>
 
-      <div>
-        <span message key="lisjp.label.pageingress"></span>
-      </div>
+      <mi-certificate-header-pageingress is-replaced="certMeta.isReplaced" default-message-key="lisjp.label.pageingress"
+                                         replaced-message-key="lisjp.label.pageingress.ersatt"></mi-certificate-header-pageingress>
 
       <div uib-collapse="!isCollapsed1" class="collapse">
         <span message key="modules.page-header.info.select-recipients-and-send"></span>
@@ -40,13 +39,8 @@
 
       <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
 
-      <mi-certificate-action-buttons
-          cert-model="cert"
-          on-send="send(cert)"
-          enable-archive="true"
-          enable-print="true"
-          is-replaced="certMeta.replacedBy"
-          on-customize-pdf="customizeCertificate()">
+      <mi-certificate-action-buttons cert-model="cert" on-send="send(cert)" enable-archive="true" enable-print="true"
+                                     is-replaced="certMeta.replacedBy" on-customize-pdf="customizeCertificate()">
 
       </mi-certificate-action-buttons>
 

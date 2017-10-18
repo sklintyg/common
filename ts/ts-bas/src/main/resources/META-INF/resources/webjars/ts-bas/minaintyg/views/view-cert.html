@@ -27,9 +27,8 @@
         <span message id="viewCertificateHeader" key="modules.page-header.view-intyg.page-title"></span>
       </h1>
 
-      <div>
-        <span message key="ts-bas.label.pageingress"></span>
-      </div>
+      <mi-certificate-header-pageingress is-replaced="certMeta.isReplaced" default-message-key="ts-bas.label.pageingress"
+                                         replaced-message-key="ts-bas.label.pageingress.ersatt"></mi-certificate-header-pageingress>
 
       <div uib-collapse="!isCollapsed1" class="collapse">
         <span message key="modules.page-header.info.select-recipients-and-send.ts"></span>

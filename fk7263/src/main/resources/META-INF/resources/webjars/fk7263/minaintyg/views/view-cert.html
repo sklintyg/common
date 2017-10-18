@@ -8,9 +8,8 @@
         <span id="viewCertificateHeader" message key="modules.page-header.view-intyg.page-title"></span>
       </h1>
 
-      <div>
-        <span message key="fk7263.label.pageingress"></span>
-      </div>
+      <mi-certificate-header-pageingress is-replaced="certMeta.isReplaced" default-message-key="fk7263.label.pageingress"
+                                         replaced-message-key="fk7263.label.pageingress.ersatt"></mi-certificate-header-pageingress>
 
       <div uib-collapse="!isCollapsed1" class="collapse">
         <span message key="modules.page-header.info.select-recipients-and-send"></span>
