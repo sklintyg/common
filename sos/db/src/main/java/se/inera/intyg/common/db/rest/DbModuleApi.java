@@ -27,19 +27,24 @@ import se.inera.intyg.common.db.model.converter.InternalToTransport;
 import se.inera.intyg.common.db.model.converter.TransportToInternal;
 import se.inera.intyg.common.db.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
+import se.inera.intyg.common.db.pdf.DbPdfGenerator;
 import se.inera.intyg.common.db.support.DbModuleEntryPoint;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(DbModuleApi.class);
+    private static final String PDF_FILENAME_PREFIX = "dodsbevis";
 
     public DbModuleApi() {
         super(DbUtlatande.class);
@@ -68,7 +73,19 @@ public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin)
             throws ModuleException {
-        throw new ModuleException("Not yet implemented");
+        try {
+            if (ApplicationOrigin.WEBCERT != applicationOrigin) {
+                throw new IllegalArgumentException("Generating PDF not allowed for application origin " + applicationOrigin);
+            }
+            DbUtlatande intyg = getInternal(internalModel);
+            IntygTexts texts = getTexts(DbModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
+            DbPdfGenerator pdfGenerator = new DbPdfGenerator(intyg, texts, statuses);
+            return new PdfResponse(pdfGenerator.getBytes(),
+                    pdfGenerator.generatePdfFilename(intyg.getGrundData().getPatient().getPersonId(), PDF_FILENAME_PREFIX));
+        } catch (SoSPdfGeneratorException e) {
+            LOG.error("Failed to generate PDF for certificate!", e);
+            throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
+        }
     }
 
     @Override

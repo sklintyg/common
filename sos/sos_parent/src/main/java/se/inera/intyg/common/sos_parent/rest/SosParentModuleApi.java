@@ -38,6 +38,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -106,6 +108,9 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     private Class<T> type;
 
     private RegisterCertificateValidator validator = new RegisterCertificateValidator(getSchematronFileName());
+
+    @Autowired(required = false)
+    private IntygTextsService intygTexts;
 
     public SosParentModuleApi(Class<T> type) {
         this.type = type;
@@ -292,7 +297,12 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
             throw new ModuleException(e.getMessage());
         }
     }
-
+    protected IntygTexts getTexts(String intygsTyp, String version) {
+        if (intygTexts == null) {
+            throw new IllegalStateException("intygTextsService not available in this context");
+        }
+        return intygTexts.getIntygTextsPojo(intygsTyp, version);
+    }
     protected abstract T transportToInternal(Intyg intyg) throws ConverterException;
 
     protected abstract RegisterCertificateType internalToTransport(T utlatande) throws ConverterException;
@@ -366,4 +376,5 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         part.setCodeSystem(KV_PART_CODE_SYSTEM);
         return part;
     }
+
 }
