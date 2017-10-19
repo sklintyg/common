@@ -85,8 +85,11 @@ angular.module('common').controller('common.UtkastFooter',
             };
 
             $scope.isSignAndSend = function() {
-                return viewState.common.intyg.isKomplettering || featureService.isFeatureActive(
-                        featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
+                return featureService.isFeatureActive(featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
+            };
+
+            $scope.isSignAndSendOrKomp = function() {
+                return viewState.common.intyg.isKomplettering || $scope.isSignAndSend();
             };
 
             /**
