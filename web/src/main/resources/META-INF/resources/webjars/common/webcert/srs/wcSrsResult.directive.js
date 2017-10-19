@@ -38,6 +38,16 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                     templateUrl: '/web/webjars/common/webcert/srs/wcSrsResult.risk-popover.html'
                 };
 
+                scope.parentHasRendered = function(){
+                    if(scope.status.open){
+                        var divsize = angular.element(document.getElementById('atgarder')).prop('offsetWidth');
+                        console.log(divsize);
+                        if(divsize > 0)
+                            return true;
+                    }
+                    return false;;
+                }
+
                 scope.readMoreRisk = function(){
                     $window.open(srsLinkCreator.createPrediktionsModellLink, '_blank');
                 };
