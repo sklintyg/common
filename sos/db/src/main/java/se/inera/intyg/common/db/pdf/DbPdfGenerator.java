@@ -272,7 +272,11 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
 
         fillText(FIELD_IDENTITETEN_STYRKT_GENOM, dbUtlatande.getIdentitetStyrkt());
     }
-
+    /**
+     * Converts a {@link DodsplatsBoende} to the corresponding pdf template field value.
+     * @param dodsplatsBoende
+     * @return
+     */
     private String modelToPdf(DodsplatsBoende dodsplatsBoende) {
         if (dodsplatsBoende != null) {
             // Pdf equivalent values are [Sjukhus,Särskilt boende,Ordinärt boende,Annan / Okänd,]
