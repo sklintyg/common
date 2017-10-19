@@ -70,7 +70,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                             MODULE_ID + ".validation.explosivAvlagsnat.explosivImplantatFalse");
         }
     }
-    
 
     private void validateUndersokning(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // R6 & R7
