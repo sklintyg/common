@@ -1,11 +1,50 @@
 <div class="vagueDate">
-  <wc-form-label to="to" key="options.key"></wc-form-label>
-  <div class="controls form-inline">
-    <input id="{{options.key}}-year" type="text" class="form-control year" ng-disabled="to.disabled"
-           ng-model="vagueDateModel.year" maxlength="4" placeholder="ÅÅÅÅ" ng-blur="validate()"> -
-    <input id="{{options.key}}-month" type="text" class="form-control month" ng-disabled="to.disabled"
-           ng-model="vagueDateModel.month" maxlength="2" placeholder="MM" ng-blur="validate()"> -
-    <input id="{{options.key}}-day" type="text" class="form-control day" ng-disabled="to.disabled"
-           ng-model="vagueDateModel.day" maxlength="2" placeholder="DD" ng-blur="validate()">
-  </div>
+  <table>
+    <tr>
+      <td><h5 class="wcFormLabel"><span class="year"><span message key="common.label.year"></span> <span class="required">*</span></span></h5></td>
+      <td><h5 class="wcFormLabel"><span class="month"><span message key="common.label.month"></span> <span class="required">*</span></span></h5></td>
+      <td><h5 class="wcFormLabel"><span class="day"><span message key="common.label.day"></span></span></h5></td>
+    </tr>
+    <tr>
+      <td class="year">
+<!--
+        <select id="{{options.key}}-year" class="form-control year" ng-model="vagueDateModel.year"
+                ng-options="year.label for year in years track by year.value"></select>
+-->
+        <ui-select theme="bootstrap" search-enabled="false" ng-model="vagueDateModel.year"
+                   id="{{options.key}}-year" name="{{options.key}}-year" append-to-body="true"
+                   ng-class="{'fielderror' : hasValidationError('year')}"
+                   on-select="validate()">
+          <ui-select-match>
+            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
+          </ui-select-match>
+          <ui-select-choices repeat="year.value as year in years" value="$select.selected.value">
+            <span ng-bind="year.label"></span>
+          </ui-select-choices>
+        </ui-select>
+      </td>
+      <td class="month">
+<!--
+        <select id="{{options.key}}-month" class="form-control month" ng-model="vagueDateModel.month"
+                ng-options="month.label for month in months track by month.value"></select>
+-->
+        <ui-select theme="bootstrap" search-enabled="false" ng-model="vagueDateModel.month" ng-disabled="!vagueDateModel.monthEnabled"
+                   id="{{options.key}}-month" name="{{options.key}}-month" append-to-body="true"
+                   ng-class="{'fielderror' : hasValidationError('month')}"
+                   on-select="validate()">
+          <ui-select-match>
+            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
+          </ui-select-match>
+          <ui-select-choices repeat="month.value as month in months" value="$select.selected.value">
+            <span ng-bind="month.label"></span>
+          </ui-select-choices>
+        </ui-select>
+      </td>
+      <td class="day">
+        <input id="{{options.key}}-day" type="text" class="form-control" ng-disabled="true"
+               value="00" maxlength="2" placeholder="DD" ng-blur="validate()">
+      </td>
+    </tr>
+  </table>
+
 </div>

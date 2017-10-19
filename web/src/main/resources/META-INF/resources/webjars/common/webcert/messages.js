@@ -468,6 +468,10 @@ angular.module('common').constant('common.messages', {
         'common.validation.patient.postort.missing': 'Postort saknas.',
         'common.validation.postnummer.incorrect-format': 'Postnummer måste anges med fem siffror.',
 
+        'common.label.year': 'År',
+        'common.label.month': 'Månad',
+        'common.label.day': 'Dag',
+
         'common.validation.boolean.empty': 'Du måste välja ett alternativ.',
         'common.validation.check-group.empty': 'Du måste välja minst ett alternativ.',
         'common.validation.multi-text.empty': 'Fältet får inte vara tomt.',
@@ -482,6 +486,8 @@ angular.module('common').constant('common.messages', {
         'common.validation.underlag.empty': 'Minst en rad måste fyllas i',
         'common.validation.date.empty': 'Fältet får inte vara tomt.',
         'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        'common.validation.date.year.not_selected': 'Du måste ange år och månad.',
+        'common.validation.date.month.not_selected': 'Du måste ange månad.',
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
         'common.validation.date-period.invalid_order': 'Startdatum får inte vara efter slutdatum.',
         'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
@@ -514,6 +520,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.sjukskrivning_period.tre_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format.',
         'common.validation.sjukskrivning_period.helt_nedsatt.invalid_format': 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format.',
         'common.validation.underlag.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        'common.validation.vaguedate.empty': 'Du måste ange år och månad.',
         'common.validation.vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00',
 
         // Common errors

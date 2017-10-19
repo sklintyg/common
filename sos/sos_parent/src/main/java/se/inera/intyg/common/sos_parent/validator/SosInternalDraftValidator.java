@@ -62,8 +62,17 @@ public final class SosInternalDraftValidator {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.OTHER,
                         "common.validation.date.today.or.earlier");
             }
-        } else if (!utlatande.getDodsdatumSakert() && !utlatande.getDodsdatum().isCorrectFormat()) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.INVALID_FORMAT);
+        } else {
+            if (!utlatande.getDodsdatum().isYearCorrectFormat()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.EMPTY,
+                        "common.validation.date.year.not_selected");
+            } else if (!utlatande.getDodsdatum().isMonthCorrectFormat()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.EMPTY,
+                        "common.validation.date.month.not_selected");
+            } else if (!utlatande.getDodsdatum().isCorrectFormat()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum",
+                        ValidationMessageType.INVALID_FORMAT);
+            }
         }
 
         // R3

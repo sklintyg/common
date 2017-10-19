@@ -18,10 +18,13 @@
  */
 
 .vagueDate {
-    .year {
-        width: 52px;
+    .month {
+        padding: 0 10px;
     }
-    .month, .day {
-        width: 36px;
+    .year, .month {
+        width: 140px;
+    }
+    .day {
+        width: 40px;
     }
 }
