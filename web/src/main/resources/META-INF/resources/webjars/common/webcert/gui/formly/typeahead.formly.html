@@ -6,7 +6,7 @@
            class="form-control"
            ng-model="model[options.key]"
            ng-class="{ 'input-{{to.size}}': to.size }"
-           maxlength="{{to.maxlength}}"
+           maxlength="{{to.maxlength || 3500}}"
            uib-typeahead="value for value in values | filter:$viewValue | limitTo:8"
            typeahead-editable="true">
   </div>

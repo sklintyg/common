@@ -2,6 +2,6 @@
   <wc-form-label to="to" key="options.key"></wc-form-label>
   <div>
     <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled" ng-model="model[options.key]"
-           ng-class="{ 'input-{{to.size}}': to.size }" maxlength="4000">
+           ng-class="{ 'input-{{to.size}}': to.size }" maxlength="{{to.maxlength || 3500}}">
   </div>
 </div>
