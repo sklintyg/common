@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-fdescribe('vagueDate', function() {
+describe('vagueDate', function() {
     'use strict';
 
     var $scope;
