@@ -82,11 +82,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                 ValidatorUtil
                         .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
                                 ValidationMessageType.INVALID_FORMAT);
-            } else if (!utlatande.getUndersokningDatum().isReasonable() ||
-                    utlatande.getUndersokningDatum().asLocalDate().isAfter(LocalDate.now())) {
+            } else if (!utlatande.getUndersokningDatum().isReasonable() || utlatande.getUndersokningDatum().asLocalDate()
+                    .isAfter(LocalDate.now())) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
-                                ValidationMessageType.INVALID_FORMAT, "common.validation.date_out_of_range");
+                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum", ValidationMessageType.INVALID_FORMAT,
+                                "common.validation.date_out_of_range");
             } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
                     && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
                 ValidatorUtil
