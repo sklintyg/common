@@ -42,11 +42,12 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                     if(scope.status.open){
                         var divsize = angular.element(document.getElementById('atgarder')).prop('offsetWidth');
                         console.log(divsize);
-                        if(divsize > 0)
+                        if(divsize > 0){
                             return true;
+                        }
                     }
-                    return false;;
-                }
+                    return false;
+                };
 
                 scope.readMoreRisk = function(){
                     $window.open(srsLinkCreator.createPrediktionsModellLink, '_blank');
