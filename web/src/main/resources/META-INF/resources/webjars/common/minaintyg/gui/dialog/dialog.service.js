@@ -171,7 +171,6 @@ angular.module('common').factory('common.dialogService',
             var msgbox = $uibModal.open({
                 scope: scope,
                 templateUrl: options.templateUrl,
-                backdrop: 'static',
                 keyboard: false,
                 controller: DialogInstanceCtrl,
                 resolve: {
