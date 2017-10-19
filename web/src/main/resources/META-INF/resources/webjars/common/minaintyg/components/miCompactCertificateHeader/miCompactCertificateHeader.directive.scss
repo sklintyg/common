@@ -7,6 +7,12 @@ mi-compact-certificate-header {
     padding: 15px;
   }
 
+  .mi-compact-certificate-header-replaced {
+      background: $mi-intyg-header-disabled-color;
+      color: $mi-intyg-header-color;
+      padding: 15px;
+  }
+
   .icon {
     font-size: 42px;
     line-height: 42px;
