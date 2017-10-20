@@ -27,7 +27,7 @@
             <div ng-if="atgarderError">
                 <wc-srs-error-box message-string="atgarderError"></wc-srs-error-box>
             </div>
-            <div id="atgarderObs" ng-if="status.open && parentHasRendered()" clamp="3">{{atgarder.atgarderObs}}</div>
+            <div id="atgarderObs" ng-if="status.open && atgarder && atgarder.atgarderObs && parentHasRendered()" clamp="3">{{atgarder.atgarderObs}}</div>
                 <br><br>
     
             <h3>Rekommenderade åtgärder</h3>
