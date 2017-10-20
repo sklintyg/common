@@ -110,34 +110,28 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         });
                     };
 
-                    scope.retrieveAndSetStatistics = function() {
-                        return srsProxy.getStatistikForDiagnosis($stateParams.certificateId, scope.personId,
+                    scope.retrieveAndSetAtgarderAndStatistik = function() {
+                        return srsProxy.getAtgarderAndStatistikForDiagnosis($stateParams.certificateId, scope.personId,
                             scope.diagnosKod)
-                            .then(function(statistik) {
-                                scope.statistik = statistik;
+                            .then(function(data) {
+                                scope.statistik = data.statistik || 'error';
+                                scope.atgarder = data.atgarder ||'error';
+                                if(scope.atgarder !== 'error') {
+                                    scope.atgarder.atgarderObs = stringifyAtgarderObs(scope.atgarder.atgarderObs);
+                                }
                             }, function(error) {
                                 scope.statistik = 'error';
-                            });
-                    };
-
-                    scope.retrieveAndSetAtgarder = function() {
-                        return srsProxy.getAtgarderForDiagnosis($stateParams.certificateId, scope.personId,
-                            scope.diagnosKod)
-                            .then(function(atgarder) {
-                                scope.atgarder = atgarder;
-                                scope.atgarder.atgarderObs = stringifyAtgarderObs(scope.atgarder.atgarderObs);
-                            }, function(error) {
-                                scope.atgarder = {atgarderRek: [], atgarderObs: []};
+                                scope.atgarder = 'error';
                             });
 
-                            function stringifyAtgarderObs(atgarderObs){
-                                var tempAtgarderObs = '<b>Tänk på att; </b>';
-                                for(var i = 0; i < atgarderObs.length; i++){
-                                    tempAtgarderObs += atgarderObs[i];
-                                    tempAtgarderObs += '. ';
-                                }
-                                return tempAtgarderObs;
+                        function stringifyAtgarderObs(atgarderObs){
+                            var tempAtgarderObs = '<b>Tänk på att; </b>';
+                            for(var i = 0; i < atgarderObs.length; i++){
+                                tempAtgarderObs += atgarderObs[i];
+                                tempAtgarderObs += '. ';
                             }
+                            return tempAtgarderObs;
+                        }
                     };
 
                     scope.getQuestions = function(diagnosKod) {
@@ -194,7 +188,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.diagnosKod = newVal;
                                 diagnosisListFetching = loadDiagCodesAndGetHigherDiagCode().then(function() {
                                     scope.srsApplicable = isSrsApplicable(scope.diagnosKod);
-                                    if (scope.srsApplicable) {
+                                    if (scope.srsApplicable && scope.consentGiven) {
                                         if (!scope.shownFirstTime) {
                                             srsProxy.logSrsShown();
                                         }
@@ -216,7 +210,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent) {
                                     scope.consent = consent;
                                     if(scope.consent === 'INGET'){
-                                        scope.consentGiven = undefined;
+                                        scope.consentGiven = false;
                                     }
                                     else{
                                         scope.consentGiven = consent === 'JA';
@@ -409,14 +403,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             scope.questions = questions;
                             scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
                             scope.showVisaKnapp = scope.allQuestionsAnswered;
-                            scope.retrieveAndSetStatistics().then(function() {
+                            scope.retrieveAndSetAtgarderAndStatistik().then(function() {
+                                setAtgarderMessages();
                                 setStatistikMessages();
                             });
-                            scope.retrieveAndSetAtgarder().then(function() {
-                                setAtgarderMessages();
-
-                            });
-                            setPrediktionMessages();
+                            setPrediktionMessages(); // No prediction data as of yet, only used to ensure initial correct state.
 
                         });
                     }

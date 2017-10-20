@@ -54,22 +54,8 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             });
         }
 
-        function _getStatistikForDiagnosis(intygsId, patientId, diagnosKod) {
-            return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, false, true).then(
-                function(data) {
-                    var statistik = {};
-                    if (data.statistikStatusCode) {
-                        statistik.statistikStatusCode = data.statistikStatusCode;
-                    }
-                    if (data.statistikBild) {
-                        statistik.statistikBild = data.statistikBild;
-                    }
-                    return statistik;
-                });
-        }
-
-        function _getAtgarderForDiagnosis(intygsId, patientId, diagnosKod) {
-            return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, true, false).then(
+        function _getAtgarderAndStatistikForDiagnosis(intygsId, patientId, diagnosKod) {
+            return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, true, true).then(
                 function(data) {
                     var atgarder = {};
                     if (data.atgarderStatusCode) {
@@ -81,7 +67,25 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                     if (data.atgarderObs) {
                         atgarder.atgarderObs = data.atgarderObs;
                     }
-                    return atgarder;
+                    if(angular.equals({}, atgarder)) {
+                        atgarder = null;
+                    }
+
+                    var statistik = {};
+                    if (data.statistikStatusCode) {
+                        statistik.statistikStatusCode = data.statistikStatusCode;
+                    }
+                    if (data.statistikBild) {
+                        statistik.statistikBild = data.statistikBild;
+                    }
+                    if(angular.equals({}, statistik)) {
+                        statistik = null;
+                    }
+
+                    return {
+                        'atgarder': atgarder,
+                        'statistik': statistik
+                    };
                 });
         }
 
@@ -143,8 +147,7 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             getDiagnosisCodes: _getDiagnosisCodes,
             getQuestions: _getQuestions,
             getPrediction: _getPrediction,
-            getAtgarderForDiagnosis: _getAtgarderForDiagnosis,
-            getStatistikForDiagnosis: _getStatistikForDiagnosis,
+            getAtgarderAndStatistikForDiagnosis: _getAtgarderAndStatistikForDiagnosis,
             logSrsShown: _logSrsShown,
             logSrsClicked: _logSrsClicked,
             logSrsAtgardClicked: _logSrsAtgardClicked,
