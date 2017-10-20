@@ -41,7 +41,6 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                 scope.parentHasRendered = function(){
                     if(scope.status.open){
                         var divsize = angular.element(document.getElementById('atgarder')).prop('offsetWidth');
-                        console.log(divsize);
                         if(divsize > 0){
                             return true;
                         }
