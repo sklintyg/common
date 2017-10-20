@@ -45,6 +45,9 @@ angular.module('common').controller('common.IntygHeader',
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
 
+            // Förnya feature
+            $scope.fornya = authorityService.isAuthorityActive({ authority: featureService.features.FORNYA_INTYG, intygstyp: intygType });
+
             $scope.copyBtnTooltipText = messageService.getProperty('common.copy.tooltip');
             $scope.fornyaBtnTooltipText = messageService.getProperty('common.fornya.tooltip');
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
@@ -88,7 +91,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showFornyaButton = function() {
-                return !($scope.intygstyp === 'ts-bas' || $scope.intygstyp === 'ts-diabetes') &&
+                return $scope.fornya &&
                     !$scope.isRevoked() &&
                     !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&

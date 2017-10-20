@@ -163,9 +163,11 @@ describe('IntygHeaderCtrl', function() {
                 UserModel.user = {};
 
                 $scope.intygstyp = 'ts-bas';
+                $scope.fornya = false;
                 expect($scope.showFornyaButton()).toBe(false);
 
                 $scope.intygstyp = 'ts-diabetes';
+                $scope.fornya = false;
                 expect($scope.showFornyaButton()).toBe(false);
             });
 
