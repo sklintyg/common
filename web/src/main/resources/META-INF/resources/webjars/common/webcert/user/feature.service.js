@@ -46,6 +46,7 @@ angular.module('common').factory('common.featureService',
             features: {
                 HANTERA_FRAGOR: 'hanteraFragor',
                 HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast',
+                HANTERA_INTYGSUTKAST_AVLIDEN: 'hanteraIntygsutkastAvliden',
                 KOPIERA_INTYG: 'kopieraIntyg',
                 FORNYA_INTYG: 'fornyaIntyg',
                 MAKULERA_INTYG: 'makuleraIntyg',

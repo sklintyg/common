@@ -101,7 +101,7 @@ angular.module('common').controller('common.IntygHeader',
             $scope.showErsattButton = function() {
                 return !$scope.isRevoked() && !$scope.isReplaced() &&
                     !$scope.isComplemented() &&
-                    !$scope.isPatientDeceased() &&
+                    (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: intygType }) || !$scope.isPatientDeceased()) &&
                     !UserModel.getIntegrationParam('inactiveUnit');
             };
 
