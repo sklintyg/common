@@ -559,6 +559,7 @@ angular.module('common').constant('common.messages', {
         'common.error.save.unknown_internal_problem': '<strong>Tappade anslutningen till servern.</strong><br>Det går för tillfället inte att spara ändringar.',
         'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).',
         'common.error.certificate_type_sekretessmarkering_unsupported': '<strong>Intyg kan ej hanteras.</strong><br>Det intyg du valt att skriva går tyvärr inte att skapa i Webcert för en patient med sekretessmarkering.',
+        'common.error.intyg.read-only.failed.load': 'Intyget kunde inte hämtas.',
 
         // FMB texts
         'fmb.symptom_prognos_behandling': 'Symtom, prognos och behandling',

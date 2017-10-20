@@ -109,5 +109,20 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'common.IntygHeader'
                 }
             }
-        });
+        }).
+        state('lisjp-readonly', {
+        url: '/intyg-read-only/lisjp/:certificateId',
+        views: {
+            'content@': {
+                templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+                controller: 'common.wcIntygReadOnlyViewController',
+                resolve: {
+                    intygsType: function() {
+                        return 'lisjp';
+                    },
+                    ViewConfigFactory: 'lisjp.viewConfigFactory'
+                }
+            }
+        }
+    });
 });
