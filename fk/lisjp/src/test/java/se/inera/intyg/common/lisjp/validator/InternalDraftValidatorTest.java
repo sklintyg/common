@@ -744,6 +744,19 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void validateSjukskrivningArbetstidsforlaggningWhenHeltNedsattWithoutMotivering() throws Exception {
+        LisjpUtlatande utlatande = builderTemplate
+                .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
+                        new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
+                .setArbetstidsforlaggningMotivering(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(0, res.getValidationErrors().size());
+    }
+
+    @Test
     public void validateBedomningFMB() throws Exception {
         LisjpUtlatande utlatande = builderTemplate
                 .setForsakringsmedicinsktBeslutsstod("forskningsmedicinsktBeslutsstod")
