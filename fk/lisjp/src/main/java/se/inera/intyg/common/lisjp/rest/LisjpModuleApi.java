@@ -153,6 +153,8 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
                     .setMotiveringTillInteBaseratPaUndersokning(null)
                     .setPrognos(null)
                     .setSjukskrivningar(new ArrayList<>())
+                    .setArbetstidsforlaggning(null)
+                    .setArbetstidsforlaggningMotivering(null)
                     .build();
 
             Relation relation = draftCopyHolder.getRelation();

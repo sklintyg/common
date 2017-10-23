@@ -86,6 +86,8 @@ public class LisjpModuleApiRenewalTest {
         assertNull(renewCopy.getMotiveringTillInteBaseratPaUndersokning());
         assertNull(renewCopy.getMotiveringTillTidigtStartdatumForSjukskrivning());
         assertNull(renewCopy.getPrognos());
+        assertNull(renewCopy.getArbetstidsforlaggning());
+        assertNull(renewCopy.getArbetstidsforlaggningMotivering());
 
 
         // Retained values
@@ -93,8 +95,6 @@ public class LisjpModuleApiRenewalTest {
         assertEquals(original.getArbetslivsinriktadeAtgarder(), renewCopy.getArbetslivsinriktadeAtgarder());
         assertEquals(original.getArbetslivsinriktadeAtgarderBeskrivning(), renewCopy.getArbetslivsinriktadeAtgarderBeskrivning());
         assertEquals(original.getArbetsresor(), renewCopy.getArbetsresor());
-        assertEquals(original.getArbetstidsforlaggning(), renewCopy.getArbetstidsforlaggning());
-        assertEquals(original.getArbetstidsforlaggningMotivering(), renewCopy.getArbetstidsforlaggningMotivering());
         assertEquals(original.getNuvarandeArbete(), renewCopy.getNuvarandeArbete());
         assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
         assertEquals(original.getPagaendeBehandling(), renewCopy.getPagaendeBehandling());

@@ -18,23 +18,9 @@
  */
 package se.inera.intyg.common.lisjp.validator;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-
-import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
@@ -45,7 +31,19 @@ import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpUtlatande> {
 
@@ -272,11 +270,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                                 "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.incorrect");
                     }
                 }
-            } else if (isArbetstidsforlaggningMotiveringForbidden(utlatande)
-                    && !Strings.nullToEmpty(utlatande.getArbetstidsforlaggningMotivering()).trim().isEmpty()) {
-                ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.EMPTY,
-                        "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.invalid_combination");
+            } else if (isArbetstidsforlaggningMotiveringForbidden(utlatande)) {
+                boolean hasMotivering = !Strings.nullToEmpty(utlatande.getArbetstidsforlaggningMotivering()).trim().isEmpty();
+
+                // If arbetstidsförläggning is not allowed, we must not have a motivering or a true/false value.
+                if (hasMotivering || utlatande.getArbetstidsforlaggning() != null) {
+                    ValidatorUtil.addValidationError(validationMessages, "bedomning.sjukskrivningar", ValidationMessageType.EMPTY,
+                            "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.invalid_combination");
+                }
             }
+
+
 
             // R22
             if (!containsUnique(utlatande.getSjukskrivningar().stream()
