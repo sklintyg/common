@@ -47,8 +47,15 @@
       <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
       <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}" config="uvConfig" view-data="cert"></uv-render-components>
 
-      <div class="row col-xs-12 text-muted"><br><span message key="modules.view-intyg.end-of-intyg.text"></span></div>
+      <div ng-if="!errorMessage" class="row col-xs-12 text-muted"><br><span message key="modules.view-intyg.end-of-intyg.text"></span></div>
     </div>
     <!-- eof spinner -->
   </div>
 </div>
+
+<mi-page-message-icon
+    id="errorMessage"
+    img-path="/img/404.png"
+    msg-key="{{errorMessage}}"
+    ng-if="doneLoading && errorMessage">
+</mi-page-message-icon>

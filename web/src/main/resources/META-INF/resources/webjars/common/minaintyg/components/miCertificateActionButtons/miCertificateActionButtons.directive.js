@@ -63,8 +63,14 @@ angular.module('common').directive('miCertificateActionButtons',
                                 //Goto inkorgen
                                 $state.go('inkorg');
                             } else {
-                                // show error view
-                                $state.go('fel', {errorCode: 'couldnotarchivecert'});
+                                _dialogInstance.close();
+                                dialogService.showDialog( $scope, {
+                                    dialogId: 'archive-error-dialog',
+                                    titleId: 'error.generictechproblem.title',
+                                    bodyTextId: 'error.modal.couldnotarchivecert',
+                                    templateUrl: '/app/partials/error-dialog.html',
+                                    autoClose: true
+                                });
                             }
                         });
                     };

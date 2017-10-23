@@ -13,19 +13,20 @@ angular.module('luae_na').controller('luae_na.ViewCertCtrl',
                 $location.path('/send/luae_na/' + $stateParams.certificateId + '/FKASSA');
             };
 
+            $scope.errorMessage = null;
             $scope.doneLoading = false;
             certificateService.getCertificate('luae_na', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
+                    $scope.errorMessage = null;
                 } else {
-                    // show error view
-                    $location.path('/luae_na/visafel/certnotfound');
+                    $scope.errorMessage = 'error.certnotfound';
                 }
-            }, function() {
-                $log.debug('got error');
-                $location.path('/luae_na/visafel/certnotfound');
+            }, function(error) {
+                $log.debug('getCertificate got error' + error);
+                $scope.errorMessage = 'error.certnotfound';
             });
 
             $scope.pagefocus = true;

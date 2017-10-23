@@ -33,20 +33,21 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                 $location.path('/fk7263/customizepdf/' + $stateParams.certificateId + '/step1');
             };
 
+            $scope.errorMessage = null;
             $scope.doneLoading = false;
-
             certificateService.getCertificate('fk7263', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
+                    $scope.errorMessage = null;
                 } else {
                     // show error view
-                    $location.path('/fk7263/visafel/certnotfound');
+                    $scope.errorMessage = 'error.certnotfound';
                 }
-            }, function() {
-                $log.debug('got error');
-                $location.path('/fk7263/visafel/certnotfound');
+            }, function(error) {
+                $log.debug('getCertificate got error' + error);
+                $scope.errorMessage = 'error.certnotfound';
             });
 
             $scope.pagefocus = true;

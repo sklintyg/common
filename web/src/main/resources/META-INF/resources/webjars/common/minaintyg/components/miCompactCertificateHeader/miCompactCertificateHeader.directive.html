@@ -1,6 +1,7 @@
 <div
     ng-class="{'mi-compact-certificate-header': !certMetaModel.isReplaced, 'mi-compact-certificate-header-replaced' : certMetaModel.isReplaced}"
-    ng-attr-id="mi-compact-certificate-header-{{certMetaModel.id}}">
+    ng-attr-id="mi-compact-certificate-header-{{certMetaModel.id}}"
+    ng-show="certMetaModel">
   <div class="row">
     <div class="cols-xs-12">
       <i class="icon icon-doc-text pull-left"></i>

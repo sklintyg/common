@@ -32,19 +32,21 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
                 $location.path('/send/ts-diabetes/' + $stateParams.certificateId + '/TRANSP');
             };
 
+            $scope.errorMessage = null;
             $scope.doneLoading = false;
             IntygService.getCertificate('ts-diabetes', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
+                    $scope.errorMessage = null;
                 } else {
                     // show error view
                     $location.path('/ts-diabetes/visafel/certnotfound');
                 }
             }, function(error) {
-                $log.debug('got error' + error);
-                $location.path('/ts-diabetes/visafel/certnotfound');
+                $log.debug('getCertificate got error' + error);
+                $scope.errorMessage = 'error.certnotfound';
             });
 
             $scope.uvConfig = viewConfigFactory.getViewConfig();
