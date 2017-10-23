@@ -149,7 +149,7 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
                     .setAnnatGrundForMUBeskrivning(null)
                     .setMotiveringTillTidigtStartdatumForSjukskrivning(null)
                     .setMotiveringTillInteBaseratPaUndersokning(null)
-                    .setForsakringsmedicinsktBeslutsstod(null)
+                    .setPrognos(null)
                     .setSjukskrivningar(new ArrayList<>())
                     .build();
 
