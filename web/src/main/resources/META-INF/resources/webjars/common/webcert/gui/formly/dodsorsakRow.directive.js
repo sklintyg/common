@@ -31,11 +31,16 @@ angular.module('common').directive('dodsorsakRow',
                     model: '=',
                     key: '=',
                     to: '=templateOptions',
+                    requireDescription: '@',
                     validation: '=',
                     rowIndex: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/gui/formly/dodsorsakRow.directive.html',
                 link: function($scope, element, attr) {
+
+                    if(!$scope.requireDescription){
+                        $scope.requireDescription = false;
+                    }
 
                     // Use the assigned big letter from templateoptions. if its an array, pick the one meant for us using rowIndex
                     $scope.letter = $scope.to.letter;

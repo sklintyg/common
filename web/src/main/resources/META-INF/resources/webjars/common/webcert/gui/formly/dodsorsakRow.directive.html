@@ -1,13 +1,13 @@
 <div class="padding-top-medium">
   <label class="control-label inline-block bold" ng-if="to.label">
-    <span dynamic-label key="{{to.label}}.RBK"></span> <span ng-show="to.required" class="required">*</span>
+    <span dynamic-label key="{{to.label}}.RBK"></span>
     <span wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
     <span wc-help-chevron-text help-text-key="{{to.label}}.HLP"></span>
   </label>
 
   <div class="dodsorsak-row__controls">
-    <div>
-      <span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span>
+    <div>{{to.requireDescription}}
+      <span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span> <span ng-show="requireDescription" class="required">*</span>
       <span wc-help-chevron-text help-text-key="{{to.beskrivningLabel}}.HLP"></span>
       <input id="orsak-{{rowIndex}}-beskrivning"
              type="text"

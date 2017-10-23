@@ -176,7 +176,7 @@ angular.module('doi').factory('doi.FormFactory',
                                     'PLOTSLIG'
                                 ],
                                 letter: 'A',
-                                required: true,
+                                required: false,
                                 beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
                                 datumLabel: 'DELAT_TEXT.DEBUT',
                                 orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
