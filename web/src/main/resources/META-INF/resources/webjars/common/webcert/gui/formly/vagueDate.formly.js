@@ -26,7 +26,12 @@ angular.module('common').run(function(formlyConfig) {
             className: 'fold-animation'
         },
         templateUrl: '/web/webjars/common/webcert/gui/formly/vagueDate.formly.html',
-        controller: ['$scope', 'common.UtkastValidationService', function($scope, UtkastValidationService) {
+        controller: ['$scope', 'common.UtkastValidationService',
+            function($scope, UtkastValidationService) {
+
+                $scope.$on('$destroy', function() {
+                    $scope.model.clear($scope.options.key);
+                });
 
                 $scope.vagueDateModel = {
                     year:undefined,
