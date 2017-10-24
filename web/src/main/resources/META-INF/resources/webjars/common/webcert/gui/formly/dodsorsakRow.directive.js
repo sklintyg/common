@@ -65,6 +65,7 @@ angular.module('common').directive('dodsorsakRow',
                     $scope.$watch('validation.messagesByField', function() {
                         if($scope.validation){
                             $scope.orsakValidations = [];
+                            $scope.dateValidations = [];
                             angular.forEach($scope.validation.messagesByField, function(validation, key) {
 
                                 // Only care if validation messages have our index
@@ -74,7 +75,12 @@ angular.module('common').directive('dodsorsakRow',
                                 var isValidIndex = validationIndex >= 0;
                                 if(!isValidIndex || validationIndex === $scope.rowIndex){
                                     if (key.substr(0, $scope.key.length) === $scope.key.toLowerCase()) {
-                                        $scope.orsakValidations = $scope.orsakValidations.concat(validation);
+                                        if (key.substr(key.lastIndexOf('.')) === '.datum') {
+                                            $scope.dateValidations = $scope.dateValidations.concat(validation);
+                                        }
+                                        else {
+                                            $scope.orsakValidations = $scope.orsakValidations.concat(validation);
+                                        }
                                     }
                                 }
 

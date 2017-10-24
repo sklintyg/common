@@ -71,7 +71,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         }
         if (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null && !utlatande
                 .getTerminalDodsorsak().getDatum().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.dodsorsakDatum", ValidationMessageType.INVALID_FORMAT);
+            ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.terminalDodsorsak.datum",
+                    ValidationMessageType.INVALID_FORMAT);
         }
     }
 
