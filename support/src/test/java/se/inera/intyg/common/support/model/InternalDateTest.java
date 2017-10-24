@@ -94,4 +94,54 @@ public class InternalDateTest {
         InternalDate empty = new InternalDate("");
         empty.asLocalDate();
     }
+
+    @Test
+    public void testVagueDateInFutureYear0000() {
+        InternalDate date = new InternalDate("0000-00-00");
+        assertFalse(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureEarlierYearFalse() {
+        int currentYear = LocalDate.now().getYear();
+
+        InternalDate date = new InternalDate((currentYear - 1) + "-00-00");
+        assertFalse(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureSameYearFalse() {
+        int currentYear = LocalDate.now().getYear();
+
+        InternalDate date = new InternalDate(currentYear + "-00-00");
+        assertFalse(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureYearTrue() {
+        int currentYear = LocalDate.now().getYear();
+
+        InternalDate date = new InternalDate((currentYear + 1) + "-00-00");
+        assertTrue(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureMonthFalse() {
+        int currentYear = LocalDate.now().getYear();
+        int currentMonth = LocalDate.now().getMonthValue();
+
+        InternalDate date = new InternalDate(currentYear + "-" + currentMonth + "-00");
+        assertFalse(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureMonthTrue() {
+        int currentYear = LocalDate.now().getYear();
+        int currentMonth = LocalDate.now().getMonthValue();
+
+        InternalDate date = new InternalDate(currentYear + "-" + (currentMonth + 1) + "-00");
+        assertTrue(date.vagueDateInFuture());
+    }
+
+
 }

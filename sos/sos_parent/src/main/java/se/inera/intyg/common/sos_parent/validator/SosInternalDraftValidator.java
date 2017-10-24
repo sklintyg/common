@@ -72,6 +72,9 @@ public final class SosInternalDraftValidator {
             } else if (!utlatande.getDodsdatum().isCorrectFormat()) {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum",
                         ValidationMessageType.INVALID_FORMAT);
+            } else if (utlatande.getDodsdatum().vagueDateInFuture()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum",
+                        ValidationMessageType.OTHER, "common.validation.date.today.or.earlier");
             }
         }
 
