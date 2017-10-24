@@ -173,16 +173,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             }
         } else {
             if (utlatande.getForgiftningOrsak() != null) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningOrsak",
-                        ValidationMessageType.INCORRECT_COMBINATION);
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftning",
+                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.orsak.incorrect_combination");
             }
             if (utlatande.getForgiftningDatum() != null) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningDatum",
-                        ValidationMessageType.INCORRECT_COMBINATION);
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftning",
+                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.datum.incorrect_combination");
             }
             if (utlatande.getForgiftningUppkommelse() != null) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningUppkommelse",
-                        ValidationMessageType.INCORRECT_COMBINATION);
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftning",
+                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.uppkommelse.incorrect_combination");
             }
         }
     }

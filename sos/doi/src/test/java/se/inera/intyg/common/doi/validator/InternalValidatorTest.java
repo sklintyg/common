@@ -134,11 +134,14 @@ public class InternalValidatorTest {
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(3, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("forgiftning.forgiftningOrsak", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("forgiftning.forgiftning", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("doi.validation.forgiftning.orsak.incorrect_combination", internalValidationResponse.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(1).getType());
-        assertEquals("forgiftning.forgiftningDatum", internalValidationResponse.getValidationErrors().get(1).getField());
+        assertEquals("forgiftning.forgiftning", internalValidationResponse.getValidationErrors().get(1).getField());
+        assertEquals("doi.validation.forgiftning.datum.incorrect_combination", internalValidationResponse.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(2).getType());
-        assertEquals("forgiftning.forgiftningUppkommelse", internalValidationResponse.getValidationErrors().get(2).getField());
+        assertEquals("forgiftning.forgiftning", internalValidationResponse.getValidationErrors().get(2).getField());
+        assertEquals("doi.validation.forgiftning.uppkommelse.incorrect_combination", internalValidationResponse.getValidationErrors().get(2).getMessage());
     }
 
     @Test
