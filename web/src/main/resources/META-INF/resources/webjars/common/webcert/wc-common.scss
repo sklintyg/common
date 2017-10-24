@@ -561,6 +561,10 @@
     white-space: pre-line;
   }
 
+  .white-space-normal {
+    white-space: normal;
+  }
+
   /* Used in some jsps */
   .bluebox {
     background-color: $color_blue_chill_approx;
