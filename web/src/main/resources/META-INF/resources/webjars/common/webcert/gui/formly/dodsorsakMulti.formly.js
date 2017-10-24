@@ -78,16 +78,13 @@ angular.module('common').run(function(formlyConfig) {
                 });
 
                 var chooseOption = {
-                    id: null,
+                    id: '',
                     label: 'Välj...'
                 };
 
                 function update() {
 
-                    rows = $scope.model[$scope.options.key];
-
                     $scope.orsakOptions = [chooseOption];
-
                     if ($scope.to.orsaksTyper) {
                         $scope.to.orsaksTyper.forEach(function(orsaksTyp) {
                             $scope.orsakOptions.push({
@@ -98,8 +95,12 @@ angular.module('common').run(function(formlyConfig) {
                     }
                 }
 
-                $scope.$on('intyg.loaded', function() {
+                $scope.$on('dynamicLabels.updated', function() {
                     update();
+                });
+
+                $scope.$on('intyg.loaded', function() {
+                    rows = $scope.model[$scope.options.key];
                 });
 
             }]

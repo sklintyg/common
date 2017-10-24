@@ -32,7 +32,7 @@
                    id="orsak-multi-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}" append-to-body="false"
                    ng-class="{'fielderror' : hasValidationError('specifikation', $index)}"
                    on-select="validate()">
-          <ui-select-match>
+          <ui-select-match> <!--  placeholder="Välj..." -->
             <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
           </ui-select-match>
           <ui-select-choices repeat="item.id as item in orsakOptions" value="$select.selected.id">

@@ -83,7 +83,7 @@ angular.module('common').directive('dodsorsakRow',
                     });
 
                     var chooseOption = {
-                        id: null,
+                        id: '',
                         label: 'Välj...'
                     };
 
