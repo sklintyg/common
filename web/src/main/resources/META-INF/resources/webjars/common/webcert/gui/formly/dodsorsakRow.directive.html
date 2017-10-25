@@ -15,7 +15,7 @@
              ng-class="{'fielderror' : hasValidationError('beskrivning', rowIndex)}"
              ng-model="modelValue.beskrivning"
              ng-blur="validate()"
-             maxlength="{{to.maxlength}}">
+             maxlength="{{to.maxlength || 3500}}">
       <span class="dodsorsak-row__letter">{{letter}}</span>
     </div>
     <div class="">
