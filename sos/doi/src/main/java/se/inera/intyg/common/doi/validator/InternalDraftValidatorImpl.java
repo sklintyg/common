@@ -126,11 +126,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 ValidatorUtil.addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.EMPTY);
             } else if (!utlatande.getOperationDatum().isValidDate()) {
                 ValidatorUtil.addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INVALID_FORMAT);
-            } else if (utlatande.getOperationDatum() != null && utlatande.getOperationDatum().isValidDate()
-                    && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate() && utlatande.getOperationDatum()
-                    .asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
+            } else if (ValidatorUtil.isDateAfter(utlatande.getOperationDatum(), utlatande.getDodsdatum())) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INCORRECT_COMBINATION);
+                        .addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                "operation.operationDatum.efterDodsdatum");
+            } else if (ValidatorUtil.isDateAfter(utlatande.getOperationDatum(), utlatande.getAntraffatDodDatum())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                "operation.operationDatum.efterAntraffatDodDatum");
             }
             if (Strings.nullToEmpty(utlatande.getOperationAnledning()).isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "operation.operationAnledning", ValidationMessageType.EMPTY);
@@ -163,10 +166,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningDatum", ValidationMessageType.EMPTY);
             } else if (!utlatande.getForgiftningDatum().isValidDate()) {
                 ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningDatum", ValidationMessageType.INVALID_FORMAT);
-            } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate() && utlatande.getForgiftningDatum()
-                    .asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningDatum",
-                        ValidationMessageType.INCORRECT_COMBINATION);
+            } else if (ValidatorUtil.isDateAfter(utlatande.getForgiftningDatum(), utlatande.getDodsdatum())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "forgiftning.forgiftningDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                "forgiftning.forgiftningDatum.efterDodsdatum");
+            } else if (ValidatorUtil.isDateAfter(utlatande.getForgiftningDatum(), utlatande.getAntraffatDodDatum())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "forgiftning.forgiftningDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                "forgiftning.forgiftningDatum.efterAntraffatDodDatum");
             }
             // R17
             if (Strings.nullToEmpty(utlatande.getForgiftningUppkommelse()).trim().isEmpty()) {

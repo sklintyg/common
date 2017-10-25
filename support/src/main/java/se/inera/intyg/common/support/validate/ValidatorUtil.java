@@ -18,18 +18,11 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Strings;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -39,6 +32,11 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Common utils used for validation.
@@ -58,8 +56,7 @@ public final class ValidatorUtil {
     /**
      * Calculates the modulo 10 checksum of a numeric string (the luhn algorithm).
      *
-     * @param number
-     *            A numeric string (in order to support leading zeroes).
+     * @param number A numeric string (in order to support leading zeroes).
      * @return The modulo 10 checksum.
      */
     public static int calculateMod10(String number) {
@@ -82,16 +79,11 @@ public final class ValidatorUtil {
      * Validates that the supplied date is parsable and reasonable. Reasonable is defined as somewhere between
      * {@link InternalDate#MIN_DATE} and {@link InternalDate#MAX_DATE}, typically 1900-01-01 to 2099-12-31.
      *
-     * @param date
-     *            Date to validate.
-     * @param validationMessages
-     *            List of validationMessages. Any validation errors and/or warnings are added to this list.
-     * @param field
-     *            Field identifier, used if a validation entry has to be added.
-     * @param message
-     *            Special message for field, null if it does not exist.
-     * @return
-     *         True if valid, false otherwise.
+     * @param date               Date to validate.
+     * @param validationMessages List of validationMessages. Any validation errors and/or warnings are added to this list.
+     * @param field              Field identifier, used if a validation entry has to be added.
+     * @param message            Special message for field, null if it does not exist.
+     * @return True if valid, false otherwise.
      */
     public static boolean validateDate(InternalDate date, List<ValidationMessage> validationMessages, String field, String message) {
 
@@ -123,16 +115,11 @@ public final class ValidatorUtil {
      * Validates that the supplied interval is parsable and reasonable. Reasonable is defined as somewhere between
      * {@link InternalDate#MIN_DATE} and {@link InternalDate#MAX_DATE}, typically 1900-01-01 to 2099-12-31.
      *
-     * @param interval
-     *            InteralLocalDateInterval to validate.
-     * @param validationMessages
-     *            List of validationMessages. Any validation errors and/or warnings are added to this list.
-     * @param field
-     *            Field identifier, used if a validation entry has to be added.
-     * @param message
-     *            Special message for field, null if it does not exist.
-     * @return
-     *         True if valid, false otherwise.
+     * @param interval           InteralLocalDateInterval to validate.
+     * @param validationMessages List of validationMessages. Any validation errors and/or warnings are added to this list.
+     * @param field              Field identifier, used if a validation entry has to be added.
+     * @param message            Special message for field, null if it does not exist.
+     * @return True if valid, false otherwise.
      */
     public static boolean validateInternalDateInterval(InternalLocalDateInterval interval, List<ValidationMessage> validationMessages,
             String field, String message) {
@@ -162,15 +149,11 @@ public final class ValidatorUtil {
      * {@link ValidationMessageType#WARN}
      * is added to the supplied list of validationMessages.
      *
-     * @param date
-     *            Date to validate.
-     * @param validationMessages
-     *            List of validationMessages. Any validation errors and/or warnings are added to this list.
-     * @param field
-     *            Field identifier, used if a validation entry has to be added.
-     * @return
-     *         True if date was valid according to
-     *         {@link ValidatorUtil#validateDate(InternalDate, List, String, String)}.
+     * @param date               Date to validate.
+     * @param validationMessages List of validationMessages. Any validation errors and/or warnings are added to this list.
+     * @param field              Field identifier, used if a validation entry has to be added.
+     * @return True if date was valid according to
+     * {@link ValidatorUtil#validateDate(InternalDate, List, String, String)}.
      */
     public static boolean validateDateAndWarnIfFuture(InternalDate date, List<ValidationMessage> validationMessages, String field) {
         boolean isValid = validateDate(date, validationMessages, field, null);
@@ -213,7 +196,6 @@ public final class ValidatorUtil {
 
     /**
      * Check if there are validation errors.
-     *
      */
     public static ValidationStatus getValidationStatus(List<ValidationMessage> validationMessages) {
         return validationMessages.isEmpty() ? ValidationStatus.VALID : ValidationStatus.INVALID;
@@ -233,12 +215,9 @@ public final class ValidatorUtil {
     /**
      * Create a ValidationMessage and add it to the list of messages.
      *
-     * @param validationMessages
-     *            list collection messages
-     * @param field
-     *            a String with the name of the field
-     * @param msg
-     *            a String with an error code for the front end implementation
+     * @param validationMessages list collection messages
+     * @param field              a String with the name of the field
+     * @param msg                a String with an error code for the front end implementation
      */
     public static void addValidationError(List<ValidationMessage> validationMessages, String field, ValidationMessageType type,
             String msg) {
@@ -252,8 +231,7 @@ public final class ValidatorUtil {
     }
 
     /**
-     * @param intervals
-     *            intervals
+     * @param intervals intervals
      * @return boolean
      */
     public static boolean allNulls(InternalLocalDateInterval[] intervals) {
@@ -268,12 +246,9 @@ public final class ValidatorUtil {
     /**
      * Check for null or empty String, if so add a validation error for field with errorCode.
      *
-     * @param beskrivning
-     *            the String to check
-     * @param field
-     *            the target field in the model
-     * @param errorCode
-     *            the errorCode to log in validation errors
+     * @param beskrivning the String to check
+     * @param field       the target field in the model
+     * @param errorCode   the errorCode to log in validation errors
      */
     public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field,
             String errorCode) {
@@ -319,10 +294,8 @@ public final class ValidatorUtil {
     /**
      * Checks if the supplied string - if not null - is a parsable Integer or Float/Double.
      *
-     * @param tjanstgoringstid
-     *            A string that should represent a number such as 40 or 37.5.
-     * @return
-     *         true if invalid, false if valid.
+     * @param tjanstgoringstid A string that should represent a number such as 40 or 37.5.
+     * @return true if invalid, false if valid.
      */
     public static boolean isInvalidTjanstgoringstid(String tjanstgoringstid) {
         return tjanstgoringstid != null && (Ints.tryParse(tjanstgoringstid) == null && Doubles.tryParse(tjanstgoringstid) == null);
@@ -332,6 +305,23 @@ public final class ValidatorUtil {
         // CHECKSTYLE:OFF MagicNumber
         return personnummer.getNormalizedPnr().substring(0, 4).compareTo(year) > 0;
         // CHECKSTYLE:ON MagicNumber
+    }
+
+    public static LocalDate getBirthDateFromPersonnummer(Personnummer personnummer) throws InvalidPersonNummerException {
+        SamordningsnummerValidator samordningsnummerValidator = new SamordningsnummerValidator();
+        PersonnummerValidator personnummerValidator = new PersonnummerValidator();
+
+        String birthDate = personnummer.getNormalizedPnr().substring(0, PERSONNUMMER_DATE_END_INDEX);
+
+        if (SamordningsnummerValidator.isSamordningsNummer(personnummer)) {
+            return samordningsnummerValidator.getBirthDay(birthDate);
+        }
+        return personnummerValidator.getBirthDay(birthDate);
+    }
+
+    public static boolean isDateAfter(InternalDate date1, InternalDate date2) {
+        return date2 != null && date2.isValidDate() && date1 != null && date1.isValidDate()
+                && date1.asLocalDate().isAfter(date2.asLocalDate());
     }
 
     /**
@@ -356,17 +346,5 @@ public final class ValidatorUtil {
         public boolean success() {
             return assertSuccessful;
         }
-    }
-
-    public static LocalDate getBirthDateFromPersonnummer(Personnummer personnummer) throws InvalidPersonNummerException {
-        SamordningsnummerValidator samordningsnummerValidator = new SamordningsnummerValidator();
-        PersonnummerValidator personnummerValidator = new PersonnummerValidator();
-
-        String birthDate = personnummer.getNormalizedPnr().substring(0, PERSONNUMMER_DATE_END_INDEX);
-
-        if (SamordningsnummerValidator.isSamordningsNummer(personnummer)) {
-            return samordningsnummerValidator.getBirthDay(birthDate);
-        }
-        return personnummerValidator.getBirthDay(birthDate);
     }
 }

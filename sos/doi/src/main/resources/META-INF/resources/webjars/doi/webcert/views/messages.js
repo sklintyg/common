@@ -23,13 +23,16 @@ angular.module('doi').constant('doi.messages', {
     'sv': {
         //Validation messages
         'common.validation.dodsorsak.empty': 'Beskrivning får inte vara tom.',
-        'common.validation.singledate.incorrect_combination': 'Datum får inte vara efter dödsdatum.',
 
         'doi.validation.forgiftning.orsak.incorrect_combination': 'Orsak får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej"',
         'doi.validation.forgiftning.datum.incorrect_combination': 'Datum får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej"',
         'doi.validation.forgiftning.uppkommelse.incorrect_combination': 'Uppkommelse får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej"',
 
         'operation.operationAnledning.operationNejUppgiftSaknas': 'Beskrivning om tillstånd får inte anges om val anges som Nej eller Uppgift Saknas.',
+        'operation.operationDatum.efterDodsdatum': 'Datum får inte vara senare än "Dödsdatum".',
+        'operation.operationDatum.efterAntraffatDodDatum': 'Datum får inte vara senare än "Anträffat död".',
+        'forgiftning.forgiftningDatum.efterDodsdatum': 'Datum får inte vara senare än "Dödsdatum".',
+        'forgiftning.forgiftningDatum.efterAntraffatDodDatum': 'Datum får inte vara senare än "Anträffat död".',
 
         'doi.info.barn.forced.true': 'Det angivna dödsdatumet infaller inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
         'doi.info.barn.forced.false': 'Det angivna dödsdatumet infaller inte inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
