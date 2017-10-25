@@ -208,14 +208,18 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.consentInfo = '';
                                 scope.consentError = '';
                                 srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent) {
-                                    scope.consent = consent;
-                                    if(scope.consent !== 'INGET'){
-                                        scope.consentGiven = consent === 'JA';
+                                    if(consent.status === 200){
+                                        scope.consent = consent.data;
+                                        if(scope.consent !== 'INGET'){
+                                            scope.consentGiven = scope.consent === 'JA';
+                                        }
                                     }
-                                }, function(error) {
-                                    scope.consent = error;
-                                    scope.consentGiven = false;
+                                    else{
+                                        scope.consent = 'error';
+                                    }
+                                    setConsentMessages();
                                 });
+                                
                             }
                         });
 
@@ -415,7 +419,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.prediction = {};
                         scope.prediction.description = '';
 
-                        scope.consent = false;
+                        //scope.consent = false;
                         scope.shownFirstTime = false;
                         scope.clickedFirstTime = false;
                         scope.originalDiagnosKod = '';
@@ -429,8 +433,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
                         scope.riskImage = '';
 
-                        scope.consentInfo = '';
-                        scope.consentError = '';
+                        //scope.consentInfo = '';
+                        //scope.consentError = '';
 
                         scope.atgarderInfo = '';
                         scope.atgarderError = '';
