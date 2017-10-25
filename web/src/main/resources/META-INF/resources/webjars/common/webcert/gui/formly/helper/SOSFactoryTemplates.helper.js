@@ -18,7 +18,7 @@
  */
 
 angular.module('common').factory('common.SOSFactoryTemplatesHelper', [
-    'common.ObjectHelper', 'common.UserModel', 'common.DateUtilsService', 'common.PersonIdValidatorService', 'common.FactoryTemplatesHelper',
+    '$log', 'common.ObjectHelper', 'common.UserModel', 'common.DateUtilsService', 'common.PersonIdValidatorService', 'common.FactoryTemplatesHelper',
     function($log, ObjectHelper, UserModel, dateUtils, PersonIdValidator, FactoryTemplates) {
         'use strict';
 

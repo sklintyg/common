@@ -1,7 +1,7 @@
 angular.module('db').factory('db.FormFactory',
     ['$log', '$timeout',
         'common.DateUtilsService', 'common.ObjectHelper', 'common.UserModel',
-        'common.FactoryTemplatesHelper', 'common.PersonIdValidatorService', 'common.SOSFactoryTemplates',
+        'common.FactoryTemplatesHelper', 'common.PersonIdValidatorService', 'common.SOSFactoryTemplatesHelper',
         function($log, $timeout,
             DateUtils, ObjectHelper, UserModel, FactoryTemplates, PersonIdValidator, SOSFactoryTemplates) {
             'use strict';

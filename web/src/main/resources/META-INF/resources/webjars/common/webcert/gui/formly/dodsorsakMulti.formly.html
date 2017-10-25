@@ -18,7 +18,7 @@
                ng-class="{'fielderror' : hasValidationError('beskrivning', $index)}"
                ng-model="orsak.beskrivning"
                ng-blur="validate()"
-               maxlength="4000">
+               maxlength="{{to.maxlength}}">
       </td>
       <td>
         <span wc-date-picker-field target-model="orsak.datum" dom-id="orsak-multi-{{$index}}-datum"

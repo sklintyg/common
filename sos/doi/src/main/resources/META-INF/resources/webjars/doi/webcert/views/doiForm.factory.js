@@ -20,7 +20,7 @@
 angular.module('doi').factory('doi.FormFactory',
     ['$log', '$timeout',
         'common.ObjectHelper', 'common.UserModel',
-        'common.FactoryTemplatesHelper', 'common.SOSFactoryTemplates',
+        'common.FactoryTemplatesHelper', 'common.SOSFactoryTemplatesHelper',
         function($log, $timeout,
             ObjectHelper, UserModel, FactoryTemplates, SOSFactoryTemplates) {
             'use strict';
