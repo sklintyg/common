@@ -85,12 +85,19 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                                 // for some reason null doesn't work as default value for specifikation for this component due to ui-select using undefined and null as reference internally
                                 // (default value sometimes won't be matched with the place holder item in the control)
                                 var modelFoljdArray = fromBackend;
-                                if(!modelFoljdArray || modelFoljdArray.length === 0){
+                                if(!modelFoljdArray){
                                     modelFoljdArray = [
                                         { beskrivning: null, datum: null, specifikation: ''},
                                         { beskrivning: null, datum: null, specifikation: ''},
                                         { beskrivning: null, datum: null, specifikation: ''}
                                     ];
+                                }
+
+                                if(modelFoljdArray.length < 3){
+                                    var missingCount = 3 - modelFoljdArray.length;
+                                    for(var i = 0; i < missingCount; i++){
+                                        modelFoljdArray.push({ beskrivning: null, datum: null, specifikation: ''});
+                                    }
                                 }
 
                                 modelFoljdArray.forEach(function(item){
