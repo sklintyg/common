@@ -137,7 +137,7 @@ angular.module('common').run(function(formlyConfig) {
                     }
                     $scope.months = [{value: '00', label: '00 (ej känt)'}];
                     for (var month = 1; month <= 12; month++) {
-                        var monthPadded = month;
+                        var monthPadded = month.toString();
                         if (monthPadded < 10) {
                             monthPadded = '0' + monthPadded;
                         }
