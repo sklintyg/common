@@ -102,9 +102,12 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         }
 
         function _getConsent(personId, hsaId) {
-            return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(function(response) {
-                return response.data;
-            });
+            return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(
+                function(response) {
+                    return response;
+                }, function(err){
+                    return err;
+                });
         }
 
         function _getQuestions(diagnosKod) {
