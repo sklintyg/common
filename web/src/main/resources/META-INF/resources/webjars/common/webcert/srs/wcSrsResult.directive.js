@@ -40,8 +40,9 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
 
                 scope.parentHasRendered = function(){
                     if(scope.status.open){
-                        if(scope.clampSet)
+                        if(scope.clampSet){
                             return true;
+                        }
                         var divsize = angular.element(document.getElementById('atgarder')).prop('offsetWidth');
                         if(divsize > 0){
                             scope.clampSet = true;
