@@ -28,7 +28,7 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
-
+                scope.clampSet = false;
                 scope.status.riskInfoOpen = false;
                 scope.closeSrs = function(){
                     scope.status.riskInfoOpen = false;
@@ -40,8 +40,11 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
 
                 scope.parentHasRendered = function(){
                     if(scope.status.open){
+                        if(scope.clampSet)
+                            return true;
                         var divsize = angular.element(document.getElementById('atgarder')).prop('offsetWidth');
                         if(divsize > 0){
+                            scope.clampSet = true;
                             return true;
                         }
                     }
