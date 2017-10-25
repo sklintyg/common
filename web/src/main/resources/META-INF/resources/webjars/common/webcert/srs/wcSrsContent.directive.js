@@ -27,7 +27,7 @@ angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCr
         return {
             restrict: 'EA',
             link: function(scope, element, attrs) {
-                scope.isCollapsed = true;
+                scope.isCollapsed = false;
                 //$('.my_tooltip').tooltip({ html: true })
                 scope.infoMessage = '';
                 scope.errorMessage = '';

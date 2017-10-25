@@ -209,13 +209,9 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.consentError = '';
                                 srsProxy.getConsent(scope.personId, scope.hsaId).then(function(consent) {
                                     scope.consent = consent;
-                                    if(scope.consent === 'INGET'){
-                                        scope.consentGiven = false;
-                                    }
-                                    else{
+                                    if(scope.consent !== 'INGET'){
                                         scope.consentGiven = consent === 'JA';
                                     }
-                                    
                                 }, function(error) {
                                     scope.consent = error;
                                     scope.consentGiven = false;
