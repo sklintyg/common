@@ -56,9 +56,9 @@ angular.module('doi').factory('doi.FormFactory',
                             templateOptions: {
                                 label: 'FRG_8',
                                 orsaksTyper: [
-                                    'UPPGIFT_SAKNAS',
+                                    'PLOTSLIG',
                                     'KRONISK',
-                                    'PLOTSLIG'
+                                    'UPPGIFT_SAKNAS'
                                 ],
                                 letter: 'A',
                                 required: false,
@@ -77,9 +77,9 @@ angular.module('doi').factory('doi.FormFactory',
                                     datumLabel: 'DELAT_TEXT.DEBUT',
                                     orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
                                     orsaksTyper: [
-                                        'UPPGIFT_SAKNAS',
+                                        'PLOTSLIG',
                                         'KRONISK',
-                                        'PLOTSLIG'
+                                        'UPPGIFT_SAKNAS'
                                     ]
                                 }
                             }
@@ -97,9 +97,9 @@ angular.module('doi').factory('doi.FormFactory',
                                 maxRows: 8,
                                 maxlength: 45,
                                 orsaksTyper: [
-                                    'UPPGIFT_SAKNAS',
+                                    'PLOTSLIG',
                                     'KRONISK',
-                                    'PLOTSLIG'
+                                    'UPPGIFT_SAKNAS'
                                 ],
                                 beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
                                 datumLabel: 'DELAT_TEXT.DEBUT',
