@@ -83,6 +83,41 @@ describe('vagueDate', function() {
         expect($scope.months.length).toBe(13);
     });
 
+    it('If year is first set to 0000 and then changed to current year: month should reset back to "Ange månad"', function() {
+        expect($scope.years.length).toBe(4);   // "Ange år", "0000", this year and last year
+        expect($scope.months.length).toBe(14); // "Ange månad", "00" and 01-12
+
+        $scope.vagueDateModel.year = '0000';
+        $scope.$apply();
+
+        expect($scope.months.length).toBe(13); // "Ange månad" should be gone
+        expect($scope.vagueDateModel.month).toBe('00');
+
+        $scope.vagueDateModel.year = (new Date()).getFullYear();
+        $scope.$apply();
+
+        expect($scope.months.length).toBe(14); // "Ange månad" should be back
+        expect($scope.vagueDateModel.month).toBe(undefined);
+    });
+
+    it('If year is first set to last year and then changed to current year: month should not reset back to "Ange månad"', function() {
+        expect($scope.years.length).toBe(4);   // "Ange år", "0000", this year and last year
+        expect($scope.months.length).toBe(14); // "Ange månad", "00" and 01-12
+
+        $scope.vagueDateModel.year = (new Date()).getFullYear();
+        $scope.$apply();
+        $scope.vagueDateModel.month = '02';
+        $scope.$apply();
+
+        expect($scope.months.length).toBe(13); // "Ange månad" should be gone
+        expect($scope.vagueDateModel.month).toBe('02');
+
+        $scope.vagueDateModel.year = (new Date()).getFullYear() - 1;
+        $scope.$apply();
+
+        expect($scope.months.length).toBe(13); // "Ange månad" should be gone
+        expect($scope.vagueDateModel.month).toBe('02');
+    });
 
 });
 

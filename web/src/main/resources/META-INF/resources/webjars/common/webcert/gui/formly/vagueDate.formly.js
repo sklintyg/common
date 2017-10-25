@@ -48,6 +48,7 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.$watch('vagueDateModel.year', function(newValue) {
+                    var monthWasEnabled = $scope.vagueDateModel.monthEnabled;
                     $scope.vagueDateModel.monthEnabled = false;
                     if (newValue !== undefined) {
                         updateModel();
@@ -55,6 +56,9 @@ angular.module('common').run(function(formlyConfig) {
                             $scope.vagueDateModel.month = '00';
                         }
                         else {
+                            if (!monthWasEnabled) {
+                                $scope.vagueDateModel.month = undefined;
+                            }
                             $scope.vagueDateModel.monthEnabled = true;
                         }
                         createYears(false);
