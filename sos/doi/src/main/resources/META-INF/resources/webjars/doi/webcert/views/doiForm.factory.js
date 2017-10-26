@@ -62,7 +62,7 @@ angular.module('doi').factory('doi.FormFactory',
                                 ],
                                 letter: 'A',
                                 required: false,
-                                maxlength: 140,
+                                htmlMaxlength: 140,
                                 beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
                                 datumLabel: 'DELAT_TEXT.DEBUT',
                                 orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
@@ -70,7 +70,7 @@ angular.module('doi').factory('doi.FormFactory',
                                     key: 'foljd',
                                     maxRows: 3,
                                     required: false,
-                                    maxlength: 140,
+                                    htmlMaxlength: 140,
                                     letter: ['B', 'C', 'D'],
                                     label: 'FRG_9',
                                     beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
@@ -95,7 +95,7 @@ angular.module('doi').factory('doi.FormFactory',
                             type: 'dodsorsakMulti', // R11
                             templateOptions: {
                                 maxRows: 8,
-                                maxlength: 45,
+                                htmlMaxlength: 45,
                                 orsaksTyper: [
                                     'PLOTSLIG',
                                     'KRONISK',
@@ -134,7 +134,7 @@ angular.module('doi').factory('doi.FormFactory',
                             key: 'operationAnledning',
                             type: 'single-text-vertical',
                             hideExpression: 'model.operation !== "JA"', // R13
-                            templateOptions: {label: 'DFR_11.3', required: true, maxlength: 100}
+                            templateOptions: {label: 'DFR_11.3', required: true, htmlMaxlength: 100}
                         }
                     ])
                 ]),
@@ -174,7 +174,7 @@ angular.module('doi').factory('doi.FormFactory',
                             key: 'forgiftningUppkommelse',
                             type: 'multi-text',
                             hideExpression: 'model.forgiftning !== true', // R17
-                            templateOptions: {label: 'DFR_12.4', required: true, maxlength: 400}
+                            templateOptions: {label: 'DFR_12.4', required: true, htmlMaxlength: 400}
                         }
                     ])
                 ]),
