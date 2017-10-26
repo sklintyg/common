@@ -7,10 +7,6 @@
     </tr>
     <tr>
       <td class="year">
-<!--
-        <select id="{{options.key}}-year" class="form-control year" ng-model="vagueDateModel.year"
-                ng-options="year.label for year in years track by year.value"></select>
--->
         <ui-select theme="bootstrap" search-enabled="false" ng-model="vagueDateModel.year"
                    id="{{options.key}}-year" name="{{options.key}}-year" append-to-body="true"
                    ng-class="{'fielderror' : hasValidationError('year')}"
@@ -24,10 +20,6 @@
         </ui-select>
       </td>
       <td class="month">
-<!--
-        <select id="{{options.key}}-month" class="form-control month" ng-model="vagueDateModel.month"
-                ng-options="month.label for month in months track by month.value"></select>
--->
         <ui-select theme="bootstrap" search-enabled="false" ng-model="vagueDateModel.month" ng-disabled="!vagueDateModel.monthEnabled"
                    id="{{options.key}}-month" name="{{options.key}}-month" append-to-body="true"
                    ng-class="{'fielderror' : hasValidationError('month')}"
@@ -46,5 +38,4 @@
       </td>
     </tr>
   </table>
-
 </div>
