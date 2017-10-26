@@ -99,7 +99,10 @@ describe('sjukskrivningar', function() {
         SjukskrivningarViewState.periods.HALFTEN.checked = true;
         SjukskrivningarViewState.updateCheckBox('HALFTEN');
 
-        expect(model.HALFTEN.period.from).toBe(new Date().toISOString().slice(0, 10));
+        var now = new Date();
+        var month = now.getMonth() + 1;
+        var today = now.getFullYear() + '-' + month + '-' + now.getDate();
+        expect(model.HALFTEN.period.from).toBe(today);
         expect(model.HALFTEN.period.tom).toBe(undefined);
     });
 
