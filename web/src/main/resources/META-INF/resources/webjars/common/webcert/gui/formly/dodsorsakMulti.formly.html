@@ -29,7 +29,7 @@
       </td>
       <td>
         <ui-select theme="bootstrap" search-enabled="false" ng-model="orsak.specifikation"
-                   id="orsak-multi-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}" append-to-body="false"
+                   id="orsak-multi-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}" append-to-body="true"
                    ng-class="{'fielderror' : hasValidationError('specifikation', $index)}"
                    on-select="validate()">
           <ui-select-match> <!--  placeholder="Välj..." -->
