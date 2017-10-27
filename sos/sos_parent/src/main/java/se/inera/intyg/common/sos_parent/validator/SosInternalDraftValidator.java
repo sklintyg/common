@@ -80,12 +80,18 @@ public final class SosInternalDraftValidator {
 
         // R3
         if (!utlatande.getDodsdatumSakert()) {
-            if (ValidatorUtil.validateDate(utlatande.getAntraffatDodDatum(), validationMessages,
-                    "dodsdatumOchdodsPlats.antraffatDodDatum", null)) {
-                if (!utlatande.getAntraffatDodDatum().isBeforeNumDays(-1)) {
-                    ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
-                            ValidationMessageType.OTHER, "common.validation.date.today.or.earlier");
-                }
+            if (utlatande.getAntraffatDodDatum() == null) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                        ValidationMessageType.EMPTY);
+            } else if (!utlatande.getAntraffatDodDatum().isValidDate()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                        ValidationMessageType.INVALID_FORMAT);
+            } else if (!utlatande.getAntraffatDodDatum().isBeforeNumDays(-1)) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                        ValidationMessageType.OTHER, "common.validation.date.today.or.earlier");
+            } else if (!utlatande.getAntraffatDodDatum().isReasonable()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                        ValidationMessageType.OTHER, "common.validation.date_out_of_range_no_future");
             }
         } else {
             if (utlatande.getAntraffatDodDatum() != null) {
