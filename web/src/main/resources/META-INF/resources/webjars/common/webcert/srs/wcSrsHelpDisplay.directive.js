@@ -140,7 +140,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     };
 
                     // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
-                    if (scope.srsViewState.userHasSrsFeature) {
+                    if (scope.srsViewState.userHasSrsFeature && scope.id === '2') {
                         var diagnosisListFetching = loadDiagCodesAndGetHigherDiagCode();
                         // When applicable code is entered, show srs button
                         scope.$watch('srsViewState.diagnosKod', function(newVal, oldVal) {
@@ -178,6 +178,9 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                         else{
                                             scope.srsViewState.consent = 'error';
                                         }*/
+                                    }
+                                    else{
+                                        scope.srsViewState.consent = 'error';
                                     }
                                     setConsentMessages();
                                 });
