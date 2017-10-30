@@ -32,12 +32,12 @@
       </div>
     </div>
     <br>
-    <div ng-if="consentError">
-      <wc-srs-error-box message-string="consentError"></wc-srs-error-box>
+    <div ng-if="srsViewState.consentError">
+      <wc-srs-error-box message-string="srsViewState.consentError"></wc-srs-error-box>
     </div>
     
     <div>
-      <div ng-show="srsViewState.consent === 'JA'">
+      <div ng-show="srsViewState.consent === 'JA' && !srsViewState.consentError">
           <br>
           <hr>
 
