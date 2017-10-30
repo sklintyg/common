@@ -226,16 +226,16 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.srsViewState.atgarderInfo = 'Observera! För ' + srsViewState.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
                             }
-                            else if (scope.srsViewState.atgarder.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                                scope.srsViewState.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.higherDiagnosKod;
-                            }
                             else if (!scope.srsViewState.atgarder.atgarderRek ||
                                 (scope.srsViewState.atgarder.atgarderRek && scope.srsViewState.atgarder.atgarderRek.length < 1)) {
                                 scope.srsViewState.atgarderInfo = 'Observera! För ' + srsViewState.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
                             }
+                            else if (scope.srsViewState.atgarder.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
+                                scope.srsViewState.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.higherDiagnosKod;
+                            }
                         }
-                        if (scope.srsViewState.higherDiagnosKod) {
+                        if (scope.srsViewState.higherDiagnosKod && scope.srsViewState.atgarderInfo === '') {
                             scope.srsViewState.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.higherDiagnosKod;
                         }
                     }
@@ -258,7 +258,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.srsViewState.statistikInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.higherDiagnosKod;
                             }
                         }
-                        if (scope.srsViewState.higherDiagnosKod) {
+                        if (scope.srsViewState.higherDiagnosKod && scope.srsViewState.statistikInfo === '') {
                             scope.srsViewState.statistikInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.higherDiagnosKod;
                         }
                     }
