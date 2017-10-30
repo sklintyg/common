@@ -19,9 +19,9 @@
 
 angular.module('common').factory('common.IntygMakulera',
     [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel', 'common.IntygHelper',
-        'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService',
+        'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService', 'common.messageService',
         function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper, CommonViewState,
-            ArendeListViewStateService, moduleService, featureService) {
+            ArendeListViewStateService, moduleService, featureService, messageService) {
             'use strict';
 
             // Makulera dialog setup
@@ -80,12 +80,22 @@ angular.module('common').factory('common.IntygMakulera',
                         );
                 }
 
+                function getMakuleraText() {
+                    var textId = CommonViewState.intygProperties.type + '.makulera.body.common-header';
+                    if (!messageService.propertyExists(textId)) {
+                        // If intyg hasn't specified a text, fall back to common text
+                        textId = 'label.makulera.body.common-header';
+                    }
+                    return textId;
+                }
+
                 var dialogMakuleraModel = {
                     isFkIntyg: isFkIntyg,
                     hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
                     isMakuleraEnabled: isMakuleraEnabled,
                     makuleraProgressDone: true,
                     focus: false,
+                    bodyTextId: getMakuleraText(),
                     errormessageid: 'error.failedtomakuleraintyg',
                     showerror: false,
                     labels: {},
