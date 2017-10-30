@@ -15,7 +15,7 @@
   "foljd": [
     {
       "beskrivning": "foljd 1",
-      "datum": "2016-05-01",
+      "datum": "2017-05-01",
       "specifikation": "KRONISK"
     },
     {
@@ -74,7 +74,7 @@
   "operation": "JA",
   "operationDatum": "2016-02-01",
   "operationAnledning": "anledning",
-  "forgiftning": "false",
+  "forgiftning": "true",
   "forgiftningOrsak": "SJALVMORD",
   "forgiftningDatum": "2017-01-01",
   "forgiftningUppkommelse": "uppkommelse",

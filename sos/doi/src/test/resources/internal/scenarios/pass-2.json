@@ -16,9 +16,9 @@
   "land":"rt",
   "terminalDodsorsak":{"beskrivning":"asd","datum":"2017-09-14","specifikation":"KRONISK"},
   "foljd":[
-    {"beskrivning":"asd","datum":"2017-09-21","specifikation":"PLOTSLIG"},
-    {"beskrivning":"asd","datum":"2017-09-13","specifikation":"PLOTSLIG"},
-    {"beskrivning":"asd","datum":"2017-09-14","specifikation":"KRONISK"}],
+    {"beskrivning":"asd","datum":"2017-08-16","specifikation":"PLOTSLIG"},
+    {"beskrivning":"asd","datum":"2017-08-15","specifikation":"PLOTSLIG"},
+    {"beskrivning":"asd","datum":"2017-08-14","specifikation":"KRONISK"}],
   "bidragandeSjukdomar":[
     {"beskrivning":"sad"},
     {"beskrivning":"asd","datum":"2017-09-06"},

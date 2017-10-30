@@ -29,6 +29,7 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +82,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.foljd",
                     ValidationMessageType.INCORRECT_COMBINATION);
         }
+        // To check R21 we need to keep track of earliest date seen so far.
+        // From beginning its dodsdatum and then each foljd in instance order should be before or equal to the previous dates.
+        LocalDate minDate = (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null && utlatande
+                .getTerminalDodsorsak().getDatum().isValidDate())
+                ? utlatande.getTerminalDodsorsak().getDatum().asLocalDate()
+                : LocalDate.MAX;
         for (int i = 0; i < utlatande.getFoljd().size(); i++) {
             Dodsorsak foljd = utlatande.getFoljd().get(i);
             if (Strings.nullToEmpty(foljd.getBeskrivning()).trim().isEmpty()) {
@@ -88,10 +95,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                         "utlatandeOrsak.foljd." + i + ".beskrivning",
                         ValidationMessageType.EMPTY);
             }
-            if (foljd.getDatum() != null && !foljd.getDatum().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages,
-                        "utlatandeOrsak.foljd." + i + ".datum",
-                        ValidationMessageType.INVALID_FORMAT);
+            if (foljd.getDatum() != null) {
+                if (!foljd.getDatum().isValidDate()) {
+                    ValidatorUtil.addValidationError(validationMessages,
+                            "utlatandeOrsak.foljd." + i + ".datum",
+                            ValidationMessageType.INVALID_FORMAT);
+                } else if (foljd.getDatum().asLocalDate().isAfter(minDate)) {
+                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.foljd." + i + ".datum",
+                            ValidationMessageType.INCORRECT_COMBINATION);
+                } else {
+                    minDate = foljd.getDatum().asLocalDate();
+                }
             }
         }
     }

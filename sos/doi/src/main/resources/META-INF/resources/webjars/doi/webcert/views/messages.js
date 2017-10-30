@@ -23,6 +23,7 @@ angular.module('doi').constant('doi.messages', {
     'sv': {
         //Validation messages
         'common.validation.dodsorsak.empty': 'Beskrivning får inte vara tom.',
+        'common.validation.date.incorrect_combination': 'Datumet får inte vara efter efterkommande följd eller terminal dödsorsak.',
 
         'doi.validation.forgiftning.orsak.incorrect_combination': 'Orsak får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej"',
         'doi.validation.forgiftning.datum.incorrect_combination': 'Datum får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej"',

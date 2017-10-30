@@ -70,10 +70,10 @@ public class TransportToInternalTest {
         assertEquals("terminal dödsorsak", res.getTerminalDodsorsak().getBeskrivning());
         assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getTerminalDodsorsak().getDatum());
         assertEquals(Specifikation.KRONISK, res.getTerminalDodsorsak().getSpecifikation());
-        assertEquals(Dodsorsak.create("foljd 1", new InternalDate(LocalDate.of(2017, 5, 1)), Specifikation.KRONISK), res.getFoljd().get(0));
-        assertEquals(Dodsorsak.create("foljd 2", new InternalDate(LocalDate.of(2017, 5, 2)), Specifikation.PLOTSLIG),
+        assertEquals(Dodsorsak.create("foljd 1", new InternalDate(LocalDate.of(2016, 5, 1)), Specifikation.KRONISK), res.getFoljd().get(0));
+        assertEquals(Dodsorsak.create("foljd 2", new InternalDate(LocalDate.of(2016, 4, 1)), Specifikation.PLOTSLIG),
                 res.getFoljd().get(1));
-        assertEquals(Dodsorsak.create("foljd 3", new InternalDate(LocalDate.of(2017, 5, 3)), Specifikation.KRONISK), res.getFoljd().get(2));
+        assertEquals(Dodsorsak.create("foljd 3", new InternalDate(LocalDate.of(2016, 3, 1)), Specifikation.KRONISK), res.getFoljd().get(2));
         assertEquals(Dodsorsak.create("bidragande sjukdom 1", new InternalDate(LocalDate.of(2017, 3, 1)), Specifikation.KRONISK),
                 res.getBidragandeSjukdomar().get(0));
         assertEquals(Dodsorsak.create("bidragande sjukdom 2", new InternalDate(LocalDate.of(2017, 3, 2)), Specifikation.PLOTSLIG),
