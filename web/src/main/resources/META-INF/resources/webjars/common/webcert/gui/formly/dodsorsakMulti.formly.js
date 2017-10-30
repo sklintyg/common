@@ -37,7 +37,7 @@ angular.module('common').run(function(formlyConfig) {
                         return;
                     }
 
-                    rows.push({beskrivning: null, datum: null, specifikation: null});
+                    rows.push({beskrivning: null, datum: null, specifikation: ''});
                     $scope.form.$setDirty();
                 };
 
