@@ -14,7 +14,7 @@
     border-top:0;
   }
   ul {
-    padding-left: 15px;
+    padding-left: 20px;
   }
 
   h3, h4, label {
@@ -37,7 +37,7 @@
   }
 
   .value-part {
-    padding-top:0;
+    padding-top: 5px;
   }
 
   .unselected {
@@ -63,6 +63,7 @@
   /**  summary list overrides */
   .row {
     &.summary {
+      line-height: 1.1;
       padding-top: 20px;
       h3 {
         font-size: 14px;
@@ -83,6 +84,13 @@
         font-weight: normal;
 
       }
+      div.text {
+        line-height: 1.1;
+      }
+
+      .inline-single-value {
+        padding-bottom: 8px;
+      }
     }
 
   }
@@ -95,6 +103,9 @@
       }
       ul {
         padding-left: 0;
+        @media (max-width: 768px) {
+          padding-left: 20px;
+        }
       }
     }
 
