@@ -67,7 +67,13 @@ angular.module('db').factory('db.FormFactory',
                         {
                             key: 'polisanmalan',
                             type: 'boolean',
-                            templateOptions: {label: 'DFR_7.1', required: true},
+                            templateOptions: {
+                                label: 'DFR_7.1',
+                                yesLabel: 'DFR_7.1.SVA_1.RBK',
+                                noLabel: 'DFR_7.1.SVA_2.RBK',
+                                vertical: true,
+                                required: true
+                            },
                             expressionProperties: {
                                 'templateOptions.disabled': 'model.undersokningYttre === "UNDERSOKNING_SKA_GORAS"'
                             },

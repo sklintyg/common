@@ -1,10 +1,10 @@
-<div class="form-inline">
+<div ng-class="{'form-inline': !to.vertical}">
     <wc-form-label to="to" key="options.key"></wc-form-label>
-    <label class="radio-inline big-radio-label">
+    <label class="big-radio-label" ng-class="{'radio': to.vertical, 'radio-inline': !to.vertical}">
         <input id="{{options.key}}Yes" name="{{options.key}}" type="radio" class="big-radio"
                ng-value="true" ng-model="model[options.key]"/> <span dynamic-label key="{{to.yesLabel}}" fallback-value="Ja"></span>
     </label>
-    <label class="radio-inline big-radio-label">
+    <label class="big-radio-label" ng-class="{'radio': to.vertical, 'radio-inline': !to.vertical}">
         <input id="{{options.key}}No" name="{{options.key}}" type="radio" class="big-radio"
                ng-value="false" ng-model="model[options.key]"/> <span dynamic-label key="{{to.noLabel}}" fallback-value="Nej"></span>
     </label>
