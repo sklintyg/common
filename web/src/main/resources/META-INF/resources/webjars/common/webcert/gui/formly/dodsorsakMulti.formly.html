@@ -41,10 +41,10 @@
         </ui-select>
       </td>
       <td>
-        <button ng-if="$index > 0" class="btn btn-default" ng-click="deleteRow($index)"><i class="glyphicon glyphicon-minus-sign"></i></button>
+        <button type="button" ng-if="$index > 0" class="btn btn-default" ng-click="deleteRow($index)"><i class="glyphicon glyphicon-minus-sign"></i></button>
       </td>
     </tr>
   </table>
-  <button ng-disabled="model[options.key].length >= to.maxRows" class="btn btn-default" ng-click="addRow()"><i class="glyphicon glyphicon-plus-sign"></i> Lägg till sjukdom/skada</button>
+  <button type="button" ng-disabled="model[options.key].length >= to.maxRows" class="btn btn-default" ng-click="addRow()"><i class="glyphicon glyphicon-plus-sign"></i> Lägg till sjukdom/skada</button>
   <wc-field-validation field-type="dodsorsak" validations="orsakValidations"></wc-field-validation>
 </div>
