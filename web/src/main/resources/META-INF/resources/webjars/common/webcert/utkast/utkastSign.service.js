@@ -41,21 +41,21 @@ angular.module('common').factory('common.UtkastSignService',
              * Uses NET_ID for auth methods NET_ID and SITHS. Use fake for :fake authScheme.
              * Uses BankID / GRP for everything else.
              */
-            function signera(intygsTyp, version) {
+            function _signera(intygsTyp, version) {
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake')) {
-                    return _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
+                    _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
-                    return _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
+                    _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
-                    return _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
+                    _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
                 }
+                return deferred.promise;
             }
 
             function _signeraServer(intygsTyp, intygsId, version, deferred) {
                 var signModel = {};
                 _confirmSignera(signModel, intygsTyp, intygsId, version, deferred);
-                return deferred.promise;
             }
 
             /**
@@ -64,7 +64,6 @@ angular.module('common').factory('common.UtkastSignService',
             function _signeraServerUsingGrp(intygsTyp, intygsId, version, deferred) {
                 var signModel = {};
                 _confirmSigneraMedBankID(signModel, intygsTyp, intygsId, version, deferred);
-                return deferred.promise;
             }
 
             /**
@@ -154,7 +153,6 @@ angular.module('common').factory('common.UtkastSignService',
                     deferred.resolve({});
                     _showSigneringsError(signModel, error);
                 });
-                return deferred.promise;
             }
 
             var knownSignStatuses = {'BEARBETAR':'', 'VANTA_SIGN':'', 'NO_CLIENT':'', 'SIGNERAD':'', 'OKAND': ''};
@@ -322,7 +320,7 @@ angular.module('common').factory('common.UtkastSignService',
 
             // Return public API for the service
             return {
-                signera: signera,
+                signera: _signera,
 
                 __test__: {
                     confirmSignera: _confirmSignera,

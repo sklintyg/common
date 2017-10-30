@@ -21,10 +21,10 @@ angular.module('common').controller('common.UtkastFooter',
     ['$scope', '$rootScope', '$timeout',
         'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
         'common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationViewState',
-        'common.featureService',
+        'common.featureService', '$q',
         function($scope, $rootScope, $timeout,
             UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService,
-            utkastValidationViewState, featureService) {
+            utkastValidationViewState, featureService, $q) {
             'use strict';
 
             var viewState = $scope.viewState;
@@ -66,9 +66,23 @@ angular.module('common').controller('common.UtkastFooter',
                 savedElementTop = $('#' + lastClickedButtonId).offset().top - $(window).scrollTop();
             };
 
-            $scope.checkMissing = function() {
+            var waitingForSignCompletion = $q.resolve();
+            $scope.getCurrentSignStatus = function() {
+                // 0: pending, 1: resolved, 2: rejected. Works for later versions of AngularJS.
+                switch(waitingForSignCompletion.$$state.status) {
+                case 0:
+                    return 'pending';
+                case 1:
+                    return 'resolved';
+                case 2:
+                    return 'rejected';
+                default:
+                    console.error('Unknown promise state. $q changed internal data representation?');
+                }
+            };
 
-                if($scope.signingWithSITHSInProgress){
+            $scope.checkMissing = function() {
+                if($scope.getCurrentSignStatus() === 'pending') {
                     return false;
                 }
 
@@ -102,7 +116,7 @@ angular.module('common').controller('common.UtkastFooter',
 
                 utkastValidationViewState.reset();
 
-                UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
+                waitingForSignCompletion = UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
                     function(result) {
                         if (result.newVersion) {
                             viewState.draftModel.version = result.newVersion;
