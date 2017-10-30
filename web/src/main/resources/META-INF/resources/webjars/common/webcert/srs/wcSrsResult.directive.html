@@ -1,38 +1,40 @@
-<div ng-if="prediktionInfo && prediction.statusCode">
-        <wc-srs-info-box message-string="prediktionInfo"></wc-srs-info-box>
+<div id="srsResult{{id}}">
+    <div ng-if="srsViewState.prediktionInfo && srsViewState.prediction.statusCode">
+        <wc-srs-info-box message-string="srsViewState.prediktionInfo"></wc-srs-info-box>
     </div>
-    <div ng-if="prediktionError && prediction.statusCode">
-        <wc-srs-error-box message-string="prediktionError"></wc-srs-error-box>
+    <div ng-if="srsViewState.prediktionError && srsViewState.prediction.statusCode">
+        <wc-srs-error-box message-string="srsViewState.prediktionError"></wc-srs-error-box>
     </div>
-    <div id="predictionBox" ng-if="prediction !== 'error' && prediction.description" class="prediction-box alert alert-danger">
-                <img ng-src="{{riskImage}}" alt="">
-        {{prediction.level + ' ' + prediction.description}}
+    <div id="predictionBox" ng-if="srsViewState.prediction !== 'error' && srsViewState.prediction.description" class="prediction-box alert alert-danger">
+                <img ng-src="{{srsViewState.riskImage}}" alt="">
+        {{srsViewState.prediction.level + ' ' + srsViewState.prediction.description}}
         <div 
         style="float:right"
         class="glyphicon glyphicon-question-sign"
         uib-popover-template="externalRisk.templateUrl" popover-trigger="click"
-        popover-placement="auto right" popover-append-to-body="true" popover-is-open="status.riskInfoOpen">
+        popover-placement="auto right" popover-append-to-body="true" popover-is-open="srsViewState.status.riskInfoOpen">
       </div>
     </div>
-    <ul class="nav nav-tabs nav-justified">
-        <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder">Åtgärder</a></li>
-        <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics">Statistik</a></li>
+    <ul id="tab{{id}}" class="nav nav-tabs nav-justified">
+        <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Åtgärder</a></li>
+        <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics{{id}}">Statistik</a></li>
     </ul>
     <div class="tab-content">
-        <div id="atgarder" class="tab-pane fade in active">
+        <div id="atgarder{{id}}" class="tab-pane fade in active">
             <br>            
-            <div ng-if="atgarderInfo">
-                <wc-srs-info-box message-string="atgarderInfo"></wc-srs-info-box>
+            <div ng-if="srsViewState.atgarderInfo">
+                <wc-srs-info-box message-string="srsViewState.atgarderInfo"></wc-srs-info-box>
             </div>
-            <div ng-if="atgarderError">
-                <wc-srs-error-box message-string="atgarderError"></wc-srs-error-box>
+            <div ng-if="srsViewState.atgarderError">
+                <wc-srs-error-box message-string="srsViewState.atgarderError"></wc-srs-error-box>
             </div>
-            <div id="atgarderObs" ng-if="status.open && atgarder && atgarder.atgarderObs && parentHasRendered()" clamp="3">{{atgarder.atgarderObs}}</div>
+            <h3>Observerade åtgärder</h3>
+            <div id="atgarderObs" ng-if="status.open && srsViewState.atgarder && srsViewState.atgarder.atgarderObs && parentHasRendered()" clamp="3">{{srsViewState.atgarder.atgarderObs}}</div>
                 <br><br>
     
             <h3>Rekommenderade åtgärder</h3>
             <div id="atgarderRek" ng-if="status.open">
-                <div ng-repeat="(key,value) in atgarder.atgarderRek">
+                <div ng-repeat="(key,value) in srsViewState.atgarder.atgarderRek">
                     <div clamp="3" ng-bind-html="'• ' + value"></div>
                     <br>
                 </div>
@@ -42,18 +44,24 @@
             </div>
 
         </div>
-        <div id="statstics" class="tab-pane fade">
+        <div id="statstics{{id}}" class="tab-pane fade">
             <br>
-            <div ng-if="statistikInfo">
-                <wc-srs-info-box message-string="statistikInfo"></wc-srs-info-box>
+            <div ng-if="srsViewState.statistikInfo">
+                <wc-srs-info-box message-string="srsViewState.statistikInfo"></wc-srs-info-box>
             </div>
-            <div ng-if="statistikError">
-                <wc-srs-error-box message-string="statistikError"></wc-srs-error-box>
+            <div ng-if="srsViewState.statistikError">
+                <wc-srs-error-box message-string="srsViewState.statistikError"></wc-srs-error-box>
             </div>
-            <img ng-show="statistik.statistikBild" ng-src="{{statistik.statistikBild}}" alt=""/>
+            <img ng-show="srsViewState.statistik.statistikBild" ng-src="{{srsViewState.statistik.statistikBild}}" alt=""/>
             <div class="floatRight">
                 <button type="button" class="btn btn-info ng-binding" ng-click="redirectToStatistikExternalSite(); logStatistikClicked();">Läs mer</button>
             </div>
         </div>
+<<<<<<< HEAD
     
     </div>
+=======
+
+    </div>
+</div>
+>>>>>>> 4aeadd7da... INTYG-4630: srs bedömningsstöd kan öppnas från flera ställen

@@ -21,13 +21,61 @@ angular.module('common').service('common.srsViewState',
     function() {
         'use strict';
 
+        this.consent = '';
+        this.diagnosBeskrivning = '';
         this.diagnosKod = '';
+        this.originalDiagnosKod = '';
         this.personId = '';
         this.hsaId = '';
         this.intygsTyp = '';
+        this.shownFirstTime = false;
+        this.clickedFirstTime = false;
+        this.diagnosisCodes = null;
+        this.errorMessage = '';
+        this.srsApplicable = false;
+        this.questions = [];
+        this.statistik = {};
+        this.atgarder = {};
+
+                    
+        this.prediction = {};
+        this.prediction.description = '';
+        this.allQuestionsAnswered = false;
+        this.higherDiagnosKod = '';
+        this.showVisaKnapp = false;
+        this.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
+        this.riskImage = '';
+
+        this.consentInfo = '';
+        this.consentError = '';
+
+        this.atgarderInfo = '';
+        this.atgarderError = '';
+
+        this.statistikInfo = '';
+        this.statistikError = '';
+
+        this.prediktionInfo = '';
+        this.prediktionError = '';
+
+        this.activeTab = 'atgarder';
+
+        this.userHasSrsFeature = false;
+
+        this.status = {
+            open: false
+        };
+
+        this.setHsaId = function(hsaId){
+            this.hsaId = hsaId;
+        }
 
         this.setDiagnosKod = function(diagnosKod) {
             this.diagnosKod = diagnosKod;
         };
+
+        this.setDiagnosBeskrivning = function(diagnosBeskrivning){
+            this.diagnosBeskrivning = diagnosBeskrivning;
+        }
 
     });

@@ -1,7 +1,7 @@
 <div>
   <div class="panel-heading panel-srs-info-heading">
     <div class="srs-panel-title">
-      <h4><span id="srs_diagnos_heading_{{relatedFormId}}">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
+      <h4><span id="srs_diagnos_heading_{{relatedFormId}}">{{srsViewState.diagnosKod}} - {{srsViewState.diagnosBeskrivning}}</span>
       </h4>
       <button style="background-color: Transparent; background-repeat:no-repeat; border: none; cursor:pointer; overflow: hidden; outline:none;" type="button" class="align-srs-close-button-right btn btn-default" ng-click="status.open = false"><i>
         <img src="/web/webjars/common/webcert/srs/img/u135.png" alt="closeButton">
@@ -24,11 +24,11 @@
 
       <div class="line form-group ng-scope">
         <label class="radio-inline line">
-              <input type="radio" name="capacityForWorkForecast" ng-value="true" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(true)"> Ja</label>
+              <input type="radio" name="capacityForWorkForecast{{id}}" ng-value="'JA'" ng-model="srsViewState.consent" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent('true')"> Ja</label>
       </div>
       <div class="line form-group ng-scope">
         <label class="radio-inline line">
-              <input type="radio" name="capacityForWorkForecast" ng-value="false" ng-model="consentGiven" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(false)"> Nej</label>
+              <input type="radio" name="capacityForWorkForecast{{id}}" ng-value="false" ng-model="srsViewState.consent" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(false)"> Nej</label>
       </div>
     </div>
     <br>
@@ -37,7 +37,7 @@
     </div>
     
     <div>
-      <div ng-show="consentGiven">
+      <div ng-show="srsViewState.consent === 'JA'">
           <br>
           <hr>
 

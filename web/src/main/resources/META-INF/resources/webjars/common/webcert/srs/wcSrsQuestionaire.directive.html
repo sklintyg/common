@@ -1,13 +1,13 @@
 <div id="questionaire" class="intyg-block__titlerow ng-scope">
     <section>
-        <div ng-repeat="question in questions">
+        <div ng-repeat="question in srsViewState.questions">
             <div>
                 <br/><span>{{question.text}}</span>
             </div>
             <div>
                 <div class="srs-question" ng-repeat="answer in question.answerOptions" for="{{answer}}">
                     <label class="radio-inline line">
-                        <input type="radio" ng-change="change()" name="answer{{$parent.$index}}" ng-model="question.model" ng-value="answer" />
+                        <input type="radio" ng-change="change()" name="answer{{$parent.$index}}{{id}}" ng-model="question.model" ng-value="answer" />
                             {{answer.text}}
                     </label>
                 </div>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <button style="float:right;" type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="btn btn-info ng-binding"
-            ng-click="visaClicked()" ng-disabled="!showVisaKnapp" popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
+            ng-click="visaClicked()" ng-disabled="!srsViewState.showVisaKnapp" popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
             popover-placement="auto top">
                     Visa
             </button>

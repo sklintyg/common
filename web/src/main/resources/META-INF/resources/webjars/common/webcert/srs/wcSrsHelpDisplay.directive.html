@@ -1,13 +1,13 @@
 <div>
-  <div ng-show="userHasSrsFeature && srsApplicable">
+  <div ng-show="srsViewState.userHasSrsFeature && srsViewState.srsApplicable">
     <div id="srs">
-      <button id="{{relatedFormId}}-srs-button" type="button" class="btn btn-default btn-srs" ng-click="status.open = !status.open; logSrsButtonClicked(); closeFmb();">
+      <button id="{{relatedFormId}}-srs-button" type="button" ng-class="{'srs-btn6b-height-adjustment': id==='6b'}" class="btn btn-default btn-srs" ng-click="status.open = !status.open; logSrsButtonClicked(); closeFmb();">
         SRS 
-        <i class="glyphicon srs-glyphicon" ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}" in-view="srsButtonVisible = $inview"></i>
+        <i class="glyphicon srs-glyphicon" ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i>
       </button>
       <div id="panel-wrapper-srs"
            ng-show="status.open"
-           ng-class="{'srs-collapse': !status.open, 'srs-fixed-panel': !srsButtonVisible}">
+           ng-class="{'srs-collapse': !status.open, 'srs-fixed-panel': !srsViewState.srsButtonVisible}">
         <div class="panel-arrow"></div>
         <div class="panel panel-srs-info">
           <wc-srs-content></wc-srs-content>
@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div ng-class="{'srs-column': srsApplicable}">
+  <div ng-class="{'srs-column': srsViewState.srsApplicable}">
     <div ng-transclude></div>
   </div>
 </div>

@@ -29,7 +29,7 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
             restrict: 'E',
             link: function (scope, element, attrs) {
                 scope.clampSet = false;
-                scope.status.riskInfoOpen = false;
+                scope.srsViewState.status.riskInfoOpen = false;
                 scope.closeSrs = function(){
                     scope.status.riskInfoOpen = false;
                 };
@@ -43,7 +43,7 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                         if(scope.clampSet){
                             return true;
                         }
-                        var divsize = angular.element(document.getElementById('atgarder')).prop('offsetWidth');
+                        var divsize = angular.element(document.getElementById('atgarder' + scope.id)).prop('offsetWidth');
                         if(divsize > 0){
                             scope.clampSet = true;
                             return true;
@@ -57,16 +57,16 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                 };
 
                 scope.redirectToAtgardExternalSite = function(){
-                    window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.originalDiagnosKod || scope.diagnosKod));
+                    window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.srsViewState.originalDiagnosKod || scope.srsViewState.diagnosKod));
                 };
 
                 scope.redirectToStatistikExternalSite = function(){
-                    window.open(srsLinkCreator.createStatistikLink(scope.originalDiagnosKod || scope.diagnosKod));
+                    window.open(srsLinkCreator.createStatistikLink(scope.srsViewState.originalDiagnosKod || scope.srsViewState.diagnosKod));
                 };
 
                 scope.$watch('status', function(status){
-                    if(!status.open){
-                        scope.status.riskInfoOpen = false;
+                    if(!scope.status.open){
+                        scope.srsViewState.status.riskInfoOpen = false;
                     }
                 }, true);
 
