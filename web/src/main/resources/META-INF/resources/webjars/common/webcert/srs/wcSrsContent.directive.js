@@ -30,7 +30,7 @@ angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCr
                 scope.isCollapsed = false;
                 //$('.my_tooltip').tooltip({ html: true })
                 scope.infoMessage = '';
-                scope.errorMessage = '';
+                scope.srsViewState.errorMessage = '';
 
                 scope.externalConsent = {
                     templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.consent-popover.html'
@@ -47,7 +47,7 @@ angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCr
                 };
 
                 scope.$watch('status', function(status){
-                    if(!status.open){
+                    if(!scope.status.open){
                         scope.consentInfoOpen = false;
                     }
                 }, true);

@@ -34,10 +34,10 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
                     scope.prediction.description = '';
                     scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
                     if (scope.allQuestionsAnswered) {
-                        scope.showVisaKnapp = true;
+                        scope.srsViewState.showVisaKnapp = true;
                     }
                     else {
-                        scope.showVisaKnapp = false;
+                        scope.srsViewState.showVisaKnapp = false;
                     }
 
                 };

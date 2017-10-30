@@ -26,8 +26,12 @@ angular.module('common').factory('common.srsService', [
             viewState.setDiagnosKod(diagnosKod);
         }
 
+        function _updateDiagnosBeskrivning(diagnosBeskrivning){
+            viewState.setDiagnosBeskrivning(diagnosBeskrivning);
+        }
+
         function _updateHsaId(hsaId) {
-            viewState.hsaId = hsaId;
+            viewState.setHsaId(hsaId);
         }
 
         function _updateIntygsTyp(intygsTyp) {
@@ -40,6 +44,7 @@ angular.module('common').factory('common.srsService', [
 
         // Return public API for the service
         return {
+            updateDiagnosBeskrivning: _updateDiagnosBeskrivning,
             updateDiagnosKod: _updateDiagnosKod,
             updateHsaId: _updateHsaId,
             updateIntygsTyp: _updateIntygsTyp,

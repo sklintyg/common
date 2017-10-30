@@ -71,6 +71,8 @@ angular.module('fk7263').controller('fk7263.EditCertCtrl',
             //Expose pdf download link
             $scope.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
 
+            srsService.updateDiagnosKod(intygModel.diagnosKod);
+            srsService.updateDiagnosBeskrivning(intygModel.diagnosBeskrivning1);
             srsService.updateHsaId(intygModel.grundData.skapadAv.vardenhet.enhetsid);
             srsService.updateIntygsTyp(intygModel.name);
             srsService.updatePersonnummer(intygModel.grundData.patient.personId);
