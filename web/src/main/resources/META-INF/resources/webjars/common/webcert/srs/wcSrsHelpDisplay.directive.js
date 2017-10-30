@@ -87,7 +87,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             });
 
                         function stringifyAtgarderObs(atgarderObs){
-                            var tempAtgarderObs = '';
+                            var tempAtgarderObs = '<b>Tänk på att</b> ';
                             for(var i = 0; i < atgarderObs.length; i++){
                                 tempAtgarderObs += atgarderObs[i];
                                 tempAtgarderObs += '. ';
@@ -356,7 +356,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                     }
                                 }
                             }
-                            return '';
+                            return scope.srsViewState.higherDiagnosKod;
                         }
                     }
 
@@ -385,12 +385,12 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         //scope.consent = false;
                         scope.srsViewState.shownFirstTime = false;
                         scope.srsViewState.clickedFirstTime = false;
-                        scope.srsViewState.originalDiagnosKod = '';
+                        //scope.srsViewState.originalDiagnosKod = '';
                         //scope.srsViewState.diagnosKod = (scope.srsStates.diagnoses['0'] && scope.srsStates.diagnoses['0'].diagnosKod) || '';
                         scope.srsViewState.srsApplicable = false;
                         scope.srsViewState.errorMessage = '';
                         scope.srsViewState.allQuestionsAnswered = false;
-                        scope.srsViewState.higherDiagnosKod = '';
+                        //scope.srsViewState.higherDiagnosKod = '';
                         scope.srsViewState.showVisaKnapp = false;
                         scope.srsViewState.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
                         scope.srsViewState.riskImage = '';
