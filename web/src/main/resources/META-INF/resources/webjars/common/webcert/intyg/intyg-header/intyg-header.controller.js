@@ -53,6 +53,32 @@ angular.module('common').controller('common.IntygHeader',
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
+
+            $scope.generateSentText = function () {
+
+                var sentText = '';
+
+                var recipientId = moduleService.getModule(intygType).defaultRecipient;
+
+                function getRecipientNameFromId(recipientId){
+                    switch (recipientId){
+                        case 'FKASSA': return 'Försäkringskassan';
+                        case 'TRANSP': return 'Transportstyrelsen';
+                        case 'SKV': return 'Skatteverket';
+                        case 'SOS': return 'Socialstyrelsen';
+                    }
+                }
+
+                if($scope.viewState.common.intygProperties.isSent){
+                    sentText = messageService.getProperty('common.label.status.recieved', {'recipient': getRecipientNameFromId(recipientId) });
+
+                    if(!$scope.isPatientDeceased()) {
+                        sentText += messageService.getProperty('common.label.status.recieved.available-mi');
+                    }
+                }
+                return sentText;
+            };
+
             $scope.isRevoked = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
             };
