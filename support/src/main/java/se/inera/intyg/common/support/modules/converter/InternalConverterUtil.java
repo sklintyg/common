@@ -74,6 +74,13 @@ public final class InternalConverterUtil {
     private InternalConverterUtil() {
     }
 
+    /**
+     * Converts the internal (Utlatande) to transport (Intyg).
+     *
+     * @param source              the source Utlatande
+     * @param extendedPatientInfo if the certificate should support patients with sekretessmarkering
+     * @return the converted Intyg
+     */
     public static Intyg getIntyg(Utlatande source, boolean extendedPatientInfo) {
         Intyg intyg = new Intyg();
         intyg.setIntygsId(getIntygsId(source));
@@ -86,6 +93,12 @@ public final class InternalConverterUtil {
         return intyg;
     }
 
+    /**
+     * Converts a internal representation of hosPersonal to transport.
+     *
+     * @param hoSPersonal the interal version of the hosPersonal
+     * @return the converted transport representation
+     */
     public static HosPersonal getSkapadAv(HoSPersonal hoSPersonal) {
         HosPersonal skapadAv = new HosPersonal();
         skapadAv.setPersonalId(getHsaId(hoSPersonal.getPersonId()));
@@ -112,6 +125,196 @@ public final class InternalConverterUtil {
         return skapadAv;
     }
 
+    /**
+     * Converts a internal version of a personnummer to transport.
+     *
+     * @param pnr the internal version
+     * @return a transport representation of the personnummer
+     */
+    public static PersonId getPersonId(Personnummer pnr) {
+        PersonId personId = new PersonId();
+        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(pnr) ? SAMORDNING_ID_OID : PERSON_ID_OID);
+        personId.setExtension(pnr.getPersonnummerWithoutDash());
+        return personId;
+    }
+
+    /**
+     * Returns a transport version of the id of the certificate.
+     *
+     * @param source the source Utlatande
+     * @return a transport representation of the id
+     */
+    public static IntygId getIntygsId(Utlatande source) {
+        IntygId intygId = new IntygId();
+        intygId.setRoot(source.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+        intygId.setExtension(source.getId());
+        return intygId;
+    }
+
+    /**
+     * Returns a transport representation of a String as a HSA-id.
+     *
+     * @param id the String containing the code of the HsaId
+     * @return the transport version of the HsaId
+     */
+    public static HsaId getHsaId(String id) {
+        HsaId hsaId = new HsaId();
+        hsaId.setRoot(HSA_ID_OID);
+        hsaId.setExtension(id);
+        return hsaId;
+    }
+
+    /**
+     * Returns an internalDate as a String.
+     *
+     * @param internalDate the source date
+     * @return a safe String to use as a date in transport
+     */
+    public static String getInternalDateContent(InternalDate internalDate) {
+        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
+    }
+
+    /**
+     * Returns an internalDate as a String where unfilled information is completed with zeros.
+     *
+     * @param internalDate the source date
+     * @return the String representation of the date
+     */
+    public static String getInternalDateContentFillWithZeros(InternalDate internalDate) {
+        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : fillWithZeros(internalDate);
+    }
+
+    /**
+     * Wrap the code in transport layer object.
+     *
+     * @param sourceArbetsplatsKod the code
+     * @return the resulting transport layer object
+     */
+    public static ArbetsplatsKod getArbetsplatsKod(String sourceArbetsplatsKod) {
+        ArbetsplatsKod arbetsplatsKod = new ArbetsplatsKod();
+        arbetsplatsKod.setRoot(ARBETSPLATS_KOD_OID);
+        arbetsplatsKod.setExtension(sourceArbetsplatsKod);
+        return arbetsplatsKod;
+    }
+
+    /**
+     * Returns a MeddelandeReferens which contain the relation information.
+     *
+     * @param utlatande the source Utlatande
+     * @param type      the type of the relation
+     * @return the transport version of the reference in Ärendekommunikation
+     */
+    public static MeddelandeReferens getMeddelandeReferensOfType(Utlatande utlatande, RelationKod type) {
+        if (utlatande.getGrundData().getRelation() == null || !type.equals(utlatande.getGrundData().getRelation().getRelationKod())) {
+            return null;
+        }
+
+        MeddelandeReferens mr = new MeddelandeReferens();
+        mr.setMeddelandeId(utlatande.getGrundData().getRelation().getMeddelandeId());
+        if (utlatande.getGrundData().getRelation().getReferensId() != null) {
+            mr.setReferensId(utlatande.getGrundData().getRelation().getReferensId());
+        }
+        return mr;
+    }
+
+    /**
+     * Only add a svar if it is neither empty String or null.
+     *
+     * @param svars      the object where the svar will be saved
+     * @param svarsId    the id of the svar
+     * @param delsvarsId the id of the delsvar
+     * @param content    the content which should be checked
+     */
+    public static void addIfNotBlank(List<Svar> svars, String svarsId, String delsvarsId, String content) {
+        if (!Strings.nullToEmpty(content).trim().isEmpty()) {
+            svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content).build());
+        }
+    }
+
+    /**
+     * Only add a svar if it is not null.
+     *
+     * @param svars      the object where the svar will be saved
+     * @param svarsId    the id of the svar
+     * @param delsvarsId the id of the delsvar
+     * @param content    the content which should be checked
+     */
+    public static void addIfNotNull(List<Svar> svars, String svarsId, String delsvarsId, Boolean content) {
+        if (content != null) {
+            svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content.toString()).build());
+        }
+    }
+
+    /**
+     * Creates a DatePeriodType from a from and to date.
+     *
+     * @param from the beginning of the period
+     * @param tom  the end of the period
+     * @return the DatePeriodType which contain the from and to date
+     */
+    public static JAXBElement<DatePeriodType> aDatePeriod(LocalDate from, LocalDate tom) {
+        DatePeriodType period = new DatePeriodType();
+        period.setStart(from);
+        period.setEnd(tom);
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "datePeriod"),
+                DatePeriodType.class, null, period);
+    }
+
+    /**
+     * Creates a PartialDateType from a specified format and source Temporal.
+     * <p>
+     * A Temporal is the new superclass of timerelated objects in Java 8.
+     *
+     * @param format  the desired format
+     * @param partial the source Temporal
+     * @return the PartialDateType which contain the Temporal
+     */
+    public static JAXBElement<PartialDateType> aPartialDate(PartialDateTypeFormatEnum format, Temporal partial) {
+        PartialDateType partialDate = new PartialDateType();
+        partialDate.setFormat(format);
+        partialDate.setValue(partial);
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "partialDate"),
+                PartialDateType.class, null, partialDate);
+    }
+
+    /**
+     * Constructs a CVType.
+     *
+     * @param codeSystem  the CodeSystem of the CVType
+     * @param code        the Code of the CVType
+     * @param displayName the DisplayName of the CVType (optional)
+     * @return the CVType
+     */
+    public static JAXBElement<CVType> aCV(String codeSystem, String code, String displayName) {
+        CVType cv = new CVType();
+        cv.setCodeSystem(codeSystem);
+        cv.setCode(code);
+        cv.setDisplayName(displayName);
+        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "cv"),
+                CVType.class, null, cv);
+    }
+
+    /**
+     * Construct a SvarBuilder.
+     *
+     * @param id the id of the Svar to be constructed
+     * @return the builder which are to be filled with additional information
+     */
+    public static SvarBuilder aSvar(String id) {
+        return new SvarBuilder(id, null);
+    }
+
+    /**
+     * Construct a SvarBuilder with an additional instance number.
+     *
+     * @param id      the id of the Svar to be constructed
+     * @param instans the instance number of Svar to be constructed
+     * @return the builder which are to be filled with additional information
+     */
+    public static SvarBuilder aSvar(String id, Integer instans) {
+        return new SvarBuilder(id, instans);
+    }
+
     private static Enhet getEnhet(Vardenhet sourceVardenhet) {
         Enhet vardenhet = new Enhet();
         vardenhet.setEnhetsId(getHsaId(sourceVardenhet.getEnhetsid()));
@@ -124,13 +327,6 @@ public final class InternalConverterUtil {
         vardenhet.setVardgivare(getVardgivare(sourceVardenhet.getVardgivare()));
         vardenhet.setArbetsplatskod(getArbetsplatsKod(sourceVardenhet.getArbetsplatsKod()));
         return vardenhet;
-    }
-
-    public static ArbetsplatsKod getArbetsplatsKod(String sourceArbetsplatsKod) {
-        ArbetsplatsKod arbetsplatsKod = new ArbetsplatsKod();
-        arbetsplatsKod.setRoot(ARBETSPLATS_KOD_OID);
-        arbetsplatsKod.setExtension(sourceArbetsplatsKod);
-        return arbetsplatsKod;
     }
 
     private static Vardgivare getVardgivare(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceVardgivare) {
@@ -161,20 +357,6 @@ public final class InternalConverterUtil {
         return patient;
     }
 
-    public static PersonId getPersonId(Personnummer pnr) {
-        PersonId personId = new PersonId();
-        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(pnr) ? SAMORDNING_ID_OID : PERSON_ID_OID);
-        personId.setExtension(pnr.getPersonnummerWithoutDash());
-        return personId;
-    }
-
-    public static IntygId getIntygsId(Utlatande source) {
-        IntygId intygId = new IntygId();
-        intygId.setRoot(source.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
-        intygId.setExtension(source.getId());
-        return intygId;
-    }
-
     private static String getTextVersion(Utlatande source) {
         return emptyStringIfNull(source.getTextVersion());
     }
@@ -200,21 +382,6 @@ public final class InternalConverterUtil {
         intyg.getRelation().add(relation);
     }
 
-    public static HsaId getHsaId(String id) {
-        HsaId hsaId = new HsaId();
-        hsaId.setRoot(HSA_ID_OID);
-        hsaId.setExtension(id);
-        return hsaId;
-    }
-
-    public static String getInternalDateContent(InternalDate internalDate) {
-        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
-    }
-
-    public static String getInternalDateContentFillWithZeros(InternalDate internalDate) {
-        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : fillWithZeros(internalDate);
-    }
-
     private static String fillWithZeros(InternalDate internalDate) {
         StringBuilder sb = internalDate.toString().isEmpty() ? new StringBuilder("0000")
                 : new StringBuilder(internalDate.toString());
@@ -230,68 +397,16 @@ public final class InternalConverterUtil {
         return s != null ? s : "";
     }
 
-    public static MeddelandeReferens getMeddelandeReferensOfType(Utlatande utlatande, RelationKod type) {
-        if (utlatande.getGrundData().getRelation() == null || !type.equals(utlatande.getGrundData().getRelation().getRelationKod())) {
-            return null;
-        }
-
-        MeddelandeReferens mr = new MeddelandeReferens();
-        mr.setMeddelandeId(utlatande.getGrundData().getRelation().getMeddelandeId());
-        if (utlatande.getGrundData().getRelation().getReferensId() != null) {
-            mr.setReferensId(utlatande.getGrundData().getRelation().getReferensId());
-        }
-        return mr;
-    }
-
-    public static void addIfNotBlank(List<Svar> svars, String svarsId, String delsvarsId, String content) {
-        if (!Strings.nullToEmpty(content).trim().isEmpty()) {
-            svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content).build());
-        }
-    }
-
-    public static void addIfNotNull(List<Svar> svars, String svarsId, String delsvarsId, Boolean content) {
-        if (content != null) {
-            svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content.toString()).build());
-        }
-    }
-
-    public static JAXBElement<DatePeriodType> aDatePeriod(LocalDate from, LocalDate tom) {
-        DatePeriodType period = new DatePeriodType();
-        period.setStart(from);
-        period.setEnd(tom);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "datePeriod"),
-                DatePeriodType.class, null, period);
-    }
-
-    public static JAXBElement<PartialDateType> aPartialDate(PartialDateTypeFormatEnum format, Temporal partial) {
-        PartialDateType partialDate = new PartialDateType();
-        partialDate.setFormat(format);
-        partialDate.setValue(partial);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "partialDate"),
-                PartialDateType.class, null, partialDate);
-    }
-
-    public static JAXBElement<CVType> aCV(String codeSystem, String code, String displayName) {
-        CVType cv = new CVType();
-        cv.setCodeSystem(codeSystem);
-        cv.setCode(code);
-        cv.setDisplayName(displayName);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "cv"),
-                CVType.class, null, cv);
-    }
-
-    public static SvarBuilder aSvar(String id) {
-        return new SvarBuilder(id, null);
-    }
-
-    public static SvarBuilder aSvar(String id, Integer instans) {
-        return new SvarBuilder(id, instans);
-    }
-
+    /**
+     * Builder class which are used to construct a Svar with or without a Delsvar.
+     * <p>
+     * Typical usage is to use {@link InternalConverterUtil#aSvar(String)} or {@link InternalConverterUtil#aSvar(String, Integer)}
+     * and then chain {@link SvarBuilder#withDelsvar(String, Object)} and then finally calling {@link SvarBuilder#build()}.
+     */
     public static class SvarBuilder {
+        public List<Delsvar> delSvars = new ArrayList<>();
         private String id;
         private Integer instans;
-        public List<Delsvar> delSvars = new ArrayList<>();
 
         SvarBuilder(String id, Integer instans) {
             this.id = id;
