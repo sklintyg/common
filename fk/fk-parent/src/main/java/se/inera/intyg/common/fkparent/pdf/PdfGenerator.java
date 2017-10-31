@@ -78,7 +78,8 @@ public final class PdfGenerator {
     }
 
     public static String generatePdfFilename(Personnummer personId, String fileNamePrefix) {
-        final String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
+        Personnummer personIdDash = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
+        final String personnummerString = personIdDash.getPersonnummer() != null ? personIdDash.getPersonnummer() : "NoPnr";
         return String.format("%s_%s.pdf", fileNamePrefix, personnummerString);
     }
 }

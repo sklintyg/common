@@ -169,8 +169,9 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     @Override
     public String generatePdfFilename(TsDiabetesUtlatande utlatande) {
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+        Personnummer personIdDash = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
 
-        final String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
+        final String personnummerString = personIdDash.getPersonnummer() != null ? personIdDash.getPersonnummer() : "NoPnr";
         return String.format("lakarintyg_transportstyrelsen_%s.pdf", personnummerString);
     }
 
