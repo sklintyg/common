@@ -87,7 +87,13 @@ angular.module('db').factory('db.FormFactory',
                                     }
                                 }
                             }
-                        }, {
+                        },
+                        {
+                            type: 'info',
+                            hideExpression: 'model.undersokningYttre !== "UNDERSOKNING_SKA_GORAS"',
+                            templateOptions: {label: 'DFR_7.1_UNDERSOKNINGS_SKA_GORAS.INFO'}
+                        },
+                        {
                             type: 'info',
                             hideExpression: 'model.polisanmalan !== true',
                             templateOptions: {label: 'db.info.polisanmalan'}
