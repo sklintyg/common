@@ -152,11 +152,11 @@ angular.module('common').factory('common.SOSFactoryTemplatesHelper', [
                         },{
                             type: 'info',
                             hideExpression: '!formState.barnForced || !model.barn',
-                            templateOptions: {label: 'db.info.barn.forced.true'}
+                            templateOptions: {label: 'DFR_4.1_INOM28.INFO'}
                         },{
                             type: 'info',
                             hideExpression: '!formState.barnForced || model.barn',
-                            templateOptions: {label: 'db.info.barn.forced.false'}
+                            templateOptions: {label: 'DFR_4.1_EJ_INOM28.INFO'}
                         }
                     ])
                 ]);
