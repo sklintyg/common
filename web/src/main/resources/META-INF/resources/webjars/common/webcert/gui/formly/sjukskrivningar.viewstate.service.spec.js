@@ -101,7 +101,11 @@ describe('sjukskrivningar', function() {
 
         var now = new Date();
         var month = now.getMonth() + 1;
-        var today = now.getFullYear() + '-' + month + '-' + now.getDate();
+        month = (month < 10) ? '0' + month : month;
+        var day = now.getDate();
+        day = (day < 10) ? '0' + day : day;
+
+        var today = now.getFullYear() + '-' + month + '-' + day;
         expect(model.HALFTEN.period.from).toBe(today);
         expect(model.HALFTEN.period.tom).toBe(undefined);
     });
