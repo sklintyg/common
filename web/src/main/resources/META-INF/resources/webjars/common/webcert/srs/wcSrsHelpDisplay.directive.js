@@ -170,14 +170,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.srsViewState.consentError = '';
                                 srsProxy.getConsent(scope.srsViewState.personId, scope.srsViewState.hsaId).then(function(consent) {
                                     if(consent.status === 200){
-                                        scope.srsViewState.consent = consent.data === 'JA' ? consent.data : '';
-                                        
-                                        /*if(scope.srsViewState.consent !== 'INGET'){
-                                            scope.consentGiven = scope.srsViewState.consent === 'JA';
-                                        }
-                                        else{
-                                            scope.srsViewState.consent = 'error';
-                                        }*/
+                                        scope.srsViewState.consent = consent.data;
                                     }
                                     else{
                                         scope.srsViewState.consent = 'error';
