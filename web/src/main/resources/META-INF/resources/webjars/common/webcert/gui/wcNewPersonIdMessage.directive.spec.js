@@ -20,6 +20,7 @@
 describe('wcNewPersonIdMessageDirective', function() {
     'use strict';
 
+    var $compile;
     var $scope;
     var element;
     var UserModel;
@@ -32,7 +33,8 @@ describe('wcNewPersonIdMessageDirective', function() {
     beforeEach(angular.mock.module('common'));
 
     beforeEach(angular.mock.inject(['$compile', '$rootScope', 'common.UserModel',
-        function($compile, $rootScope, _UserModel_) {
+        function(_$compile_, $rootScope, _UserModel_) {
+            $compile = _$compile_;
             $scope = $rootScope.$new();
 
             $rootScope.lang = 'sv';
@@ -41,70 +43,182 @@ describe('wcNewPersonIdMessageDirective', function() {
                 personId: '19121212-1212'
             };
 
-            element =
-                $compile('<div wc-new-person-id-message></div>')($scope);
-
             UserModel = _UserModel_;
 
             UserModel.setUser({parameters: {}});
             
         }]));
 
-    it('should not display new personnummer text', function() {
-        UserModel.user.parameters.alternateSsn = personNummer1;
-        UserModel.user.parameters.beforeAlternateSsn = personNummer1;
-        $scope.$digest();
+    describe('on utkast', function() {
 
-        expect($(element).find('span').text()).toBe('');
+        beforeEach(function() {
+            element =
+                $compile('<div wc-new-person-id-message is-intyg="false"></div>')($scope);
+        });
+
+        it('should not display new personnummer text', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            UserModel.user.parameters.beforeAlternateSsn = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display any personnummer text when personnummer is empty string', function() {
+            UserModel.user.parameters.alternateSsn = '';
+            UserModel.user.parameters.beforeAlternateSsn = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display any personnummer text when backend has not set beforeAlternateSsn', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            UserModel.user.parameters.beforeAlternateSsn = null;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display any personnummer text when backend has not set beforeAlternateSsn', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            UserModel.user.parameters.beforeAlternateSsn = '';
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should display new personnummer text', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            UserModel.user.parameters.beforeAlternateSsn = personNummer2;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
+        });
+
+        it('should display new personnummer text', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            UserModel.user.parameters.beforeAlternateSsn = samordningsNummer;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
+        });
+
+        it('should display new samordningsnummer text', function() {
+            UserModel.user.parameters.alternateSsn = samordningsNummer;
+            UserModel.user.parameters.beforeAlternateSsn = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: ' + samordningsNummer);
+        });
+
+        it('should display new samordningsnummer text for new reservnr for existing samordningnr', function() {
+            UserModel.user.parameters.alternateSsn = '555555-5555';
+            UserModel.user.parameters.beforeAlternateSsn = samordningsNummer;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toContain(
+                'Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
+        });
+
+        it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
+            UserModel.user.parameters.alternateSsn = 'A123456FFFF';
+            UserModel.user.parameters.beforeAlternateSsn = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toContain(
+                'Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
+        });
     });
 
-    it('should not display any personnummer text when personnummer is empty string', function() {
-        UserModel.user.parameters.alternateSsn = '';
-        UserModel.user.parameters.beforeAlternateSsn = personNummer1;
-        $scope.$digest();
+    describe('on intyg', function() {
 
-        expect($(element).find('span').text()).toBe('');
+        beforeEach(function() {
+            element =
+                $compile('<div wc-new-person-id-message is-intyg="true" patient="patient"></div>')($scope);
+        });
+
+        it('should not display new personnummer text', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            $scope.patient.personId = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display any personnummer text when personnummer is empty string', function() {
+            UserModel.user.parameters.alternateSsn = '';
+            $scope.patient.personId = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display any personnummer text when intyg has not set patient', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            $scope.patient = null;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display any personnummer text when intyg has not set personId', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            $scope.patient.personId = null;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display any personnummer text when intyg has not set personId', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            $scope.patient.personId = '';
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should display new personnummer text', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            $scope.patient.personId = personNummer2;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
+        });
+
+        it('should display new personnummer text', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            $scope.patient.personId = samordningsNummer;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
+        });
+
+        it('should display new samordningsnummer text', function() {
+            UserModel.user.parameters.alternateSsn = samordningsNummer;
+            $scope.patient.personId = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: ' + samordningsNummer);
+        });
+
+        it('should display new samordningsnummer text for new reservnr for existing samordningnr', function() {
+            UserModel.user.parameters.alternateSsn = '555555-5555';
+            $scope.patient.personId = samordningsNummer;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toContain(
+                'Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
+        });
+
+        it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
+            UserModel.user.parameters.alternateSsn = 'A123456FFFF';
+            $scope.patient.personId = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toContain(
+                'Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
+        });
+
     });
-
-
-    it('should display new personnummer text', function() {
-        UserModel.user.parameters.alternateSsn = personNummer1;
-        UserModel.user.parameters.beforeAlternateSsn = personNummer2;
-        $scope.$digest();
-
-        expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
-    });
-
-    it('should display new personnummer text', function() {
-        UserModel.user.parameters.alternateSsn = personNummer1;
-        UserModel.user.parameters.beforeAlternateSsn = samordningsNummer;
-        $scope.$digest();
-
-        expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
-    });
-
-    it('should display new samordningsnummer text', function() {
-        UserModel.user.parameters.alternateSsn = samordningsNummer;
-        UserModel.user.parameters.beforeAlternateSsn = personNummer1;
-        $scope.$digest();
-
-        expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: '+samordningsNummer);
-    });
-
-    it('should display new samordningsnummer text for new reservnr for existing samordningnr', function() {
-        UserModel.user.parameters.alternateSsn = '555555-5555';
-        UserModel.user.parameters.beforeAlternateSsn = samordningsNummer;
-        $scope.$digest();
-
-        expect($(element).find('span').text()).toContain('Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
-    });
-
-    it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
-        UserModel.user.parameters.alternateSsn = 'A123456FFFF';
-        UserModel.user.parameters.beforeAlternateSsn = personNummer1;
-        $scope.$digest();
-
-        expect($(element).find('span').text()).toContain('Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
-    });
-
 });
