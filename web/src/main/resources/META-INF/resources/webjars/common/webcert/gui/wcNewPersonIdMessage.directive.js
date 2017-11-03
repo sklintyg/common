@@ -30,6 +30,8 @@ angular.module('common').directive('wcNewPersonIdMessage', [
             restrict: 'A',
             replace: true,
             scope: {
+                patient: '=',
+                isIntyg: '='
             },
             controller: function($scope) {
 
@@ -63,16 +65,28 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                     }
                 }
 
-                var updateShowFlag = function() {
+                if ($scope.isIntyg) {
+                    var updateShowFlag = function(currentPatient) {
+                        $scope.show = false;
+                        var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
+                        if (!ObjectHelper.isEmpty(alternatePatientSSn) && !ObjectHelper.isEmpty(currentPatient) &&
+                            !ObjectHelper.isEmpty(currentPatient.personId)) {
+                            var intygPersonnummer = currentPatient.personId;
+                            decideMessageToShow(intygPersonnummer, alternatePatientSSn);
+                        }
+                    };
+                    // Patient comes from intyg which is loaded async
+                    $scope.$watch('patient', updateShowFlag, true);
+                    updateShowFlag();
+                }
+                else {
                     $scope.show = false;
                     var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
                     var intygPersonnummer = UserModel.getIntegrationParam('beforeAlternateSsn');
-                    if (ObjectHelper.isDefined(alternatePatientSSn) && alternatePatientSSn !== '') {
+                    if (!ObjectHelper.isEmpty(alternatePatientSSn) && !ObjectHelper.isEmpty(intygPersonnummer)) {
                         decideMessageToShow(intygPersonnummer, alternatePatientSSn);
                     }
-                };
-
-                updateShowFlag();
+                }
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcNewPersonIdMessage.directive.html'
         };
