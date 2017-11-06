@@ -33,7 +33,7 @@ angular.module('common').factory('common.SOSFactoryTemplatesHelper', [
                         {
                             key: 'identitetStyrkt',
                             type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_1.1', required: true, maxlength: 100}
+                            templateOptions: {label: 'DFR_1.1', required: true, htmlMaxlength: 100}
                         }
                     ])
                 ];
@@ -43,7 +43,7 @@ angular.module('common').factory('common.SOSFactoryTemplatesHelper', [
                         {
                             key: 'land',
                             type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_14.1', required: false, maxlength: 100}
+                            templateOptions: {label: 'DFR_14.1', required: false, htmlMaxlength: 100}
                         }
                     ]));
                 }
@@ -89,7 +89,7 @@ angular.module('common').factory('common.SOSFactoryTemplatesHelper', [
                             templateOptions: {
                                 label: 'DFR_3.1',
                                 required: true,
-                                maxlength: 100,
+                                htmlMaxlength: 100,
                                 valuesUrl: '/api/config/kommuner'
                             }
                         },

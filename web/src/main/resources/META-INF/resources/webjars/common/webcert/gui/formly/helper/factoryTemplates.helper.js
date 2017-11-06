@@ -70,7 +70,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: 'full',
                             labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
-                            maxlength: 500,
+                            htmlMaxlength: 500,
                             required: true
                         }
                     },
@@ -83,7 +83,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: '5',
                             labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
-                            maxlength: 6,
+                            htmlMaxlength: 6,
                             required: true
                         }
                     },
@@ -95,7 +95,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             disabled: UserModel.isDjupintegration(),
                             labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
-                            maxlength: 100,
+                            htmlMaxlength: 100,
                             required: true
                         }
                     },
@@ -128,7 +128,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: 'full',
                             labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
-                            maxlength: 500,
+                            htmlMaxlength: 500,
                             required: true
                         }
                     },
@@ -140,7 +140,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: '5',
                             labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
-                            maxlength: 6,
+                            htmlMaxlength: 6,
                             required: true
                         }
                     },
@@ -161,7 +161,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             staticLabel: 'Telefonnummer',
                             labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
-                            maxlength: 100,
+                            htmlMaxlength: 100,
                             required: true
                         }
                     }
