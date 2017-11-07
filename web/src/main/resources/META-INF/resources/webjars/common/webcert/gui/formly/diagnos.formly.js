@@ -4,9 +4,9 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
-        controller: ['$scope', '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService',
+        controller: ['$scope', '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService', 'common.srsService',
             'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService', 'common.UtkastValidationService',
-            function($scope, $log, $timeout, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService,
+            function($scope, $log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper, monitoringService,
                 ArendeListViewState, UtkastValidationService) {
 
                 var formState = $scope.formState;
@@ -30,6 +30,11 @@ angular.module('common').run(function(formlyConfig) {
                         //Reset fmb if we no longer have a valid diagnoseCode to work with
                         if (ObjectHelper.isEmpty(newValue) || newValue.length < 3) {
                             fmbViewState.reset(0);
+                        }
+                        else{
+                            srsService.updateDiagnosKod(newValue);
+                            var diagnoseModel = $scope.model[$scope.options.key][0];
+                            srsService.updateDiagnosBeskrivning(diagnoseModel.diagnosBeskrivning);
                         }
                     });
                 $scope.$watch(

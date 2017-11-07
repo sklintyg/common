@@ -1,9 +1,9 @@
 angular.module('lisjp').factory('lisjp.FormFactory',
     ['$log', '$timeout',
         'common.DateUtilsService', 'common.ObjectHelper', 'common.UserModel',
-        'common.FactoryTemplatesHelper', 'common.DateUtilsService',
+        'common.FactoryTemplatesHelper', 'common.Domain.PatientModel',
         function($log, $timeout,
-            DateUtils, ObjectHelper, UserModel, FactoryTemplates) {
+            DateUtils, ObjectHelper, UserModel, FactoryTemplates, PatientModel) {
             'use strict';
 
             var categoryNames = {
@@ -140,7 +140,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             fieldGroup: [
                                 {
                                     type: 'headline',
-                                    templateOptions: {label: 'FRG_6', level: 4, noH5: false, required: true}
+                                    templateOptions: {label: 'FRG_6', level: 6, noH5: false, required: true}
                                 },
                                 {
                                     key: 'diagnoser',

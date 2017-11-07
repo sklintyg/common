@@ -30,11 +30,13 @@ angular.module('common').directive('wcSrsHelpDisplay',
                 restrict: 'E',
                 transclude: true,
                 link: function(scope, element, attrs) {
+                    scope.status = {
+                        open: false,
+                        riskInfoOpen: false
+                    };
+                    
                     scope.srsViewState = srsViewState;
                     scope.srsViewState.userHasSrsFeature = checkIfUserHasSrsFeature();
-                    scope.status = {
-                        open: false
-                    };
 
                     scope.id = attrs.id;
 
@@ -152,8 +154,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     if (scope.srsViewState.userHasSrsFeature && scope.id === '2') {
                         var diagnosisListFetching = loadDiagCodes();
                         // When applicable code is entered, show srs button
-                        scope.$watch('srsViewState.diagnosKod', function(newVal, oldVal) {
+                        scope.$watch('srsViewState.originalDiagnosKod', function(newVal, oldVal) {
                             if (newVal !== oldVal) {
+                                scope.srsViewState.originalDiagnosKod = newVal;
+                                scope.srsViewState.higherDiagnosKod = '';
+                                resetMessages();
                                 reset();
                                 srsViewState.diagnosKod = newVal;
                                 diagnosisListFetching = loadDiagCodes().then(function() {
@@ -313,7 +318,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     }
 
                     function isSrsApplicable() {
-                        if (scope.srsViewState.intygsTyp.toLowerCase().indexOf('fk7263') > -1 &&
+                        if ((scope.srsViewState.intygsTyp.toLowerCase().indexOf('fk7263') > -1 || scope.srsViewState.intygsTyp.toLowerCase().indexOf('lisjp') > -1) &&
                             isSrsApplicableForCode(srsViewState.diagnosKod)) {
                             return true;
                         } else {
@@ -346,6 +351,20 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         });
                     }
 
+                    function resetMessages(){
+                        scope.srsViewState.consentInfo = '';
+                        scope.srsViewState.consentError = '';
+                        
+                        scope.srsViewState.atgarderInfo = '';
+                        scope.srsViewState.atgarderError = '';
+
+                        scope.srsViewState.statistikInfo = '';
+                        scope.srsViewState.statistikError = '';
+
+                        scope.srsViewState.prediktionInfo = '';
+                        scope.srsViewState.prediktionError = '';
+                    }
+
                     function reset() {
                         scope.srsViewState.questions = [];
                         scope.srsViewState.statistik = {};
@@ -364,17 +383,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.srsViewState.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
                         scope.srsViewState.riskImage = '';
 
-                        //scope.consentInfo = '';
-                        //scope.consentError = '';
-
-                        scope.srsViewState.atgarderInfo = '';
-                        scope.srsViewState.atgarderError = '';
-
-                        scope.srsViewState.statistikInfo = '';
-                        scope.srsViewState.statistikError = '';
-
-                        scope.srsViewState.prediktionInfo = '';
-                        scope.srsViewState.prediktionError = '';
 
                         scope.srsViewState.activeTab = 'atgarder';
                     }

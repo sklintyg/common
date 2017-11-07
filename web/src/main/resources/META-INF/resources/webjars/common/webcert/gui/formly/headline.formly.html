@@ -24,6 +24,13 @@
     <span class="required">{{to.required ? '*' : ''}}</span>
     <span ng-if="to.label" wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
   </h4>
+  <h4 ng-switch-when="6" class="instruction" ng-class="{'noH5After': to.noH5After}">
+    <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
+    <span class="required">{{to.required ? '*' : ''}}</span>
+    <span ng-if="to.label" wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
+    <wc-srs-help-display id='2'></wc-srs-help-display>
+    <!--<button style="float: right;">SRS</button>-->
+  </h4>
   <h5 ng-switch-default class="wc-headline-2" ng-class="{'noH5After': to.noH5After}">
     <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
     <span class="required">{{to.required ? '*' : ''}}</span>

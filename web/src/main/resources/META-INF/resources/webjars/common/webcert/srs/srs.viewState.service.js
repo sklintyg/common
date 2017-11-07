@@ -70,6 +70,7 @@ angular.module('common').service('common.srsViewState',
 
         this.setDiagnosKod = function(diagnosKod) {
             this.diagnosKod = diagnosKod;
+            this.originalDiagnosKod = diagnosKod;
         };
 
         this.setDiagnosBeskrivning = function(diagnosBeskrivning){
