@@ -18,7 +18,9 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class HoSPersonal {
 
