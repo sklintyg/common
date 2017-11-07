@@ -53,7 +53,7 @@ angular.module('doi').constant('doi.messages', {
         '<li>Referenser som intyget baseras på.</li></ul>',
 
         'doi.warn.previouscertificate.samevg': 'Dödsorsaksintyg finns för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
-        'doi.warn.previouscertificate.differentvg': 'Tidigare dödsorsaksintyg finns för detta personnummer. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyg så blir det därför detta dödsorsaksintyg som gäller.'
+        'doi.warn.previouscertificate.differentvg': 'Tidigare dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.'
     },
     'en': {
         'doi.label.pagetitle': 'Show Certificate'
