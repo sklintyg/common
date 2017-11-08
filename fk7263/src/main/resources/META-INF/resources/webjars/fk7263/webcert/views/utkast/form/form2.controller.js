@@ -18,9 +18,9 @@
  */
 
 angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
-    ['$scope', '$log', '$timeout', '$http', 'fk7263.EditCertCtrl.ViewStateService', 'fk7263.diagnosService', 'common.fmbService', 'common.fmbViewState', 'common.srsService',
+    ['$scope', '$log', '$timeout', '$http', '$rootScope', 'fk7263.EditCertCtrl.ViewStateService', 'fk7263.diagnosService', 'common.fmbService', 'common.fmbViewState', 'common.srsService',
         'fk7263.EditCertCtrl.Helper', 'common.MonitoringLogService', 'common.UtkastValidationService',
-        function($scope, $log, $timeout, $http, viewState, diagnosService, fmbService, fmbViewState, srsService, helper, monitoringService, UtkastValidationService) {
+        function($scope, $log, $timeout, $http, $rootScope, viewState, diagnosService, fmbService, fmbViewState, srsService, helper, monitoringService, UtkastValidationService) {
             'use strict';
 
             var model = viewState.intygModel;
@@ -121,6 +121,10 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
                 if (!$scope.form2['diagnose.code'].$viewValue) {
                     $scope.model.diagnosBeskrivning1 = undefined;
                     fmbService.updateFmbText(0, $scope.model.diagnosKod);
+                    if(!$scope.model.diagnosKod){
+                        srsService.updateDiagnosKod($scope.model.diagnosKod);
+                    }
+                        
                 }
                 $scope.limitDiagnosBeskrivningField('diagnosKod1');
             };
