@@ -103,9 +103,6 @@ angular.module('common').factory('common.IntygProxy',
                     '/';
 
                 switch (action) {
-                case 'copy':
-                    restPath += 'kopiera' + '/';
-                    break;
                 case 'fornya':
                     restPath += 'fornya' + '/';
                     break;

@@ -22,7 +22,7 @@ public enum ModuleFeature {
 
     HANTERA_FRAGOR("hanteraFragor"),
     HANTERA_INTYGSUTKAST("hanteraIntygsutkast"),
-    KOPIERA_INTYG("kopieraIntyg"),
+    FORNYA_INTYG("fornyaIntyg"),
     MAKULERA_INTYG("makuleraIntyg"),
     MAKULERA_INTYG_KRAVER_ANLEDNING("makuleraIntygKraverAnledning"),
     SKAPA_NYFRAGA("skapaNyFraga"),
