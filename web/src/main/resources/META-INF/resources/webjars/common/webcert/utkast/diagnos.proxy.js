@@ -7,8 +7,11 @@ angular.module('common').factory('common.DiagnosProxy',
          */
         function _getByCode(codeSystem, code, onSuccess, onError) {
             $log.debug('_searchByCode: codeFragment:' + code);
-            var restPath = '/moduleapi/diagnos/kod/' + codeSystem;
-            $http.post(restPath, code.toUpperCase()).success(function(response) {
+            var restPath = '/moduleapi/diagnos/kod';
+            $http.post(restPath, {
+                codeSystem: codeSystem,
+                codeFragment: code.toUpperCase()
+            }).success(function(response) {
                 if (response && response.resultat === 'OK') {
                     onSuccess(response);
                 }
