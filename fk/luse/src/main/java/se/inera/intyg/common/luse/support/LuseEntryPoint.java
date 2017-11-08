@@ -18,15 +18,11 @@
  */
 package se.inera.intyg.common.luse.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.luse.rest.LuseModuleApi;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
 
@@ -56,11 +52,6 @@ public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "luse-features.properties");
     }
 
     @Override

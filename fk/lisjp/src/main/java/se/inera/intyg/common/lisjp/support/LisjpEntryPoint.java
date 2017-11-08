@@ -18,15 +18,11 @@
  */
 package se.inera.intyg.common.lisjp.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.lisjp.rest.LisjpModuleApi;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
 
@@ -56,11 +52,6 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "lisjp-features.properties");
     }
 
     @Override

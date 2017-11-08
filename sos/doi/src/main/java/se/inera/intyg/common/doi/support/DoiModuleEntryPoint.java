@@ -25,9 +25,7 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 
-import java.util.Map;
 import java.util.Optional;
 
 public class DoiModuleEntryPoint implements ModuleEntryPoint {
@@ -87,11 +85,6 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "doi-features.properties");
     }
 
     @Override

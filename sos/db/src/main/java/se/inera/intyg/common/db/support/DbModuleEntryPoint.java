@@ -18,18 +18,15 @@
  */
 package se.inera.intyg.common.db.support;
 
-import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.db.rest.DbModuleApi;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
+
+import java.util.Optional;
 
 public class DbModuleEntryPoint implements ModuleEntryPoint {
 
@@ -74,6 +71,7 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
         }
         return null;
     }
+
     @Override
     public String getExternalId() {
         return MODULE_ID.toUpperCase();
@@ -87,11 +85,6 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "db-features.properties");
     }
 
     @Override

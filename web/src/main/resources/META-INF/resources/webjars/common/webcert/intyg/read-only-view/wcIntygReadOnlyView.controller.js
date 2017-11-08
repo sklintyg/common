@@ -44,7 +44,7 @@ angular
                                     }
                                     //Show srs also?
                                     if (authorityService.isAuthorityActive({
-                                        feature: 'srs',
+                                        feature: 'SRS',
                                         intygstyp: intygsType
                                     })) {
                                         $scope.viewState.srs.showSrs = true;

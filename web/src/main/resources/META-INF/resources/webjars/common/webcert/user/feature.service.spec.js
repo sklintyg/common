@@ -40,35 +40,67 @@ describe('featureService', function() {
         });
 
         it ('should be false if no features is set on the user', function () {
-            expect(featureService.isFeatureActive('hanteraFragor')).toBeFalsy();
+            expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeFalsy();
         });
 
         it ('should be false if the feature is not available', function () {
             UserModel.user = {
-                features : ['hanteraIntygsutkast']
+                features : {
+                    'HANTERA_INTYGSUTKAST': {
+                        'global': true,
+                        'intygstyper': []
+                    }
+                }
             };
-            expect(featureService.isFeatureActive('hanteraFragor')).toBeFalsy();
+            expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeFalsy();
         });
 
         it ('should be true if the feature is available', function () {
             UserModel.user = {
-                features : ['hanteraIntygsutkast', 'hanteraFragor']
+                features : {
+                    'HANTERA_INTYGSUTKAST': {
+                        'global': true,
+                        'intygstyper': []
+                    },
+                    'HANTERA_FRAGOR': {
+                        'global': true,
+                        'intygstyper': []
+                    }
+                }
             };
-            expect(featureService.isFeatureActive('hanteraFragor')).toBeTruthy();
+            expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeTruthy();
         });
 
         it ('should be true if the feature is available in a module', function () {
             UserModel.user = {
-                features : ['hanteraIntygsutkast', 'hanteraFragor', 'hanteraFragor.fk7263']
+                features : {
+                    'HANTERA_INTYGSUTKAST': {
+                        'global': true,
+                        'intygstyper': []
+                    },
+                    'HANTERA_FRAGOR': {
+                        'global': true,
+                        'intygstyper': ['fk7263']
+                    }
+                }
             };
-            expect(featureService.isFeatureActive('hanteraFragor', 'fk7263')).toBeTruthy();
+            expect(featureService.isFeatureActive('HANTERA_FRAGOR', 'fk7263')).toBeTruthy();
         });
 
         it ('should be false if the feature is not available a module', function () {
             UserModel.user = {
-                features : ['hanteraIntygsutkast', 'hanteraFragor']
+                features : {
+                    'HANTERA_INTYGSUTKAST': {
+                        'global': true,
+                        'intygstyper': []
+                    },
+                    'HANTERA_FRAGOR': {
+                        'global': true,
+                        'intygstyper': []
+                    }
+                }
             };
-            expect(featureService.isFeatureActive('hanteraFragor', 'fk7263')).toBeFalsy();
+            expect(featureService.isFeatureActive('HANTERA_FRAGOR', 'fk7263')).toBeFalsy();
         });
     });
 });

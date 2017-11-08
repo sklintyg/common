@@ -18,15 +18,11 @@
  */
 package se.inera.intyg.common.fk7263.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
+import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
-import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 
 public class Fk7263EntryPoint implements ModuleEntryPoint {
 
@@ -70,11 +66,6 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "fk7263-features.properties");
     }
 
     @Override

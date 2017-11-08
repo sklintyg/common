@@ -324,7 +324,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     function checkIfUserHasSrsFeature() {
                         var options = {
-                            feature: 'srs',
+                            feature: 'SRS',
                             intygstyp: scope.srsViewState.intygsTyp
                         };
                         return authorityService.isAuthorityActive(options);

@@ -22,22 +22,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 import se.inera.intyg.common.ts_bas.rest.TsBasModuleApi;
-
-import java.util.Map;
 
 public class TsBasEntryPoint implements ModuleEntryPoint {
 
-    // CHECKSTYLE:OFF LineLength
-    private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     public static final String MODULE_ID = "ts-bas";
     public static final String MODULE_NAME = "Transportstyrelsens läkarintyg";
+    public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1007";
+    // CHECKSTYLE:OFF LineLength
+    private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     private static final String MODULE_DESCRIPTION = "Läkarintyg - avseende högre körkortsbehörigheter eller taxiförarlegitimation - på begäran av Transportstyrelsen";
     private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg ska användas vid förlängd giltighet av högre behörighet från 45 år, ansökan om körkortstillstånd för grupp II och III och vid ansökan om taxiförarlegitimation. Transportstyrelsens läkarintyg kan även användas när Transportstyrelsen i annat fall begärt ett allmänt läkarintyg avseende lämplighet att inneha körkort.</p>Specialistintyg finns bl.a. för alkohol, läkemedel, synfunktion, Alkolås m.m. Se <LINK:transportstyrelsen>."; //<!-- <a href="http://www.transportstyrelsen.se" target="_blank">www.transportstyrelsen.se</a>
-    public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1007";
     // CHECKSTYLE:ON LineLength
-
     @Autowired
     private TsBasModuleApi moduleApi;
 
@@ -64,11 +60,6 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "ts-bas-features.properties");
     }
 
     @Override

@@ -20,8 +20,6 @@ package se.inera.intyg.common.support.modules.support;
 
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
-import java.util.Map;
-
 /**
  * Defines the contract for modules so they can be discovered by an application.
  */
@@ -75,14 +73,6 @@ public interface ModuleEntryPoint {
      * @return the module API implementation
      */
     ModuleApi getModuleApi();
-
-    /**
-     * Returns a Map containing which {@code se.inera.intyg.common.support.modules.support.feature.ModuleFeature} that this
-     * module will support and what state these have.
-     *
-     * @return the map of feature to on/off state of the module feature
-     */
-    Map<String, Boolean> getModuleFeatures();
 
     /**
      * Returns the module css path.

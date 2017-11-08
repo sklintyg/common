@@ -79,7 +79,13 @@ xdescribe('wcHeader', function() {
         },
         'authorities': { 'NAVIGERING':{}, 'ATKOMST_ANDRA_ENHETER': {} },
         'roles' : {'LAKARE': {'name':'Läkare', 'desc': 'Läkare'}},
-        'features': ['hanteraFragor', 'hanteraFragor.fk7263'],
+        'features': {
+            'HANTERA_FRAGOR': {
+                'name': 'HANTERA_FRAGOR',
+                'global': true,
+                'intygstyper': ['fk7263']
+            }
+        },
         'totaltAntalVardenheter': 6,
         'origin': 'NORMAL'
     };
@@ -127,11 +133,11 @@ xdescribe('wcHeader', function() {
         var featureService = {
             testDjupintegration: false,
             features: {
-                HANTERA_FRAGOR: 'hanteraFragor',
-                HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast',
-                FORNYA_INTYG: 'fornyaIntyg',
-                MAKULERA_INTYG: 'makuleraIntyg',
-                SKICKA_INTYG: 'skickaIntyg'
+                HANTERA_FRAGOR: 'HANTERA_FRAGOR',
+                HANTERA_INTYGSUTKAST: 'HANTERA_INTYGSUTKAST',
+                FORNYA_INTYG: 'FORNYA_INTYG',
+                MAKULERA_INTYG: 'MAKULERA_INTYG',
+                SKICKA_INTYG: 'SKICKA_INTYG'
             },
             isFeatureActive: function(feature) {
                 return true;

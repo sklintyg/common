@@ -48,7 +48,7 @@
           <button type="button"
                   id="sendBtn"
                   class="btn btn-info"
-                  wc-authority feature="skickaIntyg"
+                  wc-authority feature="SKICKA_INTYG"
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
@@ -76,13 +76,13 @@
                 <span message key="common.button.save.as.pdf"></span> <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
-                <!--<li wc-authority feature="utskrift">-->
+                <!--<li wc-authority feature="UTSKRIFT">-->
                 <li ng-if="utskrift">
                   <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">
                     <span message key="common.button.save.as.pdf.full"></span>
                   </a>
                 </li>
-                <!--<li wc-authority feature="arbetsgivarUtskrift"-->
+                <!--<li wc-authority feature="ARBETSGIVARUTSKRIFT"-->
                 <li ng-if="arbetsgivarUtskrift"
                     uib-popover="{{employerPrintBtnTooltipText}}"
                     popover-trigger="mouseenter"
