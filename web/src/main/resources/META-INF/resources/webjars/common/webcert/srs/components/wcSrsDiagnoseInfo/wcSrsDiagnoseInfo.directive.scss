@@ -16,22 +16,19 @@ wc-srs-diagnose-info {
     font-size: 18px;
   }
 
-  .srs-statistik-bild {
-    max-width: 300px;
-    @media (min-width: 768px) {
-      max-width: 300px;
-    }
-    @media (min-width: 992px) {
-      max-width: 400px;
-    }
-    @media (min-width: 1200px) {
-      max-width: 500px;
-    }
-
+  ul {
+    list-style-type: disc;
+    padding-left: 30px;
   }
+
+  .srs-statistik-bild {
+    width: 100%;
+    max-width: 500px;
+  }
+
   .read-more-button {
     text-align: right;
-    padding:10px 0;
+    padding: 10px 0;
     max-width: 500px;
     a {
       &.btn,

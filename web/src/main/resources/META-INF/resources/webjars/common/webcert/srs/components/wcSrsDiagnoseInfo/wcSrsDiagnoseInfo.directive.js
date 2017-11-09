@@ -72,10 +72,13 @@ angular.module('common').directive('wcSrsDiagnoseInfo',
                             } else {
                                 viewState.statistikLink = srsLinkCreator.createStatistikLink(viewState.srsdata.diagnosisCode);
                             }
+
                             //Statistik on higher level diagnose?
-                            if (viewState.srsdata.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                                viewState.statistikStatusMessage = msg('srs.srsfordiagnose.statistik.highercode', {code: viewState.srsdata.diagnosisCode});
-                            }
+                            //
+                            //   deactivated for now, actual resolved diagnoscode for statistics is embedded in image.
+                            //if (viewState.srsdata.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
+                            //    viewState.statistikStatusMessage = msg('srs.srsfordiagnose.statistik.highercode', {code: viewState.srsdata.diagnosisCode});
+                            //}
 
                         }
 
