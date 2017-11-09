@@ -87,7 +87,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             });
 
                         function stringifyAtgarderObs(atgarderObs){
-                            var tempAtgarderObs = '<b>Tänk på att</b> ';
+                            var tempAtgarderObs = atgarderObs && atgarderObs.length > 0 ? '<b>Tänk på att</b> ' : '';
                             for(var i = 0; i < atgarderObs.length; i++){
                                 tempAtgarderObs += atgarderObs[i];
                                 tempAtgarderObs += '. ';
