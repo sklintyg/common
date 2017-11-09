@@ -28,16 +28,18 @@ angular.module('common').factory('common.srsService', [
 
         function _getDiagnosBeskrivningUsingCodesystem(codeSystem) {
             viewState.setDiagnosBeskrivning('');
-            DiagnosProxy.getByCode(codeSystem, viewState.diagnosKod, function(data) {
-                if (data.diagnoser && data.diagnoser.length === 1) {
-                    viewState.setDiagnosBeskrivning(data.diagnoser[0].beskrivning);
-                }
-                else {
-                    $log.error('srsService failed to get diagnose description',data);
-                }
-            }, function(err) {
-                $log.error('srsService failed to get diagnose description',err);
-            });
+            if (viewState.diagnosKod) {
+                DiagnosProxy.getByCode(codeSystem, viewState.diagnosKod, function(data) {
+                    if (data.diagnoser && data.diagnoser.length >= 1) {
+                        viewState.setDiagnosBeskrivning(data.diagnoser[0].beskrivning);
+                    }
+                    else {
+                        $log.error('srsService failed to get diagnose description', data);
+                    }
+                }, function(err) {
+                    $log.error('srsService failed to get diagnose description', err);
+                });
+            }
         }
 
         function _updateDiagnosBeskrivning(diagnosBeskrivning){
