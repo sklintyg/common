@@ -224,12 +224,12 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
              */
             $scope.onDiagnoseCode1Select = function($item) {
                 $scope.model.diagnosBeskrivning1 = $item.beskrivning;
+                srsService.updateDiagnosKod($scope.model.diagnosKod);
+                srsService.updateDiagnosBeskrivning($scope.model.diagnosBeskrivning1);
                 $scope.limitDiagnosBeskrivningField('diagnosBeskrivning1');
                 fmbService.updateFmbText(0, $scope.model.diagnosKod);
                 $scope.form2.$setDirty();
                 model.updateToAttic(model.properties.form2);
-                srsService.updateDiagnosKod($scope.model.diagnosKod);
-                srsService.updateDiagnosBeskrivning($scope.model.diagnosBeskrivning1);
             };
             $scope.onDiagnoseCode2Select = function($item) {
                 $scope.model.diagnosBeskrivning2 = $item.beskrivning;
