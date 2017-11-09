@@ -68,6 +68,7 @@ angular.module('fk7263').controller('fk7263.EditCert.Form2Ctrl',
                         }
                     }
                     updateFmbTextsForAllDiagnoses();
+                    srsService.updateDiagnosKod($scope.model.diagnosKod);
                 }
             });
 
