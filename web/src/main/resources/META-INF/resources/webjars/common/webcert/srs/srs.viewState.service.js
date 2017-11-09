@@ -24,7 +24,6 @@ angular.module('common').service('common.srsViewState',
         this.consent = '';
         this.diagnosBeskrivning = '';
         this.diagnosKod = '';
-        this.originalDiagnosKod = '';
         this.personId = '';
         this.hsaId = '';
         this.intygsTyp = '';
@@ -76,6 +75,10 @@ angular.module('common').service('common.srsViewState',
 
         this.setDiagnosBeskrivning = function(diagnosBeskrivning){
             this.diagnosBeskrivning = diagnosBeskrivning;
+        };
+
+        this.getApiDiagnosKod = function() {
+            return this.higherDiagnosKod ? this.higherDiagnosKod : this.diagnosKod;
         };
 
     });

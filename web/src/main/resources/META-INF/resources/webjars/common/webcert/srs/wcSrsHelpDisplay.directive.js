@@ -64,7 +64,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     scope.retrieveAndSetPrediction = function() {
                         var qaIds = getSelectedAnswerOptions();
-                        return srsProxy.getPrediction($stateParams.certificateId, scope.srsViewState.personId, srsViewState.diagnosKod,
+                        return srsProxy.getPrediction($stateParams.certificateId, scope.srsViewState.personId, srsViewState.getApiDiagnosKod(),
                             qaIds, true, true, true).then(function(prediction) {
                             scope.srsViewState.prediction = prediction;
                         }, function(error) {
@@ -74,7 +74,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     scope.retrieveAndSetAtgarderAndStatistik = function() {
                         return srsProxy.getAtgarderAndStatistikForDiagnosis($stateParams.certificateId, scope.srsViewState.personId,
-                            srsViewState.diagnosKod)
+                            srsViewState.getApiDiagnosKod())
                             .then(function(data) {
                                 scope.srsViewState.statistik = data.statistik || 'error';
                                 scope.srsViewState.atgarder = data.atgarder ||'error';
@@ -216,12 +216,12 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.srsViewState.atgarderError = 'Tekniskt fel.\nDet gick inte att hämta information om åtgärder.';
                             }
                             else if (scope.srsViewState.atgarder.atgarderStatusCode === 'INFORMATION_SAKNAS') {
-                                scope.srsViewState.atgarderInfo = 'Observera! För ' + srsViewState.diagnosKod +
+                                scope.srsViewState.atgarderInfo = 'Observera! För ' + srsViewState.getApiDiagnosKod() +
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if (!scope.srsViewState.atgarder.atgarderRek ||
                                 (scope.srsViewState.atgarder.atgarderRek && scope.srsViewState.atgarder.atgarderRek.length < 1)) {
-                                scope.srsViewState.atgarderInfo = 'Observera! För ' + srsViewState.diagnosKod +
+                                scope.srsViewState.atgarderInfo = 'Observera! För ' + srsViewState.getApiDiagnosKod() +
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if (scope.srsViewState.atgarder.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
@@ -240,11 +240,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             if (scope.srsViewState.statistik === 'error') {
                                 scope.srsViewState.statistikError =
                                     'Tekniskt fel.\nDet gick inte att hämta information om statistik ' +
-                                    srsViewState.diagnosKod;
+                                    srsViewState.getApiDiagnosKod();
                             }
                             if (scope.srsViewState.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
                                 !scope.srsViewState.statistik.statistikBild) {
-                                scope.srsViewState.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
+                                scope.srsViewState.statistikInfo = 'Observera! För ' + srsViewState.getApiDiagnosKod() +
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if (scope.srsViewState.statistik.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
@@ -264,7 +264,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                         } else {
                             if (scope.srsViewState.prediction.statusCode === 'PREDIKTIONSMODELL_SAKNAS') {
-                                scope.srsViewState.prediktionInfo = 'Observera! För ' + srsViewState.diagnosKod +
+                                scope.srsViewState.prediktionInfo = 'Observera! För ' + srsViewState.getApiDiagnosKod() +
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if (scope.srsViewState.prediction.statusCode === 'NOT_OK') {
@@ -296,12 +296,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
                     }
 
-                    function activateHigherCodeMode(currentDiagnosKod, higherCode) {
-                        scope.srsViewState.higherCode = higherCode;
-                        srsViewState.originalDiagnosKod = currentDiagnosKod;
-                        srsViewState.diagnosKod = scope.srsViewState.higherCode;
-                    }
-
                     function getSelectedAnswerOptions() {
                         var selectedOptions = [];
                         for (var i = 0; i < scope.srsViewState.questions.length; i++) {
@@ -327,7 +321,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
 
                         function isSrsApplicableForCode(diagnosKod) {
-                            return scope.srsViewState.higherDiagnosKod || scope.srsViewState.higherCode || (scope.srsViewState.diagnosisCodes.indexOf(diagnosKod) !== -1);
+                            return scope.srsViewState.higherDiagnosKod || (scope.srsViewState.diagnosisCodes.indexOf(diagnosKod) !== -1);
                         }
                     }
 
@@ -335,9 +329,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         return srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
                             scope.srsViewState.diagnosisCodes = diagnosisCodes;
                             scope.srsViewState.higherDiagnosKod = getHigherLevelCode(srsViewState.diagnosKod, scope.srsViewState.diagnosisCodes);
-                            if (scope.srsViewState.higherDiagnosKod) {
-                                activateHigherCodeMode(srsViewState.diagnosKod, scope.srsViewState.higherDiagnosKod);
-                            }
                         });
 
                         function getHigherLevelCode(diagnosKod, diagnosisCodes) {
@@ -349,12 +340,12 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                     }
                                 }
                             }
-                            return scope.srsViewState.higherDiagnosKod;
+                            return '';
                         }
                     }
 
                     function loadSrs() {
-                        scope.getQuestions(scope.srsViewState.diagnosKod).then(function(questions) {
+                        scope.getQuestions(scope.srsViewState.getApiDiagnosKod()).then(function(questions) {
                             setConsentMessages();
                             scope.srsViewState.questions = questions;
                             scope.srsViewState.allQuestionsAnswered = scope.questionsFilledForVisaButton();
@@ -378,7 +369,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         //scope.consent = false;
                         scope.srsViewState.shownFirstTime = false;
                         scope.srsViewState.clickedFirstTime = false;
-                        //scope.srsViewState.originalDiagnosKod = '';
                         //scope.srsViewState.diagnosKod = (scope.srsStates.diagnoses['0'] && scope.srsStates.diagnoses['0'].diagnosKod) || '';
                         scope.srsViewState.srsApplicable = false;
                         scope.srsViewState.errorMessage = '';
