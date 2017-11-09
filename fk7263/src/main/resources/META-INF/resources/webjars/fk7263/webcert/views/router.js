@@ -181,7 +181,12 @@ angular.module('fk7263').config(function($stateProvider) {
                     intygsType: function() {
                         return 'fk7263';
                     },
-                    ViewConfigFactory: 'fk7263.viewConfigFactory'
+                    ViewConfigFactory: 'fk7263.viewConfigFactory',
+                    DiagnosExtractor: function() {
+                        return function (fk7263Model) {
+                            return fk7263Model.diagnosKod;
+                        };
+                    }
                 }
             }
         }

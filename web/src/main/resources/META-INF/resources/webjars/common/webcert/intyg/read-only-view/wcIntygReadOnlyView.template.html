@@ -1,19 +1,24 @@
 <div class="wc-intyg-read-only container-fluid">
   <div wc-spinner label="common.load.certificate" show-spinner="!viewState.doneLoading"
        show-content="viewState.doneLoading">
-    <h1 class="page-title">{{viewState.certName}}</h1>
+
     <div ng-show="!viewState.errorKey">
       <div id="read-only-certificate">
 
         <div class="row">
-          <div class="col-xs-8">
+          <div class="col-xs-7" ng-class="{'srs-border': viewState.srs.showSrs}">
+            <h1 class="page-title">{{viewState.certName}}</h1>
             <div class="intyg-body">
               <uv-render-components config="viewState.uvConfig" view-data="viewState.cert"></uv-render-components>
             </div>
           </div>
+          <div class="col-xs-5" ng-if="viewState.srs.showSrs">
+              <wc-srs-diagnose-info diagnose-code="viewState.srs.code"></wc-srs-diagnose-info>
+          </div>
         </div>
       </div>
     </div>
+
     <div id="intyg-read-only-error" ng-if="viewState.errorKey" class="alert alert-danger">
       <span message key="{{viewState.errorKey}}"></span>
     </div>

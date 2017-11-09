@@ -566,6 +566,17 @@ angular.module('common').constant('common.messages', {
         'fmb.aktivitetsbegransning': 'Om aktivitetsbegränsning',
         'fmb.beslutsunderlag_textuellt': 'Sjukskrivningsrekommendation',
 
+        // SRS texts
+        'srs.srsfordiagnose.load.message': 'Laddar Stöd för bedömning vid sjukskrivning...',
+        'srs.srsfordiagnose.load.error': 'Tekniskt fel, stöd för bedömning kan inte visas.',
+        'srs.srsfordiagnose.load.nodata': 'Det finns ingen information från bedömningsstödet SRS',
+        'srs.srsfordiagnose.atgarder.missing': 'Det finns inga åtgärdsrekommendationer från bedömningsstödet SRS',
+        'srs.srsfordiagnose.atgarder.highercode': 'Åtgärdsrekommendationer från bedömningsstödet SRS visas för den överordnade diagnoskoden ${code}',
+        'srs.srsfordiagnose.statistik.missing': 'Det finns ingen statistik från bedömningsstödet SRS',
+        'srs.srsfordiagnose.statistik.highercode': 'Statistik från bedömningsstödet SRS visas för den överordnade diagnoskoden ${code}',
+
+
+
         // Fragasvar för FK
         'common.fk.info.loading.existing.qa': 'Hämtar tidigare frågor och svar...',
         'common.fk.fragasvar.answer.is.sent': '<strong>Svaret har skickats till Försäkringskassan.</strong><br> Frågan är nu markerad som hanterad och visas nu under \'Hanterade frågor\' längre ner på sidan.',

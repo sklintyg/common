@@ -143,6 +143,10 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                 return response.data;
             });
         }
+        function _getSrsForDiagnoseOnly(diagnoseCode) {
+            return $http.get('/api/srs/atgarder/' + diagnoseCode);
+        }
+
 
         // Return public API for the service
         return {
@@ -155,7 +159,8 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             logSrsClicked: _logSrsClicked,
             logSrsAtgardClicked: _logSrsAtgardClicked,
             logSrsStatistikClicked: _logSrsStatistikClicked,
-            setConsent: _setConsent
+            setConsent: _setConsent,
+            getSrsForDiagnoseOnly: _getSrsForDiagnoseOnly
         };
     }]);
 

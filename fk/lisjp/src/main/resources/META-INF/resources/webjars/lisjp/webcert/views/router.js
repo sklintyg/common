@@ -120,7 +120,12 @@ angular.module('lisjp').config(function($stateProvider) {
                     intygsType: function() {
                         return 'lisjp';
                     },
-                    ViewConfigFactory: 'lisjp.viewConfigFactory'
+                    ViewConfigFactory: 'lisjp.viewConfigFactory',
+                    DiagnosExtractor: function() {
+                        return function (lisjpModel) {
+                            return lisjpModel.diagnoser[0].diagnosKod;
+                        };
+                    }
                 }
             }
         }
