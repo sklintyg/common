@@ -55,17 +55,11 @@ $fmb-glyphicon-hover-color: #808080;
   }
 }
 
-.fmb-column {
-  padding-right: 50px;
-}
-
 .btn-fmb {
-  position: absolute;
-  right: -15px;
-  top: 0;
   padding: 5px 5px;
   font-size: 12px;
   line-height: 12px;
+  min-width: 60px;
 }
 
 .btn-default.btn-fmb:hover, .btn-default.btn-fmb:focus {
@@ -79,7 +73,7 @@ $fmb-glyphicon-hover-color: #808080;
 }
 
 .panel-wrapper-fmb {
-  left: 112%;
+  right: -5px;
   top: -4px;
   position: absolute;
   transition-property: opacity;

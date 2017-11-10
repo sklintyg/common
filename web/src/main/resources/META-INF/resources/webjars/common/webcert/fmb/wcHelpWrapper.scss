@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+/*!
+ * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,26 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Display FMB help texts
- */
-angular.module('common').directive('wcFmbContent', ['$log', 'common.ObjectHelper', 'common.fmbService',
-    function($log, ObjectHelper, fmbService) {
-        'use strict';
+wc-help-wrapper {
+  position: relative;
+  display: block;
 
-        return {
-            restrict: 'EA',
-            scope: {
-                fmb: '=',
-                relatedFormId: '@',
-                status: '=',
-                fieldName: '='
-            },
-            link: function(scope, element, attrs) {
-                $log.debug(scope.fmb);
+  .wc-help-wrapper {
+    position: absolute;
+    right: -5px;
+    top: 0;
+    z-index: 1;
+  }
 
-
-            },
-            templateUrl: '/web/webjars/common/webcert/fmb/wcFmbContent.directive.html'
-        };
-    }]);
+  .help-column {
+    padding-right: 60px;
+  }
+}

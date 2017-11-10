@@ -6,14 +6,14 @@
        field-has-errors="viewState.common.validation.messagesGrouped.aktivitetsbegransning" field-required="true">
 
     <span dynamiclink key="fmbSoc" linkclass="soclink"></span> <img src="/img/link_icon.png"/>
-    <wc-fmb-help-display related-form-id="FALT5" fmb-states="fmbViewState" field-name="AKTIVITETSBEGRANSNING">
-      <wc-validation-wrapper field-type="multi-text"
-                             validations="viewState.getValidationErrors('aktivitetsbegransning')">
+    <wc-validation-wrapper field-type="multi-text"
+                           validations="viewState.getValidationErrors('aktivitetsbegransning')">
+      <wc-help-wrapper fmb-id="FALT5" fmb-field-name="AKTIVITETSBEGRANSNING">
         <textarea id="activityLimitation" class="form-control" name="activityLimitation" rows="6" auto-expand
                   ng-model="model.aktivitetsbegransning" wc-maxlength ng-trim="false"
                   maxlength="{{viewState.inputLimits.aktivitetsbegransning}}"
                   ng-blur="validate()"></textarea>
-      </wc-validation-wrapper>
-    </wc-fmb-help-display>
+      </wc-help-wrapper>
+    </wc-validation-wrapper>
   </div>
 </div>

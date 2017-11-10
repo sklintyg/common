@@ -4,24 +4,22 @@
   <div wc-field field-label="fk7263.label.diagnos" field-number="2" field-help-text="fk7263.helptext.diagnos"
        field-has-errors="viewState.common.validation.messagesGrouped.diagnos"
        id="diagnoseForm">
+    <wc-help-wrapper fmb-id="FALT2" fmb-field-name="DIAGNOS" push-content="false" srs-id="2">
+
       <div class="row bottom-padding-medium">
         <div class='col-xs-12'>
           <div class="form-group">
-            <div>
-                <wc-srs-help-display id='2'>
-                <wc-fmb-help-display related-form-id="FALT2" fmb-states="fmbViewState" field-name="DIAGNOS">
-            </div>
-            <span class="bold" message key="fk7263.label.valjkodverk"></span><br>
-            <label class="radio-inline">
-              <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodverk" value="ICD_10_SE"
-                     ng-model="viewModel.diagnosKodverk" checked="checked" ng-change="onChangeKodverk(); validate()">
-              <span message key="fk7263.label.diagnoskodverk.icd_10_se"></span>
-            </label>
-            <label class="radio-inline">
-              <input type="radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodverk" value="KSH_97_P"
-                     ng-model="viewModel.diagnosKodverk" ng-change="onChangeKodverk(); validate()">
-              <span message key="fk7263.label.diagnoskodverk.ksh_97_p"></span>
-            </label>
+              <span class="bold" message key="fk7263.label.valjkodverk"></span><br>
+              <label class="radio-inline">
+                <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodverk" value="ICD_10_SE"
+                       ng-model="viewModel.diagnosKodverk" checked="checked" ng-change="onChangeKodverk(); validate()">
+                <span message key="fk7263.label.diagnoskodverk.icd_10_se"></span>
+              </label>
+              <label class="radio-inline">
+                <input type="radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodverk" value="KSH_97_P"
+                       ng-model="viewModel.diagnosKodverk" ng-change="onChangeKodverk(); validate()">
+                <span message key="fk7263.label.diagnoskodverk.ksh_97_p"></span>
+              </label>
           </div>
         </div>
       </div>
@@ -223,7 +221,7 @@
 
       </div>
 
-    </wc-fmb-help-display>
+    </wc-help-wrapper>
 
   </div>
 

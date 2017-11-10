@@ -6,7 +6,8 @@
        field-has-errors="viewState.common.validation.messagesGrouped.funktionsnedsattning" field-required="true">
 
     <span dynamiclink key="fmbSoc" linkclass="soclink"></span> <img src="/img/link_icon.png"/>
-    <wc-fmb-help-display related-form-id="FALT4" fmb-states="fmbViewState" field-name="FUNKTIONSNEDSATTNING">
+
+    <wc-help-wrapper fmb-id="FALT4" fmb-field-name="FUNKTIONSNEDSATTNING">
       <wc-validation-wrapper field-type="multi-text"
                              validations="viewState.getValidationErrors('funktionsnedsattning')">
         <textarea id="disabilities" class="form-control" name="disabilities" rows="6" auto-expand
@@ -14,6 +15,6 @@
                   maxlength="{{viewState.inputLimits.funktionsnedsattning}}"
                   ng-blur="validate()"></textarea>
       </wc-validation-wrapper>
-    </wc-fmb-help-display>
+    </wc-help-wrapper>
   </div>
 </div>

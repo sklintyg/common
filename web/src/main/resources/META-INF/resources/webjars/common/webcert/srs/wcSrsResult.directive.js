@@ -29,7 +29,7 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
             restrict: 'E',
             link: function (scope, element, attrs) {
                 scope.clampSet = false;
-                scope.srsViewState.status.riskInfoOpen = false;
+                //scope.status.riskInfoOpen = false;
                 scope.closeSrs = function(){
                     scope.status.riskInfoOpen = false;
                 };
