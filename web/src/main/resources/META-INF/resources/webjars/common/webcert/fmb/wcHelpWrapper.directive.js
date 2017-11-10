@@ -20,8 +20,8 @@
 /**
  * Position help buttons with FMB, SRS, etc
  */
-angular.module('common').directive('wcHelpWrapper', ['common.ObjectHelper', 'common.fmbService', 'common.fmbViewState', '$rootScope',
-    function(ObjectHelper, fmbService, fmbViewState, $rootScope) {
+angular.module('common').directive('wcHelpWrapper', ['$rootScope', 'common.ObjectHelper', 'common.fmbService', 'common.fmbViewState', 'common.srsViewState',
+    function($rootScope, ObjectHelper, fmbService, fmbViewState, srsViewState) {
         'use strict';
 
         return {
@@ -51,6 +51,7 @@ angular.module('common').directive('wcHelpWrapper', ['common.ObjectHelper', 'com
                 }
 
                 scope.fmbViewState = fmbViewState;
+                scope.srsViewState = srsViewState;
                 scope.$watch('fmbViewState', function(newVal, oldVal) {
                     updateFMBAvailable();
                 }, true);
@@ -58,7 +59,7 @@ angular.module('common').directive('wcHelpWrapper', ['common.ObjectHelper', 'com
                 updateFMBAvailable();
 
                 scope.shouldPushContent = function(){
-                    return scope.pushContent === true && (scope.fmbAvailable || scope.srsId);
+                    return scope.pushContent === true && (scope.fmbAvailable || scope.srsViewState.srsApplicable);
                 };
             },
             templateUrl: '/web/webjars/common/webcert/fmb/wcHelpWrapper.directive.html'
