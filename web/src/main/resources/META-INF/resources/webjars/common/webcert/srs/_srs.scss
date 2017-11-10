@@ -100,10 +100,25 @@
    background-color: #00777E;
  }
  
+ .srs-question-element{
+  clear:both;
+  float:left;
+  margin-bottom:25px;
+ }
+
+.srs-questions-submit{
+  clear:both;
+}
+
  .srs-fixed-panel{
    position:fixed !important;
    top:25% !important;
    left:50% !important;
+ }
+
+ .questionBottomMargin{
+  display: block;
+  margin-bottom:50px;
  }
  
  #closeButton{
