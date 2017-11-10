@@ -30,7 +30,7 @@ angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCr
                 scope.isCollapsed = false;
                 //$('.my_tooltip').tooltip({ html: true })
                 scope.infoMessage = '';
-                scope.srsViewState.errorMessage = '';
+                //scope.srsViewState.errorMessage = '';
 
                 scope.externalConsent = {
                     templateUrl: '/web/webjars/common/webcert/srs/wcSrsContent.consent-popover.html'

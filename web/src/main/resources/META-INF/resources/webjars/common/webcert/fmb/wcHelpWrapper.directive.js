@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,9 +18,9 @@
  */
 
 /**
- * Display FMB help texts
+ * Position help buttons with FMB, SRS, etc
  */
-angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', 'common.fmbService', 'common.fmbViewState', '$rootScope',
+angular.module('common').directive('wcHelpWrapper', ['common.ObjectHelper', 'common.fmbService', 'common.fmbViewState', '$rootScope',
     function(ObjectHelper, fmbService, fmbViewState, $rootScope) {
         'use strict';
 
@@ -28,43 +28,39 @@ angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', '
             restrict: 'E',
             transclude: true,
             scope: {
-                fieldName: '@',
-                relatedFormId: '@'
+                fmbId: '@',
+                fmbFieldName: '@',
+                srsId: '@',
+                pushContent: '@'
             },
             link: function(scope, element, attrs) {
-                scope.status = {
-                    open: false
-                };
 
-                scope.toggleFMB = function(){
-                    scope.status.open = !scope.status.open;
+                if(!ObjectHelper.isDefined(scope.pushContent)){
+                    scope.pushContent = true;
+                } else {
+                    scope.pushContent = scope.pushContent === 'true';
+                }
 
-                    // Close srs by sending event
-                    if(scope.status.open) {
-                        $rootScope.$broadcast('closeSrs');
-                    }
-                };
-
-                scope.$on('closeFmb', function(){
-                    scope.status.open = false;
-                });
-
-                scope.fmbViewState = fmbViewState;
-
+                scope.fmbAvailable = true;
                 function updateFMBAvailable() {
-                    if(ObjectHelper.isDefined(scope.fieldName) && ObjectHelper.isDefined(scope.relatedFormId)){
+                    if(ObjectHelper.isDefined(scope.fmbFieldName) && ObjectHelper.isDefined(scope.fmbId)){
                         scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(fmbViewState);
                     } else {
                         scope.fmbAvailable = false;
                     }
                 }
 
+                scope.fmbViewState = fmbViewState;
                 scope.$watch('fmbViewState', function(newVal, oldVal) {
                     updateFMBAvailable();
                 }, true);
 
                 updateFMBAvailable();
+
+                scope.shouldPushContent = function(){
+                    return scope.pushContent === true && (scope.fmbAvailable || scope.srsId);
+                };
             },
-            templateUrl: '/web/webjars/common/webcert/fmb/wcFmbHelpDisplay.directive.html'
+            templateUrl: '/web/webjars/common/webcert/fmb/wcHelpWrapper.directive.html'
         };
     }]);

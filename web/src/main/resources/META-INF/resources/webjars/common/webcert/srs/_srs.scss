@@ -194,17 +194,11 @@
    }
  }
  
- .srs-column {
-   padding-right: 50px;
- }
- 
  .btn-srs {
-   position: absolute;
-   right: -15px;
-   top: 0;
    padding: 5px 5px;
    font-size: 12px;
    line-height: 12px;
+   min-width: 60px;
  }
  
  .btn-default.btn-srs:hover, .btn-default.btn-srs:focus {
@@ -218,7 +212,7 @@
  }
  
  #panel-wrapper-srs {
-   left: 105%;
+   right: -5px;
    top: -4px;
    position: absolute;
    transition-property: opacity;
@@ -229,7 +223,7 @@
      opacity: 0;
    }
  }
- 
+
  .panel-arrow {
    position: absolute;
    right: -1px;

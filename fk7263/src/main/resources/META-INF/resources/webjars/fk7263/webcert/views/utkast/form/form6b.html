@@ -5,12 +5,12 @@
         <div class="form-group">
             <label class="control-label">Planerad eller pågående behandling eller åtgärd inom sjukvården (ange
                 vilken)</label>
-                <wc-srs-help-display id='6b'>
-                  <textarea id="measuresCurrent" class="form-control" name="measures.current" rows="2" auto-expand
-                            ng-model="model.atgardInomSjukvarden" wc-maxlength ng-trim="false"
-                            maxlength="{{viewState.inputLimits.atgardInomSjukvarden}}"
-                            ng-blur="validate()"></textarea>
-                        </wc-srs-help-display>
+          <wc-help-wrapper srs-id="6b">
+                <textarea id="measuresCurrent" class="form-control" name="measures.current" rows="2" auto-expand
+                          ng-model="model.atgardInomSjukvarden" wc-maxlength ng-trim="false"
+                          maxlength="{{viewState.inputLimits.atgardInomSjukvarden}}"
+                          ng-blur="validate()"></textarea>
+          </wc-help-wrapper>
         </div>
 
         <div class="form-group">

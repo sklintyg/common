@@ -21,9 +21,9 @@
  * Display SRS help texts
  */
 angular.module('common').directive('wcSrsHelpDisplay',
-    ['$q', 'common.srsProxy', 'common.srsViewState', 'common.authorityService', '$stateParams',
+    ['$q', 'common.ObjectHelper', 'common.srsProxy', 'common.srsViewState', 'common.authorityService', '$stateParams',
         '$rootScope',
-        function($q, srsProxy, srsViewState, authorityService, $stateParams, $rootScope) {
+        function($q, ObjectHelper, srsProxy, srsViewState, authorityService, $stateParams, $rootScope) {
             'use strict';
 
             return {
@@ -37,6 +37,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     };
 
                     scope.id = attrs.id;
+
+                    // make sure component isn't visible if no id is supplied
+                    if(!ObjectHelper.isDefined(scope.id)){
+                        scope.srsViewState.srsApplicable = false;
+                    }
                     
                     scope.closeFmb = function() {
                         if (scope.status.open) {
