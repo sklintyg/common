@@ -49,6 +49,10 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
                     };
 
+                    scope.$on('closeSrs', function() {
+                        scope.status.open = false;
+                    });
+
                     scope.questionsFilledForVisaButton = function() {
                         var answers = getSelectedAnswerOptions();
                         for (var i = 0; i < answers.length; i++) {
@@ -163,10 +167,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                     }
                                 });
                             }
-                        });
-
-                        scope.$on('closeSrs', function() {
-                            scope.status.open = false;
                         });
 
                         scope.$watch('srsViewState.hsaId', function(newVal, oldVal) {
