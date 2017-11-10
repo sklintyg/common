@@ -205,6 +205,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     function setConsentMessages() {
                         scope.srsViewState.consentInfo = '';
+                        // Assumption: only codes of exactly length 3 will be supported by SRS predictions.
                         if (scope.srsViewState.diagnosKod !== undefined && scope.srsViewState.diagnosKod.length > 3) {
                             scope.srsViewState.consentInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.diagnosKod.substring(0, 3);
                         }
@@ -263,15 +264,16 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                         } else {
                             if (scope.srsViewState.prediction.statusCode === 'PREDIKTIONSMODELL_SAKNAS') {
-                                scope.srsViewState.prediktionInfo = 'Observera! För ' + srsViewState.diagnosKod +
-                                    ' finns ingen SRS-information för detta fält.';
+                                scope.srsViewState.prediktionInfo = 'Observera! För ' + scope.srsViewState.diagnosKod +
+                                    ' - ' + scope.srsViewState.diagnosBeskrivning + ' finns ingen SRS-information för detta fält.';
                             }
                             else if (scope.srsViewState.prediction.statusCode === 'NOT_OK') {
                                 scope.srsViewState.prediktionError =
                                     'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
                             }
                             else if (scope.srsViewState.prediction.statusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                                scope.srsViewState.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.prediction.predictionDiagnosisCode;
+                                scope.srsViewState.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.prediction.predictionDiagnosisCode +
+                                    ' - ' + scope.srsViewState.prediction.predictionDiagnosisDescription;
                             }
                         }
                     }

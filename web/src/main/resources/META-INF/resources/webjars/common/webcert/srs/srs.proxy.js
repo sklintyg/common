@@ -38,6 +38,9 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         function _getPrediction(intygsId, patientId, diagnosKod, qaIds) {
             return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false).then(function(data) {
                 var prediction = {};
+                if(data.predictionDiagnosisDescription) {
+                    prediction.predictionDiagnosisDescription = data.predictionDiagnosisDescription;
+                }
                 if(data.predictionDiagnosisCode) {
                     prediction.predictionDiagnosisCode = data.predictionDiagnosisCode;
                 }
@@ -57,7 +60,12 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         function _getAtgarderAndStatistikForDiagnosis(intygsId, patientId, diagnosKod) {
             return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, true, true).then(
                 function(data) {
+                    /* jshint ignore:start */
                     var atgarder = {};
+                    // jshint:ignoreline
+                    if(data.atgarderDiagnosisDescription) {
+                        atgarder.atgarderDiagnosisDescription = data.atgarderDiagnosisDescription;
+                    }
                     if(data.atgarderDiagnosisCode) {
                         atgarder.atgarderDiagnosisCode = data.atgarderDiagnosisCode;
                     }
@@ -75,6 +83,9 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                     }
 
                     var statistik = {};
+                    if(data.statistikDiagnosisDescription) {
+                        atgarder.statistikDiagnosisDescription = data.statistikDiagnosisDescription;
+                    }
                     if(data.statistikDiagnosisCode) {
                         statistik.statistikDiagnosisCode = data.statistikDiagnosisCode;
                     }
@@ -92,6 +103,7 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                         'atgarder': atgarder,
                         'statistik': statistik
                     };
+                    /* jshint ignore:end */
                 });
         }
 
