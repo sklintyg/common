@@ -57,11 +57,11 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                 };
 
                 scope.redirectToAtgardExternalSite = function(){
-                    window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.srsViewState.getApiDiagnosKod()));
+                    window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.srsViewState.diagnosKod));
                 };
 
                 scope.redirectToStatistikExternalSite = function(){
-                    window.open(srsLinkCreator.createStatistikLink(scope.srsViewState.getApiDiagnosKod()));
+                    window.open(srsLinkCreator.createStatistikLink(scope.srsViewState.diagnosKod));
                 };
 
                 scope.$watch('status', function(status){

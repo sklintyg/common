@@ -102,7 +102,6 @@ fdescribe('wcSrsHelpDisplayDirective', function() {
             $scope.$apply();
 
             expect(srsViewState.diagnosKod).toBe('A10');
-            expect(srsViewState.higherDiagnosKod).toBe('');
             expect(srsViewState.srsApplicable).toBeFalsy();
             expect($(element).find('#srs_diagnos_heading_').text()).toBe('A10 - Bla bla');
 
@@ -118,52 +117,11 @@ fdescribe('wcSrsHelpDisplayDirective', function() {
             $scope.$apply();
 
             expect(srsViewState.diagnosKod).toBe('J20');
-            expect(srsViewState.higherDiagnosKod).toBe('');
             expect(srsViewState.srsApplicable).toBeTruthy();
             expect($(element).find('#srs_diagnos_heading_').text()).toBe('J20 - Bla bla');
 
             expect(srsProxy.getQuestions).toHaveBeenCalled();
             expect(srsProxy.getAtgarderAndStatistikForDiagnosis).toHaveBeenCalled();
-        });
-
-        it('Should display SRS for higher diagnos kod if available', function() {
-            srsService.updateDiagnosKod('J201');
-            srsService.updateDiagnosBeskrivning('Bla bla');
-
-            $scope.$apply();
-
-            expect(srsViewState.diagnosKod).toBe('J201');
-            expect(srsViewState.higherDiagnosKod).toBe('J20');
-            expect(srsViewState.srsApplicable).toBeTruthy();
-            expect($(element).find('#srs_diagnos_heading_').text()).toBe('J201 - Bla bla');
-
-            expect(srsProxy.getQuestions).toHaveBeenCalled();
-            expect(srsProxy.getAtgarderAndStatistikForDiagnosis).toHaveBeenCalled();
-        });
-
-        it('Should return to normal diagnosmode if first showing higher diagnos kod then normal diagnoskod', function() {
-            srsService.updateDiagnosKod('J201');
-            srsService.updateDiagnosBeskrivning('Bla bla');
-
-            $scope.$apply();
-
-            expect(srsViewState.diagnosKod).toBe('J201');
-            expect(srsViewState.higherDiagnosKod).toBe('J20');
-            expect(srsViewState.srsApplicable).toBeTruthy();
-            expect($(element).find('#srs_diagnos_heading_').text()).toBe('J201 - Bla bla');
-
-            expect(srsProxy.getQuestions).toHaveBeenCalled();
-            expect(srsProxy.getAtgarderAndStatistikForDiagnosis).toHaveBeenCalled();
-
-            srsService.updateDiagnosKod('J20');
-            srsService.updateDiagnosBeskrivning('Bla bla');
-
-            $scope.$apply();
-
-            expect(srsViewState.diagnosKod).toBe('J20');
-            expect(srsViewState.higherDiagnosKod).toBe('');
-            expect(srsViewState.srsApplicable).toBeTruthy();
-            expect($(element).find('#srs_diagnos_heading_').text()).toBe('J20 - Bla bla');
         });
 
         it('Should close SRS if diagnos is cleared', function() {
@@ -173,7 +131,6 @@ fdescribe('wcSrsHelpDisplayDirective', function() {
             $scope.$apply();
 
             expect(srsViewState.diagnosKod).toBe('J201');
-            expect(srsViewState.higherDiagnosKod).toBe('J20');
             expect(srsViewState.srsApplicable).toBeTruthy();
             expect($(element).find('#srs_diagnos_heading_').text()).toBe('J201 - Bla bla');
 
@@ -183,7 +140,6 @@ fdescribe('wcSrsHelpDisplayDirective', function() {
             $scope.$apply();
 
             expect(srsViewState.diagnosKod).toBe('');
-            expect(srsViewState.higherDiagnosKod).toBe('');
             expect(srsViewState.srsApplicable).toBeFalsy();
         });
     });
