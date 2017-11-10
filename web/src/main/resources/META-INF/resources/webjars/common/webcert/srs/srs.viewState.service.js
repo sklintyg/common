@@ -40,7 +40,6 @@ angular.module('common').service('common.srsViewState',
         this.prediction = {};
         this.prediction.description = '';
         this.allQuestionsAnswered = false;
-        this.higherDiagnosKod = '';
         this.showVisaKnapp = false;
         this.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
         this.riskImage = '';
@@ -75,10 +74,6 @@ angular.module('common').service('common.srsViewState',
 
         this.setDiagnosBeskrivning = function(diagnosBeskrivning){
             this.diagnosBeskrivning = diagnosBeskrivning;
-        };
-
-        this.getApiDiagnosKod = function() {
-            return this.higherDiagnosKod ? this.higherDiagnosKod : this.diagnosKod;
         };
 
     });

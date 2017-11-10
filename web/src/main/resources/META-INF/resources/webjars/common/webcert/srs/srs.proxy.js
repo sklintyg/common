@@ -38,8 +38,8 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         function _getPrediction(intygsId, patientId, diagnosKod, qaIds) {
             return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false).then(function(data) {
                 var prediction = {};
-                if(data.diagnosisCode) {
-                    prediction.diagnosisCode = data.diagnosisCode;
+                if(data.predictionDiagnosisCode) {
+                    prediction.predictionDiagnosisCode = data.predictionDiagnosisCode;
                 }
                 if(data.predictionDescription) {
                     prediction.description = data.predictionDescription;
@@ -58,6 +58,9 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, true, true).then(
                 function(data) {
                     var atgarder = {};
+                    if(data.atgarderDiagnosisCode) {
+                        atgarder.atgarderDiagnosisCode = data.atgarderDiagnosisCode;
+                    }
                     if (data.atgarderStatusCode) {
                         atgarder.atgarderStatusCode = data.atgarderStatusCode;
                     }
@@ -72,6 +75,9 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                     }
 
                     var statistik = {};
+                    if(data.statistikDiagnosisCode) {
+                        statistik.statistikDiagnosisCode = data.statistikDiagnosisCode;
+                    }
                     if (data.statistikStatusCode) {
                         statistik.statistikStatusCode = data.statistikStatusCode;
                     }
