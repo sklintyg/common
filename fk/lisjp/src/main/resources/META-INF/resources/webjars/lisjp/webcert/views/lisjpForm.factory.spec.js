@@ -69,13 +69,13 @@ describe('lisjpFormFactory', function() {
             {'typ':'KONTAKT_FHV'},{'typ':'OMFORDELNING'},{'typ':'OVRIGA_ATGARDER'}],'arbetslivsinriktadeAtgarderBeskrivning':'Därför.',
         'ovrigt':'Inga övriga upplysningar.','kontaktMedFk':true,'anledningTillKontakt':'Alltid roligt att prata med FK.','tillaggsfragor':[]};
 
-    var utkastDataSmittskydd = {'grundData':grundData,'avstangningSmittskydd':true,'sysselsattning':[],'diagnoser':[{'diagnosKod':'D50',
+    /*var utkastDataSmittskydd = {'grundData':grundData,'avstangningSmittskydd':true,'sysselsattning':[],'diagnoser':[{'diagnosKod':'D50',
         'diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Järnbristanemi'},{'diagnosKod':'G10','diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Huntingtons sjukdom'},
         {'diagnosKod':'T241','diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Brännskada av första graden på höft och nedre extremitet utom fotled och fot'}],
         'sjukskrivningar':[{'sjukskrivningsgrad':'HELT_NEDSATT','period':{'from':'2016-08-08','tom':'2016-08-22'}},{'sjukskrivningsgrad':'TRE_FJARDEDEL','period':
             {'from':'2016-08-23','tom':'2016-08-24'}},{'sjukskrivningsgrad':'HALFTEN','period':{'from':'2016-08-25','tom':'2016-08-27'}},{'sjukskrivningsgrad':
             'EN_FJARDEDEL','period':{'from':'2016-08-29','tom':'2016-11-26'}}],'prognos':{},'arbetslivsinriktadeAtgarder':[],'ovrigt':'Inga övriga upplysningar.',
-        'kontaktMedFk':false,'tillaggsfragor':[]};
+        'kontaktMedFk':false,'tillaggsfragor':[]};*/
 
     it('Should clear model values if avstangningSmittskydd is selected', function() {
 
