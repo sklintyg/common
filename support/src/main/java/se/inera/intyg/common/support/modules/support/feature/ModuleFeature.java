@@ -31,7 +31,8 @@ public enum ModuleFeature {
     UTSKRIFT("utskrift"),
     ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift"),
     SRS("srs"),
-    WARN_ON_PREVIOUS("varnaOmTidigareIntyg"),
+    UNIKT_INTYG("uniktIntyg"),
+    UNIKT_INTYG_INOM_VG("uniktIntygInomVg"),
     HANTERA_INTYGSUTKAST_AVLIDEN("hanteraIntygsutkastAvliden");
 
     private final String name;
