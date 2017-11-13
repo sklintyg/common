@@ -24,18 +24,24 @@ describe('IntygHeaderCtrl', function() {
     var $controller;
     var $state;
     var UserModel;
+    var featureService;
+    var UtkastProxy;
 
     beforeEach(function() {
 
         module('common', function($provide) {
+            UtkastProxy = {}
+            $provide.value('webcert.UtkastProxy', UtkastProxy);
         });
 
-        inject(['$rootScope', '$controller', '$state', 'common.UserModel',
-            function($rootScope, _$controller_, _$state_, _UserModel_) {
+
+        inject(['$rootScope', '$controller', '$state', 'common.UserModel', 'common.featureService',
+            function($rootScope, _$controller_, _$state_, _UserModel_, _featureService_) {
             $scope = $rootScope.$new();
             $controller = _$controller_;
             $state = _$state_;
             UserModel = _UserModel_;
+            featureService = _featureService_;
         }]);
     });
 
@@ -199,6 +205,21 @@ describe('IntygHeaderCtrl', function() {
 
                 $scope.intygstyp = 'db';
                 expect($scope.showCreateFromTemplate()).toBeTruthy();
+            });
+
+            it('should be enabled if no previous intyg exists', function() {
+                UserModel.user = {};
+
+                $scope.intygstyp = 'db';
+                expect($scope.enableCreateFromTemplate()).toBeTruthy();
+            });
+
+            it('should not be enabled if previous intyg exists and feature is enabled', function() {
+                UserModel.user = {};
+
+                $scope.previousIntyg = {'doi': true}
+                $scope.intygstyp = 'db';
+                expect($scope.enableCreateFromTemplate()).toBeFalsy();
             });
 
             it('should not be shown if intyg type is fk, ts or doi', function() {

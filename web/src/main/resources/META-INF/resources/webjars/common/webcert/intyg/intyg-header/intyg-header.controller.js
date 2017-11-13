@@ -31,7 +31,6 @@ angular.module('common').controller('common.IntygHeader',
 
             var intygType = $state.current.data.intygType;
             var _intygActionDialog = null;
-            var previousIntyg = {};
 
             $scope.createFromTemplateConfig = {
                 'db': {
@@ -42,10 +41,12 @@ angular.module('common').controller('common.IntygHeader',
                 }
             };
 
+            $scope.previousIntyg = {};
+
             $scope.$on('intyg.loaded', function(event, intyg){
                 if ($scope.createFromTemplateConfig[intygType]) {
                     UtkastProxy.getWarningsExisting($scope.viewState.intygModel.grundData.patient.personId, function(existing) {
-                        previousIntyg = existing;
+                        $scope.previousIntyg = existing;
                     });
                 }
             });
@@ -150,7 +151,7 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.enableCreateFromTemplate = function() {
                 return !($scope.createFromTemplateConfig[$scope.intygstyp].feature === featureService.features.UNIKT_INTYG_INOM_VG &&
-                    previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true);
+                    $scope.previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true);
             };
 
             $scope.send = function() {
