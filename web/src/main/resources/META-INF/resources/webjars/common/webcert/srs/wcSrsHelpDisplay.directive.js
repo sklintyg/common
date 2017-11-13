@@ -173,6 +173,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             if (newVal) {
                                 scope.srsViewState.consentInfo = '';
                                 scope.srsViewState.consentError = '';
+                                scope.srsViewState.consent = '';
                                 srsProxy.getConsent(scope.srsViewState.personId, scope.srsViewState.hsaId).then(function(consent) {
                                     if(consent.status === 200){
                                         scope.srsViewState.consent = consent.data;
