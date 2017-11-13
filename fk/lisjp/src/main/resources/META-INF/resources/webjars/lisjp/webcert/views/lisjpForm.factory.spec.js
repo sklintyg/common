@@ -96,7 +96,7 @@ describe('lisjpFormFactory', function() {
         $scope.model.avstangningSmittskydd = true;
         $scope.$digest();
 
-        //expect(angular.equals($scope.model.toSendModel(), utkastDataSmittskydd)).toBeTruthy();
+        expect(angular.equals($scope.model.toSendModel(), utkastDataSmittskydd)).toBeTruthy();
 
         // when avstangningSmittskydd is set to false again the original values should be restored from the attic
         $scope.model.avstangningSmittskydd = false;
