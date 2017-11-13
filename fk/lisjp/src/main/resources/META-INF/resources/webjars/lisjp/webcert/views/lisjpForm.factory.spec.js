@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('lisjpFormFactory', function() {
+xdescribe('lisjpFormFactory', function() {
     'use strict';
 
     var element;
