@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-fdescribe('wcNumber', function() {
+describe('wcNumber', function() {
     'use strict';
 
     beforeEach(angular.mock.module('common'));
