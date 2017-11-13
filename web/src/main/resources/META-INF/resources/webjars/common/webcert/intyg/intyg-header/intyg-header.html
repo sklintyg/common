@@ -137,6 +137,7 @@
                   id="createFromTemplateBtn"
                   class="btn btn-info"
                   ng-if="showCreateFromTemplate()"
+                  ng-disabled="!enableCreateFromTemplate()"
                   ng-click="createFromTemplate(viewState.intygModel)"
                   wc-check-vardenhet>
               Skriv {{createFromTemplateConfig[intygstyp].name}}
@@ -165,6 +166,10 @@
       </div>
 
       <div wc-secrecy-mark-message person-id="viewState.intygModel.grundData.patient.personId" type="intyg"></div>
+
+      <div ng-if="showCreateFromTemplate() && !enableCreateFromTemplate()" class="alert alert-warning alert-column">
+        <span message key="{{createFromTemplateConfig[intygstyp].warningKey}}"></span>
+      </div>
 
       <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column">
         <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>

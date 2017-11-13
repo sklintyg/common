@@ -21,22 +21,34 @@ angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService',
         'common.messageService', 'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel',
         'common.IntygErsattRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyActions',
-        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy',
+        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy', 'webcert.UtkastProxy',
 
         function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService,
             moduleService, IntygCopyRequestModel, IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel,
-            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy) {
+            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy, UtkastProxy) {
 
             'use strict';
-            $scope.createFromTemplateConfig = {
-                'db': {
-                    'moduleId': 'doi',
-                    'name': 'dödsorsaksintyg'
-                }
-            };
 
             var intygType = $state.current.data.intygType;
             var _intygActionDialog = null;
+            var previousIntyg = {};
+
+            $scope.createFromTemplateConfig = {
+                'db': {
+                    'moduleId': 'doi',
+                    'name': 'dödsorsaksintyg',
+                    'feature': featureService.features.UNIKT_INTYG_INOM_VG,
+                    'warningKey': 'doi.warn.previouscertificate.samevg'
+                }
+            };
+
+            $scope.$on('intyg.loaded', function(event, intyg){
+                if ($scope.createFromTemplateConfig[intygType]) {
+                    UtkastProxy.getWarningsExisting($scope.viewState.intygModel.grundData.patient.personId, function(existing) {
+                        previousIntyg = existing;
+                    });
+                }
+            });
 
             $scope.user = UserModel;
             $scope.intygstyp = intygType;
@@ -134,6 +146,11 @@ angular.module('common').controller('common.IntygHeader',
             $scope.showCreateFromTemplate = function() {
                 return $scope.createFromTemplateConfig[$scope.intygstyp] !== undefined && !$scope.isRevoked() && !$scope.isReplaced() &&
                     !$scope.isComplemented() && !UserModel.getIntegrationParam('inactiveUnit');
+            };
+
+            $scope.enableCreateFromTemplate = function() {
+                return !($scope.createFromTemplateConfig[$scope.intygstyp].feature === featureService.features.UNIKT_INTYG_INOM_VG &&
+                    previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true);
             };
 
             $scope.send = function() {
