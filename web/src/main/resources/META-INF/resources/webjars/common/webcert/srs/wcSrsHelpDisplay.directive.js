@@ -33,8 +33,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     scope.srsViewState = srsViewState;
                     scope.srsViewState.userHasSrsFeature = checkIfUserHasSrsFeature();
                     scope.status = {
-                        open: false,
-                        id: attrs.id
+                        open: false
                     };
 
                     scope.id = attrs.id;
