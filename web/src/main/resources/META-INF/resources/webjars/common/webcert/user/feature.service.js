@@ -56,7 +56,9 @@ angular.module('common').factory('common.featureService',
                 UTSKRIFT: 'utskrift',
                 ARBETSGIVARUTSKRIFT: 'arbetsgivarUtskrift',
                 JS_LOGGNING: 'jsLoggning',
-                JS_MINIFIED: 'jsMinified'
+                JS_MINIFIED: 'jsMinified',
+                UNIKT_INTYG: 'uniktIntyg',
+                UNIKT_INTYG_INOM_VG: 'uniktIntygInomVg'
             },
             isFeatureActive: _isFeatureActive
         };
