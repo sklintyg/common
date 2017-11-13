@@ -30,18 +30,17 @@ describe('IntygHeaderCtrl', function() {
     beforeEach(function() {
 
         module('common', function($provide) {
-            UtkastProxy = {};
-            $provide.value('common.UtkastProxy', UtkastProxy);
         });
 
 
-        inject(['$rootScope', '$controller', '$state', 'common.UserModel', 'common.featureService',
-            function($rootScope, _$controller_, _$state_, _UserModel_, _featureService_) {
+        inject(['$rootScope', '$controller', '$state', 'common.UserModel', 'common.featureService', 'common.UtkastProxy',
+            function($rootScope, _$controller_, _$state_, _UserModel_, _featureService_, _UtkastProxy_) {
             $scope = $rootScope.$new();
             $controller = _$controller_;
             $state = _$state_;
             UserModel = _UserModel_;
             featureService = _featureService_;
+            UtkastProxy = _UtkastProxy_;
         }]);
     });
 
