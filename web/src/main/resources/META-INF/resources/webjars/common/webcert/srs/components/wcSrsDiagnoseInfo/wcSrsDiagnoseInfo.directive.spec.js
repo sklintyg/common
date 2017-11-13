@@ -82,7 +82,7 @@ describe('Directive: wcSrsDiagnoseInfo', function() {
 
         // Assert
         expect(elementScope.viewState.atgarderStatusMessage).toContain('srs.srsfordiagnose.atgarder.highercode');
-        expect(elementScope.viewState.statistikStatusMessage).toContain('srs.srsfordiagnose.statistik.highercode');
+        expect(elementScope.viewState.statistikStatusMessage).toBeNull();
 
     });
 
