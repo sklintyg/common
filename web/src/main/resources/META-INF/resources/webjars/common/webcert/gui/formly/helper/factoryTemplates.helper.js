@@ -141,6 +141,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
                             htmlMaxlength: 6,
+                            numbersOnly: true,
                             required: true
                         }
                     },
