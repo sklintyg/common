@@ -30,8 +30,8 @@ describe('IntygHeaderCtrl', function() {
     beforeEach(function() {
 
         module('common', function($provide) {
-            UtkastProxy = {}
-            $provide.value('webcert.UtkastProxy', UtkastProxy);
+            UtkastProxy = {};
+            $provide.value('common.UtkastProxy', UtkastProxy);
         });
 
 
@@ -217,7 +217,7 @@ describe('IntygHeaderCtrl', function() {
             it('should not be enabled if previous intyg exists and feature is enabled', function() {
                 UserModel.user = {};
 
-                $scope.previousIntyg = {'doi': true}
+                $scope.previousIntyg = {'doi': true};
                 $scope.intygstyp = 'db';
                 expect($scope.enableCreateFromTemplate()).toBeFalsy();
             });

@@ -21,7 +21,7 @@ angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService',
         'common.messageService', 'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel',
         'common.IntygErsattRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyActions',
-        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy', 'webcert.UtkastProxy',
+        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy', 'common.UtkastProxy',
 
         function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService,
             moduleService, IntygCopyRequestModel, IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel,
