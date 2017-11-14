@@ -80,11 +80,13 @@ angular.module('common').controller('common.IntygHeader',
 
                 if($scope.viewState.common.intygProperties.isSent){
 
-                    sentText = messageService.getProperty(intygType + '.label.status.recieved');
-
-                    if(ObjectHelper.isEmpty(sentText)){
+                    // Check if there is a specific text for intyg
+                    var intygPropertyKey = intygType + '.label.status.recieved';
+                    if(messageService.propertyExists(intygPropertyKey)){
+                        sentText = messageService.getProperty(intygPropertyKey);
+                    } else if(ObjectHelper.isEmpty(sentText)){
+                        // Fall back to common label
                         sentText = messageService.getProperty('common.label.status.recieved', {'recipient': getRecipientNameFromId(recipientId) });
-
                         if(!$scope.isPatientDeceased()) {
                             sentText += messageService.getProperty('common.label.status.recieved.available-mi');
                         }
