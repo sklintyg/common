@@ -22,10 +22,11 @@ angular.module('common').controller('common.IntygHeader',
         'common.messageService', 'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel',
         'common.IntygErsattRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyActions',
         'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy', 'common.UtkastProxy',
+        'common.ObjectHelper',
 
         function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService,
             moduleService, IntygCopyRequestModel, IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel,
-            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy, UtkastProxy) {
+            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy, UtkastProxy, ObjectHelper) {
 
             'use strict';
 
@@ -74,19 +75,19 @@ angular.module('common').controller('common.IntygHeader',
                 var recipientId = moduleService.getModule(intygType).defaultRecipient;
 
                 function getRecipientNameFromId(recipientId){
-                    switch (recipientId){
-                        case 'FKASSA': return 'Försäkringskassan';
-                        case 'TRANSP': return 'Transportstyrelsen';
-                        case 'SKV': return 'Skatteverket';
-                        case 'SOS': return 'Socialstyrelsen';
-                    }
+                    return messageService.getProperty('common.recipient.' + recipientId.toLowerCase());
                 }
 
                 if($scope.viewState.common.intygProperties.isSent){
-                    sentText = messageService.getProperty('common.label.status.recieved', {'recipient': getRecipientNameFromId(recipientId) });
 
-                    if(!$scope.isPatientDeceased()) {
-                        sentText += messageService.getProperty('common.label.status.recieved.available-mi');
+                    sentText = messageService.getProperty(intygType + '.label.status.recieved');
+
+                    if(ObjectHelper.isEmpty(sentText)){
+                        sentText = messageService.getProperty('common.label.status.recieved', {'recipient': getRecipientNameFromId(recipientId) });
+
+                        if(!$scope.isPatientDeceased()) {
+                            sentText += messageService.getProperty('common.label.status.recieved.available-mi');
+                        }
                     }
                 }
                 return sentText;
