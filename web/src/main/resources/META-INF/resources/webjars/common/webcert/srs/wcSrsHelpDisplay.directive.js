@@ -22,8 +22,8 @@
  */
 angular.module('common').directive('wcSrsHelpDisplay',
     ['$q', 'common.ObjectHelper', 'common.srsProxy', 'common.srsViewState', 'common.authorityService', '$stateParams',
-        '$rootScope',
-        function($q, ObjectHelper, srsProxy, srsViewState, authorityService, $stateParams, $rootScope) {
+        'common.srsService', '$rootScope',
+        function($q, ObjectHelper, srsProxy, srsViewState, authorityService, $stateParams, srsService, $rootScope) {
             'use strict';
 
             return {
@@ -223,8 +223,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.srsViewState.atgarderError = 'Tekniskt fel.\nDet gick inte att hämta information om åtgärder.';
                             }
                             else if (scope.srsViewState.atgarder.atgarderStatusCode === 'INFORMATION_SAKNAS') {
-                                scope.srsViewState.atgarderInfo = 'Observera! För ' + srsViewState.diagnosKod +
-                                    ' finns ingen SRS-information för detta fält.';
+                                scope.srsViewState.atgarderInfo = 'Observera! För ' + scope.srsViewState.diagnosKod +
+                                    ' - ' + scope.srsViewState.diagnosBeskrivning + ' finns ingen SRS-information för detta fält.';
                             }
                             else if (!scope.srsViewState.atgarder.atgarderRek ||
                                 (scope.srsViewState.atgarder.atgarderRek && scope.srsViewState.atgarder.atgarderRek.length < 1)) {
