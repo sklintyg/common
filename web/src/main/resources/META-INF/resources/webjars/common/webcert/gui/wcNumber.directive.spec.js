@@ -32,7 +32,7 @@ describe('wcNumber', function() {
         };
 
         var el = angular
-            .element('<form name="form"><input ng-model="model.test" name="test" wc-number></form>');
+            .element('<form name="form"><input ng-model="model.test" name="test" wc-number="true"></form>');
         $compile(el)($scope);
         $scope.$digest();
     }]));

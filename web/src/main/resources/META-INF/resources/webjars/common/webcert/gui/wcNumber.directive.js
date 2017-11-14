@@ -20,14 +20,19 @@
 /**
  * Directive to make sure value is only numbers
  */
-angular.module('common').directive('wcNumber', [
-    function() {
+angular.module('common').directive('wcNumber', ['common.ObjectHelper',
+    function(ObjectHelper) {
         'use strict';
 
         return {
             restrict: 'A',
             require: 'ngModel',
             link: function(scope, element, attrs, ngModel) {
+
+                var active = attrs.wcNumber;
+                if(!ObjectHelper.stringBoolToBool(active)){
+                    return;
+                }
 
                 function handleViewValueUpdate(newValue, oldValue) {
 

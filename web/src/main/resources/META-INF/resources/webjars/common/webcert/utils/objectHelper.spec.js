@@ -42,6 +42,7 @@ describe('ObjectHelper', function() {
         objectHelper = _objectHelper_;
     }]));
 
+    // isFalsy
     it('should return true if undefined is passed to isFalsy', function() {
         var result = objectHelper.isFalsy(undefined);
         expect(result).toEqual(true);
@@ -72,7 +73,7 @@ describe('ObjectHelper', function() {
         expect(result).toEqual(false);
     });
 
-
+    // isDefined
     it('should return false for undefined', function() {
         expect(objectHelper.isDefined(undefined)).toEqual(false);
     });
@@ -85,7 +86,7 @@ describe('ObjectHelper', function() {
         expect(objectHelper.isDefined('')).toEqual(true);
     });
 
-
+    // isEmpty
     it('should return true for null string', function() {
         expect(objectHelper.isEmpty(null)).toEqual(true);
         expect(objectHelper.isEmpty(undefined)).toEqual(true);
@@ -97,6 +98,41 @@ describe('ObjectHelper', function() {
         expect(objectHelper.isEmpty('hello')).toEqual(false);
     });
 
+    // stringBoolToBool
+    it('should return true for string true', function() {
+        expect(objectHelper.stringBoolToBool('true')).toEqual(true);
+    });
+    it('should return false for string false', function() {
+        expect(objectHelper.stringBoolToBool('false')).toEqual(false);
+    });
+    it('should return false for null or undefined', function() {
+        expect(objectHelper.stringBoolToBool(null)).toEqual(false);
+        expect(objectHelper.stringBoolToBool(undefined)).toEqual(false);
+    });
+    it('should return true for true', function() {
+        expect(objectHelper.stringBoolToBool(true)).toEqual(true);
+    });
+    it('should return false for false', function() {
+        expect(objectHelper.stringBoolToBool(false)).toEqual(false);
+    });
+
+    // stringBoolToBoolUndefinedTrue
+    it('should return true for string true', function() {
+        expect(objectHelper.stringBoolToBoolUndefinedTrue('true')).toEqual(true);
+    });
+    it('should return false for string false', function() {
+        expect(objectHelper.stringBoolToBoolUndefinedTrue('false')).toEqual(false);
+    });
+    it('should return true for null or undefined', function() {
+        expect(objectHelper.stringBoolToBoolUndefinedTrue(null)).toEqual(true);
+        expect(objectHelper.stringBoolToBoolUndefinedTrue(undefined)).toEqual(true);
+    });
+    it('should return true for true', function() {
+        expect(objectHelper.stringBoolToBoolUndefinedTrue(true)).toEqual(true);
+    });
+    it('should return false for false', function() {
+        expect(objectHelper.stringBoolToBoolUndefinedTrue(false)).toEqual(false);
+    });
 
     // deepGet tests
     it('should should handle deepGet for undefined property', function() {
