@@ -232,7 +232,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if (scope.srsViewState.atgarder.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                                scope.srsViewState.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.atgarder.atgarderDiagnosisCode;
+                                scope.srsViewState.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.atgarder.atgarderDiagnosisCode +
+                                ' - ' + scope.atgarder.atgarderDiagnosisDescription;
                             }
                         }
                     }
