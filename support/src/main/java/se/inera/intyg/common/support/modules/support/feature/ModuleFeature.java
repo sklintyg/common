@@ -33,7 +33,8 @@ public enum ModuleFeature {
     SRS("srs"),
     UNIKT_INTYG("uniktIntyg"),
     UNIKT_INTYG_INOM_VG("uniktIntygInomVg"),
-    HANTERA_INTYGSUTKAST_AVLIDEN("hanteraIntygsutkastAvliden");
+    HANTERA_INTYGSUTKAST_AVLIDEN("hanteraIntygsutkastAvliden"),
+    TAK_KONTROLL("takKontroll");
 
     private final String name;
 

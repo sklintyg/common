@@ -37,8 +37,8 @@ public class ModuleFeaturesFactoryTest {
         Map<String, Boolean> features = ModuleFeaturesFactory.getFeatures(MODUL_ID, TEST_FILE);
         assertNotNull(features);
 
-        // There are 14 features in ModuleFeature.java
-        assertEquals(14, features.size());
+        // There are 15 features in ModuleFeature.java
+        assertEquals(15, features.size());
 
         assertTrue(features.get(ModuleFeature.HANTERA_FRAGOR.getName()));
         assertFalse(features.get(ModuleFeature.MAKULERA_INTYG.getName()));
@@ -53,8 +53,8 @@ public class ModuleFeaturesFactoryTest {
             Map<String, Boolean> features = ModuleFeaturesFactory.getFeatures(MODUL_ID, "does not exist");
             assertNotNull(features);
 
-            // There are 14 features in ModuleFeature.java
-            assertEquals(14, features.size());
+            // There are 15 features in ModuleFeature.java
+            assertEquals(15, features.size());
 
             assertTrue(features.get(ModuleFeature.HANTERA_FRAGOR.getName()));
             assertFalse(features.get(ModuleFeature.MAKULERA_INTYG.getName()));
