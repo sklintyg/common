@@ -45,6 +45,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
                     $location.path('/ts-diabetes/visafel/certnotfound');
                 }
             }, function(error) {
+                $scope.doneLoading = true;
                 $log.debug('getCertificate got error' + error);
                 $scope.errorMessage = 'error.certnotfound';
             });

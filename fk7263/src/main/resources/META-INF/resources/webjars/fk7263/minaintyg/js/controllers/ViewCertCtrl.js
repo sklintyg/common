@@ -46,6 +46,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                     $scope.errorMessage = 'error.certnotfound';
                 }
             }, function(error) {
+                $scope.doneLoading = true;
                 $log.debug('getCertificate got error' + error);
                 $scope.errorMessage = 'error.certnotfound';
             });

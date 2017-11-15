@@ -22,6 +22,7 @@ angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
                     $scope.errorMessage = 'error.certnotfound';
                 }
             }, function(error) {
+                $scope.doneLoading = true;
                 $log.debug('getCertificate got error' + error);
                 $scope.errorMessage = 'error.certnotfound';
             });
