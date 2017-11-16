@@ -45,10 +45,10 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                     // show error view
                     $scope.errorMessage = 'error.certnotfound';
                 }
-            }, function(error) {
+            }, function(errorMsgKey) {
                 $scope.doneLoading = true;
-                $log.debug('getCertificate got error' + error);
-                $scope.errorMessage = 'error.certnotfound';
+                $log.debug('getCertificate got error ' + status);
+                $scope.errorMessage = errorMsgKey;
             });
 
             $scope.pagefocus = true;

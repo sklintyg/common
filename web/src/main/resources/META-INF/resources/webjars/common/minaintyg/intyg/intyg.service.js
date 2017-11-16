@@ -36,7 +36,12 @@ angular.module('common').factory('common.IntygService',
                 onSuccess(data);
             }).error(function(data, status) {
                 $log.error('error ' + status);
-                onError(data);
+                if (status === 410) {
+                    onError('info.certrevoked');
+                } else {
+                    onError('error.certnotfound');
+                }
+
             });
         }
 
