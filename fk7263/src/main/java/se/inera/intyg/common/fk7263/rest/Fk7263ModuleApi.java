@@ -174,10 +174,11 @@ public class Fk7263ModuleApi implements ModuleApi {
      * {@inheritDoc}
      */
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+            throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
-            PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin);
+            PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin, isUtkast);
             return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(false));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
@@ -190,11 +191,11 @@ public class Fk7263ModuleApi implements ModuleApi {
      */
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields)
+            List<String> optionalFields, boolean isUtkast)
             throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
-            PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin, optionalFields);
+            PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin, optionalFields, isUtkast);
             return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(pdfGenerator.isCustomized()));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
@@ -372,8 +373,8 @@ public class Fk7263ModuleApi implements ModuleApi {
         LakarutlatandeType lakarutlatande = request.getLakarutlatande();
 
         // Decide if this certificate has smittskydd checked
-        boolean inSmittskydd =
-                findAktivitetWithCode(request.getLakarutlatande().getAktivitet(), Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null;
+        boolean inSmittskydd = findAktivitetWithCode(request.getLakarutlatande().getAktivitet(),
+                Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null;
 
         if (!inSmittskydd) {
             // Check that we got a medicinsktTillstand element
@@ -412,7 +413,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
-//        return objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
+        // return objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
 
         Fk7263Utlatande utlatande = objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
 

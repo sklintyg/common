@@ -59,13 +59,14 @@ public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
      * {@inheritDoc}
      */
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+            throws ModuleException {
         try {
             LuaefsUtlatande luaefsIntyg = getInternal(internalModel);
             LuaefsPdfDefinitionBuilder builder = new LuaefsPdfDefinitionBuilder();
             IntygTexts texts = getTexts(LuaefsEntryPoint.MODULE_ID, luaefsIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaefsIntyg, statuses, applicationOrigin, texts);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaefsIntyg, statuses, applicationOrigin, texts, isUtkast);
             Personnummer personId = luaefsIntyg.getGrundData().getPatient().getPersonId();
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                     PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
@@ -77,7 +78,7 @@ public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields)
+            List<String> optionalFields, boolean isUtkast)
             throws ModuleException {
         throw new RuntimeException("Not implemented");
     }

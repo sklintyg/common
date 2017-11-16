@@ -18,11 +18,8 @@
  */
 package se.inera.intyg.common.doi.rest;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import se.inera.intyg.common.doi.model.converter.InternalToTransport;
 import se.inera.intyg.common.doi.model.converter.TransportToInternal;
 import se.inera.intyg.common.doi.model.converter.UtlatandeToIntyg;
@@ -40,6 +37,8 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import java.util.List;
 
 public class DoiModuleApi extends SosParentModuleApi<DoiUtlatande> {
 
@@ -71,7 +70,7 @@ public class DoiModuleApi extends SosParentModuleApi<DoiUtlatande> {
     }
 
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
             throws ModuleException {
         try {
             if (ApplicationOrigin.WEBCERT != applicationOrigin) {
@@ -79,7 +78,7 @@ public class DoiModuleApi extends SosParentModuleApi<DoiUtlatande> {
             }
             DoiUtlatande intyg = getInternal(internalModel);
             IntygTexts texts = getTexts(DoiModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
-            DoiPdfGenerator pdfGenerator = new DoiPdfGenerator(intyg, texts, statuses);
+            DoiPdfGenerator pdfGenerator = new DoiPdfGenerator(intyg, texts, statuses, isUtkast);
             return new PdfResponse(pdfGenerator.getBytes(),
                     pdfGenerator.generatePdfFilename(intyg.getGrundData().getPatient().getPersonId(), PDF_FILENAME_PREFIX));
         } catch (SoSPdfGeneratorException e) {
@@ -90,7 +89,7 @@ public class DoiModuleApi extends SosParentModuleApi<DoiUtlatande> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields) throws ModuleException {
+            List<String> optionalFields, boolean isUtkast) throws ModuleException {
         throw new RuntimeException("Not applicable for dodsorsaksintyg.");
     }
 

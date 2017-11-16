@@ -18,10 +18,6 @@
  */
 package se.inera.intyg.common.ts_parent.pdf;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -33,11 +29,14 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfStamper;
-
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by marced on 2017-02-23.
@@ -61,9 +60,9 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
                 .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
-    public static boolean isUtkast(Utlatande utlatande) {
-        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
-    }
+//    public static boolean isUtkast(Utlatande utlatande) {
+//        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
+//    }
 
     public void addWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad) {
         Phrase watermark;

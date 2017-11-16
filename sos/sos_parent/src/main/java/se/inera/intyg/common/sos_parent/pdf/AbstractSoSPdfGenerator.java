@@ -18,15 +18,6 @@
  */
 package se.inera.intyg.common.sos_parent.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -41,7 +32,8 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -51,6 +43,12 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by marced on 2017-10-16.
@@ -87,9 +85,9 @@ public abstract class AbstractSoSPdfGenerator {
                 .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
-    public static boolean isUtkast(Utlatande utlatande) {
-        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
-    }
+//    public static boolean isUtkast(Utlatande utlatande) {
+//        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
+//    }
 
     public static boolean ersatterTidigareIntyg(Relation relation) {
         return (relation != null) && (relation.getRelationKod() == RelationKod.ERSATT);

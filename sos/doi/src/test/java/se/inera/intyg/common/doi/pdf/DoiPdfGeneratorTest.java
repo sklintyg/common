@@ -72,7 +72,7 @@ public class DoiPdfGeneratorTest {
         final File jsonFile = new ClassPathResource("DoiPdfGenerator/doiUtlatande-default.json").getFile();
         DoiUtlatande intyg = objectMapper.readValue(jsonFile, DoiUtlatande.class);
 
-        byte[] generatorResult = new DoiPdfGenerator(intyg, intygTexts, new ArrayList<>(), false).getBytes();
+        byte[] generatorResult = new DoiPdfGenerator(intyg, intygTexts, new ArrayList<>(), false, false).getBytes();
 
         final AcroFields expectedFields = readAcroFields("DoiPdfGenerator/doiUtlatande-default.pdf");
 

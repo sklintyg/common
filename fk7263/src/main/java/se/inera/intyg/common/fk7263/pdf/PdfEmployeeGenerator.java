@@ -47,14 +47,14 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private List<String> selectedOptionalFields;
 
     public PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields)
+            List<String> optionalFields, boolean isUtkast)
             throws PdfGeneratorException {
-        this(intyg, statuses, applicationOrigin, optionalFields, true);
+        this(intyg, statuses, applicationOrigin, optionalFields, isUtkast, true);
     }
 
     protected PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> selectedOptionalFields,
-            boolean flatten)
+            boolean isUtkast, boolean flatten)
             throws PdfGeneratorException {
         try {
             this.selectedOptionalFields = selectedOptionalFields;
@@ -90,7 +90,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
                 mark(pdfStamper, WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
                         MARK_AS_EMPLOYER_WC_HEIGTH, MARK_AS_EMPLOYER_WC_WIDTH);
 
-                if (!isUtkast(intyg)) {
+                if (!isUtkast) {
                     createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
                 }
 
@@ -100,7 +100,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(intyg), isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
 
 
             pdfStamper.setFormFlattening(flatten);

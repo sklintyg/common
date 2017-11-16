@@ -18,13 +18,8 @@
  */
 package se.inera.intyg.common.doi.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
@@ -37,6 +32,10 @@ import se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by marced on 2017-10-18.
@@ -171,11 +170,12 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut %d";
     private DoiUtlatande doiUtlatande;
 
-    public DoiPdfGenerator(DoiUtlatande intyg, IntygTexts intygTexts, List<Status> statuses) throws SoSPdfGeneratorException {
-        this(intyg, intygTexts, statuses, true);
+    public DoiPdfGenerator(DoiUtlatande intyg, IntygTexts intygTexts, List<Status> statuses, boolean isUtkast)
+            throws SoSPdfGeneratorException {
+        this(intyg, intygTexts, statuses, isUtkast, true);
     }
 
-    protected DoiPdfGenerator(DoiUtlatande utlatande, IntygTexts intygTexts, List<Status> statuses, boolean flatten)
+    protected DoiPdfGenerator(DoiUtlatande utlatande, IntygTexts intygTexts, List<Status> statuses, boolean isUtkast, boolean flatten)
             throws SoSPdfGeneratorException {
         try {
             this.doiUtlatande = utlatande;
@@ -190,13 +190,13 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
             fillAcroformFields();
 
             markAsElectronicCopy(pdfStamper);
-            if (!isUtkast(utlatande)) {
+            if (!isUtkast) {
                 // Only signed doiUtlatande prints should have these decorations
                 createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), WEBCERT_MARGIN_TEXT);
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(utlatande), isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();

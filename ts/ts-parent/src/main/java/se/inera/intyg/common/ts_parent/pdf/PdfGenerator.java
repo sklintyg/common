@@ -18,17 +18,18 @@
  */
 package se.inera.intyg.common.ts_parent.pdf;
 
-import java.util.List;
-
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.util.List;
 
 public interface PdfGenerator<T extends Utlatande> {
     String PDF_PATH_PROPERTY_KEY = "pdfPath";
 
     String generatePdfFilename(T utlatande);
 
-    byte[] generatePDF(T utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin) throws PdfGeneratorException;
+    byte[] generatePDF(T utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+            throws PdfGeneratorException;
 
 }

@@ -18,7 +18,21 @@
  */
 package se.inera.intyg.common.ts_bas.pdf;
 
-import static org.junit.Assert.assertNotNull;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.core.io.ClassPathResource;
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.utils.Scenario;
+import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,23 +42,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
-import se.inera.intyg.common.ts_bas.utils.Scenario;
-import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
-import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PdfGeneratorTest {
@@ -63,7 +61,7 @@ public class PdfGeneratorTest {
     @Test
     public void testGeneratePdf() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG);
+            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG, false);
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario);
         }
@@ -72,7 +70,7 @@ public class PdfGeneratorTest {
     @Test
     public void testGenerateWebcertPdf() throws Exception {
         Scenario s = ScenarioFinder.getInternalScenario("valid-maximal");
-        byte[] pdf = pdfGen.generatePDF(s.asInternalModel(), defaultStatuses, ApplicationOrigin.WEBCERT);
+        byte[] pdf = pdfGen.generatePDF(s.asInternalModel(), defaultStatuses, ApplicationOrigin.WEBCERT, false);
         writePdfToFile(pdf, "webcert-default");
     }
 
@@ -80,7 +78,7 @@ public class PdfGeneratorTest {
     public void testGenerateWebcertDraftPdf() throws Exception {
         final TsBasUtlatande tsBasUtlatande = objectMapper.readValue(new ClassPathResource("PdfGenerator/utkast_utlatande.json").getFile(),
                 TsBasUtlatande.class);
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, true);
         writePdfToFile(pdf, "webcert-utkast");
     }
 
@@ -92,7 +90,7 @@ public class PdfGeneratorTest {
         statuses.add(new Status(CertificateState.SENT, TRANSP_RECIPIENT_ID, LocalDateTime.now()));
         // generate makulerat version
         statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, false);
         writePdfToFile(pdf, "webcert-makulerat");
     }
 

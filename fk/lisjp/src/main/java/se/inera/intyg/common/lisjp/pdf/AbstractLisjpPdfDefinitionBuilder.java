@@ -98,7 +98,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             ApplicationOrigin applicationOrigin) throws IOException, DocumentException;
 
     public FkPdfDefinition buildPdfDefinition(LisjpUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            IntygTexts intygTexts)
+            IntygTexts intygTexts, boolean isUtkast)
             throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
@@ -113,7 +113,6 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(
                     intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
-            boolean isUtkast = isUtkast(intyg);
             if (!isUtkast) {
                 def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
             }
