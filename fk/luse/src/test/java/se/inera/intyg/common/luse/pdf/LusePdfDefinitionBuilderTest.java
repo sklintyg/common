@@ -83,6 +83,7 @@ public class LusePdfDefinitionBuilderTest {
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/fullt_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overfyllnad_utlatande.json").getFile(), LuseUtlatande.class));
+        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overfyllnad_cornercases_utlatande.json").getFile(), LuseUtlatande.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("luse", "1.0");
 
