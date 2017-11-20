@@ -8,13 +8,13 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
         function _getArenden(intygsId, intygsTyp, onSuccess, onError) {
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
-            $http.get(restPath).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(ArendeLegacyService.convertFragasvarViewListToArendeList(data));
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.get(restPath).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(ArendeLegacyService.convertFragasvarViewListToArendeList(response.data));
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -27,13 +27,13 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
             payload.frageText = question.frageText;
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
-            $http.post(restPath, payload).success(function(data) {
-                $log.debug('got callback data:' + data);
-                onSuccess(ArendeLegacyService.convertFragasvarToArende(data));
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.post(restPath, payload).then(function(response) {
+                $log.debug('got callback data:' + response.data);
+                onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -42,13 +42,13 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
          */
         function _saveAnswer(ArendeSvar, intygsTyp, onSuccess, onError) {
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + ArendeSvar.internReferens + '/besvara';
-            $http.put(restPath, ArendeSvar.meddelande).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(ArendeLegacyService.convertFragasvarToArende(data));
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.put(restPath, ArendeSvar.meddelande).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -58,10 +58,10 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
          */
         function _closeAsHandled(fragaSvarId, intygsTyp, onSuccess, onError) {
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/stang';
-            $http.get(restPath).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(ArendeLegacyService.convertFragasvarToArende(data));
-            }).error(function(data, status) {
+            $http.get(restPath).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
+            }, function(data, status) {
                 $log.error('error ' + status);
                 // Let calling code handle the error of no data response
                 onError(data);
@@ -78,13 +78,13 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
                 this.push({ intygsTyp : intygsTyp, fragaSvarId:arendeListItem.arende.fraga.internReferens });
             }, fs);
 
-            $http.put(restPath, fs).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(ArendeLegacyService.convertFragasvarListToArendeList(data));
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.put(restPath, fs).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(ArendeLegacyService.convertFragasvarListToArendeList(response.data));
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -96,13 +96,13 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
             $log.debug('_openAsUnhandled: fragaSvarId:' + fragaSvarId + ' intygsTyp: ' + intygsTyp);
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/oppna';
-            $http.get(restPath).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(ArendeLegacyService.convertFragasvarToArende(data));
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.get(restPath).then(function(respons) {
+                $log.debug('got data:' + response.data);
+                onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -112,11 +112,11 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
         function _setVidarebefordradState(fragaSvarId, intygsTyp, isVidareBefordrad, callback) {
             $log.debug('_setVidareBefordradState');
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/hanterad';
-            $http.put(restPath, {'dispatched' : isVidareBefordrad}).success(function(data) {
-                $log.debug('_setVidareBefordradState data:' + data);
-                callback(ArendeLegacyService.convertFragasvarToArende(data));
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.put(restPath, {'dispatched' : isVidareBefordrad}).then(function(response) {
+                $log.debug('_setVidareBefordradState data:' + response.data);
+                callback(ArendeLegacyService.convertFragasvarToArende(response.data));
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
                 callback(null);
             });

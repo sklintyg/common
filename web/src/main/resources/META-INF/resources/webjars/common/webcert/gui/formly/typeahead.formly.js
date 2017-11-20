@@ -35,10 +35,10 @@ angular.module('common').run(function(formlyConfig) {
             }
 
             $scope.values = [];
-            $http.get($scope.to.valuesUrl).success(function(data) {
-                $scope.values = data;
-            }).error(function(data, status) {
-                $log.error('failed to load typeahead values. Error ' + status);
+            $http.get($scope.to.valuesUrl).then(function(response) {
+                $scope.values = response.data;
+            }, function(response) {
+                $log.error('failed to load typeahead values. Error ' + response.status);
             });
 
             // Restore data model value form attic if exists

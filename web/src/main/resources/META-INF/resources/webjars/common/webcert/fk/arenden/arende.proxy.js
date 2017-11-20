@@ -12,13 +12,13 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             }
 
             var restPath = '/moduleapi/arende/' + intygsId;
-            $http.get(restPath).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.get(restPath).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -37,13 +37,13 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             };
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + intygsId;
-            $http.post(restPath, payload).success(function(data) {
-                $log.debug('got callback data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.post(restPath, payload).then(function(response) {
+                $log.debug('got callback data:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -57,13 +57,13 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             }
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + ArendeSvar.fragaInternReferens + '/besvara';
-            $http.put(restPath, ArendeSvar.meddelande).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.put(restPath, ArendeSvar.meddelande).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -76,13 +76,13 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
                 return ArendeLegacyProxy.closeAsHandled.apply(null, arguments);
             }
 
-            $http.put(restPath).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.put(restPath).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -97,13 +97,13 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             }
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeId + '/oppna';
-            $http.put(restPath).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.put(restPath).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -121,13 +121,13 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
                 this.push({ intygsTyp: arendeListItem.arende.fraga.intygTyp, arendeId: arendeListItem.arende.internReferens });
             }, fs);
 
-            $http.put(restPath, fs).success(function(data) {
-                $log.debug('got data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.put(restPath, fs).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -141,11 +141,11 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             }
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeReferens + '/vidarebefordrad';
-            $http.put(restPath, isVidareBefordrad).success(function(data) {
-                $log.debug('_setVidareBefordradState data:' + data);
-                callback(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.put(restPath, isVidareBefordrad).then(function(response) {
+                $log.debug('_setVidareBefordradState data:' + response.data);
+                callback(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
                 callback(null);
             });
