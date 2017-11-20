@@ -73,13 +73,6 @@ angular.module('common').directive('wcSrsDiagnoseInfo',
                                 viewState.statistikLink = srsLinkCreator.createStatistikLink(viewState.srsdata.diagnosisCode);
                             }
 
-                            //Statistik on higher level diagnose?
-                            //
-                            //   deactivated for now, actual resolved diagnoscode for statistics is embedded in image.
-                            //if (viewState.srsdata.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                            //    viewState.statistikStatusMessage = msg('srs.srsfordiagnose.statistik.highercode', {code: viewState.srsdata.diagnosisCode});
-                            //}
-
                         }
 
 
