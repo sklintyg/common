@@ -158,16 +158,16 @@ angular.module('common').factory('common.UtkastProxy',
         }
 
         /*
-         * Load all the warnings that should be displayed for previous certificates for a patient.
+         * Load all intygstyper about which there should be a warning shown for preexisting intyg
          */
-        function _getWarningsExisting(patientId, onSuccess, onError) {
-            $log.debug('_getWarningsExisting');
+        function _getPrevious(patientId, onSuccess, onError) {
+            $log.debug('_getPrevious');
             var restPath = '/api/utkast/previousIntyg/' + patientId;
             $http.get(restPath).success(function(data) {
-                $log.debug('_getWarningsExisting got data:' + data);
+                $log.debug('_getPrevious got data:' + data);
                 onSuccess(data);
             }).error(function(data, status) {
-                $log.debug('_getWarningsExisting error :' + status);
+                $log.debug('_getPrevious error :' + status);
                 onError(data);
             });
         }
@@ -183,6 +183,6 @@ angular.module('common').factory('common.UtkastProxy',
             signeraUtkast: _signeraUtkast,
             signeraUtkastWithGrp: _signeraUtkastWithGrp,
             signeraUtkastWithSignatur: _signeraUtkastWithSignatur,
-            getWarningsExisting: _getWarningsExisting
+            getPrevious: _getPrevious
         };
     });

@@ -32,7 +32,9 @@ angular.module('common').controller('common.IntygHeader',
 
             var intygType = $state.current.data.intygType;
             var _intygActionDialog = null;
+            var previousIntyg = {};
 
+            $scope.intygstyp = intygType;
             $scope.createFromTemplateConfig = {
                 'db': {
                     'moduleId': 'doi',
@@ -42,18 +44,15 @@ angular.module('common').controller('common.IntygHeader',
                 }
             };
 
-            $scope.previousIntyg = {};
-
             $scope.$on('intyg.loaded', function(event, intyg){
-                if ($scope.createFromTemplateConfig[intygType]) {
-                    UtkastProxy.getWarningsExisting($scope.viewState.intygModel.grundData.patient.personId, function(existing) {
-                        $scope.previousIntyg = existing;
+                if ($scope.createFromTemplateConfig[$scope.intygstyp]) {
+                    UtkastProxy.getPrevious($scope.viewState.intygModel.grundData.patient.personId, function(existing) {
+                        previousIntyg = existing;
                     });
                 }
             });
 
             $scope.user = UserModel;
-            $scope.intygstyp = intygType;
             $scope.intygsnamn = moduleService.getModuleName(intygType);
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
@@ -154,7 +153,7 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.enableCreateFromTemplate = function() {
                 return !($scope.createFromTemplateConfig[$scope.intygstyp].feature === featureService.features.UNIKT_INTYG_INOM_VG &&
-                    $scope.previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true);
+                    previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true);
             };
 
             $scope.send = function() {
