@@ -35,11 +35,11 @@ angular.module('common').factory('common.fragaSvarCommonService',
             function _setVidareBefordradState(fragaSvarId, intygsTyp, isVidareBefordrad, callback) {
                 $log.debug('_setVidareBefordradState');
                 var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/hanterad';
-                $http.put(restPath, {'dispatched' : isVidareBefordrad}).success(function(data) {
-                    $log.debug('_setVidareBefordradState data:' + data);
-                    callback(data);
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
+                $http.put(restPath, {'dispatched' : isVidareBefordrad}).then(function(response) {
+                    $log.debug('_setVidareBefordradState data:' + response.data);
+                    callback(response.data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
                     // Let calling code handle the error of no data response
                     callback(null);
                 });

@@ -28,11 +28,11 @@ angular.module('common').factory('common.fmbProxy', ['$http' , '$q', '$log',
             var deferred = $q.defer(),
                 restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
 
-            $http.get(restPath).success(function(response) {
-                deferred.resolve(response);
-            }).error(function(response, status) {
-                $log.error('error ' + status);
-                deferred.reject(status);
+            $http.get(restPath).then(function(response) {
+                deferred.resolve(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                deferred.reject(response.status);
             });
 
             return deferred.promise;

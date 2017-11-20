@@ -27,10 +27,10 @@ angular.module('common').factory('common.AvtalProxy',
              */
             function _getLatestAvtal(onSuccess, onError) {
                 var restPath = '/api/anvandare/latestavtal';
-                $http.get(restPath).success(function(data) {
-                    $log.debug(data);
-                    onSuccess(AvtalModel.build(data));
-                }).error(function() {
+                $http.get(restPath).then(function(response) {
+                    $log.debug(response.data);
+                    onSuccess(AvtalModel.build(response.data));
+                }, function() {
                     $log.warn('Avtal-tjänsten kunde inte kontaktas.');
                     onError();
                 });
@@ -38,9 +38,9 @@ angular.module('common').factory('common.AvtalProxy',
 
             function _approve(onSuccess, onError){
                 var restPath = '/api/anvandare/godkannavtal';
-                $http.put(restPath).success(function() {
+                $http.put(restPath).then(function() {
                     onSuccess();
-                }).error(function() {
+                }, function() {
                     $log.warn('Avtal-tjänsten kunde inte kontaktas.');
                     onError();
                 });

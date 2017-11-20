@@ -36,9 +36,10 @@ angular.module('common').factory('common.PatientProxy',
                 that.personnummer = personnummer;
 
                 var restPath = '/api/person/' + personnummer;
-                $http.get(restPath).success(function(data) {
-                    $log.debug(data);
+                $http.get(restPath).then(function(response) {
+                    $log.debug(response.data);
 
+                    var data = response.data;
                     if (data.status === 'FOUND' && data.person) {
                         that.sekretessmarkering = data.person.sekretessmarkering;
                         that.personnummer = data.person.personnummer;
@@ -58,7 +59,7 @@ angular.module('common').factory('common.PatientProxy',
                         onNotFound();
                     }
 
-                }).error(function() {
+                }, function() {
                     $log.warn('Tekniskt fel vid begäran om slagning mot PU-tjänsten.');
                     onError(false);
                 });
