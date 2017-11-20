@@ -1,9 +1,9 @@
 angular.module('lisjp').factory('lisjp.FormFactory',
     ['$log', '$timeout',
         'common.DateUtilsService', 'common.ObjectHelper', 'common.UserModel',
-        'common.FactoryTemplatesHelper', 'common.Domain.PatientModel',
+        'common.FactoryTemplatesHelper', 'common.DateUtilsService',
         function($log, $timeout,
-            DateUtils, ObjectHelper, UserModel, FactoryTemplates, PatientModel) {
+            DateUtils, ObjectHelper, UserModel, FactoryTemplates) {
             'use strict';
 
             var categoryNames = {
@@ -135,12 +135,13 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             templateOptions: {
                                 relatedFormId: categoryNames[3],
                                 fieldName: 'DIAGNOS',
+                                srsId: '2',
                                 panelClass: 'sit-fmb-medium'
                             },
                             fieldGroup: [
                                 {
                                     type: 'headline',
-                                    templateOptions: {label: 'FRG_6', level: 6, noH5: false, required: true}
+                                    templateOptions: {label: 'FRG_6', level: 4, noH5: false, required: true}
                                 },
                                 {
                                     key: 'diagnoser',
@@ -210,6 +211,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             templateOptions: {
                                 relatedFormId: categoryNames[6],
                                 fieldName: 'ARBETSFORMAGA',
+                                srsId: '3',
                                 panelClass: 'sit-fmb-large'
                             },
                             fieldGroup: [
@@ -358,10 +360,12 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                 kategori(7, categoryNames[7], [
                     fraga(40, [
                         {
+                            wrapper: 'fmb-wrapper',
                             key: 'arbetslivsinriktadeAtgarder',
                             type: 'check-group',
                             templateOptions: {
                                 label: 'FRG_40',
+                                srsId: '4',
                                 required: true,
                                 descLabel: 'DFR_40.2',
                                 code: 'KV_FKMU_0004',
