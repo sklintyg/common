@@ -24,16 +24,21 @@ describe('wcIntygRelatedRevokedMessageDirective', function() {
     var scope;
     var controller;
 
-    var IntygProxy;
     var intygsId = 'intyg-1';
     var intygsTyp = 'lisjp';
 
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common'));
-
-    beforeEach(angular.mock.module('common', function($provide) {
-        IntygProxy = jasmine.createSpyObj('common.IntygProxy', [ 'getIntyg', 'load' ]);
+    beforeEach(angular.mock.module(function($provide) {
+        var IntygProxy = jasmine.createSpyObj('common.IntygProxy', [ 'getIntyg', 'load' ]);
         $provide.value('common.IntygProxy', IntygProxy);
+    }));
+    beforeEach(angular.mock.module({
+        'common.messageService' : {
+            getProperty: jasmine.createSpy(function(key) {return 'textfor:"' + key + '"';}),
+            // Unused mock needed to avoid race condition in test where common module hasn't loaded completely and calls addResources().
+            addResources: function() {}
+        }
     }));
 
     beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {

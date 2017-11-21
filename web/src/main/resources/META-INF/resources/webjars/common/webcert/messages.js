@@ -128,8 +128,8 @@ angular.module('common').constant('common.messages', {
         'intyg.status.replacement.utkast.exists': '<strong>OBS!</strong> Det finns redan ett intygsutkast påbörjat som skall ersätta detta intyg.',
 
         // Revoke status messages (type agnostic)
-        'intyg.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
-        'intyg.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.',
+        'intyg.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat. Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
+        'intyg.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat. Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
 
         // draft utkast header form status messages
         'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
