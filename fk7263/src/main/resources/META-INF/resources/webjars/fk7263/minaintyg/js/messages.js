@@ -116,13 +116,8 @@ angular.module('fk7263').constant('fk7263.messages', {
 
 
         'fk7263.inbox.complementaryinfo': 'Intygsperiod',
-        'fk7263.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:',
-        'fk7263.message.certificateloading': 'Hämtar intyg...',
+        'fk7263.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:'
 
-        // Errors
-        'fk7263.error.generic': 'Intyget kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'fk7263.error.couldnotsend': 'Intyget kunde inte skickas till Försäkringskassan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'fk7263.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
     },
     'en': {
         'fk7263.label.pagetitle': 'Show Certificate'

@@ -72,17 +72,19 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
      * {@inheritDoc}
      */
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
-        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(), statuses, internalModel, applicationOrigin, CERTIFICATE_FILE_PREFIX);
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+            throws ModuleException {
+        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(), statuses, internalModel, applicationOrigin, CERTIFICATE_FILE_PREFIX,
+                isUtkast);
     }
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields) throws ModuleException {
+            List<String> optionalFields, boolean isUtkast) throws ModuleException {
         final EmployeeLisjpPdfDefinitionBuilder builder = new EmployeeLisjpPdfDefinitionBuilder(optionalFields);
         String fileNamePrefix = getEmployerCopyFilePrefix(builder, applicationOrigin);
         return generatePdf(builder, statuses, internalModel, applicationOrigin,
-                fileNamePrefix);
+                fileNamePrefix, isUtkast);
     }
 
     @Override
@@ -179,12 +181,12 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     }
 
     private PdfResponse generatePdf(AbstractLisjpPdfDefinitionBuilder builder, List<Status> statuses, String internalModel,
-            ApplicationOrigin applicationOrigin, String filePrefix) throws ModuleException {
+            ApplicationOrigin applicationOrigin, String filePrefix, boolean isUtkast) throws ModuleException {
         try {
             LisjpUtlatande luseIntyg = getInternal(internalModel);
             IntygTexts texts = getTexts(LisjpEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, isUtkast);
             Personnummer personId = luseIntyg.getGrundData().getPatient().getPersonId();
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                     PdfGenerator.generatePdfFilename(personId, filePrefix));

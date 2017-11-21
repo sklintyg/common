@@ -18,13 +18,8 @@
  */
 package se.inera.intyg.common.db.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -33,6 +28,10 @@ import se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by marced on 2017-10-11.
@@ -135,11 +134,13 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
 
     private DbUtlatande dbUtlatande;
 
-    public DbPdfGenerator(DbUtlatande intyg, IntygTexts intygTexts, List<Status> statuses) throws SoSPdfGeneratorException {
-        this(intyg, intygTexts, statuses, true);
+    public DbPdfGenerator(DbUtlatande intyg, IntygTexts intygTexts, List<Status> statuses, boolean isUtkast)
+            throws SoSPdfGeneratorException {
+        this(intyg, intygTexts, statuses, isUtkast, true);
     }
 
-    protected DbPdfGenerator(DbUtlatande utlatande, IntygTexts intygTexts, List<Status> statuses, boolean flatten)
+    // Only called directly by tests.
+    DbPdfGenerator(DbUtlatande utlatande, IntygTexts intygTexts, List<Status> statuses, boolean isUtkast, boolean flatten)
             throws SoSPdfGeneratorException {
         try {
             this.dbUtlatande = utlatande;
@@ -154,13 +155,13 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
             fillAcroformFields();
 
             markAsElectronicCopy(pdfStamper);
-            if (!isUtkast(utlatande)) {
+            if (!isUtkast) {
                 // Only signed dbUtlatande prints should have these decorations
                 createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), WEBCERT_MARGIN_TEXT);
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(utlatande), isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();
@@ -272,8 +273,10 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
 
         fillText(FIELD_IDENTITETEN_STYRKT_GENOM, dbUtlatande.getIdentitetStyrkt());
     }
+
     /**
      * Converts a {@link DodsplatsBoende} to the corresponding pdf template field value.
+     *
      * @param dodsplatsBoende
      * @return
      */

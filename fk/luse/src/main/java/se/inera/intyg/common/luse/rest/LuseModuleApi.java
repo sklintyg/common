@@ -18,14 +18,9 @@
  */
 package se.inera.intyg.common.luse.rest;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.ImmutableList;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
@@ -48,6 +43,9 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
     private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApi.class);
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning";
@@ -60,13 +58,14 @@ public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
      * {@inheritDoc}
      */
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+            throws ModuleException {
         try {
             LuseUtlatande luseIntyg = getInternal(internalModel);
             LusePdfDefinitionBuilder builder = new LusePdfDefinitionBuilder();
             IntygTexts texts = getTexts(LuseEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, isUtkast);
             Personnummer personId = luseIntyg.getGrundData().getPatient().getPersonId();
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                     PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
@@ -78,7 +77,7 @@ public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields)
+            List<String> optionalFields, boolean isUtkast)
             throws ModuleException {
         throw new RuntimeException("Not implemented");
     }

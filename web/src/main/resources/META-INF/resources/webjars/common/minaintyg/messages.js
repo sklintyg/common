@@ -78,6 +78,7 @@ angular.module('common').constant('common.messages', {
         'certificates.events.eventsshown': '(Visar {0} av {1})',
         'certificates.events.ersatt': 'Ersattes av vården med ett nytt <a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">intyg</a>',
         'certificates.events.ersatter': 'Ersätter ett <a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">intyg</a> som inte längre är aktuellt',
+        'certificates.events.ersatt.warn': 'OBS! Intyget har ersatts av vården med <a href="/web/start#/{1}/view/{0}">detta intyg</a>.',
 
         //Common text in customized pdf wizard (lisjp and fk7263)
         'modules.customize.label.mandatory': 'Obligatorisk info',
@@ -102,11 +103,7 @@ angular.module('common').constant('common.messages', {
         'info.loadingcertificate': 'Hämtar intyget...',
 
         // Common errors
-        'common.error.unknown': '<strong>Tekniskt fel</strong>',
-        'common.error.cantconnect': 'Kunde inte kontakta servern',
-        'common.error.certificatenotfound': 'Intyget finns inte',
-        'common.error.certificateinvalid': 'Intyget är inte korrekt ifyllt',
-        'common.error.data_not_found': '<strong>Intyget kunde inte hittas.</strong><br>Intyget är borttaget eller så saknas behörighet.'
+        'common.error.unknown': '<strong>Tekniskt fel</strong>'
     },
     'en': {
         'common.ok': 'OK',

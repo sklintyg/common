@@ -20,6 +20,7 @@
 describe('IntygHeaderCtrl', function() {
     'use strict';
 
+    var $rootScope;
     var $scope;
     var $controller;
     var $state;
@@ -34,14 +35,17 @@ describe('IntygHeaderCtrl', function() {
 
 
         inject(['$rootScope', '$controller', '$state', 'common.UserModel', 'common.featureService', 'common.UtkastProxy',
-            function($rootScope, _$controller_, _$state_, _UserModel_, _featureService_, _UtkastProxy_) {
-            $scope = $rootScope.$new();
+            function(_$rootScope_, _$controller_, _$state_, _UserModel_, _featureService_, _UtkastProxy_) {
+            $rootScope = _$rootScope_;
+            $scope = _$rootScope_.$new();
             $controller = _$controller_;
             $state = _$state_;
             UserModel = _UserModel_;
             featureService = _featureService_;
             UtkastProxy = _UtkastProxy_;
+
         }]);
+
     });
 
     describe('header show button logic', function() {
@@ -210,14 +214,43 @@ describe('IntygHeaderCtrl', function() {
                 UserModel.user = {};
 
                 $scope.intygstyp = 'db';
+                $scope.viewState.intygModel = {
+                    grundData: {
+                        patient: {
+                            personId: 'test'
+                        }
+                    }
+                };
+
+                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
+                    onSuccess({});
+                });
+
+                $rootScope.$broadcast('intyg.loaded', {});
+
                 expect($scope.enableCreateFromTemplate()).toBeTruthy();
             });
 
             it('should not be enabled if previous intyg exists and feature is enabled', function() {
                 UserModel.user = {};
 
-                $scope.previousIntyg = {'doi': true};
                 $scope.intygstyp = 'db';
+                $scope.viewState.intygModel = {
+                    grundData: {
+                        patient: {
+                            personId: 'test'
+                        }
+                    }
+                };
+
+                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
+                    onSuccess({
+                        doi: true
+                    });
+                });
+
+                $rootScope.$broadcast('intyg.loaded', {});
+
                 expect($scope.enableCreateFromTemplate()).toBeFalsy();
             });
 

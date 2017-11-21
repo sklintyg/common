@@ -83,7 +83,7 @@ angular.module('common').factory('common.dialogService',
             };
 
             scope.dialog.errormessageid =
-                (scope.dialog.errormessageid ? scope.dialog.errormessageid : 'common.error.cantconnect');
+                (scope.dialog.errormessageid ? scope.dialog.errormessageid : 'common.error.unknown');
 
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';

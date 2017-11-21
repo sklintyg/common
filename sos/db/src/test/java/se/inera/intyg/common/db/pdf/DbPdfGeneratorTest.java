@@ -18,9 +18,18 @@
  */
 package se.inera.intyg.common.db.pdf;
 
-import static org.junit.Assert.assertEquals;
-import static se.inera.intyg.common.db.pdf.DbPdfGenerator.DEFAULT_PDF_TEMPLATE;
-import static se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator.PDF_PATH_PROPERTY_KEY;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.core.io.ClassPathResource;
+import se.inera.intyg.common.db.model.internal.DbUtlatande;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,20 +37,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.PdfReader;
-
-import se.inera.intyg.common.db.model.internal.DbUtlatande;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import static org.junit.Assert.assertEquals;
+import static se.inera.intyg.common.db.pdf.DbPdfGenerator.DEFAULT_PDF_TEMPLATE;
+import static se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator.PDF_PATH_PROPERTY_KEY;
 
 /**
  * Created by marced on 2017-10-11.
@@ -91,7 +89,7 @@ public class DbPdfGeneratorTest {
     private void testSingleScenario(String jsonPath, String testName) throws Exception {
         final File file = new ClassPathResource(jsonPath).getFile();
         DbUtlatande intyg = objectMapper.readValue(file, DbUtlatande.class);
-        byte[] generatorResult = new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), true).getBytes();
+        byte[] generatorResult = new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), false, true).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-" + testName);
     }
 

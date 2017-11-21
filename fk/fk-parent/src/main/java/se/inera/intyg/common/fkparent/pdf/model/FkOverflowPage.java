@@ -73,8 +73,8 @@ public class FkOverflowPage extends FkPage {
         PdfPTable table = new PdfPTable(1);
 
         table.setWidthPercentage(FULL_WIDTH);
-        // Important, we want to make sure label and text is kept together
-        table.setSplitRows(false);
+
+        table.setSplitLate(false);
         table.setHorizontalAlignment(Element.ALIGN_LEFT);
         table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 

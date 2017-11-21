@@ -1,6 +1,8 @@
 /* jshint maxlen: false */
 angular.module('lisjp').constant('lisjp.messages', {
     'sv': {
+        // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
+        // Be careful to investigate if they are used before removing them.
 
         'lisjp.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget, göra en anpassad version till din arbetsgivare, ladda ner intyget som PDF och arkivera intyget. Om du vill ansöka om sjukpenning, gör du det enklast på <LINK:forsakringskassan-sjuk>. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
         'lisjp.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till Arkiverade intyg. Du kan när som helst återställa intyget igen.',
@@ -31,15 +33,10 @@ angular.module('lisjp').constant('lisjp.messages', {
 
         'lisjp.button.cancel': 'Avbryt',
 
-        // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
+        // Composite keys - used with dynamic prefix such as <intygstype>.
         // Be careful to investigate if they are used before removing them.
         'lisjp.inbox.complementaryinfo': 'Intygsperiod',
-        'lisjp.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:',
-
-        'lisjp.error.generic': 'Intyget kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'lisjp.error.couldnotsend': 'Intyget kunde inte skickas till Försäkringskassan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'lisjp.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'lisjp.error.couldnotarchivecert': 'Intyget kunde inte arkiveras'
+        'lisjp.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:'
     },
     'en': {
         'lisjp.label.pagetitle': 'Show Certificate'

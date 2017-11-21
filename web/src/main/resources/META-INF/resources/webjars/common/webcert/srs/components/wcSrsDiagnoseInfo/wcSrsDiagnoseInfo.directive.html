@@ -4,6 +4,7 @@
   <h1>Stöd för bedömning vid sjukskrivning</h1>
 
 
+  <!-- if mainMessageKey is set, we have a message to show why there is no content, eg. error or no srs info at all. -->
   <div ng-if="!viewState.mainMessageKey">
 
     <div ng-if="viewState.atgarderStatusMessage" class="alert alert-info">{{viewState.atgarderStatusMessage}}</div>
