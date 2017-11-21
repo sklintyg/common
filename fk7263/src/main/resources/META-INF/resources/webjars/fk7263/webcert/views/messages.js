@@ -141,9 +141,9 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.nedsattningsgrad.nedsatt_med_1_4.arbetstidsforlaggning': 'Arbetstidsförläggning för nedsatt med 1/4',
 
         'fk7263.fornya.tooltip': 'Om du vill förlänga en sjukskrivning kan du förnya intyget. Viss information från det befintliga intyget följer med till det nya utkastet.',
-        'fk7263.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.<br><br>' +
-            'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
-            '<ul><li>Information om sjukskrivningsperiod.</li>' +
+        'fk7263.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. <br><br>' +
+        'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
+            '<ul><li>Sjukskrivningsperiod och grad.</li>' +
             '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
             '<li>Referenser som intyget baseras på.</li></ul>',
 
