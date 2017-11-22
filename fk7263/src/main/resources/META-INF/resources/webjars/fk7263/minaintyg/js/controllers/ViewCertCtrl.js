@@ -22,6 +22,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
         function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, customizeViewstate) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
 
             $scope.send = function() {

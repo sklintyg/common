@@ -3,7 +3,7 @@ angular.module('lisjp').controller(
         [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'lisjp.customizeViewstate', 'lisjp.viewConfigFactory',
                 function($location, $log, $stateParams, $scope, certificateService, customizeViewstate, viewConfigFactory) {
                     'use strict';
-
+                    $scope.certificateId = $stateParams.certificateId;
                     $scope.cert = undefined;
 
                     $scope.send = function() {

@@ -6,6 +6,7 @@ angular.module('luae_na').controller('luae_na.ViewCertCtrl',
             dialogService, messageService, viewConfigFactory) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
             $scope.messageService = messageService;
 

@@ -5,6 +5,7 @@ angular.module('luse').controller('luse.ViewCertCtrl',
             dialogService, messageService, viewConfigFactory) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
             $scope.messageService = messageService;
 

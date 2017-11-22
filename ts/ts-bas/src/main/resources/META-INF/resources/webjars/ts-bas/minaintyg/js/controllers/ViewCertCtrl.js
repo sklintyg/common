@@ -24,6 +24,7 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
             dialogService, messageService, moduleService, viewConfigFactory) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
             $scope.certMeta = null;
             $scope.messageService = messageService;

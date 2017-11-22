@@ -25,6 +25,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
             dialogService, moduleService, viewConfigFactory, messageService) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
             $scope.messageService = messageService;
 

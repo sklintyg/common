@@ -4,6 +4,7 @@ angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
         function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
 
             $scope.send = function() {
