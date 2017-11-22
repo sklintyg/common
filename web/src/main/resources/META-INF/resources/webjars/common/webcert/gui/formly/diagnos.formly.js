@@ -144,6 +144,9 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.onDiagnoseCodeChanged = function(index) {
+                    if($scope.form['diagnoseCode' + index].$viewValue === ''){
+                        srsService.updateDiagnosKod($scope.model.diagnosKod);
+                    }
                     if (!$scope.form['diagnoseCode' + index].$viewValue) {
                         $scope.model[$scope.options.key][index].diagnosBeskrivning = undefined;
                         fmbService.updateFmbText(index, null);
