@@ -18,12 +18,23 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import com.google.common.base.Strings;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
+import javax.xml.bind.JAXBElement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -44,11 +55,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import javax.xml.bind.JAXBElement;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
@@ -214,8 +220,23 @@ public final class TransportConverterUtil {
         metaData.setFacilityName(source.getSkapadAv().getEnhet().getEnhetsnamn());
         metaData.setSignDate(source.getSigneringstidpunkt());
         metaData.setStatus(getStatusList(source.getStatus()));
+        metaData.setAvailable(isAvailable(metaData.getStatus()));
         metaData.setAdditionalInfo(additionalInfo);
         return metaData;
+    }
+
+    private static boolean isAvailable(List<Status> statuses) {
+        final Optional<Status> latestStatus = statuses.stream()
+                .filter(s -> CertificateState.RESTORED.equals(s.getType()) || CertificateState.DELETED.equals(s.getType()))
+                .sorted(Comparator.nullsFirst(Comparator.comparing(Status::getTimestamp).reversed())).findFirst();
+
+        // If neither DELETED or RESTORED at all, it's considered available
+        if (!latestStatus.isPresent()) {
+            return true;
+        } else {
+            // It's available if the latest of these types of statues is a RESTORED status event
+            return CertificateState.RESTORED.equals(latestStatus.get().getType());
+        }
     }
 
     /**
