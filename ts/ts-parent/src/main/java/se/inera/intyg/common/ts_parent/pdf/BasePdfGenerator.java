@@ -60,9 +60,6 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
                 .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
-//    public static boolean isUtkast(Utlatande utlatande) {
-//        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
-//    }
 
     public void addWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad) {
         Phrase watermark;

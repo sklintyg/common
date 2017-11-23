@@ -85,10 +85,6 @@ public abstract class AbstractSoSPdfGenerator {
                 .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
-//    public static boolean isUtkast(Utlatande utlatande) {
-//        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
-//    }
-
     public static boolean ersatterTidigareIntyg(Relation relation) {
         return (relation != null) && (relation.getRelationKod() == RelationKod.ERSATT);
     }

@@ -78,10 +78,6 @@ public class FkBasePdfDefinitionBuilder {
                 .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
-//    protected boolean isUtkast(Utlatande utlatande) {
-//        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
-//    }
-
     protected String nullSafeString(String string) {
         return string != null ? string : "";
     }

@@ -313,10 +313,6 @@ public abstract class PdfAbstractGenerator {
                 .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
-//    public static boolean isUtkast(Utlatande utlatande) {
-//        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
-//    }
-
     public void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad) {
         Phrase watermark;
 
