@@ -29,7 +29,8 @@ angular.module('common').directive('miCertificateActionButtons',
                     onSend: '&?', // handler for send button. if attribute not present = not enabled
                     enableArchive: '=', // handler for send button. if attribute not present = not enabled
                     enablePrint: '=', // true/false to show print as pdf button
-                    onCustomizePdf: '&?',  // handler for customize pdf  button. if attribute not present = not enabled
+                    enableCustomize: '=', // boolean, if customize button should be enabled or not
+                    onCustomizePdf: '&?',  // handler for customize pdf  button.
                     isReplaced: '=' // boolean for telling us whether the cert is replaced or not.
                 },
                 templateUrl: '/web/webjars/common/minaintyg/components/miCertificateActionButtons/miCertificateActionButtons.directive.html',

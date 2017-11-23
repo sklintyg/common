@@ -81,6 +81,7 @@ angular.module('common').constant('common.messages', {
         'certificates.events.ersatt.warn': 'OBS! Intyget har ersatts av vården med <a href="/web/start#/{1}/view/{0}">detta intyg</a>.',
 
         //Common text in customized pdf wizard (lisjp and fk7263)
+        'modules.customize.message.customize.disabled': 'Intyg som avser avstängning enligt smittskyddslagen kan inte anpassas till din arbetsgivare. Om du vill hämta det fullständiga intyget så klicka på knappen <i>Ladda ner intyg som PDF</i>.',
         'modules.customize.label.mandatory': 'Obligatorisk info',
         'modules.customize.label.optional': 'Inkludera i anpassat intyg',
         'modules.customize.message.warning': 'Dina val är frivilliga, men att dela med sig av information kan underlätta arbetsgivarens möjlighet att göra arbetsanpassningar för dig.',

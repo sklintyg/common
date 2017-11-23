@@ -34,13 +34,19 @@
 
     <div mi-spinner label="modules.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
       <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
+
+      <div id="customize-disabled-message" class="alert alert-warning" ng-if="cert.avstangningSmittskydd">
+        <span message key="modules.customize.message.customize.disabled"></span>
+      </div>
+
       <mi-certificate-action-buttons
           cert-model="cert"
           on-send="send(cert)"
           enable-archive="true"
           enable-print="true"
           is-replaced="certMeta.isReplaced"
-          on-customize-pdf="customizeCertificate()">
+          on-customize-pdf="customizeCertificate()"
+          enable-customize="!cert.avstangningSmittskydd">
 
       </mi-certificate-action-buttons>
 

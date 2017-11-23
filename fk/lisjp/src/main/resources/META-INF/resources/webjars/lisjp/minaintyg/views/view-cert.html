@@ -39,10 +39,17 @@
 
       <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
 
-      <mi-certificate-action-buttons cert-model="cert" on-send="send(cert)" enable-archive="true" enable-print="true"
-                                     is-replaced="certMeta.isReplaced" on-customize-pdf="customizeCertificate()">
+        <div id="customize-disabled-message" class="alert alert-warning" ng-if="cert.avstangningSmittskydd && !certMeta.isReplaced">
+          <span message key="modules.customize.message.customize.disabled"></span>
+        </div>
 
-      </mi-certificate-action-buttons>
+        <mi-certificate-action-buttons cert-model="cert" on-send="send(cert)" enable-archive="true" enable-print="true"
+                                       is-replaced="certMeta.isReplaced"
+                                       on-customize-pdf="customizeCertificate()" enable-customize="!cert.avstangningSmittskydd">
+
+        </mi-certificate-action-buttons>
+
+
 
       <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
       <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}" config="uvConfig" view-data="cert"></uv-render-components>

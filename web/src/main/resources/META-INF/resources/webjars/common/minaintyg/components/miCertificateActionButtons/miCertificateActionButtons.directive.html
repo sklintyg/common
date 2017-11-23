@@ -14,7 +14,7 @@
 
 
         <!-- ANPASSA PDF -->
-        <button id="customizeCertificateBtn" type="button" class="btn btn-primary" ng-if="onCustomizePdf"
+        <button id="customizeCertificateBtn" type="button" class="btn btn-primary" ng-if="onCustomizePdf && enableCustomize"
                 ng-click="onCustomizePdf({cert:certModel})"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.customizepdf.tooltip')}}"
                 popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
