@@ -27,7 +27,7 @@ angular.module('luae_na').controller('luae_na.ViewCertCtrl',
                 }
             }, function(errorMsgKey) {
                 $scope.doneLoading = true;
-                $log.debug('getCertificate got error ' + status);
+                $log.debug('getCertificate got error ' + errorMsgKey);
                 $scope.errorMessage = errorMsgKey;
             });
 

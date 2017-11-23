@@ -48,7 +48,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                 }
             }, function(errorMsgKey) {
                 $scope.doneLoading = true;
-                $log.debug('getCertificate got error ' + status);
+                $log.debug('getCertificate got error ' + errorMsgKey);
                 $scope.errorMessage = errorMsgKey;
             });
 

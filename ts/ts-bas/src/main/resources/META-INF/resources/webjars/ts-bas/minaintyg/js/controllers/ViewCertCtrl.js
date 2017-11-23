@@ -47,7 +47,7 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
                 }
             }, function(errorMsgKey) {
                 $scope.doneLoading = true;
-                $log.debug('getCertificate got error ' + status);
+                $log.debug('getCertificate got error ' + errorMsgKey);
                 $scope.errorMessage = errorMsgKey;
             });
 
