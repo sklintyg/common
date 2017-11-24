@@ -293,14 +293,13 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         if (scope.srsViewState.prediction.description === 'Prediktion saknas.') {
                             scope.srsViewState.riskImage = '';
                         }
-                        else if (scope.srsViewState.prediction.description === 'Ingen förhöjd risk detekterad.') {
+                        else if (scope.srsViewState.prediction.description === 'Lätt förhöjd risk') {
                             scope.srsViewState.riskImage = '/web/webjars/common/webcert/srs/img/latt_forhojd.png';
-                            //scope.srsViewState.riskImage = '';
                         }
-                        else if (scope.srsViewState.prediction.description === 'Förhöjd risk detekterad.') {
+                        else if (scope.srsViewState.prediction.description === 'Måttligt förhöjd risk') {
                             scope.srsViewState.riskImage = '/web/webjars/common/webcert/srs/img/mattligt_forhojd.png';
                         }
-                        else if (scope.srsViewState.prediction.description === 'Starkt förhöjd risk detekterad.') {
+                        else if (scope.srsViewState.prediction.description === 'Starkt förhöjd risk') {
                             scope.srsViewState.riskImage = '/web/webjars/common/webcert/srs/img/starkt_forhojd.png';
                         }
                     }

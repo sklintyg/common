@@ -7,7 +7,7 @@
     </div>
     <div id="predictionBox" ng-if="srsViewState.prediction !== 'error' && srsViewState.prediction.description" class="prediction-box alert alert-danger">
                 <img ng-src="{{srsViewState.riskImage}}" alt="">
-        {{srsViewState.prediction.level + ' ' + srsViewState.prediction.description}}
+        {{srsViewState.prediction.description}}
         <div 
         style="float:right"
         class="glyphicon glyphicon-question-sign"
