@@ -51,6 +51,10 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
                     };
 
+                    scope.closeSrs = function(){
+                        $rootScope.$broadcast('closeSrs');
+                    }
+
                     scope.$on('closeSrs', function() {
                         scope.status.open = false;
                     });
