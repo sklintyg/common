@@ -38,6 +38,9 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         function _getPrediction(intygsId, patientId, diagnosKod, qaIds) {
             return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false).then(function(data) {
                 var prediction = {};
+                if(data === 'error'){
+                    return data;
+                }
                 if(data.predictionDiagnosisDescription) {
                     prediction.predictionDiagnosisDescription = data.predictionDiagnosisDescription;
                 }

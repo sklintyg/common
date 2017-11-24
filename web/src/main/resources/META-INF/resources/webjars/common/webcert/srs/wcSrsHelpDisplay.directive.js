@@ -254,10 +254,9 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         if (scope.srsViewState.statistik) {
                             if (scope.srsViewState.statistik === 'error') {
                                 scope.srsViewState.statistikError =
-                                    'Tekniskt fel.\nDet gick inte att hämta information om statistik ' +
-                                    srsViewState.diagnosKod;
+                                    'Tekniskt fel.\nDet gick inte att hämta information om statistik';
                             }
-                            if (scope.srsViewState.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
+                            else if (scope.srsViewState.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
                                 !scope.srsViewState.statistik.statistikBild) {
                                 scope.srsViewState.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
                                     ' finns ingen SRS-information för detta fält.';
