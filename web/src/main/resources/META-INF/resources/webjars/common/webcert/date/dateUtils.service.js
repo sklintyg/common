@@ -23,7 +23,7 @@
  *
  * Created by stephenwhite on 25/01/15.
  */
-angular.module('common').factory('common.DateUtilsService', function() {
+angular.module('common').factory('common.DateUtilsService', ['common.ObjectHelper', function(ObjectHelper) {
     'use strict';
     var _dateReg = /[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
     var _dateRegDashesOptional = /[1-2][0-9]{3}-?(0[1-9]|1[0-2])-?(0[1-9]|[1-2][0-9]|3[0-1])/;
@@ -243,7 +243,7 @@ angular.module('common').factory('common.DateUtilsService', function() {
             if (_isDate(viewValue)) {
                 formElement.$setValidity('date', true);
             }
-            else {
+            else if(ObjectHelper.isDefined(viewValue)) {
                 // Remove '-' and '/' from date input
                 var viewValueWithoutDashes = viewValue.replace(/[-\/]/g, '');
 
@@ -262,6 +262,10 @@ angular.module('common').factory('common.DateUtilsService', function() {
                     formElement.$setValidity('date', false);
                     return viewValue;
                 }
+            }
+            else {
+                formElement.$setValidity('date', false);
+                return viewValue;
             }
 
             return viewValue;
@@ -372,4 +376,4 @@ angular.module('common').factory('common.DateUtilsService', function() {
         isDateEmptyOrValidAndBefore: _isDateEmptyOrValidAndBefore
     };
 
-});
+}]);
