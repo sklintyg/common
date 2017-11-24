@@ -43,7 +43,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     // make sure component isn't visible if no id is supplied
                     if(!ObjectHelper.isDefined(scope.id)){
                         scope.srsViewState.srsApplicable = false;
-                    }
+                    };
                     
                     scope.closeFmb = function() {
                         if (scope.status.open) {
@@ -53,7 +53,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
 
                     scope.closeSrs = function(){
                         $rootScope.$broadcast('closeSrs');
-                    }
+                    };
 
                     scope.$on('closeSrs', function() {
                         scope.status.open = false;
