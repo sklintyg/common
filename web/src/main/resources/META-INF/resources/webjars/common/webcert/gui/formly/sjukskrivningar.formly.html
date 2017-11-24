@@ -1,11 +1,5 @@
 <div wc-date-period-manager model="model" class="sjukskrivningar">
-  <h4 class="noH5After">
-    <span dynamic-label key="{{to.label}}.RBK"></span> <span class="required">*</span>
-  </h4>
-
-  <div class="sjukskrivningar-section">
-    <span dynamic-label key="{{to.label}}.HLP"></span>
-  </div>
+  <wc-form-label to="to" key="options.key"></wc-form-label>
 
   <div id="lastEffectiveDateNoticeText" class="alert alert-info" ng-if="lastEffectiveDateNoticeText">
     {{lastEffectiveDateNoticeText}}

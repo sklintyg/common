@@ -218,7 +218,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                                 {
                                     key: 'sjukskrivningar', type: 'sjukskrivningar',
                                     templateOptions: {
-                                        label: 'DFR_32.1',
+                                        label: 'FRG_32',
                                         code: 'KV_FKMU_0003',
                                         fields: [
                                             'EN_FJARDEDEL',
