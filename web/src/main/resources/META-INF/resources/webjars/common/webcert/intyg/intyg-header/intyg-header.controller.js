@@ -68,30 +68,33 @@ angular.module('common').controller('common.IntygHeader',
 
 
             $scope.generateSentText = function () {
-
-                var sentText = '';
-
-                var recipientId = moduleService.getModule(intygType).defaultRecipient;
-
-                function getRecipientNameFromId(recipientId){
-                    return messageService.getProperty('common.recipient.' + recipientId.toLowerCase());
+                if($scope.isRevoked()) {
+                    // Case is handled by wcIntygRelatedRevokedMessage directive.
+                    return '';
                 }
 
-                if($scope.viewState.common.intygProperties.isSent){
+                var patientDeceased = $scope.isPatientDeceased();
+                if(intygType === 'doi' || intygType === 'db') {
+                    // db or doi with patient still alive is impossible, and thus not an option.
+                    patientDeceased = true;
+                }
+                var recipientId = moduleService.getModule(intygType).defaultRecipient;
+                var recipient = messageService.getProperty('common.recipient.' + recipientId.toLowerCase());
+                var vars = {'recipient': recipient};
 
-                    // Check if there is a specific text for intyg
-                    var intygPropertyKey = intygType + '.label.status.recieved';
-                    if(messageService.propertyExists(intygPropertyKey)){
-                        sentText = messageService.getProperty(intygPropertyKey);
-                    } else if(ObjectHelper.isEmpty(sentText)){
-                        // Fall back to common label
-                        sentText = messageService.getProperty('common.label.status.recieved', {'recipient': getRecipientNameFromId(recipientId) });
-                        if(!$scope.isPatientDeceased()) {
-                            sentText += messageService.getProperty('common.label.status.recieved.available-mi');
-                        }
+                if($scope.viewState.common.intygProperties.isSent) {
+                    if(intygType === 'db' || intygType === 'doi') {
+                        return messageService.getProperty((intygType + '.label.status.sent'), vars);
+                    } else {
+                        return messageService.getProperty(('common.label.status.sent.patient-' + (patientDeceased ? 'dead' : 'alive')), vars);
+                    }
+                } else {
+                    if (patientDeceased) {
+                        return messageService.getProperty('common.label.status.signed.patient-dead');
+                    } else {
+                        return messageService.getProperty((intygType + '.label.status.signed.patient-alive'), vars);
                     }
                 }
-                return sentText;
             };
 
             $scope.isRevoked = function(){
