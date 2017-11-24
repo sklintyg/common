@@ -177,7 +177,7 @@
 
       <div class="alert alert-info alert-column" ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
         <strong>Status:</strong>
-        <span id="certificate-is-sent-to-recipient-message-text" ng-bind-html="generateSentText()"></span>
+        <span id="{{statusFieldId()}}" ng-bind-html="generateSentText()"></span>
       </div>
 
       <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>

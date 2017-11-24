@@ -66,6 +66,15 @@ angular.module('common').controller('common.IntygHeader',
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
+            $scope.statusFieldId = function() {
+                if(!$scope.viewState.common.intygProperties.isSent && !$scope.viewState.common.isIntygOnSendQueue) {
+                    return 'certificate-is-sent-to-it-message-text';
+                } else if(!$scope.viewState.common.intygProperties.isSent && $scope.viewState.common.isIntygOnSendQueue) {
+                    return 'certificate-is-on-sendqueue-to-it-message-text';
+                } else {
+                    return 'certificate-is-sent-to-recipient-message-text';
+                }
+            };
 
             $scope.generateSentText = function () {
                 if($scope.isRevoked()) {
