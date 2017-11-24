@@ -220,7 +220,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         }
                     }
 
-                    function setAtgarderMessages(atgarder) {
+                    function setAtgarderMessages() {
                         scope.srsViewState.atgarderInfo = '';
                         scope.srsViewState.atgarderError = '';
                         if (scope.srsViewState.atgarder) {
@@ -228,8 +228,8 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 scope.srsViewState.atgarderError = 'Tekniskt fel.\nDet gick inte att hämta information om åtgärder.';
                             }
                             else if (scope.srsViewState.atgarder.atgarderStatusCode === 'INFORMATION_SAKNAS') {
-                                scope.srsViewState.atgarderInfo = 'Observera! För ' + srsViewState.diagnosKod +
-                                    ' finns ingen SRS-information för detta fält.';
+                                scope.srsViewState.atgarderInfo = 'Observera! För ' + scope.srsViewState.diagnosKod +
+                                    ' - ' + scope.srsViewState.diagnosBeskrivning + ' finns ingen SRS-information för detta fält.';
                             }
                             else if (!scope.srsViewState.atgarder.atgarderRek ||
                                 (scope.srsViewState.atgarder.atgarderRek && scope.srsViewState.atgarder.atgarderRek.length < 1)) {
@@ -237,9 +237,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                     ' finns ingen SRS-information för detta fält.';
                             }
                             else if (scope.srsViewState.atgarder.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                                scope.srsViewState.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.atgarder.atgarderDiagnosisCode;
+                                scope.srsViewState.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + scope.srsViewState.atgarder.atgarderDiagnosisCode +
+                                ' - ' + scope.srsViewState.atgarder.atgarderDiagnosisDescription;
                             }
                         }
+                        console.log(scope.srsViewState.atgarderInfo);
                     }
 
                     function setStatistikMessages() {
