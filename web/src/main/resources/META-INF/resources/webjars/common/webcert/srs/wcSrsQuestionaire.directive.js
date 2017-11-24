@@ -20,8 +20,8 @@
 /**
  * Display SRS questionaire
  */
-angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
-    function(srsProxy) {
+angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy', 'common.srsViewState',
+    function(srsProxy, srsViewState) {
         'use strict';
 
         return {
@@ -31,7 +31,7 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy',
                     if(!scope.prediction) {
                         scope.prediction = {};
                     }
-                    scope.prediction.description = '';
+                    srsViewState.prediction.description = '';
                     scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
                     if (scope.allQuestionsAnswered) {
                         scope.srsViewState.showVisaKnapp = true;

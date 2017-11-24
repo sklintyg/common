@@ -1,5 +1,5 @@
 <div id="srsResult{{id}}">
-    <div ng-if="srsViewState.prediktionInfo && srsViewState.prediction.statusCode">
+    <div ng-if="srsViewState.prediction.description && srsViewState.prediktionInfo && srsViewState.prediction.statusCode">
         <wc-srs-info-box message-string="srsViewState.prediktionInfo"></wc-srs-info-box>
     </div>
     <div ng-if="srsViewState.prediktionError && srsViewState.prediction.statusCode">
