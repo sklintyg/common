@@ -91,7 +91,7 @@ angular.module('common').controller('common.IntygHeader',
                 var recipient = messageService.getProperty('common.recipient.' + recipientId.toLowerCase());
                 var vars = {'recipient': recipient};
 
-                if($scope.viewState.common.intygProperties.isSent) {
+                if($scope.isSentIntyg()) {
                     if(intygType === 'db' || intygType === 'doi') {
                         return messageService.getProperty((intygType + '.label.status.sent'), vars);
                     } else {
