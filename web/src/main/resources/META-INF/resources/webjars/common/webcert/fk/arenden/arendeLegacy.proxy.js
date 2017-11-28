@@ -61,10 +61,10 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
             $http.get(restPath).then(function(response) {
                 $log.debug('got data:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
-            }, function(data, status) {
-                $log.error('error ' + status);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
@@ -96,7 +96,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
             $log.debug('_openAsUnhandled: fragaSvarId:' + fragaSvarId + ' intygsTyp: ' + intygsTyp);
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/oppna';
-            $http.get(restPath).then(function(respons) {
+            $http.get(restPath).then(function(response) {
                 $log.debug('got data:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
             }, function(response) {
