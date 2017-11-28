@@ -74,7 +74,8 @@
             if (lineCount <= lineMax) {
                 estimateTag.html(text.slice(lineStart, pos));
 
-                if (estimateTag[0].offsetWidth > maxWidth) {
+                var innerHTML = estimateTag[0].innerHTML;
+                if (estimateTag[0].offsetWidth > maxWidth || innerHTML.indexOf("<br>") > -1) {
                     lineCount++;
 
                     if (lineCount > lineMax) {
@@ -125,6 +126,10 @@
     }
 
     function resetElement(element, type) {
+        if(type && element[0].innerHTML){
+            var innerHTML = element[0].innerHTML.replace(/<br>/g, "");
+            element[0].innerHTML = innerHTML;
+        }
         element.css({
             position: 'inherit',
             overflow: 'hidden',
