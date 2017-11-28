@@ -18,16 +18,17 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import se.inera.intyg.common.support.model.InternalDate;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
-import se.inera.intyg.common.support.model.InternalDate;
 
 /**
  * Customized Jackson ObjectMapper for the inera-certificate projects.
@@ -41,6 +42,7 @@ public class CustomObjectMapper extends ObjectMapper {
     private static final long serialVersionUID = 1L;
 
     public CustomObjectMapper() {
+        // NON_NULL indicates that only properties with non-null values are to be included.
         setSerializationInclusion(JsonInclude.Include.NON_NULL);
         configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
