@@ -37,7 +37,7 @@ import static org.junit.Assert.assertThat;
 public class CustomObjectMapperTest {
 
     @Test
-    public void givenNullsIgnoredGlobally_whenWritingObjectWithNullField_thenIgnored()
+    public void givenNullsIgnoredGloballyWhenWritingObjectWithNullFieldThenIgnored()
             throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -54,7 +54,7 @@ public class CustomObjectMapperTest {
     class TestDto {
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        private String stringValue = "";
+        private String stringValue;
 
         private boolean booleanValue;
 
