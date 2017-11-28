@@ -157,42 +157,47 @@ angular.module('common').factory('common.domain.BaseModel',
 
             },
 
-            clear : function(properties,current) {
-                if(properties === undefined){
-                    properties = this.properties;
+            clear : function(clearProperty, model) {
+                // clear property clearProperty on model
+                if(clearProperty === undefined){
+                    clearProperty = this.properties;
                 }
-                if(current === undefined){
-                    current = this;
+                if(model === undefined){
+                    model = this;
                 }
 
-                if(this.isString(properties)){
+                if(this.isString(clearProperty)){
                     // work out the path
-                    var propsCurrent = this._getPropertiesAndCurrent(properties);
-                    current = propsCurrent.current;
-                    properties = propsCurrent.props;
+                    var propsCurrent = this._getPropertiesAndCurrent(clearProperty);
+                    model = propsCurrent.current;
+                    clearProperty = propsCurrent.props;
 
-                } else if(this.isArray(properties)){
+                } else if(this.isArray(clearProperty)){
                     // it's a simple array which will work on the main model
-                    current = this;
+                    model = this;
                 }
 
-                var clearFn = function(current, prop, extras){
-                    if(prop instanceof ModelAttr && current.hasOwnProperty(prop.property)){
+                var clearFn = function(model, prop, extras){
+                    if(prop instanceof ModelAttr && model.hasOwnProperty(prop.property)){
                         if(prop.defaultValue !== undefined){
-                            current[prop.property] = angular.copy(prop.defaultValue);
+                            model[prop.property] = angular.copy(prop.defaultValue);
                         } else {
-                            current[prop.property] = undefined;
+                            model[prop.property] = undefined;
                         }
                     }
                     if(extras.self.isObject(prop)){
-                        return current[extras.key];
+                        if(!extras.key && prop.property){
+                            return model[prop.property];
+                        } else {
+                            return model[extras.key];
+                        }
                     } else {
-                        if(current.hasOwnProperty(prop)){
-                            current[prop] = undefined;
+                        if(model.hasOwnProperty(prop)){
+                            model[prop] = undefined;
                         }
                     }
                 };
-                this._recurse(current, properties, clearFn, {self:this, ec:current, ep:properties});
+                this._recurse(model, clearProperty, clearFn, {self:this, ec:model, ep:clearProperty});
             },
 
             update : function(content, properties) {
