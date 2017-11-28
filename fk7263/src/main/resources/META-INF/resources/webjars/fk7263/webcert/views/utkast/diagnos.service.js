@@ -27,16 +27,17 @@ angular.module('fk7263').factory('fk7263.diagnosService',
         function _getByCode(codeSystem, code, onSuccess, onError) {
             $log.debug('_searchByCode: codeFragment:' + code);
             var restPath = '/moduleapi/diagnos/kod/' + codeSystem;
-            $http.post(restPath, code.toUpperCase()).success(function(response) {
+            $http.post(restPath, code.toUpperCase()).then(function(response) {
+                response = response.data;
                 if (response && response.resultat === 'OK') {
                     onSuccess(response);
                 }
                 else {
                     onError(response);
                 }
-            }).error(function(response, status) {
-                $log.error('error ' + status);
-                onError(response);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                onError(response.data);
             });
         }
 

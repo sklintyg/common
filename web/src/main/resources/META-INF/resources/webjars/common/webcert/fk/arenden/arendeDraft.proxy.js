@@ -10,12 +10,12 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
 
             var restPath = '/api/arende/draft/' + intygsId;
 
-            $http.get(restPath).success(function(data) {
-                $log.debug('got data: ' + data);
-                onSuccess(data);
-            }).error(function(data) {
-                $log.debug('error: ' + data);
-                onError(data);
+            $http.get(restPath).then(function(response) {
+                $log.debug('got data: ' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.debug('error: ' + response.data);
+                onError(response.data);
             });
         }
 
@@ -39,12 +39,12 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
                 payload.amne = amne;
             }
 
-            $http.put(restPath, payload).success(function(data) {
-                $log.debug('got data: ' + data);
-                onSuccess(data);
-            }).error(function(data) {
-                $log.debug('error: ' + data);
-                onError(data);
+            $http.put(restPath, payload).then(function(response) {
+                $log.debug('got data: ' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.debug('error: ' + response.data);
+                onError(response.data);
             });
             return true;
         }
@@ -63,12 +63,12 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
             $http({
                 method: 'DELETE',
                 url: restPath
-            }).success(function(data) {
-                $log.debug('got data: ' + data);
-                onSuccess(data);
-            }).error(function(data) {
-                $log.debug('error: ' + data);
-                onError(data);
+            }).then(function(response) {
+                $log.debug('got data: ' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.debug('error: ' + response.data);
+                onError(response.data);
             });
         }
 

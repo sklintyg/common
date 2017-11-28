@@ -114,16 +114,16 @@ angular.module('common').factory('common.User',
                 var payload = vardenhet;
 
                 var restPath = '/api/anvandare/andraenhet';
-                $http.post(restPath, payload).success(function(data) {
-                    $log.debug('got callback data: ' + data);
+                $http.post(restPath, payload).then(function(response) {
+                    $log.debug('got callback data: ' + response.data);
 
                     // Update user context
-                    userModel.setUser(data);
+                    userModel.setUser(response.data);
 
-                    onSuccess(data);
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
-                    onError(data);
+                    onSuccess(response.data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    onError(response.data);
                 });
             },
 
@@ -132,11 +132,11 @@ angular.module('common').factory('common.User',
                     'key' : prefKey,
                     'value' : prefValue
                 }).
-                success(function() {
+                then(function() {
                     $log.debug('save user pref OK');
                     userModel.setAnvandarPreference(prefKey, prefValue);
-                }).error(function(data, status) {
-                    $log.error('save user pref error: ' + status);
+                }, function(response) {
+                    $log.error('save user pref error: ' + response.status);
                 }).finally(function() { // jshint ignore:line
                 });
             }

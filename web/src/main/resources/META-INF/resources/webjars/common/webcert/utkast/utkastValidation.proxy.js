@@ -23,10 +23,10 @@ angular.module('common').factory('common.UtkastValidationProxy',
 
         function _validateUtkast(intygsId, intygsTyp, utkastData, callback,  errorCallback) {
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/validate';
-            $http.post(restPath, utkastData).success(function(data) {
-                callback(data);
-            }).error(function(data, status) {
-                errorCallback(data);
+            $http.post(restPath, utkastData).then(function(response) {
+                callback(response.data);
+            }, function(response) {
+                errorCallback(response.data);
             });
         }
 

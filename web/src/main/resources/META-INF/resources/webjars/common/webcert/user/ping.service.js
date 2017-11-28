@@ -31,10 +31,10 @@ angular.module('common').factory('common.pingService',
          */
         function _executePingSessionRequest() {
             $log.debug('_executePingSessionRequest =>');
-            $http.get('/api/anvandare/ping').success(function() {
+            $http.get('/api/anvandare/ping').then(function() {
                 $log.debug('<= _executePingSessionRequest success');
-            }).error(function(data, status) {
-                $log.error('<= _executePingSessionRequest failed: ' + status);
+            }, function(response) {
+                $log.error('<= _executePingSessionRequest failed: ' + response.status);
             }).finally(function() { // jshint ignore:line
                 //clear interval promise no matter the outcome of the request
                 if (pingSessionPromise) {

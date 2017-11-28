@@ -42,13 +42,13 @@ angular.module('common').factory('common.statService',
          */
         function _refreshStat() {
             $log.debug('_getStat');
-            $http.get('/moduleapi/stat/').success(function(data) {
-                $log.debug('_getStat success - data:' + data);
-                lastData = data;
-                $rootScope.$broadcast('wc-stat-update', data);
+            $http.get('/moduleapi/stat/').then(function(response) {
+                $log.debug('_getStat success - data:' + response.data);
+                lastData = response.data;
+                $rootScope.$broadcast('wc-stat-update', response.data);
                 _stopPolling();
                 timeOutPromise = $interval(_refreshStat, msPollingInterval);
-            }).error(function(data, status) {
+            }, function(data, status) {
                 $log.error('_getStat error ' + status);
                 _stopPolling();
                 timeOutPromise = $interval(_refreshStat, msPollingInterval);

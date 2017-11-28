@@ -11,16 +11,16 @@ angular.module('common').factory('common.DiagnosProxy',
             $http.post(restPath, {
                 codeSystem: codeSystem,
                 codeFragment: code.toUpperCase()
-            }).success(function(response) {
-                if (response && response.resultat === 'OK') {
-                    onSuccess(response);
+            }).then(function(response) {
+                if (response && response.data.resultat === 'OK') {
+                    onSuccess(response.data);
                 }
                 else {
-                    onError(response);
+                    onError(response.data);
                 }
-            }).error(function(response, status) {
-                $log.error('error ' + status);
-                onError(response);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                onError(response.data);
             });
         }
 

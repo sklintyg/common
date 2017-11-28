@@ -38,12 +38,12 @@ angular.module('common').factory('common.IntygProxy',
         function _getIntyg(intygsId, intygsTyp, onSuccess, onError) {
             $log.debug('_getCertificate id:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId;
-            $http.get(restPath).success(function(data) {
-                $log.debug('_getCertificate data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
-                onError(data);
+            $http.get(restPath).then(function(response) {
+                $log.debug('_getCertificate data:' + response.data);
+                onSuccess(response.data);
+            },function(response) {
+                $log.error('error ' + response.status);
+                onError(response.data);
             });
         }
 
@@ -51,25 +51,24 @@ angular.module('common').factory('common.IntygProxy',
             $log.debug('_sendSigneratIntyg: ' + intygsId);
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygsId + '/skicka';
             $http.post(restPath, {'recipient': recipientId}).
-                success(function(data) {
-                    onSuccess(data);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
+                then(function(response) {
+                    onSuccess(response.data);
+                }, function(response) {
+                    _handleError(onError, response.data);
                 });
         }
 
         function _makuleraIntyg(intygId, intygType, revokeMessage, onSuccess, onError) {
             $log.debug('_revokeSigneratIntyg: ' + intygId + ' intygsTyp: ' + intygType);
             var restPath = '/moduleapi/intyg/' + intygType + '/' + intygId + '/aterkalla';
-            $http.post(restPath, revokeMessage).success(function(data) {
-                if (data === 'OK') {
+            $http.post(restPath, revokeMessage).then(function(response) {
+                if (response.data === 'OK') {
                     onSuccess();
                 } else {
                     onError();
                 }
-            }).error(function(error) {
-                _handleError(onError, error);
+            }, function(response) {
+                _handleError(onError, response.data);
             });
         }
 
@@ -118,14 +117,14 @@ angular.module('common').factory('common.IntygProxy',
 
                 var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
 
-                $http.post(restPath, payload).success(function(data) {
-                    $log.debug('got callback data: ' + data);
-                    onSuccess(data);
+                $http.post(restPath, payload).then(function(response) {
+                    $log.debug('got callback data: ' + response.data);
+                    onSuccess(response.data);
                     statService.refreshStat();
 
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
-                    onError(data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    onError(response.data);
                 });
             };
         }
@@ -140,13 +139,13 @@ angular.module('common').factory('common.IntygProxy',
                 arende.fraga.internReferens + '/komplettera';
             var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
 
-            $http.post(restPath, payload).success(function(data) {
-                $log.debug('got data:' + data.intygsUtkastId);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.post(restPath, payload).then(function(response) {
+                $log.debug('got data:' + response.data.intygsUtkastId);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
-                onError(data);
+                onError(response.data);
             });
         }
 
