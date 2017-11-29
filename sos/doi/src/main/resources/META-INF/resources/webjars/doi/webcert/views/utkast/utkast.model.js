@@ -35,7 +35,17 @@ angular.module('doi').factory('doi.Domain.IntygModel',
 
                         'identitetStyrkt': undefined,
                         'dodsdatumSakert': undefined,
-                        'dodsdatum': undefined,
+                        'dodsdatum': new ModelAttr('dodsdatum', {
+                            defaultValue: '',
+                            fromTransform: function(fromBackend) {
+                                var toFrontend = fromBackend;
+                                return toFrontend;
+                            },
+                            toTransform: function(fromFrontend) {
+                                var toBackend = angular.copy(fromFrontend);
+                                return toBackend;
+                            }
+                        }),
                         'antraffatDodDatum': undefined,
                         'dodsplatsKommun': undefined,
                         'dodsplatsBoende': undefined,
