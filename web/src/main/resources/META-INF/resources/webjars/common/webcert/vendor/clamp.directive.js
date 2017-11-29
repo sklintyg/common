@@ -75,7 +75,8 @@
                 estimateTag.html(text.slice(lineStart, pos));
 
                 var innerHTML = estimateTag[0].innerHTML;
-                if (estimateTag[0].offsetWidth > maxWidth || innerHTML.indexOf("<br>") > -1) {
+                var hasBr = innerHTML.indexOf("<br>") > -1;
+                if (estimateTag[0].offsetWidth > maxWidth || hasBr) {
                     lineCount++;
 
                     if (lineCount > lineMax) {
@@ -85,7 +86,7 @@
 
                     estimateTag.html(text.slice(lineStart, lineEnd));
                     resetElement(estimateTag);
-                    lineStart = lineEnd + 1;
+                    lineStart = hasBr ? pos : lineEnd + 1;
                     estimateTag = createElement();
                     element.append(estimateTag);
                 }
