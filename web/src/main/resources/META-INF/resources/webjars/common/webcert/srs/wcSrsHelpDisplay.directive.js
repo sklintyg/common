@@ -113,6 +113,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 tempAtgarderObs += atgarderObs[i];
                                 tempAtgarderObs += '. ';
                             }
+                            tempAtgarderObs = tempAtgarderObs.replace(/<br \/>/g, '<br>');
                             return tempAtgarderObs;
                         }
                     };
