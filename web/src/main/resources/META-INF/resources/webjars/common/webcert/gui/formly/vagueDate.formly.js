@@ -56,7 +56,6 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.$watch('vagueDateModel.year', function(newValue) {
-                    var monthWasEnabled = $scope.vagueDateModel.monthEnabled;
                     $scope.vagueDateModel.monthEnabled = false;
                     if (newValue !== '') {
                         updateModel();
