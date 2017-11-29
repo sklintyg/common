@@ -52,11 +52,16 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     };
 
                     scope.closeSrs = function(){
+                        if(scope.status.open)
+                            scope.dontCloseThis = true;
                         $rootScope.$broadcast('closeSrs');
                     };
 
                     scope.$on('closeSrs', function() {
-                        scope.status.open = false;
+                        if(!scope.dontCloseThis){
+                            scope.status.open = false;
+                        }
+                        scope.dontCloseThis = false;
                     });
 
                     scope.questionsFilledForVisaButton = function() {
