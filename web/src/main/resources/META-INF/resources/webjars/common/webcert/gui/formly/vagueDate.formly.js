@@ -34,14 +34,22 @@ angular.module('common').run(function(formlyConfig) {
                 });
 
                 $scope.vagueDateModel = {
-                    year:undefined,
-                    month:undefined,
+                    year:'',
+                    month:'',
                     monthEnabled: false
                 };
 
                 createYears(true);
                 createMonths(true);
                 parseModel();
+
+                $scope.$watch(function(){
+                    return $scope.model[$scope.options.key];
+                }, function(newValue, oldValue){
+                    //if(newValue !== oldValue){
+                        parseModel();
+                    //}
+                });
 
                 $scope.validate = function() {
                     UtkastValidationService.validate($scope.model);
@@ -50,16 +58,20 @@ angular.module('common').run(function(formlyConfig) {
                 $scope.$watch('vagueDateModel.year', function(newValue) {
                     var monthWasEnabled = $scope.vagueDateModel.monthEnabled;
                     $scope.vagueDateModel.monthEnabled = false;
-                    if (newValue !== undefined) {
+                    if (newValue !== '') {
                         updateModel();
                         if (newValue === '0000') {
                             $scope.vagueDateModel.month = '00';
+                            createMonths(false);
                         }
                         else {
-                            if (!monthWasEnabled) {
-                                $scope.vagueDateModel.month = undefined;
-                            }
                             $scope.vagueDateModel.monthEnabled = true;
+                            if($scope.vagueDateModel.month === '00'){
+                                createMonths(true);
+                                $scope.vagueDateModel.month = '';
+                            } else {
+                                createMonths(false);
+                            }
                         }
                         createYears(false);
                     }
@@ -68,7 +80,7 @@ angular.module('common').run(function(formlyConfig) {
                     }
                 });
                 $scope.$watch('vagueDateModel.month', function(newValue) {
-                    if (newValue !== undefined) {
+                    if (newValue !== '') {
                         updateModel();
                         createMonths(false);
                     }
@@ -84,12 +96,12 @@ angular.module('common').run(function(formlyConfig) {
                         if (result[1]) {
                             $scope.vagueDateModel.year = result[1];
                         } else {
-                            $scope.vagueDateModel.year = undefined;
+                            $scope.vagueDateModel.year = '';
                         }
                         if (result[3]) {
                             $scope.vagueDateModel.month = result[3];
                         } else {
-                            $scope.vagueDateModel.month = undefined;
+                            $scope.vagueDateModel.month = '';
                         }
                     }
                 }
@@ -126,7 +138,7 @@ angular.module('common').run(function(formlyConfig) {
                         {value:lastYear, label:lastYear}
                     ];
                     if (placeholder) {
-                        $scope.years.unshift({value:undefined, label:'Ange år'});
+                        $scope.years.unshift({value:'', label:'Ange år'});
                     }
                 }
 
@@ -148,7 +160,7 @@ angular.module('common').run(function(formlyConfig) {
                         $scope.months.push({value: monthPadded, label: monthPadded});
                     }
                     if (placeholder) {
-                        $scope.months.unshift({value: undefined, label: 'Ange månad'});
+                        $scope.months.unshift({value: '', label: 'Ange månad'});
                     }
                 }
 

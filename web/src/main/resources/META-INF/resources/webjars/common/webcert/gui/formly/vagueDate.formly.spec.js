@@ -46,6 +46,17 @@ describe('vagueDate', function() {
         $scope = element.find('#form_date').scope();
     }));
 
+    it('Initial load should set year and month from model', function() {
+
+        $scope.model.date = '2017-01-00';
+        $scope.$apply();
+
+        expect($scope.years.length).toBe(3);
+        expect($scope.vagueDateModel.year).toBe('2017');
+        expect($scope.vagueDateModel.month).toBe('01');
+        expect($scope.vagueDateModel.monthEnabled).toBeTruthy();
+    });
+
     it('If a year is selected month should be selectable', function() {
         expect($scope.years.length).toBe(4);
         expect($scope.vagueDateModel.monthEnabled).toBeFalsy();
@@ -97,7 +108,7 @@ describe('vagueDate', function() {
         $scope.$apply();
 
         expect($scope.months.length).toBe(14); // "Ange månad" should be back
-        expect($scope.vagueDateModel.month).toBe(undefined);
+        expect($scope.vagueDateModel.month).toBe('');
     });
 
     it('If year is first set to last year and then changed to current year: month should not reset back to "Ange månad"', function() {
