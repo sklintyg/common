@@ -328,7 +328,7 @@ angular.module('common').constant('common.messages', {
         'common.label.status.sent.patient-dead': 'Intyget är signerat och har skickats till ${recipient}s system.',
         'common.label.status.sent.patient-alive': 'Intyget är signerat och har skickats till ${recipient}s system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
         'db.label.status.sent': 'Dödsbeviset är signerat och har nu skickats till Skatteverket.<br><br>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!<br><br>Du kan nu avsluta Webcert eller direkt skriva ett dödsorsaksintyg för samma person genom att trycka på knappen "Skriv dödsorsaksintyg" ovan.',
-        'doi.label.status.sent': 'Dödsbeviset är signerat och har nu skickats till Socialstyrelsen.<br><br>Glöm inte att göra en journalanteckning att dödsorsaksintyg är inlämnat!',
+        'doi.label.status.sent': 'Dödsorsaksintyget är signerat och har nu skickats till Socialstyrelsen.<br><br>Glöm inte att göra en journalanteckning att dödsorsaksintyg är inlämnat!',
 
 
         // Makulera
