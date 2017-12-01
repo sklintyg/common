@@ -162,7 +162,7 @@ module.exports = function(grunt) {
                 }
             },
 
-            // Inject component scss into inera-webcert.scss
+            // Inject component scss into wc-common.scss
             webcert: {
                 options: {
                     transform: function(filePath) {

@@ -1,5 +1,5 @@
 <a id="top"></a>
-<div class="fk-sit-common-ns {{viewState.common.intyg.type}}-ns" id="edit-{{viewState.common.intyg.type}}">
+<div class="{{viewState.common.intyg.type}}-ns" id="edit-{{viewState.common.intyg.type}}">
   <!--  both webcert-multicol-container1 and webcert-multicol-container2 are required, see comment on the webcert-multicol-container1 class -->
   <div class="webcert-multicol-container1 webcert-multicol-background-grey" ng-class="{'collapsed' : viewState.common.collapsedHeader}" wc-size-target>
     <div class="webcert-multicol-container2 webcert-multicol-background-white">
@@ -38,7 +38,7 @@
                 </div>
                 <!-- certificate -->
 
-                <div wc-utkast-error-summary-fk category-names="categoryNames" view-state="viewState"></div>
+                <wc-utkast-error-summary-fk category-names="categoryNames" view-state="viewState"></wc-utkast-error-summary-fk>
                 <div ui-view="footer"></div>
 
               </div>

@@ -40,7 +40,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         },
                         {
                             type: 'headline',
-                            className: 'col-md-6 no-space-left',
+                            className: 'col-md-6',
                             templateOptions: {label: 'DFR_1.1'}
                         },
                         {

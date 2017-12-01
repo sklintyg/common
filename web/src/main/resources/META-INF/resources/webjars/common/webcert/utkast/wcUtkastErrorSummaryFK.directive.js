@@ -28,8 +28,7 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
             'use strict';
 
             return {
-                restrict: 'A',
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastErrorSummaryFK.directive.html',
                 scope: true,
                 controller: function($scope) {

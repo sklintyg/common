@@ -1,0 +1,77 @@
+/*!
+ * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+.komplettering-modal-dialog {
+
+  //TODO: Define & use styleguide color values instead of these local variables?
+  $dialog-header-color: #008392;
+  $dialog-divider-color: #e3e3e3;
+  $warning-text-red: #ff0000;
+  $notice-text-gray: #999999;
+
+  .dialog-placement {
+    &, .model-dialog {
+      top: 22%;
+    }
+  }
+
+  .dialog-choice-box {
+    position: relative;
+    height: 290px;
+  }
+
+  .dialog-column-divider-right {
+    border-right: 1px solid $dialog-divider-color;
+  }
+
+  .dialog-header {
+    font-size: 20px;
+    color: $dialog-header-color;
+    text-align: left;
+  }
+
+  .dialog-choice-box__text-section {
+    padding: 20px;
+    padding-top: 30px;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .dialog_choice-box__warning-text {
+    color: $warning-text-red;
+    font-size: 90%;
+  }
+
+  .dialog_choice-box__notice-text {
+    color: $notice-text-gray;
+    font-size: 90%;
+  }
+
+  .dialog-choice-box__button-section {
+    text-align: center;
+    width: 100%;
+    padding-top: 25px;
+    padding-bottom: 17px;
+  }
+
+  .komplettera-row {
+    padding-top: 10px;
+  }
+}

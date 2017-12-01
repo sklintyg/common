@@ -2,4 +2,24 @@ uv-signed-by {
   display: block;
 
   margin-top: 20px;
+
+  div.infobox {
+    background-color: $color_blue_chill_approx;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    border-radius: 4px 4px 4px 4px;
+    color: $white;
+    padding: 20px;
+    h3 {
+      font-size: 16px;
+      padding: 0;
+      color: $white;
+    }
+    h4 {
+      padding: 10px 0 5px 0;
+      color: $white;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
 }

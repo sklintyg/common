@@ -23,6 +23,7 @@ This is to avoid leaking module specific style rules outside of it's intended co
 .fk7263-ns {
   //urls
   $socialstyrelsen-background-image: url('../img/ss16.png');
+  $color_tapa_approx: #777;
 
   .soclink {
     background-image: $socialstyrelsen-background-image;
@@ -93,6 +94,14 @@ This is to avoid leaking module specific style rules outside of it's intended co
     }
   }
 
+  .certificate--lg {
+    max-width: 1600px;
+  }
+
+  .info-transfer {
+    font-size: 12px;
+    color: $color_tapa_approx;
+  }
 }
 
 @import "../../app-shared/directives/fkList/fkList.directive";
