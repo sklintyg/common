@@ -29,6 +29,10 @@ module.exports = function(grunt) {
     var cwd = process.cwd();
     process.chdir(npmDir);
 
+    var autoprefixer = require('autoprefixer')({
+        browsers: [ 'last 2 versions', 'ie 9' ]
+    });
+
     require('time-grunt')(grunt);
     require('jit-grunt')(grunt, {
         bower: 'grunt-bower-task',
@@ -214,13 +218,15 @@ module.exports = function(grunt) {
         postcss: {
             options: {
                 map: false,
-                processors: [
-                    require('autoprefixer')({browsers: ['last 2 versions', 'ie 9']}), // add vendor prefixes
-                    require('cssnano')() // minify the result
+                processors: [ autoprefixer, // add vendor prefixes
+                require('cssnano')({zindex: false}) // minify the result
                 ]
             },
-            dist: {
+            minaintyg: {
                 src: '<%= config.destRoot %>/minaintyg/*.css'
+            },
+            webcert: {
+                src: '<%= config.destRoot %>/webcert/*.css'
             }
         },
 
@@ -285,7 +291,8 @@ module.exports = function(grunt) {
         }
 
     });
-
+    grunt.log.subhead('======================= Autoprefixer settings =====================');
+    grunt.log.ok(autoprefixer.info());
     grunt.registerTask('default', [ 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'injector', 'sass', 'postcss' ]);
     grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg' ]);
     grunt.registerTask('lint-webcert', [ 'jshint:webcert' ]);

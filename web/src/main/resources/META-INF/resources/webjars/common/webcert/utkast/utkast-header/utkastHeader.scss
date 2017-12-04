@@ -42,9 +42,6 @@ $header-fix-panel-popover-color: #333;
     top: 10px;
     background-color: $header-fix-top-expand-background-color;
     text-align: center;
-    -webkit-border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    -ms-border-radius: 0 0 5px 5px;
     border-radius: 0 0 5px 5px;
     .btn-link {
       color: $header-fix-top-btn-link-color;
@@ -79,9 +76,6 @@ $header-fix-panel-popover-color: #333;
     padding: 10px 30px 7px 30px;
     border-bottom: 1px solid $header-fix-panel-border-bottom-color;
     background-color: $header-fix-panel-background-color;
-    -ms-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
-    -webkit-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
-    -moz-box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
     box-shadow: 0 -5px 25px $header-fix-panel-box-shadow;
   }
 
@@ -113,9 +107,6 @@ $header-fix-panel-popover-color: #333;
   }
 
   %transition {
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
     transition: all 0.3s;
     position: relative;
     display: block !important;

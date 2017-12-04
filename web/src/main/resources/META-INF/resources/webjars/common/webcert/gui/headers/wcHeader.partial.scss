@@ -120,8 +120,6 @@
     margin: 0;
     min-height: 0;
     padding: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
     border-radius: 0;
     border: 0;
     border-top: 1px solid $navbar-border-top-color;
@@ -161,8 +159,6 @@
 
   .stat-circle {
     background-color: $stat-circle-background-color;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
     border-radius: 50%;
     color: $stat-circle-color;
     padding: 0 6px 0 6px;

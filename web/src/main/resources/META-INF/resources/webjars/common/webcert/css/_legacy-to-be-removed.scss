@@ -209,8 +209,6 @@ label.big-radio-label, label.big-checkbox-label {
   }
   .grouperror, .groupkomplettering {
     padding: 8px;
-    -webkit-border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
     border-radius: 4px 4px 4px 4px;
   }
   .grouperror {
@@ -262,8 +260,6 @@ label.big-radio-label, label.big-checkbox-label {
 .intyg-block {
   margin: 0 0px 0px 0;
   padding-bottom: 20px;
-  -webkit-border-radius: 6px 6px 6px 6px;
-  -moz-border-radius: 6px 6px 6px 6px;
   border-radius: 6px 6px 6px 6px;
   font-size: 13px;
 
@@ -340,8 +336,6 @@ label.big-radio-label, label.big-checkbox-label {
     font-size: 16px;
     font-weight: bold;
     padding-bottom: 0px;
-    -webkit-border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
     border-radius: 4px 4px 4px 4px;
     position: relative;
     display: inline;
@@ -358,8 +352,6 @@ label.big-radio-label, label.big-checkbox-label {
   &__content {
     display: block;
     background-color: $mercury;
-    -webkit-border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
     border-radius: 4px 4px 4px 4px;
     .divider {
       border-bottom: 1px solid $color_mountain_mist_approx;
@@ -372,8 +364,6 @@ label.big-radio-label, label.big-checkbox-label {
   &__subcontent {
     border: 1px solid $intyg_medium_grey;
     background-color: $intyg_light_grey;
-    -webkit-border-radius: 7px 7px 7px 7px;
-    -moz-border-radius: 7px 7px 7px 7px;
     border-radius: 7px 7px 7px 7px;
     margin-bottom: 16px;
     &:last-child {
@@ -383,8 +373,6 @@ label.big-radio-label, label.big-checkbox-label {
   }
   .unfilled {
     color: $color_suva_gray_approx;
-    -webkit-border-radius: 4px 4px 4px 4px;
-    -moz-border-radius: 4px 4px 4px 4px;
     border-radius: 4px 4px 4px 4px;
   }
   hr {
@@ -402,9 +390,6 @@ label.big-radio-label, label.big-checkbox-label {
 /* Intyg-edit menu header collapse animation */
 
 %transition-with-ease-out {
-  -webkit-transition: all ease-out 0.5s;
-  -moz-transition: all ease-out 0.5s;
-  -o-transition: all ease-out 0.5s;
   transition: all ease-out 0.5s;
   position: relative;
 }
