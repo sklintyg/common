@@ -52,7 +52,7 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
 
                 var updateRelation = function() {
                     $scope.intygRelation = $scope.$eval(scopePathToIntygRelation);
-                    if ($scope.intygRelation) {
+                    if ($scope.intygRelation && $scope.intygRelation.relationKod === 'ERSATT') {
                         loadStates();
                     }
                 };
