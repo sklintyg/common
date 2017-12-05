@@ -21,13 +21,16 @@ angular.module('common').controller('common.UtkastFooter',
     ['$scope', '$rootScope', '$timeout',
         'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
         'common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationViewState',
-        'common.featureService', '$q',
+        'common.featureService', 'common.UtkastProxy', '$q',
         function($scope, $rootScope, $timeout,
             UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService,
-            utkastValidationViewState, featureService, $q) {
+            utkastValidationViewState, featureService, commonUtkastProxy, $q) {
             'use strict';
 
             var viewState = $scope.viewState;
+            var previousUtkastWarnings = {};
+            var previousIntygWarnings = {};
+            var previousWarningMessage = null;
 
             /**
              * Handle vidarebefordra dialog
@@ -98,6 +101,25 @@ angular.module('common').controller('common.UtkastFooter',
                 return true;
             };
 
+            $scope.getPreviousIntygWarning = function() {
+                return previousWarningMessage;
+            };
+
+            $scope.disableSign = function() {
+                var previousIntyg = false;
+                if (featureService.isFeatureActive(featureService.features.UNIKT_INTYG, viewState.common.intyg.type) &&
+                    previousIntygWarnings !== undefined) {
+
+                    previousIntyg = previousIntygWarnings[viewState.common.intyg.type] === false;
+
+                    if (previousIntyg) {
+                        previousWarningMessage = viewState.common.intyg.type + '.warn.previouscertificate.differentvg';
+                    }
+                }
+
+                return previousIntyg;
+            };
+
             $scope.isSignAndSend = function() {
                 return featureService.isFeatureActive(featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
             };
@@ -142,6 +164,16 @@ angular.module('common').controller('common.UtkastFooter',
                     }, 200);
                 }
             });
+
+            $scope.$on('intyg.loaded', function() {
+                previousWarningMessage = {};
+                commonUtkastProxy.getPrevious(viewState.intygModel.grundData.patient.personId, function(existing) {
+                    previousUtkastWarnings = existing.utkast;
+                    previousIntygWarnings = existing.intyg;
+
+                });
+            });
+
             $scope.$on('$destroy', unbindFastEvent);
 
         }

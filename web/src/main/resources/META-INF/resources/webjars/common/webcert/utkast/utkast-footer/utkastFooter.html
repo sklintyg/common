@@ -10,8 +10,13 @@
       <p ng-show="viewState.common.intyg.isKomplettering">
         <span message key="draft.completion.signinfo"></span>
       </p>
+
+      <div ng-if="disableSign() && getPreviousIntygWarning() !== undefined" class="alert alert-warning alert-column">
+        <span message key="{{getPreviousIntygWarning()}}"></span>
+      </div>
+
       <button type="button" id="signera-utkast-button" class="btn btn-success"
-              ng-disabled="certForm.$dirty || (getCurrentSignStatus() === 'pending')"
+              ng-disabled="certForm.$dirty || (getCurrentSignStatus() === 'pending') || disableSign()"
               ng-keydown="initValidationSequence('signera-utkast-button')"
               ng-mousedown="initValidationSequence('signera-utkast-button')"
               ng-click="sign()">

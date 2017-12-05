@@ -245,7 +245,9 @@ describe('IntygHeaderCtrl', function() {
 
                 spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
                     onSuccess({
-                        doi: true
+                        intyg: {
+                            doi: true
+                        }
                     });
                 });
 

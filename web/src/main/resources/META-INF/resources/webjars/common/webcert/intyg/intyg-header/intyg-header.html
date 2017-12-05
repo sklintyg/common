@@ -167,8 +167,8 @@
 
       <div wc-secrecy-mark-message person-id="viewState.intygModel.grundData.patient.personId" type="intyg"></div>
 
-      <div ng-if="showCreateFromTemplate() && !enableCreateFromTemplate()" class="alert alert-warning alert-column">
-        <span message key="{{createFromTemplateConfig[intygstyp].warningKey}}"></span>
+      <div ng-if="showCreateFromTemplate() && (!enableCreateFromTemplate() || getWarningForCreateFromTemplate() !== undefined)" class="alert alert-warning alert-column">
+        <span message key="{{getWarningForCreateFromTemplate()}}"></span>
       </div>
 
       <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column">

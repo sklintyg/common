@@ -33,21 +33,30 @@ angular.module('common').controller('common.IntygHeader',
             var intygType = $state.current.data.intygType;
             var _intygActionDialog = null;
             var previousIntyg = {};
+            var previousUtkast = {};
+            var warningForCreateTemplate = {};
 
             $scope.intygstyp = intygType;
             $scope.createFromTemplateConfig = {
                 'db': {
                     'moduleId': 'doi',
                     'name': 'dödsorsaksintyg',
-                    'feature': featureService.features.UNIKT_INTYG_INOM_VG,
-                    'warningKey': 'doi.warn.previouscertificate.samevg'
+                    'features': [
+                        featureService.features.UNIKT_INTYG_INOM_VG,
+                        featureService.features.UNIKT_UTKAST_INOM_VG
+                    ]
                 }
+            };
+
+            $scope.getWarningForCreateFromTemplate = function() {
+                return warningForCreateTemplate;
             };
 
             $scope.$on('intyg.loaded', function(event, intyg){
                 if ($scope.createFromTemplateConfig[$scope.intygstyp]) {
                     UtkastProxy.getPrevious($scope.viewState.intygModel.grundData.patient.personId, function(existing) {
-                        previousIntyg = existing;
+                        previousIntyg = existing.intyg;
+                        previousUtkast = existing.utkast;
                     });
                 }
             });
@@ -164,8 +173,23 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.enableCreateFromTemplate = function() {
-                return !($scope.createFromTemplateConfig[$scope.intygstyp].feature === featureService.features.UNIKT_INTYG_INOM_VG &&
-                    previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true);
+                if ($scope.createFromTemplateConfig[$scope.intygstyp].features.indexOf(featureService.features.UNIKT_INTYG_INOM_VG) !== -1 &&
+                    previousIntyg !== undefined && previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true) {
+                    warningForCreateTemplate = $scope.createFromTemplateConfig[$scope.intygstyp].moduleId + '.warn.previouscertificate.samevg';
+                    return false;
+                }
+
+                if ($scope.createFromTemplateConfig[$scope.intygstyp].features.indexOf(featureService.features.UNIKT_UTKAST_INOM_VG) !== -1 &&
+                        previousUtkast !== undefined) {
+                    if (previousUtkast[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true) {
+                        warningForCreateTemplate = $scope.createFromTemplateConfig[$scope.intygstyp].moduleId + '.warn.previousdraft.samevg';
+                        return false;
+                    } else if (previousUtkast[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === false){
+                        warningForCreateTemplate = $scope.createFromTemplateConfig[$scope.intygstyp].moduleId + '.warn.previousdraft.differentvg';
+                        return true;
+                    }
+                }
+                return true;
             };
 
             $scope.send = function() {
