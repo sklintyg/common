@@ -99,7 +99,7 @@ angular.module('db').factory('db.FormFactory',
                             templateOptions: {label: 'db.info.polisanmalan'}
                         }
                     ])
-                ], {required: true}),
+                ]),
                 FactoryTemplates.vardenhet
             ];
 
