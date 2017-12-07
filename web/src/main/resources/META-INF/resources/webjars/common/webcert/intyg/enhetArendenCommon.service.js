@@ -22,7 +22,7 @@
  * FragaSvar functionality to be used in webcert and modules handling Fraga/svar
  * related to certificates. (As of this time, only fk7263 module)
  */
-angular.module('common').factory('common.fragaSvarCommonService',
+angular.module('common').factory('common.enhetArendenCommonService',
     ['$http', '$log', '$uibModal', '$window', 'common.dialogService', 'common.LocationUtilsService',
         'common.featureService', 'common.UserModel', 'common.UtilsService',
         function($http, $log, $uibModal, $window, dialogService, LocationUtilsService, featureService, UserModel,
@@ -263,7 +263,7 @@ angular.module('common').factory('common.fragaSvarCommonService',
                 // The following urls are where the uthopp users are supposed to be
                 var allowedNewUrls = [
                     '#/fragasvar/',
-                    '#/unhandled-qa',
+                    '#/enhet-arenden',
                     '#/webcert/about',
                     '#/support/about',
                     '#/certificates/about',
