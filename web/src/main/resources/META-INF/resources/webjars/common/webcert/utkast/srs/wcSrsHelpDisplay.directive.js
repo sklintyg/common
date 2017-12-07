@@ -174,7 +174,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 srsViewState.diagnosKod = newVal;
                                 diagnosisListFetching = loadDiagCodes().then(function() {
                                     scope.srsViewState.srsApplicable = isSrsApplicable(scope.srsViewState.diagnosKod);
-                                    if (scope.srsViewState.srsApplicable && scope.srsViewState.consent) {
+                                    if (scope.srsViewState.srsApplicable && scope.srsViewState.consent === 'JA') {
                                         if (!scope.srsViewState.shownFirstTime) {
                                             srsProxy.logSrsShown();
                                         }
@@ -252,7 +252,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                                 ' - ' + scope.srsViewState.atgarder.atgarderDiagnosisDescription;
                             }
                         }
-                        console.log(scope.srsViewState.atgarderInfo);
                     }
 
                     function setStatistikMessages() {
