@@ -37,7 +37,7 @@ angular.module('luse').config(function($stateProvider) {
                 },
 
                 'wcHeader@luse-edit' : {
-                    templateUrl: commonPath + 'gui/headers/wcHeader.partial.html',
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html',
                     controller: 'common.wcHeaderController'
                 },
 
