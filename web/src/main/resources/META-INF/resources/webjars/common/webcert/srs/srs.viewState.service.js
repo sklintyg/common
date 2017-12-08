@@ -30,6 +30,7 @@ angular.module('common').service('common.srsViewState',
         this.shownFirstTime = false;
         this.clickedFirstTime = false;
         this.diagnosisCodes = null;
+        this.diagnosisListFetching = null;
         this.errorMessage = '';
         this.srsApplicable = false;
         this.questions = [];
