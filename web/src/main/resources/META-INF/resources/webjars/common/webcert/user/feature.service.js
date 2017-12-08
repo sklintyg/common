@@ -59,7 +59,8 @@ angular.module('common').factory('common.featureService',
                 JS_MINIFIED: 'jsMinified',
                 UNIKT_INTYG: 'uniktIntyg',
                 UNIKT_INTYG_INOM_VG: 'uniktIntygInomVg',
-                UNIKT_UTKAST_INOM_VG: 'uniktUtkastInomVg'
+                UNIKT_UTKAST_INOM_VG: 'uniktUtkastInomVg',
+                SRS: 'srs'
             },
             isFeatureActive: _isFeatureActive
         };
