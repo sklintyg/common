@@ -58,7 +58,8 @@ angular.module('common').factory('common.featureService',
                 JS_LOGGNING: 'jsLoggning',
                 JS_MINIFIED: 'jsMinified',
                 UNIKT_INTYG: 'uniktIntyg',
-                UNIKT_INTYG_INOM_VG: 'uniktIntygInomVg'
+                UNIKT_INTYG_INOM_VG: 'uniktIntygInomVg',
+                SRS: 'srs'
             },
             isFeatureActive: _isFeatureActive
         };
