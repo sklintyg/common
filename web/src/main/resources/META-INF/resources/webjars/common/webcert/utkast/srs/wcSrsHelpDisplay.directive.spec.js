@@ -29,6 +29,7 @@ describe('wcSrsHelpDisplayDirective', function() {
     var authorityService;
     var $compile;
     var $q;
+    var $rootScope;
 
     /* jshint maxlen: false */
     var diagnosisTestJson = ['M18', 'J20', 'Q10'];
@@ -40,7 +41,7 @@ describe('wcSrsHelpDisplayDirective', function() {
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.inject(['$rootScope', '$compile', '$httpBackend', '$q',
         'common.srsService', 'common.srsViewState', 'common.srsProxy', 'common.authorityService',
-        function($rootScope, _$compile_, _$httpBackend_, _$q_, _srsService_, _srsViewState_, _srsProxy_, _authorityService_) {
+        function(_$rootScope_, _$compile_, _$httpBackend_, _$q_, _srsService_, _srsViewState_, _srsProxy_, _authorityService_) {
             $httpBackend = _$httpBackend_;
             srsService = _srsService_;
             srsViewState = _srsViewState_;
@@ -48,6 +49,7 @@ describe('wcSrsHelpDisplayDirective', function() {
             authorityService = _authorityService_;
             $compile = _$compile_;
             $q = _$q_;
+            $rootScope = _$rootScope_;
 
             srsService.updateHsaId('fake enhetid');
             srsService.updateIntygsTyp('fk7263');
@@ -97,6 +99,9 @@ describe('wcSrsHelpDisplayDirective', function() {
 
             element = $compile('<wc-srs-help-display id=\'2\'>')($scope);
             $scope.$apply();
+            $rootScope.$broadcast('intyg.loaded');
+            $scope.$apply();
+
         });
 
         it('Should set consent in viewState to \'INGET\'', function(){
@@ -125,7 +130,9 @@ describe('wcSrsHelpDisplayDirective', function() {
             });
 
             element = $compile('<wc-srs-help-display id=\'2\'>')($scope);
-            $scope.$digest();
+            $scope.$apply();
+            $rootScope.$broadcast('intyg.loaded');
+            $scope.$apply();
         });
 
         it('Should set consent in viewState to \'JA\'', function(){
