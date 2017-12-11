@@ -66,7 +66,7 @@ angular.module('common').controller('common.wcHeaderController',
             /**
              * Event listeners
              */
-            $scope.$on('wc-stat-update', function(event, message) {
+            $scope.$on('statService.stat-update', function(event, message) {
                 $scope.stat = message;
             });
 

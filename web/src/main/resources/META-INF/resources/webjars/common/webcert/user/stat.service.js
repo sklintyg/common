@@ -45,7 +45,7 @@ angular.module('common').factory('common.statService',
             $http.get('/moduleapi/stat/').then(function(response) {
                 $log.debug('_getStat success - data:' + response.data);
                 lastData = response.data;
-                $rootScope.$broadcast('wc-stat-update', response.data);
+                $rootScope.$broadcast('statService.stat-update', response.data);
                 _stopPolling();
                 timeOutPromise = $interval(_refreshStat, msPollingInterval);
             }, function(data, status) {
