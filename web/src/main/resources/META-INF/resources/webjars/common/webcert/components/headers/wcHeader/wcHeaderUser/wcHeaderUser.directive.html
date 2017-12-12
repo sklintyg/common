@@ -1,0 +1,26 @@
+<div class="wc-header-directive-container" ng-class="{'expanded' : menu.expanded}">
+
+  <i class="header-icon glyphicon glyphicon-user"></i>
+
+  <div class="vertical-container">
+    <div class="single-text-row-container">
+      <span class="greedy-flex-shrink truncate-when-needed user-name">Karl-Oskar Persoon Nilsson </span>
+      <span class="text-nowrap"> - Läkare</span>
+    </div>
+    <div class="status-row truncate-when-needed">rad2 status texten för användaren</div>
+  </div>
+
+
+
+  <button type="button" id="expand-usermenu-btn" class="btn btn-link" ng-click="toggleMenu($event)">
+    <i class="header-chevron glyphicon" ng-class="{'glyphicon-chevron-down' :!menu.expanded, 'glyphicon-chevron-up': menu.expanded}"></i>
+  </button>
+
+
+</div>
+<!-- must be outside flex container to be able to relatively position it -->
+<div uib-dropdown is-open="menu.expanded">
+  <ul uib-dropdown-menu>
+    <li><a href="#">Something else here</a></li>
+  </ul>
+</div>

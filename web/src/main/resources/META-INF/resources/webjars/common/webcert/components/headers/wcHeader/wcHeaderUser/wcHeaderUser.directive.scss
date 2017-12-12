@@ -1,0 +1,17 @@
+$wc-header-user-max-width: 400px;
+
+wc-header-user {
+  // should shrink a litte more aggressivly than the wc-unit
+  flex: 2 2 auto;
+  min-width: 0;
+
+  max-width: $wc-header-user-max-width;
+  height: 100%;
+  //base text color for this component
+  color: $wc-color-20;
+
+  .user-name {
+    font-weight: bold;
+  }
+
+}

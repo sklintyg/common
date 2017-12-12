@@ -1,0 +1,70 @@
+
+wc-header-help {
+  flex: 1 4 auto;
+
+/*
+ try to fix hamburger with. problem when nothing wants to grow anymore, and there is space left casuing the hamburger menu to be wide / or extra space after...
+ @media (max-width: 991px) {
+    flex: none;
+  }
+
+*/
+  height: 100%;
+  display: flex;
+  //base text color for this component
+  color: $wc-color-20;
+
+  .wc-header-directive-container {
+
+    &.about-section {
+      //shrink very aggressivly
+      flex: 1 5;
+      //but no more than..
+      min-width: 120px;
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 16px;
+    }
+
+    &.logout-section {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      min-width: 109px;
+      max-width: 109px;
+      padding: 0 8px;
+
+    }
+
+    &.hamburger-menu {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      box-shadow: none;
+      z-index: 2;
+
+      &.expanded {
+        //leftmost shadow
+        box-shadow: 0 -3px 8px 0 rgba(0, 0, 0, 0.32);
+      }
+
+      .btn {
+        padding: 0;
+      }
+
+      .glyphicon {
+        font-size: 26px;
+      }
+    }
+
+  }
+  .dropdown {
+    position: fixed;
+    right: 0;
+    top: 80px;
+  }
+  //Override wc-header style for this particular dropdown
+  .dropdown-menu {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.32);
+  }
+}

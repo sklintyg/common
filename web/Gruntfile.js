@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     process.chdir(npmDir);
 
     var autoprefixer = require('autoprefixer')({
-        browsers: [ 'last 2 versions', 'ie 9' ]
+        browsers: [ 'last 2 versions' ]
     });
 
     require('time-grunt')(grunt);
