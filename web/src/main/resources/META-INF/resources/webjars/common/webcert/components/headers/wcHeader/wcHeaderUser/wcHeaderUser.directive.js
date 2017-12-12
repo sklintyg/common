@@ -17,17 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcHeaderUser', function() {
+angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', function($rootScope, $uibModal) {
     'use strict';
 
     return {
         restrict: 'E',
-        scope: {},
+        scope: {
+            userModel: '='
+        },
         templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUser/wcHeaderUser.directive.html',
         link: function($scope) {
+
+            var infoDialogInstance;
+
             $scope.menu = {
+                enabled: $scope.userModel.privatLakare,
                 expanded: false
             };
+
 
             $scope.toggleMenu = function($event) {
                 $event.stopPropagation();
@@ -35,6 +42,32 @@ angular.module('common').directive('wcHeaderUser', function() {
 
             };
 
+
+            //To make sure we close any open dialog we spawned, register a listener to state changes
+            // so that we can make sure we close them
+            var unregisterFn = $rootScope.$on('$stateChangeStart', function() {
+                if (infoDialogInstance) {
+                    infoDialogInstance.close();
+                    infoDialogInstance = undefined;
+                }
+            });
+
+            //Since rootscope event listeners aren't unregistered automatically when this directives
+            //scope is destroyed, let's take care of that.
+            // (currently this directive is used only in the wc-header which lives throughout an entire session, so not that critical right now)
+            $scope.$on('$destroy', unregisterFn);
+
+            //The info dialog is triggered by the users themselves via link in the template
+            $scope.showSekretessInfoMessage = function() {
+                infoDialogInstance = $uibModal.open({
+                    templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUser/vardperson-sekretess.infodialog.html',
+                    size: 'md',
+                    id: 'SekretessInfoMessage'
+                });
+                //angular 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                infoDialogInstance.result.catch(function () {});
+            };
+
         }
     };
-});
+}]);

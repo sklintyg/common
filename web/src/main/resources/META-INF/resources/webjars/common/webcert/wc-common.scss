@@ -46,6 +46,7 @@
   @import 'components/headers/wcHeader/wcHeaderHelp/wcHeaderHelp.directive.scss';
   @import 'components/headers/wcHeader/wcHeaderUnit/wcHeaderUnit.directive.scss';
   @import 'components/headers/wcHeader/wcHeaderUser/wcHeaderUser.directive.scss';
+  @import 'components/headers/wcHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretess.directive.scss';
   @import 'components/headers/wcHeaderCareUnitDialog.template.scss';
   @import 'components/wcFormLabel/wcFormLabel.scss';
   @import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
@@ -59,7 +60,6 @@
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
   @import 'components/wcTableHead/wcTableHead.directive.scss';
-  @import 'components/wcVardPersonSekretess/wcVardPersonSekretess.directive.scss';
   @import 'css/_legacy-to-be-removed.scss';
   @import 'css/_wc-uv-override.scss';
   @import 'fk/arenden/_arende.scss';

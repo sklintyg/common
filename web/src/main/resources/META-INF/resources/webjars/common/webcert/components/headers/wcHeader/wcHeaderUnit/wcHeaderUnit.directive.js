@@ -22,7 +22,9 @@ angular.module('common').directive('wcHeaderUnit', function() {
 
     return {
         restrict: 'E',
-        scope: {},
+        scope: {
+            userModel: '='
+        },
         templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUnit/wcHeaderUnit.directive.html',
         link: function($scope) {
             $scope.menu = {

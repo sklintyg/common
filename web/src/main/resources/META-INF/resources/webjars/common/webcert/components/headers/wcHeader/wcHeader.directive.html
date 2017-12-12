@@ -4,12 +4,12 @@
 </div>
 
 
-<wc-header-user></wc-header-user>
+<wc-header-user ng-if="!hideUserSection()" user-model="userModel"></wc-header-user>
 
 
-<wc-header-unit></wc-header-unit>
+<wc-header-unit ng-if="!hideUnitSection()" user-model="userModel"></wc-header-unit>
 
 
-<wc-header-help></wc-header-help>
+<wc-header-help user-model="userModel"></wc-header-help>
 
 

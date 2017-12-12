@@ -37,8 +37,6 @@ describe('wcVardPersonSekretess Directive', function() {
     beforeEach(angular.mock.inject([ '$compile', '$rootScope', '$uibModal', 'common.UserModel', function($compile, $rootScope, _$uibModal_, _UserModel_) {
         $scope = $rootScope.$new();
         $uibModal = _$uibModal_;
-
-
         UserModel = _UserModel_;
         UserModel.setUser(initialMockedUser);
 
@@ -46,7 +44,8 @@ describe('wcVardPersonSekretess Directive', function() {
         element = $compile('<wc-vard-person-sekretess></wc-vard-person-sekretess>')($scope);
 
     } ]));
-
+/*
+should be moved to wc-header-user directive spec!
     it('Should render link if sekretessMarkering is true', function() {
         UserModel.user.sekretessMarkerad = true;
         $scope.$digest();
@@ -59,7 +58,7 @@ describe('wcVardPersonSekretess Directive', function() {
         expect($(element).find('#wc-vardperson-sekretess-info-dialog--link').length).toBe(0);
     });
 
-    it('Should info dialog if link is clicked', function() {
+    it('Should show info dialog if link is clicked', function() {
         UserModel.user.sekretessMarkerad = true;
 
         spyOn($uibModal, 'open');
@@ -69,15 +68,14 @@ describe('wcVardPersonSekretess Directive', function() {
 
         expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({id: 'SekretessInfoMessage'}));
     });
-
+ */
     it('Should show consent dialog if sekretessMarkering is true and consent not approved', function() {
         UserModel.user.sekretessMarkerad = true;
         UserModel.setAnvandarPreference('wc.vardperson.sekretess.approved', undefined);
         spyOn($uibModal, 'open');
 
         $scope.$digest();
-
-        expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({id: 'SekretessConsentDialog'}));
+        expect($(document).find('#wc-vardperson-sekretess-modal-dialog--consent-btn').length).toBe(1);
     });
 
     it('Should NOT show consent dialog if sekretessMarkering is true and consent already approved', function() {

@@ -1,19 +1,23 @@
 <div class="wc-header-directive-container" ng-class="{'expanded' : menu.expanded}">
 
-  <i class="header-icon glyphicon glyphicon-user"></i>
+  <i class="header-icon glyphicon" ng-class="{'glyphicon-lock sekretess-markering': userModel.sekretessMarkerad, 'glyphicon-user': !userModel.sekretessMarkerad}"></i>
 
   <div class="vertical-container">
     <div class="single-text-row-container">
-      <span class="greedy-flex-shrink truncate-when-needed user-name">Karl-Oskar Persoon Nilsson </span>
-      <span class="text-nowrap"> - Läkare</span>
+      <span class="greedy-flex-shrink truncate-when-needed user-name">{{userModel.namn}}</span>
+      <span class="text-nowrap">&nbsp;- {{userModel.role}}</span>
     </div>
-    <div class="status-row truncate-when-needed">rad2 status texten för användaren</div>
+    <div class="status-row truncate-when-needed" ng-if="userModel.sekretessMarkerad">
+      <a href="" id="show-sekretess-dialog-btn" class="sekretess-markering" ng-click="showSekretessInfoMessage()">
+        Sekretessmarkering
+      </a>
+    </div>
   </div>
 
 
 
-  <button type="button" id="expand-usermenu-btn" class="btn btn-link" ng-click="toggleMenu($event)">
-    <i class="header-chevron glyphicon" ng-class="{'glyphicon-chevron-down' :!menu.expanded, 'glyphicon-chevron-up': menu.expanded}"></i>
+  <button type="button" id="expand-usermenu-btn" class="btn btn-link" ng-click="toggleMenu($event)" ng-if="menu.enabled">
+    <i class="header-chevron glyphicon" ng-class="{'glyphicon-menu-down' :!menu.expanded, 'glyphicon-menu-up': menu.expanded}"></i>
   </button>
 
 
@@ -24,3 +28,5 @@
     <li><a href="#">Something else here</a></li>
   </ul>
 </div>
+<!-- launches sekretess confirmation dialog if needed -->
+<wc-vard-person-sekretess></wc-vard-person-sekretess>

@@ -17,15 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcHeader', function() {
+angular.module('common').directive('wcHeader', ['common.User', function(UserService) {
     'use strict';
 
     return {
         restrict: 'E',
+        scope: {},
         templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeader.directive.html',
         link: function($scope) {
+            $scope.userModel = UserService.getUser();
 
+            $scope.hideUserSection = function () {
+                return !angular.isObject($scope.userModel);
+
+            };
+
+            $scope.hideUnitSection = function () {
+                return !angular.isObject($scope.userModel) || !angular.isObject(UserService.getValdVardenhet());
+
+            };
 
         }
     };
-});
+}]);

@@ -18,25 +18,22 @@
  */
 
 angular.module('common').directive('wcVardPersonSekretess',
-        [ '$rootScope', '$uibModal', 'common.UserModel', function($rootScope, $uibModal, UserModel) {
+        [ '$uibModal', 'common.UserModel', function($uibModal, UserModel) {
             'use strict';
 
             return {
                 restrict: 'E',
                 scope: {},
-                templateUrl: '/web/webjars/common/webcert/components/wcVardPersonSekretess/wcVardPersonSekretess.directive.html',
-                link: function($scope) {
+                template: '',
 
-                    var _SEKRETESSWARNING_APPROVED = 'wc.vardperson.sekretess.approved';
+                link: function() {
 
-                    var infoDialogInstance, confirmDialogInstance;
-
-                    $scope.user = UserModel.user;
+                    var confirmDialogInstance, _SEKRETESSWARNING_APPROVED = 'wc.vardperson.sekretess.approved';
 
                     //The confirmation dialog is only displayed if sekretess and not already given consent.
                     var _showSekretessConfirmationDialog = function() {
                         confirmDialogInstance = $uibModal.open({
-                            templateUrl: '/web/webjars/common/webcert/components/wcVardPersonSekretess/wcVardPersonSekretessDialog.html',
+                            templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretessDialog.html',
                             controller: 'wcVardPersonSekretessDialogCtrl',
                             size: 'md',
                             id: 'SekretessConsentDialog',
@@ -50,33 +47,12 @@ angular.module('common').directive('wcVardPersonSekretess',
                         });
                     };
 
-                    //To make sure we close any open dialog we spawned, register a listener to state changes
-                    // so that we can make sure we close them
-                    var unregisterFn = $rootScope.$on('$stateChangeStart', function() {
-                        if (infoDialogInstance) {
-                            infoDialogInstance.close();
-                            infoDialogInstance = undefined;
-                        }
-                    });
-
-                    //Since rootscope event listeners aren't unregistered automatically when this directives
-                    //scope is destroyed, let's take care of that.
-                    // (currently this directive is used only in the wc-header which lives throughout an entire session, so not that critical right now)
-                    $scope.$on('$destroy', unregisterFn);
-
-                    //The info dialog is triggered by the users themselves via link in the template
-                    $scope.showSekretessInfoMessage = function() {
-                        infoDialogInstance = $uibModal.open({
-                            templateUrl: '/web/webjars/common/webcert/components/wcVardPersonSekretess/wcVardPersonSekretess.infodialog.html',
-                            size: 'md',
-                            id: 'SekretessInfoMessage'
-                        });
-                    };
 
 
                     //Should we launch the approval dialog?
                     if (UserModel.user.sekretessMarkerad && UserModel.getAnvandarPreference(_SEKRETESSWARNING_APPROVED) === undefined) {
                         _showSekretessConfirmationDialog();
+
                     }
 
                 }
