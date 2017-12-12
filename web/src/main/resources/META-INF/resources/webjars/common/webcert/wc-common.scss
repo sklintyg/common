@@ -246,10 +246,6 @@
     font-size: 16px;
     line-height: 20px;
     padding-top: 30px;
-    &.less-top-padding {
-      /* useful if h2 is placed immediately after h1 */
-      padding-top: 10px;
-    }
   }
 
   h3 {
@@ -400,11 +396,6 @@
   input[type=checkbox] {
     margin-top: 3px;
     cursor: pointer;
-  }
-
-  /* Commonly used */
-  td.center {
-    text-align: center;
   }
 
   /* Not used? */
@@ -726,74 +717,16 @@
     top:400px;
   }
 
-  /* Commonly used */
-  .qa-table-section {
-    padding-top: 20px;
-  }
-
-  /* Commonly used */
-  .table-qa {
-    border-collapse: separate;
-    border-spacing: 0 8px;
-    display: block;
-
-    .btn-info {
-      padding: 7px 15px;
-      min-width: 50px;
-    }
-
-    .btn-secondary {
-      padding: 7px 15px;
-      min-width: 50px;
-    }
-
-    .btn-success {
-      padding: 7px 15px;
-      min-width: 50px;
-    }
-
-    > thead > tr > th {
-      border: 0;
-      padding: 0 15px 0 0;
-    }
-
-    > tbody > tr {
-      > th {
-        border: 0;
-        padding: 0 15px 0 0;
-      }
-      > td {
-        padding: 0 20px 0 0;
-        background-color: $mercury;
-        &:first-child {
-          border-radius: 3px 0 0 3px;
-        }
-
-        &.table-qa-last {
-          border-radius: 0 3px 3px 0;
-        }
-
-        &:only-child {
-          border-radius: 3px 3px 0 0;
-        }
-
-        &.nopadding {
-          padding: 0;
-        }
-      }
-    }
-  }
 
   /* Not used? */
   .table-care-unit {
     display: table;
   }
 
-  /* Commonly used */
+  /* util used everywhere */
   .unbreakable {
     white-space: nowrap;
   }
-
 
 /* Not used? */
   #qa-table input[type=checkbox] {
@@ -803,15 +736,6 @@
   .qa-panel .btn-info {
     padding: 7px 15px;
     min-width: 50px;
-  }
-
-  /* Commonly used */
-  .qa-filter-panel {
-    border-radius: 0 5px 5px 5px;
-    background-color: $color_wild_sand_approx;
-    font-size: 12px;
-    max-width: 800px;
-    padding: 10px;
   }
 
   /* Used in two places. Check if they clash */
@@ -921,14 +845,6 @@ wc cookie banner css.
 
 .empty {
   color: #a9a9a9;
-}
-
-.forward-active {
-  color: white;
-}
-
-.forward-inactive {
-  color: black;
 }
 
 .bottom-padding-big {
