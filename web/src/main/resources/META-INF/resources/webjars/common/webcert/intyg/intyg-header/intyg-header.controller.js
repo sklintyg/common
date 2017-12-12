@@ -34,7 +34,7 @@ angular.module('common').controller('common.IntygHeader',
             var _intygActionDialog = null;
             var previousIntyg = {};
             var previousUtkast = {};
-            var warningForCreateTemplate;
+            var warningForCreateTemplate = {};
 
             $scope.intygstyp = intygType;
             $scope.createFromTemplateConfig = {
