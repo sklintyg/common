@@ -66,7 +66,7 @@ angular.module('common').controller('common.wcHeaderController',
             /**
              * Event listeners
              */
-            $scope.$on('wc-stat-update', function(event, message) {
+            $scope.$on('statService.stat-update', function(event, message) {
                 $scope.stat = message;
             });
 
@@ -158,12 +158,12 @@ angular.module('common').controller('common.wcHeaderController',
                 var menu = [];
                 if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
                     menu.push({
-                        link: '/web/dashboard#/unhandled-qa',
+                        link: '/web/dashboard#/enhet-arenden',
                         label: 'Frågor och svar',
                         requiresDoctor: false,
                         statNumberId: 'stat-unitstat-unhandled-question-count',
                         statTooltip: 'not set',
-                        id: 'menu-unhandled-qa',
+                        id: 'menu-enhet-arenden',
                         getStat: function() {
                             this.statTooltip = 'Vårdenheten har ' + $scope.stat.fragaSvarValdEnhet +
                                 ' ej hanterade frågor och svar.';
@@ -360,7 +360,7 @@ angular.module('common').controller('common.wcHeaderController',
                                 if (UserModel.user.isLakareOrPrivat) {
                                     $location.path('/');
                                 } else {
-                                    $location.path('/unhandled-qa');
+                                    $location.path('/enhet-arenden');
                                 }
                                 $state.reload();
                             }, function() {

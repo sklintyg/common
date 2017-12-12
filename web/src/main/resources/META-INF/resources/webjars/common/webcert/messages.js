@@ -171,8 +171,6 @@ angular.module('common').constant('common.messages', {
         'qa.help.handled': 'Tidigare frågor och svar är sådana som redan har besvarats eller hanterats på något sätt.',
         'qa.help.kompletteringar': 'Kompletteringar visar den information som Försäkringskassan begärt ska korrigeras på intyget detta utkast ska komplettera.',
 
-        'qa.fragestallare.fk': 'Försäkringskassan',
-        'qa.fragestallare.wc': 'Vårdenheten',
         'qa.amne.paminnelse': 'Påminnelse',
         'qa.amne.arbetstidsforlaggning': 'Arbetstidsförläggning',
         'qa.amne.kontakt': 'Kontakt',
@@ -181,12 +179,6 @@ angular.module('common').constant('common.messages', {
         'qa.amne.komplt': 'Komplettering av läkarintyg',
         'qa.amne.makulering_av_lakarintyg': 'Makulering av läkarintyg',
         'qa.amne.ovrigt': 'Övrigt',
-
-        'qa.measure.svarfranvarden': 'Svara',
-        'qa.measure.svarfranfk': 'Invänta svar från Försäkringskassan',
-        'qa.measure.komplettering': 'Komplettera',
-        'qa.measure.markhandled': 'Markera som hanterad',
-        'qa.measure.handled': 'Inget',
 
         // Ärendehantering
         'common.loading.existing.arenden': 'Laddar ärenden...',

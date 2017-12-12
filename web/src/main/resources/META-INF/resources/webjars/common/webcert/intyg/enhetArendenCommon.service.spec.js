@@ -21,94 +21,94 @@ describe('fragaSvarCommonService', function() {
     'use strict';
 
     describe('#isUnhandled', function() {
-        var fragaSvarCommonService;
+        var enhetArendenCommonService;
 
         beforeEach(angular.mock.module('common'), function($provide){
             $provide.value('common.dialogService', {});
             $provide.value('common.User', {});
         });
 
-        beforeEach(angular.mock.inject(['common.fragaSvarCommonService',
-            function(_fragaSvarCommonService_) {
-                fragaSvarCommonService = _fragaSvarCommonService_;
+        beforeEach(angular.mock.inject(['common.enhetArendenCommonService',
+            function(_enhetArendenCommonService_) {
+                enhetArendenCommonService = _enhetArendenCommonService_;
             }
         ]));
 
         it ('should be unhandled if qa.status === ANSWERED', function () {
             var qa = {status:'ANSWERED'};
-            expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
+            expect(enhetArendenCommonService.isUnhandled(qa)).toBeTruthy();
         });
 
         it ('should be unhandled if qa.status === PENDING_INTERNAL_ACTION && qa.amne === PAMINNELSE', function () {
             var qa = {status:'PENDING_INTERNAL_ACTION', amne : 'PAMINNELSE'};
-            expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
+            expect(enhetArendenCommonService.isUnhandled(qa)).toBeTruthy();
         });
 
         it ('should be unhandled if qa.status === PENDING_INTERNAL_ACTION && qa.amne === PAMINN', function () {
             var qa = {status:'PENDING_INTERNAL_ACTION', amne : 'PAMINN'};
-            expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
+            expect(enhetArendenCommonService.isUnhandled(qa)).toBeTruthy();
         });
 
         it ('should be unhandled if qa.status === PENDING_EXTERNAL_ACTION && qa.amne === MAKULERING', function () {
             var qa = {status:'PENDING_EXTERNAL_ACTION', amne : 'MAKULERING'};
-            expect(fragaSvarCommonService.isUnhandled(qa)).toBeFalsy();
+            expect(enhetArendenCommonService.isUnhandled(qa)).toBeFalsy();
         });
 
         it ('should be unhandled if qa.status === ANSWERED && qa.amne === *', function () {
             var qa = {status:'ANSWERED', amne : 'PAMINNELSE'};
-            expect(fragaSvarCommonService.isUnhandled(qa)).toBeTruthy();
+            expect(enhetArendenCommonService.isUnhandled(qa)).toBeTruthy();
         });
 
         it ('should be unhandled if qa.status === PENDING_EXTERNAL_ACTION && qa.amne === MAKULERING', function () {
             var qa = {status:'PENDING_EXTERNAL_ACTION', amne : 'AHHG'};
-            expect(fragaSvarCommonService.isUnhandled(qa)).toBeFalsy();
+            expect(enhetArendenCommonService.isUnhandled(qa)).toBeFalsy();
         });
 
         it ('should be handled if qa.status != ANSWERED', function () {
             var qa = {status:'CLOSED'};
-            expect(fragaSvarCommonService.isUnhandled(qa)).toBeFalsy();
+            expect(enhetArendenCommonService.isUnhandled(qa)).toBeFalsy();
         });
     });
 
     describe('decorateSingleItem', function() {
-        var fragaSvarCommonService;
+        var enhetArendenCommonService;
 
         var UserModel;
 
         beforeEach(angular.mock.module('common'), function($provide){
         });
 
-        beforeEach(angular.mock.inject(['common.fragaSvarCommonService', 'common.UserModel',
-            function(_fragaSvarCommonService_, _UserModel_) {
-                fragaSvarCommonService = _fragaSvarCommonService_;
+        beforeEach(angular.mock.inject(['common.enhetArendenCommonService', 'common.UserModel',
+            function(_enhetArendenCommonService_, _UserModel_) {
+                enhetArendenCommonService = _enhetArendenCommonService_;
                 UserModel = _UserModel_;
             }
         ]));
 
         it ('should disable answer if amne is PAMINNELSE', function () {
             var qa = {amne:'PAMINNELSE'};
-            fragaSvarCommonService.decorateSingleItem(qa);
+            enhetArendenCommonService.decorateSingleItem(qa);
             expect(qa.answerDisabled).toBeTruthy();
             expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
         });
 
         it ('should disable answer if amne is PAMINN', function () {
             var qa = {amne:'PAMINN'};
-            fragaSvarCommonService.decorateSingleItem(qa);
+            enhetArendenCommonService.decorateSingleItem(qa);
             expect(qa.answerDisabled).toBeTruthy();
             expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
         });
 
         it ('should disable answer if it is a komplettering (new KOMPLT) and user does not have that permission', function () {
             var qa = {amne:'KOMPLT'};
-            fragaSvarCommonService.decorateSingleItem(qa);
+            enhetArendenCommonService.decorateSingleItem(qa);
             expect(qa.answerDisabled).toBeTruthy();
             expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
         });
 
         it ('should disable answer if it is a komplettering (old KOMPLETTERING_AV_LAKARINTYG) and user does not have that permission', function () {
             var qa = {amne:'KOMPLETTERING_AV_LAKARINTYG'};
-            fragaSvarCommonService.decorateSingleItem(qa);
+            enhetArendenCommonService.decorateSingleItem(qa);
             expect(qa.answerDisabled).toBeTruthy();
             expect(qa.svaraMedNyttIntygDisabled).toBeFalsy();
         });
@@ -142,31 +142,31 @@ describe('fragaSvarCommonService', function() {
             }
         };
 
-        it('should be correct when user\'s request origin is uthopp', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
+        it('should be correct when user\'s request origin is uthopp', inject(['common.enhetArendenCommonService', function(enhetArendenCommonService) {
             userModelMock.isUthopp = function() { return true; };
-            var link = fragaSvarCommonService.buildMailToLink(qa);
+            var link = enhetArendenCommonService.buildMailToLink(qa);
             expect(link).toEqual(
                 'mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20Angarden%20for%20vardgivare%20Vardgivare'+
                 '&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
                 $window.location.port + '%2Fwebcert%2Fweb%2Fuser%2Fcertificate%2Ftestid%2Fquestions');
         }]));
 
-        it('should be correct when user\'s request origin is something else than uthopp', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
+        it('should be correct when user\'s request origin is something else than uthopp', inject(['common.enhetArendenCommonService', function(enhetArendenCommonService) {
             userModelMock.isUthopp = function() { return false; };
-            var link = fragaSvarCommonService.buildMailToLink(qa);
+            var link = enhetArendenCommonService.buildMailToLink(qa);
             expect(link).toEqual(
                 'mailto:?subject=En%20fraga-svar%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20Angarden%20for%20vardgivare%20Vardgivare'+
                 '&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20fraga-svar%3A%0Ahttp%3A%2F%2Flocalhost%3A' +
                 $window.location.port + '%2Fwebcert%2Fweb%2Fuser%2Fbasic-certificate%2Ftestid%2Fquestions');
         }]));
 
-        it('should create a link that leads back to the intyg', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
+        it('should create a link that leads back to the intyg', inject(['common.enhetArendenCommonService', function(enhetArendenCommonService) {
             userModelMock.isUthopp = function() { return false; };
-            var link = fragaSvarCommonService.buildMailToLink(qa);
+            var link = enhetArendenCommonService.buildMailToLink(qa);
             expect(link).not.toContain('undefined');
         }]));
 
-        it('should create a link that leads back to the intyg', inject(['common.fragaSvarCommonService', function(fragaSvarCommonService) {
+        it('should create a link that leads back to the intyg', inject(['common.enhetArendenCommonService', function(enhetArendenCommonService) {
             userModelMock.isUthopp = function() { return false; };
 
             // Wrong format
@@ -175,7 +175,7 @@ describe('fragaSvarCommonService', function() {
                 enhetsnamn: 'Ängården',
                 vardgivarnamn: 'Vårdgivare'
             };
-            var link = fragaSvarCommonService.buildMailToLink(qaWrong);
+            var link = enhetArendenCommonService.buildMailToLink(qaWrong);
             expect(link).toContain('error');
         }]));
     });
@@ -183,19 +183,19 @@ describe('fragaSvarCommonService', function() {
     describe('vidarebefordrad', function() {
 
         var $httpBackend;
-        var fragaSvarCommonService;
+        var enhetArendenCommonService;
 
-        beforeEach(angular.mock.inject(['$httpBackend', 'common.fragaSvarCommonService',
-            function(_$httpBackend_, _fragaSvarCommonService_) {
+        beforeEach(angular.mock.inject(['$httpBackend', 'common.enhetArendenCommonService',
+            function(_$httpBackend_, _enhetArendenCommonService_) {
                 $httpBackend = _$httpBackend_;
-                fragaSvarCommonService = _fragaSvarCommonService_;
+                enhetArendenCommonService = _enhetArendenCommonService_;
             }
         ]));
 
         it('success', function() {
             var callback = {done:function(){}};
             spyOn(callback,'done');
-            fragaSvarCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
+            enhetArendenCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
             $httpBackend.expectPUT('/moduleapi/fragasvar/testIntygTyp/111/hanterad').respond(200,{fragasvar:'aaa'});
             $httpBackend.flush();
             expect(callback.done).toHaveBeenCalledWith({fragasvar:'aaa'});
@@ -204,7 +204,7 @@ describe('fragaSvarCommonService', function() {
         it('fail', function() {
             var callback = {done:function(){}};
             spyOn(callback,'done');
-            fragaSvarCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
+            enhetArendenCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
             $httpBackend.expectPUT('/moduleapi/fragasvar/testIntygTyp/111/hanterad').respond(500,{fragasvar:'aaa'});
             $httpBackend.flush();
             expect(callback.done).toHaveBeenCalledWith(null);
@@ -213,21 +213,21 @@ describe('fragaSvarCommonService', function() {
         it('toggle', function() {
             var fraga = {};
             var onVidarebefordradChange = function() {};
-            fragaSvarCommonService.handleVidareBefodradToggle(fraga, onVidarebefordradChange);
+            enhetArendenCommonService.handleVidareBefodradToggle(fraga, onVidarebefordradChange);
         });
     });
 
     describe('QAonly dialog', function() {
 
         var dialogService;
-        var fragaSvarCommonService;
+        var enhetArendenCommonService;
         var UserModel;
 
-        beforeEach(angular.mock.inject(['common.fragaSvarCommonService', 'common.dialogService',
+        beforeEach(angular.mock.inject(['common.enhetArendenCommonService', 'common.dialogService',
             'common.UserModel',
-            function(_fragaSvarCommonService_, _dialogService_, _UserModel_) {
+            function(_enhetArendenCommonService_, _dialogService_, _UserModel_) {
                 dialogService = _dialogService_;
-                fragaSvarCommonService = _fragaSvarCommonService_;
+                enhetArendenCommonService = _enhetArendenCommonService_;
                 UserModel = _UserModel_;
 
                 UserModel.setUser({origin: 'UTHOPP'});
@@ -243,11 +243,11 @@ describe('fragaSvarCommonService', function() {
             spyOn(spies, 'preventDefault');
             spyOn(spies, 'unbindEvent');
             spyOn(dialogService, 'showDialog').and.callThrough();
-            fragaSvarCommonService.checkQAonlyDialog(
+            enhetArendenCommonService.checkQAonlyDialog(
                 {},
                 spies,
                 'web/dashboard#/fragasvar/',
-                'web/dashboard#/unhandled-qa',
+                'web/dashboard#/enhet-arenden',
                 spies.unbindEvent);
 
             expect(spies.unbindEvent).toHaveBeenCalled();
@@ -263,11 +263,11 @@ describe('fragaSvarCommonService', function() {
             spyOn(spies, 'preventDefault');
             spyOn(spies, 'unbindEvent');
             spyOn(dialogService, 'showDialog').and.callThrough();
-            fragaSvarCommonService.checkQAonlyDialog(
+            enhetArendenCommonService.checkQAonlyDialog(
                 {},
                 spies,
                 'web/dashboard#/create/choose-patient/index',
-                'web/dashboard#/unhandled-qa',
+                'web/dashboard#/enhet-arenden',
                 spies.unbindEvent);
 
             expect(spies.preventDefault).toHaveBeenCalled();

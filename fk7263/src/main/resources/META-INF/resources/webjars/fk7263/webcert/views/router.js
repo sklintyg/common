@@ -155,7 +155,7 @@ angular.module('fk7263').config(function($stateProvider) {
             }
         }).
         state('webcert.fragasvar.fk7263', {
-            data: { defaultActive : 'unhandled-qa', intygType: 'fk7263' },
+            data: { defaultActive : 'enhet-arenden', intygType: 'fk7263' },
             url: '/fragasvar/fk7263/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {

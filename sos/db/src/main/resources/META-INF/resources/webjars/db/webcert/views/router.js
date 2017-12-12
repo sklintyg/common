@@ -89,7 +89,7 @@ angular.module('db').config(function($stateProvider) {
             }
         }).
         state('webcert.fragasvar.db', {
-            data: { defaultActive : 'unhandled-qa', intygType: 'db'  },
+            data: { defaultActive : 'enhet-arenden', intygType: 'db'  },
             url: '/fragasvar/db/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
