@@ -30,7 +30,7 @@ angular.module('common').controller('common.UtkastFooter',
             var viewState = $scope.viewState;
             var previousUtkastWarnings = {};
             var previousIntygWarnings = {};
-            var previousWarningMessage = null;
+            var previousWarningMessage;
 
             /**
              * Handle vidarebefordra dialog
