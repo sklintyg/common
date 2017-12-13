@@ -265,7 +265,7 @@ xdescribe('wcHeader', function() {
             var menuItems = element.find('#huvudmeny .nav LI');
             expect(menuItems.length).toBe(4);
             expect($(menuItems[0]).find('A').attr('href')).toBe('/web/dashboard#/create/index');
-            expect($(menuItems[1]).find('A').attr('href')).toBe('/web/dashboard#/unhandled-qa');
+            expect($(menuItems[1]).find('A').attr('href')).toBe('/web/dashboard#/enhet-arenden');
             expect($(menuItems[2]).find('A').attr('href')).toBe('/web/dashboard#/unsigned');
             expect($(menuItems[3]).find('A').attr('href')).toBe('/web/dashboard#/webcert/about');
         });
@@ -281,7 +281,7 @@ xdescribe('wcHeader', function() {
 
             var menuItems = element.find('#huvudmeny .nav LI');
             expect(menuItems.length).toBe(4);
-            expect($(menuItems[0]).find('A').attr('href')).toBe('/web/dashboard#/unhandled-qa');
+            expect($(menuItems[0]).find('A').attr('href')).toBe('/web/dashboard#/enhet-arenden');
             expect($(menuItems[1]).find('A').attr('href')).toBe('/web/dashboard#/unsigned');
             expect($(menuItems[2]).find('A').attr('href')).toBe('/web/dashboard#/create/index');
             expect($(menuItems[3]).find('A').attr('href')).toBe('/web/dashboard#/webcert/about');

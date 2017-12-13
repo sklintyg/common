@@ -89,7 +89,7 @@ angular.module('luae_fs').config(function($stateProvider) {
             }
         }).
         state('webcert.fragasvar.luae_fs', {
-            data: { defaultActive : 'unhandled-qa', intygType: 'luae_fs'  },
+            data: { defaultActive : 'enhet-arenden', intygType: 'luae_fs'  },
             url: '/fragasvar/luae_fs/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {

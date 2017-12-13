@@ -89,7 +89,7 @@ angular.module('lisjp').config(function($stateProvider) {
             }
         }).
         state('webcert.fragasvar.lisjp', {
-            data: { defaultActive : 'unhandled-qa', intygType: 'lisjp'  },
+            data: { defaultActive : 'enhet-arenden', intygType: 'lisjp'  },
             url: '/fragasvar/lisjp/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
