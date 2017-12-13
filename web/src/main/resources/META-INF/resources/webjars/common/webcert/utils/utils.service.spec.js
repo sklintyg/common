@@ -34,19 +34,19 @@ describe('UtilsService', function() {
         expect(utilsService.replaceAccentedCharacters('Hey ÅåÄäÖö there')).toEqual('Hey AaAaOo there');
     });
 
-    it('should replace consider empty string as false"', function() {
+    it('should consider empty string as invalid"', function() {
         expect(utilsService.isValidString('')).toBeFalsy();
     });
 
-    it('should replace consider null string as false"', function() {
+    it('should consider null string as invalid"', function() {
         expect(utilsService.isValidString(null)).toBeFalsy();
     });
 
-    it('should replace consider undefined string as false"', function() {
+    it('should consider undefined string as invalid"', function() {
         expect(utilsService.isValidString(undefined)).toBeFalsy();
     });
 
-    it('should replace consider \'Hello Sunshine!\' string as false"', function() {
+    it('should consider \'Hello Sunshine!\' string as valid"', function() {
         expect(utilsService.isValidString('Hello Sunshine!')).toBeTruthy();
     });
 
@@ -65,5 +65,37 @@ describe('UtilsService', function() {
     it('should not be able to number from nonnumerical string', function() {
         expect(utilsService.extractNumericalFrageId('HelloWorld')).toBeUndefined();
     });
+
+    describe('endsWith', function() {
+        it('should return false for undefined, null and empty strings', function() {
+            expect(utilsService.endsWith(undefined, 'test')).toBeFalsy();
+            expect(utilsService.endsWith(null, 'test')).toBeFalsy();
+            expect(utilsService.endsWith('', 'test')).toBeFalsy();
+        });
+
+        it('should return false for no matching string', function() {
+            expect(utilsService.endsWith('apa', 'bepa')).toBeFalsy();
+        });
+
+        it('should return false for matching string not at end', function() {
+            expect(utilsService.endsWith('bepa apa', 'bepa')).toBeFalsy();
+        });
+
+        it('should return true for matching string at end', function() {
+            expect(utilsService.endsWith('apa bepa', 'bepa')).toBeTruthy();
+        });
+
+        it('should return true for exact matching string at end', function() {
+            expect(utilsService.endsWith('bepa', 'bepa')).toBeTruthy();
+        });
+
+        it('should return false for undefined, null and empty matcher strings', function() {
+            expect(utilsService.endsWith('test', undefined)).toBeFalsy();
+            expect(utilsService.endsWith('test', null)).toBeFalsy();
+            expect(utilsService.endsWith('test', '')).toBeFalsy();
+        });
+
+    });
+    
 
 });

@@ -1,26 +1,26 @@
 <div class="wc-header-directive-container about-section hidden-sm hidden-xs">
   <div class="text-nowrap">
-    <a href>Om Webcert</a>
+    <a href="" id="aboutLink" ng-click="onAboutClick()">Om Webcert</a>
   </div>
 </div>
 
-<div class="wc-header-directive-container logout-section hidden-sm hidden-xs">
+<div class="wc-header-directive-container logout-section hidden-sm hidden-xs" ng-if="showLogout()">
   <div class="text-nowrap">
-    <a href>Logga ut</a>
+    <a id="logoutLink" href="" ng-click="onLogoutClick()">Logga ut</a>
   </div>
 </div>
 
 <div class="wc-header-directive-container hamburger-menu hidden-md hidden-lg" ng-class="{'expanded' : menu.expanded}">
-    <button type="button" id="expand-help-btn" class="btn btn-link" ng-click="toggleMenu($event)">
-      <i class="glyphicon glyphicon-option-vertical"></i>
-    </button>
+  <button type="button" id="expand-help-btn" class="btn btn-link" ng-click="toggleMenu($event)">
+    <i class="glyphicon glyphicon-option-vertical"></i>
+  </button>
 </div>
 
 
 <!-- this menu cant be relatively positioned, as it should not grow the width of the menu -->
 <div uib-dropdown is-open="menu.expanded" class="hidden-md hidden-lg">
   <ul uib-dropdown-menu>
-    <li><a href>Om Webcert</a></li>
-    <li><a href>Logga ut</a></li>
+    <li><a href="" id="aboutLink" ng-click="onAboutClick()">Om Webcert</a></li>
+    <li ng-if="showLogout()"><a href="" id="logoutLink" ng-click="onLogoutClick()">Logga ut</a></li>
   </ul>
 </div>

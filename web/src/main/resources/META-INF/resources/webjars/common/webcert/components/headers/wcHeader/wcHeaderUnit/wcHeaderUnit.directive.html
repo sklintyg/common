@@ -4,23 +4,26 @@
 
    <div class="vertical-container">
     <div class="single-text-row-container">
-      <span class="text-nowrap vg-name">Landstinget Västerbotten </span>
-      <span class="greedy-flex-shrink truncate-when-needed ve-name"> - Vårdenheten smörblomman</span>
+      <span class="text-nowrap vg-name">{{userModel.valdVardgivare.namn}}</span>
+      <span class="greedy-flex-shrink truncate-when-needed ve-name" ng-if="showEnhetName()">&nbsp;- {{userModel.valdVardenhet.namn}}</span>
     </div>
-    <div class="status-row truncate-when-needed">rad2 status texten för vårdenheten</div>
+    <div class="status-row truncate-when-needed" id="otherLocations" ng-if="otherLocationsStatsCount() > 0">
+      <b>{{otherLocationsStatsCount()}}</b> ej hanterade frågor och ej signerade utkast på andra vårdenheter.
+    </div>
    </div>
 
 
 
-  <button type="button" id="expand-unitmenu-btn" class="btn btn-link" ng-click="toggleMenu($event)">
+  <button type="button" id="expand-unitmenu-btn" class="btn btn-link" ng-click="toggleMenu($event)" ng-if="menu.enabled" wc-authority="ATKOMST_ANDRA_ENHETER">
     <i class="header-chevron glyphicon" ng-class="{'glyphicon-menu-down' :!menu.expanded, 'glyphicon-menu-up': menu.expanded}"></i>
   </button>
 
 
 </div>
+
 <!-- must be outside flex container to be able to relatively position it -->
 <div uib-dropdown is-open="menu.expanded">
   <ul uib-dropdown-menu>
-    <li><a href="#">Something else here</a></li>
+    <li><a href="" id="wc-care-unit-clinic-selector-link" ng-click="onChangeActiveUnitClick()">Byt vårdenhet</a></li>
   </ul>
 </div>

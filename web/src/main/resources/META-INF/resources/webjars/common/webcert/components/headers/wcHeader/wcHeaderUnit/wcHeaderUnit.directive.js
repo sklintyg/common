@@ -17,7 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcHeaderUnit', function() {
+/**
+ Note: This directive is not rendered unless a valid userModel is available, so all access to $scope.userModel can skips such checks.
+ */
+angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.authorityService', 'common.statService', function($uibModal, authorityService, statService) {
     'use strict';
 
     return {
@@ -27,7 +30,40 @@ angular.module('common').directive('wcHeaderUnit', function() {
         },
         templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUnit/wcHeaderUnit.directive.html',
         link: function($scope) {
+
+
+            $scope.statService = statService;
+            $scope.statService.startPolling();
+            $scope.stat = {
+                fragaSvarValdEnhet: 0,
+                fragaSvarAndraEnheter: 0,
+                intygValdEnhet: 0,
+                intygAndraEnheter: 0,
+                vardgivare: []
+            };
+
+            /**
+             * Event listeners
+             */
+            $scope.$on('wc-stat-update', function(event, message) {
+                $scope.stat = message;
+            });
+
+            $scope.otherLocationsStatsCount = function() {
+                return ($scope.stat.intygAndraEnheter + $scope.stat.fragaSvarAndraEnheter);
+            };
+
+
+
+
+            function _showMenu() {
+                return authorityService.isAuthorityActive({
+                    authority: 'ATKOMST_ANDRA_ENHETER'
+                }) && $scope.userModel.totaltAntalVardenheter > 1;
+            }
+
             $scope.menu = {
+                enabled: _showMenu(),
                 expanded: false
             };
 
@@ -37,6 +73,34 @@ angular.module('common').directive('wcHeaderUnit', function() {
 
             };
 
+            $scope.showEnhetName = function() {
+                return !$scope.userModel.privatLakare;
+            };
+
+            $scope.onChangeActiveUnitClick = function() {
+
+                    var changeUnitDialogInstance = $uibModal.open({
+                        templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUnit/wcChangeActiveUnitDialog.html',
+                        controller: 'wcChangeActiveUnitDialogCtrl',
+                        size: 'md',
+                        id: 'wcChangeActiveUnitDialog',
+                        backdrop: 'static',
+                        keyboard: false,
+                        resolve: {
+                            stats: function() {
+                                return angular.copy($scope.stat);
+                            },
+                            vardgivare: function() {
+                                return angular.copy($scope.userModel.vardgivare);
+                            },
+                            valdEnhet: function() {
+                                return angular.copy($scope.userModel.valdVardenhet);
+                            }
+                        }
+                    });
+
+            };
+
         }
     };
-});
+} ]);

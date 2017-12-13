@@ -83,13 +83,18 @@ angular.module('common').factory('common.UtilsService', function() {
         return str.substr(0, position) + text + str.substr(position);
     }
 
+    function _endsWith(str, suffix) {
+        return _isValidString(str) && _isValidString(suffix) && str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+
     return {
         extractNumericalFrageId: _extractNumericalFrageId,
         isValidString: _isValidString,
         isDefined: _isDefined,
         replaceAccentedCharacters: _replaceAccentedCharacters,
         replaceAll: _replaceAll,
-        insertAt: _insertAt
+        insertAt: _insertAt,
+        endsWith: _endsWith
     };
 
 });

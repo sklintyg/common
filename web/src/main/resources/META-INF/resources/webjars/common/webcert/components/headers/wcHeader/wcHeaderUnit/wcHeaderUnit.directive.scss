@@ -1,9 +1,9 @@
-$wc-header-unit-max-width: 520px;
+$wc-header-unit-max-width: 560px;
 
 wc-header-unit {
   // should shink normally more agresssively
   flex: 2 1 auto;
-  min-width: 0;
+  min-width: 200px;
   max-width: $wc-header-unit-max-width;
   height: 100%;
   //base text color for this component

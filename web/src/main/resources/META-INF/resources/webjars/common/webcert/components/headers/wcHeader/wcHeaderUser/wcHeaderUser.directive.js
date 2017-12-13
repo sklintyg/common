@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ Note: This directive is not rendered unless a valid userModel is available, so all access to $scope.userModel can skips such checks.
+ */
 angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', function($rootScope, $uibModal) {
     'use strict';
 

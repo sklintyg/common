@@ -1,14 +1,16 @@
 
 wc-header-help {
+
+  //In normal mode, let his flex, but shrink rather aggressively
   flex: 1 4 auto;
 
-/*
- try to fix hamburger with. problem when nothing wants to grow anymore, and there is space left casuing the hamburger menu to be wide / or extra space after...
- @media (max-width: 991px) {
-    flex: none;
+
+  @media (max-width: 991px) {
+    //In compact mode, when only hanburger menu is shown set fixed size and let other take exess space.
+    max-width: 38px;
   }
 
-*/
+
   height: 100%;
   display: flex;
   //base text color for this component
