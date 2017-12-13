@@ -181,7 +181,7 @@ angular.module('common').controller(
                             if (UserModel.user.isLakareOrPrivat) {
                                 $location.path('/');
                             } else {
-                                $location.path('/unhandled-qa');
+                                $location.path('/enhet-arenden');
                             }
                             $state.reload();
                         }, function() {

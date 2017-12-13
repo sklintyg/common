@@ -45,7 +45,7 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
             /**
              * Event listeners
              */
-            $scope.$on('wc-stat-update', function(event, message) {
+            $scope.$on('statService.stat-update', function(event, message) {
                 $scope.stat = message;
             });
 
