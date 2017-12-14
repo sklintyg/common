@@ -12,7 +12,7 @@ uv-kategori {
 
 
 uv-del-fraga h4 {
-  color: #000;
+  color: $wc-color-07;
   padding-bottom: 0;
 }
 
@@ -31,7 +31,7 @@ uv-table {
 uv-render-components {
   h3, h4, h5, uv-no-value span {
     .revoked-certificate & {
-      color: #aaa;
+      color: $wc-color-22;
     }
   }
 }

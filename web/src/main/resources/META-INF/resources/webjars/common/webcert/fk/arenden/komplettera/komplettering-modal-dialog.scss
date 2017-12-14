@@ -20,11 +20,10 @@
 
 .komplettering-modal-dialog {
 
-  //TODO: Define & use styleguide color values instead of these local variables?
-  $dialog-header-color: #008392;
-  $dialog-divider-color: #e3e3e3;
-  $warning-text-red: #ff0000;
-  $notice-text-gray: #999999;
+  $dialog-header-color: $wc-color-16;
+  $dialog-divider-color: $wc-color-13;
+  $warning-text-red: $wc-color-11;
+  $notice-text-gray: $wc-color-22;
 
   .dialog-placement {
     &, .model-dialog {

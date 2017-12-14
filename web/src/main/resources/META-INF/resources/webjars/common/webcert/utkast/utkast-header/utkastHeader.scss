@@ -1,10 +1,10 @@
-$header-fix-top-expand-background-color: #74777f;
-$header-fix-top-btn-link-text-shadow-color: rgba(0, 0, 0, 0.75);
-$header-fix-top-btn-link-color: #fff;
-$header-fix-panel-box-shadow: #323232;
-$header-fix-panel-border-bottom-color: #999;
-$header-fix-panel-background-color: #fff;
-$header-fix-panel-popover-color: #333;
+$header-fix-top-expand-background-color: $wc-color-09;
+$header-fix-top-btn-link-text-shadow-color: $black_30;
+$header-fix-top-btn-link-color: $wc-color-00;
+$header-fix-panel-box-shadow: $wc-color-08;
+$header-fix-panel-border-bottom-color: $wc-color-22;
+$header-fix-panel-background-color: $wc-color-00;
+$header-fix-panel-popover-color: $wc-color-08;
 
 //NOTE: the header-fix-top class is used also by scripts to determine scroll target positions etc, see ArendePanelFraga directive etc.
 .header-fix-top {
@@ -68,7 +68,7 @@ $header-fix-panel-popover-color: #333;
     display: inline;
     line-height: 30px;
     span {
-      color: #666;
+      color: $wc-color-09;
     }
   }
 

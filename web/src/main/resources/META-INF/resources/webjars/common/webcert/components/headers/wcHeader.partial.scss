@@ -3,19 +3,19 @@
   //TODO: Define & use styleguide color values in parent components/_variables.scss file instead of these local variables?
 
   /* Color variables */
-  $header-color: #fff;
-  $header-background-color: #212633;
-  $header-anchor-color: #28b4c4;
-  $headerbox-logo-border-color: #595c66;
-  $navbar-border-top-color: #999;
-  $navbar-border-bottom-color: #d4d4d4;
-  $nav-border-color: #ddd;
-  $navbar-collapse-border-left-color: #ddd;
-  $stat-circle-background-color: #999;
-  $stat-circle-color: #fff;
-  $stat-circle-active-color: #fff;
-  $stat-circle-active-background-color: #ff4565;
-  $stat-circle-active-border-color: #ff4565;
+  $header-color: $wc-color-00;
+  $header-background-color: $wc-color-19;
+  $header-anchor-color: $wc-color-10;
+  $headerbox-logo-border-color: $wc-color-09;
+  $navbar-border-top-color: $wc-color-22;
+  $navbar-border-bottom-color: $wc-color-15;
+  $nav-border-color: $wc-color-15;
+  $navbar-collapse-border-left-color: $wc-color-13;
+  $stat-circle-background-color: $wc-color-22;
+  $stat-circle-color: $wc-color-00;
+  $stat-circle-active-color: $wc-color-00;
+  $stat-circle-active-background-color: $wc-color-11;
+  $stat-circle-active-border-color: $wc-color-11;
 
   /* Urls variables */
   $url-avatar: url('/img/avatar.png');
@@ -180,7 +180,7 @@
   .glyph-background {
     position:relative;
     border-radius:50%;
-    color:#f00;
+    color:$wc-color-04;
     z-index:2;
   }
 
@@ -191,7 +191,7 @@
     right:2px;
     bottom:2px;
     border-radius:50%;
-    background-color:#fff;
+    background-color:$wc-color-00;
     z-index:-1;
   }
 }
