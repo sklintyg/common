@@ -28,7 +28,7 @@ angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', f
         scope: {
             userModel: '='
         },
-        templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUser/wcHeaderUser.directive.html',
+        templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/wcHeaderUser.directive.html',
         link: function($scope) {
 
             var infoDialogInstance;
@@ -63,7 +63,7 @@ angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', f
             //The info dialog is triggered by the users themselves via link in the template
             $scope.showSekretessInfoMessage = function() {
                 infoDialogInstance = $uibModal.open({
-                    templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUser/vardperson-sekretess.infodialog.html',
+                    templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/vardperson-sekretess.infodialog.html',
                     size: 'md',
                     id: 'SekretessInfoMessage'
                 });

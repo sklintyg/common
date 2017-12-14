@@ -33,7 +33,7 @@ angular.module('common').directive('wcVardPersonSekretess',
                     //The confirmation dialog is only displayed if sekretess and not already given consent.
                     var _showSekretessConfirmationDialog = function() {
                         confirmDialogInstance = $uibModal.open({
-                            templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretessDialog.html',
+                            templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretessDialog.html',
                             controller: 'wcVardPersonSekretessDialogCtrl',
                             size: 'md',
                             id: 'SekretessConsentDialog',

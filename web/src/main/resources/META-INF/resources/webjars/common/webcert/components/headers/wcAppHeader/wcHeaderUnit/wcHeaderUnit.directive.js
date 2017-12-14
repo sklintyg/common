@@ -28,7 +28,7 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
         scope: {
             userModel: '='
         },
-        templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUnit/wcHeaderUnit.directive.html',
+        templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUnit/wcHeaderUnit.directive.html',
         link: function($scope) {
 
 
@@ -80,7 +80,7 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
             $scope.onChangeActiveUnitClick = function() {
 
                     var changeUnitDialogInstance = $uibModal.open({
-                        templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderUnit/wcChangeActiveUnitDialog.html',
+                        templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUnit/wcChangeActiveUnitDialog.html',
                         controller: 'wcChangeActiveUnitDialogCtrl',
                         size: 'md',
                         id: 'wcChangeActiveUnitDialog',

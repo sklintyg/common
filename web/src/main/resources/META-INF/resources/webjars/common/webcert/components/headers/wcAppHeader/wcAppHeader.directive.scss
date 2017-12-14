@@ -5,7 +5,7 @@ $wc-header-logo-width: 181px;
 $wc-header-icon-size: 36px;
 
 
-wc-header {
+wc-app-header {
   // The entire header is a flex container
   display: flex;
   align-items: center;
@@ -48,7 +48,7 @@ wc-header {
     border-width: 0 6px;
     border-style: solid;
     //The png contains a 12 pixel wide alpha-gradient that is sliced to left/right borders of the different directives.
-    border-image-source: url(/web/webjars/common/webcert/components/headers/wcHeader/divider-border.png);
+    border-image-source: url(/web/webjars/common/webcert/components/headers/wcAppHeader/divider-border.png);
     border-image-slice: 0 50%;
     border-image-repeat: round;
 

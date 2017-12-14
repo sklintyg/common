@@ -28,7 +28,7 @@ angular.module('common').directive('wcHeaderHelp',
                 scope: {
                     userModel: '='
                 },
-                templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderHelp/wcHeaderHelp.directive.html',
+                templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/wcHeaderHelp.directive.html',
                 link: function($scope) {
 
                     var aboutModalInstance;
@@ -79,7 +79,7 @@ angular.module('common').directive('wcHeaderHelp',
 
                     $scope.onAboutClick = function() {
                         aboutModalInstance = $uibModal.open({
-                            templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeaderHelp/about/aboutDialog.template.html',
+                            templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/aboutDialog.template.html',
                             controller: function($scope, $uibModalInstance) {
 
                                 $scope.version = moduleConfig.VERSION;

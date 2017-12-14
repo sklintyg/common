@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcHeader', ['common.User', function(UserService) {
+angular.module('common').directive('wcAppHeader', ['common.User', function(UserService) {
     'use strict';
 
     return {
         restrict: 'E',
         scope: {},
-        templateUrl: '/web/webjars/common/webcert/components/headers/wcHeader/wcHeader.directive.html',
+        templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcAppHeader.directive.html',
         link: function($scope) {
             $scope.userModel = UserService.getUser();
 
