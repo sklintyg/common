@@ -6,7 +6,12 @@ $wc-header-icon-size: 36px;
 
 
 wc-app-header {
-  // The entire header is a flex container
+
+  // center the entire directive, and constrain the max width
+  max-width: $wc-max-content-width;
+  margin: auto;
+
+  // Should be a flex container
   display: flex;
   align-items: center;
   background-color: $wc-color-17;

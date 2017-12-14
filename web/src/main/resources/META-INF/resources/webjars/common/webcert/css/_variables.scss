@@ -43,6 +43,11 @@ $wc-color-21: #496CEC;
 $wc-color-22: #9A9A9A;
 $wc-color-23: #A9B2BD;
 
+// Width constraints ---------
+
+//how wide should effective content on page grow to before add spacing to sides
+$wc-max-content-width: 1440px;
+
 
 // Override variables for uv-framework in app-shared with WC specific styling
 $uv-body-bg: #f3f4f6;

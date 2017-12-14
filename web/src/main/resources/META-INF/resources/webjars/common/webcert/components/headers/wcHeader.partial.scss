@@ -1,4 +1,16 @@
-.wc-header {
+.wc-app-header-wrapper {
+  background-color: $wc-color-17;
+}
+.wc-main-menu-wrapper {
+  //TODO: not sure about which color
+  background-color: $wc-color-20;
+}
+
+
+
+
+
+.wc-header-TOBEREMOVED {
 
   //TODO: Define & use styleguide color values in parent components/_variables.scss file instead of these local variables?
 
