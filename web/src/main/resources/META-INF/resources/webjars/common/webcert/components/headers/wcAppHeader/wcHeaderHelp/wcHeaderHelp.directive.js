@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- Note: This directive is not rendered unless a valid userModel is available, so all access to $scope.userModel can skips such checks.
- */
+
 angular.module('common').directive('wcHeaderHelp',
         [ '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'moduleConfig' , function($window, $rootScope, $uibModal, UtilsService, authorityService, moduleConfig) {
             'use strict';
@@ -26,7 +24,7 @@ angular.module('common').directive('wcHeaderHelp',
             return {
                 restrict: 'E',
                 scope: {
-                    userModel: '='
+                    user: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/wcHeaderHelp.directive.html',
                 link: function($scope) {
@@ -51,7 +49,7 @@ angular.module('common').directive('wcHeaderHelp',
                     };
 
                     $scope.onLogoutClick = function() {
-                        if (UtilsService.endsWith($scope.userModel.authenticationScheme, ':fake')) {
+                        if (UtilsService.endsWith($scope.user.authenticationScheme, ':fake')) {
                             $window.location = '/logout';
                         } else {
                             // iid is a global object from /vendor/netid.js

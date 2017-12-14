@@ -20,21 +20,19 @@
 /**
  Note: This directive is not rendered unless a valid userModel is available, so all access to $scope.userModel can skips such checks.
  */
-angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', function($rootScope, $uibModal) {
+angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', '$window', '$location', 'common.User', 'common.UserModel', 'moduleConfig',
+    function($rootScope, $uibModal, $window, $location, UserService, UserModel, moduleConfig) {
     'use strict';
 
     return {
         restrict: 'E',
-        scope: {
-            userModel: '='
-        },
+        scope: {},
         templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/wcHeaderUser.directive.html',
         link: function($scope) {
 
-            var infoDialogInstance;
-
+            $scope.user = UserService.getUser();
             $scope.menu = {
-                enabled: $scope.userModel.privatLakare,
+                enabled: UserModel.isPrivatLakare(),
                 expanded: false
             };
 
@@ -45,9 +43,29 @@ angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', f
 
             };
 
+            $scope.goToPrivatPortalen = function(){
+                var link = moduleConfig.PP_HOST;
+                link += '?from=' + window.encodeURIComponent(moduleConfig.DASHBOARD_URL + '#' + $location.path());
+                $window.location.href = link;
+            };
+
+
+            // SekretessInfo dialog handling ---------------------------------
+            var infoDialogInstance;
+            //The info dialog is triggered by the users themselves via link in the template
+            $scope.showSekretessInfoMessage = function() {
+                infoDialogInstance = $uibModal.open({
+                    templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/vardperson-sekretess.infodialog.html',
+                    size: 'md',
+                    id: 'SekretessInfoMessage'
+                });
+                //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                infoDialogInstance.result.catch(function () {});
+            };
 
             //To make sure we close any open dialog we spawned, register a listener to state changes
             // so that we can make sure we close them
+
             var unregisterFn = $rootScope.$on('$stateChangeStart', function() {
                 if (infoDialogInstance) {
                     infoDialogInstance.close();
@@ -59,17 +77,6 @@ angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', f
             //scope is destroyed, let's take care of that.
             // (currently this directive is used only in the wc-header which lives throughout an entire session, so not that critical right now)
             $scope.$on('$destroy', unregisterFn);
-
-            //The info dialog is triggered by the users themselves via link in the template
-            $scope.showSekretessInfoMessage = function() {
-                infoDialogInstance = $uibModal.open({
-                    templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/vardperson-sekretess.infodialog.html',
-                    size: 'md',
-                    id: 'SekretessInfoMessage'
-                });
-                //angular 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-                infoDialogInstance.result.catch(function () {});
-            };
 
         }
     };

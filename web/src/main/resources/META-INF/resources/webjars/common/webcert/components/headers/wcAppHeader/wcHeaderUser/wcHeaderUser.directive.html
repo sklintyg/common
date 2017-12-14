@@ -1,13 +1,13 @@
 <div class="wc-header-directive-container" ng-class="{'expanded' : menu.expanded}">
 
-  <i class="header-icon glyphicon" ng-class="{'glyphicon-lock sekretess-markering': userModel.sekretessMarkerad, 'glyphicon-user': !userModel.sekretessMarkerad}"></i>
+  <i class="header-icon glyphicon" ng-class="{'glyphicon-lock sekretess-markering': user.sekretessMarkerad, 'glyphicon-user': !user.sekretessMarkerad}"></i>
 
   <div class="vertical-container">
     <div class="single-text-row-container">
-      <span class="greedy-flex-shrink truncate-when-needed user-name logged-in">{{userModel.namn}}</span>
-      <span class="text-nowrap">&nbsp;- {{userModel.role}}</span>
+      <span class="greedy-flex-shrink truncate-when-needed user-name logged-in">{{user.namn}}</span>
+      <span class="text-nowrap">&nbsp;- {{user.role}}</span>
     </div>
-    <div class="status-row truncate-when-needed" ng-if="userModel.sekretessMarkerad">
+    <div class="status-row truncate-when-needed" ng-if="user.sekretessMarkerad">
       <a href="" id="wc-vardperson-sekretess-info-dialog--link" class="sekretess-markering" ng-click="showSekretessInfoMessage()">
         Sekretessmarkering
       </a>
@@ -25,7 +25,7 @@
 <!-- must be outside flex container to be able to relatively position it -->
 <div uib-dropdown is-open="menu.expanded">
   <ul uib-dropdown-menu>
-    <li><a href="#">Something else here</a></li>
+    <li><a href="" id="editUserLink" ng-click="goToPrivatPortalen()">Min sida</a></li>
   </ul>
 </div>
 <!-- launches sekretess confirmation dialog if needed -->

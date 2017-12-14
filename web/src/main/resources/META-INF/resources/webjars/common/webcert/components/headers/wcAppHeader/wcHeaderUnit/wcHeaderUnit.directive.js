@@ -20,17 +20,17 @@
 /**
  Note: This directive is not rendered unless a valid userModel is available, so all access to $scope.userModel can skips such checks.
  */
-angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.authorityService', 'common.statService', function($uibModal, authorityService, statService) {
+angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.authorityService', 'common.statService', 'common.User', 'common.UserModel',
+    function($uibModal, authorityService, statService, UserService, UserModel) {
     'use strict';
 
     return {
         restrict: 'E',
-        scope: {
-            userModel: '='
-        },
+        scope: {},
         templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUnit/wcHeaderUnit.directive.html',
         link: function($scope) {
 
+            $scope.user = UserService.getUser();
 
             $scope.statService = statService;
             $scope.statService.startPolling();
@@ -49,17 +49,33 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
                 $scope.stat = message;
             });
 
+
+            /**
+             * All but DJUPINTEGRERAD can potentially see stats about other units
+             *
+             * @returns {boolean}
+             */
+            $scope.showStatsStatus = function() {
+                return !UserModel.isDjupintegration() && $scope.otherLocationsStatsCount() > 0;
+            };
+
             $scope.otherLocationsStatsCount = function() {
                 return ($scope.stat.intygAndraEnheter + $scope.stat.fragaSvarAndraEnheter);
             };
 
-
+            /**
+             * Only show inactiveUnit warning if set in integrationparams
+             * @returns {boolean}
+             */
+            $scope.showInactiveUnitStatus = function() {
+                return UserModel.getIntegrationParam('inactiveUnit');
+            };
 
 
             function _showMenu() {
                 return authorityService.isAuthorityActive({
                     authority: 'ATKOMST_ANDRA_ENHETER'
-                }) && $scope.userModel.totaltAntalVardenheter > 1;
+                }) && $scope.user.totaltAntalVardenheter > 1;
             }
 
             $scope.menu = {
@@ -74,7 +90,8 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
             };
 
             $scope.showEnhetName = function() {
-                return !$scope.userModel.privatLakare;
+                //Privatlakare har samma namn på vg/ve, så vi skippar ve namnet.
+                return !UserModel.isPrivatLakare();
             };
 
             $scope.onChangeActiveUnitClick = function() {
@@ -84,20 +101,21 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
                         controller: 'wcChangeActiveUnitDialogCtrl',
                         size: 'md',
                         id: 'wcChangeActiveUnitDialog',
-                        backdrop: 'static',
-                        keyboard: false,
+                        keyboard: true,
                         resolve: {
                             stats: function() {
                                 return angular.copy($scope.stat);
                             },
                             vardgivare: function() {
-                                return angular.copy($scope.userModel.vardgivare);
+                                return angular.copy($scope.user.vardgivare);
                             },
                             valdEnhet: function() {
-                                return angular.copy($scope.userModel.valdVardenhet);
+                                return angular.copy($scope.user.valdVardenhet);
                             }
                         }
                     });
+                //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                changeUnitDialogInstance.result.catch(function () {});
 
             };
 

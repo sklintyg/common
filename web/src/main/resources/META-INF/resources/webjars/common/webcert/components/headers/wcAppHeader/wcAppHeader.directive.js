@@ -25,15 +25,16 @@ angular.module('common').directive('wcAppHeader', ['common.User', function(UserS
         scope: {},
         templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcAppHeader.directive.html',
         link: function($scope) {
-            $scope.userModel = UserService.getUser();
+
+            $scope.user = UserService.getUser();
 
             $scope.hideUserSection = function () {
-                return !angular.isObject($scope.userModel);
+                return !angular.isObject($scope.user);
 
             };
 
             $scope.hideUnitSection = function () {
-                return !angular.isObject($scope.userModel) || !angular.isObject(UserService.getValdVardenhet());
+                return !angular.isObject($scope.user) || !angular.isObject(UserService.getValdVardenhet());
 
             };
 

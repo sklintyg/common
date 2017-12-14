@@ -3,6 +3,7 @@
 $wc-header-height: 80px;
 $wc-header-logo-width: 181px;
 $wc-header-icon-size: 36px;
+$wc-header-chevron-size: 24px;
 
 
 wc-app-header {
@@ -143,7 +144,12 @@ wc-app-header {
   }
 
   .header-chevron {
-    font-size: 24px;
+    font-size: $wc-header-chevron-size;
     padding: 8px;
+
+    &:focus, &:hover {
+      color: $wc-color-25;
+      text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    }
   }
 }

@@ -26,6 +26,10 @@ wc-main-menu {
     border-radius: 0;
     border: 0;
 
+    &.navbar-default {
+      background-color: $wc-color-20;
+    }
+
     .divider-vertical {
       margin: 0;
     }
