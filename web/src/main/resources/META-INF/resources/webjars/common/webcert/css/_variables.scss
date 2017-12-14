@@ -129,9 +129,12 @@ $url-settings-hoover: url('/img/settings_hoover.png');
 $url-col-shadow: url('/img/col-shadow.png');
 
 //fonts
-$font-0: Helvetica Neue;
+@font-face {
+  font-family: 'Roboto';
+  src: url('/web/webjars/common/webcert/fonts/Roboto-Regular.ttf')  format('truetype');
+}
+
+$font-0: Roboto;
 $font-1: helvetica;
 $font-2: arial;
 $font-3: sans-serif;
-
-$alert-danger-color: #a94442;
