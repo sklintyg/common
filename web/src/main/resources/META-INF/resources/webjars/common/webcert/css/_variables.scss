@@ -127,14 +127,3 @@ $url-back-link-icon: url('/img/back-link-icon.gif');
 $url-settings-icon: url('/img/settings_ikon.png');
 $url-settings-hoover: url('/img/settings_hoover.png');
 $url-col-shadow: url('/img/col-shadow.png');
-
-//fonts
-@font-face {
-  font-family: 'Roboto';
-  src: url('/web/webjars/common/webcert/fonts/Roboto-Regular.ttf')  format('truetype');
-}
-
-$font-0: Roboto;
-$font-1: helvetica;
-$font-2: arial;
-$font-3: sans-serif;
