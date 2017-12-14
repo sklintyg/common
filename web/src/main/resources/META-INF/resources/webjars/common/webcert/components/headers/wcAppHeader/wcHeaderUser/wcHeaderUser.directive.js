@@ -60,7 +60,7 @@ angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', '
                     id: 'SekretessInfoMessage'
                 });
                 //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-                infoDialogInstance.result.catch(function () {});
+                infoDialogInstance.result.catch(function () {}); //jshint ignore:line
             };
 
             //To make sure we close any open dialog we spawned, register a listener to state changes

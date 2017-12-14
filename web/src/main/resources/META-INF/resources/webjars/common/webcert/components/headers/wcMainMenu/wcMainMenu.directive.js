@@ -21,7 +21,8 @@
  * TODO: The component is just extracted from the monolitic wcHeader.controllers code. It needs refactoring.
  * Also, the stats communication could be more efficient?
  */
-angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common.messageService',  'common.UserModel', 'common.featureService', function($state, $location, messageService, UserModel, featureService) {
+angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common.messageService',  'common.UserModel', 'common.featureService',
+    function($state, $location, messageService, UserModel, featureService) {
     'use strict';
 
     return {

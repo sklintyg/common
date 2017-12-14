@@ -18,7 +18,8 @@
  */
 
 angular.module('common').directive('wcHeaderHelp',
-        [ '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'moduleConfig' , function($window, $rootScope, $uibModal, UtilsService, authorityService, moduleConfig) {
+        [ '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'moduleConfig' ,
+            function($window, $rootScope, $uibModal, UtilsService, authorityService, moduleConfig) {
             'use strict';
 
             return {
@@ -89,6 +90,8 @@ angular.module('common').directive('wcHeaderHelp',
                             },
                             resolve: {}
                         });
+                        //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                        aboutModalInstance.result.catch(function () {}); //jshint ignore:line
                     };
 
                 }

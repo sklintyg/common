@@ -7,13 +7,13 @@
       <span class="text-nowrap vg-name">{{user.valdVardgivare.namn}}</span>
       <span class="greedy-flex-shrink truncate-when-needed ve-name" ng-if="showEnhetName()">&nbsp;- {{user.valdVardenhet.namn}}</span>
     </div>
-    <div class="status-row truncate-when-needed" id="otherLocations">
+    <div class="status-row" id="otherLocations">
 
-      <div ng-if="showStatsStatus()">
+      <div ng-if="showStatsStatus()" class="truncate-when-needed">
           <b>{{otherLocationsStatsCount()}}</b> ej hanterade frågor och ej signerade utkast på andra vårdenheter.
       </div>
 
-      <div ng-if="showInactiveUnitStatus()">
+      <div ng-if="showInactiveUnitStatus()" class="truncate-when-needed">
         OBS! Enheten är markerad som inaktiv i journalsystemet.
       </div>
 

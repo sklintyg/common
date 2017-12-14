@@ -115,7 +115,7 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
                         }
                     });
                 //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-                changeUnitDialogInstance.result.catch(function () {});
+                changeUnitDialogInstance.result.catch(function () {}); //jshint ignore:line
 
             };
 
