@@ -73,6 +73,7 @@ wc-header {
 
   //Override bootstraps default dropdown for this context
   .dropdown-menu {
+    min-width:0;
     position: relative;
     left: 0;
     bottom: 0;

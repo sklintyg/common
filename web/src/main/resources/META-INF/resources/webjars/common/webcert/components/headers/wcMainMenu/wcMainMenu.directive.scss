@@ -1,0 +1,90 @@
+$navbar-border-top-color: #999;
+$navbar-border-bottom-color: #d4d4d4;
+$nav-border-color: #ddd;
+$navbar-collapse-border-left-color: #ddd;
+$stat-circle-background-color: #999;
+$stat-circle-color: #fff;
+$stat-circle-active-color: #fff;
+$stat-circle-active-background-color: #ff4565;
+$stat-circle-active-border-color: #ff4565;
+
+wc-main-menu {
+  .navbar {
+    margin: 0;
+    min-height: 0;
+    padding: 0;
+    border-radius: 0;
+    border: 0;
+    border-top: 1px solid $navbar-border-top-color;
+    border-bottom: 1px solid $navbar-border-bottom-color;
+    .divider-vertical {
+      margin: 0;
+    }
+    .nav {
+      margin: 0;
+      white-space: nowrap;
+      > li {
+        border-right: 1px solid $nav-border-color;
+        /*  display: inline-block; */
+        /* Uncomment to lock menu items to one row (during 800x600 demos buttons won't be accessible otherwise) float: none;*/
+        position: relative;
+        &:first-child {
+          border-left: 1px solid $nav-border-color;
+        }
+        > a {
+          padding: 8px 20px 8px;
+        }
+      }
+    }
+  }
+
+  .navbar-collapse.in .nav > li {
+    border-left: 1px solid $navbar-collapse-border-left-color;
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+
+  .badge__stat {
+    background-color: $stat-circle-active-background-color;
+    border-color: $stat-circle-active-border-color;
+    color: $stat-circle-active-color;
+  }
+
+  .stat-circle {
+    background-color: $stat-circle-background-color;
+    border-radius: 50%;
+    color: $stat-circle-color;
+    padding: 0 6px 0 6px;
+    font-size: 10px;
+    font-weight: bold;
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    text-shadow: none;
+    z-index: 1000;
+  }
+
+  .stat-circle-active {
+    background-color: $stat-circle-active-background-color;
+    border-color: $stat-circle-active-border-color;
+    color: $stat-circle-active-color;
+  }
+
+  .glyph-background {
+    position:relative;
+    border-radius:50%;
+    color:#f00;
+    z-index:2;
+  }
+
+  .inner {
+    position:absolute;
+    top:2px;
+    left:2px;
+    right:2px;
+    bottom:2px;
+    border-radius:50%;
+    background-color:#fff;
+    z-index:-1;
+  }
+}

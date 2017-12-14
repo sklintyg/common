@@ -12,7 +12,7 @@ $header-fix-panel-popover-color: #333;
   width: 100%;
   left: 0;
   top: 0;
-  z-index: 1010;
+  z-index: 1;
 
   h1.page-title {
     font-size: 18px;
@@ -103,7 +103,7 @@ $header-fix-panel-popover-color: #333;
 
   .header-wrapper {
     /*  max-height: 110px; does commenting out this break anything? */
-    overflow: hidden;
+    //overflow: hidden;
   }
 
   %transition {

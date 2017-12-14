@@ -42,12 +42,13 @@
   @import 'components/animations/keyframe-animations.scss';
   @import 'components/date/wcDatePickerField/wcDatePickerField.directive.scss';
   @import 'components/headers/wcHeader.partial.scss';
-  @import 'components/headers/wcHeader/wcHeader.directive.scss';
-  @import 'components/headers/wcHeader/wcHeaderHelp/wcHeaderHelp.directive.scss';
-  @import 'components/headers/wcHeader/wcHeaderUnit/wcHeaderUnit.directive.scss';
-  @import 'components/headers/wcHeader/wcHeaderUser/wcHeaderUser.directive.scss';
-  @import 'components/headers/wcHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretess.directive.scss';
+  @import 'components/headers/wcHeader/wcHeader.directive';
+  @import 'components/headers/wcHeader/wcHeaderHelp/wcHeaderHelp.directive';
+  @import 'components/headers/wcHeader/wcHeaderUnit/wcHeaderUnit.directive';
+  @import 'components/headers/wcHeader/wcHeaderUser/wcHeaderUser.directive';
+  @import 'components/headers/wcHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretess.directive';
   @import 'components/headers/wcHeaderCareUnitDialog.template.scss';
+  @import 'components/headers/wcMainMenu/wcMainMenu.directive.scss';
   @import 'components/wcFormLabel/wcFormLabel.scss';
   @import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
   @import 'components/wcHelpChevron/wcHelpChevron.directive.scss';

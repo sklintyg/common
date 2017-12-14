@@ -4,11 +4,11 @@
 
   <div class="vertical-container">
     <div class="single-text-row-container">
-      <span class="greedy-flex-shrink truncate-when-needed user-name">{{userModel.namn}}</span>
+      <span class="greedy-flex-shrink truncate-when-needed user-name logged-in">{{userModel.namn}}</span>
       <span class="text-nowrap">&nbsp;- {{userModel.role}}</span>
     </div>
     <div class="status-row truncate-when-needed" ng-if="userModel.sekretessMarkerad">
-      <a href="" id="show-sekretess-dialog-btn" class="sekretess-markering" ng-click="showSekretessInfoMessage()">
+      <a href="" id="wc-vardperson-sekretess-info-dialog--link" class="sekretess-markering" ng-click="showSekretessInfoMessage()">
         Sekretessmarkering
       </a>
     </div>
