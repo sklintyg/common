@@ -22,10 +22,6 @@
   // Import partials
   @import "css/_variables.scss";
 
-  test {
-    color: $wc-color-23;
-  }
-
   // injector
   @import '../app-shared/unified-view/components/_variables.scss';
   @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
@@ -260,9 +256,13 @@
     &:hover {
       color: $wc-color-21;
     }
+
+    .external-link {
+      color: $wc-color-17;
+    }
   }
 
-  .dark-bg {
+  .dark {
     a {
       color: $wc-color-00;
 
