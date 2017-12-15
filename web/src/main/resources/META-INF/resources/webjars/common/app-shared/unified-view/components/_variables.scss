@@ -17,14 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Unified view variables
-$uv-intyg-body-bg: #fff !default;
-$uv-intyg-header-bg: #43799A !default;
-$uv-intyg-header-color: #fff !default;
-$uv-box-shadow-color: #ddd !default;
+// We should have some kind of app-shared color scheme later perhaps. But for now let's use wc as standard.
+$wc-color-09: #6A6A6A;
+$wc-color-13: #E1E1E1;
+$wc-color-20: #F2F2F2;
+$wc-color-00: #FFFFFF;
+$wc-color-16: #4C7B67;
 
-$uv-intyg-table-bg: #fff !default;
-$uv-intyg-table-bg-accent: #eee !default;
+// Unified view variables
+$uv-intyg-body-bg: $wc-color-00 !default;
+$uv-intyg-header-bg: $wc-color-16 !default;
+$uv-intyg-header-color: $wc-color-00 !default;
+$uv-box-shadow-color: $wc-color-13 !default;
+
+$uv-intyg-table-bg: $wc-color-00 !default;
+$uv-intyg-table-bg-accent: $wc-color-20 !default;
 
 // App shared variables
-$text-muted: #666;
+$text-muted: $wc-color-09;

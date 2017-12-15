@@ -17,102 +17,117 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// WC Color codes
-$wc-color-00: #FFFFFF;
-$wc-color-01: #F8BFC5;
-$wc-color-02: #FEECBB;
-$wc-color-03: #B3E5FC;
-$wc-color-04: #99303B;
-$wc-color-05: #7A5F24;
-$wc-color-06: #003C75;
-$wc-color-07: #212121;
-$wc-color-08: #3C3C3C;
-$wc-color-09: #6A6A6A;
-$wc-color-10: #41BFA0;
-$wc-color-11: #F06F7D;
-$wc-color-12: #E8AD0E;
-$wc-color-13: #E1E1E1;
-$wc-color-14: #70748A;
-$wc-color-15: #CDCED6;
-$wc-color-16: #4C7B67;
-$wc-color-17: #3D4260;
-$wc-color-18: #FFC794;
-$wc-color-19: #292F4F;
-$wc-color-20: #F2F2F2;
-$wc-color-21: #496CEC;
-$wc-color-22: #9A9A9A;
-$wc-color-23: #A9B2BD;
-$wc-color-24: #F5F6F7;
-$wc-color-25: #8AA7F5;
-
-
-// Width constraints ---------
+// Widths
 
 //how wide should effective content on page grow to before add spacing to sides
 $wc-max-content-width: 1440px;
 
-
-// Override variables for uv-framework in app-shared with WC specific styling
-$uv-body-bg: #f3f4f6;
-$uv-spinner-color: #0F6EDC;
-$uv-intyg-body-bg: #e5e5e5;
-$uv-box-shadow-color: #ddd;
-$uv-intyg-header-bg: none;
-$uv-intyg-header-color: #008391;
-
 //colors
+$wc-color-07: #212121;
+$wc-color-08: #3C3C3C;
+$wc-color-09: #6A6A6A;
+$wc-color-22: #9A9A9A;
+$wc-color-23: #A9B2BD;
+$wc-color-15: #CDCED6;
+$wc-color-13: #E1E1E1;
+$wc-color-20: #F2F2F2;
+$wc-color-24: #F5F6F7;
+$wc-color-00: #FFFFFF;
+
+$wc-color-01: #F8BFC5;
+$wc-color-04: #99303B;
+$wc-color-11: #F06F7D;
+
+$wc-color-16: #4C7B67;
+$wc-color-10: #41BFA0;
+
+$wc-color-05: #7A5F24;
+$wc-color-12: #E8AD0E;
+$wc-color-18: #FFC794;
+$wc-color-02: #FEECBB;
+
+$wc-color-19: #292F4F;
+$wc-color-17: #3D4260;
+$wc-color-06: #003C75;
+$wc-color-14: #70748A;
+
+$wc-color-21: #496CEC;
+$wc-color-25: #8AA7F5;
+$wc-color-03: #B3E5FC;
+
+
+$black_30: rgba(0, 0, 0, .30);
+
 //TODO: When WC design guideline is set, maybe refactor these variable names to that makes more sense in that context?
-$color_java_approx: #28b4c4;
-$white: #fff;
-$mine_shaft: #323232;
-$color_blue_chill_approx: #008391;
-$color_scarpa_flow_approx: #595c66;
-$color_gallery_approx: #f0f0f0;
-$color_black_haze_approx: #f6f6f6;
-$color_apple_approx: #42a341;
-$color_scooter_approx: #38c4d4;
-$color_pelorous_approx: #31b2be;
-$color_cape_cod_approx: #3f3f3f;
-$color_storm_dust_approx: #656565;
-$black_30: rgba(0, 0, 0, 0.3);
-$color_mountain_mist_approx: #999;
-$color_quill_gray_approx: #d4d4d4;
-$color_alto_approx: #ddd;
-$black_20: rgba(0, 0, 0, 0.2);
-$color_mine_shaft_approx: #333;
-$color_alabaster_approx: #f9f9f9;
-$color_radical_red_approx: #ff4565;
-$color_pesto_approx: #8a6d3b;
-$color_apple_blossom_approx: #a94442;
-$color_calypso_approx: #306e8d;
-$color_morning_glory_approx: #9cd7e3;
-$color_radical_red_approx: #ff4565;
-$color_fountain_blue_approx: #64abc0;
-$black_075: rgba(0,0,0,.075);
-$red_60: rgba(255,0,0,0.6);
-$blaze_orange: #ff6600;
-$web_orangered: orangered;
-$color_celeste_approx: #ccc;
-$color_picton_blue_60_approx: rgba(82, 168, 236, 0.6);
-$color_wild_sand_approx: #f5f5f5;
-$color_orient_approx: rgb(0, 104, 125);
-$color_steel_gray_approx: #212633;
-$concrete: #f2f2f2;
-$mercury: #e5e5e5;
-$mine_shaft: #323232;
-$color_gallery_approx: #f0f0f0;
-$color_storm_dust_approx-2: #666;
+$white: $wc-color-00;
+
+$alert-danger-color: $wc-color-01;
+
+$color_morning_glory_approx: $wc-color-03;
+$color_picton_blue_60_approx: $wc-color-03;
+
+$red_60: $wc-color-04;
+$color_apple_blossom_approx: $wc-color-04;
+
+$color_pesto_approx: $wc-color-05;
+
+$black_20: $wc-color-07;
+$black_075: $wc-color-07;
+$color_steel_gray_approx: $wc-color-07;
+
+$mine_shaft: $wc-color-08;
+$color_cape_cod_approx: $wc-color-08;
+
+$gray: $wc-color-09;
+$color_tapa_approx: $wc-color-09;
+$color_scarpa_flow_approx: $wc-color-09;
+$color_storm_dust_approx-2: $wc-color-09;
+
+$color_apple_approx: $wc-color-10;
+$color_scooter_approx: $wc-color-10;
+$color_pelorous_approx: $wc-color-10;
+$color_eastern_blue_approx: $wc-color-10;
+$color_java_approx: $wc-color-10;
+$color_fountain_blue_approx: $wc-color-10;
+
+$color_patient_alert_red: $wc-color-11;
+$color_radical_red_approx: $wc-color-11;
+$color_radical_red_approx: $wc-color-11;
+
+$blaze_orange: $wc-color-12;
+$web_orangered: $wc-color-12;
+
+$color_iron_approx: $wc-color-13;
+$mercury: $wc-color-13;
+
+$color_storm_dust_approx: $wc-color-14;
+
+$intyg_medium_grey: $wc-color-15;
+$color_quill_gray_approx: $wc-color-15;
+$color_alto_approx: $wc-color-15;
+$color_celeste_approx: $wc-color-15;
+
+$color_blue_chill_approx: $wc-color-16;
+$color_orient_approx: $wc-color-16;
+
+$color_calypso_approx: $wc-color-17;
+
+$color_mine_shaft_approx: $wc-color-19;
+$mine_shaft: $wc-color-19;
+
+$intyg_light_grey: $wc-color-20;
+$color_gallery_approx: $wc-color-20;
+$color_black_haze_approx: $wc-color-20;
+$color_alabaster_approx: $wc-color-20;
+$color_wild_sand_approx: $wc-color-20;
+$concrete: $wc-color-20;
+$color_gallery_approx: $wc-color-20;
+
+$color_silver_chalice_approx: $wc-color-22;
+$color_suva_gray_approx: $wc-color-22;
+$color_mountain_mist_approx: $wc-color-22;
 
 
-$color_tapa_approx: #777;
-$color_silver_chalice_approx: #aaaaaa;
-$intyg_medium_grey: #D4D4D4;
-$intyg_light_grey: #fafafa;
-$color_iron_approx: #d8d8d8;
-$color_suva_gray_approx: #888;
-$gray: grey;
-$color_eastern_blue_approx: #24a1af;
-$color_patient_alert_red: #da2455;
 
 //urls
 $url_0: url(/img/tillbaka.png);
@@ -121,11 +136,3 @@ $url-back-link-icon: url('/img/back-link-icon.gif');
 $url-settings-icon: url('/img/settings_ikon.png');
 $url-settings-hoover: url('/img/settings_hoover.png');
 $url-col-shadow: url('/img/col-shadow.png');
-
-//fonts
-$font-0: Helvetica Neue;
-$font-1: helvetica;
-$font-2: arial;
-$font-3: sans-serif;
-
-$alert-danger-color: #a94442;

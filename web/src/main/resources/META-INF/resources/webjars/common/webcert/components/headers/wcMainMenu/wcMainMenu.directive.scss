@@ -1,14 +1,14 @@
 //TODO: Se över hela scss upplägget för denna komponent, ev är det bättre att overrida alla .navbar klasser mha bootstrap varabel override ist för här.
 
-$navbar-border-bottom-color: $wc-color-22;
-$nav-border-color: $wc-color-23;
-$navbar-collapse-border-left-color: $wc-color-23;
+$navbar-border-bottom-color: $wc-color-15;
+$nav-border-color: $wc-color-15;
+$navbar-collapse-border-left-color: $wc-color-13;
 
-$stat-circle-background-color: #999;
-$stat-circle-color: #fff;
-$stat-circle-active-color: #fff;
-$stat-circle-active-background-color: #ff4565;
-$stat-circle-active-border-color: #ff4565;
+$stat-circle-background-color: $wc-color-22;
+$stat-circle-color: $wc-color-00;
+$stat-circle-active-color: $wc-color-00;
+$stat-circle-active-background-color: $wc-color-11;
+$stat-circle-active-border-color: $wc-color-11;
 
 wc-main-menu {
   display: flex;
@@ -48,6 +48,7 @@ wc-main-menu {
         }
         > a {
           padding: 8px 20px 8px;
+          text-decoration: none;
         }
       }
     }

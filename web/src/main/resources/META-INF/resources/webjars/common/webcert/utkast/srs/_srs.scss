@@ -20,21 +20,21 @@
 /* A panel to be used instead of the regular bootstrap panels, panel-default etc.
  * Specifically targeting the SRS-accordion
  */
- $srs-border-color: #ccc;
- $srs-panelheading-color: #333333;
- $srs-panelheading-background-color: #fff;
- $srs-panelheading-background-hover-color: #E0FFFF;
- $srs-panelheading-border-color: #ccc;
- $srs-panelcollapse-border-color: #fff;
- $srs-panelfooter-color: #999;
- $srs-diagnosis-color: #000;
- $srs-glyphicon-hover-color: #808080;
+ $srs-border-color: $wc-color-15;
+ $srs-panelheading-color: $wc-color-08;
+ $srs-panelheading-background-color: $wc-color-00;
+ $srs-panelheading-background-hover-color: $wc-color-03;
+ $srs-panelheading-border-color: $wc-color-15;
+ $srs-panelcollapse-border-color: $wc-color-00;
+ $srs-panelfooter-color: $wc-color-22;
+ $srs-diagnosis-color: $wc-color-07;
+ $srs-glyphicon-hover-color: $wc-color-22;
  
  .panel-srs-info-heading {
      padding: 9px 0 8px 15px;
-     border-bottom: 1px solid #ccc;
-     background-color: #000;
-     color: white;
+     border-bottom: 1px solid $srs-border-color;
+     background-color: $wc-color-07;
+     color: $wc-color-00;
  }
  
  .take-all-space-you-can{
@@ -50,32 +50,32 @@
  }
  
  .prediction-box{
-   border: 3px solid #000000 !important;
-   background-color: #ffffff !important;
-   color: #000000 !important;
+   border: 3px solid $wc-color-07 !important;
+   background-color: $wc-color-00 !important;
+   color: $wc-color-07 !important;
    border-radius: 0px !important;
  }
  
  .nav-tabs > li.rounded.active > a,
  .nav-tabs > li.rounded.active > a:hover,
  .nav-tabs > li.rounded.active > a:focus  {
-   background-color: #ffffff !important;
-   color: #000000 !important;
+   background-color: $wc-color-00 !important;
+   color: $wc-color-07 !important;
  }
  
  .nav-tabs > li.rounded > a  {
-   background-color: #28b4c4 !important;
-   color: #ffffff !important;
+   background-color: $wc-color-10 !important;
+   color: $wc-color-00 !important;
  }
  
  .tab-inactive{
-   background-color: #28b4c4 !important;
-   color: #ffffff !important;
+   background-color: $wc-color-10 !important;
+   color: $wc-color-00 !important;
  }
  
  .close-button{
-   color:white !important;
-   background-color:black !important;
+   color: $wc-color-00 !important;
+   background-color: $wc-color-07 !important;
  }
  
  .align-srs-close-button-right{
@@ -97,7 +97,7 @@
  .button-rounded{
    border: 2px solid;
    border-radius: 27px !important;
-   background-color: #00777E;
+   background-color: $wc-color-16;
  }
  
  .srs-question-element{
@@ -139,10 +139,10 @@
  }
  
  .test-box {
-  padding:10px;
-  margin:0 0 1em;
-  background:pink;
-  border-bottom:1px solid #999;
+  padding: 10px;
+  margin: 0 0 1em;
+  background: $wc-color-01;
+  border-bottom:1px solid $wc-color-22;
 }
 
  .line{
@@ -151,12 +151,12 @@
  }
  
  .title {
-   background:red;
+   background:$wc-color-04;
    padding: 10px;
    display: inline-block;
  }
  .description {
-   background: yellow;
+   background: $wc-color-12;
    display: none;
  }
  
@@ -166,8 +166,8 @@
  }
  
  .risk-standard{
-   border: 1px solid #a94442;
-   color: #a94442;
+   border: 1px solid $wc-color-16;
+   color: $wc-color-04;
    background-image: none;
    padding-right: 22px;
    max-width: 993px;
@@ -209,9 +209,9 @@
  }
  
  .btn-default.btn-srs:hover, .btn-default.btn-srs:focus {
-   color: #333;
-   background-color: #f5f5f5;
-   border-color: #adadad;
+   color: $wc-color-08;
+   background-color: $wc-color-20;
+   border-color: $wc-color-23;
  }
  
  #srs {
@@ -259,7 +259,7 @@
  
    &:after {
      border-top: 10px solid transparent;
-     border-right: 10px solid #000;
+     border-right: 10px solid $wc-color-07;
      border-bottom: 10px solid transparent;
      left: -10px;
      top: 1px;
@@ -279,14 +279,14 @@
      line-height: 1.42857143;
      border: 1px solid transparent;
      border-radius: 4px 4px 0 0;
-     background-color: #e5e5e5;
+     background-color: $wc-color-13;
    }
  
    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-     color: #555;
+     color: $wc-color-09;
      cursor: default;
-     background-color: #fff;
-     border: 1px solid #ddd;
+     background-color: $wc-color-00;
+     border: 1px solid $wc-color-13;
      border-bottom-color: transparent;
    }
  
@@ -305,7 +305,7 @@
    width: 620px;
    /*overflow: hidden;*/
    z-index: 100;
-   box-shadow: 0px 0px 14px rgba(0, 0, 0, .25);
+   box-shadow: 0px 0px 14px $black_30;
    border-radius: 0 4px 4px 4px;
  
    .panel-body {
@@ -401,4 +401,3 @@
      margin-top: 30px;
    }
  }
- 

@@ -20,7 +20,7 @@
 
 @media screen {
   // Import partials
-  @import "css/variables";
+  @import "css/_variables.scss";
 
   // injector
   @import '../app-shared/unified-view/components/_variables.scss';
@@ -61,12 +61,14 @@
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
   @import 'components/wcTableHead/wcTableHead.directive.scss';
+  @import 'css/_fonts.scss';
   @import 'css/_legacy-to-be-removed.scss';
   @import 'css/_wc-uv-override.scss';
   @import 'fk/arenden/_arende.scss';
   @import 'fk/arenden/komplettera/komplettering-modal-dialog.scss';
   @import 'fk/arenden/panel/fraga/arendePanelFraga.directive.scss';
   @import 'intyg/read-only-view/wcIntygReadOnlyView.scss';
+  @import 'intyg/unified-view/unified-view.scss';
   @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
   @import 'intyg/unified-view/uvSignedBy/uvSignedBy.scss';
   @import 'intyg/unified-view/uvWcFraga/uvWcFraga.directive.scss';
@@ -116,10 +118,6 @@
     }
   }
 
-
-
-
-
   .page-title, .h1 {
     font-weight: bold;
     margin: 0;
@@ -168,69 +166,6 @@
 
   .h6 {
     font-weight: bold;
-  }
-
-  input {
-    max-width: 206px;
-  }
-
-  textarea {
-    width: 100%;
-  }
-
-  select {
-    max-width: 220px;
-    &#intygType {
-      max-width: none;
-      width: auto;
-      display: inline-block;
-      height: 32px;
-      vertical-align: middle;
-    }
-  }
-
-  .content-container {
-    background-color: $white;
-    box-shadow: 0 -5px 25px $mine_shaft;
-    margin-left: -15px;
-    margin-right: -15px;
-    padding: 50px 100px;
-  }
-
-  .content-footer {
-    padding-top: 20px;
-    @extend %content-footer-common;
-    a {
-      @extend %content-footer-common;
-      text-decoration: underline;
-    }
-  }
-
-  .utkast-footer {
-    margin-bottom: 50px;
-  }
-  .fixed-bottom {
-    position: fixed;
-    bottom: 0;
-    background: #fff;
-    width: 45%;
-    padding-bottom: 20px;
-  }
-
-  p {
-    margin: 0;
-    padding: 0 0 10px;
-  }
-
-  a {
-    color: $color_java_approx;
-    cursor: pointer;
-    &.backlink {
-      display: inline-block;
-      line-height: 18px;
-      padding-left: 15px;
-      background: transparent $url-back-link-icon center left no-repeat;
-    }
   }
 
   body.start {
@@ -304,6 +239,89 @@
     font-size: 16px;
     font-weight: bold;
     line-height: 20px;
+  }
+
+  p {
+    margin: 0;
+    padding: 0 0 10px;
+  }
+
+  a {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &.backlink {
+      display: inline-block;
+      line-height: 18px;
+      padding-left: 15px;
+      background: transparent $url-back-link-icon center left no-repeat;
+    }
+
+    &:hover {
+      color: $wc-color-21;
+    }
+
+    .external-link {
+      color: $wc-color-17;
+    }
+  }
+
+  .dark {
+    a {
+      color: $wc-color-00;
+
+      &:hover {
+        color: $wc-color-03;
+      }
+    }
+  }
+
+  input {
+    max-width: 206px;
+  }
+
+  textarea {
+    width: 100%;
+  }
+
+  select {
+    max-width: 220px;
+    &#intygType {
+      max-width: none;
+      width: auto;
+      display: inline-block;
+      height: 32px;
+      vertical-align: middle;
+    }
+  }
+
+  .content-container {
+    background-color: $white;
+    box-shadow: 0 -5px 25px $mine_shaft;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 50px 100px;
+  }
+
+  .content-footer {
+    padding-top: 20px;
+    @extend %content-footer-common;
+    a {
+      @extend %content-footer-common;
+      text-decoration: underline;
+    }
+  }
+
+  .utkast-footer {
+    margin-bottom: 50px;
+  }
+  .fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    background: $wc-color-00;
+    width: 45%;
+    padding-bottom: 20px;
   }
 
   .control-label {
@@ -699,153 +717,154 @@
   .jsp .text-expander {
     line-height: 2.5em;
   }
-}
 
-.deleteDiagnos {
-  cursor:pointer;
-  background-color: transparent;
-  border: none;
-}
-#diagnoseCode {
-  border-radius: 4px!important;
-}
-
-.valjkodverk {
-  margin-right: 15px;
-}
-
-/*
-Modular modifiers
-*/
-
-.padding-top-small {
-  padding-top: 5px;
-}
-
-.padding-top-medium {
-  padding-top: 15px;
-}
-
-.padding-top-large {
-  padding-top: 30px;
-}
-
-.relative-anchor {
-  position:relative;
-}
-
-.anchor-right {
-  position: absolute;
-  right: 0;
-}
-
-/*
-wc cookie banner css.
-(the extreme z-index is to make sure the banner is on top of any .stat-circle's)
-*/
-.wc-cookie-banner-directive {
-
-  margin: 0;
-  top: 0;
-  position: fixed;
-  right: 0;
-  left: 0;
-  border: none;
-  z-index: 1020;
-
-  .alert {
-    max-width: inherit;
-    border-radius: 0;
-    margin-bottom: 0;
+  .deleteDiagnos {
+    cursor:pointer;
+    background-color: transparent;
+    border: none;
   }
-  .container-fluid {
-    padding: 0;
+  #diagnoseCode {
+    border-radius: 4px!important;
   }
 
-}
+  .valjkodverk {
+    margin-right: 15px;
+  }
 
-.empty {
-  color: #a9a9a9;
-}
+  /*
+  Modular modifiers
+  */
 
-.bottom-padding-big {
-  padding-bottom: 30px;
-}
+  .padding-top-small {
+    padding-top: 5px;
+  }
 
-.bottom-padding-medium {
-  padding-bottom: 20px;
-}
+  .padding-top-medium {
+    padding-top: 15px;
+  }
 
-.bottom-padding-small {
-  padding-bottom: 5px;
-}
+  .padding-top-large {
+    padding-top: 30px;
+  }
 
-.bottom-padding-tiny {
-  padding-bottom: 2px;
-}
+  .relative-anchor {
+    position:relative;
+  }
 
-.mark-webcert-red {
-  color: #ff4565
-}
+  .anchor-right {
+    position: absolute;
+    right: 0;
+  }
 
-.italic {
-  font-style: italic;
-}
+  /*
+  wc cookie banner css.
+  (the extreme z-index is to make sure the banner is on top of any .stat-circle's)
+  */
+  .wc-cookie-banner-directive {
 
-.no-margin {
-  margin: 0;
-}
+    margin: 0;
+    top: 0;
+    position: fixed;
+    right: 0;
+    left: 0;
+    border: none;
+    z-index: 1020;
 
-.makulera-choices .big-radio-label {
-  margin-top: 10px;
-}
+    .alert {
+      max-width: inherit;
+      border-radius: 0;
+      margin-bottom: 0;
+    }
+    .container-fluid {
+      padding: 0;
+    }
 
-.continue-btn:disabled{
-  background-color:#F0F0F0;
-  border: 1px solid;
-  border-color: #D3D3D3;
-  border-radius: 4px;
-  color: #9B9B9B;
-}
+  }
 
-.continue-btn:disabled:disabled{
-  background-color:#F0F0F0;
-  border: 1px solid;
-  border-color: #D3D3D3;
-  border-radius: 4px;
-  color: #9B9B9B;
-}
+  .empty {
+    color: $wc-color-23;
+  }
 
-.z-low {
-  z-index: 100;
-}
+  .bottom-padding-big {
+    padding-bottom: 30px;
+  }
 
-.bankid-signera-modal {
-      .modal {
-        text-align: center;
-      }
+  .bottom-padding-medium {
+    padding-bottom: 20px;
+  }
 
-      .modal-dialog {
-        width: 98%;
-        height: 92%;
-        padding: 0;
-      }
+  .bottom-padding-small {
+    padding-bottom: 5px;
+  }
 
-      .modal-content {
-        height: 99%;
-      }
+  .bottom-padding-tiny {
+    padding-bottom: 2px;
+  }
 
-      .modal-body {
-        top:40%;
-        text-align:center;
-      }
-}
+  .mark-webcert-red {
+    color: $wc-color-11;
+  }
 
-.text-8-lines {
-  max-height: 13em;
-  overflow-y: auto;
-}
+  .italic {
+    font-style: italic;
+  }
 
-.date-width {
-  width: 130px;
+  .no-margin {
+    margin: 0;
+  }
+
+  .makulera-choices .big-radio-label {
+    margin-top: 10px;
+  }
+
+  .continue-btn:disabled{
+    background-color:$wc-color-20;
+    border: 1px solid;
+    border-color: $wc-color-15;
+    border-radius: 4px;
+    color: $wc-color-22;
+  }
+
+  .continue-btn:disabled:disabled{
+    background-color:$wc-color-20;
+    border: 1px solid;
+    border-color: $wc-color-15;
+    border-radius: 4px;
+    color: $wc-color-22;
+  }
+
+  .z-low {
+    z-index: 100;
+  }
+
+  .bankid-signera-modal {
+        .modal {
+          text-align: center;
+        }
+
+        .modal-dialog {
+          width: 98%;
+          height: 92%;
+          padding: 0;
+        }
+
+        .modal-content {
+          height: 99%;
+        }
+
+        .modal-body {
+          top:40%;
+          text-align:center;
+        }
+  }
+
+  .text-8-lines {
+    max-height: 13em;
+    overflow-y: auto;
+  }
+
+  .date-width {
+    width: 130px;
+  }
+
 }

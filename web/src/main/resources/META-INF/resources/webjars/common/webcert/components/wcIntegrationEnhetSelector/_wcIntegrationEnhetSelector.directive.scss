@@ -22,15 +22,15 @@
   .nav-pills {
     &.nav-stacked {
         li:first-child > a {
-          color: #333;
-          background: #fff !important;
+          color: $wc-color-08;
+          background: $wc-color-00 !important;
 
         }
       }
     }
 
   .toggle-icon {
-    color: #808080;
+    color: $wc-color-22;
     cursor: pointer;
     padding-right:8px;
   }

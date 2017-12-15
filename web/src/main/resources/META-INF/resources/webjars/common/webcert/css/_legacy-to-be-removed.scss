@@ -242,12 +242,12 @@ label.big-radio-label, label.big-checkbox-label {
 
   input.fielderror {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
-    border: 1px solid #ff6600;
+    border: 1px solid $wc-color-11;
   }
   .fielderror {
     input[TYPE='text'], textarea, .ui-select-match {
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
-      border: 1px solid #ff6600;
+      border: 1px solid $wc-color-11;
     }
   }
   textarea.form-control {
@@ -373,7 +373,7 @@ label.big-radio-label, label.big-checkbox-label {
     border-radius: 4px 4px 4px 4px;
   }
   hr {
-    border-bottom: 1px solid #FFFFFF;
+    border-bottom: 1px solid $wc-color-00;
     margin-left: -14px;
     margin-right: -14px;
   }
