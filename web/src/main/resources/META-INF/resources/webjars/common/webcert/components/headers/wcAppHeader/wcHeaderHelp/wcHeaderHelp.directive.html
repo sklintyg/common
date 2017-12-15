@@ -1,16 +1,29 @@
-<div class="wc-header-directive-container about-section hidden-sm hidden-xs">
+<div class="wc-header-directive-container about-section hidden-sm hidden-xs" ng-if="vm.showAbout">
   <div class="text-nowrap">
     <a href="" id="aboutLink" ng-click="onAboutClick()">Om Webcert</a>
   </div>
 </div>
 
-<div class="wc-header-directive-container logout-section hidden-sm hidden-xs" ng-if="showLogout()">
+<div class="wc-header-directive-container logout-section hidden-sm hidden-xs" ng-if="vm.showLogout">
   <div class="text-nowrap">
     <a id="logoutLink" href="" ng-click="onLogoutClick()">Logga ut</a>
   </div>
 </div>
 
-<div class="wc-header-directive-container hamburger-menu hidden-md hidden-lg" ng-class="{'expanded' : menu.expanded}">
+<div class="wc-header-directive-container create-account-section hidden-sm hidden-xs" ng-if="vm.showCreateAccount">
+  <div class="vertical-container">
+
+    <div class="text-nowrap">
+      Skapa konto beskrivningstext
+    </div>
+    <div class="text-nowrap">
+      <a id="createAccountLink" href="" ng-click="onCreateAccountClick()">Skapa konto</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="wc-header-directive-container hamburger-menu hidden-md hidden-lg" ng-class="{'expanded' : vm.expanded}">
   <button type="button" id="expand-help-btn" class="btn btn-link" ng-click="toggleMenu($event)">
     <i class="glyphicon glyphicon-option-vertical"></i>
   </button>
@@ -18,9 +31,13 @@
 
 
 <!-- this menu cant be relatively positioned, as it should not grow the width of the menu -->
-<div uib-dropdown is-open="menu.expanded" class="hidden-md hidden-lg">
+<div uib-dropdown is-open="vm.expanded" class="hidden-md hidden-lg">
   <ul uib-dropdown-menu>
-    <li><a href="" id="aboutLink_dropdown" ng-click="onAboutClick()">Om Webcert</a></li>
-    <li ng-if="showLogout()"><a href="" id="logoutLink_dropdown" ng-click="onLogoutClick()">Logga ut</a></li>
+    <li ng-if="vm.showCreateAccount">
+      Skapa konto beskrivningstext<br>
+      <a href="" id="createAccountLink_dropdown" ng-click="onCreateAccountClick()">Skapa konto</a>
+    </li>
+    <li ng-if="vm.showAbout"><a href="" id="aboutLink_dropdown" ng-click="onAboutClick()">Om Webcert</a></li>
+    <li ng-if="vm.showLogout"><a href="" id="logoutLink_dropdown" ng-click="onLogoutClick()">Logga ut</a></li>
   </ul>
 </div>

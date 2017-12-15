@@ -31,22 +31,25 @@ angular.module('common').directive('wcHeaderHelp',
                 link: function($scope) {
 
                     var aboutModalInstance;
-                    $scope.menu = {
+
+
+                    $scope.vm = {
+                        showAbout: angular.isObject($scope.user),
+                        showCreateAccount:  !angular.isObject($scope.user),
+                        showLogout: angular.isObject($scope.user) && authorityService.isAuthorityActive({
+                            authority: 'NAVIGERING'
+                        }),
                         expanded: false
                     };
 
                     $scope.toggleMenu = function($event) {
                         $event.stopPropagation();
-                        $scope.menu.expanded = !$scope.menu.expanded;
+                        $scope.vm.expanded = !$scope.vm.expanded;
 
                     };
 
-
-                    // Logout ---------------------------------------------------------------
-                    $scope.showLogout = function() {
-                        return authorityService.isAuthorityActive({
-                            authority: 'NAVIGERING'
-                        });
+                    $scope.onCreateAccountClick = function() {
+                        $window.location.href = moduleConfig.PP_HOST;
                     };
 
                     $scope.onLogoutClick = function() {
