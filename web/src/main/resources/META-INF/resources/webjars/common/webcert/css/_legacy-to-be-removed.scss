@@ -132,7 +132,7 @@ td .last-validation .validation, .last-validation td .validation {
 .radio {
   cursor: pointer;
   &.disabled {
-    color: $gray;
+    color: $wc-color-09;
     cursor: not-allowed;
   }
 }
@@ -140,7 +140,7 @@ td .last-validation .validation, .last-validation td .validation {
 .checkbox {
   cursor: pointer;
   &.disabled {
-    color: $gray;
+    color: $wc-color-09;
     cursor: not-allowed;
   }
 }
