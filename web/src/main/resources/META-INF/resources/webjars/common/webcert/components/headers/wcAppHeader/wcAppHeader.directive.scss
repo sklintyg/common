@@ -14,7 +14,7 @@ wc-app-header {
 
   // Is a flex (root) container and is not itself a flexitem
   display: flex;
-  //Stretch on cross-axis to make them 100% height
+  //Stretch on cross-axis to make items 100% height
   align-items: stretch;
   background-color: $wc-color-17;
   height: $wc-header-height;
@@ -29,6 +29,11 @@ wc-app-header {
     align-items: center;
     justify-content: center;
 
+    border-width: 0 6px 0 0;
+    border-style: solid;
+    border-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(42, 48, 78, 0.1)) 1 100%;
+
+
     .logo-svg {
       width: 121px;
       height: 26px;
@@ -39,24 +44,21 @@ wc-app-header {
 
 
 
-  // General styles shared by sub directives wc-header-user, unit etc
+  // General styles shared by sub directives wc-header-user, unit etc --------------------------------------------------
 
 
   .wc-header-directive-container {
-    // The actual directive tags are not flex-containers as we need to be able to relativly place the expanded dropdoen menus below it)
+    // The actual directives (wc-header-unit etc) are not flex-containers as we need to be able to relativly place the expanded dropdoen menus below it)
 
-    //Act as a flex container
+    //Act as a flex horizontal container
     display: flex;
     //where its items are vertically centered..
     align-items: center;
 
-
-
-    //The inner flex container must have 100% height, as it itself is actually NOT a flex-item
+    //This inner flex container must have 100% height, as it itself is actually NOT a flex-item
     height: 100%;
 
-
-    padding: 0 10px;
+    padding: 0 16px;
 
 
     // rules below handles the gradiented dividers between sections
@@ -156,7 +158,7 @@ wc-app-header {
   //TODO: use material icons
   .header-icon {
     font-size: $wc-header-icon-size;
-    padding:0 10px;
+    padding:0 6px;
   }
 
   .header-chevron {
