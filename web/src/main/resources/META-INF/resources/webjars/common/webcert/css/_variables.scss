@@ -44,7 +44,7 @@ $wc-color-10: #41BFA0;
 $wc-color-05: #7A5F24;
 $wc-color-12: #E8AD0E;
 $wc-color-18: #FFC794;
-$wc-color-02: #FEECBB;
+$wc-color-02: #ffebba;
 
 $wc-color-19: #292F4F;
 $wc-color-17: #3D4260;
@@ -67,3 +67,19 @@ $url-back-link-icon: url('/img/back-link-icon.gif');
 $url-settings-icon: url('/img/settings_ikon.png');
 $url-settings-hoover: url('/img/settings_hoover.png');
 $url-col-shadow: url('/img/col-shadow.png');
+
+$state-info-text:                $wc-color-01;
+$state-info-bg:                  $wc-color-06;
+
+$state-warning-text:             $wc-color-02;
+$state-warning-bg:               $wc-color-05;
+
+$state-danger-text:              $wc-color-03;
+$state-danger-bg:                $wc-color-04;
+
+$alert-info-bg: $wc-color-03;
+$alert-info-text: $wc-color-06;
+$alert-warning-bg: $wc-color-02;
+$alert-warning-text: $wc-color-05;
+$alert-danger-bg: $wc-color-01;
+$alert-danger-text: $wc-color-04;

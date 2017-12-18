@@ -17,5 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#wc-intyg-related-other-intyg-message {
-}
+/**
+ * Show an alert box
+ */
+angular.module('common').directive('wcAlertMessage',
+    [
+        function() {
+            'use strict';
+
+            return {
+                restrict: 'E',
+                scope: {
+                    'alertShow' : '=',
+                    'alertMessageId' : '@',
+                    'alertSeverity' : '@'
+                },
+                controller: function($scope) {
+                    if($scope.alertShow === undefined) {
+                        $scope.alertShow = true;
+                    }
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcAlertMessage/wcAlertMessage.directive.html'
+            };
+        }]);
