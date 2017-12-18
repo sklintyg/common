@@ -101,7 +101,7 @@
   }
 
   %content-footer-common {
-    color: $white;
+    color: $wc-color-00;
     margin: 0 auto;
     width: 70%;
     max-width: 700px;
@@ -114,7 +114,7 @@
   body {
     @extend %font-common;
     &.start {
-      background-color: $color_java_approx;
+      background-color: $wc-color-10;
     }
   }
 
@@ -123,7 +123,7 @@
     margin: 0;
     padding-bottom: 10px;
     font-size: 24px;
-    color: $color_blue_chill_approx;
+    color: $wc-color-16;
 
     &.backlink-heading {
       display: inline-block;
@@ -170,13 +170,13 @@
 
   body.start {
     h1 {
-      color: $color_java_approx;
+      color: $wc-color-10;
     }
     h2 {
-      color: $color_java_approx;
+      color: $wc-color-10;
     }
     h3 {
-      color: $color_java_approx;
+      color: $wc-color-10;
     }
   }
 
@@ -210,7 +210,7 @@
 
   .col-head {
     font-size: 20px;
-    color: $color_blue_chill_approx;
+    color: $wc-color-16;
     padding-bottom: 10px;
   }
 
@@ -297,8 +297,8 @@
   }
 
   .content-container {
-    background-color: $white;
-    box-shadow: 0 -5px 25px $mine_shaft;
+    background-color: $wc-color-00;
+    box-shadow: 0 -5px 25px $wc-color-08;
     margin-left: -15px;
     margin-right: -15px;
     padding: 50px 100px;
@@ -405,7 +405,7 @@
   }
 
   .required {
-    color: $color_radical_red_approx;
+    color: $wc-color-11;
     font-size: 14px;
     font-weight: normal;
     font-style: normal;
@@ -464,7 +464,7 @@
     padding: 20px;
     p {
       text-align: center;
-      color: $color_fountain_blue_approx;
+      color: $wc-color-10;
       margin-top: 20px;
     }
   }
@@ -476,7 +476,7 @@
   .wc-utkast-patient-address-updater {
 
     .patient-address-updater-label {
-      color: $color_storm_dust_approx-2;
+      color: $wc-color-09;
       padding-left: 5px;
     }
     .alert {
@@ -488,15 +488,15 @@
 
   /**Form/validation**/
   %validation-box-shadow {
-    border-color: $color_celeste_approx;
+    border-color: $wc-color-15;
     outline: thin dotted \9;
-    box-shadow: inset 0 1px 1px $black_075, 0 0 8px $color_picton_blue_60_approx;
+    box-shadow: inset 0 1px 1px $black_75, 0 0 8px $wc-color-03;
   }
 
   /* Used in wcDatePickerField.directive.html */
   .text-invalid, INPUT.ng-invalid-dateperiod, INPUT.ng-invalid-min-date, INPUT.ng-invalid-max-date  {
-    box-shadow: inset 0 1px 1px $black_075,0 0 8px $red_60;
-    border-color: $blaze_orange;
+    box-shadow: inset 0 1px 1px $black_75,0 0 8px $wc-color-04;
+    border-color: $wc-color-12;
   }
 
   /* Not used?? */
@@ -505,11 +505,11 @@
   }
 
   span.error {
-    color: $color_apple_blossom_approx;
+    color: $wc-color-04;
   }
 
   span.success {
-    color: $color_apple_approx;
+    color: $wc-color-10;
   }
 
   input:focus:invalid:focus {
@@ -536,9 +536,9 @@
 
   /* Used in some jsps */
   .bluebox {
-    background-color: $color_blue_chill_approx;
+    background-color: $wc-color-16;
     border-radius: 8px 8px 8px 8px;
-    color: $white;
+    color: $wc-color-00;
     padding: 20px;
     margin-bottom: 10px;
   }
@@ -546,7 +546,7 @@
   /* Used in index.jsp */
   .graybox {
     border-radius: 5px 5px 5px 5px;
-    background-color: $color_wild_sand_approx;
+    background-color: $wc-color-20;
     max-width: 800px;
     padding: 15px 17px;
   }
@@ -587,11 +587,11 @@
   }
 
   .webcert-multicol-background-grey {
-    background-color: $concrete !important;
+    background-color: $wc-color-20 !important;
   }
 
   .webcert-multicol-background-white {
-    background-color: $white !important;
+    background-color: $wc-color-00 !important;
   }
 
   .webcert-col {
@@ -644,7 +644,7 @@
   }
 
   .webcert-col-section {
-    border-top: 1px solid $color_celeste_approx;
+    border-top: 1px solid $wc-color-15;
   }
 
   .webcert-bottom-padding-section {
@@ -710,7 +710,7 @@
 
   /* Not used? */
   body span:hover.qa-unit-selected {
-    color: $white;
+    color: $wc-color-00;
   }
 
   /* Not used? */

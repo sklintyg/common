@@ -55,79 +55,10 @@ $wc-color-21: #496CEC;
 $wc-color-25: #8AA7F5;
 $wc-color-03: #B3E5FC;
 
-
-$black_30: rgba(0, 0, 0, .30);
-
-//TODO: When WC design guideline is set, maybe refactor these variable names to that makes more sense in that context?
-$white: $wc-color-00;
-
-$alert-danger-color: $wc-color-01;
-
-$color_morning_glory_approx: $wc-color-03;
-$color_picton_blue_60_approx: $wc-color-03;
-
-$red_60: $wc-color-04;
-$color_apple_blossom_approx: $wc-color-04;
-
-$color_pesto_approx: $wc-color-05;
-
-$black_20: $wc-color-07;
-$black_075: $wc-color-07;
-$color_steel_gray_approx: $wc-color-07;
-
-$mine_shaft: $wc-color-08;
-$color_cape_cod_approx: $wc-color-08;
-
-$gray: $wc-color-09;
-$color_tapa_approx: $wc-color-09;
-$color_scarpa_flow_approx: $wc-color-09;
-$color_storm_dust_approx-2: $wc-color-09;
-
-$color_apple_approx: $wc-color-10;
-$color_scooter_approx: $wc-color-10;
-$color_pelorous_approx: $wc-color-10;
-$color_eastern_blue_approx: $wc-color-10;
-$color_java_approx: $wc-color-10;
-$color_fountain_blue_approx: $wc-color-10;
-
-$color_patient_alert_red: $wc-color-11;
-$color_radical_red_approx: $wc-color-11;
-$color_radical_red_approx: $wc-color-11;
-
-$blaze_orange: $wc-color-12;
-$web_orangered: $wc-color-12;
-
-$color_iron_approx: $wc-color-13;
-$mercury: $wc-color-13;
-
-$color_storm_dust_approx: $wc-color-14;
-
-$intyg_medium_grey: $wc-color-15;
-$color_quill_gray_approx: $wc-color-15;
-$color_alto_approx: $wc-color-15;
-$color_celeste_approx: $wc-color-15;
-
-$color_blue_chill_approx: $wc-color-16;
-$color_orient_approx: $wc-color-16;
-
-$color_calypso_approx: $wc-color-17;
-
-$color_mine_shaft_approx: $wc-color-19;
-$mine_shaft: $wc-color-19;
-
-$intyg_light_grey: $wc-color-20;
-$color_gallery_approx: $wc-color-20;
-$color_black_haze_approx: $wc-color-20;
-$color_alabaster_approx: $wc-color-20;
-$color_wild_sand_approx: $wc-color-20;
-$concrete: $wc-color-20;
-$color_gallery_approx: $wc-color-20;
-
-$color_silver_chalice_approx: $wc-color-22;
-$color_suva_gray_approx: $wc-color-22;
-$color_mountain_mist_approx: $wc-color-22;
-
-
+//shadows
+$black_20: rgba(0, 0, 0, 0.2);
+$black_75: rgba(0, 0, 0, 0.75);
+$black_30: rgba(0, 0, 0, 0.3);
 
 //urls
 $url_0: url(/img/tillbaka.png);
