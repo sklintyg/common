@@ -1,13 +1,20 @@
 
 wc-header-help {
 
-  //In normal mode, let his flex, but shrink rather aggressively
-  flex: 1 4 auto;
 
+  //default is to act as a growing, shrinkable flex-item, taking excessive widths
+  flex: 1 1 auto;
+  @media (max-width: 992px) {
+    //but in compact mode, instead dont let it grow
+    flex-grow: 0;
+  }
 
-  height: 100%;
+  //is a flex container that lays out the different "help" sections
   display: flex;
+  //push all items to the right
   justify-content: flex-end;
+
+
   //base text color for this component
   color: $wc-color-20;
 
@@ -35,7 +42,7 @@ wc-header-help {
 
     &.create-account-section {
       flex: 1 5;
-      //but no more than..
+
       min-width: 120px;
       display: flex;
       justify-content: flex-end;
@@ -47,7 +54,8 @@ wc-header-help {
     }
 
     &.hamburger-menu {
-      flex: 1;
+      padding:0;
+      flex: 1 0 auto;
       display: flex;
       justify-content: flex-end;
       box-shadow: none;

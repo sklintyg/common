@@ -1,11 +1,20 @@
-$wc-header-user-max-width: 400px;
+$wc-header-user-min-width: 120px;
 
 wc-header-user {
-  // should shrink a litte more aggressivly than the wc-unit
-  flex: 2 1 auto;
-  min-width: 160px;
-  max-width: $wc-header-user-max-width;
-  height: 100%;
+  //default for this directive is to act as a non-growing, (aggressivly) shrinkable flex-item
+  flex: 0 3 auto;
+  @media (max-width: 992px) {
+    //but in compact mode, let it grow
+    flex-grow: 1;
+  }
+
+  //flex items must a some sort of width applied for it to be able to shrink
+  //NOTE: when using min-width:0px (no unit), scss processing optimised it by
+  // removing the unit, casuing rendering errorss in IE that doesnt handle unitless min-widths in flex context. took me 6 hours to find that ugh!
+  min-width: $wc-header-user-min-width;
+
+  // but NOT a flex-container, because we want to be able to relativly position the menu below it when it expands..
+  display: block;
 
   //base text color for this component
   color: $wc-color-20;

@@ -12,9 +12,10 @@ wc-app-header {
   max-width: $wc-max-content-width;
   margin: auto;
 
-  // Should be a flex container
+  // Is a flex (root) container and is not itself a flexitem
   display: flex;
-  align-items: center;
+  //Stretch on cross-axis to make them 100% height
+  align-items: stretch;
   background-color: $wc-color-17;
   height: $wc-header-height;
 
@@ -42,15 +43,23 @@ wc-app-header {
 
 
   .wc-header-directive-container {
+    // The actual directive tags are not flex-containers as we need to be able to relativly place the expanded dropdoen menus below it)
 
-    height: 100%;
-
-    flex: 1;
-    min-width: 0;
-
+    //Act as a flex container
     display: flex;
+    //where its items are vertically centered..
     align-items: center;
 
+
+
+    //The inner flex container must have 100% height, as it itself is actually NOT a flex-item
+    height: 100%;
+
+
+    padding: 0 10px;
+
+
+    // rules below handles the gradiented dividers between sections
     border-width: 0 6px;
     border-style: solid;
     //The png contains a 12 pixel wide alpha-gradient that is sliced to left/right borders of the different directives.
@@ -59,12 +68,39 @@ wc-app-header {
     border-image-repeat: round;
 
 
-
+    // when in expanded mode (the menu is expanded), replace border divider with a boxshadow that makes it "pop" out a bit.
     &.expanded {
       border-color: transparent;
       border-image: none;
       //instead a drowshadow on the sides here
       box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.52);
+    }
+
+    // a vertical container to allow us to have content with multiple content rows
+    // in its parent flex-container but still vertically centered.
+    .vertical-container {
+      //is a flex child
+      flex: 0 1 auto;
+
+      // is a flex container
+      display: flex;
+      // switch axis to columns
+      flex-direction: column;
+      min-width: 1px;
+
+
+      .single-text-row-container {
+        //lay out items horizontally
+        display: flex;
+
+        //if we user 0px / 0%, scss minification removes the unit - causing flexbox errors in IE, so we set 1px
+        min-width: 1px;
+      }
+
+      .status-row {
+        color: $wc-color-03;
+      }
+
     }
 
     a {
@@ -109,27 +145,7 @@ wc-app-header {
     }
   }
 
-  .vertical-container {
-    flex: 1;
-    flex-direction: column;
-    min-width: 0;
-    display: flex;
 
-    .single-text-row-container {
-      display: flex;
-    }
-
-
-    .greedy-flex-shrink {
-      flex:0 2 auto;
-    }
-
-    .status-row {
-      color: $wc-color-03;
-
-    }
-
-  }
 
   .truncate-when-needed {
     white-space: nowrap;
