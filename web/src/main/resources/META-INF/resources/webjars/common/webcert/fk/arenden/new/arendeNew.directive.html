@@ -6,7 +6,7 @@
        wc-check-vardenhet
        wc-authority feature="SKAPA_NY_FRAGA" intygstyp="{{localViewState.parentViewState.intygProperties.type}}"
        vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}">
-      <button type="button" class="btn btn-success" ng-click="toggleArendeForm()" id="askArendeBtn">Ny fråga till
+      <button type="button" class="btn btn-primary" ng-click="toggleArendeForm()" id="askArendeBtn">Ny fråga till
         Försäkringskassan
       </button>
   </div>
@@ -59,7 +59,7 @@
     <div class="form-group">
 
       <!-- Skicka -->
-      <button type="button" class="btn btn-success" ng-click="sendNewArende()"
+      <button type="button" class="btn btn-primary" ng-click="sendNewArende()"
               ng-disabled="!isArendeValidForSubmit()" title="{{localViewState.sendButtonToolTip}}"
               id="sendArendeBtn">
         <img src="/img/loader-small-green.gif" ng-show="localViewState.updateInProgress"> Skicka till
@@ -67,7 +67,7 @@
       </button>
 
       <!-- Avbryt -->
-      <button type="button" class="btn btn-info" ng-click="cancelQuestion()" id="cancelArendeBtn">Avbryt
+      <button type="button" class="btn btn-secondary" ng-click="cancelQuestion()" id="cancelArendeBtn">Avbryt
         fråga
       </button>
     </div>

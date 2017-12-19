@@ -14,7 +14,7 @@
               <h4>Ingen ytterligare medicinsk information kan anges</h4>
               <p>Kan ingen ytterligare medicinsk information ges så ska det anges och motiveras under "övriga upplysningar" *</p>
               <div class="dialog-choice-box__button-section">
-                <button type="button" class="btn btn-success" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled && !model.komplUtkastFinns"
+                <button type="button" class="btn btn-primary" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled && !model.komplUtkastFinns"
                         ng-click="button1click()"  wc-check-vardenhet
                         vardenhet="{{arendeSvar.enhetsid}}" id="komplettering-modal-dialog-answerWithNyttIntyg-button">
                   <img src="/img/loader-small-green.gif" ng-show="model.arendeSvar.updateInProgress"> Lämna övriga upplysningar

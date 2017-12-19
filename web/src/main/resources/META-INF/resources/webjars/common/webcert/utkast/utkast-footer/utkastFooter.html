@@ -11,11 +11,11 @@
         <span message key="draft.completion.signinfo"></span>
       </p>
 
-      <div ng-if="disableSign() && getPreviousIntygWarning() !== undefined" class="alert alert-warning alert-column">
+      <div ng-if="disableSign() && getPreviousIntygWarning() !== undefined" class="alert alert-warning">
         <span message key="{{getPreviousIntygWarning()}}"></span>
       </div>
 
-      <button type="button" id="signera-utkast-button" class="btn btn-success"
+      <button type="button" id="signera-utkast-button" class="btn btn-primary"
               ng-disabled="certForm.$dirty || (getCurrentSignStatus() === 'pending') || disableSign()"
               ng-keydown="initValidationSequence('signera-utkast-button')"
               ng-mousedown="initValidationSequence('signera-utkast-button')"
@@ -47,7 +47,7 @@
 
       <!-- check for missing info in utkast -->
       <div class="form-group">
-        <button type="button" id="show-missing-btn" class="btn btn-success"
+        <button type="button" id="show-missing-btn" class="btn btn-primary"
                 ng-keydown="initValidationSequence('show-missing-btn')"
                 ng-mousedown="initValidationSequence('show-missing-btn')"
                 ng-click="checkMissing()"
@@ -62,7 +62,7 @@
 
       <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
       <div wc-authority="NOTIFIERING_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
-        <button ng-if="!viewState.klartForSigneringDatum" type="button" id="markeraKlartForSigneringButton" class="btn btn-success" ng-click="notifieraUtkast()">
+        <button ng-if="!viewState.klartForSigneringDatum" type="button" id="markeraKlartForSigneringButton" class="btn btn-primary" ng-click="notifieraUtkast()">
           <span message key="draft.notifyready.button"></span>
         </button>
         <div ng-if="viewState.klartForSigneringDatum">
@@ -77,7 +77,7 @@
       <div wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
         <div class="form-group">
           <button type="button" id="vidarebefordraEjHanterad" class="btn"
-                  ng-class="{'btn-success': !viewState.draftModel.vidarebefordrad, 'btn-secondary' : viewState.draftModel.vidarebefordrad}"
+                  ng-class="{'btn-primary': !viewState.draftModel.vidarebefordrad, 'btn-secondary' : viewState.draftModel.vidarebefordrad}"
                   ng-click="vidarebefordraUtkast()"><span class="glyphicon glyphicon-share-alt"
                 ng-class="{'forward-active': !viewState.draftModel.vidarebefordrad, 'forward-inactive': viewState.draftModel.vidarebefordrad}"></span>
              <span message key="draft.notify.button"></span>

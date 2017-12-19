@@ -1,7 +1,7 @@
 <div>
   <!-- error message -->
   <div id="intyg-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
-       class="alert alert-danger alert-column">
+       class="alert alert-danger">
 
     <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
       <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
@@ -47,7 +47,7 @@
         <div class="btn-row">
           <button type="button"
                   id="sendBtn"
-                  class="btn btn-info"
+                  class="btn btn-secondary"
                   wc-authority feature="SKICKA_INTYG"
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
@@ -59,7 +59,7 @@
           <!-- Normal pdf-utskrift av signerat intyg  -->
           <button type="button"
                   id="downloadprint"
-                  class="btn btn-info"
+                  class="btn btn-secondary"
                   intygstyp="{{intygstyp}}"
                   ng-if="showPrintBtn()"
                   ng-click="print(viewState.intygModel, false)">
@@ -69,7 +69,7 @@
             <div class="btn-group" ng-if="showEmployerPrintBtn()">
               <button type="button"
                       id="intyg-header-dropdown-select-pdf-type"
-                      class="btn btn-info dropdown-toggle"
+                      class="btn btn-secondary dropdown-toggle"
                       data-toggle="dropdown"
                       aria-haspopup="true"
                       aria-expanded="false">
@@ -103,7 +103,7 @@
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   id="fornyaBtn"
-                  class="btn btn-info"
+                  class="btn btn-secondary"
                   ng-if="showFornyaButton()"
                   ng-click="fornya(viewState.intygModel)"
                   uib-popover="{{fornyaBtnTooltipText}}"
@@ -119,7 +119,7 @@
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   id="ersattBtn"
-                  class="btn btn-info"
+                  class="btn btn-secondary"
                   ng-if="showErsattButton()"
                   ng-click="ersatt(viewState.intygModel)"
                   wc-check-vardenhet
@@ -135,7 +135,7 @@
           <button type="button"
                   intygstyp="{{intygstyp}}"
                   id="createFromTemplateBtn"
-                  class="btn btn-info"
+                  class="btn btn-secondary"
                   ng-if="showCreateFromTemplate()"
                   ng-disabled="!enableCreateFromTemplate()"
                   ng-click="createFromTemplate(viewState.intygModel)"
@@ -167,15 +167,15 @@
 
       <div wc-secrecy-mark-message person-id="viewState.intygModel.grundData.patient.personId" type="intyg"></div>
 
-      <div ng-if="showCreateFromTemplate() && (!enableCreateFromTemplate() || getWarningForCreateFromTemplate() !== undefined)" class="alert alert-warning alert-column">
+      <div ng-if="showCreateFromTemplate() && (!enableCreateFromTemplate() || getWarningForCreateFromTemplate() !== undefined)" class="alert alert-warning">
         <span message key="{{getWarningForCreateFromTemplate()}}"></span>
       </div>
 
-      <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column">
+      <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger">
         <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>
       </div>
 
-      <div class="alert alert-info alert-column" ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
+      <div ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
         <strong>Status:</strong>
         <span id="{{statusFieldId()}}" ng-bind-html="generateSentText()"></span>
       </div>

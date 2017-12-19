@@ -1,13 +1,11 @@
 <div>
-  <div id="answerDisabledReasonPanel-{{arendeSvar.fragaInternReferens}}" class="alert alert-info"
-       ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason">
-    {{arendeSvar.answerDisabledReason}}
-  </div>
+  <wc-alert-message alert-severity="info" ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason"
+                    alert-id="answerDisabledReasonPanel-{{arendeSvar.fragaInternReferens}}"
+                    alert-message-id="arendeSvar.answerDisabledReason"></wc-alert-message>
 
   <!-- Svara med nytt intyg button - only on komplettering -->
   <div class="buttonbar" ng-if="showKompletteringControls()">
     <div arende-panel-svar-kompletteringsatgard parent-view-state="parentViewState" arende-list-item="arendeListItem"  on-answer-with-message="answerWithMessage()"></div>
-
   </div>
 
   <!-- Svarsdelen -->
@@ -90,17 +88,17 @@
               <span message key="common.error.{{arendeSvar.activeErrorMessageKey}}"></span>
             </div>
 
-            <button type="button" class="btn btn-success" ng-click="sendAnswer()"
+            <button type="button" class="btn btn-primary" ng-click="sendAnswer()"
                     ng-disabled="!arendeSvar.meddelande || arendeSvar.updateInProgress" ng-show="isAnswerAllowed()"
                     wc-check-vardenhet vardenhet="{{arendeSvar.enhetsId}}"
                     id="sendAnswerBtn-{{arendeSvar.fragaInternReferens}}">
               <img src="/img/loader-small-green.gif" ng-show="arendeSvar.updateInProgress"> Skicka svar
             </button>
-            <button type="button" class="btn btn-info" ng-click="abortTextAnswer()"
+            <button type="button" class="btn btn-secondary" ng-click="abortTextAnswer()"
                     ng-show="arendeSvar.answerKompletteringWithText"
                     id="abortAnswerBtn-{{qa.internReferens}}"> Avbryt
             </button>
-            <button type="button" class="btn btn-info" ng-click="deleteArendeDraft()" ng-show="isAnswerAllowed()"
+            <button type="button" class="btn btn-secondary" ng-click="deleteArendeDraft()" ng-show="isAnswerAllowed()"
                     ng-disabled="!arendeSvar.meddelande"> Radera påbörjat svar
             </button>
           </div>

@@ -6,7 +6,7 @@
       <div>
         <!--  fraga.status header -->
         <button type="button" id="{{panelId}}-vidarebefordraEjHanterad" class="btn"
-                ng-class="{'btn-info': !arendeListItem.arende.fraga.vidarebefordrad, 'btn-default btn-secondary' : arendeListItem.arende.fraga.vidarebefordrad}"
+                ng-class="{'btn-secondary': !arendeListItem.arende.fraga.vidarebefordrad, 'btn-default btn-secondary' : arendeListItem.arende.fraga.vidarebefordrad}"
                 title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
                 ng-click="openMailDialog(arendeListItem.arende)" ng-show="!parentViewState.intygProperties.isRevoked">
           <span class="glyphicon glyphicon-share-alt" ng-class="{'forward-active': !arendeListItem.arende.fraga.vidarebefordrad, 'forward-inactive': arendeListItem.arende.fraga.vidarebefordrad}"></span>

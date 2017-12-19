@@ -1,15 +1,8 @@
 <div id="wc-patient-info-change-message">
-  <div ng-if="patient.changedNamePu || patient.changedAddressPu || patient.changedNamePuIntegration" class="padding-top-medium">
-    <div class="alert alert-info alert-column">
-      <div id="intyg-fristaende-name-changed" class="not-last-child-bottom-padding" ng-if="patient.changedNamePu">
-        <span message key="intyg.status.patient.name.pu-intyg.changed"></span>
-      </div>
-      <div id="intyg-fristaende-address-changed" class="not-last-child-bottom-padding" ng-if="patient.changedAddressPu">
-        <span message key="intyg.status.patient.address.pu-intyg.changed"></span>
-      </div>
-      <div id="intyg-djupintegration-name-changed" ng-if="patient.changedNamePuIntegration">
-        <span message key="intyg.status.patient.name.pu-integration.changed"></span>
-      </div>
-    </div>
-  </div>
+  <wc-alert-message ng-if="patient.changedNamePu" alert-id="intyg-fristaende-name-changed" class="padding-top-medium not-last-child-bottom-padding"
+                    alert-message-id="intyg.status.patient.name.pu-intyg.changed"></wc-alert-message>
+  <wc-alert-message ng-if="patient.changedAddressPu" alert-id="intyg-fristaende-address-changed" class="padding-top-medium not-last-child-bottom-padding"
+                    alert-message-id="intyg.status.patient.address.pu-intyg.changed"></span></wc-alert-message>
+  <wc-alert-message ng-if="patient.changedNamePuIntegration" alert-id="intyg-djupintegration-name-changed" class="padding-top-medium"
+                    alert-message-id="intyg.status.patient.name.pu-integration.changed"></wc-alert-message>
 </div>

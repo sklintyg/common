@@ -1,9 +1,7 @@
-<div ng-show="alertShow">
-  <div class="alert alert-{{alertSeverity}}" ng-class="{'alert-warning': alertSeverity === 'sekretess'}">
-    <i ng-if="alertSeverity === 'info'" class="material-icons">info_outline</i>
-    <i ng-if="alertSeverity === 'warning'" class="material-icons">warning</i>
-    <i ng-if="alertSeverity === 'sekretess'" class="material-icons">security</i>
-    <i ng-if="alertSeverity === 'danger'" class="material-icons">error_outline</i>
-    <span dynamic-label key="{{alertMessageId}}"></span>
-  </div>
+<div ng-attr-id="{{alertId | uvDomIdFilter}}" class="alert alert-{{alertSeverity}}" ng-class="{'alert-warning': alertSeverity === 'sekretess'}">
+  <i ng-if="alertSeverity === 'info'" class="material-icons">info_outline</i>
+  <i ng-if="alertSeverity === 'warning'" class="material-icons">warning</i>
+  <i ng-if="alertSeverity === 'sekretess'" class="material-icons">security</i>
+  <i ng-if="alertSeverity === 'danger'" class="material-icons">error_outline</i>
+  <span dynamic-label key="{{alertMessageId}}"></span>
 </div>
