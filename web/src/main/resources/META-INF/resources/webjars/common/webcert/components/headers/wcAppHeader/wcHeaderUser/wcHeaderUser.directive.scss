@@ -3,7 +3,7 @@ $wc-header-user-min-width: 120px;
 wc-header-user {
   //default for this directive is to act as a non-growing, (aggressivly) shrinkable flex-item
   flex: 0 3 auto;
-  @media (max-width: 992px) {
+  @media (max-width: $wc-header-collapse-breakpoint-width) {
     //but in compact mode, let it grow
     flex-grow: 1;
   }
@@ -23,8 +23,11 @@ wc-header-user {
     font-weight: bold;
   }
 
-  .glyphicon.sekretess-markering {
-    color: $wc-color-18;
+  .header-icon {
+    padding-right: 8px;
+    &.sekretess-markering {
+      color: $wc-color-18;
+    }
   }
 
   a.sekretess-markering {

@@ -12,9 +12,8 @@
 
 <div class="wc-header-directive-container create-account-section hidden-sm hidden-xs" ng-if="vm.showCreateAccount">
   <div class="vertical-container">
-
     <div class="text-nowrap">
-      Skapa konto beskrivningstext
+      Skapa konto beskrivningstext?
     </div>
     <div class="text-nowrap">
       <a id="createAccountLink" href="" ng-click="onCreateAccountClick()">Skapa konto</a>
@@ -25,13 +24,13 @@
 
 <div class="wc-header-directive-container hamburger-menu hidden-md hidden-lg" ng-class="{'expanded' : vm.expanded}">
   <button type="button" id="expand-help-btn" class="btn btn-link" ng-click="toggleMenu($event)">
-    <i class="glyphicon glyphicon-option-vertical"></i>
+    <i class="material-icons md-36">more_vert</i>
   </button>
 </div>
 
-
 <!-- this menu cant be relatively positioned, as it should not grow the width of the menu -->
 <div uib-dropdown is-open="vm.expanded" class="hidden-md hidden-lg">
+  <div class="dropshadowfixer" ng-if="vm.expanded"></div>
   <ul uib-dropdown-menu>
     <li ng-if="vm.showCreateAccount">
       Skapa konto beskrivningstext<br>

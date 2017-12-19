@@ -3,7 +3,7 @@ $wc-header-unit-min-width: 150px;
 wc-header-unit {
   //default is to act as a non-growing, shrinkable flex-item
   flex: 0 1 auto;
-  @media (max-width: 992px) {
+  @media (max-width: $wc-header-collapse-breakpoint-width) {
     //but in compact mode, let it grow
     flex-grow: 1;
   }
@@ -19,6 +19,11 @@ wc-header-unit {
 
   //base text color for this component
   color: $wc-color-20;
+
+  //TODO: Remove when using correct icon
+  .glyphicon {
+    font-size: 36px;
+  }
 
   .vg-name {
     font-weight: bold;

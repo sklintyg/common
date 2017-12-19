@@ -1,6 +1,6 @@
 <div class="wc-header-directive-container" ng-class="{'expanded' : menu.expanded}">
 
-  <i class="header-icon glyphicon glyphicon-list-alt"></i>
+  <i class="header-icon glyphicon glyphicon-list-alt md-36"></i>
 
   <div class="vertical-container">
     <!-- first item in vertical container -->
@@ -24,11 +24,9 @@
   </div>
 
 
-  <button type="button" id="expand-unitmenu-btn" class="btn btn-link" ng-click="toggleMenu($event)" ng-if="menu.enabled"
-          wc-authority="ATKOMST_ANDRA_ENHETER">
-    <i class="header-chevron glyphicon"
-       ng-class="{'glyphicon-menu-down' :!menu.expanded, 'glyphicon-menu-up': menu.expanded}"></i>
-  </button>
+  <button type="button" id="expand-unitmenu-btn" class="btn btn-link" ng-click="toggleMenu($event)" ng-if="menu.enabled">
+    <i class="material-icons md-24">{{menu.expanded ? 'expand_less': 'expand_more'}}</i>
+   </button>
 
 
 </div>

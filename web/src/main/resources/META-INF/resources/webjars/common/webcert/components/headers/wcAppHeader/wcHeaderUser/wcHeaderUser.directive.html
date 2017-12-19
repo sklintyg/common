@@ -1,6 +1,6 @@
 <div class="wc-header-directive-container" ng-class="{'expanded' : menu.expanded}">
 
-  <i class="header-icon glyphicon" ng-class="{'glyphicon-lock sekretess-markering': user.sekretessMarkerad, 'glyphicon-user': !user.sekretessMarkerad}"></i>
+  <i class="header-icon material-icons md-36" ng-class="{'sekretess-markering' : user.sekretessMarkerad}">{{user.sekretessMarkerad ? 'security': 'person'}}</i>
 
   <div class="vertical-container">
     <div class="single-text-row-container">
@@ -15,9 +15,8 @@
   </div>
 
 
-
   <button type="button" id="expand-usermenu-btn" class="btn btn-link" ng-click="toggleMenu($event)" ng-if="menu.enabled">
-    <i class="header-chevron glyphicon" ng-class="{'glyphicon-menu-down' :!menu.expanded, 'glyphicon-menu-up': menu.expanded}"></i>
+    <i class="material-icons md-24">{{menu.expanded ? 'expand_less': 'expand_more'}}</i>
   </button>
 
 

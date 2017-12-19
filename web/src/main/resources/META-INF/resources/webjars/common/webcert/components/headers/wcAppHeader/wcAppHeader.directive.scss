@@ -1,10 +1,4 @@
-// Local component variables
-
-$wc-header-height: 80px;
-$wc-header-logo-width: 181px;
-$wc-header-icon-size: 36px;
-$wc-header-chevron-size: 24px;
-
+@import 'wcAppHeader.variables';
 
 wc-app-header {
 
@@ -33,7 +27,6 @@ wc-app-header {
     border-style: solid;
     border-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(42, 48, 78, 0.1)) 1 100%;
 
-
     .logo-svg {
       width: 121px;
       height: 26px;
@@ -42,10 +35,7 @@ wc-app-header {
     }
   }
 
-
-
   // General styles shared by sub directives wc-header-user, unit etc --------------------------------------------------
-
 
   .wc-header-directive-container {
     // The actual directives (wc-header-unit etc) are not flex-containers as we need to be able to relativly place the expanded dropdoen menus below it)
@@ -60,7 +50,6 @@ wc-app-header {
 
     padding: 0 16px;
 
-
     // rules below handles the gradiented dividers between sections
     border-width: 0 6px;
     border-style: solid;
@@ -68,7 +57,6 @@ wc-app-header {
     border-image-source: url(/web/webjars/common/webcert/components/headers/wcAppHeader/divider-border.png);
     border-image-slice: 0 50%;
     border-image-repeat: round;
-
 
     // when in expanded mode (the menu is expanded), replace border divider with a boxshadow that makes it "pop" out a bit.
     &.expanded {
@@ -89,7 +77,6 @@ wc-app-header {
       // switch axis to columns
       flex-direction: column;
       min-width: 1px;
-
 
       .single-text-row-container {
         //lay out items horizontally
@@ -117,8 +104,9 @@ wc-app-header {
 
   //Override bootstraps default dropdown for this context
   .dropdown-menu {
-    min-width:0;
+    min-width: 0;
     position: relative;
+    padding: 20px 40px;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -134,7 +122,7 @@ wc-app-header {
 
     //instead a drowshadow on the sides here
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.32);
-    padding: 26px 36px;
+
 
     > li > a {
       color: $wc-color-20;
@@ -147,27 +135,22 @@ wc-app-header {
     }
   }
 
-
-
+  //TODO: This could be made a generic util class?
   .truncate-when-needed {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  //TODO: use material icons
   .header-icon {
-    font-size: $wc-header-icon-size;
-    padding:0 6px;
+    padding-right: 8px;
   }
 
   .header-chevron {
-    font-size: $wc-header-chevron-size;
-    padding: 8px;
 
     &:focus, &:hover {
       color: $wc-color-25;
-      text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
   }
 }

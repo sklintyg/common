@@ -1,10 +1,13 @@
+@import '../wcAppHeader.variables.scss';
+
+//Local variables
+$wc-header-hamburger-width: 50px;
 
 wc-header-help {
 
-
   //default is to act as a growing, shrinkable flex-item, taking excessive widths
   flex: 1 1 auto;
-  @media (max-width: 992px) {
+  @media (max-width: $wc-header-collapse-breakpoint-width) {
     //but in compact mode, instead dont let it grow
     flex-grow: 0;
   }
@@ -14,76 +17,83 @@ wc-header-help {
   //push all items to the right
   justify-content: flex-end;
 
-
   //base text color for this component
   color: $wc-color-20;
 
   .wc-header-directive-container {
+    min-width: 120px;
+    padding-right: 16px;
+    display: flex;
 
     &.about-section {
       //shrink very aggressivly
       flex: 1 5;
-      //but no more than..
-      min-width: 120px;
       display: flex;
       justify-content: flex-end;
-      padding-right: 16px;
     }
 
     &.logout-section {
-      flex: 1;
+      flex: 0 1 auto;
       display: flex;
       justify-content: center;
-      min-width: 109px;
-      max-width: 109px;
       padding: 0 8px;
 
     }
 
     &.create-account-section {
       flex: 1 5;
-
-      min-width: 120px;
-      display: flex;
       justify-content: flex-end;
-      padding-right: 16px;
-
       .vertical-container {
         align-items: flex-end;
       }
     }
 
     &.hamburger-menu {
-      padding:0;
-      flex: 1 0 auto;
+      padding: 0;
+      flex: 0 auto;
+      min-width: 1px;
+      width: $wc-header-hamburger-width;
       display: flex;
       justify-content: flex-end;
       box-shadow: none;
-      z-index: 2;
 
       &.expanded {
         //leftmost shadow
-        box-shadow: 0 -3px 8px 0 rgba(0, 0, 0, 0.32);
+        box-shadow: 0 -5px 8px 0 rgba(0, 0, 0, 0.32);
       }
 
       .btn {
         padding: 0;
       }
 
-      .glyphicon {
-        font-size: 26px;
-      }
     }
 
+
   }
+
+  //Dropdown fo hamburgermenu is a bit special since it should be wider than the containing element (the hamburgermenu)
+  //we pace it absolutely right under the wc-header.
   .dropdown {
-    position: fixed;
+    position: absolute;
     z-index: 1;
     right: 0;
-    top: 80px;
+    top: $wc-header-height;
+
+
+    //Create a cover plate to overlay the part of the dropdowns boxhadow that overlap the hamburge menu
+    .dropshadowfixer {
+      position: absolute;
+      top: -5px;
+      right: 0;
+      width: $wc-header-hamburger-width;
+      height: 5px;
+      z-index: 1003;
+      background-color: $wc-color-17;
+
+    }
   }
   //Override wc-app-header style for this particular dropdown
   .dropdown-menu {
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.32);
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.32);
   }
 }
