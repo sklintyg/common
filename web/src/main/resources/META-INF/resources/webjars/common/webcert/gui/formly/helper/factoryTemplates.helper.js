@@ -128,7 +128,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             size: 'full',
                             labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
-                            htmlMaxlength: 500,
+                            htmlMaxlength: 265,
                             required: true
                         }
                     },
@@ -152,6 +152,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             staticLabel: 'Postort',
                             labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
+                            htmlMaxlength: 265,
                             required: true
                         }
                     },
@@ -162,7 +163,7 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                             staticLabel: 'Telefonnummer',
                             labelColSize: singleTextLabelColSize,
                             formType: 'horizontal',
-                            htmlMaxlength: 100,
+                            htmlMaxlength: 265,
                             required: true
                         }
                     }
