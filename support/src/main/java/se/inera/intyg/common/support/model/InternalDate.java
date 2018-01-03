@@ -154,7 +154,7 @@ public class InternalDate {
             Matcher monthMatcher = monthPattern.matcher(date);
             if (monthMatcher.matches()) {
                 if (yearMatcher.group(1).equals(Integer.toString(now.getYear()))
-                        && monthMatcher.group(1).compareTo(Integer.toString(now.getMonth().getValue())) > 0) {
+                        && (Integer.parseInt(monthMatcher.group(1)) - now.getMonth().getValue()) > 0) {
                     return true;
                 }
             }
