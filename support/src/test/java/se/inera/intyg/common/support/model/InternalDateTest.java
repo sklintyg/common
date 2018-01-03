@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.support.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.time.LocalDate;
-import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class InternalDateTest {
 
@@ -130,7 +129,7 @@ public class InternalDateTest {
         int currentYear = LocalDate.now().getYear();
         int currentMonth = LocalDate.now().getMonthValue();
 
-        InternalDate date = new InternalDate(currentYear + "-" + currentMonth + "-00");
+        InternalDate date = new InternalDate(currentYear + "-" + addLeadingZeros(currentMonth, 2) + "-00");
         assertFalse(date.vagueDateInFuture());
     }
 
@@ -139,9 +138,22 @@ public class InternalDateTest {
         int currentYear = LocalDate.now().getYear();
         int currentMonth = LocalDate.now().getMonthValue();
 
-        InternalDate date = new InternalDate(currentYear + "-" + (currentMonth + 1) + "-00");
+        InternalDate date = new InternalDate(currentYear + "-" + addLeadingZeros(currentMonth + 1, 2) + "-00");
         assertTrue(date.vagueDateInFuture());
     }
 
+    private String addLeadingZeros(int digits, int expectedNumberOfDigits) {
+        String number = String.valueOf(digits);
+
+        int diff = expectedNumberOfDigits - number.length();
+
+        if (diff > 0) {
+            for (int i = 0; i < diff; i++) {
+                number = "0" + number;
+            }
+        }
+
+        return number;
+    }
 
 }
