@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.support.persistence.dao.util;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.peristence.dao.util.DaoUtil;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import static org.junit.Assert.assertEquals;
 
 public class DaoUtilTest {
     @Test
