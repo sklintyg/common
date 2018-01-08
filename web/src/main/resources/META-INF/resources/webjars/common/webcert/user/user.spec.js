@@ -63,7 +63,12 @@ describe('User', function() {
                 ]
             }
         },
-        'features':['hanteraFragor','hanteraFragor.fk7263'],
+        'features': {
+            'HANTERA_FRAGOR': {
+                'global': true,
+                'intygstyper': ['fk7263']
+            }
+        },
         'totaltAntalVardenheter':6,
         'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},
         'role': 'Läkare',
@@ -94,8 +99,8 @@ describe('User', function() {
         it('should return currently active features', function() {
             UserModel.setUser(testUser);
             var activeFeatures = UserModel.getActiveFeatures();
-            expect(activeFeatures).toContain('hanteraFragor');
-            expect(activeFeatures).toContain('hanteraFragor.fk7263');
+            expect(activeFeatures.HANTERA_FRAGOR).not.toBe(undefined);
+            expect(activeFeatures.HANTERA_FRAGOR.intygstyper).toContain('fk7263');
         });
     });
 
@@ -256,7 +261,12 @@ describe('User', function() {
                     }
                 ]
                 },
-                'features':['hanteraFragor','hanteraFragor.fk7263'],
+                'features': {
+                    'HANTERA_FRAGOR': {
+                        'global': true,
+                        'intygstyper': ['fk7263']
+                    }
+                },
                 'totaltAntalVardenheter':1,
                 'lakare' : true, 'privatLakare' : false, 'tandLakare':false, 'isLakareOrPrivat' : true,
                 'roles': {'LAKARE': {'name':'Läkare', 'desc':'Läkare'}},

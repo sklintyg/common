@@ -128,7 +128,12 @@ describe('IntygController', function() {
                 ]
             },
             'roles': role,
-            'features': ['hanteraFragor', 'hanteraFragor.fk7263'],
+            'features': {
+                'HANTERA_FRAGOR': {
+                    'global': true,
+                    'intygstyper': ['fk7263']
+                }
+            },
             'totaltAntalVardenheter': 6,
             'origin': 'NORMAL'
         };
