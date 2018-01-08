@@ -94,7 +94,7 @@ angular.module('db').factory('db.FormFactory',
                             templateOptions: {label: 'DFR_7.1_UNDERSOKNINGS_SKA_GORAS.INFO'}
                         },
                         {
-                            type: 'info',
+                            type: 'warning',
                             hideExpression: 'model.polisanmalan !== true',
                             templateOptions: {label: 'db.info.polisanmalan'}
                         }
