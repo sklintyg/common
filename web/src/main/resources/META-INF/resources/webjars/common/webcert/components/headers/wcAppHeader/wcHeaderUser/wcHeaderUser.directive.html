@@ -4,8 +4,8 @@
 
   <div class="vertical-container">
     <div class="single-text-row-container">
-      <span class="truncate-when-needed user-name logged-in">{{user.namn}}&nbsp;-</span>
-      <span class="text-nowrap">&nbsp;{{user.role}}</span>
+      <span class="truncate-when-needed user-name logged-in" id="wc-header-user-name">{{user.namn}}&nbsp;-</span>
+      <span class="text-nowrap" id="wc-header-user-role">&nbsp;{{user.role}}</span>
     </div>
     <div class="status-row truncate-when-needed" ng-if="user.sekretessMarkerad">
       <a href="" id="wc-vardperson-sekretess-info-dialog--link" class="sekretess-markering" ng-click="showSekretessInfoMessage()">

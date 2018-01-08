@@ -44,31 +44,7 @@ describe('wcVardPersonSekretess Directive', function() {
         element = $compile('<wc-vard-person-sekretess></wc-vard-person-sekretess>')($scope);
 
     } ]));
-/*
-should be moved to wc-header-user directive spec!
-    it('Should render link if sekretessMarkering is true', function() {
-        UserModel.user.sekretessMarkerad = true;
-        $scope.$digest();
-        expect($(element).find('#wc-vardperson-sekretess-info-dialog--link').length).toBe(1);
-    });
 
-    it('Should NOT render link if sekretessMarkering is false', function() {
-        UserModel.user.sekretessMarkerad = false;
-        $scope.$digest();
-        expect($(element).find('#wc-vardperson-sekretess-info-dialog--link').length).toBe(0);
-    });
-
-    it('Should show info dialog if link is clicked', function() {
-        UserModel.user.sekretessMarkerad = true;
-
-        spyOn($uibModal, 'open');
-
-        $scope.$digest();
-        element.find('#wc-vardperson-sekretess-info-dialog--link').click();
-
-        expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({id: 'SekretessInfoMessage'}));
-    });
- */
     it('Should show consent dialog if sekretessMarkering is true and consent not approved', function() {
         UserModel.user.sekretessMarkerad = true;
         UserModel.setAnvandarPreference('wc.vardperson.sekretess.approved', undefined);
