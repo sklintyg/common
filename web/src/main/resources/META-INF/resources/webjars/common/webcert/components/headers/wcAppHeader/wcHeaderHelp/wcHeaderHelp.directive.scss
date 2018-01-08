@@ -68,19 +68,17 @@ wc-header-help {
 
     }
 
-
   }
 
   //Dropdown fo hamburgermenu is a bit special since it should be wider than the containing element (the hamburgermenu)
-  //we pace it absolutely right under the wc-header.
+  //we place it absolutely right under the wc-header.
   .dropdown {
     position: absolute;
     z-index: 1;
     right: 0;
     top: $wc-header-height;
 
-
-    //Create a cover plate to overlay the part of the dropdowns boxhadow that overlap the hamburge menu
+    //Create a cover plate to overlay the part of the dropdowns boxshadow that overlap the hamburger menu
     .dropshadowfixer {
       position: absolute;
       top: -5px;
@@ -96,4 +94,5 @@ wc-header-help {
   .dropdown-menu {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.32);
   }
+
 }

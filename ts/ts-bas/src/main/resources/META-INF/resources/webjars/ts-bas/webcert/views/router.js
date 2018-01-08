@@ -36,8 +36,7 @@ angular.module('ts-bas').config(function($stateProvider) {
                     controller: 'ts-bas.UtkastController'
                 },
                 'wcHeader@ts-bas-edit' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
                 'header@ts-bas-edit': {
                     templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',

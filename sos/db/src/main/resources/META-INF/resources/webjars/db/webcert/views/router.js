@@ -37,8 +37,7 @@ angular.module('db').config(function($stateProvider) {
                 },
 
                 'wcHeader@db-edit' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
                 'header@db-edit' : {

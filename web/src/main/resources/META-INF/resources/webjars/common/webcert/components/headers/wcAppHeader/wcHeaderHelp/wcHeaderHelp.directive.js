@@ -18,8 +18,8 @@
  */
 
 angular.module('common').directive('wcHeaderHelp',
-        [ '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'moduleConfig' ,
-            function($window, $rootScope, $uibModal, UtilsService, authorityService, moduleConfig) {
+        [ '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'common.AvtalProxy', 'moduleConfig' ,
+            function($window, $rootScope, $uibModal, UtilsService, authorityService, avtalProxy, moduleConfig) {
             'use strict';
 
             return {
@@ -82,16 +82,25 @@ angular.module('common').directive('wcHeaderHelp',
                     $scope.onAboutClick = function() {
                         aboutModalInstance = $uibModal.open({
                             templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/aboutDialog.template.html',
-                            controller: function($scope, $uibModalInstance) {
+                            size: 'lg',
+                            controller: function($scope, $uibModalInstance, user, avtalProxy) {
 
                                 $scope.version = moduleConfig.VERSION;
+                                $scope.user = user;
+
+                                avtalProxy.getLatestAvtal(function(avtal) {
+                                    $scope.avtal = avtal;
+                                });
 
                                 $scope.close = function() {
                                     $uibModalInstance.close();
                                 };
 
                             },
-                            resolve: {}
+                            resolve: {
+                                avtalProxy :  avtalProxy,
+                                user: $scope.user
+                            }
                         });
                         //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
                         aboutModalInstance.result.catch(function () {}); //jshint ignore:line

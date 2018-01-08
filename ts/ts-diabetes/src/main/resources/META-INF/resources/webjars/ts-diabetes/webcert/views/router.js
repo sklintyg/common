@@ -36,8 +36,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     controller: 'ts-diabetes.UtkastController'
                 },
                 'wcHeader@ts-diabetes-edit' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
                 'header@ts-diabetes-edit': {
                     templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',

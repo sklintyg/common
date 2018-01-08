@@ -37,8 +37,7 @@ angular.module('luae_na').config(function($stateProvider) {
                 },
 
                 'wcHeader@luae_na-edit' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
                 'header@luae_na-edit' : {

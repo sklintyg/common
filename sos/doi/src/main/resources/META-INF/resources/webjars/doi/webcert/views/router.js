@@ -37,8 +37,7 @@ angular.module('doi').config(function($stateProvider) {
                 },
 
                 'wcHeader@doi-edit' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
                 'header@doi-edit' : {

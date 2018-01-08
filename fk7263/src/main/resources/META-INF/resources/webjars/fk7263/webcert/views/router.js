@@ -46,8 +46,7 @@ angular.module('fk7263').config(function($stateProvider) {
                 },
 
                 'wcHeader@fk7263-edit' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
                 'header@fk7263-edit' : {

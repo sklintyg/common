@@ -1,0 +1,7 @@
+//Style the about dialog
+.wc-header-about-modal {
+  &.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}

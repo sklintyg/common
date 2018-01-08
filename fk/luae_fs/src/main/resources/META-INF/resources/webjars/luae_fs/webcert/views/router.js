@@ -37,8 +37,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                 },
 
                 'wcHeader@luae_fs-edit' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
                 'header@luae_fs-edit' : {

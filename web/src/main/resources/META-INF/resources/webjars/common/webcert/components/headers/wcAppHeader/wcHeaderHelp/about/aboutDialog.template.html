@@ -2,15 +2,23 @@
   <button type="button" class="close" data-ng-click="close()">×</button>
   <h3 id="omWebcertDialog">Om Webcert</h3>
 </div>
-<div class="modal-body" style="overflow-y: auto; max-height: 550px">
+<div class="modal-body wc-header-about-modal">
   <div uib-accordion close-others="true"
-       ng-init="open = { om: true, support: false, faq: false, kakor: false }">
+       ng-init="open = { om: true, terms: false, support: false, faq: false, kakor: false }">
     <div uib-accordion-group is-open="open.om">
       <div uib-accordion-heading>
         Om Webcert <i class="pull-right glyphicon"
                       ng-class="{'glyphicon-chevron-down': open.om, 'glyphicon-chevron-right': !open.om}"></i>
       </div>
       <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-partial.html'"></div>
+    </div>
+
+    <div uib-accordion-group is-open="open.terms" ng-if="user.privatLakare">
+      <div uib-accordion-heading>
+        Anvandarvillkor <i class="pull-right glyphicon"
+                                          ng-class="{'glyphicon-chevron-down': open.terms, 'glyphicon-chevron-right': !open.terms}"></i>
+      </div>
+      <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/om-privatlakaravtal-partial.html'"></div>
     </div>
 
     <div uib-accordion-group is-open="open.support">
@@ -39,6 +47,6 @@
 
   </div>
 </div>
-<div class="modal-footer" style="margin: 0">
+<div class="modal-footer">
   <button type="button" class="btn btn-primary" ng-click="$close()">Stäng</button>
 </div>
