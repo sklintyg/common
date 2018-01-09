@@ -54,7 +54,7 @@ angular.module('common').run(function(formlyConfig) {
 
                 $scope.hasValidationError = function(field, index) {
                     return $scope.formState.viewState.common.validation && $scope.formState.viewState.common.validation.messagesByField &&
-                        !!$scope.formState.viewState.common.validation.messagesByField[$scope.options.key + '.' + index + '.' + field];
+                        !!$scope.formState.viewState.common.validation.messagesByField[$scope.options.key.toLowerCase() + '.' + index + '.' + field];
                 };
 
                 $scope.validate = function() {
