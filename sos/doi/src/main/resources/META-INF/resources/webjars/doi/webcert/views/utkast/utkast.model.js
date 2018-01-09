@@ -129,12 +129,18 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                                         }
                                     });
 
-                                    toBackend = toBackend.filter(function(item) {
-                                        var e1 = !ObjectHelper.isEmpty(item.beskrivning);
-                                        var e2 = !ObjectHelper.isEmpty(item.datum);
-                                        var e3 = !ObjectHelper.isEmpty(item.specifikation);
-                                        return e1 || e2 || e3;
-                                    });
+                                    // Remove empty rows from the end of array until non-empty row is reached
+                                    for(var i=toBackend.length-1; i>=0; i--) {
+                                        var e1 = ObjectHelper.isEmpty(toBackend[i].beskrivning);
+                                        var e2 = ObjectHelper.isEmpty(toBackend[i].datum);
+                                        var e3 = ObjectHelper.isEmpty(toBackend[i].specifikation);
+                                        if (e1 && e2 && e3) {
+                                            toBackend.splice(i, 1);
+                                        }
+                                        else {
+                                            break;
+                                        }
+                                    }
 
                                     return toBackend;
                                 }

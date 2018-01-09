@@ -125,7 +125,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             if (bidragandeSjukdom.getDatum() != null && !bidragandeSjukdom.getDatum().isValidDate()) {
                 ValidatorUtil
                         .addValidationError(validationMessages, "utlatandeOrsak.bidragandeSjukdomar." + i + ".datum",
-                                ValidationMessageType.INVALID_FORMAT);
+                                ValidationMessageType.INVALID_FORMAT, "common.validation.date.invalid_format");
 
             }
         }
