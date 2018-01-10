@@ -29,4 +29,33 @@ $font-2: arial;
 $font-3: sans-serif;
 
 
+%base-font {
+  font-family: $font-0, $font-1, $font-2, $font-3;
+  color: $wc-color-07;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+}
+
+%wc-typo-05 {
+  @extend %base-font;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+%wc-typo-06 {
+  @extend %base-font;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+//same as basefont?
+%wc-typo-07 {
+  @extend %base-font;
+}
+
+
+
+
+
 

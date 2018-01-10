@@ -19,21 +19,18 @@
 
 angular.module('common').controller(
         'wcChangeActiveUnitDialogCtrl',
-        [ '$scope', '$uibModalInstance', '$window', '$state', '$location', '$cookies', 'common.User', 'common.UserModel', 'stats', 'vardgivare', 'valdEnhet',
-                function($scope, $uibModalInstance, $window, $state, $location, $cookies, User, UserModel, stats, vardgivare, valdEnhet) {
+        [ '$scope', '$uibModalInstance', '$window', '$state', '$location', '$cookies', 'common.User', 'common.statService',
+                function($scope, $uibModalInstance, $window, $state, $location, $cookies, User, statService) {
                     'use strict';
 
-                    //TODO: This controllers code was just extracted from the old monolithic wcHeader.controller.
-                    //A lot of room for improvements, like extracting all "find" methods to a util class (not depending on scope variables),
-                    // also maybe not necessary to provide a resolve of vardgivare, valdvardenhet, stats etc from calling code?
-                    // (+ found a bug: if first round of stats havent been fetched when this dialog is opened, we get exceptions in the
-                    // findStats(vg, id) method as it doesnt handle the case of not finding vg in stat.vardgivare array etc.)
+                    $scope.user = User.getUser();
+                    $scope.stat = statService.getLatestData();
 
-                    $scope.user = UserModel.user;
-                    $scope.stat = stats;
-                    $scope.vardgivare = vardgivare;
+                    //Create copies as we will modify these models with toggle status etc, and dont want to pollute the original models.
+                    $scope.vardgivare = angular.copy($scope.user.vardgivare);
+                    $scope.valdEnhet = angular.copy($scope.user.valdVardenhet);
                     //make sure path to any selected vardenhet is expanded
-                    expandPath($scope.vardgivare, valdEnhet);
+                    expandPath($scope.vardgivare, $scope.valdEnhet);
 
                     $scope.error = false;
 
@@ -73,7 +70,7 @@ angular.module('common').controller(
                     }
 
                     function findUserVardgivare(vgId) {
-                        var vgs = $scope.user.vardgivare;
+                        var vgs = $scope.vardgivare;
                         for (var i = 0; i < vgs.length; i++) {
                             if (vgs[i].id === vgId) {
                                 return vgs[i];
@@ -158,7 +155,7 @@ angular.module('common').controller(
                     };
 
                     $scope.isCurrentlySelected = function(id) {
-                        return (valdEnhet && valdEnhet.id === id);
+                        return ($scope.valdEnhet && $scope.valdEnhet.id === id);
                     };
 
                     /******************
@@ -178,12 +175,12 @@ angular.module('common').controller(
                             // up on a page we aren't welcome anymore. Maybe we should make these
                             // routes some kind of global configuration? No other choices are
                             // relevant today though.
-                            if (UserModel.user.isLakareOrPrivat) {
-                                $location.path('/');
-                            } else {
-                                $location.path('/enhet-arenden');
-                            }
-                            $state.reload();
+                           $state.go(User.getUser().isLakareOrPrivat ? 'webcert.create-index' : 'webcert.enhet-arenden', {}, {
+                                location: 'replace'
+                            });
+                           //Since we changed unit, make sure we refresh stats
+                            statService.refreshStat();
+
                         }, function() {
                             $scope.error = true;
                         });

@@ -30,7 +30,7 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
         templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUnit/wcHeaderUnit.directive.html',
         link: function($scope) {
 
-            $scope.user = UserService.getUser();
+
 
             $scope.statService = statService;
             $scope.statService.startPolling();
@@ -50,6 +50,9 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
             });
 
 
+            $scope.getUser = function () {
+                return UserModel.user;
+            };
             /**
              * All but DJUPINTEGRERAD can potentially see stats about other units
              *
@@ -75,7 +78,7 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
             function _showMenu() {
                 return authorityService.isAuthorityActive({
                     authority: 'ATKOMST_ANDRA_ENHETER'
-                }) && $scope.user.totaltAntalVardenheter > 1;
+                }) && UserModel.user.totaltAntalVardenheter > 1;
             }
 
             $scope.menu = {
@@ -102,17 +105,7 @@ angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.author
                         size: 'md',
                         id: 'wcChangeActiveUnitDialog',
                         keyboard: true,
-                        resolve: {
-                            stats: function() {
-                                return angular.copy($scope.stat);
-                            },
-                            vardgivare: function() {
-                                return angular.copy($scope.user.vardgivare);
-                            },
-                            valdEnhet: function() {
-                                return angular.copy($scope.user.valdVardenhet);
-                            }
-                        }
+                        windowClass: 'wc-header-care-unit-dialog-window-class'
                     });
                 //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
                 changeUnitDialogInstance.result.catch(function () {}); //jshint ignore:line

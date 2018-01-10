@@ -27,6 +27,8 @@ describe('wcHeaderUnit Directive', function() {
     var $uibModal;
     var UserModel;
     var statService;
+    var $httpBackend;
+    var $state;
     var initialMockedUser = {
         'privatLakareAvtalGodkand': false,
         'namn': 'Åsa Andersson',
@@ -139,14 +141,22 @@ describe('wcHeaderUnit Directive', function() {
     beforeEach(module('htmlTemplates'));
     beforeEach(module('common'));
 
-    beforeEach(inject([ '$compile', '$rootScope', '$uibModal', 'common.statService', 'common.UserModel',
-            function($compile, $rootScope, _$uibModal_, _statService_, _UserModel_) {
+    beforeEach(inject([ '$compile', '$rootScope', '$httpBackend', '$state', '$uibModal', 'common.statService', 'common.UserModel',
+            function($compile, $rootScope, _$httpBackend_, _$state_, _$uibModal_, _statService_, _UserModel_) {
                 compile = $compile;
+                $httpBackend = _$httpBackend_;
+                $state = _$state_;
                 $initialScope = $rootScope.$new();
                 $uibModal = _$uibModal_;
                 UserModel = _UserModel_;
                 statService = _statService_;
+
                 spyOn(statService, 'startPolling').and.callFake(function() {
+                });
+                spyOn(statService, 'getLatestData').and.returnValue(testStatResponse);
+                spyOn(statService, 'refreshStat').and.callFake(function() {
+                });
+                spyOn($state, 'go').and.callFake(function() {
                 });
 
                 //Set a fresh COPY of initial user model before each test, so tests don't affect each other.
@@ -238,6 +248,49 @@ describe('wcHeaderUnit Directive', function() {
             expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({
                 id: 'wcChangeActiveUnitDialog'
             }));
+
+        });
+
+        it('should change active unit when selecting other unit in dialog', function() {
+            //Arrange
+            UserModel.user.totaltAntalVardenheter = 2;
+            var afterChangeResponse = angular.copy(initialMockedUser);
+            afterChangeResponse.valdVardenhet = {
+                'id': 'VG1-VE2',
+                'namn': 'WebCert-Enhet2'
+            };
+
+            $httpBackend.expectPOST('/api/anvandare/andraenhet').respond(200, afterChangeResponse);
+
+            //Act
+            runDirective();
+            var eventSpy = jasmine.createSpyObj([ 'stopPropagation' ]);
+            directiveScope.toggleMenu(eventSpy);
+            directiveScope.$digest();
+
+            //Assert
+            expect(directiveScope.menu.expanded).toBeTruthy();
+            expect($(element).find('#wc-care-unit-clinic-selector-link').length).toBe(1);
+
+            spyOn($uibModal, 'open').and.callThrough();
+
+            //open dialog
+            $(element).find('#wc-care-unit-clinic-selector-link').click();
+
+            expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({
+                id: 'wcChangeActiveUnitDialog'
+            }));
+
+            //Click on VG1-VE2
+            expect($(document).find('#select-active-unit-VG1-VE2-modal').length).toBe(1);
+
+            $(document).find('#select-active-unit-VG1-VE2-modal').click();
+            $httpBackend.flush();
+
+            expect(directiveScope.getUser().valdVardenhet.id).toBe('VG1-VE2');
+            expect(statService.refreshStat).toHaveBeenCalled();
+            expect($state.go).toHaveBeenCalled();
+
 
         });
 
