@@ -33,7 +33,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -88,8 +87,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
      */
     @Scheduled(cron = "${texts.update.cron}")
     public void update() {
-        try (Stream<Path> stream = Files.walk(Paths.get(fileDirectory))) {
-            stream.filter(IntygTextsRepositoryImpl::isIntygTextsFile).forEach((file) -> {
+        try {
+            Files.walk(Paths.get(fileDirectory)).filter(IntygTextsRepositoryImpl::isIntygTextsFile).forEach((file) -> {
                 try (InputStream fileInSt = Files.newInputStream(file)) {
                     LOG.debug("Updating intygtexts versions for " + file.getFileName());
                     Document doc = DocumentBuilderFactory.newInstance()
