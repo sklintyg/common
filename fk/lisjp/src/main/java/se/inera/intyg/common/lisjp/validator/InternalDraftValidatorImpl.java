@@ -207,13 +207,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
         // Sjukskrivningar
         validateSjukskrivningar(utlatande, validationMessages);
 
-        // FMB
-        if (utlatande.getForsakringsmedicinsktBeslutsstod() != null
-                && Strings.nullToEmpty(utlatande.getForsakringsmedicinsktBeslutsstod()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "bedomning.forsakringsmedicinsktBeslutsstod", ValidationMessageType.EMPTY,
-                    "lisjp.validation.bedomning.fmb.empty");
-        }
-
         // Prognos
         if (!isAvstangningSmittskydd(utlatande)) {
             if (utlatande.getPrognos() == null || utlatande.getPrognos().getTyp() == null) {
@@ -468,6 +461,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     }
 
     private void validateBlanksForOptionalFields(LisjpUtlatande utlatande, List<ValidationMessage> validationMessages) {
+        // FMB
+        if (ValidatorUtil.isBlankButNotNull(utlatande.getForsakringsmedicinsktBeslutsstod())) {
+            ValidatorUtil.addValidationError(validationMessages, "bedomning.forsakringsmedicinsktBeslutsstod", ValidationMessageType.EMPTY,
+                    "lisjp.validation.blanksteg.otillatet");
+        }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getAnledningTillKontakt())) {
             ValidatorUtil.addValidationError(validationMessages, "anledningtillkontakt.blanksteg", ValidationMessageType.EMPTY,
                     "lisjp.validation.blanksteg.otillatet");
