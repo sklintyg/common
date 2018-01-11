@@ -24,11 +24,10 @@
 
     &.vardgivare {
       @extend %wc-typo-05;
-      background-color: $wc-color-20;
       color: $wc-color-09;
-      margin-top: 8px;
+      background-color: $wc-color-20;
       padding: 7px 0;
-
+      margin-top: 8px;
     }
 
     &.vardenhet {
@@ -38,24 +37,27 @@
 
     &.mottagning {
       @extend %wc-typo-07;
+
       button {
         padding-left: 38px;
       }
     }
 
-  }
-  .enhet-stat {
-    padding: 7px 15px;
+    .enhet-stat {
+      padding: 7px 15px;
+      color: $wc-color-09;
+    }
+
+    .btn-link {
+      text-decoration: underline;
+      padding-left: 0;
+      font-weight: inherit;
+    }
+
+    .material-icons {
+      cursor: pointer;
+    }
   }
 
-  .btn-link {
-    text-decoration: underline;
-    padding-left: 0;
-    font-weight: inherit;
-  }
-
-  .material-icons {
-    cursor: pointer;
-  }
 
 }

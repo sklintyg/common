@@ -29,29 +29,38 @@ $font-2: arial;
 $font-3: sans-serif;
 
 
-%base-font {
+
+@mixin font-variant($font-size: 14px, $font-weight: 400) {
   font-family: $font-0, $font-1, $font-2, $font-3;
-  color: $wc-color-07;
-  font-size: 14px;
-  font-weight: 400;
+  font-size: $font-size;
+  font-weight: $font-weight;
   text-align: left;
 }
 
+/*
+Placeholders for the typography classes.
+
+Note that the typo classes does NOT specify color or background, as this is not part of
+the wc-typo-xx specs (https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/166953134/A+-+Typografi)
+
+Color and background should be specified at the extension point, eg:
+
+.vardgivare {
+      @extend %wc-typo-05;
+      color: $wc-color-09;
+ }
+
+ */
 %wc-typo-05 {
-  @extend %base-font;
-  font-size: 16px;
-  font-weight: 600;
+  @include font-variant(16px, 600);
 }
 
 %wc-typo-06 {
-  @extend %base-font;
-  font-size: 14px;
-  font-weight: 600;
-}
+  @include font-variant(14px, 600);
+ }
 
-//same as basefont?
 %wc-typo-07 {
-  @extend %base-font;
+  @include font-variant(14px, 400);
 }
 
 

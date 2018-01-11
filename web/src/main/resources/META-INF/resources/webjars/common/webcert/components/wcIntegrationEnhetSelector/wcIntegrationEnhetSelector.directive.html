@@ -1,15 +1,22 @@
 <div class="wc-integration-enhet-selector">
-  <ul ng-repeat="vg in model.vardgivare | orderBy:'namn'" class="nav nav-pills nav-stacked">
-    <li class="vardgivare" ng-click="vg.expanded = ! vg.expanded">
-      <a href="javascript:void(0);">
-         <span id="expand-vg-{{vg.id}}" ng-if="vg.vardenheter.length > 0" class="toggle-icon glyphicon" ng-class="vg.expanded ? 'glyphicon-minus-sign' : 'glyphicon-plus-sign'"></span>
-         <strong>{{vg.namn}}</strong>
-      </a>
-    </li>
-    <li ng-if="vg.expanded" ng-repeat="enhet in vg.vardenheter | orderBy:'namn'">
-      <a class="enhet" id="wc-integration-enhet-selector-select-active-unit-{{enhet.id}}-link" ng-click="itemSelected($event, enhet)" href="#">{{enhet.namn}}<i
-          class="glyphicon glyphicon-chevron-right"></i>
-      </a>
-    </li>
-  </ul>
+  <div ng-repeat="vg in model.vardgivare | orderBy:'namn'">
+    <div class="vardgivare">
+      <div class="vardgivare__title">
+      <i class="material-icons md-24" ng-attr-id="expand-vg-{{vg.id}}" ng-if="vg.vardenheter.length > 0"
+         ng-click="vg.expanded = ! vg.expanded">{{vg.expanded ? 'expand_less': 'expand_more'}}</i>
+      <i ng-if="vg.vardenheter.length === 0"></i>
+      {{vg.namn}}
+      </div>
+
+      <div ng-if="vg.expanded" ng-repeat="enhet in vg.vardenheter | orderBy:'namn'" class="vardenhet">
+
+
+        <button type="button" class="btn btn-link"
+                ng-attr-id="wc-integration-enhet-selector-select-active-unit-{{enhet.id}}-link"
+                ng-click="itemSelected($event, enhet)">{{enhet.namn}}
+        </button>
+
+      </div>
+    </div>
+  </div>
 </div>
