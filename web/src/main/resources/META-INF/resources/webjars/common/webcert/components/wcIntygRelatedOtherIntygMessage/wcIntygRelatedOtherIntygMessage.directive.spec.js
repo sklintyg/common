@@ -17,10 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-xdescribe('wcIntygRelatedOtherIntygMessageDirective', function() {
+describe('wcIntygRelatedOtherIntygMessageDirective', function() {
     'use strict';
 
     var $scope;
+    var internalScope;
     var element;
 
     beforeEach(angular.mock.module('htmlTemplates'));
@@ -39,10 +40,14 @@ xdescribe('wcIntygRelatedOtherIntygMessageDirective', function() {
                 }
             }
         };
+        $scope.relation = {};
+
         element = $compile(
-            '<div wc-intyg-related-other-intyg-message text-before-relation="ersatts av" view-state="viewState" intyg-relation="relation"></div>'
+            '<wc-intyg-related-other-intyg-message text-before-relation="ersatts av" view-state="viewState" intyg-relation="relation"></wc-intyg-related-other-intyg-message>'
         )($scope);
 
+        $scope.$digest();
+        internalScope = element.isolateScope();
     }]));
 
     it('should display warning message when relation exists', function() {
@@ -52,7 +57,9 @@ xdescribe('wcIntygRelatedOtherIntygMessageDirective', function() {
             };
         $scope.$digest();
 
-        expect(element.isolateScope().showMessage).toBe(true);
+        internalScope.showMessage = true;
+
+        expect(internalScope.showMessage).toBe(true);
         expect($(element).find('span').text()).toContain('Intyget har ersatts av');
     });
 
@@ -63,14 +70,14 @@ xdescribe('wcIntygRelatedOtherIntygMessageDirective', function() {
             };
         $scope.$digest();
 
-        expect(element.isolateScope().showMessage).toBe(false);
+        expect(internalScope.showMessage).toBe(false);
     });
 
     it('should NOT display warning message when relation is missing ', function() {
         $scope.viewState.common.intygProperties.relation = undefined;
         $scope.$digest();
 
-        expect(element.isolateScope().showMessage).toBe(false);
+        expect(internalScope.showMessage).toBe(false);
     });
 
 });

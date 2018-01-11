@@ -1,4 +1,4 @@
-<div>
+<wc-intyg-related-other-intyg-message>
   <!-- error message -->
   <wc-alert-message id="intyg-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
        alert-severity="danger">
@@ -21,17 +21,17 @@
     </div>
   </wc-alert-message>
 
-  <div wc-intyg-related-other-intyg-message
+  <wc-intyg-related-other-intyg-message
        view-state="viewState"
        text-before-relation="ersatts av"
        intyg-relation="replacedByIntyg">
-  </div>
+  </wc-intyg-related-other-intyg-message>
 
-  <div wc-intyg-related-other-intyg-message
+  <wc-intyg-related-other-intyg-message
        view-state="viewState"
        text-before-relation="kompletterats av"
        intyg-relation="complementedByIntyg">
-  </div>
+  </wc-intyg-related-other-intyg-message>
 
   <div ng-show="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
     <div>

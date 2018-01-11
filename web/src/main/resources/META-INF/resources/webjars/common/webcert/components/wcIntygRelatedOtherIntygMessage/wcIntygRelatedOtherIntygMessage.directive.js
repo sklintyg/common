@@ -27,13 +27,15 @@ angular.module('common').directive('wcIntygRelatedOtherIntygMessage', [
         'use strict';
 
         return {
-            restrict: 'A',
-            replace: true,
+            restrict: 'E',
             scope: {
                 textBeforeRelation: '@',
                 viewState: '='
             },
             link: function($scope, $element, $attributes) {
+
+                $scope.intygRelation = {};
+                $scope.showMessage = true;
 
                 var scopePathToIntygRelation = 'viewState.common.intygProperties.latestChildRelations.' + $attributes.intygRelation;
 
