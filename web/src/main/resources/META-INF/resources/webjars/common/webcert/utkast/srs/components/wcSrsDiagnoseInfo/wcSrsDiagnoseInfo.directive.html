@@ -7,7 +7,7 @@
   <!-- if mainMessageKey is set, we have a message to show why there is no content, eg. error or no srs info at all. -->
   <div ng-if="!viewState.mainMessageKey">
 
-    <div ng-if="viewState.atgarderStatusMessage" class="alert alert-info">{{viewState.atgarderStatusMessage}}</div>
+    <wc-alert-message ng-if="viewState.atgarderStatusMessage" alert-severity="info">{{viewState.atgarderStatusMessage}}</wc-alert-message>
 
     <!-- Atgarder finns för diagnosen -->
     <div ng-if="viewState.srsdata.atgarderObs.length > 0">
@@ -32,9 +32,9 @@
     </div>
 
 
-    <div ng-if="viewState.statistikStatusMessage" class="alert alert-info">
+    <wc-alert-message ng-if="viewState.statistikStatusMessage" alert-severity="info">
       {{viewState.statistikStatusMessage}}
-    </div>
+    </wc-alert-message>
 
     <!-- Statistik finns för diagnosen -->
     <div ng-if="viewState.srsdata.statistikBild">

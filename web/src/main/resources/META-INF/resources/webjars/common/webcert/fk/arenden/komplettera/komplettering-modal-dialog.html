@@ -64,10 +64,10 @@
         </div>
       </div>
       <!-- error message occuring when interacting with server for komplettering-->
-      <div id="komplettering-dialog-error-{{model.arendeSvar.fragaInternReferens}}" ng-if="model.arendeSvar.activeKompletteringErrorMessageKey"
-           class="alert alert-danger alert-bottom">
+      <wc-alert-message id="komplettering-dialog-error-{{model.arendeSvar.fragaInternReferens}}" ng-if="model.arendeSvar.activeKompletteringErrorMessageKey"
+           alert-severity="danger" class="alert-bottom">
         <span message key="common.arende.error.{{model.arendeSvar.activeKompletteringErrorMessageKey}}"></span>
-      </div>
+      </wc-alert-message>
     </div>
   </div>
 </div>

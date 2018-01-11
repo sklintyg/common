@@ -27,6 +27,7 @@ angular.module('common').directive('wcAlertMessage',
 
             return {
                 restrict: 'E',
+                transclude: true,
                 scope: {
                     'alertId': '@',
                     'alertMessageId' : '@',

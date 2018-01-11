@@ -1,3 +1,7 @@
 <div ng-if="getKompletteringar().length > 0">
-  <div ng-repeat="komplettering in getKompletteringar()" class="alert alert-warning" ng-attr-id="{{'inline-komplettering-' + frageId + '-' + $index}}"><b>Kompletteringsbegäran: </b>{{komplettering.text}}</div>
+  <wc-alert-message ng-repeat="komplettering in getKompletteringar()"
+       alert-severity="warning"
+       ng-attr-id="{{'inline-komplettering-' + frageId + '-' + $index}}">
+    <span class="inline-komplettering-text"><b>Kompletteringsbegäran: </b>{{komplettering.text}}</span>
+  </wc-alert-message>
 </div>

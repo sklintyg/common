@@ -1,8 +1,5 @@
-<div>
-  <div id="wc-intyg-related-other-intyg-message" class="form-group" ng-if="showMessage">
-    <div class="alert alert-warning" id="intyg-already-replaced-warning">
-      <i class="glyphicon glyphicon-exclamation-sign"></i>
-      <span>Intyget har {{textBeforeRelation}} <a href ng-click="gotoIntyg($event)">detta intyg</a></span>
-    </div>
-  </div>
+<div id="wc-intyg-related-other-intyg-message" class="form-group" ng-if="showMessage">
+  <wc-alert-message alert-severity="warning" id="intyg-already-replaced-warning">
+    <span>Intyget har {{textBeforeRelation}} <a href ng-click="gotoIntyg($event)">detta intyg</a></span>
+  </wc-alert-message>
 </div>

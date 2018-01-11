@@ -4,24 +4,24 @@
     <div class="row" ng-if="labelColSize">
       <div class="col-md-{{labelColSize}}"></div>
       <div class="col-md-{{12 - labelColSize}}">
-        <div class="alert alert-danger validation" data-validation-section="{{getSection(validation)}}">
+        <wc-alert-message alert-severity="danger" class="validation" data-validation-section="{{getSection(validation)}}">
           <span ng-if="!validation.message" message key="common.validation.{{fieldType}}.{{validation.type}}"></span>
           <span ng-if="validation.message" combined-label="" dyn-key="{{validation.dynamicKey}}" stat-key="{{validation.message}}"></span>
-        </div>
+        </wc-alert-message>
       </div>
     </div>
 
-    <div class="alert alert-danger validation" ng-if="!labelColSize" data-validation-section="{{getSection(validation)}}">
+    <wc-alert-message alert-severity="danger" class="validation" ng-if="!labelColSize" data-validation-section="{{getSection(validation)}}">
       <span ng-if="!validation.message" message key="common.validation.{{fieldType}}.{{validation.type}}"></span>
       <span ng-if="validation.message" combined-label="" dyn-key="{{validation.dynamicKey}}" stat-key="{{validation.message}}"></span>
-    </div>
+    </wc-alert-message>
 
   </div>
 
   <div ng-repeat="warning in warnings">
-    <div class="alert alert-warning validation" ng-if="!labelColSize">
+    <wc-alert-message class="validation" alert-severity="warning" ng-if="!labelColSize">
       <span ng-if="!warning.message" message key="common.validation.{{fieldType}}.{{warning.type}}"></span>
       <span ng-if="warning.message" combined-label="" dyn-key="{{warning.dynamicKey}}" stat-key="{{warning.message}}"></span>
-    </div>
+    </wc-alert-message>
   </div>
 </div>

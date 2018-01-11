@@ -1,7 +1,7 @@
 <div>
   <!-- error message -->
-  <div id="intyg-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
-       class="alert alert-danger">
+  <wc-alert-message id="intyg-load-error" ng-show="viewState.common.doneLoading && viewState.common.activeErrorMessageKey"
+       alert-severity="danger">
 
     <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
       <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
@@ -19,7 +19,7 @@
         <li>ID: {{intygBackup.intyg.intygsId}}</li>
       </ul>
     </div>
-  </div>
+  </wc-alert-message>
 
   <div wc-intyg-related-other-intyg-message
        view-state="viewState"
@@ -167,13 +167,15 @@
 
       <div wc-secrecy-mark-message person-id="viewState.intygModel.grundData.patient.personId" type="intyg"></div>
 
-      <div ng-if="showCreateFromTemplate() && (!enableCreateFromTemplate() || getWarningForCreateFromTemplate() !== undefined)" class="alert alert-warning">
-        <span message key="{{getWarningForCreateFromTemplate()}}"></span>
-      </div>
+      <wc-alert-message ng-if="showCreateFromTemplate() && (!enableCreateFromTemplate() || getWarningForCreateFromTemplate() !== undefined)"
+                        alert-severity="warning"
+                        alert-message-id="{{getWarningForCreateFromTemplate()}}">
+      </wc-alert-message>
 
-      <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger">
-        <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>
-      </div>
+      <wc-alert-message id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey"
+                        alert-severity="danger"
+                        alert-message-id="{{viewState.common.inlineErrorMessageKey}}">
+      </wc-alert-message>
 
       <div ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
         <strong>Status:</strong>

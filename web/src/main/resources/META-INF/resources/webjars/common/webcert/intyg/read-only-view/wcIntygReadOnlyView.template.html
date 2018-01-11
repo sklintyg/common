@@ -19,8 +19,8 @@
       </div>
     </div>
 
-    <div id="intyg-read-only-error" ng-if="viewState.errorKey" class="alert alert-danger">
-      <span message key="{{viewState.errorKey}}"></span>
-    </div>
+    <wc-alert-message id="intyg-read-only-error" ng-if="viewState.errorKey"
+                      alert-severity="danger" alert-message-id="{{viewState.errorKey}}">
+    </wc-alert-message>
   </div>
 </div>

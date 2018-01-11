@@ -5,7 +5,7 @@
     <div ng-if="srsViewState.prediktionError">
         <wc-srs-error-box message-string="srsViewState.prediktionError"></wc-srs-error-box>
     </div>
-    <div id="predictionBox" ng-if="srsViewState.prediction !== 'error' && srsViewState.prediction.description" class="prediction-box alert alert-danger">
+    <wc-alert-message alert-severity="danger" id="predictionBox" ng-if="srsViewState.prediction !== 'error' && srsViewState.prediction.description" class="prediction-box">
                 <img ng-src="{{srsViewState.riskImage}}" alt="">
         {{srsViewState.prediction.description}}
         <div 
@@ -14,7 +14,7 @@
         uib-popover-template="externalRisk.templateUrl" popover-trigger="outsideClick"
         popover-placement="auto right" popover-append-to-body="false" popover-is-open="srsViewState.status.riskInfoOpen">
       </div>
-    </div>
+    </wc-alert-message>
     <ul id="tab{{id}}" class="nav nav-tabs nav-justified">
         <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Åtgärder</a></li>
         <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics{{id}}">Statistik</a></li>

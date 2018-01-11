@@ -47,8 +47,7 @@ describe('wcInlineKomplettering Directive', function() {
     it('should render kompletteringstexten when komplettering exists', function() {
         $scope.frageId = 'FRG_25.RBK';
         $scope.$digest();
-        expect($(element).find('div.alert-warning').length).toBe(1);
-        expect($(element).find('div.alert-warning').text()).toBe('Kompletteringsbegäran: kompletteringstext1');
+        expect($(element).find('.inline-komplettering-text').text()).toBe('Kompletteringsbegäran: kompletteringstext1');
     });
 
     it('should render nothing when no komplettering exists', function() {

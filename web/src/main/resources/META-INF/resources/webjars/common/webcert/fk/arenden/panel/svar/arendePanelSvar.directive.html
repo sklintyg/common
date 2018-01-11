@@ -44,10 +44,10 @@
 
     <!-- KNAPPAR HANTERADE FRÅGOR -->
     <div ng-if="!showButtonBar()">
-      <div id="internal-{{arendeSvar.fragaInternReferens}}-closedArende-error"
-           ng-show="arendeListItem.activeErrorMessageKey" class="alert alert-danger">
+      <wc-alert-message id="internal-{{arendeSvar.fragaInternReferens}}-closedArende-error"
+           ng-show="arendeListItem.activeErrorMessageKey" alert-severity="danger">
         <span message key="common.error.{{arendeListItem.activeErrorMessageKey}}"></span>
-      </div>
+      </wc-alert-message>
     </div>
 
     <!-- KNAPPAR EJ HANTERADE FRÅGOR -->
@@ -64,13 +64,6 @@
           <span message key="common.arende.svar.komplettering.help"></span>
         </p>
 
-        <!-- ELLER inforuta komplettering EJ IMPLEMENTERAT än. Ingår i "SVAR SOM FÖLJER MED" komplettering funktionalitet.
-        <div class="alert alert-info"
-             ng-show="parentViewState.arendeSvar.intygProperties.kompletteringOnly">
-          Här kan du föra en dialog med Försäkringskassan om ett intyg. Medicinsk information ska endast skickas via signerade intyg. När du signerat och skickar intyget till Försäkringskassan följer ditt meddelande som du skrivit med.
-        </div> -->
-                      <!--wc-arende-draft-state draft-state="arendeSvar.draftState"-->
-
         <div class="controls">
           <div class="form-group" ng-show="isAnswerAllowed()">
             <textarea wc-maxlength ng-trim="false" rows="13" maxlength="5000"
@@ -83,10 +76,10 @@
           </div>
           <div class="webintyg-top-padding-section">
             <!-- error message occuring when interacting with server for this FragaSvar-->
-            <div id="internal-{{arendeSvar.fragaInternReferens}}-svarsText-load-error"
-                 ng-show="arendeSvar.activeErrorMessageKey" class="alert alert-danger">
+            <wc-alert-message id="internal-{{arendeSvar.fragaInternReferens}}-svarsText-load-error"
+                 ng-show="arendeSvar.activeErrorMessageKey" alert-severity="danger">
               <span message key="common.error.{{arendeSvar.activeErrorMessageKey}}"></span>
-            </div>
+            </wc-alert-message>
 
             <button type="button" class="btn btn-primary" ng-click="sendAnswer()"
                     ng-disabled="!arendeSvar.meddelande || arendeSvar.updateInProgress" ng-show="isAnswerAllowed()"

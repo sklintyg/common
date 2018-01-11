@@ -1,9 +1,9 @@
 <div wc-date-period-manager model="model" class="sjukskrivningar">
   <wc-form-label to="to" key="options.key"></wc-form-label>
 
-  <div id="lastEffectiveDateNoticeText" class="alert alert-info" ng-if="lastEffectiveDateNoticeText">
+  <wc-alert-message id="lastEffectiveDateNoticeText" alert-severity="info" ng-if="lastEffectiveDateNoticeText">
     {{lastEffectiveDateNoticeText}}
-  </div>
+  </wc-alert-message>
 
   <div class="formly-field form-inline row">
     <div class="col-md-12">

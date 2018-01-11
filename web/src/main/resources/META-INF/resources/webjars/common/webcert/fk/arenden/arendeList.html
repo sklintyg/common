@@ -10,10 +10,10 @@
         <div ng-show="viewState.doneLoading && viewState.activeErrorMessageKey == null" arende-new arende-list="arendeList" parent-view-state="viewState"></div>
 
         <!-- error message -->
-        <div id="arende-list-load-error" ng-show="viewState.doneLoading && viewState.activeErrorMessageKey"
-             class="alert alert-danger">
+        <wc-alert-message id="arende-list-load-error" ng-show="viewState.doneLoading && viewState.activeErrorMessageKey"
+             alert-severity="danger">
           <span message key="common.error.{{viewState.activeErrorMessageKey}}"></span>
-        </div>
+        </wc-alert-message>
 
       </div>
 

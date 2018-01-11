@@ -4,7 +4,7 @@
   </button>
   <span class="patient-address-updater-label">Hämta adressuppgifter från personuppgiftstjänsten</span>
 
-  <div ng-show="fetchingPatientDataErrorKey" class="alert alert-warning">
-    <span message key="{{fetchingPatientDataErrorKey}}"></span>
-  </div>
+  <wc-alert-message ng-show="fetchingPatientDataErrorKey"
+                    alert-severity="warning"
+                    alert-message-id="{{fetchingPatientDataErrorKey}}"></wc-alert-message>
 </div>

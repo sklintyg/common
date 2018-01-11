@@ -12,14 +12,14 @@
   </div>
   <div ng-if="getNewArendeState() == 'not-sent'"
        wc-check-vardenhet
-       vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}" class="alert alert-info"
+       vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}"
        id="intyg-is-not-sent-to-fk-message-text">
     <strong>Intyget är inte skickat till Försäkringskassan.</strong><br> Det går därför inte att ställa frågor om
     intyget.
   </div>
   <div ng-if="getNewArendeState() == 'no-arenden'"
        wc-check-vardenhet
-       vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}" class="alert alert-info"
+       vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}"
        id="intyg-is-not-available">
     <strong>Det finns inga frågor och svar.</strong>
   </div>
@@ -27,9 +27,7 @@
   <!-- New question form -->
   <div ng-show="localViewState.arendeNewOpen && draftLoaded" arende-draft-auto-save intyg-id="localViewState.parentViewState.intyg.id" amne="arendeNewModel.chosenTopic.value" text="arendeNewModel.frageText" save-state="arendeNewModel.saveState">
     <div class="form-group">
-      <div class="alert alert-info">
-        Här kan du föra en dialog med Försäkringskassan om ett intyg. Medicinsk information ska endast skickas via signerade intyg.
-      </div>
+      Här kan du föra en dialog med Försäkringskassan om ett intyg. Medicinsk information ska endast skickas via signerade intyg.
     </div>
     <div class="form-group" id="arendeNewModelForm">
       <label class="control-label">Ämne</label>
@@ -51,9 +49,9 @@
     </div>
 
     <!-- error message occuring when inteacting with server for this FragaSvar-->
-    <div id="arendeNewModel-load-error" ng-show="localViewState.activeErrorMessageKey" class="alert alert-danger">
+    <wc-alert-message id="arendeNewModel-load-error" ng-show="localViewState.activeErrorMessageKey" alert-severity="danger">
       <span message key="common.error.{{localViewState.activeErrorMessageKey}}"></span>
-    </div>
+    </wc-alert-message>
 
     <!-- Form button group -->
     <div class="form-group">

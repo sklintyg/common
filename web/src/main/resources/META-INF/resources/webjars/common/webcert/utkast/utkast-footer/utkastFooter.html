@@ -11,9 +11,10 @@
         <span message key="draft.completion.signinfo"></span>
       </p>
 
-      <div ng-if="disableSign() && getPreviousIntygWarning() !== undefined" class="alert alert-warning">
-        <span message key="{{getPreviousIntygWarning()}}"></span>
-      </div>
+      <wc-alert-message ng-if="disableSign() && getPreviousIntygWarning() !== undefined"
+                        alert-severity="warning"
+                        alert-message-id="{{getPreviousIntygWarning()}}">
+      </wc-alert-message>
 
       <button type="button" id="signera-utkast-button" class="btn btn-primary"
               ng-disabled="certForm.$dirty || (getCurrentSignStatus() === 'pending') || disableSign()"
@@ -39,11 +40,10 @@
       </h3>
 
       <!-- Endast läkare får signera -->
-      <div id="sign-requires-doctor-message-text"
-           intygstyp="{{viewState.common.intyg.type}}"
-           class="alert alert-info">
-        <span message key="draft.onlydoctorscansign"></span>
-      </div>
+      <wc-alert-message id="sign-requires-doctor-message-text"
+                        intygstyp="{{viewState.common.intyg.type}}"
+                        alert-severity="info"
+                        alert-message-id="draft.onlydoctorscansign"></wc-alert-message>
 
       <!-- check for missing info in utkast -->
       <div class="form-group">

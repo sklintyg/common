@@ -89,9 +89,9 @@
             <!-- Error/info messages -->
 
             <div ng-show="viewState.common.error.saveErrorCode != null" class="padding-top-medium">
-              <div class="alert alert-danger no-margin">
+              <wc-alert-message class="danger no-margin">
                 <span ng-bind-html="viewState.common.error.saveErrorMessage"></span>
-              </div>
+              </wc-alert-message>
             </div>
 
           </div>
@@ -102,10 +102,8 @@
   </div>
 
   <!-- Total fail error messages -->
-            <div id="error-panel" class="intyg-error-panel"
-                 ng-show="viewState.common.doneLoading && viewState.common.error.activeErrorMessageKey && !viewState.common.deleted">
-              <div class="alert alert-danger">
-                <span message key="{{viewState.common.error.activeErrorMessageKey}}"></span>
-              </div>
-            </div>
-          </div>
+  <div id="error-panel" class="intyg-error-panel"
+       ng-show="viewState.common.doneLoading && viewState.common.error.activeErrorMessageKey && !viewState.common.deleted">
+    <wc-alert-message alert-severity="danger" alert-message-id="{{viewState.common.error.activeErrorMessageKey}}"></wc-alert-message>
+  </div>
+</div>
