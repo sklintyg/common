@@ -5,7 +5,7 @@
   </div>
 
   <div class="modal-body">
-    <div class="alert alert-danger" ng-if="error">Tekniskt fel. Kunde inte byta vårdenhet.</div>
+    <wc-alert-message alert-severity="danger" ng-if="error">Tekniskt fel. Kunde inte byta vårdenhet.</wc-alert-message>
 
     <div ng-repeat="vg in vardgivare | orderBy:'namn'">
       <div class="row vardgivare">
@@ -57,7 +57,6 @@
         </div>
       </div>
     </div>
-    <wc-alert-message alert-severity="danger" ng-if="error">Tekniskt fel. Kunde inte byta vårdenhet.</wc-alert-message>
   </div>
 
   <div class="modal-footer">

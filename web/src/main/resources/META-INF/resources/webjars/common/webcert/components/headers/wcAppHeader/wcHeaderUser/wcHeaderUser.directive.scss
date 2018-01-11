@@ -22,8 +22,14 @@ wc-header-user {
   //base text color for this component
   color: $wc-color-20;
 
-  .user-name {
-    font-weight: bold;
+  #wc-header-user-name {
+    @extend %wc-typo-06;
+    color: $wc-color-20;
+  }
+
+  #wc-header-user-role {
+    @extend %wc-typo-07;
+    color: $wc-color-20;
   }
 
   .header-icon {
@@ -34,8 +40,9 @@ wc-header-user {
   }
 
   a.sekretess-markering {
+    @extend %wc-typo-08;
     color: $wc-color-18;
-    font-weight: bold;
+
   }
 
 }

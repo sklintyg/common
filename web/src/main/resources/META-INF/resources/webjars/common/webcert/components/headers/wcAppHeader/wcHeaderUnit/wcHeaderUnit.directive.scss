@@ -24,7 +24,14 @@ wc-header-unit {
   color: $wc-color-20;
 
   .vg-name {
-    font-weight: bold;
+    @extend %wc-typo-06;
+  }
+  .ve-name {
+    @extend %wc-typo-07;
+  }
+  .status-row {
+    @extend %wc-typo-07;
+    color: $wc-color-03;
   }
 
 }
