@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('wcIntygRelatedOtherIntygMessageDirective', function() {
+xdescribe('wcIntygRelatedOtherIntygMessageDirective', function() {
     'use strict';
 
     var $scope;
