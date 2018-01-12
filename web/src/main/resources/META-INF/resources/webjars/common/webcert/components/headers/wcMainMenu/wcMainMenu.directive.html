@@ -1,10 +1,6 @@
-<div id="huvudmeny" wc-authority="NAVIGERING" class="navbar navbar-default">
-  <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-  </button>
-  <div class="navbar-collapse collapse" ng-class="!navCollapsed && 'in'">
+<div id="huvudmeny" wc-authority="NAVIGERING" class="navbar navbar-wc">
+
+
     <ul class="nav navbar-nav">
       <li ng-class="{active: isActive(menu.link)}" ng-repeat="menu in menuDefs">
         <a ng-href="{{menu.link}}" ng-show="(menu.requiresDoctor && isDoctor) || !menu.requiresDoctor"
@@ -13,5 +9,5 @@
                 title="{{menu.statTooltip}}">{{menu.getStat()}}</span></a>
       </li>
     </ul>
-  </div>
+
 </div>

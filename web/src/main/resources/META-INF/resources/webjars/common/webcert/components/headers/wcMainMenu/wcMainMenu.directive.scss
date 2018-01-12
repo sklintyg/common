@@ -1,4 +1,4 @@
-//TODO: Se över hela scss upplägget för denna komponent, ev är det bättre att overrida alla .navbar klasser mha bootstrap varabel override ist för här.
+//Local variables
 
 $navbar-border-bottom-color: $wc-color-15;
 $nav-border-color: $wc-color-15;
@@ -17,92 +17,55 @@ wc-main-menu {
   // center the entire directive, and constrain the max width
   max-width: $wc-max-content-width;
   margin: auto;
-
   .navbar {
     flex: 1;
-    margin: 0;
     min-height: 0;
+    margin: 0;
     padding: 0;
     border-radius: 0;
     border: 0;
+  }
 
-    &.navbar-default {
-      background-color: $wc-color-20;
+  .navbar-wc {
+    background-color: $wc-color-26;
+    border-color: transparent;
+    .navbar-collapse {
+      padding: 0;
     }
+    .navbar-nav {
+      > li > a {
+        @extend %wc-typo-10;
+        color: $wc-color-00;
+        line-height: normal;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 22.5px;
+        padding: 5px 15px;
+        margin: 6px 26px;
+        text-decoration: none;
 
-    .divider-vertical {
-      margin: 0;
-    }
-    .nav {
-      margin: 0;
-      white-space: nowrap;
-      border-top: 0;
-      border-bottom: 1px solid $navbar-border-bottom-color;
-      > li {
-        border-right: 1px solid $nav-border-color;
-        /*  display: inline-block; */
-        /* Uncomment to lock menu items to one row (during 800x600 demos buttons won't be accessible otherwise) float: none;*/
-        position: relative;
-        &:first-child {
-          border-left: 1px solid $nav-border-color;
+        &:hover,
+        &:focus {
+          background-color: $wc-color-19;
+          border-color: $wc-color-21;
         }
-        > a {
-          padding: 8px 20px 8px;
-          text-decoration: none;
+      }
+
+      > .active > a {
+        &,
+        &:hover,
+        &:focus {
+          background-color: $wc-color-21;
         }
       }
     }
   }
 
-  .navbar-collapse {
-    padding: 0;
-  }
-  .navbar-collapse.in .nav > li {
-    border-left: 1px solid $navbar-collapse-border-left-color;
-
-  }
-
   .badge__stat {
-    background-color: $stat-circle-active-background-color;
-    border-color: $stat-circle-active-border-color;
-    color: $stat-circle-active-color;
-  }
-
-  .stat-circle {
-    background-color: $stat-circle-background-color;
-    border-radius: 50%;
-    color: $stat-circle-color;
-    padding: 0 6px 0 6px;
-    font-size: 10px;
-    font-weight: bold;
-    position: absolute;
-    right: -4px;
-    top: -4px;
-    text-shadow: none;
-    z-index: 1000;
-  }
-
-  .stat-circle-active {
-    background-color: $stat-circle-active-background-color;
-    border-color: $stat-circle-active-border-color;
-    color: $stat-circle-active-color;
-  }
-
-  .glyph-background {
-    position: relative;
-    border-radius: 50%;
-    color: #f00;
-    z-index: 2;
-  }
-
-  .inner {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    border-radius: 50%;
-    background-color: #fff;
-    z-index: -1;
+    @extend %wc-typo-09;
+    margin-left: 10px;
+    background-color: $wc-color-20;
+    border-color: $wc-color-20;
+    color: $wc-color-19;
   }
 }

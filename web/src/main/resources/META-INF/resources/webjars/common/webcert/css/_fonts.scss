@@ -34,7 +34,6 @@ $font-3: sans-serif;
   font-family: $font-0, $font-1, $font-2, $font-3;
   font-size: $font-size;
   font-weight: $font-weight;
-  text-align: left;
 }
 
 /*
@@ -66,6 +65,14 @@ Color and background should be specified at the extension point, eg:
 %wc-typo-08 {
   @include font-variant(14px, 400);
   //specify underline here? seems to always be used in link context, so we get underline from that anyway..
+}
+
+%wc-typo-09 {
+  @include font-variant(12px, 400);
+}
+
+%wc-typo-10 {
+  @include font-variant(16px, 400);
 }
 
 

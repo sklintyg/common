@@ -17,12 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * TODO: The component is just extracted from the monolitic wcHeader.controllers code. It needs refactoring.
- * Also, the stats communication could be more efficient?
- */
-angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common.messageService',  'common.UserModel', 'common.featureService',
-    function($state, $location, messageService, UserModel, featureService) {
+angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common.UserModel', 'common.featureService',
+    function($state, $location, UserModel, featureService) {
     'use strict';
 
     return {
@@ -32,6 +28,7 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
         link: function($scope) {
 
             $scope.menuDefs = [];
+            //Set default stats
             $scope.stat = {
                 fragaSvarValdEnhet: 0,
                 fragaSvarAndraEnheter: 0,
@@ -67,7 +64,7 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                 if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
                     menu.push({
                         link: '/web/dashboard#/enhet-arenden',
-                        label: 'Frågor och svar',
+                        label: 'Frågor & svar',
                         requiresDoctor: false,
                         statNumberId: 'stat-unitstat-unhandled-question-count',
                         statTooltip: 'not set',
@@ -83,7 +80,7 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                 if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
                     menu.push({
                         link: '/web/dashboard#/unsigned',
-                        label: messageService.getProperty('dashboard.unsigned.title'),
+                        label: 'Ej signerade utkast',
                         requiresDoctor: false,
                         statNumberId: 'stat-unitstat-unsigned-certs-count',
                         statTooltip: 'not set',
