@@ -33,10 +33,16 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
             scope: {
                 certId: '@',
                 events: '=',
-                maxEvents: '@'
+                maxEvents: '@',
+                tightRows: '@',
+                showMoreButtonLocation: '@'
             },
             templateUrl: '/web/webjars/common/minaintyg/components/latestEvents/latestEvents.directive.html',
             link: function(scope) {
+
+                if (!scope.showMoreButtonLocation) {
+                    scope.showMoreButtonLocation = 'top';
+                }
 
                 function _updateEventModel() {
                     scope.filteredEvents = $filter('miRelevantEventFilter')(scope.events);
