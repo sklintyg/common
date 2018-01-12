@@ -50,7 +50,7 @@ angular.module('common').directive('dodsorsakRow',
 
                     $scope.hasValidationError = function(field, index) {
                         return $scope.validation && $scope.validation.messagesByField &&
-                            !!$scope.validation.messagesByField[$scope.key + '.' + index + '.' + field];
+                            !!$scope.validation.messagesByField[$scope.key.toLowerCase()];
                     };
 
                     $scope.validate = function() {
