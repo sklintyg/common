@@ -246,8 +246,8 @@ describe('fragaSvarCommonService', function() {
             enhetArendenCommonService.checkQAonlyDialog(
                 {},
                 spies,
-                'web/dashboard#/fragasvar/',
-                'web/dashboard#/enhet-arenden',
+                '#/fragasvar/',
+                '#/enhet-arenden',
                 spies.unbindEvent);
 
             expect(spies.unbindEvent).toHaveBeenCalled();
@@ -266,8 +266,8 @@ describe('fragaSvarCommonService', function() {
             enhetArendenCommonService.checkQAonlyDialog(
                 {},
                 spies,
-                'web/dashboard#/create/choose-patient/index',
-                'web/dashboard#/enhet-arenden',
+                '#/create/choose-patient/index',
+                '#/enhet-arenden',
                 spies.unbindEvent);
 
             expect(spies.preventDefault).toHaveBeenCalled();

@@ -63,7 +63,7 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                 var menu = [];
                 if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
                     menu.push({
-                        link: '/web/dashboard#/enhet-arenden',
+                        link: '/#/enhet-arenden',
                         label: 'Frågor & svar',
                         requiresDoctor: false,
                         statNumberId: 'stat-unitstat-unhandled-question-count',
@@ -79,7 +79,7 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
 
                 if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
                     menu.push({
-                        link: '/web/dashboard#/unsigned',
+                        link: '/#/unsigned',
                         label: 'Ej signerade utkast',
                         requiresDoctor: false,
                         statNumberId: 'stat-unitstat-unsigned-certs-count',
@@ -95,7 +95,7 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
 
                 if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
                     var writeCertMenuDef = {
-                        link: '/web/dashboard#/create/index',
+                        link: '/#/create/index',
                         label: 'Sök/skriv intyg',
                         requiresDoctor: false,
                         id: 'menu-skrivintyg',
