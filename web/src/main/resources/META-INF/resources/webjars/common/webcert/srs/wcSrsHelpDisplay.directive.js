@@ -98,23 +98,11 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             .then(function(data) {
                                 scope.srsViewState.statistik = data.statistik || 'error';
                                 scope.srsViewState.atgarder = data.atgarder ||'error';
-                                if(scope.srsViewState.atgarder !== 'error') {
-                                    scope.srsViewState.atgarder.atgarderObs = stringifyAtgarderObs(scope.srsViewState.atgarder.atgarderObs);
-                                }
+                                scope.srsViewState.atgarder.atgarderObs = data.atgarder.atgarderObs || 'error';
                             }, function(error) {
                                 scope.srsViewState.statistik = 'error';
                                 scope.srsViewState.atgarder = 'error';
                             });
-
-                        function stringifyAtgarderObs(atgarderObs){
-                            var tempAtgarderObs = atgarderObs && atgarderObs.length > 0 ? '<b>Tänk på att</b> ' : '';
-                            for(var i = 0; i < atgarderObs.length; i++){
-                                tempAtgarderObs += atgarderObs[i];
-                                tempAtgarderObs += '. ';
-                            }
-                            tempAtgarderObs = tempAtgarderObs.replace(/<br \/>/g, '<br>');
-                            return tempAtgarderObs;
-                        }
                     };
 
                     scope.getQuestions = function(diagnosKod) {

@@ -28,9 +28,13 @@
             <div ng-if="srsViewState.atgarderError">
                 <wc-srs-error-box message-string="srsViewState.atgarderError"></wc-srs-error-box>
             </div>
-            <div id="atgarderObs" ng-if="status.open && srsViewState.atgarder && srsViewState.atgarder.atgarderObs && parentHasRendered()" clamp="4">{{srsViewState.atgarder.atgarderObs}}</div>
-                <br><br>
-    
+            <div id="atgarderObs" ng-if="status.open">
+                <div ng-repeat="(key,value) in srsViewState.atgarder.atgarderObs|limitTo:3">
+                    <span ng-if="$first"><b>Tänk på att </b></span>{{value}}
+                    <br>
+                </div>
+            </div>
+            <br>
             <h3>Rekommenderade åtgärder</h3>
             <div id="atgarderRek" ng-if="status.open">
                 <div ng-repeat="(key,value) in srsViewState.atgarder.atgarderRek">
