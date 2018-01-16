@@ -305,5 +305,95 @@ describe('PatientService', function() {
             ]);
             expect(PatientService.hasChangedAddressInIntegration(intygModel.grundData)).toBeTruthy();
         });
-    });    
+    });
+
+    describe('Testa detektering av avsaknad adress i integrationsparametrar i ts-intyg för UTKAST', function() {
+        var UserModel;
+        var intygModel = {
+            typ: 'ts-bas',
+            grundData: {
+                patient: {
+                    fornamn:'Tolvan',
+                    efternamn:'Tolvansson',
+                    postadress: 'Blomstervägen 13',
+                    postort: 'Småmåla',
+                    postnummer: '123 45'
+                }
+            }
+        };
+
+        it('isMissingRequiredAddressIntegrationParameter true if some parts of address is missing', function() {
+            angular.mock.inject(['common.UserModel',
+                function(_UserModel_) {
+                    UserModel = _UserModel_;
+                    UserModel.setUser({
+                        parameters: {
+                            postadress: 'Blomstervägen 13',
+                            postnummer: '54321'
+                        }
+                    });
+                }
+            ]);
+            spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
+                return true;
+            });
+            expect(PatientService.isMissingRequiredAddressIntegrationParameter('UTKAST', intygModel)).toBeTruthy();
+        });
+
+        it('isMissingRequiredAddressIntegrationParameter false if no parts of address are missing', function() {
+            angular.mock.inject(['common.UserModel',
+                function(_UserModel_) {
+                    UserModel = _UserModel_;
+                    UserModel.setUser({
+                        parameters: {
+                            postadress: 'Blomstervägen 13',
+                            postort: 'Småmåla',
+                            postnummer: '54321'
+                        }
+                    });
+                }
+            ]);
+            spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
+                return true;
+            });
+            expect(PatientService.isMissingRequiredAddressIntegrationParameter('UTKAST', intygModel)).toBeFalsy();
+        });
+
+        it('isMissingRequiredAddressIntegrationParameter false if not in djupintegration', function() {
+            angular.mock.inject(['common.UserModel',
+                function(_UserModel_) {
+                    UserModel = _UserModel_;
+                    UserModel.setUser({
+                        parameters: {
+                            postadress: 'Blomstervägen 13',
+                            postnummer: '54321'
+                        }
+                    });
+                }
+            ]);
+            spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
+                return false;
+            });
+            expect(PatientService.isMissingRequiredAddressIntegrationParameter('UTKAST', intygModel)).toBeFalsy();
+        });
+
+        it('isMissingRequiredAddressIntegrationParameter false for INTYG', function() {
+            angular.mock.inject(['common.UserModel',
+                function(_UserModel_) {
+                    UserModel = _UserModel_;
+                    UserModel.setUser({
+                        parameters: {
+                            postadress: 'Blomstervägen 13',
+                            postnummer: '54321'
+                        }
+                    });
+                }
+            ]);
+            spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
+                return true;
+            });
+            expect(PatientService.isMissingRequiredAddressIntegrationParameter('INTYG', intygModel)).toBeFalsy();
+        });
+
+    });
 });
