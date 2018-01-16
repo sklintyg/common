@@ -17,6 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Service for getting meta state regarding patient data (name, address): specifically when that data comes from a
+ * certain source and replaces another source.
+ */
 angular.module('common').service('common.PatientService',
     ['$log', 'common.ObjectHelper', 'common.UserModel',
         function($log, ObjectHelper, UserModel) {
@@ -90,5 +94,18 @@ angular.module('common').service('common.PatientService',
                             grundData.patient.postnummer !== UserModel.getIntegrationParam('postnummer');
                     }
                     return false;
+                };
+
+                // TS intyg needs to showwarning if any address integration parameters are missing (INTYG-5146).
+                this.isMissingRequiredAddressIntegrationParameter = function(context, intyg) {
+                    if(!UserModel.isDjupintegration()) {
+                        return false;
+                    }
+
+                    var eligibleIntygstyp = context === 'UTKAST' && (intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
+                    var missingAddressParameter = !ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) ||
+                        !ObjectHelper.isDefined(UserModel.getIntegrationParam('postadress')) ||
+                        !ObjectHelper.isDefined(UserModel.getIntegrationParam('postnummer'));
+                    return eligibleIntygstyp && missingAddressParameter;
                 };
         }]);
