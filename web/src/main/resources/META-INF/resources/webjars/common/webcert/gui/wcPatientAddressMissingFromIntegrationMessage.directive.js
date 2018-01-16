@@ -38,7 +38,6 @@ angular.module('common').directive('wcPatientAddressMissingFromIntegrationMessag
                     // Intyg is loaded asynchronously
                     $scope.show = PatientService.isMissingRequiredAddressIntegrationParameter($scope.context, $scope.intyg);
                 });
-                $scope.message = messageService.getProperty('intyg.status.patient.address.integration.missing');
             },
             templateUrl: '/web/webjars/common/webcert/gui/wcPatientAddressMissingFromIntegrationMessage.directive.html'
         };
