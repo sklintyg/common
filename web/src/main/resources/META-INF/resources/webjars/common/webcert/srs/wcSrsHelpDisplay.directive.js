@@ -98,7 +98,6 @@ angular.module('common').directive('wcSrsHelpDisplay',
                             .then(function(data) {
                                 scope.srsViewState.statistik = data.statistik || 'error';
                                 scope.srsViewState.atgarder = data.atgarder ||'error';
-                                scope.srsViewState.atgarder.atgarderObs = data.atgarder.atgarderObs || 'error';
                             }, function(error) {
                                 scope.srsViewState.statistik = 'error';
                                 scope.srsViewState.atgarder = 'error';
