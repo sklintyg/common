@@ -4,8 +4,8 @@ angular.module('db').constant('db.messages', {
     'sv': {
         //Validation messages
         'db.validation.explosivAvlagsnat.explosivImplantatFalse': 'Den valda kombinationen är ogiltig',
-        'db.validation.undersokningDatum.after.dodsdatum': 'Undersökningsdatum får inte infalla efter dödsdatum',
-        'db.validation.undersokningDatum.after.antraffatDodDatum' : 'Undersökningsdatum får inte vara senare än datumet för "Anträffad död".',
+        'db.validation.undersokningDatum.after.dodsdatum': 'Datumet får inte vara senare än "Dödsdatum".',
+        'db.validation.undersokningDatum.after.antraffatDodDatum' : 'Datumet får inte vara senare än datumet för "Anträffad död".',
 
         'db.makulera.body.common-header': '<p>Ett dödsbevis som är inskickat på fel person kan makuleras. Genom att trycka på "Makulera" makulerar du dödsbeviset i Webcert, med detta kommer inte återkalla dödsbeviset hos Skatteverket.</p>Förutom att trycka på "Makulera" måste du omedelbart ta kontakt med Skatteverket så att felet kan rättas fort. Du tar kontakt med Skatteverket genom att ringa till Skatteupplysningen på telefon 0771-567 567 och ange "folkbokföring - dödsfall".',
         'db.modal.ersatt.text': '<p>Senast skapade dödsbevis är det som gäller. Om du ersätter det tidigare dödsbeviset och lämnar in det nya så blir det därför detta dödsbevis som gäller.</p>' +
