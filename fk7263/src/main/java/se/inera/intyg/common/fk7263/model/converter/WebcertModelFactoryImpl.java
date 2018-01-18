@@ -57,7 +57,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory {
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(template.getGrundData(), newDraftData);
         resetDataInUtlatande(template);
 
-        template.setNuvarandeArbete(true);
+        template.setNuvarandeArbete(false);
         template.setArbetsloshet(false);
 
         template.setAvstangningSmittskydd(false);
