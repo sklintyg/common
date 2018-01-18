@@ -1,0 +1,112 @@
+wc-support-panel-manager {
+
+  $tab-border-color: $wc-color-15;
+
+  $tab-text-color: $wc-color-19;
+  $tab-text-color-hover: $wc-color-21;
+
+  $tab-background-color: $wc-color-00;
+  $tab-background-color-hover: #E9EAED;//$wc-color-28; //TODO: variable
+
+  $active-tab-text-color: $wc-color-19;
+  $active-tab-background-color: $wc-color-15;
+  $active-tab-border-color: $active-tab-background-color;
+
+
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  height: 100%;
+  padding: 4px 0 2px 8px;
+
+  //to make diagnoses ellipsise correctly
+  max-width: 560px;
+
+
+  // Tabs
+  ul.support-tabs {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+
+    > li {
+      flex: 1 1 auto;
+      &:first-child a {
+        border-radius: 4px 0 0 0;
+      }
+      &:last-child a {
+        border-radius: 0 4px 0 0;
+      }
+
+      > a {
+        @extend %wc-typo-07;
+        display: list-item;
+        border: 1px solid $tab-border-color;
+        border-radius: 0;
+        border-bottom: 0;
+        color: $tab-text-color;
+        background-color: $tab-background-color;
+        text-shadow: none;
+        padding: 8px 11px;
+        text-decoration: none;
+        min-width: 160px;
+        text-align: center;
+
+        &:hover {
+          background-color: $tab-background-color-hover;
+          color: $tab-text-color-hover;
+        }
+      }
+
+      // Active state, and its :hover to override normal :hover
+      &.active > a {
+        &,
+        &:hover,
+        &:focus {
+          @extend %wc-typo-06;
+          color: $active-tab-text-color;
+          background-color: $active-tab-background-color;
+          border: 1px solid $active-tab-border-color;
+          border-bottom-color: transparent;
+          cursor: default;
+          border-bottom: 0;
+        }
+      }
+    }
+
+  }
+
+//used by tab instances fmb-panel-tab etc
+  .tab-content-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    border: 1px solid $tab-border-color;
+  }
+
+  .tab-content-title-row {
+    background-color: $active-tab-background-color;
+    padding: 19px 15px;
+  }
+
+  .tab-content-scrollable-body {
+    padding: 20px;
+    flex: 1;
+    overflow: auto;
+  }
+
+  .scrollable-flex-content {
+    padding: 20px;
+    flex: 1;
+    overflow: auto;
+  }
+  .footer {
+    flex: 1;
+    padding: 10px;
+    max-height: 40px;
+  }
+
+}
+
+

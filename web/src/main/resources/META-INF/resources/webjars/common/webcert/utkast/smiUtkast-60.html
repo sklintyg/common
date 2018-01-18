@@ -44,10 +44,9 @@
     </form>
   </div>
 
-  <div class="webcert-col webcert-col-secondary webcert-multicol-background-grey" wc-authority feature="HANTERA_FRAGOR" intygstyp="{{widgetState.certificateType}}" ui-view="fragasvar"></div>
+  <div class="webcert-workarea-supportpanel" ng-if="supportPanelConfig">
+    <wc-support-panel-manager config="supportPanelConfig"></wc-support-panel-manager>
+  </div>
 
 </div>
-
-
-
 

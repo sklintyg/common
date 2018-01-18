@@ -64,8 +64,44 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'common.ArendeListCtrl'
                 }
             }
-        }).
-        state('webcert.intyg.fk.lisjp', {
+        }).state('lisjp-edit-60', {
+            data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
+            url : '/lisjp/edit-60/:certificateId/:focusOn',
+            views : {
+                'content@' : {
+                    templateUrl: commonPath + 'utkast/smiUtkast-60.html',
+                    controller: 'smi.EditCertCtrl-60',
+                    resolve: {
+                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
+                        FormFactory: 'lisjp.FormFactory',
+                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
+                    }
+                },
+
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+                },
+
+                'header@lisjp-edit-60' : {
+                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader-60.html',
+                    controller: 'common.UtkastHeader'
+                },
+
+                'footer@lisjp-edit-60' : {
+                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+                    controller: 'common.UtkastFooter'
+                },
+
+                'formly@lisjp-edit-60' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
+                    controller: 'smi.EditCert.FormlyCtrl',
+                    resolve: {
+                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
+                        FormFactory: 'lisjp.FormFactory'
+                    }
+                }
+            }
+        }).state('webcert.intyg.fk.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
             url:'/intyg/lisjp/:certificateId/:focusOn',
             views: {

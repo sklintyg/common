@@ -1,0 +1,52 @@
+wc-fmb-panel-tab {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+
+  .fmb-diagnos-row {
+    border-bottom: 1px solid $wc-color-15; //TODO: Not specified
+    min-width: 1px;
+    display: flex;
+    padding:11px 20px;
+
+    .fmb-diagnos-description {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1 1 auto;
+      min-width: 1px;
+      padding:0 15px 0 8px;
+
+      input[type=radio] {
+        margin-right: 6px;
+      }
+    }
+  }
+
+  h4.fmb-sub-headline {
+
+  }
+
+  .fmb-section {
+    padding-bottom: 20px;
+  }
+
+  .fmb-bullet-list {
+    padding-left: 30px;
+  }
+
+
+  .fmb-footer {
+    height: 50px;
+    background-color: $wc-color-17;
+    color: white; //TODO: not specified?
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+
+  }
+
+}

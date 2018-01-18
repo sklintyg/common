@@ -63,6 +63,9 @@
   @import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
+  @import 'components/wcSupportPanelManager/wcFmbPanelTab/wcFmbPanelTab.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSupportPanelComponentRenderer.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSupportPanelManager.directive.scss';
   @import 'components/wcTableHead/wcTableHead.directive.scss';
   @import 'css/_fonts.scss';
   @import 'css/_legacy-to-be-removed.scss';
@@ -98,6 +101,46 @@
   @import 'utkast/wcUtkastErrorSummaryFK/wcUtkastErrorSummaryFK.directive.scss';
   // endinjector
 
+
+
+  //Flexbox app framwork classes 
+  .webcert-workarea {
+    //Constrain content to max width..
+    max-width: $wc-max-content-width;
+
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    //center content (will show whitespace on sides)
+    align-self: center;
+    width: 100%;
+
+    .container-fluid {
+      //all "page-templates" / views such as sök / skriv intyg, ej signerade utkast etc should have this as root, to get inner vertical scrollbar
+      width: 100%;
+      overflow-y: auto;
+    }
+
+    //Some views should have deeper containers that take up extra vertical space, and
+    // handle their own overflow
+    .webcert-workarea-hflex-container {
+      display: flex;
+      flex: 1;
+
+      .webcert-workarea-intyg {
+        flex: 3;
+        overflow-y: auto;
+      }
+      .webcert-workarea-supportpanel {
+        flex: 2;
+      }
+    }
+  }
+
+
+
+
+
   %font-common {
     font-size: 14px;
     font-family: $font-0, $font-1, $font-2, $font-3;
@@ -109,6 +152,15 @@
     margin: 0 auto;
     width: 70%;
     max-width: 700px;
+  }
+
+  html,
+  body {
+    //Needed to allow having nested flex containers that expands & handle overflow themselves
+    height: 100%;
+    overflow:hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   html {
