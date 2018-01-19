@@ -1,12 +1,15 @@
 <!-- Utkastheader -->
 <div ui-view="header"></div>
 
+
+<!-- TODO: whats this - should be moved into header? -->
 <a id="top"></a><!-- Integration deleted message -->
 <div id="integration-deleted" ng-if="viewState.common.deleted">
   <div class="banner-margin">
     Utkastet är raderat och borttaget från Webcert.
   </div>
 </div>
+
 
 <div class="webcert-workarea-hflex-container" id="edit-{{viewState.common.intyg.type}}">
 
@@ -44,7 +47,8 @@
     </form>
   </div>
 
-  <div class="webcert-col webcert-col-secondary webcert-multicol-background-grey" wc-authority feature="HANTERA_FRAGOR" intygstyp="{{widgetState.certificateType}}" ui-view="fragasvar"></div>
+  <div class="webcert-workarea-supportpanel remove-when-migrated-to-supportpanel-scrollable-flex-content"
+       wc-authority feature="HANTERA_FRAGOR" intygstyp="{{widgetState.certificateType}}" ui-view="fragasvar"></div>
 
 </div>
 

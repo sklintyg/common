@@ -36,7 +36,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                     }
                 },
 
-                'wcHeader@luae_fs-edit' : {
+                'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
@@ -77,7 +77,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                         ViewConfigFactory: 'luae_fs.viewConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
+                'fragasvar@webcert.intyg.fk.luae_fs' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
                     controller: 'common.ArendeListCtrl'
                 },

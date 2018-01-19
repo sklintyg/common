@@ -31,27 +31,22 @@ angular.module('fk7263').config(function($stateProvider) {
             data: { defaultActive : 'index' },
             url : '/fk7263/edit/:certificateId/:focusOn',
             views : {
-                'content@' : {
-                    templateUrl: intygsTypPath + 'views/utkast/utkast.wrapper.html'
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'utkast@fk7263-edit' : {
+                'content@' : {
                     templateUrl: intygsTypPath + 'views/utkast/utkast.html',
                     controller: 'fk7263.EditCertCtrl'
+                },
+                'header@fk7263-edit' : {
+                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    controller: 'common.UtkastHeader'
                 },
 
                 'fragasvar@fk7263-edit' : {
                     templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
                     controller: 'common.ArendeListCtrl'
-                },
-
-                'wcHeader@fk7263-edit' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
-
-                'header@fk7263-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
                 },
 
                 'footer@fk7263-edit' : {
@@ -161,7 +156,7 @@ angular.module('fk7263').config(function($stateProvider) {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
                     controller: 'fk7263.ViewCertCtrl'
                 },
-                'fragasvar@webcert.fragasvar' : {
+                'fragasvar@webcert.fragasvar.fk7263' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
                     controller: 'common.ArendeListCtrl'
                 },

@@ -36,7 +36,7 @@ angular.module('db').config(function($stateProvider) {
                     }
                 },
 
-                'wcHeader@db-edit' : {
+                'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
@@ -77,7 +77,7 @@ angular.module('db').config(function($stateProvider) {
                         ViewConfigFactory: 'db.viewConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
+                'fragasvar@webcert.intyg.fk.db' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
                     controller: 'common.ArendeListCtrl'
                 },

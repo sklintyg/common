@@ -36,7 +36,7 @@ angular.module('lisjp').config(function($stateProvider) {
                     }
                 },
 
-                'wcHeader@lisjp-edit' : {
+                'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
@@ -113,7 +113,7 @@ angular.module('lisjp').config(function($stateProvider) {
                         ViewConfigFactory: 'lisjp.viewConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
+                'fragasvar@webcert.intyg.fk.lisjp' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
                     controller: 'common.ArendeListCtrl'
                 },
@@ -135,7 +135,7 @@ angular.module('lisjp').config(function($stateProvider) {
                         ViewConfigFactory: 'lisjp.viewConfigFactory'
                     }
                 },
-                'fragasvar@webcert.fragasvar' : {
+                'fragasvar@webcert.fragasvar.lisjp' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
                     controller: 'common.ArendeListCtrl'
                 },

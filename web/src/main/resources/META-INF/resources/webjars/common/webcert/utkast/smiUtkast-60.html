@@ -1,6 +1,8 @@
 <!-- Utkastheader -->
 <div ui-view="header"></div>
 
+
+<!-- TODO: whats this? - should be moved into header? -->
 <a id="top"></a><!-- Integration deleted message -->
 <div id="integration-deleted" ng-if="viewState.common.deleted">
   <div class="banner-margin">
@@ -8,9 +10,10 @@
   </div>
 </div>
 
+
 <div class="webcert-workarea-hflex-container" id="edit-{{viewState.common.intyg.type}}">
 
-  <div class="webcert-workarea-intyg edit-form container-fluid">
+  <div class="webcert-workarea-intyg edit-form container-fluid" id="scrolltest">
 
     <form name="certForm" novalidate autocomplete="off" wc-auto-save>
       <div ng-hide="viewState.common.error.activeErrorMessageKey || viewState.common.deleted">

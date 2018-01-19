@@ -36,7 +36,7 @@ angular.module('luae_na').config(function($stateProvider) {
                     }
                 },
 
-                'wcHeader@luae_na-edit' : {
+                'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
@@ -77,7 +77,7 @@ angular.module('luae_na').config(function($stateProvider) {
                         ViewConfigFactory: 'luae_na.viewConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
+                'fragasvar@webcert.intyg.fk.luae_na' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
                     controller: 'common.ArendeListCtrl'
                 },

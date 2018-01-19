@@ -36,7 +36,7 @@ angular.module('luse').config(function($stateProvider) {
                     }
                 },
 
-                'wcHeader@luse-edit' : {
+                'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
@@ -77,7 +77,7 @@ angular.module('luse').config(function($stateProvider) {
                         ViewConfigFactory: 'luse.viewConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
+                'fragasvar@webcert.intyg.fk.luse' : {
                     templateUrl: commonPath + 'fk/arenden/arendeList.html',
                     controller: 'common.ArendeListCtrl'
                 },

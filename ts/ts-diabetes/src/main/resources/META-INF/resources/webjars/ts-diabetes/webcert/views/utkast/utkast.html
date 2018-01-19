@@ -1,101 +1,89 @@
-<!--
-
-    Copyright (C) 2013 Inera AB (http://www.inera.se)
-
-    This file is part of Inera Certificate Modules (http://code.google.com/p/inera-certificate-modules).
-
-    Inera Certificate Modules is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation, either version 3 of the
-    License, or (at your option) any later version.
-
-    Inera Certificate Modules is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
--->
-
 <a id="top"></a>
-<div class="ts-diabetes-ns container-fluid" id="edit-ts-diabetes">
-  <div class="row">
-    <div class="col-md-12 webcert-col webcert-col-single">
 
-      <div ui-view="header"></div>
+<div ui-view="header"></div>
 
-      <!-- Integration deleted message -->
-      <div id="integration-deleted" ng-if="viewState.common.deleted">
-        <div class="alert alert-info banner-margin">
-          Utkastet är raderat och borttaget från Webcert.
-        </div>
-      </div>
+<!-- Integration deleted message -->
+<div id="integration-deleted" ng-if="viewState.common.deleted">
+  <div class="alert alert-info banner-margin">
+    Utkastet är raderat och borttaget från Webcert.
+  </div>
+</div>
 
-      <!-- TS-DIABETES -->
-      <div class="edit-form legacy-intyg" ng-class="{'collapsed' : viewState.common.collapsedHeader}" wc-size-target>
 
-        <form id="certForm" name="certForm" novalidate autocomplete="off" wc-auto-save="save(true)">
-          <div ng-hide="viewState.common.error.activeErrorMessageKey">
-            <div wc-spinner label="info.loadingdata" show-spinner="!viewState.common.doneLoading"
-                 show-content="viewState.common.doneLoading">
+<div class="webcert-workarea-hflex-container">
 
-              <div id="certificate" class="row certificate">
-                <div class="col-md-12 intyg-body">
+  <div class="webcert-workarea-intyg container-fluid ts-diabetes-ns" id="edit-ts-diabetes">
+    <div class="row">
+      <div class="col-md-12">
 
-                  <!-- common ts elements -->
-                  <!-- 1. patient -->
-                  <div ui-view="patient"/>
+        <!-- TS-DIABETES -->
+        <div class="edit-form legacy-intyg">
 
-                  <!-- 2. intention -->
-                  <div ui-view="intention"/>
+          <form id="certForm" name="certForm" novalidate autocomplete="off" wc-auto-save="save(true)">
+            <div ng-hide="viewState.common.error.activeErrorMessageKey">
+              <div wc-spinner label="info.loadingdata" show-spinner="!viewState.common.doneLoading"
+                   show-content="viewState.common.doneLoading">
 
-                  <!-- 3. identity -->
-                  <div ui-view="identity"/>
+                <div id="certificate" class="row certificate">
+                  <div class="col-md-12 intyg-body">
 
-                  <!-- common ts elements end -->
+                    <!-- common ts elements -->
+                    <!-- 1. patient -->
+                    <div ui-view="patient" />
 
-                  <!-- 1. Allmänt -->
-                  <div ui-view="form1"/>
+                    <!-- 2. intention -->
+                    <div ui-view="intention" />
 
-                  <!-- 2. Hypoglykemier (lågt blodsocker)  -->
-                  <div ui-view="form2"/>
+                    <!-- 3. identity -->
+                    <div ui-view="identity" />
 
-                  <!-- 3. Synintyg -->
-                  <div ui-view="form3"/>
+                    <!-- common ts elements end -->
 
-                  <!-- 4. Bedömning -->
-                  <div ui-view="form4"/>
+                    <!-- 1. Allmänt -->
+                    <div ui-view="form1" />
 
-                  <!-- 5. Övriga upplysningar -->
-                  <div ui-view="form5"/>
+                    <!-- 2. Hypoglykemier (lågt blodsocker)  -->
+                    <div ui-view="form2" />
 
-                  <!-- 6. Specialistkompetens -->
-                  <div ui-view="form6"/>
+                    <!-- 3. Synintyg -->
+                    <div ui-view="form3" />
 
-                  <!-- 7. Vardenhet -->
-                  <div ui-view="form7"/>
+                    <!-- 4. Bedömning -->
+                    <div ui-view="form4" />
 
-                  <!-- Messages -->
-                  <div ui-view="messages"/>
+                    <!-- 5. Övriga upplysningar -->
+                    <div ui-view="form5" />
+
+                    <!-- 6. Specialistkompetens -->
+                    <div ui-view="form6" />
+
+                    <!-- 7. Vardenhet -->
+                    <div ui-view="form7" />
+
+                    <!-- Messages -->
+                    <div ui-view="messages" />
+
+                  </div>
+                  <!-- intyg body -->
 
                 </div>
-                <!-- intyg body -->
+                <!-- certificate -->
+
+                <wc-utkast-error-summary-fk view-state="viewState"></wc-utkast-error-summary-fk>
+                <div ui-view="footer"></div>
 
               </div>
-              <!-- certificate -->
-
-              <wc-utkast-error-summary-fk view-state="viewState"></wc-utkast-error-summary-fk>
-              <div ui-view="footer"></div>
-
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
 
+      </div>
+      <!-- span12 webcert-col-single -->
     </div>
-    <!-- span12 webcert-col-single -->
+    <!-- row -->
   </div>
-  <!-- row -->
-</div> <!-- container -->
+  <div class="webcert-workarea-supportpanel remove-when-migrated-to-supportpanel-scrollable-flex-content">
+    (supportpanel)
+  </div>
+
+</div>

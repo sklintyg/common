@@ -1,137 +1,126 @@
-<!--
-
-    Copyright (C) 2013 Inera AB (http://www.inera.se)
-
-    This file is part of Inera Certificate Modules (http://code.google.com/p/inera-certificate-modules).
-
-    Inera Certificate Modules is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation, either version 3 of the
-    License, or (at your option) any later version.
-
-    Inera Certificate Modules is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
--->
-
 <a id="top"></a>
-<div class="ts-bas-ns container-fluid" id="edit-ts-bas">
-  <div class="row">
-    <div class="col-md-12 webcert-col webcert-col-single">
 
-      <div ui-view="header"></div>
 
-      <!-- Integration deleted message -->
-      <div id="integration-deleted" ng-if="viewState.common.deleted">
-        <div class="alert alert-info banner-margin">
-          Utkastet är raderat och borttaget från Webcert.
-        </div>
-      </div>
+<div ui-view="header"></div>
 
-      <!-- TS-BAS -->
-      <div class="edit-form legacy-intyg" ng-class="{'collapsed' : viewState.common.collapsedHeader}" wc-size-target>
+<!-- Integration deleted message -->
+<div id="integration-deleted" ng-if="viewState.common.deleted">
+  <div class="alert alert-info banner-margin">
+    Utkastet är raderat och borttaget från Webcert.
+  </div>
+</div>
 
-        <form name="certForm" novalidate autocomplete="off" wc-auto-save="save(true)">
-          <div ng-hide="viewState.common.error.activeErrorMessageKey">
+<div class="webcert-workarea-hflex-container">
 
-            <div wc-spinner label="info.loadingintyg" show-spinner="!viewState.common.doneLoading"
-                 show-content="viewState.common.doneLoading">
+  <div class="webcert-workarea-intyg container-fluid ts-bas-ns" id="edit-ts-bas">
+    <div class="row">
+      <div class="col-md-12">
 
-              <div id="certificate" class="row certificate">
-                <div class="col-md-12 intyg-body">
+        <!-- TS-BAS -->
+        <div class="edit-form legacy-intyg" ng-class="{'collapsed' : viewState.common.collapsedHeader}">
 
-                  <!-- common ts elements -->
-                  <!-- 1. patient -->
-                  <div ui-view="patient"/>
+          <form name="certForm" novalidate autocomplete="off" wc-auto-save="save(true)">
+            <div ng-hide="viewState.common.error.activeErrorMessageKey">
 
-                  <!-- 2. intention -->
-                  <div ui-view="intention"/>
+              <div wc-spinner label="info.loadingintyg" show-spinner="!viewState.common.doneLoading"
+                   show-content="viewState.common.doneLoading">
 
-                  <!-- 3. identity -->
-                  <div ui-view="identity"/>
+                <div id="certificate" class="row certificate">
+                  <div class="col-md-12 intyg-body">
 
-                  <!-- 4. alert -->
-                  <div ui-view="alert"/>
-                  <!-- common ts elements end -->
+                    <!-- common ts elements -->
+                    <!-- 1. patient -->
+                    <div ui-view="patient" />
 
-                  <!-- 1. Syn -->
-                  <div ui-view="form1"/>
+                    <!-- 2. intention -->
+                    <div ui-view="intention" />
 
-                  <!-- 2 -->
-                  <div ui-view="form2"/>
+                    <!-- 3. identity -->
+                    <div ui-view="identity" />
 
-                  <!-- 3 -->
-                  <div ui-view="form3"/>
+                    <!-- 4. alert -->
+                    <div ui-view="alert" />
+                    <!-- common ts elements end -->
 
-                  <!-- 4 -->
-                  <div ui-view="form4"/>
+                    <!-- 1. Syn -->
+                    <div ui-view="form1" />
 
-                  <!-- 5. -->
-                  <div ui-view="form5"/>
+                    <!-- 2 -->
+                    <div ui-view="form2" />
 
-                  <!-- 6. -->
-                  <div ui-view="form6"/>
+                    <!-- 3 -->
+                    <div ui-view="form3" />
 
-                  <!-- 7. -->
-                  <div ui-view="form7"/>
+                    <!-- 4 -->
+                    <div ui-view="form4" />
 
-                  <!-- 8. -->
-                  <div ui-view="form8"/>
+                    <!-- 5. -->
+                    <div ui-view="form5" />
 
-                  <!-- 9. -->
-                  <div ui-view="form9"/>
+                    <!-- 6. -->
+                    <div ui-view="form6" />
 
-                  <!-- 10. -->
-                  <div ui-view="form10"/>
+                    <!-- 7. -->
+                    <div ui-view="form7" />
 
-                  <!-- 11. -->
-                  <div ui-view="form11"/>
+                    <!-- 8. -->
+                    <div ui-view="form8" />
 
-                  <!-- 12. -->
-                  <div ui-view="form12"/>
+                    <!-- 9. -->
+                    <div ui-view="form9" />
 
-                  <!-- 13. -->
-                  <div ui-view="form13"/>
+                    <!-- 10. -->
+                    <div ui-view="form10" />
 
-                  <!-- 14. -->
-                  <div ui-view="form14"/>
+                    <!-- 11. -->
+                    <div ui-view="form11" />
 
-                  <!-- 15. -->
-                  <div ui-view="form15"/>
+                    <!-- 12. -->
+                    <div ui-view="form12" />
 
-                  <!-- 16 -->
-                  <div ui-view="form16"/>
+                    <!-- 13. -->
+                    <div ui-view="form13" />
 
-                  <!-- 17 Bedomning -->
-                  <div ui-view="form17"/>
+                    <!-- 14. -->
+                    <div ui-view="form14" />
 
-                  <!-- 18 vardenhet -->
-                  <div ui-view="form18"/>
+                    <!-- 15. -->
+                    <div ui-view="form15" />
 
-                  <!-- 19 befatning -->
-                  <div ui-view="form19"/>
+                    <!-- 16 -->
+                    <div ui-view="form16" />
+
+                    <!-- 17 Bedomning -->
+                    <div ui-view="form17" />
+
+                    <!-- 18 vardenhet -->
+                    <div ui-view="form18" />
+
+                    <!-- 19 befatning -->
+                    <div ui-view="form19" />
+
+                  </div>
+                  <!-- intyg body -->
 
                 </div>
-                <!-- intyg body -->
+                <!-- certificate -->
+
+                <wc-utkast-error-summary-fk view-state="viewState"></wc-utkast-error-summary-fk>
+                <div ui-view="footer"></div>
 
               </div>
-              <!-- certificate -->
-
-              <wc-utkast-error-summary-fk view-state="viewState"></wc-utkast-error-summary-fk>
-              <div ui-view="footer"></div>
-
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
 
+      </div>
     </div>
-    <!-- span12 webcert-col-single -->
   </div>
-  <!-- row -->
-</div><!-- container -->
+
+
+  <div class="webcert-workarea-supportpanel remove-when-migrated-to-supportpanel-scrollable-flex-content">
+    (supportpanel)
+  </div>
+
+
+</div>
