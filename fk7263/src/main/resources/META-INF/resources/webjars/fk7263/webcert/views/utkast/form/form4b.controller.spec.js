@@ -127,7 +127,7 @@ describe('fk7263.EditCertCtrl.Form4bCtrl', function() {
 
                 tpl = angular.element(
                     '<div ng-form="testForm">' +
-                    '<span wc-date-picker-field target-model="model" dom-id="test" override-render="true" add-date-parser="loose"></span>' +
+                    '<span wc-date-picker-field target-model="model" dom-id="test" add-date-parser="loose"></span>' +
                     '</div>'
                 );
 

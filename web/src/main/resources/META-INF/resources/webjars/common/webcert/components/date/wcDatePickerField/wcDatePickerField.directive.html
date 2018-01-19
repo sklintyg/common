@@ -8,7 +8,6 @@
            ng-model="targetModel"
            is-open="pickerState.isOpen"
            maxlength="10"
-           wc-set-date-on-close
            uib-datepicker-popup="{{::format}}"
            popup-placement="auto right"
            max-date="{{::maxDate}}"
@@ -16,6 +15,8 @@
            ng-model-options="{ allowInvalid: true }"
            datepicker-options="dateOptions"
            ng-blur="onDatepickerInputFieldBlur()"
+           datepicker-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepicker.template.html"
+           datepicker-popup-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepickerPopup.template.html"
            wc-blur-on-enter
            wc-date-picker-field-input/>
     <span class="input-group-btn">

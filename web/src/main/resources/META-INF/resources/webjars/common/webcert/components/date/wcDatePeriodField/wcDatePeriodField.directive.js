@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout', 'common.DatePickerOpenService',
-    function($rootScope, $timeout, datePickerOpen) {
+angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout', 'common.DatePickerOpenService', 'common.DateUtilsService',
+    function($rootScope, $timeout, datePickerOpen, dateUtils) {
         'use strict';
 
         return {
@@ -66,6 +66,8 @@ angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout
                     });
                 };
 
+                $scope.dateOptions = {};
+
                 this.onBlur = $scope.onBlur;
 
                 this.fieldOptions = {
@@ -73,6 +75,23 @@ angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout
                     index : $scope.index,
                     type : $scope.type
                 };
+            },
+            link: function(scope, element, attrs, ctrl) {
+                var waitForModelValue = scope.$watch(watchNode, function(newVal) {
+                    if (newVal) {
+                        if(dateUtils.isDate(newVal)) {
+                            scope.dateOptions.initDate = new Date(newVal);
+                        } else {
+                            scope.dateOptions.initDate = new Date();
+                        }
+                        waitForModelValue();
+                        
+                    }
+                });
+
+                function watchNode() {
+                    return scope.model[scope.field][scope.index].period[scope.type];
+                }
             }
         };
     }])

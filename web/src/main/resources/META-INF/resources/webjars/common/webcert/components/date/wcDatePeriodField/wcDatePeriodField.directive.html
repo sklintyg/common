@@ -11,6 +11,9 @@
            max-date="{{::maxDate}}"
            ng-model-options="{ allowInvalid: true }"
            ng-blur="onblur()"
+           datepicker-options="dateOptions"
+           datepicker-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepicker.template.html"
+           datepicker-popup-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepickerPopup.template.html"
            wc-blur-on-enter
            wc-date-period-field-input/>
     <span class="input-group-btn">

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout', 'common.DatePickerOpenService',
-    function($rootScope, $timeout, datePickerOpen) {
+angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout', 'common.DatePickerOpenService', 'common.DateUtilsService',
+    function($rootScope, $timeout, datePickerOpen, dateUtils) {
         'use strict';
 
         return {
@@ -32,7 +32,6 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 onChange: '&',
                 maxDate: '@',
                 minDate: '@',
-                overrideRender: '=',
                 addDateParser: '@',
                 dateOptions: '@',
                 onBlur: '&'
@@ -40,10 +39,22 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
             templateUrl: '/web/webjars/common/webcert/components/date/wcDatePickerField/wcDatePickerField.directive.html',
             require:'wcDatePickerField',
             controller: function($scope) {
+                var activeDate = new Date();
 
+                function setActiveDate(date) {
+                    activeDate = date;
+                }
+
+                function getActiveDate() {
+                    return activeDate;
+                }
+                
                 $scope.dateOptions = {
                         minDate: undefined,
-                        maxDate: undefined
+                        maxDate: undefined,
+                        maxMode: 'day',
+                        setActiveDate: setActiveDate,
+                        getActiveDate: getActiveDate
                 };
 
                 if ($scope.minDate !== undefined) {
@@ -75,16 +86,18 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 $scope.onDatepickerInputFieldBlur = function() {
                     $scope.onBlur();
                 };
-
-                this.datepickerPopupScope = {};
-                this.overrideRender = $scope.overrideRender;
             },
             link: function(scope, element, attrs, ctrl) {
-                if(ctrl.overrideRender) {
-                    var inputChild = element.find('input');
-                    ctrl.datepickerPopupScope = inputChild.isolateScope();
-                }
-
+                var waitForTargetModel = scope.$watch('targetModel', function(newVal) {
+                    if (newVal) {
+                        if(dateUtils.isDate(newVal)) {
+                            scope.dateOptions.initDate = new Date(newVal);
+                        } else {
+                            scope.dateOptions.initDate = new Date();
+                        }
+                        waitForTargetModel();
+                    }
+                });
             }
         };
     }])
@@ -92,53 +105,11 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
     function($log, dateUtils ) {
         'use strict';
         return {
-            priority:10,
+            priority: 1,
             restrict: 'A',
-            require:['ngModel', '^wcDatePickerField'],
+            require:['ngModel'],
             link: function(scope, element, attrs, ctrls) {
-
                 var ngModel = ctrls[0];
-                var wcDatePickerField = ctrls[1];
-                if(wcDatePickerField.overrideRender) {
-                    var getDate = function getDate(date){
-                        // now then... we need to check if the date is the
-						// correct :
-                        // YYYY-MM-DD format, if not then just set the
-						// datepicker-popups date
-                        // to ... today ..
-                        var ppdate;
-                        if(date instanceof Date){
-                            ppdate = dateUtils.toMomentStrict(date).toDate();
-                        }
-                        if(dateUtils.dateReg.test(date)){
-                            ppdate = dateUtils.toMomentStrict(date).toDate();
-                        } else {
-                            ppdate = new Date();
-                        }
-                        return ppdate;
-                    };
-                    ngModel.$render = function() {
-                        element.val(ngModel.$viewValue);
-                        if (wcDatePickerField && wcDatePickerField.datepickerPopupScope) {
-                            wcDatePickerField.datepickerPopupScope.date = getDate(ngModel.$viewValue);
-                        }
-                    };
-
-                    // the bind event on the input text box is just setting the
-					// date to the model value
-                    // we need to intercept this and make sure :
-                    // it's today, on an invalid date
-                    // it's the date, if the date is valid
-                    // but first we need to remove the event listeners for
-					// ui-bootstrap-tpls.js datepicker
-                    // this little monster listening can be found at ln 1519
-                    //
-                    // UPDATED for UI Bootstrap 0.14.3 now at row 2234
-                    ngModel.$viewChangeListeners.pop();
-                    ngModel.$viewChangeListeners.push(function() {
-                        wcDatePickerField.datepickerPopupScope.date = getDate(ngModel.$viewValue);
-                    });
-                }
 
                 if (scope.addDateParser) {
                     if (scope.addDateParser === 'loose') {

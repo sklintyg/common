@@ -22,4 +22,87 @@
  */
 .uib-datepicker-popup.dropdown-menu {
   z-index: 1020;
+  border-color: transparent;
+  padding: 5px 13px 7px;
+
+  table {
+    outline: none;
+  }
+
+  thead {
+    .uib-left, .uib-right {
+      padding: 1px;
+      margin: -5px -13px 0;
+      border-radius: 4px;
+      width: 40px;
+      &:hover {
+        background-color: #e9eaed;
+        border-color: #e9eaed;
+        color: $wc-color-17;
+        cursor: pointer;
+      }
+    }
+
+    .weekday {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .month-title {
+      strong {
+        font-size: 18px;
+      }
+    }
+  }
+
+  td {
+    &:first-child {
+      width: 30px;
+      padding: 3px 13px 2px 3px
+    }
+    padding: 1px 1px 2px 2px;
+
+    &.uib-day .btn-default {
+      border-color: $wc-color-13;
+      width: 40px;
+      height: 40px;
+    }
+
+    &.current-day .btn-default {
+      border-color: $wc-color-21;
+      font-weight: bold;
+    }
+
+    .active {
+      box-shadow: none;
+    }
+
+    .btn-default:hover {
+      background-color: $wc-color-25;
+      color: $wc-color-17;
+      border-color: $wc-color-13;
+    }
+
+    &.text-muted .btn {
+        background-color: $wc-color-20;
+    }
+
+    .btn[disabled], .btn.disabled {
+      opacity: 1;
+      color: $wc-color-22;
+    }
+  }
+
+  table:focus .active {
+    box-shadow: 0 0 8px 0 rgba(0,0,0,.24);
+  }
+
+  .uib-button-bar {
+    padding: 10px 0 2px;
+
+    .uib-clear {
+      border-color: $wc-color-17;
+      margin-right: 4px;
+    }
+  }
 }
