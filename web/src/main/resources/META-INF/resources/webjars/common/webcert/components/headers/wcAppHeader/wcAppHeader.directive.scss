@@ -10,6 +10,7 @@ wc-app-header {
   display: flex;
   //Stretch on cross-axis to make items 100% height
   align-items: stretch;
+  justify-content: space-between;
   background-color: $wc-color-17;
   height: $wc-header-height;
 

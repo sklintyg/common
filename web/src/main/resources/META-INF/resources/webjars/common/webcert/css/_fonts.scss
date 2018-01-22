@@ -104,6 +104,10 @@ Color and background should be specified at the extension point, eg:
   @include font-variant(16px, 400);
 }
 
+%wc-typo-13 {
+  @include font-variant(12px, 600);
+}
+
 
 
 

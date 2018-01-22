@@ -120,12 +120,9 @@
     align-self: center;
     width: 100%;
 
-    //defines padding for pages that have work-area-headers
-    .webcert-full-page {
-      padding:0 0 30px 0;
-    }
-    //defines padding for pages that doesn't have headers and want default margins
-    .webcert-full-page-padded {
+
+    //defines padding for "page" workarea containers
+    .webcert-workarea-page {
       //NOTE: Minimum of 15 padding left/right is needed to handle bootstrap grid negative margins
       padding: 20px 15px 30px 15px;
     }
