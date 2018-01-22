@@ -244,7 +244,7 @@ public final class ValidatorUtil {
     }
 
     /**
-     * Check for null or empty String, if so add a validation error for field with errorCode.
+     * Check for null or empty String (after trimming), if so add a validation error for field with errorCode.
      *
      * @param beskrivning the String to check
      * @param field       the target field in the model
@@ -252,7 +252,7 @@ public final class ValidatorUtil {
      */
     public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field,
             String errorCode) {
-        if (beskrivning == null || beskrivning.isEmpty()) {
+        if (beskrivning == null || beskrivning.trim().isEmpty()) {
             addValidationError(validationMessages, field, ValidationMessageType.EMPTY, errorCode);
             LOG.debug(field + " " + errorCode);
             return AssertionResult.FAILURE;
@@ -261,7 +261,7 @@ public final class ValidatorUtil {
     }
 
     public static AssertionResult assertDescriptionNotEmpty(List<ValidationMessage> validationMessages, String beskrivning, String field) {
-        if (beskrivning == null || beskrivning.isEmpty()) {
+        if (beskrivning == null || beskrivning.trim().isEmpty()) {
             addValidationError(validationMessages, field, ValidationMessageType.EMPTY);
             return AssertionResult.FAILURE;
         }
