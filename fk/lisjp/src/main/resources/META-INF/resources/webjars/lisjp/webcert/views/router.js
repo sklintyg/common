@@ -101,6 +101,47 @@ angular.module('lisjp').config(function($stateProvider) {
                     }
                 }
             }
+        }).state('lisjp-edit-ue', {
+            data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
+            url : '/lisjp/edit-ue/:certificateId/:focusOn',
+                views : {
+                'content@' : {
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
+                        controller: 'smi.EditCertCtrl',
+                        resolve: {
+                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
+                            FormFactory: 'lisjp.FormFactory'
+                    }
+                },
+
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+                },
+
+                'header@lisjp-edit-ue' : {
+                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                        controller: 'common.UtkastHeader'
+                },
+
+                'footer@lisjp-edit-ue' : {
+                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+                        controller: 'common.UtkastFooter'
+                },
+
+                'formly@lisjp-edit-ue' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                        controller: 'smi.EditCert.UECtrl',
+                        resolve: {
+                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
+                            UtkastConfigFactory: 'lisjp.UtkastConfigFactory'
+                    }
+                },
+
+                'fragasvar@lisjp-edit-ue' : {
+                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
+                        controller: 'common.ArendeListCtrl'
+                }
+            }
         }).state('webcert.intyg.fk.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
             url:'/intyg/lisjp/:certificateId/:focusOn',

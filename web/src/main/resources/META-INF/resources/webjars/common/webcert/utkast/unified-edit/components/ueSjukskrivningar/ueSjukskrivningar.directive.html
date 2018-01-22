@@ -1,0 +1,84 @@
+<div wc-date-period-manager model="model" class="sjukskrivningar">
+  <wc-form-label-ue config="config.label"></wc-form-label-ue>
+
+  <wc-alert-message id="lastEffectiveDateNoticeText" alert-severity="info" ng-if="lastEffectiveDateNoticeText">
+    {{lastEffectiveDateNoticeText}}
+  </wc-alert-message>
+
+  <div class="formly-field form-inline row">
+    <div class="col-md-12">
+      <label>
+        <span message key="common.sit.label.sjukskrivning.hoursperweek"></span>
+        <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek"
+               ng-change="viewstate.updateHoursPerWeek()" ng-blur="validate()" maxlength="4"> timmar/vecka
+        <span wc-help-chevron help-text-key="common.sit.help.sjukskrivning.hoursperweek"></span>
+      </label>
+      <span wc-help-chevron-text help-text-key="common.sit.help.sjukskrivning.hoursperweek"></span>
+    </div>
+  </div>
+
+  <wc-validation-group field-type="sjukskrivningar"
+                       validations="validation.messagesByField[config.modelProp]"
+                       warnings="validation.warningMessagesByField[config.modelProp]">
+
+    <div class="form-horizontal sjukskrivningar-section clearfix" data-ng-repeat="field in config.fields">
+      <div class="row">
+        <div class="clearfix">
+          <div class="col-vlg-auto col-lg-12 col-md-4 col-sm-12">
+            <label class="big-checkbox-label checkbox-inline">
+              <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked"
+                     ng-change="viewstate.updateCheckBox(field); validate()">
+              <span dynamic-label key="{{config.code}}.{{field}}.RBK"></span>
+            </label>
+            <span wc-help-chevron help-text-key="{{config.code}}.{{field}}.HLP"></span>
+            <span wc-help-chevron-text help-text-key="{{config.code}}.{{field}}.HLP"></span>
+          </div>
+          <div class="clearfix invisible-vlg visible-lg-block visible-sm-block"></div>
+          <div class="col-vlg-auto col-vlg-pull-right">
+            <div class="col-vlg-auto
+                        col-lg-auto col-lg-no-padding-right
+                        col-md-8
+                        col-sm-12">
+              <div class="sjukskrivningar_period">
+                <label for="{{config.modelProp}}-{{field}}-from">från och med</label>
+                <span wc-date-period-field model="model" field="{{config.modelProp}}" index="{{field}}" type="from"
+                      on-blur="validate()" ng-class="{'fielderror' : hasValidationError(field, 'from')}"></span>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-vlg-auto
+                        col-lg-auto
+                        col-md-12
+                        col-sm-12">
+              <div class="sjukskrivningar_period">
+                <label for="{{config.modelProp}}-{{field}}-tom">till och med</label>
+                <span wc-date-period-field model="model" field="{{config.modelProp}}" index="{{field}}" type="tom"
+                      on-blur="validate()" ng-class="{'fielderror' : hasValidationError(field, 'tom')}"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <wc-field-validation field-type="sjukskrivning_period"
+                           validations="validationsForPeriod[field]"></wc-field-validation>
+
+      <div class="col-lg-pull-none pull-right fold-animation fold-slide-animation"
+           ng-if="field != 'HELT_NEDSATT' && viewstate.periods[field].valid">
+        Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i
+        {{viewstate.periods[field].days}} dagar.
+      </div>
+
+    </div>
+
+    <div ng-if="viewstate.totalDays" class="fold-animation fold-slide-animation">
+      Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
+    </div>
+
+    <div>
+      <wc-field-validation field-type="sjukskrivning_period" validations="overlapValidations"></wc-field-validation>
+    </div>
+
+  </wc-validation-group>
+
+</div>

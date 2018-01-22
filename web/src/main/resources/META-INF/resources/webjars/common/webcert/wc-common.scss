@@ -53,6 +53,7 @@
   @import 'components/headers/wcMainMenu/wcMainMenu.directive.scss';
   @import 'components/wcAlertMessage/wcAlertMessage.directive.scss';
   @import 'components/wcFormLabel/wcFormLabel.scss';
+  @import 'components/wcFormLabelUe/wcFormLabelUe.scss';
   @import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
   @import 'components/wcHelpChevron/wcHelpChevron.directive.scss';
   @import 'components/wcHelpChevronText/wcHelpChevronText.directive.scss';
@@ -95,6 +96,9 @@
   @import 'utkast/formly/wrapper/wcFraga.scss';
   @import 'utkast/srs/_srs.scss';
   @import 'utkast/srs/components/wcSrsDiagnoseInfo/wcSrsDiagnoseInfo.directive.scss';
+  @import 'utkast/unified-edit/components/ueFraga/ueFraga.directive.scss';
+  @import 'utkast/unified-edit/components/ueKategori/ueKategori.directive.scss';
+  @import 'utkast/unified-edit/components/ueText/ueText.directive.scss';
   @import 'utkast/utkast-header/utkastHeader.scss';
   @import 'utkast/wcFieldSingle/wcFieldSingle.directive.scss';
   @import 'utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.scss';

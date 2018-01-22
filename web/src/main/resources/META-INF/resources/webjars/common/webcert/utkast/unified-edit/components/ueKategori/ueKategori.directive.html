@@ -1,0 +1,12 @@
+<div>
+  <a id="anchor-{{config.categoryName}}" name="anchor.{{config.categoryName}}"></a>
+  <div wc-field
+       field-dynamic-label="KAT_{{config.category}}.RBK"
+       field-help-text="KAT_{{config.category}}.HLP"
+       field-has-errors="formState.viewState.common.validation.messagesGrouped[config.categoryName]"
+       field-required="{{config.required}}"
+       class="field-fade">
+    <ue-render-components config="config.components" model="model" />
+  </div>
+</div>
+

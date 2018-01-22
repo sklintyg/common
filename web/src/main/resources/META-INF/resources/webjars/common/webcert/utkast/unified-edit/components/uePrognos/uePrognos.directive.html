@@ -1,0 +1,39 @@
+<div class="form-group">
+    <div>
+        <wc-form-label-ue config="config.label"></wc-form-label-ue>
+    </div>
+
+    <wc-validation-group field-type="radio-group"
+                         validations="validation.messagesByField[config.modelProp]">
+        <div class="form-group form-inline" data-ng-repeat="choice in config.choices">
+
+            <label class="radio">
+                <input id="{{config.modelProp}}-{{choice.id}}" type="radio" name="{{config.modelProp}}" class="big-radio"
+                       ng-model="model[config.modelProp].typ" value="{{choice.id}}" ng-change="validate()">
+                <span dynamic-label key="{{config.code}}.{{choice.id}}.RBK"></span>
+            </label>
+            <span wc-help-chevron help-text-key="{{config.code}}.{{choice.id}}.HLP"></span>
+            <span wc-help-chevron-text help-text-key="{{config.code}}.{{choice.id}}.HLP"></span>
+
+            <div ng-if="choice.showDropDown" class="prognos-dropdown">
+                <wc-validation-wrapper field-type="select"
+                                       validations="validation.messagesByField[config.modelProp + '.dagartillarbete']">
+                    <ui-select theme="bootstrap" search-enabled="false" ng-model="model[config.modelProp].dagarTillArbete"
+                               on-select="validate()"
+                               ng-disabled="model[config.modelProp].typ !== choice.id" id="prognosDagarTillArbete-{{$index}}-typ"
+                               name="prognosDagarTillArbete-{{$index}}" append-to-body="false">
+                        <ui-select-match>
+                            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item.id as item in prognosOptions" value="$select.selected.id">
+                            <span ng-bind="item.label"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </wc-validation-wrapper>
+            </div>
+
+        </div>
+
+    </wc-validation-group>
+
+</div>

@@ -1,0 +1,22 @@
+<wc-validation-wrapper field-type="checkboxdate"
+                       label-col-size="{{config.labelColSize}}"
+                       key="{{config.modelProp}}"
+                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <div class="form-horizontal row">
+    <div class="col-md-6">
+      <label class="checkbox-inline big-checkbox-label">
+        <input type="checkbox" class="big-checkbox" ng-model="checkbox.checked" value="true">
+        <span dynamic-label ng-if="config.label.key" key="{{config.label.key}}"></span>
+      </label>
+      <span ng-if="!config.disableHelp">
+        <span wc-help-chevron help-text-key="{{config.label.helpKey}}"></span>
+        <span wc-help-chevron-text help-text-key="{{config.label.helpKey}}"></span>
+      </span>
+    </div>
+    <div class="col-md-6">
+      <span wc-date-picker-field target-model="model[config.modelProp]" add-date-parser="loose" on-blur="validate()"
+            dom-id="datepicker_{{config.modelProp}}" max-date="{{to.maxDate}}"></span>
+    </div>
+  </div>
+</wc-validation-wrapper>

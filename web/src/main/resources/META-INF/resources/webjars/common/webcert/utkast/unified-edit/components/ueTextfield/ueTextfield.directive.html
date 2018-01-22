@@ -1,0 +1,13 @@
+<wc-validation-wrapper field-type="textfield"
+                       label-col-size="{{config.labelColSize}}"
+                       key="{{config.modelProp}}"
+                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <div class="input-full" ng-class="{'indent' : config.indent, 'bold' : config.bold}">
+    <wc-form-label-ue config="config.label"></wc-form-label-ue>
+    <div>
+      <input id="{{config.modelProp}}" type="text" class="form-control" ng-disabled="config.disabled" ng-model="model[config.modelProp]"
+             ng-class="{ 'input-{{config.size}}': config.size }" maxlength="{{config.htmlMaxlength || 3500}}">
+    </div>
+  </div>
+</wc-validation-wrapper>

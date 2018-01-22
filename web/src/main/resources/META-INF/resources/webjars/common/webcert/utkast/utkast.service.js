@@ -21,11 +21,11 @@
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.UtkastService',
-    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
+    ['$browser', '$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
         'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService', 'common.anchorScrollService', 'common.srsService',
-        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
+        function($browser, $rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
             dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
             IntygHelper, IntygProxy, PatientProxy, UtkastValidationService, anchorScrollService, srsService) {
             'use strict';

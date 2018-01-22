@@ -1,0 +1,10 @@
+<wc-validation-wrapper field-type="textarea"
+                       label-col-size="{{config.labelColSize}}"
+                       key="{{config.modelProp}}"
+                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <wc-form-label-ue config="config.label"></wc-form-label-ue>
+  <textarea id="{{config.modelProp}}" name="{{config.modelProp}}" class="form-control" rows="6" auto-expand ng-model="model[config.modelProp]"
+            maxlength="{{config.htmlMaxlength || 3500}}">
+  </textarea>
+</wc-validation-wrapper>
