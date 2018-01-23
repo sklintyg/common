@@ -31,7 +31,7 @@ angular.module('common').directive('wcUtkastErrorSummary',
                 scope: true,
                 controller: function($scope) {
                     $scope.scrollTo = function(message) {
-                        anchorScrollService.scrollTo('anchor-' + message);
+                        anchorScrollService.scrollIntygContainerTo('anchor-' + message);
                     };
 
                     $scope.hideMissing = function(){

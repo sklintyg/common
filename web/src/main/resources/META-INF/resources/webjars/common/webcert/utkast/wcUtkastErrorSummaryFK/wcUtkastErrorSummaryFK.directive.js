@@ -56,7 +56,7 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
                     };
 
                     $scope.scrollTo = function(message) {
-                        anchorScrollService.scrollTo('anchor-' + message);
+                        anchorScrollService.scrollIntygContainerTo('anchor-' + message);
                     };
 
                     $scope.hideMissing = function(){

@@ -43,22 +43,9 @@ angular.module('common').directive('arendePanelFraga',
                         //Both uv-wc-fraga (intyg) and wc-fraga-formly wrapper (utkast) sets this anchor id format
                         var target = 'komplettering_' + komplettering.id;
 
-                        var offset = 10;
-                        var topMenuElements = angular.element.find('.header-fix-top');
-                        if (topMenuElements.length > 0) {
-                            var headerHeight = angular.element(topMenuElements[0]).prop('offsetHeight');
-                            offset += ($(window).height() - headerHeight) / 2 + headerHeight;
-                        }
-                        else {
-                            offset += $(window).height() / 2;
-                        }
-
-                        // Flooring because previous calcs can generate half pixels which will screw calcs in
-                        // anchorscroll and make scrolling get stuck in IE when
-                        // window height is even
-                        offset = Math.floor(offset);
-
-                        anchorScroll.scrollTo(target, offset);
+                       //Since the actual anchor for komplettering target reside inside a "kategori/fraga" we need a small offset so that
+                        // the name of the field is visible after scroll.
+                        anchorScroll.scrollIntygContainerTo(target, 60);
                     };
                 }
             };

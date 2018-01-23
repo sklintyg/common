@@ -125,6 +125,13 @@
     .webcert-workarea-page {
       //NOTE: Minimum of 15 padding left/right is needed to handle bootstrap grid negative margins
       padding: 20px 15px 30px 15px;
+
+      &.container-fluid {
+        //all "page-templates" / views such as sök / skriv intyg, ej signerade utkast etc should also have this as root, to get inner vertical scrollbar
+        // and to work bootstraps with rows / cols
+        width: 100%;
+        overflow-y: auto;
+      }
     }
 
     .webcert-workarea-vflex-container {
@@ -134,13 +141,6 @@
     }
 
 
-    .container-fluid {
-      //all "page-templates" / views such as sök / skriv intyg, ej signerade utkast etc should also have this as root, to get inner vertical scrollbar
-      // and to work bootstraps with rows / cols
-      width: 100%;
-      overflow-y: auto;
-    }
-
     // Some views have deeper containers that take up extra vertical space, and
     // handle their own overflow, eg intyg / supportpanel.
     .webcert-workarea-hflex-container {
@@ -148,6 +148,7 @@
       flex: 1;
 
       .webcert-workarea-intyg {
+        position: relative; //important: needs to be relative for anchorScroll to work
         flex: 3;
         overflow-y: auto;
         padding: 20px 15px 30px 15px;

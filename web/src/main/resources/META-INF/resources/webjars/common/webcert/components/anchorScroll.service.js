@@ -48,6 +48,34 @@ angular.module('common').factory('common.anchorScrollService', ['$location', '$l
 
     }
 
+    /**
+     * Scrolls to an anchor tag within a div handling it's overflow.
+     * @param anchorName
+     * @param offset
+     * @private
+     */
+    function _scrollIntygContainerTo(anchorName, offset) {
+        var intygContainerId = 'certificate-content-container';
+
+        var elementToScrollTo = angular.element.find('#' + _escape(anchorName))[0];
+
+        if (!elementToScrollTo) {
+            $log.warn('Unable to find scrollTo target "' + anchorName + '"');
+            return;
+        }
+
+        var options = {
+            containerId: intygContainerId,
+            duration: 500,
+            easing: 'easeInOutQuart',
+            offset: offset || 0
+        };
+
+        smoothScrollService(elementToScrollTo, options);
+
+    }
+
+
     function _scrollToWithOffset(anchorName, offset) {
         _scrollTo(anchorName, offset);
     }
@@ -84,6 +112,7 @@ angular.module('common').factory('common.anchorScrollService', ['$location', '$l
 
     return {
         scrollTo : _scrollTo,
+        scrollIntygContainerTo: _scrollIntygContainerTo,
         scrollToWithOffset : _scrollToWithOffset
     };
 

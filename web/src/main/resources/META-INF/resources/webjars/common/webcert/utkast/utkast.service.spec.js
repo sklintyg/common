@@ -42,7 +42,7 @@ describe('UtkastService', function() {
         $provide.value('common.dynamicLabelService', {
             updateDynamicLabels: function(){}
         });
-        $provide.value('common.anchorScrollService', {scrollTo: function() {}});
+        $provide.value('common.anchorScrollService', {scrollTo: function() {}, scrollIntygContainerTo: function(){}});
     }));
 
     beforeEach(angular.mock.inject(['common.dynamicLabelService', 'common.UtkastService', 'common.UtkastViewStateService', 'common.User',
