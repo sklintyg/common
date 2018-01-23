@@ -1,19 +1,19 @@
 <div class="form-group">
     <div>
-        <wc-form-label-ue config="config.label"></wc-form-label-ue>
+        <wc-form-label-ue config="::config.label"></wc-form-label-ue>
     </div>
 
     <wc-validation-group field-type="radio-group"
                          validations="validation.messagesByField[config.modelProp]">
-        <div class="form-group form-inline" data-ng-repeat="choice in config.choices">
+        <div class="form-group form-inline" data-ng-repeat="choice in ::config.choices">
 
             <label class="radio">
-                <input id="{{config.modelProp}}-{{choice.id}}" type="radio" name="{{config.modelProp}}" class="big-radio"
-                       ng-model="model[config.modelProp].typ" value="{{choice.id}}" ng-change="validate()">
-                <span dynamic-label key="{{config.code}}.{{choice.id}}.RBK"></span>
+                <input id="{{::config.modelProp}}-{{::choice.id}}" type="radio" name="{{::config.modelProp}}" class="big-radio"
+                       ng-model="model[config.modelProp].typ" value="{{::choice.id}}" ng-change="validate()">
+                <span dynamic-label key="{{::config.code}}.{{::choice.id}}.RBK"></span>
             </label>
-            <span wc-help-chevron help-text-key="{{config.code}}.{{choice.id}}.HLP"></span>
-            <span wc-help-chevron-text help-text-key="{{config.code}}.{{choice.id}}.HLP"></span>
+            <span wc-help-chevron help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
+            <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
 
             <div ng-if="choice.showDropDown" class="prognos-dropdown">
                 <wc-validation-wrapper field-type="select"

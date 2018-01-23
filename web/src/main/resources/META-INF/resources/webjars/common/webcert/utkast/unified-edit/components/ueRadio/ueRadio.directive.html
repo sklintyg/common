@@ -1,11 +1,11 @@
-<div ng-class="{'form-inline': !to.vertical}">
-    <wc-form-label-ue config="config.label"></wc-form-label-ue>
-    <label class="big-radio-label" ng-class="{'radio': to.vertical, 'radio-inline': !to.vertical, 'disabled': to.disabled}">
-        <input id="{{config.modelProp}}Yes" name="{{config.modelProp}}" type="radio" class="big-radio"
-               ng-value="true" ng-model="model[config.modelProp]"/> <span dynamic-label key="{{to.yesLabel}}" fallback-value="Ja"></span>
+<div ng-class="::{'form-inline': !config.vertical}">
+    <wc-form-label-ue config="::config.label"></wc-form-label-ue>
+    <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+        <input id="{{::config.modelProp}}Yes" name="{{::config.modelProp}}" type="radio" class="big-radio"
+               ng-value="true" ng-model="model[config.modelProp]"/> <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>
     </label>
-    <label class="big-radio-label" ng-class="{'radio': to.vertical, 'radio-inline': !to.vertical, 'disabled': to.disabled}">
-        <input id="{{config.modelProp}}No" name="{{config.modelProp}}" type="radio" class="big-radio"
-               ng-value="false" ng-model="model[config.modelProp]"/> <span dynamic-label key="{{to.noLabel}}" fallback-value="Nej"></span>
+    <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+        <input id="{{::config.modelProp}}No" name="{{::config.modelProp}}" type="radio" class="big-radio"
+               ng-value="false" ng-model="model[config.modelProp]"/> <span dynamic-label key="{{::config.noLabel}}" fallback-value="Nej"></span>
     </label>
 </div>

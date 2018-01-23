@@ -1,7 +1,7 @@
 <div class="row bottom-padding-small">
     <div class='col-xs-12'>
         <div class="form-group">
-            <div class="bottom-padding-small"><span class="bold valjkodverk" message key="common.sit.label.valj-version-icd-10"></span></div>
+            <div class="bottom-padding-small"><span class="bold valjkodverk" dynamic-label key="common.sit.label.valj-version-icd-10"></span></div>
             <label class="radio-inline big-radio-label">
                 <input type="radio" class="big-radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
                        ng-model="diagnosViewState.diagnosKodSystem" checked="checked"
@@ -21,27 +21,27 @@
     <table>
         <tr>
             <th>
-                <span dynamic-label key="{{config.diagnosKodLabel}}"></span>
-                <span ng-if="config.help">
-                  <span wc-help-chevron help-text-key="{{config.diagnosKodHelp}}"></span>
-                  <span wc-help-chevron-text help-text-key="{{config.diagnosKodHelp}}"></span>
+                <span dynamic-label key="{{::config.diagnosKodLabel}}"></span>
+                <span ng-if="::config.enableHelp">
+                  <span wc-help-chevron help-text-key="{{::config.diagnosKodHelp}}"></span>
+                  <span wc-help-chevron-text help-text-key="{{::config.diagnosKodHelp}}"></span>
                 </span>
             </th>
             <th>
-                <span dynamic-label key="{{config.diagnosBeskrivningLabel}}"></span>
-                <span ng-if="config.help">
-                  <span wc-help-chevron help-text-key="{{config.diagnosBeskrivningHelp}}"></span>
-                  <span wc-help-chevron-text help-text-key="{{config.diagnosBeskrivningHelp}}"></span>
+                <span dynamic-label key="{{::config.diagnosBeskrivningLabel}}"></span>
+                <span ng-if="::config.enableHelp">
+                  <span wc-help-chevron help-text-key="{{::config.diagnosBeskrivningHelp}}"></span>
+                  <span wc-help-chevron-text help-text-key="{{::config.diagnosBeskrivningHelp}}"></span>
                 </span>
             </th>
         </tr>
         <tr class="diagnosRow" ng-repeat="diagnos in model[config.modelProp]">
             <td>
                 <div>
-                    <input type="text" class="form-control" id="diagnoseCode-{{$index}}"
-                           name="diagnoseCode{{$index}}"
+                    <input type="text" class="form-control" id="diagnoseCode-{{::$index}}"
+                           name="diagnoseCode{{::$index}}"
                            value=""
-                           placeholder="{{$index == 0 ? 'Huvuddiagnos' : 'Bidiagnos'}}"
+                           placeholder="{{::$index == 0 ? 'Huvuddiagnos' : 'Bidiagnos'}}"
                            class='diagnose-code col-xs-11 form-control'
                            ng-class="{'fielderror' : hasValidationError('diagnoskod', $index)}"
                            ng-model="diagnos.diagnosKod"
@@ -71,7 +71,7 @@
                 </span>
             </td>
             <td class="diagnosDescriptionColumn">
-                <input type="text" class="col-xs-12 form-control maxwidth" id="diagnoseDescription-{{$index}}"
+                <input type="text" class="col-xs-12 form-control maxwidth" id="diagnoseDescription-{{::$index}}"
                        ng-class="{'fielderror' : hasValidationError('diagnosbeskrivning', $index)}"
                        name="diagnose.description"
                        value=""
