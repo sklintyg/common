@@ -37,7 +37,8 @@ describe('wcIntygRelatedRevokedMessageDirective', function() {
         'common.messageService' : {
             getProperty: jasmine.createSpy(function(key) {return 'textfor:"' + key + '"';}),
             // Unused mock needed to avoid race condition in test where common module hasn't loaded completely and calls addResources().
-            addResources: function() {}
+            addResources: function() {},
+            propertyExists: function() { return true; }
         }
     }));
 

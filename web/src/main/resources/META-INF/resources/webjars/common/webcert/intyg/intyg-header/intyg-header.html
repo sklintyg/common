@@ -3,13 +3,13 @@
        alert-severity="danger">
 
     <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
-      <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
+      <span dynamic-label key="{{viewState.common.activeErrorMessageKey}}"></span>
     </span>
 
     <div
         ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
       <p>
-        <span message key="{{viewState.common.activeErrorMessageKey}}"></span>
+        <span dynamic-label key="{{viewState.common.activeErrorMessageKey}}"></span>
       </p>
       <p><strong>Intygsinformation</strong></p>
       <ul>
@@ -53,7 +53,7 @@
                   wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
                   ng-if="showSkickaButton()"
                   ng-click="send()">
-            <span message key="{{intygstyp}}.button.send"></span>
+            <span dynamic-label key="{{intygstyp}}.button.send"></span>
           </button>
           <!-- Normal pdf-utskrift av signerat intyg  -->
           <button type="button"
@@ -62,7 +62,7 @@
                   intygstyp="{{intygstyp}}"
                   ng-if="showPrintBtn()"
                   ng-click="print(viewState.intygModel, false)">
-            <span message key="common.button.save.as.pdf"></span>
+            <span dynamic-label key="common.button.save.as.pdf"></span>
           </button>
           <div id="downloadprintemployer" intygstyp="{{intygstyp}}" style="display:inline;">
             <div class="btn-group" ng-if="showEmployerPrintBtn()">
@@ -72,13 +72,13 @@
                       data-toggle="dropdown"
                       aria-haspopup="true"
                       aria-expanded="false">
-                <span message key="common.button.save.as.pdf"></span> <span class="caret"></span>
+                <span dynamic-label key="common.button.save.as.pdf"></span> <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
                 <!--<li wc-authority feature="UTSKRIFT">-->
                 <li ng-if="utskrift">
                   <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">
-                    <span message key="common.button.save.as.pdf.full"></span>
+                    <span dynamic-label key="common.button.save.as.pdf.full"></span>
                   </a>
                 </li>
                 <!--<li wc-authority feature="ARBETSGIVARUTSKRIFT"-->
@@ -89,7 +89,7 @@
                     popover-append-to-body="true"
                     popover-placement="auto top">
                   <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">
-                    <span message key="common.button.save.as.pdf.mininmal"></span>
+                    <span dynamic-label key="common.button.save.as.pdf.mininmal"></span>
                   </a>
                 </li>
               </ul>

@@ -16,6 +16,9 @@ describe('Directive: wcSrsDiagnoseInfo', function() {
                 return key;
             },
             addResources: function() {
+            },
+            propertyExists: function() {
+                return true;
             }
         };
         $provide.value('common.messageService', messageServiceStub);

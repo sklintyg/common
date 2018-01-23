@@ -34,19 +34,19 @@
               <span class="utkast-header-status">
                   <!-- Just in case (should never be here for a signed utkast)-->
                   <span id="certificate-is-sent-to-it-message-text" ng-if="viewState.common.isSigned">
-                    <span message key="draft.status.signed"></span>
+                    <span dynamic-label key="draft.status.signed"></span>
                   </span>
                 <!-- complete -->
                   <span
                       ng-if="!viewState.common.saving && certForm.$pristine && viewState.common.intyg.isComplete && !viewState.common.isSigned">
-                    <span id="intyget-sparat-och-komplett-meddelande" message key="draft.status.complete"></span>
+                    <span id="intyget-sparat-och-komplett-meddelande" dynamic-label key="draft.status.complete"></span>
                   </span>
                 <!-- incomplete -->
                   <span ng-if="!viewState.common.saving && certForm.$pristine && !viewState.common.intyg.isComplete">
-                    <span id="intyget-sparat-och-ej-komplett-meddelande" message key="draft.status.incomplete"></span>
+                    <span id="intyget-sparat-och-ej-komplett-meddelande" dynamic-label key="draft.status.incomplete"></span>
                   </span>
                 <!-- form changed -->
-                  <span ng-if="viewState.common.saving || certForm.$dirty"><span message
+                  <span ng-if="viewState.common.saving || certForm.$dirty"><span dynamic-label
                                                                                  key="draft.status.changed"></span>
                   </span>
                 </span>

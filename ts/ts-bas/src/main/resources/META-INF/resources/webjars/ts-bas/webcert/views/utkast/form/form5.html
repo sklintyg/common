@@ -5,8 +5,8 @@
      id="diabetesForm">
   <table class="table table-form">
     <tr>
-      <th><span message key="common.yes"></span></th>
-      <th><span message key="common.no"></span></th>
+      <th><span dynamic-label key="common.yes"></span></th>
+      <th><span dynamic-label key="common.no"></span></th>
       <th class="maxwidth"></th>
     </tr>
     <tr>
@@ -25,12 +25,12 @@
               <label class="radio">
                 <input id="diabetestyp1" name="diabetestyp" type="radio" value="DIABETES_TYP_1"
                        ng-model="viewState.intygModel.diabetes.diabetesTyp" ng-change="validate()">
-                <span message key="ts-bas.label.diabetes.diabetestyp.diabetes_typ_1"></span>
+                <span dynamic-label key="ts-bas.label.diabetes.diabetestyp.diabetes_typ_1"></span>
               </label>
               <label class="radio">
                 <input id="diabetestyp2" name="diabetestyp" type="radio" value="DIABETES_TYP_2"
                        ng-model="viewState.intygModel.diabetes.diabetesTyp" ng-change="validate()">
-                <span message key="ts-bas.label.diabetes.diabetestyp.diabetes_typ_2"></span>
+                <span dynamic-label key="ts-bas.label.diabetes.diabetestyp.diabetes_typ_2"></span>
               </label>
             </wc-validation-group>
           </p>

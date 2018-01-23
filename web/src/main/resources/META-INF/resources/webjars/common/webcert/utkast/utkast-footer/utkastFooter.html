@@ -2,13 +2,13 @@
   <div ng-if="!isSigned" class="utkast-footer">
 
     <p ng-if="isSignAndSend()">
-      <span message key="{{viewState.common.intyg.type}}.label.signandsend"></span>
+      <span dynamic-label key="{{viewState.common.intyg.type}}.label.signandsend"></span>
     </p>
 
     <!-- Läkare: Signera -->
     <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
       <p ng-show="viewState.common.intyg.isKomplettering">
-        <span message key="draft.completion.signinfo"></span>
+        <span dynamic-label key="draft.completion.signinfo"></span>
       </p>
 
       <wc-alert-message ng-if="disableSign() && getPreviousIntygWarning() !== undefined"
@@ -22,12 +22,12 @@
               ng-mousedown="initValidationSequence('signera-utkast-button')"
               ng-click="sign()">
         <img ng-show="getCurrentSignStatus() === 'pending'" ng-src="/img/ajax-loader-small-green.gif" />
-        <span message key="common.{{isSignAndSendOrKomp() ? 'signsend' : 'sign'}}"></span>
+        <span dynamic-label key="common.{{isSignAndSendOrKomp() ? 'signsend' : 'sign'}}"></span>
       </button>
 
       <!-- Om personen har loggat in med BANK ID skall vi visa en liten extra text -->
       <p ng-if="user.authenticationMethod === 'BANK_ID'">
-        <span message key="common.modal.label.signing.open.bankid"></span>
+        <span dynamic-label key="common.modal.label.signing.open.bankid"></span>
       </p>
     </div>
 
@@ -36,7 +36,7 @@
 
       <!-- Signera intyg -->
       <h3 >
-        <span message key="common.sign.intyg"></span>
+        <span dynamic-label key="common.sign.intyg"></span>
       </h3>
 
       <!-- Endast läkare får signera -->
@@ -52,7 +52,7 @@
                 ng-mousedown="initValidationSequence('show-missing-btn')"
                 ng-click="checkMissing()"
                 ng-disabled="viewState.common.intyg.isComplete">
-          <span message key="draft.notify.check-missing"></span>
+          <span dynamic-label key="draft.notify.check-missing"></span>
         </button>
         <span wc-help-chevron help-text-key="draft.notify.check-missing.help"></span>
         <span wc-help-chevron-text help-text-key="draft.notify.check-missing.help"></span>
@@ -63,11 +63,11 @@
       <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
       <div wc-authority="NOTIFIERING_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
         <button ng-if="!viewState.klartForSigneringDatum" type="button" id="markeraKlartForSigneringButton" class="btn btn-primary" ng-click="notifieraUtkast()">
-          <span message key="draft.notifyready.button"></span>
+          <span dynamic-label key="draft.notifyready.button"></span>
         </button>
         <div ng-if="viewState.klartForSigneringDatum">
           <span class="glyphicon glyphicon-check ng-scope"></span>
-          <span id="draft-marked-ready-text" message key="draft.notifyready.text"></span>
+          <span id="draft-marked-ready-text" dynamic-label key="draft.notifyready.text"></span>
         </div>
       </div>
 
@@ -80,7 +80,7 @@
                   ng-class="{'btn-primary': !viewState.draftModel.vidarebefordrad, 'btn-secondary' : viewState.draftModel.vidarebefordrad}"
                   ng-click="vidarebefordraUtkast()"><span class="glyphicon glyphicon-share-alt"
                 ng-class="{'forward-active': !viewState.draftModel.vidarebefordrad, 'forward-inactive': viewState.draftModel.vidarebefordrad}"></span>
-             <span message key="draft.notify.button"></span>
+             <span dynamic-label key="draft.notify.button"></span>
           </button>
           <span wc-help-chevron help-text-key="draft.notify.help"></span>
           <span wc-help-chevron-text help-text-key="draft.notify.help"></span>

@@ -19,7 +19,7 @@
     </wc-alert-message>
     <div ng-repeat="item in fmb.formData[fieldName]" ng-show="item.text || item.list">
       <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">
-        <span message key="{{'fmb.' + item.heading}}"></span>
+        <span dynamic-label key="{{'fmb.' + item.heading}}"></span>
       </h4>
       <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.text">{{item.text}}</section>
       <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.list">

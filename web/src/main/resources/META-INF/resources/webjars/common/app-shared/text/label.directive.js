@@ -1,6 +1,6 @@
 angular.module('common').directive('dynamicLabel',
-    [ '$log', '$rootScope', 'common.dynamicLabelService', 'common.messageService',
-        function($log, $rootScope, dynamicLabelService, messageService) {
+    [ '$compile', '$log', '$rootScope', 'common.dynamicLabelService', 'common.messageService',
+        function($compile, $log, $rootScope, dynamicLabelService, messageService) {
             'use strict';
 
             return {
@@ -10,7 +10,6 @@ angular.module('common').directive('dynamicLabel',
                     'fallbackValue': '@'
                 },
                 replace: true,
-                template: '<span ng-bind-html="resultValue"></span>',
                 link: function(scope, element, attr) {
                     var result;
 
@@ -26,7 +25,8 @@ angular.module('common').directive('dynamicLabel',
                             result = scope.fallbackValue;
                         }
 
-                        scope.resultValue = result;
+                        element.empty();
+                        element.append(result);
                     }
 
                     scope.$on('dynamicLabels.updated', function() {

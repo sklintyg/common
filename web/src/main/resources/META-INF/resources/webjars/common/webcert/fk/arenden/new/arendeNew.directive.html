@@ -41,16 +41,16 @@
       <textarea wc-maxlength ng-trim="false" maxlength="2000" rows="13" class="form-control"
               ng-model="arendeNewModel.frageText" wc-focus-me="localViewState.focusArende"
               id="arendeNewModelText"></textarea>
-      <!--<span class="counter" style="float: right;" message key="common.arende.draft.{{arendeNewModel.saveState}}"></span>-->
+      <!--<span class="counter" style="float: right;" dynamic-label key="common.arende.draft.{{arendeNewModel.saveState}}"></span>-->
       <span class="counter pull-right" ng-switch="arendeNewModel.saveState">
-          <span ng-switch-when="saved" class="success" message key="common.arende.draft.saved"></span>
-          <span ng-switch-when="failed" class="error" message key="common.arende.draft.failed"></span>
+          <span ng-switch-when="saved" class="success" dynamic-label key="common.arende.draft.saved"></span>
+          <span ng-switch-when="failed" class="error" dynamic-label key="common.arende.draft.failed"></span>
       </span>
     </div>
 
     <!-- error message occuring when inteacting with server for this FragaSvar-->
     <wc-alert-message id="arendeNewModel-load-error" ng-show="localViewState.activeErrorMessageKey" alert-severity="danger">
-      <span message key="common.error.{{localViewState.activeErrorMessageKey}}"></span>
+      <span dynamic-label key="common.error.{{localViewState.activeErrorMessageKey}}"></span>
     </wc-alert-message>
 
     <!-- Form button group -->

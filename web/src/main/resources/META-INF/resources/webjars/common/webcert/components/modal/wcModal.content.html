@@ -8,7 +8,7 @@
     <div id="{{modal.dialogId}}" class="modal-header">
       <button type="button" class="close" ng-click="close()" ng-if="modal.showClose">×</button>
       <h3 ng-focus="model.focus" tabindex="-1">
-        <span message key="{{modal.titleId}}"></span>
+        <span dynamic-label key="{{modal.titleId}}"></span>
       </h3>
     </div>
 
@@ -20,7 +20,7 @@
       <div class="form-inline">
         <button type="button" ng-repeat="button in modal.buttons" id="{{button.id}}" class="btn {{button.className}}"
                 ng-click="modal.buttonAction($index)">
-          <span message key="{{button.text}}"></span>
+          <span dynamic-label key="{{button.text}}"></span>
         </button>
       </div>
     </div>

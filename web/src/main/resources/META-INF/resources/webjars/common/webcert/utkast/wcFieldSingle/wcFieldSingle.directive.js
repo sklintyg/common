@@ -51,7 +51,7 @@ angular.module('common').directive('wcFieldSingle', ['common.messageService',
             },
             template: '<div class="intyg-block"><div class="intyg-block-single__content clearfix">' +
                 '<h4 class="intyg-field-number" ng-if="fieldNumber != undefined">' +
-                '<span message key="modules.label.field"></span> {{fieldNumber}}</h4>' +
+                '<span dynamic-label key="modules.label.field"></span> {{fieldNumber}}</h4>' +
                 '<span ng-transclude></span>' +
                 '<span wc-help-chevron help-text-key="{{fieldHelpText}}"></span>' +
                 '<span wc-help-chevron-text help-text-key="{{fieldHelpText}}"></span>' +

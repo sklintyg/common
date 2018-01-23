@@ -1,6 +1,6 @@
 <div class="latest-events">
   <div class="tag" ng-if="!hideHeader" >
-    <span class="lastevent-header" message key="listtable.headers.latestevent"></span>
+    <span class="lastevent-header" dynamic-label key="listtable.headers.latestevent"></span>
     <span ng-if="!maxEvents" id="eventsshown">{{eventsShown(filteredEvents, isCollapsedArchive)}}</span>
     <ng-include ng-if="showMoreButtonLocation == 'top'" class="pull-right" src="'/web/webjars/common/minaintyg/components/latestEvents/latestEventsShowMoreButton.html'"></ng-include>
     <div style="clear:both"></div>

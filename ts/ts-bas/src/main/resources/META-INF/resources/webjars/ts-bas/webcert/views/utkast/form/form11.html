@@ -5,8 +5,8 @@
      id="narkotikaLakemedelForm">
   <table class="table table-form">
     <tr>
-      <th><span message key="common.yes"></span></th>
-      <th><span message key="common.no"></span></th>
+      <th><span dynamic-label key="common.yes"></span></th>
+      <th><span dynamic-label key="common.no"></span></th>
       <th class="maxwidth"></th>
     </tr>
     <tr>
@@ -34,12 +34,12 @@
             <label class="radio">
               <input name="narkotikalakemedelb2" type="radio" ng-value="true"
                      ng-model="viewState.intygModel.narkotikaLakemedel.provtagningBehovs" ng-change="validate()">
-              <span message key="common.yes"></span>
+              <span dynamic-label key="common.yes"></span>
             </label>
             <label class="radio">
               <input name="narkotikalakemedelb2" type="radio" ng-value="false"
                      ng-model="viewState.intygModel.narkotikaLakemedel.provtagningBehovs" ng-change="validate()">
-              <span message key="common.no"></span>
+              <span dynamic-label key="common.no"></span>
             </label>
           </wc-validation-group>
         </p>

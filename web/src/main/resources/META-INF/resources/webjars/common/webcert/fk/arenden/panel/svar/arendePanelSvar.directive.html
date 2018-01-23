@@ -20,7 +20,7 @@
         <div class="arende-block-head clearfix">
           <div class="pull-left" ng-switch="arendeSvar.frageStallare | lowercase">
             <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
-            Från: <span ng-switch-when="wc"><span class="arende-sender" message
+            Från: <span ng-switch-when="wc"><span class="arende-sender" dynamic-label
                                                   key="common.arende.fragestallare.fk"></span></span>
             <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
             <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeSvar.internReferens}}"
@@ -35,8 +35,8 @@
         <div id="{{panelId}}-{{arendeSvar.internReferens}}-meddelande" class="arende-block-body">
           {{arendeSvar.meddelande}}
           <div ng-if="arendeSvar.answeredWithIntyg">
-            <span message key="common.arende.svar.besvaradmedintyg"></span><br>
-            <button class="btn btn-link btn-link__purelink" ng-click='goToIntyg()' ><span message key="common.arende.svar.go"></span></button>
+            <span dynamic-label key="common.arende.svar.besvaradmedintyg"></span><br>
+            <button class="btn btn-link btn-link__purelink" ng-click='goToIntyg()' ><span dynamic-label key="common.arende.svar.go"></span></button>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
     <div ng-if="!showButtonBar()">
       <wc-alert-message id="internal-{{arendeSvar.fragaInternReferens}}-closedArende-error"
            ng-show="arendeListItem.activeErrorMessageKey" alert-severity="danger">
-        <span message key="common.error.{{arendeListItem.activeErrorMessageKey}}"></span>
+        <span dynamic-label key="common.error.{{arendeListItem.activeErrorMessageKey}}"></span>
       </wc-alert-message>
     </div>
 
@@ -61,7 +61,7 @@
         <label class="control-label" ng-show="isAnswerAllowed()">Svar</label>
 
         <p ng-show="arendeSvar.answerKompletteringWithText" >
-          <span message key="common.arende.svar.komplettering.help"></span>
+          <span dynamic-label key="common.arende.svar.komplettering.help"></span>
         </p>
 
         <div class="controls">
@@ -70,15 +70,15 @@
                       class="form-control col-md-9 arende-block-wc" ng-model="arendeSvar.meddelande"
                       id="answerText-{{arendeSvar.fragaInternReferens}}"></textarea>
             <span class="counter pull-right" ng-switch="arendeSvar.draftState">
-                <span ng-switch-when="saved" class="success" message key="common.arende.draft.saved"></span>
-                <span ng-switch-when="failed" class="error" message key="common.arende.draft.failed"></span>
+                <span ng-switch-when="saved" class="success" dynamic-label key="common.arende.draft.saved"></span>
+                <span ng-switch-when="failed" class="error" dynamic-label key="common.arende.draft.failed"></span>
             </span>
           </div>
           <div class="webintyg-top-padding-section">
             <!-- error message occuring when interacting with server for this FragaSvar-->
             <wc-alert-message id="internal-{{arendeSvar.fragaInternReferens}}-svarsText-load-error"
                  ng-show="arendeSvar.activeErrorMessageKey" alert-severity="danger">
-              <span message key="common.error.{{arendeSvar.activeErrorMessageKey}}"></span>
+              <span dynamic-label key="common.error.{{arendeSvar.activeErrorMessageKey}}"></span>
             </wc-alert-message>
 
             <button type="button" class="btn btn-primary" ng-click="sendAnswer()"

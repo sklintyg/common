@@ -32,6 +32,7 @@ angular.module('common').directive('message',
                 replace: true,
                 template: '<span ng-bind-html="resultValue"></span>',
                 link: function(scope, element, attr) {
+alert('message.directive ska inte användas. Använd label.directive istället. (dynamic-label)');
                     var result;
                     // observe changes to interpolated attribute
                     attr.$observe('key', function(interpolatedKey) {

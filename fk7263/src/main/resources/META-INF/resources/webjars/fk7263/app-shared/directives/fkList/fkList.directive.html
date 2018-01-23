@@ -3,7 +3,7 @@
 
 <ul>
   <li ng-repeat="value in values">
-    <span ng-attr-id="{{value.modelProp | uvDomIdFilter}}" message key="{{value.key}}"></span>
+    <span ng-attr-id="{{value.modelProp | uvDomIdFilter}}" dynamic-label key="{{value.key}}"></span>
     <span data-ng-if="value.text"> - </span>
     <span ng-attr-id="{{value.modelProp + '-text' | uvDomIdFilter}}" data-ng-if="value.text" class="multiline">{{::value.text}}</span>
   </li>

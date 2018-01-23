@@ -2,7 +2,7 @@
   <span ng-if="frageId && !to.forceHeadingTypeLabel" ng-class="{'noH5After': !delFrageId}">
     <h4>
       <span ng-if="frageId" dynamic-label key="{{frageId}}.RBK"></span>
-      <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
+      <span ng-if="to.staticLabelId" dynamic-label key="{{to.staticLabelId}}"></span>
       <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
       <span class="required">{{to.required ? '*' : ''}}</span>
       <span ng-if="hlpFrageId" wc-help-chevron help-text-key="{{hlpFrageId}}.HLP"></span>
@@ -15,7 +15,7 @@
   <span ng-if="delFrageId && !to.forceHeadingTypeLabel">
     <h5>
       <span ng-if="delFrageId" dynamic-label key="{{delFrageId}}.RBK"></span>
-      <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
+      <span ng-if="to.staticLabelId" dynamic-label key="{{to.staticLabelId}}"></span>
       <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
       <span ng-if="!frageId" class="required">{{to.required == true ? '*' : ''}}</span>
       <span ng-if="delFrageId" wc-help-chevron help-text-key="{{delFrageId}}.HLP"></span>
@@ -28,7 +28,7 @@
   <span ng-if="to.forceHeadingTypeLabel">
     <label>
       <span ng-if="to.label" dynamic-label key="{{to.label}}.RBK"></span>
-      <span ng-if="to.staticLabelId" message key="{{to.staticLabelId}}"></span>
+      <span ng-if="to.staticLabelId" dynamic-label key="{{to.staticLabelId}}"></span>
       <span ng-if="to.staticLabel">{{to.staticLabel}}</span>
       <span class="required">{{to.required == true ? '*' : ''}}</span>
       <span ng-if="to.label" wc-help-chevron help-text-key="{{to.label}}.HLP"></span>

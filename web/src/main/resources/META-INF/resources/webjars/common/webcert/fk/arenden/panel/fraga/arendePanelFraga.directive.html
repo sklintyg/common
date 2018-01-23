@@ -5,7 +5,7 @@
       <div class="pull-left" ng-switch="arendeListItem.arende.fraga.frageStallare | lowercase">
         Från: <span class="arende-sender" ng-switch-when="wc"
                     id="{{panelId}}-question-fraga-vard-aktor-namn-{{arendeListItem.arende.fraga.internReferens}}">{{arendeListItem.arende.fraga.vardaktorNamn}}</span>
-        <span ng-switch-default message
+        <span ng-switch-default dynamic-label
               key="common.arende.fragestallare.{{arendeListItem.arende.fraga.frageStallare | lowercase}}"></span>
         <div id="{{panelId}}-fkKontakter-{{arendeListItem.arende.fraga.internReferens}}"
              ng-repeat="kontakt in arendeListItem.arende.fraga.externaKontakter">

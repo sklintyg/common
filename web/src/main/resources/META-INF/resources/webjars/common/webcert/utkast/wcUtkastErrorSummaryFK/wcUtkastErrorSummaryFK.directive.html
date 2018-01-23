@@ -1,6 +1,6 @@
 <div id="visa-vad-som-saknas-lista" ng-show="viewState.common.validation.sections.length > 0">
   <wc-alert-message alert-severity="danger">
-    <h3><span message key="draft.saknar-uppgifter"></span></h3>
+    <h3><span dynamic-label key="draft.saknar-uppgifter"></span></h3>
   </wc-alert-message>
 
   <ul class="ul__thin-bullet">
@@ -12,7 +12,7 @@
   <div wc-authority="!SIGNERA_INTYG" class="intyg-block">
     <button type="button" id="checkMissing" class="btn btn-default"
             ng-click="hideMissing()">
-      <span message key="draft.notify.hide-missing.button"></span>
+      <span dynamic-label key="draft.notify.hide-missing.button"></span>
     </button>
   </div>
 

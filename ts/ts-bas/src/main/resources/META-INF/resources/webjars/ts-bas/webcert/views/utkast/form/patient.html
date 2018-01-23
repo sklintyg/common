@@ -4,7 +4,7 @@
     <div class="form-horizontal form-group">
       <wc-validation-wrapper label-col-size="2" field-type="single-text" validations="viewState.getValidationErrors('grunddata.patient.postadress')">
         <div class="row">
-          <label class="col-md-2 control-label"><span message key="ts-bas.form.postadress"></span> <span class="required">*</span></label>
+          <label class="col-md-2 control-label"><span dynamic-label key="ts-bas.form.postadress"></span> <span class="required">*</span></label>
           <div class="col-md-10">
             <input type="text" class="form-control input-30" id="patientPostadress"
                    name="viewState.intygModel.grundData.patient.postadress"
@@ -19,7 +19,7 @@
     <div class="form-horizontal form-group">
       <wc-validation-wrapper label-col-size="2" field-type="single-text" validations="viewState.getValidationErrors('grunddata.patient.postnummer')">
         <div class="row">
-          <label class="col-md-2 control-label"><span message key="ts-bas.form.postnummer"></span> <span class="required">*</span></label>
+          <label class="col-md-2 control-label"><span dynamic-label key="ts-bas.form.postnummer"></span> <span class="required">*</span></label>
           <div class="col-md-10">
             <input type="text" class="form-control input-5" id="patientPostnummer"
                    name="viewState.intygModel.grundData.patient.postnummer"
@@ -35,7 +35,7 @@
     <div class="form-horizontal form-group">
       <wc-validation-wrapper label-col-size="2" field-type="single-text" validations="viewState.getValidationErrors('grunddata.patient.postort')">
         <div class="row">
-          <label class="col-md-2 control-label"><span message key="ts-bas.form.postort"></span> <span class="required">*</span></label>
+          <label class="col-md-2 control-label"><span dynamic-label key="ts-bas.form.postort"></span> <span class="required">*</span></label>
           <div class="col-md-10">
             <input type="text" class="form-control" id="patientPostort" name="viewState.intygModel.grundData.patient.postort"
                    ng-model="viewState.intygModel.grundData.patient.postort" maxlength="25"
