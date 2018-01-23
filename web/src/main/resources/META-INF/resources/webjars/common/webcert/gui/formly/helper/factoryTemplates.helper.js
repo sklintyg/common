@@ -18,8 +18,8 @@
  */
 
 angular.module('common').factory('common.FactoryTemplatesHelper', [
-    'common.ObjectHelper', 'common.UserModel', 'common.DateUtilsService',
-    function(ObjectHelper, UserModel, dateUtils) {
+    'common.ObjectHelper', 'common.UserModel', 'common.DateUtilsService', 'common.PrefilledUserDataService',
+    function(ObjectHelper, UserModel, dateUtils, prefilledUserDataService) {
         'use strict';
 
         var singleTextAdressLabelColSize = 2;
@@ -66,12 +66,16 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         type: 'single-text',
                         templateOptions: {
                             staticLabel: 'Postadress',
-                            disabled: UserModel.isDjupintegration(),
                             size: 'full',
                             labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
                             htmlMaxlength: 500,
                             required: true
+                        },
+                        expressionProperties: {
+                            'templateOptions.disabled' : function() {
+                                return prefilledUserDataService.getPrefilledFields().completeAddress;
+                            }
                         }
                     },
                     {
@@ -79,12 +83,16 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         type: 'single-text',
                         templateOptions: {
                             staticLabel: 'Postnummer',
-                            disabled: UserModel.isDjupintegration(),
                             size: '5',
                             labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
                             htmlMaxlength: 6,
                             required: true
+                        },
+                        expressionProperties: {
+                            'templateOptions.disabled' : function() {
+                                return prefilledUserDataService.getPrefilledFields().completeAddress;
+                            }
                         }
                     },
                     {
@@ -92,17 +100,21 @@ angular.module('common').factory('common.FactoryTemplatesHelper', [
                         type: 'single-text',
                         templateOptions: {
                             staticLabel: 'Postort',
-                            disabled: UserModel.isDjupintegration(),
                             labelColSize: singleTextAdressLabelColSize,
                             formType: 'horizontal',
                             htmlMaxlength: 100,
                             required: true
+                        },
+                        expressionProperties: {
+                            'templateOptions.disabled' : function() {
+                                return prefilledUserDataService.getPrefilledFields().completeAddress;
+                            }
                         }
                     },
                     {
                         type: 'patient-address-updater',
-                        hideExpression: function() {
-                            return UserModel.isDjupintegration();
+                        hideExpression: function($viewValue, $modelValue, scope) {
+                            return prefilledUserDataService.getPrefilledFields().completeAddress;
                         },
                         templateOptions: {
                             formType: 'horizontal',

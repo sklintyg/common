@@ -21,15 +21,14 @@ angular.module('ts-bas').controller('ts-bas.UtkastController',
     [ '$location', '$q', '$rootScope', '$scope', '$timeout', '$window',
         'common.UtkastService', 'common.UserModel',
         'ts-bas.Domain.IntygModel',
-        'ts-bas.UtkastController.ViewStateService', 'common.UtkastValidationService',
+        'ts-bas.UtkastController.ViewStateService', 'common.UtkastValidationService', 'common.PrefilledUserDataService',
         function($location, $q, $rootScope, $scope, $timeout, $window,
-            UtkastService, UserModel, IntygModel, viewState, UtkastValidationService) {
+            UtkastService, UserModel, IntygModel, viewState, UtkastValidationService, prefilledUserDataService) {
             'use strict';
 
             /**********************************************************************************
              * Default state
              **********************************************************************************/
-
             $scope.viewState = viewState.reset();
             $scope.userModel = UserModel;
 
@@ -87,6 +86,13 @@ angular.module('ts-bas').controller('ts-bas.UtkastController',
                 viewState.clearModel();
             };
 
+            $scope.$on('intyg.loaded', function() {
+                prefilledUserDataService.searchForPrefilledData(viewState);
+                // Because of some strange angularjs-internal thing (likely related to compile-priority) the code below
+                // fails to run correctly when put into a ng-disable directive in a template; instead a boolean is saved.
+                $scope.shouldDisableAddressInput = prefilledUserDataService.getPrefilledFields().completeAddress;
+            });
+
             // Get the certificate draft from the server.
             UtkastService.load(viewState).then(function(intygModel) {
                 if (viewState.common.textVersionUpdated) {
@@ -96,6 +102,7 @@ angular.module('ts-bas').controller('ts-bas.UtkastController',
                 $scope.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
 
             });
+
 
             $scope.validate = function() {
                 // When a date is selected from a date popup a blur event is sent.
