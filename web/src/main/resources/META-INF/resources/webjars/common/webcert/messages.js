@@ -246,6 +246,7 @@ angular.module('common').constant('common.messages', {
         'common.postadress': 'Postadress',
         'common.postnummer': 'Postadress',
         'common.postort': 'Postort',
+        'common.telefonnummer': 'Telefonnummer',
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
         // Recipients
