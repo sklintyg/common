@@ -144,7 +144,7 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.onDiagnoseCodeChanged = function(index) {
-                    if($scope.form['diagnoseCode' + index].$viewValue === ''){
+                    if (index === 0 && $scope.form['diagnoseCode' + index].$viewValue === ''){
                         srsService.updateDiagnosKod($scope.model.diagnosKod);
                     }
                     if (!$scope.form['diagnoseCode' + index].$viewValue) {
