@@ -70,6 +70,8 @@
   @import 'css/_fonts.scss';
   @import 'css/_legacy-to-be-removed.scss';
   @import 'css/_wc-uv-override.scss';
+  @import 'css/card.scss';
+  @import 'css/generic-input.scss';
   @import 'fk/arenden/_arende.scss';
   @import 'fk/arenden/komplettera/komplettering-modal-dialog.scss';
   @import 'fk/arenden/panel/fraga/arendePanelFraga.directive.scss';
@@ -156,7 +158,7 @@
         flex: 3;
         overflow-y: auto;
         padding: 20px 15px 30px 15px;
-
+        background-color: $wc-color-27;
       }
       .webcert-workarea-supportpanel {
         flex: 2;
@@ -327,9 +329,7 @@
   }
 
   h3 {
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 20px;
+    @extend %wc-typo-03;
   }
 
   p {
@@ -464,17 +464,6 @@
     &.center {
       text-align: center;
     }
-  }
-
-  .big-checkbox {
-    width: 22px;
-    height: 22px;
-  }
-
-  .big-radio {
-    width: 22px;
-    height: 22px;
-    margin-top: 0 !important;
   }
 
   /* Not used? */

@@ -28,7 +28,6 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         type: 'ue-checkbox',
                         modelProp: 'avstangningSmittskydd',
                         label: {
-                            bold: true,
                             key: 'FRG_27.RBK',
                             helpKey: 'FRG_27.HLP'
                         }

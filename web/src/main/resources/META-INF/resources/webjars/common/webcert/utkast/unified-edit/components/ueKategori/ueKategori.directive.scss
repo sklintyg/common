@@ -1,3 +1,14 @@
 ue-kategori {
 
+  .ue-kategori__heading {
+    display: block;
+    padding: 24px 28px 14px 28px;
+    border-bottom: 2px solid $wc-color-15;
+
+    h3 {
+      padding: 0;
+      @extend %wc-typo-02;
+      color: $wc-color-07;
+    }
+  }
 }

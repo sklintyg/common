@@ -7,6 +7,11 @@ ue-fraga {
     margin: 0;
   }
 
+  h4 {
+    @extend %wc-typo-05;
+    color: $wc-color-08;
+  }
+
   .fraga-body {
     background: $uv-intyg-body-bg;
   }

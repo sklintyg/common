@@ -32,11 +32,11 @@ angular.module('common').directive('ueFormLabel',
 
                     var _onLabelsUpdated = function () {
                         var template = '<' + scope.config.type + '>\n';
-                        if (scope.config.key) {
-                            template += dynamicLabelService.getProperty(scope.config.key) + '\n';
-                        }
                         if (scope.config.required) {
                             template += '<span class="required"> *</span>\n';
+                        }
+                        if (scope.config.key) {
+                            template += dynamicLabelService.getProperty(scope.config.key) + '\n';
                         }
                         if (scope.config.helpKey) {
                             template += '<span wc-help-chevron help-text-key="' + scope.config.helpKey + '"></span>\n';
