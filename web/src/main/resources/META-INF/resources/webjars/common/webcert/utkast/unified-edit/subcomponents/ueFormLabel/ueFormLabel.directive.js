@@ -40,9 +40,11 @@ angular.module('common').directive('ueFormLabel',
                         }
                         if (scope.config.helpKey) {
                             template += '<span wc-help-chevron help-text-key="' + scope.config.helpKey + '"></span>\n';
-                            template += '<span wc-help-chevron-text help-text-key="' + scope.config.helpKey + '"></span>\n';
                         }
                         template += '</' + scope.config.type + '>\n';
+                        if (scope.config.helpKey) {
+                            template += '<span wc-help-chevron-text help-text-key="' + scope.config.helpKey + '"></span>\n';
+                        }
                         element.empty();
                         element.append($compile(template)(scope));
                     };
