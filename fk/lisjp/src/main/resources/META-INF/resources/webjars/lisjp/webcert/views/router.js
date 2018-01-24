@@ -23,9 +23,9 @@ angular.module('lisjp').config(function($stateProvider) {
     var commonPath = '/web/webjars/common/webcert/';
 
     $stateProvider.
-        state('lisjp-edit', {
+        state('lisjp-edit-formly', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
-            url : '/lisjp/edit/:certificateId/:focusOn',
+            url : '/lisjp/edit-formly/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -40,17 +40,17 @@ angular.module('lisjp').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@lisjp-edit' : {
+                'header@lisjp-edit-formly' : {
                     templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@lisjp-edit' : {
+                'footer@lisjp-edit-formly' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'formly@lisjp-edit' : {
+                'formly@lisjp-edit-formly' : {
                     templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
                     controller: 'smi.EditCert.FormlyCtrl',
                     resolve: {
@@ -59,7 +59,7 @@ angular.module('lisjp').config(function($stateProvider) {
                     }
                 },
 
-                'fragasvar@lisjp-edit' : {
+                'fragasvar@lisjp-edit-formly' : {
                     templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
                     controller: 'common.ArendeListCtrl'
                 }
@@ -101,16 +101,16 @@ angular.module('lisjp').config(function($stateProvider) {
                     }
                 }
             }
-        }).state('lisjp-edit-ue', {
+        }).state('lisjp-edit', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
-            url : '/lisjp/edit-ue/:certificateId/:focusOn',
+            url : '/lisjp/edit/:certificateId/:focusOn',
                 views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                        controller: 'smi.EditCertCtrl',
-                        resolve: {
+                    controller: 'smi.EditCertCtrl',
+                    resolve: {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                            FormFactory: 'lisjp.FormFactory'
+                        FormFactory: 'lisjp.FormFactory'
                     }
                 },
 
@@ -118,26 +118,26 @@ angular.module('lisjp').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@lisjp-edit-ue' : {
+                'header@lisjp-edit' : {
                     templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                        controller: 'common.UtkastHeader'
+                    controller: 'common.UtkastHeader'
                 },
 
-                'footer@lisjp-edit-ue' : {
+                'footer@lisjp-edit' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                        controller: 'common.UtkastFooter'
+                    controller: 'common.UtkastFooter'
                 },
 
-                'formly@lisjp-edit-ue' : {
+                'formly@lisjp-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                        controller: 'smi.EditCert.UECtrl',
-                        resolve: {
+                    controller: 'smi.EditCert.UECtrl',
+                    resolve: {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                            UtkastConfigFactory: 'lisjp.UtkastConfigFactory'
+                        UtkastConfigFactory: 'lisjp.UtkastConfigFactory'
                     }
-                },
+                 },
 
-                'fragasvar@lisjp-edit-ue' : {
+                'fragasvar@lisjp-edit' : {
                     templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
                         controller: 'common.ArendeListCtrl'
                 }
