@@ -1,5 +1,5 @@
 <div class="form-horizontal">
-  <wc-form-label-ue config="::config.label"></wc-form-label-ue>
+  <ue-form-label config="::config.label"></ue-form-label>
   <div data-ng-repeat="choice in ::config.choices">
     <label class="big-checkbox-label checkbox-inline">
       <input id="{{::config.modelProp}}-{{::choice}}" type="checkbox" class="big-checkbox" ng-model="model[config.modelProp][choice]">

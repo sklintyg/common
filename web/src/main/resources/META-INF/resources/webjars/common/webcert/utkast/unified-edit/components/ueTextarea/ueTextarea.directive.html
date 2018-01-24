@@ -3,7 +3,7 @@
                        key="{{::config.modelProp}}"
                        warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
                        validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-  <wc-form-label-ue config="::config.label"></wc-form-label-ue>
+  <ue-form-label config="::config.label"></ue-form-label>
   <textarea id="{{::config.modelProp}}" name="{{::config.modelProp}}" class="form-control" rows="6" auto-expand ng-model="model[config.modelProp]"
             maxlength="{{::config.htmlMaxlength || 3500}}">
   </textarea>

@@ -1,5 +1,5 @@
 <div ng-class="::{'form-inline': !config.vertical}">
-    <wc-form-label-ue config="::config.label"></wc-form-label-ue>
+    <ue-form-label config="::config.label"></ue-form-label>
     <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
         <input id="{{::config.modelProp}}Yes" name="{{::config.modelProp}}" type="radio" class="big-radio"
                ng-value="true" ng-model="model[config.modelProp]"/> <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>

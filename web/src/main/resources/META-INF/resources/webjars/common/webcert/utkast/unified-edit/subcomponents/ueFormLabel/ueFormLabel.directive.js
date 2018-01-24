@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcFormLabelUe',
+angular.module('common').directive('ueFormLabel',
     [ '$log', '$compile', '$rootScope', 'common.dynamicLabelService',
         function($log, $compile, $rootScope, dynamicLabelService) {
             'use strict';
