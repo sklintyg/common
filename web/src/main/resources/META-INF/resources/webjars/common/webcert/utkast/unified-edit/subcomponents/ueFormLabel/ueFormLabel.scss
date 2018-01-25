@@ -17,6 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+ue-form-label {
+  position: relative;
+}
+
 .wc-fraga .formly-field:not(:first-child) .wcFormLabel {
   padding-top: 10px;
 }

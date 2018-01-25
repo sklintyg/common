@@ -78,7 +78,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,
-                formType: 'horizontal',
+                formType: 'inline',
                 htmlMaxlength: 265
             }, {
                 type: 'ue-textfield',
@@ -90,7 +90,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 },
                 size: '5',
                 labelColSize: singleTextLabelColSize,
-                formType: 'horizontal',
+                formType: 'inline',
                 htmlMaxlength: 6,
                 numbersOnly: true
             }, {
@@ -103,7 +103,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,
-                formType: 'horizontal',
+                formType: 'inline',
                 htmlMaxlength: 265
             }, {
                 type: 'ue-textfield',
@@ -115,7 +115,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,
-                formType: 'horizontal',
+                formType: 'inline',
                 htmlMaxlength: 265
             }])])
 
