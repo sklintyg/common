@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.luae_na.pdf;
 
-import autovalue.shaded.org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -710,13 +710,13 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         StringBuilder ovrigt = new StringBuilder();
 
-        if (!StringUtils.isBlank(intyg.getMotiveringTillInteBaseratPaUndersokning())) {
+        if (!Strings.isNullOrEmpty(intyg.getMotiveringTillInteBaseratPaUndersokning())) {
             ovrigt.append("Motivering till varför utlåtandet inte baseras på undersökning av patienten: ")
                     .append(intyg.getMotiveringTillInteBaseratPaUndersokning())
                     .append("\n");
         }
 
-        if (!StringUtils.isBlank(intyg.getOvrigt())) {
+        if (!Strings.isNullOrEmpty(intyg.getOvrigt())) {
             ovrigt.append(intyg.getOvrigt());
         }
 

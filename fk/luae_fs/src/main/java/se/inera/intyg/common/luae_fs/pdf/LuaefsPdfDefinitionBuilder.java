@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.luae_fs.pdf;
 
-import autovalue.shaded.org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -76,7 +76,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     private static final float CHECKBOX_DEFAULT_WIDTH = 72.2f;
 
     public FkPdfDefinition buildPdfDefinition(LuaefsUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-                                              IntygTexts intygTexts, boolean isUtkast)
+            IntygTexts intygTexts, boolean isUtkast)
             throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
@@ -299,18 +299,18 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         FkLabel fortsBladText = new FkLabel(
                 "Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
-                        .offset(15f, 20.5f)
-                        .withVerticalAlignment(Element.ALIGN_TOP)
-                        .size(67f, 10f)
-                        .withLeading(.0f, 1.2f);
+                .offset(15f, 20.5f)
+                .withVerticalAlignment(Element.ALIGN_TOP)
+                .size(67f, 10f)
+                .withLeading(.0f, 1.2f);
         allElements.add(fortsBladText);
 
         FkLabel inteKannerPatientenText = new FkLabel(
                 "Om du inte känner patienten ska hen styrka sin\nidentitet genom legitimation med foto (SOSFS 2005:29).")
-                        .offset(15f, 31.5f)
-                        .withVerticalAlignment(Element.ALIGN_TOP)
-                        .size(76f, 10f)
-                        .withLeading(.0f, 1.2f);
+                .offset(15f, 31.5f)
+                .withVerticalAlignment(Element.ALIGN_TOP)
+                .size(76f, 10f)
+                .withLeading(.0f, 1.2f);
         allElements.add(inteKannerPatientenText);
 
         FkLabel mainHeader = new FkLabel("Läkarutlåtande")
@@ -451,13 +451,13 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         StringBuilder ovrigt = new StringBuilder();
 
-        if (!StringUtils.isBlank(intyg.getMotiveringTillInteBaseratPaUndersokning())) {
+        if (!Strings.isNullOrEmpty(intyg.getMotiveringTillInteBaseratPaUndersokning())) {
             ovrigt.append("Motivering till varför utlåtandet inte baseras på undersökning av patienten: ")
                     .append(intyg.getMotiveringTillInteBaseratPaUndersokning())
                     .append("\n");
         }
 
-        if (!StringUtils.isBlank(intyg.getOvrigt())) {
+        if (!Strings.isNullOrEmpty(intyg.getOvrigt())) {
             ovrigt.append(intyg.getOvrigt());
         }
 
@@ -494,11 +494,11 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         fraga7.addChild(new FkValueField(intyg.getGrundData().getSigneringsdatum() != null
                 ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "")
-                        .offset(0f, 0f)
-                        .size(45f, 11f)
-                        .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
-                        .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
-                        .withTopLabel("Datum"));
+                .offset(0f, 0f)
+                .size(45f, 11f)
+                .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
+                .withBorders(Rectangle.RIGHT + Rectangle.BOTTOM)
+                .withTopLabel("Datum"));
         fraga7.addChild(new FkValueField("")
                 .offset(45f, 0f)
                 .size(KATEGORI_FULL_WIDTH - 45f, 11f)
