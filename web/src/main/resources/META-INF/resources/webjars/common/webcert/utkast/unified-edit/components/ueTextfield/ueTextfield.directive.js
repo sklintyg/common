@@ -9,7 +9,7 @@ angular.module('common').directive('ueTextfield', [ 'common.ObjectHelper', 'comm
             config: '=',
             model: '='
         },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueTextField/ueTextField.directive.html',
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueTextfield/ueTextfield.directive.html',
         link: function($scope) {
 
             $scope.validation = UtkastViewState.validation;
