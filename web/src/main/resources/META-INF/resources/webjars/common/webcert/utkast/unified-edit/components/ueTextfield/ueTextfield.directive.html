@@ -3,12 +3,17 @@
                        key="{{::config.modelProp}}"
                        warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
                        validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-  <div class="input-full" ng-class="::{'indent' : config.indent, 'bold' : config.bold}">
-    <ue-form-label config="::config.label"></ue-form-label>
-    <div>
-      <input id="{{::config.modelProp}}" type="text" class="form-control" ng-disabled="::config.disabled"
-             ng-model="model[config.modelProp]" ng-model-options="{ debounce: 500 }"
-             ng-class="::{ 'input-{{config.size}}': config.size }" maxlength="{{::config.htmlMaxlength || 3500}}" ng-blur="onBlur()">
+  <div class="input-full form-{{config.formType}}" ng-class="::{'indent' : config.indent, 'bold' : config.bold}">
+    <div ng-class="::{'col-md-{{config.labelColSize}}': config.labelColSize}">
+      <ue-form-label config="::config.label"></ue-form-label>
+    </div>
+    <div ng-class="::{'col-md-{{12 - config.labelColSize}}': config.labelColSize}">
+      <input id="{{::config.modelProp}}" type="text" class="form-control"
+             ng-model="model[config.modelProp]"
+             ng-disabled="::config.disabled"
+             ng-class="::{ 'input-{{config.size}}': config.size }"
+             maxlength="{{::config.htmlMaxlength || 3500}}"
+             wc-number="{{config.numbersOnly === true}}">
     </div>
   </div>
 </wc-validation-wrapper>

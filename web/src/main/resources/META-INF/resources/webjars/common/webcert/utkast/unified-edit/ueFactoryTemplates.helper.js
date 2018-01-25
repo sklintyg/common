@@ -21,7 +21,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
     function() {
         'use strict';
 
-        var singleTextLabelColSize = 2;
+        var singleTextLabelColSize = 3;
 
         function _kategori(id, labelKey, helpKey, options, components) {
 
@@ -73,7 +73,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 modelProp: 'grundData.skapadAv.vardenhet.postadress',
                 label: {
                     key: 'common.postadress',
-                    required: true
+                    required: true,
+                    whitespaceBreak: false
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,
@@ -84,7 +85,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 modelProp: 'grundData.skapadAv.vardenhet.postnummer',
                 label: {
                     key: 'common.postnummer',
-                    required: true
+                    required: true,
+                    whitespaceBreak: false
                 },
                 size: '5',
                 labelColSize: singleTextLabelColSize,
@@ -96,7 +98,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 modelProp: 'grundData.skapadAv.vardenhet.postort',
                 label: {
                     key: 'common.postort',
-                    required: true
+                    required: true,
+                    whitespaceBreak: false
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,
@@ -107,7 +110,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',
                 label: {
                     key: 'common.telefonnummer',
-                    required: true
+                    required: true,
+                    whitespaceBreak: false
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,

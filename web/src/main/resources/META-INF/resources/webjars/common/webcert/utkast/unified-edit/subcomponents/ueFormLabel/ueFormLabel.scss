@@ -24,3 +24,13 @@
 .wc-fraga .no-wcFormLabelPadding .formly-field .wcFormLabel {
   padding-top: 0px;
 }
+
+.control-label {
+  max-width: 600px;
+  vertical-align: baseline;
+  font-weight: normal;
+
+  &.label__no-break {
+    white-space: nowrap;
+  }
+}

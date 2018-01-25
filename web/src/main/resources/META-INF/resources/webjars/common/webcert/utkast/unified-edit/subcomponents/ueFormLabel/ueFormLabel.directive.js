@@ -31,9 +31,17 @@ angular.module('common').directive('ueFormLabel',
                 link: function(scope, element) {
 
                     var _onLabelsUpdated = function () {
-                        var template = '<' + scope.config.type + '>\n';
+
+                        var whitespaceBreak = '';
+
+                        console.log(scope.config);
+                        if(scope.config.whitespaceBreak === false){
+                            whitespaceBreak = ' class="control-label label__no-break"';
+                        }
+
+                        var template = '<' + scope.config.type + whitespaceBreak + '>\n';
                         if (scope.config.required) {
-                            template += '<span class="required"> *</span>\n';
+                            template += '<span class="required">*</span>\n';
                         }
                         if (scope.config.key) {
                             template += dynamicLabelService.getProperty(scope.config.key) + '\n';

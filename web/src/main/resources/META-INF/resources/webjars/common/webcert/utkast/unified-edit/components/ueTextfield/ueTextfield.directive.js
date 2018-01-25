@@ -18,6 +18,10 @@ angular.module('common').directive('ueTextfield', [ 'common.ObjectHelper', 'comm
                 $scope.config.indent = false;
             }
 
+            if(!$scope.config.formType) {
+                $scope.config.formType = 'inline';
+            }
+
             // Restore data model value form attic if exists
             AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
 
