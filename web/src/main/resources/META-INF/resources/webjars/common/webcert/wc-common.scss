@@ -497,16 +497,6 @@
     font-style: normal;
   }
 
-  input[type=radio] {
-    margin-top: 3px;
-    cursor: pointer;
-  }
-
-  input[type=checkbox] {
-    margin-top: 3px;
-    cursor: pointer;
-  }
-
   /* Not used? */
   .pointer-labels label {
     cursor: pointer;
@@ -671,16 +661,6 @@
     white-space: nowrap;
   }
 
-/* Not used? */
-  #qa-table input[type=checkbox] {
-    margin: 6px 0 0;
-  }
-
-  .qa-panel .btn-secondary {
-    padding: 7px 15px;
-    min-width: 50px;
-  }
-
   /* Used in two places. Check if they clash */
   #query-count {
     padding: 10px 0 20px;
@@ -809,10 +789,6 @@
 
   .no-margin {
     margin: 0;
-  }
-
-  .makulera-choices .big-radio-label {
-    margin-top: 10px;
   }
 
   .continue-btn:disabled{

@@ -59,9 +59,22 @@ This is to avoid leaking module specific style rules outside of it's intended co
     background-color: transparent;
   }
 
+  /*
   .table-form-radio > tbody > tr > td:last-child {
     width: 100%;
   }
+
+  input[type="radio"] {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .radio {
+    span {
+      margin-left: 20px;
+    }
+  }
+
+  */
 
   textarea[wc-maxlength] {
     margin-bottom: 0;
@@ -75,11 +88,6 @@ This is to avoid leaking module specific style rules outside of it's intended co
     }
   }
 
-  input[type="radio"] {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
   .intyg-block {
     #vardenhetNamn label {
       font-weight: 500;
@@ -90,12 +98,5 @@ This is to avoid leaking module specific style rules outside of it's intended co
       text-align: left;
     }
   }
-
-  .radio {
-    span {
-      margin-left: 20px;
-    }
-  }
-
 }
 

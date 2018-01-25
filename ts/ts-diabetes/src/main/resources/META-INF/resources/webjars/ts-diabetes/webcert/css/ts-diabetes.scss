@@ -59,9 +59,23 @@ This is to avoid leaking module specific style rules outside of it's intended co
     background-color: transparent;
   }
 
+  /* commenting out all classes affecting radios and checkboxes to get control over them. this should prbably be removed after ts is UE
   .table-form-radio > tbody > tr > td:last-child {
     width: 100%;
   }
+
+    input[type="radio"] {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .radio {
+    span {
+      margin-left: 20px;
+    }
+  }
+
+  */
 
   textarea[wc-maxlength] {
     margin-bottom: 0;
@@ -73,11 +87,6 @@ This is to avoid leaking module specific style rules outside of it's intended co
     &.small-decimal {
       width: 38px;
     }
-  }
-
-  input[type="radio"] {
-    margin-left: 0;
-    margin-right: 0;
   }
 
   .input-year {
@@ -95,11 +104,6 @@ This is to avoid leaking module specific style rules outside of it's intended co
     }
   }
 
-  .radio {
-    span {
-      margin-left: 20px;
-    }
-  }
   .text-center {
     text-align: center;
   }

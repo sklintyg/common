@@ -41,13 +41,6 @@ a {
   margin-top: 150px;
 }
 
-@media screen and (min-width: 768px) {
-  .form-inline .radio input[type=radio],
-  .form-inline .checkbox input[type=checkbox] {
-    vertical-align: middle;
-  }
-}
-
 
 .revoked-certificate {
   color: $wc-color-22;
@@ -101,22 +94,6 @@ td .last-validation .validation, .last-validation td .validation {
   padding-left: 20px !important;
 }
 
-.radio {
-  cursor: pointer;
-  &.disabled {
-    color: $wc-color-09;
-    cursor: not-allowed;
-  }
-}
-
-.checkbox {
-  cursor: pointer;
-  &.disabled {
-    color: $wc-color-09;
-    cursor: not-allowed;
-  }
-}
-
 /*
   Disablar rensa-kryss-knappen i IE eftersom de inte skickar en change event som angularjs kan lyssna på.
   En workaround kan vara på gång i AngularJS. Se https://github.com/angular/angular.js/issues/11193
@@ -126,25 +103,6 @@ td .last-validation .validation, .last-validation td .validation {
   display: none;
 }
 
-label {
-  &.checkbox {
-    font-weight: normal;
-    margin-top: 0;
-    + label.checkbox {
-      font-weight: normal;
-      margin-top: 0;
-    }
-  }
-  &.radio {
-    font-weight: normal;
-    margin-top: 0;
-    + label.radio {
-      font-weight: normal;
-      margin-top: 0;
-    }
-  }
-}
-
 .inline-block {
   display: inline-block !important;
   vertical-align: middle;
@@ -152,11 +110,6 @@ label {
 
 //Larger structures used in multiple places
 .edit-form {
-
-  .form-inline input[type=checkbox] {
-    margin: -1px 0 0;
-    vertical-align: middle;
-  }
 
   .categorykmplt, .groupkomplettering {
     border: 2px solid $wc-color-16;
@@ -262,15 +215,6 @@ label {
   }
   a {
     color: $wc-color-16;
-  }
-  .control-label {
-    max-width: 600px;
-    vertical-align: baseline;
-    font-weight: normal;
-
-    &.label__no-break {
-      white-space: nowrap;
-    }
   }
 
   .intyg-field-blank {
