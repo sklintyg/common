@@ -27,7 +27,7 @@ angular.module('common').directive('ueTextarea', [ '$parse', 'common.ObjectHelpe
             $scope.modelGetterSetter = function(newValue) {
                 var getterSetter = $parse($scope.config.modelProp);
                 return arguments.length ? (getterSetter.assign($scope.model, newValue)) : getterSetter($scope.model);
-            }
+            };
 
         }
     };
