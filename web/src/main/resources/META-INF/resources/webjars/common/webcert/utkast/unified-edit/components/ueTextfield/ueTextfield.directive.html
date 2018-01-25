@@ -6,8 +6,9 @@
   <div class="input-full" ng-class="::{'indent' : config.indent, 'bold' : config.bold}">
     <ue-form-label config="::config.label"></ue-form-label>
     <div>
-      <input id="{{::config.modelProp}}" type="text" class="form-control" ng-disabled="::config.disabled" ng-model="model[config.modelProp]"
-             ng-class="::{ 'input-{{config.size}}': config.size }" maxlength="{{::config.htmlMaxlength || 3500}}">
+      <input id="{{::config.modelProp}}" type="text" class="form-control" ng-disabled="::config.disabled"
+             ng-model="model[config.modelProp]" ng-model-options="{ debounce: 500 }"
+             ng-class="::{ 'input-{{config.size}}': config.size }" maxlength="{{::config.htmlMaxlength || 3500}}" ng-blur="onBlur()">
     </div>
   </div>
 </wc-validation-wrapper>

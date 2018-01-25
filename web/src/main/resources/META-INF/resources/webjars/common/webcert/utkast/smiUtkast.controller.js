@@ -57,6 +57,7 @@ angular.module('common').controller('smi.EditCertCtrl',
             });
 
             $scope.$on('saveRequest', function($event, saveDeferred) {
+                $scope.certForm.$commitViewValue();
                 $scope.certForm.$setPristine();
                 var intygState = {
                     viewState : viewState,

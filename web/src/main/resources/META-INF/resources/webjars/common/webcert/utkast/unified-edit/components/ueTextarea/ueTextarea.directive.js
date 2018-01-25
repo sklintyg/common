@@ -1,10 +1,11 @@
-angular.module('common').directive('ueTextarea', [ 'common.ObjectHelper', 'common.AtticHelper', 'common.UtkastViewStateService',
-    'common.UtkastViewStateService', function(ObjectHelper, AtticHelper, UtkastViewState) {
+angular.module('common').directive('ueTextarea', [ 'common.ObjectHelper', 'common.AtticHelper', 'common.UtkastViewStateService', 'ueUtil',
+    'common.UtkastViewStateService', function(ObjectHelper, AtticHelper, UtkastViewState, ueUtil) {
     'use strict';
 
     return {
         restrict: 'E',
         scope: {
+            form: '=',
             config: '=',
             model: '='
         },
@@ -18,6 +19,9 @@ angular.module('common').directive('ueTextarea', [ 'common.ObjectHelper', 'commo
 
             // Clear attic model and destroy watch on scope destroy
             AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
+
+            $scope.onBlur = angular.bind(this, ueUtil.updateValidation, $scope.form, $scope.model);
+
         }
     };
 }]);

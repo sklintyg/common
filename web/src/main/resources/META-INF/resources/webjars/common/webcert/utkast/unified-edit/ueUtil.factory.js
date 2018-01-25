@@ -17,11 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('ueUtil', [
-    function() {
+angular.module('common').factory('ueUtil', ['$timeout', 'common.UtkastValidationService',
+    function($timeout, UtkastValidationService) {
         'use strict';
 
         return {
+            updateValidation: function(form, model) {
+                form.$commitViewValue();
+                // $timeout is needed to allow for the attic functionality to clear the model value for hidden fields
+                $timeout(function() {
+                    UtkastValidationService.validate(model);
+                });
+            },
+
             setupWatchers: function _setupWatchers(scope, config) {
                 if (config.watcher) {
                     config.watcher.forEach(function(watcher) {

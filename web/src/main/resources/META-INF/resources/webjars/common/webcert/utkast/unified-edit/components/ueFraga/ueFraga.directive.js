@@ -24,6 +24,7 @@ angular.module('common').directive('ueFraga',
         return {
             restrict: 'E',
             scope: {
+                form: '=',
                 config: '=',
                 model: '='
             },

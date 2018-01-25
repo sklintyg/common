@@ -24,6 +24,7 @@ angular.module('common').directive('ueRenderComponents',
         return {
             restrict: 'E',
             scope: {
+                form: '=',
                 config: '=',
                 model: '='
             },

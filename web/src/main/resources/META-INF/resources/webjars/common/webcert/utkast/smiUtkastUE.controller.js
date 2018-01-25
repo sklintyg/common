@@ -18,8 +18,7 @@
  */
 
 angular.module('common').controller('smi.EditCert.UECtrl',
-    ['$scope', '$state', 'ViewState', 'UtkastConfigFactory', 'common.TillaggsfragorHelper', 'common.ArendeListViewStateService',
-     'common.fmbViewState',
+    ['$scope', '$state', 'ViewState', 'UtkastConfigFactory',
         function FormlyCtrl($scope, $state, viewState, UtkastConfigFactory) {
 
             'use strict';

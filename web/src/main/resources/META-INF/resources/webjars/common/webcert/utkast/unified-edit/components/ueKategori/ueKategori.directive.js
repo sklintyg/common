@@ -24,6 +24,7 @@ angular.module('common').directive('ueKategori',
         return {
             restrict: 'E',
             scope: {
+                form: '=',
                 config: '=',
                 model: '='
             },
