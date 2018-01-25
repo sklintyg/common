@@ -3,7 +3,7 @@
                        key="{{::config.modelProp}}"
                        warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
                        validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-  <div class="input-full form-{{config.formType}}" ng-class="::{'indent' : config.indent, 'bold' : config.bold}">
+  <div class="input-full form-{{config.formType}}" ng-class="::{'indent' : config.indent, 'bold' : config.bold, 'row': config.labelColSize}">
     <div ng-class="::{'col-md-{{config.labelColSize}}': config.labelColSize}">
       <ue-form-label config="::config.label"></ue-form-label>
     </div>
