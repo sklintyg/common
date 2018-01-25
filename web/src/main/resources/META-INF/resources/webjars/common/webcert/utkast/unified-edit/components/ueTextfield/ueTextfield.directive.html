@@ -1,19 +1,21 @@
-<wc-validation-wrapper field-type="textfield"
-                       label-col-size="{{::config.labelColSize}}"
-                       key="{{::config.modelProp}}"
-                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-  <div class="input-full form-{{config.formType}}" ng-class="::{'indent' : config.indent, 'bold' : config.bold, 'row': config.labelColSize}">
-    <div ng-class="::{'col-md-{{config.labelColSize}}': config.labelColSize}">
-      <ue-form-label config="::config.label"></ue-form-label>
+<div ng-class="{'bottom-padding-small': config.paddingBottom}">
+  <wc-validation-wrapper field-type="textfield"
+                         label-col-size="{{::config.labelColSize}}"
+                         key="{{::config.modelProp}}"
+                         warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                         validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+    <div class="input-full form-{{config.formType}}" ng-class="::{'indent' : config.indent, 'bold' : config.bold, 'row': config.labelColSize}">
+      <div ng-class="::{'col-md-{{config.labelColSize}}': config.labelColSize}">
+        <ue-form-label config="::config.label"></ue-form-label>
+      </div>
+      <div ng-class="::{'col-md-{{12 - config.labelColSize}}': config.labelColSize}">
+        <input id="{{::config.modelProp}}" type="text" class="form-control"
+               ng-model="model[config.modelProp]"
+               ng-disabled="::config.disabled"
+               ng-class="::{ 'input-{{config.size}}': config.size }"
+               maxlength="{{::config.htmlMaxlength || 3500}}"
+               wc-number="{{config.numbersOnly === true}}">
+      </div>
     </div>
-    <div ng-class="::{'col-md-{{12 - config.labelColSize}}': config.labelColSize}">
-      <input id="{{::config.modelProp}}" type="text" class="form-control"
-             ng-model="model[config.modelProp]"
-             ng-disabled="::config.disabled"
-             ng-class="::{ 'input-{{config.size}}': config.size }"
-             maxlength="{{::config.htmlMaxlength || 3500}}"
-             wc-number="{{config.numbersOnly === true}}">
-    </div>
-  </div>
-</wc-validation-wrapper>
+  </wc-validation-wrapper>
+</div>

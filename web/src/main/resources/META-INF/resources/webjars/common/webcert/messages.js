@@ -244,7 +244,7 @@ angular.module('common').constant('common.messages', {
 
         'common.intyg.patientadress': 'Patientens adressuppgifter',
         'common.postadress': 'Postadress',
-        'common.postnummer': 'Postadress',
+        'common.postnummer': 'Postnummer',
         'common.postort': 'Postort',
         'common.telefonnummer': 'Telefonnummer',
 

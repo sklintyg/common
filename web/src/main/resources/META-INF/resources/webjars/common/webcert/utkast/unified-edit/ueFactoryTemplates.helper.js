@@ -78,8 +78,9 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,
-                formType: 'inline',
-                htmlMaxlength: 265
+                formType: 'horizontal',
+                htmlMaxlength: 265,
+                paddingBottom: true
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postnummer',
@@ -90,9 +91,10 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 },
                 size: '5',
                 labelColSize: singleTextLabelColSize,
-                formType: 'inline',
+                formType: 'horizontal',
                 htmlMaxlength: 6,
-                numbersOnly: true
+                numbersOnly: true,
+                paddingBottom: true
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postort',
@@ -103,8 +105,9 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,
-                formType: 'inline',
-                htmlMaxlength: 265
+                formType: 'horizontal',
+                htmlMaxlength: 265,
+                paddingBottom: true
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',
@@ -115,7 +118,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                 },
                 size: 'full',
                 labelColSize: singleTextLabelColSize,
-                formType: 'inline',
+                formType: 'horizontal',
                 htmlMaxlength: 265
             }])])
 
