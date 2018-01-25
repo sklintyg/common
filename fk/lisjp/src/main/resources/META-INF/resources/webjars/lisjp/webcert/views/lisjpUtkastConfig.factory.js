@@ -41,21 +41,24 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
                         },
                         type: 'ue-checkbox-date',
-                        modelProp: 'undersokningAvPatienten'
+                        modelProp: 'undersokningAvPatienten',
+                        paddingBottom: true
                     }, {
                         label: {
                             key: 'KV_FKMU_0001.TELEFONKONTAKT.RBK',
                             helpKey: 'KV_FKMU_0001.TELEFONKONTAKT.HLP'
                         },
                         type: 'ue-checkbox-date',
-                        modelProp: 'telefonkontaktMedPatienten'
+                        modelProp: 'telefonkontaktMedPatienten',
+                        paddingBottom: true
                     }, {
                         label: {
                             key: 'KV_FKMU_0001.JOURNALUPPGIFTER.RBK',
                             helpKey: 'KV_FKMU_0001.JOURNALUPPGIFTER.HLP'
                         },
                         type: 'ue-checkbox-date',
-                        modelProp: 'journaluppgifter'
+                        modelProp: 'journaluppgifter',
+                        paddingBottom: true
                     }, {
                         label: {
                             key: 'KV_FKMU_0001.ANNAT.RBK',

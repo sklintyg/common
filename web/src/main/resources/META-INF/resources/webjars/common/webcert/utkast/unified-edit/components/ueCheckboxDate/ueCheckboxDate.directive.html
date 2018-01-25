@@ -1,20 +1,22 @@
-<wc-validation-wrapper field-type="checkboxdate"
-                       label-col-size="{{::config.labelColSize}}"
-                       key="{{::config.modelProp}}"
-                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-  <div class="form-horizontal row">
-    <div class="col-md-6">
-      <label class="checkbox-inline big-checkbox-label">
-        <input id="checkbox_{{::config.modelProp}}" type="checkbox" class="big-checkbox" ng-model="checkbox.checked" value="true">
-        <span dynamic-label key="{{::config.label.key}}"></span>
-      </label>
-      <span wc-help-chevron help-text-key="{{::config.label.helpKey}}"></span>
-      <span wc-help-chevron-text help-text-key="{{::config.label.helpKey}}"></span>
+<div ng-class="{'bottom-padding-small': config.paddingBottom}">
+  <wc-validation-wrapper field-type="checkboxdate"
+                         label-col-size="{{::config.labelColSize}}"
+                         key="{{::config.modelProp}}"
+                         warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                         validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+    <div class="form-horizontal row">
+      <div class="col-md-6">
+        <label class="checkbox-inline big-checkbox-label">
+          <input id="checkbox_{{::config.modelProp}}" type="checkbox" class="big-checkbox" ng-model="checkbox.checked" value="true">
+          <span dynamic-label key="{{::config.label.key}}"></span>
+        </label>
+        <span wc-help-chevron help-text-key="{{::config.label.helpKey}}"></span>
+        <span wc-help-chevron-text help-text-key="{{::config.label.helpKey}}"></span>
+      </div>
+      <div class="col-md-6">
+        <span wc-date-picker-field target-model="model[config.modelProp]" add-date-parser="loose" on-blur="validate()"
+              dom-id="datepicker_{{::config.modelProp}}" max-date="{{::config.maxDate}}"></span>
+      </div>
     </div>
-    <div class="col-md-6">
-      <span wc-date-picker-field target-model="model[config.modelProp]" add-date-parser="loose" on-blur="validate()"
-            dom-id="datepicker_{{::config.modelProp}}" max-date="{{::config.maxDate}}"></span>
-    </div>
-  </div>
-</wc-validation-wrapper>
+  </wc-validation-wrapper>
+</div>
