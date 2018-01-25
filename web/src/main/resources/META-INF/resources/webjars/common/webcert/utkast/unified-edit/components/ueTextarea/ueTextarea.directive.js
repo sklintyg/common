@@ -1,5 +1,5 @@
-angular.module('common').directive('ueTextarea', [ 'common.ObjectHelper', 'common.AtticHelper', 'common.UtkastViewStateService', 'ueUtil',
-    'common.UtkastViewStateService', function(ObjectHelper, AtticHelper, UtkastViewState, ueUtil) {
+angular.module('common').directive('ueTextarea', [ '$parse', 'common.ObjectHelper', 'common.AtticHelper', 'common.UtkastViewStateService', 'ueUtil',
+    'common.UtkastViewStateService', function($parse, ObjectHelper, AtticHelper, UtkastViewState, ueUtil) {
     'use strict';
 
     return {
@@ -21,6 +21,13 @@ angular.module('common').directive('ueTextarea', [ 'common.ObjectHelper', 'commo
             AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
 
             $scope.onBlur = angular.bind(this, ueUtil.updateValidation, $scope.form, $scope.model);
+
+            // This is a ngModel getter/setter function
+            // needed for component ue-tillaggsfragor with modelProp like tillaggsfragor[0].svar
+            $scope.modelGetterSetter = function(newValue) {
+                var getterSetter = $parse($scope.config.modelProp);
+                return arguments.length ? (getterSetter.assign($scope.model, newValue)) : getterSetter($scope.model);
+            }
 
         }
     };

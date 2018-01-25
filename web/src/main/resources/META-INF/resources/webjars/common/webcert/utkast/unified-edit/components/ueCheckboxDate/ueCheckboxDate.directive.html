@@ -6,7 +6,7 @@
   <div class="form-horizontal row">
     <div class="col-md-6">
       <label class="checkbox-inline big-checkbox-label">
-        <input type="checkbox" class="big-checkbox" ng-model="checkbox.checked" value="true">
+        <input id="checkbox_{{::config.modelProp}}" type="checkbox" class="big-checkbox" ng-model="checkbox.checked" value="true">
         <span dynamic-label key="{{::config.label.key}}"></span>
       </label>
       <span wc-help-chevron help-text-key="{{::config.label.helpKey}}"></span>

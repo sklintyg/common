@@ -32,7 +32,11 @@ angular.module('common').directive('ueDynamicComponent',
 
                 $scope.validation = UtkastViewState.validation;
 
-                var componentTemplate = '<' + $scope.config.type + ' form="::form" config="::config" model="::model"></' + $scope.config.type +'>';
+                if (!$scope.config.id) {
+                    $scope.config.id = $scope.config.modelProp;
+                }
+
+                var componentTemplate = '<' + $scope.config.type + ' id="form_{{::config.id}}"  form="::form" config="::config" model="::model"></' + $scope.config.type +'>';
 
                 if ($scope.config.hideExpression)  {
                     componentTemplate = '<div ng-if="!config.hideExpression || !$eval(config.hideExpression)" class="fold-animation">'+componentTemplate+'</div>';

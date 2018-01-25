@@ -310,6 +310,19 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                                 }
                             }
                         }]
+                    }]),
+                    fraga(44, 'FRG_44.RBK', 'FRG_44.HLP', { hideExpression: function(scope) {
+                        var hide = true;
+                        angular.forEach(scope.model.arbetslivsinriktadeAtgarder, function(atgard, key) {
+                            if (atgard === true && key !== 'EJ_AKTUELLT') {
+                                hide = false;
+                                return;
+                            }
+                        });
+                        return hide;
+                    }}, [{
+                        modelProp: 'arbetslivsinriktadeAtgarderBeskrivning',
+                        type: 'ue-textarea'
                     }])
                 ]),
 

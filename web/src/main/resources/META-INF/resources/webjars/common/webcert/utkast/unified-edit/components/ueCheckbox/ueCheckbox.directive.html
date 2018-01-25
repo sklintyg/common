@@ -1,6 +1,6 @@
 <div>
   <label class="big-checkbox-label checkbox-inline" ng-class="::{'bold': config.label.bold}">
-    <input type="checkbox" class="big-checkbox" ng-model="model[config.modelProp]">
+    <input id="{{::config.modelProp}}" type="checkbox" class="big-checkbox" ng-model="model[config.modelProp]">
     <span dynamic-label key="{{::config.label.key}}"></span>
   </label>
 </div>
