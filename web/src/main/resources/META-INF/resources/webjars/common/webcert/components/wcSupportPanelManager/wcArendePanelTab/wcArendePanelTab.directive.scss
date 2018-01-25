@@ -1,0 +1,6 @@
+wc-arende-panel-tab {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+}

@@ -83,7 +83,7 @@ angular.module('lisjp').config(function($stateProvider) {
                 },
 
                 'header@lisjp-edit-60' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader-60.html',
+                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
@@ -93,11 +93,11 @@ angular.module('lisjp').config(function($stateProvider) {
                 },
 
                 'formly@lisjp-edit-60' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
                     resolve: {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        FormFactory: 'lisjp.FormFactory'
+                        UtkastConfigFactory: 'lisjp.UtkastConfigFactory'
                     }
                 }
             }

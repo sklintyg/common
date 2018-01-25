@@ -17,24 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcSupportPanelManager', [ function() {
+angular.module('common').directive('wcSupportPanelScrollableBody', [ function() {
     'use strict';
 
     return {
         restrict: 'E',
-        scope: {
-            config: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelManager.directive.html',
-        link: function($scope) {
-
-            $scope.onSelect = function(newtab, $event) {
-                $event.preventDefault();
-
-                $scope.config.tabs.forEach(function(tab) {
-                    tab.active = (tab.id === newtab.id);
-                });
-            };
-        }
+        transclude: true,
+        scope: {},
+        templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.html'
     };
 } ]);

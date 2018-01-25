@@ -22,24 +22,27 @@
  *
  * Created by marced on 2018-01-16.
  */
-angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', function() {
+angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
     function _getConfig(id, isSigned, isSent, hasKomplettering) {
+
         var config = {
             tabs: [],
             intygContext: {
                 type: 'lisjp',
-                id: id
+                id: id,
+                isSigned: isSigned,
+                isSent: isSent,
+                hasKomplettering: hasKomplettering
             }
         };
 
-        if (isSigned || hasKomplettering) {
+        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || hasKomplettering)) {
             config.tabs.push({
                 id: 'wc-arende-panel-tab',
                 title: 'Frågor & Svar',
                 config: {
-                    tipsText: 'Hello world!',
                     intygContext: config.intygContext
                 }
             });
@@ -48,21 +51,25 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', function() {
         if (!isSigned) {
             config.tabs.push({
                 id: 'wc-fmb-panel-tab',
-                title: 'FMB',config: {
-                    tipsText: 'Hello world!'
-                },
-                active: true
+                title: 'FMB',
+                config: {
+                    intygContext: config.intygContext
+                }
             });
         }
 
+        //Always has this
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
-                tipsText: 'Hello world!'
+                tipsText: 'Hello world!',
+                intygContext: config.intygContext
             }
         });
 
+        // First tab of those added should be active by default
+        config.tabs[0].active = true;
         return angular.copy(config);
     }
 
@@ -70,4 +77,4 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', function() {
         getConfig: _getConfig
     };
 
-});
+} ]);

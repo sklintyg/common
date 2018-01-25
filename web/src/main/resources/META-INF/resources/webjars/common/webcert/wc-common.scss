@@ -63,9 +63,12 @@
   @import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendePanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcFmbPanelTab/wcFmbPanelTab.directive.scss';
+  @import 'components/wcSupportPanelManager/wcHelpTipsPanelTab/wcHelpTipsPanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelComponentRenderer.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelManager.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.scss';
   @import 'components/wcTableHead/wcTableHead.directive.scss';
   @import 'css/_fonts.scss';
   @import 'css/_legacy-to-be-removed.scss';
@@ -125,6 +128,7 @@
     //center content (will show whitespace on sides)
     align-self: center;
     width: 100%;
+    min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
 
 
     //defines padding for "page" workarea containers
@@ -144,6 +148,7 @@
       display: flex;
       flex:1;
       flex-direction: column;
+      min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
     }
 
 
@@ -152,6 +157,7 @@
     .webcert-workarea-hflex-container {
       display: flex;
       flex: 1;
+      min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
 
       .webcert-workarea-intyg {
         position: relative; //important: needs to be relative for anchorScroll to work

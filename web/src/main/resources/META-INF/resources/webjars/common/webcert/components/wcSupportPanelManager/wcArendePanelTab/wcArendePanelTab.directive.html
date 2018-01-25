@@ -1,1 +1,108 @@
-Här är ärendepanel tab direktivet
+<div class="tab-content-title-row">
+  (statistik över kompletteringar/frågor)
+</div>
+
+<wc-support-panel-scrollable-body>
+
+  <!-- utkast mode (taken from META-INF/resources/webjars/common/webcert/fk/arenden/arendeListUtkast.html)-->
+  <div class="row" ng-if="!config.intygContext.isSigned">
+    <div class="col-md-12 arende-column">
+
+      <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading"
+           show-content="viewState.doneLoading">
+
+        <div class="webcert-bottom-padding-section" ng-show="viewState.intygProperties.isLoaded">
+
+          <!-- Kompletteringar heading for utkast view -->
+          <h2 class="col-head">
+            Kompletteringar <span wc-help-chevron help-text-key="common.arende.help.kompletteringar"></span>
+          </h2>
+          <span wc-help-chevron-text help-text-key="common.arende.help.kompletteringar"></span>
+          <!-- error message -->
+          <wc-alert-message id="arende-list-load-error"
+                            ng-show="viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
+            <span message key="common.error.{{viewState.activeErrorMessageKey}}"></span>
+          </wc-alert-message>
+
+        </div>
+
+        <div id="unhandledArendeCol" class="arende-list-section" ng-show="arendeList.length > 0">
+
+          <div ng-show="(arendeList | filter:kompletteringarFilter | filter:openArendenFilter).length == 0"
+               id="allKompletteringarHandled">
+            Alla kompletteringar är hanterade.
+          </div>
+
+          <!-- list of open arenden -->
+          <div
+              ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | filter:openArendenFilter | orderBy:'senasteHandelse':true"
+              class="arende-item">
+            <div arende-panel-utkast panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList"
+                 parent-view-state="viewState"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!--  end spinner -->
+  </div>
+
+
+  <!-- signerat mode (taken from META-INF/resources/webjars/common/webcert/fk/arenden/arendeList.html)-->
+
+  <div class="row" ng-if="config.intygContext.isSigned">
+    <div class="col-md-12 arende-column">
+
+      <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading"
+           show-content="viewState.doneLoading">
+
+        <div class="webcert-bottom-padding-section" ng-show="viewState.intygProperties.isLoaded">
+
+          <!-- new arende form -->
+          <div ng-show="viewState.doneLoading && viewState.activeErrorMessageKey == null" arende-new
+               arende-list="arendeList" parent-view-state="viewState"></div>
+
+          <!-- error message -->
+          <wc-alert-message id="arende-list-load-error"
+                            ng-show="viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
+            <span message key="common.error.{{viewState.activeErrorMessageKey}}"></span>
+          </wc-alert-message>
+
+        </div>
+
+        <div id="unhandledArendeCol" class="arende-list-section" ng-show="arendeList.length > 0">
+
+          <!-- list of open arenden -->
+          <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelse':true"
+               class="arende-item">
+            <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList"
+                 parent-view-state="viewState"></div>
+          </div>
+
+          <!-- list of closed arenden -->
+          <h2 class="col-head" ng-show="arendeListFiltered.length > 0">
+            Tidigare frågor och svar <span wc-help-chevron help-text-key="common.arende.help.handled"></span>
+          </h2>
+          <span wc-help-chevron-text help-text-key="common.arende.help.handled"></span>
+          <div
+              ng-repeat="arendeListItem in arendeListFiltered = (arendeList | filter:closedArendenFilter | orderBy:'senasteHandelse':true)"
+              class="arende-item">
+            <div arende-panel panel-id="handled" arende-list-item="arendeListItem" arende-list="arendeList"
+                 parent-view-state="viewState"></div>
+          </div>
+
+        </div>
+
+      </div>
+      <!--  end spinner -->
+
+    </div>
+
+  </div>
+
+
+</wc-support-panel-scrollable-body>
+
+

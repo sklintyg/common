@@ -1,6 +1,6 @@
 <ul class="support-tabs">
   <li ng-repeat="tab in config.tabs" role="presentation" ng-class="{'active': tab.active}">
-    <a href ng-click="$event.preventDefault(); onSelect(tab);">{{tab.title}}</a>
+    <a href ng-click="onSelect(tab, $event)" ng-attr-id="{{'tab-link-' + tab.id}}">{{tab.title}}</a>
   </li>
 </ul>
 

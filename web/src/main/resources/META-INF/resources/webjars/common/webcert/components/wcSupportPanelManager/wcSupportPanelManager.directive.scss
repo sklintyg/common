@@ -6,12 +6,11 @@ wc-support-panel-manager {
   $tab-text-color-hover: $wc-color-21;
 
   $tab-background-color: $wc-color-00;
-  $tab-background-color-hover: #E9EAED;//$wc-color-28; //TODO: variable
+  $tab-background-color-hover: #E9EAED; //$wc-color-28; //TODO: variable
 
   $active-tab-text-color: $wc-color-19;
   $active-tab-background-color: $wc-color-15;
   $active-tab-border-color: $active-tab-background-color;
-
 
   display: flex;
   flex: auto;
@@ -21,7 +20,6 @@ wc-support-panel-manager {
 
   //to make diagnoses ellipsise correctly
   max-width: 560px;
-
 
   // Tabs
   ul.support-tabs {
@@ -77,11 +75,12 @@ wc-support-panel-manager {
 
   }
 
-//used by tab instances fmb-panel-tab etc
+  //used by tab instances fmb-panel-tab etc
   .tab-content-container {
     display: flex;
     flex: 1;
     flex-direction: column;
+    min-height: 1%;
     border: 1px solid $tab-border-color;
   }
 
@@ -90,17 +89,10 @@ wc-support-panel-manager {
     padding: 19px 15px;
   }
 
-  .tab-content-scrollable-body {
-    padding: 20px;
-    flex: 1;
-    overflow: auto;
-  }
 
-  .scrollable-flex-content {
-    padding: 20px;
-    flex: 1;
-    overflow: auto;
-  }
+
+
+
   .footer {
     flex: 1;
     padding: 10px;
