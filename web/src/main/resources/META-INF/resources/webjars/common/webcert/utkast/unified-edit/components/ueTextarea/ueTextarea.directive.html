@@ -4,8 +4,8 @@
                        warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
                        validations="validation.messagesByField[config.modelProp.toLowerCase()]">
   <ue-form-label config="::config.label"></ue-form-label>
-  <textarea id="{{::config.modelProp}}" name="{{::config.modelProp}}" class="form-control" rows="6" auto-expand
-            ng-model="model[config.modelProp]" ng-model-options="{ debounce: 500 }"
+  <textarea id="{{::config.id}}" name="{{::config.modelProp}}" class="form-control" rows="6" auto-expand
+            ng-model="$eval('model.' + config.modelProp)" ng-model-options="{ debounce: 500 }"
             maxlength="{{::config.htmlMaxlength || 3500}}" ng-blur="onBlur()">
   </textarea>
 </wc-validation-wrapper>

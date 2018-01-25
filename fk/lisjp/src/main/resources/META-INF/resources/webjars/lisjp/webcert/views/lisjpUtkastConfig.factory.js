@@ -115,7 +115,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                     }])
                 ]),
 
-                kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
+                kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
                     fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', { required: true}, [{
                         type: 'ue-textarea',
                         modelProp: 'funktionsnedsattning',
@@ -339,6 +339,11 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         }
                     }])
                 ]),
+
+                {
+                    type: 'ue-tillaggsfragor'
+                },
+
                 ueFactoryTemplates.vardenhet
             ];
 
