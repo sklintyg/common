@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 //TODO: Innehållet i detta direktiv är kopierat rakt av från META-INF/resources/webjars/common/webcert/fk/arenden/arendeList.controller.js och templaten och rakt av från
 
 angular.module('common').directive('wcArendePanelTab', [
