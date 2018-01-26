@@ -42,9 +42,6 @@ angular.module('common').factory('common.PrefilledUserDataService',
                 reset();
                 // Adress, enligt INTYG-5354.
                 // Vi vet inte här om adressvärdena kommer från PU eller js, men det spelar ändå ingen roll vilket.
-                console.log(viewState.intygModel.grundData.patient.postadress);
-                console.log(viewState.intygModel.grundData.patient.postnummer);
-                console.log(viewState.intygModel.grundData.patient.postort);
                 prefilled.completeAddress = isPrefilledValue(viewState.intygModel.grundData.patient.postadress) &&
                     isPrefilledValue(viewState.intygModel.grundData.patient.postnummer) &&
                     isPrefilledValue(viewState.intygModel.grundData.patient.postort);
