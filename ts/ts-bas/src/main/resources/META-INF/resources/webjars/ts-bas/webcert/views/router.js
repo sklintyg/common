@@ -32,7 +32,10 @@ angular.module('ts-bas').config(function($stateProvider) {
             views : {
                 'content@': {
                     templateUrl: intygsTypPath + 'views/utkast/utkast.html',
-                    controller: 'ts-bas.UtkastController'
+                    controller: 'ts-bas.UtkastController',
+                    resolve: {
+                        supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
+                    }
                 },
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
@@ -138,7 +141,10 @@ angular.module('ts-bas').config(function($stateProvider) {
             views: {
                 'intyg@webcert.intyg.ts': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'ts-bas.IntygController'
+                    controller: 'ts-bas.IntygController',
+                    resolve: {
+                        supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
+                    }
                 },
                 'header@webcert.intyg.ts.bas': {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',

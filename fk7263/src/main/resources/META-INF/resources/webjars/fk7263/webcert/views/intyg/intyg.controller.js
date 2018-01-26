@@ -19,8 +19,9 @@
 angular.module('fk7263').controller('fk7263.ViewCertCtrl',
     [ '$log', '$rootScope', '$stateParams', '$scope', '$state',
         'common.IntygProxy', 'common.UserModel', 'fk7263.IntygController.ViewStateService', 'fk7263.viewConfigFactory',
+        'supportPanelConfigFactory',
         function($log, $rootScope, $stateParams, $scope, $state,
-            IntygProxy, UserModel, ViewState, viewConfigFactory) {
+            IntygProxy, UserModel, ViewState, viewConfigFactory, supportPanelConfigFactory) {
             'use strict';
 
             ViewState.reset();
@@ -32,6 +33,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
             $scope.cert = undefined;
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
+            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
 
             // Check if the user used the special qa-link to get here.
             $scope.isQaOnly = UserModel.isUthopp();

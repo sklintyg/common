@@ -31,7 +31,8 @@ angular.module('doi').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'doi.EditCertCtrl.ViewStateService',
-                        FormFactory: 'doi.FormFactory'
+                        FormFactory: 'doi.FormFactory',
+                        supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
                     }
                 },
 
@@ -68,7 +69,8 @@ angular.module('doi').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'doi.IntygController.ViewStateService',
-                        ViewConfigFactory: 'doi.viewConfigFactory'
+                        ViewConfigFactory: 'doi.viewConfigFactory',
+                        supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
                     }
                 },
                 'header@webcert.intyg.fk.doi' : {

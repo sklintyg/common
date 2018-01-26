@@ -19,8 +19,9 @@
 angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
     [ '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygProxy', 'common.UserModel',
         'ts-diabetes.IntygController.ViewStateService', 'common.dynamicLabelService', 'ts-diabetes.viewConfigFactory',
+        'supportPanelConfigFactory',
         function($log, $rootScope, $stateParams, $scope, IntygProxy,
-            UserModel, ViewState, DynamicLabelService, viewConfigFactory) {
+            UserModel, ViewState, DynamicLabelService, viewConfigFactory, supportPanelConfigFactory) {
             'use strict';
 
             /*********************************************************************
@@ -32,6 +33,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
             $scope.cert = undefined;
             $scope.user = UserModel.user;
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
+            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
 
             /*********************************************************************
              * Private support functions

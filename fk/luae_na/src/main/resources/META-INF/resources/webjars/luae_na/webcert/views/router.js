@@ -31,7 +31,8 @@ angular.module('luae_na').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'luae_na.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luae_na.FormFactory'
+                        FormFactory: 'luae_na.FormFactory',
+                        supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
                     }
                 },
 
@@ -56,11 +57,6 @@ angular.module('luae_na').config(function($stateProvider) {
                         ViewState: 'luae_na.EditCertCtrl.ViewStateService',
                         FormFactory: 'luae_na.FormFactory'
                     }
-                },
-
-                'fragasvar@luae_na-edit' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
-                    controller: 'common.ArendeListCtrl'
                 }
             }
         }).
@@ -73,12 +69,9 @@ angular.module('luae_na').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luae_na.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luae_na.viewConfigFactory'
+                        ViewConfigFactory: 'luae_na.viewConfigFactory',
+                        supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
                     }
-                },
-                'fragasvar@webcert.intyg.fk.luae_na' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
                 },
                 'header@webcert.intyg.fk.luae_na' : {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
@@ -95,12 +88,9 @@ angular.module('luae_na').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luae_na.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luae_na.viewConfigFactory'
+                        ViewConfigFactory: 'luae_na.viewConfigFactory',
+                        supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
                     }
-                },
-                'fragasvar@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
                 },
                 'header@webcert.fragasvar.luae_na' : {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',

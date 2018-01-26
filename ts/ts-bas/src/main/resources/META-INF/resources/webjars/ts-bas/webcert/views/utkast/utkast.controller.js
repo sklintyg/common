@@ -20,9 +20,9 @@ angular.module('ts-bas').controller('ts-bas.UtkastController',
     [ '$location', '$q', '$rootScope', '$scope', '$timeout', '$window',
         'common.UtkastService', 'common.UserModel',
         'ts-bas.Domain.IntygModel',
-        'ts-bas.UtkastController.ViewStateService', 'common.UtkastValidationService', 'common.PrefilledUserDataService',
+        'ts-bas.UtkastController.ViewStateService', 'common.UtkastValidationService', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
         function($location, $q, $rootScope, $scope, $timeout, $window,
-            UtkastService, UserModel, IntygModel, viewState, UtkastValidationService, prefilledUserDataService) {
+            UtkastService, UserModel, IntygModel, viewState, UtkastValidationService, prefilledUserDataService, supportPanelConfigFactory) {
             'use strict';
 
             /**********************************************************************************
@@ -99,6 +99,7 @@ angular.module('ts-bas').controller('ts-bas.UtkastController',
                 }
                 //Expose pdf download link
                 $scope.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
+                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig(intygModel.id, false);
 
             });
 

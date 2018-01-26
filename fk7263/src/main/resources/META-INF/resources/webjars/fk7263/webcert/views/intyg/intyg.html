@@ -23,10 +23,8 @@
   </div>
 
   <!-- fråga svar -->
-  <div class="webcert-workarea-supportpanel remove-when-migrated-to-supportpanel-scrollable-flex-content" wc-authority
-       feature="HANTERA_FRAGOR" intygstyp="{{widgetState.certificateType}}">
-    <h2 class="col-head">Frågor och svar</h2>
-    <div ui-view="fragasvar" />
+  <div class="webcert-workarea-supportpanel" ng-if="::supportPanelConfig">
+    <wc-support-panel-manager config="supportPanelConfig"></wc-support-panel-manager>
   </div>
 
 

@@ -82,8 +82,10 @@
     </div>
     <!-- row -->
   </div>
-  <div class="webcert-workarea-supportpanel remove-when-migrated-to-supportpanel-scrollable-flex-content">
-    (supportpanel)
+
+
+  <div class="webcert-workarea-supportpanel" ng-if="::supportPanelConfig">
+    <wc-support-panel-manager config="supportPanelConfig"></wc-support-panel-manager>
   </div>
 
 </div>

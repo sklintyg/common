@@ -32,7 +32,10 @@ angular.module('ts-diabetes').config(function($stateProvider) {
             views : {
                 'content@': {
                     templateUrl: intygsTypPath + 'views/utkast/utkast.html',
-                    controller: 'ts-diabetes.UtkastController'
+                    controller: 'ts-diabetes.UtkastController',
+                    resolve: {
+                        supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
+                    }
                 },
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
@@ -95,7 +98,10 @@ angular.module('ts-diabetes').config(function($stateProvider) {
             views: {
                 'intyg@webcert.intyg.ts': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'ts-diabetes.IntygController'
+                    controller: 'ts-diabetes.IntygController',
+                    resolve: {
+                        supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
+                    }
                 },
                 'header@webcert.intyg.ts.diabetes': {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',

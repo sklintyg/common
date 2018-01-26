@@ -19,9 +19,9 @@
 angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
-        'ViewState', 'FormFactory', 'common.PrefilledUserDataService',
+        'ViewState', 'FormFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
         function($scope, $state,
-            UtkastService, UserModel, fmbService, fmbViewState, viewState, formFactory, prefilledUserDataService) {
+            UtkastService, UserModel, fmbService, fmbViewState, viewState, formFactory, prefilledUserDataService, supportPanelConfigFactory) {
             'use strict';
 
             /**********************************************************************************
@@ -56,6 +56,8 @@ angular.module('common').controller('smi.EditCertCtrl',
                 if($state.current.data.useFmb) {
                     fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
                 }
+                //id, isSigned, isKomplettering
+                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig(intygModel.id, false, viewState.common.intyg.isKomplettering);
             });
 
             $scope.$on('saveRequest', function($event, saveDeferred) {

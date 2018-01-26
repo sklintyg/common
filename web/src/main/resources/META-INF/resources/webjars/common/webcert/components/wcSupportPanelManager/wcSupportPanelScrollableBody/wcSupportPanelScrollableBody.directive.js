@@ -22,7 +22,9 @@ angular.module('common').directive('wcSupportPanelScrollableBody', [ function() 
     return {
         restrict: 'E',
         transclude: true,
-        scope: {},
+        scope: {
+            domId: '@'
+        },
         templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.html'
     };
 } ]);

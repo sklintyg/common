@@ -20,8 +20,9 @@ angular.module('ts-bas').controller('ts-bas.IntygController',
     [ '$log', '$rootScope', '$stateParams', '$scope',
         'common.IntygProxy', 'common.User',
         'ts-bas.IntygController.ViewStateService', 'common.dynamicLabelService', 'ts-bas.viewConfigFactory',
+        'supportPanelConfigFactory',
         function($log, $rootScope, $stateParams, $scope, IntygProxy,
-            User, ViewState, DynamicLabelService, viewConfigFactory) {
+            User, ViewState, DynamicLabelService, viewConfigFactory, supportPanelConfigFactory) {
             'use strict';
 
             /*********************************************************************
@@ -33,6 +34,7 @@ angular.module('ts-bas').controller('ts-bas.IntygController',
             $scope.cert = undefined;
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
+            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
 
             $scope.user = { lakare: User.getUser().lakare };
 

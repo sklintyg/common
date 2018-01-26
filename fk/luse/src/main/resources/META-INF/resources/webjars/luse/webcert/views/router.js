@@ -31,7 +31,8 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'luse.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luse.FormFactory'
+                        FormFactory: 'luse.FormFactory',
+                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },
 
@@ -56,11 +57,6 @@ angular.module('luse').config(function($stateProvider) {
                         ViewState: 'luse.EditCertCtrl.ViewStateService',
                         FormFactory: 'luse.FormFactory'
                     }
-                },
-
-                'fragasvar@luse-edit' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
-                    controller: 'common.ArendeListCtrl'
                 }
             }
         }).
@@ -73,12 +69,9 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luse.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luse.viewConfigFactory'
+                        ViewConfigFactory: 'luse.viewConfigFactory',
+                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
-                },
-                'fragasvar@webcert.intyg.fk.luse' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
                 },
                 'header@webcert.intyg.fk.luse' : {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
@@ -95,12 +88,9 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luse.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luse.viewConfigFactory'
+                        ViewConfigFactory: 'luse.viewConfigFactory',
+                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
-                },
-                'fragasvar@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
                 },
                 'header@webcert.fragasvar.luse' : {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',

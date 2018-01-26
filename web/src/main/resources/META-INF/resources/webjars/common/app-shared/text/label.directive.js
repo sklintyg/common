@@ -33,7 +33,7 @@ angular.module('common').directive('dynamicLabel',
 
                     function updateText(interpolatedKey) {
                         // Try to find the key in the messageService first
-                        result = messageService.propertyExists(interpolatedKey);
+                        result = messageService.propertyExists(angular.lowercase(interpolatedKey));
 
                         if (!result) {
                             result = dynamicLabelService.getProperty(interpolatedKey);

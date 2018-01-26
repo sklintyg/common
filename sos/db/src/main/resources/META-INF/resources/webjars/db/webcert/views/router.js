@@ -31,7 +31,8 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'db.EditCertCtrl.ViewStateService',
-                        FormFactory: 'db.FormFactory'
+                        FormFactory: 'db.FormFactory',
+                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
 
@@ -56,11 +57,6 @@ angular.module('db').config(function($stateProvider) {
                         ViewState: 'db.EditCertCtrl.ViewStateService',
                         FormFactory: 'db.FormFactory'
                     }
-                },
-
-                'fragasvar@db-edit' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
-                    controller: 'common.ArendeListCtrl'
                 }
             }
         }).
@@ -75,10 +71,6 @@ angular.module('db').config(function($stateProvider) {
                         ViewState: 'db.IntygController.ViewStateService',
                         ViewConfigFactory: 'db.viewConfigFactory'
                     }
-                },
-                'fragasvar@webcert.intyg.fk.db' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
                 },
                 'header@webcert.intyg.fk.db' : {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
@@ -95,7 +87,8 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'db.IntygController.ViewStateService',
-                        ViewConfigFactory: 'db.viewConfigFactory'
+                        ViewConfigFactory: 'db.viewConfigFactory',
+                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
                 'fragasvar@webcert.fragasvar' : {

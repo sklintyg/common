@@ -6,10 +6,10 @@
   </span>
 </div>
 
-<wc-support-panel-scrollable-body>
+<wc-support-panel-scrollable-body dom-id="fmb-panel-scrollable-body">
 
   <span ng-repeat="d in fmb.diagnoses" ng-if="d === vm.activeDiagnose">
-     <wc-alert-message alert-message-id="warning" ng-if="d.diagnosKod !== d.originalDiagnosKod">
+     <wc-alert-message alert-message-id="fmb-not-original-diagnose-for-{{d.diagnosKod}}" alert-severity="info" ng-if="d.diagnosKod !== d.originalDiagnosKod">
       <span id="fmb_diagnos_not_in_fmb_alert">Det FMB-stöd som visas är för koden {{d.diagnosKod}} - {{d.diagnosBeskrivning}}.</span>
     </wc-alert-message>
 
@@ -18,10 +18,10 @@
         <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">
           <span dynamic-label key="{{'fmb.' + item.heading}}"></span>
         </h4>
-        <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.text">{{item.text}}</section>
-        <section class="fmb-section" id="fm{{item.text}}f=" item.list">
+        <section class="fmb-section" id="fmb_text_{{::item.heading}}" ng-if="::item.text">{{::item.text}}</section>
+        <section class="fmb-section" id="fmb_text_{{::item.heading}}_list">
           <ul class="fmb-bullet-list" ng-repeat="bullet in item.list track by $index">
-            <li id="fmb_bullet_{{item.heading}}_{{$index}}">{{bullet}}</li>
+            <li id="fmb_bullet_{{::item.heading}}_{{$index}}">{{::bullet}}</li>
           </ul>
         </section>
       </div>

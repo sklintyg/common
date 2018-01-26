@@ -17,43 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * Creates the supportpanel config related to working with lisjp intyg and utkast
+ * Creates the supportpanel config related to working with db intyg and utkast
  *
- * Created by marced on 2018-01-16.
+ * Created by marced on 2018-01-26.
  */
-angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
+angular.module('db').factory('db.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, isSigned) {
 
         var config = {
             tabs: [],
             intygContext: {
-                type: 'lisjp',
+                type: 'db',
                 id: id,
                 isSigned: isSigned
             }
         };
-
-        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
-            config.tabs.push({
-                id: 'wc-arende-panel-tab',
-                title: 'Frågor & Svar',
-                config: {
-                    intygContext: config.intygContext
-                }
-            });
-        }
-
-        if (!isSigned) {
-            config.tabs.push({
-                id: 'wc-fmb-panel-tab',
-                title: 'FMB',
-                config: {
-                    intygContext: config.intygContext
-                }
-            });
-        }
 
         //Always has this
         config.tabs.push({

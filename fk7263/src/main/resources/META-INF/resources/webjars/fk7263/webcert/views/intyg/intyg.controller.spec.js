@@ -45,6 +45,7 @@ describe('IntygController', function() {
                 };
             };
         });
+
     }));
 
     // Get references to the object we want to test from the context.
@@ -64,8 +65,12 @@ describe('IntygController', function() {
 
     describe('#loadIntyg', function() {
         it('should run when controller is created', function(){
-
-            $controller('fk7263.ViewCertCtrl' , { $scope: $scope, viewState:viewState });
+            var supportPanelMock = {
+                getConfig: function() {
+                    return {};
+                }
+            };
+            $controller('fk7263.ViewCertCtrl' , { $scope: $scope, viewState:viewState , supportPanelConfigFactory: supportPanelMock});
 
             expect(IntygProxy.getIntyg).toHaveBeenCalled();
         });

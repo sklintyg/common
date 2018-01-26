@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 /**
- * Creates the supportpanel config related to working with lisjp intyg and utkast
+ * Creates the supportpanel config related to working with luae_fs intyg and utkast
  *
  * Created by marced on 2018-01-16.
  */
-angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
+angular.module('luae_fs').factory('luae_fs.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
     function _getConfig(id, isSigned, isKompletteringsUtkast) {
@@ -29,7 +30,7 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
         var config = {
             tabs: [],
             intygContext: {
-                type: 'lisjp',
+                type: 'luae_fs',
                 id: id,
                 isSigned: isSigned
             }
@@ -39,16 +40,6 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
             config.tabs.push({
                 id: 'wc-arende-panel-tab',
                 title: 'Frågor & Svar',
-                config: {
-                    intygContext: config.intygContext
-                }
-            });
-        }
-
-        if (!isSigned) {
-            config.tabs.push({
-                id: 'wc-fmb-panel-tab',
-                title: 'FMB',
                 config: {
                     intygContext: config.intygContext
                 }

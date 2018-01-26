@@ -63,43 +63,6 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'common.ArendeListCtrl'
                 }
             }
-        }).state('lisjp-edit-60', {
-            data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
-            url : '/lisjp/edit-60/:certificateId/:focusOn',
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast-60.html',
-                    controller: 'smi.EditCertCtrl-60',
-                    resolve: {
-                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        FormFactory: 'lisjp.FormFactory',
-                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
-                    }
-                },
-
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
-
-                'header@lisjp-edit-60' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
-
-                'footer@lisjp-edit-60' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
-
-                'formly@lisjp-edit-60' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'lisjp.UtkastConfigFactory'
-                    }
-                }
-            }
         }).state('lisjp-edit', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
             url : '/lisjp/edit/:certificateId/:focusOn',
@@ -109,7 +72,8 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        FormFactory: 'lisjp.FormFactory'
+                        FormFactory: 'lisjp.FormFactory',
+                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
 
@@ -134,12 +98,7 @@ angular.module('lisjp').config(function($stateProvider) {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
                         UtkastConfigFactory: 'lisjp.UtkastConfigFactory'
                     }
-                 },
-
-                'fragasvar@lisjp-edit' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
-                        controller: 'common.ArendeListCtrl'
-                }
+                 }
             }
         }).state('webcert.intyg.fk.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
@@ -150,12 +109,9 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'lisjp.IntygController.ViewStateService',
-                        ViewConfigFactory: 'lisjp.viewConfigFactory'
+                        ViewConfigFactory: 'lisjp.viewConfigFactory',
+                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
-                },
-                'fragasvar@webcert.intyg.fk.lisjp' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
                 },
                 'header@webcert.intyg.fk.lisjp' : {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
@@ -172,12 +128,9 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'lisjp.IntygController.ViewStateService',
-                        ViewConfigFactory: 'lisjp.viewConfigFactory'
+                        ViewConfigFactory: 'lisjp.viewConfigFactory',
+                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
-                },
-                'fragasvar@webcert.fragasvar.lisjp' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
                 },
                 'header@webcert.fragasvar.lisjp' : {
                     templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',

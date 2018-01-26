@@ -166,7 +166,7 @@ describe('ts-diabetes.IntygController', function() {
                 };
             };
         });
-    }));
+     }));
 
     var $scope, ctrl;
 
@@ -175,7 +175,12 @@ describe('ts-diabetes.IntygController', function() {
         $controller = _$controller_;
         $httpBackend = _$httpBackend_;
         $scope = $rootScope.$new();
-        ctrl = $controller('ts-diabetes.IntygController', { $scope: $scope });
+        var supportPanelMock = {
+            getConfig: function() {
+                return {};
+            }
+        };
+        ctrl = $controller('ts-diabetes.IntygController', { $scope: $scope, supportPanelConfigFactory: supportPanelMock });
 
         $scope.$digest();
     }]));
