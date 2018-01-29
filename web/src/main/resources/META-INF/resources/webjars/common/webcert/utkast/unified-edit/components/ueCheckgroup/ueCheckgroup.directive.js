@@ -22,6 +22,7 @@ angular.module('common').directive('ueCheckgroup', [ 'common.AtticHelper', 'comm
     return {
         restrict: 'E',
         scope: {
+            form: '=',
             config: '=',
             model: '='
         },
@@ -37,6 +38,8 @@ angular.module('common').directive('ueCheckgroup', [ 'common.AtticHelper', 'comm
             AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
 
             ueUtil.setupWatchers($scope, $scope.config);
+
+            $scope.onChange = angular.bind(this, ueUtil.updateValidation, $scope.form, $scope.model);
         }
     };
 

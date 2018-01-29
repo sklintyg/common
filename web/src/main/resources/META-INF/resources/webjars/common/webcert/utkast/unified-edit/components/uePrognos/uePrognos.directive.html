@@ -3,7 +3,7 @@
         <ue-form-label config="::config.label"></ue-form-label>
     </div>
 
-    <wc-validation-group field-type="radio-group"
+    <ue-validation-wrapper field-type="radio-group"
                          validations="validation.messagesByField[config.modelProp]">
         <div class="form-group form-inline" data-ng-repeat="choice in ::config.choices">
 
@@ -16,7 +16,7 @@
             <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
 
             <div ng-if="choice.showDropDown" class="prognos-dropdown">
-                <wc-validation-wrapper field-type="select"
+                <ue-validation-wrapper field-type="select"
                                        validations="validation.messagesByField[config.modelProp + '.dagartillarbete']">
                     <ui-select theme="bootstrap" search-enabled="false" ng-model="model[config.modelProp].dagarTillArbete"
                                on-select="validate()"
@@ -29,11 +29,11 @@
                             <span ng-bind="item.label"></span>
                         </ui-select-choices>
                     </ui-select>
-                </wc-validation-wrapper>
+                </ue-validation-wrapper>
             </div>
 
         </div>
 
-    </wc-validation-group>
+    </ue-validation-wrapper>
 
 </div>

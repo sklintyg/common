@@ -1,4 +1,4 @@
-<wc-validation-wrapper field-type="textarea"
+<ue-validation-wrapper field-type="textarea"
                        label-col-size="{{::config.labelColSize}}"
                        key="{{::config.modelProp}}"
                        warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
@@ -8,4 +8,4 @@
             ng-model="modelGetterSetter" ng-model-options="{ debounce: 500, getterSetter: true }"
             maxlength="{{::config.htmlMaxlength || 3500}}" ng-blur="onBlur()">
   </textarea>
-</wc-validation-wrapper>
+</ue-validation-wrapper>

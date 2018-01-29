@@ -1,13 +1,19 @@
-<div class="form-horizontal">
-  <ue-form-label config="::config.label"></ue-form-label>
-  <div data-ng-repeat="choice in ::config.choices">
-    <label class="big-checkbox-label checkbox-inline">
-      <input id="{{::config.modelProp}}-{{::choice}}" type="checkbox" class="big-checkbox" ng-model="model[config.modelProp][choice]">
-      <span dynamic-label key="{{::config.code}}.{{::choice}}.RBK"></span>
-    </label>
-    <div ng-if="::config.enableHelp">
-      <span wc-help-chevron help-text-key="{{::config.code}}.{{::choice}}.HLP"></span>
-      <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::choice}}.HLP"></span>
+<ue-validation-wrapper field-type="checkgroup"
+                       label-col-size="{{::config.labelColSize}}"
+                       key="{{::config.modelProp}}"
+                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <div class="form-horizontal">
+    <ue-form-label config="::config.label"></ue-form-label>
+    <div data-ng-repeat="choice in ::config.choices">
+      <label class="big-checkbox-label checkbox-inline">
+        <input id="{{::config.modelProp}}-{{::choice}}" type="checkbox" class="big-checkbox" ng-model="model[config.modelProp][choice]" ng-change="onChange()">
+        <span dynamic-label key="{{::config.code}}.{{::choice}}.RBK"></span>
+      </label>
+      <div ng-if="::config.enableHelp">
+        <span wc-help-chevron help-text-key="{{::config.code}}.{{::choice}}.HLP"></span>
+        <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::choice}}.HLP"></span>
+      </div>
     </div>
   </div>
-</div>
+</ue-validation-wrapper>
