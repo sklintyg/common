@@ -6,8 +6,7 @@
   <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid" ng-show="!viewState.common.activeErrorMessageKey">
         <!-- fk7263-ns -->
     <div class="{{viewState.common.intyg.type}}-ns weak-hidden" ng-class="{show: viewState.common.showTemplate}">
-      <div wc-spinner label="common.load.certificate" show-spinner="!viewState.common.doneLoading"
-           show-content="viewState.common.doneLoading">
+      <wc-spinner label="common.load.certificate" show-spinner="!viewState.common.doneLoading">
 
         <div id="certificate" ng-class="{'certificate': true, 'revoked-certificate' : viewState.common.intygProperties.isRevoked}">
           <div class="row">
@@ -18,7 +17,7 @@
             </div>
           </div>
         </div>
-      </div><!-- entire intyg -->
+      </wc-spinner><!-- entire intyg -->
     </div><!--  spinner end -->
   </div>
 

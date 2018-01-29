@@ -1,4 +1,4 @@
-/*
+/*!
  * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -16,17 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcSpinner',
-    [ function() {
-        'use strict';
 
-        return {
-            restrict: 'E',
-            transclude: true,
-            scope: {
-                label: '@',
-                showSpinner: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/components/wcSpinner/wcSpinner.directive.html'
-        };
-    }]);
+wc-spinner  {
+
+  .ng-hide.ng-hide-animate {
+    display: none !important;
+  }
+
+  .wc-spinner {
+    text-align: center;
+    padding: 20px;
+    p {
+      text-align: center;
+      color: $wc-color-10;
+      margin-top: 20px;
+    }
+  }
+
+}

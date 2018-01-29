@@ -1,6 +1,5 @@
 <div class="wc-intyg-read-only container-fluid">
-  <div wc-spinner label="common.load.certificate" show-spinner="!viewState.doneLoading"
-       show-content="viewState.doneLoading">
+  <wc-spinner label="common.load.certificate" show-spinner="!viewState.doneLoading">
 
     <div ng-show="!viewState.errorKey">
       <div id="read-only-certificate">
@@ -22,5 +21,5 @@
     <wc-alert-message id="intyg-read-only-error" ng-if="viewState.errorKey"
                       alert-severity="danger" alert-message-id="{{viewState.errorKey}}">
     </wc-alert-message>
-  </div>
+  </wc-spinner>
 </div>

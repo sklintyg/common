@@ -63,6 +63,7 @@
   @import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
+  @import 'components/wcSpinner/wcSpinner.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendePanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcFmbPanelTab/wcFmbPanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcHelpTipsPanelTab/wcHelpTipsPanelTab.directive.scss';
@@ -536,20 +537,6 @@
     right: -10px;
   }
 
-  /* Used in wcSpinner.directive.html */
-  .wc-spinner {
-    text-align: center;
-    padding: 20px;
-    p {
-      text-align: center;
-      color: $wc-color-10;
-      margin-top: 20px;
-    }
-  }
-  .header-fix-top .wc-spinner {
-    height: 90px;
-    padding: 4px;
-  }
   /* Used in patient-address-updater.formly.html */
   .wc-utkast-patient-address-updater {
 

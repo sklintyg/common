@@ -1,8 +1,7 @@
 <div class="row weak-hidden" ng-class="{show: viewState.showTemplate}">
   <div class="col-md-12 arende-column">
 
-    <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading"
-         show-content="viewState.doneLoading">
+    <wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading">
 
       <div class="webcert-bottom-padding-section" ng-show="viewState.intygProperties.isLoaded">
 
@@ -33,7 +32,7 @@
 
       </div>
 
-    </div>
+    </wc-spinner>
 
   </div>
   <!--  end spinner -->

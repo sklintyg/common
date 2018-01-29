@@ -21,8 +21,7 @@
 
           <form id="certForm" name="certForm" novalidate autocomplete="off" wc-auto-save="save(true)">
             <div ng-hide="viewState.common.error.activeErrorMessageKey">
-              <div wc-spinner label="info.loadingdata" show-spinner="!viewState.common.doneLoading"
-                   show-content="viewState.common.doneLoading">
+              <wc-spinner label="info.loadingdata" show-spinner="!viewState.common.doneLoading">
 
                 <div id="certificate" class="row certificate">
                   <div class="col-md-12 intyg-body">
@@ -72,7 +71,7 @@
                 <wc-utkast-error-summary-fk view-state="viewState"></wc-utkast-error-summary-fk>
                 <div ui-view="footer"></div>
 
-              </div>
+              </wc-spinner>
             </div>
           </form>
         </div>

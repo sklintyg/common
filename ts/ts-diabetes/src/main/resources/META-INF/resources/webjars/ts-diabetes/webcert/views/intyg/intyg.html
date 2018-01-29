@@ -3,8 +3,7 @@
 
 <div class="webcert-workarea-hflex-container">
   <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid ts-diabetes-ns weak-hidden" ng-class="{show: viewState.common.showTemplate}">
-    <div wc-spinner label="common.load.certificate" show-spinner="!viewState.common.doneLoading"
-         show-content="viewState.common.doneLoading">
+    <wc-spinner label="common.load.certificate" show-spinner="!viewState.common.doneLoading">
 
 
       <div ng-show="!viewState.common.activeErrorMessageKey">
@@ -20,7 +19,7 @@
         </div>
       </div>
       <!-- entire intyg -->
-    </div>
+    </wc-spinner>
     <!--  spinner end -->
   </div>
 
