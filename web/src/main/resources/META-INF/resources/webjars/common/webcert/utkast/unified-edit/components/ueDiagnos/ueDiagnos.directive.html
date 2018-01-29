@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<ng-form name="diagnosForm">
+<ng-form name="diagnosForm" class="ueDiagnos">
     <table>
         <tr>
             <th>
@@ -50,7 +50,7 @@
                            typeahead-min-length="3"
                            typeahead-editable="false"
                            typeahead-on-select="onDiagnoseCodeSelect($index, $item)"
-                           typeahead-template-url="/web/webjars/common/webcert/utkast/formly/diagnos.formly.typeahead_template.html"
+                           typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnos/ueDiagnos.typeahead_template.html"
                            typeahead-loading="diagnosKodLoading[$index]"
                            typeahead-no-results="diagnosKodNoResults[$index]"
                            ng-blur="onBlurDiagnoseCodeField($index); validate()"
@@ -80,7 +80,7 @@
                        ng-change="onDiagnoseDescriptionChanged($index)"
                        uib-typeahead="d.value as d.label for d in searchDiagnoseByDescription(diagnosViewState.diagnosKodSystem, $viewValue)"
                        typeahead-on-select="onDiagnoseDescriptionSelect($index, $item)"
-                       typeahead-template-url="/web/webjars/common/webcert/utkast/formly/diagnos.formly.typeahead_template.html"
+                       typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnos/ueDiagnos.typeahead_template.html"
                        typeahead-wait-ms="100"
                        maxlength="81">
             </td>

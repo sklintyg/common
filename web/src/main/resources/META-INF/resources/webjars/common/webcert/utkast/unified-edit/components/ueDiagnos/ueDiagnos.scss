@@ -1,0 +1,78 @@
+/*!
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.ueDiagnos {
+  .diagnos-loading
+  {
+    position: absolute;
+    right: 9px;
+    z-index: 10000;
+    top: 10px;
+  }
+
+  .diagnosRow {
+    td, th {
+      padding-right: 5px;
+      padding-bottom: 2px;
+      min-width: 60px;
+    }
+    .diagnosDescriptionColumn {
+      padding-right: 0px;
+      width: 450px;
+    }
+  }
+
+  .dropdown-menu {
+    max-height: 290px;
+    max-width: 100%;
+    margin-right: 10px;
+    padding: 5px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-color: $wc-color-21;
+
+    li {
+
+      a {
+        text-decoration: none;
+      }
+
+      .kod {
+        vertical-align: top;
+        white-space: pre-wrap;
+        display: inline-block;
+      }
+
+      .beskrivning {
+        width: 90%;
+        white-space: pre-wrap;
+        display: inline-block;
+      }
+
+      .disabled  {
+        padding: 3px 20px;
+      }
+
+      .typeahead_more {
+        padding: 3px 7px;
+      }
+    }
+
+  }
+}
