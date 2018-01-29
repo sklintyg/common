@@ -85,7 +85,8 @@ angular.module('ts-diabetes').controller('ts-diabetes.UtkastController',
                 prefilledUserDataService.searchForPrefilledData(viewState);
                 // Because of some strange angularjs-internal thing (likely related to compile-priority) the code below
                 // fails to run correctly when put into a ng-disable directive in a template; instead a boolean is saved.
-                $scope.shouldDisableAddressInput = prefilledUserDataService.getPrefilledFields().completeAddress;
+                $scope.shouldDisableAddressInput = prefilledUserDataService.getPrefilledFields().completeAddress &&
+                    UserModel.isDjupintegration();
             });
 
             // Sätt upp lyssnare för 'intyg.loaded' innan load anropas, säkerställer att lyssnaren hunnit registreras när load körs.
