@@ -29,13 +29,21 @@ angular.module('common').directive('ueDynamicComponent',
             },
             link: function($scope, $element) {
 
+                if (!$scope.config.type) {
+                    return;
+                }
+
                 $scope.validation = UtkastViewState.validation;
 
                 if (!$scope.config.id) {
                     $scope.config.id = $scope.config.modelProp;
                 }
 
-                var componentTemplate = '<' + $scope.config.type + ' id="form_{{::config.id}}"  form="::form" config="::config" model="::model"></' + $scope.config.type +'>';
+                var componentTemplate = '<' + $scope.config.type;
+                if ($scope.config.id) {
+                    componentTemplate += ' ng-attr-id="form_{{::config.id|ueDomIdFilter}}"';
+                }
+                componentTemplate += ' form="::form" config="::config" model="::model"></' + $scope.config.type +'>';
 
                 if ($scope.config.hideExpression)  {
                     componentTemplate = '<div ng-if="!config.hideExpression || !$eval(config.hideExpression)" class="fold-animation">'+componentTemplate+'</div>';

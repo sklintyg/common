@@ -1,0 +1,51 @@
+<ue-validation-wrapper field-type="checkgroup"
+                       label-col-size="{{::config.labelColSize}}"
+                       key="{{::config.modelProp}}"
+                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <div class="form-horizontal">
+    <ue-form-label config="::config.label"></ue-form-label>
+
+    <div>
+      <label class="big-radio-label radio-inline">
+        <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningNo"
+               name="{{::config.modelProp}}.kanInteTaStallning"
+               type="radio"
+               class="big-radio"
+               ng-value="false"
+               ng-model="model[config.modelProp].kanInteTaStallning"
+               ng-change="updateValidation()"/>
+        <span dynamic-label key="DFR_33.1.RBK"></span>
+      </label>
+    </div>
+
+    <div class="row korkortstyper">
+      <div ng-if="!model[config.modelProp].kanInteTaStallning" class="fold-animation">
+        <div class="col-md-2 col-sm-4" data-ng-repeat="choice in modelGetterSetter().korkortstyp">
+          <label class="big-checkbox-label checkbox-inline">
+            <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}"
+                   type="checkbox"
+                   class="big-checkbox"
+                   ng-model="choice.selected"
+                   ng-change="updateValidation()">
+            <span dynamic-label key="{{::config.labelTemplate | ueLabelFilter: choice.type}}"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label class="big-radio-label radio-inline">
+        <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningYes"
+               name="{{::config.modelProp}}.kanInteTaStallning"
+               type="radio"
+               class="big-radio"
+               ng-value="true"
+               ng-model="model[config.modelProp].kanInteTaStallning"
+               ng-change="updateValidation()"/>
+        <span dynamic-label key="DFR_33.2.RBK"></span>
+      </label>
+    </div>
+
+  </div>
+</ue-validation-wrapper>

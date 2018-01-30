@@ -1,6 +1,11 @@
-<div>
+<div ng-class="{'bottom-padding-small': config.paddingBottom}">
   <label class="big-checkbox-label checkbox-inline" ng-class="::{'bold': config.label.bold}">
-    <input id="{{::config.modelProp}}" type="checkbox" class="big-checkbox" ng-model="model[config.modelProp]">
+    <input type="checkbox"
+           ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
+           class="big-checkbox"
+           ng-model="modelGetterSetter"
+           ng-model-options="{ getterSetter: true }"
+           ng-change="updateValidation()">
     <span dynamic-label key="{{::config.label.key}}"></span>
   </label>
 </div>

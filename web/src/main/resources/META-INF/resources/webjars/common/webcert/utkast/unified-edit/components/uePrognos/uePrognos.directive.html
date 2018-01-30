@@ -8,7 +8,7 @@
         <div class="form-group form-inline" data-ng-repeat="choice in ::config.choices">
 
             <label class="radio">
-                <input id="{{::config.modelProp}}-{{::choice.id}}" type="radio" name="{{::config.modelProp}}" class="big-radio"
+                <input ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}" type="radio" name="{{::config.modelProp}}" class="big-radio"
                        ng-model="model[config.modelProp].typ" value="{{::choice.id}}" ng-change="validate()">
                 <span dynamic-label key="{{::config.code}}.{{::choice.id}}.RBK"></span>
             </label>
@@ -20,7 +20,7 @@
                                        validations="validation.messagesByField[config.modelProp + '.dagartillarbete']">
                     <ui-select theme="bootstrap" search-enabled="false" ng-model="model[config.modelProp].dagarTillArbete"
                                on-select="validate()"
-                               ng-disabled="model[config.modelProp].typ !== choice.id" id="prognosDagarTillArbete-{{$index}}-typ"
+                               ng-disabled="model[config.modelProp].typ !== choice.id" ng-attr-id="prognosDagarTillArbete-{{$index|ueDomIdFilter}}-typ"
                                name="prognosDagarTillArbete-{{$index}}" append-to-body="false">
                         <ui-select-match>
                             <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>

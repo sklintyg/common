@@ -17,7 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueCheckgroup', [ 'common.AtticHelper', 'common.UtkastViewStateService', 'ueUtil', function(AtticHelper, UtkastViewState, ueUtil) {
+angular.module('common').directive('ueCheckgroup', [ '$http',  'ueUtil',
+    function($http, ueUtil) {
     'use strict';
     return {
         restrict: 'E',
@@ -28,18 +29,7 @@ angular.module('common').directive('ueCheckgroup', [ 'common.AtticHelper', 'comm
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.html',
         link: function($scope) {
-
-            $scope.validation = UtkastViewState.validation;
-
-            // Restore data model value form attic if exists
-            AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
-
-            // Clear attic model and destroy watch on scope destroy
-            AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
-
-            ueUtil.setupWatchers($scope, $scope.config);
-
-            $scope.onChange = angular.bind(this, ueUtil.updateValidation, $scope.form, $scope.model);
+            ueUtil.standardSetup($scope);
         }
     };
 

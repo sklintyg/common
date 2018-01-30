@@ -1,7 +1,7 @@
 <div wc-date-period-manager model="model" class="sjukskrivningar">
   <ue-form-label config="::config.label"></ue-form-label>
 
-  <wc-alert-message id="lastEffectiveDateNoticeText" alert-severity="info" ng-if="lastEffectiveDateNoticeText">
+  <wc-alert-message ng-attr-id="lastEffectiveDateNoticeText|ueDomIdFilter" alert-severity="info" ng-if="lastEffectiveDateNoticeText">
     {{lastEffectiveDateNoticeText}}
   </wc-alert-message>
 

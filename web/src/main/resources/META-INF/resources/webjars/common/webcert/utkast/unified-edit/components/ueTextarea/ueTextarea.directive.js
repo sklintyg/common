@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueTextarea', [ '$parse', 'common.ObjectHelper', 'common.AtticHelper', 'common.UtkastViewStateService', 'ueUtil',
-    'common.UtkastViewStateService', function($parse, ObjectHelper, AtticHelper, UtkastViewState, ueUtil) {
+angular.module('common').directive('ueTextarea', [ 'ueUtil',
+    'common.UtkastViewStateService', function(ueUtil) {
     'use strict';
 
     return {
@@ -29,24 +29,7 @@ angular.module('common').directive('ueTextarea', [ '$parse', 'common.ObjectHelpe
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueTextarea/ueTextarea.directive.html',
         link: function($scope) {
-
-            $scope.validation = UtkastViewState.validation;
-
-            // Restore data model value form attic if exists
-            AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
-
-            // Clear attic model and destroy watch on scope destroy
-            AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
-
-            $scope.onBlur = angular.bind(this, ueUtil.updateValidation, $scope.form, $scope.model);
-
-            // This is a ngModel getter/setter function
-            // needed for component ue-tillaggsfragor with modelProp like tillaggsfragor[0].svar
-            $scope.modelGetterSetter = function(newValue) {
-                var getterSetter = $parse($scope.config.modelProp);
-                return arguments.length ? (getterSetter.assign($scope.model, newValue)) : getterSetter($scope.model);
-            };
-
+            ueUtil.standardSetup($scope);
         }
     };
 }]);

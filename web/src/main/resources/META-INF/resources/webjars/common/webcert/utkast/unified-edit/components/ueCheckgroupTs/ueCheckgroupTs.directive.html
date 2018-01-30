@@ -1,0 +1,19 @@
+<ue-validation-wrapper field-type="checkgroup"
+                       label-col-size="{{::config.labelColSize}}"
+                       key="{{::config.modelProp}}"
+                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <div class="row form-horizontal">
+    <ue-form-label config="::config.label"></ue-form-label>
+    <div class="col-md-2 col-sm-4" data-ng-repeat="choice in modelGetterSetter()">
+      <label class="big-checkbox-label checkbox-inline">
+        <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}"
+               type="checkbox"
+               class="big-checkbox"
+               ng-model="choice.selected"
+               ng-change="updateValidation()">
+        <span dynamic-label key="{{::config.labelTemplate | ueLabelFilter: choice.type}}"></span>
+      </label>
+    </div>
+  </div>
+</ue-validation-wrapper>

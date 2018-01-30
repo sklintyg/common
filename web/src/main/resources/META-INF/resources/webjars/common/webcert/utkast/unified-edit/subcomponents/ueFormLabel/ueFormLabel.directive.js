@@ -34,7 +34,6 @@ angular.module('common').directive('ueFormLabel',
 
                         var whitespaceBreak = '';
 
-                        console.log(scope.config);
                         if(scope.config.whitespaceBreak === false){
                             whitespaceBreak = ' class="control-label label__no-break"';
                         }

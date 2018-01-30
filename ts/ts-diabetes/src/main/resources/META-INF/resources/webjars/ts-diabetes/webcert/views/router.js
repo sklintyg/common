@@ -30,65 +30,37 @@ angular.module('ts-diabetes').config(function($stateProvider) {
             data: { defaultActive : 'index' },
             url: '/ts-diabetes/edit/:certificateId/:focusOn',
             views : {
-                'content@': {
-                    templateUrl: intygsTypPath + 'views/utkast/utkast.html',
-                    controller: 'ts-diabetes.UtkastController',
+                'content@' : {
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
+                    controller: 'smi.EditCertCtrl',
                     resolve: {
+                        ViewState: 'ts-diabetes.UtkastController.ViewStateService',
+                        FormFactory: 'ts-diabetes.UtkastConfigFactory',
                         supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
                     }
                 },
+
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
-                'header@ts-diabetes-edit': {
+
+                'header@ts-diabetes-edit' : {
                     templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
                     controller: 'common.UtkastHeader'
-                },
-
-                'patient@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/patient.html'
-                },
-                'intention@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/intention.html',
-                    controller: 'ts-diabetes.Utkast.IntentionController'
-                },
-                'identity@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/identity.html'
-                },
-                'form1@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form1.html',
-                    controller: 'ts-diabetes.Utkast.Form1Controller'
-                },
-                'form2@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form2.html',
-                    controller: 'ts-diabetes.Utkast.Form2Controller'
-                },
-                'form3@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form3.html',
-                    controller: 'ts-diabetes.Utkast.Form3Controller'
-                },
-                'form4@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form4.html',
-                    controller: 'ts-diabetes.Utkast.Form4Controller'
-                },
-                'form5@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form5.html'
-                },
-                'form6@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form6.html'
-                },
-                'form7@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form7.html'
-                },
-
-                'messages@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/messages.html',
-                    controller: 'ts-diabetes.Utkast.MessagesController'
                 },
 
                 'footer@ts-diabetes-edit' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
+                },
+
+                'formly@ts-diabetes-edit' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
+                    resolve: {
+                        ViewState: 'ts-diabetes.UtkastController.ViewStateService',
+                        UtkastConfigFactory: 'ts-diabetes.UtkastConfigFactory'
+                    }
                 }
             }
         }).

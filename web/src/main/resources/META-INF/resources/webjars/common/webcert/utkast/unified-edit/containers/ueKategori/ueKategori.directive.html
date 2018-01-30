@@ -1,0 +1,14 @@
+<div class="card clearfix">
+  <a ng-attr-id="anchor-{{::config.categoryId|ueDomIdFilter}}" name="anchor.{{::config.categoryId}}"></a>
+  <div class="ue-kategori__heading" ng-if="::config.label.key">
+    <h3>
+      <span dynamic-label key="{{::config.label.key}}"></span>
+      <span class="required">{{::config.label.required ? '*' : ''}}</span>
+      <span wc-help-chevron help-text-key="{{::config.label.helpKey}}"></span>
+    </h3>
+    <span wc-help-chevron-text help-text-key="{{::config.label.helpKey}}"></span>
+  </div>
+  <span class="">
+    <ue-render-components form="::form" config="::config.components" model="::model" />
+  </span>
+</div>

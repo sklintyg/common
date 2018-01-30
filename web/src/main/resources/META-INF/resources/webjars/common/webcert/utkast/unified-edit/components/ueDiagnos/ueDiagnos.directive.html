@@ -38,7 +38,7 @@
         <tr class="diagnosRow" ng-repeat="diagnos in model[config.modelProp]">
             <td>
                 <div>
-                    <input type="text" class="form-control" id="diagnoseCode-{{::$index}}"
+                    <input type="text" class="form-control" ng-attr-id="diagnoseCode-{{::$index|ueDomIdFilter}}"
                            name="diagnoseCode{{::$index}}"
                            value=""
                            placeholder="{{::$index == 0 ? 'Huvuddiagnos' : 'Bidiagnos'}}"
@@ -71,7 +71,7 @@
                 </span>
             </td>
             <td class="diagnosDescriptionColumn">
-                <input type="text" class="col-xs-12 form-control maxwidth" id="diagnoseDescription-{{::$index}}"
+                <input type="text" class="col-xs-12 form-control maxwidth" ng-attr-id="diagnoseDescription-{{::$index|ueDomIdFilter}}"
                        ng-class="{'fielderror' : hasValidationError('diagnosbeskrivning', $index)}"
                        name="diagnose.description"
                        value=""

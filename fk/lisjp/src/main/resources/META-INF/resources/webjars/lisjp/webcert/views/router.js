@@ -31,7 +31,8 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        FormFactory: 'lisjp.FormFactory'
+                        FormFactory: 'lisjp.FormFactory',
+                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
 

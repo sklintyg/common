@@ -104,8 +104,11 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         modelProp: 'motiveringTillInteBaseratPaUndersokning'
                     }, {
                         type: 'ue-text',
-                        key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
-                        variableLabelKey: 'FRG_25.RBK'
+                        label: {
+                            htmlClass: 'info-transfer',
+                            key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
+                            variableLabelKey: 'FRG_25.RBK'
+                        }
                     }])
                 ]),
 
@@ -210,8 +213,11 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         modelProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
                     }, {
                         type: 'ue-text',
-                        key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info',
-                        variableLabelKey: 'FRG_25.RBK'
+                        label : {
+                            htmlClass: 'info-transfer',
+                            key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info',
+                            variableLabelKey: 'FRG_25.RBK'
+                        }
                     }]),
                     fraga(37, 'FRG_37.RBK', 'FRG_37.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [{
                         type: 'ue-textarea',

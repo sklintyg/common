@@ -1,0 +1,28 @@
+<div ng-class="{'bottom-padding-small': config.paddingBottom}">
+  <ue-validation-wrapper field-type="checkgroup"
+                         label-col-size="{{::config.labelColSize}}"
+                         key="{{::config.modelProp}}"
+                         warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                         validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+    <ue-form-label config="::config.label"></ue-form-label>
+    <div class="row form-horizontal">
+      <div class="{{config.htmlClass}}" data-ng-repeat="choice in ::config.choices">
+        <label class="big-radio-label radio-inline">
+          <input type="radio"
+                 ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}"
+                 name="{{::config.modelProp}}"
+                 class="big-radio"
+                 value="{{choice.id}}"
+                 ng-model="modelGetterSetter"
+                 ng-model-options="{ getterSetter: true }"
+                 ng-change="onChange()">
+          <span dynamic-label key="{{::choice.label}}"></span>
+        </label>
+        <div ng-if="::config.enableHelp">
+          <span wc-help-chevron help-text-key="{{::choice.helpKey}}"></span>
+          <span wc-help-chevron-text help-text-key="{{::choice.helpKey}}"></span>
+        </div>
+      </div>
+    </div>
+  </ue-validation-wrapper>
+</div>

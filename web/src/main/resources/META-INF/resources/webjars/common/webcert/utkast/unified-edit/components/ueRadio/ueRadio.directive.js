@@ -17,22 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueRadio', [ 'common.AtticHelper', function(AtticHelper) {
+angular.module('common').directive('ueRadio', [ 'ueUtil', function(ueUtil) {
     'use strict';
 
     return {
         restrict: 'E',
         scope: {
             config: '=',
-            model: '='
+            model: '=',
+            form: '='
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueRadio/ueRadio.directive.html',
         link: function($scope) {
-            // Restore data model value form attic if exists
-            AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
-
-            // Clear attic model and destroy watch on scope destroy
-            AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
+            ueUtil.standardSetup($scope);
         }
     };
 

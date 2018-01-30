@@ -25,6 +25,7 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
             replace: true,
             scope: {
                 targetModel: '=',
+                targetModelOptions: '=?',
                 format: '@',
                 domId: '@',
                 invalid: '=',
@@ -55,6 +56,11 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                         setActiveDate: setActiveDate,
                         getActiveDate: getActiveDate
                 };
+
+                if (!$scope.targetModelOptions) {
+                    $scope.targetModelOptions = {};
+                }
+                $scope.targetModelOptions.allowInvalid = true;
 
                 if ($scope.minDate !== undefined) {
                     $scope.dateOptions.minDate = new Date($scope.minDate);

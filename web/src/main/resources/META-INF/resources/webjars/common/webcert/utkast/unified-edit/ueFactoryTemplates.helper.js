@@ -17,11 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.ueFactoryTemplatesHelper', [
-    function() {
+angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.PrefilledUserDataService', 'common.UserModel',
+    function(prefilledUserDataService, UserModel) {
         'use strict';
 
-        var singleTextLabelColSize = 3;
+        var labelColSize = 3;
 
         function _kategori(id, labelKey, helpKey, options, components) {
 
@@ -60,11 +60,63 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
             return fraga;
         }
 
+        function _shouldDisableAddressInput(model) {
+            prefilledUserDataService.searchForPrefilledData({intygModel:model});
+            return prefilledUserDataService.getPrefilledFields().completeAddress && UserModel.isDjupintegration();
+        }
+
         return {
 
             kategori: _kategori,
 
             fraga: _fraga,
+
+            patient: _kategori('patient', 'common.intyg.patientadress', '', {}, [
+                _fraga(null, '', '', {}, [{
+                    type: 'ue-textfield',
+                    modelProp: 'grundData.patient.postadress',
+                    label: {
+                        key: 'common.postadress',
+                        required: true
+                    },
+                    htmlMaxlength: 50,
+                    size: 'full',
+                    labelColSize: labelColSize,
+                    formType: 'horizontal',
+                    paddingBottom: true,
+                    disabled: _shouldDisableAddressInput
+                },{
+                    type: 'ue-textfield',
+                    modelProp: 'grundData.patient.postnummer',
+                    label: {
+                        key: 'common.postnummer',
+                        required: true
+                    },
+                    htmlMaxlength: 6,
+                    numbersOnly: true,
+                    size: '5',
+                    labelColSize: labelColSize,
+                    formType: 'horizontal',
+                    paddingBottom: true,
+                    disabled: _shouldDisableAddressInput
+                },{
+                    type: 'ue-textfield',
+                    modelProp: 'grundData.patient.postort',
+                    label: {
+                        key: 'common.postort',
+                        required: true
+                    },
+                    htmlMaxlength: 25,
+                    labelColSize: labelColSize,
+                    formType: 'horizontal',
+                    paddingBottom: true,
+                    disabled: _shouldDisableAddressInput
+                },{
+                    type: 'ue-patient-address-updater',
+                    formType: 'horizontal',
+                    labelColSize: labelColSize
+                }])
+            ]),
 
             vardenhet: _kategori('vardenhet', 'common.label.vardenhet', 'common.help.vardenhet', {}, [ _fraga('', '', '', {}, [{
                 type: 'ue-labelvardenhet'
@@ -77,7 +129,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                     whitespaceBreak: false
                 },
                 size: 'full',
-                labelColSize: singleTextLabelColSize,
+                labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 265,
                 paddingBottom: true
@@ -90,7 +142,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                     whitespaceBreak: false
                 },
                 size: '5',
-                labelColSize: singleTextLabelColSize,
+                labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 6,
                 numbersOnly: true,
@@ -104,7 +156,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                     whitespaceBreak: false
                 },
                 size: 'full',
-                labelColSize: singleTextLabelColSize,
+                labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 265,
                 paddingBottom: true
@@ -117,7 +169,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [
                     whitespaceBreak: false
                 },
                 size: 'full',
-                labelColSize: singleTextLabelColSize,
+                labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 265
             }])])

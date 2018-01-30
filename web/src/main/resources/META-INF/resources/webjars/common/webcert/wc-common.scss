@@ -103,10 +103,15 @@
   @import 'utkast/formly/wrapper/wcFraga.scss';
   @import 'utkast/srs/_srs.scss';
   @import 'utkast/srs/components/wcSrsDiagnoseInfo/wcSrsDiagnoseInfo.directive.scss';
+  @import 'utkast/unified-edit/components/ueAlert/ueAlert.directive.scss';
   @import 'utkast/unified-edit/components/ueDiagnos/ueDiagnos.scss';
-  @import 'utkast/unified-edit/components/ueFraga/ueFraga.directive.scss';
-  @import 'utkast/unified-edit/components/ueKategori/ueKategori.directive.scss';
+  @import 'utkast/unified-edit/components/ueKorkortBedomning/ueKorkortBedomning.directive.scss';
+  @import 'utkast/unified-edit/components/ueSynskarpa/ueSynskarpa.directive.scss';
   @import 'utkast/unified-edit/components/ueText/ueText.directive.scss';
+  @import 'utkast/unified-edit/components/ueYear/ueYear.directive.scss';
+  @import 'utkast/unified-edit/containers/ueFraga/ueFraga.directive.scss';
+  @import 'utkast/unified-edit/containers/ueGrid/ueGrid.scss';
+  @import 'utkast/unified-edit/containers/ueKategori/ueKategori.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueFormLabel/ueFormLabel.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';

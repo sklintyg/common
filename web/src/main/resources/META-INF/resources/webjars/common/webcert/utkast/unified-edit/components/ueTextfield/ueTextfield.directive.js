@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueTextfield', [ 'common.ObjectHelper', 'common.AtticHelper', 'common.UtkastViewStateService', 'ueUtil',
-    function(ObjectHelper, AtticHelper, UtkastViewState, ueUtil) {
+angular.module('common').directive('ueTextfield', [ 'ueUtil',
+    function(ueUtil) {
     'use strict';
 
     return {
@@ -30,8 +30,6 @@ angular.module('common').directive('ueTextfield', [ 'common.ObjectHelper', 'comm
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueTextfield/ueTextfield.directive.html',
         link: function($scope) {
 
-            $scope.validation = UtkastViewState.validation;
-
             if(!$scope.config.indent) {
                 $scope.config.indent = false;
             }
@@ -40,13 +38,7 @@ angular.module('common').directive('ueTextfield', [ 'common.ObjectHelper', 'comm
                 $scope.config.formType = 'inline';
             }
 
-            // Restore data model value form attic if exists
-            AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
-
-            // Clear attic model and destroy watch on scope destroy
-            AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
-
-            $scope.onBlur = angular.bind(this, ueUtil.updateValidation, $scope.form, $scope.model);
+            ueUtil.standardSetup($scope);
         }
     };
 }]);

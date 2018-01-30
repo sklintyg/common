@@ -17,12 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('ueUtil', ['$timeout', 'common.UtkastValidationService',
-    function($timeout, UtkastValidationService) {
+angular.module('common').factory('ueUtil', ['$parse', '$timeout', 'common.AtticHelper', 'common.UtkastValidationService',
+    'common.UtkastValidationViewState',
+    function($parse, $timeout, AtticHelper, UtkastValidationService, UtkastValidationViewState) {
         'use strict';
 
         return {
-            updateValidation: function(form, model) {
+            updateValidation: function _updateValidation(form, model) {
                 form.$commitViewValue();
                 // $timeout is needed to allow for the attic functionality to clear the model value for hidden fields
                 $timeout(function() {
@@ -36,6 +37,30 @@ angular.module('common').factory('ueUtil', ['$timeout', 'common.UtkastValidation
                         scope.$watch(watcher.expression, watcher.listener, watcher.watchDeep);
                     });
                 }
+            },
+
+            standardSetup: function _standardSetup(scope) {
+                // Expose validation status on scope
+                scope.validation = UtkastValidationViewState;
+
+                // Expose function to update validation status
+                scope.updateValidation = angular.bind(this, this.updateValidation, scope.form, scope.model);
+
+                // Setup watchers from utkastConfig
+                this.setupWatchers(scope, scope.config);
+
+                // This is a ngModel getter/setter function
+                // needed for more complex modelProp like tillaggsfragor[0].svar
+                var getterSetter = $parse(scope.config.modelProp);
+                scope.modelGetterSetter = function(newValue) {
+                    return arguments.length ? (getterSetter.assign(scope.model, newValue)) : getterSetter(scope.model);
+                };
+
+                // Restore data model value form attic if exists
+                AtticHelper.restoreFromAttic(scope.model, scope.config.modelProp);
+
+                // Clear attic model and destroy watch on scope destroy
+                AtticHelper.updateToAttic(scope, scope.model, scope.config.modelProp);
             }
         };
     } ]);
