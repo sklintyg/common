@@ -29,8 +29,9 @@
                 <wc-srs-error-box message-string="srsViewState.atgarderError"></wc-srs-error-box>
             </div>
             <div id="atgarderObs" ng-if="status.open">
+                    <span><b>Tänk på att </b></span>
                 <div ng-repeat="(key,value) in srsViewState.atgarder.atgarderObs|limitTo:3">
-                    <span ng-if="$first"><b>Tänk på att </b></span>{{value}}
+                    {{value}}
                     <br>
                 </div>
             </div>
