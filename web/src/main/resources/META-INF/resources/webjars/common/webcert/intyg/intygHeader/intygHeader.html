@@ -1,0 +1,53 @@
+<div class="wc-page-header">
+  <div ng-if="viewState.common.activeErrorMessageKey">
+    <!-- page error message -->
+    <wc-alert-message id="intyg-load-error" ng-show="viewState.common.doneLoading"
+         alert-severity="danger">
+
+      <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
+        <span dynamic-label key="{{viewState.common.activeErrorMessageKey}}"></span>
+      </span>
+
+      <div
+          ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
+        <p>
+          <span dynamic-label key="{{viewState.common.activeErrorMessageKey}}"></span>
+        </p>
+        <p><strong>Intygsinformation</strong></p>
+        <ul>
+          <li>Patient: {{intygBackup.intyg.patientNamn}} ({{intygBackup.intyg.patientId.patientIdExtension}})</li>
+          <li>Signerat: {{intygBackup.intyg.signeringsDatum | date:'short'}}</li>
+          <li>ID: {{intygBackup.intyg.intygsId}}</li>
+        </ul>
+      </div>
+    </wc-alert-message>
+  </div>
+  <div ng-if="!viewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
+
+    <!-- Status -->
+    <div class="page-header-divider">
+      <a id="tillbakaButton" wc-authority="NAVIGERING" class="backlink-icon glyphicon glyphicon-arrow-left"
+         ui-sref="webcert.create-choose-certtype-index({patientId:'default'})" title="Tillbaka till Sök/skriv intyg">Tillbaka</a>
+      <wc-intyg-status view-state="viewState"></wc-intyg-status>
+    </div>
+    <div>
+      <!-- Header text -->
+      <h2 class="page-heading1">
+        <span>{{widgetState.certificateName}}</span>
+      </h2>
+
+      <h3 class="page-heading2"
+           wc-intyg-patient-namn-personnummer
+           patient-name="viewState.intygModel.grundData.patient.fullstandigtNamn"
+           person-id="viewState.intygModel.grundData.patient.personId">
+      </h3>
+
+      <!-- Buttonbar -->
+      <wc-intyg-button-bar view-state="viewState" intygstyp="intygstyp"></wc-intyg-button-bar>
+
+      <!-- Patient status -->
+      <wc-patient-status patient="viewState.intygModel.grundData.patient" intyg-model="viewState.intygModel" intyg-properties="viewState.common.intygProperties"></wc-patient-status>
+
+    </div>
+  </div>
+</div>

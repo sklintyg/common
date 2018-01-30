@@ -74,7 +74,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                     }
                 },
                 'header@webcert.intyg.fk.luae_fs' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader'
                 }
             }
@@ -93,7 +93,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                     }
                 },
                 'header@webcert.fragasvar.luae_fs' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader'
                 }
             }

@@ -16,52 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').controller('common.IntygHeader',
-    ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService',
-        'common.messageService', 'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel',
-        'common.IntygErsattRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyActions',
-        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy', 'common.UtkastProxy',
-        'common.ObjectHelper',
+angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$scope', '$log', '$state', '$stateParams',
+    'common.authorityService', 'common.featureService', 'common.messageService', 'common.moduleService', 'common.UserModel', 'common.IntygViewStateService',
+    function(authorityService, featureService, messageService, moduleService, IntygViewStateService, UserModel) {
+    'use strict';
 
-        function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService,
-            moduleService, IntygCopyRequestModel, IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel,
-            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy, UtkastProxy, ObjectHelper) {
-
-            'use strict';
-
-            var intygType = $state.current.data.intygType;
-            var _intygActionDialog = null;
-            var previousIntyg = {};
-            var previousUtkast = {};
-            var warningForCreateTemplate = {};
-
-            $scope.intygstyp = intygType;
-            $scope.createFromTemplateConfig = {
-                'db': {
-                    'moduleId': 'doi',
-                    'name': 'dödsorsaksintyg',
-                    'features': [
-                        featureService.features.UNIKT_INTYG_INOM_VG,
-                        featureService.features.UNIKT_UTKAST_INOM_VG
-                    ]
-                }
-            };
-
-            $scope.getWarningForCreateFromTemplate = function() {
-                return warningForCreateTemplate;
-            };
-
-            $scope.$on('intyg.loaded', function(event, intyg){
-                if ($scope.createFromTemplateConfig[$scope.intygstyp]) {
-                    UtkastProxy.getPrevious($scope.viewState.intygModel.grundData.patient.personId, function(existing) {
-                        previousIntyg = existing.intyg;
-                        previousUtkast = existing.utkast;
-                    });
-                }
-            });
-
-            $scope.user = UserModel;
-            $scope.intygsnamn = moduleService.getModuleName(intygType);
+    return {
+        restrict: 'E',
+        scope: {
+            viewState: '=',
+            intygstyp: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.html',
+        link: function($scope) {
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
@@ -74,67 +41,10 @@ angular.module('common').controller('common.IntygHeader',
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
-            $scope.statusFieldId = function() {
-                if(!$scope.viewState.common.intygProperties.isSent && !$scope.viewState.common.isIntygOnSendQueue) {
-                    return 'certificate-is-sent-to-it-message-text';
-                } else if(!$scope.viewState.common.intygProperties.isSent && $scope.viewState.common.isIntygOnSendQueue) {
-                    return 'certificate-is-on-sendqueue-to-it-message-text';
-                } else {
-                    return 'certificate-is-sent-to-recipient-message-text';
-                }
-            };
+            var intygType = $state.current.data.intygType;
+            var _intygActionDialog = null;
 
-            $scope.generateSentText = function () {
-                if($scope.isRevoked()) {
-                    // Case is handled by wcIntygRelatedRevokedMessage directive.
-                    return '';
-                }
-
-                var patientDeceased = $scope.isPatientDeceased();
-                if(intygType === 'doi' || intygType === 'db') {
-                    // db or doi with patient still alive is impossible, and thus not an option.
-                    patientDeceased = true;
-                }
-                var recipientId = moduleService.getModule(intygType).defaultRecipient;
-                var recipient = messageService.getProperty('common.recipient.' + recipientId.toLowerCase());
-                var vars = {'recipient': recipient};
-
-                if($scope.isSentIntyg()) {
-                    if(intygType === 'db' || intygType === 'doi') {
-                        return messageService.getProperty((intygType + '.label.status.sent'), vars);
-                    } else {
-                        return messageService.getProperty(('common.label.status.sent.patient-' + (patientDeceased ? 'dead' : 'alive')), vars);
-                    }
-                } else {
-                    if (patientDeceased) {
-                        return messageService.getProperty('common.label.status.signed.patient-dead');
-                    } else {
-                        return messageService.getProperty((intygType + '.label.status.signed.patient-alive'), vars);
-                    }
-                }
-            };
-
-            $scope.isRevoked = function(){
-                return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
-            };
-            $scope.isReplaced = function(){
-                return angular.isObject($scope.viewState.common.intygProperties.latestChildRelations) &&
-                    angular.isObject($scope.viewState.common.intygProperties.latestChildRelations.replacedByIntyg);
-            };
-
-            $scope.isComplemented = function() {
-                return angular.isObject($scope.viewState.common.intygProperties.latestChildRelations) &&
-                    angular.isObject($scope.viewState.common.intygProperties.latestChildRelations.complementedByIntyg);
-            };
-
-            $scope.isPatientDeceased = function() {
-                return $scope.viewState.common.intygProperties.isPatientDeceased;
-            };
-
-            $scope.isSentIntyg = function(){
-                return $scope.viewState.common.intygProperties.isSent ||
-                    $scope.viewState.common.isIntygOnSendQueue;
-            };
+            $scope.intygstyp = intygType;
 
             $scope.showSkickaButton = function(){
                 return !$scope.isSentIntyg() && !$scope.isRevoked() && !$scope.isReplaced();
@@ -155,8 +65,8 @@ angular.module('common').controller('common.IntygHeader',
                 return $scope.fornya &&
                     !$scope.isRevoked() &&
                     !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
-                    !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
-                    ($scope.user.user.parameters === undefined || $scope.user.user.parameters.copyOk);
+                    !(UserModel.user.parameters !== undefined && UserModel.user.parameters.inactiveUnit) &&
+                    (UserModel.user.parameters === undefined || UserModel.user.parameters.copyOk);
             };
 
             $scope.showErsattButton = function() {
@@ -164,31 +74,6 @@ angular.module('common').controller('common.IntygHeader',
                     !$scope.isComplemented() &&
                     (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: intygType }) || !$scope.isPatientDeceased()) &&
                     !UserModel.getIntegrationParam('inactiveUnit');
-            };
-
-            $scope.showCreateFromTemplate = function() {
-                return $scope.createFromTemplateConfig[$scope.intygstyp] !== undefined && !$scope.isRevoked() && !$scope.isReplaced() &&
-                    !$scope.isComplemented() && !UserModel.getIntegrationParam('inactiveUnit');
-            };
-
-            $scope.enableCreateFromTemplate = function() {
-                if ($scope.createFromTemplateConfig[$scope.intygstyp].features.indexOf(featureService.features.UNIKT_INTYG_INOM_VG) !== -1 &&
-                    previousIntyg !== undefined && previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true) {
-                    warningForCreateTemplate = $scope.createFromTemplateConfig[$scope.intygstyp].moduleId + '.warn.previouscertificate.samevg';
-                    return false;
-                }
-
-                if ($scope.createFromTemplateConfig[$scope.intygstyp].features.indexOf(featureService.features.UNIKT_UTKAST_INOM_VG) !== -1 &&
-                        previousUtkast !== undefined) {
-                    if (previousUtkast[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true) {
-                        warningForCreateTemplate = $scope.createFromTemplateConfig[$scope.intygstyp].moduleId + '.warn.previousdraft.samevg';
-                        return false;
-                    } else if (previousUtkast[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === false){
-                        warningForCreateTemplate = $scope.createFromTemplateConfig[$scope.intygstyp].moduleId + '.warn.previousdraft.differentvg';
-                        return true;
-                    }
-                }
-                return true;
             };
 
             $scope.send = function() {
@@ -237,29 +122,8 @@ angular.module('common').controller('common.IntygHeader',
                 });
             };
 
-            function intygCopyAction (intyg, intygServiceMethod, buildIntygRequestModel, newIntygType) {
-                if (intyg === undefined || intyg.grundData === undefined) {
-                    $log.debug('intyg or intyg.grundData is undefined. Aborting fornya.');
-                    return;
-                }
-                var isOtherCareUnit = User.getValdVardenhet().id !== intyg.grundData.skapadAv.vardenhet.enhetsid;
-                _intygActionDialog = intygServiceMethod($scope.viewState,
-                    buildIntygRequestModel({
-                        intygId: intyg.id,
-                        intygType: intygType,
-                        newIntygType: newIntygType || intygType,
-                        patientPersonnummer: intyg.grundData.patient.personId
-                    }),
-                    isOtherCareUnit
-                );
-            }
-
             $scope.fornya = function(intyg) {
                 return intygCopyAction(intyg, IntygCopyActions.fornya, IntygFornyaRequestModel.build);
-            };
-
-            $scope.createFromTemplate = function(intyg, newIntygType) {
-                return intygCopyAction(intyg, IntygCopyActions.createFromTemplate, IntygFornyaRequestModel.build, $scope.createFromTemplateConfig[$scope.intygstyp].moduleId);
             };
 
             $scope.copy = function(intyg) {
@@ -334,7 +198,6 @@ angular.module('common').controller('common.IntygHeader',
                     _intygActionDialog = undefined;
                 }
             });
-
         }
-    ]
-);
+    };
+} ]);

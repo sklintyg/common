@@ -21,75 +21,71 @@
  * Broadcast a intyg.loaded event on rootscope when the intyg is loaded to update the message.
  */
 angular.module('common').directive('wcIntygRelatedRevokedMessage', [
-    '$location', 'common.IntygProxy',
-    function($location, IntygProxy) {
+    '$location', 'common.IntygProxy', 'common.IntygViewStateService',
+    function($location, IntygProxy, IntygViewState) {
         'use strict';
 
         return {
-            restrict: 'A',
-            replace: true,
-            scope: {
-                viewState: '='
-            },
+            restrict: 'E',
+            scope: {},
             link: function($scope, $element, $attributes) {
 
-                var scopePathToIntygRelation = 'viewState.common.intygProperties.parent';
+                var intygProperties = IntygViewState.intygProperties;
 
                 var onSuccess = function(result) {
                     if (result !== null && result !== '') {
-                        $scope.intygRelation.states = result.statuses;
+                        intygProperties.parent.states = result.statuses;
                     }
                 };
 
                 var onError = function(result) {
-                    $scope.viewState.common.updateActiveError(result, $scope.intygRelation.status);
+                    IntygViewState.updateActiveError(result, intygProperties.parent.status);
                 };
 
                 function loadStates() {
-                    IntygProxy.getIntyg($scope.intygRelation.intygsId, $scope.viewState.common.intygProperties.type, onSuccess, onError);
+                    IntygProxy.getIntyg(intygProperties.parent.intygsId, intygProperties.type, onSuccess, onError);
                 }
 
                 var updateRelation = function() {
-                    $scope.intygRelation = $scope.$eval(scopePathToIntygRelation);
-                    if ($scope.intygRelation && $scope.intygRelation.relationKod === 'ERSATT') {
+                    intygProperties.parent = intygProperties.parent;
+                    if (intygProperties.parent && intygProperties.parent.relationKod === 'ERSATT') {
                         loadStates();
                     }
                 };
-
+                
                 // intyg data may be loaded now, or it may be loaded later.
-                $scope.$watch(scopePathToIntygRelation, updateRelation);
+                $scope.$on('intyg.loaded', updateRelation);
                 updateRelation();
-
             },
             controller: function($scope) {
                 $scope.gotoIntyg = function($event) {
                     if ($event) {
                         $event.preventDefault();
                     }
-                    if ($scope.intygRelation) {
+                    if (intygProperties.parent) {
                         $location.path(
-                            '/intyg/' + $scope.viewState.common.intygProperties.type + '/' + $scope.intygRelation.intygsId + '/');
+                            '/intyg/' + intygProperties.type + '/' + intygProperties.parent.intygsId + '/');
                     }
                 };
 
                 $scope.isRevoked = function() {
-                    return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
+                    return intygProperties.isRevoked || IntygViewState.isIntygOnRevokeQueue;
                 };
 
                 $scope.showConfirmedMessage = function() {
-                    return $scope.viewState.common.intygProperties.isRevoked && (!$scope.viewState.common.isIntygOnRevokeQueue || $scope.viewState.common.isIntygOnRevokeQueue === 'undefined');
+                    return intygProperties.isRevoked && (!IntygViewState.isIntygOnRevokeQueue || IntygViewState.isIntygOnRevokeQueue === 'undefined');
                 };
 
                 $scope.showRequestedMessage = function() {
-                    return $scope.viewState.common.isIntygOnRevokeQueue;
+                    return IntygViewState.isIntygOnRevokeQueue;
                 };
 
                 $scope.showMessage = function() {
-                    return $scope.intygRelation && $scope.intygRelation.states && $scope.intygRelation.states[0].type !== 'CANCELLED';
+                    return intygProperties.parent && intygProperties.parent.states && intygProperties.parent.states[0].type !== 'CANCELLED';
                 };
 
                 $scope.buildKeyBaseForRevoked = function() {
-                    var intygstyp = $scope.viewState.common.intygProperties.type;
+                    var intygstyp = intygProperties.type;
                     if(intygstyp === 'db' || intygstyp === 'doi') {
                         return intygstyp;
                     } else {

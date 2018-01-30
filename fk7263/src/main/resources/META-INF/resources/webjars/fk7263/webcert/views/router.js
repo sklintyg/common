@@ -141,7 +141,7 @@ angular.module('fk7263').config(function($stateProvider) {
                     }
                 },
                 'header@webcert.intyg.fk.fk7263' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader'
                 }
             }
@@ -158,7 +158,7 @@ angular.module('fk7263').config(function($stateProvider) {
                     }
                 },
                 'header@webcert.fragasvar.fk7263' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader'
                 }
             }

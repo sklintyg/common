@@ -23,6 +23,9 @@ angular.module('common').service('common.IntygViewStateService',
             IntygHelper, moduleService) {
             'use strict';
 
+            // Create persistent object. Never overwrite this. Makes it possible to one-time-bind and reference this object everywhere for faster rendering.
+            this.intygProperties = {};
+
             this.reset = function() {
                 this.doneLoading = false;
                 this.activeErrorMessageKey = null;
@@ -32,15 +35,35 @@ angular.module('common').service('common.IntygViewStateService',
                 this.isIntygOnRevokeQueue = false;
                 this.deleted = false;
 
-                this.intygProperties = {
-                    type: undefined,
-                    isSent: false,
-                    isRevoked: false,
-                    isPatientDeceased: false,
-                    newPatientId: false, // FK only for now. Consider making specific viewState services for each intyg as with utkast
-                    patientAddressChangedInPU: false,
-                    patientNameChangedInPU: false
-                };
+                // IMPORTANT NOTE: needs to be this way so intygProperties object reference is not overwritten. intygProperties = {} will decouple reference in wcIntygRelatedRevokedMessage
+                this.intygProperties.type = undefined;
+                this.intygProperties.isSent = false;
+                this.intygProperties.isRevoked = false;
+                this.intygProperties.isPatientDeceased = false;
+                this.intygProperties.newPatientId = false; // FK only for now. Consider making specific viewState services for each intyg as with utkast
+                this.intygProperties.patientAddressChangedInPU = false;
+                this.intygProperties.patientNameChangedInPU = false;
+            };
+
+            this.isRevoked = function(){
+                return this.intygProperties.isRevoked || this.isIntygOnRevokeQueue;
+            };
+            this.isReplaced = function(){
+                return angular.isObject(this.intygProperties.latestChildRelations) &&
+                    angular.isObject(this.intygProperties.latestChildRelations.replacedByIntyg);
+            };
+
+            this.isComplemented = function() {
+                return angular.isObject(this.intygProperties.latestChildRelations) &&
+                    angular.isObject(this.intygProperties.latestChildRelations.complementedByIntyg);
+            };
+
+            this.isPatientDeceased = function() {
+                return this.intygProperties.isPatientDeceased;
+            };
+
+            this.isSentIntyg = function(){
+                return this.intygProperties.isSent || this.isIntygOnSendQueue;
             };
 
             this.updateIntygProperties = function(result) {

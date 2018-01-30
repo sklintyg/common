@@ -61,7 +61,6 @@
   @import 'components/wcIntegrationEnhetSelector/_wcIntegrationEnhetSelector.directive.scss';
   @import 'components/wcIntygPatientNamnPersonnummer/wcIntygPatientNamnPersonnummer.directive.scss';
   @import 'components/wcIntygRelatedOtherIntygMessage/wcIntygRelatedOtherIntygMessage.directive.scss';
-  @import 'components/wcIntygRelatedRevokedMessage/wcIntygRelatedRevokedMessage.directive.scss';
   @import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
   @import 'components/wcReadMoreTextBlock/wcReadMoreTextBlock.directive.scss';
@@ -80,10 +79,10 @@
   @import 'css/card.scss';
   @import 'css/flex-app-layout.scss';
   @import 'css/generic-input.scss';
+  @import 'css/wc-page-header.scss';
   @import 'fk/arenden/_arende.scss';
   @import 'fk/arenden/komplettera/komplettering-modal-dialog.scss';
   @import 'fk/arenden/panel/fraga/arendePanelFraga.directive.scss';
-  @import 'gui/wcPatientAddressMissingFromIntegrationMessage.scss';
   @import 'intyg/read-only-view/wcIntygReadOnlyView.scss';
   @import 'intyg/unified-view/unified-view.scss';
   @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';

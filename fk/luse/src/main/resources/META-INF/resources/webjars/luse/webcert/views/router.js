@@ -74,7 +74,7 @@ angular.module('luse').config(function($stateProvider) {
                     }
                 },
                 'header@webcert.intyg.fk.luse' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader'
                 }
             }
@@ -93,7 +93,7 @@ angular.module('luse').config(function($stateProvider) {
                     }
                 },
                 'header@webcert.fragasvar.luse' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader'
                 }
             }

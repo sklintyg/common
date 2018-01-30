@@ -1,0 +1,121 @@
+<div class="">
+  <div class="btn-row">
+    <button type="button"
+            id="sendBtn"
+            class="btn btn-secondary"
+            wc-authority feature="SKICKA_INTYG"
+            request-origin="!UTHOPP"
+            intygstyp="{{intygstyp}}"
+            wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
+            ng-if="showSkickaButton()"
+            ng-click="send()">
+      <span dynamic-label key="{{intygstyp}}.button.send"></span>
+    </button>
+    <!-- Normal pdf-utskrift av signerat intyg  -->
+    <button type="button"
+            id="downloadprint"
+            class="btn btn-secondary"
+            intygstyp="{{intygstyp}}"
+            ng-if="showPrintBtn()"
+            ng-click="print(viewState.intygModel, false)">
+      <span dynamic-label key="common.button.save.as.pdf"></span>
+    </button>
+    <div id="downloadprintemployer" intygstyp="{{intygstyp}}" style="display:inline;">
+      <div class="btn-group" ng-if="showEmployerPrintBtn()">
+        <button type="button"
+                id="intyg-header-dropdown-select-pdf-type"
+                class="btn btn-secondary dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+          <span dynamic-label key="common.button.save.as.pdf"></span> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <!--<li wc-authority feature="UTSKRIFT">-->
+          <li ng-if="utskrift">
+            <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, false)">
+              <span dynamic-label key="common.button.save.as.pdf.full"></span>
+            </a>
+          </li>
+          <!--<li wc-authority feature="ARBETSGIVARUTSKRIFT"-->
+          <li ng-if="arbetsgivarUtskrift"
+              uib-popover="{{employerPrintBtnTooltipText}}"
+              popover-trigger="mouseenter"
+              popover-popup-delay="300"
+              popover-append-to-body="true"
+              popover-placement="auto top">
+            <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">
+              <span dynamic-label key="common.button.save.as.pdf.mininmal"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Gamla KOPIERA-knappen. Har bytt namn till Förnya -->
+    <button type="button"
+            wc-authority="FORNYA_INTYG"
+            request-origin="!UTHOPP"
+            intygstyp="{{intygstyp}}"
+            id="fornyaBtn"
+            class="btn btn-secondary"
+            ng-if="showFornyaButton()"
+            ng-click="fornya(viewState.intygModel)"
+            uib-popover="{{fornyaBtnTooltipText}}"
+            popover-trigger="mouseenter"
+            popover-popup-delay="300"
+            popover-append-to-body="true"
+            popover-placement="auto top">
+      Förnya
+    </button>
+
+    <button type="button"
+            wc-authority="ERSATTA_INTYG"
+            request-origin="!UTHOPP"
+            intygstyp="{{intygstyp}}"
+            id="ersattBtn"
+            class="btn btn-secondary"
+            ng-if="showErsattButton()"
+            ng-click="ersatt(viewState.intygModel)"
+            wc-check-vardenhet
+            vardenhet="{{viewState.enhetsId}}"
+            uib-popover="{{ersattBtnTooltipText}}"
+            popover-trigger="mouseenter"
+            popover-popup-delay="300"
+            popover-append-to-body="true"
+            popover-placement="auto top">
+      Ersätt
+    </button>
+
+    <button type="button"
+            intygstyp="{{intygstyp}}"
+            id="createFromTemplateBtn"
+            class="btn btn-secondary"
+            ng-if="showCreateFromTemplate()"
+            ng-disabled="!enableCreateFromTemplate()"
+            ng-click="createFromTemplate(viewState.intygModel)"
+            wc-check-vardenhet>
+      Skriv {{createFromTemplateConfig[intygstyp].name}}
+    </button>
+
+    <button type="button"
+            wc-authority="MAKULERA_INTYG"
+            request-origin="!UTHOPP"
+            intygstyp="{{intygstyp}}"
+            id="makuleraBtn"
+            class="btn btn-default"
+            ng-if="!isRevoked()"
+            ng-click="makulera(viewState.intygModel)"
+            wc-check-vardenhet
+            vardenhet="{{viewState.enhetsId}}"
+            uib-popover="Om intyget innehåller ett allvarligt fel, exempelvis utfärdat på fel patient, kan du makulera intyget. Ett fönster öppnas där du kan gå vidare och makulera intyget."
+            popover-trigger="mouseenter"
+            popover-popup-delay="300"
+            popover-append-to-body="true"
+            popover-placement="auto top"
+            popover-class="z-low">
+      Makulera
+    </button>
+  </div>
+  <div class="clearfix"></div>
+</div>
