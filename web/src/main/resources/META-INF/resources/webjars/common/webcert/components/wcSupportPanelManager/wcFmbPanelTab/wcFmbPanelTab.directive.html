@@ -1,40 +1,70 @@
 <div class="tab-content-title-row">Diagnosspecifik information</div>
 
-<div class="fmb-diagnos-row">
+<div class="fmb-diagnos-row" ng-if="!vm.noDataMessage">
   <span ng-repeat="d in fmb.diagnoses track by $index" class="fmb-diagnos-description">
-    <input type="radio" name="fmb-radio-selectors" ng-disabled="!d.hasInfo" ng-value="d" ng-model="vm.activeDiagnose">{{d.diagnosBeskrivning}}
+
+  <label for="fmb_diagnos_radio_{{d.diagnosKod}}"
+         ng-class="{'disabled' :!d.hasInfo,  'active': d === vm.activeDiagnose}"
+         uib-popover="{{!d.hasInfo ? 'Det finns inget FMB-stöd för den angivna diagnosen.' :''}}"
+         popover-trigger="mouseenter"
+         popover-popup-delay="300"
+         popover-append-to-body="true"
+         popover-placement="auto">
+      <input type="radio" name="fmb-radio-selectors" ng-attr-id="fmb_diagnos_radio_{{d.diagnosKod}}"
+             ng-disabled="!d.hasInfo" ng-value="d" ng-model="vm.activeDiagnose">{{d.diagnosBeskrivning}}
+  </label>
+
   </span>
+
 </div>
 
 <wc-support-panel-scrollable-body dom-id="fmb-panel-scrollable-body">
 
-  <span ng-repeat="d in fmb.diagnoses" ng-if="d === vm.activeDiagnose">
-     <wc-alert-message alert-message-id="fmb-not-original-diagnose-for-{{d.diagnosKod}}" alert-severity="info" ng-if="d.diagnosKod !== d.originalDiagnosKod">
-      <span id="fmb_diagnos_not_in_fmb_alert">Det FMB-stöd som visas är för koden {{d.diagnosKod}} - {{d.diagnosBeskrivning}}.</span>
+  <span ng-if="vm.activeDiagnose">
+
+     <wc-alert-message alert-message-id="fmb-not-original-diagnose-for-{{vm.activeDiagnose.diagnosKod}}"
+                       alert-severity="info"
+                       ng-if="vm.activeDiagnose.diagnosKod !== vm.activeDiagnose.originalDiagnosKod">
+      Det FMB-stöd som visas är för koden {{vm.activeDiagnose.diagnosKod}} - {{vm.activeDiagnose.diagnosBeskrivning}}.
     </wc-alert-message>
 
-    <div ng-repeat="fieldName in vm.fmbFieldNames">
-      <div ng-repeat="item in d.formData[fieldName]" ng-if="item.text || item.list">
-        <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">
-          <span dynamic-label key="{{'fmb.' + item.heading}}"></span>
+    <div ng-repeat="section in vm.sections" class="fmb-section">
+
+        <h4 class="fmb-section-headline" ng-attr-id="fmb_heading_{{section.heading}}">
+          <span dynamic-label key="{{'fmb.' + section.heading}}"></span>
         </h4>
-        <section class="fmb-section" id="fmb_text_{{::item.heading}}" ng-if="::item.text">{{::item.text}}</section>
-        <section class="fmb-section" id="fmb_text_{{::item.heading}}_list">
-          <ul class="fmb-bullet-list" ng-repeat="bullet in item.list track by $index">
-            <li id="fmb_bullet_{{::item.heading}}_{{$index}}">{{::bullet}}</li>
+
+        <section ng-attr-id="fmb_text_{{::section.heading}}" ng-if="section.data.text">
+          <wc-read-more-text-block text="section.data.text" max-chars="325"
+                                   class="fmb-src-text"></wc-read-more-text-block>
+        </section>
+
+        <section ng-attr-id="fmb_text_{{::section.heading}}_list" ng-if="section.data.list">
+          <ul class="fmb-bullet-list" ng-repeat="bullet in section.data.list track by $index">
+            <li ng-attr-id="fmb_bullet_{{::section.heading}}_{{$index}}"><wc-read-more-text-block text="bullet"
+                                                                                                  max-chars="325"
+                                                                                                  class="fmb-src-text"></wc-read-more-text-block></li>
           </ul>
         </section>
-      </div>
+
+         <div ng-if="!section.data" class="missing-info">
+           För den angivna diagnosen finns ingen FMB-information för <span dynamic-label
+                                                                           key="{{'fmb.' + section.heading}}"></span>
+        </div>
+
     </div>
   </span>
 
-    <!-- in case none of the diagnoses had any info to show -->
-    <span ng-if="vm.noData">Inga fmb finns alls för nån av diagnoserna</span>
-    <!-- finns massa andra meddelanden som kan visas också -->
+  <!-- in case none of the diagnoses had any info to show -->
+  <wc-alert-message alert-message-id="{{vm.noDataMessage.info}}" alert-severity="info"
+                    ng-if="vm.noDataMessage.info"></wc-alert-message>
+  <wc-alert-message alert-message-id="{{vm.noDataMessage.warning}}" alert-severity="warning"
+                    ng-if="vm.noDataMessage.warning"></wc-alert-message>
 
 </wc-support-panel-scrollable-body>
 
 <div class="fmb-footer">
-  <span>Information om Socialstyrelsens försäkringsmedicinska beslutsstöd (länk)</span>
-  <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/socialstyrelsen_icon16.png">
+  <span dynamiclink key="fmbSoc" class="dark"></span>
+  <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/socialstyrelsen.png" width="40"
+       height="26">
 </div>

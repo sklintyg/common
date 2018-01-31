@@ -1,6 +1,8 @@
 
 wc-support-panel-scrollable-body {
 
+  $wc-text-fadeout-height: 30px;
+
   position: relative;
   display: flex;
   flex: 1;
@@ -12,18 +14,23 @@ wc-support-panel-scrollable-body {
     overflow: auto;
   }
 
+  //absolutely positioned element with a gradient background.
+  //The pointer-events:none is important, otherwise elements such as button below this can't be clicked.
   .bottom-fadeout-gradient {
     position: absolute;
     bottom: 0;
     left: 0;
-    padding: 0 15px;
+    padding: 0 20px;
     width: 100%;
-    height: 40px;
+    height: $wc-text-fadeout-height;
+    pointer-events: none;
 
     div {
-      background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 60%);
+      //background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 60%);
+      background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
       width: 100%;
-      height: 40px;
+      height: 100%;
+      pointer-events: none;
     }
   }
 }

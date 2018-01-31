@@ -18,9 +18,6 @@ wc-support-panel-manager {
   height: 100%;
   padding: 4px 0 2px 8px;
 
-  //to make diagnoses ellipsise correctly
-  max-width: 560px;
-
   // Tabs
   ul.support-tabs {
     margin-bottom: 0;
@@ -48,7 +45,6 @@ wc-support-panel-manager {
         text-shadow: none;
         padding: 8px 11px;
         text-decoration: none;
-        min-width: 160px;
         text-align: center;
 
         &:hover {
@@ -85,6 +81,8 @@ wc-support-panel-manager {
   }
 
   .tab-content-title-row {
+    @extend %wc-typo-05;
+    color: $wc-color-07;
     background-color: $active-tab-background-color;
     padding: 19px 15px;
   }

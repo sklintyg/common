@@ -93,7 +93,9 @@ Color and background should be specified at the extension point, eg:
 
 %wc-typo-08 {
   @include font-variant(14px, 400);
+  text-decoration: underline;
   //specify underline here? seems to always be used in link context, so we get underline from that anyway..
+
 }
 
 %wc-typo-09 {
@@ -102,6 +104,11 @@ Color and background should be specified at the extension point, eg:
 
 %wc-typo-10 {
   @include font-variant(16px, 400);
+}
+
+%wc-typo-12 {
+  @include font-variant(14px, 400);
+  font-style: italic;
 }
 
 %wc-typo-13 {

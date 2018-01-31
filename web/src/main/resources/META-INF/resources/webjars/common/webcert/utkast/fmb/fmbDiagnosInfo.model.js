@@ -45,6 +45,19 @@ angular.module('common').service('common.fmbDiagnosInfoModel',
                 this.hasInfo = Object.keys(this.formData).length > 0;
             };
 
+            FmbDiagnosInfoModel.prototype.getFormData = function(formKey, headingId) {
+                var result;
+                var form = this.formData[formKey];
+                if (form) {
+                    angular.forEach(form, function(data) {
+                        if (data.heading === headingId) {
+                            result = data;
+                        }
+                    });
+                }
+                return result;
+            };
+
             FmbDiagnosInfoModel.build = function() {
                 return new FmbDiagnosInfoModel();
             };
