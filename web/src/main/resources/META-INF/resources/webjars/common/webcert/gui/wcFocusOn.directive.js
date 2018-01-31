@@ -30,7 +30,7 @@ angular.module('common').directive('wcFocusOn', ['$browser', 'common.anchorScrol
                     $browser.notifyWhenNoOutstandingRequests(function() {
                         elem[0].focus();
                         if (name !== 'focusFirstInput') {
-                            anchorScrollService.scrollTo(elem[0].id);
+                            anchorScrollService.scrollTo((elem[0].id === 'ovrigt' && angular.element('#form_ovrigt').length > 0) ? 'form_' + elem[0].id : elem[0].id);
                         }
                     });
                 }
