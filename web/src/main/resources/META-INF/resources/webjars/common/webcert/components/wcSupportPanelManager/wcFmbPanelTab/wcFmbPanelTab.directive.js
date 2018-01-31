@@ -31,29 +31,7 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.fmbService', 'comm
             //Set initial viewmodel state
             $scope.vm = {
                 activeDiagnose: null,
-                noDataMessage: null,
-                sections: [ {
-                    formId: 'ARBETSFORMAGA',
-                    heading: 'BESLUTSUNDERLAG_TEXTUELLT',
-                    data: null
-                }, {
-                    formId: 'FUNKTIONSNEDSATTNING',
-                    heading: 'FUNKTIONSNEDSATTNING',
-                    data: null
-                }, {
-                    formId: 'AKTIVITETSBEGRANSNING',
-                    heading: 'AKTIVITETSBEGRANSNING',
-                    data: null
-                }, {
-                    formId: 'DIAGNOS',
-                    heading: 'SYMPTOM_PROGNOS_BEHANDLING',
-                    data: null
-                }, {
-                    formId: 'DIAGNOS',
-                    heading: 'GENERELL_INFO',
-                    data: null
-                } ]
-
+                noDataMessage: null
             };
 
             /**
@@ -81,6 +59,29 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.fmbService', 'comm
 
             }
             function _updateSectionDataForDiagnose(activeDiagnose) {
+                //Init sections
+                $scope.vm.sections = [ {
+                    formId: 'ARBETSFORMAGA',
+                    heading: 'BESLUTSUNDERLAG_TEXTUELLT',
+                    data: null
+                }, {
+                    formId: 'FUNKTIONSNEDSATTNING',
+                    heading: 'FUNKTIONSNEDSATTNING',
+                    data: null
+                }, {
+                    formId: 'AKTIVITETSBEGRANSNING',
+                    heading: 'AKTIVITETSBEGRANSNING',
+                    data: null
+                }, {
+                    formId: 'DIAGNOS',
+                    heading: 'SYMPTOM_PROGNOS_BEHANDLING',
+                    data: null
+                }, {
+                    formId: 'DIAGNOS',
+                    heading: 'GENERELL_INFO',
+                    data: null
+                } ];
+
                 angular.forEach($scope.vm.sections, function(section) {
                     section.data = activeDiagnose ? activeDiagnose.getFormData(section.formId, section.heading) : null;
                 });

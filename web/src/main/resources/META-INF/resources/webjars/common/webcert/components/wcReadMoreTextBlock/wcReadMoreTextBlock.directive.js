@@ -60,10 +60,6 @@ angular.module('common').directive('wcReadMoreTextBlock',
                         $scope.vm.showsAll = !$scope.vm.showsAll;
                         _updateEffectiveText();
                     };
-                    //Since we keep our own version of the actual text, we need to react when text changes
-                    $scope.$watch('text', function() {
-                        _updateEffectiveText();
-                    });
 
                     _updateEffectiveText();
 
