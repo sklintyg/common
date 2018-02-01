@@ -29,4 +29,9 @@ angular.module('common').controller('common.IntygHeader', [ '$scope', '$state',
             IntygHeaderService.updatePreviousIntygUtkast(intyg);
         });
 
+        //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)
+        // - make sure it's closed properly
+        $scope.$on('$destroy', function() {
+            IntygHeaderService.closeDialogs();
+        });
     }]);

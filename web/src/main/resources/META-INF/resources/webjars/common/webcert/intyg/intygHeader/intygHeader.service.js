@@ -25,6 +25,13 @@ angular.module('common').service('common.IntygHeaderService',
 
             var _intygActionDialog = null;
 
+            this.closeDialogs = function() {
+                if (_intygActionDialog) {
+                    _intygActionDialog.close();
+                    _intygActionDialog = undefined;
+                }
+            }
+
             this.updatePreviousIntygUtkast = function(intyg) {
                 if (IntygHeaderViewState.currentCreateFromTemplateConfig) {
                     UtkastProxy.getPrevious(intyg.grundData.patient.personId, function(existing) {

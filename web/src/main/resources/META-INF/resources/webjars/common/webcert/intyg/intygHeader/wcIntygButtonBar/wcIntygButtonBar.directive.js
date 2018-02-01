@@ -193,15 +193,6 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$state',
                 // INTYG-4086: Before printing, we must make sure the PU-service is available
                 PatientProxy.getPatient(intyg.grundData.patient.personId, onPatientFound, onNotFoundOrError, onNotFoundOrError);
             };
-
-            //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)
-            // - make sure it's closed properly
-            $scope.$on('$destroy', function() {
-                if (_intygActionDialog) {
-                    _intygActionDialog.close();
-                    _intygActionDialog = undefined;
-                }
-            });
         }
     };
 } ]);
