@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
+angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$state',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.moduleService',
     'common.IntygViewStateService', 'common.IntygHeaderService',
     'common.UserModel', 'common.IntygSend', 'common.dialogService', 'common.PatientProxy', 'common.IntygMakulera',
-    function($rootScope, authorityService, featureService, messageService, moduleService, IntygViewStateService, IntygHeaderService,
+    function($rootScope, $state,
+        authorityService, featureService, messageService, moduleService,
+        CommonIntygViewState, IntygHeaderService,
         UserModel, IntygSend, DialogService, PatientProxy, IntygMakulera) {
     'use strict';
 
@@ -31,6 +33,9 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
         },
         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.html',
         link: function($scope) {
+
+            var intygType = $state.current.data.intygType; // get type from state so we dont have to wait for intyg.load
+
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
@@ -46,7 +51,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.intygType = intygType;
 
             $scope.showSkickaButton = function(){
-                return !$scope.isSentIntyg() && !$scope.isRevoked() && !$scope.isReplaced();
+                return !CommonIntygViewState.isSentIntyg() && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced();
             };
 
             $scope.showPrintBtn = function() {
@@ -57,21 +62,21 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             };
 
             $scope.showEmployerPrintBtn = function() {
-                return $scope.arbetsgivarUtskrift && !$scope.isRevoked();
+                return $scope.arbetsgivarUtskrift && !CommonIntygViewState.isRevoked();
             };
 
             $scope.showFornyaButton = function() {
                 return $scope.fornya &&
-                    !$scope.isRevoked() &&
-                    !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
+                    !CommonIntygViewState.isRevoked() &&
+                    !CommonIntygViewState.isPatientDeceased() && !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplemented() &&
                     !(UserModel.user.parameters !== undefined && UserModel.user.parameters.inactiveUnit) &&
                     (UserModel.user.parameters === undefined || UserModel.user.parameters.copyOk);
             };
 
             $scope.showErsattButton = function() {
-                return !$scope.isRevoked() && !$scope.isReplaced() &&
-                    !$scope.isComplemented() &&
-                    (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: intygType }) || !$scope.isPatientDeceased()) &&
+                return !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
+                    !CommonIntygViewState.isComplemented() &&
+                    (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: intygType }) || !CommonIntygViewState.isPatientDeceased()) &&
                     !UserModel.getIntegrationParam('inactiveUnit');
             };
 
@@ -82,7 +87,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                         intygType+'.label.send', intygType+'.label.send.body', function() {
                             // After a send request we shouldn't reload right away due to async reasons.
                             // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
-                            $scope.viewState.common.isIntygOnSendQueue = true;
+                            CommonIntygViewState.isIntygOnSendQueue = true;
                             angular.forEach($scope.viewState.relations, function(relation) {
                                 if(relation.intygsId === $scope.viewState.intygModel.id) {
                                     relation.status = 'sent';
@@ -110,14 +115,14 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                 });
                 intyg.intygType = intygType;
                 IntygMakulera.makulera( intyg, confirmationMessage, function() {
-                    $scope.viewState.common.isIntygOnRevokeQueue = true;
-                    $scope.viewState.common.intygProperties.isRevoked = true;
+                    CommonIntygViewState.isIntygOnRevokeQueue = true;
+                    CommonIntygViewState.intygProperties.isRevoked = true;
                     angular.forEach($scope.viewState.relations, function(relation) {
                         if(relation.intygsId === intyg.id) {
                             relation.status = 'cancelled';
                         }
                     });
-                    $rootScope.$emit('ViewCertCtrl.load', intyg, $scope.viewState.common.intygProperties);
+                    $rootScope.$emit('ViewCertCtrl.load', intyg, CommonIntygViewState.intygProperties);
                 });
             };
 

@@ -33,25 +33,24 @@
          ui-sref="webcert.create-choose-certtype-index({patientId:'default'})" title="Tillbaka till Sök/skriv intyg">Tillbaka</a>
       <wc-intyg-status view-state="intygViewState"></wc-intyg-status>
     </div>
-    <div>
-      {{intygViewState}}
-      <!-- Header text -->
-      <h2 class="page-heading1">
-        <span>{{widgetState.certificateName}}</span>
-      </h2>
-
-      <h3 class="page-heading2"
-          wc-intyg-patient-namn-personnummer
-          patient-name="intygViewState.intygModel.grundData.patient.fullstandigtNamn"
-          person-id="intygViewState.intygModel.grundData.patient.personId">
-      </h3>
-
-      <!-- Buttonbar -->
-      <!--wc-intyg-button-bar view-state="intygViewState"></wc-intyg-button-bar-->
-
-      <!-- Patient status -->
-      <!--wc-patient-status patient="intygViewState.intygModel.grundData.patient" intyg-model="intygViewState.intygModel" intyg-properties="intygViewState.common.intygProperties"></wc-patient-status-->
-
+    <div class="flex-row">
+      <div class="flex-col-max">
+        <!-- Header text -->
+        <h2 class="page-heading1">
+          <span>{{certificateName}}</span>
+        </h2>
+        <h3 class="page-heading2"
+            wc-intyg-patient-namn-personnummer
+            patient-name="intygViewState.intygModel.grundData.patient.fullstandigtNamn"
+            person-id="intygViewState.intygModel.grundData.patient.personId">
+        </h3>
+        <!-- Patient status -->
+        <wc-patient-status patient="intygViewState.intygModel.grundData.patient" intyg-model="intygViewState.intygModel" intyg-properties="intygViewState.common.intygProperties"></wc-patient-status>
+      </div>
+      <div class="flex-col-min">
+        <!-- Buttonbar -->
+        <wc-intyg-button-bar view-state="intygViewState"></wc-intyg-button-bar>
+      </div>
     </div>
   </div>
 </div>

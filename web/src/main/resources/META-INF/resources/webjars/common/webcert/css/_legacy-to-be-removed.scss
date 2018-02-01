@@ -1,21 +1,5 @@
 //TODO: All rules in this file is to be considered legacy and should be cleaned up and possibly removed by refactoring into directives
 
-// Used in intyg header(s)
-a {
-  &.backlink-icon {
-    display: block;
-    width: 24px;
-    height: 24px;
-    /*background: transparent $url_0 center left no-repeat;*/
-    float: left;
-    margin: 0 10px 0 0;
-  }
-  &:hover.backlink-icon {
-    /*background: transparent $url_1 center left no-repeat;*/
-    text-decoration: none;
-  }
-}
-
 // Misc rules used in multiple templates and directives and across several intygstyper - keep for now, but maybe
 // bad practice and should be refactored away?
 .bold {

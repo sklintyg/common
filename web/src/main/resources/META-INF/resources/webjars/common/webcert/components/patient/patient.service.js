@@ -36,6 +36,10 @@ angular.module('common').service('common.PatientService',
                     if(!context){
                         $log.debug('wcPatientInfoChangeMessage - context parameter missing.');
                     }
+
+                    if(!intyg || !intygProperties){
+                        return;
+                    }
     
                     // INTYG views for TS intyg should not show name changes
                     var fkIntyg = !(intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');

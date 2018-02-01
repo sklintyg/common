@@ -20,3 +20,23 @@
 .page-header-divider {
   border-bottom: 1px solid $wc-color-15;
 }
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col-max {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.flex-col-min {
+  display: flex;
+  flex: 0;
+  align-items: flex-end;
+}
+
+wc-intyg-header .wc-page-header {
+  padding: 10px 28px 10px 28px;
+}

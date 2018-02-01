@@ -79,10 +79,15 @@
   @import 'css/card.scss';
   @import 'css/flex-app-layout.scss';
   @import 'css/generic-input.scss';
+  @import 'css/layout-util.scss';
   @import 'css/wc-page-header.scss';
   @import 'fk/arenden/_arende.scss';
   @import 'fk/arenden/komplettera/komplettering-modal-dialog.scss';
   @import 'fk/arenden/panel/fraga/arendePanelFraga.directive.scss';
+  @import 'intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.scss';
+  @import 'intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.scss';
+  @import 'intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.scss';
+  @import 'intyg/intygHeader/wcPatientStatus/wcPatientStatus.directive.scss';
   @import 'intyg/read-only-view/wcIntygReadOnlyView.scss';
   @import 'intyg/unified-view/unified-view.scss';
   @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
