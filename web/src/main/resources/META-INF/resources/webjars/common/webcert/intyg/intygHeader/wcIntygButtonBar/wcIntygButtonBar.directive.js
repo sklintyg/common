@@ -16,16 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$scope', '$log', '$state', '$stateParams',
-    'common.authorityService', 'common.featureService', 'common.messageService', 'common.moduleService', 'common.UserModel', 'common.IntygViewStateService',
-    function(authorityService, featureService, messageService, moduleService, IntygViewStateService, UserModel) {
+angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
+    'common.authorityService', 'common.featureService', 'common.messageService', 'common.moduleService',
+    'common.IntygViewStateService', 'common.IntygHeaderService',
+    'common.UserModel', 'common.IntygSend', 'common.dialogService', 'common.PatientProxy', 'common.IntygMakulera',
+    function($rootScope, authorityService, featureService, messageService, moduleService, IntygViewStateService, IntygHeaderService,
+        UserModel, IntygSend, DialogService, PatientProxy, IntygMakulera) {
     'use strict';
 
     return {
         restrict: 'E',
         scope: {
-            viewState: '=',
-            intygstyp: '='
+            viewState: '='
         },
         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.html',
         link: function($scope) {
@@ -41,10 +43,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$scope',
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
-            var intygType = $state.current.data.intygType;
-            var _intygActionDialog = null;
-
-            $scope.intygstyp = intygType;
+            $scope.intygType = intygType;
 
             $scope.showSkickaButton = function(){
                 return !$scope.isSentIntyg() && !$scope.isRevoked() && !$scope.isReplaced();
@@ -123,15 +122,15 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$scope',
             };
 
             $scope.fornya = function(intyg) {
-                return intygCopyAction(intyg, IntygCopyActions.fornya, IntygFornyaRequestModel.build);
+                return IntygHeaderService.intygCopyAction(intyg, IntygCopyActions.fornya, IntygFornyaRequestModel.build);
             };
 
             $scope.copy = function(intyg) {
-                return intygCopyAction(intyg, IntygCopyActions.copy, IntygCopyRequestModel.build);
+                return IntygHeaderService.intygCopyAction(intyg, IntygCopyActions.copy, IntygCopyRequestModel.build);
             };
 
             $scope.ersatt = function(intyg) {
-                return intygCopyAction(intyg, IntygCopyActions.ersatt, IntygErsattRequestModel.build);
+                return IntygHeaderService.intygCopyAction(intyg, IntygCopyActions.ersatt, IntygErsattRequestModel.build);
             };
 
             $scope.print = function(intyg, isEmployeeCopy) {

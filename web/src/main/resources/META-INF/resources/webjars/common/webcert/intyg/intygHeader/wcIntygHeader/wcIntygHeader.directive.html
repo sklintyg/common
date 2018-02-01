@@ -1,0 +1,57 @@
+<div class="wc-page-header">
+
+  <!-- page error message -->
+  <div ng-if="intygViewState.common.activeErrorMessageKey">
+    <wc-alert-message id="intyg-load-error" ng-show="intygViewState.common.doneLoading"
+                      alert-severity="danger">
+
+      <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
+        <span dynamic-label key="{{intygViewState.common.activeErrorMessageKey}}"></span>
+      </span>
+
+      <div
+          ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
+        <p>
+          <span dynamic-label key="{{intygViewState.common.activeErrorMessageKey}}"></span>
+        </p>
+        <p><strong>Intygsinformation</strong></p>
+        <ul>
+          <li>Patient: {{intygBackup.intyg.patientNamn}} ({{intygBackup.intyg.patientId.patientIdExtension}})</li>
+          <li>Signerat: {{intygBackup.intyg.signeringsDatum | date:'short'}}</li>
+          <li>ID: {{intygBackup.intyg.intygsId}}</li>
+        </ul>
+      </div>
+    </wc-alert-message>
+  </div>
+
+  <!-- header content -->
+  <div ng-if="!intygViewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
+
+    <!-- Status -->
+    <div class="page-header-divider">
+      <a id="tillbakaButton" wc-authority="NAVIGERING" class="backlink-icon glyphicon glyphicon-arrow-left"
+         ui-sref="webcert.create-choose-certtype-index({patientId:'default'})" title="Tillbaka till Sök/skriv intyg">Tillbaka</a>
+      <wc-intyg-status view-state="intygViewState"></wc-intyg-status>
+    </div>
+    <div>
+      {{intygViewState}}
+      <!-- Header text -->
+      <h2 class="page-heading1">
+        <span>{{widgetState.certificateName}}</span>
+      </h2>
+
+      <h3 class="page-heading2"
+          wc-intyg-patient-namn-personnummer
+          patient-name="intygViewState.intygModel.grundData.patient.fullstandigtNamn"
+          person-id="intygViewState.intygModel.grundData.patient.personId">
+      </h3>
+
+      <!-- Buttonbar -->
+      <!--wc-intyg-button-bar view-state="intygViewState"></wc-intyg-button-bar-->
+
+      <!-- Patient status -->
+      <!--wc-patient-status patient="intygViewState.intygModel.grundData.patient" intyg-model="intygViewState.intygModel" intyg-properties="intygViewState.common.intygProperties"></wc-patient-status-->
+
+    </div>
+  </div>
+</div>

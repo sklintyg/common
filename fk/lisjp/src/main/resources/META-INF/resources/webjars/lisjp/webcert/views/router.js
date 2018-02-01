@@ -116,7 +116,10 @@ angular.module('lisjp').config(function($stateProvider) {
                 },
                 'header@webcert.intyg.fk.lisjp' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'lisjp.IntygController.ViewStateService'
+                    }
                 }
             }
         }).

@@ -5,22 +5,22 @@
             class="btn btn-secondary"
             wc-authority feature="SKICKA_INTYG"
             request-origin="!UTHOPP"
-            intygstyp="{{intygstyp}}"
+            intygType="{{intygType}}"
             wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
             ng-if="showSkickaButton()"
             ng-click="send()">
-      <span dynamic-label key="{{intygstyp}}.button.send"></span>
+      <span dynamic-label key="{{intygType}}.button.send"></span>
     </button>
     <!-- Normal pdf-utskrift av signerat intyg  -->
     <button type="button"
             id="downloadprint"
             class="btn btn-secondary"
-            intygstyp="{{intygstyp}}"
+            intygType="{{intygType}}"
             ng-if="showPrintBtn()"
             ng-click="print(viewState.intygModel, false)">
       <span dynamic-label key="common.button.save.as.pdf"></span>
     </button>
-    <div id="downloadprintemployer" intygstyp="{{intygstyp}}" style="display:inline;">
+    <div id="downloadprintemployer" intygType="{{intygType}}" style="display:inline;">
       <div class="btn-group" ng-if="showEmployerPrintBtn()">
         <button type="button"
                 id="intyg-header-dropdown-select-pdf-type"
@@ -56,7 +56,7 @@
     <button type="button"
             wc-authority="FORNYA_INTYG"
             request-origin="!UTHOPP"
-            intygstyp="{{intygstyp}}"
+            intygType="{{intygType}}"
             id="fornyaBtn"
             class="btn btn-secondary"
             ng-if="showFornyaButton()"
@@ -72,7 +72,7 @@
     <button type="button"
             wc-authority="ERSATTA_INTYG"
             request-origin="!UTHOPP"
-            intygstyp="{{intygstyp}}"
+            intygType="{{intygType}}"
             id="ersattBtn"
             class="btn btn-secondary"
             ng-if="showErsattButton()"
@@ -88,20 +88,20 @@
     </button>
 
     <button type="button"
-            intygstyp="{{intygstyp}}"
+            intygType="{{intygType}}"
             id="createFromTemplateBtn"
             class="btn btn-secondary"
             ng-if="showCreateFromTemplate()"
             ng-disabled="!enableCreateFromTemplate()"
             ng-click="createFromTemplate(viewState.intygModel)"
             wc-check-vardenhet>
-      Skriv {{createFromTemplateConfig[intygstyp].name}}
+      Skriv {{createFromTemplateConfig[intygType].name}}
     </button>
 
     <button type="button"
             wc-authority="MAKULERA_INTYG"
             request-origin="!UTHOPP"
-            intygstyp="{{intygstyp}}"
+            intygType="{{intygType}}"
             id="makuleraBtn"
             class="btn btn-default"
             ng-if="!isRevoked()"

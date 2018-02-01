@@ -16,19 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').controller('common.IntygHeader', [ '$scope', '$state',
-    'IntygViewState', 'common.IntygHeaderViewState', 'common.IntygHeaderService',
-    function($scope, $state,
-        IntygViewState, IntygHeaderViewState, IntygHeaderService) {
-       'use strict';
+angular.module('common').directive('wcIntygHeader', [
+    function() {
+    'use strict';
 
-        //var intygType = $state.current.data.intygType; needed now?
-
-        $scope.intygViewState = IntygViewState;
-        IntygHeaderViewState.setIntygViewState(IntygViewState);
-
-        $scope.$on('intyg.loaded', function(event, intyg){
-            IntygHeaderService.updatePreviousIntygUtkast(intyg);
-        });
-
-    }]);
+    return {
+        restrict: 'E',
+        scope: {
+            intygViewState: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.html',
+    };
+} ]);
