@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcPatientStatus', [ function() {
+angular.module('common').directive('wcPatientStatus', [ 'common.IntygViewStateService', function(CommonIntygViewState) {
     'use strict';
 
     return {
@@ -28,7 +28,7 @@ angular.module('common').directive('wcPatientStatus', [ function() {
         },
         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcPatientStatus/wcPatientStatus.directive.html',
         link: function($scope) {
-
+            $scope.commonIntygViewState = CommonIntygViewState;
         }
     };
 } ]);

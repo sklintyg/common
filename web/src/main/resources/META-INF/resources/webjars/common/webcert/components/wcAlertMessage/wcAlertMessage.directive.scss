@@ -18,6 +18,7 @@
  */
 
 wc-alert-message {
+  display: inline-block; /* so it is easier to see bounding box in inspector */
 
   .alert {
     display: inline-block;
