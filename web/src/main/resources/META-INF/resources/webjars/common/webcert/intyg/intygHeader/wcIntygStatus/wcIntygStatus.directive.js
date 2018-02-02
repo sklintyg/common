@@ -16,21 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygStatus', [ function() {
+angular.module('common').directive('wcIntygStatus', [
+    'common.moduleService', 'common.messageService',
+    'common.IntygViewStateService', 'common.IntygHeaderService', 'common.IntygHeaderViewState',
+    function(moduleService, messageService,
+        CommonIntygViewState, IntygHeaderService, IntygHeaderViewState) {
     'use strict';
 
     return {
         restrict: 'E',
         scope: {
-            viewState: '=',
+            intygViewState: '=',
         },
-        templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcPatientStatus/wcPatientStatus.directive.html',
+        templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.html',
         link: function($scope) {
 
+            $scope.intygHeaderService = IntygHeaderService;
+
             $scope.statusFieldId = function() {
-                if(!$scope.viewState.common.intygProperties.isSent && !$scope.viewState.common.isIntygOnSendQueue) {
+                if(!CommonIntygViewState.intygProperties.isSent && !CommonIntygViewState.isIntygOnSendQueue) {
                     return 'certificate-is-sent-to-it-message-text';
-                } else if(!$scope.viewState.common.intygProperties.isSent && $scope.viewState.common.isIntygOnSendQueue) {
+                } else if(!CommonIntygViewState.intygProperties.isSent && CommonIntygViewState.isIntygOnSendQueue) {
                     return 'certificate-is-on-sendqueue-to-it-message-text';
                 } else {
                     return 'certificate-is-sent-to-recipient-message-text';
@@ -38,23 +44,23 @@ angular.module('common').directive('wcIntygStatus', [ function() {
             };
 
             $scope.generateSentText = function () {
-                if($scope.isRevoked()) {
+                if(CommonIntygViewState.isRevoked()) {
                     // Case is handled by wcIntygRelatedRevokedMessage directive.
                     return '';
                 }
 
-                var patientDeceased = $scope.isPatientDeceased();
-                if(intygType === 'doi' || intygType === 'db') {
+                var patientDeceased = CommonIntygViewState.isPatientDeceased();
+                if(IntygHeaderViewState.intygType === 'doi' || IntygHeaderViewState.intygType === 'db') {
                     // db or doi with patient still alive is impossible, and thus not an option.
                     patientDeceased = true;
                 }
-                var recipientId = moduleService.getModule(intygType).defaultRecipient;
+                var recipientId = moduleService.getModule(IntygHeaderViewState.intygType).defaultRecipient;
                 var recipient = messageService.getProperty('common.recipient.' + recipientId.toLowerCase());
                 var vars = {'recipient': recipient};
 
-                if($scope.isSentIntyg()) {
-                    if(intygType === 'db' || intygType === 'doi') {
-                        return messageService.getProperty((intygType + '.label.status.sent'), vars);
+                if(CommonIntygViewState.isSentIntyg()) {
+                    if(IntygHeaderViewState.intygType === 'db' || IntygHeaderViewState.intygType === 'doi') {
+                        return messageService.getProperty((IntygHeaderViewState.intygType + '.label.status.sent'), vars);
                     } else {
                         return messageService.getProperty(('common.label.status.sent.patient-' + (patientDeceased ? 'dead' : 'alive')), vars);
                     }
@@ -62,7 +68,7 @@ angular.module('common').directive('wcIntygStatus', [ function() {
                     if (patientDeceased) {
                         return messageService.getProperty('common.label.status.signed.patient-dead');
                     } else {
-                        return messageService.getProperty((intygType + '.label.status.signed.patient-alive'), vars);
+                        return messageService.getProperty((IntygHeaderViewState.intygType + '.label.status.signed.patient-alive'), vars);
                     }
                 }
             };

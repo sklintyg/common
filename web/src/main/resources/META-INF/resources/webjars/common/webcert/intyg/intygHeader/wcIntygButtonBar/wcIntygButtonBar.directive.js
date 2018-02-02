@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$state',
+angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.moduleService',
-    'common.IntygViewStateService', 'common.IntygHeaderService',
+    'common.IntygViewStateService', 'common.IntygHeaderService', 'common.IntygHeaderViewState',
     'common.UserModel', 'common.IntygSend', 'common.dialogService', 'common.PatientProxy', 'common.IntygMakulera',
-    function($rootScope, $state,
+    function($rootScope,
         authorityService, featureService, messageService, moduleService,
-        CommonIntygViewState, IntygHeaderService,
+        CommonIntygViewState, IntygHeaderService, IntygHeaderViewState,
         UserModel, IntygSend, DialogService, PatientProxy, IntygMakulera) {
     'use strict';
 
@@ -34,7 +34,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$state',
         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.html',
         link: function($scope) {
 
-            var intygType = $state.current.data.intygType; // get type from state so we dont have to wait for intyg.load
+            var intygType = IntygHeaderViewState.intygType; // get type from state so we dont have to wait for intyg.load
 
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });

@@ -22,15 +22,14 @@
  */
 angular.module('common').directive('wcIntygRelatedRevokedMessage', [
     '$location', 'common.IntygProxy', 'common.IntygViewStateService',
-    function($location, IntygProxy, IntygViewState) {
+    function($location, IntygProxy, CommonIntygViewState) {
         'use strict';
 
+        var intygProperties = CommonIntygViewState.intygProperties;
         return {
             restrict: 'E',
             scope: {},
             link: function($scope, $element, $attributes) {
-
-                var intygProperties = IntygViewState.intygProperties;
 
                 var onSuccess = function(result) {
                     if (result !== null && result !== '') {
@@ -39,7 +38,7 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
                 };
 
                 var onError = function(result) {
-                    IntygViewState.updateActiveError(result, intygProperties.parent.status);
+                    CommonIntygViewState.updateActiveError(result, intygProperties.parent.status);
                 };
 
                 function loadStates() {
@@ -69,15 +68,15 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
                 };
 
                 $scope.isRevoked = function() {
-                    return intygProperties.isRevoked || IntygViewState.isIntygOnRevokeQueue;
+                    return intygProperties.isRevoked || CommonIntygViewState.isIntygOnRevokeQueue;
                 };
 
                 $scope.showConfirmedMessage = function() {
-                    return intygProperties.isRevoked && (!IntygViewState.isIntygOnRevokeQueue || IntygViewState.isIntygOnRevokeQueue === 'undefined');
+                    return intygProperties.isRevoked && (!CommonIntygViewState.isIntygOnRevokeQueue || CommonIntygViewState.isIntygOnRevokeQueue === 'undefined');
                 };
 
                 $scope.showRequestedMessage = function() {
-                    return IntygViewState.isIntygOnRevokeQueue;
+                    return CommonIntygViewState.isIntygOnRevokeQueue;
                 };
 
                 $scope.showMessage = function() {

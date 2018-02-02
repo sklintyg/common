@@ -19,7 +19,7 @@
 angular.module('common').service('common.IntygHeaderService',
     ['$log', 'common.featureService', 'common.IntygViewStateService', 'common.IntygHeaderViewState',
         'common.UserModel', 'common.User', 'common.IntygCopyActions', 'common.UtkastProxy',
-        function($log, featureService, IntygViewStateService, IntygHeaderViewState,
+        function($log, featureService, CommonIntygViewState, IntygHeaderViewState,
             UserModel, User, IntygCopyActions, UtkastProxy) {
             'use strict';
 
@@ -58,8 +58,8 @@ angular.module('common').service('common.IntygHeaderService',
             }
 
             this.showCreateFromTemplate = function() {
-                return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined && !IntygViewStateService.isRevoked() && !IntygViewStateService.isReplaced() &&
-                    !IntygViewStateService.isComplemented() && !UserModel.getIntegrationParam('inactiveUnit');
+                return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
+                    !CommonIntygViewState.isComplemented() && !UserModel.getIntegrationParam('inactiveUnit');
             };
 
             this.createFromTemplate = function(intyg, newIntygType) {

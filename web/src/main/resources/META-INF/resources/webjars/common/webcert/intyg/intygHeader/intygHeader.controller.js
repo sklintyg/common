@@ -23,7 +23,10 @@ angular.module('common').controller('common.IntygHeader', [ '$scope', '$state',
        'use strict';
 
         $scope.intygViewState = IntygViewState;
-        IntygHeaderViewState.setIntygViewState(IntygViewState);
+
+        var intygType = $state.current.data.intygType; // get type from state so we dont have to wait for intyg.load
+
+        IntygHeaderViewState.setIntygViewState(IntygViewState, intygType);
 
         $scope.$on('intyg.loaded', function(event, intyg){
             IntygHeaderService.updatePreviousIntygUtkast(intyg);

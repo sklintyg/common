@@ -25,9 +25,11 @@ angular.module('common').service('common.IntygHeaderViewState', [
             // Current intyg view state
             */
             this.intygViewState = {};
+            this.intygType = null;
 
-            this.setIntygViewState = function(intygViewState) {
+            this.setIntygViewState = function(intygViewState, intygType) {
                 intygViewState = intygViewState;
+                this.intygType = intygType;
                 this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygViewState.type];
             }
 

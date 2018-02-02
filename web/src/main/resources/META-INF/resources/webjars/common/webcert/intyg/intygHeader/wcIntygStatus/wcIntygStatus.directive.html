@@ -1,34 +1,34 @@
 <div>
   <!-- error from button interaction -->
   <wc-alert-message id="intyg-inline-error"
-                    ng-show="viewState.common.inlineErrorMessageKey"
+                    ng-show="intygViewState.common.inlineErrorMessageKey"
                     alert-severity="danger"
-                    alert-message-id="{{viewState.common.inlineErrorMessageKey}}">
+                    alert-message-id="{{intygViewState.common.inlineErrorMessageKey}}">
   </wc-alert-message>
 
   <wc-intyg-related-other-intyg-message
-      view-state="viewState"
+      view-state="intygViewState"
       text-before-relation="ersatts av"
       intyg-relation="replacedByIntyg">
   </wc-intyg-related-other-intyg-message>
 
   <wc-intyg-related-other-intyg-message
-      view-state="viewState"
+      view-state="intygViewState"
       text-before-relation="kompletterats av"
       intyg-relation="complementedByIntyg">
   </wc-intyg-related-other-intyg-message>
 
   <!-- create utkast from template -->
-  <wc-alert-message ng-if="showCreateFromTemplate() && (!enableCreateFromTemplate() || getWarningForCreateFromTemplate() !== undefined)"
+  <wc-alert-message ng-if="intygHeaderService.showCreateFromTemplate() && (!intygHeaderService.enableCreateFromTemplate() || intygHeaderService.warningForCreateTemplate !== undefined)"
                     alert-severity="warning"
-                    alert-message-id="{{getWarningForCreateFromTemplate()}}">
+                    alert-message-id="{{intygHeaderService.warningForCreateTemplate}}">
   </wc-alert-message>
 
   <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>
 
   <wc-intyg-related-revoked-message></wc-intyg-related-revoked-message>
 
-  <div ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
+  <div ng-if="!intygViewState.common.isRevoked()">
     <span id="{{statusFieldId()}}" ng-bind-html="generateSentText()"></span>
   </div>
 </div>
