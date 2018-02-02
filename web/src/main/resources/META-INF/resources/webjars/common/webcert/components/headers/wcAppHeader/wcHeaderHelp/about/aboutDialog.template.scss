@@ -1,7 +1,56 @@
 //Style the about dialog
 .wc-header-about-modal {
+
   &.modal-body {
-    max-height: 70vh;
-    overflow-y: auto;
+    height: 75vh;
+    overflow-y: scroll;
+
   }
+  .modal-header {
+    h3 {
+      @extend %wc-typo-05;
+    }
+  }
+
+  .panel {
+    &.wc-about-panel {
+      background-color: $wc-color-28;
+      border: none !important;
+      border-radius: 0;
+      box-shadow: none;
+
+      .panel-body {
+        background-color: $wc-color-00;
+        border: none !important;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 12px 9px;
+      }
+
+      .panel-heading {
+        + .panel-collapse > .panel-body,
+        + .panel-collapse > .list-group {
+          border: none;
+        }
+        .panel-title {
+          @extend %wc-typo-05;
+          a {
+            text-decoration: none;
+          }
+
+        }
+
+      }
+    }
+
+  }
+
+  .category h2 {
+    @extend %wc-typo-10;
+    color: $wc-color-17;
+  }
+
+
 }
+
+

@@ -2,45 +2,47 @@
   <button type="button" class="close" data-ng-click="close()">×</button>
   <h3 id="omWebcertDialog">Om Webcert</h3>
 </div>
-<div class="modal-body wc-header-about-modal about-content">
+<div class="modal-body wc-header-about-modal">
   <div uib-accordion close-others="true"
        ng-init="open = { om: true, terms: false, support: false, faq: false, kakor: false }">
-    <div uib-accordion-group is-open="open.om">
+    <div uib-accordion-group panel-class="wc-about-panel" is-open="open.om">
       <div uib-accordion-heading>
-        Om Webcert <i class="pull-right glyphicon"
-                      ng-class="{'glyphicon-chevron-down': open.om, 'glyphicon-chevron-right': !open.om}"></i>
+        Om Webcert <i class="material-icons md-24 pull-right">{{open.om ? 'expand_less':'expand_more'}}</i>
       </div>
-      <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-partial.html'"></div>
+      <div ng-if="!user.privatLakare" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-partial.html'"></div>
+      <div ng-if="user.privatLakare" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-partial-privatlakare.html'"></div>
+
     </div>
 
-    <div uib-accordion-group is-open="open.terms" ng-if="user.privatLakare">
+    <div uib-accordion-group panel-class="wc-about-panel" is-open="open.terms" ng-if="user.privatLakare">
       <div uib-accordion-heading>
-        Anvandarvillkor <i class="pull-right glyphicon"
-                                          ng-class="{'glyphicon-chevron-down': open.terms, 'glyphicon-chevron-right': !open.terms}"></i>
+        Användarvillkor <i class="material-icons md-24 pull-right">{{open.terms ? 'expand_less':'expand_more'}}</i>
       </div>
       <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/om-privatlakaravtal-partial.html'"></div>
     </div>
 
-    <div uib-accordion-group is-open="open.support">
+    <div uib-accordion-group panel-class="wc-about-panel" is-open="open.support">
       <div uib-accordion-heading>
-        Support och kontaktinformation <i class="pull-right glyphicon"
-                                          ng-class="{'glyphicon-chevron-down': open.om, 'glyphicon-chevron-right': !open.om}"></i>
+        Support och kontaktinformation <i class="material-icons md-24 pull-right">{{open.support ? 'expand_less':'expand_more'}}</i>
       </div>
-      <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/support-kontakt-partial.html'"></div>
+      <div wc-authority request-origin="NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/support-kontakt-partial-normal.html'"></div>
+      <div wc-authority request-origin="!NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/support-kontakt-partial-uthopp-djupintegrerad.html'"></div>
     </div>
 
-    <div uib-accordion-group is-open="open.faq">
+    <div uib-accordion-group panel-class="wc-about-panel" is-open="open.faq">
       <div uib-accordion-heading>
-        Vanliga frågor <i class="pull-right glyphicon"
-                          ng-class="{'glyphicon-chevron-down': open.faq, 'glyphicon-chevron-right': !open.faq}"></i>
+        Vanliga frågor <i class="material-icons md-24 pull-right">{{open.faq ? 'expand_less':'expand_more'}}</i>
       </div>
-      <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor-partial.html'"></div>
+      <wc-faq-toggler>
+        <div wc-authority request-origin="NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/faq-normal-partial.html'"></div>
+        <div wc-authority request-origin="UTHOPP" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/faq-uthopp-partial.html'"></div>
+        <div wc-authority request-origin="DJUPINTEGRATION" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/faq-djupintegrerad-partial.html'"></div>
+      </wc-faq-toggler>
     </div>
 
-    <div uib-accordion-group is-open="open.kakor">
+    <div uib-accordion-group panel-class="wc-about-panel" is-open="open.kakor">
       <div uib-accordion-heading>
-        Om kakor (cookies) <i class="pull-right glyphicon"
-                              ng-class="{'glyphicon-chevron-down': open.kakor, 'glyphicon-chevron-right': !open.kakor}"></i>
+        Om kakor (cookies) <i class="material-icons md-24 pull-right">{{open.kakor ? 'expand_less':'expand_more'}}</i>
       </div>
       <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/kakor-partial.html'"></div>
     </div>
