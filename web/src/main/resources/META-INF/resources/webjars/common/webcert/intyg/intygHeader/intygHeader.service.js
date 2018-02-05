@@ -49,8 +49,8 @@ angular.module('common').service('common.IntygHeaderService',
                 _intygActionDialog = intygServiceMethod(IntygHeaderViewState.intygViewState,
                     buildIntygRequestModel({
                         intygId: intyg.id,
-                        intygType: intygType,
-                        newIntygType: newIntygType || intygType,
+                        intygType: IntygHeaderViewState.intygType,
+                        newIntygType: newIntygType || IntygHeaderViewState.intygType,
                         patientPersonnummer: intyg.grundData.patient.personId
                     }),
                     isOtherCareUnit
@@ -62,7 +62,7 @@ angular.module('common').service('common.IntygHeaderService',
                     !CommonIntygViewState.isComplemented() && !UserModel.getIntegrationParam('inactiveUnit');
             };
 
-            this.createFromTemplate = function(intyg, newIntygType) {
+            this.createFromTemplate = function(intyg) {
                 return intygCopyAction(intyg, IntygCopyActions.createFromTemplate, IntygFornyaRequestModel.build, IntygHeaderViewState.currentCreateFromTemplateConfig.moduleId);
             };
 
@@ -70,16 +70,16 @@ angular.module('common').service('common.IntygHeaderService',
                 var intygTemplateConfig = IntygHeaderViewState.currentCreateFromTemplateConfig;
                 if (intygTemplateConfig.features.indexOf(featureService.features.UNIKT_INTYG_INOM_VG) !== -1 &&
                     IntygHeaderViewState.checkIntygModuleId(intygTemplateConfig.moduleId)) {
-                    IntygHeaderViewState.setWarningForCreateTemplate(intygTemplateConfig.moduleId + '.warn.previouscertificate.samevg');
+                    IntygHeaderViewState.warningForCreateTemplate = intygTemplateConfig.moduleId + '.warn.previouscertificate.samevg';
                     return false;
                 }
 
                 if (intygTemplateConfig.features.indexOf(featureService.features.UNIKT_UTKAST_INOM_VG) !== -1) {
                     if (IntygHeaderViewState.checkUtkastModuleId(intygTemplateConfig.moduleId)) {
-                        IntygHeaderViewState.setWarningForCreateTemplate(intygTemplateConfig.moduleId + '.warn.previousdraft.samevg');
+                        IntygHeaderViewState.warningForCreateTemplate = intygTemplateConfig.moduleId + '.warn.previousdraft.samevg';
                         return false;
                     } else if (IntygHeaderViewState.checkUtkastModuleIdDifferent(intygTemplateConfig.moduleId)){
-                        IntygHeaderViewState.setWarningForCreateTemplate(intygTemplateConfig.moduleId + '.warn.previousdraft.differentvg');
+                        IntygHeaderViewState.warningForCreateTemplate = intygTemplateConfig.moduleId + '.warn.previousdraft.differentvg';
                         return true;
                     }
                 }

@@ -28,9 +28,9 @@ angular.module('common').service('common.IntygHeaderViewState', [
             this.intygType = null;
 
             this.setIntygViewState = function(intygViewState, intygType) {
-                intygViewState = intygViewState;
+                this.intygViewState = intygViewState;
                 this.intygType = intygType;
-                this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygViewState.type];
+                this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygType];
             }
 
             /*
@@ -40,8 +40,8 @@ angular.module('common').service('common.IntygHeaderViewState', [
             var previousUtkast = {};
 
             this.setPreviousIntygUtkast = function(prevIntyg, prevUtkast){
-                this.previousIntyg = prevIntyg;
-                this.previousUtkast = prevUtkast;
+                previousIntyg = prevIntyg;
+                previousUtkast = prevUtkast;
             }
 
             this.checkIntygModuleId = function(moduleId){

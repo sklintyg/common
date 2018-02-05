@@ -20,10 +20,12 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.moduleService',
     'common.IntygViewStateService', 'common.IntygHeaderService', 'common.IntygHeaderViewState',
     'common.UserModel', 'common.IntygSend', 'common.dialogService', 'common.PatientProxy', 'common.IntygMakulera',
+    'common.IntygCopyActions', 'common.IntygFornyaRequestModel', 'common.IntygCopyRequestModel', 'common.IntygErsattRequestModel',
     function($rootScope,
         authorityService, featureService, messageService, moduleService,
         CommonIntygViewState, IntygHeaderService, IntygHeaderViewState,
-        UserModel, IntygSend, DialogService, PatientProxy, IntygMakulera) {
+        UserModel, IntygSend, DialogService, PatientProxy, IntygMakulera,
+        IntygCopyActions, IntygFornyaRequestModel, IntygCopyRequestModel, IntygErsattRequestModel) {
     'use strict';
 
     return {
@@ -34,7 +36,8 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.html',
         link: function($scope) {
 
-            var intygType = IntygHeaderViewState.intygType; // get type from state so we dont have to wait for intyg.load
+            $scope.IntygHeaderService = IntygHeaderService;
+            $scope.CommonIntygViewState = CommonIntygViewState;
 
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
@@ -48,6 +51,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
+            var intygType = IntygHeaderViewState.intygType; // get type from state so we dont have to wait for intyg.load
             $scope.intygType = intygType;
 
             $scope.showSkickaButton = function(){

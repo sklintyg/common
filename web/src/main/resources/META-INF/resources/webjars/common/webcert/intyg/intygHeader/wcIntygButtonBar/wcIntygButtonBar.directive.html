@@ -92,9 +92,9 @@
           class="btn btn-secondary"
           ng-if="showCreateFromTemplate()"
           ng-disabled="!enableCreateFromTemplate()"
-          ng-click="createFromTemplate(viewState.intygModel)"
+          ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel)"
           wc-check-vardenhet>
-    Skriv {{createFromTemplateConfig[intygType].name}}
+    Skriv {{IntygHeaderService.createFromTemplateConfig[intygType].name}}
   </button>
 
   <button type="button"
@@ -103,7 +103,7 @@
           intygType="{{intygType}}"
           id="makuleraBtn"
           class="btn btn-default"
-          ng-if="!isRevoked()"
+          ng-if="!CommonIntygViewState.isRevoked()"
           ng-click="makulera(viewState.intygModel)"
           wc-check-vardenhet
           vardenhet="{{viewState.enhetsId}}"

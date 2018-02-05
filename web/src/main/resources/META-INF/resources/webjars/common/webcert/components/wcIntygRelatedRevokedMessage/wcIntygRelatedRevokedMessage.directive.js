@@ -21,15 +21,21 @@
  * Broadcast a intyg.loaded event on rootscope when the intyg is loaded to update the message.
  */
 angular.module('common').directive('wcIntygRelatedRevokedMessage', [
-    '$location', 'common.IntygProxy', 'common.IntygViewStateService',
-    function($location, IntygProxy, CommonIntygViewState) {
+    '$location', 'common.IntygProxy',
+    function($location, IntygProxy) {
         'use strict';
 
-        var intygProperties = CommonIntygViewState.intygProperties;
+        var CommonIntygViewState;
+        var intygProperties;
         return {
             restrict: 'E',
-            scope: {},
+            scope: {
+                intygViewState: '='
+            },
             link: function($scope, $element, $attributes) {
+
+                CommonIntygViewState = $scope.intygViewState.common;
+                intygProperties = CommonIntygViewState.intygProperties;
 
                 var onSuccess = function(result) {
                     if (result !== null && result !== '') {
@@ -46,12 +52,11 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
                 }
 
                 var updateRelation = function() {
-                    intygProperties.parent = intygProperties.parent;
                     if (intygProperties.parent && intygProperties.parent.relationKod === 'ERSATT') {
                         loadStates();
                     }
                 };
-                
+
                 // intyg data may be loaded now, or it may be loaded later.
                 $scope.$on('intyg.loaded', updateRelation);
                 updateRelation();
