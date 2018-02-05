@@ -41,7 +41,7 @@
                     <input type="text" class="form-control" ng-attr-id="diagnoseCode-{{::$index|ueDomIdFilter}}"
                            name="diagnoseCode{{::$index}}"
                            value=""
-                           placeholder="{{::$index == 0 ? 'Huvuddiagnos' : 'Bidiagnos'}}"
+                           placeholder="Kod"
                            class='diagnose-code col-xs-11 form-control'
                            ng-class="{'fielderror' : hasValidationError('diagnoskod', $index)}"
                            ng-model="diagnos.diagnosKod"
@@ -75,6 +75,7 @@
                        ng-class="{'fielderror' : hasValidationError('diagnosbeskrivning', $index)}"
                        name="diagnose.description"
                        value=""
+                       placeholder="Diagnos"
                        ng-model= "diagnos.diagnosBeskrivning"
                        ng-blur="validate()"
                        ng-change="onDiagnoseDescriptionChanged($index)"
