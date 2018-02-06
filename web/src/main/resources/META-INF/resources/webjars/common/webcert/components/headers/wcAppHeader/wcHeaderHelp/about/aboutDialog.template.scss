@@ -12,6 +12,12 @@
     }
   }
 
+  .wc-about-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .panel {
     &.wc-about-panel {
       background-color: $wc-color-28;
@@ -19,12 +25,16 @@
       border-radius: 0;
       box-shadow: none;
 
-      .panel-body {
+      > .panel-collapse > .panel-body {
         background-color: $wc-color-00;
         border: none !important;
         border-radius: 0;
         box-shadow: none;
         padding: 12px 9px;
+      }
+
+      > .panel-heading {
+        padding: 7px 15px;
       }
 
       .panel-heading {

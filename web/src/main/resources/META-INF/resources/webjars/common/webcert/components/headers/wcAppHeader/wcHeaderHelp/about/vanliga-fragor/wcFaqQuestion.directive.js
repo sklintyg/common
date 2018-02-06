@@ -24,8 +24,7 @@ angular.module('common').directive('wcFaqQuestion', [ function() {
         restrict: 'E',
         transclude: true,
         scope: {
-            title: '@',
-            open: '='
+            title: '@'
         },
         templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/wcFaqQuestion.directive.html',
         link: function($scope, elem, attrs, wcFaqToggler) {

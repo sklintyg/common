@@ -7,7 +7,9 @@
        ng-init="open = { om: true, terms: false, support: false, faq: false, kakor: false }">
     <div uib-accordion-group panel-class="wc-about-panel" is-open="open.om">
       <div uib-accordion-heading>
-        Om Webcert <i class="material-icons md-24 pull-right">{{open.om ? 'expand_less':'expand_more'}}</i>
+        <div class="wc-about-panel-header">
+          <span>Om Webcert</span> <i class="material-icons md-24">{{open.om ? 'expand_less':'expand_more'}}</i>
+        </div>
       </div>
       <div ng-if="!user.privatLakare" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-partial.html'"></div>
       <div ng-if="user.privatLakare" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-partial-privatlakare.html'"></div>
@@ -16,14 +18,18 @@
 
     <div uib-accordion-group panel-class="wc-about-panel" is-open="open.terms" ng-if="user.privatLakare">
       <div uib-accordion-heading>
-        Användarvillkor <i class="material-icons md-24 pull-right">{{open.terms ? 'expand_less':'expand_more'}}</i>
+        <div class="wc-about-panel-header">
+          <span>Användarvillkor</span> <i class="material-icons md-24">{{open.terms ? 'expand_less':'expand_more'}}</i>
+        </div>
       </div>
       <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/om-privatlakaravtal-partial.html'"></div>
     </div>
 
     <div uib-accordion-group panel-class="wc-about-panel" is-open="open.support">
       <div uib-accordion-heading>
-        Support och kontaktinformation <i class="material-icons md-24 pull-right">{{open.support ? 'expand_less':'expand_more'}}</i>
+        <div class="wc-about-panel-header">
+          <span>Support och kontaktinformation</span> <i class="material-icons md-24">{{open.support ? 'expand_less':'expand_more'}}</i>
+        </div>
       </div>
       <div wc-authority request-origin="NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/support-kontakt-partial-normal.html'"></div>
       <div wc-authority request-origin="!NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/support-kontakt-partial-uthopp-djupintegrerad.html'"></div>
@@ -31,7 +37,9 @@
 
     <div uib-accordion-group panel-class="wc-about-panel" is-open="open.faq">
       <div uib-accordion-heading>
-        Vanliga frågor <i class="material-icons md-24 pull-right">{{open.faq ? 'expand_less':'expand_more'}}</i>
+        <div class="wc-about-panel-header">
+          <span>Vanliga frågor</span> <i class="material-icons md-24">{{open.faq ? 'expand_less':'expand_more'}}</i>
+        </div>
       </div>
       <wc-faq-toggler>
         <div wc-authority request-origin="NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/faq-normal-partial.html'"></div>
@@ -42,7 +50,9 @@
 
     <div uib-accordion-group panel-class="wc-about-panel" is-open="open.kakor">
       <div uib-accordion-heading>
-        Om kakor (cookies) <i class="material-icons md-24 pull-right">{{open.kakor ? 'expand_less':'expand_more'}}</i>
+        <div class="wc-about-panel-header">
+          <span>Om kakor (cookies)</span> <i class="material-icons md-24">{{open.kakor ? 'expand_less':'expand_more'}}</i>
+        </div>
       </div>
       <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/kakor-partial.html'"></div>
     </div>
