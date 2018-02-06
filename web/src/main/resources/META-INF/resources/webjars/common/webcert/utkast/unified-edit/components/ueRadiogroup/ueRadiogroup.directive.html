@@ -15,7 +15,7 @@
                  value="{{choice.id}}"
                  ng-model="modelGetterSetter"
                  ng-model-options="{ getterSetter: true }"
-                 ng-change="onChange()">
+                 ng-change="updateValidation()">
           <span dynamic-label key="{{::choice.label}}"></span>
         </label>
         <div ng-if="::config.enableHelp">

@@ -24,7 +24,8 @@ angular.module('common').directive('ueRadiogroup', [ 'ueUtil', function(ueUtil) 
         restrict: 'E',
         scope: {
             config: '=',
-            model: '='
+            model: '=',
+            form: '='
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.html',
         link: function($scope) {

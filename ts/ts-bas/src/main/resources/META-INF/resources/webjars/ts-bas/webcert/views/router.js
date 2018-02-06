@@ -28,7 +28,45 @@ angular.module('ts-bas').config(function($stateProvider) {
     $stateProvider.
         state('ts-bas-edit', {
             data: { defaultActive : 'index' },
-            url : '/ts-bas/edit/:certificateId/:focusOn',
+            url: '/ts-bas/edit/:certificateId/:focusOn',
+            views : {
+                'content@' : {
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
+                    controller: 'smi.EditCertCtrl',
+                    resolve: {
+                        ViewState: 'ts-bas.UtkastController.ViewStateService',
+                        FormFactory: 'ts-bas.UtkastConfigFactory',
+                        supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
+                    }
+                },
+
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+                },
+
+                'header@ts-bas-edit' : {
+                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    controller: 'common.UtkastHeader'
+                },
+
+                'footer@ts-bas-edit' : {
+                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+                    controller: 'common.UtkastFooter'
+                },
+
+                'formly@ts-bas-edit' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
+                    resolve: {
+                        ViewState: 'ts-bas.UtkastController.ViewStateService',
+                        UtkastConfigFactory: 'ts-bas.UtkastConfigFactory'
+                    }
+                }
+            }
+        }).
+        state('ts-bas-edit-old', {
+            data: { defaultActive : 'index' },
+            url : '/ts-bas/edit-old/:certificateId/:focusOn',
             views : {
                 'content@': {
                     templateUrl: intygsTypPath + 'views/utkast/utkast.html',
@@ -40,95 +78,95 @@ angular.module('ts-bas').config(function($stateProvider) {
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
-                'header@ts-bas-edit': {
+                'header@ts-bas-edit-old': {
                     templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'patient@ts-bas-edit' : {
+                'patient@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/patient.html'
                 },
-                'intention@ts-bas-edit' : {
+                'intention@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/intention.html',
                     controller: 'ts-bas.Utkast.IntentionController'
                 },
-                'identity@ts-bas-edit' : {
+                'identity@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/identity.html'
                 },
-                'alert@ts-bas-edit' : {
+                'alert@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/alert.html'
                 },
 
-                'form1@ts-bas-edit' : {
+                'form1@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form1.html',
                     controller: 'ts-bas.Utkast.Form1Controller'
                 },
-                'form2@ts-bas-edit' : {
+                'form2@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form2.html'
                 },
-                'form3@ts-bas-edit' : {
+                'form3@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form3.html',
                     controller: 'ts-bas.Utkast.Form3Controller'
                 },
-                'form4@ts-bas-edit' : {
+                'form4@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form4.html',
                     controller: 'ts-bas.Utkast.Form4Controller'
                 },
-                'form5@ts-bas-edit' : {
+                'form5@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form5.html',
                     controller: 'ts-bas.Utkast.Form5Controller'
                 },
-                'form6@ts-bas-edit' : {
+                'form6@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form6.html'
                 },
-                'form7@ts-bas-edit' : {
+                'form7@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form7.html',
                     controller: 'ts-bas.Utkast.Form7Controller'
                 },
-                'form8@ts-bas-edit' : {
+                'form8@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form8.html'
                 },
-                'form9@ts-bas-edit' : {
+                'form9@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form9.html'
                 },
 
-                'form10@ts-bas-edit' : {
+                'form10@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form10.html'
                 },
-                'form11@ts-bas-edit' : {
+                'form11@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form11.html',
                     controller: 'ts-bas.Utkast.Form11Controller'
                 },
-                'form12@ts-bas-edit' : {
+                'form12@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form12.html'
                 },
-                'form13@ts-bas-edit' : {
+                'form13@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form13.html'
                 },
-                'form14@ts-bas-edit' : {
+                'form14@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form14.html',
                     controller: 'ts-bas.Utkast.Form14Controller'
                 },
-                'form15@ts-bas-edit' : {
+                'form15@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form15.html',
                     controller: 'ts-bas.Utkast.Form15Controller'
                 },
-                'form16@ts-bas-edit' : {
+                'form16@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form16.html'
                 },
-                'form17@ts-bas-edit' : {
+                'form17@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form17.html',
                     controller: 'ts-bas.Utkast.Form17Controller'
                 },
-                'form18@ts-bas-edit' : {
+                'form18@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form18.html'
                 },
-                'form19@ts-bas-edit' : {
+                'form19@ts-bas-edit-old' : {
                     templateUrl: intygsTypPath + 'views/utkast/form/form19.html',
                     controller: 'ts-bas.Utkast.Form19Controller'
                 },
 
-                'footer@ts-bas-edit' : {
+                'footer@ts-bas-edit-old' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 }

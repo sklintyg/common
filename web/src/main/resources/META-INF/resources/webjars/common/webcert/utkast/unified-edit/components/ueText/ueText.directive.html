@@ -1,4 +1,4 @@
-<div ng-switch="::config.label.type">
+<div ng-switch="::config.label.type" ng-class="{'bottom-padding-small': config.paddingBottom}">
     <h4 ng-switch-when="h4">
         <span combined-label dyn-key="{{::config.label.variableLabelKey}}" stat-key="{{::config.label.key}}"></span>
     </h4>

@@ -1,25 +1,31 @@
-<div ng-class="::{'form-inline': !config.vertical}">
-    <ue-form-label config="::config.label"></ue-form-label>
-    <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
-        <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}Yes"
-               name="{{::config.modelProp}}"
-               type="radio"
-               class="big-radio"
-               ng-value="true"
-               ng-model="modelGetterSetter"
-               ng-model-options="{ getterSetter: true }"
-               ng-change="updateValidation()"/>
-        <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>
-    </label>
-    <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
-        <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}No"
-               name="{{::config.modelProp}}"
-               type="radio"
-               class="big-radio"
-               ng-value="false"
-               ng-model="modelGetterSetter"
-               ng-model-options="{ getterSetter: true }"
-               ng-change="updateValidation()"/>
-        <span dynamic-label key="{{::config.noLabel}}" fallback-value="Nej"></span>
-    </label>
+<div ng-class="::{'form-inline': !config.vertical, 'bottom-padding-small': config.paddingBottom}">
+    <ue-validation-wrapper field-type="radio"
+                           label-col-size="{{::config.labelColSize}}"
+                           key="{{::config.modelProp}}"
+                           warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                           validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+        <ue-form-label config="::config.label"></ue-form-label>
+        <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+            <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}Yes"
+                   name="{{::config.modelProp}}"
+                   type="radio"
+                   class="big-radio"
+                   ng-value="true"
+                   ng-model="modelGetterSetter"
+                   ng-model-options="{ getterSetter: true }"
+                   ng-change="updateValidation()"/>
+            <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>
+        </label>
+        <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+            <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}No"
+                   name="{{::config.modelProp}}"
+                   type="radio"
+                   class="big-radio"
+                   ng-value="false"
+                   ng-model="modelGetterSetter"
+                   ng-model-options="{ getterSetter: true }"
+                   ng-change="updateValidation()"/>
+            <span dynamic-label key="{{::config.noLabel}}" fallback-value="Nej"></span>
+        </label>
+    </ue-validation-wrapper>
 </div>

@@ -34,7 +34,13 @@ angular.module('common').directive('combinedLabel',
 
                     function updateText(interpolatedKey) {
                         result = dynamicLabelService.getProperty(interpolatedKey);
-                        var statLabel = staticMessageService.getProperty(attr.statKey);
+                        var statLabel;
+                        if (staticMessageService.propertyExists(attr.statKey)) {
+                            statLabel = staticMessageService.getProperty(attr.statKey);
+                        }
+                        else {
+                            statLabel = dynamicLabelService.getProperty(attr.statKey);
+                        }
                         var dynLabel = statLabel.replace('{0}', result);
                         scope.resultValue = dynLabel;
                     }
