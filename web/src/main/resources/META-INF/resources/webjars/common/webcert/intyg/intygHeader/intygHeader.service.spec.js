@@ -33,8 +33,10 @@ describe('IntygHeaderService', function() {
     }));
 
     beforeEach(angular.mock.inject([
-        '$rootScope', 'common.IntygHeaderService', 'common.IntygHeaderViewState', 'common.IntygViewStateService', 'common.UserModel', 'common.UtkastProxy',/*'$controller', '$state', '$compile', 'common.featureService', */
-        function(_$rootScope_, _IntygHeaderService_, _IntygHeaderViewState_, _IntygViewStateService_, _UserModel_, _UtkastProxy_/*_$controller_, _$state_, _$compile_, _featureService_*/) {
+        '$rootScope', 'common.IntygHeaderService', 'common.IntygHeaderViewState', 'common.IntygViewStateService',
+        'common.UserModel', 'common.UtkastProxy',
+        function(_$rootScope_, _IntygHeaderService_, _IntygHeaderViewState_, _IntygViewStateService_,
+            _UserModel_, _UtkastProxy_) {
             $rootScope = _$rootScope_;
             IntygHeaderService = _IntygHeaderService_;
             IntygHeaderViewState = _IntygHeaderViewState_;
@@ -56,7 +58,7 @@ describe('IntygHeaderService', function() {
                         }
                     }
                 }
-            }
+            };
             IntygHeaderViewState.setIntygViewState(testIntygViewState, 'db');
         });
 

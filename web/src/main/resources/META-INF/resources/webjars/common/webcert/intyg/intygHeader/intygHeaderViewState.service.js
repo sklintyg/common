@@ -27,35 +27,6 @@ angular.module('common').service('common.IntygHeaderViewState', [
             this.intygViewState = {};
             this.intygType = null;
 
-            this.setIntygViewState = function(intygViewState, intygType) {
-                this.intygViewState = intygViewState;
-                this.intygType = intygType;
-                this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygType];
-            }
-
-            /*
-            // Previous intyg/utkast state
-            */
-            var previousIntyg = {};
-            var previousUtkast = {};
-
-            this.setPreviousIntygUtkast = function(prevIntyg, prevUtkast){
-                previousIntyg = prevIntyg;
-                previousUtkast = prevUtkast;
-            }
-
-            this.checkIntygModuleId = function(moduleId){
-                return previousIntyg !== undefined && previousIntyg[moduleId] === true;
-            }
-
-            this.checkUtkastModuleId = function(moduleId){
-                return previousUtkast !== undefined && previousUtkast[moduleId] === true;
-            }
-
-            this.checkUtkastModuleIdDifferent = function(moduleId){
-                return previousUtkast !== undefined && previousUtkast[moduleId] === false;
-            }
-
             /*
             // Create from template state
             */
@@ -72,6 +43,36 @@ angular.module('common').service('common.IntygHeaderViewState', [
 
             this.warningForCreateTemplate = {};
             this.currentCreateFromTemplateConfig = null;
+
+            this.setIntygViewState = function(intygViewState, intygType) {
+                this.intygViewState = intygViewState;
+                this.intygType = intygType;
+                this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygType];
+            };
+
+            /*
+            // Previous intyg/utkast state
+            */
+            var previousIntyg = {};
+            var previousUtkast = {};
+
+            this.setPreviousIntygUtkast = function(prevIntyg, prevUtkast){
+                previousIntyg = prevIntyg;
+                previousUtkast = prevUtkast;
+            };
+
+            this.checkIntygModuleId = function(moduleId){
+                return previousIntyg !== undefined && previousIntyg[moduleId] === true;
+            };
+
+            this.checkUtkastModuleId = function(moduleId){
+                return previousUtkast !== undefined && previousUtkast[moduleId] === true;
+            };
+
+            this.checkUtkastModuleIdDifferent = function(moduleId){
+                return previousUtkast !== undefined && previousUtkast[moduleId] === false;
+            };
+
         }
     ]
 );

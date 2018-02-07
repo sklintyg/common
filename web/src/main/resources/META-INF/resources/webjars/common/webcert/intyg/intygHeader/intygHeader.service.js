@@ -18,9 +18,9 @@
  */
 angular.module('common').service('common.IntygHeaderService',
     ['$log', 'common.featureService', 'common.IntygViewStateService', 'common.IntygHeaderViewState',
-        'common.UserModel', 'common.User', 'common.IntygCopyActions', 'common.UtkastProxy',
+        'common.UserModel', 'common.User', 'common.IntygCopyActions', 'common.UtkastProxy', 'common.IntygFornyaRequestModel',
         function($log, featureService, CommonIntygViewState, IntygHeaderViewState,
-            UserModel, User, IntygCopyActions, UtkastProxy) {
+            UserModel, User, IntygCopyActions, UtkastProxy, IntygFornyaRequestModel) {
             'use strict';
 
             var _intygActionDialog = null;
@@ -30,7 +30,7 @@ angular.module('common').service('common.IntygHeaderService',
                     _intygActionDialog.close();
                     _intygActionDialog = undefined;
                 }
-            }
+            };
 
             this.updatePreviousIntygUtkast = function(intyg) {
                 if (IntygHeaderViewState.currentCreateFromTemplateConfig) {
@@ -55,7 +55,7 @@ angular.module('common').service('common.IntygHeaderService',
                     }),
                     isOtherCareUnit
                 );
-            }
+            };
 
             this.showCreateFromTemplate = function() {
                 return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
@@ -63,7 +63,7 @@ angular.module('common').service('common.IntygHeaderService',
             };
 
             this.createFromTemplate = function(intyg) {
-                return intygCopyAction(intyg, IntygCopyActions.createFromTemplate, IntygFornyaRequestModel.build, IntygHeaderViewState.currentCreateFromTemplateConfig.moduleId);
+                return this.intygCopyAction(intyg, IntygCopyActions.createFromTemplate, IntygFornyaRequestModel.build, IntygHeaderViewState.currentCreateFromTemplateConfig.moduleId);
             };
 
             this.enableCreateFromTemplate = function() {

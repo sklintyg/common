@@ -26,7 +26,7 @@ angular.module('common').directive('wcIntygStatus', [
     return {
         restrict: 'E',
         scope: {
-            intygViewState: '=',
+            intygViewState: '='
         },
         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.html',
         link: function($scope) {
