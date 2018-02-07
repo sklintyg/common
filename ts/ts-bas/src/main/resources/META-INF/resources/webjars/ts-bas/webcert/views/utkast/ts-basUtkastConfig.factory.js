@@ -47,9 +47,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
 
-            var tomorrowDate = moment().format('YYYY-MM-DD');
-            var minDate = moment().subtract(1, 'y').format('YYYY-MM-DD');
-
             function korkortHogreBehorighet(scope) {
                 if (!scope.model.intygAvser || !scope.model.intygAvser.korkortstyp) {
                     return true;
@@ -64,37 +61,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     }
                 }
                 return true;
-            }
-
-            function anyKravYtterligareUnderlagFieldsFilled(model) {
-                if (model.syn) {
-                    if (model.syn.synfaltsdefekter === true ||
-                        model.syn.nattblindhet === true ||
-                        model.syn.progressivOgonsjukdom === true ||
-                        model.syn.diplopi === true ||
-                        model.syn.nystagmus === true) {
-                        return true;
-                    }
-                }
-                if (model.horselBalans) {
-                    if (model.horselBalans.balansrubbningar === true ||
-                        model.horselBalans.svartUppfattaSamtal4Meter === true) {
-                        return true;
-                    }
-                }
-                if (model.funktionsnedsattning) {
-                    if (model.funktionsnedsattning.funktionsnedsattning === true ||
-                        model.funktionsnedsattning.otillrackligRorelseformaga === true) {
-                        return true;
-                    }
-                }
-                if (model.hjartKarl) {
-                    if (model.hjartKarl.hjartKarlSjukdom === true ||
-                        model.hjartKarl.hjarnskadaEfterTrauma === true ||
-                        model.hjartKarl.riskfaktorerStroke === true) {
-                        return true;
-                    }
-                }
             }
 
             var noKravYtterligareUnderlagFieldsFilledExpression = '!(' +
