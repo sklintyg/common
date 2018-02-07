@@ -75,7 +75,10 @@ angular.module('doi').config(function($stateProvider) {
                 },
                 'header@webcert.intyg.fk.doi' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'luse.IntygController.ViewStateService'
+                    }
                 }
             }
         });

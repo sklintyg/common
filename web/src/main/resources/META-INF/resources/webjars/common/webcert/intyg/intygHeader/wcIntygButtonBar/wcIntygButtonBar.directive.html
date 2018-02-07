@@ -11,11 +11,11 @@
     <span dynamic-label key="{{intygType}}.button.send"></span>
   </button>
   <!-- Normal pdf-utskrift av signerat intyg  -->
-  <button type="button"
+  <button ng-if="showPrintBtn()"
+          type="button"
           id="downloadprint"
           class="btn btn-secondary"
           intygType="{{intygType}}"
-          ng-if="showPrintBtn()"
           ng-click="print(viewState.intygModel, false)">
     <span dynamic-label key="common.button.save.as.pdf"></span>
   </button>

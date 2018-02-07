@@ -75,7 +75,10 @@ angular.module('luae_na').config(function($stateProvider) {
                 },
                 'header@webcert.intyg.fk.luae_na' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'luae_na.IntygController.ViewStateService'
+                    }
                 }
             }
         }).
@@ -94,7 +97,10 @@ angular.module('luae_na').config(function($stateProvider) {
                 },
                 'header@webcert.fragasvar.luae_na' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'luae_na.IntygController.ViewStateService'
+                    }
                 }
             }
         });

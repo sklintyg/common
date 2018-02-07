@@ -26,7 +26,7 @@
 
   <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>
 
-  <wc-intyg-related-revoked-message></wc-intyg-related-revoked-message>
+  <wc-intyg-related-revoked-message intyg-view-state="intygViewState"></wc-intyg-related-revoked-message>
 
   <div ng-if="!intygViewState.common.isRevoked()">
     <span id="{{statusFieldId()}}" ng-bind-html="generateSentText()"></span>

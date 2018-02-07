@@ -39,6 +39,8 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.IntygHeaderService = IntygHeaderService;
             $scope.CommonIntygViewState = CommonIntygViewState;
 
+            var intygType = IntygHeaderViewState.intygType; // get type from state so we dont have to wait for intyg.load
+
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
@@ -51,7 +53,6 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
 
-            var intygType = IntygHeaderViewState.intygType; // get type from state so we dont have to wait for intyg.load
             $scope.intygType = intygType;
 
             $scope.showSkickaButton = function(){

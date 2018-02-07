@@ -74,7 +74,10 @@ angular.module('db').config(function($stateProvider) {
                 },
                 'header@webcert.intyg.fk.db' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'luse.IntygController.ViewStateService'
+                    }
                 }
             }
         }).
@@ -97,7 +100,10 @@ angular.module('db').config(function($stateProvider) {
                 },
                 'header@webcert.fragasvar.db' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'luse.IntygController.ViewStateService'
+                    }
                 }
             }
         });
