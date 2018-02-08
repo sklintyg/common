@@ -18,8 +18,8 @@
  */
 
 angular.module('common').directive('ueFormLabel',
-    [ '$log', '$compile', '$rootScope', 'common.dynamicLabelService',
-        function($log, $compile, $rootScope, dynamicLabelService) {
+    [ '$log', '$compile', '$rootScope', 'common.dynamicLabelService', 'ueDomIdFilterFilter',
+        function($log, $compile, $rootScope, dynamicLabelService, ueDomIdFilter) {
             'use strict';
 
             return {
@@ -38,7 +38,7 @@ angular.module('common').directive('ueFormLabel',
                             whitespaceBreak = ' class="control-label white-space-no-wrap"';
                         }
 
-                        var template = '<' + scope.config.type + whitespaceBreak + '>\n';
+                        var template = '<' + scope.config.type + whitespaceBreak + (scope.config.key ? ' id="' + ueDomIdFilter(scope.config.key) + '" ': '')  + '>\n';
                         if (scope.config.required) {
                             template += '<span class="required">*</span>\n';
                         }
