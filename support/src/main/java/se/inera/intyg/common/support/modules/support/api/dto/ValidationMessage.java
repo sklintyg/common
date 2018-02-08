@@ -22,6 +22,8 @@ import org.springframework.util.Assert;
 
 public class ValidationMessage {
 
+    private final String category;
+
     private final String field;
 
     private final String message;
@@ -30,34 +32,44 @@ public class ValidationMessage {
 
     private final String dynamicKey;
 
-    public ValidationMessage(String field, ValidationMessageType type) {
+    public ValidationMessage(String category, String field, ValidationMessageType type) {
+        Assert.hasText(category, "'category' must not be empty");
         Assert.hasText(field, "'field' must not be empty");
         Assert.notNull(type, "'type' must not be empty");
+        this.category = category;
         this.field = field;
         this.type = type;
         this.message = null;
         this.dynamicKey = null;
     }
 
-    public ValidationMessage(String field, ValidationMessageType type, String message) {
+    public ValidationMessage(String category, String field, ValidationMessageType type, String message) {
+        Assert.hasText(category, "'category' must not be empty");
         Assert.hasText(field, "'field' must not be empty");
         Assert.notNull(type, "'type' must not be empty");
         Assert.hasText(message, "'message' must not be empty");
+        this.category = category;
         this.field = field;
         this.type = type;
         this.message = message;
         this.dynamicKey = null;
     }
 
-    public ValidationMessage(String field, ValidationMessageType type, String message, String dynamicKey) {
+    public ValidationMessage(String category, String field, ValidationMessageType type, String message, String dynamicKey) {
+        Assert.hasText(category, "'category' must not be empty");
         Assert.hasText(field, "'field' must not be empty");
         Assert.notNull(type, "'type' must not be empty");
         Assert.hasText(message, "'message' must not be empty");
         Assert.hasText(dynamicKey, "'dynamicLabel' must not be empty");
+        this.category = category;
         this.field = field;
         this.type = type;
         this.message = message;
         this.dynamicKey = dynamicKey;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public String getField() {

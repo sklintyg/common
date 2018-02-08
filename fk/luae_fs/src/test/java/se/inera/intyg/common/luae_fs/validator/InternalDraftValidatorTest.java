@@ -120,8 +120,10 @@ public class InternalDraftValidatorTest {
 
         assertTrue(2 == validationMessages.size());
 
-        assertValidationMessageField("grundformu.baserasPa", 0);
-        assertValidationMessageField("grundformu.kannedomOmPatient", 1);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("baseratPa", 0);
+        assertValidationMessageCategory("grundformu", 1);
+        assertValidationMessageField("kannedomOmPatient", 1);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 1);
     }
@@ -137,7 +139,8 @@ public class InternalDraftValidatorTest {
 
         assertTrue(1 == validationMessages.size());
 
-        assertValidationMessageField("grundformu.kannedomOmPatient", 0);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("kannedomOmPatient", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
@@ -185,7 +188,8 @@ public class InternalDraftValidatorTest {
 
         assertTrue(2 == validationMessages.size());
 
-        assertValidationMessageField("grundformu.baserasPa", 0);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("baseratPa", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
         assertValidationMessage("luae_fs.validation.grund-for-mu.annat.beskrivning.invalid_combination", 1);
         assertValidationMessageType(ValidationMessageType.EMPTY, 1);
@@ -203,7 +207,8 @@ public class InternalDraftValidatorTest {
 
         assertTrue(1 == validationMessages.size());
 
-        assertValidationMessageField("grundformu.annatGrundForMUBeskrivning", 0);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("annatGrundForMUBeskrivning", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
@@ -219,7 +224,8 @@ public class InternalDraftValidatorTest {
 
         // then
         assertEquals(1, validationMessages.size());
-        assertValidationMessageField("grundformu.motiveringTillInteBaseratPaUndersokning", 0);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("motiveringTillInteBaseratPaUndersokning", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
@@ -237,7 +243,8 @@ public class InternalDraftValidatorTest {
 
         // then
         assertEquals(1, validationMessages.size());
-        assertValidationMessageField("grundformu.motiveringTillInteBaseratPaUndersokning", 0);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("motiveringTillInteBaseratPaUndersokning", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
@@ -254,7 +261,8 @@ public class InternalDraftValidatorTest {
 
         // then
         assertEquals(1, validationMessages.size());
-        assertValidationMessageField("grundformu.motiveringTillInteBaseratPaUndersokning", 0);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("motiveringTillInteBaseratPaUndersokning", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
@@ -283,7 +291,8 @@ public class InternalDraftValidatorTest {
 
         assertTrue(1 == validationMessages.size());
 
-        assertValidationMessageField("grundformu.underlagFinns", 0);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("underlagFinns", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
@@ -295,7 +304,8 @@ public class InternalDraftValidatorTest {
 
         assertTrue(1 == validationMessages.size());
 
-        assertValidationMessageField("grundformu.underlag", 0);
+        assertValidationMessageCategory("grundformu", 0);
+        assertValidationMessageField("underlag", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
@@ -525,6 +535,10 @@ public class InternalDraftValidatorTest {
 
     private void assertValidationMessageDynamicKey(String expectedDynamicKey, int index) {
         assertEquals(expectedDynamicKey, validationMessages.get(index).getDynamicKey());
+    }
+
+    private void assertValidationMessageCategory(String expectedCategory, int index) {
+        assertEquals(expectedCategory, validationMessages.get(index).getCategory());
     }
 
     private void assertValidationMessageField(String expectedField, int index) {

@@ -77,14 +77,9 @@ angular.module('common').factory('common.UtkastValidationService',
                 // Iterate over and process validation errors
                 angular.forEach(ValidationViewState.messages, function(message) {
 
-                    var section = message.field.toLowerCase();
+                    var section = message.category.toLowerCase();
                     var field = message.field.toLowerCase();
 
-                    var i = message.field.indexOf('.');
-                    if (i >= 0) {
-                        section = message.field.substring(0, i).toLowerCase();
-                        field = message.field.substring(i + 1).toLowerCase();
-                    }
                     if (ValidationViewState.sections.indexOf(section) === -1) {
                         ValidationViewState.sections.push(section);
                     }

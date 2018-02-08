@@ -91,7 +91,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
      * the schematron validation vs the Webcert validation. Thus those fields should be ignored for the purposes of
      * comparing the internal (Webcert) validation and the schematron validation of intyg.
      */
-    private static final ImmutableList<String> IGNORED_FIELDS = ImmutableList.of("grundformu.motiveringTillInteBaseratPaUndersokning");
+    private static final ImmutableList<String> IGNORED_FIELDS = ImmutableList.of("motiveringTillInteBaseratPaUndersokning");
 
     static {
         // avoid com.helger debug log

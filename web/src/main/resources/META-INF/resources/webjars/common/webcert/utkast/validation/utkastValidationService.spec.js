@@ -101,8 +101,8 @@ describe('UtkastValidationService', function() {
     it ('successful utkast save and draft incorrect format', function () {
         var validateResponse = {
             'status':'DRAFT_INCOMPLETE',
-            'messages':[{'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'},
-                {'field':'errorField2','type':'EMPTY','message':'error.message2'}]
+            'messages':[{'category':'categoryId','field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'},
+                {'category':'categoryId2','field':'errorField2','type':'EMPTY','message':'error.message2'}]
         };
 
         $httpBackend.expectPOST('/moduleapi/utkast/testIntyg/testIntygId/validate').respond(200, validateResponse);
@@ -113,10 +113,10 @@ describe('UtkastValidationService', function() {
         $httpBackend.flush();
 
         expect(viewState.common.validation.messagesGrouped).toEqual(
-            {errorfield:[{'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}]});
+            {categoryid:[{'category':'categoryId','field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}]});
         expect(viewState.common.validation.messages).toEqual([
-            {'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}]);
-        expect(viewState.common.validation.sections).toEqual(['errorfield']);
+            {'category':'categoryId','field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}]);
+        expect(viewState.common.validation.sections).toEqual(['categoryid']);
 
         expect(viewState.common.validation.warningMessages).toEqual([]);
     });
@@ -125,8 +125,8 @@ describe('UtkastValidationService', function() {
         viewState.common.showComplete = true;
         var validateResponse = {
             'status':'DRAFT_INCOMPLETE',
-            'messages':[{'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'},
-                {'field':'errorField2','type':'EMPTY','message':'error.message2'}]
+            'messages':[{'category':'categoryId','field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'},
+                {'category':'categoryId2','field':'errorField2','type':'EMPTY','message':'error.message2'}]
         };
 
         $httpBackend.expectPOST('/moduleapi/utkast/testIntyg/testIntygId/validate').respond(200, validateResponse);
@@ -137,12 +137,12 @@ describe('UtkastValidationService', function() {
         $httpBackend.flush();
 
         expect(viewState.common.validation.messagesGrouped).toEqual({
-            errorfield:[{'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}],
-            errorfield2:[{'field':'errorField2','type':'EMPTY','message':'error.message2'}]});
+            categoryid:[{'category':'categoryId','field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'}],
+            categoryid2:[{'category':'categoryId2','field':'errorField2','type':'EMPTY','message':'error.message2'}]});
         expect(viewState.common.validation.messages).toEqual([
-            {'field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'},
-            {'field':'errorField2','type':'EMPTY','message':'error.message2'}]);
-        expect(viewState.common.validation.sections).toEqual(['errorfield','errorfield2']);
+            {'category':'categoryId','field':'errorField','type':'INCORRECT_FORMAT','message':'error.message'},
+            {'category':'categoryId2','field':'errorField2','type':'EMPTY','message':'error.message2'}]);
+        expect(viewState.common.validation.sections).toEqual(['categoryid','categoryid2']);
     });
 
     it ('successful utkast save and draft complete', function () {

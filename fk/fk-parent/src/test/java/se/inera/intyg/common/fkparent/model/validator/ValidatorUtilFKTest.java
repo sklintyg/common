@@ -101,7 +101,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.invalid", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCode(INVALID_CODE, ICD_CODE_SYSTEM);
@@ -114,7 +115,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(null, validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser.0.diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.missing", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);
@@ -126,7 +128,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(new ArrayList<>(), validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser.0.diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.missing", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);
@@ -139,7 +142,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser.0.diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.missing", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);
@@ -152,7 +156,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser.0.diagnosbeskrivning", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser[0].diagnosbeskrivning", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.description.missing", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM);
@@ -165,7 +170,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser.0.diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.psykisk.length-4", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);
@@ -178,7 +184,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser.0.diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.psykisk.length-4", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);
@@ -191,7 +198,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser.0.diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.length-3", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);
@@ -204,7 +212,8 @@ public class ValidatorUtilFKTest {
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("diagnos.diagnoser.0.diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnos", validationMessages.get(0).getCategory());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos0.length-5", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);
@@ -235,7 +244,8 @@ public class ValidatorUtilFKTest {
         ValidatorUtilFK.validateGrundForMuDate(new InternalDate("invalidDate"), validationMessages, GrundForMu.JOURNALUPPGIFTER);
 
         assertEquals(1, validationMessages.size());
-        assertEquals("grundformu.journaluppgifter", validationMessages.get(0).getField());
+        assertEquals("grundformu", validationMessages.get(0).getCategory());
+        assertEquals("journaluppgifter", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
     }
 
