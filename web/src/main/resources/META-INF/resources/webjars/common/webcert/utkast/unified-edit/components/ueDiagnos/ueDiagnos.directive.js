@@ -227,8 +227,7 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
 
             $scope.hasValidationError = function(field, index) {
                 return $scope.validation.messagesByField &&
-                    !!$scope.validation.messagesByField['diagnoser.' + index + '.' +
-                    field];
+                    !!$scope.validation.messagesByField['diagnoser[' + index + ']' + field];
             };
 
 

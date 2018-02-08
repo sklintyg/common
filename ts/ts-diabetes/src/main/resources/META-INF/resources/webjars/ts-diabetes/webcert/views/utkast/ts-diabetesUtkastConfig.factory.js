@@ -23,7 +23,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
             'use strict';
 
             var categoryIds = {
-                99: 'intygAvser',
+                99: 'intygavser',
                 100: 'identitet',
                 1: 'diabetes',
                 2: 'hypoglykemier',
@@ -58,7 +58,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                 ueFactoryTemplates.patient,
 
                 // Intyget avser
-                kategori(categoryIds[10], 'KAT_99.RBK', 'KAT_99.HLP', { required: true }, [
+                kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', { required: true }, [
                     fraga(null, '', '', {}, [{
                         type: 'ue-checkgroup-ts',
                         modelProp: 'intygAvser.korkortstyp',
@@ -67,7 +67,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                 ]),
 
                 // Identitet styrkt genom
-                kategori(categoryIds[10], 'KAT_100.RBK', 'KAT_100.HLP', { required: true }, [
+                kategori(categoryIds[100], 'KAT_100.RBK', 'KAT_100.HLP', { required: true }, [
                     fraga(null, '', '', {}, [{
                         type: 'ue-radiogroup',
                         modelProp: 'vardkontakt.idkontroll',
@@ -103,41 +103,46 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                         ]
                     }]),
                     fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', { required:true }, [{
-                        type: 'ue-checkbox',
-                        modelProp: 'diabetes.endastKost',
-                        label: {
-                            key: 'DFR_19.1.RBK'
-                        },
-                        paddingBottom: true
-                    },{
-                        type: 'ue-checkbox',
-                        modelProp: 'diabetes.tabletter',
-                        label: {
-                            key: 'DFR_19.2.RBK'
-                        },
-                        paddingBottom: true
-                    },{
-                        type: 'ue-checkbox',
-                        modelProp: 'diabetes.insulin',
-                        label: {
-                            key: 'DFR_19.3.RBK'
-                        },
-                        paddingBottom: true
-                    },{
-                        type: 'ue-year',
-                        modelProp: 'diabetes.insulinBehandlingsperiod',
-                        hideExpression: '!model.diabetes.insulin',
-                        label: {
-                            key: 'DFR_19.4.RBK',
-                            required: true
-                        },
-                        paddingBottom: true
-                    },{
-                        type: 'ue-textfield',
-                        modelProp: 'diabetes.annanBehandlingBeskrivning',
-                        label: {
-                            key: 'DFR_19.5.RBK'
-                        }
+                        type: 'ue-validation-group',
+                        validationFieldType: 'checkgroup',
+                        validationProp: 'diabetes.behandlingsTyp',
+                        components: [{
+                            type: 'ue-checkbox',
+                            modelProp: 'diabetes.endastKost',
+                            label: {
+                                key: 'DFR_19.1.RBK'
+                            },
+                            paddingBottom: true
+                        },{
+                            type: 'ue-checkbox',
+                            modelProp: 'diabetes.tabletter',
+                            label: {
+                                key: 'DFR_19.2.RBK'
+                            },
+                            paddingBottom: true
+                        },{
+                            type: 'ue-checkbox',
+                            modelProp: 'diabetes.insulin',
+                            label: {
+                                key: 'DFR_19.3.RBK'
+                            },
+                            paddingBottom: true
+                        },{
+                            type: 'ue-year',
+                            modelProp: 'diabetes.insulinBehandlingsperiod',
+                            hideExpression: '!model.diabetes.insulin',
+                            label: {
+                                key: 'DFR_19.4.RBK',
+                                required: true
+                            },
+                            paddingBottom: true
+                        },{
+                            type: 'ue-textfield',
+                            modelProp: 'diabetes.annanBehandlingBeskrivning',
+                            label: {
+                                key: 'DFR_19.5.RBK'
+                            }
+                        }]
                     }])
                 ]),
 
@@ -202,6 +207,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             }
                         }, {
                             type: 'ue-text',
+                            hideExpression: '!model.hypoglykemier.allvarligForekomstVakenTid',
                             label: {
                                 key: 'ts-diabetes.helptext.hypoglykemier.date'
                             }
@@ -259,7 +265,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-diabetes.label.syn.utankorrektion',
-                                    helpKey: 'ts-diabetes.helptext.synfunktioner.utan-korrektion'
+                                    helpKey: 'ts-diabetes.helptext.synfunktioner.utan-korrektion',
+                                    required: true
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-diabetes.label.syn.medkorrektion',

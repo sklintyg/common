@@ -475,10 +475,14 @@ angular.module('common').constant('common.messages', {
         'common.label.choose': 'Välj...',
 
         // UE komponenter
-        'common.validation.checkgroup.empty': 'Du måste välja minst ett alternativ.',
-        'common.validation.textarea.empty': 'Fältet får inte vara tomt.',
         'common.validation.checkboxdate.empty': 'Fältet får inte vara tomt.',
         'common.validation.checkboxdate.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        'common.validation.checkgroup.empty': 'Du måste välja minst ett alternativ.',
+        'common.validation.radio.empty': 'Du måste välja ett alternativ.',
+        'common.validation.radiogroup.empty': 'Du måste välja ett alternativ.',
+        'common.validation.textarea.empty': 'Fältet får inte vara tomt.',
+        'common.validation.textfield.empty': 'Fältet får inte vara tomt.',
+        'common.validation.year.empty': 'Fältet får inte vara tomt.',
 
         // Formly komponenter - ta bort när formly tas bort
         'common.validation.boolean.empty': 'Du måste välja ett alternativ.',

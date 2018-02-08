@@ -23,19 +23,19 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
             'use strict';
 
             var categoryIds = {
-                99: 'intygAvser',
+                99: 'intygavser',
                 100: 'identitet',
                 1: 'syn',
-                2: 'horselBalans',
+                2: 'horselbalans',
                 3: 'funktionsnedsattning',
-                4: 'hjartKarl',
+                4: 'hjartkarl',
                 5: 'diabetes',
                 6: 'neurologi',
                 7: 'medvetandestorning',
                 8: 'njurar',
                 9: 'kognitivt',
-                10: 'somnVakenhet',
-                11: 'narkotikaLakemedel',
+                10: 'somnvakenhet',
+                11: 'narkotikalakemedel',
                 12: 'psykiskt',
                 13: 'utvecklingsstorning',
                 14: 'sjukhusvard',
@@ -177,7 +177,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             },{
                                 type: 'ue-form-label',
                                 key: 'ts-bas.label.syn.utankorrektion',
-                                helpKey: 'ts-bas.helptext.synfunktioner.utan-korrektion'
+                                helpKey: 'ts-bas.helptext.synfunktioner.utan-korrektion',
+                                required: true
                             },{
                                 type: 'ue-form-label',
                                 key: 'ts-bas.label.syn.medkorrektion',
@@ -234,8 +235,12 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             }]
                         ]
                     }]),
-                    fraga(9, 'FRG_9.RBK', 'FRG_9.HLP', { required:true }, [{
-                        type: 'ue-radio',
+                    fraga(9, '', '', { }, [{
+                        type: 'ue-checkbox',
+                        label: {
+                            key: 'FRG_9.RBK',
+                            helpKey: 'FRG_9.HLP'
+                        },
                         modelProp: 'syn.korrektionsglasensStyrka',
                         paddingBottom: true
                     },{
@@ -317,23 +322,28 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         ]
                     }]),
                     fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', { required:true, hideExpression:'model.diabetes.diabetesTyp != "DIABETES_TYP_2"' }, [{
-                        type: 'ue-checkbox',
-                        modelProp: 'diabetes.kost',
-                        label: {
-                            key: 'DFR_19.1.RBK'
-                        }
-                    },{
-                        type: 'ue-checkbox',
-                        modelProp: 'diabetes.tabletter',
-                        label: {
-                            key: 'DFR_19.2.RBK'
-                        }
-                    },{
-                        type: 'ue-checkbox',
-                        modelProp: 'diabetes.insulin',
-                        label: {
-                            key: 'DFR_19.3.RBK'
-                        }
+                        type: 'ue-validation-group',
+                        validationFieldType: 'checkgroup',
+                        validationProp: 'diabetes.behandlingsTyp',
+                        components: [{
+                            type: 'ue-checkbox',
+                            modelProp: 'diabetes.kost',
+                            label: {
+                                key: 'DFR_19.1.RBK'
+                            }
+                        },{
+                            type: 'ue-checkbox',
+                            modelProp: 'diabetes.tabletter',
+                            label: {
+                                key: 'DFR_19.2.RBK'
+                            }
+                        },{
+                            type: 'ue-checkbox',
+                            modelProp: 'diabetes.insulin',
+                            label: {
+                                key: 'DFR_19.3.RBK'
+                            }
+                        }]
                     },{
                         type: 'ue-alert',
                         alertType: 'info',
