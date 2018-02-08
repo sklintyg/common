@@ -64,18 +64,18 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.ts.diabetes', {
+        state('webcert.intyg.ts-diabetes', {
             data: { defaultActive: 'index', intygType: 'ts-diabetes' },
             url: '/intyg/ts-diabetes/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.ts': {
+                'intyg@webcert.intyg': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
                     controller: 'ts-diabetes.IntygController',
                     resolve: {
                         supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.ts.diabetes': {
+                'header@webcert.intyg.ts-diabetes': {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {

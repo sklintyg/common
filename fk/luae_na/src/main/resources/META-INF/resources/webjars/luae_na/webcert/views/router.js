@@ -60,11 +60,11 @@ angular.module('luae_na').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.luae_na', {
+        state('webcert.intyg.luae_na', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
             url:'/intyg/luae_na/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
@@ -73,7 +73,7 @@ angular.module('luae_na').config(function($stateProvider) {
                         supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.fk.luae_na' : {
+                'header@webcert.intyg.luae_na' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {

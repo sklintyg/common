@@ -129,18 +129,18 @@ angular.module('fk7263').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.fk7263', {
+        state('webcert.intyg.fk7263', {
             data: { defaultActive : 'index', intygType: 'fk7263' },
             url:'/intyg/fk7263/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
                     controller: 'fk7263.ViewCertCtrl',
                     resolve: {
                         supportPanelConfigFactory: 'fk7263.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.fk.fk7263' : {
+                'header@webcert.intyg.fk7263' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {

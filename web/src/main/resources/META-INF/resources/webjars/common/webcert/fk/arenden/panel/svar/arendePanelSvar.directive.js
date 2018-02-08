@@ -150,7 +150,7 @@ angular.module('common').directive('arendePanelSvar',
                     };
 
                     $scope.goToIntyg = function() {
-                        $state.go('webcert.intyg.fk.' + ArendeSvar.intygProperties.type, {certificateId: ArendeSvar.answeredWithIntyg.intygsId});
+                        $state.go('webcert.intyg.' + ArendeSvar.intygProperties.type, {certificateId: ArendeSvar.answeredWithIntyg.intygsId});
                     };
                 }
             };

@@ -97,11 +97,11 @@ angular.module('luae_fs').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.luae_fs', {
+        state('webcert.intyg.luae_fs', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
             url:'/intyg/luae_fs/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
@@ -110,7 +110,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                         supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.fk.luae_fs' : {
+                'header@webcert.intyg.luae_fs' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {

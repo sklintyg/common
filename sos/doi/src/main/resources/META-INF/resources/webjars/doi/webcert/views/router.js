@@ -60,11 +60,11 @@ angular.module('doi').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.doi', {
+        state('webcert.intyg.doi', {
             data: { defaultActive : 'index', intygType: 'doi' },
             url:'/intyg/doi/:certificateId/',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
@@ -73,7 +73,7 @@ angular.module('doi').config(function($stateProvider) {
                         supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.fk.doi' : {
+                'header@webcert.intyg.doi' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {

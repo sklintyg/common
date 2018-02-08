@@ -173,18 +173,18 @@ angular.module('ts-bas').config(function($stateProvider) {
 
             }
         }).
-        state('webcert.intyg.ts.bas', {
+        state('webcert.intyg.ts-bas', {
             data: { defaultActive: 'index', intygType: 'ts-bas' },
             url: '/intyg/ts-bas/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.ts': {
+                'intyg@webcert.intyg': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
                     controller: 'ts-bas.IntygController',
                     resolve: {
                         supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.ts.bas': {
+                'header@webcert.intyg.ts-bas': {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {

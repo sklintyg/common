@@ -60,11 +60,11 @@ angular.module('db').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.db', {
+        state('webcert.intyg.db', {
             data: { defaultActive : 'index', intygType: 'db' },
             url:'/intyg/db/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
@@ -72,7 +72,7 @@ angular.module('db').config(function($stateProvider) {
                         ViewConfigFactory: 'db.viewConfigFactory'
                     }
                 },
-                'header@webcert.intyg.fk.db' : {
+                'header@webcert.intyg.db' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {

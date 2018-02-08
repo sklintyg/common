@@ -60,11 +60,11 @@ angular.module('luse').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.fk.luse', {
+        state('webcert.intyg.luse', {
             data: { defaultActive : 'index', intygType: 'luse' },
             url:'/intyg/luse/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
@@ -73,7 +73,7 @@ angular.module('luse').config(function($stateProvider) {
                         supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.fk.luse' : {
+                'header@webcert.intyg.luse' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {

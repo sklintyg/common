@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygHeader', [ 'common.moduleService', 'common.IntygHeaderViewState',
-    function(moduleService, IntygHeaderViewState) {
+angular.module('common').directive('wcIntygHeader', [ '$window', '$state', 'common.moduleService', 'common.IntygHeaderViewState',
+    function($window, $state, moduleService, IntygHeaderViewState) {
     'use strict';
 
     return {
@@ -27,7 +27,13 @@ angular.module('common').directive('wcIntygHeader', [ 'common.moduleService', 'c
         },
         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.html',
         link: function($scope) {
+
             $scope.certificateName = moduleService.getModuleName(IntygHeaderViewState.intygType);
+            $scope.backState = $state.$current.parent.data.backState; // backstate is defined in webcert.intyg state data in router.js
+
+            $scope.back = function(){
+                $state.go($scope.backState);
+            };
         }
     };
 } ]);

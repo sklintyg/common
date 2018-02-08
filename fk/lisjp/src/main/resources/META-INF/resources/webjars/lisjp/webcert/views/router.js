@@ -101,11 +101,11 @@ angular.module('lisjp').config(function($stateProvider) {
                     }
                  }
             }
-        }).state('webcert.intyg.fk.lisjp', {
+        }).state('webcert.intyg.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
             url:'/intyg/lisjp/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
@@ -114,7 +114,7 @@ angular.module('lisjp').config(function($stateProvider) {
                         supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.fk.lisjp' : {
+                'header@webcert.intyg.lisjp' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {
