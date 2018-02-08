@@ -1,11 +1,9 @@
 .fold-slide-fade-animation {
-  overflow: hidden;
   margin-left: 0px;
   opacity: 1;
 }
 
 .fold-slide-fade-animation-hidden {
-  overflow: hidden;
   margin-left: -5px;
   padding: 0;
   opacity: 0;
@@ -13,7 +11,6 @@
 }
 
 .fold-animation {
-  overflow: hidden;
   &.ng-enter-prepare {
     height: 0px;
   }

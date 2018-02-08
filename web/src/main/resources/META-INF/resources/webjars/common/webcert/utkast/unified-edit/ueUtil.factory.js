@@ -56,11 +56,16 @@ angular.module('common').factory('ueUtil', ['$parse', '$timeout', 'common.AtticH
                     return arguments.length ? (getterSetter.assign(scope.model, newValue)) : getterSetter(scope.model);
                 };
 
-                // Restore data model value form attic if exists
-                AtticHelper.restoreFromAttic(scope.model, scope.config.modelProp);
+                // The conditional skipAttic flag originates from the fact that the attic framework
+                // doesn't fullt handle array indexed modelProps, but the actual array property level itself.
+                // (see base.model.js:298). If / when the attic handling is refactored we can skip this flag.
+                if (!scope.config.skipAttic) {
+                    // Restore data model value form attic if exists
+                    AtticHelper.restoreFromAttic(scope.model, scope.config.modelProp);
 
-                // Clear attic model and destroy watch on scope destroy
-                AtticHelper.updateToAttic(scope, scope.model, scope.config.modelProp);
+                    // Clear attic model and destroy watch on scope destroy
+                    AtticHelper.updateToAttic(scope, scope.model, scope.config.modelProp);
+                }
             }
         };
     } ]);

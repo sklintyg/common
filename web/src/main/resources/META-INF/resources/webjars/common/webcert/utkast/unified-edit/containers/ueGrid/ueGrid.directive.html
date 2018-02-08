@@ -1,6 +1,6 @@
 <div>
   <div class="row" ng-repeat="row in ::config.components">
-    <div class="col-xs-{{12 / row.length}}" ng-repeat="col in row">
+    <div class="col-xs-{{getColSize(row, $index)}}" ng-repeat="col in row">
       <ue-dynamic-component config="::col" model="::model" form="::form"></ue-dynamic-component>
     </div>
   </div>

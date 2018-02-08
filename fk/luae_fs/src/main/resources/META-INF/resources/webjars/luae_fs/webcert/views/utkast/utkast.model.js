@@ -43,7 +43,7 @@ angular.module('luae_fs').factory('luae_fs.Domain.IntygModel',
 
                         // Kategori 2 Andra medicinska utredningar och underlag
                         'underlagFinns': undefined,
-                        'underlag': new ModelAttr('underlag', {
+                        'underlag': new ModelAttr('underlag', { defaultValue: [],
                             fromTransform: ModelTransform.underlagFromTransform,
                             toTransform: ModelTransform.underlagToTransform
                         }),

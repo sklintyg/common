@@ -17,27 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueGrid', [ 'ueUtil',
-    function(ueUtil) {
+angular.module('common').directive('ueDropdown', [ 'ueUtil', function(ueUtil) {
     'use strict';
+
     return {
         restrict: 'E',
         scope: {
-            form: '=',
             config: '=',
-            model: '='
+            model: '=',
+            form: '='
         },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueGrid/ueGrid.directive.html',
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDropdown/ueDropdown.directive.html',
         link: function($scope) {
-
-            $scope.getColSize = function(row, $index) {
-                if ($scope.config.colSizes) {
-                    return $scope.config.colSizes[$index];
-                } else {
-                    return 12 / row.length;
-                }
-            };
-
+             ueUtil.standardSetup($scope);
         }
     };
 

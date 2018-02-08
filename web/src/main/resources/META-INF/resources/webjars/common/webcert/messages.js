@@ -471,6 +471,8 @@ angular.module('common').constant('common.messages', {
         'common.label.year': 'År',
         'common.label.month': 'Månad',
         'common.label.day': 'Dag',
+        'common.label.date': 'Datum',
+        'common.label.choose': 'Välj...',
 
         // UE komponenter
         'common.validation.checkgroup.empty': 'Du måste välja minst ett alternativ.',
