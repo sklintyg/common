@@ -1,0 +1,20 @@
+<ue-validation-wrapper field-type="textarea" label-col-size="{{::config.labelColSize}}"
+                       key="{{::config.modelPropToWatch}}"
+                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
+                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+      <label class="big-checkbox-label checkbox-inline">
+      <input type="checkbox"
+             ng-attr-id="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}"
+             class="big-checkbox"
+             ng-model="vm.showComponents"
+             ng-change="updateValidation()">
+
+        <ue-form-label config="::config.label"></ue-form-label>
+      </label>
+
+
+    <div ng-if="vm.showComponents" class="fold-animation toggled-components-container">
+      <ue-render-components form="::form" config="::config.components" model="::model" />
+    </div>
+
+</ue-validation-wrapper>
