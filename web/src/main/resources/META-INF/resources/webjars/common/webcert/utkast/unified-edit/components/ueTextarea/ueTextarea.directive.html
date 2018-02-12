@@ -4,7 +4,7 @@
                        warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
                        validations="validation.messagesByField[config.modelProp.toLowerCase()]">
   <ue-form-label config="::config.label"></ue-form-label>
-  <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" name="{{::config.modelProp}}" class="form-control" rows="6"
+  <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" name="{{::config.modelProp}}" class="area output" rows="6"
             auto-expand
             ng-model="modelGetterSetter"
             ng-model-options="{ debounce: 500, getterSetter: true }"
