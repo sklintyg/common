@@ -28,5 +28,7 @@ angular.module('common').controller('smi.EditCert.UECtrl',
             $scope.model = viewState.intygModel;
 
             $scope.ueConfig = UtkastConfigFactory.getConfig();
+
+            $scope.certForm.formState = {};
         }
     ]);

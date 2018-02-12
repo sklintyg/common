@@ -13,7 +13,8 @@
                    ng-value="true"
                    ng-model="modelGetterSetter"
                    ng-model-options="{ getterSetter: true }"
-                   ng-change="updateValidation()"/>
+                   ng-change="updateValidation()"
+                   ng-disabled="$eval(config.disabledExpression)" />
             <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>
         </label>
         <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
@@ -24,7 +25,8 @@
                    ng-value="false"
                    ng-model="modelGetterSetter"
                    ng-model-options="{ getterSetter: true }"
-                   ng-change="updateValidation()"/>
+                   ng-change="updateValidation()"
+                   ng-disabled="$eval(config.disabledExpression)" />
             <span dynamic-label key="{{::config.noLabel}}" fallback-value="Nej"></span>
         </label>
     </ue-validation-wrapper>
