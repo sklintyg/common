@@ -9,7 +9,7 @@
         <ue-form-label config="::config.label"></ue-form-label>
       </div>
       <div ng-class="::{'col-md-{{12 - config.labelColSize}}': config.labelColSize}">
-        <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" type="text" class="form-control"
+        <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" type="text" class="area"
                ng-model="modelGetterSetter"
                ng-model-options="{ debounce: config.numbersOnly ? 0 : 500, getterSetter: true }"
                ng-blur="updateValidation()"
