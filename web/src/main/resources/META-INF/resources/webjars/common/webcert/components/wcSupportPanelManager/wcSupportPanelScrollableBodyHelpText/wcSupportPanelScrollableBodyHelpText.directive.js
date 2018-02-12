@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -16,18 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+angular.module('common').directive('wcSupportPanelScrollableBodyHelpText', [ function() {
+    'use strict';
 
-ue-kategori {
-
-  .ue-kategori__heading {
-    display: block;
-    padding: 24px 28px 4px 28px;
-    border-bottom: 2px solid $wc-color-15;
-
-    h3 {
-      position: relative;
-      @extend %wc-typo-02;
-      color: $wc-color-07;
-    }
-  }
-}
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            domId: '@'
+        },
+        templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelScrollableBodyHelpText/wcSupportPanelScrollableBodyHelpText.directive.html'
+    };
+} ]);
