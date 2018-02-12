@@ -80,4 +80,17 @@ wc-fmb-panel-tab {
 
   }
 
+  wc-alert-message {
+    display: block;
+    .alert {
+      display: block;
+    }
+  }
+  .no-diagnose-entered {
+    text-align: center;
+    padding-top: 25px;
+    img {
+      padding-bottom: 24px;
+    }
+  }
 }

@@ -3,15 +3,12 @@
 <div class="fmb-diagnos-row" ng-if="!vm.noDataMessage">
   <span ng-repeat="d in fmb.diagnoses track by $index" class="fmb-diagnos-description">
 
-  <label for="fmb_diagnos_radio_{{d.diagnosKod}}"
-         ng-class="{'disabled' :!d.hasInfo,  'active': d === vm.activeDiagnose}"
-         uib-popover="{{!d.hasInfo ? 'Det finns inget FMB-stöd för den angivna diagnosen.' :''}}"
-         popover-trigger="mouseenter"
-         popover-popup-delay="300"
-         popover-append-to-body="true"
-         popover-placement="auto">
+  <label ng-attr-for="fmb_diagnos_radio_{{d.diagnosKod}}"
+         ng-class="{'disabled' :!d.hasInfo,  'active': d === vm.activeDiagnose}">
       <input type="radio" name="fmb-radio-selectors" ng-attr-id="fmb_diagnos_radio_{{d.diagnosKod}}"
-             ng-disabled="!d.hasInfo" ng-value="d" ng-model="vm.activeDiagnose">{{d.diagnosBeskrivning}}
+             ng-disabled="!d.hasInfo" ng-value="d" ng-model="vm.activeDiagnose">
+    <span uib-popover="{{!d.hasInfo ? 'Det finns inget FMB-stöd för den angivna diagnosen.' :''}}"
+          popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true" popover-placement="top">{{d.diagnosBeskrivning}}</span>
   </label>
 
   </span>
@@ -58,8 +55,11 @@
   <!-- in case none of the diagnoses had any info to show -->
   <wc-alert-message alert-message-id="{{vm.noDataMessage.info}}" alert-severity="info"
                     ng-if="vm.noDataMessage.info"></wc-alert-message>
-  <wc-alert-message alert-message-id="{{vm.noDataMessage.warning}}" alert-severity="warning"
-                    ng-if="vm.noDataMessage.warning"></wc-alert-message>
+
+  <div ng-if="vm.noDataMessage.warning" class="no-diagnose-entered">
+    <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/fmb_no_diagnose.svg"/>
+    <div dynamic-label key="{{::vm.noDataMessage.warning}}"></div>
+  </div>
 
 </wc-support-panel-scrollable-body>
 
