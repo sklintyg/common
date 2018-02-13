@@ -831,7 +831,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
             FkLabel inlasningsCentralRad1 = new FkLabel("Försäkringskassans inläsningscentral")
                     .offset(110.2f, 44.5f)
-                    .size(60f, 6f)
+                    .size(70f, 6f)
                     .withVerticalAlignment(Element.ALIGN_TOP)
                     .withFont(PdfConstants.FONT_INLINE_FIELD_LABEL_LARGE);
             FkLabel inlasningsCentralRad2 = new FkLabel("839 88 Östersund")
