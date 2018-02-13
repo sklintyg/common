@@ -36,7 +36,6 @@ angular.module('common').service('common.srsViewState',
         this.questions = [];
         this.statistik = {};
         this.atgarder = {};
-
                     
         this.prediction = {};
         this.prediction.description = '';

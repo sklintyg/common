@@ -140,7 +140,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     };
 
                     scope.logStatistikClicked = function() {
-                        srsProxy.logSrsAtgardClicked();
+                        srsProxy.logSrsStatistikClicked();
                     };
 
                     scope.setActiveTab = function(tabname) {
@@ -200,13 +200,16 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         srsViewState.diagnosKod = srsViewState.originalDiagnosKod;
                         srsViewState.diagnosisListFetching.then(function() {
                             scope.srsViewState.srsApplicable = isSrsApplicable(scope.srsViewState.diagnosKod);
-                            if (scope.srsViewState.srsApplicable && scope.srsViewState.consent === 'JA') {
+                            if(scope.srsViewState.srsApplicable) {
                                 if (!scope.srsViewState.shownFirstTime) {
                                     srsProxy.logSrsShown();
+                                    scope.srsViewState.shownFirstTime = true;
                                 }
-                                scope.srsViewState.shownFirstTime = true;
-                                loadSrs();
+                                if (scope.srsViewState.consent === 'JA') {
+                                    loadSrs();
+                                }    
                             }
+                            
                         });
                     }
 
@@ -372,17 +375,13 @@ angular.module('common').directive('wcSrsHelpDisplay',
                         scope.srsViewState.prediction = {};
                         scope.srsViewState.prediction.description = '';
 
-                        //scope.consent = false;
-                        scope.srsViewState.shownFirstTime = false;
                         scope.srsViewState.clickedFirstTime = false;
-                        //scope.srsViewState.diagnosKod = (scope.srsStates.diagnoses['0'] && scope.srsStates.diagnoses['0'].diagnosKod) || '';
                         scope.srsViewState.srsApplicable = false;
                         scope.srsViewState.errorMessage = '';
                         scope.srsViewState.allQuestionsAnswered = false;
                         scope.srsViewState.showVisaKnapp = false;
                         scope.srsViewState.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
                         scope.srsViewState.riskImage = '';
-
 
                         scope.srsViewState.activeTab = 'atgarder';
                     }
