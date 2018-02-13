@@ -1,11 +1,4 @@
 ue-textarea {
-  /*.area {
-
-  }
-  textarea:focus {
-
-  }*/
-
   textarea.form-control {
     width: 100%;
     border: 1px solid $wc-color-15;
@@ -17,5 +10,4 @@ ue-textarea {
     border: 1px solid $wc-color-21;
     box-shadow: 2px 2px 4px 0 $black_12;
   }
-
 }
