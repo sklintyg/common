@@ -1,14 +1,18 @@
 ue-textarea {
-  .area {
+  /*.area {
+
+  }
+  textarea:focus {
+
+  }*/
+
+  textarea.form-control {
     width: 100%;
-    overflow-y: hidden;
-    padding: 4px 6px;
-    resize: none;
     border: 1px solid $wc-color-15;
     border-radius: 4px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
   }
-  textarea:focus {
+  textarea.form-control:focus {
     outline: none !important;
     border: 1px solid $wc-color-21;
     box-shadow: 2px 2px 4px 0 $black_12;
