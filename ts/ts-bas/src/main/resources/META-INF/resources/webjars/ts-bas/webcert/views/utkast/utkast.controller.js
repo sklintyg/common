@@ -86,7 +86,7 @@ angular.module('ts-bas').controller('ts-bas.UtkastController',
             };
 
             $scope.$on('intyg.loaded', function() {
-                prefilledUserDataService.searchForPrefilledPatientData(viewState.intygModel.grundData.patient);
+                prefilledUserDataService.searchForPrefilledData(viewState);
                 // Because of some strange angularjs-internal thing (likely related to compile-priority) the code below
                 // fails to run correctly when put into a ng-disable directive in a template; instead a boolean is saved.
                 $scope.shouldDisableAddressInput = prefilledUserDataService.getPrefilledFields().completeAddress &&

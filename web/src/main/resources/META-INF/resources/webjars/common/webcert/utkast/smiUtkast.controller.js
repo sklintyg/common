@@ -42,7 +42,7 @@ angular.module('common').controller('smi.EditCertCtrl',
              **************************************************************************/
 
             $scope.$on('intyg.loaded', function() {
-                prefilledUserDataService.searchForPrefilledPatientData(viewState.intygModel.grundData.patient);
+                prefilledUserDataService.searchForPrefilledData(viewState);
             });
 
             // Get the certificate draft from the server.
