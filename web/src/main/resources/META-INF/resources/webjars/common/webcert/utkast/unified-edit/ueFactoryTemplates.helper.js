@@ -168,10 +168,11 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     required: true,
                     whitespaceBreak: false
                 },
-                size: 'full',
+                size: '20',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 265
+                htmlMaxlength: 265,
+                numbersOnly: true
             }])])
 
         };
