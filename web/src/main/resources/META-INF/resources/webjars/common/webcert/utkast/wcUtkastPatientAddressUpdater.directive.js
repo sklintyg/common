@@ -18,8 +18,8 @@
  */
 
 angular.module('common').directive('wcUtkastPatientAddressUpdater',
-  ['$timeout', '$log', 'common.PatientProxy', 'common.UtkastValidationService',
-    function ($timeout, $log, PatientProxy, UtkastValidationService) {
+  ['$timeout', '$log', 'common.PatientProxy', 'common.UtkastValidationService', 'common.PrefilledUserDataService',
+    function ($timeout, $log, PatientProxy, UtkastValidationService, PrefilledUserDataService) {
       'use strict';
 
       return {
@@ -44,9 +44,15 @@ angular.module('common').directive('wcUtkastPatientAddressUpdater',
               PatientProxy.getPatient($scope.patientModel.personId, function (patientResult) {
                 $scope.fetchingPatientData = false;
 
-                $scope.patientModel.postadress = patientResult.postadress;
-                $scope.patientModel.postnummer = patientResult.postnummer;
-                $scope.patientModel.postort = patientResult.postort;
+                // INTYG-5354, INTYG-5380
+                PrefilledUserDataService.searchForPrefilledPatientData(patientResult);
+                if(PrefilledUserDataService.getPrefilledFields().completeAddress === true) {
+                  // Overwrite the existing model data with the retrieved data from PU.
+                  $scope.patientModel.postadress = patientResult.postadress;
+                  $scope.patientModel.postnummer = patientResult.postnummer;
+                  $scope.patientModel.postort = patientResult.postort;
+                }
+
                 $scope.patientModel.sekretessmarkering = patientResult.sekretessmarkering;
                 $scope.patientModel.avliden = patientResult.avliden;
                 $scope.form.$setDirty();
