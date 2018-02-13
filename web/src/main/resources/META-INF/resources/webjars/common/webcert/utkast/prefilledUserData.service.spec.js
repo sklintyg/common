@@ -28,36 +28,36 @@ describe('PrefilledUserDataService', function() {
         }]));
 
     describe('For postadress', function() {
-        var viewState;
+        var patient;
 
         beforeEach(function() {
-            viewState = {intygModel: {grundData: {patient: {}}}};
-            viewState.intygModel.grundData.patient.postadress = 'Foovägen';
-            viewState.intygModel.grundData.patient.postnummer = '12345';
-            viewState.intygModel.grundData.patient.postort = 'Barsala';
+            patient = {};
+            patient.postadress = 'Foovägen';
+            patient.postnummer = '12345';
+            patient.postort = 'Barsala';
         });
 
         it('should return positive when all parts of are present', function() {
-            prefilledUserDataService.searchForPrefilledData(viewState);
+            prefilledUserDataService.searchForPrefilledPatientData(patient);
             expect(prefilledUserDataService.getPrefilledFields().completeAddress).toBe(true);
         });
 
         it('should return negative if any part are ', function() {
 
             describe('missing', function() {
-                delete viewState.intygModel.grundData.patient.postort;
-                prefilledUserDataService.searchForPrefilledData(viewState);
+                delete patient.postort;
+                prefilledUserDataService.searchForPrefilledPatData(patient);
                 expect(prefilledUserDataService.getPrefilledFields().completeAddress).toBe(false);
             });
 
             describe('empty', function() {
-                viewState.intygModel.grundData.patient.postort = '';
-                prefilledUserDataService.searchForPrefilledData(viewState);
+                patient.postort = '';
+                prefilledUserDataService.searchForPrefilledPatientData(patient);
                 expect(prefilledUserDataService.getPrefilledFields().completeAddress).toBe(false);
             });
         });
 
-        it('should return undefined if not initialized by calling searchForPrefilledData', function() {
+        it('should return undefined if not initialized by calling searchForPrefilledPatientData', function() {
             expect(prefilledUserDataService.getPrefilledFields().completeAddress).toBe(undefined);
         });
     });
