@@ -61,8 +61,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
         }
 
         function _shouldDisableAddressInput(model) {
-            prefilledUserDataService.searchForPrefilledData({intygModel:model});
-            return prefilledUserDataService.getPrefilledFields().completeAddress && UserModel.isDjupintegration();
+            return prefilledUserDataService.searchForPrefilledPatientData(model.grundData.patient).completeAddress &&
+                UserModel.isDjupintegration();
         }
 
         return {
