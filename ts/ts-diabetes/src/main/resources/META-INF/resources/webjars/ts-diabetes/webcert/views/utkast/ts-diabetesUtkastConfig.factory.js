@@ -102,11 +102,9 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             {label: 'ts-diabetes.label.diabets.typ2', id: 'DIABETES_TYP_2'}
                         ]
                     }]),
-                    fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', { required:true }, [{
-                        type: 'ue-validation-group',
-                        validationFieldType: 'checkgroup',
-                        validationProp: 'diabetes.behandlingsTyp',
-                        components: [{
+                    fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', {
+                        validationContext: {key: 'diabetes.behandlingsTyp', type: 'checkgroup'},
+                        required:true }, [{
                             type: 'ue-checkbox',
                             modelProp: 'diabetes.endastKost',
                             label: {
@@ -142,7 +140,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             label: {
                                 key: 'DFR_19.5.RBK'
                             }
-                        }]
                     }])
                 ]),
 
@@ -254,10 +251,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             type: 'ue-radio',
                             modelProp: 'syn.synfaltsprovningUtanAnmarkning'
                         }]),
-                        fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {required: true}, [{
-                            type: 'ue-syn',
-                            modelProp: 'syn'
-                        },{
+                        fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', { required: true}, [{
                             type: 'ue-grid',
                             components: [
                                 // Row 1

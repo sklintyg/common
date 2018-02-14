@@ -224,7 +224,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
             }
             if (underlag.getDatum() == null) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
-                        UNDERLAG_SVAR_JSON_ID_4 + ".[" + i + "].datum", ValidationMessageType.EMPTY,
+                        UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", ValidationMessageType.EMPTY,
                         "luae_na.validation.underlag.date.missing");
             } else {
                 ValidatorUtil.validateDate(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,

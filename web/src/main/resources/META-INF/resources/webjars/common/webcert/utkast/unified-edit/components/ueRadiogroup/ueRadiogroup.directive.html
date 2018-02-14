@@ -1,9 +1,5 @@
 <div ng-class="{'bottom-padding-small': config.paddingBottom}">
-  <ue-validation-wrapper field-type="checkgroup"
-                         label-col-size="{{::config.labelColSize}}"
-                         key="{{::config.modelProp}}"
-                         warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                         validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
     <ue-form-label config="::config.label"></ue-form-label>
     <div class="row form-horizontal">
       <div class="{{config.htmlClass}}" data-ng-repeat="choice in ::config.choices">

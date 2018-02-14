@@ -26,11 +26,7 @@ angular.module('common').directive('ueValidationWrapper',
                 transclude: true,
                 templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.html',
                 scope: {
-                    validations: '=',
-                    warnings: '=',
-                    fieldType: '@',
-                    labelColSize: '@',
-                    key: '@'
+                    validations: '='
                 }
             };
         }]);

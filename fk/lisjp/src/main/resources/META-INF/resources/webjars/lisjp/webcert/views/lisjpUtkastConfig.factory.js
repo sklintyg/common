@@ -53,7 +53,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { required: true }, [{
+                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'}, required: true }, [{
                         label: {
                             key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
                             helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
@@ -361,7 +361,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[9], 'KAT_9.RBK', 'KAT_9.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                    fraga(26, 'FRG_26.RBK', 'FRG_26.HLP', { required: true }, [{
+                    fraga(26, 'FRG_26.RBK', 'FRG_26.HLP', { }, [{
                         type: 'ue-checkbox',
                         modelProp: 'kontaktMedFk',
                         label: {

@@ -47,7 +47,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 type: 'ue-fraga',
                 frageId: id,
                 components: components,
-                hideExpression: options.hideExpression
+                hideExpression: options.hideExpression,
+                validationContext: options.validationContext
             };
             if (labelKey) {
                 fraga.label = {

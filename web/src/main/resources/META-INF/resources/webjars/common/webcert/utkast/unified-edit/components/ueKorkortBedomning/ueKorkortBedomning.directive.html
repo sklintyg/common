@@ -1,8 +1,4 @@
-<ue-validation-wrapper field-type="checkgroup"
-                       label-col-size="{{::config.labelColSize}}"
-                       key="{{::config.modelProp}}"
-                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
   <div class="form-horizontal">
     <ue-form-label config="::config.label"></ue-form-label>
 

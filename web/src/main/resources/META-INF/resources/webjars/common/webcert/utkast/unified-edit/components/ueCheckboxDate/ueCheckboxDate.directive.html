@@ -1,9 +1,5 @@
 <div ng-class="{'bottom-padding-small': config.paddingBottom}">
-  <ue-validation-wrapper field-type="checkboxdate"
-                         label-col-size="{{::config.labelColSize}}"
-                         key="{{::config.modelProp}}"
-                         warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                         validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
     <div class="form-horizontal row">
       <div class="col-md-6">
         <label class="checkbox-inline big-checkbox-label">

@@ -321,11 +321,11 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             {label: 'ts-bas.label.diabetes.diabetestyp.diabetes_typ_2', id: 'DIABETES_TYP_2'}
                         ]
                     }]),
-                    fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', { required:true, hideExpression:'model.diabetes.diabetesTyp != "DIABETES_TYP_2"' }, [{
-                        type: 'ue-validation-group',
-                        validationFieldType: 'checkgroup',
-                        validationProp: 'diabetes.behandlingsTyp',
-                        components: [{
+                    fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', {
+                        validationContext: {key: 'diabetes.behandlingsTyp', type: 'checkgroup'},
+                        required:true,
+                        hideExpression:'model.diabetes.diabetesTyp != "DIABETES_TYP_2"' },
+                        [{
                             type: 'ue-checkbox',
                             modelProp: 'diabetes.kost',
                             label: {
@@ -343,12 +343,11 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             label: {
                                 key: 'DFR_19.3.RBK'
                             }
-                        }]
-                    },{
-                        type: 'ue-alert',
-                        alertType: 'info',
-                        key: 'DFR_19.3.INF',
-                        hideExpression: '!(model.diabetes.tabletter || model.diabetes.insulin)'
+                        },{
+                            type: 'ue-alert',
+                            alertType: 'info',
+                            key: 'DFR_19.3.INF',
+                            hideExpression: '!(model.diabetes.tabletter || model.diabetes.insulin)'
                     }])
                 ]),
 

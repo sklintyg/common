@@ -19,8 +19,11 @@
 
 ue-validation-wrapper {
 
-  .validation-error input:not(.no-fielderror), textarea, .ui-select-match {
-    border: 1px solid $wc-color-11;
+  .validation-error {
+    input:not(.no-fielderror), textarea, .ui-select-match, .wc-datepicker-wrapper button {
+      border: 1px solid $wc-color-11;
+    }
+
   }
 
 }

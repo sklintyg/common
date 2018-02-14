@@ -17,9 +17,7 @@
     </div>
   </div>
 
-  <ue-validation-wrapper field-type="sjukskrivningar"
-                       validations="validation.messagesByField[config.modelProp]"
-                       warnings="validation.warningMessagesByField[config.modelProp]">
+  <ue-validation-wrapper validations="validation.messagesByField[config.modelProp]">
 
     <div class="form-horizontal sjukskrivningar-section clearfix" data-ng-repeat="field in ::config.fields">
       <div class="row">
@@ -60,8 +58,7 @@
         </div>
       </div>
 
-      <ue-validation-list field-type="sjukskrivning_period"
-                          validations="validationsForPeriod[field]"></ue-validation-list>
+
 
       <div class="col-lg-pull-none pull-right fold-animation fold-slide-animation"
            ng-if="field != 'HELT_NEDSATT' && viewstate.periods[field].valid">
@@ -76,6 +73,10 @@
     </div>
 
     <div>
+      <div ng-repeat="field in ::config.fields">
+      <ue-validation-list field-type="sjukskrivning_period"
+                          validations="validationsForPeriod[field]"></ue-validation-list>
+      </div>
       <ue-validation-list field-type="sjukskrivning_period" validations="overlapValidations"></ue-validation-list>
     </div>
 

@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueFraga',
-    function() {
+angular.module('common').directive('ueFraga', ['common.UtkastValidationViewState',
+    function(UtkastValidationViewState) {
         'use strict';
 
         return {
@@ -27,6 +27,39 @@ angular.module('common').directive('ueFraga',
                 config: '=',
                 model: '='
             },
-            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueFraga/ueFraga.directive.html'
+            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueFraga/ueFraga.directive.html',
+            link: function($scope) {
+                $scope.validation = UtkastValidationViewState;
+
+                //Returns an array with validationKeys for all child components by recursively iterating the config structure..
+                //This only needs to be done once, since the config tree itself is static
+                function _collectChildValidationKeys(arr, components) {
+                    angular.forEach(components, function(c) {
+                        //ue-grid has double array..
+                        if (angular.isArray(c)) {
+                            _collectChildValidationKeys(arr, c);
+                        }
+                        //Add itself...
+                        if (c.modelProp) {
+                            arr.push({key: c.modelProp.toLowerCase(), type: c.type });
+                        }
+
+                        //.. and any children
+                        if (c.components) {
+                           return _collectChildValidationKeys(arr, c.components);
+                        }
+                    });
+
+                    return arr;
+                }
+
+
+                $scope.validationKeys = _collectChildValidationKeys([], $scope.config.components);
+
+                //Also, add the validationKey for the actual fraga (for frage-level EMPTY-type validationmessages)
+                if ($scope.config.validationContext) {
+                    $scope.validationKeys.push({key: $scope.config.validationContext.key.toLowerCase(), type: $scope.config.validationContext.type});
+                }
+            }
         };
-    });
+    }]);

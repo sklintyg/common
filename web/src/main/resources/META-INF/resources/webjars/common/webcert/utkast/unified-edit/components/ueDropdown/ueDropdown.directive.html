@@ -1,26 +1,17 @@
-  <ue-validation-wrapper field-type="checkgroup"
-                         label-col-size="{{::config.labelColSize}}"
-                         key="{{::config.modelProp}}"
-                         warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                         validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-    <ue-form-label config="::config.label"></ue-form-label>
+<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <ue-form-label config="::config.label"></ue-form-label>
 
 
-      <ui-select theme="bootstrap"
-                 search-enabled="false"
-                 ng-model="modelGetterSetter"
-                 ng-model-options="{ getterSetter: true }"
-                 ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
-                 name="{{::config.modelProp|ueDomIdFilter}}"
-                 append-to-body="false"
-                 on-select="updateValidation()">
-        <ui-select-match>
-          <span dynamic-label key="{{$select.selected.label}}"></span>
-        </ui-select-match>
-        <ui-select-choices repeat="item.id as item in ::config.choices" value="$select.selected.id">
-          <span dynamic-label key="{{::item.label}}"></span>
-        </ui-select-choices>
-      </ui-select>
+  <ui-select theme="bootstrap" search-enabled="false" ng-model="modelGetterSetter"
+             ng-model-options="{ getterSetter: true }" ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
+             name="{{::config.modelProp|ueDomIdFilter}}" append-to-body="false" on-select="updateValidation()">
+    <ui-select-match>
+      <span dynamic-label key="{{$select.selected.label}}"></span>
+    </ui-select-match>
+    <ui-select-choices repeat="item.id as item in ::config.choices" value="$select.selected.id">
+      <span dynamic-label key="{{::item.label}}"></span>
+    </ui-select-choices>
+  </ui-select>
 
 
-  </ue-validation-wrapper>
+</ue-validation-wrapper>

@@ -73,7 +73,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
 
             var config = [
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
-                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { required: true }, [{
+                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'}, required: true }, [{
                         label: {
                             key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
                             helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
@@ -138,7 +138,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                         modelProp: 'kannedomOmPatient'
 
                     }]),
-                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {required: true}, [{
+                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { validationContext: {key: 'underlag', type: 'ue-underlag'}, required: true}, [{
                         type: 'ue-radio',
                         modelProp: 'underlagFinns',
                         paddingBottom: true

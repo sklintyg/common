@@ -1,7 +1,4 @@
-<ue-validation-wrapper field-type="textarea" label-col-size="{{::config.labelColSize}}"
-                       key="{{::config.modelPropToWatch}}"
-                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+<ue-validation-wrapper validations="validation.messagesByField[config.modelPropToWatch.toLowerCase()]">
       <label class="big-checkbox-label checkbox-inline">
       <input type="checkbox"
              ng-attr-id="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}"

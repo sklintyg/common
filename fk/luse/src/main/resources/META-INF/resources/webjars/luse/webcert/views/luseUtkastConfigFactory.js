@@ -76,7 +76,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
 
             var config = [
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
-                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { required: true }, [{
+                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'}, required: true }, [{
                         label: {
                             key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
                             helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
@@ -141,7 +141,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         modelProp: 'kannedomOmPatient'
 
                     }]),
-                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {required: true}, [{
+                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { validationContext: {key: 'underlag', type: 'ue-underlag'}, required: true}, [{
                         type: 'ue-radio',
                         modelProp: 'underlagFinns',
                         paddingBottom: true
@@ -211,15 +211,11 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                     }])
                 ]),
 
-                kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
-                    fraga(8, '', '', {  }, [{
-                        type: 'ue-validation-group',
-                        validationFieldType: 'checkgroup',
-                        validationProp: 'funktionsnedsattning',
-                        components: [{
+                kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', { required: true }, [
+                    fraga(8, '', '', { validationContext: {key: 'funktionsnedsattning', type: 'ue-checkgroup'}, required: true }, [{
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningIntellektuell',
-                            id: 'funktionsnedsattningIntellektuell',
+                            id: 'check-funktionsnedsattningIntellektuell',
                             label: {
                                 type: 'h4',
                                 key: 'FRG_8.RBK',
@@ -236,7 +232,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         }, {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningKommunikation',
-                            id: 'funktionsnedsattningKommunikation',
+                            id: 'check-funktionsnedsattningKommunikation',
                             label: {
                                 type: 'h4',
                                 key: 'FRG_9.RBK',
@@ -253,7 +249,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         }, {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningKoncentration',
-                            id: 'funktionsnedsattningKoncentration',
+                            id: 'check-funktionsnedsattningKoncentration',
                             label: {
                                 type: 'h4',
                                 key: 'FRG_10.RBK',
@@ -270,7 +266,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         }, {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningPsykisk',
-                            id: 'funktionsnedsattningPsykisk',
+                            id: 'check-funktionsnedsattningPsykisk',
                             label: {
                                 type: 'h4',
                                 key: 'FRG_11.RBK',
@@ -287,7 +283,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         }, {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningSynHorselTal',
-                            id: 'funktionsnedsattningSynHorselTal',
+                            id: 'check-funktionsnedsattningSynHorselTal',
                             label: {
                                 type: 'h4',
                                 key: 'FRG_12.RBK',
@@ -304,7 +300,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         }, {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningBalansKoordination',
-                            id: 'funktionsnedsattningBalansKoordination',
+                            id: 'check-funktionsnedsattningBalansKoordination',
                             label: {
                                 type: 'h4',
                                 key: 'FRG_13.RBK',
@@ -321,7 +317,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         }, {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningAnnan',
-                            id: 'funktionsnedsattningAnnan',
+                            id: 'check-funktionsnedsattningAnnan',
                             label: {
                                 type: 'h4',
                                 key: 'FRG_14.RBK',
@@ -336,8 +332,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                                 }
                             }]
                         }
-                        ]
-                    }])
+                        ])
                 ]),
 
                 kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [

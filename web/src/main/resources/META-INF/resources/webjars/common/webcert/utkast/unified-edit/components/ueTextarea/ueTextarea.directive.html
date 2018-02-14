@@ -1,8 +1,4 @@
-<ue-validation-wrapper field-type="textarea"
-                       label-col-size="{{::config.labelColSize}}"
-                       key="{{::config.modelProp}}"
-                       warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                       validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
   <ue-form-label config="::config.label"></ue-form-label>
   <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" name="{{::config.modelProp}}" class="form-control" rows="6"
             auto-expand

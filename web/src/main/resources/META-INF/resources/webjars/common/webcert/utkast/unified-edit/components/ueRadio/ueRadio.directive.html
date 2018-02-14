@@ -1,9 +1,5 @@
 <div ng-class="::{'form-inline': !config.vertical, 'bottom-padding-small': config.paddingBottom}">
-    <ue-validation-wrapper field-type="radio"
-                           label-col-size="{{::config.labelColSize}}"
-                           key="{{::config.modelProp}}"
-                           warnings="validation.warningMessagesByField[config.modelProp.toLowerCase()]"
-                           validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+    <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
         <ue-form-label config="::config.label"></ue-form-label>
         <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
             <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}Yes"

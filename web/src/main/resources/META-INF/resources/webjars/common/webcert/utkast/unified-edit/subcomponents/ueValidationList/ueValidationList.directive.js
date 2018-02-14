@@ -27,8 +27,7 @@ angular.module('common').directive('ueValidationList',
                 scope: {
                     validations: '=',
                     warnings: '=',
-                    fieldType: '@',
-                    labelColSize: '@'
+                    fieldType: '@'
                 },
                 link: function(scope) {
 
