@@ -4,7 +4,7 @@
              ng-attr-id="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}"
              class="big-checkbox"
              ng-model="vm.showComponents"
-             ng-change="updateValidation()">
+             ng-change="updateValidation(form, model)">
 
         <ue-form-label config="::config.label"></ue-form-label>
       </label>
