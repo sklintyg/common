@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcFaqQuestion', [ function() {
+angular.module('common').directive('wcFaqQuestion', ['smoothScroll', function(smoothScrollService) {
     'use strict';
 
     return {
@@ -29,6 +29,7 @@ angular.module('common').directive('wcFaqQuestion', [ function() {
         templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/wcFaqQuestion.directive.html',
         link: function($scope, elem, attrs, wcFaqToggler) {
 
+            var scrollContainerId = 'wc-about-modal-body';
             //Local open/closed state
             $scope.vm = {
                 open: false
@@ -40,6 +41,18 @@ angular.module('common').directive('wcFaqQuestion', [ function() {
                 //tell parent wcFaqToggler (if present) that i've toggled, so that it can update it's state
                 if (wcFaqToggler) {
                     wcFaqToggler.someChildToggledItself();
+                }
+                if ($scope.vm.open) {
+                    var offset = Math.floor($('#'+ scrollContainerId).height() / 2);
+                    var options = {
+                        containerId: scrollContainerId,
+                        duration: 500,
+                        easing: 'easeInOutQuart',
+                        offset: offset
+                    };
+                    //scroll to this questions panel heading, centered vertically
+                    var elementToScrollTo = elem.find('.panel-heading')[0];
+                    smoothScrollService(elementToScrollTo, options);
                 }
             };
 
