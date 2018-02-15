@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.IntygHeaderViewState', [
-    'common.featureService',
-        function(featureService) {
+    'common.featureService', 'common.moduleService', 'common.messageService',
+        function(featureService, moduleService, messageService) {
             'use strict';
 
             /*
@@ -48,6 +48,9 @@ angular.module('common').service('common.IntygHeaderViewState', [
                 this.intygViewState = intygViewState;
                 this.intygType = intygType;
                 this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygType];
+
+                this.recipientId = moduleService.getModule(intygType).defaultRecipient;
+                this.recipientText = messageService.getProperty('common.recipient.' + this.recipientId.toLowerCase());
             };
 
             /*

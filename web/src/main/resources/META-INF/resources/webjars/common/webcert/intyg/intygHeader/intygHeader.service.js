@@ -59,7 +59,7 @@ angular.module('common').service('common.IntygHeaderService',
 
             this.showCreateFromTemplate = function() {
                 return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
-                    !CommonIntygViewState.isComplemented() && !UserModel.getIntegrationParam('inactiveUnit');
+                    !CommonIntygViewState.isComplementedByIntyg() && !UserModel.getIntegrationParam('inactiveUnit');
             };
 
             this.createFromTemplate = function(intyg) {

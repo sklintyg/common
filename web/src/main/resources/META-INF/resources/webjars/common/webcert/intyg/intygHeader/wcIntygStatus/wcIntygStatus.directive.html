@@ -1,4 +1,5 @@
-<div>
+<span>
+
   <!-- error from button interaction -->
   <wc-alert-message id="intyg-inline-error"
                     ng-show="intygViewState.common.inlineErrorMessageKey"
@@ -6,29 +7,10 @@
                     alert-message-id="{{intygViewState.common.inlineErrorMessageKey}}">
   </wc-alert-message>
 
-  <wc-intyg-related-other-intyg-message
-      view-state="intygViewState"
-      text-before-relation="ersatts av"
-      intyg-relation="replacedByIntyg">
-  </wc-intyg-related-other-intyg-message>
+  <span ng-show="!intygViewState.common.inlineErrorMessageKey">
+    <wc-intyg-status-slot id="intygstatus1" intygstatus="intygstatus1[0]"></wc-intyg-status-slot>
+    <wc-intyg-status-slot id="intygstatus2" intygstatus="intygstatus2[0]"></wc-intyg-status-slot>
+  </span>
+  <a id="showallstatusesLink" ng-click="openAllStatusesModal()"><span dynamic-label key="common.label.showallstatuses"></span></a>
 
-  <wc-intyg-related-other-intyg-message
-      view-state="intygViewState"
-      text-before-relation="kompletterats av"
-      intyg-relation="complementedByIntyg">
-  </wc-intyg-related-other-intyg-message>
-
-  <!-- create utkast from template -->
-  <wc-alert-message ng-if="intygHeaderService.showCreateFromTemplate() && (!intygHeaderService.enableCreateFromTemplate() || intygHeaderService.warningForCreateTemplate !== undefined)"
-                    alert-severity="warning"
-                    alert-message-id="{{intygHeaderService.warningForCreateTemplate}}">
-  </wc-alert-message>
-
-  <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>
-
-  <wc-intyg-related-revoked-message intyg-view-state="intygViewState"></wc-intyg-related-revoked-message>
-
-  <div ng-if="!intygViewState.common.isRevoked()">
-    <span id="{{statusFieldId()}}" ng-bind-html="generateSentText()"></span>
-  </div>
-</div>
+</span>

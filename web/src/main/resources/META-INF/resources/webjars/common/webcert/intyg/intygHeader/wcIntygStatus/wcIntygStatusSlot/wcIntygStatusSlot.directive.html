@@ -1,0 +1,17 @@
+ <span class="status">
+  <span ng-switch="intygstatus.code" data-intyg-status-code="{{intygstatus.code}}">
+    <i ng-switch-when="is-001" class="material-icons wc-color-10">check</i>
+    <i ng-switch-when="is-002" class="material-icons wc-color-10">check</i>
+    <i ng-switch-when="is-003" class="material-icons wc-color-11">error_outline</i>
+    <i ng-switch-when="is-004" class="material-icons wc-color-11">error_outline</i>
+    <i ng-switch-when="is-005" class="material-icons wc-color-11">error_outline</i>
+    <i ng-switch-when="is-006" class="icon-wc-ikon-alert02 icon-wc-18 wc-color-05"></i>
+    <i ng-switch-when="is-007" class="material-icons wc-color-11">error_outline</i>
+    <i ng-switch-when="is-008" class="material-icons wc-color-10">check</i>
+    <i ng-switch-when="is-009" class="material-icons wc-color-11">error_outline</i>
+  </span>
+  <span ng-switch="intygstatus.modal">
+    <a ng-switch-when="true" ng-click="openModal()"><span ng-bind-html="intygstatus.text" /></a>
+    <span ng-switch-when="false" ng-bind-html="intygstatus.text" />
+  </span>
+</span>

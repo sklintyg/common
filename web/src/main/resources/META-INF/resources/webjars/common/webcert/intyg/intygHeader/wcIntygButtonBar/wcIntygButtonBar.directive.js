@@ -73,14 +73,14 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.showFornyaButton = function() {
                 return $scope.fornya &&
                     !CommonIntygViewState.isRevoked() &&
-                    !CommonIntygViewState.isPatientDeceased() && !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplemented() &&
+                    !CommonIntygViewState.isPatientDeceased() && !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplementedByIntyg() &&
                     !(UserModel.user.parameters !== undefined && UserModel.user.parameters.inactiveUnit) &&
                     (UserModel.user.parameters === undefined || UserModel.user.parameters.copyOk);
             };
 
             $scope.showErsattButton = function() {
                 return !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
-                    !CommonIntygViewState.isComplemented() &&
+                    !CommonIntygViewState.isComplementedByIntyg() &&
                     (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: intygType }) || !CommonIntygViewState.isPatientDeceased()) &&
                     !UserModel.getIntegrationParam('inactiveUnit');
             };
@@ -98,6 +98,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                                     relation.status = 'sent';
                                 }
                             });
+                            $rootScope.$broadcast('intygstatus.updated');
                         });
                 };
 
@@ -128,6 +129,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                         }
                     });
                     $rootScope.$emit('ViewCertCtrl.load', intyg, CommonIntygViewState.intygProperties);
+                    $rootScope.$broadcast('intygstatus.updated');
                 });
             };
 

@@ -1,0 +1,30 @@
+wc-intyg-status {
+
+  @extend %wc-typo-09;
+  color: $wc-color-06;
+  margin-left: 20px;
+
+  .status {
+    min-width: 140px;
+    margin-right: 20px;
+  }
+
+  #showallstatusesLink {
+    float: right;
+  }
+
+  .wc-color-05 {
+    color: $wc-color-05;
+  }
+  .wc-color-10 {
+    color: $wc-color-10;
+  }
+  .wc-color-11 {
+    color: $wc-color-11;
+  }
+
+  wc-alert-message .alert {
+    margin-top: -13px;
+    margin-bottom: 0;
+  }
+}

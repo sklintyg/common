@@ -30,6 +30,9 @@ describe('IntygHeaderService', function() {
 
     beforeEach(angular.mock.module('common'));
     beforeEach(angular.mock.module(function($provide) {
+        $provide.value('common.moduleService', {getModule: function(){return {
+            defaultRecipient: 'FKASSA'
+        };}});
     }));
 
     beforeEach(angular.mock.inject([

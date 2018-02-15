@@ -89,6 +89,8 @@ angular.module('common').directive('wcArendePanelTab', [
                     });
                     ArendeListViewState.setKompletteringar(kompletteringar);
 
+                    $rootScope.$broadcast('arenden.loaded');
+
                 }, function(errorData) {
                     // show error view
                     ArendeListViewState.doneLoading = true;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,5 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#wc-intyg-related-other-intyg-message {
-}
+angular.module('common').directive('wcCloseModals', function($uibModalStack) {
+    'use strict';
+    return {
+        restrict: 'A',
+        link: function(scope, element) {
+            element.bind('click', function(event) {
+                $uibModalStack.dismissAll();
+            });
+        }
+    };
+});
