@@ -57,8 +57,8 @@ angular.module('common').directive('ueFormLabel',
                     };
 
                     if (scope.config) {
-                        if (!scope.config.type) {
-                            scope.config.type = 'h5';
+                        if (!scope.config.labelType) {
+                            scope.config.labelType = 'h5';
                         }
                         scope.$on('dynamicLabels.updated', _onLabelsUpdated);
                         _onLabelsUpdated();

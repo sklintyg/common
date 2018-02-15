@@ -55,7 +55,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     key: labelKey,
                     helpKey: helpKey,
                     required: options.required,
-                    type: 'h4'
+                    labelType: 'h4'
                 };
             }
             return fraga;
