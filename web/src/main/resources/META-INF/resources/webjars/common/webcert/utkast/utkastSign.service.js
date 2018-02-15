@@ -42,10 +42,12 @@ angular.module('common').factory('common.UtkastSignService',
              */
             function _signera(intygsTyp, version) {
                 var deferred = $q.defer();
-                if (_endsWith(UserModel.user.authenticationScheme, ':fake')) {
+                if (_endsWith(UserModel.user.authenticationScheme, ':fake') && UserModel.user.authenticationMethod === 'FAKE') {
                     _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
                     _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
+                } else if (UserModel.user.authenticationMethod === 'EFOS') {
+                    _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
                     _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
                 }
@@ -63,6 +65,14 @@ angular.module('common').factory('common.UtkastSignService',
             function _signeraServerUsingGrp(intygsTyp, intygsId, version, deferred) {
                 var signModel = {};
                 _confirmSigneraMedBankID(signModel, intygsTyp, intygsId, version, deferred);
+            }
+
+            /**
+             * Init point for signering using NIAS (EFOS + NetiD Access Server)
+             */
+            function _signeraServerUsingNias(intygsTyp, intygsId, version, deferred) {
+                var signModel = {};
+                _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred);
             }
 
             /**
@@ -122,7 +132,58 @@ angular.module('common').factory('common.UtkastSignService',
             }
 
 
-            // net id - telia och sits
+            // EFOS / NetiD Access Server
+            function _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred) {
+
+                var templates = {
+                    'EFOS': '/app/views/signeraNiasDialog/signera.nias.dialog.html'
+                };
+
+                // Anropa server, starta signering med GRP
+                UtkastProxy.signeraUtkastWithNias(intygsId, intygsTyp, version, function(ticket) {
+
+                    // Resolve which modal template to use (BankID or Mobilt BankID differs somewhat)
+                    var templateUrl = templates[UserModel.authenticationMethod()];
+                    _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openNiasSigningModal(templateUrl));
+
+                }, function(error) {
+                    deferred.resolve({});
+                    _showSigneringsError(signModel, error);
+                });
+            }
+
+            /**
+             * Opens a custom (almost) full-screen modal for NetiD Access Server signing. The biljettStatus() function
+             * in the internal controller is used for updating texts within the modal as GRP state changes are propagated
+             * to the GUI.
+             */
+            function _openNiasSigningModal(templateUrl) {
+
+                return $uibModal.open({
+                    templateUrl: templateUrl,
+                    backdrop: 'static',
+                    keyboard: false,
+                    windowClass: 'nias-signera-modal',
+                    controller: function($scope, $uibModalInstance, ticketStatus) {
+
+                        $scope.close = function() {
+                            $uibModalInstance.close();
+                        };
+
+                        $scope.biljettStatus = function() {
+                            return ticketStatus.status;
+                        };
+                    },
+                    resolve: {
+                        ticketStatus : function() {
+                            return ticketStatus;
+                        }
+                    }
+                });
+            }
+
+
+            // net id - telia och siths
             function _signeraKlient(intygsTyp, intygsId, version, deferred) {
                 var signModel = {
                     signingWithSITHSInProgress : true
@@ -183,7 +244,7 @@ angular.module('common').factory('common.UtkastSignService',
                 // declare poll function
                 function getSigneringsstatus() {
                     UtkastProxy.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
-                        
+
                         // Update the global ticketStatus
                         ticketStatus.status = ticket.status;
 

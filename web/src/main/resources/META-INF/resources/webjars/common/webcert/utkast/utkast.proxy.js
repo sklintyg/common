@@ -136,6 +136,17 @@ angular.module('common').factory('common.UtkastProxy',
                 });
         }
 
+        function _signeraUtkastWithNias(intygsId, intygsTyp, version, onSuccess, onError) {
+            $log.debug('_signeraUtkastWithNias, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/nias/signeraserver';
+            $http.post(restPath).
+            then(function(response) {
+                onSuccess(response.data);
+            }, function(response) {
+                _handleError(onError, response.data);
+            });
+        }
+
         function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, onSuccess, onError) {
             $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeraklient';
@@ -174,6 +185,7 @@ angular.module('common').factory('common.UtkastProxy',
             getSigneringsstatus: _getSigneringsstatus,
             signeraUtkast: _signeraUtkast,
             signeraUtkastWithGrp: _signeraUtkastWithGrp,
+            signeraUtkastWithNias: _signeraUtkastWithNias,
             signeraUtkastWithSignatur: _signeraUtkastWithSignatur,
             getPrevious: _getPrevious
         };
