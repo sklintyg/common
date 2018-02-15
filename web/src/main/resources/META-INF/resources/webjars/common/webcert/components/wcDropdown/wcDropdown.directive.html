@@ -1,0 +1,12 @@
+<div ng-click="togglePlate()" ng-class="{open: isOpen}" class="dropdown-label">
+    <span ng-if="::useDynamicLabel" dynamic-label key="{{ selectedItemLabel }}"></span>
+    <span ng-if="::!useDynamicLabel">{{ selectedItemLabel }}</span>
+    <i class="material-icons md-18">{{isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
+</div>
+
+<div ng-show="isOpen" class="plate">
+    <div ng-repeat="item in items" ng-click="select(item)">
+        <span ng-if="::useDynamicLabel" dynamic-label key="{{ item.label }}"></span>
+        <span ng-if="::!useDynamicLabel">{{ item.label }}</span>
+    </div>
+</div>
