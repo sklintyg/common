@@ -42,7 +42,7 @@ angular.module('common').service('common.IntygHeaderViewState', [
             };
 
             this.warningForCreateTemplate = {};
-            this.currentCreateFromTemplateConfig = null;
+            this.currentCreateFromTemplateConfig = undefined;
 
             this.setIntygViewState = function(intygViewState, intygType) {
                 this.intygViewState = intygViewState;
