@@ -59,7 +59,7 @@ angular.module('common').directive('ueDodsorsakMulti',
 
                 $scope.hasValidationError = function(field, index) {
                     return $scope.validation && $scope.validation.messagesByField &&
-                        !!$scope.validation.messagesByField[$scope.config.modelProp.configLowerCase() + '.' + index +
+                        !!$scope.validation.messagesByField[$scope.config.modelProp.toLowerCase() + '.' + index +
                         '.' + field];
                 };
 
@@ -77,7 +77,7 @@ angular.module('common').directive('ueDodsorsakMulti',
                         $scope.orsakValidations = [];
                         angular.forEach($scope.validation.messagesByField, function(validations, key) {
                             if (key.substr(0, $scope.config.modelProp.length) ===
-                                $scope.config.modelProp.configLowerCase()) {
+                                $scope.config.modelProp.toLowerCase()) {
                                 $scope.orsakValidations = $scope.orsakValidations.concat(validations);
                             }
                         });

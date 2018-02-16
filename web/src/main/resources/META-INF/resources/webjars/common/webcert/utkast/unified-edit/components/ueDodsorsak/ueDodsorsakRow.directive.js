@@ -73,7 +73,7 @@ angular.module('common').directive('ueDodsorsakRow',
                                 validationIndex = parseInt(validationIndex, 10);
                                 var isValidIndex = validationIndex >= 0;
                                 if(!isValidIndex || validationIndex === $scope.rowIndex){
-                                    if (modelProp.substr(0, $scope.modelProp.length) === $scope.modelProp.configLowerCase()) {
+                                    if (modelProp.substr(0, $scope.modelProp.length) === $scope.modelProp.toLowerCase()) {
                                         if (modelProp.substr(modelProp.lastIndexOf('.')) === '.datum') {
                                             $scope.dateValidations = $scope.dateValidations.concat(validation);
                                         }

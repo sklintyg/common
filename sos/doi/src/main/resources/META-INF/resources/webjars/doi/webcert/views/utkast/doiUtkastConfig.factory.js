@@ -48,7 +48,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                     fraga(null, '', '', {}, [{
                         type: 'ue-form-label',
                         labelType: 'h4',
-                        modelProp: 'KAT_7.1.RBK'
+                        key: 'KAT_7.1.RBK'
                     }]),
                     fraga(null, '', '', {}, [{
                         modelProp: 'terminalDodsorsak',
@@ -91,7 +91,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                     fraga(null, '', '', {}, [
                         {
                             type: 'ue-form-label',
-                            modelProp: 'KAT_7.2.RBK',
+                            key: 'KAT_7.2.RBK',
                             bold: true
                         },
                         {
