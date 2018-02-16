@@ -112,7 +112,7 @@ angular.module('common').controller('common.UtkastHeader',
 
                 var onPatientFound = function(patient) {
                     if (!patient.sekretessmarkering) {
-                        window.open($scope.pdfUrl, '_self');
+                        window.open(CommonViewState.intyg.pdfUrl, '_self');
                     } else {
                         // Visa infodialog för vanlig utskrift där patienten är sekretessmarkerad.
                         dialogService.showDialog({
@@ -121,7 +121,7 @@ angular.module('common').controller('common.UtkastHeader',
                             templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
                             model: {patient: patient},
                             button1click: function (modalInstance) {
-                                window.open($scope.pdfUrl, '_self');
+                                window.open(CommonViewState.intyg.pdfUrl, '_self');
                                 modalInstance.close();
                             },
                             button2click: function(modalInstance){

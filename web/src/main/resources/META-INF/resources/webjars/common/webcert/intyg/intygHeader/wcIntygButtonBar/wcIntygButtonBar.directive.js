@@ -155,7 +155,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                             templateUrl: '/app/partials/employee-print-dialog.html',
                             model: {patient: patient},
                             button1click: function (modalInstance) {
-                                window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
+                                window.open(CommonIntygViewState.intygProperties.pdfUrl + '/arbetsgivarutskrift', '_blank');
                                 modalInstance.close();
                             },
                             button2click: function(modalInstance){
@@ -174,7 +174,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                             templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
                             model: {patient: patient},
                             button1click: function (modalInstance) {
-                                window.open($scope.pdfUrl, '_blank');
+                                window.open(CommonIntygViewState.intygProperties.pdfUrl, '_blank');
                                 modalInstance.close();
                             },
                             button2click: function(modalInstance){
@@ -187,7 +187,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                         });
                     } else {
                         // Om patienten ej är sekretessmarkerad, skriv ut direkt.
-                        window.open($scope.pdfUrl, '_blank');
+                        window.open(CommonIntygViewState.intygProperties.pdfUrl, '_blank');
                     }
                 };
                 var onNotFoundOrError = function() {

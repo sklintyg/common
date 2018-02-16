@@ -81,9 +81,11 @@ angular.module('common').service('common.IntygViewStateService',
                 return this.intygProperties.isSent || this.isIntygOnSendQueue;
             };
 
-            this.updateIntygProperties = function(result) {
+            this.updateIntygProperties = function(result, intygId) {
 
                 var targetName = moduleService.getModule(this.intygProperties.type).defaultRecipient;
+
+                this.intygProperties.pdfUrl = '/moduleapi/intyg/'+ this.intygProperties.type +'/' + intygId + '/pdf';
 
                 this.intygProperties.signeringsdatum = result.contents.grundData.signeringsdatum;
 

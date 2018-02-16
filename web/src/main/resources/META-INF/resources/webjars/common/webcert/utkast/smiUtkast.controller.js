@@ -51,7 +51,7 @@ angular.module('common').controller('smi.EditCertCtrl',
                     $scope.certForm.$setDirty();
                 }
                 //Expose pdf download link
-                $scope.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
+                viewState.common.intyg.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
 
                 if($state.current.data.useFmb) {
                     fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
