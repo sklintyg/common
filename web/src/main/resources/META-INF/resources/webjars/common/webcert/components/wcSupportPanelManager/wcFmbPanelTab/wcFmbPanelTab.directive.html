@@ -1,6 +1,6 @@
 <div class="tab-content-title-row">Diagnosspecifik information</div>
 
-<div class="fmb-diagnos-row" ng-if="!vm.noDataMessage">
+<div class="fmb-diagnos-row" ng-class="{'has-diagnose' : !vm.noDataMessage.warning}">
   <span ng-repeat="d in fmb.diagnoses track by $index" class="fmb-diagnos-description">
 
   <label ng-attr-for="fmb_diagnos_radio_{{d.diagnosKod}}"

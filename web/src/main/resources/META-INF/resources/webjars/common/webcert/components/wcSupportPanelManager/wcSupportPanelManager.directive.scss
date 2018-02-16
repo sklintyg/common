@@ -30,16 +30,21 @@ wc-support-panel-manager {
       &:first-child a {
         border-radius: 4px 0 0 0;
       }
+
       &:last-child a {
         border-radius: 0 4px 0 0;
       }
+
+      &:only-child a {
+        border-radius: 4px 4px 0 0;
+      }
+
 
       > a {
         @extend %wc-typo-07;
         display: list-item;
         border: 1px solid $tab-border-color;
         border-radius: 0;
-        border-bottom: 0;
         color: $tab-text-color;
         background-color: $tab-background-color;
         text-shadow: none;
@@ -62,9 +67,7 @@ wc-support-panel-manager {
           color: $active-tab-text-color;
           background-color: $active-tab-background-color;
           border: 1px solid $active-tab-border-color;
-          border-bottom-color: transparent;
           cursor: default;
-          border-bottom: 0;
         }
       }
     }
