@@ -84,7 +84,6 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     size: 'full',
                     labelColSize: labelColSize,
                     formType: 'horizontal',
-                    paddingBottom: true,
                     disabled: _shouldDisableAddressInput
                 },{
                     type: 'ue-textfield',
@@ -98,7 +97,6 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     size: '5',
                     labelColSize: labelColSize,
                     formType: 'horizontal',
-                    paddingBottom: true,
                     disabled: _shouldDisableAddressInput
                 },{
                     type: 'ue-textfield',
@@ -110,7 +108,6 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     htmlMaxlength: 25,
                     labelColSize: labelColSize,
                     formType: 'horizontal',
-                    paddingBottom: true,
                     disabled: _shouldDisableAddressInput
                 },{
                     type: 'ue-patient-address-updater',
