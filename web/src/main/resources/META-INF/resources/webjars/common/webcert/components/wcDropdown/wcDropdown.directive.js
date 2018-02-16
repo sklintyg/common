@@ -37,7 +37,7 @@ angular.module('common').directive('wcDropdown',
                 link: function(scope, element, attrs, ctrl) {
                     var plate = element.querySelectorAll('.plate');
 
-                    var offset = function(element) {
+                    function offset(element) {
                         var boundingClientRect = element[0].getBoundingClientRect();
                         return {
                             width: boundingClientRect.width || element.prop('offsetWidth'),
@@ -45,16 +45,9 @@ angular.module('common').directive('wcDropdown',
                             top: boundingClientRect.top + ($window.pageYOffset || $document[0].documentElement.scrollTop),
                             left: boundingClientRect.left + ($window.pageXOffset || $document[0].documentElement.scrollLeft)
                         };
-                    };
+                    }
 
-                    var onDocumentClick = function(e) {
-                        if (scope.isOpen && !element[0].contains(e.target)) {
-                            closePlate();
-                            scope.$digest();
-                        }
-                    };
-
-                    var openPlate = function() {
+                    function openPlate() {
                         $window.document.addEventListener('click', onDocumentClick, true);
 
                         $timeout(function() {
@@ -72,20 +65,27 @@ angular.module('common').directive('wcDropdown',
                         });
                         plate[0].style.opacity = 0;
                         scope.isOpen = true;
-                    };
+                    }
 
-                    var closePlate = function() {
+                    function closePlate() {
                         scope.isOpen = false;
                         $window.document.removeEventListener('click', onDocumentClick, true);
-                    };
+                    }
 
-                    var getSelectedItemLabel = function () {
+                    function onDocumentClick(e) {
+                        if (scope.isOpen && !element[0].contains(e.target)) {
+                            closePlate();
+                            scope.$digest();
+                        }
+                    }
+
+                    function getSelectedItemLabel() {
                         for (var i = 0; i < scope.items.length; i++) {
                             if (scope.items[i].id === ctrl.$viewValue) {
                                 return scope.items[i].label;
                             }
                         }
-                    };
+                    }
 
                     scope.togglePlate = function() {
                         if (scope.disabled) {
