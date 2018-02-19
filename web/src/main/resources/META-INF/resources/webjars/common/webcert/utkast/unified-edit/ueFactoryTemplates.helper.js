@@ -129,7 +129,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 size: 'full',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 265,
+                htmlMaxlength: 265
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postnummer',
