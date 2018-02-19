@@ -130,7 +130,6 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 265,
-                paddingBottom: true
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postnummer',
@@ -143,8 +142,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 6,
-                numbersOnly: true,
-                paddingBottom: true
+                numbersOnly: true
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postort',
@@ -156,8 +154,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 size: 'full',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 265,
-                paddingBottom: true
+                htmlMaxlength: 265
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',

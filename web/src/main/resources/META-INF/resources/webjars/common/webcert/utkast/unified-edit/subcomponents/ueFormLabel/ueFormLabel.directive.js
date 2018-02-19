@@ -38,7 +38,7 @@ angular.module('common').directive('ueFormLabel',
                             whitespaceBreak = ' class="control-label white-space-no-wrap"';
                         }
 
-                        var template = '<' + scope.config.type + whitespaceBreak + (scope.config.key ? ' id="' + ueDomIdFilter(scope.config.key) + '" ': '')  + '>\n';
+                        var template = '<' + scope.config.labelType + whitespaceBreak + (scope.config.key ? ' id="' + ueDomIdFilter(scope.config.key) + '" ': '')  + '>\n';
                         if (scope.config.required) {
                             template += '<span class="required">*</span>\n';
                         }
@@ -48,7 +48,7 @@ angular.module('common').directive('ueFormLabel',
                         if (scope.config.helpKey) {
                             template += '<span wc-help-chevron help-text-key="' + scope.config.helpKey + '"></span>\n';
                         }
-                        template += '</' + scope.config.type + '>\n';
+                        template += '</' + scope.config.labelType + '>\n';
                         if (scope.config.helpKey) {
                             template += '<span wc-help-chevron-text help-text-key="' + scope.config.helpKey + '"></span>\n';
                         }

@@ -1,19 +1,21 @@
-<wc-fraga-komplettering frage-id="::config.frageId">
-  <a ng-attr-id="komplettering_{{::config.frageId|ueDomIdFilter}}"></a>
-  <ue-form-label config="::config.label"></ue-form-label>
-  <ue-validation-wrapper validations="validation.messagesByField[config.validationContext.key.toLowerCase()]">
-    <ue-render-components form="::form" config="::config.components" model="::model" />
-  </ue-validation-wrapper>
-  <wc-inline-komplettering frage-id="::config.frageId"></wc-inline-komplettering>
+<div class="ue-fraga" ng-class="{'no-label-padding': !config.label.key}">
+  <wc-fraga-komplettering frage-id="::config.frageId">
+    <a ng-attr-id="komplettering_{{::config.frageId|ueDomIdFilter}}"></a>
+    <ue-form-label config="::config.label"></ue-form-label>
+    <ue-validation-wrapper validations="validation.messagesByField[config.validationContext.key.toLowerCase()]">
+      <ue-render-components form="::form" config="::config.components" model="::model" />
+    </ue-validation-wrapper>
+    <wc-inline-komplettering frage-id="::config.frageId"></wc-inline-komplettering>
 
-  <div ng-repeat="cvk in validationKeys">
-    <!-- show error for: {{cvk}} -->
+    <div ng-repeat="cvk in validationKeys">
+      <!-- show error for: {{cvk}} -->
 
-    <ue-validation-list
-        field-type="{{cvk.type}}"
-        warnings="validation.warningMessagesByField[cvk.key]"
-        validations="validation.messagesByField[cvk.key]">
-    </ue-validation-list>
-  </div>
+      <ue-validation-list
+          field-type="{{cvk.type}}"
+          warnings="validation.warningMessagesByField[cvk.key]"
+          validations="validation.messagesByField[cvk.key]">
+      </ue-validation-list>
+    </div>
 
-</wc-fraga-komplettering>
+  </wc-fraga-komplettering>
+</div>

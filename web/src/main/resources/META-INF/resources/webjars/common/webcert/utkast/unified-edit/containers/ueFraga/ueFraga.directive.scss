@@ -1,6 +1,13 @@
 ue-fraga {
   display: block;
 
+  .ue-fraga {
+    padding: 28px 28px 0 28px;
+    &.no-label-padding {
+      padding-top: 14px;
+    }
+  }
+
   h3 {
     font-size: 16px;
     padding-top: 30px;
@@ -10,6 +17,11 @@ ue-fraga {
   h4 {
     @extend %wc-typo-05;
     color: $wc-color-08;
+    padding: 0;
+  }
+
+  h5 {
+    padding-bottom: 14px;
   }
 
   .fraga-body {

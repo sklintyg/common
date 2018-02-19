@@ -129,6 +129,7 @@
   @import 'utkast/unified-edit/subcomponents/ueFormLabel/ueFormLabel.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
+  @import 'utkast/unified-edit/ueComponent.scss';
   @import 'utkast/utkast-header/utkastHeader.scss';
   @import 'utkast/wcFieldSingle/wcFieldSingle.directive.scss';
   @import 'utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.scss';
@@ -237,12 +238,11 @@
 
   h4 {
     margin: 0;
-    padding-bottom: 10px;
+    padding: 0;
   }
 
   h5 {
     margin: 0;
-    padding-bottom: 10px;
   }
 
   h6 {
@@ -644,18 +644,6 @@
   Modular modifiers
   */
 
-  .padding-top-small {
-    padding-top: 5px;
-  }
-
-  .padding-top-medium {
-    padding-top: 15px;
-  }
-
-  .padding-top-large {
-    padding-top: 30px;
-  }
-
   .relative-anchor {
     position:relative;
   }
@@ -692,6 +680,18 @@
 
   .empty {
     color: $wc-color-23;
+  }
+
+  .padding-top-small {
+    padding-top: 5px;
+  }
+
+  .padding-top-medium {
+    padding-top: 15px;
+  }
+
+  .padding-top-large {
+    padding-top: 30px;
   }
 
   .bottom-padding-big {
