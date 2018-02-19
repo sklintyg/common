@@ -33,7 +33,6 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
             $scope.cert = undefined;
             $scope.user = UserModel.user;
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
-            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
 
             /*********************************************************************
              * Private support functions
@@ -81,6 +80,8 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
                         $scope.cert = result.contents;
 
                         $scope.pdfUrl = '/moduleapi/intyg/ts-diabetes/' + ViewState.intygModel.id + '/pdf';
+
+                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, ViewState.common.isSentIntyg());
 
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel);
                         $rootScope.$broadcast('intyg.loaded', ViewState.intygModel, ViewState.common.intygProperties);

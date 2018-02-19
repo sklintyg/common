@@ -25,16 +25,18 @@
 angular.module('luse').factory('luse.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, isSigned, isSent, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'luse',
                 id: id,
-                isSigned: isSigned
+                isSigned: isSigned,
+                isSent: isSent
             }
         };
+
 
         if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
             config.tabs.push({
@@ -42,22 +44,23 @@ angular.module('luse').factory('luse.supportPanelConfigFactory', [ 'common.featu
                 title: 'Frågor & Svar',
                 config: {
                     intygContext: config.intygContext
-                }
+                },
+                active: isSent || isKompletteringsUtkast
             });
         }
 
-        //Always has this
+        //Always has this, but only active by default if not already sent
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
                 tipsText: 'Hello world!',
                 intygContext: config.intygContext
-            }
+            },
+            active: !(isSent || isKompletteringsUtkast)
         });
 
-        // First tab of those added should be active by default
-        config.tabs[0].active = true;
+
         return angular.copy(config);
     }
 
