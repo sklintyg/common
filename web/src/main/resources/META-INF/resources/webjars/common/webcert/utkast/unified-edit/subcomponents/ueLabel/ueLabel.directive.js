@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueFormLabel',
+angular.module('common').directive('ueLabel',
     [ '$log', '$compile', '$rootScope', 'common.dynamicLabelService', 'ueDomIdFilterFilter',
         function($log, $compile, $rootScope, dynamicLabelService, ueDomIdFilter) {
             'use strict';

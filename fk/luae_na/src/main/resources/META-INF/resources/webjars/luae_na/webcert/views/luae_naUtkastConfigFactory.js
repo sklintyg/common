@@ -219,7 +219,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             modelPropToWatch: 'funktionsnedsattningIntellektuell',
                             id: 'check-funktionsnedsattningIntellektuell',
                             label: {
-                                type: 'h4',
+                                labelType: 'h4',
                                 key: 'FRG_8.RBK',
                                 helpKey: 'FRG_8.HLP'
                             },
@@ -236,7 +236,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             modelPropToWatch: 'funktionsnedsattningKommunikation',
                             id: 'check-funktionsnedsattningKommunikation',
                             label: {
-                                type: 'h4',
+                                labelType: 'h4',
                                 key: 'FRG_9.RBK',
                                 helpKey: 'FRG_9.HLP'
                             },
@@ -253,7 +253,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             modelPropToWatch: 'funktionsnedsattningKoncentration',
                             id: 'check-funktionsnedsattningKoncentration',
                             label: {
-                                type: 'h4',
+                                labelType: 'h4',
                                 key: 'FRG_10.RBK',
                                 helpKey: 'FRG_10.HLP'
                             },
@@ -270,7 +270,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             modelPropToWatch: 'funktionsnedsattningPsykisk',
                             id: 'check-funktionsnedsattningPsykisk',
                             label: {
-                                type: 'h4',
+                                labelType: 'h4',
                                 key: 'FRG_11.RBK',
                                 helpKey: 'FRG_11.HLP'
                             },
@@ -287,7 +287,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             modelPropToWatch: 'funktionsnedsattningSynHorselTal',
                             id: 'check-funktionsnedsattningSynHorselTal',
                             label: {
-                                type: 'h4',
+                                labelType: 'h4',
                                 key: 'FRG_12.RBK',
                                 helpKey: 'FRG_12.HLP'
                             },
@@ -304,7 +304,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             modelPropToWatch: 'funktionsnedsattningBalansKoordination',
                             id: 'check-funktionsnedsattningBalansKoordination',
                             label: {
-                                type: 'h4',
+                                labelType: 'h4',
                                 key: 'FRG_13.RBK',
                                 helpKey: 'FRG_13.HLP'
                             },
@@ -321,7 +321,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             modelPropToWatch: 'funktionsnedsattningAnnan',
                             id: 'check-funktionsnedsattningAnnan',
                             label: {
-                                type: 'h4',
+                                labelType: 'h4',
                                 key: 'FRG_14.RBK',
                                 helpKey: 'FRG_14.HLP'
                             },
@@ -409,7 +409,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                         modelProp: 'anledningTillKontakt',
                         hideExpression: '!model.kontaktMedFk',
                         label: {
-                            type: 'h5',
+                            labelType: 'h5',
                             key: 'DFR_26.2.RBK',
                             helpKey: 'DFR_26.2.HLP'
                         }

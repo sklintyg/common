@@ -111,12 +111,17 @@
   @import 'utkast/srs/_srs.scss';
   @import 'utkast/srs/components/wcSrsDiagnoseInfo/wcSrsDiagnoseInfo.directive.scss';
   @import 'utkast/unified-edit/components/ueAlert/ueAlert.directive.scss';
+  @import 'utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.scss';
+  @import 'utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.scss';
   @import 'utkast/unified-edit/components/ueDiagnos/ueDiagnos.scss';
   @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakFoljd.scss';
   @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.scss';
   @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakRow.scss';
   @import 'utkast/unified-edit/components/ueDropdown/ueDropdown.directive.scss';
+  @import 'utkast/unified-edit/components/ueFormLabel/ueFormLabel.scss';
   @import 'utkast/unified-edit/components/ueKorkortBedomning/ueKorkortBedomning.directive.scss';
+  @import 'utkast/unified-edit/components/ueRadio/ueRadio.directive.scss';
+  @import 'utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.scss';
   @import 'utkast/unified-edit/components/ueSynskarpa/ueSynskarpa.directive.scss';
   @import 'utkast/unified-edit/components/ueText/ueText.directive.scss';
   @import 'utkast/unified-edit/components/ueTextarea/ueTextArea.directive.scss';
@@ -126,7 +131,7 @@
   @import 'utkast/unified-edit/containers/ueFraga/ueFraga.directive.scss';
   @import 'utkast/unified-edit/containers/ueGrid/ueGrid.scss';
   @import 'utkast/unified-edit/containers/ueKategori/ueKategori.directive.scss';
-  @import 'utkast/unified-edit/subcomponents/ueFormLabel/ueFormLabel.scss';
+  @import 'utkast/unified-edit/subcomponents/ueLabel/ueLabel.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
   @import 'utkast/unified-edit/ueComponent.scss';

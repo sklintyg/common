@@ -216,7 +216,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                         modelProp: 'anledningTillKontakt',
                         hideExpression: '!model.kontaktMedFk',
                         label: {
-                            type: 'h5',
+                            labelType: 'h5',
                             key: 'DFR_26.2.RBK',
                             helpKey: 'DFR_26.2.HLP'
                         }

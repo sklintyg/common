@@ -1,4 +1,4 @@
-<ue-validation-wrapper validations="validation.messagesByField[config.modelPropToWatch.toLowerCase()]">
+<ue-validation-wrapper validations="validation.messagesByField[config.modelPropToWatch.toLowerCase()]" class="ue-del-fraga">
       <label class="big-checkbox-label checkbox-inline">
       <input type="checkbox"
              ng-attr-id="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}"
@@ -6,7 +6,7 @@
              ng-model="vm.showComponents"
              ng-change="updateValidation(form, model)">
 
-        <ue-form-label config="::config.label"></ue-form-label>
+        <ue-label config="::config.label"></ue-label>
       </label>
 
 

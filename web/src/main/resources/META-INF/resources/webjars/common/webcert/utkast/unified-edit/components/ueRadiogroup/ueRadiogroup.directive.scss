@@ -1,5 +1,5 @@
 /*!
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,28 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-ue-form-label {
-  position: relative;
-
-  .form-horizontal .control-label {
-    text-align: left;
+ue-radiogroup {
+  display: block;
+  margin-bottom: -14px;
+  .form-horizontal .radio-inline {
+    padding-top: 0;
+    padding-bottom: 14px;
   }
-}
-
-.form-horizontal ue-form-label .control-label {
-  text-align: left;
-}
-
-.wc-fraga .formly-field:not(:first-child) .wcFormLabel {
-  padding-top: 10px;
-}
-
-.wc-fraga .no-wcFormLabelPadding .formly-field .wcFormLabel {
-  padding-top: 0px;
-}
-
-.control-label {
-  max-width: 600px;
-  vertical-align: baseline;
-  font-weight: normal;
 }

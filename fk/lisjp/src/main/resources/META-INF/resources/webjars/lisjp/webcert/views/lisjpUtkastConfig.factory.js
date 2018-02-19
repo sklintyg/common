@@ -229,7 +229,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         label: {
                             key: 'FRG_33.RBK',
                             helpKey: 'FRG_33.HLP',
-                            type: 'h4'
+                            labelType: 'h4'
                         },
                         hideExpression: function(scope) {
 
@@ -257,7 +257,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         label: {
                             key: 'DFR_33.2.RBK',
                             helpKey: 'DFR_33.2.HLP',
-                            type: 'h4',
+                            labelType: 'h4',
                             required: true
                         },
                         hideExpression: function(scope) {
@@ -373,7 +373,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         modelProp: 'anledningTillKontakt',
                         hideExpression: '!model.kontaktMedFk',
                         label: {
-                            type: 'h5',
+                            labelType: 'h5',
                             key: 'DFR_26.2.RBK',
                             helpKey: 'DFR_26.2.HLP'
                         }

@@ -1,6 +1,5 @@
-
 /*!
- * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ * Copyright (C) 2017 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,5 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-ue-grid {
+ue-label {
+  display: block;
+  position: relative;
+
+  .form-horizontal .control-label {
+    text-align: left;
+  }
+}
+
+.form-horizontal ue-label .control-label {
+  text-align: left;
+}
+
+.control-label {
+  max-width: 600px;
+  vertical-align: baseline;
+  font-weight: normal;
 }
