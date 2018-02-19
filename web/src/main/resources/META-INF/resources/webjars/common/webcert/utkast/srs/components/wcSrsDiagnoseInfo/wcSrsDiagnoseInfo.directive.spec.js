@@ -98,7 +98,7 @@ describe('Directive: wcSrsDiagnoseInfo', function() {
                             'Atgardsforslag OBS 3 för diagnos M18' ],
                     'atgarderRek': [ 'Atgardsforslag REK 1 för diagnos M18', 'Atgardsforslag REK 2 för diagnos M18',
                             'Atgardsforslag REK 3 för diagnos M18' ],
-                    'statistikBild': '/services/srs-statistics-stub/M18.jpg',
+                    'statistikBild': '/services/stubs/srs-statistics-stub/M18.jpg',
                     'statistikStatusCode': 'OK'
                 };
                 //Arrange

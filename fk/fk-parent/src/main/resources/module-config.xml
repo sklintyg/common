@@ -30,7 +30,7 @@
 
     <beans profile="dev,it-fk-stub">
         <bean id="register-fk-stub" class="se.inera.intyg.common.fkparent.integration.stub.RegisterCertificateResponderStub" />
-        <jaxws:endpoint address="/register-certificate-stub-fk-parent" implementor="#register-fk-stub">
+        <jaxws:endpoint address="/stubs/clinicalprocess/healthcond/certificate/RegisterCertificate/3/rivtabp21" implementor="#register-fk-stub">
             <jaxws:schemaLocations>
                 <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_3.0.xsd</jaxws:schemaLocation>
                 <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_types_3.0.xsd</jaxws:schemaLocation>
