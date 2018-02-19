@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcSupportPanelScrollableBodyHelpText', [ function() {
+angular.module('common').directive('wcHelpChevronTextScrollableBody', [ function() {
     'use strict';
 
     return {
@@ -25,6 +25,6 @@ angular.module('common').directive('wcSupportPanelScrollableBodyHelpText', [ fun
         scope: {
             domId: '@'
         },
-        templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelScrollableBodyHelpText/wcSupportPanelScrollableBodyHelpText.directive.html'
+        templateUrl: '/web/webjars/common/webcert/components/wcHelpChevronText/wcHelpChevronTextScrollableBody/wcHelpChevronTextScrollableBody.directive.html'
     };
 } ]);
