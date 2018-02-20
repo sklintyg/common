@@ -65,6 +65,7 @@
   @import 'components/wcIntygPatientNamnPersonnummer/wcIntygPatientNamnPersonnummer.directive.scss';
   @import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
+  @import 'components/wcPatientStatus/wcPatientStatus.directive.scss';
   @import 'components/wcRadioWrapper/wcRadioWrapper.directive.scss';
   @import 'components/wcReadMoreTextBlock/wcReadMoreTextBlock.directive.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
@@ -90,7 +91,7 @@
   @import 'intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.scss';
   @import 'intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.scss';
   @import 'intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.scss';
-  @import 'intyg/intygHeader/wcPatientStatus/wcPatientStatus.directive.scss';
+  @import 'intyg/intygHeader/wcIntygStatus/wcIntygStatusSlot/wcIntygStatusSlot.directive.scss';
   @import 'intyg/read-only-view/wcIntygReadOnlyView.scss';
   @import 'intyg/unified-view/unified-view.scss';
   @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
@@ -140,6 +141,9 @@
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
   @import 'utkast/unified-edit/ueComponent.scss';
   @import 'utkast/utkast-header/utkastHeader.scss';
+  @import 'utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.scss';
+  @import 'utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.scss';
+  @import 'utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.scss';
   @import 'utkast/wcFieldSingle/wcFieldSingle.directive.scss';
   @import 'utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.scss';
   @import 'utkast/wcUtkastErrorSummaryFK/wcUtkastErrorSummaryFK.directive.scss';

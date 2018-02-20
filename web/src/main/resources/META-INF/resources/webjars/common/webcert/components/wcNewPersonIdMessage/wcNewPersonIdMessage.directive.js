@@ -27,7 +27,6 @@ angular.module('common').directive('wcNewPersonIdMessage', [
 
         return {
             restrict: 'E',
-            replace: true,
             scope: {
                 patient: '=',
                 isIntyg: '='
@@ -42,12 +41,12 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                     var messageId = 'common.alert.newpersonid';
                     $scope.message = messageService.getProperty(messageId, {person: number}, messageId);
                 }
-
+/* Kommenterat i väntan på beslut av krav. Blir ändringsjira på detta.
                 function showReservnummerMessage(number) {
                     $scope.show = true;
                     var messageId = 'common.alert.newreserveid';
                     $scope.message = messageService.getProperty(messageId, {reserve: number}, messageId);
-                }
+                }*/
 
                 function decideMessageToShow(intygPersonnummer, alternatePatientSSn) {
 
@@ -55,12 +54,17 @@ angular.module('common').directive('wcNewPersonIdMessage', [
 
                     //If an alternatePatientSSn is given that differs from current..
                     if (intygPersonnummer !== validatedAlternateSSn) {
+
+                        showPersonnummerMessage(alternatePatientSSn);
+
+/* Kommenterat i väntan på beslut av krav. Blir ändringsjira på detta.
+
                         //.. and it's passes as a personnummer/samordningsnummer valid for future use (e.g in copy/renew)
                         if (personIdValidator.validResult(validatedAlternateSSn)) {
                             showPersonnummerMessage(alternatePatientSSn);
                         } else {
                             showReservnummerMessage(alternatePatientSSn);
-                        }
+                        }*/
                     }
                 }
 

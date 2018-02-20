@@ -41,7 +41,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                 },
 
                 'header@luae_fs-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
@@ -79,8 +79,11 @@ angular.module('luae_fs').config(function($stateProvider) {
                 },
 
                 'header@luae_fs-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'luae_fs.EditCertCtrl.ViewStateService'
+                    }
                 },
 
                 'footer@luae_fs-edit' : {

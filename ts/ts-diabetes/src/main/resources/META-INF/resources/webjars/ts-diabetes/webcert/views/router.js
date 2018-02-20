@@ -45,8 +45,11 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                 },
 
                 'header@ts-diabetes-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'ts-diabetes.UtkastController.ViewStateService'
+                    }
                 },
 
                 'footer@ts-diabetes-edit' : {

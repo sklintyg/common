@@ -41,7 +41,7 @@ angular.module('luse').config(function($stateProvider) {
                 },
 
                 'header@luse-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
@@ -79,8 +79,11 @@ angular.module('luse').config(function($stateProvider) {
                 },
 
                 'header@luse-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'luse.EditCertCtrl.ViewStateService'
+                    }
                 },
 
                 'footer@luse-edit' : {

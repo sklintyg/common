@@ -45,8 +45,11 @@ angular.module('ts-bas').config(function($stateProvider) {
                 },
 
                 'header@ts-bas-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'ts-bas.UtkastController.ViewStateService'
+                    }
                 },
 
                 'footer@ts-bas-edit' : {
@@ -79,7 +82,7 @@ angular.module('ts-bas').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
                 'header@ts-bas-edit-old': {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 

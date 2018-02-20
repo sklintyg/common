@@ -41,8 +41,11 @@ angular.module('db').config(function($stateProvider) {
                 },
 
                 'header@db-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'db.EditCertCtrl.ViewStateService'
+                    }
                 },
 
                 'footer@db-edit' : {
@@ -79,7 +82,7 @@ angular.module('db').config(function($stateProvider) {
                 },
 
                 'header@db-edit-old' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 

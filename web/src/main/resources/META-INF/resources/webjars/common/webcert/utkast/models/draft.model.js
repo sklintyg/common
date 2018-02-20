@@ -32,6 +32,7 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.patientResolved = undefined;
             this.sekretessmarkering = undefined;
             this.avliden = undefined;
+            this.created = undefined;
             if(contentModel){
                 this.content = contentModel;
             }
@@ -49,6 +50,7 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.patientResolved = data.patientResolved;
             this.sekretessmarkering = data.sekretessmarkering;
             this.avliden = data.avliden;
+            this.created = data.created;
             if(this.content){
                 this.content.update(data.content);
             }

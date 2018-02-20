@@ -1,8 +1,17 @@
 <div id="wc-patient-info-change-message">
-  <wc-alert-message ng-if="patient.changedNamePu" alert-id="intyg-fristaende-name-changed" class="padding-top-medium not-last-child-bottom-padding"
-                    alert-message-id="intyg.status.patient.name.pu-intyg.changed"></wc-alert-message>
-  <wc-alert-message ng-if="patient.changedAddressPu" alert-id="intyg-fristaende-address-changed" class="padding-top-medium not-last-child-bottom-padding"
-                    alert-message-id="intyg.status.patient.address.pu-intyg.changed"></span></wc-alert-message>
-  <wc-alert-message ng-if="patient.changedNamePuIntegration" alert-id="intyg-djupintegration-name-changed" class="padding-top-medium"
-                    alert-message-id="intyg.status.patient.name.pu-integration.changed"></wc-alert-message>
+  <wc-alert-message ng-if="patient.changedNamePu" alert-id="intyg-fristaende-name-changed" alert-severity="info">
+    <a ng-click="openModal('intyg.status.patient.name.pu-intyg.changed')">
+      <span dynamic-label key="intyg.status.patient.name.pu-intyg.changed"></span>
+    </a>
+  </wc-alert-message>
+  <wc-alert-message ng-if="patient.changedAddressPu" alert-id="intyg-fristaende-address-changed" alert-severity="info">
+    <a ng-click="openModal('intyg.status.patient.address.pu-intyg.changed')">
+      <span dynamic-label key="intyg.status.patient.address.pu-intyg.changed"></span>
+    </a>
+  </wc-alert-message>
+  <wc-alert-message ng-if="patient.changedNamePuIntegration" alert-id="intyg-djupintegration-name-changed" alert-severity="info">
+    <a ng-click="openModal('intyg.status.patient.name.pu-integration.changed')">
+      <span dynamic-label key="intyg.status.patient.name.pu-integration.changed"></span>
+    </a>
+  </wc-alert-message>
 </div>

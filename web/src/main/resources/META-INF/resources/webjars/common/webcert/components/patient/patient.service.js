@@ -25,17 +25,13 @@ angular.module('common').service('common.PatientService',
         function($log, ObjectHelper, UserModel) {
             'use strict';
 
-                this.getPatientDataChanges = function(context, intyg, intygProperties) {
+                this.getPatientDataChanges = function(isIntyg, intyg, intygProperties) {
 
                     var patient = {
                         changedNamePuIntegration: false,
                         changedNamePu: false,
                         changedAddressPu: false
                     };
-
-                    if(!context){
-                        $log.debug('wcPatientInfoChangeMessage - context parameter missing.');
-                    }
 
                     if(!intyg || !intygProperties){
                         return;
@@ -44,11 +40,11 @@ angular.module('common').service('common.PatientService',
                     // INTYG views for TS intyg should not show name changes
                     var fkIntyg = !(intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
                     var tsIntyg = !fkIntyg;
-                    if(!(tsIntyg && context === 'INTYG')){
+                    if(!(tsIntyg && isIntyg)){
                         patient.changedNamePuIntegration = this.hasChangedNameInIntegration(intyg.grundData);
                     }
     
-                    if(context === 'INTYG'){
+                    if(isIntyg){
 
                         // INTYG views for integrated FK intyg should not show name changes
                         if(!(fkIntyg && UserModel.isDjupintegration())){
@@ -100,12 +96,12 @@ angular.module('common').service('common.PatientService',
                 };
 
                 // TS intyg needs to showwarning if any address integration parameters are missing (INTYG-5146).
-                this.isMissingRequiredAddressIntegrationParameter = function(context, intyg) {
+                this.isMissingRequiredAddressIntegrationParameter = function(isIntyg, intyg) {
                     if(!UserModel.isDjupintegration()) {
                         return false;
                     }
 
-                    var eligibleIntygstyp = context === 'UTKAST' && (intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
+                    var eligibleIntygstyp = !isIntyg && (intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
                     var missingAddressParameter = !ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) ||
                         !ObjectHelper.isDefined(UserModel.getIntegrationParam('postadress')) ||
                         !ObjectHelper.isDefined(UserModel.getIntegrationParam('postnummer'));

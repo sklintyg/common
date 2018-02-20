@@ -1,4 +1,4 @@
-/*
+/*!
  * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -16,19 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcPatientStatus', [ 'common.IntygViewStateService', function(CommonIntygViewState) {
-    'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            patient: '=',
-            intygModel: '=',
-            intygProperties: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcPatientStatus/wcPatientStatus.directive.html',
-        link: function($scope) {
-            $scope.commonIntygViewState = CommonIntygViewState;
-        }
-    };
-} ]);
+wc-utkast-header .wc-page-header {
+  padding: 10px 28px 10px 28px;
+}

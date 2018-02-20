@@ -41,8 +41,11 @@ angular.module('doi').config(function($stateProvider) {
                 },
     
                 'header@doi-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'doi.EditCertCtrl.ViewStateService'
+                    }
                 },
     
                 'footer@doi-edit' : {
@@ -79,7 +82,7 @@ angular.module('doi').config(function($stateProvider) {
                 },
 
                 'header@doi-edit-old' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 

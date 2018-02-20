@@ -1,4 +1,4 @@
-wc-intyg-status {
+wc-utkast-status {
 
   @extend %wc-typo-09;
   color: $wc-color-06;
@@ -8,7 +8,7 @@ wc-intyg-status {
     margin-right: 38px;
   }
 
-  #showallstatusesLink {
+  #utkast-created {
     float: right;
   }
 

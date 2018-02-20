@@ -73,17 +73,6 @@ angular.module('common').directive('wcIntygStatus', [
                 $scope.$on('intyg.loaded', checkParentIntyg);
                 checkParentIntyg();
 
-                /*
-                            $scope.statusFieldId = function() {
-                                if(!CommonIntygViewState.intygProperties.isSent && !CommonIntygViewState.isIntygOnSendQueue) {
-                                    return 'certificate-is-sent-to-it-message-text';
-                                } else if(!CommonIntygViewState.intygProperties.isSent && CommonIntygViewState.isIntygOnSendQueue) {
-                                    return 'certificate-is-on-sendqueue-to-it-message-text';
-                                } else {
-                                    return 'certificate-is-sent-to-recipient-message-text';
-                                }
-                            };
-                */
                 function addIntygStatus1(intygStatus, timestamp, vars) {
                     $scope.intygstatus1.push({
                         code: intygStatus,
@@ -187,6 +176,12 @@ angular.module('common').directive('wcIntygStatus', [
 
                 $scope.openAllStatusesModal = function() {
                     var allStatuses = $scope.intygstatus1.concat($scope.intygstatus2);
+                    if (CommonIntygViewState.intygProperties.created) {
+                        allStatuses.push({
+                           timestamp:CommonIntygViewState.intygProperties.created,
+                           text:'Intyget är skapat'
+                        });
+                    }
                     sortByTimestamp(allStatuses);
                     var allStatusesModalInstance = $uibModal.open({
                         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatusModal.template.html',

@@ -17,8 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#wc-patient-info-change-message {
-  .not-last-child-bottom-padding:not(:last-child) {
-    padding-bottom: 20px;
-  }
+wc-patient-info-change-message {
+  display: inline-flex;
 }

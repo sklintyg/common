@@ -46,6 +46,7 @@ angular.module('common').service('common.IntygViewStateService',
                 this.intygProperties.patientAddressChangedInPU = false;
                 this.intygProperties.patientNameChangedInPU = false;
                 this.intygProperties.parent = undefined;
+                this.intygProperties.created = undefined;
             };
 
             this.isRevoked = function(){
@@ -110,6 +111,7 @@ angular.module('common').service('common.IntygViewStateService',
                 if (result.relations && result.relations.latestChildRelations) {
                     this.intygProperties.latestChildRelations = result.relations.latestChildRelations;
                 }
+                this.intygProperties.created = result.created;
             };
 
             this.updateActiveError = function(error, signed) {

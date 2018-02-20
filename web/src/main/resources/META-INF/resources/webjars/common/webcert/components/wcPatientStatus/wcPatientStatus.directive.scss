@@ -1,5 +1,5 @@
 /*!
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,6 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-wc-new-person-id-message {
-  display: inline-flex;
+wc-patient-status {
+  .wc-patient-status-container, div, wc-alert-message {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  wc-alert-message .alert {
+    margin: 10px 10px 0 0;
+    white-space: nowrap;
+    .multiline {
+      white-space: nowrap;
+    }
+  }
 }

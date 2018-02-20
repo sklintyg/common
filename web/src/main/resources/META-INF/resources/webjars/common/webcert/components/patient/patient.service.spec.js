@@ -67,12 +67,12 @@ describe('PatientService', function() {
 
             // INTYG
             intygProperties.patientNameChangedInPU = true;
-            var patientChangeData = PatientService.getPatientDataChanges('INTYG', intyg, intygProperties);
+            var patientChangeData = PatientService.getPatientDataChanges(true, intyg, intygProperties);
 
             expect(patientChangeData.changedNamePu).toBeTruthy();
 
             // UTKAST
-            patientChangeData = PatientService.getPatientDataChanges('UTKAST', intyg, intygProperties);
+            patientChangeData = PatientService.getPatientDataChanges(false, intyg, intygProperties);
 
             expect(patientChangeData.changedNamePu).toBeFalsy();
 
@@ -83,12 +83,12 @@ describe('PatientService', function() {
 
             // INTYG
             intygProperties.patientNameChangedInPU = true;
-            patientChangeData = PatientService.getPatientDataChanges('INTYG', intyg, intygProperties);
+            patientChangeData = PatientService.getPatientDataChanges(true, intyg, intygProperties);
 
             expect(patientChangeData.changedNamePu).toBeTruthy();
 
             // UTKAST
-            patientChangeData = PatientService.getPatientDataChanges('UTKAST', intyg, intygProperties);
+            patientChangeData = PatientService.getPatientDataChanges(false, intyg, intygProperties);
 
             expect(patientChangeData.changedNamePu).toBeFalsy();
 
@@ -105,12 +105,12 @@ describe('PatientService', function() {
 
             // INTYG
             intygProperties.patientAddressChangedInPU = true;
-            var patientChangeData = PatientService.getPatientDataChanges('INTYG', intyg, intygProperties);
+            var patientChangeData = PatientService.getPatientDataChanges(true, intyg, intygProperties);
 
             expect(patientChangeData.changedAddressPu).toBeTruthy();
 
             // UTKAST
-            patientChangeData = PatientService.getPatientDataChanges('UTKAST', intyg, intygProperties);
+            patientChangeData = PatientService.getPatientDataChanges(false, intyg, intygProperties);
 
             expect(patientChangeData.changedAddressPu).toBeFalsy();
 
@@ -130,14 +130,14 @@ describe('PatientService', function() {
             });
 
             // INTYG
-            var patientChangeData = PatientService.getPatientDataChanges('INTYG', intyg, intygProperties);
+            var patientChangeData = PatientService.getPatientDataChanges(true, intyg, intygProperties);
 
             expect(patientChangeData.changedNamePuIntegration).toBeFalsy();
             expect(patientChangeData.changedNamePu).toBeFalsy();
             expect(patientChangeData.changedAddressPu).toBeFalsy();
 
             // UTKAST
-            patientChangeData = PatientService.getPatientDataChanges('UTKAST', intyg, intygProperties);
+            patientChangeData = PatientService.getPatientDataChanges(false, intyg, intygProperties);
 
             expect(patientChangeData.changedNamePuIntegration).toBeTruthy();
             expect(patientChangeData.changedNamePu).toBeFalsy();
@@ -160,14 +160,14 @@ describe('PatientService', function() {
 
             // INTYG
             intyg.typ = 'fk7263';
-            var patientChangeData = PatientService.getPatientDataChanges('INTYG', intyg, intygProperties);
+            var patientChangeData = PatientService.getPatientDataChanges(true, intyg, intygProperties);
 
             expect(patientChangeData.changedNamePuIntegration).toBeTruthy();
             expect(patientChangeData.changedNamePu).toBeFalsy();
             expect(patientChangeData.changedAddressPu).toBeFalsy();
 
             // UTKAST
-            patientChangeData = PatientService.getPatientDataChanges('UTKAST', intyg, intygProperties);
+            patientChangeData = PatientService.getPatientDataChanges(false, intyg, intygProperties);
 
             expect(patientChangeData.changedNamePuIntegration).toBeTruthy();
             expect(patientChangeData.changedNamePu).toBeFalsy();
@@ -337,7 +337,7 @@ describe('PatientService', function() {
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return true;
             });
-            expect(PatientService.isMissingRequiredAddressIntegrationParameter('UTKAST', intygModel)).toBeTruthy();
+            expect(PatientService.isMissingRequiredAddressIntegrationParameter(false, intygModel)).toBeTruthy();
         });
 
         it('isMissingRequiredAddressIntegrationParameter false if no parts of address are missing', function() {
@@ -356,7 +356,7 @@ describe('PatientService', function() {
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return true;
             });
-            expect(PatientService.isMissingRequiredAddressIntegrationParameter('UTKAST', intygModel)).toBeFalsy();
+            expect(PatientService.isMissingRequiredAddressIntegrationParameter(false, intygModel)).toBeFalsy();
         });
 
         it('isMissingRequiredAddressIntegrationParameter false if not in djupintegration', function() {
@@ -374,7 +374,7 @@ describe('PatientService', function() {
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return false;
             });
-            expect(PatientService.isMissingRequiredAddressIntegrationParameter('UTKAST', intygModel)).toBeFalsy();
+            expect(PatientService.isMissingRequiredAddressIntegrationParameter(false, intygModel)).toBeFalsy();
         });
 
         it('isMissingRequiredAddressIntegrationParameter false for INTYG', function() {
@@ -392,7 +392,7 @@ describe('PatientService', function() {
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return true;
             });
-            expect(PatientService.isMissingRequiredAddressIntegrationParameter('INTYG', intygModel)).toBeFalsy();
+            expect(PatientService.isMissingRequiredAddressIntegrationParameter(true, intygModel)).toBeFalsy();
         });
 
     });

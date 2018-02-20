@@ -16,23 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').controller('common.UtkastHeaderOld',
-    ['$scope', '$log', '$stateParams', '$timeout', '$window', 'common.UserModel',
-        'common.messageService', 'common.moduleService', 'common.UtkastProxy', 'common.statService',
-        'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService', 'common.UtkastService', 'common.PatientProxy',
-        function($scope, $log, $stateParams, $timeout, $window, UserModel,
-            messageService, moduleService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService, PatientProxy) {
-            'use strict';
+angular.module('common').directive('wcUtkastButtonBar', [ '$rootScope', '$log', '$stateParams', '$timeout', '$window',
+    'common.authorityService', 'common.featureService', 'common.messageService', 'common.UtkastViewStateService',
+    'common.dialogService', 'common.PatientProxy', 'common.statService', 'common.UtkastProxy',
+    function($rootScope, $log, $stateParams, $timeout, $window,
+        authorityService, featureService, messageService, CommonViewState, dialogService, PatientProxy, statService, UtkastProxy) {
+    'use strict';
 
-            $scope.intygsnamn = moduleService.getModuleName(CommonViewState.intyg.type);
-            $scope.oldPersonId = UserModel.getIntegrationParam('beforeAlternateSsn');
+    return {
+        restrict: 'E',
+        scope: {
+            viewState: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.html',
+        link: function($scope) {
 
-            /**
-             * Toggle header part ('Dölj meny'-knapp)
-             */
-            $scope.toggleHeader = function() {
-                CommonViewState.toggleCollapsedHeader();
-            };
+            $scope.CommonViewState = CommonViewState;
+
+            $scope.printBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.utkast.tooltip');
+            $scope.deleteBtnTooltipText = messageService.getProperty('common.delete.tooltip');
 
             /**
              * Action to discard the certificate draft and return to WebCert again.
@@ -145,29 +147,6 @@ angular.module('common').controller('common.UtkastHeaderOld',
                 PatientProxy.getPatient($scope.viewState.draftModel.content.grundData.patient.personId, onPatientFound,
                     onNotFoundOrError, onNotFoundOrError);
             };
-
-
-            $window.onbeforeunload = function(event) {
-                if ($scope.certForm.$dirty) {
-                    // Trigger a save now. If the user responds with "Leave the page" we may not have time to save
-                    // before the page is closed. We could use an ajax request with async:false this will force the
-                    // browser to "hang" the page until the request is complete. But using async:false is deprecated
-                    // and will be removed in future browsers.
-                    UtkastService.save();
-                    var message = 'Om du väljer "Lämna sidan" kan ändringar försvinna. Om du väljer "Stanna kvar på sidan" autosparas ändringarna.';
-                    if (typeof event === 'undefined') {
-                        event = $window.event;
-                    }
-                    if (event) {
-                        event.returnValue = message;
-                    }
-                    return message;
-                }
-            };
-
-            $scope.$on('$destroy', function() {
-                $window.onbeforeunload = null;
-            });
         }
-    ]
-);
+    };
+} ]);

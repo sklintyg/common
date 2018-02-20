@@ -93,7 +93,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             UserModel.user.parameters.beforeAlternateSsn = personNummer2;
             $scope.$digest();
 
-            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
+            expect($(element).find('span').text()).toBe('Patientens personummer har ändrats');
         });
 
         it('should display new personnummer text', function() {
@@ -101,7 +101,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             UserModel.user.parameters.beforeAlternateSsn = samordningsNummer;
             $scope.$digest();
 
-            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
+            expect($(element).find('span').text()).toBe('Patientens personummer har ändrats');
         });
 
         it('should display new samordningsnummer text', function() {
@@ -109,7 +109,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             UserModel.user.parameters.beforeAlternateSsn = personNummer1;
             $scope.$digest();
 
-            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: ' + samordningsNummer);
+            expect($(element).find('span').text()).toBe('Patientens personummer har ändrats');
         });
 
         it('should display new samordningsnummer text for new reservnr for existing samordningnr', function() {
@@ -118,7 +118,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.$digest();
 
             expect($(element).find('span').text()).toContain(
-                'Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
+                'Patientens personummer har ändrats');
         });
 
         it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
@@ -127,7 +127,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.$digest();
 
             expect($(element).find('span').text()).toContain(
-                'Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
+                'Patientens personummer har ändrats');
         });
     });
 
@@ -183,7 +183,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.patient.personId = personNummer2;
             $scope.$digest();
 
-            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
+            expect($(element).find('span').text()).toBe('Patientens personummer har ändrats');
         });
 
         it('should display new personnummer text', function() {
@@ -191,7 +191,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.patient.personId = samordningsNummer;
             $scope.$digest();
 
-            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: 19121212-1212');
+            expect($(element).find('span').text()).toBe('Patientens personummer har ändrats');
         });
 
         it('should display new samordningsnummer text', function() {
@@ -199,7 +199,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.patient.personId = personNummer1;
             $scope.$digest();
 
-            expect($(element).find('span').text()).toBe('Patienten har ett nytt personnummer: ' + samordningsNummer);
+            expect($(element).find('span').text()).toBe('Patientens personummer har ändrats');
         });
 
         it('should display new samordningsnummer text for new reservnr for existing samordningnr', function() {
@@ -208,7 +208,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.$digest();
 
             expect($(element).find('span').text()).toContain(
-                'Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
+                'Patientens personummer har ändrats');
         });
 
         it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
@@ -217,7 +217,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.$digest();
 
             expect($(element).find('span').text()).toContain(
-                'Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
+                'Patientens personummer har ändrats');
         });
 
     });

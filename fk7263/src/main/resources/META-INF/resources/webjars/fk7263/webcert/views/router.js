@@ -39,7 +39,7 @@ angular.module('fk7263').config(function($stateProvider) {
                     controller: 'fk7263.EditCertCtrl'
                 },
                 'header@fk7263-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
