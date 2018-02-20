@@ -76,7 +76,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         },
                         {
                             modelProp: 'dodsdatum',
-                            type: 'ue-vagueDate',
+                            type: 'ue-vague-date',
                             hideExpression: 'model.dodsdatumSakert !== false',
                             label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true}
                         },
