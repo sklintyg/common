@@ -1,6 +1,6 @@
-<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]" class="ue-del-fraga">
   <div class="form-horizontal">
-    <ue-form-label config="::config.label"></ue-form-label>
+    <ue-label config="::config.label"></ue-label>
     <div data-ng-repeat="choice in ::config.choices">
       <label class="big-checkbox-label checkbox-inline">
         <input ng-attr-id="{{::config.modelProp}}-{{::choice|ueDomIdFilter}}" type="checkbox" class="big-checkbox" ng-model="model[config.modelProp][choice]" ng-change="updateValidation()">

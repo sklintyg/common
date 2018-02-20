@@ -17,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('smi.ViewCertCtrlUv',
-    [ '$log', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
+    [ '$log', '$timeout', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
         'common.UserModel', 'ViewState',
         'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil', 'supportPanelConfigFactory',
-        function($log, $rootScope, $stateParams, $scope, $state, IntygProxy,
+        function($log, $timeout, $rootScope, $stateParams, $scope, $state, IntygProxy,
             UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil, supportPanelConfigFactory) {
             'use strict';
 
@@ -40,7 +40,6 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
             $scope.cert = undefined;
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
-            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
 
             /**
              * Private
@@ -66,13 +65,19 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                             ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
                         }
 
-                        ViewState.common.updateIntygProperties(result);
-
-                        $scope.pdfUrl = '/moduleapi/intyg/'+ ViewState.common.intygProperties.type +'/' + ViewState.intygModel.id + '/pdf';
+                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
 
                         $scope.cert = result.contents;
-                        $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
-                        $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
+
+                        //We now have all info needed to build support-panel config (id, isSigned, isSent, isKompletteringsUtkast)
+                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, ViewState.common.isSentIntyg(), false);
+
+                        //The wcArendePanelTab will listen to 'ViewCertCtrl.load' event, so let it render first..
+                        $timeout(function() {
+                            $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
+                            $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
+                        });
+
 
 
 

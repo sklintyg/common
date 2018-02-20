@@ -188,7 +188,7 @@ angular.module('ts-bas').config(function($stateProvider) {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {
-                        IntygViewState: 'luse.IntygController.ViewStateService'
+                        IntygViewState: 'ts-bas.IntygController.ViewStateService'
                     }
                 }
             }

@@ -217,7 +217,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                     fraga(null, '', '', {}, [{
                         type: 'ue-text',
                         label: {
-                            type: 'h5',
+                            labelType: 'h5',
                             htmlClass: 'inline-heading',
                             key: 'ts-diabetes.helptext.syn.alt1.heading'
                         }
@@ -237,7 +237,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                         fraga(null, '', '', {}, [{
                             type: 'ue-text',
                             label: {
-                                type: 'h5',
+                                labelType: 'h5',
                                 htmlClass: 'inline-heading',
                                 key: 'ts-diabetes.helptext.syn.alt2.heading'
                             }

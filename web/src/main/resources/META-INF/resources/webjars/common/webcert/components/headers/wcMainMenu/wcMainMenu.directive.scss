@@ -55,6 +55,7 @@ wc-main-menu {
         &,
         &:hover,
         &:focus {
+          @extend %wc-typo-05;
           background-color: $wc-color-21;
         }
       }

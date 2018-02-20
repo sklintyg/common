@@ -88,8 +88,22 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                     });
                 };
 
+                $scope.isFocused = false;
+                $scope.toggleFocus = function() {
+                    if ($scope.isFocused) {
+                        $scope.isFocused = false;
+                    } else {
+                        $scope.isFocused = true;
+                    }
+                };
+
                 $scope.onDatepickerInputFieldBlur = function() {
+                    $scope.toggleFocus();
                     $scope.onBlur();
+                };
+
+                $scope.focused = function() {
+                    $scope.toggleFocus();
                 };
             },
             link: function(scope, element, attrs, ctrl) {

@@ -38,24 +38,39 @@ angular.module('common').service('common.IntygViewStateService',
                 // IMPORTANT NOTE: needs to be this way so intygProperties object reference is not overwritten. intygProperties = {} will decouple reference in wcIntygRelatedRevokedMessage
                 this.intygProperties.type = undefined;
                 this.intygProperties.isSent = false;
+                this.intygProperties.sentTimestamp = undefined;
                 this.intygProperties.isRevoked = false;
+                this.intygProperties.revokedTimestamp = undefined;
                 this.intygProperties.isPatientDeceased = false;
                 this.intygProperties.newPatientId = false; // FK only for now. Consider making specific viewState services for each intyg as with utkast
                 this.intygProperties.patientAddressChangedInPU = false;
                 this.intygProperties.patientNameChangedInPU = false;
+                this.intygProperties.parent = undefined;
             };
 
             this.isRevoked = function(){
                 return this.intygProperties.isRevoked || this.isIntygOnRevokeQueue;
             };
-            this.isReplaced = function(){
+            this.isReplaced = function() {
                 return angular.isObject(this.intygProperties.latestChildRelations) &&
                     angular.isObject(this.intygProperties.latestChildRelations.replacedByIntyg);
             };
-
-            this.isComplemented = function() {
+            this.isReplacedByUtkast = function() {
+                return angular.isObject(this.intygProperties.latestChildRelations) &&
+                    angular.isObject(this.intygProperties.latestChildRelations.replacedByUtkast);
+            };
+            this.isComplementedByIntyg = function() {
                 return angular.isObject(this.intygProperties.latestChildRelations) &&
                     angular.isObject(this.intygProperties.latestChildRelations.complementedByIntyg);
+            };
+
+            this.isComplementedByUtkast = function() {
+                return angular.isObject(this.intygProperties.latestChildRelations) &&
+                    angular.isObject(this.intygProperties.latestChildRelations.complementedByUtkast);
+            };
+            this.isReplacing = function() {
+                return angular.isObject(this.intygProperties.parent) &&
+                    this.intygProperties.parent.relationKod === 'ERSATT';
             };
 
             this.isPatientDeceased = function() {
@@ -66,12 +81,24 @@ angular.module('common').service('common.IntygViewStateService',
                 return this.intygProperties.isSent || this.isIntygOnSendQueue;
             };
 
-            this.updateIntygProperties = function(result) {
+            this.updateIntygProperties = function(result, intygId) {
 
                 var targetName = moduleService.getModule(this.intygProperties.type).defaultRecipient;
 
-                this.intygProperties.isSent = IntygHelper.isSentToTarget(result.statuses, targetName);
-                this.intygProperties.isRevoked = IntygHelper.isRevoked(result.statuses);
+                this.intygProperties.pdfUrl = '/moduleapi/intyg/'+ this.intygProperties.type +'/' + intygId + '/pdf';
+
+                this.intygProperties.signeringsdatum = result.contents.grundData.signeringsdatum;
+
+                this.intygProperties.isSent = false;
+                this.intygProperties.sentTimestamp = IntygHelper.sentToTargetTimestamp(result.statuses, targetName);
+                if (this.intygProperties.sentTimestamp) {
+                    this.intygProperties.isSent = true;
+                }
+                this.intygProperties.isRevoked = false;
+                this.intygProperties.revokedTimestamp = IntygHelper.revokedTimestamp(result.statuses);
+                if (this.intygProperties.revokedTimestamp) {
+                    this.intygProperties.isRevoked = true;
+                }
                 this.intygProperties.isPatientDeceased = result.deceased;
                 this.intygProperties.patientAddressChangedInPU = result.patientAddressChangedInPU;
                 this.intygProperties.patientNameChangedInPU = result.patientNameChangedInPU;

@@ -17,61 +17,191 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcIntygStatus', [
+    '$rootScope', '$uibModal',
     'common.moduleService', 'common.messageService',
-    'common.IntygViewStateService', 'common.IntygHeaderService', 'common.IntygHeaderViewState',
-    function(moduleService, messageService,
-        CommonIntygViewState, IntygHeaderService, IntygHeaderViewState) {
-    'use strict';
+    'common.IntygViewStateService', 'common.IntygHeaderService', 'common.IntygHeaderViewState', 'common.ArendeListViewStateService',
+    'common.IntygProxy', 'common.IntygStatusService',
+    function($rootScope, $uibModal, moduleService, messageService, CommonIntygViewState, IntygHeaderService, IntygHeaderViewState,
+        ArendeListViewStateService, IntygProxy, IntygStatusService) {
+        'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            intygViewState: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.html',
-        link: function($scope) {
-
-            $scope.intygHeaderService = IntygHeaderService;
-
-            $scope.statusFieldId = function() {
-                if(!CommonIntygViewState.intygProperties.isSent && !CommonIntygViewState.isIntygOnSendQueue) {
-                    return 'certificate-is-sent-to-it-message-text';
-                } else if(!CommonIntygViewState.intygProperties.isSent && CommonIntygViewState.isIntygOnSendQueue) {
-                    return 'certificate-is-on-sendqueue-to-it-message-text';
-                } else {
-                    return 'certificate-is-sent-to-recipient-message-text';
+        function sortByTimestamp(array) {
+            array.sort(function(a, b) {
+                if (a.timestamp < b.timestamp) {
+                    return 1;
                 }
-            };
-
-            $scope.generateSentText = function () {
-                if(CommonIntygViewState.isRevoked()) {
-                    // Case is handled by wcIntygRelatedRevokedMessage directive.
-                    return '';
+                if (a.timestamp > b.timestamp) {
+                    return -1;
                 }
-
-                var patientDeceased = CommonIntygViewState.isPatientDeceased();
-                if(IntygHeaderViewState.intygType === 'doi' || IntygHeaderViewState.intygType === 'db') {
-                    // db or doi with patient still alive is impossible, and thus not an option.
-                    patientDeceased = true;
-                }
-                var recipientId = moduleService.getModule(IntygHeaderViewState.intygType).defaultRecipient;
-                var recipient = messageService.getProperty('common.recipient.' + recipientId.toLowerCase());
-                var vars = {'recipient': recipient};
-
-                if(CommonIntygViewState.isSentIntyg()) {
-                    if(IntygHeaderViewState.intygType === 'db' || IntygHeaderViewState.intygType === 'doi') {
-                        return messageService.getProperty((IntygHeaderViewState.intygType + '.label.status.sent'), vars);
-                    } else {
-                        return messageService.getProperty(('common.label.status.sent.patient-' + (patientDeceased ? 'dead' : 'alive')), vars);
-                    }
-                } else {
-                    if (patientDeceased) {
-                        return messageService.getProperty('common.label.status.signed.patient-dead');
-                    } else {
-                        return messageService.getProperty((IntygHeaderViewState.intygType + '.label.status.signed.patient-alive'), vars);
-                    }
-                }
-            };
+                return 0;
+            });
         }
-    };
-} ]);
+
+        return {
+            restrict: 'E',
+            scope: {
+                intygViewState: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.html',
+            link: function($scope) {
+
+                $scope.intygHeaderService = IntygHeaderService;
+                $scope.intygHeaderViewState = IntygHeaderViewState;
+
+                $scope.intygstatus1 = [];
+                $scope.intygstatus2 = [];
+
+                // Parent intyg cancelled status is needed to implement is-007
+                var parentIntygStatuses;
+                function checkParentIntyg() {
+                    parentIntygStatuses = undefined;
+                    if (CommonIntygViewState.isRevoked() && CommonIntygViewState.isReplacing()) {
+                        IntygProxy.getIntyg(CommonIntygViewState.intygProperties.parent.intygsId,
+                            IntygHeaderViewState.intygType,
+                            // onSuccess
+                            function(result) {
+                                parentIntygStatuses = result.statuses;
+                                updateIntygStatus();
+                            },
+                            // onError
+                            function(error) {
+                                CommonIntygViewState.inlineErrorMessageKey = 'common.error.intyg.status.failed.load';
+                            });
+                    }
+                }
+
+                $scope.$on('intyg.loaded', checkParentIntyg);
+                checkParentIntyg();
+
+                /*
+                            $scope.statusFieldId = function() {
+                                if(!CommonIntygViewState.intygProperties.isSent && !CommonIntygViewState.isIntygOnSendQueue) {
+                                    return 'certificate-is-sent-to-it-message-text';
+                                } else if(!CommonIntygViewState.intygProperties.isSent && CommonIntygViewState.isIntygOnSendQueue) {
+                                    return 'certificate-is-on-sendqueue-to-it-message-text';
+                                } else {
+                                    return 'certificate-is-sent-to-recipient-message-text';
+                                }
+                            };
+                */
+                function addIntygStatus1(intygStatus, timestamp, vars) {
+                    $scope.intygstatus1.push({
+                        code: intygStatus,
+                        timestamp: timestamp,
+                        text: IntygStatusService.getMessageForIntygStatus(intygStatus, vars),
+                        modal: IntygStatusService.intygStatusHasModal(intygStatus)
+                    });
+                }
+
+                function addIntygStatus2(intygStatus, timestamp, vars) {
+                    $scope.intygstatus2.push({
+                        code: intygStatus,
+                        timestamp: timestamp,
+                        text: IntygStatusService.getMessageForIntygStatus(intygStatus, vars),
+                        modal: IntygStatusService.intygStatusHasModal(intygStatus)
+                    });
+                }
+
+                $scope.$on('intyg.loaded', function() { updateIntygStatus(); });
+                $scope.$on('arenden.loaded', function() { updateIntygStatus(); });
+                $scope.$on('intygstatus.updated', function() { updateIntygStatus(); });
+                updateIntygStatus();
+
+                function updateIntygStatus() {
+                    updateIntygStatus1();
+                    updateIntygStatus2();
+                }
+
+                function updateIntygStatus1() {
+                    $scope.intygstatus1 = [];
+
+                    if (CommonIntygViewState.isReplacedByUtkast()) {
+                        addIntygStatus1('is-009',
+                            CommonIntygViewState.intygProperties.latestChildRelations.replacedByUtkast.skapad,
+                            {
+                            intygstyp: IntygHeaderViewState.intygType,
+                            intygsid: CommonIntygViewState.intygProperties.latestChildRelations.replacedByUtkast.intygsId
+                        });
+                    }
+
+                    if (ArendeListViewStateService.getUnhandledKompletteringCount() > 0) {
+                        angular.forEach(ArendeListViewStateService.getUnhandledKompletteringTimestamps(), function(timestamp) {
+                            addIntygStatus1('is-006', timestamp);
+                        });
+                    }
+
+                    if (CommonIntygViewState.isComplementedByIntyg()) {
+                        addIntygStatus1('is-005',
+                            CommonIntygViewState.intygProperties.latestChildRelations.complementedByIntyg.skapad,
+                            {
+                                intygstyp: IntygHeaderViewState.intygType,
+                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.complementedByIntyg.intygsId
+                            });
+                    }
+
+                    if (CommonIntygViewState.isRevoked()) {
+                        addIntygStatus1('is-004', CommonIntygViewState.intygProperties.revokedTimestamp);
+                    }
+
+                    if (CommonIntygViewState.isReplaced()) {
+                        addIntygStatus1('is-003',
+                            CommonIntygViewState.intygProperties.latestChildRelations.replacedByIntyg.skapad,
+                            {
+                                intygstyp: IntygHeaderViewState.intygType,
+                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.replacedByIntyg.intygsId
+                            });
+                    }
+
+                    if (CommonIntygViewState.isSentIntyg()) {
+                        addIntygStatus1('is-002',
+                            CommonIntygViewState.intygProperties.sentTimestamp,
+                            {
+                                recipient: IntygHeaderViewState.recipientText
+                            });
+                    }
+
+                    addIntygStatus1('is-001', CommonIntygViewState.intygProperties.signeringsdatum);
+
+                    sortByTimestamp($scope.intygstatus1);
+                }
+
+                function updateIntygStatus2() {
+                    $scope.intygstatus2 = [];
+
+                    if (CommonIntygViewState.isRevoked() && CommonIntygViewState.isReplacing() &&
+                        parentIntygStatuses && parentIntygStatuses[0].type !== 'CANCELLED') {
+                        addIntygStatus2('is-007',
+                            CommonIntygViewState.intygProperties.revokedTimestamp,
+                            {
+                                intygstyp: IntygHeaderViewState.intygType,
+                                intygsid: CommonIntygViewState.intygProperties.parent.intygsId
+                            });
+                    }
+
+                    if(!CommonIntygViewState.isRevoked() && IntygHeaderViewState.intygType !== 'db' && IntygHeaderViewState.intygType !== 'doi') {
+                        addIntygStatus2('is-008', CommonIntygViewState.intygProperties.signeringsdatum);
+                    }
+
+                    sortByTimestamp($scope.intygstatus2);
+                }
+
+                $scope.openAllStatusesModal = function() {
+                    var allStatuses = $scope.intygstatus1.concat($scope.intygstatus2);
+                    sortByTimestamp(allStatuses);
+                    var allStatusesModalInstance = $uibModal.open({
+                        templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatusModal.template.html',
+                        size: 'lg',
+                        controller: function($scope) {
+                            $scope.statuses = allStatuses;
+                        }
+                    }).result.then(function() {
+                        allStatusesModalInstance = undefined;
+                    },function() {
+                        allStatusesModalInstance = undefined;
+                    });
+                };
+
+            }
+        };
+    }
+]);

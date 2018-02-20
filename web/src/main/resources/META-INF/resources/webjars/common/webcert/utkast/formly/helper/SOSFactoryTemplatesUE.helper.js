@@ -90,7 +90,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                     fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {}, [
                         {
                             modelProp: 'dodsplatsKommun',
-                            type: 'typeahead',
+                            type: 'ue-typeahead',
                             htmlMaxlength: 100,
                             valuesUrl: '/api/config/kommuner',
                             label: {

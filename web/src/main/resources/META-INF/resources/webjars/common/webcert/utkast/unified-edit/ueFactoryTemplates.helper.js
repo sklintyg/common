@@ -55,7 +55,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     key: labelKey,
                     helpKey: helpKey,
                     required: options.required,
-                    type: 'h4'
+                    labelType: 'h4'
                 };
             }
             return fraga;
@@ -84,7 +84,6 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     size: 'full',
                     labelColSize: labelColSize,
                     formType: 'horizontal',
-                    paddingBottom: true,
                     disabled: _shouldDisableAddressInput
                 },{
                     type: 'ue-textfield',
@@ -98,7 +97,6 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     size: '5',
                     labelColSize: labelColSize,
                     formType: 'horizontal',
-                    paddingBottom: true,
                     disabled: _shouldDisableAddressInput
                 },{
                     type: 'ue-textfield',
@@ -110,7 +108,6 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     htmlMaxlength: 25,
                     labelColSize: labelColSize,
                     formType: 'horizontal',
-                    paddingBottom: true,
                     disabled: _shouldDisableAddressInput
                 },{
                     type: 'ue-patient-address-updater',
@@ -132,8 +129,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 size: 'full',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 265,
-                paddingBottom: true
+                htmlMaxlength: 265
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postnummer',
@@ -146,8 +142,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 6,
-                numbersOnly: true,
-                paddingBottom: true
+                numbersOnly: true
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postort',
@@ -159,8 +154,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 size: 'full',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 265,
-                paddingBottom: true
+                htmlMaxlength: 265
             }, {
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',

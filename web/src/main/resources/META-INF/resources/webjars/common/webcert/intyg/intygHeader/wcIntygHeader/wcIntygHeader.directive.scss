@@ -19,6 +19,7 @@
 
 .page-header-divider {
   border-bottom: 1px solid $wc-color-15;
+  padding-bottom: 5px;
 }
 
 .flex-row {
@@ -38,4 +39,10 @@
 
 wc-intyg-header .wc-page-header {
   padding: 10px 28px 10px 28px;
+}
+
+.wc-intyg-patient-namn-personnummer label {
+  margin: 0;
+  vertical-align: bottom;
+  margin-bottom: -5px;
 }

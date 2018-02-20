@@ -24,7 +24,45 @@ angular.module('doi').config(function($stateProvider) {
     $stateProvider.
         state('doi-edit', {
             data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
-            url : '/doi/edit/:certificateId/',
+            url : '/doi/edit/:certificateId/:focusOn',
+            views : {
+                'content@' : {
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
+                    controller: 'smi.EditCertCtrl',
+                    resolve: {
+                        ViewState: 'doi.EditCertCtrl.ViewStateService',
+                        FormFactory: 'doi.FormFactory',
+                        supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
+                    }
+                },
+    
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+                },
+    
+                'header@doi-edit' : {
+                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
+                    controller: 'common.UtkastHeader'
+                },
+    
+                'footer@doi-edit' : {
+                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+                    controller: 'common.UtkastFooter'
+                },
+    
+                'formly@doi-edit' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
+                    resolve: {
+                        ViewState: 'doi.EditCertCtrl.ViewStateService',
+                        UtkastConfigFactory: 'doi.UtkastConfigFactory'
+                    }
+                }
+            }
+        }).        
+        state('doi-edit-old', {
+            data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
+            url : '/doi/edit-old/:certificateId/',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -40,17 +78,17 @@ angular.module('doi').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@doi-edit' : {
+                'header@doi-edit-old' : {
                     templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@doi-edit' : {
+                'footer@doi-edit-old' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'formly@doi-edit' : {
+                'formly@doi-edit-old' : {
                     templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
                     controller: 'smi.EditCert.FormlyCtrl',
                     resolve: {
@@ -77,7 +115,7 @@ angular.module('doi').config(function($stateProvider) {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {
-                        IntygViewState: 'luse.IntygController.ViewStateService'
+                        IntygViewState: 'doi.IntygController.ViewStateService'
                     }
                 }
             }

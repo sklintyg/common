@@ -165,6 +165,16 @@ angular.module('common').service('common.ArendeListViewStateService',
 
             };
 
+            this.getUnhandledKompletteringTimestamps = function() {
+                var timestamps = [];
+                angular.forEach(this.arendeList, function(arendeModel) {
+                    if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
+                        timestamps.push(arendeModel.arende.fraga.timestamp);
+                    }
+                });
+                return timestamps;
+            };
+
            this.reset();
         }
     ]

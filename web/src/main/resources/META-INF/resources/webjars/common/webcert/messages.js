@@ -310,7 +310,29 @@ angular.module('common').constant('common.messages', {
         'lisjp.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
         'fk7263.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
 
-        // Status - signed but not sent
+        'common.label.showallstatuses': 'Visa alla händelser',
+
+        'common.label.intygstatus.is-001': 'Intyget är signerat',
+        'common.label.intygstatus.is-002': 'Intyget är skickat till ${recipient}',
+        'common.label.intygstatus.is-003': 'Intyget har ersatts av <a wc-close-modals href="#/intyg/${intygstyp}/${intygsid}/">detta intyg</a>',
+        'common.label.intygstatus.is-004': 'Intyget är makulerat',
+        'common.label.intygstatus.is-005': 'Intyget har kompletterats med ett annat intyg. <a wc-close-modals href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
+        'common.label.intygstatus.is-006': 'Försäkringkassan har begärt komplettering',
+        'common.label.intygstatus.is-007': 'Intyget ersatte ett tidigare intyg som också kan behöva makuleras. <a wc-close-modals href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
+        'common.label.intygstatus.is-008': 'Intyget är tillgängligt för patienten',
+        'common.label.intygstatus.is-009': 'Det finns redan ett påbörjat utkast som ska ersätta detta intyg. <a wc-close-modals href="#/${intygstyp}/edit/${intygsid}/">Öppna utkastet</a>',
+
+        'common.modalheader.intygstatus.is-004': 'Intyget är makulerat',
+        'common.modalbody.intygstatus.is-004': 'Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
+        'db.modalbody.intygstatus.is-004': null,
+        'doi.modalbody.intygstatus.is-004': null,
+
+        'common.modalheader.intygstatus.is-008': 'Intyget är tillgängligt för patienten',
+        'common.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p><p>Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.</p>',
+        'fk7263.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p><p>Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.</p><p>Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.</p>',
+        'lisjp.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p><p>Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.</p><p>Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.</p>',
+
+// Status - signed but not sent
         'common.label.status.signed.patient-dead': 'Intyget är signerat.<br>',
         // Same status for fk7263 & lisjp
         'fk7263.label.status.signed.patient-alive': 'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.',
@@ -591,6 +613,7 @@ angular.module('common').constant('common.messages', {
         'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).',
         'common.error.certificate_type_sekretessmarkering_unsupported': '<strong>Intyg kan ej hanteras.</strong><br>Det intyg du valt att skriva går tyvärr inte att skapa i Webcert för en patient med sekretessmarkering.',
         'common.error.intyg.read-only.failed.load': 'Intyget kunde inte hämtas.',
+        'common.error.intyg.status.failed.load': 'Intygsstatus kunde inte hämtas.',
 
         // FMB texts
         'fmb.symptom_prognos_behandling': 'Symtom, prognos och behandling',

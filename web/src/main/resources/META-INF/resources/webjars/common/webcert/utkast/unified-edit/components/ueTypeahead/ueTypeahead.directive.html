@@ -1,0 +1,13 @@
+<div class="input-full ue-del-fraga">
+  <ue-label config="::config.label"></ue-label>
+  <div>
+    <input type="text"
+           class="form-control"
+           ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
+           ng-model="model[config.modelProp]"
+           ng-blur="updateValidation()"
+           maxlength="{{config.maxlength || 3500}}"
+           uib-typeahead="value for value in values | filter:$viewValue | limitTo:8"
+           typeahead-editable="true">
+  </div>
+</div>

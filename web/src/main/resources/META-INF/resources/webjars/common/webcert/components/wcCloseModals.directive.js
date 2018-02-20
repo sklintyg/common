@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcSupportPanelScrollableBodyHelpText', [ function() {
-    'use strict';
 
+angular.module('common').directive('wcCloseModals', function($uibModalStack) {
+    'use strict';
     return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            domId: '@'
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelScrollableBodyHelpText/wcSupportPanelScrollableBodyHelpText.directive.html'
+        restrict: 'A',
+        link: function(scope, element) {
+            element.bind('click', function(event) {
+                $uibModalStack.dismissAll();
+            });
+        }
     };
-} ]);
+});

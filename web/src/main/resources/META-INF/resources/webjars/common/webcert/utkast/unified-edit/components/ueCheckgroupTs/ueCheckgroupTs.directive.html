@@ -1,6 +1,6 @@
-<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]" class="ue-del-fraga">
   <div class="row form-horizontal">
-    <ue-form-label class="col-sm-12" config="::config.label"></ue-form-label>
+    <ue-label class="col-sm-12" config="::config.label"></ue-label>
     <div class="col-md-2 col-sm-4" data-ng-repeat="choice in modelGetterSetter()">
       <label class="big-checkbox-label checkbox-inline">
         <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}"
@@ -13,3 +13,4 @@
     </div>
   </div>
 </ue-validation-wrapper>
+

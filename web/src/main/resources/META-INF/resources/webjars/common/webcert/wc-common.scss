@@ -54,13 +54,14 @@
   @import 'components/headers/wcHeader.partial.scss';
   @import 'components/headers/wcMainMenu/wcMainMenu.directive.scss';
   @import 'components/wcAlertMessage/wcAlertMessage.directive.scss';
+  @import 'components/wcDropdown/wcDropdown.directive.scss';
   @import 'components/wcFormLabel/wcFormLabel.scss';
   @import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
   @import 'components/wcHelpChevron/wcHelpChevron.directive.scss';
   @import 'components/wcHelpChevronText/wcHelpChevronText.directive.scss';
+  @import 'components/wcHelpChevronText/wcHelpChevronTextScrollableBody/wcHelpChevronTextScrollableBody.directive.scss';
   @import 'components/wcIntegrationEnhetSelector/_wcIntegrationEnhetSelector.directive.scss';
   @import 'components/wcIntygPatientNamnPersonnummer/wcIntygPatientNamnPersonnummer.directive.scss';
-  @import 'components/wcIntygRelatedOtherIntygMessage/wcIntygRelatedOtherIntygMessage.directive.scss';
   @import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
   @import 'components/wcReadMoreTextBlock/wcReadMoreTextBlock.directive.scss';
@@ -72,7 +73,6 @@
   @import 'components/wcSupportPanelManager/wcSupportPanelComponentRenderer.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelManager.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.scss';
-  @import 'components/wcSupportPanelManager/wcSupportPanelScrollableBodyHelpText/wcSupportPanelScrollableBodyHelpText.directive.scss';
   @import 'components/wcTableHead/wcTableHead.directive.scss';
   @import 'css/_fonts.scss';
   @import 'css/_legacy-to-be-removed.scss';
@@ -111,9 +111,17 @@
   @import 'utkast/srs/_srs.scss';
   @import 'utkast/srs/components/wcSrsDiagnoseInfo/wcSrsDiagnoseInfo.directive.scss';
   @import 'utkast/unified-edit/components/ueAlert/ueAlert.directive.scss';
+  @import 'utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.scss';
+  @import 'utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.scss';
   @import 'utkast/unified-edit/components/ueDiagnos/ueDiagnos.scss';
+  @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakFoljd.scss';
+  @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.scss';
+  @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakRow.scss';
   @import 'utkast/unified-edit/components/ueDropdown/ueDropdown.directive.scss';
+  @import 'utkast/unified-edit/components/ueFormLabel/ueFormLabel.scss';
   @import 'utkast/unified-edit/components/ueKorkortBedomning/ueKorkortBedomning.directive.scss';
+  @import 'utkast/unified-edit/components/ueRadio/ueRadio.directive.scss';
+  @import 'utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.scss';
   @import 'utkast/unified-edit/components/ueSynskarpa/ueSynskarpa.directive.scss';
   @import 'utkast/unified-edit/components/ueText/ueText.directive.scss';
   @import 'utkast/unified-edit/components/ueTextarea/ueTextArea.directive.scss';
@@ -123,9 +131,10 @@
   @import 'utkast/unified-edit/containers/ueFraga/ueFraga.directive.scss';
   @import 'utkast/unified-edit/containers/ueGrid/ueGrid.scss';
   @import 'utkast/unified-edit/containers/ueKategori/ueKategori.directive.scss';
-  @import 'utkast/unified-edit/subcomponents/ueFormLabel/ueFormLabel.scss';
+  @import 'utkast/unified-edit/subcomponents/ueLabel/ueLabel.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
+  @import 'utkast/unified-edit/ueComponent.scss';
   @import 'utkast/utkast-header/utkastHeader.scss';
   @import 'utkast/wcFieldSingle/wcFieldSingle.directive.scss';
   @import 'utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.scss';
@@ -234,12 +243,11 @@
 
   h4 {
     margin: 0;
-    padding-bottom: 10px;
+    padding: 0;
   }
 
   h5 {
     margin: 0;
-    padding-bottom: 10px;
   }
 
   h6 {
@@ -641,18 +649,6 @@
   Modular modifiers
   */
 
-  .padding-top-small {
-    padding-top: 5px;
-  }
-
-  .padding-top-medium {
-    padding-top: 15px;
-  }
-
-  .padding-top-large {
-    padding-top: 30px;
-  }
-
   .relative-anchor {
     position:relative;
   }
@@ -689,6 +685,18 @@
 
   .empty {
     color: $wc-color-23;
+  }
+
+  .padding-top-small {
+    padding-top: 5px;
+  }
+
+  .padding-top-medium {
+    padding-top: 15px;
+  }
+
+  .padding-top-large {
+    padding-top: 30px;
   }
 
   .bottom-padding-big {

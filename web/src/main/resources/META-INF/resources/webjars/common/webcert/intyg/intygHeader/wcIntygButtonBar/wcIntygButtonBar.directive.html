@@ -90,8 +90,8 @@
           intygType="{{intygType}}"
           id="createFromTemplateBtn"
           class="btn btn-secondary"
-          ng-if="showCreateFromTemplate()"
-          ng-disabled="!enableCreateFromTemplate()"
+          ng-if="IntygHeaderService.showCreateFromTemplate()"
+          ng-disabled="!IntygHeaderService.enableCreateFromTemplate()"
           ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel)"
           wc-check-vardenhet>
     Skriv {{IntygHeaderService.createFromTemplateConfig[intygType].name}}

@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcFmbPanelTab', [ 'common.fmbService', 'common.fmbViewState', function(fmbService, fmbViewState) {
+angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollService', 'common.fmbService', 'common.fmbViewState',
+    function(anchorScrollService, fmbService, fmbViewState) {
     'use strict';
 
     return {
@@ -34,7 +35,7 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.fmbService', 'comm
                 noDataMessage: null
             };
 
-            /**
+             /**
              * Determine info message to show
              */
             function getNoDataReasonMessage(diagnoseCount, hasDataCount) {
@@ -58,6 +59,7 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.fmbService', 'comm
                 }
 
             }
+
             function _updateSectionDataForDiagnose(activeDiagnose) {
                 //Init sections
                 $scope.vm.sections = [ {
@@ -126,8 +128,11 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.fmbService', 'comm
             $scope.$watchCollection('fmb.diagnoses', function() {
                 _updateState();
             });
-            $scope.$watch('vm.activeDiagnose.diagnosKod', function() {
+            $scope.$watch('vm.activeDiagnose.diagnosKod', function(newVal) {
                 _updateState();
+                if (newVal) {
+                    angular.element('#fmb-panel-scrollable-body').scrollTop(0);
+                }
             });
         }
     };

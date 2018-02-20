@@ -5,15 +5,15 @@ wc-fmb-panel-tab {
   min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
 
   .fmb-diagnos-row {
-    border-bottom: 1px solid $wc-color-15;
     min-width: 1px;
     display: flex;
+    flex-direction: column;
     padding: 11px 20px;
 
-    @media (max-width: 992px) {
-      //but in compact mode, instead dont let it grow
-      flex-wrap: wrap;
+    &.has-diagnose {
+      border-bottom: 1px solid $wc-color-15;
     }
+
 
     .fmb-diagnos-description {
 
@@ -28,6 +28,7 @@ wc-fmb-panel-tab {
       input[type=radio] {
         margin-right: 4px;
       }
+
       label {
         display: inline;
         cursor: pointer;

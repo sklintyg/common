@@ -73,14 +73,14 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.showFornyaButton = function() {
                 return $scope.fornya &&
                     !CommonIntygViewState.isRevoked() &&
-                    !CommonIntygViewState.isPatientDeceased() && !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplemented() &&
+                    !CommonIntygViewState.isPatientDeceased() && !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplementedByIntyg() &&
                     !(UserModel.user.parameters !== undefined && UserModel.user.parameters.inactiveUnit) &&
                     (UserModel.user.parameters === undefined || UserModel.user.parameters.copyOk);
             };
 
             $scope.showErsattButton = function() {
                 return !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
-                    !CommonIntygViewState.isComplemented() &&
+                    !CommonIntygViewState.isComplementedByIntyg() &&
                     (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: intygType }) || !CommonIntygViewState.isPatientDeceased()) &&
                     !UserModel.getIntegrationParam('inactiveUnit');
             };
@@ -98,6 +98,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                                     relation.status = 'sent';
                                 }
                             });
+                            $rootScope.$broadcast('intygstatus.updated');
                         });
                 };
 
@@ -128,6 +129,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                         }
                     });
                     $rootScope.$emit('ViewCertCtrl.load', intyg, CommonIntygViewState.intygProperties);
+                    $rootScope.$broadcast('intygstatus.updated');
                 });
             };
 
@@ -153,7 +155,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                             templateUrl: '/app/partials/employee-print-dialog.html',
                             model: {patient: patient},
                             button1click: function (modalInstance) {
-                                window.open($scope.pdfUrl + '/arbetsgivarutskrift', '_blank');
+                                window.open(CommonIntygViewState.intygProperties.pdfUrl + '/arbetsgivarutskrift', '_blank');
                                 modalInstance.close();
                             },
                             button2click: function(modalInstance){
@@ -172,7 +174,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                             templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
                             model: {patient: patient},
                             button1click: function (modalInstance) {
-                                window.open($scope.pdfUrl, '_blank');
+                                window.open(CommonIntygViewState.intygProperties.pdfUrl, '_blank');
                                 modalInstance.close();
                             },
                             button2click: function(modalInstance){
@@ -185,7 +187,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                         });
                     } else {
                         // Om patienten ej är sekretessmarkerad, skriv ut direkt.
-                        window.open($scope.pdfUrl, '_blank');
+                        window.open(CommonIntygViewState.intygProperties.pdfUrl, '_blank');
                     }
                 };
                 var onNotFoundOrError = function() {

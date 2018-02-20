@@ -24,14 +24,15 @@
 angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, isSigned, isSent, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'lisjp',
                 id: id,
-                isSigned: isSigned
+                isSigned: isSigned,
+                isSent: isSent
             }
         };
 
@@ -41,32 +42,44 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
                 title: 'Frågor & Svar',
                 config: {
                     intygContext: config.intygContext
-                }
+                },
+                active: isSent || isKompletteringsUtkast
             });
         }
 
-        if (!isSigned) {
+        //Bara visas i utkastläge, default aktiv bara om det inte är ett kompletteringsutkast
+        if (!config.intygContext.isSigned) {
             config.tabs.push({
                 id: 'wc-fmb-panel-tab',
                 title: 'FMB',
                 config: {
                     intygContext: config.intygContext
-                }
+                },
+                active: !isSent && !isKompletteringsUtkast
             });
         }
 
-        //Always has this
+        //Default aktiv om signerat och inte ännu skickat
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
                 tipsText: 'Hello world!',
                 intygContext: config.intygContext
-            }
+            },
+            active: !_noOtherActiveTab()
         });
 
-        // First tab of those added should be active by default
-        config.tabs[0].active = true;
+        function _noOtherActiveTab() {
+            var foundActive = false;
+            angular.forEach(config.tabs, function (tab) {
+                if (tab.active) {
+                    foundActive = true;
+                }
+            });
+            return foundActive;
+        }
+
         return angular.copy(config);
     }
 

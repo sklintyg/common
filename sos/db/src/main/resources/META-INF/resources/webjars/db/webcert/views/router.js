@@ -107,14 +107,15 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'db.IntygController.ViewStateService',
-                        ViewConfigFactory: 'db.viewConfigFactory'
+                        ViewConfigFactory: 'db.viewConfigFactory',
+                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
                 'header@webcert.intyg.db' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {
-                        IntygViewState: 'luse.IntygController.ViewStateService'
+                        IntygViewState: 'db.IntygController.ViewStateService'
                     }
                 }
             }
