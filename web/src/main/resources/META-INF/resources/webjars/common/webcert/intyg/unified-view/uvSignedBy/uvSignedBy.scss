@@ -1,23 +1,48 @@
 uv-signed-by {
   display: block;
-
   margin-top: 20px;
 
-  div.infobox {
-    background-color: $wc-color-16;
+  .infobox {
+    background-color: $wc-color-26;
     border-radius: 4px 4px 4px 4px;
     color: $wc-color-00;
-    padding: 20px;
-    h3 {
-      font-size: 16px;
-      padding: 0;
-      color: $wc-color-00;
+    padding: 0;
+
+    .signedby-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid $wc-color-19;
+      padding: $intyg-signed-card-header-padding;
+
+      h2 {
+        @extend %wc-typo-02;
+        padding: 3px 0 0;
+        margin: 0;
+        color: $wc-color-00;
+      }
+
+      .date {
+        @extend %wc-typo-10;
+        vertical-align: bottom;
+        white-space: nowrap;
+      }
+
+      .date-wrapper {
+        white-space: nowrap;
+      }
     }
-    h4 {
-      padding: 10px 0 5px 0;
-      color: $wc-color-00;
-      font-size: 14px;
-      font-weight: bold;
+
+    .signedby-body {
+      padding: $intyg-signed-card-body-padding;
+
+      h3 {
+        @extend %wc-typo-05;
+        padding: $intyg-signed-card-h3-padding;
+      }
+
+      p {
+        @extend %wc-typo-07;
+      }
     }
   }
 }
