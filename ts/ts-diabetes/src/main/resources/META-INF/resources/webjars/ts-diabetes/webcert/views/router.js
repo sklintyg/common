@@ -79,7 +79,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {
-                        IntygViewState: 'luse.IntygController.ViewStateService'
+                        IntygViewState: 'ts-diabetes.IntygController.ViewStateService'
                     }
                 }
             }
