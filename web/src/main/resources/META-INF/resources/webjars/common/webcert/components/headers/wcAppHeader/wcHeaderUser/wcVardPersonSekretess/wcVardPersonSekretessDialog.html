@@ -18,17 +18,19 @@
   <br>
   <p>Vill du inte använda Webcert, eller av annan anledning väljer att avbryta, så kommer Webcert att avslutas.</p>
 
-  <div class="form-inline">
-    <label class="modal-checkbox unselectable">
-      <input id="wc-vardperson-sekretess-modal-dialog--checkbox" type="checkbox" ng-model="approveChecked">
-      Jag förstår och godkänner.
-    </label>
+  <div>
+    <wc-checkbox-wrapper>
+      <input id="wc-vardperson-sekretess-modal-dialog--checkbox" type="checkbox" ng-model="vm.approveChecked">
+      <label for="wc-vardperson-sekretess-modal-dialog--checkbox">
+             Jag förstår och godkänner.
+      </label>
+    </wc-checkbox-wrapper>
   </div>
 </div>
 
 <div class="modal-footer">
   <button class="btn btn-primary" id="wc-vardperson-sekretess-modal-dialog--consent-btn"
-          ng-disabled="!approveChecked" data-ng-click="giveConsent()">
+          ng-disabled="!vm.approveChecked" data-ng-click="giveConsent()">
     Till Webcert
   </button>
   <button class="btn btn-default" id="wc-vardperson-sekretess-modal-dialog--cancel"

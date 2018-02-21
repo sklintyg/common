@@ -23,11 +23,13 @@
       <div class="row">
         <div class="clearfix">
           <div class="col-vlg-auto col-lg-12 col-md-4 col-sm-12">
-            <label class="big-checkbox-label checkbox-inline">
-              <input class="big-checkbox" type="checkbox" ng-model="viewstate.periods[field].checked"
-                     ng-change="viewstate.updateCheckBox(field); validate()">
-              <span dynamic-label key="{{::config.code}}.{{::field}}.RBK"></span>
-            </label>
+            <wc-checkbox-wrapper>
+              <input type="checkbox" ng-model="viewstate.periods[field].checked"
+                     ng-change="viewstate.updateCheckBox(field); validate()"  ng-attr-id="{{::config.modelProp + field|ueDomIdFilter}}">
+              <label ng-attr-for="{{::config.modelProp + field|ueDomIdFilter}}">
+                <span dynamic-label key="{{::config.code}}.{{::field}}.RBK"></span>
+              </label>
+              </wc-checkbox-wrapper>
             <span wc-help-chevron help-text-key="{{::config.code}}.{{::field}}.HLP"></span>
             <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::field}}.HLP"></span>
           </div>

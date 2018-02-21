@@ -14,12 +14,15 @@
       </div>
       <div class="relative-anchor">
         <span style="position: absolute; right: 97px; top: -12px" ng-if="forwardInProgress"><img src="/img/ajax-loader-kit-16x16.gif"></span>
-        <label for="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}"
-               class="checkbox-inline padding-top-small anchor-right">
+        <wc-checkbox-wrapper>
           <input id="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}" type="checkbox"
                  ng-disabled="forwardInProgress"
                  ng-model="arendeListItem.arende.fraga.vidarebefordrad"
-                 ng-change="onVidarebefordradChange()" /> Vidarebefordrad</label>
+                 ng-change="onVidarebefordradChange()" />
+          <label for="{{panelId}}-mark-as-notified-{{arendeListItem.arende.fraga.internReferens}}"
+                 class="checkbox-inline padding-top-small anchor-right"> Vidarebefordrad
+          </label>
+        </wc-checkbox-wrapper>
       </div>
     </div>
   </div>

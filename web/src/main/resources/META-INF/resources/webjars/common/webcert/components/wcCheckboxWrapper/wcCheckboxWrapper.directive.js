@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -16,19 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+angular.module('common').directive('wcCheckboxWrapper',
+    [
+        function() {
+            'use strict';
 
-ue-validation-wrapper {
-
-  display: block;
-
-  .validation-error {
-    input:not(.no-fielderror), textarea, .ui-select-match, .wc-datepicker-wrapper button  {
-      border: 1px solid $wc-color-11;
-    }
-    wc-checkbox-wrapper .wc-checkbox label:before {
-      border-color:  $wc-color-11;
-    }
-
-  }
-
-}
+            return {
+                restrict: 'E',
+                transclude: true,
+                templateUrl: '/web/webjars/common/webcert/components/wcCheckboxWrapper/wcCheckboxWrapper.directive.html'
+            };
+        }]);

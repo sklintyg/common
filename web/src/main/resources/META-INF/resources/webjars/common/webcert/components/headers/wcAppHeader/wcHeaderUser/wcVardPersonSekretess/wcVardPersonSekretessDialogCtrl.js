@@ -23,11 +23,13 @@ angular.module('common').controller('wcVardPersonSekretessDialogCtrl',
 
                 var closeAllowed = false;
 
-                $scope.approveChecked = false;
+                $scope.vm = {
+                    approveChecked:  false
+                };
 
                 $scope.giveConsent = function() {
 
-                    if (!$scope.approveChecked) {
+                    if (!$scope.vm.approveChecked) {
                         return;
                     }
                     //storeAnvandarPreference will update UserModel AnvandarPreference
@@ -40,7 +42,7 @@ angular.module('common').controller('wcVardPersonSekretessDialogCtrl',
                 };
 
                 $scope.check = function() {
-                    $scope.approveChecked = !$scope.approveChecked;
+                    $scope.vm.approveChecked = !$scope.vm.approveChecked;
                 };
 
                 $scope.onCancel = function() {
