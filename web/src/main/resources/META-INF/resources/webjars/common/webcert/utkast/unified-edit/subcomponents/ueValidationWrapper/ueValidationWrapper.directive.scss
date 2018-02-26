@@ -25,7 +25,9 @@ ue-validation-wrapper {
     input:not(.no-fielderror), textarea, .ui-select-match, .wc-datepicker-wrapper button {
       border: 1px solid $wc-color-11;
     }
-    wc-checkbox-wrapper .wc-checkbox label:before, wc-dropdown .dropdown-label {
+    wc-checkbox-wrapper .wc-checkbox label:before,
+    wc-radio-wrapper .wc-radio label:before,
+    wc-dropdown .dropdown-label {
       border-color:  $wc-color-11;
     }
 

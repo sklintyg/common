@@ -18,10 +18,13 @@
     <span wc-help-chevron-text help-text-key="intyg.makulera.help"></span></span>
     <br>
     <div ng-repeat="reason in model.choices">
-      <label class="radio big-radio-label">
-        <input id="reason-{{reason.value}}" name="reason-{{reason.value}}" type="radio" class="big-radio"
-               ng-model="model.makuleraModel.reason" ng-value="reason.value"> {{reason.label}}
-      </label>
+      <wc-radio-wrapper>
+        <input id="reason-{{reason.value}}" name="reason-{{reason.value}}" type="radio"
+                 ng-model="model.makuleraModel.reason" ng-value="reason.value">
+        <label ng-attr-for="reason-{{reason.value}}">
+          {{reason.label}}
+        </label>
+      </wc-radio-wrapper>
       <div class="form-group fold-animation" ng-if="model.makuleraModel.reason == reason.value">
         <textarea id="clarification-{{reason.value}}" rows='3' class='form-control'
                   ng-model="model.makuleraModel.clarification[reason.value]" placeholder="{{reason.placeholder}}">

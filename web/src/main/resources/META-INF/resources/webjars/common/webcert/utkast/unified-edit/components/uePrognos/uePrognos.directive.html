@@ -6,12 +6,16 @@
     <ue-validation-wrapper field-type="radio-group"
                          validations="validation.messagesByField[config.modelProp]">
         <div class="form-group form-inline" data-ng-repeat="choice in ::config.choices">
-
-            <label class="radio">
-                <input ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}" type="radio" name="{{::config.modelProp}}" class="big-radio"
-                       ng-model="model[config.modelProp].typ" value="{{::choice.id}}" ng-change="validate()">
-                <span dynamic-label key="{{::config.code}}.{{::choice.id}}.RBK"></span>
-            </label>
+            <wc-radio-wrapper>
+                <input ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}"
+                       type="radio" name="{{::config.modelProp}}"
+                       ng-model="model[config.modelProp].typ"
+                       value="{{::choice.id}}"
+                       ng-change="validate()">
+                <label ng-attr-for="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}">
+                    <span dynamic-label key="{{::config.code}}.{{::choice.id}}.RBK"></span>
+                </label>
+            </wc-radio-wrapper>
             <span wc-help-chevron help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
             <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
 

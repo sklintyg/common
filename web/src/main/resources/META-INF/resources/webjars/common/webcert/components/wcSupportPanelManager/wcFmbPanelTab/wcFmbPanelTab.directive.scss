@@ -24,15 +24,12 @@ wc-fmb-panel-tab {
       flex: 1 1 auto;
       min-width: 1px;
       padding: 0 15px 0 8px;
-
-      input[type=radio] {
-        margin-right: 4px;
+      wc-radio-wrapper {
+        padding-top:6px;
       }
 
       label {
-        display: inline;
-        cursor: pointer;
-        @extend %wc-typo-07;
+         @extend %wc-typo-07;
         &.active {
           @extend %wc-typo-08;
         }

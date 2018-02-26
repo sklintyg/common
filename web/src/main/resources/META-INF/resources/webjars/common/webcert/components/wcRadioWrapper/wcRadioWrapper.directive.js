@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -16,10 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+angular.module('common').directive('wcRadioWrapper',
+    [
+        function() {
+            'use strict';
 
-ue-checkgroup-ts {
-  display: block;
-  wc-checkbox-wrapper {
-    padding-top: 14px;
-  }
-}
+            return {
+                restrict: 'E',
+                transclude: true,
+                templateUrl: '/web/webjars/common/webcert/components/wcRadioWrapper/wcRadioWrapper.directive.html'
+            };
+        }]);

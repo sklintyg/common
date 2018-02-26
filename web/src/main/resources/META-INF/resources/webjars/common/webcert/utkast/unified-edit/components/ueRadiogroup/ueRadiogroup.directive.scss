@@ -19,9 +19,7 @@
 
 ue-radiogroup {
   display: block;
-  margin-bottom: -14px;
-  .form-horizontal .radio-inline {
-    padding-top: 0;
-    padding-bottom: 14px;
+  wc-radio-wrapper {
+    padding-top: 14px;
   }
 }

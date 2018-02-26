@@ -65,6 +65,7 @@
   @import 'components/wcIntygPatientNamnPersonnummer/wcIntygPatientNamnPersonnummer.directive.scss';
   @import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
+  @import 'components/wcRadioWrapper/wcRadioWrapper.directive.scss';
   @import 'components/wcReadMoreTextBlock/wcReadMoreTextBlock.directive.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
   @import 'components/wcSpinner/wcSpinner.scss';
@@ -112,6 +113,7 @@
   @import 'utkast/srs/_srs.scss';
   @import 'utkast/srs/components/wcSrsDiagnoseInfo/wcSrsDiagnoseInfo.directive.scss';
   @import 'utkast/unified-edit/components/ueAlert/ueAlert.directive.scss';
+  @import 'utkast/unified-edit/components/ueCheckboxDate/ueCheckboxDate.directive.scss';
   @import 'utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.scss';
   @import 'utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.scss';
   @import 'utkast/unified-edit/components/ueDiagnos/ueDiagnos.scss';

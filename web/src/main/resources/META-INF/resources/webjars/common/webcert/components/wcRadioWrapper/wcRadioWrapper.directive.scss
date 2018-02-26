@@ -1,17 +1,17 @@
-wc-checkbox-wrapper {
+wc-radio-wrapper {
 
   display: inline-block;
-  position: relative;
-  padding: 0 22px 0 22px;
+  padding: 0 22px 0 0; //22px padding to the right to give space to next component if present
 
-  > .wc-checkbox {
+  > .wc-radio {
 
     label {
       @extend %wc-typo-07;
+      display: inline-block;
       position: relative;
       padding: 0 0 0 6px; //space between checkbox and label as spec in zeplin
-      cursor: pointer;
       margin-bottom: 0;
+      cursor: pointer;
     }
 
     label::before, label::after {
@@ -22,8 +22,8 @@ wc-checkbox-wrapper {
       top: 0;
       padding: 0;
       margin-left: -20px;
-      border-radius: 3px;
-
+      border-radius: 50%;
+      cursor: pointer;
     }
 
     //determines background layer of visual checkbox
@@ -38,64 +38,60 @@ wc-checkbox-wrapper {
 
     //determines foreground layer of visual checkbox (and tick mark)
     label::after {
-      font-size: 13px;
+      font-size: 16px;
       text-align: center;
       border: none;
       background-color: $wc-color-21;
       box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+      color: #fff; //$wc-color-01 is pink - wrong spec?;
+      text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
-    input[type="checkbox"] {
+    input[type="radio"] {
       opacity: 0.01; //Important: 0.01 is not practically visible, but if we set it to 0, protractor won't find it..
       z-index: 1;
 
       margin: 0;
-      position: absolute;
+      position: relative;
 
       //place it at same coordinates as the labels :before/:after content
-      top: 0px;
+      top: 4px;
       left: 2px;
       width: 20px;
       height: 20px;
-
       cursor: pointer;
 
     }
 
-    input[type="checkbox"]:focus + label::before {
+    input[type="radio"]:focus + label::before {
       outline: thin dotted;
      // outline: 5px auto -webkit-focus-ring-color;
     }
 
     //The tick mark when checked
-    input[type="checkbox"]:checked + label::after {
-      padding-top: 1px;
-      font-family: 'Glyphicons Halflings';
-      content: "\e013";
-      color: #fff; //$wc-color-01 is pink - wrong spec?;
-      text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
-
+    input[type="radio"]:checked + label::after {
+      //font-family: 'Glyphicons Halflings';
+      content: "\25cf";
+      line-height: normal;
     }
-
-    input[type="checkbox"]:disabled {
+    input[type="radio"]:disabled {
       cursor: not-allowed;
     }
-
-    input[type="checkbox"]:disabled + label {
-      cursor: not-allowed;
+    input[type="radio"]:disabled + label {
       opacity: 0.65;
+      cursor: not-allowed;
     }
 
-    input[type="checkbox"]:disabled + label::before {
+    input[type="radio"]:disabled + label::before {
       background-color: #eeeeee;
       cursor: not-allowed;
     }
 
-    &.checkbox-wc-default input[type="checkbox"]:checked + label::before {
+    &.radio-wc-default input[type="radio"]:checked + label::before {
       background-color: $wc-color-21;
     }
     //Positioning of the tick mark
-    &.checkbox-wc-default input[type="checkbox"]:checked + label::after {
+    &.radio-wc-default input[type="radio"]:checked + label::after {
 
     }
   }

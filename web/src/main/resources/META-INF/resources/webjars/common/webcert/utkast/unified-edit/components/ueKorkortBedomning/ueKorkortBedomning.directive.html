@@ -2,16 +2,17 @@
   <div class="form-horizontal">
 
     <div>
-      <label class="big-radio-label radio-inline">
+      <wc-radio-wrapper>
         <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningNo"
                name="{{::config.modelProp}}.kanInteTaStallning"
                type="radio"
-               class="big-radio"
                ng-value="false"
                ng-model="model[config.modelProp].kanInteTaStallning"
-               ng-change="updateValidation()"/>
-        <span dynamic-label key="DFR_33.1.RBK"></span>
-      </label>
+               ng-change="updateValidation()" />
+        <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningNo">
+          <span dynamic-label key="DFR_33.1.RBK"></span>
+        </label>
+      </wc-radio-wrapper>
     </div>
 
     <div class="row korkortstyper">
@@ -31,16 +32,17 @@
     </div>
 
     <div>
-      <label class="big-radio-label radio-inline">
+      <wc-radio-wrapper>
         <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningYes"
                name="{{::config.modelProp}}.kanInteTaStallning"
                type="radio"
-               class="big-radio"
                ng-value="true"
                ng-model="model[config.modelProp].kanInteTaStallning"
-               ng-change="updateValidation()"/>
-        <span dynamic-label key="DFR_33.2.RBK"></span>
-      </label>
+               ng-change="updateValidation()" />
+        <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningYes">
+          <span dynamic-label key="DFR_33.2.RBK"></span>
+        </label>
+      </wc-radio-wrapper>
     </div>
 
   </div>

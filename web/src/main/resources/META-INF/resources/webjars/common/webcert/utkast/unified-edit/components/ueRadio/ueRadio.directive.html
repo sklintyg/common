@@ -1,29 +1,31 @@
 <div ng-class="::{'form-inline': !config.vertical, 'form-horizontal': config.vertical}" class="ue-del-fraga">
     <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
         <ue-label config="::config.label"></ue-label>
-        <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+        <wc-radio-wrapper>
             <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}Yes"
                    name="{{::config.modelProp}}"
                    type="radio"
-                   class="big-radio"
                    ng-value="true"
                    ng-model="modelGetterSetter"
                    ng-model-options="{ getterSetter: true }"
                    ng-change="updateValidation()"
                    ng-disabled="$eval(config.disabledExpression)" />
-            <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>
-        </label>
-        <label class="big-radio-label" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}Yes" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+                <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>
+            </label>
+        </wc-radio-wrapper>
+        <wc-radio-wrapper>
             <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}No"
                    name="{{::config.modelProp}}"
                    type="radio"
-                   class="big-radio"
                    ng-value="false"
                    ng-model="modelGetterSetter"
                    ng-model-options="{ getterSetter: true }"
                    ng-change="updateValidation()"
                    ng-disabled="$eval(config.disabledExpression)" />
-            <span dynamic-label key="{{::config.noLabel}}" fallback-value="Nej"></span>
-        </label>
+            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}No" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+                <span dynamic-label key="{{::config.noLabel}}" fallback-value="Nej"></span>
+            </label>
+        </wc-radio-wrapper>
     </ue-validation-wrapper>
 </div>

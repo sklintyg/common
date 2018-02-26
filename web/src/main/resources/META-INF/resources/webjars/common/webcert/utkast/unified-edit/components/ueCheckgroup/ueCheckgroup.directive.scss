@@ -19,9 +19,7 @@
 
 ue-checkgroup {
   display: block;
-  margin-bottom: -14px;
-  .form-horizontal .checkbox-inline {
-    padding-top: 0;
-    padding-bottom: 14px;
+  wc-checkbox-wrapper {
+    padding-top: 14px;
   }
 }

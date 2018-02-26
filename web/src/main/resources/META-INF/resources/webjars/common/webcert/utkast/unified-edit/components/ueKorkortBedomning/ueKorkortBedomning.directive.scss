@@ -21,12 +21,12 @@ ue-korkort-bedomning {
 
   display: block;
 
-  .form-horizontal .radio-inline {
-    padding-bottom: 14px;
+  wc-checkbox-wrapper {
+    padding-top: 14px;
   }
 
-  .form-horizontal .checkbox-inline {
-    padding-bottom: 14px;
+  wc-radio-wrapper {
+    padding-top: 14px;
   }
 
   .korkortstyper {
