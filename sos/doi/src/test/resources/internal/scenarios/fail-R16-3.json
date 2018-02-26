@@ -3,7 +3,7 @@
   "identitetStyrkt": "körkort",
   "dodsdatumSakert": false,
   "dodsdatum": "2017-00-00",
-  "antraffatDodDatum": "2017-01-02",
+  "antraffatDodDatum": "2017-04-02",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
   "barn": true,
@@ -76,7 +76,7 @@
   "operationAnledning": "anledning",
   "forgiftning": "true",
   "forgiftningOrsak": "SJALVMORD",
-  "forgiftningDatum": "2017-01-03",
+  "forgiftningDatum": "2017-06-03",
   "forgiftningUppkommelse": "uppkommelse",
   "grunder": [
     "KLINISK_OBDUKTION",

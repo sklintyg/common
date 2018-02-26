@@ -3,10 +3,9 @@
   "identitetStyrkt": "körkort",
   "dodsdatumSakert": true,
   "dodsdatum": "2017-04-01",
-  "antraffatDodDatum": "2017-04-02",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
-  "barn": true,
+  "barn": false,
   "terminalDodsorsak": {
     "beskrivning": "terminal dödsorsak",
     "datum": "2017-04-01",
