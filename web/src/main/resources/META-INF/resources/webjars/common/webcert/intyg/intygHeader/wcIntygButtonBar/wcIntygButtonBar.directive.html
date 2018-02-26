@@ -1,33 +1,33 @@
 <div class="white-space-no-wrap">
   <button type="button"
           id="sendBtn"
-          class="btn btn-secondary"
+          class="btn btn-primary"
           wc-authority feature="SKICKA_INTYG"
           request-origin="!UTHOPP"
           intygType="{{intygType}}"
           wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
           ng-if="showSkickaButton()"
           ng-click="send()">
-    <span dynamic-label key="{{intygType}}.button.send"></span>
+    <i class="material-icons">email</i> <span dynamic-label key="{{intygType}}.button.send"></span>
   </button>
   <!-- Normal pdf-utskrift av signerat intyg  -->
   <button ng-if="showPrintBtn()"
           type="button"
           id="downloadprint"
-          class="btn btn-secondary"
+          class="btn btn-primary"
           intygType="{{intygType}}"
           ng-click="print(viewState.intygModel, false)">
-    <span dynamic-label key="common.button.save.as.pdf"></span>
+    <i class="material-icons">print</i> <span dynamic-label key="common.button.save.as.pdf"></span>
   </button>
   <div id="downloadprintemployer" intygType="{{intygType}}" style="display:inline;">
     <div class="btn-group" ng-if="showEmployerPrintBtn()">
       <button type="button"
               id="intyg-header-dropdown-select-pdf-type"
-              class="btn btn-secondary dropdown-toggle"
+              class="btn btn-primary dropdown-toggle"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false">
-        <span dynamic-label key="common.button.save.as.pdf"></span> <span class="caret"></span>
+        <i class="material-icons">print</i> <span dynamic-label key="common.button.save.as.pdf"></span> <i class="material-icons">expand_more</i>
       </button>
       <ul class="dropdown-menu">
         <!--<li wc-authority feature="UTSKRIFT">-->
@@ -57,7 +57,7 @@
           request-origin="!UTHOPP"
           intygType="{{intygType}}"
           id="fornyaBtn"
-          class="btn btn-secondary"
+          class="btn btn-primary"
           ng-if="showFornyaButton()"
           ng-click="fornya(viewState.intygModel)"
           uib-popover="{{fornyaBtnTooltipText}}"
@@ -65,7 +65,7 @@
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top">
-    Förnya
+    <i class="material-icons">autorenew</i> Förnya
   </button>
 
   <button type="button"
@@ -73,7 +73,7 @@
           request-origin="!UTHOPP"
           intygType="{{intygType}}"
           id="ersattBtn"
-          class="btn btn-secondary"
+          class="btn btn-primary"
           ng-if="showErsattButton()"
           ng-click="ersatt(viewState.intygModel)"
           wc-check-vardenhet
@@ -83,18 +83,18 @@
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top">
-    Ersätt
+    <i class="material-icons">swap_horiz</i> Ersätt
   </button>
 
   <button type="button"
           intygType="{{intygType}}"
           id="createFromTemplateBtn"
-          class="btn btn-secondary"
+          class="btn btn-success"
           ng-if="IntygHeaderService.showCreateFromTemplate()"
           ng-disabled="!IntygHeaderService.enableCreateFromTemplate()"
           ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel)"
           wc-check-vardenhet>
-    Skriv {{IntygHeaderService.createFromTemplateConfig[intygType].name}}
+    <i class="material-icons">description</i> Skriv {{IntygHeaderService.createFromTemplateConfig[intygType].name}}
   </button>
 
   <button type="button"
@@ -102,7 +102,7 @@
           request-origin="!UTHOPP"
           intygType="{{intygType}}"
           id="makuleraBtn"
-          class="btn btn-default"
+          class="btn btn-secondary"
           ng-if="!CommonIntygViewState.isRevoked()"
           ng-click="makulera(viewState.intygModel)"
           wc-check-vardenhet
@@ -113,6 +113,6 @@
           popover-append-to-body="true"
           popover-placement="auto top"
           popover-class="z-low">
-    Makulera
+    <i class="material-icons">delete</i> Makulera
   </button>
 </div>
