@@ -22,10 +22,10 @@ ue-validation-wrapper {
   display: block;
 
   .validation-error {
-    input:not(.no-fielderror), textarea, .ui-select-match, .wc-datepicker-wrapper button  {
+    input:not(.no-fielderror), textarea, .ui-select-match, .wc-datepicker-wrapper button {
       border: 1px solid $wc-color-11;
     }
-    wc-checkbox-wrapper .wc-checkbox label:before {
+    wc-checkbox-wrapper .wc-checkbox label:before, wc-dropdown .dropdown-label {
       border-color:  $wc-color-11;
     }
 

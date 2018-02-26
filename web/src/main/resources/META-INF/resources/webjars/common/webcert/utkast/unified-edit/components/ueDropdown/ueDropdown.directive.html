@@ -1,17 +1,13 @@
 <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]" class="ue-del-fraga">
   <ue-label config="::config.label"></ue-label>
 
-
-  <ui-select theme="bootstrap" search-enabled="false" ng-model="modelGetterSetter"
-             ng-model-options="{ getterSetter: true }" ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
-             name="{{::config.modelProp|ueDomIdFilter}}" append-to-body="false" on-select="updateValidation()">
-    <ui-select-match>
-      <span dynamic-label key="{{$select.selected.label}}"></span>
-    </ui-select-match>
-    <ui-select-choices repeat="item.id as item in ::config.choices" value="$select.selected.id">
-      <span dynamic-label key="{{::item.label}}"></span>
-    </ui-select-choices>
-  </ui-select>
-
+  <wc-dropdown data-items="config.choices"
+               ng-model="modelGetterSetter"
+               ng-model-options="{ getterSetter: true }"
+               data-on-select="updateValidation()"
+               data-use-dynamic-label="true"
+               ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
+               name="{{::config.modelProp|ueDomIdFilter}}">
+  </wc-dropdown>
 
 </ue-validation-wrapper>
