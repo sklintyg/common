@@ -25,7 +25,7 @@ angular.module('common').directive('wcPatientInfoChangeMessage', [
         'use strict';
 
         return {
-            restrict: 'A',
+            restrict: 'E',
             replace: true,
             scope: {
                 intyg: '=',

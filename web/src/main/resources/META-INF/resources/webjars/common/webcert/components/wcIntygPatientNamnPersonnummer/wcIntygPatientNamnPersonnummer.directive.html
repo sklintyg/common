@@ -1,7 +1,7 @@
 <span class="wc-intyg-patient-namn-personnummer">
-  <label class="control-label" id="patientNamnPersonnummer">
- {{ patientName }} - {{ personId | PersonIdFormatter }}
-  </label>
+  <span id="patientNamnPersonnummer">
+    {{ patientName }} - {{ personId | PersonIdFormatter }}
+  </span>
 
   <span class="old-person-id" data-ng-if="oldPersonId && oldPersonId != personId">
     f.d. {{ oldPersonId | PersonIdFormatter }}

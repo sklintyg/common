@@ -53,7 +53,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
         beforeEach(function() {
             element =
-                $compile('<div wc-new-person-id-message is-intyg="false"></div>')($scope);
+                $compile('<wc-new-person-id-message is-intyg="false"></wc-new-person-id-message>')($scope);
         });
 
         it('should not display new personnummer text', function() {
@@ -135,7 +135,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
         beforeEach(function() {
             element =
-                $compile('<div wc-new-person-id-message is-intyg="true" patient="patient"></div>')($scope);
+                $compile('<wc-new-person-id-message is-intyg="true" patient="patient"></wc-new-person-id-message>')($scope);
         });
 
         it('should not display new personnummer text', function() {

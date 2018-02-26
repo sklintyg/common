@@ -25,7 +25,7 @@ angular.module('common').directive('wcSekretessAvliden',
             'use strict';
 
             return {
-                restrict: 'A',
+                restrict: 'E',
                 transclude: true,
                 scope: {
                     uuid: '=',

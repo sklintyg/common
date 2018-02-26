@@ -26,7 +26,7 @@ angular.module('common').directive('wcNewPersonIdMessage', [
         'use strict';
 
         return {
-            restrict: 'A',
+            restrict: 'E',
             replace: true,
             scope: {
                 patient: '=',

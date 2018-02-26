@@ -4,9 +4,9 @@
     <wc-spinner label="info.loadingintyg" show-spinner="!viewState.common.doneLoading">
 
 
-      <div class="container-fluid">
+      <wc-new-person-id-message class="container-fluid">
 
-        <div class="row">
+        <wc-patient-info-change-message class="row">
           <div class="pull-left">
 
             <h1 class="page-title header-fix-panel__title"><a id="tillbakaButton" wc-authority="NAVIGERING" href
@@ -62,17 +62,17 @@
                    class="utkast-header-person-id"></div>
 
               <br>
-              <span wc-sekretess-avliden uuid="viewState.intygModel.grundData.patient.personId" printlabel="true"
+              <wc-sekretess-avliden uuid="viewState.intygModel.grundData.patient.personId" printlabel="true"
                     avliden="viewState.intygModel.grundData.patient.avliden"
-                    sekretessmarkering="viewState.intygModel.grundData.patient.sekretessmarkering"></span>
+                    sekretessmarkering="viewState.intygModel.grundData.patient.sekretessmarkering"></wc-sekretess-avliden>
 
             </div>
           </div>
           <div class="clearfix"></div>
 
-          <div wc-new-person-id-message is-intyg="false"></div>
+          <wc-new-person-id-message is-intyg="false"></wc-new-person-id-message>
 
-          <div wc-patient-info-change-message intyg="viewState.intygModel" context="UTKAST"></div>
+          <wc-patient-info-change-message intyg="viewState.intygModel" context="UTKAST"></wc-patient-info-change-message>
 
           <!-- Error/info messages -->
 
