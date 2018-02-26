@@ -247,4 +247,24 @@ public class InternalValidatorTest {
         assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
     }
+
+    @Test
+    public void testR22_1() throws ScenarioNotFoundException {
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R22-1").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("utlatandeOrsak", internalValidationResponse.getValidationErrors().get(0).getCategory());
+        assertEquals("terminalDodsorsak.datum", internalValidationResponse.getValidationErrors().get(0).getField());
+    }
+
+    @Test
+    public void testR22_2() throws ScenarioNotFoundException {
+        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R22-2").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("utlatandeOrsak", internalValidationResponse.getValidationErrors().get(0).getCategory());
+        assertEquals("terminalDodsorsak.datum", internalValidationResponse.getValidationErrors().get(0).getField());
+    }
 }

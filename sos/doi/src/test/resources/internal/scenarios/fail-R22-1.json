@@ -1,0 +1,64 @@
+{
+  "typ": "doi",
+  "identitetStyrkt": "ID",
+  "dodsdatumSakert": true,
+  "dodsdatum": "2018-02-19",
+  "dodsplatsKommun": "NACKA",
+  "dodsplatsBoende": "SJUKHUS",
+  "barn": false,
+  "terminalDodsorsak": {
+    "beskrivning": "Stroke",
+    "datum": "2018-02-20",
+    "specifikation": "KRONISK"
+  },
+  "foljd": [],
+  "bidragandeSjukdomar": [],
+  "operation": "NEJ",
+  "forgiftning": false,
+  "grunder": [
+    "UNDERSOKNING_FORE_DODEN",
+    "UNDERSOKNING_EFTER_DODEN",
+    "KLINISK_OBDUKTION",
+    "RATTSMEDICINSK_OBDUKTION",
+    "RATTSMEDICINSK_BESIKTNING"
+  ],
+  "land": "Sverige",
+  "textVersion": "1.0",
+  "grundData": {
+    "patient": {
+      "personId": "19121212-1212",
+      "fullstandigtNamn": "Tolvan Tolvansson",
+      "fornamn": "Tolvan",
+      "efternamn": "Tolvansson",
+      "postadress": "Svensson, Storgatan 1, PL 1234",
+      "postnummer": "12345",
+      "postort": "Småmåla",
+      "sekretessmarkering": false,
+      "avliden": false,
+      "samordningsNummer": false
+    },
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
+      }
+    },
+    "signeringsdatum": "2018-02-20T17:37:14.000"
+  },
+  "id": "6b6470b4-559f-4bdd-89ac-d4a061059315"
+}

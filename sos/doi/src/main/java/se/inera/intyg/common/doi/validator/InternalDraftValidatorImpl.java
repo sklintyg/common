@@ -83,10 +83,28 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 .isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", TERMINAL_DODSORSAK_JSON_ID, ValidationMessageType.EMPTY);
         }
-        if (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null && !utlatande
-                .getTerminalDodsorsak().getDatum().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", TERMINAL_DODSORSAK_JSON_ID + "."
-                    + DODSORSAK_DATUM_JSON_ID, ValidationMessageType.INVALID_FORMAT);
+        // R22 - "Datum terminal dödsorsak"
+        if (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null) {
+            if (!utlatande.getTerminalDodsorsak().getDatum().isValidDate()) {
+                ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", TERMINAL_DODSORSAK_JSON_ID + "."
+                        + DODSORSAK_DATUM_JSON_ID, ValidationMessageType.INVALID_FORMAT);
+            } else if (ValidatorUtil.isNotNullTrue(utlatande.getDodsdatumSakert())
+                    // R22-1 - får inte infalla efter dödsdatum, om dödsdatumet är säkert.
+                    && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
+                    && ValidatorUtil.isDateAfter(utlatande.getTerminalDodsorsak().getDatum(), utlatande.getDodsdatum())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "utlatandeOrsak", TERMINAL_DODSORSAK_JSON_ID  + "."
+                                        + DODSORSAK_DATUM_JSON_ID,
+                                ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.terminalDodsorsak.datum.efterDodsdatum");
+            } else if (ValidatorUtil.isNotNullFalse(utlatande.getDodsdatumSakert())
+                    // R22-2 - får inte infalla efter datumet då man anträffade den döde, om dödsdatumet är ej säkert.
+                    && utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate()
+                    && ValidatorUtil.isDateAfter(utlatande.getTerminalDodsorsak().getDatum(), utlatande.getAntraffatDodDatum())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "utlatandeOrsak", TERMINAL_DODSORSAK_JSON_ID  + "."
+                                        + DODSORSAK_DATUM_JSON_ID, ValidationMessageType.INCORRECT_COMBINATION,
+                                "doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum");
+            }
         }
     }
 
