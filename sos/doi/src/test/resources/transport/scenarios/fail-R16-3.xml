@@ -92,7 +92,7 @@
         <svar id="2">
             <delsvar id="2.1">false</delsvar>
             <delsvar id="2.2">2017-00-00</delsvar>
-            <delsvar id="2.3">2017-01-02</delsvar>
+            <delsvar id="2.3">2017-04-02</delsvar>
         </svar>
         <svar id="3">
             <delsvar id="3.1">kommun</delsvar>
@@ -256,7 +256,7 @@
                     <ns3:displayName>SJALVMORD</ns3:displayName>
                 </ns3:cv>
             </delsvar>
-            <delsvar id="12.3">2017-01-03</delsvar>
+            <delsvar id="12.3">2017-06-03</delsvar>
             <delsvar id="12.4">uppkommelse</delsvar>
         </svar>
         <svar id="13">

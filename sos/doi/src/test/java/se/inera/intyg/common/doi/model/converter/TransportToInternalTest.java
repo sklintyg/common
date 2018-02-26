@@ -62,8 +62,8 @@ public class TransportToInternalTest {
 
         assertEquals("körkort", res.getIdentitetStyrkt());
         assertEquals(false, res.getDodsdatumSakert());
-        assertEquals(new InternalDate(LocalDate.of(2017, 1, 1)), res.getDodsdatum());
-        assertEquals(new InternalDate(LocalDate.of(2017, 1, 2)), res.getAntraffatDodDatum());
+        assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getDodsdatum());
+        assertEquals(new InternalDate(LocalDate.of(2017, 4, 2)), res.getAntraffatDodDatum());
         assertEquals("kommun", res.getDodsplatsKommun());
         assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
         assertEquals(true, res.getBarn());
