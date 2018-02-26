@@ -80,9 +80,11 @@ angular.module('common').directive('wcDropdown',
                     }
 
                     function getSelectedItemLabel() {
-                        for (var i = 0; i < scope.items.length; i++) {
-                            if (scope.items[i].id === ctrl.$viewValue) {
-                                return scope.items[i].label;
+                        if (scope.items) {
+                            for (var i = 0; i < scope.items.length; i++) {
+                                if (scope.items[i].id === ctrl.$viewValue) {
+                                    return scope.items[i].label;
+                                }
                             }
                         }
                     }
@@ -106,6 +108,12 @@ angular.module('common').directive('wcDropdown',
                         }
                         closePlate();
                     };
+
+                    scope.$watch('items', function(newVal) {
+                       if (newVal) {
+                           scope.selectedItemLabel = getSelectedItemLabel();
+                       }
+                    });
 
                     scope.$on('$destroy', function() {
                         $window.document.removeEventListener('click', onDocumentClick, true);

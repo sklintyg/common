@@ -29,4 +29,13 @@
     padding-right: 4px;
     padding-bottom: 10px;
   }
+  .btn.red {
+    color: $wc-color-11;
+  }
+  .btn.red:hover {
+    color: $wc-color-00;
+  }
+  .dropdown-row {
+    min-width: 139px;
+  }
 }

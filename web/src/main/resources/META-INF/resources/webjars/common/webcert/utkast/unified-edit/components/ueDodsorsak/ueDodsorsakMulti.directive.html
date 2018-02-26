@@ -27,24 +27,34 @@
               on-blur="validate()"
               add-date-parser="loose"></span>
       </td>
-      <td>
+      <td class="dropdown-row">
+        <wc-dropdown data-items="orsakOptions"
+                     ng-model="orsak.specifikation"
+                     data-on-select="validate()"
+                     id="orsak-multi-{{$index}}-specifikation"
+                     name="andraDodsorsak-{{$index}}"
+                     use-dynamic-label="false"
+                     ng-class="{'fielderror' : hasValidationError('specifikation',  $index)}">
+        </wc-dropdown>
+        <!--
         <ui-select theme="bootstrap" search-enabled="false" ng-model="orsak.specifikation"
                    id="orsak-multi-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}" append-config-body="true"
                    ng-class="{'fielderror' : hasValidationError('specifikation', $index)}"
                    on-select="validate()">
           <ui-select-match> <!--  placeholder="Välj..." -->
-            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
+      <!--      <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
           </ui-select-match>
           <ui-select-choices repeat="item.id as item in orsakOptions" value="$select.selected.id">
             <span ng-bind="item.label"></span>
           </ui-select-choices>
         </ui-select>
+        -->
       </td>
       <td>
-        <button type="button" ng-if="$index > 0" class="btn btn-default" ng-click="deleteRow($index)"><i class="glyphicon glyphicon-minus-sign"></i></button>
+        <button type="button" ng-if="$index > 0" class="btn btn-default red" ng-click="deleteRow($index)"><i class="material-icons">remove_circle</i></button>
       </td>
     </tr>
   </table>
-  <button type="button" ng-disabled="model[config.modelProp].length >= config.maxRows" class="btn btn-default" ng-click="addRow()"><i class="glyphicon glyphicon-plus-sign"></i> Lägg till sjukdom/skada</button>
+  <button type="button" ng-disabled="model[config.modelProp].length >= config.maxRows" class="btn btn-default" ng-click="addRow()"><i class="material-icons">add_circle</i> Lägg till sjukdom/skada</button>
   <wc-field-validation field-type="dodsorsak" validations="orsakValidations"></wc-field-validation>
 </div>

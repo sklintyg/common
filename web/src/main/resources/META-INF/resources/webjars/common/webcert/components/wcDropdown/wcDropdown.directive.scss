@@ -27,6 +27,7 @@ wc-dropdown {
         text-align: left;
         border-radius: 4px;
         border: 1px solid $wc-color-15;
+
         span {
             flex: 1 1 auto;
             display: inline-block;
@@ -87,5 +88,8 @@ wc-dropdown {
                 white-space: nowrap;
             }
         }
+    }
+    &.fielderror .dropdown-label {
+        border-color: $wc-color-11;
     }
 }

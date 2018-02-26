@@ -31,17 +31,16 @@
       <div class="inline-block padding-top-small" style="width: 140px;">
         <span dynamic-label key="{{config.orsakLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{config.orsakLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{config.orsakLabel}}.HLP"></span>
-        <ui-select theme="bootstrap" search-enabled="false" ng-model="modelValue.specifikation"
-                   id="orsak-{{rowIndex}}-specifikation" name="andraDodsorsak-{{rowIndex}}" append-config-body="true"
-                   ng-class="{'fielderror' : hasValidationError('specifikation', rowIndex)}"
-                   on-select="validate()">
-          <ui-select-match>
-            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
-          </ui-select-match>
-          <ui-select-choices repeat="item.id as item in orsakOptions" value="$select.selected.id">
-            <span ng-bind="item.label"></span>
-          </ui-select-choices>
-        </ui-select>
+
+        <wc-dropdown data-items="orsakOptions"
+                     ng-model="modelValue.specifikation"
+                     data-on-select="validate()"
+                     id="orsak-{{rowIndex}}-specifikation"
+                     name="andraDodsorsak-{{rowIndex}}"
+                     use-dynamic-label="false"
+                     ng-class="{'fielderror' : hasValidationError('specifikation', rowIndex)}">
+        </wc-dropdown>
+
       </div>
     </div>
   </div>
