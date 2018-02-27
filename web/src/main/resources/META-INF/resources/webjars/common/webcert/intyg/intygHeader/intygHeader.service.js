@@ -66,6 +66,10 @@ angular.module('common').service('common.IntygHeaderService',
                 return this.intygCopyAction(intyg, IntygCopyActions.createFromTemplate, IntygFornyaRequestModel.build, IntygHeaderViewState.currentCreateFromTemplateConfig.moduleId);
             };
 
+            this.getCurrentCreateFromTemplateName = function() {
+                return IntygHeaderViewState.currentCreateFromTemplateConfig.name;
+            };
+
             this.enableCreateFromTemplate = function() {
                 var intygTemplateConfig = IntygHeaderViewState.currentCreateFromTemplateConfig;
                 if (intygTemplateConfig.features.indexOf(featureService.features.UNIKT_INTYG_INOM_VG) !== -1 &&

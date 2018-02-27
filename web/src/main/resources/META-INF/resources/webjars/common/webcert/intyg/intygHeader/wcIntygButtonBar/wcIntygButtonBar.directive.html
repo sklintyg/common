@@ -1,4 +1,16 @@
 <div class="white-space-no-wrap">
+
+  <button type="button"
+          intygType="{{intygType}}"
+          id="createFromTemplateBtn"
+          class="btn btn-success"
+          ng-if="IntygHeaderService.showCreateFromTemplate()"
+          ng-disabled="!IntygHeaderService.enableCreateFromTemplate()"
+          ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel)"
+          wc-check-vardenhet>
+    <i class="material-icons">description</i> Skriv {{IntygHeaderService.getCurrentCreateFromTemplateName()}}
+  </button>
+
   <button type="button"
           id="sendBtn"
           class="btn btn-primary"
@@ -84,17 +96,6 @@
           popover-append-to-body="true"
           popover-placement="auto top">
     <i class="material-icons">swap_horiz</i> Ersätt
-  </button>
-
-  <button type="button"
-          intygType="{{intygType}}"
-          id="createFromTemplateBtn"
-          class="btn btn-success"
-          ng-if="IntygHeaderService.showCreateFromTemplate()"
-          ng-disabled="!IntygHeaderService.enableCreateFromTemplate()"
-          ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel)"
-          wc-check-vardenhet>
-    <i class="material-icons">description</i> Skriv {{IntygHeaderService.createFromTemplateConfig[intygType].name}}
   </button>
 
   <button type="button"
