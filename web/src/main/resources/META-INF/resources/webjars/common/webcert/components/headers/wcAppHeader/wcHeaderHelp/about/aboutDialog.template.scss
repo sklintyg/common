@@ -20,12 +20,16 @@
 
   .panel {
     &.wc-about-panel {
+      @extend %wc-typo-05;
+      color: $wc-color-08;
       background-color: $wc-color-28;
       border: none !important;
       border-radius: 0;
       box-shadow: none;
 
       > .panel-collapse > .panel-body {
+        @extend %wc-typo-07;
+        color: $wc-color-07;
         background-color: $wc-color-00;
         border: none !important;
         border-radius: 0;
@@ -56,7 +60,7 @@
   }
 
   .category h2 {
-    @extend %wc-typo-10;
+    @extend %wc-typo-14;
     color: $wc-color-17;
   }
 
