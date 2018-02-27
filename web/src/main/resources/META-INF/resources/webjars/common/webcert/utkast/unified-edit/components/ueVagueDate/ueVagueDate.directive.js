@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastValidationService',
-    function(ueUtil, UtkastValidationService) {
+angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastValidationService', 'common.UtkastValidationViewState',
+    function(ueUtil, UtkastValidationService, UtkastValidationViewState) {
         'use strict';
 
         return {
@@ -54,6 +54,12 @@ angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastVali
 
                 $scope.validate = function() {
                     UtkastValidationService.validate($scope.model);
+                };
+
+                $scope.hasValidationError = function(field) {
+                    return UtkastValidationViewState.messagesByField &&
+                        (!!UtkastValidationViewState.messagesByField[$scope.config.modelProp] ||
+                        !!UtkastValidationViewState.messagesByField[$scope.config.modelProp + '.' + field]);
                 };
 
                 $scope.$watch('vagueDateModel.year', function(newValue) {
@@ -133,12 +139,12 @@ angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastVali
                     var thisYear = moment().format('YYYY');
                     var lastYear = (thisYear - 1).toString();
                     $scope.years = [
-                        {value: '0000', label: '0000 (ej känt)'},
-                        {value: thisYear, label: thisYear},
-                        {value: lastYear, label: lastYear}
+                        {id: '0000', label: '0000 (ej känt)'},
+                        {id: thisYear, label: thisYear},
+                        {id: lastYear, label: lastYear}
                     ];
                     if (placeholder) {
-                        $scope.years.unshift({value: '', label: 'Ange år'});
+                        $scope.years.unshift({id: '', label: 'Ange år'});
                     }
                 }
 
@@ -151,16 +157,16 @@ angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastVali
                             return;
                         }
                     }
-                    $scope.months = [{value: '00', label: '00 (ej känt)'}];
+                    $scope.months = [{id: '00', label: '00 (ej känt)'}];
                     for (var month = 1; month <= 12; month++) {
                         var monthPadded = month.toString();
                         if (monthPadded < 10) {
                             monthPadded = '0' + monthPadded;
                         }
-                        $scope.months.push({value: monthPadded, label: monthPadded});
+                        $scope.months.push({id: monthPadded, label: monthPadded});
                     }
                     if (placeholder) {
-                        $scope.months.unshift({value: '', label: 'Ange månad'});
+                        $scope.months.unshift({id: '', label: 'Ange månad'});
                     }
                 }
 

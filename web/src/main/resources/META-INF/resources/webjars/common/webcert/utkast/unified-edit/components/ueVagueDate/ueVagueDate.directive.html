@@ -7,30 +7,27 @@
     </tr>
     <tr>
       <td class="year">
-        <ui-select theme="bootstrap" search-enabled="false" ng-model="vagueDateModel.year"
-                   id="{{config.modelProp}}-year" name="{{config.modelProp}}-year" append-to-body="true"
-                   ng-class="{'fielderror' : hasValidationError('year')}"
-                   on-select="validate()">
-          <ui-select-match>
-            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
-          </ui-select-match>
-          <ui-select-choices repeat="year.value as year in years" value="$select.selected.value">
-            <span ng-bind="year.label"></span>
-          </ui-select-choices>
-        </ui-select>
+        <wc-dropdown data-items="years"
+                     use-dynamic-label="false"
+                     ng-model="vagueDateModel.year"
+                     data-on-select="validate()"
+                     data-use-dynamic-label="true"
+                     ng-attr-id="{{::config.modelProp|ueDomIdFilter}}-year"
+                     name="{{::config.modelProp|ueDomIdFilter}}-year"
+                     ng-class="{'fielderror' : hasValidationError('year')}">
+        </wc-dropdown>
       </td>
       <td class="month">
-        <ui-select theme="bootstrap" search-enabled="false" ng-model="vagueDateModel.month" ng-disabled="!vagueDateModel.monthEnabled"
-                   id="{{config.modelProp}}-month" name="{{config.modelProp}}-month" append-to-body="true"
-                   ng-class="{'fielderror' : hasValidationError('month')}"
-                   on-select="validate()">
-          <ui-select-match>
-            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
-          </ui-select-match>
-          <ui-select-choices repeat="month.value as month in months" value="$select.selected.value">
-            <span ng-bind="month.label"></span>
-          </ui-select-choices>
-        </ui-select>
+        <wc-dropdown data-items="months"
+                     use-dynamic-label="false"
+                     ng-model="vagueDateModel.month"
+                     ng-disabled="!vagueDateModel.monthEnabled"
+                     data-on-select="validate()"
+                     data-use-dynamic-label="true"
+                     ng-attr-id="{{::config.modelProp|ueDomIdFilter}}-month"
+                     name="{{::config.modelProp|ueDomIdFilter}}-month"
+                     ng-class="{'fielderror' : hasValidationError('month')}">
+        </wc-dropdown>
       </td>
       <td class="day">
         <input id="{{config.modelProp}}-day" type="text" class="form-control no-fielderror" ng-disabled="true"

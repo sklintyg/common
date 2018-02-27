@@ -26,5 +26,13 @@ ue-vague-date {
     }
     .day {
         width: 40px;
+        .form-control[disabled] {
+            border: 1px solid $wc-color-15;
+            background-color: $wc-color-20;
+            color: $wc-color-23;
+            box-shadow: none;
+            height: 40px;
+            text-align: center;
+        }
     }
 }
