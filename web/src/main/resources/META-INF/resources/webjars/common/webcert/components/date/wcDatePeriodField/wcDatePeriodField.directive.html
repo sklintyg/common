@@ -11,15 +11,16 @@
            uib-datepicker-popup="{{::format}}"
            max-date="{{::maxDate}}"
            ng-model-options="{ allowInvalid: true }"
-           ng-blur="onblur()"
+           ng-blur="onDatepickerInputFieldBlur()"
            datepicker-options="dateOptions"
            datepicker-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepicker.template.html"
            datepicker-popup-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepickerPopup.template.html"
            wc-blur-on-enter
-           wc-date-period-field-input/>
+           wc-date-period-field-input
+           ng-focus="focused()"/>
     <span class="input-group-btn">
-      <button type="button" id="{{::domId}}-toggle" class="btn btn-default" ng-click="toggleOpen($event)" ng-disabled="pickerState.isOpen">
-        <i class="material-icons">date_range</i>
+      <button type="button" id="{{::domId}}-toggle" class="btn btn-default"  ng-class="{border:isFocused}" ng-click="toggleOpen($event)" ng-disabled="pickerState.isOpen">
+       <i class="material-icons">date_range</i>
       </button>
     </span>
   </span>

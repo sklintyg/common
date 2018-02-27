@@ -1,12 +1,12 @@
-<div wc-date-period-manager model="model">
+<div wc-date-period-manager model="model" class="ue-sjukskrivningar">
   <ue-label config="::config.label"></ue-label>
 
   <wc-alert-message ng-attr-id="lastEffectiveDateNoticeText|ueDomIdFilter" alert-severity="info" ng-if="lastEffectiveDateNoticeText">
     {{lastEffectiveDateNoticeText}}
   </wc-alert-message>
 
-  <div class="form-inline row">
-    <div class="col-md-12">
+  <div class="formly-field form-inline row hours-wrapper">
+    <div>
       <label>
         <span dynamic-label key="common.sit.label.sjukskrivning.hoursperweek"></span>
         <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek"
@@ -22,14 +22,14 @@
     <div class="form-horizontal sjukskrivningar-section clearfix" data-ng-repeat="field in ::config.fields">
       <div class="row">
         <div class="clearfix">
-          <div class="col-vlg-auto col-lg-12 col-md-4 col-sm-12">
-            <wc-checkbox-wrapper>
+          <div class="col-vlg-auto col-lg-12 col-md-4 col-sm-12 checkbox-width">
+            <wc-checkbox-wrapper class="flex-wrapper">
               <input type="checkbox" ng-model="viewstate.periods[field].checked"
                      ng-change="viewstate.updateCheckBox(field); validate()"  ng-attr-id="{{::config.modelProp + field|ueDomIdFilter}}">
               <label ng-attr-for="{{::config.modelProp + field|ueDomIdFilter}}">
                 <span dynamic-label key="{{::config.code}}.{{::field}}.RBK"></span>
               </label>
-              </wc-checkbox-wrapper>
+            </wc-checkbox-wrapper>
             <span wc-help-chevron help-text-key="{{::config.code}}.{{::field}}.HLP"></span>
             <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::field}}.HLP"></span>
           </div>
@@ -38,9 +38,9 @@
             <div class="col-vlg-auto
                         col-lg-auto col-lg-no-padding-right
                         col-md-8
-                        col-sm-12">
-              <div class="sjukskrivningar_period">
-                <label for="{{::config.modelProp}}-{{::field}}-from">från och med</label>
+                        col-sm-12 date-width">
+              <div class="sjukskrivningar_period flex-wrapper">
+                <label for="{{::config.modelProp}}-{{::field}}-from">Fr.o.m</label>
                 <span wc-date-period-field model="::model" field="{{::config.modelProp}}" index="{{::field}}" type="from"
                       on-blur="validate()" ng-class="{'fielderror' : hasValidationError(field, 'from')}"></span>
               </div>
@@ -49,9 +49,9 @@
             <div class="col-vlg-auto
                         col-lg-auto
                         col-md-12
-                        col-sm-12">
-              <div class="sjukskrivningar_period">
-                <label for="{{::config.modelProp}}-{{::field}}-tom">till och med</label>
+                        col-sm-12 date-width">
+              <div class="sjukskrivningar_period flex-wrapper">
+                <label class="padding-right" for="{{::config.modelProp}}-{{::field}}-tom">t.o.m</label>
                 <span wc-date-period-field model="::model" field="{{::config.modelProp}}" index="{{::field}}" type="tom"
                       on-blur="validate()" ng-class="{'fielderror' : hasValidationError(field, 'tom')}"></span>
               </div>
@@ -76,8 +76,8 @@
 
     <div>
       <div ng-repeat="field in ::config.fields">
-      <ue-validation-list field-type="sjukskrivning_period"
-                          validations="validationsForPeriod[field]"></ue-validation-list>
+        <ue-validation-list field-type="sjukskrivning_period"
+                            validations="validationsForPeriod[field]"></ue-validation-list>
       </div>
       <ue-validation-list field-type="sjukskrivning_period" validations="overlapValidations"></ue-validation-list>
     </div>

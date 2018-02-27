@@ -1,0 +1,72 @@
+ue-sjukskrivningar {
+
+  .hours-wrapper {
+    margin: 0.6em 0;
+    label {
+      padding-left: 9px;
+    }
+    span i {
+      padding-top: 10px;
+    }
+  }
+
+  .hoursPerWeek {
+    width: 50px;
+  }
+
+  .sjukskrivningar-section {
+    margin: 0 0 10px 0;
+  }
+
+  label {
+    font-weight: normal;
+    width: auto;
+    margin-bottom: 6px;
+   
+    input[type=checkbox].big-checkbox {
+      margin-top: 5px;
+    }
+  }
+
+  .sjukskrivningar_period {
+  label {
+    margin-right: 9px;
+  }
+    span {
+      margin-bottom: 3px;
+    }
+
+  }
+
+  .flex-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+  }
+
+  .checkbox-width {
+     width: 10em;
+  }
+
+  .date-width {
+    width: 16em;
+     padding-left: 23px;  
+  }
+
+  @media (max-width: 750px) {
+   .hours-wrapper {
+     span i {
+       padding-top: 0;
+     }
+   }
+  }
+
+  @media (max-width: 990px) {
+     .padding-right {
+       padding-right: 8px;
+     }
+  }
+}

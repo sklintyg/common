@@ -67,12 +67,28 @@ angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout
 
                 $scope.dateOptions = {};
 
-                this.onBlur = $scope.onBlur;
-
                 this.fieldOptions = {
                     field : $scope.field,
                     index : $scope.index,
                     type : $scope.type
+                };
+
+                $scope.isFocused = false;
+                $scope.toggleFocus = function() {
+                    if ($scope.isFocused) {
+                        $scope.isFocused = false;
+                    } else {
+                        $scope.isFocused = true;
+                    }
+                };
+
+                $scope.onDatepickerInputFieldBlur = function() {
+                    $scope.toggleFocus();
+                    $scope.onBlur();
+                };
+
+                $scope.focused = function() {
+                    $scope.toggleFocus();
                 };
             },
             link: function(scope, element, attrs, ctrl) {
