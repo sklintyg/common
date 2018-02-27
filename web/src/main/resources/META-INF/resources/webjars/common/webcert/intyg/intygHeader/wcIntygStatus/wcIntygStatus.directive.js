@@ -25,18 +25,6 @@ angular.module('common').directive('wcIntygStatus', [
         ArendeListViewStateService, IntygProxy, IntygStatusService) {
         'use strict';
 
-        function sortByTimestamp(array) {
-            array.sort(function(a, b) {
-                if (a.timestamp < b.timestamp) {
-                    return 1;
-                }
-                if (a.timestamp > b.timestamp) {
-                    return -1;
-                }
-                return 0;
-            });
-        }
-
         return {
             restrict: 'E',
             scope: {
@@ -151,7 +139,7 @@ angular.module('common').directive('wcIntygStatus', [
 
                     addIntygStatus1('is-001', CommonIntygViewState.intygProperties.signeringsdatum);
 
-                    sortByTimestamp($scope.intygstatus1);
+                    IntygStatusService.sortByStatusAndTimestamp($scope.intygstatus1);
                 }
 
                 function updateIntygStatus2() {
@@ -171,7 +159,7 @@ angular.module('common').directive('wcIntygStatus', [
                         addIntygStatus2('is-008', CommonIntygViewState.intygProperties.signeringsdatum);
                     }
 
-                    sortByTimestamp($scope.intygstatus2);
+                    IntygStatusService.sortByStatusAndTimestamp($scope.intygstatus2);
                 }
 
                 $scope.openAllStatusesModal = function() {
@@ -182,7 +170,7 @@ angular.module('common').directive('wcIntygStatus', [
                            text:'Intyget är skapat'
                         });
                     }
-                    sortByTimestamp(allStatuses);
+                    IntygStatusService.sortByStatusAndTimestamp(allStatuses);
                     var allStatusesModalInstance = $uibModal.open({
                         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatusModal.template.html',
                         size: 'lg',
