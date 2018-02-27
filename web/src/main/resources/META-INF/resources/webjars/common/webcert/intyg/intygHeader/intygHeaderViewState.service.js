@@ -34,6 +34,8 @@ angular.module('common').service('common.IntygHeaderViewState', [
                 db: {
                     moduleId: 'doi',
                     name: 'dödsorsaksintyg',
+                    buttonText: '', // generated from name and message string
+                    tooltip: '', // generated from name and message string
                     features: [
                         featureService.features.UNIKT_INTYG_INOM_VG,
                         featureService.features.UNIKT_UTKAST_INOM_VG
@@ -48,6 +50,10 @@ angular.module('common').service('common.IntygHeaderViewState', [
                 this.intygViewState = intygViewState;
                 this.intygType = intygType;
                 this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygType];
+                if(this.currentCreateFromTemplateConfig){
+                    this.currentCreateFromTemplateConfig.buttonText = messageService.getProperty('common.createfromtemplate', {intygName: this.currentCreateFromTemplateConfig.name});
+                    this.currentCreateFromTemplateConfig.tooltip = messageService.getProperty('common.createfromtemplate.tooltip', {intygName: this.currentCreateFromTemplateConfig.name});
+                }
 
                 this.recipientId = moduleService.getModule(intygType).defaultRecipient;
                 this.recipientText = messageService.getProperty('common.recipient.' + this.recipientId.toLowerCase());

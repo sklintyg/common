@@ -131,7 +131,7 @@ angular.module('common').factory('common.IntygMakulera',
                         $log.debug('revoking intyg from dialog' + intyg);
                         _revokeSigneratIntyg('REVOKE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
                     },
-                    button1text: 'common.revoke',
+                    button1text: 'common.makulera',
                     button1id: 'button1makulera-dialog',
                     button3text: 'common.canceldontrevoke',
                     button3id: 'button3makulera-dialog',

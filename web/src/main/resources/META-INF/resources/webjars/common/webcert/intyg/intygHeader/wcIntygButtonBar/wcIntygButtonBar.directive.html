@@ -7,8 +7,13 @@
           ng-if="IntygHeaderService.showCreateFromTemplate()"
           ng-disabled="!IntygHeaderService.enableCreateFromTemplate()"
           ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel)"
-          wc-check-vardenhet>
-    <i class="material-icons">description</i> Skriv {{IntygHeaderService.getCurrentCreateFromTemplateName()}}
+          wc-check-vardenhet
+          uib-popover="{{IntygHeaderService.getCurrentCreateFromTemplate().tooltip}}"
+          popover-trigger="mouseenter"
+          popover-popup-delay="300"
+          popover-append-to-body="true"
+          popover-placement="auto top">
+    <i class="material-icons">description</i> {{IntygHeaderService.getCurrentCreateFromTemplate().buttonText}}
   </button>
 
   <button type="button"
@@ -28,8 +33,13 @@
           id="downloadprint"
           class="btn btn-primary"
           intygType="{{intygType}}"
-          ng-click="print(viewState.intygModel, false)">
-    <i class="material-icons">print</i> <span dynamic-label key="common.button.save.as.pdf"></span>
+          ng-click="print(viewState.intygModel, false)"
+          uib-popover="{{normalPrintBtnTooltipText}}"
+          popover-trigger="mouseenter"
+          popover-popup-delay="300"
+          popover-append-to-body="true"
+          popover-placement="auto top">
+  <i class="material-icons">print</i> <span dynamic-label key="common.button.save.as.pdf"></span>
   </button>
   <div id="downloadprintemployer" intygType="{{intygType}}" style="display:inline;">
     <div class="btn-group" ng-if="showEmployerPrintBtn()">
@@ -38,7 +48,12 @@
               class="btn btn-primary dropdown-toggle"
               data-toggle="dropdown"
               aria-haspopup="true"
-              aria-expanded="false">
+              aria-expanded="false"
+              uib-popover="{{selectPrintBtnTooltipText}}"
+              popover-trigger="mouseenter"
+              popover-popup-delay="300"
+              popover-append-to-body="true"
+              popover-placement="auto top">
         <i class="material-icons">print</i> <span dynamic-label key="common.button.save.as.pdf"></span> <i class="material-icons">expand_more</i>
       </button>
       <ul class="dropdown-menu">
@@ -56,7 +71,7 @@
             popover-append-to-body="true"
             popover-placement="auto top">
           <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true)">
-            <span dynamic-label key="common.button.save.as.pdf.mininmal"></span>
+            <span dynamic-label key="common.button.save.as.pdf.minimal"></span>
           </a>
         </li>
       </ul>
@@ -108,7 +123,7 @@
           ng-click="makulera(viewState.intygModel)"
           wc-check-vardenhet
           vardenhet="{{viewState.enhetsId}}"
-          uib-popover="Om intyget innehåller ett allvarligt fel, exempelvis utfärdat på fel patient, kan du makulera intyget. Ett fönster öppnas där du kan gå vidare och makulera intyget."
+          uib-popover="{{makuleraBtnTooltipText}}"
           popover-trigger="mouseenter"
           popover-popup-delay="300"
           popover-append-to-body="true"

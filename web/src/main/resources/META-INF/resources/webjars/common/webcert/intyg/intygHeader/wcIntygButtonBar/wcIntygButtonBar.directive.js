@@ -51,7 +51,10 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.copyBtnTooltipText = messageService.getProperty('common.copy.tooltip');
             $scope.fornyaBtnTooltipText = messageService.getProperty('common.fornya.tooltip');
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
-            $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
+            $scope.makuleraBtnTooltipText = messageService.getProperty('common.makulera.tooltip');
+            $scope.normalPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.intyg.tooltip');
+            $scope.selectPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.intyg.select.tooltip');
+            $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.minimal.title');
 
             $scope.intygType = intygType;
 
