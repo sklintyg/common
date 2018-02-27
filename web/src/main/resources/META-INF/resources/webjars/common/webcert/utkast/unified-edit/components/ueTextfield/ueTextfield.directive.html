@@ -12,7 +12,8 @@
                ng-disabled="config.disabled(model)"
                ng-class="::{ 'input-{{config.size}}': config.size }"
                maxlength="{{::config.htmlMaxlength || 3500}}"
-               wc-number="{{config.numbersOnly === true}}">
+               wc-number="{{config.numbersOnly === true}}"
+               placeholder="{{config.placeholder}}">
       </div>
     </div>
   </ue-validation-wrapper>

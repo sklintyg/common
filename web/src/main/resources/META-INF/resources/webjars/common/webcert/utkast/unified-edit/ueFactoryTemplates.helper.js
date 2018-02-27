@@ -167,7 +167,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 265,
-                numbersOnly: true
+                numbersOnly: true,
+                placeholder: 'Telefon'
             }])])
 
         };
