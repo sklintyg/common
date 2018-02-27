@@ -37,6 +37,7 @@
 
     &.mottagning {
       @extend %wc-typo-07;
+      color: $wc-color-08;
 
       button {
         padding-left: 38px;
