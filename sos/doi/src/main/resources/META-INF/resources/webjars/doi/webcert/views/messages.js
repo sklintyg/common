@@ -29,10 +29,10 @@ angular.module('doi').constant('doi.messages', {
         'doi.validation.forgiftning.uppkommelse.incorrect_combination': 'Uppkommelse får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej"',
 
         'operation.operationAnledning.operationNejUppgiftSaknas': 'Beskrivning om tillstånd får inte anges om val anges som Nej eller Uppgift Saknas.',
-        'operation.operationDatum.efterDodsdatum': 'Datum får inte vara senare än "Dödsdatum".',
-        'operation.operationDatum.efterAntraffatDodDatum': 'Datum får inte vara senare än "Anträffat död".',
-        'forgiftning.forgiftningDatum.efterDodsdatum': 'Datum får inte vara senare än "Dödsdatum".',
-        'forgiftning.forgiftningDatum.efterAntraffatDodDatum': 'Datum får inte vara senare än "Anträffat död".',
+        'operation.operationDatum.efterDodsdatum': 'Datumet får inte vara senare än "Dödsdatum".',
+        'operation.operationDatum.efterAntraffatDodDatum': 'Datumet får inte vara senare än datumet för "Anträffad död".',
+        'forgiftning.forgiftningDatum.efterDodsdatum': 'Datumet får inte vara senare än "Dödsdatum".',
+        'forgiftning.forgiftningDatum.efterAntraffatDodDatum': 'Datumet får inte vara senare än datumet för "Anträffad död".',
 
         'doi.info.barn.forced.true': 'Det angivna dödsdatumet infaller inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
         'doi.info.barn.forced.false': 'Det angivna dödsdatumet infaller inte inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
