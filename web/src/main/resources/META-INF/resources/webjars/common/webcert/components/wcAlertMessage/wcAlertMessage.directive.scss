@@ -21,6 +21,7 @@ wc-alert-message {
   display: inline-block; /* so it is easier to see bounding box in inspector */
 
   .alert {
+    @extend %wc-typo-07;
     display: inline-block;
     vertical-align: top;
     position: relative;
