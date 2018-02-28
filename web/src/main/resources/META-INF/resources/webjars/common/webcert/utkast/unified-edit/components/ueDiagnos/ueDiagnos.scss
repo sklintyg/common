@@ -36,10 +36,14 @@
       padding-right: 0px;
       width: 450px;
     }
+    .maxwidth {
+      max-width: 100% !important;
+      width: 100% !important;
+    }
   }
 
   .dropdown-menu {
-    max-height: 290px;
+    max-height: 350px;
     max-width: 100%;
     margin-right: 10px;
     padding: 5px 0;
