@@ -33,8 +33,8 @@ angular.module('doi').constant('doi.messages', {
         'operation.operationDatum.efterAntraffatDodDatum': 'Datumet får inte vara senare än datumet för "Anträffad död".',
         'forgiftning.forgiftningDatum.efterDodsdatum': 'Datumet får inte vara senare än "Dödsdatum".',
         'forgiftning.forgiftningDatum.efterAntraffatDodDatum': 'Datumet får inte vara senare än datumet för "Anträffad död".',
-        'doi.validation.terminalDodsorsak.datum.efterDodsdatum': 'Datum för terminal dödsorsak får inte vara senare än "Dödsdatum".',
-        'doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum': 'Datum för terminal dödsorsak får inte vara senare än "Anträffat död".',
+        'doi.validation.terminalDodsorsak.datum.efterDodsdatum': 'Datumet får inte vara senare än "Dödsdatum".',
+        'doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum': 'Datumet får inte vara senare än datumet för "Anträffad död".',
 
         'doi.info.barn.forced.true': 'Det angivna dödsdatumet infaller inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
         'doi.info.barn.forced.false': 'Det angivna dödsdatumet infaller inte inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
