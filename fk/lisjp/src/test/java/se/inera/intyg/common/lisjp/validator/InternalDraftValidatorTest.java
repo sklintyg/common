@@ -633,7 +633,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateSjukskrivningIsTooLong() throws Exception {
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(2);
+        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(4);
 
         Sjukskrivning one = Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
             new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(startDate.plusDays(2))));
