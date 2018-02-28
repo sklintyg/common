@@ -45,6 +45,7 @@ angular.module('common').service('common.IntygStatusService',
             };
 
             this.sortByStatusAndTimestamp = function(array) {
+                /*jshint maxcomplexity:16*/
                 array.sort(function(a, b) {
                     // Status without code should always be first
                     if (!a.code && b.code) {
@@ -87,7 +88,7 @@ angular.module('common').service('common.IntygStatusService',
                     }
                     return 0;
                 });
-            }
+            };
 
         }]
 );

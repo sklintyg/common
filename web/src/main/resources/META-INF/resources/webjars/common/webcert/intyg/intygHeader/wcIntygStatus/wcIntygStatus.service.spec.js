@@ -41,7 +41,7 @@ fdescribe('wcIntygStatus', function() {
             },{
                 code: 'is-001',
                 timestamp:'2018-02-27T16:22:59'
-            }]
+            }];
 
             IntygStatusService.sortByStatusAndTimestamp(statuses);
             expect(statuses[0].code).toBe('is-001');
@@ -65,7 +65,7 @@ fdescribe('wcIntygStatus', function() {
             },{
                 code: 'is-001',
                 timestamp:'2018-02-27T16:22:59'
-            }]
+            }];
 
             IntygStatusService.sortByStatusAndTimestamp(statuses);
             expect(statuses[0].code).toBe('is-008');
@@ -91,7 +91,7 @@ fdescribe('wcIntygStatus', function() {
             },{
                 code: 'is-001',
                 timestamp:'2018-02-27T16:22:59'
-            }]
+            }];
 
             IntygStatusService.sortByStatusAndTimestamp(statuses);
             expect(statuses[0].code).toBe('is-002');
@@ -126,7 +126,7 @@ fdescribe('wcIntygStatus', function() {
             },{
                 code: 'is-003',
                 timestamp:'2018-02-27T17:22:59'
-            }]
+            }];
 
             IntygStatusService.sortByStatusAndTimestamp(statuses);
             expect(statuses[0].code).toBe('is-005');
