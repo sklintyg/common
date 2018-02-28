@@ -22,17 +22,14 @@
             <div ng-if="choice.showDropDown" class="prognos-dropdown">
                 <ue-validation-wrapper field-type="select"
                                        validations="validation.messagesByField[config.modelProp + '.dagartillarbete']">
-                    <ui-select theme="bootstrap" search-enabled="false" ng-model="model[config.modelProp].dagarTillArbete"
-                               on-select="validate()"
-                               ng-disabled="model[config.modelProp].typ !== choice.id" ng-attr-id="prognosDagarTillArbete-{{$index|ueDomIdFilter}}-typ"
-                               name="prognosDagarTillArbete-{{$index}}" append-to-body="false">
-                        <ui-select-match>
-                            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
-                        </ui-select-match>
-                        <ui-select-choices repeat="item.id as item in prognosOptions" value="$select.selected.id">
-                            <span ng-bind="item.label"></span>
-                        </ui-select-choices>
-                    </ui-select>
+                    <wc-dropdown data-items="prognosOptions"
+                                 ng-model="model[config.modelProp].dagarTillArbete"
+                                 ng-disabled="model[config.modelProp].typ !== choice.id"
+                                 data-on-select="validate()"
+                                 use-dynamic-label="false"
+                                 ng-attr-id="prognosDagarTillArbete-{{$index|ueDomIdFilter}}-typ"
+                                 name="prognosDagarTillArbete-{{$index}}">
+                    </wc-dropdown>
                 </ue-validation-wrapper>
             </div>
 
