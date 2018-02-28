@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@media screen {
   // Import partials
   @import "css/_variables.scss";
 
@@ -54,6 +53,7 @@
   @import 'components/headers/wcHeader.partial.scss';
   @import 'components/headers/wcMainMenu/wcMainMenu.directive.scss';
   @import 'components/wcAlertMessage/wcAlertMessage.directive.scss';
+  @import 'components/wcButton/wcButton.directive.scss';
   @import 'components/wcCheckboxWrapper/wcCheckboxWrapper.directive.scss';
   @import 'components/wcDropdown/wcDropdown.directive.scss';
   @import 'components/wcExpandableContent/wcExpandableContent.directive.scss';
@@ -757,5 +757,4 @@
   .date-width {
     width: 130px;
   }
-
-}
+  

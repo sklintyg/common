@@ -20,10 +20,10 @@ angular.module('common').controller('common.UtkastFooter',
     ['$scope', '$rootScope', '$timeout',
         'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
         'common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationViewState',
-        'common.featureService', 'common.UtkastProxy', '$q',
+        'common.featureService', 'common.UtkastProxy', '$q', 'common.dynamicLabelService',
         function($scope, $rootScope, $timeout,
             UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService,
-            utkastValidationViewState, featureService, commonUtkastProxy, $q) {
+            utkastValidationViewState, featureService, commonUtkastProxy, $q, dynamicLabelService) {
             'use strict';
 
             var viewState = $scope.viewState;
@@ -126,6 +126,11 @@ angular.module('common').controller('common.UtkastFooter',
             $scope.isSignAndSendOrKomp = function() {
                 return viewState.common.intyg.isKomplettering || $scope.isSignAndSend();
             };
+
+            var messageKey = 'common.' + ($scope.isSignAndSendOrKomp() ? 'signsend' : 'sign');
+
+            $scope.signBtnText = dynamicLabelService.getProperty(messageKey);
+            $scope.signBtnTooltip = dynamicLabelService.getProperty(messageKey + '.tooltip');
 
             /**
              * Action to sign the certificate draft and return to Webcert again.

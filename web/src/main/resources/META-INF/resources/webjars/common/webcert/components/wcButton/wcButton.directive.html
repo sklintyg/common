@@ -1,0 +1,14 @@
+<button
+    type="button"
+    id="{{::btnId}}"
+    class="btn {{::btnClass}}"
+    uib-tooltip="{{::tooltip}}"
+    data-ng-disabled="disabled || loading"
+    data-ng-click="btnClick()"
+    >
+  <div ng-if="loading" class="loading">
+    <i class="icon-wc-ikon-02 animate-spin"></i>
+  </div>
+  <span ng-transclude></span>
+</button>
+
