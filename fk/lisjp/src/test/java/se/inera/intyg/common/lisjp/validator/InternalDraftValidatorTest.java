@@ -651,7 +651,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateSjukskrivningIsTooLong() throws Exception {
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(4);
+        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(1);
 
         Sjukskrivning one = Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
             new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(startDate.plusDays(2))));
@@ -1265,7 +1265,7 @@ public class InternalDraftValidatorTest {
         skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         patient.setPostadress("postadress");
         patient.setPostnummer("11111");
         patient.setPostort("postort");

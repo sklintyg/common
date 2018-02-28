@@ -21,6 +21,7 @@ package se.inera.intyg.common.luae_fs.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -108,7 +109,7 @@ public class LuaefsModuleApiTest {
 
     private static final String LOGICAL_ADDRESS = "logical address";
     private static final String TEST_HSA_ID = "hsaId";
-    private static final String TEST_PATIENT_PERSONNR = "121212121212";
+    private static final String TEST_PATIENT_PERSONNR = "191212121212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -287,7 +288,8 @@ public class LuaefsModuleApiTest {
     @Test
     public void testCreateNewInternal() throws Exception {
 
-        CreateNewDraftHolder createNewDraftHolder = new CreateNewDraftHolder("1", createHosPersonal(), createPatient());
+        CreateNewDraftHolder createNewDraftHolder =
+                new CreateNewDraftHolder("1", createHosPersonal(), createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
 
         final String renewalFromTemplate = moduleApi.createNewInternal(createNewDraftHolder);
 
@@ -361,8 +363,7 @@ public class LuaefsModuleApiTest {
         final String intygId = "intygId";
 
         GrundData gd = new GrundData();
-        gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
+        gd.setPatient(createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
@@ -446,12 +447,20 @@ public class LuaefsModuleApiTest {
         return intygsStatus;
     }
 
-    private Patient createPatient() {
+    private Patient createPatient(String fornamn, String efternamn, String pnr) {
         Patient patient = new Patient();
-        patient.setFornamn("fornamn");
-        patient.setEfternamn("efternamn");
-        patient.setPersonId(new Personnummer(TEST_PATIENT_PERSONNR));
+        if (StringUtils.isNotEmpty(fornamn)) {
+            patient.setFornamn(fornamn);
+        }
+        if (StringUtils.isNotEmpty(efternamn)) {
+            patient.setEfternamn(efternamn);
+        }
+        patient.setPersonId(createPnr(pnr));
         return patient;
+    }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
     }
 
     private HoSPersonal createHosPersonal() {

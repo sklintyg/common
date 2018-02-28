@@ -18,23 +18,9 @@
  */
 package se.inera.intyg.common.fk7263.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
-
-import java.io.IOException;
-import java.io.StringWriter;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import javax.xml.bind.JAXB;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -44,11 +30,6 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.w3.wsaddressing10.AttributedURIType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
@@ -74,6 +55,19 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
+import javax.xml.bind.JAXB;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
+
 /**
  * @author andreaskaltenbach
  */
@@ -82,7 +76,6 @@ public class Fk7263ModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
     public static final String TESTFILE_UTLATANDE_MINIMAL = "Fk7263ModuleApiTest/utlatande-minimal.json";
-    public static final String TESTFILE_UTLATANDE_FAIL = "Fk7263ModuleApiTest/utlatande-fail.json";
 
     @Mock
     private RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient;
@@ -132,7 +125,7 @@ public class Fk7263ModuleApiTest {
         patient.setMellannamn("updated middle-name");
         patient.setFornamn("updated firstName");
         patient.setFullstandigtNamn("updated full name");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(createPnr("19121212-1212"));
         patient.setPostadress("updated postal address");
         patient.setPostnummer("1111111");
         patient.setPostort("updated post city");
@@ -149,7 +142,7 @@ public class Fk7263ModuleApiTest {
         Patient patient = new Patient();
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(createPnr("19121212-1212"));
         CreateDraftCopyHolder copyHolder = createDraftCopyHolder(patient);
 
         String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
@@ -173,20 +166,20 @@ public class Fk7263ModuleApiTest {
         assertNotNull(holder);
         Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
         assertNull(creatededUtlatande.getGrundData().getPatient().getEfternamn());
-        assertEquals("19121212-1212", creatededUtlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertEquals("191212121212", creatededUtlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
     }
 
     @Test
     public void copyContainsNewPersonnummer() throws IOException, ModuleException {
 
-        Personnummer newSSN = new Personnummer("19121212-1414");
+        Personnummer newSSN = createPnr("19121212-1414");
 
         Fk7263Utlatande utlatande = getUtlatandeFromFile();
 
         Patient patient = new Patient();
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(createPnr("19121212-1212"));
         CreateDraftCopyHolder copyHolder = createDraftCopyHolder(patient);
         copyHolder.setNewPersonnummer(newSSN);
 
@@ -497,6 +490,10 @@ public class Fk7263ModuleApiTest {
         }
 
         return holder;
+    }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
     }
 
     private String marshall(String jsonString) throws Exception {

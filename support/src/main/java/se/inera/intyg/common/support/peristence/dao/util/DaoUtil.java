@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.support.peristence.dao.util;
 
-import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class DaoUtil {
@@ -27,18 +26,15 @@ public final class DaoUtil {
      * Get personnummer in the persisted format (yyyyMMdd-xxxx) regardless of the entered format.
      * Please observe that this method is only to be used in the DAO and other interactions with the persistence layer!
      *
-     * @param pnr Personnummer
+     * @param personnummer Personnummer
      *
      * @return pnr as a String with format yyyyMMdd-xxxx, or the original pnr if formatting was unsuccessful.
      */
-    // CHECKSTYLE:OFF MagicNumber
-    public static String formatPnrForPersistence(Personnummer pnr) {
-        try {
-            final String normalizedPnr = pnr.getNormalizedPnr();
-            return normalizedPnr.substring(0, 8) + "-" + normalizedPnr.substring(8);
-        } catch (InvalidPersonNummerException e) {
-            return pnr.getPersonnummer();
+    public static String formatPnrForPersistence(Personnummer personnummer) {
+        if (!personnummer.isValid()) {
+            return personnummer.getOriginalPnr();
         }
+
+        return personnummer.getPersonnummerWithDash();
     }
-    // CHECKSTYLE:ON MagicNumber
 }

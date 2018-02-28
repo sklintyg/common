@@ -18,56 +18,29 @@
  */
 package se.inera.intyg.common.ts_bas.model.converter;
 
-import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.ts_bas.model.internal.Bedomning;
-import se.inera.intyg.common.ts_bas.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_bas.model.internal.*;
 import se.inera.intyg.common.ts_bas.model.internal.Diabetes;
-import se.inera.intyg.common.ts_bas.model.internal.Funktionsnedsattning;
-import se.inera.intyg.common.ts_bas.model.internal.HjartKarl;
-import se.inera.intyg.common.ts_bas.model.internal.HorselBalans;
-import se.inera.intyg.common.ts_bas.model.internal.IntygAvser;
-import se.inera.intyg.common.ts_bas.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_bas.model.internal.Medicinering;
-import se.inera.intyg.common.ts_bas.model.internal.NarkotikaLakemedel;
-import se.inera.intyg.common.ts_bas.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
-import se.inera.intygstjanster.ts.services.v1.AlkoholNarkotikaLakemedel;
-import se.inera.intygstjanster.ts.services.v1.BedomningTypBas;
-import se.inera.intygstjanster.ts.services.v1.DiabetesTypBas;
-import se.inera.intygstjanster.ts.services.v1.HjartKarlSjukdomar;
-import se.inera.intygstjanster.ts.services.v1.HorselBalanssinne;
-import se.inera.intygstjanster.ts.services.v1.IdentifieringsVarden;
-import se.inera.intygstjanster.ts.services.v1.IdentitetStyrkt;
-import se.inera.intygstjanster.ts.services.v1.IntygsAvserTypBas;
-import se.inera.intygstjanster.ts.services.v1.Korkortsbehorighet;
-import se.inera.intygstjanster.ts.services.v1.KorkortsbehorighetTsBas;
+import se.inera.intygstjanster.ts.services.v1.*;
 import se.inera.intygstjanster.ts.services.v1.Medvetandestorning;
-import se.inera.intygstjanster.ts.services.v1.OvrigMedicinering;
-import se.inera.intygstjanster.ts.services.v1.RorelseorganenFunktioner;
 import se.inera.intygstjanster.ts.services.v1.Sjukhusvard;
-import se.inera.intygstjanster.ts.services.v1.SynfunktionBas;
-import se.inera.intygstjanster.ts.services.v1.SynskarpaMedKorrektion;
-import se.inera.intygstjanster.ts.services.v1.SynskarpaUtanKorrektion;
-import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
 import se.inera.intygstjanster.ts.services.v1.Utvecklingsstorning;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
 
 /**
  * Convert from {@link TsBasUtlatande} to the external {@link TSBasIntyg}
@@ -98,6 +71,7 @@ public final class InternalToTransport {
      */
     public static RegisterTSBasType convert(TsBasUtlatande source)
             throws ConverterException {
+
         LOG.trace("Converting internal model to transport");
 
         if (source == null) {
@@ -141,6 +115,7 @@ public final class InternalToTransport {
         utlatande.setSjukhusvard(buildSjukhusvard(source.getSjukhusvard()));
         utlatande.setSynfunktion(buildSynfunktionBas(source.getSyn()));
         utlatande.setUtvecklingsstorning(buildUtvecklingsstorning(source.getUtvecklingsstorning()));
+
         registerTSBas.setIntyg(utlatande);
         return registerTSBas;
     }

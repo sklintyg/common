@@ -334,22 +334,8 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         ArgumentCaptor<CertificateHolder> certificateCaptor = ArgumentCaptor.forClass(CertificateHolder.class);
         Mockito.verify(moduleContainer, Mockito.only()).certificateReceived(certificateCaptor.capture());
-        assertEquals("19121212-1212", certificateCaptor.getValue().getCivicRegistrationNumber().getPersonnummer());
+        assertEquals("191212121212", certificateCaptor.getValue().getCivicRegistrationNumber().getPersonnummer());
     }
-
-    // INTYG-4086: We explicitly allow empty or missing patient name.
-//    @Test
-//    public void testRegisterMedicalCertificateSaknatPatientnamn() throws Exception {
-//        request.getLakarutlatande().getPatient().setFullstandigtNamn(null);
-//        RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
-//
-//        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
-//        assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-//        assertEquals("Validation Error(s) found: Validation Error:No Patient fullstandigtNamn elements found or set!",
-//                response.getResult().getErrorText());
-//
-//        Mockito.verifyZeroInteractions(moduleContainer);
-//    }
 
     @Test
     public void testRegisterMedicalCertificateSaknadHoSPersonal() throws Exception {

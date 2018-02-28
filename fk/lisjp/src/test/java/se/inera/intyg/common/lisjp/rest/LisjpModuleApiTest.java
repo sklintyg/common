@@ -21,6 +21,7 @@ package se.inera.intyg.common.lisjp.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -101,7 +102,8 @@ public class LisjpModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "internal/scenarios/pass-flera-sysselsattningar.json";
 
-    private static final String LOGICAL_ADDRESS = "logical address";
+    private final String LOGICAL_ADDRESS = "logical address";
+    private final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -382,8 +384,7 @@ public class LisjpModuleApiTest {
         final String intygId = "intygId";
 
         GrundData gd = new GrundData();
-        gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
+        gd.setPatient(createPatient("", "", "191212121212"));
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
@@ -475,11 +476,7 @@ public class LisjpModuleApiTest {
     }
 
     private CreateNewDraftHolder createDraftHolder() {
-        Patient patient = new Patient();
-        patient.setFornamn("fornamn");
-        patient.setEfternamn("efternamn");
-        patient.setPersonId(new Personnummer("personnummer"));
-        return new CreateNewDraftHolder("certificateId", createHosPersonal(), patient);
+        return new CreateNewDraftHolder("certificateId", createHosPersonal(), createPatient());
     }
 
     private HoSPersonal createHosPersonal() {
@@ -489,6 +486,26 @@ public class LisjpModuleApiTest {
         hosPersonal.setVardenhet(new Vardenhet());
         hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
         return hosPersonal;
+    }
+
+    private Patient createPatient() {
+        return createPatient("fornamn", "efternamn", PNR_TOLVAN);
+    }
+
+    private Patient createPatient(String fornamn, String efternamn, String pnr) {
+        Patient patient = new Patient();
+        if (StringUtils.isNotEmpty(fornamn)) {
+            patient.setFornamn(fornamn);
+        }
+        if (StringUtils.isNotEmpty(efternamn)) {
+            patient.setEfternamn(efternamn);
+        }
+        patient.setPersonId(createPnr(pnr));
+        return patient;
+    }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {

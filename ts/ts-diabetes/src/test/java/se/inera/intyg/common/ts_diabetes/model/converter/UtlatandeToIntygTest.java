@@ -18,39 +18,32 @@
  */
 package se.inera.intyg.common.ts_diabetes.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.time.LocalDateTime;
-
-import javax.xml.bind.JAXBElement;
-
 import org.junit.Test;
-
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Relation;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
+import javax.xml.bind.JAXBElement;
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.*;
+
 public class UtlatandeToIntygTest {
+
+    private final String PNR_TOLVAN = "19121212-1212";
+    private final String PNR_TOLVAN_EXPECTED = "191212121212";
 
     @Test
     public void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
-        final String patientPersonId = "pid";
+        final String patientPersonId = PNR_TOLVAN;
         final String skapadAvFullstandigtNamn = "fullstÃ¤ndigt namn";
         final String skapadAvPersonId = "skapad av pid";
         final LocalDateTime signeringsdatum = LocalDateTime.now();
@@ -85,7 +78,7 @@ public class UtlatandeToIntygTest {
         assertEquals("Transportstyrelsens läkarintyg, diabetes", intyg.getTyp().getDisplayName());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
         assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
-        assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
+        assertEquals(PNR_TOLVAN_EXPECTED, intyg.getPatient().getPersonId().getExtension());
         assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
         assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
         assertEquals(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getExtension());
@@ -209,14 +202,14 @@ public class UtlatandeToIntygTest {
     }
 
     private TsDiabetesUtlatande buildUtlatande(String arbetsplatskod) {
-        return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", "patientPersonId",
+        return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
                 "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
                 "patientPostnummer", "patientPostort", null, null);
     }
 
     private TsDiabetesUtlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
-        return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", "patientPersonId",
+        return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
                 "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
                 "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
@@ -227,10 +220,17 @@ public class UtlatandeToIntygTest {
             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
             String patientPostort, RelationKod relationKod, String relationIntygsId) {
+
         TsDiabetesUtlatande utlatande = new TsDiabetesUtlatande();
         utlatande.setId(intygsId);
+
         GrundData grundData = new GrundData();
         HoSPersonal skapadAv = new HoSPersonal();
+
+        Vardgivare vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid(vardgivarid);
+        vardgivare.setVardgivarnamn(vardgivarNamn);
+
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setEnhetsid(enhetsId);
         vardenhet.setEnhetsnamn(enhetsnamn);
@@ -240,17 +240,18 @@ public class UtlatandeToIntygTest {
         vardenhet.setPostort(postOrt);
         vardenhet.setEpost(epost);
         vardenhet.setTelefonnummer(telefonNummer);
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(vardgivarid);
-        vardgivare.setVardgivarnamn(vardgivarNamn);
         vardenhet.setVardgivare(vardgivare);
+
         skapadAv.setVardenhet(vardenhet);
         skapadAv.setFullstandigtNamn(skapadAvFullstandigtNamn);
         skapadAv.setPersonId(skapadAvPersonId);
         skapadAv.setForskrivarKod(forskrivarKod);
+
         grundData.setSkapadAv(skapadAv);
+
+        Personnummer personId = Personnummer.createValidatedPersonnummer(patientPersonId).get();
+
         Patient patient = new Patient();
-        Personnummer personId = new Personnummer(patientPersonId);
         patient.setPersonId(personId);
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);
@@ -258,6 +259,7 @@ public class UtlatandeToIntygTest {
         patient.setPostadress(patientPostadress);
         patient.setPostnummer(patientPostnummer);
         patient.setPostort(patientPostort);
+
         grundData.setPatient(patient);
         grundData.setSigneringsdatum(signeringsdatum);
         if (relationKod != null) {
@@ -266,6 +268,7 @@ public class UtlatandeToIntygTest {
             relation.setRelationKod(relationKod);
             grundData.setRelation(relation);
         }
+
         utlatande.setGrundData(grundData);
         return utlatande;
     }

@@ -167,9 +167,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     @Override
     public String generatePdfFilename(TsDiabetesUtlatande utlatande) {
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        Personnummer personIdDash = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
-
-        final String personnummerString = personIdDash.getPersonnummer() != null ? personIdDash.getPersonnummer() : "NoPnr";
+        String personnummerString = personId.isValid() ? personId.getPersonnummerWithDash() : "NoPnr";
         return String.format("lakarintyg_transportstyrelsen_%s.pdf", personnummerString);
     }
 
@@ -240,7 +238,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
         INVANARE_ADRESS_FALT1.setField(fields, patient.getFullstandigtNamn());
         INVANARE_ADRESS_FALT2.setField(fields, patient.getPostadress());
         INVANARE_ADRESS_FALT3.setField(fields, patient.getPostnummer() + " " + patient.getPostort());
-        INVANARE_PERSONNUMMER.setField(fields, patient.getPersonId().getPersonnummerWithoutDash());
+        INVANARE_PERSONNUMMER.setField(fields, patient.getPersonId().getPersonnummer());
     }
 
     private void populateIntygAvser(IntygAvser intygAvser, AcroFields fields) throws IOException, DocumentException {

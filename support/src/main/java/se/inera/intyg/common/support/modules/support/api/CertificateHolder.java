@@ -255,7 +255,7 @@ public class CertificateHolder {
     public String toString() {
         return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type
                 + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
-                + ", civicRegistrationNumber=" + civicRegistrationNumber.getPnrHash() + ", signedDate=" + signedDate
+                + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
                 + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
                 + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
                 + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + "]";

@@ -26,9 +26,9 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests the {@link Personnummer} class in a context where test dependencies to common-support are required.
@@ -45,23 +45,22 @@ public class PersonnummerCommonTest {
         ClassLoader.getSystemClassLoader().setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", true);
     }
 
-
     @Test
     public void testIsSamordningsNummer() throws Exception {
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(new Personnummer("000000-0000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(new Personnummer("999999-9999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(new Personnummer("0000000000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(new Personnummer("9999999999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(new Personnummer("000000000000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(new Personnummer("199999999999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(new Personnummer("99999999999912345")));
+        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("000000-0000")));
+        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("999999-9999")));
+        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("0000000000")));
+        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("9999999999")));
+        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("000000000000")));
+        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("199999999999")));
+        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("99999999999912345")));
     }
-    
+
     @Test
     public void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
         //Given
         final ObjectMapper objectMapper = new ObjectMapper();
-        final Personnummer originalPnr = new Personnummer("191212121212");
+        final Personnummer originalPnr = createPersonnummer("191212121212").get();
         final CertificateHolder complexType = new CertificateHolder();
         complexType.setCivicRegistrationNumber(originalPnr);
         complexType.setAdditionalInfo("test text");
@@ -77,6 +76,10 @@ public class PersonnummerCommonTest {
 
         //Then
         assertEquals(originalPnr.getPersonnummer(), patient.getCivicRegistrationNumber().getPersonnummer());
+    }
+
+    private Optional<Personnummer> createPersonnummer(String pnr) {
+        return Personnummer.createValidatedPersonnummer(pnr);
     }
 
 }

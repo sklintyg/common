@@ -62,7 +62,9 @@ public class PdfGeneratorTest {
 
         String expected = PREFIX + "_" + P_NR + ".pdf";
 
-        String actual = PdfGenerator.generatePdfFilename(new Personnummer(P_NR), PREFIX);
+        String actual = PdfGenerator.generatePdfFilename(
+                Personnummer.createValidatedPersonnummer(P_NR).get(),
+                PREFIX);
 
         assertEquals(expected, actual);
     }

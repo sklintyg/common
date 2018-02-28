@@ -21,6 +21,7 @@ package se.inera.intyg.common.luae_na.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -81,6 +82,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBST
 public class LuaenaModuleApiTest {
 
     private static final String LOGICAL_ADDRESS = "logical address";
+
+    private final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -218,10 +221,10 @@ public class LuaenaModuleApiTest {
         final String meddelande = "revokeMessage";
         final String intygId = "intygId";
 
-        GrundData gd = new GrundData();
-        gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
         HoSPersonal skapadAv = createHosPersonal();
+
+        GrundData gd = new GrundData();
+        gd.setPatient(createPatient());
         gd.setSkapadAv(skapadAv);
 
         Utlatande utlatande = LuaenaUtlatande.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
@@ -309,6 +312,26 @@ public class LuaenaModuleApiTest {
         hosPerson.setFullstandigtNamn("Doktor A");
         hosPerson.setVardenhet(createVardenhet());
         return hosPerson;
+    }
+
+    private Patient createPatient() {
+        return createPatient("fornamn", "efternamn", PNR_TOLVAN);
+    }
+
+    private Patient createPatient(String fornamn, String efternamn, String pnr) {
+        Patient patient = new Patient();
+        if (StringUtils.isNotEmpty(fornamn)) {
+            patient.setFornamn(fornamn);
+        }
+        if (StringUtils.isNotEmpty(efternamn)) {
+            patient.setEfternamn(efternamn);
+        }
+        patient.setPersonId(createPnr(pnr));
+        return patient;
+    }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
     }
 
     private Vardenhet createVardenhet() {

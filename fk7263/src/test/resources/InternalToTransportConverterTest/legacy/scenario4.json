@@ -20,7 +20,7 @@
             }
         },
         "patient": {
-            "personId": "19121212-1212",
+            "personId": "191212121212",
             "fullstandigtNamn": "Test Testorsson",
             "efternamn": "Test Testorsson"
         }
@@ -31,17 +31,17 @@
     },
 
     "avstangningSmittskydd":false,
-    
+
     "undersokningAvPatienten" : "2013-03-17",
 
     "diagnosKod" : "S47",
-   
+
     "funktionsnedsattning" : "Kraftigt nedsatt rörlighet i överarmen pga skadan.\nBöj- och sträckförmågan är mycket dålig.\nSmärtar vid rörelse vilket ger att patienten inte kan använda armen särkilt mycket.",
     "aktivitetsbegransning" : "Patienten bör/kan inte använda armen förrän skadan läkt.\nSkadan förvärras vid för tidigt påtvingad belastning.\nPatienten kan inte lyfta armen utan den ska hållas riktad nedåt och i fast läge så mycket som möjligt under tiden för läkning.",
 
     "nuvarandeArbete":true,
     "nuvarandeArbetsuppgifter":"Dirigent Dirigerar en för större orkester på deltid",
-    
+
     "nedsattMed100":{
         "from" :"2013-03-17",
         "tom" :"2013-04-07"

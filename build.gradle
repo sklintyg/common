@@ -11,7 +11,8 @@ ext {
     rivtaClinicalprocessSchemasVersion = "3.2.0-RC1"
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"
 
-    schemasContractVersion = "2.1.5"
+    //schemasContractVersion = "2.1.5"
+    schemasContractVersion = "0-SNAPSHOT"
 
     autovalueVersion = "1.5"
     cxfVersion = "3.1.3"

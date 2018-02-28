@@ -20,7 +20,7 @@
             }
         },
         "patient": {
-            "personId": "19121212-1212"
+            "personId": "191212121212"
         }
     },
     "giltighet":{
@@ -29,7 +29,7 @@
     },
 
     "avstangningSmittskydd":false,
-    
+
     "undersokningAvPatienten":"2013-03-17",
     "annanReferens" : "2013-03-10",
 

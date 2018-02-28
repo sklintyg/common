@@ -35,6 +35,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -314,7 +315,7 @@ public final class ValidatorUtil {
 
     public static boolean isYearBeforeBirth(String year, Personnummer personnummer) throws InvalidPersonNummerException {
         // CHECKSTYLE:OFF MagicNumber
-        return personnummer.getNormalizedPnr().substring(0, 4).compareTo(year) > 0;
+        return personnummer.getPersonnummer().substring(0, 4).compareTo(year) > 0;
         // CHECKSTYLE:ON MagicNumber
     }
 
@@ -322,9 +323,9 @@ public final class ValidatorUtil {
         SamordningsnummerValidator samordningsnummerValidator = new SamordningsnummerValidator();
         PersonnummerValidator personnummerValidator = new PersonnummerValidator();
 
-        String birthDate = personnummer.getNormalizedPnr().substring(0, PERSONNUMMER_DATE_END_INDEX);
+        String birthDate = personnummer.getPersonnummer().substring(0, PERSONNUMMER_DATE_END_INDEX);
 
-        if (SamordningsnummerValidator.isSamordningsNummer(personnummer)) {
+        if (SamordningsnummerValidator.isSamordningsNummer(Optional.of(personnummer))) {
             return samordningsnummerValidator.getBirthDay(birthDate);
         }
         return personnummerValidator.getBirthDay(birthDate);

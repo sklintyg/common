@@ -27,26 +27,9 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PersonId;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvRelation;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
-import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.MeddelandeReferens;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Patient;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Relation;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.*;
+import se.riv.clinicalprocess.healthcond.certificate.v3.*;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -54,13 +37,9 @@ import java.time.LocalDate;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
-import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
-import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
-import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
-import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
+import static se.inera.intyg.common.support.Constants.*;
 
 /**
  * Provides utility methods for converting domain objects from internal Java format to transport format.
@@ -133,8 +112,8 @@ public final class InternalConverterUtil {
      */
     public static PersonId getPersonId(Personnummer pnr) {
         PersonId personId = new PersonId();
-        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(pnr) ? SAMORDNING_ID_OID : PERSON_ID_OID);
-        personId.setExtension(pnr.getPersonnummerWithoutDash());
+        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(Optional.of(pnr)) ? SAMORDNING_ID_OID : PERSON_ID_OID);
+        personId.setExtension(pnr.getPersonnummer());
         return personId;
     }
 
@@ -338,8 +317,13 @@ public final class InternalConverterUtil {
 
     private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
             boolean extendedPatientInfo) {
+
+        String pnr = sourcePatient.getPersonId().getPersonnummer();
+        Personnummer personnummer = Personnummer.createValidatedPersonnummer(pnr).get();
+
         Patient patient = new se.riv.clinicalprocess.healthcond.certificate.v3.Patient();
-        patient.setPersonId(getPersonId(new Personnummer(sourcePatient.getPersonId().getPersonnummer())));
+        patient.setPersonId(getPersonId(personnummer));
+
         if (extendedPatientInfo) {
             patient.setEfternamn(emptyStringIfNull(sourcePatient.getEfternamn()));
             patient.setFornamn(emptyStringIfNull(sourcePatient.getFornamn()));

@@ -18,21 +18,13 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.io.IOException;
-
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -41,12 +33,19 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.io.IOException;
+
+import static org.junit.Assert.*;
 
 public class WebcertModelFactoryTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryTest.class);
+
+    public static final String PNR_FJORTON = "19141214-1414";
+    public static final String PNR_TOLVAN = "19121212-1212";
 
     private WebcertModelFactoryImpl factory;
 
@@ -121,7 +120,7 @@ public class WebcertModelFactoryTest {
 
         CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-3", false, true);
 
-        assertEquals("19121212-1212", utlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertEquals(PNR_TOLVAN, utlatande.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
 
         Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
 
@@ -130,7 +129,7 @@ public class WebcertModelFactoryTest {
         assertEquals("new-intyg-3", utlatande.getId());
         assertEquals("fk7263", utlatande.getTyp());
 
-        assertEquals("19141414-1414", copy.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertEquals(PNR_FJORTON, copy.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
         assertNull(copy.getGrundData().getPatient().getFornamn());
         assertNull(copy.getGrundData().getPatient().getEfternamn());
     }
@@ -164,7 +163,7 @@ public class WebcertModelFactoryTest {
             patient.setFornamn("Test");
             patient.setMellannamn("Prov");
             patient.setEfternamn("Testorsson");
-            patient.setPersonId(new Personnummer("19121212-1212"));
+            patient.setPersonId(createPnr(PNR_TOLVAN));
             patient.setPostadress("Gågatan");
             patient.setPostnummer("12345");
             patient.setPostort("Staden");
@@ -172,7 +171,7 @@ public class WebcertModelFactoryTest {
         }
 
         if (addNewPersonId) {
-            copyData.setNewPersonnummer(new Personnummer("19141414-1414"));
+            copyData.setNewPersonnummer(createPnr(PNR_FJORTON));
         }
 
         return copyData;
@@ -203,7 +202,7 @@ public class WebcertModelFactoryTest {
         Patient patient = new Patient();
         patient.setFornamn("fornamn");
         patient.setEfternamn("efternamn");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(createPnr(PNR_TOLVAN));
         return patient;
     }
 
@@ -224,4 +223,9 @@ public class WebcertModelFactoryTest {
         vardenhet.getVardgivare().setVardgivarnamn("vg1");
         return vardenhet;
     }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
+    }
+
 }

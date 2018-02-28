@@ -22,6 +22,7 @@ import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class Patient {
 
@@ -76,7 +77,7 @@ public class Patient {
         if (personId == null) {
             throw new IllegalStateException("No person id has been set");
         }
-        return SamordningsnummerValidator.isSamordningsNummer(personId);
+        return SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId));
     }
 
     public Personnummer getPersonId() {
@@ -158,4 +159,5 @@ public class Patient {
     public void setAvliden(boolean avliden) {
         this.avliden = avliden;
     }
+
 }

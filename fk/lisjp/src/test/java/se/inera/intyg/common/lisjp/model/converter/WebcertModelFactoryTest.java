@@ -18,19 +18,11 @@
  */
 package se.inera.intyg.common.lisjp.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
-import java.time.LocalDateTime;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -42,6 +34,11 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
@@ -62,7 +59,7 @@ public class WebcertModelFactoryTest {
         assertEquals("VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
         assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
         assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
-        assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummerWithoutDash());
+        assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -101,7 +98,7 @@ public class WebcertModelFactoryTest {
         Patient patient = new Patient();
         patient.setFornamn("fornamn");
         patient.setEfternamn("efternamn");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(Personnummer.createValidatedPersonnummer("19121212-1212").get());
         return patient;
     }
 

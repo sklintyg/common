@@ -27,8 +27,8 @@ import static org.junit.Assert.assertEquals;
 public class DaoUtilTest {
     @Test
     public void testPnrWithAndWithoutDashYieldsSameResult() {
-        Personnummer pnr1 = new Personnummer("191212121212");
-        Personnummer pnr2 = new Personnummer("19121212-1212");
+        Personnummer pnr1 = Personnummer.createValidatedPersonnummer("191212121212").get();
+        Personnummer pnr2 = Personnummer.createValidatedPersonnummer("19121212-1212").get();
 
         assertEquals("19121212-1212", DaoUtil.formatPnrForPersistence(pnr1));
         assertEquals("19121212-1212", DaoUtil.formatPnrForPersistence(pnr2));

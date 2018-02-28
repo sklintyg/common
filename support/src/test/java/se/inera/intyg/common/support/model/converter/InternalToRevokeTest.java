@@ -18,16 +18,15 @@
  */
 package se.inera.intyg.common.support.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
-
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class InternalToRevokeTest {
 
@@ -42,7 +41,7 @@ public class InternalToRevokeTest {
         assertEquals(utlatande.getId(), res.getIntygsId().getExtension());
         assertEquals(meddelande, res.getMeddelande());
         assertEquals("1.2.752.129.2.1.3.1", res.getPatientPersonId().getRoot());
-        assertEquals(utlatande.getGrundData().getPatient().getPersonId().getPersonnummerWithoutDash(),
+        assertEquals(utlatande.getGrundData().getPatient().getPersonId().getPersonnummer(),
                 res.getPatientPersonId().getExtension());
         assertEquals(skapatAv.getPersonId(), res.getSkickatAv().getPersonalId().getExtension());
         assertEquals(skapatAv.getFullstandigtNamn(), res.getSkickatAv().getFullstandigtNamn());

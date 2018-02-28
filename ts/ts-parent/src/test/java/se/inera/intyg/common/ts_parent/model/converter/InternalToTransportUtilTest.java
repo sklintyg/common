@@ -18,68 +18,83 @@
  */
 package se.inera.intyg.common.ts_parent.model.converter;
 
+import org.junit.Test;
+import se.inera.intyg.common.support.Constants;
+import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
+import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intygstjanster.ts.services.v1.DiabetesTypVarden;
+
+import java.time.LocalDateTime;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
-
-import org.junit.Test;
-
-import se.inera.intyg.common.support.Constants;
-import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
-import se.inera.intygstjanster.ts.services.v1.DiabetesTypVarden;
-
 public class InternalToTransportUtilTest {
+
+    private final String PNR_TOLVAN = "19121212-1212";
 
     @Test
     public void testConvertWithMillisInTimestamp() {
+        Patient patient = new Patient();
+        patient.setPersonId(createPnr(PNR_TOLVAN));
+
         GrundData grundData = new GrundData();
-        grundData.setPatient(new Patient());
-        grundData.getPatient().setPersonId(new Personnummer("19121212-1212"));
+        grundData.setPatient(patient);
         grundData.setSigneringsdatum(LocalDateTime.of(2012, 8, 12, 12, 10, 42, 543));
         grundData.setSkapadAv(new HoSPersonal());
         grundData.getSkapadAv().setVardenhet(new Vardenhet());
         grundData.getSkapadAv().getVardenhet().setVardgivare(new Vardgivare());
+
         se.inera.intygstjanster.ts.services.v1.GrundData res = InternalToTransportUtil.buildGrundData(grundData);
+
         assertEquals("2012-08-12T12:10:42", res.getSigneringsTidstampel()); // millis is not valid in transport
     }
 
     @Test
     public void testPersonnummerRoot() {
-        final String personnummer = "19121212-1212";
-        GrundData grundData = new GrundData();
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer(personnummer));
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(LocalDateTime.now());
-        HoSPersonal skapadAv = new HoSPersonal();
+        patient.setPersonId(createPnr(PNR_TOLVAN));
+
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setVardgivare(new Vardgivare());
+
+        HoSPersonal skapadAv = new HoSPersonal();
         skapadAv.setVardenhet(vardenhet);
+
+        GrundData grundData = new GrundData();
+        grundData.setPatient(patient);
+        grundData.setSigneringsdatum(LocalDateTime.now());
         grundData.setSkapadAv(skapadAv);
+
         se.inera.intygstjanster.ts.services.v1.GrundData res = InternalToTransportUtil.buildGrundData(grundData);
+
         assertEquals(Constants.PERSON_ID_OID, res.getPatient().getPersonId().getRoot());
-        assertEquals(personnummer, res.getPatient().getPersonId().getExtension());
+        assertEquals(PNR_TOLVAN, res.getPatient().getPersonId().getExtension());
     }
 
     @Test
     public void testSamordningRoot() {
         final String personnummer = "19800191-0002";
-        GrundData grundData = new GrundData();
+
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer(personnummer));
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(LocalDateTime.now());
-        HoSPersonal skapadAv = new HoSPersonal();
+        patient.setPersonId(createPnr(personnummer));
+
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setVardgivare(new Vardgivare());
+
+        HoSPersonal skapadAv = new HoSPersonal();
         skapadAv.setVardenhet(vardenhet);
+
+        GrundData grundData = new GrundData();
+        grundData.setPatient(patient);
+        grundData.setSigneringsdatum(LocalDateTime.now());
         grundData.setSkapadAv(skapadAv);
+
         se.inera.intygstjanster.ts.services.v1.GrundData res = InternalToTransportUtil.buildGrundData(grundData);
+
         assertEquals(Constants.SAMORDNING_ID_OID, res.getPatient().getPersonId().getRoot());
         assertEquals(personnummer, res.getPatient().getPersonId().getExtension());
     }
@@ -107,19 +122,23 @@ public class InternalToTransportUtilTest {
         final String specialisering2 = "spec2";
         final String befattning1 = "befattning1";
         final String befattning2 = "befattning2";
-        GrundData grundData = new GrundData();
+
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer("19121212-1212"));
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(LocalDateTime.now());
+        patient.setPersonId(createPnr(PNR_TOLVAN));
+
+        Vardenhet vardenhet = new Vardenhet();
+        vardenhet.setVardgivare(new Vardgivare());
+
         HoSPersonal skapadAv = new HoSPersonal();
         skapadAv.getSpecialiteter().add(specialisering1);
         skapadAv.getSpecialiteter().add(specialisering2);
         skapadAv.getBefattningar().add(befattning1);
         skapadAv.getBefattningar().add(befattning2);
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setVardgivare(new Vardgivare());
         skapadAv.setVardenhet(vardenhet);
+
+        GrundData grundData = new GrundData();
+        grundData.setPatient(patient);
+        grundData.setSigneringsdatum(LocalDateTime.now());
         grundData.setSkapadAv(skapadAv);
 
         se.inera.intygstjanster.ts.services.v1.GrundData res = InternalToTransportUtil.buildGrundData(grundData);
@@ -130,6 +149,10 @@ public class InternalToTransportUtilTest {
         assertEquals(2, res.getSkapadAv().getBefattningar().size());
         assertEquals(befattning1, res.getSkapadAv().getBefattningar().get(0));
         assertEquals(befattning2, res.getSkapadAv().getBefattningar().get(1));
+    }
+
+    private Personnummer createPnr(String pnr) {
+        return Personnummer.createValidatedPersonnummer(pnr).get();
     }
 
     private Utlatande setupUtlatandeWithTextVersion(String textVersion) {

@@ -18,24 +18,28 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.*;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
+import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
+import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.*;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.LocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
-import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Converts se.inera.certificate.fk7263.insuranceprocess.healthreporting.mu7263.v3.Lakarutlatande Jaxb structure to
@@ -319,7 +323,7 @@ public final class TransportToInternal {
      */
     private static Patient convertPatient(PatientType source) {
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer(source.getPersonId().getExtension()));
+        patient.setPersonId(Personnummer.createValidatedPersonnummer(source.getPersonId().getExtension()).get());
         return patient;
     }
 

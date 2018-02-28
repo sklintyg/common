@@ -21,7 +21,7 @@
             }
         },
         "patient": {
-            "personId": "19121212-1212"
+            "personId": "191212121212"
         }
     },
     "giltighet":{
@@ -48,7 +48,7 @@
     "rehabilitering" : "rehabiliteringGarInteAttBedoma",
     "ressattTillArbeteEjAktuellt" : true,
     "kontaktMedFk" : true,
-    
+
     "diagnosKod" : "S47",
 
     "funktionsnedsattning" : "\n    ",

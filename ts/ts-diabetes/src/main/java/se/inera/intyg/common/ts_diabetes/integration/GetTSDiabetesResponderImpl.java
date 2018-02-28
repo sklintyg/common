@@ -18,25 +18,30 @@
  */
 package se.inera.intyg.common.ts_diabetes.integration;
 
-import java.io.StringReader;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import javax.xml.bind.JAXB;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.modules.support.api.*;
-import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
+import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
+import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
+import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.util.logging.LogMarkers;
-import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.*;
+import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponderInterface;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponseType;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesType;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
 import se.inera.intygstjanster.ts.services.v1.*;
+
+import javax.xml.bind.JAXB;
+import java.io.StringReader;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterface {
 
@@ -46,12 +51,14 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
     private ModuleContainerApi moduleContainer;
 
     @Override
-    public GetTSDiabetesResponseType getTSDiabetes(String logicalAddress, GetTSDiabetesType parameters) {
+    public GetTSDiabetesResponseType getTSDiabetes(String logicalAddress, GetTSDiabetesType request) {
+
         GetTSDiabetesResponseType response = new GetTSDiabetesResponseType();
         CertificateHolder certificate = null;
 
-        String certificateId = parameters.getIntygsId();
-        Personnummer personNummer = parameters.getPersonId() != null ? new Personnummer(parameters.getPersonId().getExtension()) : null;
+        String certificateId = request.getIntygsId();
+        Personnummer personnummer = getPersonnummer(request);
+
 
         if (certificateId == null || certificateId.length() == 0) {
             LOGGER.info(LogMarkers.VALIDATION, "Tried to get certificate with non-existing certificateId '.");
@@ -60,8 +67,8 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
         }
 
         try {
-            certificate = moduleContainer.getCertificate(certificateId, personNummer, false);
-            if (personNummer != null && !certificate.getCivicRegistrationNumber().equals(personNummer)) {
+            certificate = moduleContainer.getCertificate(certificateId, personnummer, false);
+            if (personnummer != null && !certificate.getCivicRegistrationNumber().equals(personnummer)) {
                 response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
                 return response;
             }
@@ -75,7 +82,7 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
                 response.setMeta(createMetaData(certificate));
                 if (certificate.isRevoked()) {
                     response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
-                            String.format("Certificate '%s' has been revoked", parameters.getIntygsId())));
+                            String.format("Certificate '%s' has been revoked", request.getIntygsId())));
                 } else {
                     response.setResultat(ResultTypeUtil.okResult());
                 }
@@ -108,6 +115,18 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
         status.setTimestamp(source.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         status.setType(mapToStatus(source.getState()));
         return status;
+    }
+
+
+    private Personnummer getPersonnummer(GetTSDiabetesType request) {
+        if (request.getPersonId() != null) {
+            Optional<Personnummer> optional = Personnummer.createValidatedPersonnummer(request.getPersonId().getExtension());
+            if (optional.isPresent()) {
+                return optional.get();
+            }
+        }
+
+        return null;
     }
 
     private Status mapToStatus(CertificateState state) {

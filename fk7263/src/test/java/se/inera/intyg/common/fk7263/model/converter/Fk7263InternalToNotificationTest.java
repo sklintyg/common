@@ -18,19 +18,8 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,27 +30,27 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.notification.FragorOchSvar;
 import se.inera.intyg.common.support.modules.support.api.notification.NotificationMessage;
 import se.inera.intyg.common.support.modules.support.api.notification.SchemaVersion;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.certificatestatusupdateforcareresponder.v1.CertificateStatusUpdateForCareType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.HandelsekodKodRestriktion;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class Fk7263InternalToNotificationTest {
@@ -296,8 +285,8 @@ public class Fk7263InternalToNotificationTest {
         Fk7263Utlatande utlatande = new Fk7263Utlatande();
         GrundData grundData = new GrundData();
         Patient patient = new Patient();
-        final String pnr = "19121212-1212";
-        patient.setPersonId(new Personnummer(pnr));
+        final String pnr = "191212121212";
+        patient.setPersonId(createPnr(pnr));
         grundData.setPatient(patient);
         HoSPersonal skapadAv = new HoSPersonal();
         Vardenhet vardenhet = new Vardenhet();
@@ -318,8 +307,8 @@ public class Fk7263InternalToNotificationTest {
         Fk7263Utlatande utlatande = new Fk7263Utlatande();
         GrundData grundData = new GrundData();
         Patient patient = new Patient();
-        final String pnr = "19800191-0002";
-        patient.setPersonId(new Personnummer(pnr));
+        final String pnr = "198001910002";
+        patient.setPersonId(createPnr(pnr));
         grundData.setPatient(patient);
         HoSPersonal skapadAv = new HoSPersonal();
         Vardenhet vardenhet = new Vardenhet();
@@ -442,5 +431,9 @@ public class Fk7263InternalToNotificationTest {
             LOG.error("Could not read test data from: {}, error {}", filePath, e.getMessage());
             return null;
         }
+    }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
     }
 }

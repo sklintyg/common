@@ -30,9 +30,13 @@ public class InvalidCertificateException extends Exception {
 
     private static final long serialVersionUID = 9207157337550587128L;
 
-    public InvalidCertificateException(String certificateId, Personnummer civicRegistrationNumber) {
-        super(civicRegistrationNumber != null
-                ? String.format("Certificate '%s' does not exist for user '%s'", certificateId, civicRegistrationNumber.getPnrHash())
-                : String.format("Unknown certificate ID: %s", certificateId));
+    public InvalidCertificateException(String certificateId, Personnummer personnummer) {
+        super(isValidPersonnummer(personnummer)
+            ? String.format("Certificate '%s' does not exist for user '%s'", certificateId, personnummer.getPersonnummerHash())
+            : String.format("Unknown certificate ID: %s", certificateId));
+    }
+
+    private static boolean isValidPersonnummer(Personnummer personnummer) {
+        return personnummer != null && personnummer.isValid();
     }
 }

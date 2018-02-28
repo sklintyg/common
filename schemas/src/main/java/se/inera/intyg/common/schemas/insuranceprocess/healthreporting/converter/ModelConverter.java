@@ -39,6 +39,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 /**
  * @author andreaskaltenbach
@@ -131,20 +132,20 @@ public final class ModelConverter {
         LakarutlatandeEnkelType lakarutlatande = new LakarutlatandeEnkelType();
 
         lakarutlatande.setLakarutlatandeId(utlatande.getId());
-
         lakarutlatande.setSigneringsTidpunkt(utlatande.getGrundData().getSigneringsdatum());
 
-        PatientType patient = new PatientType();
 
-        II patientIdHolder = new II();
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        patientIdHolder
-                .setRoot(SamordningsnummerValidator.isSamordningsNummer(personId) ? Constants.SAMORDNING_ID_OID : Constants.PERSON_ID_OID);
-        patientIdHolder.setExtension(personId.getPersonnummer());
+        II patientIdHolder = new II();
+        patientIdHolder.setRoot(SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId))
+                ? Constants.SAMORDNING_ID_OID
+                : Constants.PERSON_ID_OID);
+        patientIdHolder.setExtension(personId.getOriginalPnr());
+
+        PatientType patient = new PatientType();
         patient.setPersonId(patientIdHolder);
 
         lakarutlatande.setPatient(patient);
-
         return lakarutlatande;
     }
 

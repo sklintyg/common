@@ -87,12 +87,14 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TsParentModuleApiTest {
 
-    private static final String INTYG_ID = "test-id";
-    private static final String LOGICAL_ADDRESS = "logicalAddress";
+    private final String INTYG_ID = "test-id";
+    private final String LOGICAL_ADDRESS = "logicalAddress";
+
     private static ClassPathResource getCertificateFile;
     private static ClassPathResource revokeCertificateFile;
     private static Utlatande utlatande;
     private static String json;
+
     @SuppressWarnings("unchecked")
     @InjectMocks
     private TsParentModuleApi<Utlatande> moduleApi = mock(TsParentModuleApi.class, Mockito.CALLS_REAL_METHODS);
@@ -250,7 +252,7 @@ public class TsParentModuleApiTest {
         patient.setMellannamn("updated middle-name");
         patient.setFornamn("updated firstName");
         patient.setFullstandigtNamn("updated full name");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(Personnummer.createValidatedPersonnummer("19121212-1212").get());
         patient.setPostadress("updated postal address");
         patient.setPostnummer("1111111");
         patient.setPostort("updated post city");

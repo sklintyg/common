@@ -332,7 +332,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
     protected void fillPatientDetails() {
         fillText(FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR,
-                doiUtlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
+                doiUtlatande.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
         fillText(FIELD_EFTERNAMN, doiUtlatande.getGrundData().getPatient().getEfternamn());
         fillText(FIELD_FORNAMN, doiUtlatande.getGrundData().getPatient().getFornamn());
         fillText(FIELD_BOSTADSADRESS, doiUtlatande.getGrundData().getPatient().getPostadress());

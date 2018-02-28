@@ -21,6 +21,7 @@ package se.inera.intyg.common.doi.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -34,12 +35,7 @@ import se.inera.intyg.common.doi.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.doi.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
@@ -66,19 +62,12 @@ import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DoiModuleApiTest {
@@ -349,10 +338,11 @@ public class DoiModuleApiTest {
         final String meddelande = "revokeMessage";
         final String intygId = "intygId";
 
-        GrundData gd = new GrundData();
-        gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
+        Patient patient = createPatient("", "", "191212121212");
         HoSPersonal skapadAv = createHosPersonal();
+
+        GrundData gd = new GrundData();
+        gd.setPatient(patient);
         gd.setSkapadAv(skapadAv);
 
         Utlatande utlatande = createUtlatande();// DodsbevisUtlatande.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
@@ -386,11 +376,13 @@ public class DoiModuleApiTest {
     }
 
     private Utlatande createUtlatande() {
-        GrundData gd = new GrundData();
-        gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
+        Patient patient = createPatient("", "", "191212121212");
         HoSPersonal skapadAv = createHosPersonal();
+
+        GrundData gd = new GrundData();
+        gd.setPatient(patient);
         gd.setSkapadAv(skapadAv);
+
         return DoiUtlatande.builder().setId("intygId").setGrundData(gd).setTextVersion("").build();
     }
 
@@ -407,11 +399,20 @@ public class DoiModuleApiTest {
     }
 
     private CreateNewDraftHolder createDraftHolder() {
-        Patient patient = new Patient();
-        patient.setFornamn("fornamn");
-        patient.setEfternamn("efternamn");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        Patient patient = createPatient("fornamn", "efternamn", "19121212-1212");
         return new CreateNewDraftHolder("certificateId", createHosPersonal(), patient);
+    }
+
+    private Patient createPatient(String fornamn, String efternamn, String pnr) {
+        Patient patient = new Patient();
+        if (StringUtils.isNotEmpty(fornamn)) {
+            patient.setFornamn(fornamn);
+        }
+        if (StringUtils.isNotEmpty(efternamn)) {
+            patient.setEfternamn(efternamn);
+        }
+        patient.setPersonId(Personnummer.createValidatedPersonnummer(pnr).get());
+        return patient;
     }
 
     private HoSPersonal createHosPersonal() {
