@@ -4,10 +4,12 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
-        controller: ['$scope', '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService', 'common.srsService',
-            'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService', 'common.UtkastValidationService',
-            function($scope, $log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper, monitoringService,
-                ArendeListViewState, UtkastValidationService) {
+        controller: ['$scope', '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService',
+            'common.srsService',
+            'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService',
+            'common.UtkastValidationService', 'common.DateUtilsService',
+            function($scope, $log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper,
+                monitoringService, ArendeListViewState, UtkastValidationService, DateUtilsService) {
 
                 var formState = $scope.formState;
                 formState.diagnosKodSystem = 'ICD_10_SE';
@@ -31,7 +33,7 @@ angular.module('common').run(function(formlyConfig) {
                         if (ObjectHelper.isEmpty(newValue) || newValue.length < 3) {
                             fmbViewState.reset(0);
                         }
-                        else{
+                        else {
                             srsService.updateDiagnosKod(newValue);
                             var diagnoseModel = $scope.model[$scope.options.key][0];
                             srsService.updateDiagnosBeskrivning(diagnoseModel.diagnosBeskrivning);
@@ -124,6 +126,34 @@ angular.module('common').run(function(formlyConfig) {
                     }
                     diagnoseModel.diagnosBeskrivning = $item.beskrivning;
                     diagnoseModel.diagnosKodSystem = formState.diagnosKodSystem;
+                    if (index === 0) {
+                        if ($item.value === 'M751') {
+                            var overWriteFollwingValuesInModel = {
+                                "avstangningSmittskydd": false,
+                                "sysselsattning": {"NUVARANDE_ARBETE": true},
+                                "funktionsnedsattning": "Smärta, svullnad, inskränkt rörlighet och nedsatt kraft i skulderleden.",
+                                "aktivitetsbegransning": "Har på grund av smärtor svårt att använda axeln/armen. Har ingen kraft, kan inte lyfta eller belasta. Kan inte utföra manuellt arbete med armen, som kan vara obrukbar under läkningsprocessen. Särskilt svårt är arbete med armen ovan axelhöjd.",
+                                "pagaendeBehandling": "Smärta, nattlig värk samt stelhet i skuldra. Operation utförd idag.",
+                                "planeradBehandling": "Avlastning, sjukgymnastik.",
+                                "sjukskrivningar": {
+                                    "HELT_NEDSATT": {
+                                        "period": {
+                                            "from": DateUtilsService.todayAsYYYYMMDD(),
+                                            "tom": moment().add('weeks', 8).format('YYYY-MM-DD')
+                                        }
+                                    },
+                                    "TRE_FJARDEDEL": {"period": {"from": "", "tom": ""}},
+                                    "HALFTEN": {"period": {"from": "", "tom": ""}},
+                                    "EN_FJARDEDEL": {"period": {"from": "", "tom": ""}}
+                                },
+                                "prognos": {"typ": "STOR_SANNOLIKHET"},
+                                "arbetslivsinriktadeAtgarder": {"EJ_AKTUELLT": true}
+                            };
+                            angular.merge($scope.model, overWriteFollwingValuesInModel);
+                        } else if ($item.value === 'F322') {
+
+                        }
+                    }
                     $scope.form.$setDirty();
                     fmbService.updateFmbText(index, $item.value);
                 };
@@ -144,7 +174,7 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.onDiagnoseCodeChanged = function(index) {
-                    if (index === 0 && $scope.form['diagnoseCode' + index].$viewValue === ''){
+                    if (index === 0 && $scope.form['diagnoseCode' + index].$viewValue === '') {
                         srsService.updateDiagnosKod($scope.model.diagnosKod);
                     }
                     if (!$scope.form['diagnoseCode' + index].$viewValue) {
