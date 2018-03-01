@@ -520,7 +520,7 @@ angular.module('common').constant('common.messages', {
         'common.label.date': 'Datum',
         'common.label.choose': 'Välj...',
 
-        // UE komponenter
+        // Standard valideringsmeddelande UE komponenter
 
         'common.validation.ue-checkbox-date.empty': 'Fältet får inte vara tomt.',
         'common.validation.ue-checkbox-date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD.',
@@ -543,22 +543,8 @@ angular.module('common').constant('common.messages', {
         'common.validation.ue-vaguedate.empty': 'Du måste ange år och månad.',
         'common.validation.ue-vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00',
 
-        // Formly komponenter - ta bort när formly tas bort
-        /*
-        'common.validation.boolean.empty': 'Du måste välja ett alternativ.',
-        'common.validation.check-group.empty': 'Du måste välja minst ett alternativ.',
-        'common.validation.multi-text.empty': 'Fältet får inte vara tomt.',
-        'common.validation.text-group.empty': 'Minst ett fält måste fyllas i',
-        'common.validation.radio-group.empty': 'Du måste välja ett alternativ.',
-        'common.validation.select.empty': 'Du måste välja ett alternativ.',
-        'common.validation.singledate.empty': 'Du måste välja datum.',
-        'common.validation.singledate.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
-        'common.validation.single-text.empty': 'Fältet får inte vara tomt.',
-        'common.validation.single-text-vertical.empty': 'Fältet får inte vara tomt.',
-        'common.validation.typeahead.empty': 'Fältet får inte vara tomt.',
-        'common.validation.underlag.empty': 'Minst en rad måste fyllas i',
-        'common.validation.date.empty': 'Fältet får inte vara tomt.',
-        'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        // Specifika valideringsmeddelande från backend
+
         'common.validation.date.year.not_selected': 'Du måste ange år och månad.',
         'common.validation.date.month.not_selected': 'Du måste ange månad.',
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
@@ -593,10 +579,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.sjukskrivning_period.halften.invalid_format': 'Datum för nedsatt arbetsförmåga med 50% har angetts på felaktigt format.',
         'common.validation.sjukskrivning_period.tre_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format.',
         'common.validation.sjukskrivning_period.helt_nedsatt.invalid_format': 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format.',
-        'common.validation.underlag.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
-        'common.validation.vaguedate.empty': 'Du måste ange år och månad.',
-        'common.validation.vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00',
-*/
+
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
         'common.error.authorization_problem': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',
