@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('common.UtkastHeader', [ '$scope', '$state', '$window',
-    'ViewState', 'common.UtkastHeaderViewState', 'common.UtkastService',
+    'ViewState', 'common.UtkastHeaderViewState', 'common.UtkastService', '$http', '$timeout',
     function($scope, $state, $window,
-        ViewState, UtkastHeaderViewState, UtkastService) {
+        ViewState, UtkastHeaderViewState, UtkastService, $http, $timeout) {
        'use strict';
 
         $scope.utkastViewState = ViewState;
@@ -27,8 +27,16 @@ angular.module('common').controller('common.UtkastHeader', [ '$scope', '$state',
         var intygType = $state.current.data.intygType; // get type from state so we dont have to wait for intyg.load
 
         UtkastHeaderViewState.setIntygViewState(ViewState, intygType);
+        var oldUnload = $window.onbeforeunload;
 
         $window.onbeforeunload = function(event) {
+            if (oldUnload !== undefined) {
+                oldUnload(event);
+                // Timeout is stalled while leave/stay is shown.
+                $timeout(function() {
+                    $http.get('/api/anvandare/logout/cancel');
+                }, 500);
+            }
             if ($scope.certForm.$dirty) {
                 // Trigger a save now. If the user responds with "Leave the page" we may not have time to save
                 // before the page is closed. We could use an ajax request with async:false this will force the
@@ -47,6 +55,6 @@ angular.module('common').controller('common.UtkastHeader', [ '$scope', '$state',
         };
 
         $scope.$on('$destroy', function() {
-            $window.onbeforeunload = null;
+            $window.onbeforeunload = oldUnload;
         });
     }]);
