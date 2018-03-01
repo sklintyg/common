@@ -205,7 +205,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                 getConfig: function() {
                     return angular.copy(config);
                 },
-                getcategoryIds: function() {
+                getCategoryIds: function() {
                     return angular.copy(categoryIds);
                 }
             };

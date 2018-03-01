@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-diabetes', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common', 'formly' ]);
+angular.module('ts-diabetes', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
 
 // Inject language resources
 angular.module('ts-diabetes').run([ 'common.messageService', 'ts-diabetes.messages',

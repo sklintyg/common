@@ -25,7 +25,7 @@
 
               <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>
 
-              <div ui-view="formly" />
+              <div ui-view="utkast" />
 
               <!-- 12. Sign doktor -->
               <div wc-field-signing-doctor></div>
@@ -36,7 +36,7 @@
           </div>
           <!-- certificate -->
 
-          <wc-utkast-error-summary-fk category-names="categoryNames"
+          <wc-utkast-error-summary-fk category-ids="categoryIds"
                                       view-state="viewState"></wc-utkast-error-summary-fk>
           <div ui-view="footer"></div>
 

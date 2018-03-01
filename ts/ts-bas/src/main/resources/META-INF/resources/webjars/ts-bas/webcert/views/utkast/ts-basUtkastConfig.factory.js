@@ -563,9 +563,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 getConfig: function() {
                     return angular.copy(config);
                 },
-                getCategoryNames: function() {
-                    return angular.copy(categoryIds);
-                },
                 getCategoryIds: function() {
                     return angular.copy(categoryIds);
                 }

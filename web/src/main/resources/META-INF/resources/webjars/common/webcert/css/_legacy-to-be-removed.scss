@@ -128,7 +128,7 @@ td .last-validation .validation, .last-validation td .validation {
     border: 1px solid $wc-color-16;
   }
   .fieldkomplettering {
-    input[TYPE='text'], textarea, .ui-select-match {
+    input[TYPE='text'], textarea {
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 131, 145, 0.6);
       border: 1px solid $wc-color-16;
     }
@@ -139,7 +139,7 @@ td .last-validation .validation, .last-validation td .validation {
     border: 1px solid $wc-color-11;
   }
   .fielderror {
-    input[TYPE='text']:not(.no-fielderror), textarea, .ui-select-match {
+    input[TYPE='text']:not(.no-fielderror), textarea {
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
       border: 1px solid $wc-color-11;
     }
@@ -151,116 +151,6 @@ td .last-validation .validation, .last-validation td .validation {
   }
 }
 
-/*
-.card {
-  margin: 0 0px 0px 0;
-  padding-bottom: 20px;
-  border-radius: 6px 6px 6px 6px;
-  font-size: 13px;
-
-  .formly-field {
-    &:not(:nth-last-child(2)) {
-      &.small-gap {
-        padding-bottom: 5px;
-      }
-    }
-    &.formly-field-headline {
-      padding-bottom: 0;
-    }
-    &.formly-field-single-text, &.formly-field-check-multi-text {
-      padding-bottom: 10px;
-    }
-    &.formly-field-single-text:nth-last-child(2), &.formly-field-check-multi-text:nth-last-child(2) {
-      padding-bottom: 0;
-    }
-  }
-
-  input[wc-maxlength] {
-    margin: 0;
-  }
-  h4 {
-    font-size: 16px;
-    padding-bottom: 10px;
-    line-height: 19px;
-    &.intyg-field-number {
-      float: right;
-      padding: 0 0 0 10px;
-      color: $wc-color-16;
-      font-size: 15px;
-    }
-    &.noH5After {
-      padding-bottom: 10px;
-    }
-  }
-  h5 {
-    font-size: 13px;
-    padding-bottom: 5px;
-    line-height: 17px;
-  }
-  a {
-    color: $wc-color-16;
-  }
-
-  .intyg-field-blank {
-    color: $wc-color-16;
-  }
-  &__heading {
-    margin: 0;
-    color: $wc-color-16;
-    font-size: 16px;
-    font-weight: bold;
-    padding-bottom: 0px;
-    border-radius: 4px 4px 4px 4px;
-    position: relative;
-    display: inline;
-    vertical-align: sub;
-  }
-  &__titlerow {
-    padding-bottom: 10px;
-  }
-  .title-single {
-    vertical-align: middle;
-    margin: 0;
-    cursor: pointer;
-  }
-  &__content {
-    display: block;
-    background-color: $wc-color-13;;
-    border-radius: 4px 4px 4px 4px;
-    .divider {
-      border-bottom: 1px solid $wc-color-22;
-    }
-    &.unfilled {
-      background-color: $wc-color-00;
-      border: 2px solid $wc-color-13;;
-    }
-  }
-  &__subcontent {
-    border: 1px solid $wc-color-15;
-    background-color: $wc-color-20;
-    border-radius: 7px 7px 7px 7px;
-    margin-bottom: 16px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-    padding: 20px;
-  }
-  .unfilled {
-    color: $wc-color-22;
-    border-radius: 4px 4px 4px 4px;
-  }
-  hr {
-    border-bottom: 1px solid $wc-color-00;
-    margin-left: -14px;
-    margin-right: -14px;
-  }
-
-  .maxwidth {
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-}
-*/
 /* Intyg-edit menu header collapse animation */
 
 %transition-with-ease-out {

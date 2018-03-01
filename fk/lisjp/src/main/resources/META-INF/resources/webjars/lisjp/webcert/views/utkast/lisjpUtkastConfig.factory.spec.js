@@ -20,25 +20,20 @@ describe('lisjpFormFactory', function() {
     'use strict';
 
     var element;
-    var lispFormFactory;
     var $scope;
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.anchorScrollService', {scrollTo: function() {}});
     }));
     beforeEach(angular.mock.module('lisjp'));
-    beforeEach(inject(['$compile', '$rootScope', 'lisjp.FormFactory', 'lisjp.Domain.IntygModel',
-        function($compile, $rootScope, _lisjpFormFactory_, _lisjpIntygModel_) {
-        lispFormFactory = _lisjpFormFactory_;
+    beforeEach(inject(['$compile', '$rootScope', 'lisjp.UtkastConfigFactory', 'lisjp.Domain.IntygModel',
+        function($compile, $rootScope, _lisjpUtkastConfigFactory_, _lisjpIntygModel_) {
 
         $scope = $rootScope.$new();
         $scope.model = _lisjpIntygModel_._members.build().content;
-        $scope.options = {
-            formState:{viewState:{common:{validation:{}}}}
-        };
-        $scope.formFields = lispFormFactory.getFormFields();
-        element =
-            angular.element('<form><formly-form model="model" fields="formFields" options="options"></formly-form></form>');
+        $scope.ueConfig = _lisjpUtkastConfigFactory_.getConfig();
+        element = angular.element(
+            '<form name="certForm"><ue-render-components form="::certForm" config="::ueConfig" model="::model"></ue-render-components></form>');
         $compile(element)($scope);
         $scope.$digest();
     }]));
@@ -94,6 +89,9 @@ describe('lisjpFormFactory', function() {
          */
         $scope.model.avstangningSmittskydd = true;
         $scope.$digest();
+
+//console.log(JSON.stringify($scope.model.toSendModel(), null, 1));
+//console.log(JSON.stringify(utkastDataSmittskydd, null, 1));
 
         expect(angular.equals($scope.model.toSendModel(), utkastDataSmittskydd)).toBeTruthy();
 

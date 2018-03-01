@@ -22,44 +22,6 @@ angular.module('luse').config(function($stateProvider) {
     var commonPath = '/web/webjars/common/webcert/';
 
     $stateProvider.
-        state('luse-edit-formly', {
-            data: { defaultActive : 'index', intygType: 'luse' },
-            url : '/luse/edit-formly/:certificateId/:focusOn',
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: 'luse.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luse.FormFactory',
-                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
-                    }
-                },
-
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
-
-                'header@luse-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
-
-                'footer@luse-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
-
-                'formly@luse-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
-                    resolve: {
-                        ViewState: 'luse.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luse.FormFactory'
-                    }
-                }
-            }
-        }).
         state('luse-edit', {
             data: { defaultActive : 'index', intygType: 'luse' },
             url : '/luse/edit/:certificateId/:focusOn',
@@ -69,7 +31,7 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'luse.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luse.FormFactory',
+                        UtkastConfigFactory: 'luse.UtkastConfigFactory',
                         supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },
@@ -90,7 +52,7 @@ angular.module('luse').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-                'formly@luse-edit' : {
+                'utkast@luse-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {

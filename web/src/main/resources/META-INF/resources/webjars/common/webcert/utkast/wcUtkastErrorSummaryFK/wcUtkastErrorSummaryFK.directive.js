@@ -33,7 +33,7 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
                 controller: function($scope) {
                     $scope.lookUpLabel = function(category) {
 
-                        var keys = Object.keys($scope.categoryNames);
+                        var keys = Object.keys($scope.categoryIds);
 
                         for(var i = 0; i < keys.length; i++) {
 
@@ -42,7 +42,7 @@ angular.module('common').directive('wcUtkastErrorSummaryFk',
                             }
 
                             var categoryLc = category.toLowerCase();
-                            var categoryNameLc = $scope.categoryNames[keys[i]].toLowerCase();
+                            var categoryNameLc = $scope.categoryIds[keys[i]].toLowerCase();
                             if (categoryLc === categoryNameLc) {
                                 var result = dynamicLabelService.getProperty('KAT_' + keys[i] + '.RBK');
                                 if (result) {

@@ -22,44 +22,6 @@ angular.module('luae_fs').config(function($stateProvider) {
     var commonPath = '/web/webjars/common/webcert/';
 
     $stateProvider.
-        state('luae_fs-edit-formly', {
-            data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url : '/luae_fs/edit-formly/:certificateId/:focusOn',
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: 'luae_fs.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luae_fs.FormFactory',
-                        supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory'
-                    }
-                },
-
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
-
-                'header@luae_fs-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
-
-                'footer@luae_fs-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
-
-                'formly@luae_fs-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
-                    resolve: {
-                        ViewState: 'luae_fs.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luae_fs.FormFactory'
-                    }
-                }
-            }
-        }).
         state('luae_fs-edit', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
             url : '/luae_fs/edit/:certificateId/:focusOn',
@@ -69,7 +31,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'luae_fs.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luae_fs.FormFactory',
+                        UtkastConfigFactory: 'luae_fs.UtkastConfigFactory',
                         supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory'
                     }
                 },
@@ -90,7 +52,7 @@ angular.module('luae_fs').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-                'formly@luae_fs-edit' : {
+                'utkast@luae_fs-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {

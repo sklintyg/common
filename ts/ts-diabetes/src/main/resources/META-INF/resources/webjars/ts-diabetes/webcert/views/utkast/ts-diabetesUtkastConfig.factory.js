@@ -358,9 +358,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                 getConfig: function() {
                     return angular.copy(config);
                 },
-                getCategoryNames: function() {
-                    return angular.copy(categoryIds);
-                },
                 getCategoryIds: function() {
                     return angular.copy(categoryIds);
                 }

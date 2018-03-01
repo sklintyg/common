@@ -158,7 +158,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                     }])
                 ]),
 
-                kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
+                kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
                     fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', {}, [{
                         type: 'ue-textarea',
                         modelProp: 'pagaendeBehandling',
@@ -275,7 +275,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             helpKey: 'FRG_34.HLP'
                         }
                     }]),
-                    fraga(39, 'FRG_39.RBK', 'FRG_39.HLP', { required: true }, [{
+                    fraga(39, 'FRG_39.RBK', 'FRG_39.HLP', { required: true, hideExpression: 'model.avstangningSmittskydd' }, [{
                         type: 'ue-prognos',
                         modelProp: 'prognos',
                         code: 'KV_FKMU_0006',
@@ -294,7 +294,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                     }])
                 ]),
 
-                kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', {}, [
+                kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
                     fraga(40, 'FRG_40.RBK', 'FRG_40.HLP', { required: true }, [{
                         type: 'ue-checkgroup',
                         modelProp: 'arbetslivsinriktadeAtgarder',

@@ -56,7 +56,6 @@
   @import 'components/wcAlertMessage/wcAlertMessage.directive.scss';
   @import 'components/wcCheckboxWrapper/wcCheckboxWrapper.directive.scss';
   @import 'components/wcDropdown/wcDropdown.directive.scss';
-  @import 'components/wcFormLabel/wcFormLabel.scss';
   @import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
   @import 'components/wcHelpChevron/wcHelpChevron.directive.scss';
   @import 'components/wcHelpChevronText/wcHelpChevronText.directive.scss';
@@ -100,17 +99,6 @@
   @import 'intyg/unified-view/wcInlineKomplettering/wcInlineKomplettering.directive.scss';
   @import 'utkast/fmb/_fmb.scss';
   @import 'utkast/fmb/wcHelpWrapper.scss';
-  @import 'utkast/formly/checkMultiText.formly.scss';
-  @import 'utkast/formly/diagnos.scss';
-  @import 'utkast/formly/dodsorsakMulti.scss';
-  @import 'utkast/formly/dodsorsakRow.scss';
-  @import 'utkast/formly/dodsorsakTerminalFoljd.scss';
-  @import 'utkast/formly/multiText.formly.scss';
-  @import 'utkast/formly/prognos.scss';
-  @import 'utkast/formly/sjukskrivningar.scss';
-  @import 'utkast/formly/underlag.scss';
-  @import 'utkast/formly/vagueDate.scss';
-  @import 'utkast/formly/wrapper/wcFraga.scss';
   @import 'utkast/srs/_srs.scss';
   @import 'utkast/srs/components/wcSrsDiagnoseInfo/wcSrsDiagnoseInfo.directive.scss';
   @import 'utkast/unified-edit/components/ueAlert/ueAlert.directive.scss';
@@ -127,6 +115,7 @@
   @import 'utkast/unified-edit/components/uePrognos/uePrognos.directive.scss';
   @import 'utkast/unified-edit/components/ueRadio/ueRadio.directive.scss';
   @import 'utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.scss';
+  @import 'utkast/unified-edit/components/ueSjukskrivningar/ueSjukskrivningar.directive.scss';
   @import 'utkast/unified-edit/components/ueSynskarpa/ueSynskarpa.directive.scss';
   @import 'utkast/unified-edit/components/ueText/ueText.directive.scss';
   @import 'utkast/unified-edit/components/ueTextarea/ueTextArea.directive.scss';
@@ -141,13 +130,13 @@
   @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
   @import 'utkast/unified-edit/ueComponent.scss';
-  @import 'utkast/utkast-header/utkastHeader.scss';
   @import 'utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.scss';
   @import 'utkast/wcFieldSingle/wcFieldSingle.directive.scss';
   @import 'utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.scss';
   @import 'utkast/wcUtkastErrorSummaryFK/wcUtkastErrorSummaryFK.directive.scss';
+  @import 'utkast/wcUtkastPatientAddressUpdater/wcUtkastPatientAddressUpdater.directive.scss';
   // endinjector
 
   %font-common {
@@ -492,18 +481,6 @@
   /* alert-dismissable is not used anywhere, but close is. This selector will not be applied */
   .alert-dismissable .close {
     right: -10px;
-  }
-
-  /* Used in patient-address-updater.formly.html */
-  .wc-utkast-patient-address-updater {
-
-    .patient-address-updater-label {
-      color: $wc-color-09;
-      padding-left: 5px;
-    }
-    .alert {
-      margin:5px 0 0 0;
-    }
   }
 
 

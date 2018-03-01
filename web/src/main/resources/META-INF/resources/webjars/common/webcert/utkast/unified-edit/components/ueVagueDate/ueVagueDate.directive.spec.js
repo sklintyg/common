@@ -32,15 +32,12 @@ describe('vagueDate', function() {
         $scope.model = {
             date:undefined
         };
-        $scope.options = {
-            formState:{viewState:{common:{validation:{}}}}
+        $scope.config = {
+            type: 'ue-vague-date',
+            modelProp: 'date'
         };
-        $scope.formFields = [{
-            key: 'date',
-            type: 'vagueDate'
-        }];
         element =
-            angular.element('<form><formly-form model="model" fields="formFields" options="options"></formly-form></form>');
+            angular.element('<form><ue-vague-date model="model" config="config" form="form"></ue-vague-date></form>');
         $compile(element)($scope);
         $scope.$digest();
         $scope = element.find('#form_date').scope();

@@ -88,6 +88,11 @@ angular.module('common').directive('uePrognos', ['$log', '$timeout', 'common.dyn
                     model.clear('prognos.dagarTillArbete');
                 }
             });
+
+            $scope.$on('$destroy', function() {
+                $scope.model.updateToAttic('prognos.dagarTillArbete');
+                $scope.model.clear('prognos.dagarTillArbete');
+            });
         }
     };
 

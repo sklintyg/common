@@ -22,44 +22,6 @@ angular.module('luae_na').config(function($stateProvider) {
     var commonPath = '/web/webjars/common/webcert/';
 
     $stateProvider.
-        state('luae_na-edit-formly', {
-            data: { defaultActive : 'index', intygType: 'luae_na' },
-            url : '/luae_na/edit-formly/:certificateId/:focusOn',
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: 'luae_na.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luae_na.FormFactory',
-                        supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
-                    }
-                },
-
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
-
-                'header@luae_na-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
-
-                'footer@luae_na-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
-
-                'formly@luae_na-edit-formly' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
-                    resolve: {
-                        ViewState: 'luae_na.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luae_na.FormFactory'
-                    }
-                }
-            }
-        }).
         state('luae_na-edit', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
             url : '/luae_na/edit/:certificateId/:focusOn',
@@ -69,7 +31,7 @@ angular.module('luae_na').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'luae_na.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luae_na.FormFactory',
+                        UtkastConfigFactory: 'luae_na.UtkastConfigFactory',
                         supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
                     }
                 },
@@ -90,7 +52,7 @@ angular.module('luae_na').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-                'formly@luae_na-edit' : {
+                'utkast@luae_na-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {

@@ -1,11 +1,11 @@
-<div wc-date-period-manager model="model" class="sjukskrivningar">
+<div wc-date-period-manager model="model">
   <ue-label config="::config.label"></ue-label>
 
   <wc-alert-message ng-attr-id="lastEffectiveDateNoticeText|ueDomIdFilter" alert-severity="info" ng-if="lastEffectiveDateNoticeText">
     {{lastEffectiveDateNoticeText}}
   </wc-alert-message>
 
-  <div class="formly-field form-inline row">
+  <div class="form-inline row">
     <div class="col-md-12">
       <label>
         <span dynamic-label key="common.sit.label.sjukskrivning.hoursperweek"></span>

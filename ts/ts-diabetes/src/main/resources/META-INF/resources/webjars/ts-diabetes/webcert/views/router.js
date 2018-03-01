@@ -27,7 +27,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
 
     $stateProvider.
         state('ts-diabetes-edit', {
-            data: { defaultActive : 'index' },
+            data: { defaultActive : 'index', intygType: 'ts-diabetes' },
             url: '/ts-diabetes/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
@@ -35,7 +35,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'ts-diabetes.UtkastController.ViewStateService',
-                        FormFactory: 'ts-diabetes.UtkastConfigFactory',
+                        UtkastConfigFactory: 'ts-diabetes.UtkastConfigFactory',
                         supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
                     }
                 },
@@ -57,7 +57,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     controller: 'common.UtkastFooter'
                 },
 
-                'formly@ts-diabetes-edit' : {
+                'utkast@ts-diabetes-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {

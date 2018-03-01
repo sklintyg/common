@@ -544,6 +544,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.ue-vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00',
 
         // Formly komponenter - ta bort när formly tas bort
+        /*
         'common.validation.boolean.empty': 'Du måste välja ett alternativ.',
         'common.validation.check-group.empty': 'Du måste välja minst ett alternativ.',
         'common.validation.multi-text.empty': 'Fältet får inte vara tomt.',
@@ -595,7 +596,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.underlag.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
         'common.validation.vaguedate.empty': 'Du måste ange år och månad.',
         'common.validation.vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00',
-
+*/
         // Common errors
         'common.error.unknown': '<strong>Tekniskt fel.</strong>',
         'common.error.authorization_problem': '<strong>Behörighet saknas.</strong><br>Du saknar behörighet att använda denna resurs.',

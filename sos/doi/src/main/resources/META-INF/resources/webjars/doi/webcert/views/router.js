@@ -31,7 +31,7 @@ angular.module('doi').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'doi.EditCertCtrl.ViewStateService',
-                        FormFactory: 'doi.FormFactory',
+                        UtkastConfigFactory: 'doi.UtkastConfigFactory',
                         supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
                     }
                 },
@@ -53,50 +53,12 @@ angular.module('doi').config(function($stateProvider) {
                     controller: 'common.UtkastFooter'
                 },
     
-                'formly@doi-edit' : {
+                'utkast@doi-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
                         ViewState: 'doi.EditCertCtrl.ViewStateService',
                         UtkastConfigFactory: 'doi.UtkastConfigFactory'
-                    }
-                }
-            }
-        }).        
-        state('doi-edit-old', {
-            data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
-            url : '/doi/edit-old/:certificateId/',
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: 'doi.EditCertCtrl.ViewStateService',
-                        FormFactory: 'doi.FormFactory',
-                        supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
-                    }
-                },
-
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
-
-                'header@doi-edit-old' : {
-                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
-
-                'footer@doi-edit-old' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
-
-                'formly@doi-edit-old' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
-                    resolve: {
-                        ViewState: 'doi.EditCertCtrl.ViewStateService',
-                        FormFactory: 'doi.FormFactory'
                     }
                 }
             }

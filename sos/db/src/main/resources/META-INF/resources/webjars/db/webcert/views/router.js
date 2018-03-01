@@ -31,7 +31,7 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'db.EditCertCtrl.ViewStateService',
-                        FormFactory: 'db.FormFactory',
+                        UtkastConfigFactory: 'db.UtkastConfigFactory',
                         supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
@@ -53,50 +53,12 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'common.UtkastFooter'
                 },
 
-                'formly@db-edit' : {
+                'utkast@db-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
                         ViewState: 'db.EditCertCtrl.ViewStateService',
                         UtkastConfigFactory: 'db.UtkastConfigFactory'
-                    }
-                }
-            }
-        }).
-        state('db-edit-old', {
-            data: { defaultActive : 'index', intygType: 'db', useFmb: false },
-            url : '/db/edit-old/:certificateId/:focusOn',
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: 'db.EditCertCtrl.ViewStateService',
-                        FormFactory: 'db.FormFactory',
-                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
-                    }
-                },
-
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
-
-                'header@db-edit-old' : {
-                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
-
-                'footer@db-edit-old' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
-
-                'formly@db-edit-old' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
-                    resolve: {
-                        ViewState: 'db.EditCertCtrl.ViewStateService',
-                        FormFactory: 'db.FormFactory'
                     }
                 }
             }

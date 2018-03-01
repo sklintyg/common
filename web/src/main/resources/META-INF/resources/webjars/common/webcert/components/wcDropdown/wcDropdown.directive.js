@@ -35,7 +35,7 @@ angular.module('common').directive('wcDropdown',
                 templateUrl: '/web/webjars/common/webcert/components/wcDropdown/wcDropdown.directive.html',
                 require: 'ngModel',
                 link: function(scope, element, attrs, ctrl) {
-                    var plate = element.querySelectorAll('.plate');
+                    var plate = $(element).find('.plate');
 
                     function offset(element) {
                         var boundingClientRect = element[0].getBoundingClientRect();

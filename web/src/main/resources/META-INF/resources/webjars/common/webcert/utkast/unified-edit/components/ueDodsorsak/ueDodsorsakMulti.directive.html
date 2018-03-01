@@ -36,19 +36,6 @@
                      use-dynamic-label="false"
                      ng-class="{'fielderror' : hasValidationError('specifikation',  $index)}">
         </wc-dropdown>
-        <!--
-        <ui-select theme="bootstrap" search-enabled="false" ng-model="orsak.specifikation"
-                   id="orsak-multi-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}" append-config-body="true"
-                   ng-class="{'fielderror' : hasValidationError('specifikation', $index)}"
-                   on-select="validate()">
-          <ui-select-match> <!--  placeholder="Välj..." -->
-      <!--      <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
-          </ui-select-match>
-          <ui-select-choices repeat="item.id as item in orsakOptions" value="$select.selected.id">
-            <span ng-bind="item.label"></span>
-          </ui-select-choices>
-        </ui-select>
-        -->
       </td>
       <td>
         <button type="button" ng-if="$index > 0" class="btn btn-default red" ng-click="deleteRow($index)"><i class="material-icons">remove_circle</i></button>

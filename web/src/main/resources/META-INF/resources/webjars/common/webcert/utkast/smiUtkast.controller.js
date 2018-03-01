@@ -19,9 +19,9 @@
 angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
-        'ViewState', 'FormFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
+        'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
         function($scope, $state,
-            UtkastService, UserModel, fmbService, fmbViewState, viewState, formFactory, prefilledUserDataService, supportPanelConfigFactory) {
+            UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory, prefilledUserDataService, supportPanelConfigFactory) {
             'use strict';
 
             /**********************************************************************************
@@ -35,7 +35,7 @@ angular.module('common').controller('smi.EditCertCtrl',
             // Page states
             $scope.user = UserModel;
 
-            $scope.categoryNames = formFactory.getCategoryNames();
+            $scope.categoryIds = utkastConfigFactory.getCategoryIds();
 
             /**************************************************************************
              * Load certificate and setup form / Constructor ...

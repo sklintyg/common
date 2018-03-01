@@ -27,7 +27,7 @@ angular.module('ts-bas').config(function($stateProvider) {
 
     $stateProvider.
         state('ts-bas-edit', {
-            data: { defaultActive : 'index' },
+            data: { defaultActive : 'index', intygType: 'ts-bas' },
             url: '/ts-bas/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
@@ -35,7 +35,7 @@ angular.module('ts-bas').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'ts-bas.UtkastController.ViewStateService',
-                        FormFactory: 'ts-bas.UtkastConfigFactory',
+                        UtkastConfigFactory: 'ts-bas.UtkastConfigFactory',
                         supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
                     }
                 },
@@ -57,7 +57,7 @@ angular.module('ts-bas').config(function($stateProvider) {
                     controller: 'common.UtkastFooter'
                 },
 
-                'formly@ts-bas-edit' : {
+                'utkast@ts-bas-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {

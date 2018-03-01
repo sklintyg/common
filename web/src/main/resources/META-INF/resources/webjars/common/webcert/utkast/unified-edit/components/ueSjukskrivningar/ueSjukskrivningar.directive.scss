@@ -17,20 +17,57 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-ue-validation-wrapper {
+ue-sjukskrivningar {
 
   display: block;
+  margin-top: 14px;
 
-  .validation-error {
-    input:not(.no-fielderror), textarea, .wc-datepicker-wrapper button {
-      border: 1px solid $wc-color-11;
-    }
-    wc-checkbox-wrapper .wc-checkbox label:before,
-    wc-radio-wrapper .wc-radio label:before,
-    wc-dropdown .dropdown-label {
-      border-color:  $wc-color-11;
+  @media (min-width: 1200px) {
+    .col-lg-auto {
+      width: auto;
     }
 
+    .col-lg-pull-none {
+      float: none !important;
+    }
+    .col-lg-no-padding-right {
+      padding-right: 0;
+    }
   }
 
+  @media (min-width: 1340px) {
+    .col-vlg-auto {
+      width: auto;
+    }
+    .col-vlg-pull-right {
+      float: right;
+    }
+    .invisible-vlg {
+      display: none !important;
+    }
+    textarea.form-control {
+      max-width: 1000px;
+    }
+  }
+
+  .form-control.hoursPerWeek {
+      width: 50px;
+      margin-bottom: 14px;
+  }
+
+  .sjukskrivningar-section {
+    margin: 0 0 14px 0;
+  }
+
+  label {
+    font-weight: normal;
+
+    input[type=checkbox].big-checkbox {
+      margin-top: 5px;
+    }
+  }
+
+  .sjukskrivningar_period {
+    float: right;
+  }
 }
