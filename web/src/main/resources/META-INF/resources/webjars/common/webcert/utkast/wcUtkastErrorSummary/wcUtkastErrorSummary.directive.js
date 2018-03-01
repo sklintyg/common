@@ -20,8 +20,10 @@
  * wcField directive. Used to abstract common layout for full-layout form fields in intyg modules
  */
 angular.module('common').directive('wcUtkastErrorSummary',
-    [ 'common.anchorScrollService', 'common.UtkastViewStateService', 'common.UtkastValidationViewState',
-        function(anchorScrollService, CommonViewState, utkastValidationViewState) {
+    ['common.dynamicLabelService', 'common.messageService',
+        'common.UtkastViewStateService', 'common.anchorScrollService', 'common.UtkastValidationViewState',
+        function(dynamicLabelService, messageService, CommonViewState,
+            anchorScrollService, utkastValidationViewState) {
             'use strict';
 
             return {
@@ -29,6 +31,29 @@ angular.module('common').directive('wcUtkastErrorSummary',
                 templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.html',
                 scope: true,
                 controller: function($scope) {
+                    $scope.lookUpLabel = function(category) {
+
+                        var keys = Object.keys($scope.categoryIds);
+
+                        for(var i = 0; i < keys.length; i++) {
+
+                            if(!category){
+                                continue;
+                            }
+
+                            var categoryLc = category.toLowerCase();
+                            var categoryNameLc = $scope.categoryIds[keys[i]].toLowerCase();
+                            if (categoryLc === categoryNameLc) {
+                                var result = dynamicLabelService.getProperty('KAT_' + keys[i] + '.RBK');
+                                if (result) {
+                                    return result;
+                                }
+                                return 'KAT_' + i + '.RBK';
+                            }
+                        }
+                        return messageService.getProperty('common.label.'+category);
+                    };
+
                     $scope.scrollTo = function(message) {
                         anchorScrollService.scrollIntygContainerTo('anchor-' + message);
                     };

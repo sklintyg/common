@@ -1,11 +1,11 @@
 <div id="visa-vad-som-saknas-lista" ng-show="viewState.common.validation.sections.length > 0">
   <wc-alert-message alert-severity="danger">
-    <h3 class=""><span dynamic-label key="draft.saknar-uppgifter"></span></h3>
+    <h3><span dynamic-label key="draft.saknar-uppgifter"></span></h3>
   </wc-alert-message>
+
   <ul class="ul__thin-bullet">
     <li ng-repeat="message in viewState.common.validation.sections">
-      <a href="" ng-click="scrollTo(message)"><span dynamic-label
-                                                    key="{{viewState.common.intyg.type}}.label.{{message}}"></span></a>
+      <a href="" ng-click="scrollTo(message)">{{lookUpLabel(message)}}</span></a>
     </li>
   </ul>
 
