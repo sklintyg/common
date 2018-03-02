@@ -1,9 +1,8 @@
-<div class="row bottom-padding-small">
-    <div class='col-xs-12'>
+<div class="row bottom-padding-small checkbox-wrapper">
+    <div class="bottom-padding-small col-xs-12"><span class="choose-code" dynamic-label key="common.sit.label.valj-version-icd-10"></span></div>
+    <div class="padding-left">
         <div class="form-group">
-            <div class="bottom-padding-small"><span class="bold valjkodverk" dynamic-label key="common.sit.label.valj-version-icd-10"></span></div>
-
-            <wc-radio-wrapper>
+            <wc-radio-wrapper class="margin-right">
                 <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
                        ng-model="diagnosViewState.diagnosKodSystem" checked="checked"
                        ng-change="onChangeKodverk(); validate()">
@@ -23,10 +22,10 @@
 </div>
 
 <ng-form name="diagnosForm" class="ueDiagnos">
-    <table>
+    <span class="diagnos-text" dynamic-label key="{{::config.diagnosKodLabel}}"></span>
+    <table class="margin-top">
         <tr>
             <th>
-                <span dynamic-label key="{{::config.diagnosKodLabel}}"></span>
                 <span ng-if="::config.enableHelp">
                   <span wc-help-chevron help-text-key="{{::config.diagnosKodHelp}}"></span>
                   <span wc-help-chevron-text help-text-key="{{::config.diagnosKodHelp}}"></span>
@@ -40,14 +39,13 @@
                 </span>
             </th>
         </tr>
-        <tr class="diagnosRow" ng-repeat="diagnos in model[config.modelProp]">
-            <td>
+        <tr class="diagnos-row" ng-repeat="diagnos in model[config.modelProp]">
+            <td class="code-column">
                 <div>
-                    <input type="text" class="form-control" ng-attr-id="diagnoseCode-{{::$index|ueDomIdFilter}}"
+                    <input type="text" class="col-xs-11 form-control" ng-attr-id="diagnoseCode-{{::$index|ueDomIdFilter}}"
                            name="diagnoseCode{{::$index}}"
                            value=""
-                           placeholder="Kod"
-                           class='diagnose-code col-xs-11 form-control'
+                           placeholder="{{$index == 0 ? 'Huvuddiagnos' : 'Bidiagnos'}}"
                            ng-class="{'fielderror' : hasValidationError('diagnoskod', $index)}"
                            ng-model="diagnos.diagnosKod"
                            ng-change="onDiagnoseCodeChanged($index)"
@@ -68,19 +66,19 @@
                             <li><a href>Inga matchande diagnoser funna</a></li>
                       </ul>
                 </span>
-                <span ng-if="form['diagnoseCode'+$index].$viewValue.length > 0 && form['diagnoseCode'+$index].$viewValue.length < 3" uib-dropdown
+                <span class="dropdown-width" ng-if="form['diagnoseCode'+$index].$viewValue.length > 0 && form['diagnoseCode'+$index].$viewValue.length < 3" uib-dropdown
                       uib-dropdown-toggle auto-close="disabled" is-open="true">
                       <ul uib-dropdown-menu>
                             <li><a href>Ange 3 tecken för att söka diagnoskod</a></li>
                       </ul>
                 </span>
             </td>
-            <td class="diagnosDescriptionColumn">
-                <input type="text" class="col-xs-12 form-control maxwidth" ng-attr-id="diagnoseDescription-{{::$index|ueDomIdFilter}}"
+            <td class="diagnos-description-column">
+                <input type="text" class="col-xs-12 form-control column-width" ng-attr-id="diagnoseDescription-{{::$index|ueDomIdFilter}}"
                        ng-class="{'fielderror' : hasValidationError('diagnosbeskrivning', $index)}"
                        name="diagnose.description"
                        value=""
-                       placeholder="Diagnos"
+                       placeholder=""
                        ng-model= "diagnos.diagnosBeskrivning"
                        ng-blur="validate()"
                        ng-change="onDiagnoseDescriptionChanged($index)"
