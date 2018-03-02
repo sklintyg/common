@@ -33,6 +33,7 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
     public static final String SCHEMATRON_FILE = "db.sch";
     public static final String MODULE_ID = "db";
     public static final String MODULE_NAME = "Dödsbevis";
+    public static final String ISSUER_TYPE_ID = "SoSB 76026";
 
     private static final String DEFAULT_RECIPIENT_ID = "SKV";
     private static final String MODULE_DESCRIPTION = "Dödsbevis";
@@ -75,6 +76,11 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
     @Override
     public String getExternalId() {
         return MODULE_ID.toUpperCase();
+    }
+
+    @Override
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 
     @Override

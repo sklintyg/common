@@ -28,6 +28,8 @@ public class IntygModule implements Comparable<IntygModule> {
 
     private String detailedDescription;
 
+    private String issuerTypeId;
+
     private String cssPath;
 
     private String scriptPath;
@@ -37,12 +39,14 @@ public class IntygModule implements Comparable<IntygModule> {
     private String defaultRecipient;
 
     // CHECKSTYLE:OFF ParameterNumber
-    public IntygModule(String id, String label, String description, String detailedDescription, String cssPath, String scriptPath,
+    public IntygModule(String id, String label, String description, String detailedDescription, String issuerTypeId, String cssPath,
+            String scriptPath,
             String dependencyDefinitionPath, String defaultRecipient) {
         this.id = id;
         this.label = label;
         this.description = description;
         this.detailedDescription = detailedDescription;
+        this.issuerTypeId = issuerTypeId;
         this.cssPath = cssPath;
         this.scriptPath = scriptPath;
         this.dependencyDefinitionPath = dependencyDefinitionPath;
@@ -71,6 +75,11 @@ public class IntygModule implements Comparable<IntygModule> {
      */
     public void setDetailedDescription(String detailedDescription) {
         this.detailedDescription = detailedDescription;
+    }
+
+
+    public String getIssuerTypeId() {
+        return issuerTypeId;
     }
 
     public String getCssPath() {

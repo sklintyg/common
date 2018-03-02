@@ -26,6 +26,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
 
+    public static final String ISSUER_TYPE_ID = "FK 7802";
     public static final String MODULE_ID = "luae_fs";
     public static final String MODULE_NAME = "Läkarutlåtande för aktivitetsersättning vid förlängd skolgång";
     public static final String MODULE_DESCRIPTION = "Läkarutlåtande för aktivitetsersättning vid förlängd skolgång";
@@ -47,6 +48,11 @@ public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public String getModuleDescription() {
         return MODULE_DESCRIPTION;
+    }
+
+    @Override
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 
     @Override

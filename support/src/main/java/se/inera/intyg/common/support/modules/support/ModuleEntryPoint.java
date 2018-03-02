@@ -61,6 +61,13 @@ public interface ModuleEntryPoint {
     String getExternalId();
 
     /**
+     * Returns the issuing party's id for the module type.
+     *
+     * @return the id used by the issuer.
+     */
+    String getIssuerTypeId();
+
+    /**
      * Returns the identifier of the default recipient of this module, or null if no default recipient is specified.
      *
      * @return the identifier of the default recipient or null if none is specified

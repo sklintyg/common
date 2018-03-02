@@ -107,4 +107,10 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     public String getExternalId() {
         return KV_UTLATANDETYP_INTYG_CODE;
     }
+
+    @Override
+    public String getIssuerTypeId() {
+        //Same as externalId for ts
+        return KV_UTLATANDETYP_INTYG_CODE;
+    }
 }

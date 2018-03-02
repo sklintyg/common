@@ -26,6 +26,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
 
+    public static final String ISSUER_TYPE_ID = "FK 7804";
     public static final String MODULE_ID = "lisjp";
     public static final String MODULE_NAME = "Läkarintyg för sjukpenning";
     public static final String MODULE_DESCRIPTION = "Läkarintyg för sjukpenning";
@@ -47,6 +48,11 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public String getModuleDescription() {
         return MODULE_DESCRIPTION;
+    }
+
+    @Override
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 
     @Override

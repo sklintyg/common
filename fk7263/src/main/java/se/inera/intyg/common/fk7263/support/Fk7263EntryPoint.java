@@ -27,6 +27,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 public class Fk7263EntryPoint implements ModuleEntryPoint {
 
     public static final String DEFAULT_RECIPIENT_ID = "FKASSA";
+    public static final String ISSUER_TYPE_ID = "FK 7263";
 
     public static final String MODULE_ID = "fk7263";
     public static final String MODULE_NAME = "Läkarintyg FK 7263";
@@ -107,5 +108,10 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     @Override
     public String getExternalId() {
         return MODULE_ID.toUpperCase();
+    }
+
+    @Override
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 }

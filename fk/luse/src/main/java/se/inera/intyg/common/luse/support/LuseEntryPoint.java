@@ -26,6 +26,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
 
+    public static final String ISSUER_TYPE_ID = "FK 7800";
     public static final String MODULE_ID = "luse";
     public static final String MODULE_NAME = "Läkarutlåtande för sjukersättning";
     public static final String MODULE_DESCRIPTION = "Läkarintyg enligt 3 kap, 8 § lagen (1962:381) om allmän försäkring";
@@ -47,6 +48,11 @@ public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public String getModuleDescription() {
         return MODULE_DESCRIPTION;
+    }
+
+    @Override
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 
     @Override

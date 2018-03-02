@@ -57,7 +57,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
             externalIdToModuleId.put(entryPoint.getExternalId(), entryPoint.getModuleId());
             IntygModule module = new IntygModule(entryPoint.getModuleId(), entryPoint.getModuleName(),
                     entryPoint.getModuleDescription(), entryPoint.getDetailedModuleDescription(),
-                    entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),
+                    entryPoint.getIssuerTypeId(), entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),
                     entryPoint.getModuleDependencyDefinitionPath(origin), entryPoint.getDefaultRecipient());
 
             intygModuleMap.put(module.getId(), module);
