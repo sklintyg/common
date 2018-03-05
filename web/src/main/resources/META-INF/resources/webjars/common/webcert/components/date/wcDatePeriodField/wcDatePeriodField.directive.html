@@ -11,7 +11,7 @@
            uib-datepicker-popup="{{::format}}"
            max-date="{{::maxDate}}"
            ng-model-options="{ allowInvalid: true }"
-           ng-blur="onDatepickerInputFieldBlur()"
+           ng-blur="onInputBlur()"
            datepicker-options="dateOptions"
            datepicker-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepicker.template.html"
            datepicker-popup-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepickerPopup.template.html"
@@ -25,3 +25,6 @@
     </span>
   </span>
 </span>
+
+
+<!-- ng-blur="onDatepickerInputFieldBlur()" -->

@@ -1,7 +1,7 @@
 ue-sjukskrivningar {
 
   .hours-wrapper {
-    margin: 0.6em 0;
+    margin: 1em 0;
     label {
       padding-left: 9px;
     }
@@ -11,7 +11,7 @@ ue-sjukskrivningar {
   }
 
   .hoursPerWeek {
-    width: 50px;
+    width: 50px !important;
   }
 
   .sjukskrivningar-section {
@@ -43,17 +43,21 @@ ue-sjukskrivningar {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 3px;
+    margin-left: 6px;
     flex-wrap: wrap;
   }
 
   .checkbox-width {
-     width: 10em;
+     width: 12em;
+  }
+
+  .padding-bottom {
+    padding-bottom: 8px;
   }
 
   .date-width {
     width: 16em;
-     padding-left: 23px;  
+     padding-left: 23px;
   }
 
   @media (max-width: 750px) {
