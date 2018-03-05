@@ -2,7 +2,15 @@
   <h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}"
                                     dynamic-label key="{{ config.labelKey }}"></span></h4>
   <span ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="value">
-    <span class="multiline">{{::value}}</span>
+    <span class="multiline" ng-if="!valueJSON">{{::value}}</span>
+    <span ng-if="valueJSON">
+      <span ng-repeat="fun in valueJSON.funktioner">
+        <strong>{{ fun.namn }}</strong><br/>
+        <span>{{fun.grad}} - {{fun.freeText}}</span>
+        <br/><br/>
+      </span>
+      <span>{{valueJSON.freeText}}</span>
+    </span>
     <uv-no-value ng-if="!hasValue()"></uv-no-value>
   </span>
 </div>

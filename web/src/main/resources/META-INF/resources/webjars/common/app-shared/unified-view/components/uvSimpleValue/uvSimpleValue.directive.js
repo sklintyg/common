@@ -28,8 +28,11 @@ angular.module('common').directive('uvSimpleValue', [ 'uvUtil', function(uvUtil)
         },
         templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive.html',
         link: function($scope) {
+            
             $scope.value =  uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-
+            if ($scope.value && $scope.value.indexOf('{') === 0) {
+                $scope.valueJSON = JSON.parse($scope.value);
+            }
             $scope.hasValue = function() {
                 return uvUtil.isValidValue($scope.value);
             };
