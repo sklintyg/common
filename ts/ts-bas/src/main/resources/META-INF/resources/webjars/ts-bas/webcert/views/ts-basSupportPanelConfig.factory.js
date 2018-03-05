@@ -42,7 +42,6 @@ angular.module('ts-bas').factory('ts-bas.supportPanelConfigFactory', [ function(
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
-                tipsText: 'Hello world!',
                 intygContext: config.intygContext
             }
         });

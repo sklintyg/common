@@ -24,7 +24,7 @@
 angular.module('doi').factory('doi.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, isSigned, isSent, isKompletteringsUtkast) {
+    function _getConfig(id, isSigned, isSent) {
 
         var config = {
             tabs: [],
@@ -41,7 +41,6 @@ angular.module('doi').factory('doi.supportPanelConfigFactory', [ function() {
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
-                tipsText: 'Hello world!',
                 intygContext: config.intygContext
             }
         });

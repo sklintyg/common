@@ -30,6 +30,7 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
             tabs: [],
             intygContext: {
                 type: 'lisjp',
+                aboutMsgKey: 'FRM_2.RBK',
                 id: id,
                 isSigned: isSigned,
                 isSent: isSent
@@ -43,7 +44,7 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
                 config: {
                     intygContext: config.intygContext
                 },
-                active: isSent || isKompletteringsUtkast
+                active: isSigned || isKompletteringsUtkast
             });
         }
 
@@ -55,7 +56,7 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
                 config: {
                     intygContext: config.intygContext
                 },
-                active: !isSent && !isKompletteringsUtkast
+                active: !(isSigned || isKompletteringsUtkast)
             });
         }
 
@@ -64,7 +65,6 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
-                tipsText: 'Hello world!',
                 intygContext: config.intygContext
             },
             active: !_noOtherActiveTab()

@@ -25,7 +25,7 @@
 angular.module('ts-diabetes').factory('ts-diabetes.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, isSigned, isSent, isKompletteringsUtkast) {
+    function _getConfig(id, isSigned, isSent) {
 
         var config = {
             tabs: [],
@@ -42,7 +42,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.supportPanelConfigFactory', [
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
-                tipsText: 'Hello world!',
                 intygContext: config.intygContext
             }
         });

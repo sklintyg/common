@@ -50,7 +50,6 @@ angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', [ 'common.f
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
-                tipsText: 'Hello world!',
                 intygContext: config.intygContext
             }
         });

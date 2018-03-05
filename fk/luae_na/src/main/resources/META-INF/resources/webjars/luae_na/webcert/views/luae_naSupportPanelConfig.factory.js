@@ -31,6 +31,7 @@ angular.module('luae_na').factory('luae_na.supportPanelConfigFactory', [ 'common
             tabs: [],
             intygContext: {
                 type: 'luae_na',
+                aboutMsgKey: 'FRM_2.RBK',
                 id: id,
                 isSigned: isSigned,
                 isSent: isSent
@@ -45,19 +46,18 @@ angular.module('luae_na').factory('luae_na.supportPanelConfigFactory', [ 'common
                 config: {
                     intygContext: config.intygContext
                 },
-                active: isSent || isKompletteringsUtkast
+                active: isSigned || isKompletteringsUtkast
             });
         }
 
-        //Always has this, but only active by default if not already sent
+        //Always has this, but only active by default utkast and not kompletteringsutkast
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
             title: 'Tips & Hjälp',
             config: {
-                tipsText: 'Hello world!',
                 intygContext: config.intygContext
             },
-            active: !(isSent || isKompletteringsUtkast)
+            active: !(isSigned || isKompletteringsUtkast)
         });
 
 
