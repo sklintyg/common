@@ -58,6 +58,7 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.validate = function() {
+                    $scope.form.$commitViewValue();
                     // When a date is selected from the date popup a blur event is sent.
                     // In the current version of Angular UI this blur event is sent before utkast model is updated
                     // This timeout ensures we get the new value in $scope.model

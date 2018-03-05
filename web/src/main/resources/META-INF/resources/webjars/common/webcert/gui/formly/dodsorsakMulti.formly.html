@@ -17,6 +17,7 @@
                class="form-control input-full"
                ng-class="{'fielderror' : hasValidationError('beskrivning', $index)}"
                ng-model="orsak.beskrivning"
+               ng-model-options="{ debounce: 500 }"
                ng-blur="validate()"
                maxlength="{{to.htmlMaxlength || 3500}}">
       </td>

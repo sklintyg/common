@@ -12,6 +12,7 @@
       <span wc-help-chevron help-text-key="DFR_{{to.frgId}}.1.HLP"></span>
     </label>
     <textarea id="{{options.key}}" name="{{options.key}}" rows="6" class="form-control" auto-expand
-              ng-model="model[options.key]" maxlength="3500" ng-blur="validate()"></textarea>
+              ng-model="model[options.key]" ng-model-options="{ debounce: 500 }"
+              maxlength="3500" ng-blur="validate()"></textarea>
   </div>
 </div>

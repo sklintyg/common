@@ -43,6 +43,7 @@ angular.module('common').run(function(formlyConfig) {
             });
 
             $scope.validate = function() {
+                $scope.form.$commitViewValue();
                 $timeout(function(){
                     $log.debug('validating');
                     UtkastValidationService.validate($scope.model);

@@ -219,6 +219,7 @@ angular.module('common').run(function(formlyConfig) {
                 });
 
                 $scope.validate = function() {
+                    $scope.form.$commitViewValue();
                     //The timeout here allows the model to be updated (via typeahead selection) before sending it for validation
                     $timeout(function() {
                         UtkastValidationService.validate($scope.model);

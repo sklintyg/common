@@ -14,6 +14,7 @@
              class="form-control input-full"
              ng-class="{'fielderror' : hasValidationError('beskrivning', rowIndex)}"
              ng-model="modelValue.beskrivning"
+             ng-model-options="{ debounce: 500 }"
              ng-blur="validate()"
              maxlength="{{to.htmlMaxlength || 3500}}">
       <span class="dodsorsak-row__letter">{{letter}}</span>
