@@ -1,6 +1,58 @@
 <div>
   <wc-form-label to="to" key="options.key"></wc-form-label>
-  <textarea id="{{options.key}}" name="{{options.key}}" class="form-control" rows="6" auto-expand ng-model="model[options.key]"
+  <div id="{{model.diagnoser[0].diagnosKod}}-{{options.key}}-dropdown" ng-class="{'disabled': !(model.diagnoser[0].diagnosKod === 'F322' || model.diagnoser[0].diagnosKod === 'M751')}" ng-if="options.key === 'funktionsnedsattning' || options.key === 'aktivitetsbegransning'" ng-click="openFunktionsDropdown();$event.stopPropagation();" class="funktions-dropdown">
+    <span><img ng-src="/img/socialstyrelsen_icon16.png" src="/img/socialstyrelsen_icon16.png">Ta hjälp av ICF att fylla i fältet om {{options.key === 'funktionsnedsattning' ? 'Funktionsnedsättning':'Aktivitetsbegränsningar'}}</span><i class="glyphicon" ng-class="{'glyphicon-menu-down': !funktionsDropdown, 'glyphicon-menu-up': funktionsDropdown}"></i>
+  </div>
+
+  <div ng-if="funktionsDropdown" id="{{model.diagnoser[0].diagnosKod}}-{{options.key}}-plate" class="funktions-dropdown-plate">
+    <div class="kategori-header">Välj enbart de problem som påverkar patientens möjlighet att utföra sin sysselsättning.</div>
+    <div class="kategori-content">
+      <span class="kategori-label">ICF-kategori för:</span><br/>
+      <strong>{{model.diagnoser[0].diagnosBeskrivning}}</strong>
+      <!-- använd category in categories -->
+      <div ng-repeat="urval in icfFunktioner">
+        <div class="kategorier">
+          <input type="checkbox" class="big-checkbox" ng-model="urval.vald"/>
+          <span>{{urval.namn}}</span><span class="visamer" ng-click="visamer = !visamer">{{visamer ? 'visa mindre':'visa mer'}} <i class="glyphicon" ng-class="{'glyphicon-menu-down': !visamer, 'glyphicon-menu-up': visamer}"></i></span>
+        </div>
+        <div ng-if="visamer" class="beskrivning">{{urval.beskrivning}}</div>
+      </div>
+    </div>
+
+    <div class="kategori-footer">
+      <a href="#" target="_blank">Information om Klassifikation av funktionstillstånd, funktionshinder och hälsa.</a>
+      <input type="button" class="btn btn-secondary kategori-rensa" value="Rensa" ng-click="rensa()"/>
+      <input type="button" class="btn btn-primary kategori-add" value="{{funktioner.length > 0 ? 'Uppdatera dina val' : 'Lägg till i intyget'}}" ng-click="add(icfFunktioner)"/>
+    </div>
+  </div>
+
+  <!-- använd category in selectedCategories -->
+  <div ng-repeat="funktion in funktioner" class="icf-funktion">
+    <div class="funktion-tabort" ng-click="tabortFunktion($index)">x</div>
+    <h4>{{funktion.namn}}</h4>
+    <span ng-click="isCollapsed = !isCollapsed"><i class="glyphicon" ng-class="{'glyphicon-menu-down': !isCollapsed, 'glyphicon-menu-up': isCollapsed}"></i></span>
+    <div uib-collapse="!isCollapsed">
+      <div class="wc-help-chevron__text multiline">{{funktion.beskrivning}}</div>
+    </div>
+    <div class="beskrivning">Beskriv hur stort problemet är och hur du kom fram till din bedömning.</div>
+    <div class="funktions-column">
+      <ui-select theme="bootstrap" search-enabled="false" ng-model="funktion.begransning" on-select="update(funktion)" append-to-body="true">
+        <ui-select-match>
+          <span ng-bind="$select.selected" title="{{$select.selected}}"></span>
+        </ui-select-match>
+        <ui-select-choices repeat="item in grader" value="$select.selected">
+          <span ng-bind="item"></span>
+        </ui-select-choices>
+      </ui-select>
+      <input type="text" class="form-control" ng-model="funktion.freeText" ng-change="update(funktion, options.key)"/>
+    </div>
+  </div>
+
+  <textarea ng-if="options.key === 'funktionsnedsattning' || options.key === 'aktivitetsbegransning'" id="{{options.key}}" name="{{options.key}}" class="form-control" rows="6" auto-expand ng-model="friText.value"
+            maxlength="{{to.htmlMaxlength || 3500}}">
+  </textarea>
+
+  <textarea ng-if="!(options.key === 'funktionsnedsattning' || options.key === 'aktivitetsbegransning')" id="{{options.key}}" name="{{options.key}}" class="form-control" rows="6" auto-expand ng-model="model[options.key]"
             maxlength="{{to.htmlMaxlength || 3500}}">
   </textarea>
   <div ng-if="to.subTextId && to.subTextDynId" class="info-transfer">

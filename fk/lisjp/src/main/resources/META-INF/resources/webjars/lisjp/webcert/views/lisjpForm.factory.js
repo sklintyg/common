@@ -165,9 +165,9 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             fieldGroup: [
                                 {
                                     key: 'funktionsnedsattning', type: 'multi-text', templateOptions: {
-                                    label: 'DFR_35.1',
-                                    required: 'FRG_ONLY'
-                                }
+                                        label: 'DFR_35.1',
+                                        required: 'FRG_ONLY'
+                                    }
                                 }
                             ]
                         }

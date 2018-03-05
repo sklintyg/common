@@ -21,7 +21,16 @@ package se.inera.intyg.common.fkparent.pdf.model;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonElement;
+
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
+
+import java.util.ArrayList;
 
 /**
  * Field component that can handle overflowing texts. Text that could not be written within the components dimensions is
@@ -86,6 +95,19 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
         return value.replaceAll("[\\r\\n]+", " ").trim();
     }
 
+
+    public class Funktioner {
+        String freeText;
+        String namn;
+        String grad;
+    }
+
+    public class Icf {
+        String freeText;
+        ArrayList<Funktioner> funktioner;
+        ArrayList<Funktioner> aktiviteter;
+    }
+
     @Override
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
         final PdfContentByte canvas = writer.getDirectContent();
@@ -95,6 +117,37 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
         String textValue = value;
         // Fo some fields, we may wich to keep newline characters, such as an "Övrigt" field that has contributions from
         // multiple sources, ie. other fields contents are added to this field when signing.
+
+        if (textValue.indexOf('{') == 0) {
+
+            Gson gson = new Gson();
+
+            Icf ICF = gson.fromJson(textValue, Icf.class);
+
+            String textValueFromJSON = "";
+
+            if(ICF.funktioner != null && ICF.funktioner.size() > 0) {
+                for (Funktioner funktion : ICF.funktioner) {
+                    textValueFromJSON += funktion.namn + "\n";
+                    textValueFromJSON += funktion.grad + " - ";
+                    textValueFromJSON += funktion.freeText + "\n\n";
+                }
+            }
+            if(ICF.aktiviteter != null && ICF.aktiviteter.size() > 0) {
+                for (Funktioner funktion : ICF.aktiviteter) {
+                    textValueFromJSON += funktion.namn + "\n";
+                    textValueFromJSON += funktion.grad + " - ";
+                    textValueFromJSON += funktion.freeText + "\n\n";
+                }
+            }
+            if(ICF.freeText != null) {
+                textValueFromJSON += ICF.freeText;
+            }
+
+            System.out.println(textValueFromJSON);
+            textValue = textValueFromJSON;
+            keepNewlines = true;
+        }
         if (!keepNewlines) {
             textValue = trimNewLines(textValue);
         }

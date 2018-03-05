@@ -13,6 +13,7 @@ dependencies {
     compile "org.springframework:spring-tx:${springVersion}"
 
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
+    compile "com.google.code.gson:gson:2.8.2"
 
     apt "com.google.auto.value:auto-value:${autovalueVersion}"
 }
