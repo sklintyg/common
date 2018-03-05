@@ -17,21 +17,40 @@ angular.module('common').run(function(formlyConfig) {
             if($scope.options.key === 'funktionsnedsattning' || $scope.options.key === 'aktivitetsbegransning') {
                 $scope.icfFunktioner = [];
 
-
                 $scope.$watch('model.diagnoser', function(newVal) {
                     if (newVal) {
-                        if($scope.model.diagnoser && $scope.model.diagnoser.length > 0 && 
-                            ($scope.model.diagnoser[0].diagnosKod === 'F322' || $scope.model.diagnoser[0].diagnosKod === 'M751')) {
-                            if ($scope.options.key === 'funktionsnedsattning') {
-                                $scope.grader = ['Välj gradering', 'Inget problem','Lätt problem','Måttligt problem','Svårt problem','Totalt problem'];
-                                $scope.icfFunktioner = angular.copy(icf[$scope.model.diagnoser[0].diagnosKod.toLowerCase()].funktion);
-                            } else {
-                                $scope.grader = ['Välj gradering', 'Ingen svårighet','Lätt svårighet','Måttlig svårighet','Stor svårighet','Total svårighet'];
-                                $scope.icfFunktioner = angular.copy(icf[$scope.model.diagnoser[0].diagnosKod.toLowerCase()].aktivitet);
+                        if($scope.model.diagnoser && $scope.model.diagnoser.length > 0) {
+                            for (var i = 0; i < $scope.model.diagnoser.length; i++) {
+                                var diagnos = $scope.model.diagnoser[i];
+                                if (diagnos.diagnosKod === 'F322' || diagnos.diagnosKod === 'M751') {
+                                    if ($scope.options.key === 'funktionsnedsattning') {
+                                        $scope.grader = ['Välj gradering','Inget problem','Lätt problem','Måttligt problem','Svårt problem','Totalt problem'];
+                                        $scope.icfFunktioner = angular.copy(icf[diagnos.diagnosKod.toLowerCase()].funktion);
+                                    } else {
+                                        $scope.grader = ['Välj gradering','Ingen svårighet','Lätt svårighet','Måttlig svårighet','Stor svårighet','Total svårighet'];
+                                        $scope.icfFunktioner = angular.copy(icf[diagnos.diagnosKod.toLowerCase()].aktivitet);
+                                    }
+                                }
                             }
                         }
                     }
                 }, true);
+
+                $scope.hasICFDiagnos = function() {
+                    if($scope.model.diagnoser) {
+                        for(var i = 0; i < $scope.model.diagnoser.length; i++) {
+                            var diagnos = $scope.model.diagnoser[i];
+                            if (diagnos.diagnosKod === 'F322' || diagnos.diagnosKod === 'M751') {
+                                return diagnos;
+                            }
+                        }
+                    }
+                    return false;
+                };
+
+                $scope.diagnosBeskrivningen = function() {
+                    return $scope.hasICFDiagnos().diagnosBeskrivning;
+                };
                 
 
                 // --------  DROPDOWN
@@ -46,7 +65,7 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.openFunktionsDropdown = function() {
-                    if ($scope.model.diagnoser[0].diagnosKod !== 'F322' || $scope.model.diagnoser[0].diagnosKod !== 'M751') {
+                    if ($scope.hasICFDiagnos()) {
                         if (!$scope.funktionsDropdown) {
                             $scope.openPlate();
                         } else {

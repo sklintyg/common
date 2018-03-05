@@ -154,13 +154,13 @@ angular.module('common').constant('common.icf', {
                 begransning: 'Välj gradering',
                 beskrivning: 'Att åstadkomma ord, fraser eller längre avsnitt i talade meddelanden med ordagrann och dold innebörd såsom att uttrycka ett faktum eller berätta en historia muntligt'
             },{
-                namn: 'Konversation',
+                namn: 'Att konversera',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
                 beskrivning: 'Att starta, hålla igång och slutföra ett utbyte av tankar och idéer genom talat, skrivet, tecknat eller annan form av språk med en eller flera personer som man känner eller som är främmande, i formella eller tillfälliga miljöer'
             },{
-                namn: 'Diskussion',
+                namn: 'Att diskutera',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
@@ -196,13 +196,13 @@ angular.module('common').constant('common.icf', {
                 begransning: 'Välj gradering',
                 beskrivning: 'Att klara ett hushåll innefattande att hålla rent i hemmet, tvätta kläder, använda hushållsapparater, lagra mat och ta hand om avfall såsom att sopa, bona, tvätta bänkar, väggar och andra ytor, samla och kasta avfall, städa rum, garderober och lådor, samla ihop, tvätta, torka, vika och stryka kläder, putsa skor, använda kvastar, borstar och dammsugare, använda tvättmaskin, torkapparat och strykjärn'
             },{
-                namn: 'Grundläggande mellanmänskliga interaktioner',
+                namn: 'Socialt samspel',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
                 beskrivning: 'Att samspela med människor på ett i sammanhanget socialt lämpligt sätt såsom att när det är lämpligt visa hänsynstagande och uppskattning eller att reagera på andras känslor'
             },{
-                namn: 'Sammansatta mellanmänskliga interaktioner',
+                namn: 'Interaktioner med andra',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
@@ -224,13 +224,13 @@ angular.module('common').constant('common.icf', {
                 begransning: 'Välj gradering',
                 beskrivning: 'Allmänna psykiska funktioner av fysiologiska och psykologiska mekanismer som gör att personen envist strävar efter att tillfredsställa specifika behov och allmänna mål'
             },{
-                namn: 'Sömnfunktioner',
+                namn: 'Sömn',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
                 beskrivning: 'Allmänna psykiska funktioner av periodisk, reversibel och selektiv fysisk och psykisk avkoppling från sin egen omedelbara omgivning med samtidiga karakteristiska fysiologiska förändringar'
             },{
-                namn: 'Uppmärksamhetsfunktioner',
+                namn: 'Uppmrärksamhet',
                 vald: undefined,
                 begransning: 'Välj gradering',
                 beskrivning: 'Särskilda psykiska funktioner att under en erforderlig tidsperiod rikta in sig mot ett yttre stimulus eller inre erfarenhet'
@@ -241,19 +241,19 @@ angular.module('common').constant('common.icf', {
                 begransning: 'Välj gradering',
                 beskrivning: 'Förnimmelse av obehaglig känsla som tyder på möjlig eller faktisk skada i någon kroppsstruktur som känns antingen i en eller båda övre extremiteterna innefattande händer'
             },{
-                namn: 'Funktioner för rörlighet i leder',
+                namn: 'Ledrörlighet',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
                 beskrivning: 'Funktioner för rörelseomfång och smidighet vad avser rörelse i en led'
             },{
-                namn: 'Kraft i musklerna i en extremitet',
+                namn: 'Kraft i en extremitet',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
                 beskrivning: 'Funktioner vad avser den styrka som genereras genom sammandragning av muskler och muskelgrupper i arm eller ben'
             },{
-                namn: 'Muskeluthållighetsfunktioner',
+                namn: 'Muskeluthållighet',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
@@ -283,7 +283,7 @@ angular.module('common').constant('common.icf', {
                 begransning: 'Välj gradering',
                 beskrivning: 'Att genomföra koordinerade handlingar som krävs för att flytta föremål eller hantera dem genom att använda händer och armar såsom att vrida på dörrhandtag eller kasta eller fånga ett föremål'
             },{
-                namn: 'Att använda arm och hand, annan specificerad - Över axelhöjd ',
+                namn: 'Att använda arm och hand över axelhöjd',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',

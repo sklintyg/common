@@ -48,6 +48,7 @@
   border: 1px solid #ccc;
   overflow: hidden;
   margin-top:-9px;
+  width:100%;
 
   .kategori-header {
     flex: 1 0 38px;
@@ -72,6 +73,7 @@
       margin-bottom: 5px;
       color: #212121;
     }
+
     .kategorier {
       display: flex;
       input {

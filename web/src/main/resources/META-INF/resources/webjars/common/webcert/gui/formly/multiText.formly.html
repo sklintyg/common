@@ -1,6 +1,6 @@
 <div>
   <wc-form-label to="to" key="options.key"></wc-form-label>
-  <div id="{{model.diagnoser[0].diagnosKod}}-{{options.key}}-dropdown" ng-class="{'disabled': !(model.diagnoser[0].diagnosKod === 'F322' || model.diagnoser[0].diagnosKod === 'M751')}" ng-if="options.key === 'funktionsnedsattning' || options.key === 'aktivitetsbegransning'" ng-click="openFunktionsDropdown();$event.stopPropagation();" class="funktions-dropdown">
+  <div id="{{model.diagnoser[0].diagnosKod}}-{{options.key}}-dropdown" ng-class="{'disabled': !hasICFDiagnos()}" ng-if="options.key === 'funktionsnedsattning' || options.key === 'aktivitetsbegransning'" ng-click="openFunktionsDropdown();$event.stopPropagation();" class="funktions-dropdown">
     <span><img ng-src="/img/socialstyrelsen_icon16.png" src="/img/socialstyrelsen_icon16.png">Ta hjälp av ICF att fylla i fältet om {{options.key === 'funktionsnedsattning' ? 'Funktionsnedsättning':'Aktivitetsbegränsningar'}}</span><i class="glyphicon" ng-class="{'glyphicon-menu-down': !funktionsDropdown, 'glyphicon-menu-up': funktionsDropdown}"></i>
   </div>
 
@@ -8,9 +8,9 @@
     <div class="kategori-header" ng-if="options.key === 'funktionsnedsattning'">Välj enbart de problem som påverkar patientens möjlighet att utföra sin sysselsättning.</div>
     <div class="kategori-header" ng-if="options.key !== 'funktionsnedsattning'">Välj enbart de svårigheter som påverkar patientens sysselsättning.</div>
     <div class="kategori-content">
+
       <span class="kategori-label">ICF-kategori för:</span><br/>
-      <strong>{{model.diagnoser[0].diagnosBeskrivning}}</strong>
-      <!-- använd category in categories -->
+      <strong>{{diagnosBeskrivningen()}}</strong>
       <div ng-repeat="urval in icfFunktioner">
         <div class="kategorier">
           <input type="checkbox" class="big-checkbox" ng-model="urval.vald"/>
