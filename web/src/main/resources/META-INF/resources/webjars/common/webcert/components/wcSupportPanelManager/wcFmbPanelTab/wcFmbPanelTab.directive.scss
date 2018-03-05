@@ -18,24 +18,26 @@ wc-fmb-panel-tab {
     .fmb-diagnos-description {
 
       display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+
       flex: 1 1 auto;
       min-width: 1px;
-      padding: 0 15px 0 8px;
+      padding: 0 15px 0 24px;
       wc-radio-wrapper {
-        padding-top:6px;
-      }
+        padding: 4px 0;
 
-      label {
-         @extend %wc-typo-07;
-        &.active {
-          @extend %wc-typo-08;
-        }
-        &.disabled {
-          color: $wc-color-22;
-          cursor: not-allowed;
+        label {
+          @extend %wc-typo-07;
+          &.active {
+            @extend %wc-typo-08;
+            text-decoration: none !important;
+            span {
+              text-decoration: underline;
+            }
+          }
+          &.disabled {
+            color: $wc-color-22;
+            cursor: not-allowed;
+          }
         }
       }
     }
@@ -53,10 +55,6 @@ wc-fmb-panel-tab {
     }
     section {
       @extend %wc-typo-07;
-      //Some texts contain line-breaks, let's keep them.
-      .fmb-src-text > span {
-        white-space: pre-line;
-      }
     }
     .missing-info {
       @extend %wc-typo-12;
@@ -68,6 +66,7 @@ wc-fmb-panel-tab {
   }
 
   .fmb-footer {
+    @extend %wc-typo-09;
     height: 50px;
     background-color: $wc-color-17;
     color: $wc-color-00;
@@ -75,6 +74,9 @@ wc-fmb-panel-tab {
     align-items: center;
     justify-content: space-between;
     padding: 0 10px;
+    .material-icons {
+      font-size: inherit;
+    }
 
   }
 

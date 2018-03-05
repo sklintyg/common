@@ -56,6 +56,7 @@
   @import 'components/wcAlertMessage/wcAlertMessage.directive.scss';
   @import 'components/wcCheckboxWrapper/wcCheckboxWrapper.directive.scss';
   @import 'components/wcDropdown/wcDropdown.directive.scss';
+  @import 'components/wcExpandableContent/wcExpandableContent.directive.scss';
   @import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
   @import 'components/wcHelpChevron/wcHelpChevron.directive.scss';
   @import 'components/wcHelpChevronText/wcHelpChevronText.directive.scss';
@@ -66,7 +67,6 @@
   @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
   @import 'components/wcPatientStatus/wcPatientStatus.directive.scss';
   @import 'components/wcRadioWrapper/wcRadioWrapper.directive.scss';
-  @import 'components/wcReadMoreTextBlock/wcReadMoreTextBlock.directive.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
   @import 'components/wcSpinner/wcSpinner.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendePanelTab.directive.scss';
