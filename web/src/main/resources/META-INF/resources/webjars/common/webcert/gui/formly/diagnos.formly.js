@@ -129,29 +129,51 @@ angular.module('common').run(function(formlyConfig) {
                     if (index === 0) {
                         if ($item.value === 'M751') {
                             var overWriteFollwingValuesInModel = {
-                                "avstangningSmittskydd": false,
-                                "sysselsattning": {"NUVARANDE_ARBETE": true},
-                                "funktionsnedsattning": "Smärta, svullnad, inskränkt rörlighet och nedsatt kraft i skulderleden.",
-                                "aktivitetsbegransning": "Har på grund av smärtor svårt att använda axeln/armen. Har ingen kraft, kan inte lyfta eller belasta. Kan inte utföra manuellt arbete med armen, som kan vara obrukbar under läkningsprocessen. Särskilt svårt är arbete med armen ovan axelhöjd.",
-                                "pagaendeBehandling": "Smärta, nattlig värk samt stelhet i skuldra. Operation utförd idag.",
-                                "planeradBehandling": "Avlastning, sjukgymnastik.",
-                                "sjukskrivningar": {
-                                    "HELT_NEDSATT": {
-                                        "period": {
-                                            "from": DateUtilsService.todayAsYYYYMMDD(),
-                                            "tom": moment().add('weeks', 8).format('YYYY-MM-DD')
+                                avstangningSmittskydd: false,
+                                sysselsattning: {'NUVARANDE_ARBETE': true},
+                                funktionsnedsattning: 'Smärta, svullnad, inskränkt rörlighet och nedsatt kraft i skulderleden.',
+                                aktivitetsbegransning: 'Har på grund av smärtor svårt att använda axeln/armen. Har ingen kraft, kan inte lyfta eller belasta. Kan inte utföra manuellt arbete med armen, som kan vara obrukbar under läkningsprocessen. Särskilt svårt är arbete med armen ovan axelhöjd.',
+                                pagaendeBehandling: 'Smärta, nattlig värk samt stelhet i skuldra. Operation utförd idag.',
+                                planeradBehandling: 'Avlastning, sjukgymnastik.',
+                                sjukskrivningar: {
+                                    HELT_NEDSATT: {
+                                        period: {
+                                            from: DateUtilsService.todayAsYYYYMMDD(),
+                                            tom: moment().add('weeks', 8).format('YYYY-MM-DD')
                                         }
                                     },
-                                    "TRE_FJARDEDEL": {"period": {"from": "", "tom": ""}},
-                                    "HALFTEN": {"period": {"from": "", "tom": ""}},
-                                    "EN_FJARDEDEL": {"period": {"from": "", "tom": ""}}
+                                    TRE_FJARDEDEL: {period: {from: '', tom: ''}},
+                                    HALFTEN: {period: {from: '', tom: ''}},
+                                    EN_FJARDEDEL: {period: {from: '', tom: ''}}
                                 },
-                                "prognos": {"typ": "STOR_SANNOLIKHET"},
-                                "arbetslivsinriktadeAtgarder": {"EJ_AKTUELLT": true}
+                                prognos: {typ: 'STOR_SANNOLIKHET'},
+                                arbetslivsinriktadeAtgarder: {EJ_AKTUELLT: true}
                             };
                             angular.merge($scope.model, overWriteFollwingValuesInModel);
                         } else if ($item.value === 'F322') {
-
+                            var overWriteFollwingValuesInModel = {
+                                avstangningSmittskydd: false,
+                                sysselsattning: {NUVARANDE_ARBETE: true},
+                                funktionsnedsattning: 'Problem med koncentration och minnesfunktioner.  Ökad uttröttbarhet ffa kognitivt. Bristande initiativförmåga, motivation, humörstabilitet och uthållighet. Sömnsvårigheter, nedsatt aptit, livsleda och skuldkänslor. Svår nedstämdhet med nedsatt förmåga känna glädje eller lust. Ibland ångest.',
+                                aktieitetsbegransning: 'Svårigheter att fatta beslut och oförmåga att planera. Svårt att hantera vardagliga ärenden. Social rädsla, skam- och skuldkänslor försvårar socialt samspel med andra.\n' +
+                                    'Svårigheter att tänka och fokusera, svårt komma igång med aktiviteter och svårigheter att hantera stress. Begränsad uthållighet fysiskt, mentalt.',
+                                pagaendeBehandling: 'Fysisk aktivering. Samtal med terapeutisk hållning. Medicin.',
+                                planeradBehandling: 'Fortsatt fysisk aktivering. Samtal med terapeutisk hållning. Medicinuppföljning. Gradvis återgång till arbete.',
+                                sjukskrivningar: {
+                                    HELT_NEDSATT: {
+                                        period: {
+                                            from: DateUtilsService.todayAsYYYYMMDD(),
+                                            tom: moment().add('weeks', 4).format('YYYY-MM-DD')
+                                        }
+                                    },
+                                    TRE_FJARDEDEL: {period: {from: '', tom: ''}},
+                                    HALFTEN: {period: {from: '', tom: ''}},
+                                    EN_FJARDEDEL: {period: {from: '', tom: ''}}
+                                },
+                                arbetslivsinriktadeAtgarder: {OVRIGA_ATGARDER: true},
+                                arbetslivsinriktadeAtgarderBeskrivning: 'Gradvis återgång till arbete. Längre tids deltidssjukskrivning.'
+                            };
+                            angular.merge($scope.model, overWriteFollwingValuesInModel);
                         }
                     }
                     $scope.form.$setDirty();
