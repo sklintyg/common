@@ -481,21 +481,6 @@
     right: -10px;
   }
 
-
-
-  /**Form/validation**/
-  %validation-box-shadow {
-    border-color: $wc-color-15;
-    outline: thin dotted \9;
-    box-shadow: inset 0 1px 1px $black_75, 0 0 8px $wc-color-03;
-  }
-
-  /* Used in wcDatePickerField.directive.html */
-  .text-invalid, INPUT.ng-invalid-dateperiod, INPUT.ng-invalid-min-date, INPUT.ng-invalid-max-date  {
-    box-shadow: inset 0 1px 1px $black_75,0 0 8px $wc-color-04;
-    border-color: $wc-color-12;
-  }
-
   /* Not used?? */
   .error-icon {
     padding-right: 10px;
@@ -507,18 +492,6 @@
 
   span.success {
     color: $wc-color-10;
-  }
-
-  input:focus:invalid:focus {
-    @extend %validation-box-shadow;
-  }
-
-  textarea:focus:invalid:focus {
-    @extend %validation-box-shadow;
-  }
-
-  select:focus:invalid:focus {
-    @extend %validation-box-shadow;
   }
 
   /** Webcert elements **/
