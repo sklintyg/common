@@ -88,7 +88,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         },
                         FactoryTemplates.annatGrundForMUBeskrivningNoLine
                     ]),
-                    fraga(25, [
+                    fraga(null, [
                         {
                             key: 'motiveringTillInteBaseratPaUndersokning',
                             type: 'multi-text',
@@ -232,7 +232,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             ]
                         }
                     ]),
-                    fraga(25, [
+                    fraga(null, [
                         {
                             key: 'motiveringTillTidigtStartdatumForSjukskrivning',
                             type: 'multi-text',
