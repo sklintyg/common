@@ -4,6 +4,8 @@ angular.module('luae_na').service('luae_na.EditCertCtrl.ViewStateService',
         function($log, $state, CommonViewState, IntygModel, dynamicLabelService) {
             'use strict';
 
+            this.invalidFields = undefined;
+
             this.common = CommonViewState;
 
             this.intygModel = undefined;

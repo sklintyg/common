@@ -4,14 +4,14 @@
     <p ng-if="isSignAndSend()">
       <span message key="{{viewState.common.intyg.type}}.label.signandsend"></span>
     </p>
-
+    
     <!-- Läkare: Signera -->
     <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
       <p ng-show="viewState.common.intyg.isKomplettering">
         <span message key="draft.completion.signinfo"></span>
       </p>
       <button type="button" id="signera-utkast-button" class="btn btn-success"
-              ng-disabled="certForm.$dirty || (getCurrentSignStatus() === 'pending')"
+              ng-disabled="certForm.$dirty || (getCurrentSignStatus() === 'pending') || viewState.common.invalidFields"
               ng-keydown="initValidationSequence('signera-utkast-button')"
               ng-mousedown="initValidationSequence('signera-utkast-button')"
               ng-click="sign()">

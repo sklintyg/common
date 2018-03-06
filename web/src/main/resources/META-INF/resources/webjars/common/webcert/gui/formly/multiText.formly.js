@@ -8,7 +8,7 @@ angular.module('common').run(function(formlyConfig) {
             className: 'fold-animation'
         },
         templateUrl: '/web/webjars/common/webcert/gui/formly/multiText.formly.html',
-        controller: ['$scope', 'common.ObjectHelper', 'common.AtticHelper', '$window', 'common.icf', function($scope, ObjectHelper, AtticHelper, $window, icf) {
+        controller: ['$scope', 'common.ObjectHelper', 'common.AtticHelper', '$window', 'common.icf', 'common.UtkastViewStateService', function($scope, ObjectHelper, AtticHelper, $window, icf, UtkastViewStateService) {
             // Restore data model value form attic if exists
             AtticHelper.restoreFromAttic($scope.model, $scope.options.key);
 
@@ -106,14 +106,22 @@ angular.module('common').run(function(formlyConfig) {
 
                 $scope.tabortFunktion = function(index, option) {
                     var model;
+                    for(var i =0; i<$scope.icfFunktioner.length; i++) {
+                        if($scope.icfFunktioner[i].namn ===  $scope.funktioner[index].namn) {
+                            $scope.icfFunktioner[i].vald = false;
+                            $scope.icfFunktioner[i].freeText = "";
+                            $scope.icfFunktioner[i].begransning = $scope.grader[0];
+                        }
+                    }
                     $scope.funktioner.splice(index, 1);
-                    $scope.icfFunktioner.splice(index, 1);
+
                     if ($scope.model[$scope.options.key]) {
                         model = JSON.parse($scope.model[$scope.options.key]);
                     }
                     if(model && model.funktioner[index] !== undefined) {
                         model.funktioner.splice(index, 1);
                         $scope.model[$scope.options.key] = JSON.stringify(model);
+                        $scope.form.$setDirty();
                     }
                 };
 
@@ -125,17 +133,29 @@ angular.module('common').run(function(formlyConfig) {
                 $scope.$watch('model.' + $scope.options.key, function(newVal, oldVal) {
                     if (newVal) {
                         var i;
+                        $scope.invalidFields = false;
                         if($scope.funktioner.length === 0) {
                             for (i = 0; i < $scope.icfFunktioner.length; i++) {
                                 var valdFunktion = isValdFunktion($scope.icfFunktioner[i].namn);
                                 if(valdFunktion) {
+                                    if(!valdFunktion.freeText || valdFunktion.begransning === $scope.grader[0]) {
+                                        $scope.invalidFields = true;
+                                    }
                                     $scope.icfFunktioner[i].vald = true;
                                     $scope.icfFunktioner[i].freeText = valdFunktion.freeText;
                                     $scope.icfFunktioner[i].begransning = valdFunktion.grad;
                                     $scope.funktioner.push($scope.icfFunktioner[i]);
                                 }
                             }
+                        } else {
+                            for (i = 0; i < $scope.funktioner.length; i++) {
+                                var funktion = $scope.funktioner[i];
+                                if(!funktion.freeText || funktion.begransning === $scope.grader[0]) {
+                                    $scope.invalidFields = true;
+                                }
+                            }
                         }
+                        UtkastViewStateService.invalidFields = $scope.invalidFields;
                         
                         var model = JSON.parse($scope.model[$scope.options.key]);
                         $scope.friText.value = model.freeText;

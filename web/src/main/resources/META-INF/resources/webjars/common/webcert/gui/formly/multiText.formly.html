@@ -30,7 +30,7 @@
   </div>
 
   <!-- använd category in selectedCategories -->
-  <div ng-repeat="funktion in funktioner" class="icf-funktion">
+  <div ng-repeat="funktion in funktioner track by funktion.namn" class="icf-funktion">
     <div class="funktion-tabort" ng-click="tabortFunktion($index)">x</div>
     <h4>{{funktion.namn}}</h4>
     <span ng-click="isCollapsed = !isCollapsed"><i class="glyphicon" ng-class="{'glyphicon-menu-down': !isCollapsed, 'glyphicon-menu-up': isCollapsed}"></i></span>
@@ -50,6 +50,7 @@
       </ui-select>
       <input type="text" class="form-control" ng-model="funktion.freeText" ng-required="true" ng-change="update(funktion, options.key)"/>
     </div>
+    <span class="error" ng-if="!funktion.freeText || funktion.begransning === grader[0]">Valideringsfel text för <span ng-if="!funktion.freeText">fritextfält</span><span ng-if="!funktion.freeText && funktion.begransning === grader[0]"> och </span><span ng-if="funktion.begransning === grader[0]">gradering</span></span>
   </div>
 
   <textarea ng-if="options.key === 'funktionsnedsattning' || options.key === 'aktivitetsbegransning'" id="{{options.key}}" name="{{options.key}}" class="form-control" rows="6" auto-expand ng-model="friText.value"
