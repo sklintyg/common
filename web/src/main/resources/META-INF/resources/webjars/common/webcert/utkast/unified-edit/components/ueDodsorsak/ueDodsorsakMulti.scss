@@ -38,4 +38,8 @@
   .dropdown-row {
     min-width: 139px;
   }
+
+  INPUT.validation-error, wc-dropdown.validation-error .dropdown-label {
+    border: 1px solid $wc-color-11;
+  }
 }

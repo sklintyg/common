@@ -19,6 +19,8 @@
 
 ue-dodsorsak-row {
 
+  display: block;
+
   input.form-control {
     height: 38px;
     border: 1px solid $wc-color-15;
@@ -44,5 +46,9 @@ ue-dodsorsak-row {
     position: absolute;
     top: 0;
     left: 0;
+  }
+
+  INPUT.validation-error, wc-dropdown.validation-error .dropdown-label {
+    border: 1px solid $wc-color-11;
   }
 }

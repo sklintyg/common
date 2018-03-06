@@ -42,7 +42,7 @@
               <div class="sjukskrivningar_period flex-wrapper">
                 <label for="{{::config.modelProp}}-{{::field}}-from">Fr.o.m</label>
                 <span wc-date-period-field model="::model" field="{{::config.modelProp}}" index="{{::field}}" type="from"
-                      on-blur="validate()" ng-class="{'fielderror' : hasValidationError(field, 'from')}"></span>
+                      on-blur="validate()" ng-class="{'validation-error' : hasValidationError(field, 'from')}"></span>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -53,7 +53,7 @@
               <div class="sjukskrivningar_period flex-wrapper">
                 <label class="padding-right" for="{{::config.modelProp}}-{{::field}}-tom">t.o.m</label>
                 <span wc-date-period-field model="::model" field="{{::config.modelProp}}" index="{{::field}}" type="tom"
-                      on-blur="validate()" ng-class="{'fielderror' : hasValidationError(field, 'tom')}"></span>
+                      on-blur="validate()" ng-class="{'validation-error' : hasValidationError(field, 'tom')}"></span>
               </div>
             </div>
           </div>

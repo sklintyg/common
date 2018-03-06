@@ -12,7 +12,7 @@
       <input id="orsak-{{rowIndex}}-beskrivning"
              type="text"
              class="form-control input-full"
-             ng-class="{'fielderror' : hasValidationError('beskrivning', rowIndex)}"
+             ng-class="{'validation-error' : hasValidationError('beskrivning', rowIndex)}"
              ng-model="modelValue.beskrivning"
              ng-blur="validate()"
              maxlength="{{config.htmlMaxlength || 3500}}">
@@ -23,7 +23,7 @@
       <span><span dynamic-label key="{{config.datumLabel}}.RBK"></span> </span> <span wc-help-chevron help-text-key="{{config.datumLabel}}.HLP"></span><br>
       <span wc-help-chevron-text help-text-key="{{config.datumLabel}}.HLP"></span>
       <span wc-date-picker-field target-model="modelValue.datum" dom-id="orsak-{{rowIndex}}-datum"
-            ng-class="{'fielderror' : hasValidationError('datum', rowIndex)}"
+            ng-class="{'validation-error' : hasValidationError('datum', rowIndex)}"
             ng-model="modelValue.datum"
             on-blur="validate()"
             add-date-parser="loose"></span>
@@ -38,7 +38,7 @@
                      id="orsak-{{rowIndex}}-specifikation"
                      name="andraDodsorsak-{{rowIndex}}"
                      use-dynamic-label="false"
-                     ng-class="{'fielderror' : hasValidationError('specifikation', rowIndex)}">
+                     ng-class="{'validation-error' : hasValidationError('specifikation', rowIndex)}">
         </wc-dropdown>
 
       </div>
@@ -46,5 +46,5 @@
   </div>
 
   <ue-validation-list field-type="dodsorsak" validations="orsakValidations"></ue-validation-list>
-  <ue-validation-list field-type="date" validations="dateValidations"></ue-validation-list>
+  <ue-validation-list field-type="ue-date" validations="dateValidations"></ue-validation-list>
 </div>

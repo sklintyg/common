@@ -44,6 +44,9 @@ ue-diagnos {
     span.diagnos-text {
       color: $wc-color-09;
     }
+    INPUT.validation-error {
+      border-color: $wc-color-11;
+    }
     table.margin-top {
       margin-top: 10px;
     }

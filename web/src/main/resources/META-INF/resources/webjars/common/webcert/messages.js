@@ -529,6 +529,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.ue-radiogroup.empty': 'Du måste välja ett alternativ.',
         'common.validation.ue-textarea.empty': 'Fältet får inte vara tomt.',
         'common.validation.ue-textfield.empty': 'Fältet får inte vara tomt.',
+        'common.validation.ue-typeahead.empty': 'Fältet får inte vara tomt.',
         'common.validation.ue-year.empty': 'Fältet får inte vara tomt.',
         'common.validation.ue-dropdown.empty': 'Du måste välja ett alternativ.',
         'common.validation.ue-fraga.empty': 'Frågan är obligatorisk att besvara.',
@@ -542,6 +543,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.ue-korkort-bedomning.empty': 'Du måste välja ett alternativ.',
         'common.validation.ue-vaguedate.empty': 'Du måste ange år och månad.',
         'common.validation.ue-vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00',
+        'common.validation.ue-dodsorsak-foljd.empty': 'Dödsorsak måste anges',
 
         // Specifika valideringsmeddelande från backend
 

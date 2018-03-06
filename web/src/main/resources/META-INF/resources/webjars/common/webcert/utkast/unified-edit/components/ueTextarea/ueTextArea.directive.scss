@@ -4,6 +4,8 @@ ue-textarea {
     border: 1px solid $wc-color-15;
     border-radius: 4px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    overflow-y: hidden;
+    resize: none;
   }
   textarea.form-control:focus {
     outline: none !important;

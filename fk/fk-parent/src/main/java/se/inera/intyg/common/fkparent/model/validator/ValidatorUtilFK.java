@@ -86,7 +86,7 @@ public class ValidatorUtilFK {
 
         if (diagnoser == null || diagnoser.isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
-                    DIAGNOS_SVAR_JSON_ID_6 + "[0].diagnoskod",
+                    DIAGNOS_SVAR_JSON_ID_6,
                     ValidationMessageType.EMPTY,
                     "common.validation.diagnos.missing");
             return;

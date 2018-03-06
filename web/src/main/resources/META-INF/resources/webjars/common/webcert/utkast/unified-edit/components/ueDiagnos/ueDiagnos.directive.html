@@ -47,7 +47,7 @@
                            name="diagnoseCode{{::$index}}"
                            value=""
                            placeholder="{{$index == 0 ? 'Huvuddiagnos' : 'Bidiagnos'}}"
-                           ng-class="{'fielderror' : hasValidationError('diagnoskod', $index)}"
+                           ng-class="{'validation-error' : hasValidationError('diagnoskod', $index)}"
                            ng-model="diagnos.diagnosKod"
                            ng-change="onDiagnoseCodeChanged($index)"
                            uib-typeahead="d.value as d.label for d in getDiagnoseCodes(diagnosViewState.diagnosKodSystem, $viewValue) | limitTo:10"
@@ -76,7 +76,7 @@
             </td>
             <td class="diagnos-description-column">
                 <input type="text" class="col-xs-12 form-control column-width" ng-attr-id="diagnoseDescription-{{::$index|ueDomIdFilter}}"
-                       ng-class="{'fielderror' : hasValidationError('diagnosbeskrivning', $index)}"
+                       ng-class="{'validation-error' : hasValidationError('diagnosbeskrivning', $index)}"
                        name="diagnose.description"
                        value=""
                        placeholder=""

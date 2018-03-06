@@ -48,8 +48,16 @@ angular.module('common').directive('ueDodsorsakRow',
                     }
 
                     $scope.hasValidationError = function(field, index) {
-                        return $scope.validation && $scope.validation.messagesByField &&
-                            !!$scope.validation.messagesByField[$scope.modelProp + '.' + index + '.' + field];
+                        if (index >= 0) {
+                            return $scope.validation && $scope.validation.messagesByField &&
+                                (!!$scope.validation.messagesByField[$scope.modelProp.toLowerCase() + '[' + index + '].' + field] ||
+                                !!$scope.validation.messagesByField[$scope.modelProp.toLowerCase() + '[' + index + ']'])
+                        }
+                        else {
+                            return $scope.validation && $scope.validation.messagesByField &&
+                                (!!$scope.validation.messagesByField[$scope.modelProp.toLowerCase() + '.' + field] ||
+                                !!$scope.validation.messagesByField[$scope.modelProp.toLowerCase()])
+                        }
                     };
 
                     $scope.validate = function() {
@@ -68,11 +76,11 @@ angular.module('common').directive('ueDodsorsakRow',
                             angular.forEach($scope.validation.messagesByField, function(validation, modelProp) {
 
                                 // Only care if validation messages have our index
-                                var validationIndex = modelProp.indexOf('.')+1;
-                                validationIndex = modelProp.substr(validationIndex, 1);
-                                validationIndex = parseInt(validationIndex, 10);
-                                var isValidIndex = validationIndex >= 0;
-                                if(!isValidIndex || validationIndex === $scope.rowIndex){
+                                var rowModelProp = $scope.modelProp.toLowerCase();
+                                if ($scope.rowIndex >= 0) {
+                                    rowModelProp += '[' + $scope.rowIndex + ']';
+                                }
+                                if(modelProp.indexOf(rowModelProp) === 0) {
                                     if (modelProp.substr(0, $scope.modelProp.length) === $scope.modelProp.toLowerCase()) {
                                         if (modelProp.substr(modelProp.lastIndexOf('.')) === '.datum') {
                                             $scope.dateValidations = $scope.dateValidations.concat(validation);

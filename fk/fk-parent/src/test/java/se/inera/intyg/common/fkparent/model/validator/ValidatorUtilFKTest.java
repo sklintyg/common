@@ -116,7 +116,7 @@ public class ValidatorUtilFKTest {
 
         assertEquals(1, validationMessages.size());
         assertEquals("diagnos", validationMessages.get(0).getCategory());
-        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnoser", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.missing", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);
@@ -129,7 +129,7 @@ public class ValidatorUtilFKTest {
 
         assertEquals(1, validationMessages.size());
         assertEquals("diagnos", validationMessages.get(0).getCategory());
-        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
+        assertEquals("diagnoser", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.missing", validationMessages.get(0).getMessage());
         verifyZeroInteractions(moduleService);

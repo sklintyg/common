@@ -67,7 +67,7 @@ angular.module('common').directive('wcDatePeriodField', ['$rootScope', '$timeout
 
                 $scope.dateOptions = {};
 
-               // this.onBlur = $scope.onBlur;
+                this.onBlur = $scope.onBlur;
 
                 this.fieldOptions = {
                     field : $scope.field,

@@ -15,14 +15,14 @@
         <input id="orsak-multi-{{$index}}-beskrivning"
                type="text"
                class="form-control input-full"
-               ng-class="{'fielderror' : hasValidationError('beskrivning', $index)}"
+               ng-class="{'validation-error' : hasValidationError('beskrivning', $index)}"
                ng-model="orsak.beskrivning"
                ng-blur="validate()"
                maxlength="{{config.htmlMaxlength || 3500}}">
       </td>
       <td>
         <span wc-date-picker-field target-model="orsak.datum" dom-id="orsak-multi-{{$index}}-datum"
-              ng-class="{'fielderror' : hasValidationError('datum', $index)}"
+              ng-class="{'validation-error' : hasValidationError('datum', $index)}"
               ng-model="orsak.datum"
               on-blur="validate()"
               add-date-parser="loose"></span>
@@ -34,7 +34,7 @@
                      id="orsak-multi-{{$index}}-specifikation"
                      name="andraDodsorsak-{{$index}}"
                      use-dynamic-label="false"
-                     ng-class="{'fielderror' : hasValidationError('specifikation',  $index)}">
+                     ng-class="{'validation-error' : hasValidationError('specifikation',  $index)}">
         </wc-dropdown>
       </td>
       <td>

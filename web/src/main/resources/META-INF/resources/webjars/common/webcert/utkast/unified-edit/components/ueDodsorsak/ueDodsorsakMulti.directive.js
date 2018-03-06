@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('ueDodsorsakMulti',
-    ['ueUtil', '$timeout', 'common.UtkastValidationService', 'common.dynamicLabelService',
-        function(ueUtil, $timeout, UtkastValidationService, dynamicLabelService) {
+    ['ueUtil', '$timeout', 'common.UtkastValidationService', 'common.UtkastValidationViewState', 'common.dynamicLabelService',
+        function(ueUtil, $timeout, UtkastValidationService, UtkastValidationViewState, dynamicLabelService) {
         'use strict';
 
         return {
@@ -33,6 +33,8 @@ angular.module('common').directive('ueDodsorsakMulti',
                 /*                defaulconfigptions: {
                                     className: 'slide-animation'
                                 },*/
+
+                $scope.validation = UtkastValidationViewState;
 
                 var rows;
 
@@ -59,8 +61,8 @@ angular.module('common').directive('ueDodsorsakMulti',
 
                 $scope.hasValidationError = function(field, index) {
                     return $scope.validation && $scope.validation.messagesByField &&
-                        !!$scope.validation.messagesByField[$scope.config.modelProp.toLowerCase() + '.' + index +
-                        '.' + field];
+                        !!$scope.validation.messagesByField[$scope.config.modelProp.toLowerCase() + '[' + index +
+                        '].' + field];
                 };
 
                 $scope.validate = function() {
