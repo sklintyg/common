@@ -160,7 +160,6 @@ angular.module('common').constant('common.messages', {
 
         // intyg forms
         'draft.saknar-uppgifter': 'Utkastet saknar uppgifter i följande avsnitt:',
-        'draft.onlydoctorscansign': 'Endast läkare får signera intyget.',
         'draft.signingdoctor': 'Signerande läkare',
         'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
@@ -169,11 +168,12 @@ angular.module('common').constant('common.messages', {
         'draft.notify.check-missing': 'Visa om någon information saknas',
         'draft.notify.check-missing.help': 'Visa om och vilken information utkastet saknar.',
         'draft.notify.button': 'Vidarebefordra utkast',
-        'draft.notify.help': 'Skapar ett e-mail i din mailklient innehållande direktlänk till utkastet.',
+        'draft.notify.button.tooltip': 'Skapar ett e-postmeddelande i din e-postklient med en direktlänk till utkastet.',
         'draft.notify.hide-missing.button': 'Dölj information som saknas',
 
-        'draft.notifyready.button': 'Markera som klart för signering',
-        'draft.notifyready.text': 'Utkastet är sparat och markerat som klart för signering.',
+        'draft.notifyready.button': 'Markera klart för signering ',
+        'draft.notifyready.button.tooltip': 'Utkastet sparas och markeras klart för signering.',
+        'draft.notifyready.text': 'Utkastet är sparat och markerat klart för signering.',
         'modal.title.notifyjournalsystem': 'Markera utkast som klart för signering',
 
 

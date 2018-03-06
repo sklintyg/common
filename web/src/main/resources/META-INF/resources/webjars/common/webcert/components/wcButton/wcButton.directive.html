@@ -2,9 +2,13 @@
     type="button"
     id="{{::btnId}}"
     class="btn {{::btnClass}}"
-    uib-tooltip="{{::tooltip}}"
     data-ng-disabled="disabled || loading"
     data-ng-click="btnClick()"
+
+    uib-tooltip="{{::tooltip}}"
+    tooltip-placement="auto top"
+    tooltip-enable="!(disabled || loading)"
+    tooltip-append-to-body="true"
     >
   <div ng-if="loading" class="loading">
     <i class="icon-wc-ikon-02 animate-spin"></i>

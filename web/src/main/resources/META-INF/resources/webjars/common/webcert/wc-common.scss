@@ -132,6 +132,7 @@
   @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
   @import 'utkast/unified-edit/ueComponent.scss';
+  @import 'utkast/utkast-footer/utkastFooter.scss';
   @import 'utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.scss';
@@ -354,10 +355,6 @@
       @extend %content-footer-common;
       text-decoration: underline;
     }
-  }
-
-  .utkast-footer {
-    margin-bottom: 50px;
   }
 
   .fixed-bottom {

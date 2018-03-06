@@ -132,6 +132,12 @@ angular.module('common').controller('common.UtkastFooter',
             $scope.signBtnText = dynamicLabelService.getProperty(messageKey);
             $scope.signBtnTooltip = dynamicLabelService.getProperty(messageKey + '.tooltip');
 
+            $scope.forwardBtnText = dynamicLabelService.getProperty('draft.notify.button');
+            $scope.forwardBtnTooltip = dynamicLabelService.getProperty('draft.notify.button.tooltip');
+
+            $scope.readyForSignBtnText = dynamicLabelService.getProperty('draft.notifyready.button');
+            $scope.readyForSignBtnTooltip = dynamicLabelService.getProperty('draft.notifyready.button.tooltip');
+
             /**
              * Action to sign the certificate draft and return to Webcert again.
              */
