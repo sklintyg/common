@@ -51,12 +51,12 @@ angular.module('common').directive('ueDodsorsakRow',
                         if (index >= 0) {
                             return $scope.validation && $scope.validation.messagesByField &&
                                 (!!$scope.validation.messagesByField[$scope.modelProp.toLowerCase() + '[' + index + '].' + field] ||
-                                !!$scope.validation.messagesByField[$scope.modelProp.toLowerCase() + '[' + index + ']'])
+                                !!$scope.validation.messagesByField[$scope.modelProp.toLowerCase() + '[' + index + ']']);
                         }
                         else {
                             return $scope.validation && $scope.validation.messagesByField &&
                                 (!!$scope.validation.messagesByField[$scope.modelProp.toLowerCase() + '.' + field] ||
-                                !!$scope.validation.messagesByField[$scope.modelProp.toLowerCase()])
+                                !!$scope.validation.messagesByField[$scope.modelProp.toLowerCase()]);
                         }
                     };
 
