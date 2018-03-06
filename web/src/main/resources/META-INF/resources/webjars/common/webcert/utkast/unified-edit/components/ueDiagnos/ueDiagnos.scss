@@ -16,124 +16,122 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+ue-diagnos {
 
-.checkbox-wrapper {
-  margin-top: 10px;
-  margin-bottom: 20px;
-
-  .margin-right {
-    margin-right: 30px;
-    margin-left: 10px;
+  .ue-diagnos {
+    position: relative;
+    width: 100%;
   }
-  .choose-code {
-    color: $wc-color-09;
-  }
-  .padding-left {
-    padding-left: 2px;
-  }
-}
-
-.ueDiagnos {
-
-  span.diagnos-text {
-    color: $wc-color-09;
-  }
-  table.margin-top {
+  
+  .checkbox-wrapper {
     margin-top: 10px;
+    margin-bottom: 20px;
+
+    .margin-right {
+      margin-right: 30px;
+      margin-left: 10px;
+    }
+    .choose-code {
+      color: $wc-color-09;
+    }
+    .padding-left {
+      padding-left: 2px;
+    }
   }
 
-  .diagnos-loading {
-    position: absolute;
-    right: 9px;
-    z-index: 10000;
-    top: 10px;
-  }
+  .diagnos-wrapper {
 
-  .diagnos-row {
-    td, th {
-      padding-bottom: 15px;
-      min-width: 112px;
+    span.diagnos-text {
+      color: $wc-color-09;
+    }
+    table.margin-top {
+      margin-top: 10px;
     }
 
-    .diagnos-description-column {
-      padding-right: 0px;
-      width: 87%;
+    .diagnos-loading {
+      position: absolute;
+      right: 9px;
+      z-index: 10000;
+      top: 10px;
+    }
 
-      input.form-control {
-        max-width: 97%;
-        margin-left: 1.5em;
+    .diagnos-row {
+      td, th {
+        padding-bottom: 15px;
+        min-width: 112px;
       }
 
-    }
-    .maxwidth {
-      max-width: 100% !important;
-      width: 100% !important;
-    }
+      .diagnos-description-column {
+        padding-right: 0px;
+        width: 83%;
+        position: absolute;
 
-    .code-column {
+        input.form-control {
+          max-width: 100%;
+          margin-left: 1.5em;
+        }
+      }
+
+      .code-column {
         width: 112px;
 
-      input.form-control {
-        width: 112px;
-        padding: 0 9px;
-      }
-    }
-  }
-
-
-  .dropdown-menu {
-    max-height: 350px;
-    max-width: 100%;
-    width: 75%;
-    margin-right: 28px;
-    padding: 5px 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-color: $wc-color-21;
-
-    li {
-
-      a {
-        text-decoration: none;
-      }
-
-      .kod {
-        vertical-align: top;
-        white-space: pre-wrap;
-        display: inline-block;
-      }
-
-      .beskrivning {
-        width: 90%;
-        white-space: pre-wrap;
-        display: inline-block;
-      }
-
-      .disabled  {
-        padding: 3px 20px;
-      }
-
-      .typeahead_more {
-        padding: 3px 7px;
+        input.form-control {
+          width: 112px;
+          padding: 0 9px;
+        }
       }
     }
 
-  }
-  @media (min-width: 1430px) {
     .dropdown-menu {
-      width: 70%;
-    }
-  }
+      max-height: 350px;
+      max-width: 100%;
+      width: 100%;
+      margin-right: 28px;
+      padding: 5px 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      border-color: $wc-color-21;
 
-  @media (max-width: 1342px) {
-    .diagnos-description-column {
-      width: 85%;
+      li {
 
-      input.form-control {
-        max-width: 95%;
-        margin-left: 1.8em;
+        a {
+          text-decoration: none;
+        }
+
+        .kod {
+          vertical-align: top;
+          white-space: pre-wrap;
+          display: inline-block;
+        }
+
+        .beskrivning {
+          width: 90%;
+          white-space: pre-wrap;
+          display: inline-block;
+        }
+
+        .disabled {
+          padding: 3px 20px;
+        }
+
+        .typeahead_more {
+          padding: 3px 7px;
+        }
       }
 
+    }
+
+    @media (max-width: 1200px) {
+      .diagnos-description-column {
+          width: 88% !important;
+
+        input.form-control {
+          max-width: 88% !important;
+        }
+      }
+      .dropdown-menu {
+        width: 88%;
+      }
     }
   }
 }
