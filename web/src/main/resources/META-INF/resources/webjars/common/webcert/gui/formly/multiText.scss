@@ -52,14 +52,17 @@
 
   .kategori-header {
     flex: 1 0 38px;
-    padding: 10px;
     background-color: #b3e5fc;
     color: #003c75;
+    span {
+      padding: 10px;
+      display: inline-block;
+    }
   }
 
   .kategori-content{
     padding: 10px;
-    flex: 1 0 1%;
+    flex: 1 0 auto;
     max-height: 300px;
     overflow: auto;
     .kategori-label {
@@ -104,12 +107,13 @@
     display: flex;
     padding: 10px;
     background-color: #e9eaed;
-    span {
+    a {
       flex: 1 0 1%;
     }
     .btn {
-      flex: 0 1 50px;
+      flex: 0 0 auto;
       margin-left: 10px;
+      height: 38px;
     }
   }
 }

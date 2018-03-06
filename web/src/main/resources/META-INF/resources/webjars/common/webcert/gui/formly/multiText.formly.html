@@ -5,8 +5,10 @@
   </div>
 
   <div ng-if="funktionsDropdown" id="{{model.diagnoser[0].diagnosKod}}-{{options.key}}-plate" class="funktions-dropdown-plate">
-    <div class="kategori-header" ng-if="options.key === 'funktionsnedsattning'">Välj enbart de problem som påverkar patientens möjlighet att utföra sin sysselsättning.</div>
-    <div class="kategori-header" ng-if="options.key !== 'funktionsnedsattning'">Välj enbart de svårigheter som påverkar patientens sysselsättning.</div>
+    <div class="kategori-header">
+      <span ng-if="options.key === 'funktionsnedsattning'">Välj enbart de problem som påverkar patientens möjlighet att utföra sin sysselsättning.</span>
+      <span ng-if="options.key !== 'funktionsnedsattning'">Välj enbart de svårigheter som påverkar patientens sysselsättning.</span>
+    </div>
     <div class="kategori-content">
 
       <span class="kategori-label">ICF-kategori för:</span><br/>
@@ -21,7 +23,7 @@
     </div>
 
     <div class="kategori-footer">
-      <a href="http://www.socialstyrelsen.se/klassificeringochkoder/koderfunktionstillstandicf" target="_blank">Information om Klassifikation av funktionstillstånd, funktionshinder och hälsa.</a>
+      <a href="http://www.socialstyrelsen.se/klassificeringochkoder/koderfunktionstillstandicf" target="_blank">Information om Klassifikation av<br/> funktionstillstånd, funktionshinder och hälsa.</a>
       <input type="button" class="btn btn-secondary kategori-rensa" value="Rensa" ng-click="rensa()"/>
       <input type="button" class="btn btn-primary kategori-add" value="{{funktioner.length > 0 ? 'Uppdatera dina val' : 'Lägg till i intyget'}}" ng-click="add(icfFunktioner)"/>
     </div>
