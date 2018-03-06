@@ -40,7 +40,7 @@
     <div class="beskrivning" ng-if="options.key === 'funktionsnedsattning'">Beskriv hur stort problemet är och hur du kom fram till din bedömning.</div>
     <div class="beskrivning" ng-if="options.key !== 'funktionsnedsattning'">Beskriv svårighetsgraden och hur detta påverkar patientens sysselsättning.</div>
     <div class="funktions-column">
-      <ui-select theme="bootstrap" search-enabled="false" ng-model="funktion.begransning" on-select="update(funktion)" append-to-body="true">
+      <ui-select theme="bootstrap" ng-class="{'invalid':(funktion.begransning === grader[0])}" search-enabled="false" ng-model="funktion.begransning" on-select="update(funktion)" append-to-body="true">
         <ui-select-match>
           <span ng-bind="$select.selected" title="{{$select.selected}}"></span>
         </ui-select-match>
@@ -48,7 +48,7 @@
           <span ng-bind="item"></span>
         </ui-select-choices>
       </ui-select>
-      <input type="text" class="form-control" ng-model="funktion.freeText" ng-change="update(funktion, options.key)"/>
+      <input type="text" class="form-control" ng-model="funktion.freeText" ng-required="true" ng-change="update(funktion, options.key)"/>
     </div>
   </div>
 

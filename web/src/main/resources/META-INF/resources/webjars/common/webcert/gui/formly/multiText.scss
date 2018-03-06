@@ -144,6 +144,9 @@
 
   .funktions-column {
     display: flex;
+    div {
+      flex: 1 0 150px;
+    }
   }
 
   .ui-select-container {
@@ -155,5 +158,12 @@
     flex: 1 1 auto;
     max-width: none;
     margin-left: 5px;
+    &.ng-invalid-required {
+      border-color: #fc625c;
+    }
+  }
+
+  .invalid .btn {
+    border-color: #fc625c;
   }
 }
