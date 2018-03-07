@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-fdescribe('wcIntygStatus', function() {
+describe('wcIntygStatus', function() {
     'use strict';
 
     var IntygStatusService;
