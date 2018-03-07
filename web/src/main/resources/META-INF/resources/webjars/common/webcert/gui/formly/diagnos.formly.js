@@ -133,7 +133,7 @@ angular.module('common').run(function(formlyConfig) {
                                 sysselsattning: {'NUVARANDE_ARBETE': true},
                                 funktionsnedsattning: 'Smärta, svullnad, inskränkt rörlighet och nedsatt kraft i skulderleden.',
                                 aktivitetsbegransning: 'Har på grund av smärtor svårt att använda axeln/armen. Har ingen kraft, kan inte lyfta eller belasta. Kan inte utföra manuellt arbete med armen, som kan vara obrukbar under läkningsprocessen. Särskilt svårt är arbete med armen ovan axelhöjd.',
-                                pagaendeBehandling: 'Smärta, nattlig värk samt stelhet i skuldra. Operation utförd idag.',
+                                pagaendeBehandling: 'Operation utförd idag.',
                                 planeradBehandling: 'Avlastning, sjukgymnastik.',
                                 sjukskrivningar: {
                                     HELT_NEDSATT: {
