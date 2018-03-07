@@ -30,7 +30,8 @@ describe('vagueDate', function() {
     beforeEach(inject(function($compile, $rootScope) {
         $scope = $rootScope.$new();
         $scope.model = {
-            date:undefined
+            date:undefined,
+            clear:function() {}
         };
         $scope.config = {
             type: 'ue-vague-date',
@@ -40,7 +41,7 @@ describe('vagueDate', function() {
             angular.element('<form><ue-vague-date model="model" config="config" form="form"></ue-vague-date></form>');
         $compile(element)($scope);
         $scope.$digest();
-        $scope = element.find('#form_date').scope();
+        $scope = element.find('ue-vague-date').isolateScope();
     }));
 
     it('Initial load should set year and month from model', function() {

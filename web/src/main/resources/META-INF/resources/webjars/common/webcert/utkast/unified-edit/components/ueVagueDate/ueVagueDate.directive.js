@@ -69,12 +69,14 @@ angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastVali
                         if (newValue === '0000') {
                             $scope.vagueDateModel.month = '00';
                             createMonths(false);
+                            updateModel();
                         }
                         else {
                             $scope.vagueDateModel.monthEnabled = true;
-                            if ($scope.vagueDateModel.month === '00') {
+                            if ($scope.vagueDateModel.month === '' || $scope.vagueDateModel.month === '00') {
                                 createMonths(true);
                                 $scope.vagueDateModel.month = '';
+                                updateModel();
                             } else {
                                 createMonths(false);
                             }

@@ -103,9 +103,11 @@ angular.module('common').directive('wcDropdown',
                     scope.select = function(item) {
                         ctrl.$setViewValue(item.id);
                         scope.selectedItemLabel = getSelectedItemLabel();
-                        if (scope.onSelect) {
-                            scope.onSelect();
-                        }
+                        $timeout(function() {
+                            if (scope.onSelect) {
+                                scope.onSelect();
+                            }
+                        });
                         closePlate();
                     };
 

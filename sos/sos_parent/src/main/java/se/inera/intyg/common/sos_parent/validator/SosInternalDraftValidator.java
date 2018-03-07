@@ -63,7 +63,13 @@ public final class SosInternalDraftValidator {
 
         // R1 & R2
         if (utlatande.getDodsdatum() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID, ValidationMessageType.EMPTY);
+            if (utlatande.getDodsdatumSakert()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.EMPTY);
+            } else {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.EMPTY, "common.validation.ue-vaguedate.empty");
+            }
         } else if (utlatande.getDodsdatumSakert()) {
             if (!utlatande.getDodsdatum().isValidDate()) {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,

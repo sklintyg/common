@@ -227,7 +227,7 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
 
             $scope.hasValidationError = function(field, index) {
                 return $scope.validation.messagesByField &&
-                    (!!$scope.validation.messagesByField['diagnoser[' + index + ']' + field] ||
+                    (!!$scope.validation.messagesByField['diagnoser[' + index + '].' + field] ||
                         // If no diagnose has been entered the first row should be marked with validation-error
                         (index === 0 && !!$scope.validation.messagesByField.diagnoser));
             };
@@ -241,7 +241,7 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                 $scope.diagnosValidations = [];
                 angular.forEach($scope.validation.messagesByField,
                     function(validations, key) {
-                        if (key.substr(0, $scope.config.modelProp.length) === $scope.config.modelProp.toLowerCase()) {
+                        if (key.substr(0, $scope.config.modelProp.length + 1) === $scope.config.modelProp.toLowerCase() + '[') {
                             $scope.diagnosValidations = $scope.diagnosValidations.concat(validations);
                         }
                     });
