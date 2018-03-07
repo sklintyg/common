@@ -97,7 +97,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 ueFactoryTemplates.patient,
 
                 // Intyget avser
-                kategori(categoryIds[10], 'KAT_99.RBK', 'KAT_99.HLP', { required: true }, [
+                kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', { required: true }, [
                     fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {}, [{
                         type: 'ue-checkgroup-ts',
                         modelProp: 'intygAvser.korkortstyp',
@@ -109,7 +109,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 ]),
 
                 // Identitet styrkt genom
-                kategori(categoryIds[10], 'KAT_100.RBK', 'KAT_100.HLP', { required: true }, [
+                kategori(categoryIds[100], 'KAT_100.RBK', 'KAT_100.HLP', { required: true }, [
                     fraga(null, '', '', {}, [{
                         type: 'ue-radiogroup',
                         modelProp: 'vardkontakt.idkontroll',
