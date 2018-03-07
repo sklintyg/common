@@ -124,17 +124,17 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                                 {label: 'DFR_11.1.NEJ.RBK', id: 'NEJ'},
                                 {label: 'DFR_11.1.UPPGIFT_SAKNAS.RBK', id: 'UPPGIFT_SAKNAS'}
                             ]
-                        },
+                        }]),
+                    fraga(11, '', '', { hideExpression: 'model.operation !== "JA"' /* R13 */ }, [
                         {
                             modelProp: 'operationDatum',
                             type: 'ue-date',
-                            hideExpression: 'model.operation !== "JA"', // R13
                             label: {key: 'DFR_11.2.RBK', required: true}
-                        },
+                        }]),
+                    fraga(11, '', '', { hideExpression: 'model.operation !== "JA"' /* R13 */ }, [
                         {
                             modelProp: 'operationAnledning',
                             type: 'ue-textfield',
-                            hideExpression: 'model.operation !== "JA"', // R13
                             label: {key: 'DFR_11.3.RBK', required: true}, htmlMaxlength: 100
                         }
                     ])
@@ -148,11 +148,11 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                                 key: 'DFR_12.1.RBK',
                                 required: true
                             }
-                        },
+                        }]),
+                    fraga(12, '', '', { hideExpression: 'model.forgiftning !== true' /* R14 */ }, [
                         {
                             modelProp: 'forgiftningOrsak',
                             type: 'ue-radiogroup', // R15
-                            hideExpression: 'model.forgiftning !== true', // R14
                             label: {
                                 key: 'DFR_12.2.RBK',
                                 required: true
@@ -163,17 +163,17 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                                 { label:'ORSAK.AVSIKTLIGT_VALLAD.RBK', id: 'AVSIKTLIGT_VALLAD'},
                                 { label:'ORSAK.OKLART.RBK', id: 'OKLART'}
                             ]
-                        },
+                        }]),
+                    fraga(12, '', '', { hideExpression: 'model.forgiftning !== true' /* R16 */ }, [
                         {
                             modelProp: 'forgiftningDatum',
                             type: 'ue-date',
-                            hideExpression: 'model.forgiftning !== true', // R16
                             label: {key: 'DFR_12.3.RBK', required: true}
-                        },
+                        }]),
+                    fraga(12, '', '', { hideExpression: 'model.forgiftning !== true' /* R17 */ }, [
                         {
                             modelProp: 'forgiftningUppkommelse',
                             type: 'ue-textarea',
-                            hideExpression: 'model.forgiftning !== true', // R17
                             label: {key: 'DFR_12.4.RBK', required: true}, htmlMaxlength: 400
                         }
                     ])

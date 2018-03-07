@@ -123,7 +123,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             {label: 'ts-bas.label.identitet.forsakran_kap18', id: 'FORSAKRAN_KAP18'},
                             {label: 'ts-bas.label.identitet.pass', id: 'PASS'}
                         ]
-                    },{
+                    }]),
+                    fraga(null, '', '', {}, [{
                         type: 'ue-alert',
                         alertType: 'info',
                         key: 'FRM_1.RBK'

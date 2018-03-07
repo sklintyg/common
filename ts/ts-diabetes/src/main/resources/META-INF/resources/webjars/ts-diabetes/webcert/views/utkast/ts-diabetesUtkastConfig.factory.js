@@ -81,7 +81,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             {label: 'ts-diabetes.label.identitet.forsakran_kap18', id: 'FORSAKRAN_KAP18'},
                             {label: 'ts-diabetes.label.identitet.pass', id: 'PASS'}
                         ]
-                    },{
+                    }]),
+                    fraga(null, '', '', {}, [{
                         type: 'ue-alert',
                         alertType: 'info',
                         key: 'FRM_1.RBK'
