@@ -149,6 +149,7 @@ angular.module('common').controller('common.UtkastHeader',
 
 
             $window.onbeforeunload = function(event) {
+                $scope.certForm.$commitViewValue();
                 if ($scope.certForm.$dirty) {
                     // Trigger a save now. If the user responds with "Leave the page" we may not have time to save
                     // before the page is closed. We could use an ajax request with async:false this will force the
