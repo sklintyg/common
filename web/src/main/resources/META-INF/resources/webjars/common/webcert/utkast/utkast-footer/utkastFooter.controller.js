@@ -157,6 +157,29 @@ angular.module('common').controller('common.UtkastFooter',
                 );
             };
 
+            $scope.showMissing = {
+                value: false
+            };
+
+            $scope.$watch('showMissing', function(newValue, oldValue) {
+                if (newValue.value !== oldValue.value) {
+                    if (newValue.value) {
+                        $scope.checkMissing();
+                    } else {
+                        CommonViewState.setShowComplete(false);
+                        utkastValidationViewState.reset();
+                    }
+                }
+            }, true);
+
+            $scope.$watch(function() {
+                return utkastValidationViewState.sections && utkastValidationViewState.sections.length > 0;
+            }, function(newValue, oldValue) {
+                if (CommonViewState.showComplete && newValue !== oldValue) {
+                    $scope.showMissing.value = newValue;
+                }
+            });
+
             /**
              * Whenever a validation round is completed, either directly by clicking a button or by bluring a validated field -
              * scroll (back) to where we were before 'content-changed-above' scrolling occurred.

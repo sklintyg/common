@@ -36,9 +36,8 @@
 
     <!-- Vårdadmin -->
     <div wc-authority="!SIGNERA_INTYG">
-
       <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
-      <div wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
+      <div class="admin-row" wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
         <wc-button
             data-ng-if="!viewState.klartForSigneringDatum"
             btn-id="markeraKlartForSigneringButton"
@@ -49,17 +48,18 @@
           <i class="material-icons">check</i> {{::readyForSignBtnText}}
         </wc-button>
 
+        <div data-ng-if="!viewState.common.intyg.isComplete && !viewState.klartForSigneringDatum" class="complete-info">
+          <wc-toggle
+              toggle-id="show-missing-btn"
+              model="showMissing.value"></wc-toggle>
+          <label for="show-missing-btn">Visa vad som saknas</label>
+        </div>
+
         <wc-alert-message ng-if="viewState.klartForSigneringDatum"
                           alert-severity="success"
                           alert-message-id="draft.notifyready.text">
         </wc-alert-message>
-
-        <div ng-if="viewState.klartForSigneringDatum">
-          <span class="glyphicon glyphicon-check ng-scope"></span>
-          <span id="draft-marked-ready-text" dynamic-label key="draft.notifyready.text"></span>
-        </div>
       </div>
-
 
       <!-- Notifiera läkare genom att vidarebefordra -->
       <div class="admin-row" wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
@@ -72,13 +72,12 @@
           {{::forwardBtnText}}
         </wc-button>
 
-        <button type="button" id="show-missing-btn" class="btn btn-primary"
-                ng-keydown="initValidationSequence('show-missing-btn')"
-                ng-mousedown="initValidationSequence('show-missing-btn')"
-                ng-click="checkMissing()"
-                ng-disabled="viewState.common.intyg.isComplete">
-          <span dynamic-label key="draft.notify.check-missing"></span>
-        </button>
+        <div data-ng-if="!viewState.common.intyg.isComplete" class="complete-info">
+          <wc-toggle
+              toggle-id="show-missing-btn"
+              model="showMissing.value"></wc-toggle>
+          <label for="show-missing-btn">Visa vad som saknas</label>
+        </div>
 
         <wc-checkbox-wrapper>
           <input id="mark-as-vidarebefordrad" type="checkbox" ng-disabled="viewState.common.vidarebefordraInProgress"

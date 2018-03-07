@@ -31,10 +31,10 @@ wc-toggle {
     &:after {
       position: absolute;
       content: "";
-      height: $height - 2;
-      width: $height - 2;
-      left: 0;
-      bottom: 0;
+      height: $height;
+      width: $height;
+      left: -1px;
+      bottom: -1px;
       background-color: $wc-color-00;
       border: $wc-color-23 1px solid;
       transition: .4s;
@@ -67,7 +67,7 @@ wc-toggle {
     }
 
     + .slider:after {
-      transform: translateX($width - 30);
+      transform: translateX($width - $height);
     }
   }
 
