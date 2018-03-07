@@ -70,7 +70,7 @@ angular.module('common').directive('autoExpand', ['$window', '$interval', functi
                 windowNode.on('resize', resizeTextarea);
             }
 
-            // Run until the textarea is visible
+            // Run until the textarea is visible to be able to calculate the size of the textarea
             var stop = $interval(function() {
                 if (node.offsetHeight || node.offsetWidth) {
                     resizeTextarea();
@@ -84,6 +84,10 @@ angular.module('common').directive('autoExpand', ['$window', '$interval', functi
 
             function cleanUp() {
                 windowNode.off('resize', resizeTextarea);
+
+                if (stop) {
+                    $interval.cancel(stop);
+                }
             }
 
             scope.$on('$destroy', cleanUp);
