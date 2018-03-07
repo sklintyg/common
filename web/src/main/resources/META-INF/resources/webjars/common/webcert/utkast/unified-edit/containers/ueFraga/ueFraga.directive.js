@@ -43,7 +43,7 @@ angular.module('common').directive('ueFraga', ['common.UtkastValidationViewState
                         if (c.modelProp) {
                             // Unfortunately we have duplicate modelProps in db/doi for dodsdatum
                             if (arr.filter(function(item)  {
-                                    return item.key === c.modelProp
+                                    return item.key === c.modelProp;
                                 }).length === 0) {
                                 arr.push({key: c.modelProp.toLowerCase(), type: c.type });
                             }
