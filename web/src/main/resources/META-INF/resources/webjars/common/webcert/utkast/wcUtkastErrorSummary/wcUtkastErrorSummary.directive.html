@@ -1,19 +1,9 @@
-<div id="visa-vad-som-saknas-lista" ng-show="viewState.common.validation.sections.length > 0">
-  <wc-alert-message alert-severity="danger">
-    <h3><span dynamic-label key="draft.saknar-uppgifter"></span></h3>
-  </wc-alert-message>
+<div id="visa-vad-som-saknas-lista" ng-show="categories.length > 0">
 
-  <ul class="ul__thin-bullet">
-    <li ng-repeat="message in viewState.common.validation.sections">
-      <a href="" ng-click="scrollTo(message)">{{lookUpLabel(message)}}</span></a>
-    </li>
-  </ul>
+  <wc-alert-message alert-severity="danger" alert-message-id="draft.saknar-uppgifter"></wc-alert-message>
 
-  <div wc-authority="!SIGNERA_INTYG" class="intyg-block">
-    <button type="button" id="checkMissing" class="btn btn-default"
-            ng-click="hideMissing()">
-      <span dynamic-label key="draft.notify.hide-missing.button"></span>
-    </button>
+  <div ng-repeat="category in categories">
+    <a href="" ng-click="scrollTo(category)">{{lookUpLabel(category)}}</span></a>
   </div>
 
 </div>

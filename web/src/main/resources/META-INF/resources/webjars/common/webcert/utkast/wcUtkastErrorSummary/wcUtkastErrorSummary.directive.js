@@ -17,51 +17,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * wcField directive. Used to abstract common layout for full-layout form fields in intyg modules
+ * wcUtkastErrorSummary directive. lists validation errors by category with scroll-to-links to
+ * the corresponding category input section.
  */
 angular.module('common').directive('wcUtkastErrorSummary',
-    ['common.dynamicLabelService', 'common.messageService',
-        'common.UtkastViewStateService', 'common.anchorScrollService', 'common.UtkastValidationViewState',
-        function(dynamicLabelService, messageService, CommonViewState,
-            anchorScrollService, utkastValidationViewState) {
-            'use strict';
+    [ 'common.dynamicLabelService', 'common.messageService', 'common.anchorScrollService',
+            function(dynamicLabelService, messageService, anchorScrollService) {
+                'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.html',
-                scope: true,
-                controller: function($scope) {
-                    $scope.lookUpLabel = function(category) {
+                return {
+                    restrict: 'E',
+                    templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.html',
+                    scope: {
+                        categories: '=',
+                        categoryIds: '='
+                    },
+                    controller: function($scope) {
+                        $scope.lookUpLabel = function(category) {
 
-                        var keys = Object.keys($scope.categoryIds);
+                            //Get all available categories
+                            var keys = Object.keys($scope.categoryIds);
 
-                        for(var i = 0; i < keys.length; i++) {
+                            for (var i = 0; i < keys.length; i++) {
 
-                            if(!category){
-                                continue;
-                            }
-
-                            var categoryLc = category.toLowerCase();
-                            var categoryNameLc = $scope.categoryIds[keys[i]].toLowerCase();
-                            if (categoryLc === categoryNameLc) {
-                                var result = dynamicLabelService.getProperty('KAT_' + keys[i] + '.RBK');
-                                if (result) {
-                                    return result;
+                                if (!category) {
+                                    continue;
                                 }
-                                return 'KAT_' + i + '.RBK';
+
+                                var categoryLc = category.toLowerCase();
+                                var categoryNameLc = $scope.categoryIds[keys[i]].toLowerCase();
+                                if (categoryLc === categoryNameLc) {
+                                    var result = dynamicLabelService.getProperty('KAT_' + keys[i] + '.RBK');
+                                    if (result) {
+                                        return result;
+                                    }
+                                    return 'KAT_' + i + '.RBK';
+                                }
                             }
-                        }
-                        return messageService.getProperty('common.label.'+category);
-                    };
+                            return messageService.getProperty('common.label.' + category);
+                        };
 
-                    $scope.scrollTo = function(message) {
-                        anchorScrollService.scrollIntygContainerTo('anchor-' + message);
-                    };
+                        $scope.scrollTo = function(categoryId) {
+                            //By convention the ueKategori directive creates an anchor named 'anchor-<categoryId>'
+                            anchorScrollService.scrollIntygContainerTo('anchor-' + categoryId);
+                        };
 
-                    $scope.hideMissing = function(){
-                        CommonViewState.setShowComplete(false);
-                        utkastValidationViewState.reset();
-                    };
-                }
-            };
-        }]);
+                    }
+                };
+            } ]);

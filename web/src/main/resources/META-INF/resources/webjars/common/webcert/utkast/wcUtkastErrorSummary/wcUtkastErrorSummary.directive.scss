@@ -1,12 +1,24 @@
 wc-utkast-error-summary {
 
   display: block;
+  background-color: $wc-color-00;
+  border-radius: 4px;
 
-  h3 {
-    color: $wc-color-01;
+
+  #visa-vad-som-saknas-lista {
+    padding: 15px 28px;
+    margin-bottom: 14px;
+
+    a {
+      @extend %wc-typo-07;
+      color: $wc-color-11;
+    }
   }
-
-  .ul__thin-bullet {
-    padding-left: 20px;
+  wc-alert-message {
+    display: block;
+    .alert {
+      display: block;
+      margin-bottom: 10px;
+    }
   }
 }

@@ -36,8 +36,11 @@
           </div>
           <!-- certificate -->
 
-          <wc-utkast-error-summary category-ids="categoryIds"
-                                   view-state="viewState"></wc-utkast-error-summary>
+          <wc-utkast-error-summary
+              categories="viewState.common.validation.sections"
+              category-ids="categoryIds">
+          </wc-utkast-error-summary>
+
           <div ui-view="footer"></div>
 
         </wc-spinner>
