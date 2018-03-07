@@ -33,7 +33,7 @@ wc-checkbox-wrapper {
       content: "";
 
       border: 1px solid $wc-color-23;
-      box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.24);
       transition: all .3s;
 
     }
@@ -67,7 +67,7 @@ wc-checkbox-wrapper {
 
     input[type="checkbox"]:focus + label::before {
       outline: thin dotted;
-      outline-offset: 1px;
+      outline-offset: 0px;
     }
 
     //The tick mark when checked
