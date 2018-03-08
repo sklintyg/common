@@ -1,0 +1,23 @@
+<div class="admin-row">
+  <wc-button
+      data-ng-if="!viewState.klartForSigneringDatum"
+      btn-id="markeraKlartForSigneringButton"
+      btn-class="btn-success"
+      btn-click="notifieraUtkast()"
+      tooltip="{{::readyForSignBtnTooltip}}"
+  >
+    <i class="material-icons">check</i> {{::readyForSignBtnText}}
+  </wc-button>
+
+  <div data-ng-if="!viewState.common.intyg.isComplete && !viewState.klartForSigneringDatum" class="complete-info">
+    <wc-toggle
+        toggle-id="show-missing-btn"
+        model="showMissing.value"></wc-toggle>
+    <label for="show-missing-btn">Visa vad som saknas</label>
+  </div>
+
+  <wc-alert-message ng-if="viewState.klartForSigneringDatum"
+                    alert-severity="success"
+                    alert-message-id="draft.notifyready.text">
+  </wc-alert-message>
+</div>

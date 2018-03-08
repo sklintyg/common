@@ -1,92 +1,25 @@
-<div id="utkast-footer">
-  <div ng-if="!isSigned" class="utkast-footer">
+<div id="utkast-footer" class="utkast-footer">
+  <p ng-if="isSignAndSend()">
+    <span dynamic-label key="{{::viewState.common.intyg.type}}.label.signandsend"></span>
+  </p>
 
-    <p ng-if="isSignAndSend()">
-      <span dynamic-label key="{{::viewState.common.intyg.type}}.label.signandsend"></span>
-    </p>
-
-    <!-- Läkare: Signera -->
-    <div wc-authority="SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}">
-      <p ng-show="viewState.common.intyg.isKomplettering">
-        <span dynamic-label key="draft.completion.signinfo"></span>
-      </p>
-
-      <wc-alert-message ng-if="disableSign() && getPreviousIntygWarning() !== undefined"
-                        alert-severity="warning"
-                        alert-message-id="{{getPreviousIntygWarning()}}">
-      </wc-alert-message>
-
-      <wc-button
-          btn-id="signera-utkast-button"
-          btn-class="btn-success"
-          btn-click="sign()"
-          loading="getCurrentSignStatus() === 'pending'"
-          disabled="certForm.$dirty || disableSign()"
-          tooltip="{{::signBtnTooltip}}"
-      >
-        -wc-ikon-30-
-        {{::signBtnText}}
-      </wc-button>
-
-      <!-- Om personen har loggat in med BANK ID skall vi visa en liten extra text -->
-      <p ng-if="user.authenticationMethod === 'BANK_ID'">
-        <span dynamic-label key="common.modal.label.signing.open.bankid"></span>
-      </p>
-    </div>
-
-    <!-- Vårdadmin -->
-    <div wc-authority="!SIGNERA_INTYG">
-      <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
-      <div class="admin-row" wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
-        <wc-button
-            data-ng-if="!viewState.klartForSigneringDatum"
-            btn-id="markeraKlartForSigneringButton"
-            btn-class="btn-success"
-            btn-click="notifieraUtkast()"
-            tooltip="{{::readyForSignBtnTooltip}}"
-        >
-          <i class="material-icons">check</i> {{::readyForSignBtnText}}
-        </wc-button>
-
-        <div data-ng-if="!viewState.common.intyg.isComplete && !viewState.klartForSigneringDatum" class="complete-info">
-          <wc-toggle
-              toggle-id="show-missing-btn"
-              model="showMissing.value"></wc-toggle>
-          <label for="show-missing-btn">Visa vad som saknas</label>
-        </div>
-
-        <wc-alert-message ng-if="viewState.klartForSigneringDatum"
-                          alert-severity="success"
-                          alert-message-id="draft.notifyready.text">
-        </wc-alert-message>
-      </div>
-
-      <!-- Notifiera läkare genom att vidarebefordra -->
-      <div class="admin-row" wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
-        <wc-button
-            btn-id="vidarebefordraEjHanterad"
-            btn-class="btn-success"
-            btn-click="vidarebefordraUtkast()"
-            tooltip="{{::forwardBtnTooltip}}"
-          >
-          {{::forwardBtnText}}
-        </wc-button>
-
-        <div data-ng-if="!viewState.common.intyg.isComplete" class="complete-info">
-          <wc-toggle
-              toggle-id="show-missing-btn"
-              model="showMissing.value"></wc-toggle>
-          <label for="show-missing-btn">Visa vad som saknas</label>
-        </div>
-
-        <wc-checkbox-wrapper>
-          <input id="mark-as-vidarebefordrad" type="checkbox" ng-disabled="viewState.common.vidarebefordraInProgress"
-                 ng-model="viewState.draftModel.vidarebefordrad" ng-change="onVidarebefordradChange()" />
-          <label for="mark-as-vidarebefordrad">Vidarebefordrad</label>
-        </wc-checkbox-wrapper>
-      </div>
-    </div>
-
+  <!-- Läkare: Signera -->
+  <div wc-authority="SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}">
+    <wc-utkast-footer-sign view-state="viewState" cert-form="certForm"></wc-utkast-footer-sign>
   </div>
+
+  <!-- Vårdadmin -->
+  <div wc-authority="!SIGNERA_INTYG">
+    <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
+    <div wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
+      <wc-utkast-footer-notify view-state="viewState" cert-form="certForm"></wc-utkast-footer-notify>
+    </div>
+
+    <!-- Notifiera läkare genom att vidarebefordra -->
+    <div wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
+      <wc-utkast-footer-vidarebefodra view-state="viewState" cert-form="certForm"></wc-utkast-footer-vidarebefodra>
+    </div>
+  </div>
+
   <a id="bottom"></a>
 </div>
