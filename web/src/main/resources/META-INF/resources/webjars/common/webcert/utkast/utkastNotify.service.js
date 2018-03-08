@@ -246,7 +246,7 @@ angular.module('common').factory('common.UtkastNotifyService',
             }
 
             // Notifiering till journalsystem hanteras i backend
-            function _notifyJournalsystem(intygId, intygType, utkast, updateState, successCallback) {
+            function _notifyJournalsystem(intygId, intygType, utkast, updateState, successCallback, errorCallback) {
 
                 if (!updateState.intyg.isComplete) {
                     _showNotifyJournalsystemDialog('notifyjournalsystem',
@@ -258,10 +258,17 @@ angular.module('common').factory('common.UtkastNotifyService',
                                     successCallback();
                                 }, function() {
                                     $log.error('Send notification failed!');
+
+                                    if (angular.isFunction(errorCallback)) {
+                                        errorCallback();
+                                    }
                                 });
                         },
                         function() { // no
                             $log.debug('no');
+                            if (angular.isFunction(errorCallback)) {
+                                errorCallback();
+                            }
                         }
                     );
                 } else {
@@ -271,6 +278,10 @@ angular.module('common').factory('common.UtkastNotifyService',
                              successCallback();
                          }, function(err) {
                              $log.debug('Send notification failed!');
+
+                             if (angular.isFunction(errorCallback)) {
+                                 errorCallback();
+                             }
                          });
                 }
             }

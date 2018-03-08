@@ -25,11 +25,15 @@ angular
     return {
         restrict: 'E',
         scope: {
-            model: '=',
+            toggle: '&',
             toggleId: '@',
+            label: '@',
             disable: '<'
         },
-        templateUrl: '/web/webjars/common/webcert/components/wcToggle/wcToggle.directive.html'
+        templateUrl: '/web/webjars/common/webcert/components/wcToggle/wcToggle.directive.html',
+        controller: function($scope) {
+            $scope.value = false;
+        }
 
     };
 }]);

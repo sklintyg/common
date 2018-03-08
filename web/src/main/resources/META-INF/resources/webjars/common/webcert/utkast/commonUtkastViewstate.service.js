@@ -99,7 +99,7 @@ angular.module('common').service('common.UtkastViewStateService',
         }
 
         this.setShowComplete = function(showComplete) {
-            this.showComplete = showComplete || true;
+            this.showComplete = showComplete;
             return this.showComplete;
         };
 

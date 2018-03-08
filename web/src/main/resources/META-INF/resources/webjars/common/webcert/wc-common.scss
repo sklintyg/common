@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@media screen {
   // Import partials
   @import "css/_variables.scss";
 
@@ -54,6 +53,7 @@
   @import 'components/headers/wcHeader.partial.scss';
   @import 'components/headers/wcMainMenu/wcMainMenu.directive.scss';
   @import 'components/wcAlertMessage/wcAlertMessage.directive.scss';
+  @import 'components/wcButton/wcButton.directive.scss';
   @import 'components/wcCheckboxWrapper/wcCheckboxWrapper.directive.scss';
   @import 'components/wcDropdown/wcDropdown.directive.scss';
   @import 'components/wcExpandableContent/wcExpandableContent.directive.scss';
@@ -132,6 +132,7 @@
   @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
   @import 'utkast/unified-edit/ueComponent.scss';
+  @import 'utkast/utkast-footer/utkastFooter.scss';
   @import 'utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.scss';
@@ -354,10 +355,6 @@
       @extend %content-footer-common;
       text-decoration: underline;
     }
-  }
-
-  .utkast-footer {
-    margin-bottom: 50px;
   }
 
   .fixed-bottom {
@@ -757,5 +754,4 @@
   .date-width {
     width: 130px;
   }
-
-}
+  

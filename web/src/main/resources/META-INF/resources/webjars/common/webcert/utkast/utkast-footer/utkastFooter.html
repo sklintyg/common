@@ -1,102 +1,24 @@
-<div id="utkast-footer">
-  <div ng-if="!isSigned" class="utkast-footer">
+<div id="utkast-footer" class="utkast-footer">
+  <!-- Läkare: Signera -->
+  <wc-utkast-footer-sign
+      wc-authority="SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}"
+      view-state="viewState"
+      cert-form="certForm"></wc-utkast-footer-sign>
 
-    <p ng-if="isSignAndSend()">
-      <span dynamic-label key="{{viewState.common.intyg.type}}.label.signandsend"></span>
-    </p>
+  <!-- Vårdadmin -->
+  <div wc-authority="!SIGNERA_INTYG">
+    <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
+    <wc-utkast-footer-notify
+        wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"
+        view-state="viewState"
+        cert-form="certForm"></wc-utkast-footer-notify>
 
-    <!-- Läkare: Signera -->
-    <div wc-authority="SIGNERA_INTYG" intygstyp="{{viewState.common.intyg.type}}">
-      <p ng-show="viewState.common.intyg.isKomplettering">
-        <span dynamic-label key="draft.completion.signinfo"></span>
-      </p>
-
-      <wc-alert-message ng-if="disableSign() && getPreviousIntygWarning() !== undefined"
-                        alert-severity="warning"
-                        alert-message-id="{{getPreviousIntygWarning()}}">
-      </wc-alert-message>
-
-      <button type="button" id="signera-utkast-button" class="btn btn-primary"
-              ng-disabled="certForm.$dirty || (getCurrentSignStatus() === 'pending') || disableSign()"
-              ng-keydown="initValidationSequence('signera-utkast-button')"
-              ng-mousedown="initValidationSequence('signera-utkast-button')"
-              ng-click="sign()">
-        <img ng-show="getCurrentSignStatus() === 'pending'" ng-src="/img/ajax-loader-small-green.gif" />
-        <span dynamic-label key="common.{{isSignAndSendOrKomp() ? 'signsend' : 'sign'}}"></span>
-      </button>
-
-      <!-- Om personen har loggat in med BANK ID skall vi visa en liten extra text -->
-      <p ng-if="user.authenticationMethod === 'BANK_ID'">
-        <span dynamic-label key="common.modal.label.signing.open.bankid"></span>
-      </p>
-    </div>
-
-    <!-- Vårdadmin -->
-    <div wc-authority="!SIGNERA_INTYG">
-
-      <!-- Signera intyg -->
-      <h3 >
-        <span dynamic-label key="common.sign.intyg"></span>
-      </h3>
-
-      <!-- Endast läkare får signera -->
-      <wc-alert-message id="sign-requires-doctor-message-text"
-                        intygstyp="{{viewState.common.intyg.type}}"
-                        alert-severity="info"
-                        alert-message-id="draft.onlydoctorscansign"></wc-alert-message>
-
-      <!-- check for missing info in utkast -->
-      <div class="form-group">
-        <button type="button" id="show-missing-btn" class="btn btn-primary"
-                ng-keydown="initValidationSequence('show-missing-btn')"
-                ng-mousedown="initValidationSequence('show-missing-btn')"
-                ng-click="checkMissing()"
-                ng-disabled="viewState.common.intyg.isComplete">
-          <span dynamic-label key="draft.notify.check-missing"></span>
-        </button>
-        <span wc-help-chevron help-text-key="draft.notify.check-missing.help"></span>
-        <span wc-help-chevron-text help-text-key="draft.notify.check-missing.help"></span>
-      </div>
-
-
-
-      <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
-      <div wc-authority="NOTIFIERING_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
-        <button ng-if="!viewState.klartForSigneringDatum" type="button" id="markeraKlartForSigneringButton" class="btn btn-primary" ng-click="notifieraUtkast()">
-          <span dynamic-label key="draft.notifyready.button"></span>
-        </button>
-        <div ng-if="viewState.klartForSigneringDatum">
-          <span class="glyphicon glyphicon-check ng-scope"></span>
-          <span id="draft-marked-ready-text" dynamic-label key="draft.notifyready.text"></span>
-        </div>
-      </div>
-
-
-
-      <!-- Notifiera läkare genom att vidarebefordra -->
-      <div wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{viewState.common.intyg.type}}">
-        <div class="form-group">
-          <button type="button" id="vidarebefordraEjHanterad" class="btn"
-                  ng-class="{'btn-primary': !viewState.draftModel.vidarebefordrad, 'btn-secondary' : viewState.draftModel.vidarebefordrad}"
-                  ng-click="vidarebefordraUtkast()"><span class="glyphicon glyphicon-share-alt"
-                ng-class="{'forward-active': !viewState.draftModel.vidarebefordrad, 'forward-inactive': viewState.draftModel.vidarebefordrad}"></span>
-             <span dynamic-label key="draft.notify.button"></span>
-          </button>
-          <span wc-help-chevron help-text-key="draft.notify.help"></span>
-          <span wc-help-chevron-text help-text-key="draft.notify.help"></span>
-        </div>
-
-        <div class="intyg-block">
-          <label for="mark-as-vidarebefordrad">
-            <input id="mark-as-vidarebefordrad" type="checkbox" ng-disabled="viewState.common.vidarebefordraInProgress"
-                   ng-model="viewState.draftModel.vidarebefordrad" ng-change="onVidarebefordradChange()" />
-            Vidarebefordrad
-          </label> <span ng-if="viewState.common.vidarebefordraInProgress"> <img
-            src="/img/ajax-loader-kit-16x16.gif"></span>
-        </div>
-      </div>
-    </div>
-
+    <!-- Notifiera läkare genom att vidarebefordra -->
+    <wc-utkast-footer-vidarebefodra
+        wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"
+        view-state="viewState"
+        cert-form="certForm"></wc-utkast-footer-vidarebefodra>
   </div>
+
   <a id="bottom"></a>
 </div>

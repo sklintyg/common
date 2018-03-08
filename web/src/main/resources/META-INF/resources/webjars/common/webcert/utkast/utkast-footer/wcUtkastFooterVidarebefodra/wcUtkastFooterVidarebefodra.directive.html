@@ -1,0 +1,23 @@
+<div class="admin-row">
+  <wc-button
+      btn-id="vidarebefordraEjHanterad"
+      btn-class="btn-success"
+      btn-click="vidarebefordraUtkast()"
+      tooltip="{{::forwardBtnTooltip}}"
+  >
+    <i class="icon-wc-ikon-reply"></i>
+    {{::forwardBtnText}}
+  </wc-button>
+
+  <wc-toggle
+      data-ng-if="!viewState.common.intyg.isComplete"
+      toggle-id="show-missing-btn"
+      toggle="showMissing(value)"
+      label="{{::checkMissingLabel}}"></wc-toggle>
+
+  <wc-checkbox-wrapper>
+    <input id="mark-as-vidarebefordrad" type="checkbox" ng-disabled="viewState.common.vidarebefordraInProgress"
+           ng-model="viewState.draftModel.vidarebefordrad" ng-change="onVidarebefordradChange()" />
+    <label for="mark-as-vidarebefordrad">Vidarebefordrad</label>
+  </wc-checkbox-wrapper>
+</div>

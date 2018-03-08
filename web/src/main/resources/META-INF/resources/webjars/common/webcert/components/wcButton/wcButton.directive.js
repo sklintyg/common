@@ -16,10 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').controller('common.UtkastFooter',
-    [
+/**
+ * Show an alert box
+ */
+angular.module('common').directive('wcButton',
         function() {
             'use strict';
-        }
-    ]
-);
+
+            return {
+                restrict: 'E',
+                transclude: true,
+                scope: {
+                    'btnId': '@',
+                    'tooltip' : '@',
+                    'btnClass' : '@',
+                    'loading': '<',
+                    'disabled': '<',
+                    'btnClick': '&'
+                },
+                controller: function($scope) {
+
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcButton/wcButton.directive.html'
+            };
+        });

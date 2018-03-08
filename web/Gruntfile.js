@@ -218,8 +218,13 @@ module.exports = function(grunt) {
         postcss: {
             options: {
                 map: false,
-                processors: [ autoprefixer, // add vendor prefixes
-                require('cssnano')({zindex: false}) // minify the result
+                processors: [
+                    autoprefixer, // add vendor prefixes
+                    require('cssnano')({
+                        zindex: false,
+                        reduceIdents: false
+                        //discardComments: { removeAllButFirst: true }
+                    }) // minify the result
                 ]
             },
             minaintyg: {

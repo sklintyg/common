@@ -35,7 +35,9 @@ angular.module('common').constant('common.messages', {
         'common.makulera': 'Makulera',
         'common.makulera.tooltip': 'Öppnar ett fönster där du kan välja att makulera intyget.',
         'common.sign': 'Signera intyget',
+        'common.sign.tooltip': 'Intyget signeras.',
         'common.signsend': 'Signera och skicka',
+        'common.signsend.tooltip': 'Intyget signeras och skickas direkt.',
         'common.send': 'Skicka',
         'common.copy': 'Kopiera',
         'common.copy.tooltip': 'Ett nytt utkast skapas på den vårdenhet du är inloggad på. All information i det befintliga intyget följer med till utkastet.',
@@ -158,20 +160,19 @@ angular.module('common').constant('common.messages', {
 
         // intyg forms
         'draft.saknar-uppgifter': 'Utkastet saknar uppgifter i följande avsnitt:',
-        'draft.onlydoctorscansign': 'Endast läkare får signera intyget.',
         'draft.signingdoctor': 'Signerande läkare',
         'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
         'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
 
-        'draft.notify.check-missing': 'Visa om någon information saknas',
-        'draft.notify.check-missing.help': 'Visa om och vilken information utkastet saknar.',
+        'draft.notify.check-missing': 'Visa vad som saknas',
         'draft.notify.button': 'Vidarebefordra utkast',
-        'draft.notify.help': 'Skapar ett e-mail i din mailklient innehållande direktlänk till utkastet.',
+        'draft.notify.button.tooltip': 'Skapar ett e-postmeddelande i din e-postklient med en direktlänk till utkastet.',
         'draft.notify.hide-missing.button': 'Dölj information som saknas',
 
-        'draft.notifyready.button': 'Markera som klart för signering',
-        'draft.notifyready.text': 'Utkastet är sparat och markerat som klart för signering.',
+        'draft.notifyready.button': 'Markera klart för signering ',
+        'draft.notifyready.button.tooltip': 'Utkastet sparas och markeras klart för signering.',
+        'draft.notifyready.text': 'Utkastet är sparat och markerat klart för signering.',
         'modal.title.notifyjournalsystem': 'Markera utkast som klart för signering',
 
 
