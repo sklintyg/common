@@ -27,6 +27,7 @@ angular
         scope: {
             model: '=',
             toggleId: '@',
+            label: '@',
             disable: '<'
         },
         templateUrl: '/web/webjars/common/webcert/components/wcToggle/wcToggle.directive.html'

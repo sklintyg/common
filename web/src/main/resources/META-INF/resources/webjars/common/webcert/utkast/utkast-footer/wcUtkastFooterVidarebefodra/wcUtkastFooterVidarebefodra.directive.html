@@ -8,12 +8,11 @@
     {{::forwardBtnText}}
   </wc-button>
 
-  <div data-ng-if="!viewState.common.intyg.isComplete" class="complete-info">
-    <wc-toggle
-        toggle-id="show-missing-btn"
-        model="showMissing.value"></wc-toggle>
-    <label for="show-missing-btn">Visa vad som saknas</label>
-  </div>
+  <wc-toggle
+      data-ng-if="!viewState.common.intyg.isComplete"
+      toggle-id="show-missing-btn"
+      model="showMissing.value"
+      label="{{::checkMissingLabel}}"></wc-toggle>
 
   <wc-checkbox-wrapper>
     <input id="mark-as-vidarebefordrad" type="checkbox" ng-disabled="viewState.common.vidarebefordraInProgress"

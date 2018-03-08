@@ -165,8 +165,7 @@ angular.module('common').constant('common.messages', {
         'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
         'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
 
-        'draft.notify.check-missing': 'Visa om någon information saknas',
-        'draft.notify.check-missing.help': 'Visa om och vilken information utkastet saknar.',
+        'draft.notify.check-missing': 'Visa vad som saknas',
         'draft.notify.button': 'Vidarebefordra utkast',
         'draft.notify.button.tooltip': 'Skapar ett e-postmeddelande i din e-postklient med en direktlänk till utkastet.',
         'draft.notify.hide-missing.button': 'Dölj information som saknas',

@@ -36,6 +36,7 @@ angular
 
                         $scope.forwardBtnText = dynamicLabelService.getProperty('draft.notify.button');
                         $scope.forwardBtnTooltip = dynamicLabelService.getProperty('draft.notify.button.tooltip');
+                        $scope.checkMissingLabel = dynamicLabelService.getProperty('draft.notify.check-missing');
 
                         $scope.showMissing = {
                             value: false

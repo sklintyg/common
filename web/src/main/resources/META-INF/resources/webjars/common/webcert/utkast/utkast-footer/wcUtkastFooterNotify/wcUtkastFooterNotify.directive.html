@@ -9,12 +9,11 @@
     <i class="material-icons">check</i> {{::readyForSignBtnText}}
   </wc-button>
 
-  <div data-ng-if="!viewState.common.intyg.isComplete && !viewState.klartForSigneringDatum" class="complete-info">
-    <wc-toggle
-        toggle-id="show-missing-btn"
-        model="showMissing.value"></wc-toggle>
-    <label for="show-missing-btn">Visa vad som saknas</label>
-  </div>
+  <wc-toggle
+      data-ng-if="!viewState.common.intyg.isComplete && !viewState.klartForSigneringDatum"
+      toggle-id="show-missing-btn"
+      model="showMissing.value"
+      label="{{::checkMissingLabel}}"></wc-toggle>
 
   <wc-alert-message ng-if="viewState.klartForSigneringDatum"
                     alert-severity="success"

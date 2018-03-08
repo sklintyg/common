@@ -36,6 +36,7 @@ angular
 
                         $scope.readyForSignBtnText = dynamicLabelService.getProperty('draft.notifyready.button');
                         $scope.readyForSignBtnTooltip = dynamicLabelService.getProperty('draft.notifyready.button.tooltip');
+                        $scope.checkMissingLabel = dynamicLabelService.getProperty('draft.notify.check-missing');
 
                         $scope.showMissing = {
                             value: false
