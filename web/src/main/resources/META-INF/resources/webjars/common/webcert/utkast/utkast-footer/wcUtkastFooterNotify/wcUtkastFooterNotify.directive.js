@@ -20,8 +20,8 @@
 angular
     .module('common')
     .directive('wcUtkastFooterNotify',
-        ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastValidationViewState', 'common.UtkastFooterService',
-            function(dynamicLabelService, UtkastNotifyService, CommonViewState, utkastValidationViewState, UtkastFooterService) {
+        ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastFooterService',
+            function(dynamicLabelService, UtkastNotifyService, CommonViewState, UtkastFooterService) {
                 'use strict';
 
                 return {
@@ -37,11 +37,6 @@ angular
                         $scope.readyForSignBtnText = dynamicLabelService.getProperty('draft.notifyready.button');
                         $scope.readyForSignBtnTooltip = dynamicLabelService.getProperty('draft.notifyready.button.tooltip');
                         $scope.checkMissingLabel = dynamicLabelService.getProperty('draft.notify.check-missing');
-
-                        $scope.showMissing = {
-                            value: false
-                        };
-
                         /**
                          * Handle notifieraUtkast, dvs. notifering till journalsystem via statusuppdatering
                          */
@@ -52,25 +47,9 @@ angular
                                 });
                         };
 
-                        $scope.$watch('showMissing', function(newValue, oldValue) {
-                            console.log('running showMissing');
-                            if (newValue.value !== oldValue.value) {
-                                if (newValue.value) {
-                                    UtkastFooterService.checkMissing(viewState, $scope.certForm);
-                                } else {
-                                    CommonViewState.setShowComplete(false);
-                                    utkastValidationViewState.reset();
-                                }
-                            }
-                        }, true);
-
-                        $scope.$watch(function() {
-                            return utkastValidationViewState.sections && utkastValidationViewState.sections.length > 0;
-                        }, function(newValue, oldValue) {
-                            if (CommonViewState.showComplete && newValue !== oldValue) {
-                                $scope.showMissing.value = newValue;
-                            }
-                        });
+                        $scope.showMissing = function(value) {
+                            UtkastFooterService.toggleMissing(value, viewState, $scope.certForm);
+                        };
                     }
                 };
             } ]);

@@ -12,7 +12,7 @@
   <wc-toggle
       data-ng-if="!viewState.common.intyg.isComplete && !viewState.klartForSigneringDatum"
       toggle-id="show-missing-btn"
-      model="showMissing.value"
+      toggle="showMissing(value)"
       label="{{::checkMissingLabel}}"></wc-toggle>
 
   <wc-alert-message ng-if="viewState.klartForSigneringDatum"

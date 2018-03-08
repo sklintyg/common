@@ -20,8 +20,8 @@
 angular
     .module('common')
     .factory('common.UtkastFooterService',
-    ['common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationService', 'common.featureService',
-        function(CommonViewState, UtkastService, UtkastValidationService, featureService) {
+    ['common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationService', 'common.featureService', 'common.UtkastValidationViewState',
+        function(CommonViewState, UtkastService, UtkastValidationService, featureService, utkastValidationViewState) {
             'use strict';
 
             function isSignAndSend(viewState) {
@@ -45,8 +45,18 @@ angular
                 return true;
             }
 
+            function toggleMissing(value, viewState, certForm) {
+                if (value) {
+                    checkMissing(viewState, certForm);
+                } else {
+                    CommonViewState.setShowComplete(false);
+                    utkastValidationViewState.reset();
+                }
+            }
+
             return {
                 checkMissing: checkMissing,
+                toggleMissing: toggleMissing,
                 isSignAndSend: isSignAndSend
             };
         }]);

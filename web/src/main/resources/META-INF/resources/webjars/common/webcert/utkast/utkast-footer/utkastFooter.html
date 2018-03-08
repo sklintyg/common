@@ -4,21 +4,24 @@
   </p>
 
   <!-- Läkare: Signera -->
-  <div wc-authority="SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}">
-    <wc-utkast-footer-sign view-state="viewState" cert-form="certForm"></wc-utkast-footer-sign>
-  </div>
+  <wc-utkast-footer-sign
+      wc-authority="SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}"
+      view-state="viewState"
+      cert-form="certForm"></wc-utkast-footer-sign>
 
   <!-- Vårdadmin -->
   <div wc-authority="!SIGNERA_INTYG">
     <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
-    <div wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
-      <wc-utkast-footer-notify view-state="viewState" cert-form="certForm"></wc-utkast-footer-notify>
-    </div>
+    <wc-utkast-footer-notify
+        wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"
+        view-state="viewState"
+        cert-form="certForm"></wc-utkast-footer-notify>
 
     <!-- Notifiera läkare genom att vidarebefordra -->
-    <div wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{::viewState.common.intyg.type}}">
-      <wc-utkast-footer-vidarebefodra view-state="viewState" cert-form="certForm"></wc-utkast-footer-vidarebefodra>
-    </div>
+    <wc-utkast-footer-vidarebefodra
+        wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"
+        view-state="viewState"
+        cert-form="certForm"></wc-utkast-footer-vidarebefodra>
   </div>
 
   <a id="bottom"></a>

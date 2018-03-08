@@ -5,13 +5,14 @@
       btn-click="vidarebefordraUtkast()"
       tooltip="{{::forwardBtnTooltip}}"
   >
+    <i class="icon-wc-ikon-reply"></i>
     {{::forwardBtnText}}
   </wc-button>
 
   <wc-toggle
       data-ng-if="!viewState.common.intyg.isComplete"
       toggle-id="show-missing-btn"
-      model="showMissing.value"
+      toggle="showMissing(value)"
       label="{{::checkMissingLabel}}"></wc-toggle>
 
   <wc-checkbox-wrapper>
