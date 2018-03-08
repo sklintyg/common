@@ -34,6 +34,7 @@ angular
                     controller: function($scope) {
                         var viewState = $scope.viewState;
 
+                        $scope.loading = false;
                         $scope.readyForSignBtnText = dynamicLabelService.getProperty('draft.notifyready.button');
                         $scope.readyForSignBtnTooltip = dynamicLabelService.getProperty('draft.notifyready.button.tooltip');
                         $scope.checkMissingLabel = dynamicLabelService.getProperty('draft.notify.check-missing');
@@ -41,10 +42,19 @@ angular
                          * Handle notifieraUtkast, dvs. notifering till journalsystem via statusuppdatering
                          */
                         $scope.notifieraUtkast = function() {
+                            $scope.loading = true;
+
+                            var successCallback = function() {
+                                viewState.klartForSigneringDatum = true;
+                                $scope.loading = false;
+                            };
+
+                            var errorCallback = function() {
+                                $scope.loading = false;
+                            };
+
                             UtkastNotifyService.notifyJournalsystem(viewState.intygModel.id, viewState.common.intyg.type,
-                                viewState.draftModel, viewState.common, function() {
-                                    viewState.klartForSigneringDatum = true;
-                                });
+                                viewState.draftModel, viewState.common, successCallback, errorCallback);
                         };
 
                         $scope.showMissing = function(value) {

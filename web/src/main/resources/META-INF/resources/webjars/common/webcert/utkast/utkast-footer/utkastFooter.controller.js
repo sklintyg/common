@@ -17,15 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('common.UtkastFooter',
-    ['$scope', 'common.UtkastFooterService',
-        function($scope, UtkastFooterService) {
+    [
+        function() {
             'use strict';
-
-            var viewState = $scope.viewState;
-
-            $scope.isSignAndSend = function() {
-                return UtkastFooterService.isSignAndSend(viewState);
-            };
         }
     ]
 );

@@ -1,3 +1,7 @@
+<p ng-if="isSignAndSend()">
+  <span dynamic-label key="{{::viewState.common.intyg.type}}.label.signandsend"></span>
+</p>
+
 <p ng-show="viewState.common.intyg.isKomplettering">
   <span dynamic-label key="draft.completion.signinfo"></span>
 </p>

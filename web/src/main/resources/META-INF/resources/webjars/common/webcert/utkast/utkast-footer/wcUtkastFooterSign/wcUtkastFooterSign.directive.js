@@ -48,8 +48,10 @@ angular
                         return previousWarningMessage;
                     };
 
+                    $scope.isSignAndSend = isSignAndSend;
                     $scope.isSignAndSendOrKomp = isSignAndSendOrKomp;
                     $scope.getCurrentSignStatus = getCurrentSignStatus;
+
 
                     /**
                      * Action to sign the certificate draft and return to Webcert again.
@@ -85,8 +87,12 @@ angular
                         return previousIntyg;
                     };
 
+                    function isSignAndSend() {
+                        return featureService.isFeatureActive(featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
+                    }
+
                     function isSignAndSendOrKomp() {
-                        return viewState.common.intyg.isKomplettering || UtkastFooterService.isSignAndSend(viewState);
+                        return viewState.common.intyg.isKomplettering || isSignAndSend();
                     }
 
                     function getCurrentSignStatus() {

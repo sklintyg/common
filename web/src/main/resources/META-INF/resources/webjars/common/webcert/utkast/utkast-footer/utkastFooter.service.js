@@ -20,13 +20,9 @@
 angular
     .module('common')
     .factory('common.UtkastFooterService',
-    ['common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationService', 'common.featureService', 'common.UtkastValidationViewState',
-        function(CommonViewState, UtkastService, UtkastValidationService, featureService, utkastValidationViewState) {
+    ['common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationService', 'common.UtkastValidationViewState',
+        function(CommonViewState, UtkastService, UtkastValidationService, utkastValidationViewState) {
             'use strict';
-
-            function isSignAndSend(viewState) {
-                return featureService.isFeatureActive(featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
-            }
 
              function checkMissing(viewState, certForm, signStatus) {
                 if(signStatus === 'pending') {
@@ -56,7 +52,6 @@ angular
 
             return {
                 checkMissing: checkMissing,
-                toggleMissing: toggleMissing,
-                isSignAndSend: isSignAndSend
+                toggleMissing: toggleMissing
             };
         }]);

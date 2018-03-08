@@ -1,8 +1,4 @@
 <div id="utkast-footer" class="utkast-footer">
-  <p ng-if="isSignAndSend()">
-    <span dynamic-label key="{{::viewState.common.intyg.type}}.label.signandsend"></span>
-  </p>
-
   <!-- Läkare: Signera -->
   <wc-utkast-footer-sign
       wc-authority="SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}"
