@@ -31,9 +31,18 @@
       <!-- Status -->
       <div class="page-header-divider">
         <div class="inline-block" wc-authority="NAVIGERING" ng-if="::backState">
-          <a ng-click="back()"><i class="material-icons">arrow_back</i></a>
-          <a id="tillbakaButton"
-             ng-click="back()">Tillbaka</a>
+          <a ng-click="back()"
+             uib-popover="Tillbaka."
+             popover-trigger="mouseenter"
+             popover-popup-delay="300"
+             popover-append-to-body="true"
+             popover-placement="auto top"
+             popover-class="z-low">
+            <i class="material-icons">arrow_back</i>
+          </a><a
+              id="tillbakaButton"
+              ng-click="back()">Tillbaka
+          </a>
         </div>
 
         <wc-intyg-status intyg-view-state="intygViewState"></wc-intyg-status>
