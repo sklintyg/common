@@ -12,13 +12,17 @@
     <div class="kategori-content">
 
       <span class="kategori-label">ICF-kategori för:</span><br/>
-      <strong>{{diagnosBeskrivningen()}}</strong>
+      <strong class="medborder">{{diagnosBeskrivningen()}}</strong>
       <div ng-repeat="urval in icfFunktioner">
         <div class="kategorier">
           <input type="checkbox" class="big-checkbox" ng-model="urval.vald"/>
           <span>{{urval.namn}}</span><span class="visamer" ng-click="visamer = !visamer">{{visamer ? 'visa mindre':'visa mer'}} <i class="glyphicon" ng-class="{'glyphicon-menu-down': !visamer, 'glyphicon-menu-up': visamer}"></i></span>
         </div>
         <div ng-if="visamer" class="beskrivning">{{urval.beskrivning}}</div>
+        <div ng-if="visamer && urval.innefattar" class="beskrivning">
+          <strong>Innefattar</strong><br/>
+          <span>{{urval.innefattar}}</span>
+        </div>
       </div>
     </div>
 
@@ -50,7 +54,7 @@
       </ui-select>
       <input type="text" class="form-control" ng-model="funktion.freeText" ng-required="true" ng-change="update(funktion, options.key)"/>
     </div>
-    <span class="error" ng-if="!funktion.freeText || funktion.begransning === grader[0]">Valideringsfel text för <span ng-if="!funktion.freeText">fritextfält</span><span ng-if="!funktion.freeText && funktion.begransning === grader[0]"> och </span><span ng-if="funktion.begransning === grader[0]">gradering</span></span>
+    <span class="error" ng-if="!funktion.freeText || funktion.begransning === grader[0]"><span ng-if="funktion.begransning === grader[0]">Gradering</span><span ng-if="funktion.begransning === grader[0] && !funktion.freeText"> och beskrivning</span><span ng-if="!funktion.freeText && funktion.begransning !== grader[0]">Beskrivning</span> måste anges.</span>
   </div>
 
   <textarea ng-if="options.key === 'funktionsnedsattning' || options.key === 'aktivitetsbegransning'" id="{{options.key}}" name="{{options.key}}" class="form-control" rows="6" auto-expand ng-model="friText.value"

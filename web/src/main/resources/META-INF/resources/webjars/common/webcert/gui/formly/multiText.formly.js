@@ -24,10 +24,10 @@ angular.module('common').run(function(formlyConfig) {
                                 var diagnos = $scope.model.diagnoser[i];
                                 if (diagnos.diagnosKod === 'F322' || diagnos.diagnosKod === 'M751') {
                                     if ($scope.options.key === 'funktionsnedsattning') {
-                                        $scope.grader = ['Välj gradering','Inget problem','Lätt problem','Måttligt problem','Svårt problem','Totalt problem'];
+                                        $scope.grader = ['Välj gradering','Lätt problem','Måttligt problem','Svårt problem','Totalt problem'];
                                         $scope.icfFunktioner = angular.copy(icf[diagnos.diagnosKod.toLowerCase()].funktion);
                                     } else {
-                                        $scope.grader = ['Välj gradering','Ingen svårighet','Lätt svårighet','Måttlig svårighet','Stor svårighet','Total svårighet'];
+                                        $scope.grader = ['Välj gradering','Lätt svårighet','Måttlig svårighet','Stor svårighet','Total svårighet'];
                                         $scope.icfFunktioner = angular.copy(icf[diagnos.diagnosKod.toLowerCase()].aktivitet);
                                     }
                                 }
