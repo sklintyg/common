@@ -49,6 +49,9 @@ ue-diagnos {
     }
     table.margin-top {
       margin-top: 10px;
+      tbody tr:last-of-type td{
+        padding-bottom: 0;
+      }
     }
 
     .diagnos-loading {
