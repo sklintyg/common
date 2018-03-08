@@ -16,15 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcHelpChevronTextScrollableBody', [ function() {
-    'use strict';
 
-    return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            domId: '@'
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcHelpChevronText/wcHelpChevronTextScrollableBody/wcHelpChevronTextScrollableBody.directive.html'
-    };
-} ]);
+angular.module('common').directive('wcBottomFadeout',
+    [
+        function() {
+            'use strict';
+
+            return {
+                restrict: 'E',
+                transclude: true,
+                scope: {
+                    color: '@'
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcBottomFadeout/wcBottomFadeout.directive.html'
+            };
+        }]);

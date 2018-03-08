@@ -1,9 +1,15 @@
 wc-inline-komplettering {
   display: block;
 
+  wc-alert-message {
+    display: block;
+    .alert {
+      display: block;
+      margin-bottom: 0;
+    }
+  }
 
-  .alert {
-    margin: 10px;
+  .inline-komplettering-text {
     white-space: pre-line;
   }
 }

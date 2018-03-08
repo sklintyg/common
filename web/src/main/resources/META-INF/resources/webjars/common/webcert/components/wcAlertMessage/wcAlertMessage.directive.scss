@@ -27,13 +27,17 @@ wc-alert-message {
     position: relative;
     padding: 8px 9px 7px 38px;
 
-    .material-icons {
+    .material-icons, .icon-wc-ikon-alert02 {
       position: absolute;
       top: 5px;
       left: 6px;
     }
     a:hover {
       color: $wc-color-07;
+    }
+    &.alert-komplettering {
+      background-color: $wc-color-02;
+      color: $wc-color-05;
     }
   }
 

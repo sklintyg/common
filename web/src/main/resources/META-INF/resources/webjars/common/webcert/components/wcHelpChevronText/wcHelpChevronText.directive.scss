@@ -38,3 +38,9 @@
 .wc-help-chevron__margin-bottom {
    margin-bottom: 15px;
  }
+.wc-help-chevron__textarea {
+  .scrollable-body {
+    padding: 20px;
+    max-height: 120px;
+  }
+}

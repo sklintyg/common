@@ -16,8 +16,12 @@ uv-wc-fraga {
   }
 
   .uv-wc-fraga-komplettering {
-    border: 3px solid $wc-color-12;
+    border: 1px solid $wc-color-05;
     border-radius: 4px;
-    margin-bottom: 1px;
+    margin: 0 -30px;
+    padding: 0 30px;
+    wc-bottom-fadeout {
+      margin-bottom: 14px;
+    }
   }
 }
