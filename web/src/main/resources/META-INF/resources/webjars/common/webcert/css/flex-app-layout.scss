@@ -31,9 +31,6 @@ body {
 }
 
 .webcert-workarea {
-  //Constrain content to max width..
-  max-width: $wc-max-content-width;
-
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -47,12 +44,25 @@ body {
     display: none;
   }
 
+  .intyg-header-container {
+    //Needed to make box-shadows in intyg-headers appear above contents in workarea e.g utkast etc.
+    z-index: 1;
+  }
+
+  .centered-constrained-content {
+    //Actual workarea content should be centered and max 1440 wide (equal whitespace on sides)
+    max-width: $wc-max-content-width;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   //defines padding for "page" workarea containers
   .webcert-workarea-page {
     //NOTE: Minimum of 15 padding left/right is needed to handle bootstrap grid negative margins
     padding: 20px 15px 0 15px;
 
+    //Hack to fix IE not respecting padding bottom
     &:after {
       content:'';
       display:block;
@@ -82,6 +92,7 @@ body {
     flex: 1;
     min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
 
+    //Split horizontally in 3:2 ratio
     .webcert-workarea-intyg {
       position: relative; //important: needs to be relative for anchorScroll to work
       flex: 3;
@@ -98,14 +109,6 @@ body {
     .webcert-workarea-supportpanel {
       flex: 2;
       min-width: 1%;
-
-      //NOTE: this temporary class to allow legacy arendehantering view to be in a scrollable container to the right of intyg.
-      // When ärendehantering is supported as a tab in in supportpanel, this construct can be removed.
-      &.remove-when-migrated-to-supportpanel-scrollable-flex-content {
-        padding: 20px;
-        overflow: auto;
-      }
-
     }
   }
 }
