@@ -68,21 +68,22 @@ public class InternalValidatorTest {
     }
 
     @Test
-    public void testR3_1() throws ScenarioNotFoundException {
-        DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-1").asInternalModel();
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-    }
-
-    @Test
-    public void testR3_2() throws ScenarioNotFoundException {
-        DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-2").asInternalModel();
+    public void testR3() throws ScenarioNotFoundException {
+        DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
+        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("db.validation.antraffatDod.dodsdatumSakert", internalValidationResponse.getValidationErrors().get(0).getMessage());
+    }
+
+    @Test
+    public void testR3_4() throws ScenarioNotFoundException {
+        DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-4").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
         assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
     }
