@@ -24,6 +24,8 @@ angular.module('doi').constant('doi.messages', {
         'common.validation.dodsorsak.empty': 'Beskrivning får inte vara tom.',
         'common.validation.date.incorrect_combination': 'Datumet får inte vara efter efterkommande följd eller terminal dödsorsak.',
 
+        'doi.validation.datum.innanDodsdatum': 'Datumet får inte vara tidigare än "Dödsdatum".',
+
         'doi.validation.forgiftning.orsak.incorrect_combination': 'Orsak får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej".',
         'doi.validation.forgiftning.datum.incorrect_combination': 'Datum får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej".',
         'doi.validation.forgiftning.uppkommelse.incorrect_combination': 'Uppkommelse får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej".',

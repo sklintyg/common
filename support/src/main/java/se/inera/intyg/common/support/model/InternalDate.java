@@ -141,20 +141,24 @@ public class InternalDate {
 
     public boolean vagueDateInFuture() {
         LocalDate now = LocalDate.now();
+        return vagueDateAfterDate(now);
+    }
+
+    public boolean vagueDateAfterDate(LocalDate dateLimit) {
 
         // This needs to be done on the string level since date parts can be 00, not parsable by LocalDate.parse
         Pattern yearPattern = Pattern.compile(GENERAL_DATE_FORMAT_YEAR);
         Matcher yearMatcher = yearPattern.matcher(date);
         if (yearMatcher.matches()) {
-            if (yearMatcher.group(1).compareTo(Integer.toString(now.getYear())) > 0) {
+            if (yearMatcher.group(1).compareTo(Integer.toString(dateLimit.getYear())) > 0) {
                 return true;
             }
 
             Pattern monthPattern = Pattern.compile(GENERAL_DATE_FORMAT_MONTH);
             Matcher monthMatcher = monthPattern.matcher(date);
             if (monthMatcher.matches()) {
-                if (yearMatcher.group(1).equals(Integer.toString(now.getYear()))
-                        && (Integer.parseInt(monthMatcher.group(1)) - now.getMonth().getValue()) > 0) {
+                if (yearMatcher.group(1).equals(Integer.toString(dateLimit.getYear()))
+                        && (Integer.parseInt(monthMatcher.group(1)) - dateLimit.getMonth().getValue()) > 0) {
                     return true;
                 }
             }

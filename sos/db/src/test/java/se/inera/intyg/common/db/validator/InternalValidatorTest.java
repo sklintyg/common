@@ -79,6 +79,28 @@ public class InternalValidatorTest {
     }
 
     @Test
+    public void testR3_1() throws ScenarioNotFoundException {
+        DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("validation-fail-R3-1").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.OTHER, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
+        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("common.validation.date.today.or.earlier", internalValidationResponse.getValidationErrors().get(0).getMessage());
+    }
+
+    @Test
+    public void testR3_2() throws ScenarioNotFoundException {
+        DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-2").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
+        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("db.validation.datum.innanDodsdatum", internalValidationResponse.getValidationErrors().get(0).getMessage());
+    }
+
+    @Test
     public void testR3_4() throws ScenarioNotFoundException {
         DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-4").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);

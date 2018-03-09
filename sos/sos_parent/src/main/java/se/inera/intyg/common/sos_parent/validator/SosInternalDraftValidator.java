@@ -108,6 +108,10 @@ public final class SosInternalDraftValidator {
             } else if (!utlatande.getAntraffatDodDatum().isReasonable()) {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date_out_of_range_no_future");
+            } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum()
+                    .vagueDateAfterDate(utlatande.getAntraffatDodDatum().asLocalDate())) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
+                        ValidationMessageType.INCORRECT_COMBINATION, prefix + ".validation.datum.innanDodsdatum");
             }
         } else {
             if (utlatande.getAntraffatDodDatum() != null) {
