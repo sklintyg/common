@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygHeader', [ '$window', '$state', 'common.moduleService', 'common.IntygHeaderViewState',
-    function($window, $state, moduleService, IntygHeaderViewState) {
+angular.module('common').directive('wcIntygHeader', [ '$window', '$state', 'common.moduleService', 'common.IntygHeaderViewState', 'common.UserModel',
+    function($window, $state, moduleService, IntygHeaderViewState, UserModel) {
     'use strict';
 
     return {
@@ -34,6 +34,19 @@ angular.module('common').directive('wcIntygHeader', [ '$window', '$state', 'comm
             $scope.back = function(){
                 $state.go($scope.backState);
             };
+
+            function updatePersonId() {
+                if ($scope.intygViewState.intygModel.grundData) {
+                    $scope.personId = $scope.intygViewState.intygModel.grundData.patient.personId;
+                    if (UserModel.getIntegrationParam('alternateSsn')) {
+                        $scope.oldPersonId = $scope.personId;
+                        $scope.personId = UserModel.getIntegrationParam('alternateSsn');
+                    }
+                }
+            }
+
+            updatePersonId();
+            $scope.$on('intyg.loaded', updatePersonId);
         }
     };
 } ]);
