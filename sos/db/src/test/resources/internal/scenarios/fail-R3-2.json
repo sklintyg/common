@@ -16,13 +16,13 @@
   "grundData": {
     "patient": {
       "samordningsNummer": false,
-      "efternamn": "Zombie",
-      "fornamn": "Rob",
-      "fullstandigtNamn": "Rob Zombie",
+      "efternamn": "Olsson",
+      "fornamn": "Olivia",
+      "fullstandigtNamn": "Olivia Olsson",
       "postadress": "Testgatan 1",
       "postnummer": "111 11",
       "postort": "Teststaden",
-      "personId": "19650172-0004"
+      "personId": "19270310-4321"
     },
     "skapadAv": {
       "vardenhet": {
