@@ -40,17 +40,7 @@ angular.module('common').factory('common.IntygSend',
                 });
             }
 
-            function isObservandum(intygModel) {
-                var intyg;
-                if (intyg.typ === 'lisjp') {
-
-                }
-
-                return false;
-            }
             function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, onSuccess) {
-                console.log(intygModel);
-                isObservandum(intygModel);
                 var dialogSendModel ={
                     acceptprogressdone: true,
                     focus: false,
