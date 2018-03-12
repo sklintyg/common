@@ -102,7 +102,8 @@ angular.module('common').factory('common.IntygMakulera',
                     makuleraModel: {
                         reason: undefined,
                         clarification: []
-                    }
+                    },
+                    recipient: 'common.recipient.' + moduleService.getModule(CommonViewState.intygProperties.type).defaultRecipient.toLowerCase()
                 };
 
                 if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, CommonViewState.intygProperties.type)) {
@@ -112,15 +113,17 @@ angular.module('common').factory('common.IntygMakulera',
                     };
                 }
 
-                // Fill dialogMakuleraModel.choices array with choices based on labels
-                angular.forEach(dialogMakuleraModel.labels, function(label, key) {
+                if(CommonViewState.intygProperties.type !== 'doi' && CommonViewState.intygProperties.type !== 'db') {
+                    // Fill dialogMakuleraModel.choices array with choices based on labels
+                    angular.forEach(dialogMakuleraModel.labels, function(label, key) {
 
-                    this.push({
-                        label: label,
-                        value: key,
-                        placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)...'
-                    });
-                }, dialogMakuleraModel.choices);
+                        this.push({
+                            label: label,
+                            value: key,
+                            placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)...'
+                        });
+                    }, dialogMakuleraModel.choices);
+                }
 
                 makuleraDialog = dialogService.showDialog({
                     dialogId: 'makulera-dialog',

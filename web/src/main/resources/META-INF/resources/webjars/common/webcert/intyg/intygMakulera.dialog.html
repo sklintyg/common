@@ -1,23 +1,24 @@
 <div id="{{dialogId}}" class="modal-header">
-  <button type="button" class="close" ng-click="$close()">×</button>
+  <button type="button" class="close" data-ng-click="$close()"><i class="material-icons">close</i></button>
   <h3 ng-focus="model.focus" tabindex="-1">
     <span dynamic-label key="{{titleId}}"></span>
   </h3>
 </div>
 <div class="modal-body">
+  
+  <wc-alert-message alert-severity="info" alert-message-id="label.makulera.body.common-footer"></wc-alert-message>
+
   <div class="form-group">
-    <div style="padding-bottom: 10px">
-      <span dynamic-label key="{{model.bodyTextId}}"></span>
-      <span ng-if="model.hasUnhandledArenden" dynamic-label key="label.makulera.body.has-arenden.addition"></span>
-      <br><br>
-      <span dynamic-label key="label.makulera.body.common-footer"></span>
-    </div>
+    <span dynamic-label key="{{model.bodyTextId}}"></span>
+    <span ng-if="model.hasUnhandledArenden" dynamic-label key="label.makulera.body.has-arenden.addition"></span>
   </div>
+  
   <div class="form-group makulera-choices" ng-if="model.choices.length > 0">
-    Varför makulerar du intyget? <span ng-if="model.isFkIntyg"><span wc-help-chevron help-text-key="intyg.makulera.help"></span>
-    <span wc-help-chevron-text help-text-key="intyg.makulera.help"></span></span>
-    <br>
-    <div ng-repeat="reason in model.choices">
+    <strong>Ange för <span dynamic-label key="{{model.recipient}}"></span> varför du makulerar intyget: </strong>
+    <!-- <span ng-if="model.isFkIntyg"><span wc-help-chevron help-text-key="intyg.makulera.help"></span>
+    <span wc-help-chevron-text help-text-key="intyg.makulera.help"></span></span> -->
+    <br/>
+    <div ng-repeat="reason in model.choices" style="margin-top:5px;">
       <wc-radio-wrapper>
         <input id="reason-{{reason.value}}" name="reason-{{reason.value}}" type="radio"
                  ng-model="model.makuleraModel.reason" ng-value="reason.value">
@@ -33,15 +34,17 @@
     </div>
   </div>
 
-  <div class="form-inline">
-    <button type="button" id="{{button1id}}" class="btn btn-danger"
+</div>
+
+  <div class="modal-footer">
+    <button type="button" id="{{button1id}}" class="btn btn-secondary"
             ng-disabled="!model.isMakuleraEnabled(model)"
             ng-click="button1click()">
       <img ng-hide="model.makuleraProgressDone" ng-src="/img/ajax-loader-small-red.gif" />
       <span dynamic-label key="{{button1text}}"></span>
     </button>
 
-    <button type="button" id="{{button3id}}" class="btn btn-secondary" ng-click="button3click()">
+    <button type="button" id="{{button3id}}" class="btn btn-default" ng-click="button3click()">
       <span dynamic-label key="{{button3text}}"></span>
     </button>
     <div class="webcert-top-padding-section" ng-show="model.showerror">
@@ -49,4 +52,4 @@
       </wc-alert-message>
     </div>
   </div>
-</div>
+
