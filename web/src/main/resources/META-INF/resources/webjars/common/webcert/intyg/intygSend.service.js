@@ -40,14 +40,24 @@ angular.module('common').factory('common.IntygSend',
                 });
             }
 
-            function _send(intygId, intygType, recipientId, titleId, bodyTextId, onSuccess) {
+            function isObservandum(intygModel) {
+                var intyg;
+                if (intyg.typ === 'lisjp') {
 
+                }
+
+                return false;
+            }
+            function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, onSuccess) {
+                console.log(intygModel);
+                isObservandum(intygModel);
                 var dialogSendModel ={
                     acceptprogressdone: true,
                     focus: false,
                     errormessageid: 'error.failedtosendintyg',
                     showerror: false,
-                    patientConsent: false
+                    patientConsent: false,
+                    showObservandum: false
                 };
 
                 sendDialog = dialogService.showDialog({

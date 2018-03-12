@@ -91,7 +91,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.send = function() {
                 var onPatientFound = function() {
                     var recipient = moduleService.getModule(intygType).defaultRecipient;
-                    IntygSend.send($scope.viewState.intygModel.id, intygType, recipient,
+                    IntygSend.send($scope.viewState.intygModel, $scope.viewState.intygModel.id, intygType, recipient,
                         intygType+'.label.send', intygType+'.label.send.body', function() {
                             // After a send request we shouldn't reload right away due to async reasons.
                             // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
