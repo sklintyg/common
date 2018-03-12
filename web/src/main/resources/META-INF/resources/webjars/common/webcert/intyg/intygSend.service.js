@@ -40,14 +40,53 @@ angular.module('common').factory('common.IntygSend',
                 });
             }
 
+            function isObservandumOccupation (occupationList) {
+               for (var i = 0; i < occupationList.length; i++) {
+                   var type = occupationList[i].typ;
+                   if (type === 'ARBETSSOKANDE') {
+                       return true;
+                   } else if (type === 'STUDIER') {
+                       for (var j = 0; j < occupationList.length; j++) {
+                           var secondType = occupationList[j].typ;
+                           if (secondType === 'NUVARANDE_ARBETE') {
+                               console.log('nuvarande arbete & studier true');
+                               return true;
+                           }
+                       }
+                   }
+               }
+               return false;
+            }
+
+             // Is an observandum if it is of type LIJSP, duration shorter or equal to 7 days and has the occupation arbetssökande or studier AND nuvarande arbete.
+            function isObservandum(intygModel) {
+
+                var duration;
+
+                if (intygModel.typ === 'lisjp') {
+                    for (var j = 0; j < intygModel.sjukskrivningar.length; j++) {
+                        var startDate = new moment (intygModel.sjukskrivningar[j].period.from.split('-'));
+                        var endDate = new moment (intygModel.sjukskrivningar[j].period.tom.split('-'));
+                        duration  = moment.duration(endDate.diff(startDate));
+                        duration = duration.days() + 1;
+                    }
+                    
+                    if (duration <= 7 && isObservandumOccupation(intygModel.sysselsattning)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
             function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, onSuccess) {
+
                 var dialogSendModel ={
                     acceptprogressdone: true,
                     focus: false,
                     errormessageid: 'error.failedtosendintyg',
                     showerror: false,
                     patientConsent: false,
-                    showObservandum: false
+                    showObservandum:  isObservandum(intygModel)
                 };
 
                 sendDialog = dialogService.showDialog({
