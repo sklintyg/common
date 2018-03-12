@@ -50,6 +50,10 @@ angular.module('common').controller('wcVardPersonSekretessDialogCtrl',
                     $window.location.href = '/error.jsp?reason=sekretessapproval.needed' + (UserModel.isNormalOrigin() ? '&showlogin=true' : '');
                 };
 
+                $scope.isVardAdministrator = function() {
+                    return UserModel.isVardAdministrator();
+                };
+
                 $scope.$on('modal.closing', function(event) {
                     if (!closeAllowed) {
                         event.preventDefault();
