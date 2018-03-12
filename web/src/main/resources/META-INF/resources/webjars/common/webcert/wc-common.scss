@@ -71,6 +71,9 @@
   @import 'components/wcRadioWrapper/wcRadioWrapper.directive.scss';
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
   @import 'components/wcSpinner/wcSpinner.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/_arende.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/komplettera/komplettering-modal-dialog.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/fraga/arendePanelFraga.directive.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendePanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcFmbPanelTab/wcFmbPanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcHelpTipsPanelTab/wcHelpTipsPanelTab.directive.scss';
@@ -87,9 +90,6 @@
   @import 'css/generic-input.scss';
   @import 'css/layout-util.scss';
   @import 'css/wc-page-header.scss';
-  @import 'fk/arenden/_arende.scss';
-  @import 'fk/arenden/komplettera/komplettering-modal-dialog.scss';
-  @import 'fk/arenden/panel/fraga/arendePanelFraga.directive.scss';
   @import 'intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.scss';
   @import 'intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.scss';
   @import 'intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.scss';
