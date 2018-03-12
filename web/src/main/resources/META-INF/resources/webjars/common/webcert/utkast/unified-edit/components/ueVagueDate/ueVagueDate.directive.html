@@ -11,7 +11,6 @@
                      use-dynamic-label="false"
                      ng-model="vagueDateModel.year"
                      data-on-select="validate()"
-                     data-use-dynamic-label="true"
                      ng-attr-id="{{::config.modelProp|ueDomIdFilter}}-year"
                      name="{{::config.modelProp|ueDomIdFilter}}-year"
                      ng-class="{'fielderror' : hasValidationError('year')}">
@@ -23,7 +22,6 @@
                      ng-model="vagueDateModel.month"
                      ng-disabled="!vagueDateModel.monthEnabled"
                      data-on-select="validate()"
-                     data-use-dynamic-label="true"
                      ng-attr-id="{{::config.modelProp|ueDomIdFilter}}-month"
                      name="{{::config.modelProp|ueDomIdFilter}}-month"
                      ng-class="{'fielderror' : hasValidationError('month')}">
