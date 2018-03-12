@@ -32,7 +32,7 @@ angular.module('common').directive('arendePaminnelsePanel',
                 restrict: 'A',
                 transclude: true,
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/paminnelse/arendePaminnelsePanel.directive.html',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelsePanel.directive.html',
                 scope: {
                     panelId: '@',
                     paminnelse: '=',

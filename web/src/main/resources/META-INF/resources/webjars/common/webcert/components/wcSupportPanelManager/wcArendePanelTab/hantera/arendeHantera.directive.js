@@ -31,7 +31,7 @@ angular.module('common').directive('arendeHantera',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/hantera/arendeHantera.directive.html',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.html',
                 scope: {
                     arendeList: '=',
                     arendeListItem: '=',

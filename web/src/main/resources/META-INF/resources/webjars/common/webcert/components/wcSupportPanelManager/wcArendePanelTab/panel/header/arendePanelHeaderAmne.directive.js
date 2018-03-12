@@ -30,7 +30,7 @@ angular.module('common').directive('arendePanelHeaderAmne',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/panel/header/arendePanelHeaderAmne.directive.html',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeaderAmne.directive.html',
                 scope: {
                     arendeListItem: '='
                 }

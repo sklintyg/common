@@ -30,7 +30,7 @@ angular.module('common').directive('arendePaminnelsePanelHeader',
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: '/web/webjars/common/webcert/fk/arenden/paminnelse/arendePaminnelsePanelHeader.directive.html',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelsePanelHeader.directive.html',
                 scope: {
                     arendeListItem: '=',
                     parentViewState: '='
