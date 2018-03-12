@@ -62,7 +62,7 @@ angular.module('common').constant('common.messages', {
 
         'common.alert.newpersonid': 'Patientens personummer har ändrats',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>. Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.',
-        'common.alert.sekretessmarkering.print': '<strong>OBS!</strong> Patienten har en sekretessmarkering. Hantera utskriften varsamt.',
+        'common.alert.sekretessmarkering.print': 'Patienten har en sekretessmarkering. Hantera utskriften varsamt.',
         'common.alert.textversionupdated': 'Observera att frågetexterna har uppdaterats',
         'common.warning.patientdataupdate.failed': '<b>Observera!</b> Misslyckades att slå upp patienten i personuppgiftstjänsten',
 
@@ -106,7 +106,7 @@ angular.module('common').constant('common.messages', {
         'common.modal.label.print.sekretessmarkerad.yes':  'Skriv ut',
         'common.modal.label.employee.title': 'Skriv ut minimalt intyg',
         'common.modal.label.employee.yes': 'Skriv ut minimalt intyg',
-        'common.modal.label.employee.body': 'Ett minimalt intyg innehåller endast de uppgifter som enligt sjuklönelagen är obligatoriska att delge arbetsgivaren. Observera att det minimala intyget kan ge arbetsgivaren sämre förutsättningar att stödja patientens rehabilitering och göra nödvändiga arbetsanpassningar.<br><br>Sveriges kommuner och landsting rekommenderar att patienten skickar in ett fullständigt läkarintyg till arbetsgivaren, alternativt skapar ett anpassat intyg på <LINK:minaintyg>',
+        'common.modal.label.employee.body': 'Ett minimalt intyg innehåller endast de uppgifter som enligt sjuklönelagen är obligatoriska att delge arbetsgivaren. Detta kan ge arbetsgivaren sämre förutsättningar att stödja patientens rehabilitering och göra nödvändiga arbetsanpassningar.<br><br>Sveriges kommuner och landsting rekommenderar att patienten skickar in ett fullständigt läkarintyg till arbetsgivaren, alternativt skapar ett anpassat intyg på <LINK:minaintyg>.',
 
         // Text in copy and fornya (renew) modal dialogs
         'common.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.',
