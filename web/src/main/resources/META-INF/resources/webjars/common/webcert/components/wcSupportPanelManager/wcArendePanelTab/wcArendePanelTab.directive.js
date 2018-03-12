@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-//TODO: Innehållet i detta direktiv är kopierat rakt av från META-INF/resources/webjars/common/webcert/fk/arenden/arendeList.controller.js och templaten och rakt av från
 
 angular.module('common').directive('wcArendePanelTab', [
     '$log', '$rootScope', '$state', '$stateParams', '$timeout', '$filter',
@@ -40,11 +39,33 @@ angular.module('common').directive('wcArendePanelTab', [
             ArendeListViewState.setIntygType($state.current.data.intygType);
             $scope.viewState = ArendeListViewState;
             $scope.arendeList = [];
+            $scope.unhandledKompletteringCount = 0;
+            $scope.unhandledAdministrativaFragorCount = 0;
 
             $scope.$on('$destroy', function() {
                 //Since ArendeListViewState is a service that's used elsewhere we need to clean up
                 //loaded state related to this instance
                 ArendeListViewState.reset();
+            });
+
+            function updateCounts() {
+                $scope.unhandledKompletteringCount = 0;
+                $scope.unhandledAdministrativaFragorCount = 0;
+                angular.forEach($scope.arendeList, function(arendeListItem) {
+                    if (arendeListItem.isOpen()) {
+                        if (arendeListItem.isKomplettering()) {
+                            $scope.unhandledKompletteringCount++;
+                        }
+                        else {
+                            $scope.unhandledAdministrativaFragorCount++;
+                        }
+                    }
+                });
+            }
+
+            $scope.$on('arenden.updated', function(){
+                ArendeListViewState.updateKompletteringar();
+                updateCounts();
             });
 
             function fetchArenden(intygId, intygProperties) {
@@ -57,37 +78,12 @@ angular.module('common').directive('wcArendePanelTab', [
                     $scope.arendeList = ArendeHelper.createListItemsFromArenden(result);
 
                     ArendeListViewState.setArendeList($scope.arendeList);
-                    // Merge all kompletteringar and set in ArendeListViewState
-                    var kompletteringar = {};
-                    angular.forEach(result, function(arende) {
-                        if (arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
-                            angular.forEach(arende.fraga.kompletteringar, function(komplettering) {
-                                var key = komplettering.jsonPropertyHandle;
-                                if (key) {
-                                    // Uppdatera ämne och status
-                                    komplettering.amne = arende.fraga.amne;
-                                    komplettering.status = arende.fraga.status;
 
-                                    if (key === 'tillaggsfragor') {
-                                        var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
-                                        if (tillaggsfragor) {
-                                            for (var i = 0; i < tillaggsfragor.length; i++) {
-                                                if (tillaggsfragor[i].id === komplettering.frageId) {
-                                                    key += '[' + i + '].svar';
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if (!kompletteringar[key]) {
-                                        kompletteringar[key] = [];
-                                    }
+                    updateCounts();
 
-                                    kompletteringar[key].push(komplettering);
-                                }
-                            });
-                        }
-                    });
-                    ArendeListViewState.setKompletteringar(kompletteringar);
+                    // Select default state for isFilterKomplettering
+                    $scope.isFilterKomplettering =
+                        !($scope.unhandledKompletteringCount === 0 && $scope.unhandledAdministrativaFragorCount > 0);
 
                     $rootScope.$broadcast('arenden.loaded');
 
@@ -173,16 +169,15 @@ angular.module('common').directive('wcArendePanelTab', [
             };
 
             $scope.openArendenFilter = function(arendeListItem) {
-                return arendeListItem.arende.fraga.status !== 'CLOSED';
-            };
-
-            $scope.closedArendenFilter = function(arendeListItem) {
-                return arendeListItem.arende.fraga.status === 'CLOSED';
+                return arendeListItem.isOpen();
             };
 
             $scope.kompletteringarFilter = function(arendeListItem) {
-                return arendeListItem.arende.fraga.amne === 'KOMPLETTERING_AV_LAKARINTYG' ||
-                        arendeListItem.arende.fraga.amne === 'KOMPLT';
+                return arendeListItem.isKomplettering();
+            };
+
+            $scope.administrativaFragorFilter = function(arendeListItem) {
+                return !$scope.kompletteringarFilter(arendeListItem);
             };
 
         }

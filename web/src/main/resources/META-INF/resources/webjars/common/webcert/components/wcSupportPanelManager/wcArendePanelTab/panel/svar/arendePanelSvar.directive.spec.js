@@ -54,8 +54,7 @@ describe('arendePanelSvar', function() {
             $scope.parentViewState = {
                 intygProperties: {},
                 intyg: { grundData:{skapadAv:{vardenhet:{}}}},
-                setArende: function(arende) {},
-                updateKompletteringarArende: function(arenede) {}
+                setArende: function(arende) {}
             };
             element = $compile('<div arende-panel-svar arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></div>')($scope);
             $scope.$digest();

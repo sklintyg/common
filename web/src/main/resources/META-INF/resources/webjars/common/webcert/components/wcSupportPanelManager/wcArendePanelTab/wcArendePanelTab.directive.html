@@ -1,59 +1,31 @@
 <div class="tab-content-title-row">
 
+  <ul class="nav navbar-nav">
+    <li ng-class="{active: isFilterKomplettering}">
+      <a ng-click="isFilterKomplettering=true" id="arende-filter-kompletteringsbegaran">
+        Kompletteringsbegäran
+        <span id="arende-kompletteringsbegaran-count" class="badge badge__stat" ng-show="unhandledKompletteringCount > 0">
+          {{unhandledKompletteringCount}}
+        </span>
+      </a>
+    </li>
+    <li ng-class="{active: !isFilterKomplettering}">
+      <a ng-click="isFilterKomplettering=false" id="arende-filter-administrativafragor">
+        Administrativa frågor
+        <span id="arende-administrativafragor-count" class="badge badge__stat" ng-show="unhandledAdministrativaFragorCount > 0">
+          {{unhandledAdministrativaFragorCount}}
+        </span>
+      </a>
+    </li>
+  </ul>
+
 </div>
 
 <wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body">
 
-  <!-- utkast mode (taken from META-INF/resources/webjars/common/webcert/fk/arenden/arendeListUtkast.html)-->
-  <div class="row" ng-if="!config.intygContext.isSigned">
+  <div class="row">
     <div class="col-md-12 arende-column">
 
-      <wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading">
-
-        <div class="webcert-bottom-padding-section" ng-show="viewState.intygProperties.isLoaded">
-
-          <!-- Kompletteringar heading for utkast view -->
-          <h2 class="col-head">
-            Kompletteringar <span wc-help-chevron help-text-key="common.arende.help.kompletteringar"></span>
-          </h2>
-          <span wc-help-chevron-text help-text-key="common.arende.help.kompletteringar"></span>
-          <!-- error message -->
-          <wc-alert-message id="arende-list-load-error"
-                            ng-show="viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
-            <span dynamic-label key="common.error.{{viewState.activeErrorMessageKey}}"></span>
-          </wc-alert-message>
-
-        </div>
-
-        <div id="unhandledArendeCol" class="arende-list-section" ng-show="arendeList.length > 0">
-
-          <div ng-show="(arendeList | filter:kompletteringarFilter | filter:openArendenFilter).length == 0"
-               id="allKompletteringarHandled">
-            Alla kompletteringar är hanterade.
-          </div>
-
-          <!-- list of open arenden -->
-          <div
-              ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | filter:openArendenFilter | orderBy:'senasteHandelse':true"
-              class="arende-item">
-            <div arende-panel-utkast panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList"
-                 parent-view-state="viewState"></div>
-          </div>
-
-        </div>
-
-      </wc-spinner>
-
-    </div>
-    <!--  end spinner -->
-  </div>
-
-
-  <!-- signerat mode (taken from META-INF/resources/webjars/common/webcert/fk/arenden/arendeList.html)-->
-
-  <div class="row" ng-if="config.intygContext.isSigned">
-
-    <div class="col-md-12 arende-column">
       <wc-deprecated-intygstype-message message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
 
       <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading"
@@ -61,10 +33,6 @@
 
         <div class="webcert-bottom-padding-section" ng-show="viewState.intygProperties.isLoaded">
 
-          <!-- new arende form -->
-          <div ng-show="viewState.doneLoading && viewState.activeErrorMessageKey == null" arende-new
-               arende-list="arendeList" parent-view-state="viewState"></div>
-
           <!-- error message -->
           <wc-alert-message id="arende-list-load-error"
                             ng-show="viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
@@ -73,24 +41,26 @@
 
         </div>
 
-        <div id="unhandledArendeCol" class="arende-list-section" ng-show="arendeList.length > 0">
-
-          <!-- list of open arenden -->
-          <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelse':true"
+        <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="isFilterKomplettering">
+          <!-- list of komplettering arenden -->
+          <div ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | orderBy:'senasteHandelse':true as kompletteringarList"
                class="arende-item">
-            <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList"
+            <div arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="arendeList"
                  parent-view-state="viewState"></div>
           </div>
+        </div>
 
-          <!-- list of closed arenden -->
-          <h2 class="col-head" ng-show="arendeListFiltered.length > 0">
-            Tidigare frågor och svar <span wc-help-chevron help-text-key="common.arende.help.handled"></span>
-          </h2>
-          <span wc-help-chevron-text help-text-key="common.arende.help.handled"></span>
+        <div id="arende-administrativafragor-section" class="arende-list-section" ng-show="!isFilterKomplettering">
+
+          <!-- new arende form -->
+          <div ng-show="!config.intygContext.isSigned && viewState.doneLoading && viewState.activeErrorMessageKey == null" arende-new
+               arende-list="arendeList" parent-view-state="viewState"></div>
+
+          <!-- list of administrativ fraga arenden -->
           <div
-              ng-repeat="arendeListItem in arendeListFiltered = (arendeList | filter:closedArendenFilter | orderBy:'senasteHandelse':true)"
+              ng-repeat="arendeListItem in arendeList | filter:administrativaFragorFilter | orderBy:'senasteHandelse':true as administrativaFragorList"
               class="arende-item">
-            <div arende-panel panel-id="handled" arende-list-item="arendeListItem" arende-list="arendeList"
+            <div arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="arendeList"
                  parent-view-state="viewState"></div>
           </div>
 

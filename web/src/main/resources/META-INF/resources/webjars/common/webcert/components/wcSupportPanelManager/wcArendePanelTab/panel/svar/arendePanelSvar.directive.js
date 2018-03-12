@@ -24,11 +24,11 @@
  * arendePanelSvar directive. Handles all komplettering and svar components.
  */
 angular.module('common').directive('arendePanelSvar',
-    [ '$window', '$log', '$state', '$stateParams', '$q',
+    [ '$window', '$log', '$rootScope', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper', 'common.ErrorHelper',
         'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.FocusElementService', 'common.ArendeDraftProxy',
         'common.dialogService',
-        function($window, $log, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService, ObjectHelper,
+        function($window, $log, $rootScope, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService, ObjectHelper,
             ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, focusElement, ArendeDraftProxy, DialogService) {
             'use strict';
 
@@ -95,17 +95,8 @@ angular.module('common').directive('arendePanelSvar',
                                 // update real item
                                 angular.copy(result, $scope.arendeListItem.arende);
 
-                                if ($scope.arendeListItem.extraKompletteringarArenden.length > 0) {
-                                    angular.forEach($scope.arendeListItem.extraKompletteringarArenden,
-                                        function(listItem) {
-                                            listItem.arende.fraga.status = result.fraga.status;
-                                            // Update kompletteringar in the common intyg view state
-                                            $scope.parentViewState.updateKompletteringarArende(listItem.arende);
-                                        });
-                                    ArendeHelper.splitAllToSingleItems($scope.arendeListItem, $scope.arendeList);
-                                }
                                 $scope.arendeListItem.updateArendeListItem(result);
-                                $scope.parentViewState.updateKompletteringarArende($scope.arendeListItem.arende);
+                                $rootScope.$broadcast('arenden.updated');
 
                                 ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);
                                 statService.refreshStat();

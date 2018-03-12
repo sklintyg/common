@@ -3,4 +3,49 @@ wc-arende-panel-tab {
   flex-direction: column;
   flex: 1;
   min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+
+  .navbar-nav {
+    > li > a {
+      @extend %wc-typo-06;
+      background-color: $wc-color-00;
+      color: $wc-color-19;
+      line-height: normal;
+      border: 1px solid transparent;
+      border-radius: 22.5px;
+      padding: 5px 15px;
+      margin-right: 13px;
+      text-decoration: none;
+
+      .badge__stat {
+        @extend %wc-typo-13;
+        margin-left: 10px;
+        background-color: $wc-color-00;
+        border: 1px solid $wc-color-19;
+        color: $wc-color-19;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: $wc-color-00;
+        border-color: $wc-color-19;
+        color: $wc-color-19;
+      }
+    }
+
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        background-color: $wc-color-21;
+        border-color: $wc-color-21;
+        color: $wc-color-00;
+      }
+
+      .badge__stat {
+        background-color: $wc-color-00;
+        border-color: $wc-color-00;
+        color: $wc-color-21;
+      }
+    }
+  }
 }

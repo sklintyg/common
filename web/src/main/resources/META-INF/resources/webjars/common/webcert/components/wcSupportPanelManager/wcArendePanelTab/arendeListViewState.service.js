@@ -53,6 +53,7 @@ angular.module('common').service('common.ArendeListViewStateService',
 
             this.setArendeList = function(list) {
                 this.arendeList = list;
+                this.updateKompletteringar();
             };
 
             this.hasUnhandledItems = function() {
@@ -74,55 +75,38 @@ angular.module('common').service('common.ArendeListViewStateService',
                  return [];
             };
 
-            this.setKompletteringar = function(kompletteringar) {
-                this.common.kompletteringar = kompletteringar;
-            };
+            this.updateKompletteringar = function() {
+                var kompletteringar = {};
+                angular.forEach(this.arendeList, function(arende) {
+                    if (arende.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
+                        angular.forEach(arende.arende.fraga.kompletteringar, function(komplettering) {
+                            var key = komplettering.jsonPropertyHandle;
+                            if (key) {
+                                // Uppdatera ämne och status
+                                komplettering.amne = arende.arende.fraga.amne;
+                                komplettering.status = arende.arende.fraga.status;
 
-            this.updateKompletteringar = function(kompletteringar) {
-                angular.forEach(kompletteringar, function(komplettering) {
-                    angular.forEach(komplettering, function(kmplt) {
-                        var key = kmplt.jsonPropertyHandle;
-
-                        // Reset and update with latest
-                        if (key) {
-                            this.common.kompletteringar[key] = [];
-                            this.common.kompletteringar[key].push(kmplt);
-                        }
-                    }, this);
-                }, this);
-            };
-
-            this.updateKompletteringarArende = function(arende) {
-                if (arende) {
-                    // Update kompletteringar in the common intyg view state
-                    var kompletteringar = {};
-                    angular.forEach(arende.fraga.kompletteringar, function(komplettering) {
-                        var key = komplettering.jsonPropertyHandle;
-                        if (key) {
-                            // Update amne och status
-                            komplettering.amne = arende.fraga.amne;
-                            komplettering.status = arende.fraga.status;
-
-                            if (key === 'tillaggsfragor') {
-
-                                var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
-                                if (tillaggsfragor) {
-                                    for (var i = 0; i < tillaggsfragor.length; i++) {
-                                        if (tillaggsfragor[i].id === komplettering.frageId) {
-                                            key += '[' + i + '].svar';
+                                if (key === 'tillaggsfragor') {
+                                    var tillaggsfragor = dynamicLabelService.getTillaggsFragor();
+                                    if (tillaggsfragor) {
+                                        for (var i = 0; i < tillaggsfragor.length; i++) {
+                                            if (tillaggsfragor[i].id === komplettering.frageId) {
+                                                key += '[' + i + '].svar';
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            if (!kompletteringar[key]) {
-                                kompletteringar[key] = [];
-                            }
+                                if (!kompletteringar[key]) {
+                                    kompletteringar[key] = [];
+                                }
 
-                            kompletteringar[key].push(komplettering);
-                        }
-                    });
-                    this.updateKompletteringar(kompletteringar);
-                }
+                                kompletteringar[key].push(komplettering);
+                            }
+                        });
+                    }
+                });
+
+                this.common.kompletteringar = kompletteringar;
             };
 
             //Get matching kompletteringar for single arendeModel

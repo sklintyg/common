@@ -24,8 +24,8 @@
  * arendeHantera directive. Common directive for Hanterad checkbox
  */
 angular.module('common').directive('arendeHantera',
-    [ '$log', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeHelper', 'common.dynamicLabelService',
-        function($log, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService) {
+    [ '$log', '$rootScope', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeHelper', 'common.dynamicLabelService',
+        function($log, $rootScope, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService) {
             'use strict';
 
             return {
@@ -88,10 +88,9 @@ angular.module('common').directive('arendeHantera',
                                 angular.copy(result, arendeListItem.arende);
                                 arendeListItem.updateArendeListItem();
 
-                                $scope.parentViewState.updateKompletteringarArende(arendeListItem.arende);
+                                $rootScope.$broadcast('arenden.updated');
 
                                 statService.refreshStat();
-                                ArendeHelper.splitToSingleItem(arendeListItem, $scope.arendeList);
                             }
                             if(deferred) {
                                 deferred.resolve();
@@ -119,10 +118,9 @@ angular.module('common').directive('arendeHantera',
                                 angular.copy(result, arendeListItem.arende);
                                 arendeListItem.updateArendeListItem();
 
-                                $scope.parentViewState.updateKompletteringarArende(arendeListItem.arende);
+                                $rootScope.$broadcast('arenden.updated');
 
                                 statService.refreshStat();
-                                ArendeHelper.checkMergeToKompletteringItem(arendeListItem, $scope.arendeList);
                             }
                         }, function(errorData) {
                             // show error view

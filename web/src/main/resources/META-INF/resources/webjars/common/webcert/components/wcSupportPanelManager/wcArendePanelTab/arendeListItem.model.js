@@ -150,6 +150,10 @@ angular.module('common').factory('common.ArendeListItemModel',
             return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || _isPaminnelse(this.arende.fraga.amne);
         };
 
+        ArendeListItemModel.prototype.isOpen = function() {
+            return this.arende.fraga.status !== 'CLOSED';
+        };
+
         ArendeListItemModel.prototype.isUnhandled = function(){
             return (this.arende.fraga.status === 'PENDING_INTERNAL_ACTION' && _isPaminnelse(this.arende.fraga.amne)) || this.arende.fraga.status === 'ANSWERED';
         };
