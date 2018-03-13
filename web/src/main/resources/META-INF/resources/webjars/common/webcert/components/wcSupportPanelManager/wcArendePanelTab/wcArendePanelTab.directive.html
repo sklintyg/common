@@ -23,8 +23,6 @@
 
 <wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body">
 
-  <wc-arende-komplettera-utkast-warning ng-if="config.intygContext.isSigned"></wc-arende-komplettera-utkast-warning>
-
   <div class="row">
     <div class="col-md-12 arende-column">
 
@@ -39,6 +37,9 @@
         </wc-alert-message>
 
         <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="isFilterKomplettering">
+
+          <wc-arende-komplettera-utkast-warning ng-if="config.intygContext.isSigned"></wc-arende-komplettera-utkast-warning>
+
           <!-- list of komplettering arenden -->
           <div ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | orderBy:'senasteHandelse':true as kompletteringarList"
                class="arende-item">
