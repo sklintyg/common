@@ -53,10 +53,14 @@ angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', '
             var infoDialogInstance;
             //The info dialog is triggered by the users themselves via link in the template
             $scope.showSekretessInfoMessage = function() {
+                var isVardAdministrator = UserModel.isVardAdministrator();
                 infoDialogInstance = $uibModal.open({
                     templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUser/vardperson-sekretess.infodialog.html',
                     size: 'md',
-                    id: 'SekretessInfoMessage'
+                    id: 'SekretessInfoMessage',
+                    controller: function($scope, $uibModalInstance) {
+                        $scope.isVardAdministrator = isVardAdministrator;
+                    }
                 });
                 //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
                 infoDialogInstance.result.catch(function () {}); //jshint ignore:line
