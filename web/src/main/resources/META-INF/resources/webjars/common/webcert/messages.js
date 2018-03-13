@@ -347,8 +347,8 @@ angular.module('common').constant('common.messages', {
 
         'common.modalheader.intygstatus.is-004': 'Intyget är makulerat',
         'common.modalbody.intygstatus.is-004': 'Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
-        'db.modalbody.intygstatus.is-004': null,
-        'doi.modalbody.intygstatus.is-004': null,
+        'db.modalbody.intygstatus.is-004': '',
+        'doi.modalbody.intygstatus.is-004': '',
 
         'common.modalheader.intygstatus.is-008': 'Intyget är tillgängligt för patienten',
         'common.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p><p>Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.</p>',
